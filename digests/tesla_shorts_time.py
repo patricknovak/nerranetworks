@@ -1860,7 +1860,7 @@ def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
                     'itunes_episode': str(episode_num),
                     'itunes_season': '1',
                     'itunes_episode_type': 'full',
-                    'itunes_image': f"{base_url}/podcast-image.jpg",
+                    'itunes_image': f"{base_url}/podcast-image-v2.jpg",
                     'mp3_path': mp3_file,
                     'episode_num': episode_num,
                     'episode_date': episode_date
@@ -1997,7 +1997,7 @@ def update_rss_feed(
     fg.podcast.itunes_owner(name=owner.get('name', 'Patrick'), email=owner.get('email', 'contact@teslashortstime.com'))
     
     # Set image URL - ensure it's properly formatted for Apple Podcasts Connect
-    image_url = channel_metadata.get('itunes_image', f"{base_url}/podcast-image.jpg")
+    image_url = channel_metadata.get('itunes_image', f"{base_url}/podcast-image-v2.jpg")
     fg.podcast.itunes_image(image_url)
     
     category = channel_metadata.get('itunes_category', 'Technology')
@@ -2338,7 +2338,7 @@ if ENABLE_PODCAST and not TEST_MODE and final_mp3 and final_mp3.exists():
         # Generate thumbnail
         thumbnail_filename = f"Tesla_Shorts_Time_Thumbnail_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.png"
         thumbnail_path = digests_dir / thumbnail_filename
-        base_image_path = project_root / "podcast-image.jpg"
+        base_image_path = project_root / "podcast-image-v2.jpg"
         generate_episode_thumbnail(base_image_path, episode_num, today_str, thumbnail_path)
         
         # Define base_url for RSS feed

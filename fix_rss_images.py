@@ -30,10 +30,10 @@ channel = root.find("channel")
 existing_channel_image = channel.find("itunes:image")
 if existing_channel_image is None:
     itunes_image = ET.SubElement(channel, "itunes:image")
-    itunes_image.set("href", f"{base_url}/podcast-image.jpg")
+    itunes_image.set("href", f"{base_url}/podcast-image-v2.jpg")
     print("Added channel-level itunes:image")
 else:
-    existing_channel_image.set("href", f"{base_url}/podcast-image.jpg")
+    existing_channel_image.set("href", f"{base_url}/podcast-image-v2.jpg")
     print("Updated channel-level itunes:image")
 
 # Add image to all episodes
@@ -43,7 +43,7 @@ for item in items:
     existing_image = item.find("itunes:image")
     if existing_image is None:
         item_image = ET.SubElement(item, "itunes:image")
-        item_image.set("href", f"{base_url}/podcast-image.jpg")
+        item_image.set("href", f"{base_url}/podcast-image-v2.jpg")
         updated_count += 1
         title_elem = item.find("title")
         title = title_elem.text if title_elem is not None else "Unknown"
