@@ -1,0 +1,1386 @@
+#!/usr/bin/env python3
+"""
+Planetterrian Daily – FULL AUTO X + PODCAST MACHINE
+Daily Science, Longevity & Health Digest (Patrick in Vancouver)
+Auto-published to X — December 2025+
+"""
+
+import os
+import sys
+import logging
+import datetime
+import subprocess
+import requests
+import tempfile
+import html
+import json
+import re
+import xml.etree.ElementTree as ET
+from feedgen.feed import FeedGenerator
+from pathlib import Path
+from dotenv import load_dotenv
+from openai import OpenAI
+from difflib import SequenceMatcher
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from bs4 import BeautifulSoup
+from zoneinfo import ZoneInfo
+from PIL import Image, ImageDraw, ImageFont
+import feedparser
+from typing import List, Dict, Any
+import tweepy
+import shutil
+
+# ========================== LOGGING ==========================
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[logging.StreamHandler()]
+)
+
+# ========================== CONFIGURATION ==========================
+# Set to True to test digest generation only (skips podcast and X posting)
+TEST_MODE = False  # Set to False for full run
+
+# Set to False to disable X posting (thread will still be generated and saved)
+ENABLE_X_POSTING = True
+
+# Set to False to disable podcast generation and RSS feed updates
+ENABLE_PODCAST = True
+
+# Link validation is currently disabled - validation functions have been removed
+# Set to True and re-implement validation functions if needed in the future
+ENABLE_LINK_VALIDATION = False
+
+
+# ========================== NUMBER TO WORDS CONVERTER ==========================
+def number_to_words(num: float) -> str:
+    """
+    Convert numbers to words for better TTS pronunciation.
+    Handles integers and decimals.
+    """
+    # Define digit names for decimal conversion
+    digit_names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+    
+    def convert_under_1000(n):
+        """Convert numbers under 1000 to words."""
+        ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+                'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
+                'seventeen', 'eighteen', 'nineteen']
+        tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
+        
+        if n == 0:
+            return 'zero'
+        if n < 20:
+            return ones[n]
+        if n < 100:
+            return tens[n // 10] + ('-' + ones[n % 10] if n % 10 else '')
+        if n < 1000:
+            result = ones[n // 100] + ' hundred'
+            remainder = n % 100
+            if remainder:
+                result += ' ' + convert_under_1000(remainder)
+            return result
+        return str(n)
+    
+    # Handle negative numbers
+    is_negative = num < 0
+    num = abs(num)
+    
+    # Split into integer and decimal parts
+    integer_part = int(num)
+    decimal_part = num - integer_part
+    
+    # Convert integer part
+    if integer_part == 0:
+        result = 'zero'
+    elif integer_part < 1000:
+        result = convert_under_1000(integer_part)
+    elif integer_part < 1000000:
+        thousands = integer_part // 1000
+        remainder = integer_part % 1000
+        result = convert_under_1000(thousands) + ' thousand'
+        if remainder:
+            result += ' ' + convert_under_1000(remainder)
+    else:
+        # For very large numbers, just return the number (TTS usually handles these)
+        result = str(integer_part)
+    
+    # Convert decimal part
+    if decimal_part > 0:
+        # Convert decimal to words (e.g., 0.17 -> "point one seven")
+        decimal_str = f"{decimal_part:.10f}".rstrip('0').rstrip('.')
+        if '.' in decimal_str:
+            decimal_digits = decimal_str.split('.')[1]
+            decimal_words = ' '.join([digit_names[int(d)] if d.isdigit() and int(d) < 10 else d for d in decimal_digits])
+            result += ' point ' + decimal_words
+    
+    return ('negative ' if is_negative else '') + result
+
+# ========================== PRONUNCIATION FIXER v3 – ACRONYMS + NUMBERS ==========================
+def fix_pronunciation(text: str) -> str:
+    """
+    Forces correct spelling of scientific/academic acronyms and converts numbers to words
+    for better TTS pronunciation on ElevenLabs.
+    """
+    import re
+
+    # List of acronyms that must be spelled out letter-by-letter
+    acronyms = {
+        "AI": "A I",
+        "ML": "M L",
+        "DNA": "D N A",
+        "RNA": "R N A",
+        "CRISPR": "C R I S P R",
+        "mRNA": "m R N A",
+        "FDA": "F D A",
+        "NIH": "N I H",
+        "WHO": "W H O",
+        "NASA": "N A S A",
+        "CRISPR": "C R I S P R",
+        "CRISPR-Cas9": "C R I S P R Cas 9",
+    }
+
+    # Invisible zero-width non-breaking space / word joiner
+    ZWJ = "\u2060"   # U+2060 WORD JOINER — this one is safe
+
+    for acronym, spelled in acronyms.items():
+        # Build a regex that only matches the acronym when it's a whole word
+        pattern = rf'(?<!\w){re.escape(acronym)}(?!\w)'
+        replacement = ZWJ.join(list(spelled))
+        text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+
+    # Convert episode numbers (e.g., "episode 336" → "episode three hundred thirty-six")
+    def replace_episode_number(match):
+        episode_text = match.group(1)
+        num_str = match.group(2)
+        try:
+            num = int(num_str)
+            words = number_to_words(num)
+            return f"{episode_text} {words}"
+        except ValueError:
+            return match.group(0)
+    
+    text = re.sub(r'(episode\s+)(\d+)', replace_episode_number, text, flags=re.IGNORECASE)
+    
+    # Convert percentages (e.g., "+3.59%" → "plus three point five nine percent")
+    def replace_percentage(match):
+        sign = match.group(1) if match.group(1) else ''
+        num_str = match.group(2)
+        try:
+            num = float(num_str)
+            words = number_to_words(abs(num))
+            if sign == '+':
+                sign_word = 'plus'
+            elif sign == '-':
+                sign_word = 'minus'
+            else:
+                sign_word = ''
+            result = f"{sign_word} {words} percent" if sign_word else f"{words} percent"
+            return result.strip()
+        except ValueError:
+            return match.group(0)
+    
+    text = re.sub(r'([\+\-]?)(\d+\.?\d*)\s*%', replace_percentage, text)
+    
+    return text
+
+def generate_episode_thumbnail(base_image_path, episode_num, date_str, output_path):
+    img = Image.open(base_image_path)
+    draw = ImageDraw.Draw(img)
+    try:
+        font = ImageFont.truetype("arial.ttf", 48)
+    except IOError:
+        font = ImageFont.load_default()
+    draw.text((50, 50), f"Episode {episode_num}", font=font, fill=(255, 255, 255))
+    draw.text((50, 100), date_str, font=font, fill=(255, 255, 255))
+    img.save(output_path, "PNG")
+
+# ========================== PATHS & ENV ==========================
+script_dir = Path(__file__).resolve().parent        # → .../digests
+project_root = script_dir.parent                      # → .../tesla_shorts_time
+env_path = project_root / ".env"
+
+if not env_path.exists():
+    raise FileNotFoundError(f".env not found at {env_path}")
+
+load_dotenv(dotenv_path=env_path)
+
+# Required keys (X credentials for @planetterrian account)
+required = [
+    "GROK_API_KEY", 
+    "ELEVENLABS_API_KEY"
+]
+if ENABLE_X_POSTING:
+    required.extend([
+        "PLANETTERRIAN_X_CONSUMER_KEY",
+        "PLANETTERRIAN_X_CONSUMER_SECRET",
+        "PLANETTERRIAN_X_ACCESS_TOKEN",
+        "PLANETTERRIAN_X_ACCESS_TOKEN_SECRET",
+        "PLANETTERRIAN_X_BEARER_TOKEN"
+    ])
+for var in required:
+    if not os.getenv(var):
+        raise OSError(f"Missing {var} in .env")
+
+# ========================== DATE ==========================
+# Get current date and time in PST
+pst_tz = ZoneInfo("America/Los_Angeles")
+now_pst = datetime.datetime.now(pst_tz)
+today_str = now_pst.strftime("%B %d, %Y at %I:%M %p PST")
+yesterday_iso = (datetime.date.today() - datetime.timedelta(days=1)).isoformat()
+seven_days_ago_iso = (datetime.date.today() - datetime.timedelta(days=7)).isoformat()
+
+# Folders - use absolute paths
+digests_dir = project_root / "digests" / "planetterrian"
+digests_dir.mkdir(exist_ok=True, parents=True)
+
+# Determine episode number by finding the highest existing episode number and incrementing
+def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
+    """Get the next episode number by finding the highest existing episode number."""
+    max_episode = 0
+    
+    # Check RSS feed first
+    if rss_path.exists():
+        try:
+            tree = ET.parse(str(rss_path))
+            root = tree.getroot()
+            channel = root.find('channel')
+            if channel is not None:
+                for item in channel.findall('item'):
+                    itunes_episode = item.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}episode')
+                    if itunes_episode is not None and itunes_episode.text:
+                        try:
+                            ep_num = int(itunes_episode.text)
+                            max_episode = max(max_episode, ep_num)
+                        except ValueError:
+                            pass
+        except Exception as e:
+            logging.warning(f"Could not parse RSS feed to find episode number: {e}")
+    
+    # Also check existing MP3 files
+    pattern = r"Planetterrian_Daily_Ep(\d+)_\d{8}\.mp3"
+    for mp3_file in digests_dir.glob("Planetterrian_Daily_Ep*.mp3"):
+        match = re.match(pattern, mp3_file.name)
+        if match:
+            try:
+                ep_num = int(match.group(1))
+                max_episode = max(max_episode, ep_num)
+            except ValueError:
+                pass
+    
+    # Return next episode number (increment by 1)
+    next_episode = max_episode + 1
+    logging.info(f"Next episode number: {next_episode} (highest existing: {max_episode})")
+    return next_episode
+
+# Get the next episode number
+rss_path = project_root / "planetterrian_podcast.rss"
+episode_num = get_next_episode_number(rss_path, digests_dir)
+
+# ========================== CREDIT TRACKING ==========================
+# Initialize credit usage tracking
+credit_usage = {
+    "date": datetime.date.today().isoformat(),
+    "episode_number": episode_num,
+    "services": {
+        "grok_api": {
+            "x_thread_generation": {
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "total_tokens": 0,
+                "estimated_cost_usd": 0.0
+            },
+            "podcast_script_generation": {
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "total_tokens": 0,
+                "estimated_cost_usd": 0.0
+            },
+            "total_tokens": 0,
+            "total_cost_usd": 0.0
+        },
+        "elevenlabs_api": {
+            "characters": 0,
+            "estimated_cost_usd": 0.0
+        },
+        "x_api": {
+            "search_calls": 0,
+            "post_calls": 0,
+            "total_calls": 0
+        }
+    },
+    "total_estimated_cost_usd": 0.0
+}
+
+def save_credit_usage(usage_data: dict, output_dir: Path):
+    """Save credit usage to a JSON file."""
+    try:
+        # Calculate totals
+        grok_total = (
+            usage_data["services"]["grok_api"]["x_thread_generation"]["total_tokens"] +
+            usage_data["services"]["grok_api"]["podcast_script_generation"]["total_tokens"]
+        )
+        usage_data["services"]["grok_api"]["total_tokens"] = grok_total
+        usage_data["services"]["grok_api"]["total_cost_usd"] = (
+            usage_data["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] +
+            usage_data["services"]["grok_api"]["podcast_script_generation"]["estimated_cost_usd"]
+        )
+        
+        usage_data["services"]["x_api"]["total_calls"] = (
+            usage_data["services"]["x_api"]["search_calls"] +
+            usage_data["services"]["x_api"]["post_calls"]
+        )
+        
+        # Calculate total cost (ElevenLabs pricing: ~$0.30 per 1000 characters for turbo model)
+        elevenlabs_cost = (usage_data["services"]["elevenlabs_api"]["characters"] / 1000) * 0.30
+        usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = elevenlabs_cost
+        
+        usage_data["total_estimated_cost_usd"] = (
+            usage_data["services"]["grok_api"]["total_cost_usd"] +
+            usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"]
+        )
+        
+        # Save to JSON file
+        filename = f"credit_usage_{usage_data['date']}_ep{usage_data['episode_number']:03d}.json"
+        filepath = output_dir / filename
+        
+        with open(filepath, "w", encoding="utf-8") as f:
+            json.dump(usage_data, f, indent=2)
+        
+        logging.info(f"Credit usage saved to {filepath}")
+        
+        # Also log summary
+        logging.info("="*80)
+        logging.info("CREDIT USAGE SUMMARY")
+        logging.info("="*80)
+        logging.info(f"Grok API (X Thread): {usage_data['services']['grok_api']['x_thread_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['x_thread_generation']['estimated_cost_usd']:.4f})")
+        logging.info(f"Grok API (Podcast Script): {usage_data['services']['grok_api']['podcast_script_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['podcast_script_generation']['estimated_cost_usd']:.4f})")
+        logging.info(f"Grok API Total: {usage_data['services']['grok_api']['total_tokens']} tokens (${usage_data['services']['grok_api']['total_cost_usd']:.4f})")
+        logging.info(f"ElevenLabs API: {usage_data['services']['elevenlabs_api']['characters']} characters (${usage_data['services']['elevenlabs_api']['estimated_cost_usd']:.4f})")
+        logging.info(f"X API: {usage_data['services']['x_api']['total_calls']} API calls (search: {usage_data['services']['x_api']['search_calls']}, post: {usage_data['services']['x_api']['post_calls']})")
+        logging.info(f"TOTAL ESTIMATED COST: ${usage_data['total_estimated_cost_usd']:.4f}")
+        logging.info("="*80)
+        
+    except Exception as e:
+        logging.error(f"Failed to save credit usage: {e}", exc_info=True)
+
+tmp_dir = Path(tempfile.gettempdir()) / "tts"
+tmp_dir.mkdir(exist_ok=True, parents=True)
+
+# ========================== CLIENTS ==========================
+# Grok client with timeout settings
+client = OpenAI(
+    api_key=os.getenv("GROK_API_KEY"), 
+    base_url="https://api.x.ai/v1",
+    timeout=300.0  # 5 minute timeout for API calls
+)
+ELEVEN_API = "https://api.elevenlabs.io/v1"
+ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
+
+# ========================== STEP 1: FETCH SCIENCE/LONGEVITY/HEALTH NEWS FROM RSS FEEDS ==========================
+logging.info("Step 1: Fetching science, longevity, and health news from RSS feeds for the last 24 hours...")
+
+def calculate_similarity(text1: str, text2: str) -> float:
+    """Calculate similarity ratio between two texts (0.0 to 1.0)."""
+    if not text1 or not text2:
+        return 0.0
+    # Normalize: lowercase, remove extra whitespace
+    text1_norm = ' '.join(text1.lower().split())
+    text2_norm = ' '.join(text2.lower().split())
+    return SequenceMatcher(None, text1_norm, text2_norm).ratio()
+
+def remove_similar_items(items, similarity_threshold=0.7, get_text_func=None):
+    """
+    Remove similar items from a list based on text similarity.
+    """
+    if not items:
+        return items
+    
+    if get_text_func is None:
+        def get_text_func(item):
+            if isinstance(item, dict):
+                return item.get('title', '') or item.get('text', '') or item.get('description', '')
+            return str(item)
+    
+    filtered = []
+    for item in items:
+        item_text = get_text_func(item)
+        if not item_text:
+            continue
+        
+        is_similar = False
+        for accepted_item in filtered:
+            accepted_text = get_text_func(accepted_item)
+            similarity = calculate_similarity(item_text, accepted_text)
+            if similarity >= similarity_threshold:
+                is_similar = True
+                logging.debug(f"Filtered similar item (similarity: {similarity:.2f}): {item_text[:50]}...")
+                break
+        
+        if not is_similar:
+            filtered.append(item)
+    
+    return filtered
+
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=2, max=10),
+    retry=retry_if_exception_type((requests.RequestException, requests.Timeout))
+)
+def fetch_science_news():
+    """Fetch science, longevity, and health news from RSS feeds for the last 24 hours."""
+    import feedparser
+    
+    # Science, longevity, and health RSS feeds
+    rss_feeds = [
+        "https://www.nature.com/nature.rss",
+        "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science",
+        "https://www.newscientist.com/feed/home/",
+        "https://www.scientificamerican.com/rss/",
+        "https://feeds.feedburner.com/longevity-technology",
+        "https://www.lifespan.io/feed/",
+        "https://www.healthline.com/rss",
+        "https://www.medicalnewstoday.com/rss",
+        "https://www.nih.gov/news-events/news-releases/rss.xml",
+        "https://www.cdc.gov/rss/rss.html",
+        "https://www.who.int/rss-feeds/news-english.xml",
+        "https://www.sciencedaily.com/rss/all.xml",
+    ]
+    
+    # Calculate cutoff time (last 24 hours)
+    cutoff_time = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)
+    
+    all_articles = []
+    raw_articles = []
+    
+    # Science/longevity/health keywords to filter articles
+    science_keywords = [
+        "longevity", "anti-aging", "aging", "lifespan", "healthspan",
+        "biotechnology", "genetics", "genomics", "CRISPR", "gene therapy",
+        "medicine", "medical", "health", "wellness", "nutrition", "diet",
+        "research", "study", "clinical trial", "discovery", "breakthrough",
+        "science", "scientific", "biotech", "pharmaceutical", "drug",
+        "cancer", "disease", "treatment", "therapy", "vaccine",
+        "brain", "neuroscience", "cognitive", "mental health",
+        "exercise", "fitness", "metabolism", "mitochondria"
+    ]
+    
+    logging.info(f"Fetching science/longevity/health news from {len(rss_feeds)} RSS feeds...")
+    
+    for feed_url in rss_feeds:
+        source_name = "Unknown"
+        try:
+            feed = feedparser.parse(feed_url)
+            
+            if feed.bozo and feed.bozo_exception:
+                logging.warning(f"Failed to parse RSS feed {feed_url}: {feed.bozo_exception}")
+                continue
+            
+            source_name = feed.feed.get("title", "Unknown")
+            # Map common feed sources
+            if "nature.com" in feed_url.lower():
+                source_name = "Nature"
+            elif "science.org" in feed_url.lower():
+                source_name = "Science"
+            elif "newscientist" in feed_url.lower():
+                source_name = "New Scientist"
+            elif "scientificamerican" in feed_url.lower():
+                source_name = "Scientific American"
+            elif "longevity" in feed_url.lower():
+                source_name = "Longevity Technology"
+            elif "lifespan.io" in feed_url.lower():
+                source_name = "Lifespan.io"
+            elif "healthline" in feed_url.lower():
+                source_name = "Healthline"
+            elif "medicalnewstoday" in feed_url.lower():
+                source_name = "Medical News Today"
+            elif "nih.gov" in feed_url.lower():
+                source_name = "NIH"
+            elif "cdc.gov" in feed_url.lower():
+                source_name = "CDC"
+            elif "who.int" in feed_url.lower():
+                source_name = "WHO"
+            elif "sciencedaily" in feed_url.lower():
+                source_name = "Science Daily"
+            
+            feed_articles = []
+            for entry in feed.entries:
+                published_time = None
+                if hasattr(entry, 'published_parsed') and entry.published_parsed:
+                    try:
+                        published_time = datetime.datetime(*entry.published_parsed[:6], tzinfo=datetime.timezone.utc)
+                    except (ValueError, TypeError):
+                        pass
+                elif hasattr(entry, 'updated_parsed') and entry.updated_parsed:
+                    try:
+                        published_time = datetime.datetime(*entry.updated_parsed[:6], tzinfo=datetime.timezone.utc)
+                    except (ValueError, TypeError):
+                        pass
+                
+                if published_time and published_time < cutoff_time:
+                    continue
+                
+                title = entry.get("title", "").strip()
+                description = entry.get("description", "").strip() or entry.get("summary", "").strip()
+                link = entry.get("link", "").strip()
+                
+                if not title or not link:
+                    continue
+                
+                # Check if article is science/longevity/health-related
+                title_desc_lower = (title + " " + description).lower()
+                if not any(keyword in title_desc_lower for keyword in science_keywords):
+                    continue
+                
+                article = {
+                    "title": title,
+                    "description": description,
+                    "url": link,
+                    "source": source_name,
+                    "publishedAt": published_time.isoformat() if published_time else datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                    "author": entry.get("author", "")
+                }
+                
+                feed_articles.append(article)
+                raw_articles.append(article)
+            
+            logging.info(f"Fetched {len(feed_articles)} articles from {source_name}")
+            all_articles.extend(feed_articles)
+            
+        except Exception as e:
+            logging.warning(f"Failed to fetch RSS feed {feed_url}: {e}")
+            continue
+    
+    logging.info(f"Fetched {len(all_articles)} total articles from RSS feeds")
+    
+    if not all_articles:
+        logging.warning("No articles found from RSS feeds")
+        return [], []
+    
+    # Remove similar/duplicate articles
+    before_dedup = len(all_articles)
+    formatted_articles = remove_similar_items(
+        all_articles,
+        similarity_threshold=0.85,
+        get_text_func=lambda x: f"{x.get('title', '')} {x.get('description', '')}"
+    )
+    after_dedup = len(formatted_articles)
+    if before_dedup != after_dedup:
+        logging.info(f"Removed {before_dedup - after_dedup} similar/duplicate news articles")
+    
+    # Sort by published date (newest first)
+    formatted_articles.sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
+    
+    logging.info(f"Filtered to {len(formatted_articles)} unique science/longevity/health news articles")
+    filtered_result = formatted_articles[:30]  # Return top 30 for selection
+    return filtered_result, raw_articles
+
+science_news, raw_news_articles = fetch_science_news()
+
+# ========================== STEP 2: FETCH TOP X POSTS FROM X API ==========================
+# Initialize variables
+top_x_posts = []
+raw_x_posts = []
+
+# Science, longevity, and health X accounts to follow
+TRUSTED_USERNAMES = [
+    # Science & Research
+    "Nature", "sciencemagazine", "newscientist", "sciam",
+    # Longevity & Health
+    "longevitytech", "LifespanIO", "longevityfund", "DavidSinclairPhD",
+    "peterattiamd", "RhondaPatrick", "BryanJohnson",
+    # Health & Medicine
+    "WHO", "CDCgov", "NIH", "NEJM", "TheLancet",
+    # Science Communicators
+    "neiltyson", "BillNye", "sciam", "sciencemagazine"
+]
+
+# Science/longevity/health keywords for content filtering
+SCIENCE_CONTENT_KEYWORDS = [
+    "longevity", "anti-aging", "aging", "lifespan", "healthspan",
+    "biotechnology", "genetics", "genomics", "CRISPR", "gene therapy",
+    "medicine", "medical", "health", "wellness", "nutrition", "diet",
+    "research", "study", "clinical trial", "discovery", "breakthrough",
+    "science", "scientific", "biotech", "pharmaceutical", "drug",
+    "cancer", "disease", "treatment", "therapy", "vaccine",
+    "brain", "neuroscience", "cognitive", "mental health"
+]
+
+def is_science_related(text: str) -> bool:
+    """Check if post text contains science/longevity/health keywords."""
+    if not text:
+        return False
+    
+    text_lower = text.lower()
+    for keyword in SCIENCE_CONTENT_KEYWORDS:
+        if keyword.lower() in text_lower:
+            return True
+    
+    return False
+
+def fetch_x_posts_from_trusted_accounts() -> tuple[List[Dict], List[Dict]]:
+    """
+    Fetch science/longevity/health posts from trusted X accounts using the X API.
+    Prioritizes original posts (excludes retweets).
+    """
+    logging.info("Fetching science/longevity/health posts from trusted accounts...")
+    
+    all_posts = []
+    raw_posts_data = []
+    
+    try:
+        import tweepy
+        
+        x_client = tweepy.Client(
+            bearer_token=os.getenv("PLANETTERRIAN_X_BEARER_TOKEN"),
+            wait_on_rate_limit=True
+        )
+        
+        # Build query for science/longevity/health content
+        science_keywords = "(science OR longevity OR health OR research OR discovery OR breakthrough OR medicine OR biotechnology)"
+        query = f"{science_keywords} from:{' OR from:'.join(TRUSTED_USERNAMES[:10])} -is:retweet lang:en"
+        
+        # Calculate start time (last 24 hours)
+        start_time = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)).isoformat()
+        
+        all_tweets = []
+        # Track X API search call
+        credit_usage["services"]["x_api"]["search_calls"] += 1
+        
+        response = x_client.search_recent_tweets(
+            query=query,
+            max_results=100,
+            start_time=start_time,
+            tweet_fields=['created_at', 'public_metrics', 'author_id', 'text', 'referenced_tweets'],
+            user_fields=['username', 'name'],
+            expansions=['author_id', 'referenced_tweets.id']
+        )
+        
+        if response.data:
+            all_tweets.extend(response.data)
+            logging.info(f"First batch: {len(response.data)} tweets")
+        
+        # Try to get more results if we have a next_token (pagination)
+        if hasattr(response, 'meta') and response.meta and 'next_token' in response.meta:
+            try:
+                # Track X API search call (pagination)
+                credit_usage["services"]["x_api"]["search_calls"] += 1
+                
+                next_response = x_client.search_recent_tweets(
+                    query=query,
+                    max_results=100,
+                    start_time=start_time,
+                    next_token=response.meta['next_token'],
+                    tweet_fields=['created_at', 'public_metrics', 'author_id', 'text', 'referenced_tweets'],
+                    user_fields=['username', 'name'],
+                    expansions=['author_id', 'referenced_tweets.id']
+                )
+                
+                if next_response.data:
+                    all_tweets.extend(next_response.data)
+                    logging.info(f"Second batch: {len(next_response.data)} tweets")
+            except Exception as e:
+                logging.warning(f"Could not fetch second batch: {e}")
+        
+        # Process tweets
+        users = {}
+        if hasattr(response, 'includes') and response.includes and 'users' in response.includes:
+            for user in response.includes['users']:
+                users[user.id] = user
+        
+        for post in all_tweets:
+            # Skip retweets
+            if hasattr(post, 'referenced_tweets') and post.referenced_tweets:
+                is_retweet = any(ref.type == 'retweeted' for ref in post.referenced_tweets)
+                if is_retweet:
+                    continue
+            
+            # Get author info
+            author_id = post.author_id
+            author_username = "unknown"
+            author_name = "Unknown"
+            if author_id in users:
+                author_username = users[author_id].username
+                author_name = users[author_id].name
+            
+            # Filter for science-related content
+            if not is_science_related(post.text):
+                continue
+            
+            # Calculate engagement score
+            metrics = post.public_metrics if hasattr(post, 'public_metrics') else {}
+            likes = metrics.get('like_count', 0)
+            retweets = metrics.get('retweet_count', 0)
+            replies = metrics.get('reply_count', 0)
+            engagement = (likes * 1.0) + (retweets * 3.0) + (replies * 1.5)
+            
+            # Boost engagement for verified/science accounts
+            if author_username.lower() in ["nature", "sciencemagazine", "newscientist"]:
+                engagement *= 2.0
+            
+            post_data = {
+                "id": post.id,
+                "text": post.text,
+                "username": author_username,
+                "name": author_name,
+                "url": f"https://x.com/{author_username}/status/{post.id}",
+                "created_at": post.created_at.isoformat() if hasattr(post.created_at, 'isoformat') else str(post.created_at),
+                "likes": likes,
+                "retweets": retweets,
+                "replies": replies,
+                "engagement": engagement,
+                "final_score": engagement
+            }
+            
+            all_posts.append(post_data)
+            raw_posts_data.append(post_data)
+        
+        logging.info(f"Fetched {len(all_posts)} science/longevity/health posts from X API")
+        
+    except Exception as e:
+        logging.error(f"Error fetching X posts: {e}", exc_info=True)
+        logging.warning("Continuing without X posts...")
+    
+    if not all_posts:
+        logging.warning("No X posts found. Possible reasons:")
+        logging.warning("    1. No posts in last 24 hours from these accounts")
+        logging.warning("    2. Many posts might be retweets (excluded)")
+        logging.warning("    3. Posts might not contain explicit science/longevity/health keywords")
+    
+    # Remove duplicates by ID
+    existing_ids = set()
+    top_25 = []
+    for post in all_posts:
+        if post['id'] not in existing_ids:
+            existing_ids.add(post['id'])
+            top_25.append(post)
+    
+    # Sort by engagement score
+    top_25.sort(key=lambda x: x['final_score'], reverse=True)
+    
+    logging.info(f"Returning {len(top_25)} best science/longevity/health posts")
+    return top_25[:25], raw_posts_data
+
+top_x_posts, raw_x_posts = fetch_x_posts_from_trusted_accounts()
+
+if len(top_x_posts) < 5:
+    logging.warning(f"⚠️  Only {len(top_x_posts)} X posts were fetched (minimum 5 recommended). Continuing anyway.")
+
+# Save raw data (similar structure to Tesla script)
+def save_raw_data_and_generate_html(raw_news, raw_x_posts_data, output_dir: Path):
+    """Save raw data to JSON and generate HTML archive."""
+    date_str = datetime.date.today().isoformat()
+    formatted_date = datetime.date.today().strftime("%B %d, %Y")
+    
+    raw_data = {
+        "date": date_str,
+        "rss_feeds": {
+            "total_articles": len(raw_news),
+            "articles": raw_news
+        },
+        "x_api": {
+            "total_posts": len(raw_x_posts_data),
+            "posts": raw_x_posts_data
+        }
+    }
+    
+    # Save JSON
+    json_path = output_dir / f"raw_data_{date_str}.json"
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(raw_data, f, indent=2, ensure_ascii=False)
+    
+    logging.info(f"Raw data saved to {json_path}")
+    
+    # Generate HTML (simplified version)
+    html_path = output_dir / f"raw_data_{date_str}.html"
+    # HTML generation code would go here (similar to Tesla script)
+    
+    return json_path, html_path
+
+# Save raw data
+raw_json_path, raw_html_path = save_raw_data_and_generate_html(
+    raw_news_articles, 
+    raw_x_posts, 
+    digests_dir
+)
+
+# ========================== STEP 3: GENERATE X THREAD WITH GROK ==========================
+logging.info("Step 3: Generating Planetterrian Daily digest with Grok...")
+
+# Format news articles for the prompt
+news_section = ""
+if science_news:
+    news_section = "## PRE-FETCHED NEWS ARTICLES (from RSS feeds - last 24 hours):\n\n"
+    for i, article in enumerate(science_news[:20], 1):
+        news_section += f"{i}. **{article['title']}**\n"
+        news_section += f"   Source: {article['source']}\n"
+        news_section += f"   Published: {article['publishedAt']}\n"
+        if article.get('description'):
+            news_section += f"   Description: {article['description'][:200]}...\n"
+        news_section += f"   URL: {article['url']}\n\n"
+else:
+    news_section = "## PRE-FETCHED NEWS ARTICLES: None available\n\n"
+
+# Format X posts for the prompt
+x_posts_section = ""
+if top_x_posts:
+    num_posts_to_include = min(len(top_x_posts), 20)
+    x_posts_section = f"## PRE-FETCHED X POSTS (from X API - last 24 hours, ranked by engagement):\n\n"
+    x_posts_section += f"**IMPORTANT: You have {len(top_x_posts)} pre-fetched X posts available. Select UP TO 10 from these pre-fetched posts. NEVER invent, make up, or hallucinate X post URLs - only use the exact URLs provided below.**\n\n"
+    for i, post in enumerate(top_x_posts[:num_posts_to_include], 1):
+        x_posts_section += f"{i}. **@{post['username']} ({post['name']})**\n"
+        x_posts_section += f"   Likes: {post['likes']}, RTs: {post['retweets']}\n"
+        x_posts_section += f"   Posted: {post['created_at']}\n"
+        x_posts_section += f"   Text: {post['text'][:300]}...\n"
+        x_posts_section += f"   URL: {post['url']}\n\n"
+else:
+    x_posts_section = "## PRE-FETCHED X POSTS: None available\n\n"
+
+X_PROMPT = f"""
+# Planetterrian Daily - SCIENCE, LONGEVITY & HEALTH EDITION
+**Date:** {today_str}
+🌍 Planetterrian Daily Podcast: Coming soon to Apple Podcasts
+{news_section}
+
+{x_posts_section}
+
+You are an elite science, longevity, and health news curator producing the daily "Planetterrian Daily" newsletter. Use ONLY the pre-fetched news and X posts above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links.
+
+**BRAND PERSONALITY (from planetterrian.com/about):**
+- Planetterrian Ventures: A tribe of forward-thinking innovators passionate about the planet
+- Mission: Intertwine technology and compassion, ensuring innovations push boundaries while caring for Earth
+- Values: Technology as a force for good, sustainability, environmental consciousness
+- Tone: Inspirational, optimistic, planet-conscious, compassionate, forward-thinking
+- Focus: Groundbreaking solutions that are state-of-the-art AND sustainable/environmentally-friendly
+
+### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
+- **News**: You MUST select EXACTLY 10 unique articles. If you have fewer than 10 available, use ALL of them and number them 1 through N. If you have more than 10, select the BEST 10. Prioritize high-quality sources; each must cover a DIFFERENT story/angle.
+- **X Posts**: You MUST include a "Top 10 X Posts" section with EXACTLY 10 unique posts from the pre-fetched list. If you have fewer than 10, use ALL of them. NEVER invent X post URLs - only use exact URLs from the pre-fetched list.
+- **Diversity Check**: Verify no similar content; each item must cover a DIFFERENT angle.
+
+### FORMATTING (EXACT—USE MARKDOWN AS SHOWN)
+# Planetterrian Daily
+**Date:** {today_str}
+🌍 **Planetterrian Daily** - Science, Longevity & Health Discoveries
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 10 Science & Health Discoveries
+1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM PST, Source Name**  
+   2–4 sentences: Start with what happened, explain why it matters for human health/longevity/planet. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
+2. [Repeat format for 3-10; if <10 items, stop at available count, add a blank line after each item]
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 10 X Posts
+1. **Catchy Title: DD Month, YYYY, HH:MM AM/PM PST**  
+   2–4 sentences: Explain post & significance (science/longevity/health angle). End with: Post: https://x.com/username/status/ID (use EXACT URL from pre-fetched list)
+2. [Repeat for remaining posts; use only pre-fetched posts, never invent URLs]
+
+━━━━━━━━━━━━━━━━━━━━
+### Planetterrian Spotlight
+One breakthrough discovery that aligns with Planetterrian's mission of technology + compassion + sustainability. Explain why this matters for the planet and human well-being.
+
+━━━━━━━━━━━━━━━━━━━━
+### Daily Inspiration
+One inspiring quote about science, health, longevity, or planetary stewardship. End with: "Share your thoughts with us @planetterrian!"
+
+[2-3 sentence uplifting sign-off on science, health, and planetary well-being + invite to DM @planetterrian with feedback.]
+
+### TONE & STYLE
+- Inspirational, planet-conscious, optimistic, compassionate
+- Focus on how discoveries benefit both humanity AND the planet
+- Emphasize sustainability, innovation, and positive impact
+- Timestamps: Accurate PST/PDT
+
+Output today's edition exactly as formatted.
+"""
+
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=2, max=30),
+    retry=retry_if_exception_type((Exception,))
+)
+def generate_digest_with_grok():
+    """Generate digest with retry logic"""
+    response = client.chat.completions.create(
+        model="grok-4",
+        messages=[{"role": "user", "content": X_PROMPT}],
+        temperature=0.7,
+        max_tokens=4000,
+        extra_body={"search_parameters": {"mode": "off"}}
+    )
+    return response
+
+try:
+    response = generate_digest_with_grok()
+    x_thread = response.choices[0].message.content.strip()
+    
+    # Log token usage and cost
+    if hasattr(response, 'usage') and response.usage:
+        usage = response.usage
+        logging.info(f"Grok API - Tokens used: {usage.total_tokens} (prompt: {usage.prompt_tokens}, completion: {usage.completion_tokens})")
+        estimated_cost = (usage.total_tokens / 1000000) * 0.01
+        logging.info(f"Estimated cost: ${estimated_cost:.4f}")
+        
+        # Track credit usage
+        credit_usage["services"]["grok_api"]["x_thread_generation"]["prompt_tokens"] = usage.prompt_tokens
+        credit_usage["services"]["grok_api"]["x_thread_generation"]["completion_tokens"] = usage.completion_tokens
+        credit_usage["services"]["grok_api"]["x_thread_generation"]["total_tokens"] = usage.total_tokens
+        credit_usage["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] = estimated_cost
+except Exception as e:
+    logging.error(f"Grok API call failed: {e}")
+    raise
+
+# Clean Grok footer
+lines = []
+for line in x_thread.splitlines():
+    if line.strip().startswith(("**Sources", "Grok", "I used", "[")):
+        break
+    lines.append(line)
+x_thread = "\n".join(lines).strip()
+
+# Save X thread
+x_path = digests_dir / f"Planetterrian_Daily_{datetime.date.today():%Y%m%d}.md"
+with open(x_path, "w", encoding="utf-8") as f:
+    f.write(x_thread)
+logging.info(f"X thread saved to {x_path}")
+
+# Format for X posting (remove markdown, clean up)
+def format_digest_for_x(digest: str) -> str:
+    """Format digest for X posting."""
+    formatted = digest
+    
+    # Remove markdown headers but keep text
+    formatted = re.sub(r'^#+\s+', '', formatted, flags=re.MULTILINE)
+    
+    # Convert markdown bold to plain text
+    formatted = re.sub(r'\*\*(.*?)\*\*', r'\1', formatted)
+    
+    # Clean up URLs
+    formatted = re.sub(r'\[([^\]]+)\]\((https?://[^\)]+)\)', r'\2', formatted)
+    
+    # Remove excessive blank lines
+    formatted = re.sub(r'\n{3,}', '\n\n', formatted)
+    
+    return formatted.strip()
+
+formatted_thread = format_digest_for_x(x_thread)
+
+# ========================== TWEEPY X CLIENT FOR AUTO-POSTING ==========================
+tweet_id = None
+if ENABLE_X_POSTING:
+    import tweepy
+
+    x_client = tweepy.Client(
+        consumer_key=os.getenv("PLANETTERRIAN_X_CONSUMER_KEY"),
+        consumer_secret=os.getenv("PLANETTERRIAN_X_CONSUMER_SECRET"),
+        access_token=os.getenv("PLANETTERRIAN_X_ACCESS_TOKEN"),
+        access_token_secret=os.getenv("PLANETTERRIAN_X_ACCESS_TOKEN_SECRET"),
+        bearer_token=os.getenv("PLANETTERRIAN_X_BEARER_TOKEN"),
+        wait_on_rate_limit=True
+    )
+    logging.info("@planetterrian X posting client ready")
+else:
+    logging.info("X posting is disabled (ENABLE_X_POSTING = False)")
+
+# ========================== GENERATE PODCAST SCRIPT ==========================
+if not ENABLE_PODCAST:
+    logging.info("Podcast generation is disabled (ENABLE_PODCAST = False). Skipping podcast script generation, audio processing, and RSS feed updates.")
+    final_mp3 = None
+else:
+    POD_PROMPT = f"""You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Planetterrian Daily" Episode {episode_num}.
+
+HOST: Patrick in Vancouver - Canadian, scientist, newscaster. Voice like a solo podcaster breaking science, longevity, and health news, not robotic.
+
+BRAND PERSONALITY: Planetterrian Ventures - A tribe of forward-thinking innovators passionate about the planet. Mission: Intertwine technology and compassion. Values: Technology as a force for good, sustainability, environmental consciousness.
+
+RULES:
+- Start every line with "Patrick:"
+- Don't read URLs aloud - mention source names naturally
+- Use natural dates ("today", "this morning") not exact timestamps
+- Enunciate all numbers clearly
+- Use ONLY information from the digest below - nothing else
+- Emphasize how discoveries benefit both humanity AND the planet
+- Focus on sustainability, innovation, and positive impact
+
+SCRIPT STRUCTURE:
+[Intro music - 10 seconds]
+Patrick: Welcome to Planetterrian Daily, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada, bringing you today's most exciting discoveries in science, longevity, and health. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now let's dive into today's discoveries.
+
+[Narrate EVERY item from the digest in order - no skipping]
+- For each news item: Read the title with enthusiasm, then explain the discovery and why it matters for human health, longevity, and the planet
+- For each X post: Read the title with enthusiasm, then explain the post's significance
+- Planetterrian Spotlight: Explain why this breakthrough aligns with our mission
+- Daily Inspiration: Read the quote verbatim, add one encouraging sentence
+
+[Closing]
+Patrick: That's Planetterrian Daily for today. I look forward to hearing your thoughts and ideas — reach out to us @planetterrian on X or DM us directly. Remember: we're not just in the business of technology; we're in the business of making a difference. Together, we can drive change, one discovery at a time. We'll catch you tomorrow on Planetterrian Daily!
+
+Here is today's complete formatted digest. Use ONLY this content:
+
+{x_thread}
+"""
+
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=30),
+        retry=retry_if_exception_type((Exception,))
+    )
+    def generate_podcast_script_with_grok():
+        response = client.chat.completions.create(
+            model="grok-4",
+            messages=[{"role": "user", "content": POD_PROMPT}],
+            temperature=0.7,
+            max_tokens=4000
+        )
+        return response
+    
+    logging.info("Generating podcast script with Grok (this may take 1-2 minutes)...")
+    try:
+        podcast_response = generate_podcast_script_with_grok()
+        podcast_script = podcast_response.choices[0].message.content.strip()
+        
+        # Log token usage if available
+        if hasattr(podcast_response, 'usage') and podcast_response.usage:
+            usage = podcast_response.usage
+            logging.info(f"Podcast script generation - Tokens used: {usage.total_tokens} (prompt: {usage.prompt_tokens}, completion: {usage.completion_tokens})")
+            estimated_cost = (usage.total_tokens / 1000000) * 0.01
+            logging.info(f"Estimated cost: ${estimated_cost:.4f}")
+            
+            # Track credit usage
+            credit_usage["services"]["grok_api"]["podcast_script_generation"]["prompt_tokens"] = usage.prompt_tokens
+            credit_usage["services"]["grok_api"]["podcast_script_generation"]["completion_tokens"] = usage.completion_tokens
+            credit_usage["services"]["grok_api"]["podcast_script_generation"]["total_tokens"] = usage.total_tokens
+            credit_usage["services"]["grok_api"]["podcast_script_generation"]["estimated_cost_usd"] = estimated_cost
+    except Exception as e:
+        logging.error(f"Grok API call for podcast script failed: {e}")
+        raise
+
+    # Save transcript
+    transcript_path = digests_dir / f"podcast_transcript_{datetime.date.today():%Y%m%d}.txt"
+    with open(transcript_path, "w", encoding="utf-8") as f:
+        f.write(f"# Planetterrian Daily – The Pod | Ep {episode_num} | {today_str}\n\n{podcast_script}")
+    logging.info("Natural podcast script generated")
+
+    # ========================== ELEVENLABS TTS ==========================
+    PATRICK_VOICE_ID = "dTrBzPvD2GpAqkk1MUzA"    # High-energy Patrick
+
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        retry=retry_if_exception_type((requests.RequestException, requests.Timeout))
+    )
+    def speak(text: str, voice_id: str, filename: str):
+        url = f"{ELEVEN_API}/text-to-speech/{voice_id}/stream"
+        headers = {"xi-api-key": ELEVEN_KEY}
+        payload = {
+            "text": text + "!",
+            "model_id": "eleven_turbo_v2_5",
+            "voice_settings": {
+                "stability": 0.65,
+                "similarity_boost": 0.9,
+                "style": 0.85,
+                "use_speaker_boost": True
+            }
+        }
+        r = requests.post(url, json=payload, headers=headers, stream=True, timeout=60)
+        r.raise_for_status()
+        with open(filename, "wb") as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                f.write(chunk)
+
+    def get_audio_duration(path: Path) -> float:
+        """Return duration in seconds for an audio file."""
+        try:
+            result = subprocess.run(
+                [
+                    "ffprobe",
+                    "-v",
+                    "error",
+                    "-show_entries",
+                    "format=duration",
+                    "-of",
+                    "default=noprint_wrappers=1:nokey=1",
+                    str(path),
+                ],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            return float(result.stdout.strip())
+        except Exception as exc:
+            logging.warning(f"Unable to determine duration for {path}: {exc}")
+            return 0.0
+
+    def format_duration(seconds: float) -> str:
+        """Format duration in seconds to HH:MM:SS or MM:SS format."""
+        hours = int(seconds // 3600)
+        minutes = int((seconds % 3600) // 60)
+        secs = int(seconds % 60)
+        if hours > 0:
+            return f"{hours:02d}:{minutes:02d}:{secs:02d}"
+        return f"{minutes:02d}:{secs:02d}"
+
+    # Process podcast script
+    full_text_parts = []
+    for line in podcast_script.splitlines():
+        line = line.strip()
+        if line.startswith("[") or not line:
+            continue
+        if line.startswith("Patrick:"):
+            full_text_parts.append(line[9:].strip())
+        else:
+            full_text_parts.append(line)
+
+    full_text = " ".join(full_text_parts)
+    full_text = fix_pronunciation(full_text)
+
+    # Track character count for ElevenLabs
+    credit_usage["services"]["elevenlabs_api"]["characters"] = len(full_text)
+    logging.info(f"ElevenLabs TTS: {len(full_text)} characters to convert")
+
+    # Generate voice file
+    logging.info("Generating single voice segment for entire podcast...")
+    voice_file = tmp_dir / "patrick_full.mp3"
+    speak(full_text, PATRICK_VOICE_ID, str(voice_file))
+    audio_files = [str(voice_file)]
+    logging.info("Generated complete voice track")
+
+    # ========================== FINAL MIX ==========================
+    final_mp3 = digests_dir / f"Planetterrian_Daily_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
+    
+    # For now, just copy the voice file (music mixing can be added later)
+    shutil.copy(voice_file, final_mp3)
+    logging.info(f"Podcast created: {final_mp3}")
+
+    # ========================== UPDATE RSS FEED ==========================
+    # RSS feed update function (similar to Tesla script)
+    def update_rss_feed(
+        rss_path: Path,
+        episode_num: int,
+        episode_title: str,
+        episode_description: str,
+        episode_date: datetime.date,
+        mp3_filename: str,
+        mp3_duration: float,
+        mp3_path: Path,
+        base_url: str = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+    ):
+        """Update or create RSS feed with new episode."""
+        fg = FeedGenerator()
+        fg.load_extension('podcast')
+        
+        # Parse existing RSS feed
+        existing_episodes = []
+        if rss_path.exists():
+            try:
+                tree = ET.parse(str(rss_path))
+                root = tree.getroot()
+                channel = root.find('channel')
+                if channel is not None:
+                    items = channel.findall('item')
+                    for item in items:
+                        episode_data = {}
+                        for elem in item:
+                            if elem.tag == 'title':
+                                episode_data['title'] = elem.text or ''
+                            elif elem.tag == 'description':
+                                episode_data['description'] = elem.text or ''
+                            elif elem.tag == 'guid':
+                                if elem.text:
+                                    episode_data['guid'] = elem.text.strip()
+                            elif elem.tag == 'pubDate':
+                                episode_data['pubDate'] = elem.text or ''
+                            elif elem.tag == 'enclosure':
+                                episode_data['enclosure'] = {
+                                    'url': elem.get('url', ''),
+                                    'type': elem.get('type', 'audio/mpeg'),
+                                    'length': elem.get('length', '0')
+                                }
+                            elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}episode':
+                                episode_data['itunes_episode'] = elem.text or ''
+                        if episode_data.get('guid'):
+                            existing_episodes.append(episode_data)
+            except Exception as e:
+                logging.warning(f"Could not parse existing RSS feed: {e}")
+        
+        # Deduplicate existing episodes by episode number
+        episodes_by_number = {}
+        for ep_data in existing_episodes:
+            ep_num_str = ep_data.get('itunes_episode', '')
+            if not ep_num_str:
+                guid = ep_data.get('guid', '')
+                match = re.search(r'ep(\d+)', guid)
+                if match:
+                    ep_num_str = match.group(1)
+            
+            if ep_num_str:
+                try:
+                    ep_num = int(ep_num_str)
+                    if ep_num not in episodes_by_number:
+                        episodes_by_number[ep_num] = ep_data
+                    else:
+                        existing_guid = episodes_by_number[ep_num].get('guid', '')
+                        current_guid = ep_data.get('guid', '')
+                        existing_ts = existing_guid.split('-')[-1] if '-' in existing_guid else '000000'
+                        current_ts = current_guid.split('-')[-1] if '-' in current_guid else '000000'
+                        if current_ts > existing_ts:
+                            episodes_by_number[ep_num] = ep_data
+                except ValueError:
+                    pass
+        
+        # Set channel metadata
+        fg.title("Planetterrian Daily")
+        fg.link(href="https://planetterrian.com")
+        fg.description("Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion.")
+        fg.language('en-us')
+        fg.copyright(f"Copyright {datetime.date.today().year}")
+        fg.podcast.itunes_author("Patrick")
+        fg.podcast.itunes_summary("Daily science, longevity, and health discoveries. Technology as a force for good, sustainability, and environmental consciousness.")
+        fg.podcast.itunes_owner(name='Planetterrian Ventures', email='contact@planetterrian.com')
+        fg.podcast.itunes_image(f"{base_url}/planetterrian-podcast-image.jpg")
+        fg.podcast.itunes_category("Science")
+        fg.podcast.itunes_explicit("no")
+        
+        # Add existing episodes (skip if same episode number)
+        current_time_str = datetime.datetime.now().strftime("%H%M%S")
+        new_episode_guid = f"planetterrian-daily-ep{episode_num:03d}-{episode_date:%Y%m%d}-{current_time_str}"
+        
+        for ep_data in episodes_by_number.values():
+            ep_num_str = ep_data.get('itunes_episode', '')
+            if not ep_num_str:
+                guid = ep_data.get('guid', '')
+                match = re.search(r'ep(\d+)', guid)
+                if match:
+                    ep_num_str = match.group(1)
+            
+            if ep_num_str and int(ep_num_str) == episode_num:
+                logging.info(f"Skipping existing episode {ep_num_str} - will be replaced with new version")
+                continue
+            
+            if ep_data.get('guid') == new_episode_guid:
+                continue
+            
+            entry = fg.add_entry()
+            entry.id(ep_data.get('guid', ''))
+            entry.title(ep_data.get('title', ''))
+            entry.description(ep_data.get('description', ''))
+            if ep_data.get('link'):
+                entry.link(href=ep_data['link'])
+            
+            if ep_data.get('pubDate'):
+                try:
+                    if isinstance(ep_data['pubDate'], datetime.datetime):
+                        entry.pubDate(ep_data['pubDate'])
+                    else:
+                        from email.utils import parsedate_to_datetime
+                        pub_date = parsedate_to_datetime(ep_data['pubDate'])
+                        entry.pubDate(pub_date)
+                except Exception:
+                    pass
+            
+            if ep_data.get('enclosure'):
+                enc = ep_data['enclosure']
+                entry.enclosure(url=enc.get('url', ''), type=enc.get('type', 'audio/mpeg'), length=enc.get('length', '0'))
+            
+            if ep_data.get('itunes_title'):
+                entry.podcast.itunes_title(ep_data['itunes_title'])
+            if ep_data.get('itunes_summary'):
+                entry.podcast.itunes_summary(ep_data['itunes_summary'])
+            if ep_data.get('itunes_duration'):
+                entry.podcast.itunes_duration(ep_data['itunes_duration'])
+            if ep_data.get('itunes_episode'):
+                entry.podcast.itunes_episode(ep_data['itunes_episode'])
+            if ep_data.get('itunes_season'):
+                entry.podcast.itunes_season(ep_data['itunes_season'])
+            if ep_data.get('itunes_episode_type'):
+                entry.podcast.itunes_episode_type(ep_data['itunes_episode_type'])
+            entry.podcast.itunes_explicit("no")
+            entry.podcast.itunes_image(f"{base_url}/planetterrian-podcast-image.jpg")
+        
+        # Add new episode
+        entry = fg.add_entry()
+        entry.id(new_episode_guid)
+        entry.title(episode_title)
+        entry.description(episode_description)
+        entry.link(href=f"{base_url}/digests/planetterrian/{mp3_filename}")
+        pub_date = datetime.datetime.combine(episode_date, datetime.time(8, 0, 0), tzinfo=datetime.timezone.utc)
+        entry.pubDate(pub_date)
+        
+        mp3_url = f"{base_url}/digests/planetterrian/{mp3_filename}"
+        mp3_size = mp3_path.stat().st_size if mp3_path.exists() else 0
+        entry.enclosure(url=mp3_url, type="audio/mpeg", length=str(mp3_size))
+        
+        entry.podcast.itunes_title(episode_title)
+        entry.podcast.itunes_summary(episode_description)
+        entry.podcast.itunes_duration(format_duration(mp3_duration))
+        entry.podcast.itunes_episode(str(episode_num))
+        entry.podcast.itunes_season("1")
+        entry.podcast.itunes_episode_type("full")
+        entry.podcast.itunes_explicit("no")
+        entry.podcast.itunes_image(f"{base_url}/planetterrian-podcast-image.jpg")
+        
+        fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
+        fg.rss_file(str(rss_path), pretty=True)
+        logging.info(f"RSS feed updated → {rss_path}")
+
+    # Update RSS feed
+    if final_mp3 and final_mp3.exists():
+        try:
+            audio_duration = get_audio_duration(final_mp3)
+            episode_title = f"Planetterrian Daily - Episode {episode_num} - {today_str}"
+            episode_description = f"Daily science, longevity, and health discoveries for {today_str}."
+            lines = x_thread.split('\n')
+            for line in lines:
+                line = line.strip()
+                if line and not line.startswith('#') and not line.startswith('**') and len(line) > 50:
+                    episode_description += line[:400] + "..."
+                    break
+            
+            update_rss_feed(
+                rss_path=rss_path,
+                episode_num=episode_num,
+                episode_title=episode_title,
+                episode_description=episode_description,
+                episode_date=datetime.date.today(),
+                mp3_filename=final_mp3.name,
+                mp3_duration=audio_duration,
+                mp3_path=final_mp3,
+                base_url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+            )
+            logging.info(f"RSS feed updated with Episode {episode_num}")
+        except Exception as e:
+            logging.error(f"Failed to update RSS feed: {e}", exc_info=True)
+
+# Post to X
+if ENABLE_X_POSTING:
+    try:
+        thread_text = formatted_thread.strip()
+        
+        # Track X API post call
+        credit_usage["services"]["x_api"]["post_calls"] += 1
+        
+        tweet = x_client.create_tweet(text=thread_text)
+        tweet_id = tweet.data['id']
+        thread_url = f"https://x.com/planetterrian/status/{tweet_id}"
+        logging.info(f"DIGEST POSTED → {thread_url}")
+    except Exception as e:
+        logging.error(f"X post failed: {e}")
+
+# Cleanup
+try:
+    for file_path in audio_files:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+    logging.info("Temporary files cleaned up")
+except Exception as e:
+    logging.warning(f"Cleanup warning: {e}")
+
+# Save credit usage tracking
+save_credit_usage(credit_usage, digests_dir)
+
+print("\n" + "="*80)
+print("PLANETTERRIAN DAILY — FULLY AUTOMATED RUN COMPLETE")
+print(f"X Thread → {x_path}")
+print(f"Podcast → {final_mp3}")
+print("="*80)
+
