@@ -1202,7 +1202,7 @@ Add specific failed bear predictions (2020–2025, with references and links fro
 One short, inspiring challenge tied to Tesla/Elon themes (curiosity, first principles, perseverance). End with: "Share your progress with us @teslashortstime!"
 
 ━━━━━━━━━━━━━━━━━━━━
-**Inspiration Quote:** "Exact quote" – Author, [Source Link] (fresh, no repeats from last 7 days)
+**Inspiration Quote:** "Exact quote" – Author, [Source Link] (fresh, no repeats and from a wide variety of sources)
 
 [2-3 sentence uplifting sign-off on Tesla's mission + invite to DM @teslashortstime with feedback.]
 
@@ -1700,7 +1700,7 @@ RULES:
 
 SCRIPT STRUCTURE:
 [Intro music - 10 seconds]
-Patrick: Welcome to Tesla Shorts Time Daily, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada. TSLA stock price is ${price:.2f} dollars right now{' in after-hours trading' if info.get("marketState") == "POST" else ''}. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now straight to the daily news updates you are here for.
+Patrick: Welcome to Tesla Shorts Time Daily, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada bringing you the latest Tesla news and updates.  Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now straight to the daily news updates you are here for.
 
 [Narrate EVERY item from the digest in order - no skipping]
 - For each news item: Read the title with enthusiasm, then paraphrase the summary naturally
@@ -1709,6 +1709,7 @@ Patrick: Welcome to Tesla Shorts Time Daily, episode {episode_num}. It is {today
 - Daily Challenge + Quote: Read the quote verbatim, then the challenge verbatim, add one encouraging sentence
 
 [Closing]
+Patrick: TSLA current stock price at the time of recording is ${price:.2f} right now.  Always good to know the short term, but with Tesla, the long term is what really matters.
 Patrick: That's Tesla Shorts Time Daily for today. I look forward to hearing your thoughts and ideas — reach out to us @teslashortstime on X or DM us directly. Stay safe, keep accelerating, and remember: the future is electric! Your efforts help accelerate the world's transition to sustainable energy… and beyond. We'll catch you tomorrow on Tesla Shorts Time Daily!
 
 Here is today's complete formatted digest. Use ONLY this content:
@@ -2004,15 +2005,64 @@ def update_rss_feed(
     fg.podcast.itunes_category(category)
     fg.podcast.itunes_explicit("no")
     
-    # Add all existing episodes
-    # We no longer skip based on GUID match because we want to keep all episodes, even for same day
-    # But we should check for exact duplicate GUIDs to avoid duplicates if run on same file
-    
     # Generate GUID for the new episode based on current time to ensure uniqueness
     current_time_str = datetime.datetime.now().strftime("%H%M%S")
     new_episode_guid = f"tesla-shorts-time-ep{episode_num:03d}-{episode_date:%Y%m%d}-{current_time_str}"
     
+    # Deduplicate existing episodes by episode number
+    # Keep only the most recent entry for each episode number (based on GUID timestamp)
+    episodes_by_number = {}
+    episodes_without_number = []  # Keep episodes that don't have extractable episode numbers
+    
     for ep_data in existing_episodes:
+        # Extract episode number from itunes_episode field or from GUID
+        ep_num_str = ep_data.get('itunes_episode', '')
+        if not ep_num_str:
+            # Try to extract from GUID pattern: tesla-shorts-time-epXXX-YYYYMMDD-HHMMSS
+            guid = ep_data.get('guid', '')
+            match = re.search(r'ep(\d+)', guid)
+            if match:
+                ep_num_str = match.group(1)
+        
+        if ep_num_str:
+            try:
+                ep_num = int(ep_num_str)
+                # If we already have this episode number, keep the one with the more recent GUID (later timestamp)
+                if ep_num not in episodes_by_number:
+                    episodes_by_number[ep_num] = ep_data
+                else:
+                    # Compare GUIDs to determine which is more recent (later timestamp in GUID)
+                    existing_guid = episodes_by_number[ep_num].get('guid', '')
+                    current_guid = ep_data.get('guid', '')
+                    # Extract timestamp from GUID (last 6 digits after final dash)
+                    existing_ts = existing_guid.split('-')[-1] if '-' in existing_guid else '000000'
+                    current_ts = current_guid.split('-')[-1] if '-' in current_guid else '000000'
+                    if current_ts > existing_ts:
+                        episodes_by_number[ep_num] = ep_data
+            except ValueError:
+                # If we can't parse episode number, keep the episode anyway (shouldn't happen normally)
+                episodes_without_number.append(ep_data)
+        else:
+            # Episode without extractable episode number - keep it (shouldn't happen normally)
+            episodes_without_number.append(ep_data)
+    
+    # Add all existing episodes (now deduplicated), but skip if same episode number as new episode
+    # First add episodes with episode numbers
+    for ep_data in episodes_by_number.values():
+        # Extract episode number to check against new episode
+        ep_num_str = ep_data.get('itunes_episode', '')
+        if not ep_num_str:
+            guid = ep_data.get('guid', '')
+            match = re.search(r'ep(\d+)', guid)
+            if match:
+                ep_num_str = match.group(1)
+        
+        # Skip if this existing episode has the same episode number as the new one we're about to add
+        # (we'll add the new one instead, which should be more up-to-date)
+        if ep_num_str and int(ep_num_str) == episode_num:
+            logging.info(f"Skipping existing episode {ep_num_str} - will be replaced with new version")
+            continue
+        
         # Skip if exact same GUID (should typically not happen with time-based GUIDs unless run very fast)
         if ep_data.get('guid') == new_episode_guid:
             continue
@@ -2059,6 +2109,54 @@ def update_rss_feed(
         entry.podcast.itunes_explicit("no")
         # Set image for each episode (Apple Podcasts Connect requirement)
         # Use episode-specific image if available, otherwise use channel image
+        episode_image = ep_data.get('itunes_image', image_url)
+        entry.podcast.itunes_image(episode_image)
+    
+    # Also add episodes without extractable episode numbers (shouldn't happen normally, but be safe)
+    for ep_data in episodes_without_number:
+        # Skip if exact same GUID
+        if ep_data.get('guid') == new_episode_guid:
+            continue
+        
+        # Re-add episode
+        entry = fg.add_entry()
+        entry.id(ep_data.get('guid', ''))
+        entry.title(ep_data.get('title', ''))
+        entry.description(ep_data.get('description', ''))
+        if ep_data.get('link'):
+            entry.link(href=ep_data['link'])
+        
+        # Parse and set pubDate
+        if ep_data.get('pubDate'):
+            try:
+                if isinstance(ep_data['pubDate'], datetime.datetime):
+                    entry.pubDate(ep_data['pubDate'])
+                else:
+                    from email.utils import parsedate_to_datetime
+                    pub_date = parsedate_to_datetime(ep_data['pubDate'])
+                    entry.pubDate(pub_date)
+            except Exception:
+                pass
+        
+        # Set enclosure
+        if ep_data.get('enclosure'):
+            enc = ep_data['enclosure']
+            entry.enclosure(url=enc.get('url', ''), type=enc.get('type', 'audio/mpeg'), length=enc.get('length', '0'))
+        
+        # Set iTunes tags
+        if ep_data.get('itunes_title'):
+            entry.podcast.itunes_title(ep_data['itunes_title'])
+        if ep_data.get('itunes_summary'):
+            entry.podcast.itunes_summary(ep_data['itunes_summary'])
+        if ep_data.get('itunes_duration'):
+            entry.podcast.itunes_duration(ep_data['itunes_duration'])
+        if ep_data.get('itunes_episode'):
+            entry.podcast.itunes_episode(ep_data['itunes_episode'])
+        if ep_data.get('itunes_season'):
+            entry.podcast.itunes_season(ep_data['itunes_season'])
+        if ep_data.get('itunes_episode_type'):
+            entry.podcast.itunes_episode_type(ep_data['itunes_episode_type'])
+        entry.podcast.itunes_explicit("no")
         episode_image = ep_data.get('itunes_image', image_url)
         entry.podcast.itunes_image(episode_image)
     

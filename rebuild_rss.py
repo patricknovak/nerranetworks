@@ -107,11 +107,26 @@ def rebuild_rss():
                 'episode_num': episode_num
             })
 
+    # Deduplicate by episode number - keep only the most recent one for each episode
+    # (in case there are multiple MP3 files with the same episode number)
+    episodes_by_number = {}
+    for ep in episodes:
+        ep_num = ep['episode_num']
+        if ep_num not in episodes_by_number:
+            episodes_by_number[ep_num] = ep
+        else:
+            # If we already have this episode number, keep the one with the later date
+            # (or if same date, keep the one we found first, which should be fine)
+            existing_date = episodes_by_number[ep_num]['pubDate']
+            current_date = ep['pubDate']
+            if current_date > existing_date:
+                episodes_by_number[ep_num] = ep
+    
     # Sort by episode number descending (newest first)
-    episodes.sort(key=lambda x: x['episode_num'], reverse=True)
+    deduplicated_episodes = sorted(episodes_by_number.values(), key=lambda x: x['episode_num'], reverse=True)
 
     # Add to feed
-    for ep in episodes:
+    for ep in deduplicated_episodes:
         entry = fg.add_entry()
         entry.id(ep['guid'])
         entry.title(ep['title'])
@@ -134,7 +149,7 @@ def rebuild_rss():
     # Write to file
     fg.rss_file(str(rss_path))
 
-    print(f"Rebuilt RSS feed with {len(episodes)} episodes at {rss_path}")
+    print(f"Rebuilt RSS feed with {len(deduplicated_episodes)} episodes at {rss_path} (found {len(episodes)} total MP3 files, removed {len(episodes) - len(deduplicated_episodes)} duplicates)")
 
 if __name__ == "__main__":
     rebuild_rss()
