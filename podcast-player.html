@@ -243,16 +243,69 @@
                     const audioUrl = enclosure?.getAttribute('url') || '';
                     const duration = item.querySelector('itunes\\:duration, duration')?.textContent || '';
                     
+                    // Extract episode number from itunes:episode tag or title
+                    let episodeNum = null;
+                    const itunesEpisode = item.querySelector('itunes\\:episode, episode');
+                    if (itunesEpisode?.textContent) {
+                        episodeNum = parseInt(itunesEpisode.textContent.trim());
+                    } else {
+                        // Fallback: extract from title pattern "Episode XXX"
+                        const titleMatch = title.match(/Episode\s+(\d+)/i);
+                        if (titleMatch) {
+                            episodeNum = parseInt(titleMatch[1]);
+                        }
+                    }
+                    
+                    const guid = item.querySelector('guid')?.textContent || '';
+                    
                     episodes.push({
                         title,
                         description: description.replace(/<[^>]*>/g, '').substring(0, 200) + '...',
                         pubDate: formatDate(pubDate),
+                        pubDateRaw: pubDate,
                         audioUrl,
-                        duration
+                        duration,
+                        episodeNum: episodeNum,
+                        guid: guid
                     });
                 });
                 
-                displayEpisodes(episodes);
+                // Deduplicate episodes by episode number (keep most recent based on pubDate)
+                const episodesByNumber = new Map();
+                const episodesWithoutNumber = [];
+                
+                for (const episode of episodes) {
+                    if (episode.episodeNum !== null && !isNaN(episode.episodeNum)) {
+                        const existing = episodesByNumber.get(episode.episodeNum);
+                        if (!existing) {
+                            episodesByNumber.set(episode.episodeNum, episode);
+                        } else {
+                            // Keep the one with the more recent date
+                            const existingDate = new Date(existing.pubDateRaw || 0);
+                            const currentDate = new Date(episode.pubDateRaw || 0);
+                            if (currentDate > existingDate) {
+                                episodesByNumber.set(episode.episodeNum, episode);
+                            }
+                        }
+                    } else {
+                        // Episodes without extractable episode numbers - keep all
+                        episodesWithoutNumber.push(episode);
+                    }
+                }
+                
+                // Combine deduplicated episodes with episodes without numbers
+                const deduplicatedEpisodes = Array.from(episodesByNumber.values()).concat(episodesWithoutNumber);
+                
+                // Sort by date (newest first)
+                deduplicatedEpisodes.sort((a, b) => {
+                    const dateA = new Date(a.pubDateRaw || 0);
+                    const dateB = new Date(b.pubDateRaw || 0);
+                    return dateB - dateA;
+                });
+                
+                console.log(`Deduplicated ${episodes.length} episodes to ${deduplicatedEpisodes.length} unique episodes`);
+                
+                displayEpisodes(deduplicatedEpisodes);
             } catch (error) {
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('error').style.display = 'block';

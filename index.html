@@ -1178,13 +1178,32 @@
                             duration = durationEl.textContent.trim();
                         }
                         
+                        // Extract episode number from itunes:episode tag or title
+                        let episodeNum = null;
+                        const itunesEpisodeEl = item.getElementsByTagNameNS(itunesNS, 'episode')[0];
+                        if (itunesEpisodeEl && itunesEpisodeEl.textContent) {
+                            episodeNum = parseInt(itunesEpisodeEl.textContent.trim());
+                        } else {
+                            // Fallback: extract from title pattern "Episode XXX"
+                            const titleMatch = title.match(/Episode\s+(\d+)/i);
+                            if (titleMatch) {
+                                episodeNum = parseInt(titleMatch[1]);
+                            }
+                        }
+                        
+                        // Get GUID for timestamp comparison
+                        const guidEl = item.getElementsByTagName('guid')[0];
+                        const guid = guidEl ? guidEl.textContent.trim() : '';
+                        
                         episodes.push({
                             title: title || 'Untitled Episode',
                             description: description.replace(/<[^>]*>/g, '').substring(0, 200) + (description.length > 200 ? '...' : ''),
                             pubDate: formatDate(pubDate),
                             pubDateRaw: pubDate,
                             audioUrl: audioUrl,
-                            duration: duration || '0:00'
+                            duration: duration || '0:00',
+                            episodeNum: episodeNum,
+                            guid: guid
                         });
                     } catch (itemError) {
                         console.warn(`Error parsing item ${i}:`, itemError);
@@ -1198,17 +1217,46 @@
                     throw new Error('No valid episodes found in RSS feed');
                 }
                 
-                episodes.sort((a, b) => {
+                // Deduplicate episodes by episode number (keep most recent based on pubDate)
+                const episodesByNumber = new Map();
+                const episodesWithoutNumber = [];
+                
+                for (const episode of episodes) {
+                    if (episode.episodeNum !== null && !isNaN(episode.episodeNum)) {
+                        const existing = episodesByNumber.get(episode.episodeNum);
+                        if (!existing) {
+                            episodesByNumber.set(episode.episodeNum, episode);
+                        } else {
+                            // Keep the one with the more recent date
+                            const existingDate = new Date(existing.pubDateRaw || 0);
+                            const currentDate = new Date(episode.pubDateRaw || 0);
+                            if (currentDate > existingDate) {
+                                episodesByNumber.set(episode.episodeNum, episode);
+                            }
+                        }
+                    } else {
+                        // Episodes without extractable episode numbers - keep all
+                        episodesWithoutNumber.push(episode);
+                    }
+                }
+                
+                // Combine deduplicated episodes with episodes without numbers
+                const deduplicatedEpisodes = Array.from(episodesByNumber.values()).concat(episodesWithoutNumber);
+                
+                console.log(`Deduplicated ${episodes.length} episodes to ${deduplicatedEpisodes.length} unique episodes`);
+                
+                // Sort by date (newest first)
+                deduplicatedEpisodes.sort((a, b) => {
                     const dateA = new Date(a.pubDateRaw || 0);
                     const dateB = new Date(b.pubDateRaw || 0);
                     return dateB - dateA;
                 });
                 
-                allEpisodes = episodes;
+                allEpisodes = deduplicatedEpisodes;
                 
                 if (loadingEl) loadingEl.style.display = 'none';
                 if (errorEl) errorEl.style.display = 'none';
-                displayEpisodes(episodes);
+                displayEpisodes(deduplicatedEpisodes);
             } catch (error) {
                 console.error('Error loading podcast:', error);
                 if (loadingEl) loadingEl.style.display = 'none';

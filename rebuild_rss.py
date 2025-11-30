@@ -147,7 +147,7 @@ def rebuild_rss():
     fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
 
     # Write to file
-    fg.rss_file(str(rss_path))
+    fg.rss_file(str(rss_path), pretty=True)
 
     print(f"Rebuilt RSS feed with {len(deduplicated_episodes)} episodes at {rss_path} (found {len(episodes)} total MP3 files, removed {len(episodes) - len(deduplicated_episodes)} duplicates)")
 
