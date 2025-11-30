@@ -322,6 +322,93 @@ def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
 rss_path = project_root / "podcast.rss"
 episode_num = get_next_episode_number(rss_path, digests_dir)
 
+# ========================== CREDIT TRACKING ==========================
+# Initialize credit usage tracking
+credit_usage = {
+    "date": datetime.date.today().isoformat(),
+    "episode_number": episode_num,
+    "services": {
+        "grok_api": {
+            "x_thread_generation": {
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "total_tokens": 0,
+                "estimated_cost_usd": 0.0
+            },
+            "podcast_script_generation": {
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "total_tokens": 0,
+                "estimated_cost_usd": 0.0
+            },
+            "total_tokens": 0,
+            "total_cost_usd": 0.0
+        },
+        "elevenlabs_api": {
+            "characters": 0,
+            "estimated_cost_usd": 0.0
+        },
+        "x_api": {
+            "search_calls": 0,
+            "post_calls": 0,
+            "total_calls": 0
+        }
+    },
+    "total_estimated_cost_usd": 0.0
+}
+
+def save_credit_usage(usage_data: dict, output_dir: Path):
+    """Save credit usage to a JSON file."""
+    try:
+        # Calculate totals
+        grok_total = (
+            usage_data["services"]["grok_api"]["x_thread_generation"]["total_tokens"] +
+            usage_data["services"]["grok_api"]["podcast_script_generation"]["total_tokens"]
+        )
+        usage_data["services"]["grok_api"]["total_tokens"] = grok_total
+        usage_data["services"]["grok_api"]["total_cost_usd"] = (
+            usage_data["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] +
+            usage_data["services"]["grok_api"]["podcast_script_generation"]["estimated_cost_usd"]
+        )
+        
+        usage_data["services"]["x_api"]["total_calls"] = (
+            usage_data["services"]["x_api"]["search_calls"] +
+            usage_data["services"]["x_api"]["post_calls"]
+        )
+        
+        # Calculate total cost (ElevenLabs pricing: ~$0.30 per 1000 characters for turbo model)
+        elevenlabs_cost = (usage_data["services"]["elevenlabs_api"]["characters"] / 1000) * 0.30
+        usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = elevenlabs_cost
+        
+        usage_data["total_estimated_cost_usd"] = (
+            usage_data["services"]["grok_api"]["total_cost_usd"] +
+            usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"]
+        )
+        
+        # Save to JSON file
+        filename = f"credit_usage_{usage_data['date']}_ep{usage_data['episode_number']:03d}.json"
+        filepath = output_dir / filename
+        
+        with open(filepath, "w", encoding="utf-8") as f:
+            json.dump(usage_data, f, indent=2)
+        
+        logging.info(f"Credit usage saved to {filepath}")
+        
+        # Also log summary
+        logging.info("="*80)
+        logging.info("CREDIT USAGE SUMMARY")
+        logging.info("="*80)
+        logging.info(f"Grok API (X Thread): {usage_data['services']['grok_api']['x_thread_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['x_thread_generation']['estimated_cost_usd']:.4f})")
+        logging.info(f"Grok API (Podcast Script): {usage_data['services']['grok_api']['podcast_script_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['podcast_script_generation']['estimated_cost_usd']:.4f})")
+        logging.info(f"Grok API Total: {usage_data['services']['grok_api']['total_tokens']} tokens (${usage_data['services']['grok_api']['total_cost_usd']:.4f})")
+        logging.info(f"ElevenLabs API: {usage_data['services']['elevenlabs_api']['characters']} characters (${usage_data['services']['elevenlabs_api']['estimated_cost_usd']:.4f})")
+        logging.info(f"X API: {usage_data['services']['x_api']['total_calls']} API calls (search: {usage_data['services']['x_api']['search_calls']}, post: {usage_data['services']['x_api']['post_calls']})")
+        logging.info(f"TOTAL ESTIMATED COST: ${usage_data['total_estimated_cost_usd']:.4f}")
+        logging.info("="*80)
+        
+    except Exception as e:
+        logging.error(f"Failed to save credit usage: {e}", exc_info=True)
+
 tmp_dir = Path(tempfile.gettempdir()) / "tts"
 tmp_dir.mkdir(exist_ok=True, parents=True)
 
@@ -711,6 +798,9 @@ def fetch_top_x_posts_from_trusted_accounts() -> tuple[List[Dict], List[Dict]]:
         
         # Fetch tweets - try to get more results with pagination if needed
         all_tweets = []
+        # Track X API search call
+        credit_usage["services"]["x_api"]["search_calls"] += 1
+        
         response = x_client.search_recent_tweets(
             query=query,
             max_results=100,  # Max allowed per request
@@ -727,6 +817,9 @@ def fetch_top_x_posts_from_trusted_accounts() -> tuple[List[Dict], List[Dict]]:
         # Try to get more results if we have a next_token (pagination)
         if hasattr(response, 'meta') and response.meta and 'next_token' in response.meta:
             try:
+                # Track X API search call (pagination)
+                credit_usage["services"]["x_api"]["search_calls"] += 1
+                
                 next_response = x_client.search_recent_tweets(
                     query=query,
                     max_results=100,
@@ -1386,6 +1479,12 @@ try:
         # Estimate cost (Grok pricing may vary, using approximate $0.01 per 1M tokens)
         estimated_cost = (usage.total_tokens / 1000000) * 0.01
         logging.info(f"Estimated cost: ${estimated_cost:.4f}")
+        
+        # Track credit usage
+        credit_usage["services"]["grok_api"]["x_thread_generation"]["prompt_tokens"] = usage.prompt_tokens
+        credit_usage["services"]["grok_api"]["x_thread_generation"]["completion_tokens"] = usage.completion_tokens
+        credit_usage["services"]["grok_api"]["x_thread_generation"]["total_tokens"] = usage.total_tokens
+        credit_usage["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] = estimated_cost
 except Exception as e:
     logging.error(f"Grok API call failed: {e}")
     logging.error("This might be due to network issues or API timeout. Please try again.")
@@ -1870,6 +1969,12 @@ Here is today's complete formatted digest. Use ONLY this content:
             # Estimate cost (Grok pricing may vary, using approximate)
             estimated_cost = (usage.total_tokens / 1000000) * 0.01  # Rough estimate
             logging.info(f"Estimated cost: ${estimated_cost:.4f}")
+            
+            # Track credit usage
+            credit_usage["services"]["grok_api"]["podcast_script_generation"]["prompt_tokens"] = usage.prompt_tokens
+            credit_usage["services"]["grok_api"]["podcast_script_generation"]["completion_tokens"] = usage.completion_tokens
+            credit_usage["services"]["grok_api"]["podcast_script_generation"]["total_tokens"] = usage.total_tokens
+            credit_usage["services"]["grok_api"]["podcast_script_generation"]["estimated_cost_usd"] = estimated_cost
     except Exception as e:
         logging.error(f"Grok API call for podcast script failed: {e}")
         logging.error("This might be due to network issues or API timeout. Please try again.")
@@ -2345,6 +2450,11 @@ full_text = fix_tesla_pronunciation(full_text)
 # Generate ONE voice file for the entire script
 logging.info("Generating single voice segment for entire podcast...")
 voice_file = tmp_dir / "patrick_full.mp3"
+
+# Track character count for ElevenLabs
+credit_usage["services"]["elevenlabs_api"]["characters"] = len(full_text)
+logging.info(f"ElevenLabs TTS: {len(full_text)} characters to convert")
+
 speak(full_text, PATRICK_VOICE_ID, str(voice_file))
 audio_files = [str(voice_file)]
 logging.info("Generated complete voice track")
@@ -2590,6 +2700,9 @@ if ENABLE_X_POSTING:
         # Use the formatted version that's already in memory (from Step 4)
         thread_text = x_thread.strip()
         
+        # Track X API post call
+        credit_usage["services"]["x_api"]["post_calls"] += 1
+        
         # Post as one single tweet (X supports long posts up to 25,000 characters)
         tweet = x_client.create_tweet(text=thread_text)
         tweet_id = tweet.data['id']
@@ -2628,6 +2741,9 @@ try:
     logging.info("Temporary files cleaned up")
 except Exception as e:
     logging.warning(f"Error during temp file cleanup: {e}")
+
+# Save credit usage tracking
+save_credit_usage(credit_usage, digests_dir)
 
 print("\n" + "="*80)
 print("TESLA SHORTS TIME — FULLY AUTOMATED RUN COMPLETE")
