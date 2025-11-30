@@ -52,13 +52,75 @@ ENABLE_PODCAST = True
 ENABLE_LINK_VALIDATION = False
 
 
-# ========================== PRONUNCIATION FIXER v2 – NEVER BREAKS NORMAL WORDS ==========================
+# ========================== NUMBER TO WORDS CONVERTER ==========================
+def number_to_words(num: float) -> str:
+    """
+    Convert numbers to words for better TTS pronunciation.
+    Handles integers and decimals.
+    """
+    # Define digit names for decimal conversion
+    digit_names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+    
+    def convert_under_1000(n):
+        """Convert numbers under 1000 to words."""
+        ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+                'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
+                'seventeen', 'eighteen', 'nineteen']
+        tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
+        
+        if n == 0:
+            return 'zero'
+        if n < 20:
+            return ones[n]
+        if n < 100:
+            return tens[n // 10] + ('-' + ones[n % 10] if n % 10 else '')
+        if n < 1000:
+            result = ones[n // 100] + ' hundred'
+            remainder = n % 100
+            if remainder:
+                result += ' ' + convert_under_1000(remainder)
+            return result
+        return str(n)
+    
+    # Handle negative numbers
+    is_negative = num < 0
+    num = abs(num)
+    
+    # Split into integer and decimal parts
+    integer_part = int(num)
+    decimal_part = num - integer_part
+    
+    # Convert integer part
+    if integer_part == 0:
+        result = 'zero'
+    elif integer_part < 1000:
+        result = convert_under_1000(integer_part)
+    elif integer_part < 1000000:
+        thousands = integer_part // 1000
+        remainder = integer_part % 1000
+        result = convert_under_1000(thousands) + ' thousand'
+        if remainder:
+            result += ' ' + convert_under_1000(remainder)
+    else:
+        # For very large numbers, just return the number (TTS usually handles these)
+        result = str(integer_part)
+    
+    # Convert decimal part
+    if decimal_part > 0:
+        # Convert decimal to words (e.g., 0.17 -> "point one seven")
+        decimal_str = f"{decimal_part:.10f}".rstrip('0').rstrip('.')
+        if '.' in decimal_str:
+            decimal_digits = decimal_str.split('.')[1]
+            decimal_words = ' '.join([digit_names[int(d)] if d.isdigit() and int(d) < 10 else d for d in decimal_digits])
+            result += ' point ' + decimal_words
+    
+    return ('negative ' if is_negative else '') + result
+
+# ========================== PRONUNCIATION FIXER v3 – ACRONYMS + NUMBERS ==========================
 def fix_tesla_pronunciation(text: str) -> str:
     """
-    Forces correct spelling of Tesla acronyms on ElevenLabs without ever
-    turning "everything" → "thring" or breaking normal English words.
-    Uses U+2060 WORD JOINER (completely invisible + zero width) only between letters
-    of standalone acronyms, and only when surrounded by word boundaries.
+    Forces correct spelling of Tesla acronyms and converts numbers to words
+    for better TTS pronunciation on ElevenLabs.
     """
     import re
 
@@ -83,6 +145,11 @@ def fix_tesla_pronunciation(text: str) -> str:
     # Invisible zero-width non-breaking space / word joiner
     ZWJ = "\u2060"   # U+2060 WORD JOINER — this one is safe
 
+    # Special case: Fix "Robotaxis" plural pronunciation
+    # Use word joiner to help TTS recognize the plural form correctly
+    # This keeps it as one word but helps TTS pronounce "Robotaxi" + "s" properly
+    text = re.sub(r'\b(Robotaxi)(s)\b', rf'\1{ZWJ}\2', text, flags=re.IGNORECASE)
+
     for acronym, spelled in acronyms.items():
         # Build a regex that only matches the acronym when it's a whole word
         # (surrounded by space, punctuation, start/end of string, etc.)
@@ -90,8 +157,66 @@ def fix_tesla_pronunciation(text: str) -> str:
         replacement = ZWJ.join(list(spelled))
         text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
 
-    # Special case for things that sometimes appear attached (e.g. "TSLA-priced")
-    # These will now stay normal because the regex requires word boundaries
+    # Convert episode numbers (e.g., "episode 336" → "episode three hundred thirty-six")
+    def replace_episode_number(match):
+        episode_text = match.group(1)
+        num_str = match.group(2)
+        try:
+            num = int(num_str)
+            # Use full number-to-words conversion for episode numbers
+            words = number_to_words(num)
+            return f"{episode_text} {words}"
+        except ValueError:
+            return match.group(0)
+    
+    text = re.sub(r'(episode\s+)(\d+)', replace_episode_number, text, flags=re.IGNORECASE)
+    
+    # Convert stock prices (e.g., "$430.17" → "four hundred thirty dollars and seventeen cents")
+    def replace_stock_price(match):
+        dollar_sign = match.group(1)
+        num_str = match.group(2)
+        try:
+            num = float(num_str)
+            words = number_to_words(num)
+            # Format as "X dollars and Y cents" for better pronunciation
+            if '.' in num_str:
+                parts = num_str.split('.')
+                dollars = int(parts[0])
+                cents = int(parts[1]) if len(parts) > 1 else 0
+                if dollars == 0:
+                    result = f"{number_to_words(cents)} cents"
+                elif cents == 0:
+                    result = f"{number_to_words(dollars)} dollars"
+                else:
+                    result = f"{number_to_words(dollars)} dollars and {number_to_words(cents)} cents"
+            else:
+                result = f"{words} dollars"
+            return f"{dollar_sign}{result}"
+        except ValueError:
+            return match.group(0)
+    
+    text = re.sub(r'(\$)(\d+\.?\d*)', replace_stock_price, text)
+    
+    # Convert percentages (e.g., "+3.59%" → "plus three point five nine percent")
+    def replace_percentage(match):
+        sign = match.group(1) if match.group(1) else ''  # + or - or empty
+        num_str = match.group(2)
+        try:
+            num = float(num_str)
+            words = number_to_words(abs(num))
+            if sign == '+':
+                sign_word = 'plus'
+            elif sign == '-':
+                sign_word = 'minus'
+            else:
+                sign_word = ''
+            result = f"{sign_word} {words} percent" if sign_word else f"{words} percent"
+            return result.strip()
+        except ValueError:
+            return match.group(0)
+    
+    text = re.sub(r'([\+\-]?)(\d+\.?\d*)\s*%', replace_percentage, text)
+    
     return text
 
 def generate_episode_thumbnail(base_image_path, episode_num, date_str, output_path):
