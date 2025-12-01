@@ -433,18 +433,80 @@ def fetch_science_news():
     
     # Science, longevity, and health RSS feeds
     rss_feeds = [
+        # Major Science Journals
         "https://www.nature.com/nature.rss",
         "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science",
+        "https://www.cell.com/cell/current.rss",
+        "https://www.cell.com/cell-metabolism/current.rss",
+        "https://www.cell.com/cell-stem-cell/current.rss",
+        "https://www.nature.com/nbt.rss",
+        "https://www.nature.com/nm.rss",
+        "https://www.nature.com/nmeth.rss",
+        
+        # Science News Outlets
         "https://www.newscientist.com/feed/home/",
         "https://www.scientificamerican.com/rss/",
+        "https://www.sciencedaily.com/rss/all.xml",
+        "https://www.sciencenews.org/feed",
+        "https://www.quantamagazine.org/feed/",
+        "https://www.technologyreview.com/feed/",
+        "https://www.the-scientist.com/rss",
+        
+        # Longevity & Anti-Aging
         "https://feeds.feedburner.com/longevity-technology",
         "https://www.lifespan.io/feed/",
+        "https://www.longevity.technology/feed/",
+        "https://www.aging-us.com/rss",
+        "https://www.frontiersin.org/journals/aging/journals/aging/rss",
+        
+        # Medical & Health News
         "https://www.healthline.com/rss",
         "https://www.medicalnewstoday.com/rss",
+        "https://www.webmd.com/rss/rss.aspx?RSSSource=RSS_PUBLIC_0_Home",
+        "https://www.medscape.com/feeds/all",
+        "https://www.statnews.com/feed/",
+        "https://www.hopkinsmedicine.org/news/publications/hopkins_medicine_news/feed",
+        
+        # Government Health Agencies
         "https://www.nih.gov/news-events/news-releases/rss.xml",
         "https://www.cdc.gov/rss/rss.html",
         "https://www.who.int/rss-feeds/news-english.xml",
-        "https://www.sciencedaily.com/rss/all.xml",
+        "https://www.fda.gov/consumers/consumer-updates/rss.xml",
+        "https://www.hhs.gov/rss.xml",
+        
+        # Medical Journals
+        "https://www.thelancet.com/rssfeed/lancet_current.xml",
+        "https://jamanetwork.com/rss/site_1.xml",
+        "https://www.nejm.org/action/showFeed?type=etoc&feed=rss&jc=nejm",
+        "https://www.bmj.com/rss",
+        "https://www.nature.com/nm.rss",
+        
+        # Research Institutions
+        "https://www.harvard.edu/feed/",
+        "https://news.mit.edu/rss/topic/health",
+        "https://www.stanford.edu/news/rss/",
+        "https://www.mayo.edu/research/rss",
+        "https://www.clevelandclinic.org/health/rss",
+        
+        # Biotechnology & Pharma
+        "https://www.biospace.com/rss",
+        "https://www.fiercebiotech.com/rss/xml",
+        "https://www.genengnews.com/feed/",
+        "https://www.bioworld.com/rss",
+        
+        # Nutrition & Wellness
+        "https://www.nutrition.org/rss/",
+        "https://www.eatright.org/rss",
+        "https://www.health.harvard.edu/blog/rss",
+        
+        # Neuroscience & Brain Health
+        "https://www.dana.org/rss/",
+        "https://www.brainfacts.org/rss",
+        "https://www.alz.org/news/rss",
+        
+        # Public Health
+        "https://www.apha.org/news-and-media/news-releases/rss",
+        "https://www.healthaffairs.org/rss",
     ]
     
     # Calculate cutoff time (last 24 hours)
@@ -479,29 +541,110 @@ def fetch_science_news():
             source_name = feed.feed.get("title", "Unknown")
             # Map common feed sources
             if "nature.com" in feed_url.lower():
-                source_name = "Nature"
+                if "nbt" in feed_url.lower():
+                    source_name = "Nature Biotechnology"
+                elif "nm" in feed_url.lower() and "nmeth" not in feed_url.lower():
+                    source_name = "Nature Medicine"
+                elif "nmeth" in feed_url.lower():
+                    source_name = "Nature Methods"
+                else:
+                    source_name = "Nature"
             elif "science.org" in feed_url.lower():
                 source_name = "Science"
+            elif "cell.com" in feed_url.lower():
+                if "cell-metabolism" in feed_url.lower():
+                    source_name = "Cell Metabolism"
+                elif "cell-stem-cell" in feed_url.lower():
+                    source_name = "Cell Stem Cell"
+                else:
+                    source_name = "Cell"
             elif "newscientist" in feed_url.lower():
                 source_name = "New Scientist"
             elif "scientificamerican" in feed_url.lower():
                 source_name = "Scientific American"
+            elif "sciencedaily" in feed_url.lower():
+                source_name = "Science Daily"
+            elif "sciencenews" in feed_url.lower():
+                source_name = "Science News"
+            elif "quantamagazine" in feed_url.lower():
+                source_name = "Quanta Magazine"
+            elif "technologyreview" in feed_url.lower():
+                source_name = "MIT Technology Review"
+            elif "the-scientist" in feed_url.lower():
+                source_name = "The Scientist"
             elif "longevity" in feed_url.lower():
                 source_name = "Longevity Technology"
             elif "lifespan.io" in feed_url.lower():
                 source_name = "Lifespan.io"
+            elif "aging-us.com" in feed_url.lower():
+                source_name = "Aging (Albany NY)"
+            elif "frontiersin.org" in feed_url.lower() and "aging" in feed_url.lower():
+                source_name = "Frontiers in Aging"
             elif "healthline" in feed_url.lower():
                 source_name = "Healthline"
             elif "medicalnewstoday" in feed_url.lower():
                 source_name = "Medical News Today"
+            elif "webmd" in feed_url.lower():
+                source_name = "WebMD"
+            elif "medscape" in feed_url.lower():
+                source_name = "Medscape"
+            elif "statnews" in feed_url.lower():
+                source_name = "STAT News"
+            elif "hopkinsmedicine" in feed_url.lower():
+                source_name = "Johns Hopkins Medicine"
             elif "nih.gov" in feed_url.lower():
                 source_name = "NIH"
             elif "cdc.gov" in feed_url.lower():
                 source_name = "CDC"
             elif "who.int" in feed_url.lower():
                 source_name = "WHO"
-            elif "sciencedaily" in feed_url.lower():
-                source_name = "Science Daily"
+            elif "fda.gov" in feed_url.lower():
+                source_name = "FDA"
+            elif "hhs.gov" in feed_url.lower():
+                source_name = "HHS"
+            elif "thelancet" in feed_url.lower():
+                source_name = "The Lancet"
+            elif "jamanetwork" in feed_url.lower() or "jama" in feed_url.lower():
+                source_name = "JAMA"
+            elif "nejm" in feed_url.lower():
+                source_name = "New England Journal of Medicine"
+            elif "bmj.com" in feed_url.lower():
+                source_name = "BMJ"
+            elif "harvard" in feed_url.lower():
+                if "health" in feed_url.lower():
+                    source_name = "Harvard Health"
+                else:
+                    source_name = "Harvard University"
+            elif "mit.edu" in feed_url.lower():
+                source_name = "MIT"
+            elif "stanford" in feed_url.lower():
+                source_name = "Stanford University"
+            elif "mayo" in feed_url.lower():
+                source_name = "Mayo Clinic"
+            elif "clevelandclinic" in feed_url.lower():
+                source_name = "Cleveland Clinic"
+            elif "biospace" in feed_url.lower():
+                source_name = "BioSpace"
+            elif "fiercebiotech" in feed_url.lower():
+                source_name = "Fierce Biotech"
+            elif "genengnews" in feed_url.lower():
+                source_name = "Genetic Engineering & Biotechnology News"
+            elif "bioworld" in feed_url.lower():
+                source_name = "BioWorld"
+            elif "nutrition.org" in feed_url.lower():
+                source_name = "American Society for Nutrition"
+            elif "eatright" in feed_url.lower():
+                source_name = "Academy of Nutrition and Dietetics"
+            elif "dana.org" in feed_url.lower():
+                source_name = "Dana Foundation"
+            elif "brainfacts" in feed_url.lower():
+                source_name = "BrainFacts.org"
+            elif "alz.org" in feed_url.lower():
+                source_name = "Alzheimer's Association"
+            elif "apha.org" in feed_url.lower():
+                source_name = "American Public Health Association"
+            elif "healthaffairs" in feed_url.lower():
+                source_name = "Health Affairs"
             
             feed_articles = []
             for entry in feed.entries:
@@ -572,12 +715,13 @@ def fetch_science_news():
     formatted_articles.sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
     
     logging.info(f"Filtered to {len(formatted_articles)} unique science/longevity/health news articles")
-    filtered_result = formatted_articles[:30]  # Return top 30 for selection
+    filtered_result = formatted_articles[:15]  # Return top 15 for selection
     return filtered_result, raw_articles
 
 science_news, raw_news_articles = fetch_science_news()
 
 # ========================== STEP 2: FETCH TOP X POSTS FROM X API ==========================
+# X POSTS DISABLED - Only using news articles
 # Initialize variables
 top_x_posts = []
 raw_x_posts = []
@@ -761,13 +905,16 @@ def fetch_x_posts_from_trusted_accounts() -> tuple[List[Dict], List[Dict]]:
     logging.info(f"Returning {len(top_25)} best science/longevity/health posts")
     return top_25[:25], raw_posts_data
 
-top_x_posts, raw_x_posts = fetch_x_posts_from_trusted_accounts()
+# X POSTS DISABLED - Skip fetching X posts
+# top_x_posts, raw_x_posts = fetch_x_posts_from_trusted_accounts()
+logging.info("X posts fetching disabled - using only news articles")
 
-if len(top_x_posts) < 5:
-    logging.warning(f"⚠️  Only {len(top_x_posts)} X posts were fetched (minimum 5 recommended). Continuing anyway.")
+# if len(top_x_posts) < 5:
+#     logging.warning(f"⚠️  Only {len(top_x_posts)} X posts were fetched (minimum 5 recommended). Continuing anyway.")
 
 # Save raw data (similar structure to Tesla script)
 def save_raw_data_and_generate_html(raw_news, raw_x_posts_data, output_dir: Path):
+    # Note: raw_x_posts_data will be empty since X posts are disabled
     """Save raw data to JSON and generate HTML archive."""
     date_str = datetime.date.today().isoformat()
     formatted_date = datetime.date.today().strftime("%B %d, %Y")
@@ -821,20 +968,8 @@ if science_news:
 else:
     news_section = "## PRE-FETCHED NEWS ARTICLES: None available\n\n"
 
-# Format X posts for the prompt
+# X POSTS DISABLED - No X posts section
 x_posts_section = ""
-if top_x_posts:
-    num_posts_to_include = min(len(top_x_posts), 20)
-    x_posts_section = f"## PRE-FETCHED X POSTS (from X API - last 24 hours, ranked by engagement):\n\n"
-    x_posts_section += f"**IMPORTANT: You have {len(top_x_posts)} pre-fetched X posts available. Select UP TO 10 from these pre-fetched posts. NEVER invent, make up, or hallucinate X post URLs - only use the exact URLs provided below.**\n\n"
-    for i, post in enumerate(top_x_posts[:num_posts_to_include], 1):
-        x_posts_section += f"{i}. **@{post['username']} ({post['name']})**\n"
-        x_posts_section += f"   Likes: {post['likes']}, RTs: {post['retweets']}\n"
-        x_posts_section += f"   Posted: {post['created_at']}\n"
-        x_posts_section += f"   Text: {post['text'][:300]}...\n"
-        x_posts_section += f"   URL: {post['url']}\n\n"
-else:
-    x_posts_section = "## PRE-FETCHED X POSTS: None available\n\n"
 
 X_PROMPT = f"""
 # Planetterrian Daily - SCIENCE, LONGEVITY & HEALTH EDITION
@@ -842,9 +977,7 @@ X_PROMPT = f"""
 🌍 Planetterrian Daily Podcast: Coming soon to Apple Podcasts
 {news_section}
 
-{x_posts_section}
-
-You are an elite science, longevity, and health news curator producing the daily "Planetterrian Daily" newsletter. Use ONLY the pre-fetched news and X posts above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links.
+You are an elite science, longevity, and health news curator producing the daily "Planetterrian Daily" newsletter. Use ONLY the pre-fetched news articles above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. Do NOT include any X posts or Twitter references.
 
 **BRAND PERSONALITY (from planetterrian.com/about):**
 - Planetterrian Ventures: A tribe of forward-thinking innovators passionate about the planet
@@ -854,8 +987,8 @@ You are an elite science, longevity, and health news curator producing the daily
 - Focus: Groundbreaking solutions that are state-of-the-art AND sustainable/environmentally-friendly
 
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
-- **News**: You MUST select EXACTLY 10 unique articles. If you have fewer than 10 available, use ALL of them and number them 1 through N. If you have more than 10, select the BEST 10. Prioritize high-quality sources; each must cover a DIFFERENT story/angle.
-- **X Posts**: You MUST include a "Top 10 X Posts" section with EXACTLY 10 unique posts from the pre-fetched list. If you have fewer than 10, use ALL of them. NEVER invent X post URLs - only use exact URLs from the pre-fetched list.
+- **News**: You MUST select EXACTLY 15 unique articles. If you have fewer than 15 available, use ALL of them and number them 1 through N. If you have more than 15, select the BEST 15. Prioritize high-quality sources; each must cover a DIFFERENT story/angle.
+- **NO X POSTS**: Do NOT include any X posts, Twitter posts, or social media references. Only use news articles.
 - **Diversity Check**: Verify no similar content; each item must cover a DIFFERENT angle.
 
 ### FORMATTING (EXACT—USE MARKDOWN AS SHOWN)
@@ -864,16 +997,10 @@ You are an elite science, longevity, and health news curator producing the daily
 🌍 **Planetterrian Daily** - Science, Longevity & Health Discoveries
 
 ━━━━━━━━━━━━━━━━━━━━
-### Top 10 Science & Health Discoveries
+### Top 15 Science & Health Discoveries
 1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM PST, Source Name**  
    2–4 sentences: Start with what happened, explain why it matters for human health/longevity/planet. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
-2. [Repeat format for 3-10; if <10 items, stop at available count, add a blank line after each item]
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 10 X Posts
-1. **Catchy Title: DD Month, YYYY, HH:MM AM/PM PST**  
-   2–4 sentences: Explain post & significance (science/longevity/health angle). End with: Post: https://x.com/username/status/ID (use EXACT URL from pre-fetched list)
-2. [Repeat for remaining posts; use only pre-fetched posts, never invent URLs]
+2. [Repeat format for 3-15; if <15 items, stop at available count, add a blank line after each item]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Planetterrian Spotlight
@@ -881,9 +1008,9 @@ One breakthrough discovery that aligns with Planetterrian's mission of technolog
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Daily Inspiration
-One inspiring quote about science, health, longevity, or planetary stewardship. End with: "Share your thoughts with us @planetterrian!"
+One inspiring quote about science, health, longevity, or planetary stewardship. End with: "Share your thoughts with us!"
 
-[2-3 sentence uplifting sign-off on science, health, and planetary well-being + invite to DM @planetterrian with feedback.]
+[2-3 sentence uplifting sign-off on science, health, and planetary well-being.]
 
 ### TONE & STYLE
 - Inspirational, planet-conscious, optimistic, compassionate
@@ -1008,12 +1135,11 @@ Patrick: Welcome to Planetterrian Daily, episode {episode_num}. It is {today_str
 
 [Narrate EVERY item from the digest in order - no skipping]
 - For each news item: Read the title with enthusiasm, then explain the discovery and why it matters for human health, longevity, and the planet
-- For each X post: Read the title with enthusiasm, then explain the post's significance
 - Planetterrian Spotlight: Explain why this breakthrough aligns with our mission
 - Daily Inspiration: Read the quote verbatim, add one encouraging sentence
 
 [Closing]
-Patrick: That's Planetterrian Daily for today. I look forward to hearing your thoughts and ideas — reach out to us @planetterrian on X or DM us directly. Remember: we're not just in the business of technology; we're in the business of making a difference. Together, we can drive change, one discovery at a time. We'll catch you tomorrow on Planetterrian Daily!
+Patrick: That's Planetterrian Daily for today. Remember: we're not just in the business of technology; we're in the business of making a difference. Together, we can drive change, one discovery at a time. We'll catch you tomorrow on Planetterrian Daily!
 
 Here is today's complete formatted digest. Use ONLY this content:
 
