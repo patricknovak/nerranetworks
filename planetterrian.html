@@ -7,17 +7,23 @@
     <meta name="keywords" content="science podcast, longevity, health discoveries, biotechnology, planetterrian, science news, health news">
     <title>Planetterrian Daily | Science, Longevity & Health Discoveries</title>
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Using Montserrat as Gotham Bold alternative -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
         :root {
-            --planet-green: #00C853;
-            --planet-green-dark: #00A043;
-            --planet-blue: #00B8D4;
+            /* Planetterrian Brand Colors from Guidelines */
+            --planet-deep-teal: #018DB1;      /* Deep teal-blue */
+            --planet-light-teal: #35B5C4;      /* Lighter turquoise-blue */
+            --planet-yellow: #F2D20D;          /* Bright yellow */
+            /* Legacy colors for compatibility */
+            --planet-green: #35B5C4;
+            --planet-green-dark: #018DB1;
+            --planet-blue: #35B5C4;
+            /* Background and text colors */
             --planet-dark: #0a1929;
             --planet-card: #1a2332;
             --planet-text: #ffffff;
@@ -37,6 +43,29 @@
             line-height: 1.6;
         }
         
+        /* Logo styling */
+        .logo-img {
+            height: 50px;
+            width: auto;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .hero-logo {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            margin: 2rem auto;
+            display: block;
+            filter: drop-shadow(0 10px 30px rgba(1, 141, 177, 0.3));
+        }
+        
         header {
             position: fixed;
             top: 0;
@@ -45,7 +74,7 @@
             backdrop-filter: blur(10px);
             z-index: 1000;
             padding: 1rem 2rem;
-            border-bottom: 2px solid var(--planet-green);
+            border-bottom: 2px solid var(--planet-light-teal);
         }
         
         nav {
@@ -57,11 +86,13 @@
         }
         
         .logo {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--planet-green);
+            font-weight: 800;
+            color: var(--planet-light-teal);
             text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         
         .nav-links {
@@ -78,22 +109,45 @@
         }
         
         .nav-links a:hover {
-            color: var(--planet-green);
+            color: var(--planet-light-teal);
         }
         
         .hero {
             padding: 120px 2rem 60px;
             text-align: center;
             background: linear-gradient(135deg, var(--planet-dark) 0%, #0d1b2a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(1, 141, 177, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(242, 210, 13, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
         
         .hero h1 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             font-size: 3rem;
+            font-weight: 800;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--planet-green), var(--planet-blue));
+            background: linear-gradient(135deg, var(--planet-light-teal) 0%, var(--planet-yellow) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         
         .tagline {
@@ -120,14 +174,25 @@
         }
         
         .btn-primary {
-            background: var(--planet-green);
+            background: var(--planet-light-teal);
             color: white;
+            box-shadow: 0 4px 15px rgba(53, 181, 196, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: var(--planet-deep-teal);
+            box-shadow: 0 6px 20px rgba(53, 181, 196, 0.6);
         }
         
         .btn-secondary {
             background: transparent;
-            color: var(--planet-green);
-            border: 2px solid var(--planet-green);
+            color: var(--planet-light-teal);
+            border: 2px solid var(--planet-light-teal);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--planet-light-teal);
+            color: white;
         }
         
         .btn:hover {
@@ -146,10 +211,13 @@
         }
         
         .section-header h2 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             font-size: 2.5rem;
+            font-weight: 800;
             margin-bottom: 1rem;
-            color: var(--planet-green);
+            color: var(--planet-light-teal);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         
         .episodes-grid {
@@ -163,19 +231,20 @@
             background: var(--planet-card);
             border-radius: 12px;
             padding: 1.5rem;
-            border: 1px solid rgba(0, 200, 83, 0.2);
-            transition: transform 0.2s, border-color 0.2s;
+            border: 1px solid rgba(53, 181, 196, 0.2);
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
         }
         
         .episode-card:hover {
             transform: translateY(-4px);
-            border-color: var(--planet-green);
+            border-color: var(--planet-light-teal);
+            box-shadow: 0 10px 30px rgba(53, 181, 196, 0.2);
         }
         
         .episode-title {
             font-weight: 600;
             margin-bottom: 0.5rem;
-            color: var(--planet-green);
+            color: var(--planet-light-teal);
         }
         
         .episode-meta {
@@ -191,7 +260,7 @@
         }
         
         .play-button {
-            background: var(--planet-green);
+            background: var(--planet-light-teal);
             color: white;
             border: none;
             padding: 10px 20px;
@@ -199,10 +268,13 @@
             cursor: pointer;
             font-weight: 600;
             width: 100%;
+            transition: all 0.3s;
         }
         
         .play-button:hover {
-            background: var(--planet-green-dark);
+            background: var(--planet-deep-teal);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(53, 181, 196, 0.4);
         }
         
         .loading {
@@ -224,13 +296,19 @@
             width: 100%;
             max-width: 500px;
             padding: 12px;
-            border: 2px solid var(--planet-green);
+            border: 2px solid var(--planet-light-teal);
             border-radius: 8px;
             background: var(--planet-card);
             color: var(--planet-text);
             font-size: 1rem;
             margin: 0 auto;
             display: block;
+            transition: border-color 0.3s;
+        }
+        
+        #search-input:focus {
+            outline: none;
+            border-color: var(--planet-yellow);
         }
         
         .about-section {
@@ -241,10 +319,13 @@
         }
         
         .about-section h2 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             font-size: 2.5rem;
+            font-weight: 800;
             margin-bottom: 2rem;
-            color: var(--planet-green);
+            color: var(--planet-light-teal);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         
         .about-section p {
@@ -258,7 +339,7 @@
             background: var(--planet-card);
             padding: 2rem;
             text-align: center;
-            border-top: 1px solid rgba(0, 200, 83, 0.2);
+            border-top: 1px solid rgba(53, 181, 196, 0.2);
             margin-top: 4rem;
         }
         
@@ -281,7 +362,10 @@
     <!-- Header -->
     <header>
         <nav>
-            <a href="#home" class="logo">🌍 Planetterrian Daily</a>
+            <a href="#home" class="logo-container">
+                <img src="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/PlanetTerrian%20logo%20only%20final.jpg" alt="Planetterrian Logo" class="logo-img" onerror="this.style.display='none'">
+                <span class="logo">PLANETTERRIAN</span>
+            </a>
             <ul class="nav-links">
                 <li><a href="#episodes">Episodes</a></li>
                 <li><a href="#about">About</a></li>
@@ -292,13 +376,16 @@
     
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <h1>Planetterrian Daily</h1>
-        <p class="tagline">Science, Longevity & Health Discoveries</p>
-        <p class="subtitle">A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion. Daily discoveries that push boundaries while caring for Earth.</p>
-        <div>
-            <a href="#episodes" class="btn btn-primary">🎧 Listen Now</a>
-            <a href="https://x.com/planetterrian" target="_blank" class="btn btn-secondary">🐦 Follow on X</a>
-            <a href="https://planetterrian.com" target="_blank" class="btn btn-secondary">🌍 Visit Website</a>
+        <div class="hero-content">
+            <img src="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/PlanetTerrian%20logo%20only%20final.jpg" alt="Planetterrian Logo" class="hero-logo" onerror="this.style.display='none'">
+            <h1>Planetterrian Daily</h1>
+            <p class="tagline">Science, Longevity & Health Discoveries</p>
+            <p class="subtitle">A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion. Daily discoveries that push boundaries while caring for Earth.</p>
+            <div>
+                <a href="#episodes" class="btn btn-primary">🎧 Listen Now</a>
+                <a href="https://x.com/planetterrian" target="_blank" class="btn btn-secondary">🐦 Follow on X</a>
+                <a href="https://planetterrian.com" target="_blank" class="btn btn-secondary">🌍 Visit Website</a>
+            </div>
         </div>
     </section>
     

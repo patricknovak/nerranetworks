@@ -1148,9 +1148,154 @@ Here is today's complete formatted digest. Use ONLY this content:
     # ========================== FINAL MIX ==========================
     final_mp3 = digests_dir / f"Planetterrian_Daily_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
     
-    # For now, just copy the voice file (music mixing can be added later)
-    shutil.copy(voice_file, final_mp3)
-    logging.info(f"Podcast created: {final_mp3}")
+    MAIN_MUSIC = project_root / "science-daily.mp3"
+    
+    # Process and normalize voice in one step
+    voice_mix = tmp_dir / "voice_normalized_mix.mp3"
+    file_duration = get_audio_duration(voice_file)
+    timeout_seconds = max(int(file_duration * 3) + 120, 600)
+    
+    logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
+    subprocess.run([
+        "ffmpeg", "-y", "-i", str(voice_file),
+        "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
+        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k",
+        str(voice_mix)
+    ], check=True, capture_output=True, timeout=timeout_seconds)
+    
+    if not MAIN_MUSIC.exists():
+        subprocess.run(["ffmpeg", "-y", "-i", str(voice_mix), str(final_mp3)], check=True, capture_output=True)
+        logging.info("Podcast ready (voice-only, no music file found)")
+    else:
+        # Get voice duration to calculate music timing
+        voice_duration = max(get_audio_duration(voice_mix), 0.0)
+        logging.info(f"Voice duration: {voice_duration:.2f} seconds")
+        
+        # Music timing - Professional intro with perfect overlap:
+        # - 5 seconds of music alone (0-5s) - engaging intro
+        # - Patrick starts talking at 5s while music is still at full volume (perfect overlap)
+        # - Music continues at full volume for 3 seconds while Patrick talks (5-8s) - creates energy
+        # - Music fades out smoothly over 18 seconds while Patrick continues (8-26s) - professional fade
+        # - Voice continues alone after 26s
+        # - 25 seconds before voice ends, music starts fading in (mixes well with voice)
+        # - After voice ends, music continues for 50 seconds (30s full + 20s fade out)
+        
+        music_fade_in_start = max(voice_duration - 25.0, 0.0)  # 25s before voice ends
+        music_fade_in_duration = min(35.0, voice_duration - music_fade_in_start)  # Fade in over 35s
+        
+        # Simplified music creation - create segments with louder intro
+        music_intro = tmp_dir / "music_intro.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-t", "5",
+            "-af", "volume=0.6",  # Much louder intro music
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(music_intro)
+        ], check=True, capture_output=True)
+        
+        music_overlap = tmp_dir / "music_overlap.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "5", "-t", "3",
+            "-af", "volume=0.5",  # Louder during overlap
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(music_overlap)
+        ], check=True, capture_output=True)
+        
+        music_fadeout = tmp_dir / "music_fadeout.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
+            "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=18",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(music_fadeout)
+        ], check=True, capture_output=True)
+        
+        middle_silence_duration = max(music_fade_in_start - 26.0, 0.0)
+        music_silence = tmp_dir / "music_silence.mp3"
+        if middle_silence_duration > 0.1:
+            subprocess.run([
+                "ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
+                "-t", f"{middle_silence_duration:.2f}", "-c:a", "libmp3lame", "-b:a", "192k",
+                str(music_silence)
+            ], check=True, capture_output=True)
+        
+        music_fadein = tmp_dir / "music_fadein.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "25", "-t", f"{music_fade_in_duration:.2f}",
+            "-af", f"volume=0.4,afade=t=in:st=0:d={music_fade_in_duration:.2f}",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(music_fadein)
+        ], check=True, capture_output=True)
+        
+        # Outro music: 30 seconds full volume + 20 seconds fade = 50 seconds total
+        music_tail_full = tmp_dir / "music_tail_full.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "55", "-t", "30",
+            "-af", "volume=0.4",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(music_tail_full)
+        ], check=True, capture_output=True)
+        
+        music_tail_fadeout = tmp_dir / "music_tail_fadeout.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "85", "-t", "20",
+            "-af", "volume=0.4,afade=t=out:st=0:d=20",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(music_tail_fadeout)
+        ], check=True, capture_output=True)
+        
+        # Concatenate music
+        music_concat_list = tmp_dir / "music_timeline.txt"
+        with open(music_concat_list, "w", encoding="utf-8") as f:
+            f.write(f"file '{music_intro}'\n")
+            f.write(f"file '{music_overlap}'\n")
+            f.write(f"file '{music_fadeout}'\n")
+            if middle_silence_duration > 0.1:
+                f.write(f"file '{music_silence}'\n")
+            f.write(f"file '{music_fadein}'\n")
+            f.write(f"file '{music_tail_full}'\n")
+            f.write(f"file '{music_tail_fadeout}'\n")
+        
+        background_track = tmp_dir / "background_track.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(background_track)
+        ], check=True, capture_output=True)
+        
+        # Delay voice to start at 5 seconds
+        voice_delayed = tmp_dir / "voice_delayed.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(voice_mix),
+            "-af", "adelay=5000|5000",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(voice_delayed)
+        ], check=True, capture_output=True)
+        
+        # Final mix: voice + music
+        logging.info("Mixing voice and music...")
+        subprocess.run([
+            "ffmpeg", "-y",
+            "-i", str(voice_delayed),
+            "-i", str(background_track),
+            "-filter_complex",
+            "[0:a]volume=1.0[a_voice];"
+            "[1:a]volume=0.5[a_music];"  # Higher music volume for better presence
+            "[a_voice][a_music]amix=inputs=2:duration=longest:dropout_transition=2:weights=2 1[mixed];"
+            "[mixed]alimiter=level_in=1:level_out=0.95:limit=0.95[outfinal]",
+            "-map", "[outfinal]",
+            "-c:a", "libmp3lame",
+            "-b:a", "192k",
+            str(final_mp3)
+        ], check=True, capture_output=True)
+        
+        logging.info("Podcast created successfully with background music")
+        
+        # Cleanup music temp files
+        for tmp_file in [music_intro, music_overlap, music_fadeout, music_fadein, music_tail_full, music_tail_fadeout, music_silence, background_track, voice_delayed, music_concat_list]:
+            if tmp_file.exists():
+                try:
+                    os.remove(str(tmp_file))
+                except Exception:
+                    pass
 
     # ========================== UPDATE RSS FEED ==========================
     # RSS feed update function (similar to Tesla script)
