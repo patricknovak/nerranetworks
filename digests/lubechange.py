@@ -1337,70 +1337,70 @@ Here is today's complete formatted digest. Use ONLY this content:
             # Use additional_headers for websockets 12.0+ (extra_headers is deprecated)
             try:
                 async with websockets.connect(uri, additional_headers=headers) as websocket:
-                # Generate a valid context_id from filename (alphanumeric, underscores, hyphens only)
-                # Cartesia requires context_id to only contain alphanumeric, underscores, and hyphens
-                filename_base = os.path.basename(filename).replace('.mp3', '').replace('.pcm', '')
-                # Sanitize to only allow alphanumeric, underscores, and hyphens
-                context_id = re.sub(r'[^a-zA-Z0-9_-]', '_', filename_base)
-                # Ensure it's not empty and has valid format
-                if not context_id or len(context_id) < 1:
-                    context_id = f"lubechange_{int(time.time())}"
-                # Limit length to reasonable size
-                context_id = context_id[:100]
-                
-                message = {
-                    "model_id": "sonic-2",
-                    "transcript": text,
-                    "voice": {"mode": "id", "id": voice_id},
-                    "language": "en",
-                    "output_format": {"container": "raw", "encoding": "pcm_s16le", "sample_rate": 24000},  # Higher sample rate for better quality
-                    "add_timestamps": True,
-                    "continue": False,
-                    "context_id": context_id,
-                    "stream": False  # Ensure complete audio generation
-                }
-                logging.info(f"Sending Cartesia TTS request with voice_id: {voice_id}, context_id: {context_id}")
-                await websocket.send(json.dumps(message))
-                
-                audio_data = b""
-                while True:
-                    try:
-                        response = await websocket.recv()
-                        response_data = json.loads(response)
-                        
-                        if response_data.get("type") == "chunk":
-                            # Decode base64 audio data
-                            chunk_data = base64.b64decode(response_data.get("data", ""))
-                            audio_data += chunk_data
-                        elif response_data.get("type") == "done":
+                    # Generate a valid context_id from filename (alphanumeric, underscores, hyphens only)
+                    # Cartesia requires context_id to only contain alphanumeric, underscores, and hyphens
+                    filename_base = os.path.basename(filename).replace('.mp3', '').replace('.pcm', '')
+                    # Sanitize to only allow alphanumeric, underscores, and hyphens
+                    context_id = re.sub(r'[^a-zA-Z0-9_-]', '_', filename_base)
+                    # Ensure it's not empty and has valid format
+                    if not context_id or len(context_id) < 1:
+                        context_id = f"lubechange_{int(time.time())}"
+                    # Limit length to reasonable size
+                    context_id = context_id[:100]
+                    
+                    message = {
+                        "model_id": "sonic-2",
+                        "transcript": text,
+                        "voice": {"mode": "id", "id": voice_id},
+                        "language": "en",
+                        "output_format": {"container": "raw", "encoding": "pcm_s16le", "sample_rate": 24000},  # Higher sample rate for better quality
+                        "add_timestamps": True,
+                        "continue": False,
+                        "context_id": context_id,
+                        "stream": False  # Ensure complete audio generation
+                    }
+                    logging.info(f"Sending Cartesia TTS request with voice_id: {voice_id}, context_id: {context_id}")
+                    await websocket.send(json.dumps(message))
+                    
+                    audio_data = b""
+                    while True:
+                        try:
+                            response = await websocket.recv()
+                            response_data = json.loads(response)
+                            
+                            if response_data.get("type") == "chunk":
+                                # Decode base64 audio data
+                                chunk_data = base64.b64decode(response_data.get("data", ""))
+                                audio_data += chunk_data
+                            elif response_data.get("type") == "done":
+                                break
+                            elif response_data.get("type") == "error":
+                                # Log full error response for debugging
+                                error_response = json.dumps(response_data, indent=2)
+                                logging.error(f"Cartesia API error response:\n{error_response}")
+                                
+                                error_msg = response_data.get('error', response_data.get('message', 'Unknown error'))
+                                error_details = response_data.get('details', '')
+                                error_code = response_data.get('status_code', '')
+                                
+                                full_error = f"Cartesia API error"
+                                if error_code:
+                                    full_error += f" (Status: {error_code})"
+                                if error_msg and error_msg != 'Unknown error':
+                                    full_error += f": {error_msg}"
+                                if error_details:
+                                    full_error += f" - Details: {error_details}"
+                                if full_error == "Cartesia API error":
+                                    full_error += ": Unknown error - see logs for full response"
+                                
+                                raise Exception(full_error)
+                        except websockets.exceptions.ConnectionClosed:
                             break
-                        elif response_data.get("type") == "error":
-                            # Log full error response for debugging
-                            error_response = json.dumps(response_data, indent=2)
-                            logging.error(f"Cartesia API error response:\n{error_response}")
-                            
-                            error_msg = response_data.get('error', response_data.get('message', 'Unknown error'))
-                            error_details = response_data.get('details', '')
-                            error_code = response_data.get('status_code', '')
-                            
-                            full_error = f"Cartesia API error"
-                            if error_code:
-                                full_error += f" (Status: {error_code})"
-                            if error_msg and error_msg != 'Unknown error':
-                                full_error += f": {error_msg}"
-                            if error_details:
-                                full_error += f" - Details: {error_details}"
-                            if full_error == "Cartesia API error":
-                                full_error += ": Unknown error - see logs for full response"
-                            
-                            raise Exception(full_error)
-                    except websockets.exceptions.ConnectionClosed:
-                        break
-                
-                # Save raw PCM data
-                with open(filename.replace('.mp3', '.pcm'), "wb") as f:
-                    f.write(audio_data)
-                
+                    
+                    # Save raw PCM data
+                    with open(filename.replace('.mp3', '.pcm'), "wb") as f:
+                        f.write(audio_data)
+                    
                     # Convert PCM to MP3 using ffmpeg with high quality settings
                     subprocess.run([
                         "ffmpeg", "-y",
@@ -1415,9 +1415,9 @@ Here is today's complete formatted digest. Use ONLY this content:
                         "-q:a", "0",  # Highest quality VBR setting
                         filename
                     ], check=True, capture_output=True)
-                
-                # Clean up PCM file
-                pcm_file = filename.replace('.mp3', '.pcm')
+                    
+                    # Clean up PCM file
+                    pcm_file = filename.replace('.mp3', '.pcm')
                     if os.path.exists(pcm_file):
                         os.remove(pcm_file)
             except websockets.exceptions.InvalidStatus as e:
