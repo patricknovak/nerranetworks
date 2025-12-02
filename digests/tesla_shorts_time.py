@@ -640,6 +640,7 @@ def fetch_tesla_news():
 tesla_news, raw_news_articles = fetch_tesla_news()
 
 # ========================== STEP 2: FETCH TOP X POSTS FROM X API ==========================
+# X POSTS DISABLED - No longer fetching X posts to avoid API costs
 # Initialize variables at module level to ensure they're always defined
 top_x_posts = []
 raw_x_posts = []
@@ -750,271 +751,15 @@ def fetch_x_posts_nitter(usernames: List[str]) -> tuple[List[Dict], List[Dict]]:
     all_posts.sort(key=lambda x: x['final_score'], reverse=True)
     return all_posts[:25], all_posts
 
-def fetch_top_x_posts_from_trusted_accounts() -> tuple[List[Dict], List[Dict]]:
-    """
-    Fetch Tesla-related posts from trusted X accounts using the X API.
-    Only includes posts that are actually about Tesla (content-filtered).
-    Prioritizes original posts (excludes retweets).
-    Returns: (top_posts, raw_posts) tuple
-    """
-    logging.info("Fetching Tesla posts from trusted accounts (Tesla content only, original posts, retweets excluded)...")
+# X POSTS FUNCTION DISABLED - No longer fetching X posts to avoid API costs
+# def fetch_top_x_posts_from_trusted_accounts() -> tuple[List[Dict], List[Dict]]:
+#     """This function has been disabled to avoid X API costs."""
+#     return [], []
 
-    end_time = datetime.datetime.now(datetime.timezone.utc)
-    start_time = end_time - datetime.timedelta(hours=48)  # 48h = never miss weekend news
-
-    all_posts = []
-    raw_posts = []
-
-    # Build query for Tesla-related content
-    # Shortened keywords to stay under 512 char limit
-    tesla_keywords = "(Tesla OR TSLA OR Model OR Cybertruck OR FSD OR Supercharger OR Giga OR Optimus OR Robotaxi OR 4680)"
-    # X usernames can contain letters, numbers, and underscores - filter to allow those
-    from_part = " OR ".join([f"from:{u}" for u in TRUSTED_USERNAMES if all(c.isalnum() or c == '_' for c in u)])
-    # Prioritize original posts, exclude retweets
-    # Simplified query - keywords only applied once to reduce length
-    query = f"{from_part} ({tesla_keywords}) -is:reply -is:retweet lang:en"
-    
-    # Validate query length (X API limit is 512 chars)
-    if len(query) > 512:
-        logging.warning(f"Query too long ({len(query)} chars), using simplified version...")
-        # Fallback: Use only top priority accounts
-        priority_accounts = ["elonmusk", "Tesla", "Tesla_AI", "SawyerMerritt"]
-        from_part = " OR ".join([f"from:{u}" for u in priority_accounts])
-        query = f"{from_part} ({tesla_keywords}) -is:reply -is:retweet lang:en"
-    
-    logging.info(f"Query length: {len(query)} characters (limit: 512)")
-
-    try:
-        import tweepy
-        
-        # Initialize X API client
-        x_client = tweepy.Client(
-            bearer_token=os.getenv("X_BEARER_TOKEN"),
-            wait_on_rate_limit=True
-        )
-        
-        logging.info(f"Searching X with query: {query[:100]}...")
-        logging.info(f"Time range: {start_time} to {end_time}")
-        
-        # Fetch tweets - try to get more results with pagination if needed
-        all_tweets = []
-        # Track X API search call
-        credit_usage["services"]["x_api"]["search_calls"] += 1
-        
-        response = x_client.search_recent_tweets(
-            query=query,
-            max_results=100,  # Max allowed per request
-            start_time=start_time,
-            tweet_fields=['created_at', 'public_metrics', 'author_id', 'text', 'referenced_tweets'],
-            user_fields=['username', 'name'],
-            expansions=['author_id', 'referenced_tweets.id']
-        )
-        
-        if response.data:
-            all_tweets.extend(response.data)
-            logging.info(f"First batch: {len(response.data)} tweets")
-        
-        # Try to get more results if we have a next_token (pagination)
-        if hasattr(response, 'meta') and response.meta and 'next_token' in response.meta:
-            try:
-                # Track X API search call (pagination)
-                credit_usage["services"]["x_api"]["search_calls"] += 1
-                
-                next_response = x_client.search_recent_tweets(
-                    query=query,
-                    max_results=100,
-                    start_time=start_time,
-                    next_token=response.meta['next_token'],
-                    tweet_fields=['created_at', 'public_metrics', 'author_id', 'text', 'referenced_tweets'],
-                    user_fields=['username', 'name'],
-                    expansions=['author_id', 'referenced_tweets.id']
-                )
-                if next_response.data:
-                    all_tweets.extend(next_response.data)
-                    logging.info(f"Second batch: {len(next_response.data)} tweets")
-            except Exception as e:
-                logging.debug(f"Could not fetch second page: {e}")
-        
-        # Use combined tweets
-        tweets_to_process = all_tweets if all_tweets else (response.data if response.data else [])
-        
-        if not tweets_to_process:
-            logging.warning("No tweets found matching criteria.")
-            return [], []
-            
-        # Create user lookup map (from first response, should have all users)
-        users = {u.id: u for u in response.includes['users']} if response.includes and 'users' in response.includes else {}
-        
-        logging.info(f"Found {len(tweets_to_process)} tweets from API, processing and filtering for Tesla content...")
-        
-        filtered_count = 0
-        retweet_count = 0
-        total_processed = 0
-        
-        for post in tweets_to_process:
-            total_processed += 1
-            
-            # Check if this is a retweet (should be filtered by query, but double-check)
-            # In tweepy, referenced_tweets is a list of ReferencedTweet objects
-            refs = post.referenced_tweets or []
-            is_retweet = any(getattr(ref, 'type', None) == 'retweeted' for ref in refs)
-            
-            # Skip retweets (prioritize original posts)
-            # Note: Quote tweets are allowed (they're original content with a reference)
-            if is_retweet:
-                retweet_count += 1
-                logging.debug(f"Skipping retweet: {post.id}")
-                continue
-            
-            # Filter: Only include posts that are actually about Tesla
-            # For official Tesla accounts, be slightly more lenient (they're likely Tesla-related)
-            author_data = users.get(post.author_id) if post.author_id else None
-            author_username = author_data.username if author_data else "unknown"
-            author_lower = author_username.lower() if author_username else ""
-            
-            # Official Tesla accounts are more likely to be Tesla-related even without explicit keywords
-            is_official_account = author_lower in ["tesla", "tesla_ai", "cybertruck", "teslacharging", "teslaenergy", "optimustesla", "gigatexas", "gigaberlin"]
-            
-            if not is_tesla_related(post.text):
-                # For official accounts, be more lenient - include if it's from a Tesla account
-                if not is_official_account:
-                    filtered_count += 1
-                    logging.debug(f"Skipping non-Tesla post from @{author_username}: {post.text[:50]}...")
-                    continue
-                else:
-                    logging.debug(f"Including post from official Tesla account @{author_username} (lenient filtering)")
-            metrics = post.public_metrics or {}
-            engagement = (
-                metrics.get('like_count', 0) * 1.0 +
-                metrics.get('retweet_count', 0) * 3.0 +
-                metrics.get('reply_count', 0) * 1.2 +
-                metrics.get('quote_count', 0) * 2.5
-            )
-
-            # Fix: post.created_at is already a datetime object in tweepy
-            created_at = post.created_at
-            
-            hours_old = (end_time - created_at).total_seconds() / 3600
-            recency = 2.5 if hours_old <= 8 else (1.8 if hours_old <= 24 else 1.0)
-
-            # Get author info from includes (already extracted above, but ensure we have it)
-            if not author_data:
-                author_id = post.author_id
-                author_data = users.get(author_id)
-                author_username = author_data.username if author_data else "unknown"
-                author_name = author_data.name if author_data else "Unknown"
-            else:
-                author_name = author_data.name if author_data else "Unknown"
-            
-            author_lower = author_username.lower()
-            
-            boost = 4.0 if author_lower == "elonmusk" else \
-                    3.0 if author_lower in ["tesla", "tesla_ai", "cybertruck", "optimustelsa"] else \
-                    2.5 if author_lower == "sawyermerritt" else 1.5
-
-            # Boost original posts (non-retweets get additional priority)
-            # Since we're filtering retweets, all posts here are original
-            original_post_boost = 1.5  # Give original posts a boost
-
-            score = engagement * recency * boost * original_post_boost
-
-            all_posts.append({
-                "id": str(post.id),
-                "text": post.text,
-                "username": author_username,
-                "name": author_name,
-                "url": f"https://x.com/{author_username}/status/{post.id}",
-                "created_at": created_at.isoformat(),
-                "likes": metrics.get('like_count', 0),
-                "retweets": metrics.get('retweet_count', 0),
-                "replies": metrics.get('reply_count', 0),
-                "quotes": metrics.get('quote_count', 0),
-                "final_score": round(score, 2),
-                "is_retweet": False,  # All posts here are original (retweets filtered)
-                "hours_old": round(hours_old, 1)
-            })
-
-        logging.info(f"Processing summary:")
-        logging.info(f"  - Total tweets from API: {total_processed}")
-        logging.info(f"  - Retweets filtered out: {retweet_count}")
-        logging.info(f"  - Non-Tesla content filtered out: {filtered_count}")
-        logging.info(f"  - Tesla-related posts kept: {len(all_posts)}")
-        
-        if len(all_posts) < 10:
-            logging.warning(f"⚠️  Only {len(all_posts)} posts found. Possible reasons:")
-            logging.warning(f"    1. Limited Tesla content in the last 48 hours from these accounts")
-            logging.warning(f"    2. Many posts might be retweets (excluded)")
-            logging.warning(f"    3. Posts might not contain explicit Tesla keywords")
-            logging.warning(f"    4. Query might be too restrictive")
-            logging.warning(f"    Consider: Expanding time window, relaxing filters, or checking account activity")
-
-    except Exception as e:
-        logging.warning(f"Search failed: {e}")
-        logging.info("Attempting fallback to Nitter scraping...")
-        return fetch_x_posts_nitter(TRUSTED_USERNAMES)
-
-    if not all_posts:
-        return [], []
-
-    # 2. Free fallback using Nitter (if authenticated fetch failed or returned few results)
-    if len(all_posts) < 8:
-        logging.info("Few X posts found via API. Attempting fallback to Nitter scraping for more posts...")
-        nitter_top, nitter_raw = fetch_x_posts_nitter(TRUSTED_USERNAMES)
-        
-        # Merge results (avoiding duplicates by ID)
-        existing_ids = {p['id'] for p in all_posts}
-        for post in nitter_raw:
-            if post['id'] not in existing_ids:
-                all_posts.append(post)
-                
-    # Sort by score
-    all_posts.sort(key=lambda x: x['final_score'], reverse=True)
-    
-    # Remove duplicates by ID
-    seen = set()
-    unique = [p for p in all_posts if p['id'] not in seen and (seen.add(p['id']) or True)]
-
-    # Limit to max 4 posts per username (special case: TeslaCharging max 1)
-    MAX_POSTS_PER_USERNAME = 4
-    MAX_POSTS_TESLACHARGING = 1
-    username_counts = {}
-    limited_posts = []
-    
-    for post in unique:
-        username = post['username'].lower()
-        count = username_counts.get(username, 0)
-        
-        # Special limit for TeslaCharging
-        if username == "teslacharging":
-            max_posts = MAX_POSTS_TESLACHARGING
-        else:
-            max_posts = MAX_POSTS_PER_USERNAME
-        
-        if count < max_posts:
-            limited_posts.append(post)
-            username_counts[username] = count + 1
-        else:
-            logging.debug(f"Skipping post from @{post['username']} (already have {max_posts} posts from this account)")
-
-    top_25 = limited_posts[:25]
-    # Populate raw_posts with all fetched posts (before filtering to top 25)
-    raw_posts = all_posts.copy()
-
-    logging.info(f"Returning {len(top_25)} best Tesla posts (from {len(raw_posts)} total, max {MAX_POSTS_PER_USERNAME} per username, max {MAX_POSTS_TESLACHARGING} for TeslaCharging)")
-
-    return top_25, raw_posts
-
-# Call the function to fetch X posts
-logging.info("Step 2: Fetching top X posts from trusted accounts...")
-try:
-    top_x_posts, raw_x_posts = fetch_top_x_posts_from_trusted_accounts()
-    if len(top_x_posts) < 8:
-        logging.warning(f"⚠️  Only {len(top_x_posts)} X posts were fetched (minimum 8 recommended). Continuing anyway - Grok will skip X posts section if needed.")
-except Exception as e:
-    logging.error(f"Failed to fetch X posts: {e}")
-    logging.warning("Continuing without X posts data")
-    top_x_posts = []
-    raw_x_posts = []
+# X POSTS DISABLED - No longer fetching X posts to avoid API costs
+logging.info("Step 2: X posts fetching disabled (to avoid API costs)")
+top_x_posts = []
+raw_x_posts = []
 
 # ========================== SAVE RAW DATA AND GENERATE HTML PAGE ==========================
 logging.info("Saving raw data and generating HTML page for raw news and X posts...")
@@ -1351,22 +1096,8 @@ if tesla_news:
 else:
     news_section = "## PRE-FETCHED NEWS ARTICLES: None available (you may need to search for news)\n\n"
 
-# Format X posts for the prompt
+# X POSTS SECTION DISABLED - No longer including X posts in prompt
 x_posts_section = ""
-if top_x_posts:
-    # Include all available posts (up to 20) to give Grok more options
-    num_posts_to_include = min(len(top_x_posts), 20)
-    x_posts_section = f"## PRE-FETCHED X POSTS (from X API - last 24 hours, ranked by recency + engagement):\n\n"
-    x_posts_section += f"**IMPORTANT: You have {len(top_x_posts)} pre-fetched X posts available. Select UP TO 10 from these pre-fetched posts. If you have fewer than 10, output only what exists. NEVER invent, make up, or hallucinate X post URLs - only use the exact URLs provided below. If you cannot find enough posts, output fewer items rather than inventing URLs.**\n\n"
-    for i, post in enumerate(top_x_posts[:num_posts_to_include], 1):  # Include up to 20 posts
-        x_posts_section += f"{i}. **@{post['username']} ({post['name']})**\n"
-        x_posts_section += f"   Likes: {post['likes']}, RTs: {post['retweets']}\n"
-        x_posts_section += f"   Posted: {post['created_at']}\n"
-        x_posts_section += f"   Text: {post['text'][:300]}...\n"
-        x_posts_section += f"   URL: {post['url']}\n\n"
-else:
-    # This should never happen due to the check above, but handle gracefully
-    x_posts_section = "## PRE-FETCHED X POSTS: None available\n\n"
 
 
 X_PROMPT = f"""
@@ -1378,7 +1109,7 @@ X_PROMPT = f"""
 
 {x_posts_section}
 
-You are an elite Tesla news curator producing the daily "Tesla Shorts Time" newsletter. Use ONLY the pre-fetched news and X posts above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. NEVER invent X post URLs - if you don't have enough pre-fetched posts, output fewer items (e.g., if only 8 X posts, number them 1-8). If you have zero pre-fetched X posts, completely remove the "Top X Posts" section from your output. Prioritize diversity: No duplicates/similar stories (≥70% overlap in angle/content); max 3 from one source/account.
+You are an elite Tesla news curator producing the daily "Tesla Shorts Time" newsletter. Use ONLY the pre-fetched news above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. Do NOT include a "Top X Posts" section in your output. Prioritize diversity: No duplicates/similar stories (≥70% overlap in angle/content); max 3 from one source/account.
 
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
 - **News**: You MUST select EXACTLY 10 unique articles. If you have fewer than 10 available, use ALL of them and number them 1 through N (where N is the count). If you have more than 10, select the BEST 10 and number them 1-10. DO NOT output 20 items - output EXACTLY 10. Prioritize high-quality sources; each must cover a DIFFERENT Tesla story/angle.
