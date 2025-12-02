@@ -932,7 +932,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     # Cartesia voice ID - using a default voice, can be customized
     # You may need to get a voice ID from Cartesia's API
     # For now using the provided API key directly
-    CARTESIA_VOICE_ID = "a0e99841-438c-4a64-b679-ae501e7d6091"  # Default voice, update as needed
+    CARTESIA_VOICE_ID = "5ee9feff-1265-424a-9d7f-8e4d431a12c7"  # Jason Potter voice
 
     @retry(
         stop=stop_after_attempt(3),
