@@ -955,8 +955,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         }
         
         try:
-            # Use additional_headers for websockets 12.0+ (extra_headers is deprecated)
-            async with websockets.connect(uri, additional_headers=headers) as websocket:
+            async with websockets.connect(uri, extra_headers=headers) as websocket:
                 message = {
                     "model_id": "sonic-2",
                     "transcript": text,
@@ -981,9 +980,19 @@ Here is today's complete formatted digest. Use ONLY this content:
                         elif response_data.get("type") == "done":
                             break
                         elif response_data.get("type") == "error":
-                            raise Exception(f"Cartesia API error: {response_data.get('message', 'Unknown error')}")
-                    except websockets.exceptions.ConnectionClosed:
+                            error_msg = response_data.get('message', 'Unknown error')
+                            error_details = response_data.get('details', '')
+                            full_error = f"Cartesia API error: {error_msg}"
+                            if error_details:
+                                full_error += f" (Details: {error_details})"
+                            logging.error(f"Cartesia API error response: {json.dumps(response_data, indent=2)}")
+                            raise Exception(full_error)
+                    except websockets.exceptions.ConnectionClosed as e:
+                        logging.warning(f"WebSocket connection closed: {e}")
                         break
+                    except json.JSONDecodeError as e:
+                        logging.error(f"Failed to parse Cartesia response: {response[:200] if 'response' in locals() else 'No response'}")
+                        raise Exception(f"Cartesia API returned invalid JSON: {e}")
                 
                 # Save raw PCM data
                 with open(filename.replace('.mp3', '.pcm'), "wb") as f:
