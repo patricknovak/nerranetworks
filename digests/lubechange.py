@@ -945,8 +945,10 @@ Here is today's complete formatted digest. Use ONLY this content:
     async def speak_cartesia(text: str, voice_id: str, filename: str):
         """Generate speech using Cartesia TTS via WebSocket."""
         uri = "wss://api.cartesia.ai/tts/websocket"
-        # Use the API key from environment or the provided one
-        api_key = CARTESIA_API_KEY or "sk_car_qGDH5TeA4D1q43UmvF7S1m"
+        # Get API key from environment (required, no fallback for security)
+        api_key = os.getenv("CARTESIA_API_KEY")
+        if not api_key:
+            raise ValueError("CARTESIA_API_KEY must be set in environment variables")
         headers = {
             "Cartesia-Version": "2025-04-16",
             "Authorization": f"Bearer {api_key}"
