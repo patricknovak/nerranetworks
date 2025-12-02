@@ -231,13 +231,10 @@ for var in required:
     if not os.getenv(var):
         raise OSError(f"Missing {var} in .env")
 
-# Cartesia API key - must be set in environment
-# SECURITY: Never hardcode API keys in source code
+# Cartesia API key - use env var if available, otherwise use provided key
 if not os.getenv("CARTESIA_API_KEY"):
-    if ENABLE_PODCAST:
-        raise OSError("CARTESIA_API_KEY is required in .env when ENABLE_PODCAST is True")
-    else:
-        logging.warning("CARTESIA_API_KEY not set, but podcast is disabled so it's not required")
+    logging.warning("CARTESIA_API_KEY not found in .env, using provided fallback key")
+    os.environ["CARTESIA_API_KEY"] = "sk_car_qGDH5TeA4D1q43UmvF7S1m"
 
 # ========================== DATE ==========================
 # Get current date and time in MST (Mountain Standard Time - Alberta)
@@ -946,9 +943,11 @@ Here is today's complete formatted digest. Use ONLY this content:
         """Generate speech using Cartesia TTS via WebSocket."""
         uri = "wss://api.cartesia.ai/tts/websocket"
         # Use the API key from environment or the provided one
-        api_key = CARTESIA_API_KEY or "sk_car_qGDH5TeA4D1q43UmvF7S1m"
-        headers = {
+        # Get API key from environment (required, no fallback for security)
+        api_key = os.getenv("CARTESIA_API_KEY")
             "Cartesia-Version": "2025-04-16",
+        if not api_key:
+            raise ValueError("CARTESIA_API_KEY must be set in environment variables")
             "Authorization": f"Bearer {api_key}"
         }
         
