@@ -1113,9 +1113,8 @@ You are an elite Tesla news curator producing the daily "Tesla Shorts Time" news
 
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
 - **News**: You MUST select EXACTLY 10 unique articles. If you have fewer than 10 available, use ALL of them and number them 1 through N (where N is the count). If you have more than 10, select the BEST 10 and number them 1-10. DO NOT output 20 items - output EXACTLY 10. Prioritize high-quality sources; each must cover a DIFFERENT Tesla story/angle.
-- **X Posts**: You MUST include a "Top 10 X Posts" section with EXACTLY 10 unique posts from the pre-fetched list above. This section is MANDATORY and must appear between the news items and the Short Spot section. If you have fewer than 10 available, use ALL of them and number them 1 through N. If you have more than 10, select the BEST 10 and number them 1-10. DO NOT output 20 items - output EXACTLY 10. NEVER invent, make up, or hallucinate X post URLs - only use exact URLs from the pre-fetched list. Each must cover a DIFFERENT angle; max 3 per username. DO NOT skip this section - it is required.
-- **CRITICAL URL RULE**: NEVER invent X post URLs. If you don't have enough pre-fetched posts, output fewer items rather than making up URLs. All URLs must be exact matches from the pre-fetched list above for the news and X posts.
-- **Diversity Check**: Before finalizing, verify no similar content for the news and X posts; replace if needed from pre-fetched pool for the news and X posts.
+- **CRITICAL URL RULE**: NEVER invent URLs. If you don't have enough pre-fetched articles, output fewer items rather than making up URLs. All URLs must be exact matches from the pre-fetched list above.
+- **Diversity Check**: Before finalizing, verify no similar content; replace if needed from pre-fetched pool.
 
 ### FORMATTING (EXACT—USE MARKDOWN AS SHOWN)
 # Tesla Shorts Time
@@ -1129,15 +1128,8 @@ You are an elite Tesla news curator producing the daily "Tesla Shorts Time" news
 2. [Repeat format for 3-10; if <10 items, stop at available count, add a blank line after each item and the last item]
 
 ━━━━━━━━━━━━━━━━━━━━
-### Top 10 X Posts
-**MANDATORY: You MUST include this section with exactly 10 X posts (or all available if fewer than 10). This section is REQUIRED and must appear between the news items and Short Spot.**
-1. **Catchy Title: DD Month, YYYY, HH:MM AM/PM PST**  
-   2–4 sentences: Explain post & significance (pro-Tesla angle). End with: Post: https://x.com/username/status/ID (use EXACT URL from pre-fetched list, write as plain text URL, no brackets or markdown)
-2. [Repeat for remaining posts; use only pre-fetched posts, never invent URLs. If fewer than 10 available, output only what exists (e.g., if 8 posts, number 1-8), add a blank line after each item and the last item. CRITICAL: Write URLs as plain text like "Post: https://x.com/username/status/1234567890" - do NOT use markdown brackets]
-
-━━━━━━━━━━━━━━━━━━━━
 ## Short Spot
-One bearish item from pre-fetched (news or X post) that's negative for Tesla/stock.  
+One bearish item from pre-fetched news that's negative for Tesla/stock.  
 **Catchy Title: DD Month, YYYY, HH:MM AM/PM PST, @username/Source**  
 2–4 sentences explaining it & why it's temporary/overblown (frame optimistically). End with: Source/Post: [EXACT URL]
 
@@ -1164,7 +1156,6 @@ One short, inspiring challenge tied to Tesla/Elon themes (curiosity, first princ
 
 ### FINAL VALIDATION CHECKLIST (DO THIS BEFORE OUTPUT)
 - ✅ Exactly 10 news items (or all if <10): Numbered 1-10, unique stories.
-- ✅ Exactly 10 X posts (or all if <10): Numbered 1-10, unique angles.
 - ✅ Podcast link: Full URL as shown.
 - ✅ Lists: "1. " format (number, period, space)—no bullets.
 - ✅ Separators: "━━━━━━━━━━━━━━━━━━━━" before each major section.
@@ -1259,7 +1250,7 @@ x_thread = re.sub(r'\[(https?://[^\]]+)\]', r'\1', x_thread)
 x_thread = re.sub(r'(https?://x\.com/[^\s\)\]]+)[\)\]]+', r'\1', x_thread)
 
 # Find and limit news items to exactly 10
-news_pattern = r'(### Top 10 News Items.*?)(### Top X Posts|## Short Spot|━━)'
+news_pattern = r'(### Top 10 News Items.*?)(## Short Spot|### Short Squeeze|━━)'
 news_match = re.search(news_pattern, x_thread, re.DOTALL | re.IGNORECASE)
 if news_match:
     news_section = news_match.group(1)
@@ -1278,79 +1269,17 @@ if news_match:
                 new_news_section += f"{i}. {item_cleaned.strip()}\n\n"
             x_thread = x_thread.replace(news_match.group(1), new_news_section)
 
-# Find and limit X posts to exactly 10, or add the section if missing
-x_posts_pattern = r'(### Top X Posts|### Top 10 X Posts.*?)(## Short Spot|### Short Squeeze|━━)'
-x_posts_match = re.search(x_posts_pattern, x_thread, re.DOTALL | re.IGNORECASE)
-if x_posts_match:
-    x_posts_section = x_posts_match.group(1)
-    # Count numbered items
-    x_items = re.findall(r'^(\d+)\.\s+\*\*', x_posts_section, re.MULTILINE)
-    if len(x_items) > 10:
-        # Find all numbered items
-        items = re.findall(r'^(\d+)\.\s+.*?(?=^\d+\.|##|###|━━|$)', x_posts_section, re.MULTILINE | re.DOTALL)
-        if len(items) > 10:
-            # Keep only first 10, renumber them
-            kept_items = items[:10]
-            new_x_section = "### Top 10 X Posts\n\n"
-            for i, item in enumerate(kept_items, 1):
-                # Remove old number and add new number
-                item_cleaned = re.sub(r'^\d+\.\s+', '', item, flags=re.MULTILINE)
-                new_x_section += f"{i}. {item_cleaned.strip()}\n\n"
-            x_thread = x_thread.replace(x_posts_match.group(1), new_x_section)
-elif top_x_posts and len(top_x_posts) > 0:
-    # X posts section is missing but we have pre-fetched posts - add it!
-    logging.warning("⚠️  X posts section missing from Grok output. Adding it using pre-fetched posts...")
-    # Find where to insert (after news items, before Short Spot)
-    short_spot_pattern = r'(## Short Spot|📉 \*\*Short Spot\*\*)'
-    short_spot_match = re.search(short_spot_pattern, x_thread, re.IGNORECASE)
-    
-    # Select top 10 X posts
-    posts_to_add = top_x_posts[:10]
-    x_section = "\n\n━━━━━━━━━━━━━━━━━━━━\n\n🐦 **Top 10 X Posts**\n\n"
-    
-    for i, post in enumerate(posts_to_add, 1):
-        # Extract username from URL or use the username field
-        username = post.get('username', 'unknown')
-        name = post.get('name', username)
-        text = post.get('text', '')[:200] + '...' if len(post.get('text', '')) > 200 else post.get('text', '')
-        url = post.get('url', '')
-        created_at = post.get('created_at', '')
-        
-        x_section += f"{i}. **@{username} - {text}**\n"
-        x_section += f"   Posted: {created_at}\n"
-        x_section += f"   Post: {url}\n\n"
-    
-    if short_spot_match:
-        # Insert before Short Spot
-        insert_pos = short_spot_match.start()
-        x_thread = x_thread[:insert_pos] + x_section + x_thread[insert_pos:]
-    else:
-        # Insert before the last separator or at the end
-        last_separator = x_thread.rfind('━━━━━━━━━━━━━━━━━━━━')
-        if last_separator > 0:
-            # Find the end of that line
-            end_pos = x_thread.find('\n', last_separator)
-            if end_pos > 0:
-                x_thread = x_thread[:end_pos+1] + x_section + x_thread[end_pos+1:]
-            else:
-                x_thread = x_thread + x_section
-        else:
-            x_thread = x_thread + x_section
+# X POSTS PARSING DISABLED - No longer parsing or adding X posts section
 
-# Validate counts - check if we have exactly 10 news and 10 X posts
+# Validate counts - check if we have exactly 10 news items
 import re
 news_count = len(re.findall(r'^[1-9]|10[️⃣\.]\s+\*\*', x_thread, re.MULTILINE))
-x_posts_count = len(re.findall(r'^[1-9]|10[️⃣\.]\s+\*\*', x_thread, re.MULTILINE))
 # Also check for numbered lists without emojis
 if news_count < 10:
     news_count = len(re.findall(r'^([1-9]|10)\.\s+\*\*', x_thread, re.MULTILINE))
-if x_posts_count < 10:
-    x_posts_count = len(re.findall(r'^([1-9]|10)\.\s+\*\*', x_thread, re.MULTILINE))
 
 if news_count != 10:
     logging.warning(f"⚠️  WARNING: Found {news_count} news items instead of 10. Grok may not have followed instructions.")
-if x_posts_count != 10:
-    logging.warning(f"⚠️  WARNING: Found {x_posts_count} X posts instead of 10. Grok may not have followed instructions.")
 
 # ========================== VALIDATE AND FIX LINKS ==========================
 # Link validation functions removed - disabled via ENABLE_LINK_VALIDATION = False
@@ -1448,7 +1377,7 @@ def format_digest_for_x(digest: str) -> str:
     
     # Format section headers with emojis (preserve existing markdown)
     formatted = re.sub(r'^### Top 10 News Items', '📰 **Top 10 News Items**', formatted, flags=re.MULTILINE)
-    formatted = re.sub(r'^### Top 10 X Posts', '🐦 **Top 10 X Posts**', formatted, flags=re.MULTILINE)
+    # X POSTS SECTION DISABLED - No longer formatting X posts header
     formatted = re.sub(r'^## Short Spot', '📉 **Short Spot**', formatted, flags=re.MULTILINE)
     formatted = re.sub(r'^### Short Squeeze', '📈 **Short Squeeze**', formatted, flags=re.MULTILINE)
     formatted = re.sub(r'^### Daily Challenge', '💪 **Daily Challenge**', formatted, flags=re.MULTILINE)
@@ -1468,16 +1397,12 @@ def format_digest_for_x(digest: str) -> str:
     # Also match after podcast link
     formatted = re.sub(r'(Podcast Link:.*?\n)(📰|\*\*Top 10 News|### Top 10 News)', separator + r'\2', formatted, flags=re.DOTALL)
     
-    # Add separator before Top 10 X Posts
-    formatted = re.sub(r'(\n\n?)(🐦 \*\*Top 10 X Posts\*\*)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(### Top 10 X Posts)', separator + r'\2', formatted)
-    # Also match after last news item (10.)
-    formatted = re.sub(r'(10[️⃣\.]\s+.*?\n)(🐦|\*\*Top 10 X Posts|### Top 10 X Posts)', separator + r'\2', formatted, flags=re.DOTALL)
+    # X POSTS SEPARATOR DISABLED - No longer adding separator before X posts
     
     # Add separator before Short Spot
     formatted = re.sub(r'(\n\n?)(📉 \*\*Short Spot\*\*)', separator + r'\2', formatted)
     formatted = re.sub(r'(\n\n?)(## Short Spot)', separator + r'\2', formatted)
-    # Also match after last X post (10.)
+    # Also match after last news item (10.)
     formatted = re.sub(r'(10[️⃣\.]\s+.*?\n)(📉|\*\*Short Spot|## Short Spot)', separator + r'\2', formatted, flags=re.DOTALL)
     
     # Add separator before Short Squeeze
@@ -1497,7 +1422,7 @@ def format_digest_for_x(digest: str) -> str:
     
     # Find the news section and apply emojis
     if '📰' in formatted or 'Top 10 News' in formatted:
-        news_section_match = re.search(r'(📰.*?Top 10 News Items.*?)(🐦|Top 10 X Posts|━━)', formatted, re.DOTALL)
+        news_section_match = re.search(r'(📰.*?Top 10 News Items.*?)(📉|Short Spot|━━)', formatted, re.DOTALL)
         if news_section_match:
             news_section = news_section_match.group(1)
             for i in range(1, 11):
@@ -1511,21 +1436,7 @@ def format_digest_for_x(digest: str) -> str:
                 )
             formatted = formatted.replace(news_section_match.group(1), news_section)
     
-    # Add emoji to numbered list items for X posts (1️⃣, 2️⃣, etc.)
-    if '🐦' in formatted or 'Top 10 X Posts' in formatted:
-        x_section_match = re.search(r'(🐦.*?Top 10 X Posts.*?)(📉|Short Spot|━━)', formatted, re.DOTALL)
-        if x_section_match:
-            x_section = x_section_match.group(1)
-            for i in range(1, 11):
-                emoji_num = emoji_numbers[i-1] if i <= 10 else f'{i}.'
-                # Replace numbered items in X posts section
-                x_section = re.sub(
-                    rf'^(\s*){i}\.\s+',
-                    lambda m: m.group(1) + emoji_num + ' ',
-                    x_section,
-                    flags=re.MULTILINE
-                )
-            formatted = formatted.replace(x_section_match.group(1), x_section)
+    # X POSTS EMOJI FORMATTING DISABLED - No longer formatting X posts emojis
     
     # Clean up excessive newlines (more than 3 consecutive becomes 2)
     formatted = re.sub(r'\n{4,}', '\n\n', formatted)
