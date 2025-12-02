@@ -1,0 +1,192 @@
+name: Lube Change - Oilers Daily News
+
+on:
+  schedule:
+    # Run daily at 9:00 AM MST (16:00 UTC)
+    # This is 9:00 AM MST / 10:00 AM MDT
+    - cron: '0 16 * * *'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  generate-podcast:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to commit and push files
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg
+        
+    - name: Install Python dependencies
+      run: |
+        pip install --upgrade pip
+        if [ ! -f requirements.txt ]; then
+          echo "❌ ERROR: requirements.txt not found!"
+          exit 1
+        fi
+        pip install -r requirements.txt
+        echo "Installed packages:"
+        pip list | grep -E "(openai|tweepy|requests|python-dotenv|feedparser|websockets)" || echo "Some packages may not be listed"
+        
+    - name: Create .env file from secrets
+      run: |
+        echo "Creating .env file..."
+        cat > .env << EOF
+        GROK_API_KEY=${{ secrets.GROK_API_KEY }}
+        CARTESIA_API_KEY=${{ secrets.CARTESIA_API_KEY }}
+        PLANETTERRIAN_X_CONSUMER_KEY=${{ secrets.PLANETTERRIAN_X_CONSUMER_KEY }}
+        PLANETTERRIAN_X_CONSUMER_SECRET=${{ secrets.PLANETTERRIAN_X_CONSUMER_SECRET }}
+        PLANETTERRIAN_X_ACCESS_TOKEN=${{ secrets.PLANETTERRIAN_X_ACCESS_TOKEN }}
+        PLANETTERRIAN_X_ACCESS_TOKEN_SECRET=${{ secrets.PLANETTERRIAN_X_ACCESS_TOKEN_SECRET }}
+        PLANETTERRIAN_X_BEARER_TOKEN=${{ secrets.PLANETTERRIAN_X_BEARER_TOKEN }}
+        EOF
+        echo ".env file created (checking if keys are set)..."
+        if [ -z "${{ secrets.GROK_API_KEY }}" ]; then
+          echo "❌ ERROR: GROK_API_KEY is not set!"
+        else
+          echo "✅ GROK_API_KEY is set"
+        fi
+        if [ -z "${{ secrets.CARTESIA_API_KEY }}" ]; then
+          echo "⚠️  WARNING: CARTESIA_API_KEY is not set! Will use fallback key from script."
+        else
+          echo "✅ CARTESIA_API_KEY is set"
+        fi
+        echo "Checking X API credentials..."
+        if [ -z "${{ secrets.PLANETTERRIAN_X_CONSUMER_KEY }}" ]; then
+          echo "⚠️  WARNING: PLANETTERRIAN_X_CONSUMER_KEY is not set (X posting will be disabled)"
+        else
+          echo "✅ PLANETTERRIAN_X_CONSUMER_KEY is set"
+        fi
+        if [ -z "${{ secrets.PLANETTERRIAN_X_CONSUMER_SECRET }}" ]; then
+          echo "⚠️  WARNING: PLANETTERRIAN_X_CONSUMER_SECRET is not set (X posting will be disabled)"
+        else
+          echo "✅ PLANETTERRIAN_X_CONSUMER_SECRET is set"
+        fi
+        if [ -z "${{ secrets.PLANETTERRIAN_X_ACCESS_TOKEN }}" ]; then
+          echo "⚠️  WARNING: PLANETTERRIAN_X_ACCESS_TOKEN is not set (X posting will be disabled)"
+        else
+          echo "✅ PLANETTERRIAN_X_ACCESS_TOKEN is set"
+        fi
+        if [ -z "${{ secrets.PLANETTERRIAN_X_ACCESS_TOKEN_SECRET }}" ]; then
+          echo "⚠️  WARNING: PLANETTERRIAN_X_ACCESS_TOKEN_SECRET is not set (X posting will be disabled)"
+        else
+          echo "✅ PLANETTERRIAN_X_ACCESS_TOKEN_SECRET is set"
+        fi
+        if [ -z "${{ secrets.PLANETTERRIAN_X_BEARER_TOKEN }}" ]; then
+          echo "⚠️  WARNING: PLANETTERRIAN_X_BEARER_TOKEN is not set (optional but recommended)"
+        else
+          echo "✅ PLANETTERRIAN_X_BEARER_TOKEN is set"
+        fi
+        
+    - name: Run Lube Change script
+      working-directory: ./digests
+      run: |
+        set -e  # Exit on any error
+        echo "Current directory: $(pwd)"
+        echo "Checking for script file..."
+        if [ ! -f lubechange.py ]; then
+          echo "❌ ERROR: Script not found!"
+          exit 1
+        fi
+        echo "✅ Script found"
+        echo "Checking for .env file..."
+        if [ ! -f ../.env ]; then
+          echo "❌ ERROR: .env not found in parent directory!"
+          exit 1
+        fi
+        echo "✅ .env file found"
+        echo "Running Lube Change - Oilers Daily News script..."
+        python3 lubechange.py 2>&1
+      env:
+        # Pass through any additional environment variables if needed
+        TZ: UTC
+      continue-on-error: false
+        
+    - name: List generated files
+      run: |
+        echo "Checking for generated files..."
+        echo "Files in digests/lubechange/:"
+        ls -lah digests/lubechange/Lube_Change_*.md digests/lubechange/Lube_Change_Ep*.mp3 digests/lubechange/podcast_transcript_*.txt 2>/dev/null || echo "No Lube Change files found in digests/lubechange/"
+        echo "Raw data files in digests/lubechange/:"
+        ls -lah digests/lubechange/raw_data_*.json digests/lubechange/raw_data_*.html 2>/dev/null || echo "No raw data files found in digests/lubechange/"
+        echo "Credit usage files in digests/lubechange/:"
+        ls -lah digests/lubechange/credit_usage_*.json 2>/dev/null || echo "No credit usage files found in digests/lubechange/"
+        echo "RSS feed file:"
+        ls -lah lubechange_podcast.rss 2>/dev/null || echo "RSS feed file not found"
+        
+    - name: Commit and push generated files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        echo "📦 Staging all Lube Change generated files..."
+        
+        # Add Lube Change digest (X thread)
+        git add digests/lubechange/Lube_Change_*.md 2>/dev/null || true
+        
+        # Add podcast audio files
+        git add digests/lubechange/Lube_Change_Ep*.mp3 2>/dev/null || true
+        
+        # Add podcast transcript
+        git add digests/lubechange/podcast_transcript_*.txt 2>/dev/null || true
+        
+        # Add raw data files (JSON and HTML)
+        git add digests/lubechange/raw_data_*.json digests/lubechange/raw_data_*.html 2>/dev/null || true
+        
+        # Add credit usage files (cost tracking)
+        git add digests/lubechange/credit_usage_*.json 2>/dev/null || true
+        
+        # ALWAYS add RSS feed file (even if it was just updated, not new)
+        git add lubechange_podcast.rss 2>/dev/null || true
+        
+        # Add HTML page if it exists
+        git add lubechange.html 2>/dev/null || true
+        
+        echo "📋 Staged files:"
+        git diff --staged --name-only || echo "No files staged"
+        
+        # Check if RSS feed has changes (even if not staged, it might have been modified)
+        if git diff --name-only | grep -q "lubechange_podcast.rss" || git diff --staged --name-only | grep -q "lubechange_podcast.rss"; then
+          echo "📡 RSS feed has changes - will be committed"
+        fi
+        
+        # Check if there are any changes to commit
+        if ! git diff --staged --quiet || ! git diff --quiet lubechange_podcast.rss; then
+          # If RSS feed has changes but isn't staged, stage it
+          if ! git diff --staged --name-only | grep -q "lubechange_podcast.rss"; then
+            git add lubechange_podcast.rss
+            echo "📡 Staged RSS feed changes"
+          fi
+          
+          echo "💾 Committing files..."
+          git commit -m "Auto-generated: Lube Change - Oilers Daily News $(date +%Y-%m-%d)" || echo "Commit failed (may be empty)"
+          
+          echo "🚀 Pushing to repository..."
+          git push || echo "Push failed"
+          
+          echo "✅ Files committed and pushed successfully to repository!"
+          echo ""
+          echo "📊 Summary of what was generated:"
+          echo "  ✓ Daily digest (X thread)"
+          echo "  ✓ Posted to X (if enabled)"
+          echo "  ✓ Podcast script generated"
+          echo "  ✓ Podcast audio created (Cartesia TTS)"
+          echo "  ✓ RSS feed updated"
+          echo "  ✓ Credit usage file generated"
+        else
+          echo "⚠️  No new files to commit - script may have failed or no new content generated"
+        fi
+      continue-on-error: true  # Don't fail workflow if commit/push fails
+
