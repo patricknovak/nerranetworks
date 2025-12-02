@@ -525,16 +525,12 @@ def get_used_content_summary(tracker: dict) -> str:
         return "\n\n".join(summary_parts) + "\n\nCRITICAL: Generate COMPLETELY NEW and DIFFERENT content. Do not repeat any of the above.\n"
     return ""
 
-# Load content tracker
-content_tracker = load_used_content_tracker()
-used_content_summary = get_used_content_summary(content_tracker)
-
 # Folders - use absolute paths
 digests_dir = project_root / "digests" / "lubechange"
 digests_dir.mkdir(exist_ok=True, parents=True)
 
 # Initialize content tracker (must be after digests_dir is defined)
-content_tracker = load_used_content_tracker(digests_dir)
+content_tracker = load_used_content_tracker()
 used_content_summary = get_used_content_summary(content_tracker)
 
 # Determine episode number by finding the highest existing episode number and incrementing
