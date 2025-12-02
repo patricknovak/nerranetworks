@@ -932,7 +932,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     # Cartesia voice ID - using a default voice, can be customized
     # You may need to get a voice ID from Cartesia's API
     # For now using the provided API key directly
-    CARTESIA_VOICE_ID = "5ee9feff-1265-424a-9d7f-8e4d431a12c7"  # Jason Potter voice
+    CARTESIA_VOICE_ID = "a0e99841-438c-4a64-b679-ae501e7d6091"  # Default voice, update as needed
 
     @retry(
         stop=stop_after_attempt(3),
@@ -942,15 +942,18 @@ Here is today's complete formatted digest. Use ONLY this content:
     async def speak_cartesia(text: str, voice_id: str, filename: str):
         """Generate speech using Cartesia TTS via WebSocket."""
         uri = "wss://api.cartesia.ai/tts/websocket"
-        # Use the API key from environment or the provided one
-        api_key = CARTESIA_API_KEY or "sk_car_qGDH5TeA4D1q43UmvF7S1m"
+        # Get API key from environment (required, no fallback for security)
+        api_key = os.getenv("CARTESIA_API_KEY")
+        if not api_key:
+            raise ValueError("CARTESIA_API_KEY must be set in environment variables")
         headers = {
             "Cartesia-Version": "2025-04-16",
             "Authorization": f"Bearer {api_key}"
         }
         
         try:
-            async with websockets.connect(uri, extra_headers=headers) as websocket:
+            # Use additional_headers for websockets 12.0+ (extra_headers is deprecated)
+            async with websockets.connect(uri, additional_headers=headers) as websocket:
                 message = {
                     "model_id": "sonic-2",
                     "transcript": text,
