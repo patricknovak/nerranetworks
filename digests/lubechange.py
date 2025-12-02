@@ -231,10 +231,13 @@ for var in required:
     if not os.getenv(var):
         raise OSError(f"Missing {var} in .env")
 
-# Cartesia API key - use env var if available, otherwise use provided key
+# Cartesia API key - must be set in environment
+# SECURITY: Never hardcode API keys in source code
 if not os.getenv("CARTESIA_API_KEY"):
-    logging.warning("CARTESIA_API_KEY not found in .env, using provided fallback key")
-    os.environ["CARTESIA_API_KEY"] = "sk_car_qGDH5TeA4D1q43UmvF7S1m"
+    if ENABLE_PODCAST:
+        raise OSError("CARTESIA_API_KEY is required in .env when ENABLE_PODCAST is True")
+    else:
+        logging.warning("CARTESIA_API_KEY not set, but podcast is disabled so it's not required")
 
 # ========================== DATE ==========================
 # Get current date and time in MST (Mountain Standard Time - Alberta)
@@ -843,12 +846,9 @@ else:
     logging.info("X posting is disabled (ENABLE_X_POSTING = False)")
 
 # ========================== GENERATE PODCAST SCRIPT ==========================
-# Initialize audio_files list to prevent NameError in cleanup
-audio_files = []
-final_mp3 = None
-
 if not ENABLE_PODCAST:
     logging.info("Podcast generation is disabled (ENABLE_PODCAST = False). Skipping podcast script generation, audio processing, and RSS feed updates.")
+    final_mp3 = None
 else:
     POD_PROMPT = f"""You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Lube Change - Oilers Daily News" Episode {episode_num}.
 
