@@ -23,8 +23,8 @@ Add the following to your `.env` file:
 # Grok API (for content generation)
 GROK_API_KEY=your_grok_api_key_here
 
-# Cartesia API (for text-to-speech)
-CARTESIA_API_KEY=sk_car_qGDH5TeA4D1q43UmvF7S1m
+# Cartesia API (for text-to-speech) - REQUIRED when ENABLE_PODCAST is True
+CARTESIA_API_KEY=your_cartesia_api_key_here
 
 # X/Twitter API (for posting - optional, reusing planetterrian credentials for now)
 PLANETTERRIAN_X_CONSUMER_KEY=your_consumer_key
@@ -119,7 +119,7 @@ For the workflow to run automatically, you need to add the following secrets to 
 3. Click **New repository secret** and add:
 
    - `GROK_API_KEY` - Your Grok API key
-   - `CARTESIA_API_KEY` - Your Cartesia API key (or use the fallback key: `sk_car_qGDH5TeA4D1q43UmvF7S1m`)
+   - `CARTESIA_API_KEY` - Your Cartesia API key (REQUIRED when ENABLE_PODCAST is True)
    - `PLANETTERRIAN_X_CONSUMER_KEY` - X/Twitter consumer key (for posting)
    - `PLANETTERRIAN_X_CONSUMER_SECRET` - X/Twitter consumer secret
    - `PLANETTERRIAN_X_ACCESS_TOKEN` - X/Twitter access token

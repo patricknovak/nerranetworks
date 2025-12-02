@@ -843,9 +843,12 @@ else:
     logging.info("X posting is disabled (ENABLE_X_POSTING = False)")
 
 # ========================== GENERATE PODCAST SCRIPT ==========================
+# Initialize audio_files list to prevent NameError in cleanup
+audio_files = []
+final_mp3 = None
+
 if not ENABLE_PODCAST:
     logging.info("Podcast generation is disabled (ENABLE_PODCAST = False). Skipping podcast script generation, audio processing, and RSS feed updates.")
-    final_mp3 = None
 else:
     POD_PROMPT = f"""You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Lube Change - Oilers Daily News" Episode {episode_num}.
 
@@ -1440,4 +1443,3 @@ print("LUBE CHANGE - OILERS DAILY NEWS — FULLY AUTOMATED RUN COMPLETE")
 print(f"X Thread → {x_path}")
 print(f"Podcast → {final_mp3}")
 print("="*80)
-
