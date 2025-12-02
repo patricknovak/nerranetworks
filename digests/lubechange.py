@@ -482,6 +482,7 @@ def load_used_content_tracker() -> dict:
         "historical_facts": [],
         "drip_topics": [],
         "oil_country_moments": [],
+        "foundation_activities": [],
         "last_updated": None
     }
 
@@ -491,7 +492,7 @@ def save_used_content_tracker(tracker: dict):
     try:
         # Keep only last 7 days of content
         cutoff_date = (datetime.date.today() - datetime.timedelta(days=7)).isoformat()
-        for key in ["historical_facts", "drip_topics", "oil_country_moments"]:
+        for key in ["historical_facts", "drip_topics", "oil_country_moments", "foundation_activities"]:
             tracker[key] = [
                 item for item in tracker[key] 
                 if item.get("date", "") >= cutoff_date
@@ -520,6 +521,11 @@ def get_used_content_summary(tracker: dict) -> str:
         recent_moments = tracker["oil_country_moments"][-5:]  # Last 5 moments
         moments_text = "\n".join([f"- {item.get('content', '')[:100]}..." for item in recent_moments])
         summary_parts.append(f"RECENTLY USED OIL COUNTRY MOMENTS (DO NOT REPEAT):\n{moments_text}")
+    
+    if tracker.get("foundation_activities"):
+        recent_foundation = tracker["foundation_activities"][-5:]  # Last 5 activities
+        foundation_text = "\n".join([f"- {item.get('content', '')[:100]}..." for item in recent_foundation])
+        summary_parts.append(f"RECENTLY USED FOUNDATION ACTIVITIES (DO NOT REPEAT):\n{foundation_text}")
     
     if summary_parts:
         return "\n\n".join(summary_parts) + "\n\nCRITICAL: Generate COMPLETELY NEW and DIFFERENT content. Do not repeat any of the above.\n"
@@ -1051,6 +1057,14 @@ One inspiring or memorable moment from Oilers history, current team, or fan cult
 
 {used_content_summary if 'oil_country_moments' in used_content_summary else ''}
 
+━━━━━━━━━━━━━━━━━━━━
+### Edmonton Oilers Community Foundation
+Highlight NEW and RECENT support, initiatives, or activities that the Edmonton Oilers Community Foundation has done. This section shows Oilers fans where their charity dollars go and celebrates the positive impact the foundation makes in the community. Focus on recent events, donations, programs, partnerships, or community initiatives from the last few weeks or months. Keep it to 3-4 sentences and make it feel inspiring and community-focused.
+
+**CRITICAL: This MUST be based on RECENT foundation activities (within the last few weeks/months). Focus on NEW initiatives, recent donations, or current programs. Do not repeat content from recent episodes.**
+
+{used_content_summary if 'foundation_activities' in used_content_summary else ''}
+
 [2-3 sentence uplifting sign-off about the Oilers and Oil Country pride.]
 
 ### TONE & STYLE
@@ -1153,6 +1167,14 @@ if oil_country_moment:
     })
     logging.info("Tracked new Oil Country moment")
 
+foundation_activity = extract_section_content(x_thread, "Edmonton Oilers Community Foundation")
+if foundation_activity:
+    content_tracker["foundation_activities"].append({
+        "date": today_date,
+        "content": foundation_activity
+    })
+    logging.info("Tracked new foundation activity")
+
 # Save updated tracker
 save_used_content_tracker(content_tracker)
 
@@ -1214,6 +1236,7 @@ BRAND PERSONALITY: Lube Change - Oilers Daily News. Daily Edmonton Oilers news f
 RULES:
 - Start every line with "Jason:"
 - Don't read URLs aloud - mention source names naturally
+- Super pumped up and excited about the Oilers and Oil Country
 - Use natural dates ("today", "this morning") not exact timestamps
 - Enunciate all numbers clearly
 - Use ONLY information from the digest below - nothing else
@@ -1230,6 +1253,7 @@ Jason: Welcome to Lube Change - Oilers Daily News, episode {episode_num}. It is 
 - Oilers Historical Fact: Share the historical fact with enthusiasm and context
 - The Drip: Present what fans are talking about with energy, like you're breaking the latest buzz
 - Oil Country Moment: Share the moment with passion and Oilers pride
+- Edmonton Oilers Community Foundation: Highlight the recent foundation activities with pride and enthusiasm, emphasizing the positive impact on the community and showing fans where their charity dollars go
 
 [FIRST AD - Planetterrian]
 Jason: [Write an enthusiastic, natural ad for Planetterrian Daily. Must include: This podcast is made possible by Planetterrian Daily. It's a daily science, longevity, and health podcast hosted by Patrick in Vancouver. It covers groundbreaking scientific discoveries, health breakthroughs, and cutting-edge research. Mention that listeners can find it wherever they get podcasts or visit planetterrian.com. Include the tagline about technology meeting compassion. Make it sound natural and enthusiastic, like Jason is genuinely excited about the podcast. Keep it to 4-5 sentences.]
