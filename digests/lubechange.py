@@ -952,8 +952,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         }
         
         try:
-            # Use additional_headers for websockets 12.0+ (extra_headers is deprecated)
-            async with websockets.connect(uri, additional_headers=headers) as websocket:
+            async with websockets.connect(uri, extra_headers=headers) as websocket:
                 message = {
                     "model_id": "sonic-2",
                     "transcript": text,
