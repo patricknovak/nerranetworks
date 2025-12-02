@@ -120,45 +120,147 @@ def number_to_words(num: float) -> str:
     
     return ('negative ' if is_negative else '') + result
 
-# ========================== PRONUNCIATION FIXER v3 – ACRONYMS + NUMBERS ==========================
+# ========================== PRONUNCIATION FIXER v4 – COMPREHENSIVE HOCKEY TERMS ==========================
 def fix_pronunciation(text: str) -> str:
     """
-    Forces correct spelling of hockey/Oilers acronyms and converts numbers to words
-    for better TTS pronunciation on Cartesia.
+    Comprehensive pronunciation fixer for hockey/Oilers content.
+    Handles acronyms, scores, player numbers, statistics, and common hockey terms
+    for optimal TTS pronunciation on Cartesia.
     """
     import re
 
-    # List of acronyms that must be spelled out letter-by-letter
+    # Comprehensive list of hockey acronyms and terms
     acronyms = {
+        # League acronyms
         "NHL": "N H L",
         "NHLPA": "N H L P A",
         "AHL": "A H L",
         "WHL": "W H L",
         "OHL": "O H L",
         "QMJHL": "Q M J H L",
+        "ECHL": "E C H L",
+        "USHL": "U S H L",
+        "NCAA": "N C A A",
+        # Game situations
         "PP": "power play",
         "PK": "penalty kill",
         "SHG": "short-handed goal",
         "PPG": "power play goal",
+        "ENG": "empty net goal",
         "OT": "overtime",
         "SO": "shootout",
-        "GAA": "G A A",
+        "3v3": "three on three",
+        "5v5": "five on five",
+        "4v4": "four on four",
+        # Statistics
+        "GAA": "goals against average",
         "SV%": "save percentage",
-        "PIM": "P I M",
+        "SV": "save percentage",
+        "PIM": "penalty minutes",
         "TOI": "time on ice",
         "CF%": "Corsi for percentage",
         "xGF": "expected goals for",
+        "xGA": "expected goals against",
         "HDCF": "high danger chances for",
+        "HDCA": "high danger chances against",
+        "PDO": "P D O",
+        "GF": "goals for",
+        "GA": "goals against",
+        "GF%": "goals for percentage",
+        # Positions
+        "C": "center",
+        "LW": "left wing",
+        "RW": "right wing",
+        "D": "defenseman",
+        "G": "goalie",
+        "F": "forward",
+        # Common terms
+        "W": "win",
+        "L": "loss",
+        "OTL": "overtime loss",
+        "SOL": "shootout loss",
+        "PTS": "points",
+        "GP": "games played",
+        "G": "goals",
+        "A": "assists",
+        "P": "points",
+        "+/-": "plus minus",
+        "S%": "shooting percentage",
+        "FO%": "faceoff percentage",
+        "HIT": "hits",
+        "BLK": "blocks",
+        "TK": "takeaways",
+        "GV": "giveaways",
+    }
+
+    # Team name pronunciations (common mispronunciations)
+    team_names = {
+        "Oilers": "Oilers",
+        "Flames": "Flames",
+        "Canucks": "Canucks",
+        "Maple Leafs": "Maple Leafs",
+        "Canadiens": "Canadiens",
+        "Avalanche": "Avalanche",
+        "Golden Knights": "Golden Knights",
+        "Kraken": "Kraken",
+        "Sharks": "Sharks",
+        "Kings": "Kings",
+        "Ducks": "Ducks",
     }
 
     # Invisible zero-width non-breaking space / word joiner
     ZWJ = "\u2060"   # U+2060 WORD JOINER — this one is safe
 
+    # Fix acronyms (must be whole words)
     for acronym, spelled in acronyms.items():
-        # Build a regex that only matches the acronym when it's a whole word
         pattern = rf'(?<!\w){re.escape(acronym)}(?!\w)'
-        replacement = ZWJ.join(list(spelled))
+        if ' ' in spelled:
+            # For phrases like "power play", don't use ZWJ
+            replacement = spelled
+        else:
+            # For letter-by-letter acronyms, use ZWJ
+            replacement = ZWJ.join(list(spelled))
         text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+
+    # Fix hockey scores (e.g., "5-2" → "five to two", "3-1 OT" → "three to one in overtime")
+    def replace_score(match):
+        team1_score = match.group(1)
+        team2_score = match.group(2)
+        suffix = match.group(3) if match.group(3) else ''
+        try:
+            score1 = int(team1_score)
+            score2 = int(team2_score)
+            words1 = number_to_words(score1)
+            words2 = number_to_words(score2)
+            result = f"{words1} to {words2}"
+            if suffix:
+                suffix_lower = suffix.lower().strip()
+                if 'ot' in suffix_lower or 'overtime' in suffix_lower:
+                    result += " in overtime"
+                elif 'so' in suffix_lower or 'shootout' in suffix_lower:
+                    result += " in a shootout"
+                else:
+                    result += suffix
+            return result
+        except ValueError:
+            return match.group(0)
+    
+    # Match scores like "5-2", "3-1 OT", "4-3 (OT)", etc.
+    text = re.sub(r'(\d+)\s*[-–—]\s*(\d+)\s*(?:\(?(OT|SO|overtime|shootout)\)?)?', replace_score, text, flags=re.IGNORECASE)
+
+    # Fix player numbers (e.g., "#97" → "number ninety-seven", "No. 97" → "number ninety-seven")
+    def replace_player_number(match):
+        prefix = match.group(1) if match.group(1) else ''
+        num_str = match.group(2)
+        try:
+            num = int(num_str)
+            words = number_to_words(num)
+            return f"number {words}"
+        except ValueError:
+            return match.group(0)
+    
+    text = re.sub(r'(?:#|No\.?\s*)(\d+)', replace_player_number, text, flags=re.IGNORECASE)
+    text = re.sub(r'number\s+(\d+)', replace_player_number, text, flags=re.IGNORECASE)
 
     # Convert episode numbers (e.g., "episode 336" → "episode three hundred thirty-six")
     def replace_episode_number(match):
@@ -172,7 +274,29 @@ def fix_pronunciation(text: str) -> str:
             return match.group(0)
     
     text = re.sub(r'(episode\s+)(\d+)', replace_episode_number, text, flags=re.IGNORECASE)
+
+    # Convert statistics with numbers (e.g., "25 goals" → "twenty-five goals", "3.5 GAA" → "three point five goals against average")
+    def replace_stat_with_number(match):
+        num_str = match.group(1)
+        stat = match.group(2).strip()
+        try:
+            num = float(num_str)
+            words = number_to_words(num)
+            # Map common stat abbreviations to full words
+            stat_map = {
+                "GAA": "goals against average",
+                "SV%": "save percentage",
+                "PIM": "penalty minutes",
+                "TOI": "time on ice",
+            }
+            stat_full = stat_map.get(stat.upper(), stat)
+            return f"{words} {stat_full}"
+        except ValueError:
+            return match.group(0)
     
+    # Match patterns like "3.5 GAA", "25 goals", "10 assists"
+    text = re.sub(r'(\d+\.?\d*)\s+(GAA|SV%|PIM|TOI|goals?|assists?|points?|saves?|shots?)', replace_stat_with_number, text, flags=re.IGNORECASE)
+
     # Convert percentages (e.g., "+3.59%" → "plus three point five nine percent")
     def replace_percentage(match):
         sign = match.group(1) if match.group(1) else ''
@@ -192,7 +316,99 @@ def fix_pronunciation(text: str) -> str:
             return match.group(0)
     
     text = re.sub(r'([\+\-]?)(\d+\.?\d*)\s*%', replace_percentage, text)
+
+    # Convert dollar amounts (e.g., "$5.5M" → "five point five million dollars", "$2.3B" → "two point three billion dollars")
+    def replace_dollar_amount(match):
+        dollar_sign = match.group(1)
+        num_str = match.group(2)
+        suffix = match.group(3) if match.group(3) else ''
+        try:
+            num = float(num_str)
+            words = number_to_words(num)
+            if suffix.upper() == 'M':
+                suffix_word = ' million dollars'
+            elif suffix.upper() == 'B':
+                suffix_word = ' billion dollars'
+            elif suffix.upper() == 'K':
+                suffix_word = ' thousand dollars'
+            else:
+                suffix_word = ' dollars'
+            return f"{words}{suffix_word}"
+        except ValueError:
+            return match.group(0)
     
+    text = re.sub(r'(\$)(\d+\.?\d*)\s*([MBK]?)', replace_dollar_amount, text, flags=re.IGNORECASE)
+
+    # Convert standalone numbers in parentheses (e.g., "(25)" → "(twenty-five)")
+    def replace_standalone_number(match):
+        num_str = match.group(1)
+        try:
+            num = int(num_str)
+            words = number_to_words(num)
+            return f"({words})"
+        except ValueError:
+            return match.group(0)
+    
+    # Only replace numbers in parentheses if they're standalone (not part of scores or other patterns)
+    text = re.sub(r'\((\d+)\)', replace_standalone_number, text)
+
+    # Fix common hockey phrases
+    hockey_phrases = {
+        r'\bhat trick\b': 'hat trick',
+        r'\bpower play goal\b': 'power play goal',
+        r'\bshort-handed goal\b': 'short-handed goal',
+        r'\bempty net goal\b': 'empty net goal',
+        r'\bgame-winning goal\b': 'game-winning goal',
+        r'\bpenalty shot\b': 'penalty shot',
+        r'\bbreakaway\b': 'breakaway',
+        r'\bone-timer\b': 'one-timer',
+        r'\bslap shot\b': 'slap shot',
+        r'\bwrist shot\b': 'wrist shot',
+        r'\bbackhand\b': 'backhand',
+    }
+
+    # Fix dates (e.g., "December 2, 2025" → "December second, twenty twenty-five")
+    def replace_date(match):
+        month = match.group(1)
+        day = match.group(2)
+        year = match.group(3) if match.group(3) else ''
+        try:
+            day_num = int(day)
+            day_words = number_to_words(day_num)
+            result = f"{month} {day_words}"
+            if year:
+                year_num = int(year)
+                year_words = number_to_words(year_num)
+                result += f", {year_words}"
+            return result
+        except ValueError:
+            return match.group(0)
+    
+    text = re.sub(r'(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d+)(?:,\s*(\d{4}))?', replace_date, text, flags=re.IGNORECASE)
+
+    # Fix times (e.g., "3:00 PM" → "three o'clock P M", "9:30 AM" → "nine thirty A M")
+    def replace_time(match):
+        hour = match.group(1)
+        minute = match.group(2) if match.group(2) else '00'
+        period = match.group(3) if match.group(3) else ''
+        try:
+            hour_num = int(hour)
+            hour_words = number_to_words(hour_num)
+            if minute == '00' or minute == '':
+                time_str = f"{hour_words} o'clock"
+            else:
+                minute_num = int(minute)
+                minute_words = number_to_words(minute_num)
+                time_str = f"{hour_words} {minute_words}"
+            if period:
+                period_letters = ' '.join(list(period.upper()))
+                time_str += f" {period_letters}"
+            return time_str
+        except ValueError:
+            return match.group(0)
+    
+    text = re.sub(r'(\d{1,2}):(\d{2})\s*(AM|PM)', replace_time, text, flags=re.IGNORECASE)
+
     return text
 
 def generate_episode_thumbnail(base_image_path, episode_num, date_str, output_path):
