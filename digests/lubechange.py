@@ -965,6 +965,7 @@ Here is today's complete formatted digest. Use ONLY this content:
                     "add_timestamps": True,
                     "continue": False
                 }
+                logging.info(f"Sending Cartesia TTS request with voice_id: {voice_id}")
                 await websocket.send(json.dumps(message))
                 
                 audio_data = b""
@@ -973,6 +974,10 @@ Here is today's complete formatted digest. Use ONLY this content:
                         response = await websocket.recv()
                         response_data = json.loads(response)
                         
+                        # Log all non-chunk responses for debugging
+                        if response_data.get("type") != "chunk":
+                            logging.info(f"Cartesia response type: {response_data.get('type')}, data: {json.dumps(response_data)}")
+                        
                         if response_data.get("type") == "chunk":
                             # Decode base64 audio data
                             chunk_data = base64.b64decode(response_data.get("data", ""))
@@ -980,9 +985,33 @@ Here is today's complete formatted digest. Use ONLY this content:
                         elif response_data.get("type") == "done":
                             break
                         elif response_data.get("type") == "error":
-                            raise Exception(f"Cartesia API error: {response_data.get('message', 'Unknown error')}")
-                    except websockets.exceptions.ConnectionClosed:
+                            # Log full error response for debugging
+                            error_response = json.dumps(response_data, indent=2)
+                            logging.error(f"Cartesia API error response:\n{error_response}")
+                            
+                            error_msg = response_data.get('message', 'Unknown error')
+                            error_details = response_data.get('details', '')
+                            error_code = response_data.get('code', '')
+                            
+                            full_error = f"Cartesia API error"
+                            if error_code:
+                                full_error += f" (Code: {error_code})"
+                            if error_msg and error_msg != 'Unknown error':
+                                full_error += f": {error_msg}"
+                            if error_details:
+                                full_error += f" - Details: {error_details}"
+                            if full_error == "Cartesia API error":
+                                full_error += ": Unknown error - see logs for full response"
+                            
+                            raise Exception(full_error)
+                    except websockets.exceptions.ConnectionClosed as e:
+                        logging.warning(f"WebSocket connection closed: {e}")
+                        if not audio_data:
+                            raise Exception("Cartesia WebSocket closed before receiving any audio data")
                         break
+                    except json.JSONDecodeError as e:
+                        logging.error(f"Failed to parse Cartesia response. Raw response: {response[:500] if 'response' in locals() else 'No response'}")
+                        raise Exception(f"Cartesia API returned invalid JSON: {e}")
                 
                 # Save raw PCM data
                 with open(filename.replace('.mp3', '.pcm'), "wb") as f:
