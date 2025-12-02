@@ -1190,10 +1190,11 @@ Here is today's complete formatted digest. Use ONLY this content:
                     "transcript": text,
                     "voice": {"mode": "id", "id": voice_id},
                     "language": "en",
-                    "output_format": {"container": "raw", "encoding": "pcm_s16le", "sample_rate": 16000},
+                    "output_format": {"container": "raw", "encoding": "pcm_s16le", "sample_rate": 24000},  # Higher sample rate for better quality
                     "add_timestamps": True,
                     "continue": False,
-                    "context_id": context_id
+                    "context_id": context_id,
+                    "stream": False  # Ensure complete audio generation
                 }
                 logging.info(f"Sending Cartesia TTS request with voice_id: {voice_id}, context_id: {context_id}")
                 await websocket.send(json.dumps(message))
@@ -1237,19 +1238,20 @@ Here is today's complete formatted digest. Use ONLY this content:
                 with open(filename.replace('.mp3', '.pcm'), "wb") as f:
                     f.write(audio_data)
                 
-                # Convert PCM to MP3 using ffmpeg
-                subprocess.run([
-                    "ffmpeg", "-y",
-                    "-f", "s16le",
-                    "-ar", "16000",
-                    "-ac", "1",
-                    "-i", filename.replace('.mp3', '.pcm'),
-                    "-ar", "44100",
-                    "-ac", "1",
-                    "-c:a", "libmp3lame",
-                    "-b:a", "192k",
-                    filename
-                ], check=True, capture_output=True)
+                    # Convert PCM to MP3 using ffmpeg with high quality settings
+                    subprocess.run([
+                        "ffmpeg", "-y",
+                        "-f", "s16le",
+                        "-ar", "24000",  # Match input sample rate
+                        "-ac", "1",
+                        "-i", filename.replace('.mp3', '.pcm'),
+                        "-ar", "44100",  # Upsample to CD quality
+                        "-ac", "1",
+                        "-c:a", "libmp3lame",
+                        "-b:a", "256k",  # Higher bitrate for better quality (was 192k)
+                        "-q:a", "0",  # Highest quality VBR setting
+                        filename
+                    ], check=True, capture_output=True)
                 
                 # Clean up PCM file
                 pcm_file = filename.replace('.mp3', '.pcm')
