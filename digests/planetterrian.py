@@ -456,30 +456,6 @@ def fetch_science_news():
         "https://feeds.feedburner.com/longevity-technology",
         "https://www.lifespan.io/feed/",
         "https://www.longevity.technology/feed/",
-        "https://www.aging-us.com/rss",
-        "https://www.frontiersin.org/journals/aging/journals/aging/rss",
-        
-        # Medical & Health News
-        "https://www.healthline.com/rss",
-        "https://www.medicalnewstoday.com/rss",
-        "https://www.webmd.com/rss/rss.aspx?RSSSource=RSS_PUBLIC_0_Home",
-        "https://www.medscape.com/feeds/all",
-        "https://www.statnews.com/feed/",
-        "https://www.hopkinsmedicine.org/news/publications/hopkins_medicine_news/feed",
-        
-        # Government Health Agencies
-        "https://www.nih.gov/news-events/news-releases/rss.xml",
-        "https://www.cdc.gov/rss/rss.html",
-        "https://www.who.int/rss-feeds/news-english.xml",
-        "https://www.fda.gov/consumers/consumer-updates/rss.xml",
-        "https://www.hhs.gov/rss.xml",
-        
-        # Medical Journals
-        "https://www.thelancet.com/rssfeed/lancet_current.xml",
-        "https://jamanetwork.com/rss/site_1.xml",
-        "https://www.nejm.org/action/showFeed?type=etoc&feed=rss&jc=nejm",
-        "https://www.bmj.com/rss",
-        "https://www.nature.com/nm.rss",
         
         # Research Institutions
         "https://www.harvard.edu/feed/",
@@ -488,25 +464,6 @@ def fetch_science_news():
         "https://www.mayo.edu/research/rss",
         "https://www.clevelandclinic.org/health/rss",
         
-        # Biotechnology & Pharma
-        "https://www.biospace.com/rss",
-        "https://www.fiercebiotech.com/rss/xml",
-        "https://www.genengnews.com/feed/",
-        "https://www.bioworld.com/rss",
-        
-        # Nutrition & Wellness
-        "https://www.nutrition.org/rss/",
-        "https://www.eatright.org/rss",
-        "https://www.health.harvard.edu/blog/rss",
-        
-        # Neuroscience & Brain Health
-        "https://www.dana.org/rss/",
-        "https://www.brainfacts.org/rss",
-        "https://www.alz.org/news/rss",
-        
-        # Public Health
-        "https://www.apha.org/news-and-media/news-releases/rss",
-        "https://www.healthaffairs.org/rss",
     ]
     
     # Calculate cutoff time (last 24 hours)
@@ -521,7 +478,7 @@ def fetch_science_news():
         "biotechnology", "genetics", "genomics", "CRISPR", "gene therapy",
         "medicine", "medical", "health", "wellness", "nutrition", "diet",
         "research", "study", "clinical trial", "discovery", "breakthrough",
-        "science", "scientific", "biotech", "pharmaceutical", "drug",
+        "science", "scientific", "biotech",
         "cancer", "disease", "treatment", "therapy", "vaccine",
         "brain", "neuroscience", "cognitive", "mental health",
         "exercise", "fitness", "metabolism", "mitochondria"
@@ -623,14 +580,6 @@ def fetch_science_news():
                 source_name = "Mayo Clinic"
             elif "clevelandclinic" in feed_url.lower():
                 source_name = "Cleveland Clinic"
-            elif "biospace" in feed_url.lower():
-                source_name = "BioSpace"
-            elif "fiercebiotech" in feed_url.lower():
-                source_name = "Fierce Biotech"
-            elif "genengnews" in feed_url.lower():
-                source_name = "Genetic Engineering & Biotechnology News"
-            elif "bioworld" in feed_url.lower():
-                source_name = "BioWorld"
             elif "nutrition.org" in feed_url.lower():
                 source_name = "American Society for Nutrition"
             elif "eatright" in feed_url.lower():
@@ -745,7 +694,7 @@ SCIENCE_CONTENT_KEYWORDS = [
     "biotechnology", "genetics", "genomics", "CRISPR", "gene therapy",
     "medicine", "medical", "health", "wellness", "nutrition", "diet",
     "research", "study", "clinical trial", "discovery", "breakthrough",
-    "science", "scientific", "biotech", "pharmaceutical", "drug",
+    "science", "scientific", "biotech",
     "cancer", "disease", "treatment", "therapy", "vaccine",
     "brain", "neuroscience", "cognitive", "mental health"
 ]
