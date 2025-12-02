@@ -468,6 +468,75 @@ seven_days_ago_iso = (datetime.date.today() - datetime.timedelta(days=7)).isofor
 digests_dir = project_root / "digests" / "lubechange"
 digests_dir.mkdir(exist_ok=True, parents=True)
 
+# ========================== CONTENT TRACKING (PREVENT REPETITION) ==========================
+def load_used_content_tracker() -> dict:
+    """Load previously used content to avoid repetition."""
+    tracker_file = digests_dir / "content_tracker.json"
+    if tracker_file.exists():
+        try:
+            with open(tracker_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            logging.warning(f"Failed to load content tracker: {e}")
+    return {
+        "historical_facts": [],
+        "drip_topics": [],
+        "oil_country_moments": [],
+        "last_updated": None
+    }
+
+def save_used_content_tracker(tracker: dict):
+    """Save used content tracker."""
+    tracker_file = digests_dir / "content_tracker.json"
+    try:
+        # Keep only last 7 days of content
+        cutoff_date = (datetime.date.today() - datetime.timedelta(days=7)).isoformat()
+        for key in ["historical_facts", "drip_topics", "oil_country_moments"]:
+            tracker[key] = [
+                item for item in tracker[key] 
+                if item.get("date", "") >= cutoff_date
+            ]
+        tracker["last_updated"] = datetime.date.today().isoformat()
+        with open(tracker_file, 'w', encoding='utf-8') as f:
+            json.dump(tracker, f, indent=2)
+    except Exception as e:
+        logging.warning(f"Failed to save content tracker: {e}")
+
+def get_used_content_summary(tracker: dict) -> str:
+    """Generate a summary of recently used content for prompts."""
+    summary_parts = []
+    
+    if tracker.get("historical_facts"):
+        recent_facts = tracker["historical_facts"][-5:]  # Last 5 facts
+        facts_text = "\n".join([f"- {item.get('content', '')[:100]}..." for item in recent_facts])
+        summary_parts.append(f"RECENTLY USED HISTORICAL FACTS (DO NOT REPEAT):\n{facts_text}")
+    
+    if tracker.get("drip_topics"):
+        recent_drips = tracker["drip_topics"][-5:]  # Last 5 topics
+        drips_text = "\n".join([f"- {item.get('content', '')[:100]}..." for item in recent_drips])
+        summary_parts.append(f"RECENTLY USED DRIP TOPICS (DO NOT REPEAT):\n{drips_text}")
+    
+    if tracker.get("oil_country_moments"):
+        recent_moments = tracker["oil_country_moments"][-5:]  # Last 5 moments
+        moments_text = "\n".join([f"- {item.get('content', '')[:100]}..." for item in recent_moments])
+        summary_parts.append(f"RECENTLY USED OIL COUNTRY MOMENTS (DO NOT REPEAT):\n{moments_text}")
+    
+    if summary_parts:
+        return "\n\n".join(summary_parts) + "\n\nCRITICAL: Generate COMPLETELY NEW and DIFFERENT content. Do not repeat any of the above.\n"
+    return ""
+
+# Load content tracker
+content_tracker = load_used_content_tracker()
+used_content_summary = get_used_content_summary(content_tracker)
+
+# Folders - use absolute paths
+digests_dir = project_root / "digests" / "lubechange"
+digests_dir.mkdir(exist_ok=True, parents=True)
+
+# Initialize content tracker (must be after digests_dir is defined)
+content_tracker = load_used_content_tracker(digests_dir)
+used_content_summary = get_used_content_summary(content_tracker)
+
 # Determine episode number by finding the highest existing episode number and incrementing
 def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
     """Get the next episode number by finding the highest existing episode number."""
@@ -699,8 +768,10 @@ def fetch_oilers_news():
         "https://www.hockey-reference.com/rss",
     ]
     
-    # Calculate cutoff time (last 24 hours)
-    cutoff_time = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)
+    # Calculate cutoff time (strictly last 24 hours - exclude anything older)
+    now_utc = datetime.datetime.now(datetime.timezone.utc)
+    cutoff_time = now_utc - datetime.timedelta(hours=24)
+    logging.info(f"Fetching articles published after {cutoff_time.isoformat()} (last 24 hours only)")
     
     all_articles = []
     raw_articles = []
@@ -770,8 +841,17 @@ def fetch_oilers_news():
                     except (ValueError, TypeError):
                         pass
                 
-                if published_time and published_time < cutoff_time:
-                    continue
+                # Strict date filtering: only include articles from the last 24 hours
+                if published_time:
+                    if published_time < cutoff_time:
+                        continue  # Skip articles older than 24 hours
+                    # Also skip articles from the future (likely timezone issues)
+                    if published_time > now_utc + datetime.timedelta(hours=1):
+                        continue
+                else:
+                    # If no published time, use current time but log a warning
+                    logging.debug(f"Article '{title[:50]}...' has no published time, using current time")
+                    published_time = now_utc
                 
                 title = entry.get("title", "").strip()
                 description = entry.get("description", "").strip() or entry.get("summary", "").strip()
@@ -955,13 +1035,25 @@ One major story or development that Oilers fans need to know about. Explain why 
 ### Oilers Historical Fact
 Share one interesting, lesser-known historical fact about the Edmonton Oilers. This could be about a player, a game, a season, a record, or team history. Make it engaging and something that even die-hard fans might not know. Keep it to 2-3 sentences.
 
+**CRITICAL: This MUST be a COMPLETELY NEW and DIFFERENT historical fact. Do not repeat any fact used in recent episodes. Vary the topic (player stories, game moments, records, team history, etc.).**
+
+{used_content_summary if 'historical_facts' in used_content_summary else ''}
+
 ━━━━━━━━━━━━━━━━━━━━
 ### The Drip
-What are Oilers fans and analysts talking about right now? What do they think the team needs to do or change? This is the current conversation, buzz, or hot topic in Oil Country. It could be about roster moves, coaching, strategy, player performance, or team needs. Keep it to 3-4 sentences and make it feel like you're capturing the pulse of Oil Country.
+What are Oilers fans and analysts talking about RIGHT NOW based on TODAY'S news? What do they think the team needs to do or change? This MUST reflect the CURRENT conversation, buzz, or hot topic in Oil Country based on the news articles from the last 24 hours. It could be about roster moves, coaching, strategy, player performance, or team needs. Keep it to 3-4 sentences and make it feel like you're capturing the pulse of Oil Country TODAY.
+
+**CRITICAL: This MUST be based on TODAY'S news and be COMPLETELY DIFFERENT from recent episodes. Focus on what's happening NOW, not general topics.**
+
+{used_content_summary if 'drip_topics' in used_content_summary else ''}
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Oil Country Moment
 One inspiring or memorable moment from Oilers history, current team, or fan culture. End with: "Let's go Oilers!"
+
+**CRITICAL: This MUST be a COMPLETELY NEW and DIFFERENT moment. Vary between historical moments, current team achievements, and fan culture stories.**
+
+{used_content_summary if 'oil_country_moments' in used_content_summary else ''}
 
 [2-3 sentence uplifting sign-off about the Oilers and Oil Country pride.]
 
@@ -984,7 +1076,7 @@ def generate_digest_with_grok():
     response = client.chat.completions.create(
         model="grok-4",
         messages=[{"role": "user", "content": X_PROMPT}],
-        temperature=0.7,
+        temperature=0.85,  # Increased for more variation and creativity
         max_tokens=4000,
         extra_body={"search_parameters": {"mode": "off"}}
     )
@@ -1017,6 +1109,56 @@ for line in x_thread.splitlines():
         break
     lines.append(line)
 x_thread = "\n".join(lines).strip()
+
+# Extract and track used content to prevent repetition
+def extract_section_content(text: str, section_name: str) -> str:
+    """Extract content from a specific section of the digest."""
+    # Try multiple patterns to find the section
+    patterns = [
+        rf'###\s+{section_name}.*?\n(.*?)(?=\n###|\n━━|$)',
+        rf'##\s+{section_name}.*?\n(.*?)(?=\n##|\n###|\n━━|$)',
+        rf'{section_name}.*?\n(.*?)(?=\n###|\n##|\n━━|$)',
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
+        if match:
+            content = match.group(1).strip()
+            # Remove markdown formatting
+            content = re.sub(r'\*\*', '', content)
+            content = re.sub(r'\[([^\]]+)\]\([^\)]+\)', r'\1', content)
+            # Limit to first 500 chars to avoid storing too much
+            return content[:500]
+    return ""
+
+# Extract sections and add to tracker
+today_date = datetime.date.today().isoformat()
+
+historical_fact = extract_section_content(x_thread, "Oilers Historical Fact")
+if historical_fact:
+    content_tracker["historical_facts"].append({
+        "date": today_date,
+        "content": historical_fact
+    })
+    logging.info("Tracked new historical fact")
+
+drip_topic = extract_section_content(x_thread, "The Drip")
+if drip_topic:
+    content_tracker["drip_topics"].append({
+        "date": today_date,
+        "content": drip_topic
+    })
+    logging.info("Tracked new drip topic")
+
+oil_country_moment = extract_section_content(x_thread, "Oil Country Moment")
+if oil_country_moment:
+    content_tracker["oil_country_moments"].append({
+        "date": today_date,
+        "content": oil_country_moment
+    })
+    logging.info("Tracked new Oil Country moment")
+
+# Save updated tracker
+save_used_content_tracker(content_tracker)
 
 # Save X thread
 x_path = digests_dir / f"Lube_Change_{datetime.date.today():%Y%m%d}.md"
