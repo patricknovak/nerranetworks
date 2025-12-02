@@ -1,32 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-    <channel>
-        <title>Lube Change - Oilers Daily News</title>
-        <link>https://github.com/patricknovak/Tesla-shorts-time</link>
-        <description>Daily Edmonton Oilers news from Oil Country. Hosted by Jason Potter from Hinton, Alberta.</description>
-        <language>en-us</language>
-        <copyright>Copyright 2025</copyright>
-        <itunes:author>Jason Potter</itunes:author>
-        <itunes:summary>Daily Edmonton Oilers news from Oil Country. Your daily dose of Oilers news, game recaps, trades, and analysis.</itunes:summary>
-        <itunes:owner>
-            <itunes:name>Lube Change</itunes:name>
-            <itunes:email>contact@lubechange.com</itunes:email>
-        </itunes:owner>
-        <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/lubechange-podcast-image.jpg"/>
-        <!-- 
-        Apple Podcasts Image Requirements:
-        - Square aspect ratio (1:1)
-        - Minimum: 1400 x 1400 pixels
-        - Maximum: 3000 x 3000 pixels
-        - Format: JPEG or PNG
-        - RGB color space
-        - Resolution: 72 dpi recommended
-        - File size: Under 500 KB
-        - No alpha channel/transparency
-        -->
-        <itunes:category text="Sports"/>
-        <itunes:explicit>no</itunes:explicit>
-        <lastBuildDate>Mon, 01 Jan 2025 00:00:00 +0000</lastBuildDate>
-    </channel>
+<?xml version='1.0' encoding='UTF-8'?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>Lube Change - Oilers Daily News</title>
+    <link>https://github.com/patricknovak/Tesla-shorts-time</link>
+    <description>Daily Edmonton Oilers news from Oil Country. Hosted by Jason Potter from Hinton, Alberta.</description>
+    <copyright>Copyright 2025</copyright>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+    <generator>python-feedgen</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 02 Dec 2025 06:14:34 +0000</lastBuildDate>
+    <itunes:author>Jason Potter</itunes:author>
+    <itunes:category text="Sports"/>
+    <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/lubechange-podcast-image.jpg"/>
+    <itunes:explicit>no</itunes:explicit>
+    <itunes:owner>
+      <itunes:name>Lube Change</itunes:name>
+      <itunes:email>contact@lubechange.com</itunes:email>
+    </itunes:owner>
+    <itunes:summary>Daily Edmonton Oilers news from Oil Country. Your daily dose of Oilers news, game recaps, trades, and analysis.</itunes:summary>
+    <item>
+      <title>Lube Change - Oilers Daily News - Episode 1 - December 01, 2025 at 11:03 PM MST</title>
+      <link>https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/lubechange/Lube_Change_Ep001_20251202.mp3</link>
+      <description>Daily Edmonton Oilers news for December 01, 2025 at 11:03 PM MST.🏒 **Lube Change** - Your Daily Dose of Oilers News from Oil Country...</description>
+      <guid isPermaLink="false">lubechange-ep001-20251202-061434</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/lubechange/Lube_Change_Ep001_20251202.mp3" length="16694796" type="audio/mpeg"/>
+      <pubDate>Tue, 02 Dec 2025 08:00:00 +0000</pubDate>
+      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/lubechange-podcast-image.jpg"/>
+      <itunes:duration>11:35</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>Daily Edmonton Oilers news for December 01, 2025 at 11:03 PM MST.🏒 **Lube Change** - Your Daily Dose of Oilers News from Oil Country...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>1</itunes:episode>
+      <itunes:title>Lube Change - Oilers Daily News - Episode 1 - December 01, 2025 at 11:03 PM MST</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+  </channel>
 </rss>
-
