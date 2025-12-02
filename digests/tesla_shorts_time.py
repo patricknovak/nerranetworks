@@ -1405,8 +1405,8 @@ logging.info("Generating X thread with Grok using pre-fetched content (this may 
 # Enable web search ONLY for X Spotlight section (Grok needs to find posts from spotlight account)
 # For news items, we still use only pre-fetched content
 enable_web_search = True
-search_params = {"mode": "web"}  # Enable web search for X Spotlight curation
-logging.info("✅ Web search enabled for X Spotlight section - Grok will curate posts from @{spotlight_username}")
+search_params = {"mode": "on"}  # Enable web search for X Spotlight curation
+logging.info(f"✅ Web search enabled for X Spotlight section - Grok will curate posts from @{spotlight_username}")
 
 @retry(
     stop=stop_after_attempt(3),
