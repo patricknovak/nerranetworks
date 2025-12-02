@@ -279,6 +279,214 @@ change_str = f"{change:+.2f} ({change_pct:+.2f}%) {market_status}" if change != 
 digests_dir = project_root / "digests"
 digests_dir.mkdir(exist_ok=True)
 
+# ========================== X SPOTLIGHT USERNAME ROTATION ==========================
+def get_spotlight_username() -> tuple[str, str]:
+    """Get the spotlight username and display name based on the day of the week."""
+    weekday = datetime.date.today().weekday()  # 0=Monday, 6=Sunday
+    spotlight_map = {
+        0: ("SawyerMerritt", "Sawyer Merritt"),
+        1: ("WholeMarsBlog", "Whole Mars Blog"),
+        2: ("DirtyTesLa", "Dirty Tesla"),
+        3: ("TeslaPodcast", "Tesla Podcast"),
+        4: ("elonmusk", "Elon Musk"),
+        5: ("tesla_raj", "Tesla Raj"),
+        6: ("TeslaBoomerMama", "Tesla Boomer Mama")
+    }
+    username, display_name = spotlight_map[weekday]
+    logging.info(f"Today's X Spotlight: @{username} ({display_name})")
+    return username, display_name
+
+spotlight_username, spotlight_display_name = get_spotlight_username()
+
+# ========================== CONTENT TRACKING (PREVENT REPETITION) ==========================
+def load_used_content_tracker() -> dict:
+    """Load previously used content to avoid repetition."""
+    tracker_file = digests_dir / "tesla_content_tracker.json"
+    if tracker_file.exists():
+        try:
+            with open(tracker_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            logging.warning(f"Failed to load content tracker: {e}")
+    return {
+        "short_spots": [],
+        "short_squeezes": [],
+        "daily_challenges": [],
+        "inspiration_quotes": [],
+        "last_updated": None
+    }
+
+def save_used_content_tracker(tracker: dict):
+    """Save used content tracker."""
+    tracker_file = digests_dir / "tesla_content_tracker.json"
+    try:
+        # Keep only last 14 days of content (2 weeks)
+        cutoff_date = (datetime.date.today() - datetime.timedelta(days=14)).isoformat()
+        for key in ["short_spots", "short_squeezes", "daily_challenges", "inspiration_quotes"]:
+            tracker[key] = [
+                item for item in tracker[key] 
+                if item.get("date", "") >= cutoff_date
+            ]
+        tracker["last_updated"] = datetime.date.today().isoformat()
+        with open(tracker_file, 'w', encoding='utf-8') as f:
+            json.dump(tracker, f, indent=2)
+    except Exception as e:
+        logging.warning(f"Failed to save content tracker: {e}")
+
+def extract_sections_from_digest(digest_path: Path) -> dict:
+    """Extract Short Spot, Short Squeeze, Daily Challenge, and Inspiration Quote from a digest file."""
+    sections = {
+        "short_spot": None,
+        "short_squeeze": None,
+        "daily_challenge": None,
+        "inspiration_quote": None
+    }
+    
+    if not digest_path.exists():
+        return sections
+    
+    try:
+        with open(digest_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Extract Short Spot (between "## Short Spot" or "📉 **Short Spot**" and next separator)
+        short_spot_match = re.search(
+            r'(?:## Short Spot|📉 \*\*Short Spot\*\*)(.*?)(?=━━|### Short Squeeze|📈|### Daily Challenge|💪|✨|$)',
+            content,
+            re.DOTALL | re.IGNORECASE
+        )
+        if short_spot_match:
+            sections["short_spot"] = short_spot_match.group(1).strip()
+        
+        # Extract Short Squeeze (between "### Short Squeeze" or "📈 **Short Squeeze**" and next separator)
+        short_squeeze_match = re.search(
+            r'(?:### Short Squeeze|📈 \*\*Short Squeeze\*\*)(.*?)(?=━━|### Daily Challenge|💪|✨|$)',
+            content,
+            re.DOTALL | re.IGNORECASE
+        )
+        if short_squeeze_match:
+            sections["short_squeeze"] = short_squeeze_match.group(1).strip()
+        
+        # Extract Daily Challenge (between "### Daily Challenge" or "💪 **Daily Challenge**" and next separator)
+        daily_challenge_match = re.search(
+            r'(?:### Daily Challenge|💪 \*\*Daily Challenge\*\*)(.*?)(?=━━|✨|Inspiration Quote|$)',
+            content,
+            re.DOTALL | re.IGNORECASE
+        )
+        if daily_challenge_match:
+            sections["daily_challenge"] = daily_challenge_match.group(1).strip()
+        
+        # Extract Inspiration Quote (look for "Inspiration Quote:" or "✨ **Inspiration Quote:**")
+        inspiration_quote_match = re.search(
+            r'(?:✨ \*\*Inspiration Quote:\*\*|\*\*Inspiration Quote:\*\*|Inspiration Quote:)\s*"([^"]+)"\s*[–-]\s*([^,]+)',
+            content,
+            re.DOTALL | re.IGNORECASE
+        )
+        if inspiration_quote_match:
+            quote_text = inspiration_quote_match.group(1).strip()
+            author = inspiration_quote_match.group(2).strip()
+            sections["inspiration_quote"] = f'"{quote_text}" – {author}'
+        
+    except Exception as e:
+        logging.warning(f"Failed to extract sections from {digest_path}: {e}")
+    
+    return sections
+
+def load_recent_digests(max_days: int = 14) -> dict:
+    """Load sections from recent digests to track what's been used."""
+    tracker = {
+        "short_spots": [],
+        "short_squeezes": [],
+        "daily_challenges": [],
+        "inspiration_quotes": []
+    }
+    
+    # Look for digest files from the last max_days days
+    cutoff_date = datetime.date.today() - datetime.timedelta(days=max_days)
+    
+    for i in range(max_days):
+        check_date = datetime.date.today() - datetime.timedelta(days=i)
+        date_str = check_date.strftime("%Y%m%d")
+        
+        # Try both formatted and unformatted versions
+        for pattern in [f"Tesla_Shorts_Time_{date_str}.md", f"Tesla_Shorts_Time_{date_str}_formatted.md"]:
+            digest_path = digests_dir / pattern
+            if digest_path.exists():
+                sections = extract_sections_from_digest(digest_path)
+                
+                if sections["short_spot"]:
+                    tracker["short_spots"].append({
+                        "date": check_date.isoformat(),
+                        "content": sections["short_spot"][:500]  # First 500 chars
+                    })
+                if sections["short_squeeze"]:
+                    tracker["short_squeezes"].append({
+                        "date": check_date.isoformat(),
+                        "content": sections["short_squeeze"][:500]
+                    })
+                if sections["daily_challenge"]:
+                    tracker["daily_challenges"].append({
+                        "date": check_date.isoformat(),
+                        "content": sections["daily_challenge"][:500]
+                    })
+                if sections["inspiration_quote"]:
+                    tracker["inspiration_quotes"].append({
+                        "date": check_date.isoformat(),
+                        "content": sections["inspiration_quote"][:200]
+                    })
+                break  # Found one, don't check other pattern
+    
+    return tracker
+
+def get_used_content_summary(tracker: dict) -> str:
+    """Generate a summary of recently used content for prompts."""
+    summary_parts = []
+    
+    if tracker.get("short_spots"):
+        recent = tracker["short_spots"][-7:]  # Last 7 Short Spots
+        spots_text = "\n".join([f"- {item.get('content', '')[:200]}..." for item in recent])
+        summary_parts.append(f"RECENTLY USED SHORT SPOTS (DO NOT REPEAT - create something COMPLETELY DIFFERENT):\n{spots_text}")
+    
+    if tracker.get("short_squeezes"):
+        recent = tracker["short_squeezes"][-7:]  # Last 7 Short Squeezes
+        squeezes_text = "\n".join([f"- {item.get('content', '')[:200]}..." for item in recent])
+        summary_parts.append(f"RECENTLY USED SHORT SQUEEZES (DO NOT REPEAT - use DIFFERENT failed predictions, DIFFERENT years, DIFFERENT bears):\n{squeezes_text}")
+    
+    if tracker.get("daily_challenges"):
+        recent = tracker["daily_challenges"][-7:]  # Last 7 Daily Challenges
+        challenges_text = "\n".join([f"- {item.get('content', '')[:200]}..." for item in recent])
+        summary_parts.append(f"RECENTLY USED DAILY CHALLENGES (DO NOT REPEAT - create a COMPLETELY NEW and DIFFERENT challenge):\n{challenges_text}")
+    
+    if tracker.get("inspiration_quotes"):
+        recent = tracker["inspiration_quotes"][-10:]  # Last 10 quotes (more variety needed)
+        quotes_text = "\n".join([f"- {item.get('content', '')[:150]}..." for item in recent])
+        summary_parts.append(f"RECENTLY USED INSPIRATION QUOTES (DO NOT REPEAT - use a DIFFERENT quote from a DIFFERENT author):\n{quotes_text}")
+    
+    if summary_parts:
+        return "\n\n".join(summary_parts) + "\n\n🚨 CRITICAL: Generate COMPLETELY NEW, FRESH, and DIFFERENT content for ALL sections. Avoid ANY similarity to the above. Each section must be unique and engaging.\n"
+    return ""
+
+# Initialize content tracker
+content_tracker = load_used_content_tracker()
+# Also load from recent digest files to get the most up-to-date tracking
+recent_tracker = load_recent_digests(max_days=14)
+# Merge both (recent digests take precedence)
+for key in ["short_spots", "short_squeezes", "daily_challenges", "inspiration_quotes"]:
+    # Combine and deduplicate by content
+    combined = content_tracker.get(key, []) + recent_tracker.get(key, [])
+    seen_content = set()
+    unique_items = []
+    for item in combined:
+        content_hash = item.get("content", "")[:100]  # Use first 100 chars as hash
+        if content_hash not in seen_content:
+            seen_content.add(content_hash)
+            unique_items.append(item)
+    # Sort by date, most recent first, keep last 14
+    unique_items.sort(key=lambda x: x.get("date", ""), reverse=True)
+    content_tracker[key] = unique_items[:14]
+
+used_content_summary = get_used_content_summary(content_tracker)
+
 # Determine episode number by finding the highest existing episode number and incrementing
 def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
     """Get the next episode number by finding the highest existing episode number."""
@@ -758,8 +966,6 @@ def fetch_x_posts_nitter(usernames: List[str]) -> tuple[List[Dict], List[Dict]]:
 
 # X POSTS DISABLED - No longer fetching X posts to avoid API costs
 logging.info("Step 2: X posts fetching disabled (to avoid API costs)")
-top_x_posts = []
-raw_x_posts = []
 
 # ========================== SAVE RAW DATA AND GENERATE HTML PAGE ==========================
 logging.info("Saving raw data and generating HTML page for raw news and X posts...")
@@ -1104,12 +1310,16 @@ X_PROMPT = f"""
 # Tesla Shorts Time - DAILY EDITION
 **Date:** {today_str}
 **REAL-TIME TSLA price:** ${price:.2f} {change_str}
-🎙️ Tesla Shorts Time Daily Podcast Link: https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939
+
 {news_section}
 
 {x_posts_section}
 
 You are an elite Tesla news curator producing the daily "Tesla Shorts Time" newsletter. Use ONLY the pre-fetched news above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. Do NOT include a "Top X Posts" section in your output. Prioritize diversity: No duplicates/similar stories (≥70% overlap in angle/content); max 3 from one source/account.
+
+**EXCEPTION FOR X SPOTLIGHT SECTION**: For the "X Spotlight: @{spotlight_username}" section ONLY, you may use web search or your knowledge to find recent Tesla-related posts from @{spotlight_username} on X. Curate the top 5 most engaging posts from the past week and provide an overall weekly sentiment summary. Use actual post URLs when possible (format: https://x.com/{spotlight_username}/status/[POST_ID]).
+
+{used_content_summary}
 
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
 - **News**: You MUST select EXACTLY 10 unique articles. If you have fewer than 10 available, use ALL of them and number them 1 through N (where N is the count). If you have more than 10, select the BEST 10 and number them 1-10. DO NOT output 20 items - output EXACTLY 10. Prioritize high-quality sources; each must cover a DIFFERENT Tesla story/angle.
@@ -1128,22 +1338,40 @@ You are an elite Tesla news curator producing the daily "Tesla Shorts Time" news
 2. [Repeat format for 3-10; if <10 items, stop at available count, add a blank line after each item and the last item]
 
 ━━━━━━━━━━━━━━━━━━━━
+## X Spotlight: @{spotlight_username}
+🎯 TODAY'S FOCUS: You must curate content from @{spotlight_username} ({spotlight_display_name}) on X.
+
+**TOP 5 TESLA X POSTS FROM @{spotlight_username}:**
+Using your knowledge of X (formerly Twitter) and public information, curate the top 5 most engaging, insightful, or newsworthy Tesla-related posts from @{spotlight_username} from the past week. For each post:
+1. **Post Title/Summary: DD Month, YYYY (if known)**  
+   Brief description of the post content (2-3 sentences). Include the key Tesla-related insight, news, or perspective shared.
+   Post: https://x.com/{spotlight_username}/status/[POST_ID] (use actual post URLs if you can find them, or format as shown)
+
+**OVERALL WEEKLY SENTIMENT OF TESLA ON X FROM @{spotlight_username}:**
+Provide a 2-3 sentence summary of the overall sentiment and themes that @{spotlight_username} has been sharing about Tesla this past week. Is the sentiment bullish, bearish, neutral? What are the main topics they've been covering? What's their perspective on Tesla's current trajectory?
+
+━━━━━━━━━━━━━━━━━━━━
 ## Short Spot
+🚨 CRITICAL: This must be COMPLETELY DIFFERENT from any recent Short Spots. Use a DIFFERENT bearish story, DIFFERENT angle, and DIFFERENT framing than what was used recently.
 One bearish item from pre-fetched news that's negative for Tesla/stock.  
 **Catchy Title: DD Month, YYYY, HH:MM AM/PM PST, @username/Source**  
 2–4 sentences explaining it & why it's temporary/overblown (frame optimistically). End with: Source/Post: [EXACT URL]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Short Squeeze
+🚨 CRITICAL: This must be COMPLETELY DIFFERENT from any recent Short Squeezes. Use DIFFERENT failed predictions, DIFFERENT bear names, DIFFERENT years, and DIFFERENT examples. Do NOT repeat the same predictions or bears from recent days.
 Dedicated paragraph on short-seller pain:
-Add specific failed bear predictions (2020–2025, with references and links from past).
+Add specific failed bear predictions (2020–2025, with references and links from past). Vary the years, vary the bear names, vary the specific predictions. Make it fresh and engaging every day.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Daily Challenge
-One short, inspiring challenge tied to Tesla/Elon themes (curiosity, first principles, perseverance). End with: "Share your progress with us @teslashortstime!"
+🚨 CRITICAL: This must be COMPLETELY NEW and DIFFERENT from any recent Daily Challenges. Use a DIFFERENT theme, DIFFERENT approach, and DIFFERENT wording. Avoid repetition at all costs.
+One short, inspiring challenge tied to Tesla/Elon themes (curiosity, first principles, perseverance, innovation, sustainability, etc.). Vary the themes daily. End with: "Share your progress with us @teslashortstime!"
 
 ━━━━━━━━━━━━━━━━━━━━
-**Inspiration Quote:** "Exact quote" – Author, [Source Link] (fresh, no repeats and from a wide variety of sources)
+**Inspiration Quote:** 
+🚨 CRITICAL: This must be from a DIFFERENT author than recent quotes. Use a DIFFERENT quote with a DIFFERENT message. Vary authors widely - use quotes from scientists, entrepreneurs, philosophers, leaders, innovators, etc. Never repeat the same author or similar message.
+"Exact quote" – Author, [Source Link] (fresh, no repeats and from a wide variety of sources)
 
 [2-3 sentence uplifting sign-off on Tesla's mission + invite to DM @teslashortstime with feedback.]
 
@@ -1156,12 +1384,17 @@ One short, inspiring challenge tied to Tesla/Elon themes (curiosity, first princ
 
 ### FINAL VALIDATION CHECKLIST (DO THIS BEFORE OUTPUT)
 - ✅ Exactly 10 news items (or all if <10): Numbered 1-10, unique stories.
+- ✅ X Spotlight section included with Top 5 posts from @{spotlight_username} and weekly sentiment summary.
 - ✅ Podcast link: Full URL as shown.
 - ✅ Lists: "1. " format (number, period, space)—no bullets.
 - ✅ Separators: "━━━━━━━━━━━━━━━━━━━━" before each major section.
 - ✅ No duplicates: All items unique (review pairwise).
-- ✅ All sections included: Short Spot, Short Squeeze, Daily Challenge, Quote, sign-off.
+- ✅ All sections included: X Spotlight, Short Spot, Short Squeeze, Daily Challenge, Quote, sign-off.
 - ✅ URLs: Exact from pre-fetched; valid format; no inventions.
+- ✅ FRESHNESS CHECK: Short Spot is DIFFERENT from recent ones (different story/angle).
+- ✅ FRESHNESS CHECK: Short Squeeze uses DIFFERENT predictions/bears/years than recent ones.
+- ✅ FRESHNESS CHECK: Daily Challenge is COMPLETELY NEW and DIFFERENT from recent ones.
+- ✅ FRESHNESS CHECK: Inspiration Quote is from a DIFFERENT author than recent quotes.
 - If any fail, adjust selections and re-check.
 
 Output today's edition exactly as formatted.
@@ -1169,10 +1402,11 @@ Output today's edition exactly as formatted.
 
 logging.info("Generating X thread with Grok using pre-fetched content (this may take 1-2 minutes)...")
 
-# CRITICAL: Always disable web search to prevent hallucinations and ensure we only use pre-fetched URLs
-enable_web_search = False
-search_params = {"mode": "off"}
-logging.info("✅ Web search disabled - using only pre-fetched content to avoid hallucinations")
+# Enable web search ONLY for X Spotlight section (Grok needs to find posts from spotlight account)
+# For news items, we still use only pre-fetched content
+enable_web_search = True
+search_params = {"mode": "web"}  # Enable web search for X Spotlight curation
+logging.info("✅ Web search enabled for X Spotlight section - Grok will curate posts from @{spotlight_username}")
 
 @retry(
     stop=stop_after_attempt(3),
@@ -1377,6 +1611,10 @@ def format_digest_for_x(digest: str) -> str:
     
     # Format section headers with emojis (preserve existing markdown)
     formatted = re.sub(r'^### Top 10 News Items', '📰 **Top 10 News Items**', formatted, flags=re.MULTILINE)
+    # Format X Spotlight section
+    formatted = re.sub(r'^## X Spotlight: @(\w+)', r'🌟 **X Spotlight: @\1**', formatted, flags=re.MULTILINE)
+    formatted = re.sub(r'^## X Spotlight:', '🌟 **X Spotlight:**', formatted, flags=re.MULTILINE)
+    formatted = re.sub(r'^### X Spotlight:', '🌟 **X Spotlight:**', formatted, flags=re.MULTILINE)
     # X POSTS SECTION DISABLED - No longer formatting X posts header
     formatted = re.sub(r'^## Short Spot', '📉 **Short Spot**', formatted, flags=re.MULTILINE)
     formatted = re.sub(r'^### Short Squeeze', '📈 **Short Squeeze**', formatted, flags=re.MULTILINE)
@@ -1397,13 +1635,19 @@ def format_digest_for_x(digest: str) -> str:
     # Also match after podcast link
     formatted = re.sub(r'(Podcast Link:.*?\n)(📰|\*\*Top 10 News|### Top 10 News)', separator + r'\2', formatted, flags=re.DOTALL)
     
+    # Add separator before X Spotlight
+    formatted = re.sub(r'(\n\n?)(🌟 \*\*X Spotlight)', separator + r'\2', formatted)
+    formatted = re.sub(r'(\n\n?)(## X Spotlight|### X Spotlight)', separator + r'\2', formatted)
+    # Also match after last news item (10.)
+    formatted = re.sub(r'(10[️⃣\.]\s+.*?\n)(🌟|\*\*X Spotlight|## X Spotlight|### X Spotlight)', separator + r'\2', formatted, flags=re.DOTALL)
+    
     # X POSTS SEPARATOR DISABLED - No longer adding separator before X posts
     
     # Add separator before Short Spot
     formatted = re.sub(r'(\n\n?)(📉 \*\*Short Spot\*\*)', separator + r'\2', formatted)
     formatted = re.sub(r'(\n\n?)(## Short Spot)', separator + r'\2', formatted)
-    # Also match after last news item (10.)
-    formatted = re.sub(r'(10[️⃣\.]\s+.*?\n)(📉|\*\*Short Spot|## Short Spot)', separator + r'\2', formatted, flags=re.DOTALL)
+    # Also match after X Spotlight section
+    formatted = re.sub(r'(Overall Weekly Sentiment.*?\n)(📉|\*\*Short Spot|## Short Spot)', separator + r'\2', formatted, flags=re.DOTALL)
     
     # Add separator before Short Squeeze
     formatted = re.sub(r'(\n\n?)(📈 \*\*Short Squeeze\*\*)', separator + r'\2', formatted)
@@ -1522,6 +1766,43 @@ with open(x_path, "w", encoding="utf-8") as f:
     f.write(x_thread)
 logging.info(f"X thread generated and saved → {x_path}")
 
+# ========================== SAVE NEW CONTENT TO TRACKER ==========================
+# Extract sections from the newly generated digest and save to tracker
+today_date = datetime.date.today().isoformat()
+new_sections = extract_sections_from_digest(x_path)
+
+if new_sections["short_spot"]:
+    content_tracker["short_spots"].append({
+        "date": today_date,
+        "content": new_sections["short_spot"][:500]
+    })
+    logging.info("Saved new Short Spot to content tracker")
+
+if new_sections["short_squeeze"]:
+    content_tracker["short_squeezes"].append({
+        "date": today_date,
+        "content": new_sections["short_squeeze"][:500]
+    })
+    logging.info("Saved new Short Squeeze to content tracker")
+
+if new_sections["daily_challenge"]:
+    content_tracker["daily_challenges"].append({
+        "date": today_date,
+        "content": new_sections["daily_challenge"][:500]
+    })
+    logging.info("Saved new Daily Challenge to content tracker")
+
+if new_sections["inspiration_quote"]:
+    content_tracker["inspiration_quotes"].append({
+        "date": today_date,
+        "content": new_sections["inspiration_quote"][:200]
+    })
+    logging.info("Saved new Inspiration Quote to content tracker")
+
+# Save the updated tracker
+save_used_content_tracker(content_tracker)
+logging.info("Content tracker updated with today's sections")
+
 # Exit early if in test mode (only generate digest)
 if TEST_MODE:
     print("\n" + "="*80)
@@ -1570,7 +1851,7 @@ Patrick: Welcome to Tesla Shorts Time Daily, episode {episode_num}. It is {today
 
 [Narrate EVERY item from the digest in order - no skipping]
 - For each news item: Read the title with enthusiasm, then paraphrase the summary naturally
-- For each X post: Read the title with enthusiasm, then paraphrase the post in excited speech
+- X Spotlight: Introduce the spotlight account (@{spotlight_username} - {spotlight_display_name}) with enthusiasm. Read each of the top 5 posts with excitement, explaining why each post matters. Then summarize the overall weekly sentiment from @{spotlight_username} about Tesla. Make it engaging and highlight why this account's perspective is valuable.
 - Short Squeeze: Paraphrase with enthusiasm, calling out specific failed predictions and dollar losses
 - Daily Challenge + Quote: Read the quote verbatim, then the challenge verbatim, add one encouraging sentence
 
