@@ -1317,7 +1317,9 @@ X_PROMPT = f"""
 
 You are an elite Tesla news curator producing the daily "Tesla Shorts Time" newsletter. Use ONLY the pre-fetched news above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. Do NOT include a "Top X Posts" section in your output. Prioritize diversity: No duplicates/similar stories (≥70% overlap in angle/content); max 3 from one source/account.
 
-**EXCEPTION FOR X SPOTLIGHT SECTION**: For the "X Spotlight: @{spotlight_username}" section ONLY, you may use web search or your knowledge to find recent Tesla-related posts from @{spotlight_username} on X. Curate the top 5 most engaging posts from the past week and provide an overall weekly sentiment summary. Use actual post URLs when possible (format: https://x.com/{spotlight_username}/status/[POST_ID]).
+**EXCEPTION FOR X SPOTLIGHT SECTION**: For the "X Spotlight: @{spotlight_username}" section ONLY, you may use web search or your knowledge to find recent Tesla-related posts from @{spotlight_username} on X. Curate the top 5 most engaging posts from the past week and provide an overall weekly sentiment summary. 
+
+**CRITICAL**: Only include actual working X post URLs with real numeric post IDs. If you cannot find real post URLs, omit the "Post:" line entirely. Do NOT use placeholder URLs like [POST_ID] or [ACTUAL_POST_ID]. Do NOT include any instruction language, meta-commentary, or formatting notes in your output - only output the actual content.
 
 {used_content_summary}
 
@@ -1339,16 +1341,28 @@ You are an elite Tesla news curator producing the daily "Tesla Shorts Time" news
 
 ━━━━━━━━━━━━━━━━━━━━
 ## X Spotlight: @{spotlight_username}
-🎯 TODAY'S FOCUS: You must curate content from @{spotlight_username} ({spotlight_display_name}) on X.
+1. **Post Title: DD Month, YYYY**  
+   Description of the post content (2-3 sentences). Include the key Tesla-related insight, news, or perspective shared.
+   Post: https://x.com/{spotlight_username}/status/[ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID]
 
-**TOP 5 TESLA X POSTS FROM @{spotlight_username}:**
-Using your knowledge of X (formerly Twitter) and public information, curate the top 5 most engaging, insightful, or newsworthy Tesla-related posts from @{spotlight_username} from the past week. For each post:
-1. **Post Title/Summary: DD Month, YYYY (if known)**  
-   Brief description of the post content (2-3 sentences). Include the key Tesla-related insight, news, or perspective shared.
-   Post: https://x.com/{spotlight_username}/status/[POST_ID] (use actual post URLs if you can find them, or format as shown)
+2. **Post Title: DD Month, YYYY**  
+   Description of the post content (2-3 sentences).
+   Post: https://x.com/{spotlight_username}/status/[ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID]
 
-**OVERALL WEEKLY SENTIMENT OF TESLA ON X FROM @{spotlight_username}:**
-Provide a 2-3 sentence summary of the overall sentiment and themes that @{spotlight_username} has been sharing about Tesla this past week. Is the sentiment bullish, bearish, neutral? What are the main topics they've been covering? What's their perspective on Tesla's current trajectory?
+3. **Post Title: DD Month, YYYY**  
+   Description of the post content (2-3 sentences).
+   Post: https://x.com/{spotlight_username}/status/[ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID]
+
+4. **Post Title: DD Month, YYYY**  
+   Description of the post content (2-3 sentences).
+   Post: https://x.com/{spotlight_username}/status/[ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID]
+
+5. **Post Title: DD Month, YYYY**  
+   Description of the post content (2-3 sentences).
+   Post: https://x.com/{spotlight_username}/status/[ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID]
+
+**Overall Weekly Sentiment:**
+Summary of the overall sentiment and themes that @{spotlight_username} has been sharing about Tesla this past week. Include whether the sentiment is bullish, bearish, or neutral, and what main topics they've been covering.
 
 ━━━━━━━━━━━━━━━━━━━━
 ## Short Spot
@@ -1482,6 +1496,35 @@ x_thread = re.sub(r'\[([^\]]+)\]\((https?://[^\)]+)\)', r'\2', x_thread)
 x_thread = re.sub(r'\[(https?://[^\]]+)\]', r'\1', x_thread)
 # Fix URLs with trailing brackets
 x_thread = re.sub(r'(https?://x\.com/[^\s\)\]]+)[\)\]]+', r'\1', x_thread)
+
+# Remove instruction language that might have leaked into output
+instruction_patterns = [
+    r'🎯\s*TODAY\'S FOCUS:.*?\n',
+    r'\*\*TOP 5 TESLA X POSTS FROM.*?:\*\*\s*\n',
+    r'Using your knowledge.*?\n',
+    r'For each post:.*?\n',
+    r'\(use actual post URLs.*?\)',
+    r'\(if you can find them.*?\)',
+    r'\(format as shown\)',
+    r'\*\*OVERALL WEEKLY SENTIMENT.*?:\*\*\s*\n',
+    r'Provide a.*?summary.*?\n',
+    r'Is the sentiment.*?\n',
+    r'What are the main topics.*?\n',
+    r'What\'s their perspective.*?\n',
+    r'\[Repeat for.*?\]',
+    r'\[ACTUAL_POST_ID\]',
+    r'\[POST_ID\]',
+]
+for pattern in instruction_patterns:
+    x_thread = re.sub(pattern, '', x_thread, flags=re.IGNORECASE | re.MULTILINE)
+
+# Remove placeholder/dead URLs (URLs with [POST_ID] or similar placeholders)
+x_thread = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/\[[^\]]+\]', '', x_thread, flags=re.IGNORECASE)
+x_thread = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/[^\d][^\s]*', '', x_thread, flags=re.IGNORECASE)  # Remove URLs without numeric IDs
+x_thread = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID', '', x_thread, flags=re.IGNORECASE)  # Remove placeholder URLs
+
+# Clean up any remaining instruction-like text in X Spotlight section
+x_thread = re.sub(r'(## X Spotlight[^\n]*\n)[^\n]*(?:TODAY\'S FOCUS|must curate|Using your|For each)', r'\1', x_thread, flags=re.IGNORECASE | re.DOTALL)
 
 # Find and limit news items to exactly 10
 news_pattern = r'(### Top 10 News Items.*?)(## Short Spot|### Short Squeeze|━━)'
@@ -1709,6 +1752,32 @@ def format_digest_for_x(digest: str) -> str:
     formatted = re.sub(r'\[(https?://[^\]]+)\]', r'\1', formatted)
     # Fix URLs that might have trailing brackets or parentheses
     formatted = re.sub(r'(https?://x\.com/[^\s\)\]]+)[\)\]]+', r'\1', formatted)
+    
+    # Remove instruction language that might have leaked into output
+    instruction_patterns = [
+        r'🎯\s*TODAY\'S FOCUS:.*?\n',
+        r'\*\*TOP 5 TESLA X POSTS FROM.*?:\*\*\s*\n',
+        r'Using your knowledge.*?\n',
+        r'For each post:.*?\n',
+        r'\(use actual post URLs.*?\)',
+        r'\(if you can find them.*?\)',
+        r'\(format as shown\)',
+        r'\*\*OVERALL WEEKLY SENTIMENT.*?:\*\*\s*\n',
+        r'Provide a.*?summary.*?\n',
+        r'Is the sentiment.*?\n',
+        r'What are the main topics.*?\n',
+        r'What\'s their perspective.*?\n',
+        r'\[Repeat for.*?\]',
+        r'\[ACTUAL_POST_ID\]',
+        r'\[POST_ID\]',
+    ]
+    for pattern in instruction_patterns:
+        formatted = re.sub(pattern, '', formatted, flags=re.IGNORECASE | re.MULTILINE)
+    
+    # Remove placeholder/dead URLs (URLs with [POST_ID] or similar placeholders, or invalid format)
+    formatted = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/\[[^\]]+\]', '', formatted, flags=re.IGNORECASE)
+    formatted = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/[^\d/][^\s]*', '', formatted, flags=re.IGNORECASE)  # Remove URLs without proper numeric IDs
+    formatted = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID', '', formatted, flags=re.IGNORECASE)  # Remove placeholder URLs
     
     # Final cleanup: normalize whitespace
     # Replace multiple spaces with single space (but preserve intentional formatting)
