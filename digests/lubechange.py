@@ -1335,7 +1335,8 @@ Here is today's complete formatted digest. Use ONLY this content:
         
         try:
             # Use additional_headers for websockets 12.0+ (extra_headers is deprecated)
-            async with websockets.connect(uri, additional_headers=headers) as websocket:
+            try:
+                async with websockets.connect(uri, additional_headers=headers) as websocket:
                 # Generate a valid context_id from filename (alphanumeric, underscores, hyphens only)
                 # Cartesia requires context_id to only contain alphanumeric, underscores, and hyphens
                 filename_base = os.path.basename(filename).replace('.mp3', '').replace('.pcm', '')
@@ -1417,8 +1418,34 @@ Here is today's complete formatted digest. Use ONLY this content:
                 
                 # Clean up PCM file
                 pcm_file = filename.replace('.mp3', '.pcm')
-                if os.path.exists(pcm_file):
-                    os.remove(pcm_file)
+                    if os.path.exists(pcm_file):
+                        os.remove(pcm_file)
+            except websockets.exceptions.InvalidStatus as e:
+                # Handle HTTP status errors (like 402 Payment Required)
+                status_code = getattr(e, 'status_code', None) or str(e)
+                if '402' in str(status_code) or '402' in str(e):
+                    error_msg = (
+                        "Cartesia API returned HTTP 402 (Payment Required). "
+                        "This typically means:\n"
+                        "1. The API key is invalid or expired\n"
+                        "2. The account has insufficient credits/quota\n"
+                        "3. The account subscription has expired\n"
+                        "Please check your Cartesia account status and API key."
+                    )
+                    logging.error(error_msg)
+                    raise Exception(error_msg) from e
+                else:
+                    error_msg = f"Cartesia API connection rejected with HTTP {status_code}: {e}"
+                    logging.error(error_msg)
+                    raise Exception(error_msg) from e
+            except websockets.exceptions.ConnectionClosed as e:
+                error_msg = f"Cartesia WebSocket connection closed unexpectedly: {e}"
+                logging.error(error_msg)
+                raise Exception(error_msg) from e
+            except websockets.exceptions.InvalidURI as e:
+                error_msg = f"Cartesia API URI is invalid: {e}"
+                logging.error(error_msg)
+                raise Exception(error_msg) from e
                     
         except Exception as e:
             logging.error(f"Cartesia TTS error: {e}")
