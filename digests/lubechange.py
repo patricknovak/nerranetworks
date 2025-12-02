@@ -234,7 +234,7 @@ for var in required:
 # Cartesia API key - use env var if available, otherwise use provided key
 if not os.getenv("CARTESIA_API_KEY"):
     logging.warning("CARTESIA_API_KEY not found in .env, using provided fallback key")
-    # SECURITY: Hardcoded key removed - must use environment variable
+    os.environ["CARTESIA_API_KEY"] = "sk_car_qGDH5TeA4D1q43UmvF7S1m"
 
 # ========================== DATE ==========================
 # Get current date and time in MST (Mountain Standard Time - Alberta)
@@ -843,12 +843,9 @@ else:
     logging.info("X posting is disabled (ENABLE_X_POSTING = False)")
 
 # ========================== GENERATE PODCAST SCRIPT ==========================
-# Initialize audio_files list to prevent NameError in cleanup
-audio_files = []
-final_mp3 = None
-
 if not ENABLE_PODCAST:
     logging.info("Podcast generation is disabled (ENABLE_PODCAST = False). Skipping podcast script generation, audio processing, and RSS feed updates.")
+    final_mp3 = None
 else:
     POD_PROMPT = f"""You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Lube Change - Oilers Daily News" Episode {episode_num}.
 
@@ -946,9 +943,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         """Generate speech using Cartesia TTS via WebSocket."""
         uri = "wss://api.cartesia.ai/tts/websocket"
         # Use the API key from environment or the provided one
-        api_key = os.getenv("CARTESIA_API_KEY")
-        if not api_key:
-            raise ValueError("CARTESIA_API_KEY must be set in environment variables")
+        api_key = CARTESIA_API_KEY or "sk_car_qGDH5TeA4D1q43UmvF7S1m"
         headers = {
             "Cartesia-Version": "2025-04-16",
             "Authorization": f"Bearer {api_key}"
