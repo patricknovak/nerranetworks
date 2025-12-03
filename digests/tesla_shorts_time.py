@@ -1348,9 +1348,7 @@ You are an elite Tesla news curator producing the daily "Tesla Shorts Time" news
 2. [Repeat format for 3-10; if <10 items, stop at available count, add a blank line after each item and the last item]
 
 ━━━━━━━━━━━━━━━━━━━━
-## X Spotlight: @{spotlight_username} ({spotlight_display_name})
-Today's spotlight is on @{spotlight_username} - follow them at https://x.com/{spotlight_username} to see all their Tesla insights and updates.
-
+## X Spotlight: @{spotlight_username}
 1. **Post Title: DD Month, YYYY**  
    Description of the post content (2-3 sentences). Include the key Tesla-related insight, news, or perspective shared.
    Post: https://x.com/{spotlight_username}/status/[ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID]
@@ -1670,15 +1668,7 @@ def format_digest_for_x(digest: str) -> str:
     # Format section headers with emojis (preserve existing markdown)
     formatted = re.sub(r'^### Top 10 News Items', '📰 **Top 10 News Items**', formatted, flags=re.MULTILINE)
     # Format X Spotlight section
-    # Handle X Spotlight with account mention and link
-    formatted = re.sub(
-        r'^## X Spotlight: @(\w+)\s*\(([^)]+)\)',
-        r'🌟 **X Spotlight: @\1** (\2)\nFollow them at: https://x.com/\1',
-        formatted,
-        flags=re.MULTILINE
-    )
-    # Fallback for simpler format
-    formatted = re.sub(r'^## X Spotlight: @(\w+)', r'🌟 **X Spotlight: @\1**\nFollow them at: https://x.com/\1', formatted, flags=re.MULTILINE)
+    formatted = re.sub(r'^## X Spotlight: @(\w+)', r'🌟 **X Spotlight: @\1**', formatted, flags=re.MULTILINE)
     formatted = re.sub(r'^## X Spotlight:', '🌟 **X Spotlight:**', formatted, flags=re.MULTILINE)
     formatted = re.sub(r'^### X Spotlight:', '🌟 **X Spotlight:**', formatted, flags=re.MULTILINE)
     # X POSTS SECTION DISABLED - No longer formatting X posts header
@@ -1952,7 +1942,7 @@ Patrick: Welcome to Tesla Shorts Time Daily, episode {episode_num}. It is {today
 
 [Narrate EVERY item from the digest in order - no skipping]
 - For each news item: Read the title with enthusiasm, then paraphrase the summary naturally
-- X Spotlight: Introduce the spotlight account (@{spotlight_username} - {spotlight_display_name}) with enthusiasm. Mention that listeners can follow them at @{spotlight_username} on X to see all their Tesla insights. Read each of the top 5 posts with excitement, explaining why each post matters. Then summarize the overall weekly sentiment from @{spotlight_username} about Tesla. Make it engaging and highlight why this account's perspective is valuable.
+- X Spotlight: Introduce the spotlight account (@{spotlight_username} - {spotlight_display_name}) with enthusiasm. Read each of the top 5 posts with excitement, explaining why each post matters. Then summarize the overall weekly sentiment from @{spotlight_username} about Tesla. Make it engaging and highlight why this account's perspective is valuable.
 - Short Squeeze: Paraphrase with enthusiasm, calling out specific failed predictions and dollar losses
 - Daily Challenge + Quote: Read the quote verbatim, then the challenge verbatim, add one encouraging sentence
 
