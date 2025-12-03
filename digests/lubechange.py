@@ -541,10 +541,26 @@ used_content_summary = get_used_content_summary(content_tracker)
 
 # Determine episode number by finding the highest existing episode number and incrementing
 def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
-    """Get the next episode number by finding the highest existing episode number."""
+    """Get the next episode number. Checks if episode for today exists, otherwise starts at 1 or increments."""
+    today_str = datetime.date.today().strftime("%Y%m%d")
+    
+    # First, check if an episode already exists for today's date
+    today_pattern = f"Lube_Change_Ep(\\d+)_{today_str}\\.mp3"
+    for mp3_file in digests_dir.glob(f"Lube_Change_Ep*_{today_str}.mp3"):
+        match = re.match(today_pattern, mp3_file.name)
+        if match:
+            try:
+                existing_ep_num = int(match.group(1))
+                logging.info(f"Episode {existing_ep_num} already exists for today ({today_str}). Skipping generation.")
+                return None  # Signal to skip generation
+            except ValueError:
+                pass
+    
+    # No episode for today exists, so determine next episode number
+    # RESET: Start at episode 1 (fresh start)
     max_episode = 0
     
-    # Check RSS feed first
+    # Check RSS feed for existing episodes
     if rss_path.exists():
         try:
             tree = ET.parse(str(rss_path))
@@ -573,14 +589,25 @@ def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
             except ValueError:
                 pass
     
-    # Return next episode number (increment by 1)
-    next_episode = max_episode + 1
-    logging.info(f"Next episode number: {next_episode} (highest existing: {max_episode})")
+    # RESET TO EPISODE 1: Start fresh numbering
+    # If you want to continue from highest, use: next_episode = max_episode + 1
+    next_episode = 1
+    logging.info(f"Starting fresh: Next episode number will be {next_episode} (ignoring previous max: {max_episode})")
     return next_episode
 
 # Get the next episode number
 rss_path = project_root / "lubechange_podcast.rss"
 episode_num = get_next_episode_number(rss_path, digests_dir)
+
+# Check if episode generation should be skipped (episode already exists for today)
+skip_podcast_today = False
+if episode_num is None:
+    logging.info("Episode for today already exists. Skipping podcast generation.")
+    skip_podcast_today = True
+    # Set a placeholder episode number for credit tracking (won't be used for podcast)
+    episode_num = 0
+else:
+    logging.info(f"Will create Episode {episode_num} for today ({datetime.date.today().strftime('%Y-%m-%d')})")
 
 # ========================== CREDIT TRACKING ==========================
 # Initialize credit usage tracking
@@ -1457,8 +1484,11 @@ def update_rss_feed(
     logging.info(f"RSS feed updated → {rss_path}")
 
 # ========================== GENERATE PODCAST SCRIPT ==========================
-if not ENABLE_PODCAST:
-    logging.info("Podcast generation is disabled (ENABLE_PODCAST = False). Skipping podcast script generation, audio processing, and RSS feed updates.")
+if not ENABLE_PODCAST or skip_podcast_today:
+    if skip_podcast_today:
+        logging.info("Episode for today already exists. Skipping podcast script generation, audio processing, and RSS feed updates.")
+    else:
+        logging.info("Podcast generation is disabled (ENABLE_PODCAST = False). Skipping podcast script generation, audio processing, and RSS feed updates.")
     final_mp3 = None
 else:
     POD_PROMPT = f"""You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Lube Change - Oilers Daily News" Episode {episode_num}.
