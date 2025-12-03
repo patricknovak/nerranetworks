@@ -1077,41 +1077,47 @@ else:
     news_section = "## PRE-FETCHED OILERS NEWS ARTICLES: None available\n\n"
 
 X_PROMPT = f"""
-# Lube Change - Oilers Daily News
-**Date:** {today_str}
-🏒 Lube Change Podcast: Daily Edmonton Oilers News from the Heart of Oil Country
-
 {news_section}
+
+=== INSTRUCTIONS (DO NOT INCLUDE IN OUTPUT) ===
 
 You are an elite Edmonton Oilers news curator producing the daily "Lube Change - Oilers Daily News" newsletter. Use ONLY the pre-fetched news articles above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links.
 
-**CRITICAL FOCUS: OILERS-SPECIFIC NEWS ONLY**
+FOCUS REQUIREMENTS:
 - ONLY include news that DIRECTLY relates to the Edmonton Oilers
 - Focus on: Oilers games, Oilers players, Oilers trades, Oilers roster moves, Oilers coaching, Oilers management, Oilers injuries, Oilers draft picks, Oilers prospects, Oilers team news
 - EXCLUDE: General NHL news that doesn't specifically impact the Oilers, news about other teams unless it directly affects the Oilers (trades, matchups, etc.), league-wide news that doesn't mention the Oilers
 - If an article is primarily about another team and only mentions Oilers in passing, DO NOT include it
 - Prioritize breaking Oilers news, game recaps, player updates, and team developments
 
-**BRAND PERSONALITY:**
+SELECTION REQUIREMENTS:
+- Select EXACTLY 15 unique articles. If you have fewer than 15 available, use ALL of them and number them 1 through N. If you have more than 15, select the BEST 15.
+- Each article must cover a DIFFERENT story/angle - no duplicates or similar content
+- Prioritize high-quality sources
+
+CONTENT REQUIREMENTS:
+- Vintage Oil: Must be a COMPLETELY NEW and DIFFERENT historical fact. Do not repeat any fact used in recent episodes. Vary the topic (player stories, game moments, records, team history, etc.).
+- The Drip: Must be based on TODAY'S news and be COMPLETELY DIFFERENT from recent episodes. Focus on what's happening NOW, not general topics.
+- 80s Vibes: Must be a COMPLETELY NEW and DIFFERENT moment. Vary between historical moments, current team achievements, and fan culture stories.
+- Edmonton Oilers Community Foundation: Must be based on RECENT foundation activities (within the last few weeks/months). Focus on NEW initiatives, recent donations, or current programs. Do not repeat content from recent episodes.
+
+{used_content_summary if used_content_summary else ''}
+
+BRAND PERSONALITY:
 - Host: Jason Potter from Hinton, Alberta - in the heart of Oil Country
 - Passionate, knowledgeable Oilers fan with deep love for the team
 - Authentic Alberta voice, proud of Oil Country
-- Focus: Breaking Oilers news, game recaps, trades, roster moves, player updates
 - Tone: Enthusiastic, knowledgeable, passionate about the Oilers, authentic Albertan
 - Audience: Die-hard Oilers fans who want the latest Oilers-specific news and analysis
 
-### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
-- **News**: You MUST select EXACTLY 15 unique articles. If you have fewer than 15 available, use ALL of them and number them 1 through N. If you have more than 15, select the BEST 15. Prioritize high-quality sources; each must cover a DIFFERENT story/angle.
-- **Diversity Check**: Verify no similar content; each item must cover a DIFFERENT angle.
+=== OUTPUT FORMAT (INCLUDE ONLY THIS IN YOUR RESPONSE) ===
 
-### FORMATTING (EXACT—USE MARKDOWN AS SHOWN)
 # Lube Change - Oilers Daily News
 **Date:** {today_str}
 🏒 **Lube Change** - Your Daily Dose of Oilers News from Oil Country
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Oilers Stories
-**CRITICAL: Only include stories that DIRECTLY relate to the Edmonton Oilers. Each story must be about Oilers players, games, trades, roster moves, coaching, management, or team news. Do NOT include general NHL news unless it specifically impacts the Oilers.**
 
 1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM MST, Source Name**  
    2–4 sentences: Start with what happened with the Oilers, explain why it matters for Oilers fans. Focus on the Oilers-specific impact. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
@@ -1125,43 +1131,23 @@ One major story or development that Oilers fans need to know about. Explain why 
 ### Vintage Oil
 Share one interesting, lesser-known historical fact about the Edmonton Oilers. This could be about a player, a game, a season, a record, or team history. Make it engaging and something that even die-hard fans might not know. Keep it to 2-3 sentences.
 
-**CRITICAL: This MUST be a COMPLETELY NEW and DIFFERENT historical fact. Do not repeat any fact used in recent episodes. Vary the topic (player stories, game moments, records, team history, etc.).**
-
-{used_content_summary if 'historical_facts' in used_content_summary else ''}
-
 ━━━━━━━━━━━━━━━━━━━━
 ### The Drip
 What are Oilers fans and analysts talking about RIGHT NOW based on TODAY'S news? What do they think the team needs to do or change? This MUST reflect the CURRENT conversation, buzz, or hot topic in Oil Country based on the news articles from the last 24 hours. It could be about roster moves, coaching, strategy, player performance, or team needs. Keep it to 3-4 sentences and make it feel like you're capturing the pulse of Oil Country TODAY.
-
-**CRITICAL: This MUST be based on TODAY'S news and be COMPLETELY DIFFERENT from recent episodes. Focus on what's happening NOW, not general topics.**
-
-{used_content_summary if 'drip_topics' in used_content_summary else ''}
 
 ━━━━━━━━━━━━━━━━━━━━
 ### 80s Vibes
 One inspiring or memorable moment from Oilers history, current team, or fan culture. End with: "Let's go Oilers!"
 
-**CRITICAL: This MUST be a COMPLETELY NEW and DIFFERENT moment. Vary between historical moments, current team achievements, and fan culture stories.**
-
-{used_content_summary if 'oil_country_moments' in used_content_summary else ''}
-
 ━━━━━━━━━━━━━━━━━━━━
 ### Edmonton Oilers Community Foundation
 Highlight NEW and RECENT support, initiatives, or activities that the Edmonton Oilers Community Foundation has done. This section shows Oilers fans where their charity dollars go and celebrates the positive impact the foundation makes in the community. Focus on recent events, donations, programs, partnerships, or community initiatives from the last few weeks or months. Keep it to 3-4 sentences and make it feel inspiring and community-focused.
 
-**CRITICAL: This MUST be based on RECENT foundation activities (within the last few weeks/months). Focus on NEW initiatives, recent donations, or current programs. Do not repeat content from recent episodes.**
-
-{used_content_summary if 'foundation_activities' in used_content_summary else ''}
-
 [2-3 sentence uplifting sign-off about the Oilers and Oil Country pride.]
 
-### TONE & STYLE
-- Enthusiastic, passionate, knowledgeable about the Oilers
-- Authentic Alberta voice
-- Focus on what matters to Oilers fans
-- Timestamps: Accurate MST/MDT
+=== END OF OUTPUT FORMAT ===
 
-Output today's edition exactly as formatted.
+IMPORTANT: Output ONLY the formatted content above. Do NOT include any instructions, notes, or explanations. Do NOT include "CRITICAL:" or "MUST" statements in the output. Just produce the clean formatted digest.
 """
 
 @retry(
@@ -1200,13 +1186,35 @@ except Exception as e:
     logging.error(f"Grok API call failed: {e}")
     raise
 
-# Clean Grok footer
+# Clean Grok output - remove any instructions, footers, or metadata that leaked through
 lines = []
+skip_remaining = False
 for line in x_thread.splitlines():
-    if line.strip().startswith(("**Sources", "Grok", "I used", "[")):
+    # Stop at common footer patterns
+    if line.strip().startswith(("**Sources", "Grok", "I used", "[", "===", "INSTRUCTIONS", "OUTPUT FORMAT")):
         break
+    # Remove lines that contain instruction keywords
+    line_lower = line.lower()
+    if any(keyword in line_lower for keyword in [
+        "critical:", "must", "do not include", "exclude:", "include only",
+        "output only", "do not", "important:", "note:", "remember:",
+        "follow exactly", "mandatory", "requirements"
+    ]):
+        # Skip instruction lines, but allow through if it's part of actual content
+        # (e.g., "This is critical for the team" would be fine)
+        if not any(phrase in line_lower for phrase in [
+            "critical for", "must win", "must be", "do not want", "important game",
+            "important for", "note that", "remember when"
+        ]):
+            continue
     lines.append(line)
 x_thread = "\n".join(lines).strip()
+
+# Additional cleanup: Remove any remaining instruction blocks
+x_thread = re.sub(r'\*\*CRITICAL:.*?\*\*', '', x_thread, flags=re.DOTALL | re.IGNORECASE)
+x_thread = re.sub(r'\*\*MUST.*?\*\*', '', x_thread, flags=re.DOTALL | re.IGNORECASE)
+x_thread = re.sub(r'===.*?===', '', x_thread, flags=re.DOTALL)
+x_thread = re.sub(r'\n{3,}', '\n\n', x_thread)  # Clean up multiple newlines
 
 # Extract and track used content to prevent repetition
 def extract_section_content(text: str, section_name: str) -> str:
@@ -1280,7 +1288,7 @@ def format_digest_for_x(digest: str) -> str:
     # Remove markdown headers but keep text
     formatted = re.sub(r'^#+\s+', '', formatted, flags=re.MULTILINE)
     
-    # Convert markdown bold to plain text
+    # Convert Imarkdown bold to plain text
     formatted = re.sub(r'\*\*(.*?)\*\*', r'\1', formatted)
     
     # Clean up URLs
@@ -1552,19 +1560,21 @@ if not ENABLE_PODCAST or skip_podcast_today:
         logging.info("Podcast generation is disabled (ENABLE_PODCAST = False). Skipping podcast script generation, audio processing, and RSS feed updates.")
     final_mp3 = None
 else:
-    POD_PROMPT = f"""You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Lube Change - Oilers Daily News" Episode {episode_num}.
+    POD_PROMPT = f"""=== INSTRUCTIONS (DO NOT INCLUDE IN OUTPUT) ===
+
+You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Lube Change - Oilers Daily News" Episode {episode_num}.
 
 HOST: Jason Potter from Hinton, Alberta - in the heart of Oil Country. Authentic Albertan voice, passionate Oilers fan, knowledgeable about hockey and the Oilers. Voice like a sports radio host breaking Oilers news, not robotic.
 
 BRAND PERSONALITY: Lube Change - Oilers Daily News. Daily Edmonton Oilers news from Oil Country. Passionate, knowledgeable, authentic Alberta voice.
 
-CRITICAL FOCUS: OILERS-SPECIFIC NEWS ONLY
+FOCUS REQUIREMENTS:
 - ONLY discuss news that DIRECTLY relates to the Edmonton Oilers
 - Focus on: Oilers games, Oilers players, Oilers trades, Oilers roster moves, Oilers coaching, Oilers management, Oilers injuries, Oilers draft picks, Oilers prospects, Oilers team news
 - DO NOT discuss: General NHL news that doesn't specifically impact the Oilers, news about other teams unless it directly affects the Oilers, league-wide news that doesn't mention the Oilers
 - Every story must be about the Oilers or how something impacts the Oilers specifically
 
-CRITICAL RULES FOR NATURAL SPEECH:
+SPEECH REQUIREMENTS:
 - Start every line with "Jason:"
 - Write in COMPLETE, GRAMMATICALLY CORRECT SENTENCES
 - Use proper punctuation: periods, commas, question marks, exclamation points
@@ -1582,7 +1592,8 @@ CRITICAL RULES FOR NATURAL SPEECH:
 - Use authentic Alberta/hockey terminology
 - Make it sound like natural conversation, not reading a script
 
-SCRIPT STRUCTURE:
+=== OUTPUT FORMAT (INCLUDE ONLY THIS IN YOUR RESPONSE) ===
+
 [Intro music - 10 seconds]
 Jason: Welcome to Lube Change - Oilers Daily News, episode {episode_num}. It is {today_str}. I'm Jason Potter coming to you from Hinton, Alberta, in the heart of Oil Country. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now let's dive into today's Oilers news.
 
@@ -1603,9 +1614,13 @@ Jason: [Write an enthusiastic, natural ad for Tesla Shorts Time Daily. Must incl
 [Closing]
 Jason: That's Lube Change - Oilers Daily News for today. Thanks for tuning in from Oil Country. Let's go Oilers! We'll catch you tomorrow on Lube Change!
 
+=== END OF OUTPUT FORMAT ===
+
 Here is today's complete formatted digest. Use ONLY this content:
 
 {x_thread}
+
+IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, notes, explanations, or "CRITICAL:" statements. Just produce the clean script with Jason's lines.
 """
 
     @retry(
@@ -1643,6 +1658,29 @@ Here is today's complete formatted digest. Use ONLY this content:
         logging.error(f"Grok API call for podcast script failed: {e}")
         raise
 
+    # Clean podcast script - remove any instructions that leaked through
+    # Remove instruction blocks and keywords
+    podcast_script = re.sub(r'===.*?===', '', podcast_script, flags=re.DOTALL)
+    podcast_script = re.sub(r'\*\*CRITICAL:.*?\*\*', '', podcast_script, flags=re.DOTALL | re.IGNORECASE)
+    podcast_script = re.sub(r'\*\*MUST.*?\*\*', '', podcast_script, flags=re.DOTALL | re.IGNORECASE)
+    podcast_script = re.sub(r'\n{3,}', '\n\n', podcast_script)  # Clean up multiple newlines
+    
+    # Remove lines that contain instruction keywords (but allow natural speech)
+    lines = []
+    for line in podcast_script.splitlines():
+        line_lower = line.lower()
+        # Skip instruction lines
+        if any(keyword in line_lower for keyword in [
+            "instructions", "output format", "end of", "important:", "do not include",
+            "critical:", "must:", "requirements:", "focus requirements"
+        ]):
+            if not any(phrase in line_lower for phrase in [
+                "jason:", "[", "intro music", "closing", "first ad", "second ad"
+            ]):
+                continue
+        lines.append(line)
+    podcast_script = "\n".join(lines).strip()
+    
     # Save transcript
     transcript_path = digests_dir / f"podcast_transcript_{datetime.date.today():%Y%m%d}.txt"
     with open(transcript_path, "w", encoding="utf-8") as f:
