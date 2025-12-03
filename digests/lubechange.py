@@ -2053,6 +2053,7 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
     # Update RSS feed
     if final_mp3 and final_mp3.exists():
         try:
+            logging.info(f"Updating RSS feed with Episode {episode_num}...")
             audio_duration = get_audio_duration(final_mp3)
             episode_title = f"Lube Change - Oilers Daily News - Episode {episode_num} - {today_str}"
             episode_description = f"Daily Edmonton Oilers news for {today_str}."
@@ -2074,11 +2075,19 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
                 mp3_path=final_mp3,
                 base_url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
             )
-            logging.info(f"RSS feed updated with Episode {episode_num}")
+            logging.info(f"✅ RSS feed successfully updated with Episode {episode_num}")
+            logging.info(f"   Episode file: {final_mp3.name}")
+            logging.info(f"   RSS feed path: {rss_path}")
+            logging.info(f"   RSS feed exists: {rss_path.exists()}")
         except Exception as e:
-            logging.error(f"Failed to update RSS feed: {e}", exc_info=True)
+            logging.error(f"❌ Failed to update RSS feed: {e}", exc_info=True)
+            raise  # Re-raise to ensure workflow knows about the failure
     else:
-        logging.warning(f"Podcast audio file not created (final_mp3={final_mp3}), skipping RSS feed update")
+        logging.error(f"❌ Podcast audio file not created - cannot update RSS feed")
+        logging.error(f"   final_mp3={final_mp3}")
+        if final_mp3:
+            logging.error(f"   final_mp3.exists()={final_mp3.exists()}")
+        logging.error(f"   This means the episode will NOT appear in the RSS feed or GitHub page")
         
     # Check if any episodes are missing from RSS feed
     try:
