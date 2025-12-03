@@ -520,7 +520,7 @@ def get_used_content_summary(tracker: dict) -> str:
     if tracker.get("oil_country_moments"):
         recent_moments = tracker["oil_country_moments"][-5:]  # Last 5 moments
         moments_text = "\n".join([f"- {item.get('content', '')[:100]}..." for item in recent_moments])
-        summary_parts.append(f"RECENTLY USED OIL COUNTRY MOMENTS (DO NOT REPEAT):\n{moments_text}")
+        summary_parts.append(f"RECENTLY USED 80S VIBES MOMENTS (DO NOT REPEAT):\n{moments_text}")
     
     if tracker.get("foundation_activities"):
         recent_foundation = tracker["foundation_activities"][-5:]  # Last 5 activities
@@ -1101,11 +1101,11 @@ You are an elite Edmonton Oilers news curator producing the daily "Lube Change -
 2. [Repeat format for 3-15; if <15 items, stop at available count, add a blank line after each item]
 
 ━━━━━━━━━━━━━━━━━━━━
-### Oilers Spotlight
+### Oil Leaks
 One major story or development that Oilers fans need to know about. Explain why this matters for the team and fans.
 
 ━━━━━━━━━━━━━━━━━━━━
-### Oilers Historical Fact
+### Vintage Oil
 Share one interesting, lesser-known historical fact about the Edmonton Oilers. This could be about a player, a game, a season, a record, or team history. Make it engaging and something that even die-hard fans might not know. Keep it to 2-3 sentences.
 
 **CRITICAL: This MUST be a COMPLETELY NEW and DIFFERENT historical fact. Do not repeat any fact used in recent episodes. Vary the topic (player stories, game moments, records, team history, etc.).**
@@ -1121,7 +1121,7 @@ What are Oilers fans and analysts talking about RIGHT NOW based on TODAY'S news?
 {used_content_summary if 'drip_topics' in used_content_summary else ''}
 
 ━━━━━━━━━━━━━━━━━━━━
-### Oil Country Moment
+### 80s Vibes
 One inspiring or memorable moment from Oilers history, current team, or fan culture. End with: "Let's go Oilers!"
 
 **CRITICAL: This MUST be a COMPLETELY NEW and DIFFERENT moment. Vary between historical moments, current team achievements, and fan culture stories.**
@@ -1214,7 +1214,7 @@ def extract_section_content(text: str, section_name: str) -> str:
 # Extract sections and add to tracker
 today_date = datetime.date.today().isoformat()
 
-historical_fact = extract_section_content(x_thread, "Oilers Historical Fact")
+historical_fact = extract_section_content(x_thread, "Vintage Oil")
 if historical_fact:
     content_tracker["historical_facts"].append({
         "date": today_date,
@@ -1230,13 +1230,13 @@ if drip_topic:
     })
     logging.info("Tracked new drip topic")
 
-oil_country_moment = extract_section_content(x_thread, "Oil Country Moment")
+oil_country_moment = extract_section_content(x_thread, "80s Vibes")
 if oil_country_moment:
     content_tracker["oil_country_moments"].append({
         "date": today_date,
         "content": oil_country_moment
     })
-    logging.info("Tracked new Oil Country moment")
+    logging.info("Tracked new 80s Vibes moment")
 
 foundation_activity = extract_section_content(x_thread, "Edmonton Oilers Community Foundation")
 if foundation_activity:
@@ -1571,10 +1571,10 @@ Jason: Welcome to Lube Change - Oilers Daily News, episode {episode_num}. It is 
 
 [Narrate EVERY item from the digest in order - no skipping]
 - For each news item: Read the title with enthusiasm, then explain the story and why it matters for Oilers fans
-- Oilers Spotlight: Explain why this story is important for the team and fans
-- Oilers Historical Fact: Share the historical fact with enthusiasm and context
+- Oil Leaks: Explain why this story is important for the team and fans
+- Vintage Oil: Share the historical fact with enthusiasm and context
 - The Drip: Present what fans are talking about with energy, like you're breaking the latest buzz
-- Oil Country Moment: Share the moment with passion and Oilers pride
+- 80s Vibes: Share the moment with passion and Oilers pride
 - Edmonton Oilers Community Foundation: Highlight the recent foundation activities with pride and enthusiasm, emphasizing the positive impact on the community and showing fans where their charity dollars go
 
 [FIRST AD - Planetterrian]
