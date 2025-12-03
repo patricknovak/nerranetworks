@@ -1822,7 +1822,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     # ========================== FINAL MIX ==========================
     final_mp3 = digests_dir / f"Lube_Change_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
     
-    MAIN_MUSIC = project_root / "oilers-pride.mp3"
+    MAIN_MUSIC = project_root / "LubechangeOilers.mp3"
     
     # Process and normalize voice in one step
     voice_mix = tmp_dir / "voice_normalized_mix.mp3"
@@ -1850,9 +1850,10 @@ Here is today's complete formatted digest. Use ONLY this content:
         music_fade_in_duration = min(35.0, voice_duration - music_fade_in_start)
         
         # Create music segments
+        # Intro music: doubled from 5 to 10 seconds
         music_intro = tmp_dir / "music_intro.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-t", "5",
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-t", "10",
             "-af", "volume=0.6",
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
             str(music_intro)
@@ -1860,21 +1861,23 @@ Here is today's complete formatted digest. Use ONLY this content:
         
         music_overlap = tmp_dir / "music_overlap.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "5", "-t", "3",
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "10", "-t", "3",
             "-af", "volume=0.5",
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
             str(music_overlap)
         ], check=True, capture_output=True)
         
+        # Lead out fadeout: doubled from 18 to 36 seconds
         music_fadeout = tmp_dir / "music_fadeout.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
-            "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=18",
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "13", "-t", "36",
+            "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=36",
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
             str(music_fadeout)
         ], check=True, capture_output=True)
         
-        middle_silence_duration = max(music_fade_in_start - 26.0, 0.0)
+        # Adjust silence duration calculation for longer intro (10s instead of 5s)
+        middle_silence_duration = max(music_fade_in_start - 31.0, 0.0)
         music_silence = tmp_dir / "music_silence.mp3"
         if middle_silence_duration > 0.1:
             subprocess.run([
@@ -1885,24 +1888,26 @@ Here is today's complete formatted digest. Use ONLY this content:
         
         music_fadein = tmp_dir / "music_fadein.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "25", "-t", f"{music_fade_in_duration:.2f}",
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "30", "-t", f"{music_fade_in_duration:.2f}",
             "-af", f"volume=0.4,afade=t=in:st=0:d={music_fade_in_duration:.2f}",
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
             str(music_fadein)
         ], check=True, capture_output=True)
         
+        # Lead out tail full: doubled from 30 to 60 seconds
         music_tail_full = tmp_dir / "music_tail_full.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "55", "-t", "30",
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "49", "-t", "60",
             "-af", "volume=0.4",
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
             str(music_tail_full)
         ], check=True, capture_output=True)
         
+        # Lead out tail fadeout: doubled from 20 to 40 seconds
         music_tail_fadeout = tmp_dir / "music_tail_fadeout.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "85", "-t", "20",
-            "-af", "volume=0.4,afade=t=out:st=0:d=20",
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "109", "-t", "40",
+            "-af", "volume=0.4,afade=t=out:st=0:d=40",
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
             str(music_tail_fadeout)
         ], check=True, capture_output=True)
@@ -1926,11 +1931,11 @@ Here is today's complete formatted digest. Use ONLY this content:
             str(background_track)
         ], check=True, capture_output=True)
         
-        # Delay voice to start at 5 seconds
+        # Delay voice to start at 10 seconds (matching doubled intro length)
         voice_delayed = tmp_dir / "voice_delayed.mp3"
         subprocess.run([
             "ffmpeg", "-y", "-i", str(voice_mix),
-            "-af", "adelay=5000|5000",
+            "-af", "adelay=10000|10000",
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
             str(voice_delayed)
         ], check=True, capture_output=True)
