@@ -1021,6 +1021,9 @@ def fetch_oilers_news():
     formatted_articles.sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
     
     logging.info(f"Filtered to {len(formatted_articles)} unique Oilers news articles")
+    
+    if len(formatted_articles) == 0:
+        logging.warning("⚠️  No Oilers articles found in the last 24 hours - this may result in empty Top Stories section")
     filtered_result = formatted_articles[:15]  # Return top 15 for selection
     return filtered_result, raw_articles
 
