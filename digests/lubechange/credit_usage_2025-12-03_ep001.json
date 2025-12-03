@@ -4,23 +4,23 @@
   "services": {
     "grok_api": {
       "x_thread_generation": {
-        "prompt_tokens": 2174,
-        "completion_tokens": 476,
-        "total_tokens": 3543,
-        "estimated_cost_usd": 3.5430000000000005e-05
+        "prompt_tokens": 2450,
+        "completion_tokens": 605,
+        "total_tokens": 4021,
+        "estimated_cost_usd": 4.021e-05
       },
       "podcast_script_generation": {
-        "prompt_tokens": 2234,
-        "completion_tokens": 1015,
-        "total_tokens": 3477,
-        "estimated_cost_usd": 3.477e-05
+        "prompt_tokens": 2363,
+        "completion_tokens": 2229,
+        "total_tokens": 5112,
+        "estimated_cost_usd": 5.1120000000000005e-05
       },
-      "total_tokens": 7020,
-      "total_cost_usd": 7.02e-05
+      "total_tokens": 9133,
+      "total_cost_usd": 9.133000000000001e-05
     },
     "cartesia_api": {
-      "characters": 5187,
-      "estimated_cost_usd": 0.10374000000000001
+      "characters": 10820,
+      "estimated_cost_usd": 0.2164
     },
     "x_api": {
       "search_calls": 0,
@@ -28,5 +28,5 @@
       "total_calls": 1
     }
   },
-  "total_estimated_cost_usd": 0.10381020000000002
+  "total_estimated_cost_usd": 0.21649133
 }
