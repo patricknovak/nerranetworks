@@ -1656,6 +1656,38 @@ Here is today's complete formatted digest. Use ONLY this content:
                     pass
 
     # ========================== UPDATE RSS FEED ==========================
+    def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
+        """Scan for existing episode MP3 files and return episode data."""
+        episodes = []
+        pattern = r"Lube_Change_Ep(\d+)_(\d{8})\.mp3"
+        for mp3_file in digests_dir.glob("Lube_Change_Ep*.mp3"):
+            match = re.match(pattern, mp3_file.name)
+            if match:
+                try:
+                    ep_num = int(match.group(1))
+                    date_str = match.group(2)
+                    # Parse date from filename
+                    episode_date = datetime.datetime.strptime(date_str, "%Y%m%d").date()
+                    
+                    # Get file size
+                    file_size = mp3_file.stat().st_size if mp3_file.exists() else 0
+                    
+                    # Get duration
+                    duration = get_audio_duration(mp3_file)
+                    
+                    episodes.append({
+                        'episode_num': ep_num,
+                        'date': episode_date,
+                        'filename': mp3_file.name,
+                        'path': mp3_file,
+                        'size': file_size,
+                        'duration': duration,
+                        'url': f"{base_url}/digests/lubechange/{mp3_file.name}"
+                    })
+                except (ValueError, Exception) as e:
+                    logging.warning(f"Could not parse episode from file {mp3_file.name}: {e}")
+        return sorted(episodes, key=lambda x: x['episode_num'])
+    
     def update_rss_feed(
         rss_path: Path,
         episode_num: int,
@@ -1852,6 +1884,61 @@ Here is today's complete formatted digest. Use ONLY this content:
             logging.info(f"RSS feed updated with Episode {episode_num}")
         except Exception as e:
             logging.error(f"Failed to update RSS feed: {e}", exc_info=True)
+    else:
+        logging.warning(f"Podcast audio file not created (final_mp3={final_mp3}), skipping RSS feed update")
+        
+    # Check if any episodes are missing from RSS feed
+    try:
+        existing_episodes = scan_existing_episodes_from_files(
+            digests_dir, 
+            "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+        )
+        
+        # Parse RSS feed to see what episodes are already there
+        rss_episodes = set()
+        if rss_path.exists():
+            try:
+                tree = ET.parse(str(rss_path))
+                root = tree.getroot()
+                channel = root.find('channel')
+                if channel is not None:
+                    for item in channel.findall('item'):
+                        itunes_episode = item.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}episode')
+                        if itunes_episode is not None and itunes_episode.text:
+                            try:
+                                rss_episodes.add(int(itunes_episode.text))
+                            except ValueError:
+                                pass
+            except Exception as e:
+                logging.warning(f"Could not parse RSS feed to check for missing episodes: {e}")
+        
+        # Find episodes that exist as files but not in RSS feed
+        missing_episodes = [ep for ep in existing_episodes if ep['episode_num'] not in rss_episodes]
+        
+        if missing_episodes:
+            logging.warning(f"Found {len(missing_episodes)} episode(s) missing from RSS feed: {[ep['episode_num'] for ep in missing_episodes]}")
+            # Add missing episodes to RSS feed
+            for ep_data in missing_episodes:
+                try:
+                    episode_title = f"Lube Change - Oilers Daily News - Episode {ep_data['episode_num']}"
+                    episode_description = f"Daily Edmonton Oilers news for {ep_data['date'].strftime('%B %d, %Y')}."
+                    
+                    update_rss_feed(
+                        rss_path=rss_path,
+                        episode_num=ep_data['episode_num'],
+                        episode_title=episode_title,
+                        episode_description=episode_description,
+                        episode_date=ep_data['date'],
+                        mp3_filename=ep_data['filename'],
+                        mp3_duration=ep_data['duration'],
+                        mp3_path=ep_data['path'],
+                        base_url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+                    )
+                    logging.info(f"Added missing Episode {ep_data['episode_num']} to RSS feed")
+                except Exception as e:
+                    logging.error(f"Failed to add missing episode {ep_data['episode_num']} to RSS feed: {e}", exc_info=True)
+    except Exception as e:
+        logging.warning(f"Could not scan for missing episodes: {e}", exc_info=True)
 
 # Post to X
 if ENABLE_X_POSTING:
