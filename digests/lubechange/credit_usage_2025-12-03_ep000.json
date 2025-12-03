@@ -4,10 +4,10 @@
   "services": {
     "grok_api": {
       "x_thread_generation": {
-        "prompt_tokens": 1963,
-        "completion_tokens": 695,
-        "total_tokens": 5505,
-        "estimated_cost_usd": 5.505e-05
+        "prompt_tokens": 1985,
+        "completion_tokens": 512,
+        "total_tokens": 3213,
+        "estimated_cost_usd": 3.213e-05
       },
       "podcast_script_generation": {
         "prompt_tokens": 0,
@@ -15,8 +15,8 @@
         "total_tokens": 0,
         "estimated_cost_usd": 0.0
       },
-      "total_tokens": 5505,
-      "total_cost_usd": 5.505e-05
+      "total_tokens": 3213,
+      "total_cost_usd": 3.213e-05
     },
     "cartesia_api": {
       "characters": 0,
@@ -28,5 +28,5 @@
       "total_calls": 1
     }
   },
-  "total_estimated_cost_usd": 5.505e-05
+  "total_estimated_cost_usd": 3.213e-05
 }
