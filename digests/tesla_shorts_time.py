@@ -1323,6 +1323,14 @@ You are an elite Tesla news curator producing the daily "Tesla Shorts Time" news
 
 {used_content_summary}
 
+### CRITICAL INSTRUCTIONS (DO NOT INCLUDE THESE IN YOUR OUTPUT):
+- Short Spot: Must be COMPLETELY DIFFERENT from any recent Short Spots. Use a DIFFERENT bearish story, DIFFERENT angle, and DIFFERENT framing.
+- Short Squeeze: Must be COMPLETELY DIFFERENT from any recent Short Squeezes. Use DIFFERENT failed predictions, DIFFERENT bear names, DIFFERENT years, and DIFFERENT examples.
+- Daily Challenge: Must be COMPLETELY NEW and DIFFERENT from any recent Daily Challenges. Use a DIFFERENT theme, DIFFERENT approach, and DIFFERENT wording.
+- Inspiration Quote: Must be from a DIFFERENT author than recent quotes. Use a DIFFERENT quote with a DIFFERENT message. Vary authors widely.
+
+**IMPORTANT**: The format template below shows what your OUTPUT should look like. Do NOT include any instruction text, warnings (🚨 CRITICAL), or meta-commentary in your output. Only output the actual content sections.
+
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
 - **News**: You MUST select EXACTLY 10 unique articles. If you have fewer than 10 available, use ALL of them and number them 1 through N (where N is the count). If you have more than 10, select the BEST 10 and number them 1-10. DO NOT output 20 items - output EXACTLY 10. Prioritize high-quality sources; each must cover a DIFFERENT Tesla story/angle.
 - **CRITICAL URL RULE**: NEVER invent URLs. If you don't have enough pre-fetched articles, output fewer items rather than making up URLs. All URLs must be exact matches from the pre-fetched list above.
@@ -1366,25 +1374,21 @@ Summary of the overall sentiment and themes that @{spotlight_username} has been 
 
 ━━━━━━━━━━━━━━━━━━━━
 ## Short Spot
-🚨 CRITICAL: This must be COMPLETELY DIFFERENT from any recent Short Spots. Use a DIFFERENT bearish story, DIFFERENT angle, and DIFFERENT framing than what was used recently.
 One bearish item from pre-fetched news that's negative for Tesla/stock.  
 **Catchy Title: DD Month, YYYY, HH:MM AM/PM PST, @username/Source**  
 2–4 sentences explaining it & why it's temporary/overblown (frame optimistically). End with: Source/Post: [EXACT URL]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Short Squeeze
-🚨 CRITICAL: This must be COMPLETELY DIFFERENT from any recent Short Squeezes. Use DIFFERENT failed predictions, DIFFERENT bear names, DIFFERENT years, and DIFFERENT examples. Do NOT repeat the same predictions or bears from recent days.
 Dedicated paragraph on short-seller pain:
 Add specific failed bear predictions (2020–2025, with references and links from past). Vary the years, vary the bear names, vary the specific predictions. Make it fresh and engaging every day.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Daily Challenge
-🚨 CRITICAL: This must be COMPLETELY NEW and DIFFERENT from any recent Daily Challenges. Use a DIFFERENT theme, DIFFERENT approach, and DIFFERENT wording. Avoid repetition at all costs.
 One short, inspiring challenge tied to Tesla/Elon themes (curiosity, first principles, perseverance, innovation, sustainability, etc.). Vary the themes daily. End with: "Share your progress with us @teslashortstime!"
 
 ━━━━━━━━━━━━━━━━━━━━
 **Inspiration Quote:** 
-🚨 CRITICAL: This must be from a DIFFERENT author than recent quotes. Use a DIFFERENT quote with a DIFFERENT message. Vary authors widely - use quotes from scientists, entrepreneurs, philosophers, leaders, innovators, etc. Never repeat the same author or similar message.
 "Exact quote" – Author, [Source Link] (fresh, no repeats and from a wide variety of sources)
 
 [2-3 sentence uplifting sign-off on Tesla's mission + invite to DM @teslashortstime with feedback.]
@@ -1514,6 +1518,15 @@ instruction_patterns = [
     r'\[Repeat for.*?\]',
     r'\[ACTUAL_POST_ID\]',
     r'\[POST_ID\]',
+    # Remove CRITICAL instruction warnings
+    r'🚨\s*CRITICAL:.*?\n',
+    r'CRITICAL:.*?COMPLETELY DIFFERENT.*?\n',
+    r'CRITICAL:.*?COMPLETELY NEW.*?\n',
+    r'Use a DIFFERENT.*?\n',
+    r'Use DIFFERENT.*?\n',
+    r'Avoid repetition.*?\n',
+    r'Do NOT repeat.*?\n',
+    r'Never repeat.*?\n',
 ]
 for pattern in instruction_patterns:
     x_thread = re.sub(pattern, '', x_thread, flags=re.IGNORECASE | re.MULTILINE)
@@ -1770,6 +1783,15 @@ def format_digest_for_x(digest: str) -> str:
         r'\[Repeat for.*?\]',
         r'\[ACTUAL_POST_ID\]',
         r'\[POST_ID\]',
+        # Remove CRITICAL instruction warnings
+        r'🚨\s*CRITICAL:.*?\n',
+        r'CRITICAL:.*?COMPLETELY DIFFERENT.*?\n',
+        r'CRITICAL:.*?COMPLETELY NEW.*?\n',
+        r'Use a DIFFERENT.*?\n',
+        r'Use DIFFERENT.*?\n',
+        r'Avoid repetition.*?\n',
+        r'Do NOT repeat.*?\n',
+        r'Never repeat.*?\n',
     ]
     for pattern in instruction_patterns:
         formatted = re.sub(pattern, '', formatted, flags=re.IGNORECASE | re.MULTILINE)
