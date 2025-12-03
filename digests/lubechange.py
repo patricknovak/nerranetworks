@@ -126,6 +126,8 @@ def fix_pronunciation(text: str) -> str:
     Comprehensive pronunciation fixer for hockey/Oilers content.
     Handles acronyms, scores, player numbers, statistics, and common hockey terms
     for optimal TTS pronunciation on Cartesia.
+    
+    IMPORTANT: This function preserves sentence structure and natural speech patterns.
     """
     import re
 
@@ -208,18 +210,16 @@ def fix_pronunciation(text: str) -> str:
         "Ducks": "Ducks",
     }
 
-    # Invisible zero-width non-breaking space / word joiner
-    ZWJ = "\u2060"   # U+2060 WORD JOINER — this one is safe
-
-    # Fix acronyms (must be whole words)
+    # Fix acronyms (must be whole words) - use spaces instead of ZWJ for better TTS
     for acronym, spelled in acronyms.items():
         pattern = rf'(?<!\w){re.escape(acronym)}(?!\w)'
         if ' ' in spelled:
-            # For phrases like "power play", don't use ZWJ
+            # For phrases like "power play", use as-is
             replacement = spelled
         else:
-            # For letter-by-letter acronyms, use ZWJ
-            replacement = ZWJ.join(list(spelled))
+            # For letter-by-letter acronyms, use spaces for clearer TTS pronunciation
+            # Cartesia handles spaced acronyms better than ZWJ
+            replacement = " ".join(list(spelled))
         text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
 
     # Fix hockey scores (e.g., "5-2" → "five to two", "3-1 OT" → "three to one in overtime")
@@ -1497,15 +1497,23 @@ HOST: Jason Potter from Hinton, Alberta - in the heart of Oil Country. Authentic
 
 BRAND PERSONALITY: Lube Change - Oilers Daily News. Daily Edmonton Oilers news from Oil Country. Passionate, knowledgeable, authentic Alberta voice.
 
-RULES:
+CRITICAL RULES FOR NATURAL SPEECH:
 - Start every line with "Jason:"
+- Write in COMPLETE, GRAMMATICALLY CORRECT SENTENCES
+- Use proper punctuation: periods, commas, question marks, exclamation points
+- Add natural pauses with commas and periods - don't create run-on sentences
+- Each sentence should be clear and complete on its own
 - Don't read URLs aloud - mention source names naturally
 - Super pumped up and excited about the Oilers and Oil Country
 - Use natural dates ("today", "this morning") not exact timestamps
-- Enunciate all numbers clearly
+- For numbers: Write them as words when it sounds natural (e.g., "twenty-five goals" not "25 goals" in speech)
+- For player numbers: Say "number ninety-seven" not "#97"
+- For scores: Say "five to two" not "5-2"
+- For statistics: Write out fully (e.g., "three point five goals against average" not "3.5 GAA")
 - Use ONLY information from the digest below - nothing else
 - Emphasize Oilers pride and Oil Country spirit
 - Use authentic Alberta/hockey terminology
+- Make it sound like natural conversation, not reading a script
 
 SCRIPT STRUCTURE:
 [Intro music - 10 seconds]
@@ -1719,19 +1727,36 @@ Here is today's complete formatted digest. Use ONLY this content:
         """Synchronous wrapper for Cartesia TTS."""
         asyncio.run(speak_cartesia(text, voice_id, filename))
 
-    # Process podcast script
+    # Process podcast script - preserve natural sentence structure and pauses
     full_text_parts = []
     for line in podcast_script.splitlines():
         line = line.strip()
         if line.startswith("[") or not line:
             continue
         if line.startswith("Jason:"):
-            full_text_parts.append(line[7:].strip())
-        else:
-            full_text_parts.append(line)
+            text = line[7:].strip()
+            # Only add if there's actual content
+            if text:
+                full_text_parts.append(text)
 
+    # Join with spaces but preserve punctuation for natural pauses
+    # This allows TTS to recognize sentence boundaries
     full_text = " ".join(full_text_parts)
+    
+    # Clean up multiple spaces but preserve punctuation spacing
+    full_text = re.sub(r' +', ' ', full_text)
+    
+    # Ensure proper spacing around punctuation for better TTS parsing
+    full_text = re.sub(r'\s+([,.!?;:])', r'\1', full_text)  # Remove space before punctuation
+    full_text = re.sub(r'([,.!?;:])([^\s])', r'\1 \2', full_text)  # Add space after punctuation if missing
+    
+    # Apply pronunciation fixes (but less aggressively)
     full_text = fix_pronunciation(full_text)
+    
+    # Final cleanup: ensure proper sentence breaks
+    full_text = re.sub(r'\.([A-Z])', r'. \1', full_text)  # Space after periods before capital letters
+    full_text = re.sub(r'\?([A-Z])', r'? \1', full_text)  # Space after question marks
+    full_text = re.sub(r'!([A-Z])', r'! \1', full_text)  # Space after exclamation marks
 
     # Track character count for Cartesia
     credit_usage["services"]["cartesia_api"]["characters"] = len(full_text)
