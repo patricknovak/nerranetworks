@@ -805,14 +805,26 @@ def fetch_oilers_news():
     all_articles = []
     raw_articles = []
     
-    # Oilers/NHL keywords to filter articles
-    oilers_keywords = [
-        "oilers", "edmonton", "connor mcdavid", "leon draisaitl", "evander kane",
-        "zach hyman", "stuart skinner", "jack campbell", "darnell nurse", "evan bouchard",
-        "nhl", "hockey", "nhl playoffs", "stanley cup", "western conference",
-        "pacific division", "roger place", "rogers place", "ice district",
-        "alberta", "edmonton oilers", "oilers news", "oilers trade", "oilers game",
-        "oilers score", "oilers roster", "oilers injury", "oilers draft"
+    # Oilers-specific keywords - MUST include at least one Oilers-specific term
+    # Primary keywords (required for inclusion)
+    oilers_primary_keywords = [
+        "oilers", "edmonton oilers", "edmonton", "connor mcdavid", "leon draisaitl", 
+        "evander kane", "zach hyman", "stuart skinner", "jack campbell", "darnell nurse", 
+        "evan bouchard", "ryan nugent-hopkins", "matthew barzal", "warren foegele",
+        "cody ceci", "philip broberg", "vincent desharnais", "brett kulak",
+        "calvin pickard", "sam gagner", "derek ryan", "mattias janmark",
+        "connor brown", "adam henrique", "corey perry", "sam carrick",
+        "rogers place", "roger place", "ice district", "oilers news",
+        "oilers trade", "oilers game", "oilers score", "oilers roster",
+        "oilers injury", "oilers draft", "oilers lineup", "oilers coach",
+        "oilers gm", "oilers management", "ken holland", "jay woodcroft",
+        "kris knoblauch", "oilers fan", "oilers nation", "oil country"
+    ]
+    
+    # Secondary keywords (only valid if combined with primary)
+    # These alone are NOT sufficient - article must mention Oilers specifically
+    oilers_secondary_keywords = [
+        "pacific division", "western conference"  # Only if Oilers are mentioned
     ]
     
     logging.info(f"Fetching Oilers news from {len(rss_feeds)} RSS feeds...")
@@ -889,9 +901,32 @@ def fetch_oilers_news():
                 if not title or not link:
                     continue
                 
-                # Check if article is Oilers/NHL-related
+                # STRICT FILTERING: Article MUST be Oilers-specific
+                # Check if article mentions Oilers or Oilers players/coaches/location
                 title_desc_lower = (title + " " + description).lower()
-                if not any(keyword in title_desc_lower for keyword in oilers_keywords):
+                
+                # Must contain at least one primary Oilers keyword
+                has_oilers_primary = any(keyword in title_desc_lower for keyword in oilers_primary_keywords)
+                
+                if not has_oilers_primary:
+                    continue  # Skip articles that don't specifically mention Oilers
+                
+                # Additional check: Exclude general NHL news that only mentions Oilers in passing
+                # If article is about another team primarily, skip it unless Oilers are central to the story
+                other_team_mentions = [
+                    "maple leafs", "canadiens", "canucks", "flames", "jets", "senators",
+                    "bruins", "rangers", "islanders", "devils", "flyers", "penguins",
+                    "capitals", "hurricanes", "panthers", "lightning", "predators",
+                    "stars", "avalanche", "coyotes", "blackhawks", "red wings", "blue jackets",
+                    "wild", "sharks", "kings", "ducks", "golden knights", "kraken"
+                ]
+                
+                # If article is primarily about another team and only mentions Oilers in passing, skip
+                other_team_count = sum(1 for team in other_team_mentions if team in title_desc_lower)
+                oilers_mention_count = sum(1 for keyword in oilers_primary_keywords[:10] if keyword in title_desc_lower)
+                
+                # If another team is mentioned more prominently than Oilers, skip
+                if other_team_count > 0 and oilers_mention_count == 0:
                     continue
                 
                 article = {
@@ -1033,13 +1068,20 @@ X_PROMPT = f"""
 
 You are an elite Edmonton Oilers news curator producing the daily "Lube Change - Oilers Daily News" newsletter. Use ONLY the pre-fetched news articles above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links.
 
+**CRITICAL FOCUS: OILERS-SPECIFIC NEWS ONLY**
+- ONLY include news that DIRECTLY relates to the Edmonton Oilers
+- Focus on: Oilers games, Oilers players, Oilers trades, Oilers roster moves, Oilers coaching, Oilers management, Oilers injuries, Oilers draft picks, Oilers prospects, Oilers team news
+- EXCLUDE: General NHL news that doesn't specifically impact the Oilers, news about other teams unless it directly affects the Oilers (trades, matchups, etc.), league-wide news that doesn't mention the Oilers
+- If an article is primarily about another team and only mentions Oilers in passing, DO NOT include it
+- Prioritize breaking Oilers news, game recaps, player updates, and team developments
+
 **BRAND PERSONALITY:**
 - Host: Jason Potter from Hinton, Alberta - in the heart of Oil Country
 - Passionate, knowledgeable Oilers fan with deep love for the team
 - Authentic Alberta voice, proud of Oil Country
 - Focus: Breaking Oilers news, game recaps, trades, roster moves, player updates
 - Tone: Enthusiastic, knowledgeable, passionate about the Oilers, authentic Albertan
-- Audience: Die-hard Oilers fans who want the latest news and analysis
+- Audience: Die-hard Oilers fans who want the latest Oilers-specific news and analysis
 
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
 - **News**: You MUST select EXACTLY 15 unique articles. If you have fewer than 15 available, use ALL of them and number them 1 through N. If you have more than 15, select the BEST 15. Prioritize high-quality sources; each must cover a DIFFERENT story/angle.
@@ -1052,8 +1094,10 @@ You are an elite Edmonton Oilers news curator producing the daily "Lube Change -
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Oilers Stories
+**CRITICAL: Only include stories that DIRECTLY relate to the Edmonton Oilers. Each story must be about Oilers players, games, trades, roster moves, coaching, management, or team news. Do NOT include general NHL news unless it specifically impacts the Oilers.**
+
 1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM MST, Source Name**  
-   2–4 sentences: Start with what happened, explain why it matters for Oilers fans. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
+   2–4 sentences: Start with what happened with the Oilers, explain why it matters for Oilers fans. Focus on the Oilers-specific impact. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
 2. [Repeat format for 3-15; if <15 items, stop at available count, add a blank line after each item]
 
 ━━━━━━━━━━━━━━━━━━━━
@@ -1496,6 +1540,12 @@ else:
 HOST: Jason Potter from Hinton, Alberta - in the heart of Oil Country. Authentic Albertan voice, passionate Oilers fan, knowledgeable about hockey and the Oilers. Voice like a sports radio host breaking Oilers news, not robotic.
 
 BRAND PERSONALITY: Lube Change - Oilers Daily News. Daily Edmonton Oilers news from Oil Country. Passionate, knowledgeable, authentic Alberta voice.
+
+CRITICAL FOCUS: OILERS-SPECIFIC NEWS ONLY
+- ONLY discuss news that DIRECTLY relates to the Edmonton Oilers
+- Focus on: Oilers games, Oilers players, Oilers trades, Oilers roster moves, Oilers coaching, Oilers management, Oilers injuries, Oilers draft picks, Oilers prospects, Oilers team news
+- DO NOT discuss: General NHL news that doesn't specifically impact the Oilers, news about other teams unless it directly affects the Oilers, league-wide news that doesn't mention the Oilers
+- Every story must be about the Oilers or how something impacts the Oilers specifically
 
 CRITICAL RULES FOR NATURAL SPEECH:
 - Start every line with "Jason:"
