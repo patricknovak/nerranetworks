@@ -901,7 +901,7 @@ def fetch_oilers_news():
                 if not title or not link:
                     continue
                 
-                # STRICT FILTERING: Article MUST be Oilers-specific
+                # FOCUSED FILTERING: Article should be Oilers-related
                 # Check if article mentions Oilers or Oilers players/coaches/location
                 title_desc_lower = (title + " " + description).lower()
                 
@@ -909,10 +909,14 @@ def fetch_oilers_news():
                 has_oilers_primary = any(keyword in title_desc_lower for keyword in oilers_primary_keywords)
                 
                 if not has_oilers_primary:
-                    continue  # Skip articles that don't specifically mention Oilers
+                    continue  # Skip articles that don't mention Oilers
                 
-                # Additional check: Exclude general NHL news that only mentions Oilers in passing
-                # If article is about another team primarily, skip it unless Oilers are central to the story
+                # Only exclude articles that are CLEARLY about another team
+                # Allow matchups, trades, comparisons, and any article that mentions Oilers
+                title_lower = title.lower()
+                
+                # Only exclude if title clearly starts with another team name AND Oilers not in title
+                # This catches cases like "Maple Leafs beat..." where Oilers aren't the focus
                 other_team_mentions = [
                     "maple leafs", "canadiens", "canucks", "flames", "jets", "senators",
                     "bruins", "rangers", "islanders", "devils", "flyers", "penguins",
@@ -921,13 +925,26 @@ def fetch_oilers_news():
                     "wild", "sharks", "kings", "ducks", "golden knights", "kraken"
                 ]
                 
-                # If article is primarily about another team and only mentions Oilers in passing, skip
-                other_team_count = sum(1 for team in other_team_mentions if team in title_desc_lower)
-                oilers_mention_count = sum(1 for keyword in oilers_primary_keywords[:10] if keyword in title_desc_lower)
+                # Check if title starts with another team (very strict - only exclude obvious cases)
+                title_starts_with_other_team = False
+                for team in other_team_mentions:
+                    team_words = team.split()
+                    # Check if title starts with team name
+                    if len(team_words) == 1:
+                        if title_lower.startswith(team + " ") or title_lower.startswith(team + "'") or title_lower.startswith(team + ":"):
+                            title_starts_with_other_team = True
+                            break
+                    elif len(team_words) == 2:
+                        title_first_words = title_lower.split()[:2]
+                        if title_first_words == team_words or title_lower.startswith(team + " "):
+                            title_starts_with_other_team = True
+                            break
                 
-                # If another team is mentioned more prominently than Oilers, skip
-                if other_team_count > 0 and oilers_mention_count == 0:
-                    continue
+                # Only exclude if title starts with another team AND Oilers not mentioned in title at all
+                if title_starts_with_other_team:
+                    title_has_oilers = any(keyword in title_lower for keyword in ["oilers", "edmonton oilers", "connor mcdavid", "leon draisaitl", "edmonton"])
+                    if not title_has_oilers:
+                        continue  # Title is about another team, Oilers not in title - likely not Oilers-focused
                 
                 article = {
                     "title": title,
