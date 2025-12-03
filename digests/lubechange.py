@@ -216,8 +216,11 @@ def fix_pronunciation(text: str) -> str:
         if ' ' in spelled:
             # For phrases like "power play", use as-is
             replacement = spelled
+        elif len(spelled) > 3:
+            # For full words like "assists", "goals", "points" - use as-is (don't spell out)
+            replacement = spelled
         else:
-            # For letter-by-letter acronyms, use spaces for clearer TTS pronunciation
+            # For short letter-by-letter acronyms (1-3 chars), use spaces for clearer TTS pronunciation
             # Cartesia handles spaced acronyms better than ZWJ
             replacement = " ".join(list(spelled))
         text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
@@ -933,11 +936,15 @@ def fetch_oilers_news():
                 # Check if article mentions Oilers or Oilers players/coaches/location
                 title_desc_lower = (title + " " + description).lower()
                 
-                # Must contain at least one primary Oilers keyword
+                # Must contain at least one primary Oilers keyword OR be from Oilers-specific sources
                 has_oilers_primary = any(keyword in title_desc_lower for keyword in oilers_primary_keywords)
                 
-                if not has_oilers_primary:
-                    continue  # Skip articles that don't mention Oilers
+                # Also allow articles from Oilers-specific sources even if keywords aren't explicit
+                is_oilers_source = any(oilers_term in source_name.lower() for oilers_term in ["oilers", "edmonton"])
+                
+                if not has_oilers_primary and not is_oilers_source:
+                    logging.debug(f"Filtered out article (no Oilers keywords): {title[:60]}...")
+                    continue  # Skip articles that don't mention Oilers and aren't from Oilers sources
                 
                 # Only exclude articles that are CLEARLY about another team
                 # Allow matchups, trades, comparisons, and any article that mentions Oilers
@@ -1119,9 +1126,12 @@ FOCUS REQUIREMENTS:
 - Prioritize breaking Oilers news, game recaps, player updates, and team developments
 
 SELECTION REQUIREMENTS:
+- **CRITICAL: You MUST include a "Top 15 Oilers Stories" section with at least 3-15 stories. If articles are provided, you MUST use them.**
 - Select EXACTLY 15 unique articles. If you have fewer than 15 available, use ALL of them and number them 1 through N. If you have more than 15, select the BEST 15.
+- If you have ANY articles provided above, you MUST include them in the Top Stories section - do not skip this section.
 - Each article must cover a DIFFERENT story/angle - no duplicates or similar content
 - Prioritize high-quality sources
+- **If no articles are provided, still create a Top Stories section with a note explaining why (e.g., "No new Oilers news in the last 24 hours")**
 
 CONTENT REQUIREMENTS:
 - Vintage Oil: Must be a COMPLETELY NEW and DIFFERENT historical fact. Do not repeat any fact used in recent episodes. Vary the topic (player stories, game moments, records, team history, etc.).
