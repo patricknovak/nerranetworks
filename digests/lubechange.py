@@ -545,22 +545,51 @@ def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
     today_str = datetime.date.today().strftime("%Y%m%d")
     
     # First, check if an episode already exists for today's date
+    # Check both local files AND RSS feed (RSS feed is source of truth)
     today_pattern = f"Lube_Change_Ep(\\d+)_{today_str}\\.mp3"
+    
+    # Check local files
     for mp3_file in digests_dir.glob(f"Lube_Change_Ep*_{today_str}.mp3"):
         match = re.match(today_pattern, mp3_file.name)
         if match:
             try:
                 existing_ep_num = int(match.group(1))
-                logging.info(f"Episode {existing_ep_num} already exists for today ({today_str}). Skipping generation.")
+                logging.info(f"Episode {existing_ep_num} already exists locally for today ({today_str}). Skipping generation.")
                 return None  # Signal to skip generation
             except ValueError:
                 pass
     
+    # Also check RSS feed for episodes published today
+    if rss_path.exists():
+        try:
+            tree = ET.parse(str(rss_path))
+            root = tree.getroot()
+            channel = root.find('channel')
+            if channel is not None:
+                today_date = datetime.date.today()
+                for item in channel.findall('item'):
+                    pub_date_elem = item.find('pubDate')
+                    if pub_date_elem is not None and pub_date_elem.text:
+                        try:
+                            from email.utils import parsedate_to_datetime
+                            pub_date = parsedate_to_datetime(pub_date_elem.text)
+                            if pub_date.date() == today_date:
+                                itunes_episode = item.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}episode')
+                                if itunes_episode is not None and itunes_episode.text:
+                                    existing_ep_num = int(itunes_episode.text)
+                                    logging.info(f"Episode {existing_ep_num} already exists in RSS feed for today ({today_str}). Skipping generation.")
+                                    return None  # Signal to skip generation
+                        except (ValueError, Exception) as e:
+                            logging.debug(f"Could not parse pubDate for RSS item: {e}")
+                            pass
+        except Exception as e:
+            logging.warning(f"Could not parse RSS feed to check for today's episode: {e}")
+    
     # No episode for today exists, so determine next episode number
-    # RESET: Start at episode 1 (fresh start)
+    # Check both RSS feed and local files to find the highest episode number
     max_episode = 0
     
-    # Check RSS feed for existing episodes
+    # Check RSS feed for existing episodes (this is the source of truth)
     if rss_path.exists():
         try:
             tree = ET.parse(str(rss_path))
@@ -578,7 +607,7 @@ def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
         except Exception as e:
             logging.warning(f"Could not parse RSS feed to find episode number: {e}")
     
-    # Also check existing MP3 files
+    # Also check existing MP3 files (in case RSS is out of sync)
     pattern = r"Lube_Change_Ep(\d+)_\d{8}\.mp3"
     for mp3_file in digests_dir.glob("Lube_Change_Ep*.mp3"):
         match = re.match(pattern, mp3_file.name)
@@ -589,10 +618,9 @@ def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
             except ValueError:
                 pass
     
-    # RESET TO EPISODE 1: Start fresh numbering
-    # If you want to continue from highest, use: next_episode = max_episode + 1
-    next_episode = 1
-    logging.info(f"Starting fresh: Next episode number will be {next_episode} (ignoring previous max: {max_episode})")
+    # Increment from highest existing episode number
+    next_episode = max_episode + 1
+    logging.info(f"Next episode number: {next_episode} (highest existing: {max_episode})")
     return next_episode
 
 # Get the next episode number
