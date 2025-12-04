@@ -1,66 +1,66 @@
 🚗⚡ **Tesla Shorts Time**
-📅 **Date:** December 04, 2025 at 10:45 AM PST
-💰 **REAL-TIME TSLA price:** $448.87 +2.13 (+0.48%) 
+📅 **Date:** December 04, 2025 at 11:26 AM PST
+💰 **REAL-TIME TSLA price:** $447.43 +0.69 (+0.15%) 
 
 🎙️ **Tesla Shorts Time Daily 
 
 ━━━━━━━━━━━━━━━━━━━━
 
 📰 **Top 10 News Items**
-1️⃣ **Tesla’s FSD v14.2.1 can allows texting while driving “depending on traffic” – Elon Musk: 04 December, 2025, 10:45 AM PST, Drive Tesla Canada** 
- Elon Musk confirmed that Tesla's Full Self-Driving (Supervised) version 14.2.1 now partially allows drivers to text while the system is active, based on surrounding traffic conditions, marking a significant step in hands-free autonomy features. This update enhances user experience by intelligently adapting to real-time situations, potentially boosting FSD adoption and Tesla's leadership in autonomous driving tech, which could drive future revenue through software subscriptions. 
+1️⃣ **Tesla’s FSD v14.2.1 can allow texting while driving “depending on traffic” – Elon Musk: 04 December, 2025, 10:45 AM PST, Drive Tesla Canada** 
+ Elon Musk confirmed that Tesla's latest Full Self-Driving update partially enables drivers to text based on traffic conditions, marking a step toward more relaxed supervision in autonomous modes. This feature could enhance user experience and productivity during drives, potentially boosting FSD adoption and Tesla's software revenue streams as autonomy matures. For the stock, it signals accelerating progress in Tesla's AI capabilities, attracting more investors focused on long-term tech leadership. 
  Source: https://driveteslacanada.ca/news/teslas-fsd-v14-2-1-can-allows-texting-while-driving-depending-on-traffic-elon-musk/?utm_source=rss&utm_medium=rss&utm_campaign=teslas-fsd-v14-2-1-can-allows-texting-while-driving-depending-on-traffic-elon-musk
 
 2️⃣ **Tesla Model Y Performance deliveries in the U.S. delayed as safety equipment checks trigger holds: 04 December, 2025, 10:20 AM PST, Drive Tesla Canada** 
- Tesla has paused deliveries of the Model Y Performance in the US due to required safety equipment inspections, leaving customers waiting after initial excitement for their vehicles. While frustrating in the short term, this proactive measure ensures compliance and vehicle reliability, strengthening Tesla's reputation for safety and potentially minimizing long-term recalls that could impact stock stability. 
+ Tesla has paused some Model Y Performance deliveries in the US due to necessary safety equipment verifications, leaving customers waiting longer than expected. While this introduces short-term frustration, it underscores Tesla's commitment to quality and compliance, which could strengthen brand trust and prevent larger recalls down the line. Investors might see this as a minor hiccup in Tesla's scaling efforts, with potential for positive sentiment once resolved and deliveries resume at pace. 
  Source: https://driveteslacanada.ca/news/tesla-model-y-performance-deliveries-in-the-u-s-delayed-as-safety-equipment-checks-trigger-holds/?utm_source=rss&utm_medium=rss&utm_campaign=tesla-model-y-performance-deliveries-in-the-u-s-delayed-as-safety-equipment-checks-trigger-holds
 
-3️⃣ **Tesla CEO Elon Musk announces major update with texting and driving on FSD: 04 December, 2025, 10:06 AM PST, Teslarati** 
- Elon Musk revealed that FSD v14.2.1 permits texting while driving under specific traffic contexts, representing a bold advancement in Tesla's autonomous capabilities. This feature could accelerate consumer trust in self-driving tech, positioning Tesla ahead of competitors and enhancing its valuation through innovative software differentiators. 
- Source: https://www.teslarati.com/tesla-ceo-elon-musk-major-update-texting-driving-full-self-driving/
-
-4️⃣ **Tesla Cracks Consumer Reports’ Top 10 Auto Brands for the First Time: 04 December, 2025, 09:20 AM PST, Drive Tesla Canada** 
- Tesla has broken into Consumer Reports' top 10 auto brands for the first time, climbing significantly due to improved reliability scores across its lineup. This achievement validates Tesla's focus on quality enhancements, likely attracting more mainstream buyers and supporting sustained stock growth amid expanding market share. 
+3️⃣ **Tesla Cracks Consumer Reports’ Top 10 Auto Brands for the First Time: 04 December, 2025, 09:20 AM PST, Drive Tesla Canada** 
+ Tesla broke into Consumer Reports' top 10 auto brands for the first time, climbing significantly due to improved reliability scores and customer satisfaction. This achievement validates Tesla's focus on innovation and quality, likely driving higher consumer demand and market share in the EV space. For the stock, it could fuel bullish momentum as mainstream recognition enhances Tesla's competitive edge against legacy automakers. 
  Source: https://driveteslacanada.ca/news/tesla-cracks-consumer-reports-top-10-auto-brands-for-the-first-time/?utm_source=rss&utm_medium=rss&utm_campaign=tesla-cracks-consumer-reports-top-10-auto-brands-for-the-first-time
 
-5️⃣ **Tesla Autonomy Making Streets Safer in Europe: 04 December, 2025, 09:09 AM PST, What's Up Tesla** 
- European leaders are experiencing Tesla's Full Self-Driving (Supervised) system, highlighting its potential to improve road safety through advanced neural network technology developed over 12 years. As adoption spreads, this could lead to regulatory approvals and market expansion for Tesla in Europe, bolstering its global autonomy dominance and investor confidence. 
+4️⃣ **Tesla Autonomy Making Streets Safer in Europe: 04 December, 2025, 09:09 AM PST, What's Up Tesla** 
+ European leaders are experiencing Tesla's Full Self-Driving system, highlighting its potential to improve road safety through advanced neural networks developed over years. This exposure could accelerate regulatory approvals and adoption across the continent, expanding Tesla's global footprint in autonomy. Stock-wise, it positions Tesla as a leader in safer transportation, potentially unlocking new revenue from international FSD subscriptions. 
  Source: https://whatsuptesla.com/2025/12/04/tesla-autonomy-making-streets-safer-in-europe/
 
-6️⃣ **Tesla Model Y L in China Now Sold Out Until February 2026: 04 December, 2025, 09:06 AM PST, Tesla North** 
- Tesla's new six-seat Model Y L variant in China has sold out through January 2026, with deliveries now pushed to February amid overwhelming demand. This surge underscores Tesla's strong position in the world's largest EV market, potentially driving record sales figures and positive stock momentum from high-volume production ramps. 
+5️⃣ **Tesla Model Y L in China Now Sold Out Until February 2026: 04 December, 2025, 09:06 AM PST, Tesla North** 
+ Tesla's new six-seat Model Y L variant in China has sold out through January 2026, with deliveries now pushed to February amid surging demand. This reflects strong market reception for Tesla's localized innovations, bolstering its dominance in the world's largest EV market. For investors, it suggests robust growth potential, with high sales volumes contributing to record revenues and profit margins. 
  Source: https://teslanorth.com/2025/12/04/tesla-model-y-l-in-china-now-sold-out-until-february-2026/
 
-7️⃣ **Tesla Semi just got a huge vote of confidence from 300-truck fleet: 04 December, 2025, 08:57 AM PST, Teslarati** 
- A mid-sized carrier with 300 trucks held a confidential meeting to evaluate the Tesla Semi for regional routes, signaling growing interest in electric trucking solutions. This endorsement could accelerate Semi adoption in logistics, expanding Tesla's revenue streams beyond passenger vehicles and enhancing its long-term growth narrative. 
+6️⃣ **Tesla Semi just got a huge vote of confidence from 300-truck fleet: 04 December, 2025, 08:57 AM PST, Teslarati** 
+ A mid-sized carrier with 300 trucks held a confidential meeting to evaluate the Tesla Semi for regional routes, signaling growing interest in electric heavy-duty vehicles. This endorsement could lead to fleet adoptions, expanding Tesla's presence in commercial transport and diversifying revenue beyond passenger cars. Stock implications include enhanced valuation from trucking sector breakthroughs, as Tesla proves scalability in sustainable logistics. 
  Source: https://www.teslarati.com/tesla-semi-just-got-a-huge-vote-of-confidence-from-300-truck-fleet/
 
-8️⃣ **Tesla extends FSD Supervised ride-alongs in Europe by three months: 04 December, 2025, 06:55 AM PST, Teslarati** 
- Tesla has prolonged its FSD Supervised ride-along program in Europe by three months due to high demand, allowing more people to experience the technology firsthand. This extension may build buzz and pave the way for broader FSD rollout, strengthening Tesla's competitive edge in autonomous driving and supporting stock upside. 
+7️⃣ **Tesla extends FSD Supervised ride-alongs in Europe by three months: 04 December, 2025, 06:55 AM PST, Teslarati** 
+ Tesla extended its FSD Supervised ride-along program in Europe by three months, allowing more people to experience the technology firsthand amid growing excitement. This initiative could build public and regulatory support, paving the way for broader FSD rollout in the region. For the stock, it highlights Tesla's strategic push into new markets, potentially increasing global adoption and long-term AI-driven profits. 
  Source: https://www.teslarati.com/tesla-extends-fsd-supervised-ride-alongs-in-europe-by-three-months/
 
-9️⃣ **Tesla Warns U.K. EV Rollback Risks Climate Targets: 03 December, 2025, 02:17 PM PST, Tesla North** 
- Tesla privately advised the UK government that easing EV regulations could hinder battery-electric vehicle sales and undermine climate goals, according to disclosed documents. By advocating for strong policies, Tesla positions itself as a leader in sustainable transport, potentially influencing favorable regulations that benefit its market expansion and stock performance. 
- Source: https://teslanorth.com/2025/12/03/tesla-warns-u-k-ev-rollback-risks-climate-targets/
+8️⃣ **Tesla’s six-seat extended wheelbase Model Y L sold out for January 2026: 04 December, 2025, 05:11 AM PST, Teslarati** 
+ New orders for Tesla's extended-wheelbase Model Y L in China are now delayed until February 2026 due to overwhelming demand and sold-out slots. This success demonstrates Tesla's ability to tailor products for key markets, driving sales momentum and production efficiency. Investors may view this as a catalyst for upward stock movement, reinforcing Tesla's growth trajectory in Asia. 
+ Source: https://www.teslarati.com/tesla-model-y-l-sold-out-january-2026/
+
+9️⃣ **NVIDIA CEO Jensen Huang commends Tesla’s Elon Musk for early belief: 03 December, 2025, 11:59 PM PST, Teslarati** 
+ NVIDIA's CEO praised Elon Musk for being an early adopter of their DGX-1 system when no one else was interested, highlighting Tesla's forward-thinking AI investments. This recognition underscores Tesla's pioneering role in tech ecosystems, fostering partnerships that could accelerate autonomous driving advancements. For the stock, it boosts confidence in Tesla's AI strategy, attracting tech-savvy investors eyeing future innovations. 
+ Source: https://www.teslarati.com/nvidia-ceo-jensen-huang-commends-tesla-elon-musk-early-belief/
 
 🔟 **Tesla’s FSD Wows Europe, Ride-Along Program Extended: 03 December, 2025, 01:30 PM PST, Tesla North** 
- Tesla extended its Full Self-Driving (Supervised) ride-along program in Europe through March 2026 due to exceptional popularity, offering passenger experiences of the latest autonomy features. This move could foster greater acceptance and regulatory progress for FSD in the region, contributing to Tesla's international growth strategy and bullish outlook. 
+ Tesla extended its Full Self-Driving ride-along program in Europe, giving more passengers a chance to try the tech and generating positive buzz. This move could expedite FSD approvals and user familiarity, strengthening Tesla's position in the European EV market. Stock-wise, it signals expanding international opportunities, potentially leading to higher subscription revenues and market expansion. 
  Source: https://teslanorth.com/2025/12/03/teslas-fsd-wows-europe-ride-along-program-extended/
 
-1️⃣ **Congrats on Tesla Q3 Progress: 24 October, 2024** 
- The post celebrates Tesla's Q3 achievements, including positive Cybertruck margins, high energy gross margins, and advancements like the 50k H100 cluster and Cybercab production plans. It highlights excitement over Tesla Network ride-sharing for employees, offering insights into the company's rapid innovation in EVs and autonomy. 
+1️⃣ **Tesla Q3 Progress Highlights: 24 October, 2024** 
+ The post congratulates the Tesla team on key Q3 achievements like positive Cybertruck margins and energy sector growth, emphasizing excitement over upcoming Cybercab production and employee ride-sharing. It provides insightful analysis on how these milestones reflect Tesla's rapid innovation in EVs and autonomy. This offers listeners a bullish perspective on Tesla's operational advancements. 
 
 2️⃣ **Tesla's Operating Income Beats Expectations: 22 October, 2020** 
- This post discusses Tesla's strong operating income exceeding forecasts, ambitious delivery growth targets, and autonomous driving updates. It notes the stock's modest reaction despite positive news, providing perspective on market sentiment during a pivotal earnings period. 
+ Highlighting Tesla's strong operating income and ambitious delivery growth targets, the post notes the stock's modest reaction despite autonomous driving updates. It captures the early excitement around Tesla's self-driving capabilities and financial resilience. This reflects on how Tesla consistently exceeds market forecasts. 
 
 3️⃣ **Initial Takeaways from Tesla Q4 Earnings: 27 January, 2021** 
- The post shares key insights from Tesla's Q4 report and updates to Model S and X, focusing on financial performance and vehicle enhancements. It offers analysis valuable for understanding Tesla's product evolution and stock implications at the time. 
+ The post shares key insights from Tesla's Q4 report, including updates to Model S and X, focusing on design and performance enhancements. It analyzes how these changes position Tesla for continued market leadership in premium EVs. The content encourages deeper understanding of Tesla's product evolution. 
 
 4️⃣ **Analyst Reiterates Overweight on TSLA: 18 January, 2023** 
- Highlighting an analyst's positive rating on Tesla stock post-price adjustments, the post emphasizes optimism for buying opportunities. It reflects on valuation resets and innovation potential, capturing bullish investor views. 
+ Quoting an analyst's positive rating on Tesla stock post-price adjustments, the post discusses valuation resets and buying opportunities. It highlights optimism around Tesla's pricing strategy and growth potential. This provides a financial perspective encouraging investor confidence. 
 
-5️⃣ **Key Takeaways from Tesla Q1 Letter: 29 April, 2020** 
- The post points out crucial points from Tesla's Q1 shareholder letter, such as improving margins at Giga Shanghai and positive Model Y profitability. It underscores Tesla's ability to scale production profitably across continents, a core strength for long-term success. 
+5️⃣ **Key Takeaways from Tesla Q1 Shareholder Letter: 29 April, 2020** 
+ The post emphasizes Tesla's profitability in scaling production globally, noting positive margins for Model Y and Giga Shanghai. It underscores Tesla's ability to expand efficiently across continents. This insight stresses the company's early strengths in manufacturing and margins. 
 
 ━━━━━━━━━━━━━━━━━━━━
 
@@ -68,28 +68,28 @@
 
 📉 **Short Spot**
 **Delivery Delays Hit Model Y Performance Amid Safety Checks: 04 December, 2025, 10:20 AM PST, Drive Tesla Canada** 
-Tesla has temporarily halted US deliveries of the Model Y Performance due to necessary safety equipment verifications, causing frustration for eager customers awaiting their vehicles. While this setback might briefly impact short-term sales figures, it's a minor, precautionary step that underscores Tesla's commitment to quality, likely resolving quickly without lasting effects on the company's strong demand trajectory. Optimistically, such diligence could prevent bigger issues down the line, reinforcing buyer trust. 
-Source: https://driveteslacanada.ca/news/tesla-model-y-performance-deliveries-in-the-u-s-delayed-as-safety-equipment-checks-trigger-holds/?utm_source=rss&utm_medium=rss&utm_campaign=tesla-model-y-performance-deliveries-in-the-u-s-delayed-as-safety-equipment-checks-trigger-holds
+Tesla has temporarily halted some Model Y Performance deliveries in the US for safety equipment verifications, causing unexpected waits for eager customers. While this might spark short-term concerns over supply chain hiccups, it's a proactive step to ensure top-tier quality, likely resolving quickly with Tesla's agile operations. Optimistically, such diligence prevents bigger issues and reinforces Tesla's reputation for reliability, setting the stage for smoother future rollouts. 
+Source/Post: https://driveteslacanada.ca/news/tesla-model-y-performance-deliveries-in-the-u-s-delayed-as-safety-equipment-checks-trigger-holds/?utm_source=rss&utm_medium=rss&utm_campaign=tesla-model-y-performance-deliveries-in-the-u-s-delayed-as-safety-equipment-checks-trigger-holds
 
 ━━━━━━━━━━━━━━━━━━━━
 
 ━━━━━━━━━━━━━━━━━━━━
 
 📈 **Short Squeeze**
-Tesla shorts are facing relentless pressure as the company repeatedly shatters pessimistic outlooks, with short interest hovering around 2.8% of the float and valued at approximately $48 billion, ripe for further squeezes. Take 2019, when bearish investor Andrew Left of Citron Research flipped his short position after initially doubting Tesla's Model 3 ramp-up, admitting defeat as production soared; or recall 2022, when David Trainer of New Constructs labeled Tesla a "zombie stock" destined for collapse amid supply chain woes, only for the company to post record deliveries and expand globally, turning those bets into massive losses for skeptics.
+Tesla shorts are facing relentless pressure as the company's track record of shattering pessimistic outlooks piles up, with short interest hovering around 2.8% of the float and valued at approximately $48 billion, ripe for further squeezes. Take 2019, when bearish investor Andrew Left predicted Tesla's collapse due to demand slumps and cash burn, only for the company to surge with Model 3 ramp-ups and profitability; or fast-forward to 2022, when Mark Spiegel forecasted a stock crash amid inflation and competition, but Tesla rebounded with record deliveries and energy business booms. These misfires have cost shorts billions, proving once again that betting against Tesla's innovation engine often leads to painful lessons.
 
 ━━━━━━━━━━━━━━━━━━━━
 
 ━━━━━━━━━━━━━━━━━━━━
 
 💪 **Daily Challenge**
-Spark your sustainable mindset by auditing your home energy use today—track appliances, identify inefficiencies, and implement one simple fix like switching to LED bulbs, mirroring Tesla's drive for efficient energy solutions in vehicles and beyond. Share your progress with us @teslashortstime!
+Fuel your perseverance by committing to a week-long habit of daily walks or bike rides instead of short drives, reducing your carbon footprint while building resilience like Tesla's enduring push through production challenges. Track your miles and reflect on the energy saved to inspire sustainable living. Share your progress with us @teslashortstime!
 
 ━━━━━━━━━━━━━━━━━━━━
 
 ━━━━━━━━━━━━━━━━━━━━
 
 ✨ **Inspiration Quote:** 
-"The only limit to our realization of tomorrow will be our doubts of today." – Franklin D. Roosevelt, https://www.brainyquote.com/quotes/franklin_d_roosevelt_105371
+"The best way to predict the future is to create it." – Peter Drucker, https://www.brainyquote.com/quotes/peter_drucker_106578
 
-As Tesla powers ahead in revolutionizing energy and transport, remember that every innovation starts with bold vision—keep pushing boundaries just like they do. DM @teslashortstime with your thoughts or story ideas!
+As Tesla continues to pioneer a world powered by clean energy and intelligent machines, let's keep the momentum going toward a brighter, more innovative tomorrow. DM us @teslashortstime with your thoughts or story ideas—we love hearing from our community!
