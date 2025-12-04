@@ -602,6 +602,8 @@ def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
                 pass
     
     # Also check RSS feed for episodes published today
+    # Only skip if we find an episode with today's date AND it was published in the last 2 hours
+    # This prevents false positives from timezone issues or old episodes
     if rss_path.exists():
         try:
             tree = ET.parse(str(rss_path))
@@ -609,17 +611,22 @@ def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
             channel = root.find('channel')
             if channel is not None:
                 today_date = datetime.date.today()
+                now_utc = datetime.datetime.now(datetime.timezone.utc)
+                two_hours_ago = now_utc - datetime.timedelta(hours=2)
+                
                 for item in channel.findall('item'):
                     pub_date_elem = item.find('pubDate')
                     if pub_date_elem is not None and pub_date_elem.text:
                         try:
                             from email.utils import parsedate_to_datetime
                             pub_date = parsedate_to_datetime(pub_date_elem.text)
-                            if pub_date.date() == today_date:
+                            # Only skip if episode is from today AND was published in the last 2 hours
+                            # This prevents skipping due to old episodes or timezone mismatches
+                            if pub_date.date() == today_date and pub_date >= two_hours_ago:
                                 itunes_episode = item.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}episode')
                                 if itunes_episode is not None and itunes_episode.text:
                                     existing_ep_num = int(itunes_episode.text)
-                                    logging.info(f"Episode {existing_ep_num} already exists in RSS feed for today ({today_str}). Skipping generation.")
+                                    logging.info(f"Episode {existing_ep_num} already exists in RSS feed for today ({today_str}, published {pub_date.isoformat()}). Skipping generation.")
                                     return None  # Signal to skip generation
                         except (ValueError, Exception) as e:
                             logging.debug(f"Could not parse pubDate for RSS item: {e}")
@@ -867,10 +874,10 @@ def fetch_oilers_news():
         "https://www.hockey-reference.com/rss",
     ]
     
-    # Calculate cutoff time (strictly last 24 hours - exclude anything older)
+    # Calculate cutoff time (last 36 hours - more flexible to catch timezone issues)
     now_utc = datetime.datetime.now(datetime.timezone.utc)
-    cutoff_time = now_utc - datetime.timedelta(hours=24)
-    logging.info(f"Fetching articles published after {cutoff_time.isoformat()} (last 24 hours only)")
+    cutoff_time = now_utc - datetime.timedelta(hours=36)
+    logging.info(f"Fetching articles published after {cutoff_time.isoformat()} (last 36 hours, flexible)")
     
     all_articles = []
     raw_articles = []
@@ -969,18 +976,19 @@ def fetch_oilers_news():
                     except (ValueError, TypeError):
                         pass
                 
-                # Date filtering: include articles from the last 24 hours (with some flexibility)
+                # Date filtering: include articles from the last 36 hours (more flexible)
+                # cutoff_time is already set to 36 hours ago, so use it directly
                 if published_time:
                     if published_time < cutoff_time:
                         logging.debug(f"Filtered out article (too old, {published_time.isoformat()}): {title[:60]}...")
-                        continue  # Skip articles older than 24 hours
+                        continue  # Skip articles older than 36 hours
                     # Also skip articles from the future (likely timezone issues)
                     if published_time > now_utc + datetime.timedelta(hours=1):
                         logging.debug(f"Filtered out article (future date): {title[:60]}...")
                         continue
                 else:
-                    # If no published time, use current time but log a warning
-                    logging.debug(f"Article '{title[:50]}...' has no published time, using current time")
+                    # If no published time, include it but log a warning (might be recent)
+                    logging.debug(f"Article '{title[:50]}...' has no published time, including it")
                     published_time = now_utc
                 
                 title = entry.get("title", "").strip()
@@ -994,22 +1002,22 @@ def fetch_oilers_news():
                 # Check if article mentions Oilers or Oilers players/coaches/location
                 title_desc_lower = (title + " " + description).lower()
                 
-                # Must contain at least one primary Oilers keyword OR be from Oilers-specific sources
-                has_oilers_primary = any(keyword in title_desc_lower for keyword in oilers_primary_keywords)
-                
-                # Also allow articles from Oilers-specific sources even if keywords aren't explicit
-                # Check source name and feed URL for Oilers/Edmonton indicators
-                is_oilers_source = any(oilers_term in source_name.lower() for oilers_term in ["oilers", "edmonton"])
+                # Check if this is an Oilers-specific feed - if so, include ALL articles
                 is_oilers_feed = any(oilers_term in feed_url.lower() for oilers_term in ["oilers", "edmonton"])
+                is_oilers_source = any(oilers_term in source_name.lower() for oilers_term in ["oilers", "edmonton"])
                 
-                # For Oilers-specific feeds (like nhl.com/oilers), be more lenient - include all articles
-                # For general NHL feeds, require explicit Oilers keywords
-                if "oilers" in feed_url.lower() or "edmonton" in feed_url.lower():
+                # For Oilers-specific feeds (like nhl.com/oilers, edmontonjournal.com/oilers), include ALL articles
+                # These feeds are curated for Oilers content, so everything is relevant
+                if is_oilers_feed or is_oilers_source:
                     # This is an Oilers-specific feed - include all articles from last 24 hours
+                    logging.debug(f"Including article from Oilers-specific feed: {title[:60]}...")
                     pass  # Don't filter, include all
-                elif not has_oilers_primary and not is_oilers_source:
-                    logging.debug(f"Filtered out article (no Oilers keywords): {title[:60]}...")
-                    continue  # Skip articles that don't mention Oilers and aren't from Oilers sources
+                else:
+                    # For general NHL feeds, require explicit Oilers keywords
+                    has_oilers_primary = any(keyword in title_desc_lower for keyword in oilers_primary_keywords)
+                    if not has_oilers_primary:
+                        logging.debug(f"Filtered out article (no Oilers keywords from general feed): {title[:60]}...")
+                        continue  # Skip articles that don't mention Oilers from general feeds
                 
                 # Only exclude articles that are CLEARLY about another team
                 # Allow matchups, trades, comparisons, and any article that mentions Oilers
@@ -1664,7 +1672,8 @@ def update_rss_feed(
 # ========================== GENERATE PODCAST SCRIPT ==========================
 if not ENABLE_PODCAST or skip_podcast_today:
     if skip_podcast_today:
-        logging.info("Episode for today already exists. Skipping podcast script generation, audio processing, and RSS feed updates.")
+        logging.info("Episode for today already exists. Skipping podcast script generation and audio processing.")
+        logging.info("Note: RSS feed repair will still run to ensure all episodes are included.")
     else:
         logging.info("Podcast generation is disabled (ENABLE_PODCAST = False). Skipping podcast script generation, audio processing, and RSS feed updates.")
     final_mp3 = None
