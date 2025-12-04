@@ -1319,7 +1319,10 @@ You are an elite Tesla news curator producing the daily "Tesla Shorts Time" news
 
 **EXCEPTION FOR X SPOTLIGHT SECTION**: For the "X Spotlight: @{spotlight_username}" section ONLY, you may use web search or your knowledge to find recent Tesla-related posts from @{spotlight_username} on X. Curate the top 5 most engaging posts from the past week and provide an overall weekly sentiment summary. 
 
-**CRITICAL**: Only include actual working X post URLs with real numeric post IDs. If you cannot find real post URLs, omit the "Post:" line entirely. Do NOT use placeholder URLs like [POST_ID] or [ACTUAL_POST_ID]. Do NOT include any instruction language, meta-commentary, or formatting notes in your output - only output the actual content.
+**CRITICAL**: 
+- You MUST include the account mention and link in the X Spotlight section header: "Today's spotlight is on @{spotlight_username} - follow them at https://x.com/{spotlight_username} to see all their Tesla insights and updates."
+- Only include actual working X post URLs with real numeric post IDs. If you cannot find real post URLs, omit the "Post:" line entirely. Do NOT use placeholder URLs like [POST_ID] or [ACTUAL_POST_ID]. 
+- Do NOT include any instruction language, meta-commentary, or formatting notes in your output - only output the actual content.
 
 {used_content_summary}
 
@@ -1348,7 +1351,9 @@ You are an elite Tesla news curator producing the daily "Tesla Shorts Time" news
 2. [Repeat format for 3-10; if <10 items, stop at available count, add a blank line after each item and the last item]
 
 ━━━━━━━━━━━━━━━━━━━━
-## X Spotlight: @{spotlight_username}
+## X Spotlight: @{spotlight_username} ({spotlight_display_name})
+Today's spotlight is on @{spotlight_username} - follow them at https://x.com/{spotlight_username} to see all their Tesla insights and updates.
+
 1. **Post Title: DD Month, YYYY**  
    Description of the post content (2-3 sentences). Include the key Tesla-related insight, news, or perspective shared.
    Post: https://x.com/{spotlight_username}/status/[ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID]
@@ -1667,10 +1672,37 @@ def format_digest_for_x(digest: str) -> str:
     
     # Format section headers with emojis (preserve existing markdown)
     formatted = re.sub(r'^### Top 10 News Items', '📰 **Top 10 News Items**', formatted, flags=re.MULTILINE)
-    # Format X Spotlight section
-    formatted = re.sub(r'^## X Spotlight: @(\w+)', r'🌟 **X Spotlight: @\1**', formatted, flags=re.MULTILINE)
+    # Format X Spotlight section - preserve account mention and link
+    # First, check if the account mention line already exists
+    has_account_mention = re.search(r'Today\'s spotlight is on @\w+.*follow them at.*x\.com', formatted, re.IGNORECASE)
+    
+    # Handle format with display name and link
+    formatted = re.sub(
+        r'^## X Spotlight: @(\w+)\s*\(([^)]+)\)',
+        r'🌟 **X Spotlight: @\1** (\2)',
+        formatted,
+        flags=re.MULTILINE
+    )
+    # Fallback for format without display name
+    formatted = re.sub(
+        r'^## X Spotlight: @(\w+)(?!\s*\()',
+        r'🌟 **X Spotlight: @\1**',
+        formatted,
+        flags=re.MULTILINE
+    )
+    # Handle cases where the intro line might already be there
     formatted = re.sub(r'^## X Spotlight:', '🌟 **X Spotlight:**', formatted, flags=re.MULTILINE)
     formatted = re.sub(r'^### X Spotlight:', '🌟 **X Spotlight:**', formatted, flags=re.MULTILINE)
+    
+    # If account mention is missing, add it after the X Spotlight header
+    if not has_account_mention:
+        # Find X Spotlight header and add account mention after it
+        spotlight_match = re.search(r'(🌟 \*\*X Spotlight: @(\w+)[^\n]*)', formatted, re.MULTILINE)
+        if spotlight_match:
+            username = spotlight_match.group(2)
+            insert_pos = spotlight_match.end()
+            account_line = f"\nToday's spotlight is on @{username} - follow them at: https://x.com/{username} to see all their Tesla insights and updates.\n"
+            formatted = formatted[:insert_pos] + account_line + formatted[insert_pos:]
     # X POSTS SECTION DISABLED - No longer formatting X posts header
     formatted = re.sub(r'^## Short Spot', '📉 **Short Spot**', formatted, flags=re.MULTILINE)
     formatted = re.sub(r'^### Short Squeeze', '📈 **Short Squeeze**', formatted, flags=re.MULTILINE)
@@ -1942,7 +1974,7 @@ Patrick: Welcome to Tesla Shorts Time Daily, episode {episode_num}. It is {today
 
 [Narrate EVERY item from the digest in order - no skipping]
 - For each news item: Read the title with enthusiasm, then paraphrase the summary naturally
-- X Spotlight: Introduce the spotlight account (@{spotlight_username} - {spotlight_display_name}) with enthusiasm. Read each of the top 5 posts with excitement, explaining why each post matters. Then summarize the overall weekly sentiment from @{spotlight_username} about Tesla. Make it engaging and highlight why this account's perspective is valuable.
+- X Spotlight: Introduce the spotlight account (@{spotlight_username} - {spotlight_display_name}) with enthusiasm. Mention that listeners can follow them at @{spotlight_username} on X (https://x.com/{spotlight_username}) to see all their Tesla insights and updates. Read each of the top 5 posts with excitement, explaining why each post matters. Then summarize the overall weekly sentiment from @{spotlight_username} about Tesla. Make it engaging and highlight why this account's perspective is valuable.
 - Short Squeeze: Paraphrase with enthusiasm, calling out specific failed predictions and dollar losses
 - Daily Challenge + Quote: Read the quote verbatim, then the challenge verbatim, add one encouraging sentence
 
