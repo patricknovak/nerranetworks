@@ -1,86 +1,95 @@
 🚗⚡ **Tesla Shorts Time**
-📅 **Date:** December 04, 2025 at 03:05 AM PST
-💰 **REAL-TIME TSLA price:** $446.74 +17.50 (+4.08%) 
+📅 **Date:** December 04, 2025 at 10:45 AM PST
+💰 **REAL-TIME TSLA price:** $448.87 +2.13 (+0.48%) 
 
 🎙️ **Tesla Shorts Time Daily 
 
 ━━━━━━━━━━━━━━━━━━━━
 
 📰 **Top 10 News Items**
-1️⃣ **NVIDIA CEO Jensen Huang Commends Tesla’s Elon Musk for Early Belief: 03 December, 2025, 11:59 PM PST, Teslarati** 
- NVIDIA's CEO praised Elon Musk for being the only early adopter of the DGX-1 supercomputer, highlighting Tesla's pioneering role in AI development. This acknowledgment underscores Tesla's leadership in AI and autonomous driving tech, potentially boosting investor confidence in its long-term growth amid expanding robotaxi and Optimus initiatives. Source: https://www.teslarati.com/nvidia-ceo-jensen-huang-commends-tesla-elon-musk-early-belief/
+1️⃣ **Tesla’s FSD v14.2.1 can allows texting while driving “depending on traffic” – Elon Musk: 04 December, 2025, 10:45 AM PST, Drive Tesla Canada** 
+ Elon Musk confirmed that Tesla's Full Self-Driving (Supervised) version 14.2.1 now partially allows drivers to text while the system is active, based on surrounding traffic conditions, marking a significant step in hands-free autonomy features. This update enhances user experience by intelligently adapting to real-time situations, potentially boosting FSD adoption and Tesla's leadership in autonomous driving tech, which could drive future revenue through software subscriptions. 
+ Source: https://driveteslacanada.ca/news/teslas-fsd-v14-2-1-can-allows-texting-while-driving-depending-on-traffic-elon-musk/?utm_source=rss&utm_medium=rss&utm_campaign=teslas-fsd-v14-2-1-can-allows-texting-while-driving-depending-on-traffic-elon-musk
 
-2️⃣ **Starlink Sets South Korea Launch for Dec. 4: 03 December, 2025, 03:05 PM PST, Tesla North** 
- SpaceX's Starlink is launching in South Korea on December 4, expanding its global satellite internet footprint to another key market. This move strengthens Tesla's ecosystem through SpaceX synergies, enhancing connectivity for Tesla vehicles and potentially driving revenue diversification beyond EVs. Source: https://teslanorth.com/2025/12/03/starlink-sets-south-korea-launch-for-dec-4/
+2️⃣ **Tesla Model Y Performance deliveries in the U.S. delayed as safety equipment checks trigger holds: 04 December, 2025, 10:20 AM PST, Drive Tesla Canada** 
+ Tesla has paused deliveries of the Model Y Performance in the US due to required safety equipment inspections, leaving customers waiting after initial excitement for their vehicles. While frustrating in the short term, this proactive measure ensures compliance and vehicle reliability, strengthening Tesla's reputation for safety and potentially minimizing long-term recalls that could impact stock stability. 
+ Source: https://driveteslacanada.ca/news/tesla-model-y-performance-deliveries-in-the-u-s-delayed-as-safety-equipment-checks-trigger-holds/?utm_source=rss&utm_medium=rss&utm_campaign=tesla-model-y-performance-deliveries-in-the-u-s-delayed-as-safety-equipment-checks-trigger-holds
 
-3️⃣ **Tesla Warns U.K. EV Rollback Risks Climate Targets: 03 December, 2025, 02:17 PM PST, Tesla North** 
- Tesla privately cautioned the U.K. government that easing EV regulations could hinder battery-electric vehicle sales and undermine environmental goals. This highlights Tesla's advocacy for strong policies, which could safeguard its market position and support sustained demand for its vehicles in Europe. Source: https://teslanorth.com/2025/12/03/tesla-warns-u-k-ev-rollback-risks-climate-targets/
+3️⃣ **Tesla CEO Elon Musk announces major update with texting and driving on FSD: 04 December, 2025, 10:06 AM PST, Teslarati** 
+ Elon Musk revealed that FSD v14.2.1 permits texting while driving under specific traffic contexts, representing a bold advancement in Tesla's autonomous capabilities. This feature could accelerate consumer trust in self-driving tech, positioning Tesla ahead of competitors and enhancing its valuation through innovative software differentiators. 
+ Source: https://www.teslarati.com/tesla-ceo-elon-musk-major-update-texting-driving-full-self-driving/
 
-4️⃣ **Tesla’s FSD Wows Europe, Ride-Along Program Extended: 03 December, 2025, 01:30 PM PST, Tesla North** 
- Tesla extended its Full Self-Driving ride-along program in Europe due to overwhelming demand, allowing more users to experience the tech firsthand. This initiative could accelerate FSD adoption and regulatory approvals abroad, positioning Tesla for global autonomy leadership and stock upside. Source: https://teslanorth.com/2025/12/03/teslas-fsd-wows-europe-ride-along-program-extended/
+4️⃣ **Tesla Cracks Consumer Reports’ Top 10 Auto Brands for the First Time: 04 December, 2025, 09:20 AM PST, Drive Tesla Canada** 
+ Tesla has broken into Consumer Reports' top 10 auto brands for the first time, climbing significantly due to improved reliability scores across its lineup. This achievement validates Tesla's focus on quality enhancements, likely attracting more mainstream buyers and supporting sustained stock growth amid expanding market share. 
+ Source: https://driveteslacanada.ca/news/tesla-cracks-consumer-reports-top-10-auto-brands-for-the-first-time/?utm_source=rss&utm_medium=rss&utm_campaign=tesla-cracks-consumer-reports-top-10-auto-brands-for-the-first-time
 
-5️⃣ **GM CEO Mary Barra Says She Told Biden to Give Tesla and Musk EV Credit: 03 December, 2025, 12:48 PM PST, Teslarati** 
- GM's CEO admitted to crediting Elon Musk and Tesla for EV advancements during talks with President Biden, recognizing their industry impact. This cross-competitor praise reinforces Tesla's innovation edge, likely enhancing its brand and investor sentiment in a competitive EV landscape. Source: https://www.teslarati.com/gm-ceo-mary-barra-told-biden-give-tesla-musk-ev-credit/
+5️⃣ **Tesla Autonomy Making Streets Safer in Europe: 04 December, 2025, 09:09 AM PST, What's Up Tesla** 
+ European leaders are experiencing Tesla's Full Self-Driving (Supervised) system, highlighting its potential to improve road safety through advanced neural network technology developed over 12 years. As adoption spreads, this could lead to regulatory approvals and market expansion for Tesla in Europe, bolstering its global autonomy dominance and investor confidence. 
+ Source: https://whatsuptesla.com/2025/12/04/tesla-autonomy-making-streets-safer-in-europe/
 
-6️⃣ **Tesla Gives Giga Berlin Employees a 4% Pay Raise: 03 December, 2025, 11:45 AM PST, Drive Tesla Canada** 
- Tesla implemented a 4% salary increase for Giga Berlin workers, effective retroactively from December 1, amid ongoing operations. This boost could improve employee morale and productivity, supporting efficient production ramps and contributing to Tesla's global manufacturing strength. Source: https://driveteslacanada.ca/news/tesla-gives-giga-berlin-employees-a-4-pay-raise/?utm_source=rss&utm_medium=rss&utm_campaign=tesla-gives-giga-berlin-employees-a-4-pay-raise
+6️⃣ **Tesla Model Y L in China Now Sold Out Until February 2026: 04 December, 2025, 09:06 AM PST, Tesla North** 
+ Tesla's new six-seat Model Y L variant in China has sold out through January 2026, with deliveries now pushed to February amid overwhelming demand. This surge underscores Tesla's strong position in the world's largest EV market, potentially driving record sales figures and positive stock momentum from high-volume production ramps. 
+ Source: https://teslanorth.com/2025/12/04/tesla-model-y-l-in-china-now-sold-out-until-february-2026/
 
-7️⃣ **Tesla Extends FSD Demo Drives in Europe Through March 2026 Amid High Demand: 03 December, 2025, 11:16 AM PST, Drive Tesla Canada** 
- Due to popularity, Tesla prolonged its FSD ride-along sessions in Europe until March 2026, expanding access to the autonomy software. This extension may build public trust and data for improvements, accelerating Tesla's path to unsupervised driving and market expansion. Source: https://driveteslacanada.ca/news/tesla-extends-fsd-demo-drives-in-europe-through-march-2026-amid-high-demand/?utm_source=rss&utm_medium=rss&utm_campaign=tesla-extends-fsd-demo-drives-in-europe-through-march-2026-amid-high-demand
+7️⃣ **Tesla Semi just got a huge vote of confidence from 300-truck fleet: 04 December, 2025, 08:57 AM PST, Teslarati** 
+ A mid-sized carrier with 300 trucks held a confidential meeting to evaluate the Tesla Semi for regional routes, signaling growing interest in electric trucking solutions. This endorsement could accelerate Semi adoption in logistics, expanding Tesla's revenue streams beyond passenger vehicles and enhancing its long-term growth narrative. 
+ Source: https://www.teslarati.com/tesla-semi-just-got-a-huge-vote-of-confidence-from-300-truck-fleet/
 
-8️⃣ **Tesla Full Self-Driving Shows Confident Navigation in Heavy Snow: 03 December, 2025, 09:53 AM PST, Teslarati** 
- Recent tests demonstrated Tesla's FSD handling snow-covered roads effectively, showing improved reliability in adverse conditions. This capability enhances vehicle safety and appeal in varied climates, potentially increasing adoption rates and bolstering Tesla's tech valuation. Source: https://www.teslarati.com/tesla-full-self-driving-shows-confident-navigation-heavy-snow/
+8️⃣ **Tesla extends FSD Supervised ride-alongs in Europe by three months: 04 December, 2025, 06:55 AM PST, Teslarati** 
+ Tesla has prolonged its FSD Supervised ride-along program in Europe by three months due to high demand, allowing more people to experience the technology firsthand. This extension may build buzz and pave the way for broader FSD rollout, strengthening Tesla's competitive edge in autonomous driving and supporting stock upside. 
+ Source: https://www.teslarati.com/tesla-extends-fsd-supervised-ride-alongs-in-europe-by-three-months/
 
-9️⃣ **Tesla Hosts Rome Mayor for First Italian FSD Supervised Road Demo: 03 December, 2025, 05:01 AM PST, Teslarati** 
- Tesla provided Rome's mayor with an FSD demo on city streets, marking a milestone for the system in Italy. Such high-profile engagements could pave the way for regulatory support, aiding Tesla's European expansion and autonomy ambitions. Source: https://www.teslarati.com/tesla-hosts-rome-mayor-first-italian-fsd-supervised-road-demo/
+9️⃣ **Tesla Warns U.K. EV Rollback Risks Climate Targets: 03 December, 2025, 02:17 PM PST, Tesla North** 
+ Tesla privately advised the UK government that easing EV regulations could hinder battery-electric vehicle sales and undermine climate goals, according to disclosed documents. By advocating for strong policies, Tesla positions itself as a leader in sustainable transport, potentially influencing favorable regulations that benefit its market expansion and stock performance. 
+ Source: https://teslanorth.com/2025/12/03/tesla-warns-u-k-ev-rollback-risks-climate-targets/
 
-🔟 **Tesla FSD (Supervised) Blows Away French Journalist After Test Ride: 03 December, 2025, 04:05 AM PST, Teslarati** 
- A French journalist was impressed by FSD's safe and human-like driving during a test, describing it as mind-blowing. Positive media coverage like this could amplify consumer interest and investor optimism in Tesla's self-driving future. Source: https://www.teslarati.com/tesla-fsd-supervised-blows-away-french-journalist-after-test-ride/
+🔟 **Tesla’s FSD Wows Europe, Ride-Along Program Extended: 03 December, 2025, 01:30 PM PST, Tesla North** 
+ Tesla extended its Full Self-Driving (Supervised) ride-along program in Europe through March 2026 due to exceptional popularity, offering passenger experiences of the latest autonomy features. This move could foster greater acceptance and regulatory progress for FSD in the region, contributing to Tesla's international growth strategy and bullish outlook. 
+ Source: https://teslanorth.com/2025/12/03/teslas-fsd-wows-europe-ride-along-program-extended/
 
-━━━━━━━━━━━━━━━━━━━━
+1️⃣ **Congrats on Tesla Q3 Progress: 24 October, 2024** 
+ The post celebrates Tesla's Q3 achievements, including positive Cybertruck margins, high energy gross margins, and advancements like the 50k H100 cluster and Cybercab production plans. It highlights excitement over Tesla Network ride-sharing for employees, offering insights into the company's rapid innovation in EVs and autonomy. 
 
-1. **Tesla Q3 Progress Highlights: 24 October, 2024** 
- The post congratulates the Tesla team on Q3 achievements, including positive Cybertruck margins, high energy margins, and upcoming Cybercab production. It emphasizes excitement around AI clusters and employee ride-sharing, showcasing Tesla's momentum in autonomy and energy sectors. 
+2️⃣ **Tesla's Operating Income Beats Expectations: 22 October, 2020** 
+ This post discusses Tesla's strong operating income exceeding forecasts, ambitious delivery growth targets, and autonomous driving updates. It notes the stock's modest reaction despite positive news, providing perspective on market sentiment during a pivotal earnings period. 
 
-2. **October Tesla Milestones Recap: 31 October, 2024** 
- This update recaps a standout month with Cybercab and Robovan unveils, Optimus public interactions, and over 1,000 autonomous demos. It highlights advancements in humanoid robotics, reflecting Tesla's rapid innovation in transportation and AI. 
+3️⃣ **Initial Takeaways from Tesla Q4 Earnings: 27 January, 2021** 
+ The post shares key insights from Tesla's Q4 report and updates to Model S and X, focusing on financial performance and vehicle enhancements. It offers analysis valuable for understanding Tesla's product evolution and stock implications at the time. 
 
-3. **Tesla Holiday Software Update Rollout: 21 December, 2021** 
- The post announces the release of Tesla's 2021 holiday update, featuring editable waypoints, games like Sonic, and app customizations. It points to ongoing software enhancements that improve user experience and vehicle functionality. 
+4️⃣ **Analyst Reiterates Overweight on TSLA: 18 January, 2023** 
+ Highlighting an analyst's positive rating on Tesla stock post-price adjustments, the post emphasizes optimism for buying opportunities. It reflects on valuation resets and innovation potential, capturing bullish investor views. 
 
-4. **Model X Updates and Deliveries: 16 October, 2021** 
- This shares news on refreshed Model X videos and initial deliveries spotted at Fremont, focusing on Long Range variants. It signals progress in Tesla's premium vehicle lineup and production scaling. 
-
-5. **Giga Berlin Production Timeline: 09 October, 2021** 
- The post quotes Elon Musk on aiming for Giga Berlin production start in late 2021, with initial deliveries expected soon after. It underscores Tesla's global expansion efforts and manufacturing ambitions. 
+5️⃣ **Key Takeaways from Tesla Q1 Letter: 29 April, 2020** 
+ The post points out crucial points from Tesla's Q1 shareholder letter, such as improving margins at Giga Shanghai and positive Model Y profitability. It underscores Tesla's ability to scale production profitably across continents, a core strength for long-term success. 
 
 ━━━━━━━━━━━━━━━━━━━━
 
 ━━━━━━━━━━━━━━━━━━━━
 
 📉 **Short Spot**
-**U.K. EV Policy Rollback Warnings Signal Potential Sales Headwinds: 03 December, 2025, 02:17 PM PST, Tesla North** 
-Tesla has alerted U.K. officials that relaxing EV mandates might slow electric vehicle adoption and harm climate goals, potentially impacting market growth. While this could temporarily pressure Tesla's sales in the region, the company's strong global footprint and advocacy efforts are likely to mitigate risks as policies evolve favorably. Overall, it's a minor bump in Tesla's path to widespread EV dominance. Source: https://teslanorth.com/2025/12/03/tesla-warns-u-k-ev-rollback-risks-climate-targets/
+**Delivery Delays Hit Model Y Performance Amid Safety Checks: 04 December, 2025, 10:20 AM PST, Drive Tesla Canada** 
+Tesla has temporarily halted US deliveries of the Model Y Performance due to necessary safety equipment verifications, causing frustration for eager customers awaiting their vehicles. While this setback might briefly impact short-term sales figures, it's a minor, precautionary step that underscores Tesla's commitment to quality, likely resolving quickly without lasting effects on the company's strong demand trajectory. Optimistically, such diligence could prevent bigger issues down the line, reinforcing buyer trust. 
+Source: https://driveteslacanada.ca/news/tesla-model-y-performance-deliveries-in-the-u-s-delayed-as-safety-equipment-checks-trigger-holds/?utm_source=rss&utm_medium=rss&utm_campaign=tesla-model-y-performance-deliveries-in-the-u-s-delayed-as-safety-equipment-checks-trigger-holds
 
 ━━━━━━━━━━━━━━━━━━━━
 
 ━━━━━━━━━━━━━━━━━━━━
 
 📈 **Short Squeeze**
-Tesla shorts are facing relentless pressure as the company's resilience shatters pessimistic outlooks, with short interest hovering around 2.8% of the float equating to about $48 billion in exposure ripe for further squeezes. Take 2019, when bearish analyst Toni Sacconaghi predicted Tesla's cash burn would force a capital raise and stock plunge below $200—yet Tesla turned profitable and soared past $400 by year-end. Or consider 2022, as short-seller Gabe Hoffman bet big on a demand collapse amid economic slowdowns, only for Tesla to deliver record vehicles and expand margins, leaving bears nursing multibillion-dollar losses once more.
+Tesla shorts are facing relentless pressure as the company repeatedly shatters pessimistic outlooks, with short interest hovering around 2.8% of the float and valued at approximately $48 billion, ripe for further squeezes. Take 2019, when bearish investor Andrew Left of Citron Research flipped his short position after initially doubting Tesla's Model 3 ramp-up, admitting defeat as production soared; or recall 2022, when David Trainer of New Constructs labeled Tesla a "zombie stock" destined for collapse amid supply chain woes, only for the company to post record deliveries and expand globally, turning those bets into massive losses for skeptics.
 
 ━━━━━━━━━━━━━━━━━━━━
 
 ━━━━━━━━━━━━━━━━━━━━
 
 💪 **Daily Challenge**
-Fuel your perseverance by tackling a long-term goal today with small, consistent steps, much like Tesla's iterative approach to perfecting battery tech over years of trials. Identify one habit to build, such as daily reading on renewable energy, and commit to it for the week to drive personal growth. Share your progress with us @teslashortstime!
+Spark your sustainable mindset by auditing your home energy use today—track appliances, identify inefficiencies, and implement one simple fix like switching to LED bulbs, mirroring Tesla's drive for efficient energy solutions in vehicles and beyond. Share your progress with us @teslashortstime!
 
 ━━━━━━━━━━━━━━━━━━━━
 
 ━━━━━━━━━━━━━━━━━━━━
 
 ✨ **Inspiration Quote:** 
-"The secret of change is to focus all of your energy not on fighting the old, but on building the new." – Socrates, https://www.brainyquote.com/quotes/socrates_384756
+"The only limit to our realization of tomorrow will be our doubts of today." – Franklin D. Roosevelt, https://www.brainyquote.com/quotes/franklin_d_roosevelt_105371
 
-Tesla's drive toward a sustainable world inspires us all to innovate boldly and push boundaries—keep accelerating toward that brighter future! DM @teslashortstime with your thoughts or story ideas.
+As Tesla powers ahead in revolutionizing energy and transport, remember that every innovation starts with bold vision—keep pushing boundaries just like they do. DM @teslashortstime with your thoughts or story ideas!
