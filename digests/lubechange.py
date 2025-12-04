@@ -209,6 +209,30 @@ def fix_pronunciation(text: str) -> str:
         "Kings": "Kings",
         "Ducks": "Ducks",
     }
+    
+    # Player name pronunciations (phonetic spellings for TTS)
+    player_names = {
+        "Messier": "Mess ee ay",  # Mark Messier
+        "Draisaitl": "Dry sight el",  # Leon Draisaitl
+        "McDavid": "Mc David",
+        "Nugent-Hopkins": "Nugent Hopkins",
+    }
+    
+    # Common word pronunciations that TTS struggles with
+    word_pronunciations = {
+        "Years": "Years",  # Keep as-is, ensure it's not being modified
+        "years": "years",
+        "Lives": "Lives",  # Keep as-is
+        "lives": "lives",
+        "Planetterrian": "Planet terry an",  # Break into syllables
+        "planetterrian": "planet terry an",
+        "shootout": "shoot out",  # Ensure two words
+        "shoot-out": "shoot out",
+        "shoot out": "shoot out",
+    }
+    
+    # Fix NHL - say it naturally as "N H L" (already handled above, but ensure it's clear)
+    # NHL is already in acronyms dict, but we want to make sure it's pronounced clearly
 
     # Fix acronyms (must be whole words) - use spaces instead of ZWJ for better TTS
     for acronym, spelled in acronyms.items():
@@ -224,6 +248,21 @@ def fix_pronunciation(text: str) -> str:
             # Cartesia handles spaced acronyms better than ZWJ
             replacement = " ".join(list(spelled))
         text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+    
+    # Fix NHL specifically - say "N H L" clearly (but don't double-process if already done)
+    # This ensures NHL is always pronounced letter-by-letter
+    text = re.sub(r'\bN\s+H\s+L\b', 'N H L', text, flags=re.IGNORECASE)  # Normalize spacing first
+    text = re.sub(r'\bNHL\b', 'N H L', text, flags=re.IGNORECASE)
+    
+    # Fix player names (must be whole words) - do this BEFORE other word fixes
+    for name, pronunciation in player_names.items():
+        pattern = rf'(?<!\w){re.escape(name)}(?!\w)'
+        text = re.sub(pattern, pronunciation, text, flags=re.IGNORECASE)
+    
+    # Fix common word pronunciations - do this AFTER player names
+    for word, pronunciation in word_pronunciations.items():
+        pattern = rf'(?<!\w){re.escape(word)}(?!\w)'
+        text = re.sub(pattern, pronunciation, text, flags=re.IGNORECASE)
 
     # Fix hockey scores (e.g., "5-2" → "five to two", "3-1 OT" → "three to one in overtime")
     def replace_score(match):
@@ -1632,6 +1671,10 @@ SPEECH REQUIREMENTS:
 - Emphasize Oilers pride and Oil Country spirit
 - Use authentic Alberta/hockey terminology
 - Make it sound like natural conversation, not reading a script
+- VARIETY IN LANGUAGE: Vary your word choice - don't overuse "assists" or "shootout". Use synonyms like:
+  * Instead of "assists" repeatedly: "helpers", "setups", "assists" (mix it up)
+  * Instead of "shootout" repeatedly: "shootout", "penalty shots", "shootout round" (vary the phrasing)
+  * Use natural variety in your speech - don't repeat the same phrases
 
 === OUTPUT FORMAT (INCLUDE ONLY THIS IN YOUR RESPONSE) ===
 
