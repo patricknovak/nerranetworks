@@ -876,19 +876,36 @@ def fetch_oilers_news():
     raw_articles = []
     
     # Oilers-specific keywords - MUST include at least one Oilers-specific term
-    # Primary keywords (required for inclusion)
+    # Primary keywords (required for inclusion) - expanded list
     oilers_primary_keywords = [
-        "oilers", "edmonton oilers", "edmonton", "connor mcdavid", "leon draisaitl", 
-        "evander kane", "zach hyman", "stuart skinner", "jack campbell", "darnell nurse", 
-        "evan bouchard", "ryan nugent-hopkins", "matthew barzal", "warren foegele",
-        "cody ceci", "philip broberg", "vincent desharnais", "brett kulak",
-        "calvin pickard", "sam gagner", "derek ryan", "mattias janmark",
-        "connor brown", "adam henrique", "corey perry", "sam carrick",
-        "rogers place", "roger place", "ice district", "oilers news",
-        "oilers trade", "oilers game", "oilers score", "oilers roster",
+        # Team names and location
+        "oilers", "edmonton oilers", "edmonton", "edm", "edm oilers",
+        # Star players (current and recent)
+        "connor mcdavid", "mcdavid", "leon draisaitl", "draisaitl", 
+        "evander kane", "zach hyman", "hyman", "stuart skinner", "skinner",
+        "jack campbell", "darnell nurse", "nurse", "evan bouchard", "bouchard",
+        "ryan nugent-hopkins", "nugent-hopkins", "nugent hopkins", "rnh",
+        "matthew barzal", "warren foegele", "foegele",
+        "cody ceci", "philip broberg", "broberg", "vincent desharnais", "desharnais",
+        "brett kulak", "kulak", "calvin pickard", "pickard",
+        "sam gagner", "gagner", "derek ryan", "mattias janmark", "janmark",
+        "connor brown", "adam henrique", "henrique", "corey perry", "perry",
+        "sam carrick", "carrick",
+        # Venue and location
+        "rogers place", "roger place", "ice district", "rexall place",
+        # Team-related terms
+        "oilers news", "oilers trade", "oilers game", "oilers score", "oilers roster",
         "oilers injury", "oilers draft", "oilers lineup", "oilers coach",
-        "oilers gm", "oilers management", "ken holland", "jay woodcroft",
-        "kris knoblauch", "oilers fan", "oilers nation", "oil country"
+        "oilers gm", "oilers management", "oilers fan", "oilers nation", "oil country",
+        # Management and coaching
+        "ken holland", "holland", "jay woodcroft", "woodcroft",
+        "kris knoblauch", "knoblauch",
+        # Historical players (for context)
+        "wayne gretzky", "gretzky", "mark messier", "messier", "paul coffey", "coffey",
+        "grant fuhr", "fuhr", "jari kurri", "kurri",
+        # Common Oilers-related phrases
+        "oilers win", "oilers lose", "oilers beat", "oilers vs", "oilers game",
+        "oilers update", "oilers report", "oilers news", "oilers analysis"
     ]
     
     # Secondary keywords (only valid if combined with primary)
@@ -952,12 +969,14 @@ def fetch_oilers_news():
                     except (ValueError, TypeError):
                         pass
                 
-                # Strict date filtering: only include articles from the last 24 hours
+                # Date filtering: include articles from the last 24 hours (with some flexibility)
                 if published_time:
                     if published_time < cutoff_time:
+                        logging.debug(f"Filtered out article (too old, {published_time.isoformat()}): {title[:60]}...")
                         continue  # Skip articles older than 24 hours
                     # Also skip articles from the future (likely timezone issues)
                     if published_time > now_utc + datetime.timedelta(hours=1):
+                        logging.debug(f"Filtered out article (future date): {title[:60]}...")
                         continue
                 else:
                     # If no published time, use current time but log a warning
@@ -979,9 +998,16 @@ def fetch_oilers_news():
                 has_oilers_primary = any(keyword in title_desc_lower for keyword in oilers_primary_keywords)
                 
                 # Also allow articles from Oilers-specific sources even if keywords aren't explicit
+                # Check source name and feed URL for Oilers/Edmonton indicators
                 is_oilers_source = any(oilers_term in source_name.lower() for oilers_term in ["oilers", "edmonton"])
+                is_oilers_feed = any(oilers_term in feed_url.lower() for oilers_term in ["oilers", "edmonton"])
                 
-                if not has_oilers_primary and not is_oilers_source:
+                # For Oilers-specific feeds (like nhl.com/oilers), be more lenient - include all articles
+                # For general NHL feeds, require explicit Oilers keywords
+                if "oilers" in feed_url.lower() or "edmonton" in feed_url.lower():
+                    # This is an Oilers-specific feed - include all articles from last 24 hours
+                    pass  # Don't filter, include all
+                elif not has_oilers_primary and not is_oilers_source:
                     logging.debug(f"Filtered out article (no Oilers keywords): {title[:60]}...")
                     continue  # Skip articles that don't mention Oilers and aren't from Oilers sources
                 
@@ -1042,14 +1068,14 @@ def fetch_oilers_news():
     logging.info(f"Fetched {len(all_articles)} total articles from RSS feeds")
     
     if not all_articles:
-        logging.warning("No articles found from RSS feeds")
+        logging.warning("⚠️  No articles found from RSS feeds - check feed availability and date filtering")
         return [], []
     
-    # Remove similar/duplicate articles
+    # Remove similar/duplicate articles (less aggressive threshold)
     before_dedup = len(all_articles)
     formatted_articles = remove_similar_items(
         all_articles,
-        similarity_threshold=0.85,
+        similarity_threshold=0.90,  # Increased from 0.85 to be less aggressive
         get_text_func=lambda x: f"{x.get('title', '')} {x.get('description', '')}"
     )
     after_dedup = len(formatted_articles)
@@ -1059,10 +1085,13 @@ def fetch_oilers_news():
     # Sort by published date (newest first)
     formatted_articles.sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
     
-    logging.info(f"Filtered to {len(formatted_articles)} unique Oilers news articles")
+    logging.info(f"✅ Filtered to {len(formatted_articles)} unique Oilers news articles")
     
     if len(formatted_articles) == 0:
         logging.warning("⚠️  No Oilers articles found in the last 24 hours - this may result in empty Top Stories section")
+        logging.warning("   Consider: 1) Expanding keyword list, 2) Checking feed availability, 3) Relaxing date filter")
+    else:
+        logging.info(f"   Top 3 article titles: {[a.get('title', '')[:60] for a in formatted_articles[:3]]}")
     filtered_result = formatted_articles[:15]  # Return top 15 for selection
     return filtered_result, raw_articles
 
