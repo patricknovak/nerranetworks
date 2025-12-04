@@ -1544,6 +1544,34 @@ x_thread = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/ONLY_IF_YOU_HAVE_REAL_
 # Clean up any remaining instruction-like text in X Spotlight section
 x_thread = re.sub(r'(## X Spotlight[^\n]*\n)[^\n]*(?:TODAY\'S FOCUS|must curate|Using your|For each)', r'\1', x_thread, flags=re.IGNORECASE | re.DOTALL)
 
+# ========================== ENSURE X SPOTLIGHT HAS ACCOUNT MENTION AND LINK ==========================
+# Check if X Spotlight section exists and ensure it has account mention and link
+spotlight_section_match = re.search(r'(## X Spotlight[^\n]*\n)', x_thread, re.IGNORECASE | re.MULTILINE)
+if spotlight_section_match:
+    # Extract username from header if present
+    username_match = re.search(r'## X Spotlight: @(\w+)', x_thread, re.IGNORECASE | re.MULTILINE)
+    if username_match:
+        username = username_match.group(1)
+    else:
+        # Use the current spotlight username
+        username = spotlight_username
+    
+    # Check if account mention line exists
+    has_account_mention = re.search(
+        r'Today\'s spotlight is on @' + re.escape(username) + r'.*follow them at.*x\.com/' + re.escape(username),
+        x_thread,
+        re.IGNORECASE
+    )
+    
+    if not has_account_mention:
+        # Find the X Spotlight header and add account mention right after it
+        spotlight_header_match = re.search(r'(## X Spotlight[^\n]*\n)', x_thread, re.IGNORECASE | re.MULTILINE)
+        if spotlight_header_match:
+            insert_pos = spotlight_header_match.end()
+            account_line = f"\nToday's spotlight is on @{username} ({spotlight_display_name}) - follow them at https://x.com/{username} to see all their Tesla insights and updates.\n\n"
+            x_thread = x_thread[:insert_pos] + account_line + x_thread[insert_pos:]
+            logging.info(f"Added account mention and link for @{username} to X Spotlight section")
+
 # Find and limit news items to exactly 10
 news_pattern = r'(### Top 10 News Items.*?)(## Short Spot|### Short Squeeze|━━)'
 news_match = re.search(news_pattern, x_thread, re.DOTALL | re.IGNORECASE)
@@ -1701,8 +1729,19 @@ def format_digest_for_x(digest: str) -> str:
         if spotlight_match:
             username = spotlight_match.group(2)
             insert_pos = spotlight_match.end()
-            account_line = f"\nToday's spotlight is on @{username} - follow them at: https://x.com/{username} to see all their Tesla insights and updates.\n"
+            # Get display name for this username
+            display_name = spotlight_display_name if username == spotlight_username else username
+            account_line = f"\nToday's spotlight is on @{username} ({display_name}) - follow them at: https://x.com/{username} to see all their Tesla insights and updates.\n\n"
             formatted = formatted[:insert_pos] + account_line + formatted[insert_pos:]
+            logging.info(f"Added account mention and link for @{username} to formatted X Spotlight section")
+        else:
+            # Fallback: try to find any X Spotlight header and use current spotlight username
+            spotlight_fallback = re.search(r'(🌟 \*\*X Spotlight[^\n]*)', formatted, re.MULTILINE)
+            if spotlight_fallback:
+                insert_pos = spotlight_fallback.end()
+                account_line = f"\nToday's spotlight is on @{spotlight_username} ({spotlight_display_name}) - follow them at: https://x.com/{spotlight_username} to see all their Tesla insights and updates.\n\n"
+                formatted = formatted[:insert_pos] + account_line + formatted[insert_pos:]
+                logging.info(f"Added account mention and link for @{spotlight_username} to formatted X Spotlight section (fallback)")
     # X POSTS SECTION DISABLED - No longer formatting X posts header
     formatted = re.sub(r'^## Short Spot', '📉 **Short Spot**', formatted, flags=re.MULTILINE)
     formatted = re.sub(r'^### Short Squeeze', '📈 **Short Squeeze**', formatted, flags=re.MULTILINE)
