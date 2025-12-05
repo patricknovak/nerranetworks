@@ -848,15 +848,22 @@ def fetch_oilers_news():
         "https://www.nhl.com/rss/news",
         "https://www.nhl.com/rss/scores",
         
+        # Oilers-specific news sources (HIGH PRIORITY - these are Oilers-focused)
+        "https://oilersnation.com/feed",
+        "https://www.coppernblue.com/rss/index.xml",
+        "https://www.tsn.ca/nhl/team/edmonton-oilers/rss",
+        "https://www.espn.com/nhl/team/_/name/edm/edmonton-oilers/rss",
+        "https://www.foxsports.com/nhl/edmonton-oilers/rss",
+        "https://www.dailyfaceoff.com/teams/edmonton-oilers/news/",
+        
         # Sports news outlets with Oilers coverage
         "https://www.tsn.ca/rss/nhl",
         "https://www.sportsnet.ca/rss/nhl",
         "https://www.espn.com/espn/rss/nhl/news",
-        "https://www.espn.com/espn/rss/nhl/news",
         "https://www.cbssports.com/rss/headlines/nhl",
         "https://www.thescore.com/nhl/rss",
         
-        # Canadian sports media
+        # Canadian sports media (Edmonton-focused)
         "https://www.cbc.ca/sports/hockey/rss",
         "https://www.theglobeandmail.com/sports/hockey/rss",
         "https://www.edmontonjournal.com/sports/hockey/edmonton-oilers/rss",
@@ -961,6 +968,18 @@ def fetch_oilers_news():
                 source_name = "Daily Faceoff"
             elif "naturalstattrick.com" in feed_url.lower():
                 source_name = "Natural Stat Trick"
+            elif "oilersnation.com" in feed_url.lower():
+                source_name = "OilersNation"
+            elif "coppernblue.com" in feed_url.lower():
+                source_name = "The Copper & Blue"
+            elif "foxsports.com" in feed_url.lower() and "oilers" in feed_url.lower():
+                source_name = "FOX Sports - Edmonton Oilers"
+            elif "espn.com" in feed_url.lower() and "edmonton-oilers" in feed_url.lower():
+                source_name = "ESPN - Edmonton Oilers"
+            elif "tsn.ca" in feed_url.lower() and "edmonton-oilers" in feed_url.lower():
+                source_name = "TSN - Edmonton Oilers"
+            elif "dailyfaceoff.com" in feed_url.lower() and "edmonton-oilers" in feed_url.lower():
+                source_name = "Daily Faceoff - Edmonton Oilers"
             
             feed_articles = []
             for entry in feed.entries:
@@ -1003,8 +1022,13 @@ def fetch_oilers_news():
                 title_desc_lower = (title + " " + description).lower()
                 
                 # Check if this is an Oilers-specific feed - if so, include ALL articles
-                is_oilers_feed = any(oilers_term in feed_url.lower() for oilers_term in ["oilers", "edmonton"])
-                is_oilers_source = any(oilers_term in source_name.lower() for oilers_term in ["oilers", "edmonton"])
+                # These feeds are dedicated to Oilers content, so everything is relevant
+                is_oilers_feed = any(oilers_term in feed_url.lower() for oilers_term in [
+                    "oilers", "edmonton", "oilersnation", "coppernblue"
+                ])
+                is_oilers_source = any(oilers_term in source_name.lower() for oilers_term in [
+                    "oilers", "edmonton", "oilersnation", "copper", "blue"
+                ])
                 
                 # For Oilers-specific feeds (like nhl.com/oilers, edmontonjournal.com/oilers), include ALL articles
                 # These feeds are curated for Oilers content, so everything is relevant
