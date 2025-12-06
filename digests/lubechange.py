@@ -210,13 +210,146 @@ def fix_pronunciation(text: str) -> str:
         "Ducks": "Ducks",
     }
     
-    # Player name pronunciations (phonetic spellings for TTS)
-    player_names = {
-        "Messier": "Mess ee ay",  # Mark Messier
-        "Draisaitl": "Dry sight el",  # Leon Draisaitl
+    # Comprehensive Oilers pronunciation dictionary
+    # Current players (2024-2025 season)
+    oilers_players = {
+        # Forwards
+        "Connor McDavid": "Connor Mc David",
         "McDavid": "Mc David",
+        "Leon Draisaitl": "Lee on Dry sight el",
+        "Draisaitl": "Dry sight el",
+        "Ryan Nugent-Hopkins": "Ryan Nugent Hopkins",
         "Nugent-Hopkins": "Nugent Hopkins",
+        "Nugent Hopkins": "Nugent Hopkins",
+        "Zach Hyman": "Zach High man",
+        "Hyman": "High man",
+        "Evander Kane": "Ee van der Kane",
+        "Kane": "Kane",
+        "Warren Foegele": "Warren Foe glee",
+        "Foegele": "Foe glee",
+        "Ryan McLeod": "Ryan Mc Leod",
+        "McLeod": "Mc Leod",
+        "Derek Ryan": "Derek Ryan",
+        "Mattias Janmark": "Mat tee as Jan mark",
+        "Janmark": "Jan mark",
+        "Connor Brown": "Connor Brown",
+        "Adam Henrique": "Adam Hen reek",
+        "Henrique": "Hen reek",
+        "Corey Perry": "Corey Perry",
+        "Sam Carrick": "Sam Car rick",
+        "Carrick": "Car rick",
+        "Sam Gagner": "Sam Gag ner",
+        "Gagner": "Gag ner",
+        "Dylan Holloway": "Dylan Hol low way",
+        "Holloway": "Hol low way",
+        
+        # Defensemen
+        "Darnell Nurse": "Dar nell Nurse",
+        "Nurse": "Nurse",
+        "Evan Bouchard": "Ee van Boo shard",
+        "Bouchard": "Boo shard",
+        "Mattias Ekholm": "Mat tee as Ek holm",
+        "Ekholm": "Ek holm",
+        "Cody Ceci": "Cody See see",
+        "Ceci": "See see",
+        "Brett Kulak": "Brett Koo lak",
+        "Kulak": "Koo lak",
+        "Vincent Desharnais": "Vin cent Desh ar nay",
+        "Desharnais": "Desh ar nay",
+        "Philip Broberg": "Philip Bro berg",
+        "Broberg": "Bro berg",
+        "Troy Stecher": "Troy Stech er",
+        "Stecher": "Stech er",
+        
+        # Goaltenders
+        "Stuart Skinner": "Stu art Skin ner",
+        "Skinner": "Skin ner",
+        "Calvin Pickard": "Cal vin Pick ard",
+        "Pickard": "Pick ard",
+        "Jack Campbell": "Jack Camp bell",
+        "Campbell": "Camp bell",
     }
+    
+    # Coaches and Management
+    oilers_staff = {
+        "Kris Knoblauch": "Kris Nob lock",
+        "Knoblauch": "Nob lock",
+        "Jay Woodcroft": "Jay Wood croft",
+        "Woodcroft": "Wood croft",
+        "Ken Holland": "Ken Hol land",
+        "Holland": "Hol land",
+        "Jeff Jackson": "Jeff Jack son",
+        "Jackson": "Jack son",
+        "Glen Gulutzan": "Glen Gu lut zan",
+        "Gulutzan": "Gu lut zan",
+        "Mark Stuart": "Mark Stu art",
+        "Stuart": "Stu art",
+        "Paul Coffey": "Paul Cof fee",
+        "Coffey": "Cof fee",
+    }
+    
+    # Historical Oilers players
+    oilers_historical = {
+        "Wayne Gretzky": "Wayne Gretz key",
+        "Gretzky": "Gretz key",
+        "Mark Messier": "Mark Mess ee ay",
+        "Messier": "Mess ee ay",
+        "Jari Kurri": "Jar ee Kur ee",
+        "Kurri": "Kur ee",
+        "Grant Fuhr": "Grant Fur",
+        "Fuhr": "Fur",
+        "Glenn Anderson": "Glen An der son",
+        "Anderson": "An der son",
+        "Kevin Lowe": "Kevin Low",
+        "Lowe": "Low",
+        "Esa Tikkanen": "Ee sa Tik ka nen",
+        "Tikkanen": "Tik ka nen",
+        "Craig MacTavish": "Craig Mac Tav ish",
+        "MacTavish": "Mac Tav ish",
+        "Charlie Huddy": "Charlie Hud dy",
+        "Huddy": "Hud dy",
+        "Randy Gregg": "Randy Gregg",
+        "Gregg": "Gregg",
+        "Dave Semenko": "Dave Se men ko",
+        "Semenko": "Se men ko",
+        "Dave Hunter": "Dave Hunt er",
+        "Hunter": "Hunt er",
+        "Pat Hughes": "Pat Hughes",
+        "Hughes": "Hughes",
+        "Jaroslav Pouzar": "Jar o slav Pou zar",
+        "Pouzar": "Pou zar",
+        "Mike Krushelnyski": "Mike Kru shel nis ki",
+        "Krushelnyski": "Kru shel nis ki",
+        "Steve Smith": "Steve Smith",
+        "Smith": "Smith",
+        "Jeff Beukeboom": "Jeff Boo ke boom",
+        "Beukeboom": "Boo ke boom",
+        "Bill Ranford": "Bill Ran ford",
+        "Ranford": "Ran ford",
+        "Andy Moog": "Andy Moog",
+        "Moog": "Moog",
+        "Ryan Smyth": "Ryan Smyth",
+        "Smyth": "Smyth",
+        "Doug Weight": "Doug Weight",
+        "Weight": "Weight",
+        "Jason Arnott": "Jason Ar nott",
+        "Arnott": "Ar nott",
+        "Curtis Joseph": "Curtis Jo seph",
+        "Joseph": "Jo seph",
+        "Tommy Salo": "Tommy Sa lo",
+        "Salo": "Sa lo",
+        "Ales Hemsky": "A les Hem ski",
+        "Hemsky": "Hem ski",
+        "Shawn Horcoff": "Shawn Hor coff",
+        "Horcoff": "Hor coff",
+        "Fernando Pisani": "Fer nan do Pi sa ni",
+        "Pisani": "Pi sa ni",
+        "Dwayne Roloson": "Dwayne Ro lo son",
+        "Roloson": "Ro lo son",
+    }
+    
+    # Combine all Oilers-related names
+    player_names = {**oilers_players, **oilers_staff, **oilers_historical}
     
     # Common word pronunciations that TTS struggles with
     word_pronunciations = {
