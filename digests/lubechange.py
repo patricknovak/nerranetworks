@@ -1723,22 +1723,28 @@ SPEECH REQUIREMENTS:
 - Add natural pauses with commas and periods - don't create run-on sentences
 - Each sentence should be clear and complete on its own
 - Don't read URLs aloud - mention source names naturally
-- Super pumped up and excited about the Oilers and Oil Country
+- Be enthusiastic and excited about the Oilers and Oil Country - show genuine passion
 - Use natural dates ("today", "this morning") not exact timestamps
 - For numbers: Write them as words when it sounds natural (e.g., "twenty-five goals" not "25 goals" in speech)
 - For player numbers: Say "number ninety-seven" not "#97"
 - For scores: Say "five to two" not "5-2"
 - For statistics: Write out fully (e.g., "three point five goals against average" not "3.5 GAA")
 - Use ONLY information from the digest below - nothing else
-- Emphasize Oilers pride and Oil Country spirit
-- Use authentic Alberta/hockey terminology
+- Emphasize Oilers pride and Oil Country spirit through enthusiasm, not extra words
 - Make it sound like natural conversation, not reading a script
+
+DELIVERY STYLE:
+- Focus on DELIVERING THE NEWS with enthusiasm - don't add unnecessary hockey terminology
+- Be enthusiastic about the stories themselves, not about using hockey words
+- Tell the news stories clearly and with excitement - let the content speak for itself
+- Don't add extra hockey context or explanations unless the story requires it
+- Keep it conversational and natural - like a friend excitedly sharing Oilers news
+- Avoid technical hockey jargon, abbreviations, or terminology unless the story specifically requires it
 - WORD CHOICE RESTRICTIONS: DO NOT use these hockey-specific terms that don't belong in natural speech:
   * DO NOT say "assists" - instead use: "helpers", "setups", "passes that led to goals", "playmaking"
   * DO NOT say "shootout" - instead use: "penalty shots", "deciding round", "tiebreaker"
-  * DO NOT use technical hockey abbreviations or jargon unless absolutely necessary
-  * Use natural, conversational language that a sports radio host would use
-  * Focus on storytelling and excitement, not technical statistics
+  * DO NOT add unnecessary hockey terminology just to sound "hockey-like"
+  * Focus on the story, not on using hockey words - enthusiasm comes from delivery, not terminology
 
 === OUTPUT FORMAT (INCLUDE ONLY THIS IN YOUR RESPONSE) ===
 
