@@ -1850,10 +1850,11 @@ FOCUS REQUIREMENTS:
 
 SPEECH REQUIREMENTS:
 - Start every line with "Jason:"
-- Write in COMPLETE, GRAMMATICALLY CORRECT SENTENCES
+- Write in COMPLETE, GRAMMATICALLY CORRECT SENTENCES with proper punctuation
 - Use proper punctuation: periods, commas, question marks, exclamation points
 - Add natural pauses with commas and periods - don't create run-on sentences
-- Each sentence should be clear and complete on its own
+- Each sentence should be clear, complete, and well-structured
+- Use varied sentence lengths for natural rhythm (mix short and longer sentences)
 - Don't read URLs aloud - mention source names naturally
 - Be enthusiastic and excited about the Oilers and Oil Country - show genuine passion
 - Use natural dates ("today", "this morning") not exact timestamps
@@ -1863,7 +1864,8 @@ SPEECH REQUIREMENTS:
 - For statistics: Write out fully (e.g., "three point five goals against average" not "3.5 GAA")
 - Use ONLY information from the digest below - nothing else
 - Emphasize Oilers pride and Oil Country spirit through enthusiasm, not extra words
-- Make it sound like natural conversation, not reading a script
+- Make it sound like natural, professional conversation - clear, articulate, and engaging
+- Use proper grammar and complete thoughts - no fragments or incomplete sentences
 
 DELIVERY STYLE:
 - Focus on DELIVERING THE NEWS with enthusiasm - don't add unnecessary hockey terminology
@@ -2025,12 +2027,12 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
                         "transcript": text,
                         "voice": {"mode": "id", "id": voice_id},
                         "language": "en",
-                        "output_format": {"container": "raw", "encoding": "pcm_s16le", "sample_rate": 24000},  # Higher sample rate for better quality
+                        "output_format": {"container": "raw", "encoding": "pcm_s16le", "sample_rate": 44100},  # High quality sample rate
                         "add_timestamps": True,
                         "continue": False,
                         "context_id": context_id,
-                        "stream": False,  # Ensure complete audio generation
-                        "emotion": "excited"  # Add natural emotion - options: neutral, happy, sad, angry, fearful, surprised, disgusted, excited
+                        "stream": False  # Ensure complete audio generation
+                        # Note: Removed "emotion" parameter as it may not be supported and could cause quality issues
                     }
                     logging.info(f"Sending Cartesia TTS request with voice_id: {voice_id}, context_id: {context_id}")
                     await websocket.send(json.dumps(message))
@@ -2128,7 +2130,7 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
         """Synchronous wrapper for Cartesia TTS."""
         asyncio.run(speak_cartesia(text, voice_id, filename))
 
-    # Process podcast script - preserve natural sentence structure and pauses
+    # Process podcast script - preserve natural sentence structure and pauses for professional TTS
     full_text_parts = []
     for line in podcast_script.splitlines():
         line = line.strip()
@@ -2140,32 +2142,34 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
             if text:
                 full_text_parts.append(text)
 
-    # Join with spaces but preserve punctuation for natural pauses
-    # This allows TTS to recognize sentence boundaries
+    # Join with proper sentence structure - preserve natural pauses
+    # Use periods and proper punctuation to help TTS recognize sentence breaks naturally
     full_text = " ".join(full_text_parts)
     
-    # Clean up multiple spaces but preserve punctuation spacing
-    full_text = re.sub(r' +', ' ', full_text)
+    # Professional text preparation for TTS:
+    # 1. Ensure proper spacing around punctuation (critical for natural speech)
+    full_text = re.sub(r'([,.!?;:])([^\s])', r'\1 \2', full_text)  # Space after punctuation
+    full_text = re.sub(r'([^\s])([,.!?;:])', r'\1\2', full_text)  # No space before punctuation
     
-    # Ensure proper spacing around punctuation for better TTS parsing
-    full_text = re.sub(r'\s+([,.!?;:])', r'\1', full_text)  # Remove space before punctuation
-    full_text = re.sub(r'([,.!?;:])([^\s])', r'\1 \2', full_text)  # Add space after punctuation if missing
+    # 2. Ensure sentence breaks are clear (period/question/exclamation before capital letters)
+    full_text = re.sub(r'([.!?])([A-Z])', r'\1 \2', full_text)
     
-    # Apply pronunciation fixes (but less aggressively)
+    # 3. Normalize spacing (single spaces, but preserve sentence breaks)
+    full_text = re.sub(r' +', ' ', full_text)  # Multiple spaces to single
+    
+    # 4. Apply pronunciation fixes for proper names and terms
     full_text = fix_pronunciation(full_text)
     
-    # Final pass: Remove unwanted words that might have been reintroduced by pronunciation fixes
-    # This must happen AFTER pronunciation fixing to catch any reintroduced words
+    # 5. Final pass: Remove unwanted words that might have been reintroduced
     full_text = re.sub(r'\bassists\b', 'helpers', full_text, flags=re.IGNORECASE)
     full_text = re.sub(r'\bassist\b', 'helper', full_text, flags=re.IGNORECASE)
     full_text = re.sub(r'\bshootout\b', 'penalty shots', full_text, flags=re.IGNORECASE)
     full_text = re.sub(r'\bshoot-out\b', 'penalty shots', full_text, flags=re.IGNORECASE)
     full_text = re.sub(r'\bshoot out\b', 'penalty shots', full_text, flags=re.IGNORECASE)
     
-    # Final cleanup: ensure proper sentence breaks
-    full_text = re.sub(r'\.([A-Z])', r'. \1', full_text)  # Space after periods before capital letters
-    full_text = re.sub(r'\?([A-Z])', r'? \1', full_text)  # Space after question marks
-    full_text = re.sub(r'!([A-Z])', r'! \1', full_text)  # Space after exclamation marks
+    # 6. Final normalization - ensure clean, professional text
+    full_text = re.sub(r' +', ' ', full_text)  # Final space normalization
+    full_text = full_text.strip()  # Remove leading/trailing whitespace
 
     # Track character count for Cartesia
     credit_usage["services"]["cartesia_api"]["characters"] = len(full_text)
@@ -2189,11 +2193,13 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
     timeout_seconds = max(int(file_duration * 3) + 120, 600)
     
     logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
+    # Professional audio processing: speed adjustment + high-quality normalization
     # Apply 1.08x speed (10% slower than 1.2x: 1.2 * 0.9 = 1.08) using atempo filter
+    # Professional audio chain: EQ -> Normalization -> Compression -> Limiting
     subprocess.run([
         "ffmpeg", "-y", "-i", str(voice_file),
-        "-af", "atempo=1.08,highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
-        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k",
+        "-af", "atempo=1.08,highpass=f=80,lowpass=f=15000,equalizer=f=1000:width_type=h:width=200:g=1,equalizer=f=3000:width_type=h:width=500:g=0.5,loudnorm=I=-16:TP=-1.5:LRA=11:linear=true:measured_I=-16:measured_TP=-1.5:measured_LRA=11,acompressor=threshold=-18dB:ratio=3:attack=5:release=50:makeup=1.5,alimiter=level_in=1:level_out=0.98:limit=0.98",
+        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "256k",  # Higher bitrate for better quality
         str(voice_mix)
     ], check=True, capture_output=True, timeout=timeout_seconds)
     
