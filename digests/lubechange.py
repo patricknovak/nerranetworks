@@ -184,7 +184,7 @@ def fix_pronunciation(text: str) -> str:
         "PTS": "points",
         "GP": "games played",
         "G": "goals",
-        "A": "assists",
+        "A": "A",  # Don't convert "A" to "assists" - we want to avoid that word
         "P": "points",
         "+/-": "plus minus",
         "S%": "shooting percentage",
@@ -469,8 +469,11 @@ def fix_pronunciation(text: str) -> str:
         except ValueError:
             return match.group(0)
     
-    # Match patterns like "3.5 GAA", "25 goals", "10 assists"
-    text = re.sub(r'(\d+\.?\d*)\s+(GAA|SV%|PIM|TOI|goals?|assists?|points?|saves?|shots?)', replace_stat_with_number, text, flags=re.IGNORECASE)
+    # Match patterns like "3.5 GAA", "25 goals", "10 helpers" (note: "assists" should already be replaced with "helpers" before this)
+    # First ensure "assists" is replaced with "helpers" before processing stats
+    text = re.sub(r'\bassists\b', 'helpers', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bassist\b', 'helper', text, flags=re.IGNORECASE)
+    text = re.sub(r'(\d+\.?\d*)\s+(GAA|SV%|PIM|TOI|goals?|helpers?|points?|saves?|shots?)', replace_stat_with_number, text, flags=re.IGNORECASE)
 
     # Convert percentages (e.g., "+3.59%" → "plus three point five nine percent")
     def replace_percentage(match):
@@ -2153,6 +2156,14 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
     
     # Apply pronunciation fixes (but less aggressively)
     full_text = fix_pronunciation(full_text)
+    
+    # Final pass: Remove unwanted words that might have been reintroduced by pronunciation fixes
+    # This must happen AFTER pronunciation fixing to catch any reintroduced words
+    full_text = re.sub(r'\bassists\b', 'helpers', full_text, flags=re.IGNORECASE)
+    full_text = re.sub(r'\bassist\b', 'helper', full_text, flags=re.IGNORECASE)
+    full_text = re.sub(r'\bshootout\b', 'penalty shots', full_text, flags=re.IGNORECASE)
+    full_text = re.sub(r'\bshoot-out\b', 'penalty shots', full_text, flags=re.IGNORECASE)
+    full_text = re.sub(r'\bshoot out\b', 'penalty shots', full_text, flags=re.IGNORECASE)
     
     # Final cleanup: ensure proper sentence breaks
     full_text = re.sub(r'\.([A-Z])', r'. \1', full_text)  # Space after periods before capital letters
