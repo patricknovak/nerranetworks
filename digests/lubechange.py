@@ -150,7 +150,7 @@ def fix_pronunciation(text: str) -> str:
         "PPG": "power play goal",
         "ENG": "empty net goal",
         "OT": "overtime",
-        "SO": "shootout",
+        "SO": "penalty shots",  # Changed from "shootout" to avoid that word
         "3v3": "three on three",
         "5v5": "five on five",
         "4v4": "four on four",
@@ -169,23 +169,19 @@ def fix_pronunciation(text: str) -> str:
         "GF": "goals for",
         "GA": "goals against",
         "GF%": "goals for percentage",
-        # Positions
-        "C": "center",
+        # Positions - Only convert when they appear in hockey context (e.g., "C" position, not just letter "C")
+        # These are less likely to appear as standalone words in natural speech, but we'll be careful
         "LW": "left wing",
         "RW": "right wing",
-        "D": "defenseman",
-        "G": "goalie",
-        "F": "forward",
         # Common terms
-        "W": "win",
-        "L": "loss",
         "OTL": "overtime loss",
-        "SOL": "shootout loss",
+        "SOL": "penalty shots loss",  # Changed from "shootout loss" to avoid that word
         "PTS": "points",
         "GP": "games played",
-        "G": "goals",
+        # Single letters removed to prevent unwanted conversions:
+        # "C", "D", "G", "F", "W", "L", "P" - these can appear naturally in text
+        # and shouldn't be converted unless in specific hockey stat context
         "A": "A",  # Don't convert "A" to "assists" - we want to avoid that word
-        "P": "points",
         "+/-": "plus minus",
         "S%": "shooting percentage",
         "FO%": "faceoff percentage",
