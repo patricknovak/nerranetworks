@@ -1733,10 +1733,12 @@ SPEECH REQUIREMENTS:
 - Emphasize Oilers pride and Oil Country spirit
 - Use authentic Alberta/hockey terminology
 - Make it sound like natural conversation, not reading a script
-- VARIETY IN LANGUAGE: Vary your word choice - don't overuse "assists" or "shootout". Use synonyms like:
-  * Instead of "assists" repeatedly: "helpers", "setups", "assists" (mix it up)
-  * Instead of "shootout" repeatedly: "shootout", "penalty shots", "shootout round" (vary the phrasing)
-  * Use natural variety in your speech - don't repeat the same phrases
+- WORD CHOICE RESTRICTIONS: DO NOT use these hockey-specific terms that don't belong in natural speech:
+  * DO NOT say "assists" - instead use: "helpers", "setups", "passes that led to goals", "playmaking"
+  * DO NOT say "shootout" - instead use: "penalty shots", "deciding round", "tiebreaker"
+  * DO NOT use technical hockey abbreviations or jargon unless absolutely necessary
+  * Use natural, conversational language that a sports radio host would use
+  * Focus on storytelling and excitement, not technical statistics
 
 === OUTPUT FORMAT (INCLUDE ONLY THIS IN YOUR RESPONSE) ===
 
@@ -1811,6 +1813,15 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
     podcast_script = re.sub(r'\*\*MUST.*?\*\*', '', podcast_script, flags=re.DOTALL | re.IGNORECASE)
     podcast_script = re.sub(r'\n{3,}', '\n\n', podcast_script)  # Clean up multiple newlines
     
+    # Remove unwanted hockey terms and replace with natural alternatives
+    # Replace "assists" with natural alternatives
+    podcast_script = re.sub(r'\bassists\b', 'helpers', podcast_script, flags=re.IGNORECASE)
+    podcast_script = re.sub(r'\bassist\b', 'helper', podcast_script, flags=re.IGNORECASE)
+    # Replace "shootout" with natural alternatives
+    podcast_script = re.sub(r'\bshootout\b', 'penalty shots', podcast_script, flags=re.IGNORECASE)
+    podcast_script = re.sub(r'\bshoot-out\b', 'penalty shots', podcast_script, flags=re.IGNORECASE)
+    podcast_script = re.sub(r'\bshoot out\b', 'penalty shots', podcast_script, flags=re.IGNORECASE)
+    
     # Remove lines that contain instruction keywords (but allow natural speech)
     lines = []
     for line in podcast_script.splitlines():
@@ -1837,7 +1848,7 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
     # Cartesia voice ID - using a default voice, can be customized
     # You may need to get a voice ID from Cartesia's API
     # For now using the provided API key directly
-    CARTESIA_VOICE_ID = "ed81fd13-2016-4a49-8fe3-c0d2761695fc"  # Jason Potter voice
+    CARTESIA_VOICE_ID = "b5d27497-9f0e-47a8-8628-af16793cc0e0"  # Updated voice
 
     @retry(
         stop=stop_after_attempt(3),
@@ -2031,9 +2042,10 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
     timeout_seconds = max(int(file_duration * 3) + 120, 600)
     
     logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
+    # Apply 1.2x speed increase using atempo filter (atempo can only go up to 2.0, so 1.2 is fine)
     subprocess.run([
         "ffmpeg", "-y", "-i", str(voice_file),
-        "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
+        "-af", "atempo=1.2,highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
         "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k",
         str(voice_mix)
     ], check=True, capture_output=True, timeout=timeout_seconds)
