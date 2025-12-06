@@ -150,7 +150,7 @@ def fix_pronunciation(text: str) -> str:
         "PPG": "power play goal",
         "ENG": "empty net goal",
         "OT": "overtime",
-        "SO": "penalty shots",  # Changed from "shootout" to avoid that word
+        # "SO" removed - let it stay as "SO" (or "so") naturally
         "3v3": "three on three",
         "5v5": "five on five",
         "4v4": "four on four",
@@ -175,7 +175,7 @@ def fix_pronunciation(text: str) -> str:
         "RW": "right wing",
         # Common terms
         "OTL": "overtime loss",
-        "SOL": "penalty shots loss",  # Changed from "shootout loss" to avoid that word
+        # "SOL" removed - let it stay as "SOL" naturally
         "PTS": "points",
         "GP": "games played",
         # Single letters removed to prevent unwanted conversions:
