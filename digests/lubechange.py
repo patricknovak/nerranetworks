@@ -2029,7 +2029,8 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
                         "add_timestamps": True,
                         "continue": False,
                         "context_id": context_id,
-                        "stream": False  # Ensure complete audio generation
+                        "stream": False,  # Ensure complete audio generation
+                        "emotion": "excited"  # Add natural emotion - options: neutral, happy, sad, angry, fearful, surprised, disgusted, excited
                     }
                     logging.info(f"Sending Cartesia TTS request with voice_id: {voice_id}, context_id: {context_id}")
                     await websocket.send(json.dumps(message))
@@ -2188,10 +2189,10 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
     timeout_seconds = max(int(file_duration * 3) + 120, 600)
     
     logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
-    # Apply 1.2x speed increase using atempo filter (atempo can only go up to 2.0, so 1.2 is fine)
+    # Apply 1.08x speed (10% slower than 1.2x: 1.2 * 0.9 = 1.08) using atempo filter
     subprocess.run([
         "ffmpeg", "-y", "-i", str(voice_file),
-        "-af", "atempo=1.2,highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
+        "-af", "atempo=1.08,highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
         "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k",
         str(voice_mix)
     ], check=True, capture_output=True, timeout=timeout_seconds)
