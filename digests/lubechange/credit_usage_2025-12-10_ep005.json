@@ -1,0 +1,32 @@
+{
+  "date": "2025-12-10",
+  "episode_number": 5,
+  "services": {
+    "grok_api": {
+      "x_thread_generation": {
+        "prompt_tokens": 3857,
+        "completion_tokens": 2033,
+        "total_tokens": 6593,
+        "estimated_cost_usd": 6.593e-05
+      },
+      "podcast_script_generation": {
+        "prompt_tokens": 4044,
+        "completion_tokens": 2147,
+        "total_tokens": 6639,
+        "estimated_cost_usd": 6.639e-05
+      },
+      "total_tokens": 13232,
+      "total_cost_usd": 0.00013232
+    },
+    "cartesia_api": {
+      "characters": 10598,
+      "estimated_cost_usd": 0.21196
+    },
+    "x_api": {
+      "search_calls": 0,
+      "post_calls": 1,
+      "total_calls": 1
+    }
+  },
+  "total_estimated_cost_usd": 0.21209232
+}
