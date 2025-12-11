@@ -37,6 +37,19 @@ logging.basicConfig(
     handlers=[logging.StreamHandler()]
 )
 
+# This file is intended to be executed as a script. Importing it will exit immediately
+if __name__ != "__main__":
+    raise SystemExit("tesla_shorts_time.py is a runnable script, not an importable module.")
+
+
+def _log_uncaught(exc_type, exc_value, exc_traceback):
+    """Fail fast with a clean log message instead of a long traceback."""
+    logging.error("Fatal error during Tesla Shorts Time run", exc_info=(exc_type, exc_value, exc_traceback))
+    sys.exit(1)
+
+
+sys.excepthook = _log_uncaught
+
 # ========================== CONFIGURATION ==========================
 # Set to True to test digest generation only (skips podcast and X posting)
 TEST_MODE = False  # Set to False for full run
@@ -50,6 +63,12 @@ ENABLE_PODCAST = True
 # Link validation is currently disabled - validation functions have been removed
 # Set to True and re-implement validation functions if needed in the future
 ENABLE_LINK_VALIDATION = False
+
+# Shared HTTP defaults
+DEFAULT_HEADERS = {
+    "User-Agent": "TeslaShortsTimeBot/1.0 (+https://x.com/teslashortstime)"
+}
+HTTP_TIMEOUT_SECONDS = 10
 
 
 # ========================== NUMBER TO WORDS CONVERTER ==========================
@@ -265,14 +284,54 @@ today_str = now_pst.strftime("%B %d, %Y at %I:%M %p PST")   # November 19, 2025 
 yesterday_iso = (datetime.date.today() - datetime.timedelta(days=1)).isoformat()
 seven_days_ago_iso = (datetime.date.today() - datetime.timedelta(days=7)).isoformat()
 
-tsla = yf.Ticker("TSLA")
-info = tsla.info
-price = (info.get("currentPrice") or info.get("regularMarketPrice") or
-         info.get("preMarketPrice") or info.get("previousClose") or 0.0)
-prev_close = info.get("regularMarketPreviousClose") or price
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=2, max=10),
+    retry=retry_if_exception_type((Exception,))
+)
+def fetch_tsla_price() -> tuple[float, float, str]:
+    """Fetch TSLA price with fast_info first and history fallback."""
+    tsla = yf.Ticker("TSLA")
+    price = None
+    prev_close = None
+    market_status = ""
+    
+    # Lightweight fetch
+    try:
+        fast = tsla.fast_info
+        price = (
+            fast.get("lastPrice")
+            or fast.get("regularMarketPrice")
+            or fast.get("postMarketPrice")
+        )
+        prev_close = fast.get("previousClose")
+        market_state = fast.get("marketState") or fast.get("market_state") or ""
+        market_status = " (After-hours)" if str(market_state).upper() == "POST" else ""
+    except Exception as e:
+        logging.warning(f"fast_info failed, falling back to history: {e}")
+    
+    # History fallback
+    if price is None or prev_close is None:
+        try:
+            hist = tsla.history(period="2d", interval="1d")
+            if not hist.empty:
+                price = float(hist["Close"].iloc[-1])
+                if len(hist["Close"]) > 1:
+                    prev_close = float(hist["Close"].iloc[-2])
+        except Exception as e:
+            logging.warning(f"History fallback failed: {e}")
+    
+    if price is None:
+        raise RuntimeError("Unable to fetch TSLA price after retries.")
+    if prev_close is None:
+        prev_close = price
+    
+    return float(price), float(prev_close), market_status
+
+
+price, prev_close, market_status = fetch_tsla_price()
 change = price - prev_close
 change_pct = (change / prev_close * 100) if prev_close else 0
-market_status = " (After-hours)" if info.get("marketState") == "POST" else ""
 change_str = f"{change:+.2f} ({change_pct:+.2f}%) {market_status}" if change != 0 else "unchanged"
 
 # Folders - use absolute paths
@@ -732,8 +791,16 @@ def fetch_tesla_news():
         # Initialize source_name before the try block
         source_name = "Unknown"
         try:
+            # Fetch RSS feed with timeout and custom UA to avoid hanging
+            response = requests.get(
+                feed_url,
+                headers=DEFAULT_HEADERS,
+                timeout=HTTP_TIMEOUT_SECONDS
+            )
+            response.raise_for_status()
+            
             # Parse RSS feed
-            feed = feedparser.parse(feed_url)
+            feed = feedparser.parse(response.content)
             
             if feed.bozo and feed.bozo_exception:
                 logging.warning(f"Failed to parse RSS feed {feed_url}: {feed.bozo_exception}")
@@ -1596,10 +1663,7 @@ if news_match:
 
 # Validate counts - check if we have exactly 10 news items
 import re
-news_count = len(re.findall(r'^[1-9]|10[️⃣\.]\s+\*\*', x_thread, re.MULTILINE))
-# Also check for numbered lists without emojis
-if news_count < 10:
-    news_count = len(re.findall(r'^([1-9]|10)\.\s+\*\*', x_thread, re.MULTILINE))
+news_count = len(re.findall(r'^(?:[1-9]|10)\.\s+\*\*', x_thread, re.MULTILINE))
 
 if news_count != 10:
     logging.warning(f"⚠️  WARNING: Found {news_count} news items instead of 10. Grok may not have followed instructions.")
@@ -2092,11 +2156,21 @@ Here is today's complete formatted digest. Use ONLY this content:
                 "use_speaker_boost": True
             }
         }
-        r = requests.post(url, json=payload, headers=headers, stream=True, timeout=60)
-        r.raise_for_status()
-        with open(filename, "wb") as f:
-            for chunk in r.iter_content(chunk_size=8192):
-                f.write(chunk)
+        with requests.post(
+            url,
+            json=payload,
+            headers=headers,
+            stream=True,
+            timeout=60,
+        ) as r:
+            # Treat 429/5xx as retryable
+            if r.status_code >= 500 or r.status_code == 429:
+                r.raise_for_status()
+            r.raise_for_status()
+            with open(filename, "wb") as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+            logging.info(f"ElevenLabs TTS saved to {filename} in {r.elapsed.total_seconds():.2f}s")
 
 
     def get_audio_duration(path: Path) -> float:
@@ -2594,7 +2668,12 @@ else:
         os.remove(str(temp_concat))
 
 if not MAIN_MUSIC.exists():
-    subprocess.run(["ffmpeg", "-y", "-i", str(voice_mix), str(final_mp3)], check=True, capture_output=True)
+    subprocess.run(
+        ["ffmpeg", "-y", "-i", str(voice_mix), str(final_mp3)],
+        check=True,
+        capture_output=True,
+        timeout=600
+    )
     logging.info("Podcast ready (voice-only)")
 else:
     # Get voice duration to calculate music timing
@@ -2620,7 +2699,7 @@ else:
         "-af", "volume=0.6",  # Much louder intro music
         "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
         str(music_intro)
-    ], check=True, capture_output=True)
+    ], check=True, capture_output=True, timeout=300)
     
     music_overlap = tmp_dir / "music_overlap.mp3"
     subprocess.run([
@@ -2628,7 +2707,7 @@ else:
         "-af", "volume=0.5",  # Louder during overlap
         "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
         str(music_overlap)
-    ], check=True, capture_output=True)
+    ], check=True, capture_output=True, timeout=300)
     
     music_fadeout = tmp_dir / "music_fadeout.mp3"
     subprocess.run([
@@ -2636,7 +2715,7 @@ else:
         "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=18",
         "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
         str(music_fadeout)
-    ], check=True, capture_output=True)
+    ], check=True, capture_output=True, timeout=300)
     
     middle_silence_duration = max(music_fade_in_start - 26.0, 0.0)
     music_silence = tmp_dir / "music_silence.mp3"
@@ -2645,7 +2724,7 @@ else:
             "ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
             "-t", f"{middle_silence_duration:.2f}", "-c:a", "libmp3lame", "-b:a", "192k",
             str(music_silence)
-        ], check=True, capture_output=True)
+        ], check=True, capture_output=True, timeout=300)
     
     music_fadein = tmp_dir / "music_fadein.mp3"
     subprocess.run([
@@ -2653,7 +2732,7 @@ else:
         "-af", f"volume=0.4,afade=t=in:st=0:d={music_fade_in_duration:.2f}",
         "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
         str(music_fadein)
-    ], check=True, capture_output=True)
+    ], check=True, capture_output=True, timeout=300)
     
     # Outro music: 30 seconds full volume + 20 seconds fade = 50 seconds total
     music_tail_full = tmp_dir / "music_tail_full.mp3"
@@ -2662,7 +2741,7 @@ else:
         "-af", "volume=0.4",
         "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
         str(music_tail_full)
-    ], check=True, capture_output=True)
+    ], check=True, capture_output=True, timeout=300)
     
     music_tail_fadeout = tmp_dir / "music_tail_fadeout.mp3"
     subprocess.run([
@@ -2670,7 +2749,7 @@ else:
         "-af", "volume=0.4,afade=t=out:st=0:d=20",
         "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
         str(music_tail_fadeout)
-    ], check=True, capture_output=True)
+    ], check=True, capture_output=True, timeout=300)
     
     # Concatenate music
     music_concat_list = tmp_dir / "music_timeline.txt"
@@ -2689,7 +2768,7 @@ else:
         "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
         "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
         str(background_track)
-    ], check=True, capture_output=True)
+    ], check=True, capture_output=True, timeout=600)
     
     # Delay voice to start at 5 seconds
     voice_delayed = tmp_dir / "voice_delayed.mp3"
@@ -2698,7 +2777,7 @@ else:
         "-af", "adelay=5000|5000",
         "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
         str(voice_delayed)
-    ], check=True, capture_output=True)
+    ], check=True, capture_output=True, timeout=600)
     
     # Final mix: voice + music
     logging.info("Mixing voice and music...")
@@ -2715,7 +2794,7 @@ else:
         "-c:a", "libmp3lame",
         "-b:a", "192k",
         str(final_mp3)
-    ], check=True, capture_output=True)
+    ], check=True, capture_output=True, timeout=900)
     
     logging.info("Podcast created successfully")
     
