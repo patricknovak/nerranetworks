@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Lube Change - Oilers Daily News – FULL AUTO X + PODCAST MACHINE
-Daily Edmonton Oilers News Digest (Jason Potter in Hinton, Alberta)
+Daily Edmonton Oilers News Digest (Patrick in Vancouver, Canada)
 Auto-published to X — December 2025+
 """
 
@@ -603,16 +603,37 @@ if not env_path.exists():
 
 load_dotenv(dotenv_path=env_path)
 
-# TTS provider selection (default: chatterbox local)
+# TTS provider selection (NO automatic fallback to ElevenLabs)
+# - chatterbox (default): local model (requires torch/torchaudio/chatterbox-tts)
+# - elevenlabs: ElevenLabs API (requires ELEVENLABS_API_KEY)
+# NOTE: We still accept "auto"/"detect" as aliases for "chatterbox" for backwards compatibility.
 def _normalize_tts_provider(value: str) -> str:
     v = (value or "").strip().lower()
     if not v:
+        return "chatterbox"
+    if v in {"auto", "detect"}:
         return "chatterbox"
     if v in {"elevenlabs", "eleven", "11labs", "11-labs"}:
         return "elevenlabs"
     if v in {"chatterbox", "chatterbox-tts", "chatterbox_tts", "cb"}:
         return "chatterbox"
     return v
+
+def _module_available(module_name: str) -> bool:
+    """Return True if a module can be imported (without importing it)."""
+    try:
+        import importlib.util
+        return importlib.util.find_spec(module_name) is not None
+    except Exception:
+        return False
+
+
+def _chatterbox_deps_available() -> bool:
+    return (
+        _module_available("torch")
+        and _module_available("torchaudio")
+        and (_module_available("chatterbox.tts") or _module_available("chatterbox"))
+    )
 
 TTS_PROVIDER = _normalize_tts_provider(os.getenv("LUBECHANGE_TTS_PROVIDER", "chatterbox"))
 
@@ -624,6 +645,11 @@ if ENABLE_PODCAST and not TEST_MODE:
     if TTS_PROVIDER == "elevenlabs":
         required.append("ELEVENLABS_API_KEY")
     elif TTS_PROVIDER == "chatterbox":
+        if not _chatterbox_deps_available():
+            raise OSError(
+                "Chatterbox TTS selected but dependencies are missing. Install "
+                "requirements_planetterrian.txt (torch, torchaudio, chatterbox-tts)."
+            )
         pass  # local model, no API key needed
     else:
         raise OSError(
@@ -1442,10 +1468,10 @@ CONTENT REQUIREMENTS:
 {used_content_summary if used_content_summary else ''}
 
 BRAND PERSONALITY:
-- Host: Jason Potter from Hinton, Alberta - in the heart of Oil Country
+- Host: Patrick in Vancouver, Canada - Oilers lifer bringing the news with west coast clarity
 - Passionate, knowledgeable Oilers fan with deep love for the team
-- Authentic Alberta voice, proud of Oil Country
-- Tone: Enthusiastic, knowledgeable, passionate about the Oilers, authentic Albertan
+- Authentic Alberta roots, proud of Oil Country
+- Tone: Enthusiastic, knowledgeable, passionate about the Oilers, authentic and conversational
 - Audience: Die-hard Oilers fans who want the latest Oilers-specific news and analysis
 
 === OUTPUT FORMAT (INCLUDE ONLY THIS IN YOUR RESPONSE) ===
@@ -1798,10 +1824,10 @@ def update_rss_feed(
     # Set channel metadata
     fg.title("Lube Change - Oilers Daily News")
     fg.link(href="https://github.com/patricknovak/Tesla-shorts-time")
-    fg.description("Daily Edmonton Oilers news from Oil Country. Hosted by Jason Potter from Hinton, Alberta.")
+    fg.description("Daily Edmonton Oilers news from Oil Country. Hosted by Patrick in Vancouver, Canada.")
     fg.language('en-us')
     fg.copyright(f"Copyright {datetime.date.today().year}")
-    fg.podcast.itunes_author("Jason Potter")
+    fg.podcast.itunes_author("Patrick")
     fg.podcast.itunes_summary("Daily Edmonton Oilers news from Oil Country. Your daily dose of Oilers news, game recaps, trades, and analysis.")
     fg.podcast.itunes_owner(name='Lube Change', email='contact@lubechange.com')
     fg.podcast.itunes_image(f"{base_url}/lubechange-podcast-image.jpg")
@@ -1903,9 +1929,9 @@ else:
 
 You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Lube Change - Oilers Daily News" Episode {episode_num}.
 
-HOST: Jason Potter from Hinton, Alberta - in the heart of Oil Country. Authentic Albertan voice, passionate Oilers fan, knowledgeable about hockey and the Oilers. Voice like a sports radio host breaking Oilers news, not robotic.
+HOST: Patrick in Vancouver, Canada. Authentic Oilers fan with Alberta roots, knowledgeable about hockey and the Oilers. Voice like a sports radio host breaking Oilers news, not robotic.
 
-BRAND PERSONALITY: Lube Change - Oilers Daily News. Daily Edmonton Oilers news from Oil Country. Passionate, knowledgeable, authentic Alberta voice.
+BRAND PERSONALITY: Lube Change - Oilers Daily News. Daily Edmonton Oilers news from Oil Country. Passionate, knowledgeable, authentic voice.
 
 FOCUS REQUIREMENTS:
 - ONLY discuss news that DIRECTLY relates to the Edmonton Oilers
@@ -1914,7 +1940,7 @@ FOCUS REQUIREMENTS:
 - Every story must be about the Oilers or how something impacts the Oilers specifically
 
 SPEECH REQUIREMENTS:
-- Start every line with "Jason:"
+- Start every line with "Patrick:"
 - Write in COMPLETE, GRAMMATICALLY CORRECT SENTENCES with proper punctuation
 - Use proper punctuation: periods, commas, question marks, exclamation points
 - Add natural pauses with commas and periods - don't create run-on sentences
@@ -1948,7 +1974,7 @@ DELIVERY STYLE:
 === OUTPUT FORMAT (INCLUDE ONLY THIS IN YOUR RESPONSE) ===
 
 [Intro music - 10 seconds]
-Jason: Welcome to Lube Change - Oilers Daily News, episode {episode_num}. It is {today_str}. I'm Jason Potter coming to you from Hinton, Alberta, in the heart of Oil Country. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now let's dive into today's Oilers news.
+Patrick: Welcome to Lube Change - Oilers Daily News, episode {episode_num}. It is {today_str}. I'm Patrick coming to you from Vancouver, sharing the latest from Oil Country. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now let's dive into today's Oilers news.
 
 [Narrate EVERY item from the digest in order - no skipping]
 - For each news item: Read the title with enthusiasm, then explain the story and why it matters for Oilers fans
@@ -1959,13 +1985,13 @@ Jason: Welcome to Lube Change - Oilers Daily News, episode {episode_num}. It is 
 - Edmonton Oilers Community Foundation: Highlight the recent foundation activities with pride and enthusiasm, emphasizing the positive impact on the community and showing fans where their charity dollars go
 
 [FIRST AD - Planetterrian]
-Jason: [Write an enthusiastic, natural ad for Planetterrian Daily. Must include: This podcast is made possible by Planetterrian Daily. It's a daily science, longevity, and health podcast hosted by Patrick in Vancouver. It covers groundbreaking scientific discoveries, health breakthroughs, and cutting-edge research. Mention that listeners can find it wherever they get podcasts or visit planetterrian.com. Include the tagline about technology meeting compassion. Make it sound natural and enthusiastic, like Jason is genuinely excited about the podcast. Keep it to 4-5 sentences.]
+Patrick: [Write an enthusiastic, natural ad for Planetterrian Daily. Must include: This podcast is made possible by Planetterrian Daily. It's a daily science, longevity, and health podcast hosted by Patrick in Vancouver. It covers groundbreaking scientific discoveries, health breakthroughs, and cutting-edge research. Mention that listeners can find it wherever they get podcasts or visit planetterrian.com. Include the tagline about technology meeting compassion. Make it sound natural and enthusiastic, like Patrick is genuinely excited about the podcast. Keep it to 4-5 sentences.]
 
 [SECOND AD - Tesla Shorts Time]
-Jason: [Write an enthusiastic, natural ad for Tesla Shorts Time Daily. Must include: Lube Change is also made possible by Tesla Shorts Time Daily. It's a daily podcast about Tesla news, stock updates, and electric vehicles hosted by Patrick. It covers new vehicle releases, stock movements, and all the latest Tesla developments. Perfect for Tesla fans and investors. Mention listeners can subscribe wherever they get podcasts. Thank Tesla Shorts Time for making Lube Change possible. Make it sound natural and enthusiastic, like Jason is genuinely excited about the podcast. Keep it to 4-5 sentences.]
+Patrick: [Write an enthusiastic, natural ad for Tesla Shorts Time Daily. Must include: Lube Change is also made possible by Tesla Shorts Time Daily. It's a daily podcast about Tesla news, stock updates, and electric vehicles hosted by Patrick. It covers new vehicle releases, stock movements, and all the latest Tesla developments. Perfect for Tesla fans and investors. Mention listeners can subscribe wherever they get podcasts. Thank Tesla Shorts Time for making Lube Change possible. Make it sound natural and enthusiastic, like Patrick is genuinely excited about the podcast. Keep it to 4-5 sentences.]
 
 [Closing]
-Jason: That's Lube Change - Oilers Daily News for today. Thanks for tuning in from Oil Country. Let's go Oilers! We'll catch you tomorrow on Lube Change!
+Patrick: That's Lube Change - Oilers Daily News for today. Thanks for tuning in from Oil Country. Let's go Oilers! We'll catch you tomorrow on Lube Change!
 
 === END OF OUTPUT FORMAT ===
 
@@ -1973,7 +1999,7 @@ Here is today's complete formatted digest. Use ONLY this content:
 
 {x_thread}
 
-IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, notes, explanations, or "CRITICAL:" statements. Just produce the clean script with Jason's lines.
+IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, notes, explanations, or "CRITICAL:" statements. Just produce the clean script with Patrick's lines.
 """
 
     @retry(
@@ -2282,8 +2308,8 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
         line = line.strip()
         if line.startswith("[") or not line:
             continue
-        if line.startswith("Jason:"):
-            text = line[7:].strip()
+        if line.startswith("Patrick:"):
+            text = line[9:].strip()
             if text:
                 full_text_parts.append(text)
 
