@@ -28,20 +28,42 @@ jobs:
     - name: Install Python dependencies
       run: |
         pip install --upgrade pip
-        if [ ! -f requirements.txt ]; then
-          echo "❌ ERROR: requirements.txt not found!"
+        # Lube Change uses Chatterbox local TTS by default, which requires torch/torchaudio/chatterbox-tts.
+        # Install the "local TTS" requirements file (it includes requirements.txt).
+        if [ ! -f requirements_planetterrian.txt ]; then
+          echo "❌ ERROR: requirements_planetterrian.txt not found!"
           exit 1
         fi
-        pip install -r requirements.txt
+        pip install -r requirements_planetterrian.txt
+        # Verify critical deps are present
+        python - <<'PY'
+import importlib, sys
+missing = []
+for mod in ["torch", "torchaudio", "chatterbox.tts"]:
+    try:
+        importlib.import_module(mod)
+    except Exception as e:
+        missing.append((mod, str(e)))
+if missing:
+    print("❌ Missing critical TTS deps:")
+    for mod, err in missing:
+        print(f"   - {mod}: {err}")
+    sys.exit(1)
+print("✅ TTS deps verified (torch/torchaudio/chatterbox)")
+PY
         echo "Installed packages:"
-        pip list | grep -E "(openai|tweepy|requests|python-dotenv|feedparser|websockets)" || echo "Some packages may not be listed"
+        pip list | grep -E "(openai|tweepy|requests|python-dotenv|feedparser|websockets|torch|torchaudio|chatterbox)" || echo "Some packages may not be listed"
         
     - name: Create .env file from secrets
       run: |
         echo "Creating .env file..."
         cat > .env << EOF
         GROK_API_KEY=${{ secrets.GROK_API_KEY }}
-        CARTESIA_API_KEY=${{ secrets.CARTESIA_API_KEY }}
+        # TTS provider (NO fallback): force Chatterbox local TTS
+        LUBECHANGE_TTS_PROVIDER=chatterbox
+        CHATTERBOX_DEVICE=cpu
+        CHATTERBOX_EXAGGERATION=0.5
+        CHATTERBOX_MAX_CHARS=600
         PLANETTERRIAN_X_CONSUMER_KEY=${{ secrets.PLANETTERRIAN_X_CONSUMER_KEY }}
         PLANETTERRIAN_X_CONSUMER_SECRET=${{ secrets.PLANETTERRIAN_X_CONSUMER_SECRET }}
         PLANETTERRIAN_X_ACCESS_TOKEN=${{ secrets.PLANETTERRIAN_X_ACCESS_TOKEN }}
@@ -53,11 +75,6 @@ jobs:
           echo "❌ ERROR: GROK_API_KEY is not set!"
         else
           echo "✅ GROK_API_KEY is set"
-        fi
-        if [ -z "${{ secrets.CARTESIA_API_KEY }}" ]; then
-          echo "⚠️  WARNING: CARTESIA_API_KEY is not set! Will use fallback key from script."
-        else
-          echo "✅ CARTESIA_API_KEY is set"
         fi
         echo "Checking X API credentials..."
         if [ -z "${{ secrets.PLANETTERRIAN_X_CONSUMER_KEY }}" ]; then
@@ -178,7 +195,7 @@ jobs:
           echo "  ✓ Daily digest (X thread)"
           echo "  ✓ Posted to X (if enabled)"
           echo "  ✓ Podcast script generated"
-          echo "  ✓ Podcast audio created (Cartesia TTS)"
+          echo "  ✓ Podcast audio created (Chatterbox TTS)"
           echo "  ✓ RSS feed updated"
           echo "  ✓ Credit usage file generated"
         else
