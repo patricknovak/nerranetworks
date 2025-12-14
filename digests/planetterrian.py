@@ -1009,27 +1009,31 @@ You are an elite science, longevity, and health news curator producing the daily
 **Date:** {today_str}
 🌍 **Planetterrian Daily** - Science, Longevity & Health Discoveries
 
+**Quick scan:** 1 short sentence theme + “If you only read 3 today: #A, #B, #C.”
+
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Science & Health Discoveries
-1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM PST, Source Name**  
-   2–4 sentences: Start with what happened, explain why it matters for human health/longevity/planet. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
+1. **Title (<= 12 words): DD Month YYYY • Source Name**  
+   2 sentences max. Sentence 1: what happened (specific + concrete). Sentence 2: why it matters for human health/longevity; add ONE planet/sustainability angle only if it is genuinely relevant (don’t force it).
+   Source: [EXACT URL FROM PRE-FETCHED—no mods]
 2. [Repeat format for 3-15; if <15 items, stop at available count, add a blank line after each item]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Planetterrian Spotlight
-One breakthrough discovery that aligns with Planetterrian's mission of technology + compassion + sustainability. Explain why this matters for the planet and human well-being.
+Pick ONE item from the Top 15 and go deeper (3–5 sentences). Make it feel practical: what it unlocks, who it could help, and one concrete planet-aligned takeaway (energy, materials, food systems, prevention, access, etc.). End with ONE question to invite replies.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Daily Inspiration
 One inspiring quote about science, health, longevity, or planetary stewardship. End with: "Share your thoughts with us!"
 
-[2-3 sentence uplifting sign-off on science, health, and planetary well-being.]
+[1-2 sentence uplifting sign-off on science, health, and planetary well-being. Keep it punchy.]
 
 ### TONE & STYLE
 - Inspirational, planet-conscious, optimistic, compassionate
-- Focus on how discoveries benefit both humanity AND the planet
-- Emphasize sustainability, innovation, and positive impact
-- Timestamps: Accurate PST/PDT
+- Avoid repetitive phrasing like “This matters…” on every item — vary your language
+- Be scannable: short sentences, no fluff
+- Focus on how discoveries benefit humanity; include planet impact only when concrete
+- Dates should be accurate PST/PDT; avoid exact HH:MM unless it materially matters
 
 Output today's edition exactly as formatted.
 """
@@ -1139,15 +1143,17 @@ RULES:
 - Use natural dates ("today", "this morning") not exact timestamps
 - Enunciate all numbers clearly
 - Use ONLY information from the digest below - nothing else
-- Emphasize how discoveries benefit both humanity AND the planet
-- Focus on sustainability, innovation, and positive impact
+- Make it sound like a real solo pod: vivid but concise, no robotic repetition
+- Emphasize how discoveries benefit humanity; include planet impact only when concrete (don’t force it)
 
 SCRIPT STRUCTURE:
 [Intro music - 10 seconds]
 Patrick: Welcome to Planetterrian Daily, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada, bringing you today's most exciting discoveries in science, longevity, and health. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now let's dive into today's discoveries.
 
+Patrick: Quick scan before we dive in—three stories to watch today, then we’ll go through the full list in order.
+
 [Narrate EVERY item from the digest in order - no skipping]
-- For each news item: Read the title with enthusiasm, then explain the discovery and why it matters for human health, longevity, and the planet
+- For each news item: Read the title with energy, then summarize in 2–4 lines: what happened, why it matters for health/longevity, and (only if it naturally fits) one planet/sustainability implication
 - Planetterrian Spotlight: Explain why this breakthrough aligns with our mission
 - Daily Inspiration: Read the quote verbatim, add one encouraging sentence
 
