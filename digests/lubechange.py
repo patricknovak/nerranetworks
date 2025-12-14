@@ -35,7 +35,7 @@ import base64
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[logging.StreamHandler()]
+    handlers=[logging.StreamHandler(sys.stdout)]
 )
 
 # ========================== CONFIGURATION ==========================
@@ -662,10 +662,22 @@ def _env_int(name: str, default: int) -> int:
         logging.warning(f"Invalid {name}='{raw}' (expected int). Using default {default}.")
         return default
 
+def _env_bool(name: str, default: bool) -> bool:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    v = str(raw).strip().lower()
+    if v in {"1", "true", "t", "yes", "y", "on"}:
+        return True
+    if v in {"0", "false", "f", "no", "n", "off"}:
+        return False
+    return default
+
 # Chatterbox (local) TTS config
 CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
 CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
-CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 600)
+CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 1000)
+CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
 CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
 CHATTERBOX_VOICE_PROMPT_BASE64 = os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64", "").strip()
 CHATTERBOX_PROMPT_OFFSET_SECONDS = _env_float("CHATTERBOX_PROMPT_OFFSET_SECONDS", 35.0)
@@ -2146,6 +2158,7 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
     def _synthesize_with_chatterbox(text: str, out_wav: Path):
         """Generate a single WAV voice track using the local Chatterbox model + a voice prompt."""
         import inspect
+        import contextlib
 
         try:
             import torch  # noqa: F401
@@ -2176,7 +2189,15 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
         chunk_paths: List[Path] = []
         for i, chunk in enumerate(chunks, 1):
             logging.info(f"Chatterbox: chunk {i}/{len(chunks)} ({len(chunk)} chars)")
-            wav = model.generate(chunk, **base_kwargs)
+            with open(os.devnull, "w") as devnull:
+                redir = (
+                    contextlib.redirect_stdout(devnull),
+                    contextlib.redirect_stderr(devnull),
+                ) if CHATTERBOX_QUIET else ()
+                with contextlib.ExitStack() as stack:
+                    for ctx in redir:
+                        stack.enter_context(ctx)
+                    wav = model.generate(chunk, **base_kwargs)
             if hasattr(wav, "detach"):
                 wav = wav.detach().cpu()
             if getattr(wav, "ndim", 0) == 1:
