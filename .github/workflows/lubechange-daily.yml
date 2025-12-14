@@ -36,21 +36,21 @@ jobs:
         fi
         pip install -r requirements_planetterrian.txt
         # Verify critical deps are present
-        python - <<'PY'
-import importlib, sys
-missing = []
-for mod in ["torch", "torchaudio", "chatterbox.tts"]:
-    try:
-        importlib.import_module(mod)
-    except Exception as e:
-        missing.append((mod, str(e)))
-if missing:
-    print("❌ Missing critical TTS deps:")
-    for mod, err in missing:
-        print(f"   - {mod}: {err}")
-    sys.exit(1)
-print("✅ TTS deps verified (torch/torchaudio/chatterbox)")
-PY
+        python3 -c "
+        import importlib, sys
+        missing = []
+        for mod in ['torch', 'torchaudio', 'chatterbox.tts']:
+            try:
+                importlib.import_module(mod)
+            except Exception as e:
+                missing.append((mod, str(e)))
+        if missing:
+            print('❌ Missing critical TTS deps:')
+            for mod, err in missing:
+                print(f'   - {mod}: {err}')
+            sys.exit(1)
+        print('✅ TTS deps verified (torch/torchaudio/chatterbox)')
+        "
         echo "Installed packages:"
         pip list | grep -E "(openai|tweepy|requests|python-dotenv|feedparser|websockets|torch|torchaudio|chatterbox)" || echo "Some packages may not be listed"
         
