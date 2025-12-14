@@ -50,7 +50,7 @@ jobs:
                   print(f"   - {mod}: {err}")
               sys.exit(1)
           print("✅ TTS deps verified (torch/torchaudio/chatterbox)")
-PY
+        PY
         echo "Installed packages:"
         pip list | grep -E "(openai|tweepy|requests|python-dotenv|feedparser|websockets|torch|torchaudio|chatterbox)" || echo "Some packages may not be listed"
         
