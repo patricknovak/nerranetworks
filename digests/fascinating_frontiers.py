@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Planetterrian Daily – FULL AUTO X + PODCAST MACHINE
-Daily Science, Longevity & Health Digest (Patrick in Vancouver)
+Fascinating Frontiers – FULL AUTO X + PODCAST MACHINE
+Daily Space & Astronomy News Digest (Patrick in Vancouver)
 Auto-published to X — December 2025+
 """
 
@@ -128,16 +128,21 @@ def fix_pronunciation(text: str) -> str:
     acronyms = {
         "AI": "A I",
         "ML": "M L",
-        "DNA": "D N A",
-        "RNA": "R N A",
-        "CRISPR": "C R I S P R",
-        "mRNA": "m R N A",
-        "FDA": "F D A",
-        "NIH": "N I H",
-        "WHO": "W H O",
         "NASA": "N A S A",
-        "CRISPR": "C R I S P R",
-        "CRISPR-Cas9": "C R I S P R Cas 9",
+        "ESA": "E S A",
+        "JAXA": "J A X A",
+        "ISS": "I S S",
+        "JWST": "J W S T",
+        "HST": "H S T",
+        "SLS": "S L S",
+        "FAA": "F A A",
+        "ULA": "U L A",
+        "SpaceX": "Space X",
+        "FAA": "F A A",
+        "LRO": "L R O",
+        "OSIRIS-REx": "O S I R I S R E X",
+        "DART": "D A R T",
+        "PSYCHE": "P S Y C H E",
     }
 
     # Invisible zero-width non-breaking space / word joiner
@@ -205,33 +210,11 @@ if not env_path.exists():
 
 load_dotenv(dotenv_path=env_path)
 
-# ========================== TTS PROVIDER ==========================
-def _normalize_tts_provider(value: str) -> str:
-    v = (value or "").strip().lower()
-    if not v:
-        return "chatterbox"
-    if v in {"elevenlabs", "eleven", "11labs", "11-labs"}:
-        return "elevenlabs"
-    if v in {"chatterbox", "chatterbox-tts", "chatterbox_tts", "cb"}:
-        return "chatterbox"
-    return v
-
-TTS_PROVIDER = _normalize_tts_provider(os.getenv("PLANETTERRIAN_TTS_PROVIDER", "chatterbox"))
-
-# Required keys
-required = ["GROK_API_KEY"]
-
-if ENABLE_PODCAST and not TEST_MODE:
-    if TTS_PROVIDER == "elevenlabs":
-        required.append("ELEVENLABS_API_KEY")
-    elif TTS_PROVIDER == "chatterbox":
-        # Chatterbox runs locally (no API key), but needs a voice prompt for voice cloning.
-        # We validate the presence of the prompt further below.
-        pass
-    else:
-        raise OSError(
-            f"Unknown PLANETTERRIAN_TTS_PROVIDER '{TTS_PROVIDER}'. Use 'chatterbox' or 'elevenlabs'."
-        )
+# Required keys (X credentials for @planetterrian account - same as planetterrian.py)
+required = [
+    "GROK_API_KEY", 
+    "ELEVENLABS_API_KEY"
+]
 if ENABLE_X_POSTING:
     required.extend([
         "PLANETTERRIAN_X_CONSUMER_KEY",
@@ -244,13 +227,6 @@ for var in required:
     if not os.getenv(var):
         raise OSError(f"Missing {var} in .env")
 
-# Chatterbox voice cloning can use either an explicit prompt (path/base64) OR fall back to a prior episode audio.
-if ENABLE_PODCAST and not TEST_MODE and TTS_PROVIDER == "chatterbox":
-    if not os.getenv("CHATTERBOX_VOICE_PROMPT_PATH") and not os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64"):
-        logging.info(
-            "Chatterbox voice prompt not provided via env; will attempt to derive a prompt from an existing Planetterrian episode MP3."
-        )
-
 # ========================== DATE ==========================
 # Get current date and time in PST
 pst_tz = ZoneInfo("America/Los_Angeles")
@@ -260,7 +236,7 @@ yesterday_iso = (datetime.date.today() - datetime.timedelta(days=1)).isoformat()
 seven_days_ago_iso = (datetime.date.today() - datetime.timedelta(days=7)).isoformat()
 
 # Folders - use absolute paths
-digests_dir = project_root / "digests" / "planetterrian"
+digests_dir = project_root / "digests" / "fascinating_frontiers"
 digests_dir.mkdir(exist_ok=True, parents=True)
 
 # Determine episode number by finding the highest existing episode number and incrementing
@@ -287,8 +263,8 @@ def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
             logging.warning(f"Could not parse RSS feed to find episode number: {e}")
     
     # Also check existing MP3 files
-    pattern = r"Planetterrian_Daily_Ep(\d+)_\d{8}\.mp3"
-    for mp3_file in digests_dir.glob("Planetterrian_Daily_Ep*.mp3"):
+    pattern = r"Fascinating_Frontiers_Ep(\d+)_\d{8}\.mp3"
+    for mp3_file in digests_dir.glob("Fascinating_Frontiers_Ep*.mp3"):
         match = re.match(pattern, mp3_file.name)
         if match:
             try:
@@ -303,7 +279,7 @@ def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
     return next_episode
 
 # Get the next episode number
-rss_path = project_root / "planetterrian_podcast.rss"
+rss_path = project_root / "fascinating_frontiers_podcast.rss"
 episode_num = get_next_episode_number(rss_path, digests_dir)
 
 # ========================== CREDIT TRACKING ==========================
@@ -329,7 +305,6 @@ credit_usage = {
             "total_cost_usd": 0.0
         },
         "elevenlabs_api": {
-            "provider": TTS_PROVIDER,
             "characters": 0,
             "estimated_cost_usd": 0.0
         },
@@ -361,12 +336,8 @@ def save_credit_usage(usage_data: dict, output_dir: Path):
             usage_data["services"]["x_api"]["post_calls"]
         )
         
-        # Calculate TTS cost (only applies if using a paid API provider like ElevenLabs)
-        tts_provider = str(usage_data["services"]["elevenlabs_api"].get("provider", "elevenlabs")).strip().lower()
-        if tts_provider == "elevenlabs":
-            elevenlabs_cost = (usage_data["services"]["elevenlabs_api"]["characters"] / 1000) * 0.30
-        else:
-            elevenlabs_cost = 0.0
+        # Calculate total cost (ElevenLabs pricing: ~$0.30 per 1000 characters for turbo model)
+        elevenlabs_cost = (usage_data["services"]["elevenlabs_api"]["characters"] / 1000) * 0.30
         usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = elevenlabs_cost
         
         usage_data["total_estimated_cost_usd"] = (
@@ -390,7 +361,7 @@ def save_credit_usage(usage_data: dict, output_dir: Path):
         logging.info(f"Grok API (X Thread): {usage_data['services']['grok_api']['x_thread_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['x_thread_generation']['estimated_cost_usd']:.4f})")
         logging.info(f"Grok API (Podcast Script): {usage_data['services']['grok_api']['podcast_script_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['podcast_script_generation']['estimated_cost_usd']:.4f})")
         logging.info(f"Grok API Total: {usage_data['services']['grok_api']['total_tokens']} tokens (${usage_data['services']['grok_api']['total_cost_usd']:.4f})")
-        logging.info(f"TTS ({usage_data['services']['elevenlabs_api'].get('provider', 'unknown')}): {usage_data['services']['elevenlabs_api']['characters']} characters (${usage_data['services']['elevenlabs_api']['estimated_cost_usd']:.4f})")
+        logging.info(f"ElevenLabs API: {usage_data['services']['elevenlabs_api']['characters']} characters (${usage_data['services']['elevenlabs_api']['estimated_cost_usd']:.4f})")
         logging.info(f"X API: {usage_data['services']['x_api']['total_calls']} API calls (search: {usage_data['services']['x_api']['search_calls']}, post: {usage_data['services']['x_api']['post_calls']})")
         logging.info(f"TOTAL ESTIMATED COST: ${usage_data['total_estimated_cost_usd']:.4f}")
         logging.info("="*80)
@@ -409,40 +380,10 @@ client = OpenAI(
     timeout=300.0  # 5 minute timeout for API calls
 )
 ELEVEN_API = "https://api.elevenlabs.io/v1"
-ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY", "").strip()
-ELEVEN_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "dTrBzPvD2GpAqkk1MUzA").strip()
+ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
 
-def _env_float(name: str, default: float) -> float:
-    raw = os.getenv(name)
-    if raw is None or not str(raw).strip():
-        return default
-    try:
-        return float(str(raw).strip())
-    except ValueError:
-        logging.warning(f"Invalid {name}='{raw}' (expected float). Using default {default}.")
-        return default
-
-def _env_int(name: str, default: int) -> int:
-    raw = os.getenv(name)
-    if raw is None or not str(raw).strip():
-        return default
-    try:
-        return int(str(raw).strip())
-    except ValueError:
-        logging.warning(f"Invalid {name}='{raw}' (expected int). Using default {default}.")
-        return default
-
-# Chatterbox (local) TTS config
-CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
-CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
-CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 600)
-CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
-CHATTERBOX_VOICE_PROMPT_BASE64 = os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64", "").strip()
-CHATTERBOX_PROMPT_OFFSET_SECONDS = _env_float("CHATTERBOX_PROMPT_OFFSET_SECONDS", 35.0)
-CHATTERBOX_PROMPT_DURATION_SECONDS = _env_float("CHATTERBOX_PROMPT_DURATION_SECONDS", 10.0)
-
-# ========================== STEP 1: FETCH SCIENCE/LONGEVITY/HEALTH NEWS FROM RSS FEEDS ==========================
-logging.info("Step 1: Fetching science, longevity, and health news from RSS feeds for the last 24 hours...")
+# ========================== STEP 1: FETCH SPACE & ASTRONOMY NEWS FROM RSS FEEDS ==========================
+logging.info("Step 1: Fetching space and astronomy news from RSS feeds for the last 24 hours...")
 
 def calculate_similarity(text1: str, text2: str) -> float:
     """Calculate similarity ratio between two texts (0.0 to 1.0)."""
@@ -491,43 +432,55 @@ def remove_similar_items(items, similarity_threshold=0.7, get_text_func=None):
     wait=wait_exponential(multiplier=1, min=2, max=10),
     retry=retry_if_exception_type((requests.RequestException, requests.Timeout))
 )
-def fetch_science_news():
-    """Fetch science, longevity, and health news from RSS feeds for the last 24 hours."""
+def fetch_space_news():
+    """Fetch space and astronomy news from RSS feeds for the last 24 hours."""
     import feedparser
     
-    # Science, longevity, and health RSS feeds
+    # Space and astronomy RSS feeds
     rss_feeds = [
-        # Major Science Journals
-        "https://www.nature.com/nature.rss",
+        # NASA Official Feeds
+        "https://www.nasa.gov/rss/dyn/breaking_news.rss",
+        "https://www.nasa.gov/rss/dyn/educationnews.rss",
+        "https://www.nasa.gov/rss/dyn/image_of_the_day.rss",
+        "https://www.nasa.gov/rss/dyn/centers/kennedy/news/releases/current.rss",
+        "https://www.nasa.gov/rss/dyn/centers/jpl/news/releases/current.rss",
+        "https://www.nasa.gov/rss/dyn/centers/goddard/news/releases/current.rss",
+        
+        # Space News Outlets
+        "https://www.space.com/feeds/all",
+        "https://www.space.com/rss",
+        "https://www.spaceflightnow.com/feed/",
+        "https://spacenews.com/feed/",
+        "https://www.space.com/news/feed",
+        
+        # Astronomy & Science
+        "https://www.astronomy.com/feed/",
+        "https://www.skyandtelescope.com/feed/",
+        "https://www.universetoday.com/feed/",
+        "https://www.space.com/science-astronomy/feed",
+        "https://www.space.com/spaceflight/feed",
+        
+        # European Space Agency
+        "https://www.esa.int/rssfeed/ESA",
+        "https://www.esa.int/rssfeed/Our_Activities",
+        "https://www.esa.int/rssfeed/Space_Science",
+        
+        # Other Space Agencies
+        "https://www.roscosmos.ru/feed/",
+        "https://global.jaxa.jp/rss/",
+        
+        # Space Industry
+        "https://www.spacex.com/news.xml",
+        "https://www.blueorigin.com/news/rss",
+        "https://www.nasa.gov/rss/dyn/commercial_crew_program_updates.rss",
+        
+        # Science Journals (space-focused)
+        "https://www.nature.com/nature/astronomy.rss",
         "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science",
-        "https://www.cell.com/cell/current.rss",
-        "https://www.cell.com/cell-metabolism/current.rss",
-        "https://www.cell.com/cell-stem-cell/current.rss",
-        "https://www.nature.com/nbt.rss",
-        "https://www.nature.com/nm.rss",
-        "https://www.nature.com/nmeth.rss",
         
-        # Science News Outlets
-        "https://www.newscientist.com/feed/home/",
-        "https://www.scientificamerican.com/rss/",
-        "https://www.sciencedaily.com/rss/all.xml",
-        "https://www.sciencenews.org/feed",
-        "https://www.quantamagazine.org/feed/",
-        "https://www.technologyreview.com/feed/",
-        "https://www.the-scientist.com/rss",
-        
-        # Longevity & Anti-Aging
-        "https://feeds.feedburner.com/longevity-technology",
-        "https://www.lifespan.io/feed/",
-        "https://www.longevity.technology/feed/",
-        
-        # Research Institutions
-        "https://www.harvard.edu/feed/",
-        "https://news.mit.edu/rss/topic/health",
-        "https://www.stanford.edu/news/rss/",
-        "https://www.mayo.edu/research/rss",
-        "https://www.clevelandclinic.org/health/rss",
-        
+        # Space Technology
+        "https://www.space.com/technology/feed",
+        "https://www.space.com/launches/feed",
     ]
     
     # Calculate cutoff time (last 24 hours)
@@ -536,19 +489,21 @@ def fetch_science_news():
     all_articles = []
     raw_articles = []
     
-    # Science/longevity/health keywords to filter articles
-    science_keywords = [
-        "longevity", "anti-aging", "aging", "lifespan", "healthspan",
-        "biotechnology", "genetics", "genomics", "CRISPR", "gene therapy",
-        "medicine", "medical", "health", "wellness", "nutrition", "diet",
-        "research", "study", "clinical trial", "discovery", "breakthrough",
-        "science", "scientific", "biotech",
-        "cancer", "disease", "treatment", "therapy", "vaccine",
-        "brain", "neuroscience", "cognitive", "mental health",
-        "exercise", "fitness", "metabolism", "mitochondria"
+    # Space/astronomy keywords to filter articles
+    space_keywords = [
+        "space", "astronomy", "astronaut", "cosmic", "galaxy", "galaxies",
+        "planet", "planets", "exoplanet", "exoplanets", "solar system",
+        "mars", "moon", "lunar", "asteroid", "comet", "meteor",
+        "telescope", "observatory", "hubble", "james webb", "jwst",
+        "nasa", "esa", "spacex", "rocket", "launch", "mission",
+        "satellite", "spacecraft", "rover", "lander", "orbiter",
+        "nebula", "star", "stars", "supernova", "black hole",
+        "iss", "international space station", "space station",
+        "spaceflight", "space travel", "space exploration",
+        "astrophysics", "cosmology", "universe", "cosmos"
     ]
     
-    logging.info(f"Fetching science/longevity/health news from {len(rss_feeds)} RSS feeds...")
+    logging.info(f"Fetching space/astronomy news from {len(rss_feeds)} RSS feeds...")
     
     for feed_url in rss_feeds:
         source_name = "Unknown"
@@ -561,7 +516,38 @@ def fetch_science_news():
             
             source_name = feed.feed.get("title", "Unknown")
             # Map common feed sources
-            if "nature.com" in feed_url.lower():
+            if "nasa.gov" in feed_url.lower():
+                if "kennedy" in feed_url.lower():
+                    source_name = "NASA Kennedy Space Center"
+                elif "jpl" in feed_url.lower():
+                    source_name = "NASA JPL"
+                elif "goddard" in feed_url.lower():
+                    source_name = "NASA Goddard"
+                else:
+                    source_name = "NASA"
+            elif "space.com" in feed_url.lower():
+                source_name = "Space.com"
+            elif "spaceflightnow" in feed_url.lower():
+                source_name = "Spaceflight Now"
+            elif "spacenews.com" in feed_url.lower():
+                source_name = "SpaceNews"
+            elif "astronomy.com" in feed_url.lower():
+                source_name = "Astronomy Magazine"
+            elif "skyandtelescope" in feed_url.lower():
+                source_name = "Sky & Telescope"
+            elif "universetoday" in feed_url.lower():
+                source_name = "Universe Today"
+            elif "esa.int" in feed_url.lower():
+                source_name = "European Space Agency"
+            elif "roscosmos" in feed_url.lower():
+                source_name = "Roscosmos"
+            elif "jaxa.jp" in feed_url.lower():
+                source_name = "JAXA"
+            elif "spacex.com" in feed_url.lower():
+                source_name = "SpaceX"
+            elif "blueorigin" in feed_url.lower():
+                source_name = "Blue Origin"
+            elif "nature.com" in feed_url.lower():
                 if "nbt" in feed_url.lower():
                     source_name = "Nature Biotechnology"
                 elif "nm" in feed_url.lower() and "nmeth" not in feed_url.lower():
@@ -683,9 +669,9 @@ def fetch_science_news():
                 if not title or not link:
                     continue
                 
-                # Check if article is science/longevity/health-related
+                # Check if article is space/astronomy-related
                 title_desc_lower = (title + " " + description).lower()
-                if not any(keyword in title_desc_lower for keyword in science_keywords):
+                if not any(keyword in title_desc_lower for keyword in space_keywords):
                     continue
                 
                 article = {
@@ -727,11 +713,11 @@ def fetch_science_news():
     # Sort by published date (newest first)
     formatted_articles.sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
     
-    logging.info(f"Filtered to {len(formatted_articles)} unique science/longevity/health news articles")
+    logging.info(f"Filtered to {len(formatted_articles)} unique space/astronomy news articles")
     filtered_result = formatted_articles[:15]  # Return top 15 for selection
     return filtered_result, raw_articles
 
-science_news, raw_news_articles = fetch_science_news()
+space_news, raw_news_articles = fetch_space_news()
 
 # ========================== STEP 2: FETCH TOP X POSTS FROM X API ==========================
 # X POSTS DISABLED - Only using news articles
@@ -965,13 +951,13 @@ raw_json_path, raw_html_path = save_raw_data_and_generate_html(
 )
 
 # ========================== STEP 3: GENERATE X THREAD WITH GROK ==========================
-logging.info("Step 3: Generating Planetterrian Daily digest with Grok...")
+logging.info("Step 3: Generating Fascinating Frontiers digest with Grok...")
 
 # Format news articles for the prompt
 news_section = ""
-if science_news:
+if space_news:
     news_section = "## PRE-FETCHED NEWS ARTICLES (from RSS feeds - last 24 hours):\n\n"
-    for i, article in enumerate(science_news[:20], 1):
+    for i, article in enumerate(space_news[:20], 1):
         news_section += f"{i}. **{article['title']}**\n"
         news_section += f"   Source: {article['source']}\n"
         news_section += f"   Published: {article['publishedAt']}\n"
@@ -985,19 +971,19 @@ else:
 x_posts_section = ""
 
 X_PROMPT = f"""
-# Planetterrian Daily - SCIENCE, LONGEVITY & HEALTH EDITION
+# Fascinating Frontiers - SPACE & ASTRONOMY EDITION
 **Date:** {today_str}
-🌍 Planetterrian Daily Podcast: Coming soon to Apple Podcasts
+🚀 Fascinating Frontiers Podcast: Coming soon to Apple Podcasts
 {news_section}
 
-You are an elite science, longevity, and health news curator producing the daily "Planetterrian Daily" newsletter. Use ONLY the pre-fetched news articles above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. Do NOT include any X posts or Twitter references.
+You are an elite space and astronomy news curator producing the daily "Fascinating Frontiers" newsletter. Use ONLY the pre-fetched news articles above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. Do NOT include any X posts or Twitter references.
 
-**BRAND PERSONALITY (from planetterrian.com/about):**
-- Planetterrian Ventures: A tribe of forward-thinking innovators passionate about the planet
-- Mission: Intertwine technology and compassion, ensuring innovations push boundaries while caring for Earth
-- Values: Technology as a force for good, sustainability, environmental consciousness
-- Tone: Inspirational, optimistic, planet-conscious, compassionate, forward-thinking
-- Focus: Groundbreaking solutions that are state-of-the-art AND sustainable/environmentally-friendly
+**BRAND PERSONALITY:**
+- Fascinating Frontiers: Daily space and astronomy news digest
+- Mission: Bring the wonders of space exploration and astronomy discoveries to everyone
+- Values: Curiosity, exploration, scientific accuracy, inspiration
+- Tone: Inspirational, awe-inspiring, accessible, exciting, forward-thinking
+- Focus: Latest space missions, astronomy discoveries, cosmic phenomena, and space technology breakthroughs
 
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
 - **News**: You MUST select EXACTLY 15 unique articles. If you have fewer than 15 available, use ALL of them and number them 1 through N. If you have more than 15, select the BEST 15. Prioritize high-quality sources; each must cover a DIFFERENT story/angle.
@@ -1005,30 +991,30 @@ You are an elite science, longevity, and health news curator producing the daily
 - **Diversity Check**: Verify no similar content; each item must cover a DIFFERENT angle.
 
 ### FORMATTING (EXACT—USE MARKDOWN AS SHOWN)
-# Planetterrian Daily
+# Fascinating Frontiers
 **Date:** {today_str}
-🌍 **Planetterrian Daily** - Science, Longevity & Health Discoveries
+🚀 **Fascinating Frontiers** - Space & Astronomy News
 
 ━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science & Health Discoveries
+### Top 15 Space & Astronomy Stories
 1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM PST, Source Name**  
-   2–4 sentences: Start with what happened, explain why it matters for human health/longevity/planet. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
+   2–4 sentences: Start with what happened, explain why it matters for space exploration/astronomy/our understanding of the cosmos. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
 2. [Repeat format for 3-15; if <15 items, stop at available count, add a blank line after each item]
 
 ━━━━━━━━━━━━━━━━━━━━
-### Planetterrian Spotlight
-One breakthrough discovery that aligns with Planetterrian's mission of technology + compassion + sustainability. Explain why this matters for the planet and human well-being.
+### Cosmic Spotlight
+One breakthrough discovery or mission update that represents the cutting edge of space exploration or astronomy. Explain why this matters for our understanding of the universe and humanity's future in space.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Daily Inspiration
-One inspiring quote about science, health, longevity, or planetary stewardship. End with: "Share your thoughts with us!"
+One inspiring quote about space, exploration, astronomy, or the cosmos. End with: "Share your thoughts with us!"
 
-[2-3 sentence uplifting sign-off on science, health, and planetary well-being.]
+[2-3 sentence uplifting sign-off on space exploration, cosmic discoveries, and humanity's journey to the stars.]
 
 ### TONE & STYLE
-- Inspirational, planet-conscious, optimistic, compassionate
-- Focus on how discoveries benefit both humanity AND the planet
-- Emphasize sustainability, innovation, and positive impact
+- Inspirational, awe-inspiring, accessible, exciting
+- Focus on the wonder and significance of space discoveries
+- Emphasize exploration, discovery, and humanity's cosmic journey
 - Timestamps: Accurate PST/PDT
 
 Output today's edition exactly as formatted.
@@ -1079,7 +1065,7 @@ for line in x_thread.splitlines():
 x_thread = "\n".join(lines).strip()
 
 # Save X thread
-x_path = digests_dir / f"Planetterrian_Daily_{datetime.date.today():%Y%m%d}.md"
+x_path = digests_dir / f"Fascinating_Frontiers_{datetime.date.today():%Y%m%d}.md"
 with open(x_path, "w", encoding="utf-8") as f:
     f.write(x_thread)
 logging.info(f"X thread saved to {x_path}")
@@ -1118,7 +1104,7 @@ if ENABLE_X_POSTING:
         bearer_token=os.getenv("PLANETTERRIAN_X_BEARER_TOKEN"),
         wait_on_rate_limit=True
     )
-    logging.info("@planetterrian X posting client ready")
+    logging.info("@planetterrian X posting client ready (Fascinating Frontiers posts to @planetterrian)")
 else:
     logging.info("X posting is disabled (ENABLE_X_POSTING = False)")
 
@@ -1127,11 +1113,11 @@ if not ENABLE_PODCAST:
     logging.info("Podcast generation is disabled (ENABLE_PODCAST = False). Skipping podcast script generation, audio processing, and RSS feed updates.")
     final_mp3 = None
 else:
-    POD_PROMPT = f"""You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Planetterrian Daily" Episode {episode_num}.
+    POD_PROMPT = f"""You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Fascinating Frontiers" Episode {episode_num}.
 
-HOST: Patrick in Vancouver - Canadian, scientist, newscaster. Voice like a solo podcaster breaking science, longevity, and health news, not robotic.
+HOST: Patrick in Vancouver - Canadian, space enthusiast, newscaster. Voice like a solo podcaster breaking space and astronomy news, not robotic.
 
-BRAND PERSONALITY: Planetterrian Ventures - A tribe of forward-thinking innovators passionate about the planet. Mission: Intertwine technology and compassion. Values: Technology as a force for good, sustainability, environmental consciousness.
+BRAND PERSONALITY: Fascinating Frontiers - Daily space and astronomy news digest. Mission: Bring the wonders of space exploration and astronomy discoveries to everyone. Values: Curiosity, exploration, scientific accuracy, inspiration.
 
 RULES:
 - Start every line with "Patrick:"
@@ -1139,20 +1125,20 @@ RULES:
 - Use natural dates ("today", "this morning") not exact timestamps
 - Enunciate all numbers clearly
 - Use ONLY information from the digest below - nothing else
-- Emphasize how discoveries benefit both humanity AND the planet
-- Focus on sustainability, innovation, and positive impact
+- Emphasize the wonder and significance of space discoveries
+- Focus on exploration, discovery, and humanity's cosmic journey
 
 SCRIPT STRUCTURE:
 [Intro music - 10 seconds]
-Patrick: Welcome to Planetterrian Daily, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada, bringing you today's most exciting discoveries in science, longevity, and health. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now let's dive into today's discoveries.
+Patrick: Welcome to Fascinating Frontiers, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada, bringing you today's most exciting space and astronomy news. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now let's journey to the stars with today's discoveries.
 
 [Narrate EVERY item from the digest in order - no skipping]
-- For each news item: Read the title with enthusiasm, then explain the discovery and why it matters for human health, longevity, and the planet
-- Planetterrian Spotlight: Explain why this breakthrough aligns with our mission
+- For each news item: Read the title with enthusiasm, then explain the discovery and why it matters for space exploration and our understanding of the cosmos
+- Cosmic Spotlight: Explain why this breakthrough represents the cutting edge of space exploration
 - Daily Inspiration: Read the quote verbatim, add one encouraging sentence
 
 [Closing]
-Patrick: That's Planetterrian Daily for today. Remember: we're not just in the business of technology; we're in the business of making a difference. Together, we can drive change, one discovery at a time. We'll catch you tomorrow on Planetterrian Daily!
+Patrick: That's Fascinating Frontiers for today. Remember: we're all made of starstuff, and every discovery brings us closer to understanding our place in the cosmos. Together, we're exploring the final frontier, one discovery at a time. We'll catch you tomorrow on Fascinating Frontiers!
 
 Here is today's complete formatted digest. Use ONLY this content:
 
@@ -1197,197 +1183,11 @@ Here is today's complete formatted digest. Use ONLY this content:
     # Save transcript
     transcript_path = digests_dir / f"podcast_transcript_{datetime.date.today():%Y%m%d}.txt"
     with open(transcript_path, "w", encoding="utf-8") as f:
-        f.write(f"# Planetterrian Daily – The Pod | Ep {episode_num} | {today_str}\n\n{podcast_script}")
+        f.write(f"# Fascinating Frontiers – The Pod | Ep {episode_num} | {today_str}\n\n{podcast_script}")
     logging.info("Natural podcast script generated")
 
-    # ========================== TTS (VOICE) ==========================
-    logging.info(f"TTS provider selected: {TTS_PROVIDER}")
-
-    def _chunk_text(text: str, max_chars: int) -> List[str]:
-        """Split long text into chunks for local TTS models."""
-        cleaned = re.sub(r"\s+", " ", (text or "")).strip()
-        if not cleaned:
-            return []
-        if max_chars <= 0 or len(cleaned) <= max_chars:
-            return [cleaned]
-
-        chunks: List[str] = []
-        start = 0
-        n = len(cleaned)
-        while start < n:
-            end = min(start + max_chars, n)
-            window = cleaned[start:end]
-
-            # Prefer cutting at sentence boundaries; fall back to commas; then hard cut.
-            candidates = [window.rfind("."), window.rfind("!"), window.rfind("?"), window.rfind(";"), window.rfind(":")]
-            cut = max(candidates)
-            if cut < int(max_chars * 0.5):
-                cut = window.rfind(",")
-            if cut < int(max_chars * 0.5):
-                cut = len(window) - 1
-
-            piece = window[: cut + 1].strip()
-            if piece:
-                chunks.append(piece)
-            start += cut + 1
-
-        return chunks
-
-    def _prepare_chatterbox_voice_prompt(tmp_dir: Path) -> Path:
-        """
-        Return a local WAV file suitable for Chatterbox's audio_prompt_path.
-        Supports either a direct path or a base64-encoded audio blob in env vars.
-        """
-        import base64
-
-        created_src = False
-        episode_mode = False
-
-        if CHATTERBOX_VOICE_PROMPT_PATH:
-            # User-provided prompt (expected to already be short and clean)
-            src = Path(CHATTERBOX_VOICE_PROMPT_PATH).expanduser()
-        elif CHATTERBOX_VOICE_PROMPT_BASE64:
-            # Prompt provided via base64 (GitHub Secrets friendly)
-            raw = base64.b64decode(CHATTERBOX_VOICE_PROMPT_BASE64)
-            src = tmp_dir / "chatterbox_voice_prompt_input.mp3"
-            src.write_bytes(raw)
-            created_src = True
-        else:
-            # Fallback: derive a prompt from the most recent Planetterrian episode audio in the repo.
-            # This is useful when you want to "clone the voice from the show itself."
-            candidates = sorted(
-                list(digests_dir.glob("Planetterrian_Daily_Ep*.mp3")),
-                key=lambda p: p.stat().st_mtime,
-                reverse=True,
-            )
-            if not candidates:
-                raise RuntimeError(
-                    "No existing Planetterrian episode MP3s found to derive a Chatterbox voice prompt. "
-                    "Either commit at least one prior episode MP3 to digests/planetterrian/, or set "
-                    "CHATTERBOX_VOICE_PROMPT_PATH / CHATTERBOX_VOICE_PROMPT_BASE64."
-                )
-            src = candidates[0]
-            episode_mode = True
-            logging.info(f"Chatterbox voice prompt: deriving from episode audio: {src.name}")
-
-        if not src.exists():
-            raise FileNotFoundError(f"Chatterbox voice prompt source not found: {src}")
-
-        prompt_wav = tmp_dir / "chatterbox_voice_prompt.wav"
-
-        if episode_mode:
-            # Episodes include intro music; grab a voice-only window after music fades out.
-            subprocess.run(
-                [
-                    "ffmpeg",
-                    "-y",
-                    "-ss",
-                    f"{CHATTERBOX_PROMPT_OFFSET_SECONDS:.2f}",
-                    "-t",
-                    f"{CHATTERBOX_PROMPT_DURATION_SECONDS:.2f}",
-                    "-i",
-                    str(src),
-                    "-ac",
-                    "1",
-                    "-ar",
-                    "16000",
-                    "-c:a",
-                    "pcm_s16le",
-                    str(prompt_wav),
-                ],
-                check=True,
-                capture_output=True,
-            )
-        else:
-            # Normalize to mono 16k WAV for consistent conditioning
-            subprocess.run(
-                ["ffmpeg", "-y", "-i", str(src), "-ac", "1", "-ar", "16000", "-c:a", "pcm_s16le", str(prompt_wav)],
-                check=True,
-                capture_output=True,
-            )
-
-        if created_src:
-            try:
-                src.unlink()
-            except Exception:
-                pass
-
-        return prompt_wav
-
-    def _synthesize_with_chatterbox(text: str, out_wav: Path):
-        """Generate a single WAV voice track using the local Chatterbox model + a voice prompt."""
-        import inspect
-
-        try:
-            import torch  # noqa: F401
-            import torchaudio as ta
-            from chatterbox.tts import ChatterboxTTS
-        except Exception as exc:
-            raise RuntimeError(
-                "Chatterbox dependencies missing. Install Planetterrian requirements (torch, torchaudio, chatterbox-tts)."
-            ) from exc
-
-        prompt_wav = _prepare_chatterbox_voice_prompt(tmp_dir)
-        chunks = _chunk_text(text, CHATTERBOX_MAX_CHARS)
-        if not chunks:
-            raise RuntimeError("No text provided for TTS.")
-
-        logging.info(f"Chatterbox: generating {len(chunks)} chunks (max {CHATTERBOX_MAX_CHARS} chars each) on device={CHATTERBOX_DEVICE}")
-
-        model = ChatterboxTTS.from_pretrained(device=CHATTERBOX_DEVICE)
-        sr = getattr(model, "sr", 16000)
-
-        gen_sig = inspect.signature(model.generate)
-        base_kwargs = {}
-        if "audio_prompt_path" in gen_sig.parameters:
-            base_kwargs["audio_prompt_path"] = str(prompt_wav)
-        if "exaggeration" in gen_sig.parameters:
-            base_kwargs["exaggeration"] = CHATTERBOX_EXAGGERATION
-
-        chunk_paths: List[Path] = []
-        for i, chunk in enumerate(chunks, 1):
-            logging.info(f"Chatterbox: chunk {i}/{len(chunks)} ({len(chunk)} chars)")
-            wav = model.generate(chunk, **base_kwargs)
-            if hasattr(wav, "detach"):
-                wav = wav.detach().cpu()
-            if getattr(wav, "ndim", 0) == 1:
-                wav = wav.unsqueeze(0)
-            chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
-            ta.save(str(chunk_path), wav, sr)
-            chunk_paths.append(chunk_path)
-
-        concat_list = tmp_dir / "chatterbox_concat.txt"
-        with open(concat_list, "w", encoding="utf-8") as f:
-            for p in chunk_paths:
-                f.write(f"file '{p}'\n")
-
-        subprocess.run(
-            ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_list), "-ac", "1", "-c:a", "pcm_s16le", str(out_wav)],
-            check=True,
-            capture_output=True,
-        )
-
-        # Cleanup intermediate chunk files
-        try:
-            for p in chunk_paths:
-                if p.exists():
-                    p.unlink()
-            if concat_list.exists():
-                concat_list.unlink()
-            if prompt_wav.exists():
-                prompt_wav.unlink()
-        except Exception:
-            pass
-
-    # ElevenLabs helper (only used when TTS_PROVIDER == "elevenlabs")
-    VOICE_ID = ELEVEN_VOICE_ID  # Override with ELEVENLABS_VOICE_ID to swap voices
-
-    def validate_elevenlabs_auth():
-        """Fail fast with a clear message when the ElevenLabs key is rejected."""
-        resp = requests.get(f"{ELEVEN_API}/user", headers={"xi-api-key": ELEVEN_KEY}, timeout=10)
-        if resp.status_code == 401:
-            raise RuntimeError("ElevenLabs rejected the API key (401). Update ELEVENLABS_API_KEY in .env/GitHub secrets.")
-        resp.raise_for_status()
+    # ========================== ELEVENLABS TTS ==========================
+    PATRICK_VOICE_ID = "dTrBzPvD2GpAqkk1MUzA"    # High-energy Patrick
 
     @retry(
         stop=stop_after_attempt(3),
@@ -1396,11 +1196,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     )
     def speak(text: str, voice_id: str, filename: str):
         url = f"{ELEVEN_API}/text-to-speech/{voice_id}/stream"
-        headers = {
-            "xi-api-key": ELEVEN_KEY,
-            "Content-Type": "application/json",
-            "Accept": "audio/mpeg"
-        }
+        headers = {"xi-api-key": ELEVEN_KEY}
         payload = {
             "text": text + "!",
             "model_id": "eleven_turbo_v2_5",
@@ -1411,17 +1207,8 @@ Here is today's complete formatted digest. Use ONLY this content:
                 "use_speaker_boost": True
             }
         }
-        try:
-            r = requests.post(url, json=payload, headers=headers, stream=True, timeout=60)
-            if r.status_code == 401:
-                raise requests.HTTPError(
-                    "ElevenLabs returned 401 Unauthorized. Verify ELEVENLABS_API_KEY and that the voice ID is accessible to this account.",
-                    response=r,
-                )
-            r.raise_for_status()
-        except requests.HTTPError as exc:
-            logging.error("ElevenLabs TTS call failed: %s; response: %s", exc, getattr(exc.response, "text", ""))
-            raise
+        r = requests.post(url, json=payload, headers=headers, stream=True, timeout=60)
+        r.raise_for_status()
         with open(filename, "wb") as f:
             for chunk in r.iter_content(chunk_size=8192):
                 f.write(chunk)
@@ -1472,29 +1259,21 @@ Here is today's complete formatted digest. Use ONLY this content:
     full_text = " ".join(full_text_parts)
     full_text = fix_pronunciation(full_text)
 
-    # Track character count (used for reporting; cost is provider-dependent)
+    # Track character count for ElevenLabs
     credit_usage["services"]["elevenlabs_api"]["characters"] = len(full_text)
-    logging.info(f"TTS: {len(full_text)} characters to synthesize (provider={TTS_PROVIDER})")
+    logging.info(f"ElevenLabs TTS: {len(full_text)} characters to convert")
 
     # Generate voice file
-    if TTS_PROVIDER == "chatterbox":
-        logging.info("Generating voice track with Chatterbox (local model)...")
-        voice_file = tmp_dir / "patrick_full.wav"
-        _synthesize_with_chatterbox(full_text, voice_file)
-    elif TTS_PROVIDER == "elevenlabs":
-        logging.info("Generating single voice segment with ElevenLabs...")
-        validate_elevenlabs_auth()
-        voice_file = tmp_dir / "patrick_full.mp3"
-        speak(full_text, VOICE_ID, str(voice_file))
-    else:
-        raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
+    logging.info("Generating single voice segment for entire podcast...")
+    voice_file = tmp_dir / "patrick_full.mp3"
+    speak(full_text, PATRICK_VOICE_ID, str(voice_file))
     audio_files = [str(voice_file)]
     logging.info("Generated complete voice track")
 
     # ========================== FINAL MIX ==========================
-    final_mp3 = digests_dir / f"Planetterrian_Daily_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
+    final_mp3 = digests_dir / f"Fascinating_Frontiers_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
     
-    MAIN_MUSIC = project_root / "science-daily.mp3"
+    MAIN_MUSIC = project_root / "science-daily.mp3"  # Can be replaced with space-themed music if available
     
     # Process and normalize voice in one step
     voice_mix = tmp_dir / "voice_normalized_mix.mp3"
@@ -1720,13 +1499,13 @@ Here is today's complete formatted digest. Use ONLY this content:
                     pass
         
         # Set channel metadata
-        fg.title("Planetterrian Daily")
+        fg.title("Fascinating Frontiers")
         fg.link(href="https://planetterrian.com")
-        fg.description("Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion.")
+        fg.description("Daily space and astronomy news digest. Bringing the wonders of space exploration and astronomy discoveries to everyone.")
         fg.language('en-us')
         fg.copyright(f"Copyright {datetime.date.today().year}")
         fg.podcast.itunes_author("Patrick")
-        fg.podcast.itunes_summary("Daily science, longevity, and health discoveries. Technology as a force for good, sustainability, and environmental consciousness.")
+        fg.podcast.itunes_summary("Daily space and astronomy news. Curiosity, exploration, scientific accuracy, and inspiration.")
         fg.podcast.itunes_owner(name='Planetterrian Ventures', email='contact@planetterrian.com')
         fg.podcast.itunes_image(f"{base_url}/planetterrian-podcast-image.jpg")
         fg.podcast.itunes_category("Science")
@@ -1734,7 +1513,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         
         # Add existing episodes (skip if same episode number)
         current_time_str = datetime.datetime.now().strftime("%H%M%S")
-        new_episode_guid = f"planetterrian-daily-ep{episode_num:03d}-{episode_date:%Y%m%d}-{current_time_str}"
+        new_episode_guid = f"fascinating-frontiers-ep{episode_num:03d}-{episode_date:%Y%m%d}-{current_time_str}"
         
         for ep_data in episodes_by_number.values():
             ep_num_str = ep_data.get('itunes_episode', '')
@@ -1793,11 +1572,11 @@ Here is today's complete formatted digest. Use ONLY this content:
         entry.id(new_episode_guid)
         entry.title(episode_title)
         entry.description(episode_description)
-        entry.link(href=f"{base_url}/digests/planetterrian/{mp3_filename}")
+        entry.link(href=f"{base_url}/digests/fascinating_frontiers/{mp3_filename}")
         pub_date = datetime.datetime.combine(episode_date, datetime.time(8, 0, 0), tzinfo=datetime.timezone.utc)
         entry.pubDate(pub_date)
         
-        mp3_url = f"{base_url}/digests/planetterrian/{mp3_filename}"
+        mp3_url = f"{base_url}/digests/fascinating_frontiers/{mp3_filename}"
         mp3_size = mp3_path.stat().st_size if mp3_path.exists() else 0
         entry.enclosure(url=mp3_url, type="audio/mpeg", length=str(mp3_size))
         
@@ -1818,8 +1597,8 @@ Here is today's complete formatted digest. Use ONLY this content:
     if final_mp3 and final_mp3.exists():
         try:
             audio_duration = get_audio_duration(final_mp3)
-            episode_title = f"Planetterrian Daily - Episode {episode_num} - {today_str}"
-            episode_description = f"Daily science, longevity, and health discoveries for {today_str}."
+            episode_title = f"Fascinating Frontiers - Episode {episode_num} - {today_str}"
+            episode_description = f"Daily space and astronomy news for {today_str}."
             lines = x_thread.split('\n')
             for line in lines:
                 line = line.strip()
@@ -1870,7 +1649,7 @@ except Exception as e:
 save_credit_usage(credit_usage, digests_dir)
 
 print("\n" + "="*80)
-print("PLANETTERRIAN DAILY — FULLY AUTOMATED RUN COMPLETE")
+print("FASCINATING FRONTIERS — FULLY AUTOMATED RUN COMPLETE")
 print(f"X Thread → {x_path}")
 print(f"Podcast → {final_mp3}")
 print("="*80)

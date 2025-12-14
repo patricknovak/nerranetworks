@@ -1,4 +1,4 @@
-name: Planetterrian Daily
+name: Fascinating Frontiers Daily
 
 on:
   schedule:
@@ -32,27 +32,19 @@ jobs:
     - name: Install Python dependencies
       run: |
         pip install --upgrade pip
-        if [ ! -f requirements_planetterrian.txt ]; then
-          echo "❌ ERROR: requirements_planetterrian.txt not found!"
+        if [ ! -f requirements.txt ]; then
+          echo "❌ ERROR: requirements.txt not found!"
           exit 1
         fi
-        pip install -r requirements_planetterrian.txt
+        pip install -r requirements.txt
         echo "Installed packages:"
-        pip list | grep -E "(openai|tweepy|requests|python-dotenv|feedparser|torch|torchaudio|chatterbox)" || echo "Some packages may not be listed"
+        pip list | grep -E "(openai|tweepy|requests|python-dotenv|feedparser)" || echo "Some packages may not be listed"
         
     - name: Create .env file from secrets
       run: |
         echo "Creating .env file..."
         cat > .env << EOF
         GROK_API_KEY=${{ secrets.GROK_API_KEY }}
-        # TTS provider (chatterbox runs locally using a voice prompt sample)
-        PLANETTERRIAN_TTS_PROVIDER=chatterbox
-        CHATTERBOX_DEVICE=cpu
-        CHATTERBOX_EXAGGERATION=0.5
-        CHATTERBOX_MAX_CHARS=600
-        # Optional: if not provided, the script will extract a short prompt from the most recent episode MP3 in the repo
-        CHATTERBOX_VOICE_PROMPT_BASE64=${{ secrets.PLANETTERRIAN_VOICE_PROMPT_BASE64 }}
-        # Optional fallback if you switch PLANETTERRIAN_TTS_PROVIDER back to elevenlabs
         ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }}
         PLANETTERRIAN_X_CONSUMER_KEY=${{ secrets.PLANETTERRIAN_X_CONSUMER_KEY }}
         PLANETTERRIAN_X_CONSUMER_SECRET=${{ secrets.PLANETTERRIAN_X_CONSUMER_SECRET }}
@@ -66,17 +58,12 @@ jobs:
         else
           echo "✅ GROK_API_KEY is set"
         fi
-        if [ -z "${{ secrets.PLANETTERRIAN_VOICE_PROMPT_BASE64 }}" ]; then
-          echo "ℹ️  PLANETTERRIAN_VOICE_PROMPT_BASE64 is not set (optional). Will derive a voice prompt from the most recent episode MP3 in the repo."
-        else
-          echo "✅ PLANETTERRIAN_VOICE_PROMPT_BASE64 is set"
-        fi
         if [ -z "${{ secrets.ELEVENLABS_API_KEY }}" ]; then
-          echo "ℹ️  ELEVENLABS_API_KEY is not set (only needed if you switch back to ElevenLabs)"
+          echo "⚠️  WARNING: ELEVENLABS_API_KEY is not set!"
         else
-          echo "✅ ELEVENLABS_API_KEY is set (fallback)"
+          echo "✅ ELEVENLABS_API_KEY is set"
         fi
-        echo "Checking Planetterrian X API credentials..."
+        echo "Checking Planetterrian X API credentials (Fascinating Frontiers uses same account)..."
         if [ -z "${{ secrets.PLANETTERRIAN_X_CONSUMER_KEY }}" ]; then
           echo "❌ ERROR: PLANETTERRIAN_X_CONSUMER_KEY is not set!"
         else
@@ -103,13 +90,13 @@ jobs:
           echo "✅ PLANETTERRIAN_X_BEARER_TOKEN is set"
         fi
         
-    - name: Run Planetterrian Daily script
+    - name: Run Fascinating Frontiers script
       working-directory: ./digests
       run: |
         set -e  # Exit on any error
         echo "Current directory: $(pwd)"
         echo "Checking for script file..."
-        if [ ! -f planetterrian.py ]; then
+        if [ ! -f fascinating_frontiers.py ]; then
           echo "❌ ERROR: Script not found!"
           exit 1
         fi
@@ -120,8 +107,8 @@ jobs:
           exit 1
         fi
         echo "✅ .env file found"
-        echo "Running Planetterrian Daily script..."
-        python3 planetterrian.py 2>&1
+        echo "Running Fascinating Frontiers script..."
+        python3 fascinating_frontiers.py 2>&1
       env:
         # Pass through any additional environment variables if needed
         TZ: UTC
@@ -130,58 +117,58 @@ jobs:
     - name: List generated files
       run: |
         echo "Checking for generated files..."
-        echo "Files in digests/planetterrian/:"
-        ls -lah digests/planetterrian/Planetterrian_Daily_*.md digests/planetterrian/Planetterrian_Daily_Ep*.mp3 digests/planetterrian/podcast_transcript_*.txt 2>/dev/null || echo "No Planetterrian files found in digests/planetterrian/"
-        echo "Raw data files in digests/planetterrian/:"
-        ls -lah digests/planetterrian/raw_data_*.json digests/planetterrian/raw_data_*.html 2>/dev/null || echo "No raw data files found in digests/planetterrian/"
-        echo "Credit usage files in digests/planetterrian/:"
-        ls -lah digests/planetterrian/credit_usage_*.json 2>/dev/null || echo "No credit usage files found in digests/planetterrian/"
+        echo "Files in digests/fascinating_frontiers/:"
+        ls -lah digests/fascinating_frontiers/Fascinating_Frontiers_*.md digests/fascinating_frontiers/Fascinating_Frontiers_Ep*.mp3 digests/fascinating_frontiers/podcast_transcript_*.txt 2>/dev/null || echo "No Fascinating Frontiers files found in digests/fascinating_frontiers/"
+        echo "Raw data files in digests/fascinating_frontiers/:"
+        ls -lah digests/fascinating_frontiers/raw_data_*.json digests/fascinating_frontiers/raw_data_*.html 2>/dev/null || echo "No raw data files found in digests/fascinating_frontiers/"
+        echo "Credit usage files in digests/fascinating_frontiers/:"
+        ls -lah digests/fascinating_frontiers/credit_usage_*.json 2>/dev/null || echo "No credit usage files found in digests/fascinating_frontiers/"
         echo "RSS feed file:"
-        ls -lah planetterrian_podcast.rss 2>/dev/null || echo "RSS feed file not found"
+        ls -lah fascinating_frontiers_podcast.rss 2>/dev/null || echo "RSS feed file not found"
         
     - name: Commit and push generated files
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        echo "📦 Staging all Planetterrian Daily generated files..."
+        echo "📦 Staging all Fascinating Frontiers generated files..."
         
-        # Add Planetterrian Daily digest (X thread)
-        git add digests/planetterrian/Planetterrian_Daily_*.md 2>/dev/null || true
+        # Add Fascinating Frontiers digest (X thread)
+        git add digests/fascinating_frontiers/Fascinating_Frontiers_*.md 2>/dev/null || true
         
         # Add podcast audio files
-        git add digests/planetterrian/Planetterrian_Daily_Ep*.mp3 2>/dev/null || true
+        git add digests/fascinating_frontiers/Fascinating_Frontiers_Ep*.mp3 2>/dev/null || true
         
         # Add podcast transcript
-        git add digests/planetterrian/podcast_transcript_*.txt 2>/dev/null || true
+        git add digests/fascinating_frontiers/podcast_transcript_*.txt 2>/dev/null || true
         
         # Add raw data files (JSON and HTML)
-        git add digests/planetterrian/raw_data_*.json digests/planetterrian/raw_data_*.html 2>/dev/null || true
+        git add digests/fascinating_frontiers/raw_data_*.json digests/fascinating_frontiers/raw_data_*.html 2>/dev/null || true
         
         # Add credit usage files (cost tracking)
-        git add digests/planetterrian/credit_usage_*.json 2>/dev/null || true
+        git add digests/fascinating_frontiers/credit_usage_*.json 2>/dev/null || true
         
         # ALWAYS add RSS feed file (even if it was just updated, not new)
-        git add planetterrian_podcast.rss 2>/dev/null || true
+        git add fascinating_frontiers_podcast.rss 2>/dev/null || true
         
         echo "📋 Staged files:"
         git diff --staged --name-only || echo "No files staged"
         
         # Check if RSS feed has changes (even if not staged, it might have been modified)
-        if git diff --name-only | grep -q "planetterrian_podcast.rss" || git diff --staged --name-only | grep -q "planetterrian_podcast.rss"; then
+        if git diff --name-only | grep -q "fascinating_frontiers_podcast.rss" || git diff --staged --name-only | grep -q "fascinating_frontiers_podcast.rss"; then
           echo "📡 RSS feed has changes - will be committed"
         fi
         
         # Check if there are any changes to commit
-        if ! git diff --staged --quiet || ! git diff --quiet planetterrian_podcast.rss; then
+        if ! git diff --staged --quiet || ! git diff --quiet fascinating_frontiers_podcast.rss; then
           # If RSS feed has changes but isn't staged, stage it
-          if ! git diff --staged --name-only | grep -q "planetterrian_podcast.rss"; then
-            git add planetterrian_podcast.rss
+          if ! git diff --staged --name-only | grep -q "fascinating_frontiers_podcast.rss"; then
+            git add fascinating_frontiers_podcast.rss
             echo "📡 Staged RSS feed changes"
           fi
           
           echo "💾 Committing files..."
-          git commit -m "Auto-generated: Planetterrian Daily $(date +%Y-%m-%d)" || echo "Commit failed (may be empty)"
+          git commit -m "Auto-generated: Fascinating Frontiers $(date +%Y-%m-%d)" || echo "Commit failed (may be empty)"
           
           echo "🚀 Pushing to repository..."
           git push || echo "Push failed"
@@ -192,7 +179,7 @@ jobs:
           echo "  ✓ Daily digest (X thread)"
           echo "  ✓ Posted to X (@planetterrian)"
           echo "  ✓ Podcast script generated"
-          echo "  ✓ Podcast audio created (Chatterbox TTS)"
+          echo "  ✓ Podcast audio created (ElevenLabs)"
           echo "  ✓ RSS feed updated"
           echo "  ✓ Credit usage file generated"
         else

@@ -4,10 +4,10 @@
 
 The Planetterrian Daily system is now **fully automated** via GitHub Actions. Every day, the workflow will:
 
-1. ✅ **Generate Daily Digest** - Fetch science/longevity/health news from RSS feeds and X posts
+1. ✅ **Generate Daily Digest** - Fetch science/longevity/health news from RSS feeds (X posts currently disabled)
 2. ✅ **Post to X** - Automatically post the digest to @planetterrian
 3. ✅ **Generate Podcast Script** - Create natural podcast script using Grok AI
-4. ✅ **Create Podcast Audio** - Generate audio using ElevenLabs TTS (Patrick's voice)
+4. ✅ **Create Podcast Audio** - Generate audio using Chatterbox TTS (local) with your cloned voice prompt
 5. ✅ **Update RSS Feed** - Add new episode to `planetterrian_podcast.rss`
 6. ✅ **Generate Cost File** - Track and save API usage/costs to JSON file
 7. ✅ **Commit & Push** - Automatically commit all files to GitHub
@@ -23,24 +23,26 @@ You can also manually trigger it:
 
 All secrets are already configured:
 - ✅ `GROK_API_KEY` (shared with Tesla show)
-- ✅ `ELEVENLABS_API_KEY` (shared with Tesla show)
+- ✅ `PLANETTERRIAN_VOICE_PROMPT_BASE64` (required for Chatterbox voice cloning)
 - ✅ `PLANETTERRIAN_X_CONSUMER_KEY`
 - ✅ `PLANETTERRIAN_X_CONSUMER_SECRET`
 - ✅ `PLANETTERRIAN_X_ACCESS_TOKEN`
 - ✅ `PLANETTERRIAN_X_ACCESS_TOKEN_SECRET`
 - ✅ `PLANETTERRIAN_X_BEARER_TOKEN`
 
+Optional (fallback only):
+- `ELEVENLABS_API_KEY` (only if you switch `PLANETTERRIAN_TTS_PROVIDER=elevenlabs`)
+
 ## 📁 Generated Files
 
 After each run, these files are automatically committed to the repository:
 
-### In `digests/` directory:
+### In `digests/planetterrian/` directory:
 - `Planetterrian_Daily_YYYYMMDD.md` - The X thread/digest
-- `Planetterrian_Daily_Pod_EpXXX_YYYYMMDD.mp3` - Podcast audio file
+- `Planetterrian_Daily_EpXXX_YYYYMMDD.mp3` - Podcast audio file
 - `podcast_transcript_YYYYMMDD.txt` - Podcast script/transcript
-- `planetterrian_raw_data_YYYYMMDD.json` - Raw news articles and X posts data
-- `planetterrian_raw_data_YYYYMMDD.html` - HTML view of raw data
-- `planetterrian_raw_data_index.html` - Index page for raw data archive
+- `raw_data_YYYY-MM-DD.json` - Raw news articles (and X posts if enabled)
+- `raw_data_YYYY-MM-DD.html` - HTML view of raw data (optional)
 - `credit_usage_YYYY-MM-DD_epXXX.json` - API usage and cost tracking
 
 ### In root directory:
@@ -103,7 +105,7 @@ The script (`digests/planetterrian.py`) is configured for full automation:
 
 Each run generates a `credit_usage_YYYY-MM-DD_epXXX.json` file with:
 - Grok API token usage and costs
-- ElevenLabs character usage and costs
+- TTS character usage (and cost if using a paid provider; Chatterbox local runs show $0)
 - X API call counts
 - Total estimated cost
 
