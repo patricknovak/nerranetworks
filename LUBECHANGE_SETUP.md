@@ -1,7 +1,7 @@
 # Lube Change - Oilers Daily News Setup Guide
 
 ## Overview
-Lube Change is a daily podcast covering Edmonton Oilers news, hosted by Jason Potter from Hinton, Alberta. The podcast is fully automated, fetching news from RSS feeds, generating content with Grok AI, and creating audio with Cartesia TTS.
+Lube Change is a daily podcast covering Edmonton Oilers news, hosted by Jason Potter from Hinton, Alberta. The podcast is fully automated, fetching news from RSS feeds, generating content with Grok AI, and creating audio with Chatterbox (local) or ElevenLabs TTS.
 
 ## Prerequisites
 - Python 3.8+
@@ -13,7 +13,11 @@ Lube Change is a daily podcast covering Edmonton Oilers news, hosted by Jason Po
 
 ### 1. Install Dependencies
 ```bash
-pip install -r requirements.txt
+# Podcast (default: Chatterbox local TTS)
+pip install -r requirements_planetterrian.txt
+
+# Digest-only (no podcast audio)
+# pip install -r requirements.txt
 ```
 
 ### 2. Environment Variables
@@ -23,8 +27,23 @@ Add the following to your `.env` file:
 # Grok API (for content generation)
 GROK_API_KEY=your_grok_api_key_here
 
-# Cartesia API (for text-to-speech) - REQUIRED when ENABLE_PODCAST is True
-CARTESIA_API_KEY=your_cartesia_api_key_here
+# TTS (text-to-speech)
+# - chatterbox (default): local model (requires torch/torchaudio/chatterbox-tts)
+# - elevenlabs: ElevenLabs API (requires ELEVENLABS_API_KEY)
+LUBECHANGE_TTS_PROVIDER=chatterbox
+
+# Chatterbox (local voice cloning) config (only used when provider is chatterbox)
+# Install deps with: pip install -r requirements_planetterrian.txt
+CHATTERBOX_DEVICE=cpu
+CHATTERBOX_EXAGGERATION=0.5
+CHATTERBOX_MAX_CHARS=600
+# Optional: if not provided, the script will extract a short prompt from the most recent episode MP3 in the repo
+# CHATTERBOX_VOICE_PROMPT_PATH=/absolute/path/to/prompt.mp3
+# CHATTERBOX_VOICE_PROMPT_BASE64=base64_audio_blob_here
+
+# ElevenLabs (API) config (only used when provider is elevenlabs)
+# ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
+# ELEVENLABS_VOICE_ID=optional_voice_id_here
 
 # X/Twitter API (for posting - optional, reusing planetterrian credentials for now)
 PLANETTERRIAN_X_CONSUMER_KEY=your_consumer_key
@@ -39,7 +58,7 @@ The script will automatically create:
 - `digests/lubechange/` - For episode files, transcripts, and credit usage tracking
 
 ### 4. Music File (Optional)
-Place a music file named `oilers-pride.mp3` in the project root for background music. If not present, the podcast will be voice-only.
+Place a music file named `LubechangeOilers.mp3` in the project root for background music. If not present, the podcast will be voice-only.
 
 ### 5. Podcast Image
 Create or add `lubechange-podcast-image.jpg` in the project root for the RSS feed.
@@ -119,7 +138,7 @@ For the workflow to run automatically, you need to add the following secrets to 
 3. Click **New repository secret** and add:
 
    - `GROK_API_KEY` - Your Grok API key
-   - `CARTESIA_API_KEY` - Your Cartesia API key (REQUIRED when ENABLE_PODCAST is True)
+   - `ELEVENLABS_API_KEY` - Optional (only needed if you use `LUBECHANGE_TTS_PROVIDER=elevenlabs`)
    - `PLANETTERRIAN_X_CONSUMER_KEY` - X/Twitter consumer key (for posting)
    - `PLANETTERRIAN_X_CONSUMER_SECRET` - X/Twitter consumer secret
    - `PLANETTERRIAN_X_ACCESS_TOKEN` - X/Twitter access token
@@ -155,19 +174,20 @@ You can manually trigger the workflow:
 - Each run will show logs and any errors
 - Generated files will be automatically committed to the repository
 
-## Cartesia TTS
+## TTS Providers
 
-The script uses Cartesia for text-to-speech. The default voice ID is set, but you can customize it:
+The script supports:
 
-1. Get available voices from Cartesia API
-2. Update `CARTESIA_VOICE_ID` in the script
+1. **Chatterbox (local TTS + voice cloning)**: install `requirements_planetterrian.txt` (includes `torch`, `torchaudio`, `chatterbox-tts`).
+2. **ElevenLabs (API TTS)**: set `ELEVENLABS_API_KEY` and optionally `ELEVENLABS_VOICE_ID`, and use `LUBECHANGE_TTS_PROVIDER=elevenlabs`.
 
 ## Troubleshooting
 
 ### Audio Issues
 - Ensure ffmpeg is installed and in PATH
 - Check that audio files have proper permissions
-- Verify Cartesia API key is correct
+- If using Chatterbox: verify `torch`, `torchaudio`, and `chatterbox-tts` are installed
+- If using ElevenLabs: verify `ELEVENLABS_API_KEY` is correct
 
 ### RSS Feed Issues
 - Ensure the RSS feed file is writable
@@ -183,7 +203,7 @@ The script uses Cartesia for text-to-speech. The default voice ID is set, but yo
 
 Each run generates a credit usage JSON file tracking:
 - Grok API tokens and costs
-- Cartesia API characters and costs
+- TTS characters and costs
 - X API calls
 
 Review these files to monitor costs.
