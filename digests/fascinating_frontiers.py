@@ -34,7 +34,7 @@ import shutil
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[logging.StreamHandler()]
+    handlers=[logging.StreamHandler(sys.stdout)]
 )
 
 # ========================== CONFIGURATION ==========================
@@ -210,11 +210,32 @@ if not env_path.exists():
 
 load_dotenv(dotenv_path=env_path)
 
-# Required keys (X credentials for @planetterrian account - same as planetterrian.py)
-required = [
-    "GROK_API_KEY", 
-    "ELEVENLABS_API_KEY"
-]
+# ========================== TTS PROVIDER ==========================
+def _normalize_tts_provider(value: str) -> str:
+    v = (value or "").strip().lower()
+    if not v:
+        return "chatterbox"
+    if v in {"elevenlabs", "eleven", "11labs", "11-labs"}:
+        return "elevenlabs"
+    if v in {"chatterbox", "chatterbox-tts", "chatterbox_tts", "cb"}:
+        return "chatterbox"
+    return v
+
+TTS_PROVIDER = _normalize_tts_provider(os.getenv("FASCINATING_FRONTIERS_TTS_PROVIDER", "chatterbox"))
+
+# Required keys
+required = ["GROK_API_KEY"]
+
+if ENABLE_PODCAST and not TEST_MODE:
+    if TTS_PROVIDER == "elevenlabs":
+        required.append("ELEVENLABS_API_KEY")
+    elif TTS_PROVIDER == "chatterbox":
+        # Local model, no API key required. Voice prompt can be derived from Planetterrian episodes.
+        pass
+    else:
+        raise OSError(
+            f"Unknown FASCINATING_FRONTIERS_TTS_PROVIDER '{TTS_PROVIDER}'. Use 'chatterbox' or 'elevenlabs'."
+        )
 if ENABLE_X_POSTING:
     required.extend([
         "PLANETTERRIAN_X_CONSUMER_KEY",
@@ -226,6 +247,13 @@ if ENABLE_X_POSTING:
 for var in required:
     if not os.getenv(var):
         raise OSError(f"Missing {var} in .env")
+
+# Chatterbox voice cloning can use either an explicit prompt (path/base64) OR fall back to a prior Planetterrian episode audio.
+if ENABLE_PODCAST and not TEST_MODE and TTS_PROVIDER == "chatterbox":
+    if not os.getenv("CHATTERBOX_VOICE_PROMPT_PATH") and not os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64"):
+        logging.info(
+            "Chatterbox voice prompt not provided via env; will attempt to derive a prompt from an existing Planetterrian episode MP3."
+        )
 
 # ========================== DATE ==========================
 # Get current date and time in PST
@@ -305,6 +333,7 @@ credit_usage = {
             "total_cost_usd": 0.0
         },
         "elevenlabs_api": {
+            "provider": TTS_PROVIDER,
             "characters": 0,
             "estimated_cost_usd": 0.0
         },
@@ -336,8 +365,12 @@ def save_credit_usage(usage_data: dict, output_dir: Path):
             usage_data["services"]["x_api"]["post_calls"]
         )
         
-        # Calculate total cost (ElevenLabs pricing: ~$0.30 per 1000 characters for turbo model)
-        elevenlabs_cost = (usage_data["services"]["elevenlabs_api"]["characters"] / 1000) * 0.30
+        # Calculate TTS cost (only applies if using a paid API provider like ElevenLabs)
+        tts_provider = str(usage_data["services"]["elevenlabs_api"].get("provider", "elevenlabs")).strip().lower()
+        if tts_provider == "elevenlabs":
+            elevenlabs_cost = (usage_data["services"]["elevenlabs_api"]["characters"] / 1000) * 0.30
+        else:
+            elevenlabs_cost = 0.0
         usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = elevenlabs_cost
         
         usage_data["total_estimated_cost_usd"] = (
@@ -361,7 +394,7 @@ def save_credit_usage(usage_data: dict, output_dir: Path):
         logging.info(f"Grok API (X Thread): {usage_data['services']['grok_api']['x_thread_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['x_thread_generation']['estimated_cost_usd']:.4f})")
         logging.info(f"Grok API (Podcast Script): {usage_data['services']['grok_api']['podcast_script_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['podcast_script_generation']['estimated_cost_usd']:.4f})")
         logging.info(f"Grok API Total: {usage_data['services']['grok_api']['total_tokens']} tokens (${usage_data['services']['grok_api']['total_cost_usd']:.4f})")
-        logging.info(f"ElevenLabs API: {usage_data['services']['elevenlabs_api']['characters']} characters (${usage_data['services']['elevenlabs_api']['estimated_cost_usd']:.4f})")
+        logging.info(f"TTS ({usage_data['services']['elevenlabs_api'].get('provider', 'unknown')}): {usage_data['services']['elevenlabs_api']['characters']} characters (${usage_data['services']['elevenlabs_api']['estimated_cost_usd']:.4f})")
         logging.info(f"X API: {usage_data['services']['x_api']['total_calls']} API calls (search: {usage_data['services']['x_api']['search_calls']}, post: {usage_data['services']['x_api']['post_calls']})")
         logging.info(f"TOTAL ESTIMATED COST: ${usage_data['total_estimated_cost_usd']:.4f}")
         logging.info("="*80)
@@ -380,7 +413,49 @@ client = OpenAI(
     timeout=300.0  # 5 minute timeout for API calls
 )
 ELEVEN_API = "https://api.elevenlabs.io/v1"
-ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
+ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY", "").strip()
+ELEVEN_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "dTrBzPvD2GpAqkk1MUzA").strip()
+
+def _env_float(name: str, default: float) -> float:
+    raw = os.getenv(name)
+    if raw is None or not str(raw).strip():
+        return default
+    try:
+        return float(str(raw).strip())
+    except ValueError:
+        logging.warning(f"Invalid {name}='{raw}' (expected float). Using default {default}.")
+        return default
+
+def _env_int(name: str, default: int) -> int:
+    raw = os.getenv(name)
+    if raw is None or not str(raw).strip():
+        return default
+    try:
+        return int(str(raw).strip())
+    except ValueError:
+        logging.warning(f"Invalid {name}='{raw}' (expected int). Using default {default}.")
+        return default
+
+def _env_bool(name: str, default: bool) -> bool:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    v = str(raw).strip().lower()
+    if v in {"1", "true", "t", "yes", "y", "on"}:
+        return True
+    if v in {"0", "false", "f", "no", "n", "off"}:
+        return False
+    return default
+
+# Chatterbox (local) TTS config (shared with Planetterrian)
+CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
+CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
+CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 1000)
+CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
+CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
+CHATTERBOX_VOICE_PROMPT_BASE64 = os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64", "").strip()
+CHATTERBOX_PROMPT_OFFSET_SECONDS = _env_float("CHATTERBOX_PROMPT_OFFSET_SECONDS", 35.0)
+CHATTERBOX_PROMPT_DURATION_SECONDS = _env_float("CHATTERBOX_PROMPT_DURATION_SECONDS", 10.0)
 
 # ========================== STEP 1: FETCH SPACE & ASTRONOMY NEWS FROM RSS FEEDS ==========================
 logging.info("Step 1: Fetching space and astronomy news from RSS feeds for the last 24 hours...")
@@ -987,6 +1062,7 @@ You are an elite space and astronomy news curator producing the daily "Fascinati
 
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
 - **News**: You MUST select EXACTLY 15 unique articles. If you have fewer than 15 available, use ALL of them and number them 1 through N. If you have more than 15, select the BEST 15. Prioritize high-quality sources; each must cover a DIFFERENT story/angle.
+- **Curation**: Prefer concrete mission updates, discoveries, research results, and instrument/launch milestones. Avoid “year in review”, listicles, awards, or opinion pieces unless you truly cannot fill 15 without them.
 - **NO X POSTS**: Do NOT include any X posts, Twitter posts, or social media references. Only use news articles.
 - **Diversity Check**: Verify no similar content; each item must cover a DIFFERENT angle.
 
@@ -995,27 +1071,32 @@ You are an elite space and astronomy news curator producing the daily "Fascinati
 **Date:** {today_str}
 🚀 **Fascinating Frontiers** - Space & Astronomy News
 
+**Quick scan:** 1 short sentence theme + “If you only read 3 today: #A, #B, #C.”
+
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Space & Astronomy Stories
-1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM PST, Source Name**  
-   2–4 sentences: Start with what happened, explain why it matters for space exploration/astronomy/our understanding of the cosmos. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
+1. **Title (<= 12 words): DD Month YYYY • Source Name**  
+   2 sentences max. Sentence 1: what happened (specific + concrete). Sentence 2: why it matters for space exploration/astronomy/our understanding of the cosmos. Avoid filler.
+   Source: [EXACT URL FROM PRE-FETCHED—no mods]
 2. [Repeat format for 3-15; if <15 items, stop at available count, add a blank line after each item]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Cosmic Spotlight
-One breakthrough discovery or mission update that represents the cutting edge of space exploration or astronomy. Explain why this matters for our understanding of the universe and humanity's future in space.
+Pick ONE item from the Top 15 and go deeper (3–5 sentences). Make it vivid but grounded: what it reveals, how we know, and what could come next. End with ONE question to invite replies.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Daily Inspiration
 One inspiring quote about space, exploration, astronomy, or the cosmos. End with: "Share your thoughts with us!"
 
-[2-3 sentence uplifting sign-off on space exploration, cosmic discoveries, and humanity's journey to the stars.]
+[1-2 sentence uplifting sign-off on space exploration, cosmic discoveries, and humanity's journey to the stars. Keep it punchy.]
 
 ### TONE & STYLE
 - Inspirational, awe-inspiring, accessible, exciting
 - Focus on the wonder and significance of space discoveries
 - Emphasize exploration, discovery, and humanity's cosmic journey
-- Timestamps: Accurate PST/PDT
+- Avoid repetitive phrasing like “This matters…” on every item — vary your language
+- Be scannable: short sentences, no fluff
+- Dates should be accurate PST/PDT; avoid exact HH:MM unless it materially matters
 
 Output today's edition exactly as formatted.
 """
@@ -1125,6 +1206,7 @@ RULES:
 - Use natural dates ("today", "this morning") not exact timestamps
 - Enunciate all numbers clearly
 - Use ONLY information from the digest below - nothing else
+- Make it sound like a real solo pod: vivid but concise, no robotic repetition
 - Emphasize the wonder and significance of space discoveries
 - Focus on exploration, discovery, and humanity's cosmic journey
 
@@ -1132,8 +1214,10 @@ SCRIPT STRUCTURE:
 [Intro music - 10 seconds]
 Patrick: Welcome to Fascinating Frontiers, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada, bringing you today's most exciting space and astronomy news. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now let's journey to the stars with today's discoveries.
 
+Patrick: Quick scan before we dive in—three stories to watch today, then we’ll go through the full list in order.
+
 [Narrate EVERY item from the digest in order - no skipping]
-- For each news item: Read the title with enthusiasm, then explain the discovery and why it matters for space exploration and our understanding of the cosmos
+- For each news item: Read the title with energy, then summarize in 2–4 lines: what happened, why it matters, and one “what to watch next” angle
 - Cosmic Spotlight: Explain why this breakthrough represents the cutting edge of space exploration
 - Daily Inspiration: Read the quote verbatim, add one encouraging sentence
 
@@ -1186,8 +1270,206 @@ Here is today's complete formatted digest. Use ONLY this content:
         f.write(f"# Fascinating Frontiers – The Pod | Ep {episode_num} | {today_str}\n\n{podcast_script}")
     logging.info("Natural podcast script generated")
 
-    # ========================== ELEVENLABS TTS ==========================
-    PATRICK_VOICE_ID = "dTrBzPvD2GpAqkk1MUzA"    # High-energy Patrick
+    # ========================== TTS (VOICE) ==========================
+    logging.info(f"TTS provider selected: {TTS_PROVIDER}")
+
+    def _chunk_text(text: str, max_chars: int) -> List[str]:
+        """Split long text into chunks for local TTS models."""
+        cleaned = re.sub(r"\s+", " ", (text or "")).strip()
+        if not cleaned:
+            return []
+        if max_chars <= 0 or len(cleaned) <= max_chars:
+            return [cleaned]
+
+        chunks: List[str] = []
+        start = 0
+        n = len(cleaned)
+        while start < n:
+            end = min(start + max_chars, n)
+            window = cleaned[start:end]
+
+            # Prefer cutting at sentence boundaries; fall back to commas; then hard cut.
+            candidates = [window.rfind("."), window.rfind("!"), window.rfind("?"), window.rfind(";"), window.rfind(":")]
+            cut = max(candidates)
+            if cut < int(max_chars * 0.5):
+                cut = window.rfind(",")
+            if cut < int(max_chars * 0.5):
+                cut = len(window) - 1
+
+            piece = window[: cut + 1].strip()
+            if piece:
+                chunks.append(piece)
+            start += cut + 1
+
+        return chunks
+
+    def _prepare_chatterbox_voice_prompt(tmp_dir: Path) -> Path:
+        """
+        Return a local WAV file suitable for Chatterbox's audio_prompt_path.
+        Supports either a direct path, base64 prompt, or (default) deriving from a Planetterrian episode MP3.
+        """
+        import base64
+
+        created_src = False
+        episode_mode = False
+
+        if CHATTERBOX_VOICE_PROMPT_PATH:
+            src = Path(CHATTERBOX_VOICE_PROMPT_PATH).expanduser()
+        elif CHATTERBOX_VOICE_PROMPT_BASE64:
+            raw = base64.b64decode(CHATTERBOX_VOICE_PROMPT_BASE64)
+            src = tmp_dir / "chatterbox_voice_prompt_input.mp3"
+            src.write_bytes(raw)
+            created_src = True
+        else:
+            # Default: use the most recent Planetterrian episode audio as the voice prompt
+            planetterrian_dir = project_root / "digests" / "planetterrian"
+            candidates = sorted(
+                list(planetterrian_dir.glob("Planetterrian_Daily_Ep*.mp3")),
+                key=lambda p: p.stat().st_mtime,
+                reverse=True,
+            )
+            if not candidates:
+                # Fallback to Fascinating Frontiers episodes if Planetterrian has none yet
+                candidates = sorted(
+                    list(digests_dir.glob("Fascinating_Frontiers_Ep*.mp3")),
+                    key=lambda p: p.stat().st_mtime,
+                    reverse=True,
+                )
+            if not candidates:
+                raise RuntimeError(
+                    "No episode MP3s found to derive a Chatterbox voice prompt. "
+                    "Run Planetterrian at least once (recommended), or set "
+                    "CHATTERBOX_VOICE_PROMPT_PATH / CHATTERBOX_VOICE_PROMPT_BASE64."
+                )
+            src = candidates[0]
+            episode_mode = True
+            logging.info(f"Chatterbox voice prompt: deriving from episode audio: {src.name}")
+
+        if not src.exists():
+            raise FileNotFoundError(f"Chatterbox voice prompt source not found: {src}")
+
+        prompt_wav = tmp_dir / "chatterbox_voice_prompt.wav"
+
+        if episode_mode:
+            subprocess.run(
+                [
+                    "ffmpeg",
+                    "-y",
+                    "-ss",
+                    f"{CHATTERBOX_PROMPT_OFFSET_SECONDS:.2f}",
+                    "-t",
+                    f"{CHATTERBOX_PROMPT_DURATION_SECONDS:.2f}",
+                    "-i",
+                    str(src),
+                    "-ac",
+                    "1",
+                    "-ar",
+                    "16000",
+                    "-c:a",
+                    "pcm_s16le",
+                    str(prompt_wav),
+                ],
+                check=True,
+                capture_output=True,
+            )
+        else:
+            subprocess.run(
+                ["ffmpeg", "-y", "-i", str(src), "-ac", "1", "-ar", "16000", "-c:a", "pcm_s16le", str(prompt_wav)],
+                check=True,
+                capture_output=True,
+            )
+
+        if created_src:
+            try:
+                src.unlink()
+            except Exception:
+                pass
+
+        return prompt_wav
+
+    def _synthesize_with_chatterbox(text: str, out_wav: Path):
+        """Generate a single WAV voice track using the local Chatterbox model + a voice prompt."""
+        import inspect
+        import contextlib
+
+        try:
+            import torch  # noqa: F401
+            import torchaudio as ta
+            from chatterbox.tts import ChatterboxTTS
+        except Exception as exc:
+            raise RuntimeError(
+                "Chatterbox dependencies missing. Install requirements (torch, torchaudio, chatterbox-tts)."
+            ) from exc
+
+        prompt_wav = _prepare_chatterbox_voice_prompt(tmp_dir)
+        chunks = _chunk_text(text, CHATTERBOX_MAX_CHARS)
+        if not chunks:
+            raise RuntimeError("No text provided for TTS.")
+
+        logging.info(f"Chatterbox: generating {len(chunks)} chunks (max {CHATTERBOX_MAX_CHARS} chars each) on device={CHATTERBOX_DEVICE}")
+
+        model = ChatterboxTTS.from_pretrained(device=CHATTERBOX_DEVICE)
+        sr = getattr(model, "sr", 16000)
+
+        gen_sig = inspect.signature(model.generate)
+        base_kwargs = {}
+        if "audio_prompt_path" in gen_sig.parameters:
+            base_kwargs["audio_prompt_path"] = str(prompt_wav)
+        if "exaggeration" in gen_sig.parameters:
+            base_kwargs["exaggeration"] = CHATTERBOX_EXAGGERATION
+
+        chunk_paths: List[Path] = []
+        for i, chunk in enumerate(chunks, 1):
+            logging.info(f"Chatterbox: chunk {i}/{len(chunks)} ({len(chunk)} chars)")
+            with open(os.devnull, "w") as devnull:
+                redir = (
+                    contextlib.redirect_stdout(devnull),
+                    contextlib.redirect_stderr(devnull),
+                ) if CHATTERBOX_QUIET else ()
+                with contextlib.ExitStack() as stack:
+                    for ctx in redir:
+                        stack.enter_context(ctx)
+                    wav = model.generate(chunk, **base_kwargs)
+            if hasattr(wav, "detach"):
+                wav = wav.detach().cpu()
+            if getattr(wav, "ndim", 0) == 1:
+                wav = wav.unsqueeze(0)
+            chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
+            ta.save(str(chunk_path), wav, sr)
+            chunk_paths.append(chunk_path)
+
+        concat_list = tmp_dir / "chatterbox_concat.txt"
+        with open(concat_list, "w", encoding="utf-8") as f:
+            for p in chunk_paths:
+                f.write(f"file '{p}'\n")
+
+        subprocess.run(
+            ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_list), "-ac", "1", "-c:a", "pcm_s16le", str(out_wav)],
+            check=True,
+            capture_output=True,
+        )
+
+        # Cleanup intermediate chunk files
+        try:
+            for p in chunk_paths:
+                if p.exists():
+                    p.unlink()
+            if concat_list.exists():
+                concat_list.unlink()
+            if prompt_wav.exists():
+                prompt_wav.unlink()
+        except Exception:
+            pass
+
+    # ElevenLabs helper (only used when TTS_PROVIDER == "elevenlabs")
+    VOICE_ID = ELEVEN_VOICE_ID
+
+    def validate_elevenlabs_auth():
+        """Fail fast with a clear message when the ElevenLabs key is rejected."""
+        resp = requests.get(f"{ELEVEN_API}/user", headers={"xi-api-key": ELEVEN_KEY}, timeout=10)
+        if resp.status_code == 401:
+            raise RuntimeError("ElevenLabs rejected the API key (401). Update ELEVENLABS_API_KEY in .env/GitHub secrets.")
+        resp.raise_for_status()
 
     @retry(
         stop=stop_after_attempt(3),
@@ -1196,7 +1478,11 @@ Here is today's complete formatted digest. Use ONLY this content:
     )
     def speak(text: str, voice_id: str, filename: str):
         url = f"{ELEVEN_API}/text-to-speech/{voice_id}/stream"
-        headers = {"xi-api-key": ELEVEN_KEY}
+        headers = {
+            "xi-api-key": ELEVEN_KEY,
+            "Content-Type": "application/json",
+            "Accept": "audio/mpeg"
+        }
         payload = {
             "text": text + "!",
             "model_id": "eleven_turbo_v2_5",
@@ -1207,8 +1493,17 @@ Here is today's complete formatted digest. Use ONLY this content:
                 "use_speaker_boost": True
             }
         }
-        r = requests.post(url, json=payload, headers=headers, stream=True, timeout=60)
-        r.raise_for_status()
+        try:
+            r = requests.post(url, json=payload, headers=headers, stream=True, timeout=60)
+            if r.status_code == 401:
+                raise requests.HTTPError(
+                    "ElevenLabs returned 401 Unauthorized. Verify ELEVENLABS_API_KEY and that the voice ID is accessible to this account.",
+                    response=r,
+                )
+            r.raise_for_status()
+        except requests.HTTPError as exc:
+            logging.error("ElevenLabs TTS call failed: %s; response: %s", exc, getattr(exc.response, "text", ""))
+            raise
         with open(filename, "wb") as f:
             for chunk in r.iter_content(chunk_size=8192):
                 f.write(chunk)
@@ -1259,14 +1554,23 @@ Here is today's complete formatted digest. Use ONLY this content:
     full_text = " ".join(full_text_parts)
     full_text = fix_pronunciation(full_text)
 
-    # Track character count for ElevenLabs
+    # Track character count (used for reporting; cost is provider-dependent)
     credit_usage["services"]["elevenlabs_api"]["characters"] = len(full_text)
-    logging.info(f"ElevenLabs TTS: {len(full_text)} characters to convert")
+    credit_usage["services"]["elevenlabs_api"]["provider"] = TTS_PROVIDER
+    logging.info(f"TTS: {len(full_text)} characters to synthesize (provider={TTS_PROVIDER})")
 
     # Generate voice file
-    logging.info("Generating single voice segment for entire podcast...")
-    voice_file = tmp_dir / "patrick_full.mp3"
-    speak(full_text, PATRICK_VOICE_ID, str(voice_file))
+    if TTS_PROVIDER == "chatterbox":
+        logging.info("Generating voice track with Chatterbox (local model)...")
+        voice_file = tmp_dir / "patrick_full.wav"
+        _synthesize_with_chatterbox(full_text, voice_file)
+    elif TTS_PROVIDER == "elevenlabs":
+        logging.info("Generating single voice segment with ElevenLabs...")
+        validate_elevenlabs_auth()
+        voice_file = tmp_dir / "patrick_full.mp3"
+        speak(full_text, VOICE_ID, str(voice_file))
+    else:
+        raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
     audio_files = [str(voice_file)]
     logging.info("Generated complete voice track")
 

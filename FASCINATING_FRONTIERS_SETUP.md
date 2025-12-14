@@ -20,8 +20,19 @@ Add these to your `.env` file (uses the same APIs as planetterrian.py):
 # Grok API (same as Tesla show and Planetterrian)
 GROK_API_KEY=your_grok_api_key
 
-# ElevenLabs API (same as Tesla show and Planetterrian)
-ELEVENLABS_API_KEY=your_elevenlabs_api_key
+# TTS (Chatterbox local voice cloning; defaults to using Planetterrian episode MP3s as the voice prompt)
+FASCINATING_FRONTIERS_TTS_PROVIDER=chatterbox
+CHATTERBOX_DEVICE=cpu
+CHATTERBOX_MAX_CHARS=1000
+CHATTERBOX_QUIET=1
+
+# Optional: provide a prompt directly instead of deriving it from Planetterrian episodes
+# CHATTERBOX_VOICE_PROMPT_PATH=/absolute/path/to/your_voice_sample.(wav|mp3)
+# CHATTERBOX_VOICE_PROMPT_BASE64=...
+
+# Optional fallback: ElevenLabs (only needed if you switch FASCINATING_FRONTIERS_TTS_PROVIDER=elevenlabs)
+# ELEVENLABS_API_KEY=your_elevenlabs_api_key
+# ELEVENLABS_VOICE_ID=your_elevenlabs_voice_id  # optional
 
 # X API credentials for @planetterrian account (same as Planetterrian - posts to same account)
 PLANETTERRIAN_X_CONSUMER_KEY=your_consumer_key
@@ -40,7 +51,9 @@ If you want to run Fascinating Frontiers automatically via GitHub Actions, add t
 
 **Required Secrets:**
 - `GROK_API_KEY` - Your Grok/X.AI API key (shared with Tesla show and Planetterrian)
-- `ELEVENLABS_API_KEY` - Your ElevenLabs API key (shared with Tesla show and Planetterrian)
+
+Optional (fallback only):
+- `ELEVENLABS_API_KEY` - Only needed if you switch `FASCINATING_FRONTIERS_TTS_PROVIDER=elevenlabs`
 
 **Required for X Posting:**
 - `PLANETTERRIAN_X_CONSUMER_KEY` - X API consumer key for @planetterrian (same as Planetterrian)
@@ -54,6 +67,7 @@ If you want to run Fascinating Frontiers automatically via GitHub Actions, add t
 ## Running the Script
 
 ```bash
+pip install -r requirements_fascinating_frontiers.txt
 cd digests
 python3 fascinating_frontiers.py
 ```
@@ -131,6 +145,7 @@ The RSS feed is automatically generated at:
 
 ### Website Setup (Optional)
 1. Create a GitHub Pages site for Fascinating Frontiers (if desired)
+2. Use the included page: `fascinating_frontiers.html`
 2. Create podcast cover image: `fascinating-frontiers-podcast-image.jpg` (or reuse planetterrian image)
 3. Submit podcast to Apple Podcasts (when ready)
 

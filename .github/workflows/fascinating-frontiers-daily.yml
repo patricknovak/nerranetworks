@@ -32,19 +32,28 @@ jobs:
     - name: Install Python dependencies
       run: |
         pip install --upgrade pip
-        if [ ! -f requirements.txt ]; then
-          echo "❌ ERROR: requirements.txt not found!"
+        if [ ! -f requirements_fascinating_frontiers.txt ]; then
+          echo "❌ ERROR: requirements_fascinating_frontiers.txt not found!"
           exit 1
         fi
-        pip install -r requirements.txt
+        pip install -r requirements_fascinating_frontiers.txt
         echo "Installed packages:"
-        pip list | grep -E "(openai|tweepy|requests|python-dotenv|feedparser)" || echo "Some packages may not be listed"
+        pip list | grep -E "(openai|tweepy|requests|python-dotenv|feedparser|torch|torchaudio|chatterbox)" || echo "Some packages may not be listed"
         
     - name: Create .env file from secrets
       run: |
         echo "Creating .env file..."
         cat > .env << EOF
         GROK_API_KEY=${{ secrets.GROK_API_KEY }}
+        # TTS provider (chatterbox runs locally and will default to using the latest Planetterrian episode MP3 as a voice prompt)
+        FASCINATING_FRONTIERS_TTS_PROVIDER=chatterbox
+        CHATTERBOX_DEVICE=cpu
+        CHATTERBOX_EXAGGERATION=0.5
+        CHATTERBOX_MAX_CHARS=1000
+        CHATTERBOX_QUIET=1
+        # Optional: override voice prompt directly (otherwise derived from Planetterrian episodes)
+        CHATTERBOX_VOICE_PROMPT_BASE64=${{ secrets.PLANETTERRIAN_VOICE_PROMPT_BASE64 }}
+        # Optional fallback if you switch FASCINATING_FRONTIERS_TTS_PROVIDER back to elevenlabs
         ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }}
         PLANETTERRIAN_X_CONSUMER_KEY=${{ secrets.PLANETTERRIAN_X_CONSUMER_KEY }}
         PLANETTERRIAN_X_CONSUMER_SECRET=${{ secrets.PLANETTERRIAN_X_CONSUMER_SECRET }}
@@ -58,10 +67,16 @@ jobs:
         else
           echo "✅ GROK_API_KEY is set"
         fi
-        if [ -z "${{ secrets.ELEVENLABS_API_KEY }}" ]; then
-          echo "⚠️  WARNING: ELEVENLABS_API_KEY is not set!"
+        # Chatterbox prompt secret is optional (we can derive it from Planetterrian episode MP3s in the repo)
+        if [ -z "${{ secrets.PLANETTERRIAN_VOICE_PROMPT_BASE64 }}" ]; then
+          echo "ℹ️  PLANETTERRIAN_VOICE_PROMPT_BASE64 is not set (optional). Will derive a voice prompt from the most recent Planetterrian episode MP3 in the repo."
         else
-          echo "✅ ELEVENLABS_API_KEY is set"
+          echo "✅ PLANETTERRIAN_VOICE_PROMPT_BASE64 is set"
+        fi
+        if [ -z "${{ secrets.ELEVENLABS_API_KEY }}" ]; then
+          echo "ℹ️  ELEVENLABS_API_KEY is not set (only needed if you switch back to ElevenLabs)"
+        else
+          echo "✅ ELEVENLABS_API_KEY is set (fallback)"
         fi
         echo "Checking Planetterrian X API credentials (Fascinating Frontiers uses same account)..."
         if [ -z "${{ secrets.PLANETTERRIAN_X_CONSUMER_KEY }}" ]; then
@@ -107,6 +122,8 @@ jobs:
           exit 1
         fi
         echo "✅ .env file found"
+        echo "Checking for Planetterrian episode MP3s (for voice prompt fallback)..."
+        ls -lah ../digests/planetterrian/Planetterrian_Daily_Ep*.mp3 2>/dev/null | head -5 || echo "⚠️  No Planetterrian episode MP3s found. Provide CHATTERBOX_VOICE_PROMPT_BASE64 to avoid failure."
         echo "Running Fascinating Frontiers script..."
         python3 fascinating_frontiers.py 2>&1
       env:
@@ -150,6 +167,9 @@ jobs:
         
         # ALWAYS add RSS feed file (even if it was just updated, not new)
         git add fascinating_frontiers_podcast.rss 2>/dev/null || true
+
+        # Add HTML page if it exists
+        git add fascinating_frontiers.html 2>/dev/null || true
         
         echo "📋 Staged files:"
         git diff --staged --name-only || echo "No files staged"
@@ -179,7 +199,7 @@ jobs:
           echo "  ✓ Daily digest (X thread)"
           echo "  ✓ Posted to X (@planetterrian)"
           echo "  ✓ Podcast script generated"
-          echo "  ✓ Podcast audio created (ElevenLabs)"
+          echo "  ✓ Podcast audio created (Chatterbox TTS)"
           echo "  ✓ RSS feed updated"
           echo "  ✓ Credit usage file generated"
         else

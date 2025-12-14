@@ -1,0 +1,7 @@
+-r requirements.txt
+
+# Local TTS + voice cloning (Chatterbox)
+chatterbox-tts
+torch
+torchaudio
+
