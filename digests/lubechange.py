@@ -15,7 +15,6 @@ import tempfile
 import html
 import json
 import re
-import time
 import xml.etree.ElementTree as ET
 from feedgen.feed import FeedGenerator
 from pathlib import Path
@@ -30,8 +29,6 @@ import feedparser
 from typing import List, Dict, Any
 import tweepy
 import shutil
-import asyncio
-import websockets
 import base64
 
 # ========================== LOGGING ==========================
@@ -606,10 +603,32 @@ if not env_path.exists():
 
 load_dotenv(dotenv_path=env_path)
 
+# TTS provider selection (default: chatterbox local)
+def _normalize_tts_provider(value: str) -> str:
+    v = (value or "").strip().lower()
+    if not v:
+        return "chatterbox"
+    if v in {"elevenlabs", "eleven", "11labs", "11-labs"}:
+        return "elevenlabs"
+    if v in {"chatterbox", "chatterbox-tts", "chatterbox_tts", "cb"}:
+        return "chatterbox"
+    return v
+
+TTS_PROVIDER = _normalize_tts_provider(os.getenv("LUBECHANGE_TTS_PROVIDER", "chatterbox"))
+
 # Required keys (X credentials for @lubechange_oilers account - using same as planetterrian for now)
 required = [
     "GROK_API_KEY"
 ]
+if ENABLE_PODCAST and not TEST_MODE:
+    if TTS_PROVIDER == "elevenlabs":
+        required.append("ELEVENLABS_API_KEY")
+    elif TTS_PROVIDER == "chatterbox":
+        pass  # local model, no API key needed
+    else:
+        raise OSError(
+            f"Unknown LUBECHANGE_TTS_PROVIDER '{TTS_PROVIDER}'. Use 'chatterbox' or 'elevenlabs'."
+        )
 if ENABLE_X_POSTING:
     required.extend([
         "PLANETTERRIAN_X_CONSUMER_KEY",  # Reusing for now, can be updated later
@@ -622,13 +641,42 @@ for var in required:
     if not os.getenv(var):
         raise OSError(f"Missing {var} in .env")
 
-# Cartesia API key - must be set in environment
-# SECURITY: Never hardcode API keys in source code
-if not os.getenv("CARTESIA_API_KEY"):
-    if ENABLE_PODCAST:
-        raise OSError("CARTESIA_API_KEY is required in .env when ENABLE_PODCAST is True")
-    else:
-        logging.warning("CARTESIA_API_KEY not set, but podcast is disabled so it's not required")
+# Helpers for env parsing
+def _env_float(name: str, default: float) -> float:
+    raw = os.getenv(name)
+    if raw is None or not str(raw).strip():
+        return default
+    try:
+        return float(str(raw).strip())
+    except ValueError:
+        logging.warning(f"Invalid {name}='{raw}' (expected float). Using default {default}.")
+        return default
+
+def _env_int(name: str, default: int) -> int:
+    raw = os.getenv(name)
+    if raw is None or not str(raw).strip():
+        return default
+    try:
+        return int(str(raw).strip())
+    except ValueError:
+        logging.warning(f"Invalid {name}='{raw}' (expected int). Using default {default}.")
+        return default
+
+# Chatterbox (local) TTS config
+CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
+CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
+CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 600)
+CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
+CHATTERBOX_VOICE_PROMPT_BASE64 = os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64", "").strip()
+CHATTERBOX_PROMPT_OFFSET_SECONDS = _env_float("CHATTERBOX_PROMPT_OFFSET_SECONDS", 35.0)
+CHATTERBOX_PROMPT_DURATION_SECONDS = _env_float("CHATTERBOX_PROMPT_DURATION_SECONDS", 10.0)
+
+# Chatterbox voice cloning can use either an explicit prompt (path/base64) OR fall back to a prior episode audio.
+if ENABLE_PODCAST and not TEST_MODE and TTS_PROVIDER == "chatterbox":
+    if not os.getenv("CHATTERBOX_VOICE_PROMPT_PATH") and not os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64"):
+        logging.info(
+            "Chatterbox voice prompt not provided via env; will attempt to derive a prompt from an existing Lube Change episode MP3."
+        )
 
 # ========================== DATE ==========================
 # Get current date and time in MST (Mountain Standard Time - Alberta)
@@ -840,7 +888,8 @@ credit_usage = {
             "total_tokens": 0,
             "total_cost_usd": 0.0
         },
-        "cartesia_api": {
+        "tts_api": {
+            "provider": TTS_PROVIDER,
             "characters": 0,
             "estimated_cost_usd": 0.0
         },
@@ -872,14 +921,17 @@ def save_credit_usage(usage_data: dict, output_dir: Path):
             usage_data["services"]["x_api"]["post_calls"]
         )
         
-        # Calculate total cost (Cartesia pricing: check their pricing, using estimate for now)
-        # Cartesia pricing varies, using conservative estimate
-        cartesia_cost = (usage_data["services"]["cartesia_api"]["characters"] / 1000) * 0.02  # Estimate
-        usage_data["services"]["cartesia_api"]["estimated_cost_usd"] = cartesia_cost
+        # Calculate TTS cost (only applies if using a paid API provider like ElevenLabs)
+        tts_provider = str(usage_data["services"]["tts_api"].get("provider", "chatterbox")).strip().lower()
+        if tts_provider == "elevenlabs":
+            tts_cost = (usage_data["services"]["tts_api"]["characters"] / 1000) * 0.30
+        else:
+            tts_cost = 0.0
+        usage_data["services"]["tts_api"]["estimated_cost_usd"] = tts_cost
         
         usage_data["total_estimated_cost_usd"] = (
             usage_data["services"]["grok_api"]["total_cost_usd"] +
-            usage_data["services"]["cartesia_api"]["estimated_cost_usd"]
+            usage_data["services"]["tts_api"]["estimated_cost_usd"]
         )
         
         # Save to JSON file
@@ -898,7 +950,7 @@ def save_credit_usage(usage_data: dict, output_dir: Path):
         logging.info(f"Grok API (X Thread): {usage_data['services']['grok_api']['x_thread_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['x_thread_generation']['estimated_cost_usd']:.4f})")
         logging.info(f"Grok API (Podcast Script): {usage_data['services']['grok_api']['podcast_script_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['podcast_script_generation']['estimated_cost_usd']:.4f})")
         logging.info(f"Grok API Total: {usage_data['services']['grok_api']['total_tokens']} tokens (${usage_data['services']['grok_api']['total_cost_usd']:.4f})")
-        logging.info(f"Cartesia API: {usage_data['services']['cartesia_api']['characters']} characters (${usage_data['services']['cartesia_api']['estimated_cost_usd']:.4f})")
+        logging.info(f"TTS ({usage_data['services']['tts_api'].get('provider', 'chatterbox')}): {usage_data['services']['tts_api']['characters']} characters (${usage_data['services']['tts_api']['estimated_cost_usd']:.4f})")
         logging.info(f"X API: {usage_data['services']['x_api']['total_calls']} API calls (search: {usage_data['services']['x_api']['search_calls']}, post: {usage_data['services']['x_api']['post_calls']})")
         logging.info(f"TOTAL ESTIMATED COST: ${usage_data['total_estimated_cost_usd']:.4f}")
         logging.info("="*80)
@@ -916,8 +968,9 @@ client = OpenAI(
     base_url="https://api.x.ai/v1",
     timeout=300.0  # 5 minute timeout for API calls
 )
-CARTESIA_API_KEY = os.getenv("CARTESIA_API_KEY")
-CARTESIA_API = "https://api.cartesia.ai"
+ELEVEN_API = "https://api.elevenlabs.io/v1"
+ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY", "").strip()
+ELEVEN_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "dTrBzPvD2GpAqkk1MUzA").strip()
 
 # ========================== STEP 1: FETCH OILERS NEWS FROM RSS FEEDS ==========================
 logging.info("Step 1: Fetching Edmonton Oilers news from RSS feeds for the last 24 hours...")
@@ -1984,151 +2037,223 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
         f.write(f"# Lube Change - Oilers Daily News | Ep {episode_num} | {today_str}\n\n{podcast_script}")
     logging.info("Natural podcast script generated")
 
-    # ========================== CARTESIA TTS ==========================
-    # Cartesia voice ID - using a default voice, can be customized
-    # You may need to get a voice ID from Cartesia's API
-    # For now using the provided API key directly
-    CARTESIA_VOICE_ID = "b5d27497-9f0e-47a8-8628-af16793cc0e0"  # Updated voice
+    # ========================== TTS (VOICE) ==========================
+    logging.info(f"TTS provider selected: {TTS_PROVIDER}")
+
+    def _chunk_text(text: str, max_chars: int) -> List[str]:
+        """Split long text into chunks for local TTS models."""
+        cleaned = re.sub(r"\s+", " ", (text or "")).strip()
+        if not cleaned:
+            return []
+        if max_chars <= 0 or len(cleaned) <= max_chars:
+            return [cleaned]
+
+        chunks: List[str] = []
+        start = 0
+        n = len(cleaned)
+        while start < n:
+            end = min(start + max_chars, n)
+            window = cleaned[start:end]
+
+            # Prefer cutting at sentence boundaries; fall back to commas; then hard cut.
+            candidates = [window.rfind("."), window.rfind("!"), window.rfind("?"), window.rfind(";"), window.rfind(":")]
+            cut = max(candidates)
+            if cut < int(max_chars * 0.5):
+                cut = window.rfind(",")
+            if cut < int(max_chars * 0.5):
+                cut = len(window) - 1
+
+            piece = window[: cut + 1].strip()
+            if piece:
+                chunks.append(piece)
+            start += cut + 1
+
+        return chunks
+
+    def _prepare_chatterbox_voice_prompt(tmp_dir: Path) -> Path:
+        """
+        Return a local WAV file suitable for Chatterbox's audio_prompt_path.
+        Supports either a direct path or a base64-encoded audio blob in env vars.
+        """
+        created_src = False
+        episode_mode = False
+
+        if CHATTERBOX_VOICE_PROMPT_PATH:
+            src = Path(CHATTERBOX_VOICE_PROMPT_PATH).expanduser()
+        elif CHATTERBOX_VOICE_PROMPT_BASE64:
+            raw = base64.b64decode(CHATTERBOX_VOICE_PROMPT_BASE64)
+            src = tmp_dir / "chatterbox_voice_prompt_input.mp3"
+            src.write_bytes(raw)
+            created_src = True
+        else:
+            candidates = sorted(
+                list(digests_dir.glob("Lube_Change_Ep*.mp3")),
+                key=lambda p: p.stat().st_mtime,
+                reverse=True,
+            )
+            if not candidates:
+                raise RuntimeError(
+                    "No existing Lube Change episode MP3s found to derive a Chatterbox voice prompt. "
+                    "Either commit at least one prior episode MP3 to digests/lubechange/, or set "
+                    "CHATTERBOX_VOICE_PROMPT_PATH / CHATTERBOX_VOICE_PROMPT_BASE64."
+                )
+            src = candidates[0]
+            episode_mode = True
+            logging.info(f"Chatterbox voice prompt: deriving from episode audio: {src.name}")
+
+        if not src.exists():
+            raise FileNotFoundError(f"Chatterbox voice prompt source not found: {src}")
+
+        prompt_wav = tmp_dir / "chatterbox_voice_prompt.wav"
+
+        if episode_mode:
+            subprocess.run(
+                [
+                    "ffmpeg",
+                    "-y",
+                    "-ss",
+                    f"{CHATTERBOX_PROMPT_OFFSET_SECONDS:.2f}",
+                    "-t",
+                    f"{CHATTERBOX_PROMPT_DURATION_SECONDS:.2f}",
+                    "-i",
+                    str(src),
+                    "-ac",
+                    "1",
+                    "-ar",
+                    "16000",
+                    "-c:a",
+                    "pcm_s16le",
+                    str(prompt_wav),
+                ],
+                check=True,
+                capture_output=True,
+            )
+        else:
+            subprocess.run(
+                ["ffmpeg", "-y", "-i", str(src), "-ac", "1", "-ar", "16000", "-c:a", "pcm_s16le", str(prompt_wav)],
+                check=True,
+                capture_output=True,
+            )
+
+        if created_src:
+            try:
+                src.unlink()
+            except Exception:
+                pass
+
+        return prompt_wav
+
+    def _synthesize_with_chatterbox(text: str, out_wav: Path):
+        """Generate a single WAV voice track using the local Chatterbox model + a voice prompt."""
+        import inspect
+
+        try:
+            import torch  # noqa: F401
+            import torchaudio as ta
+            from chatterbox.tts import ChatterboxTTS
+        except Exception as exc:
+            raise RuntimeError(
+                "Chatterbox dependencies missing. Install requirements (torch, torchaudio, chatterbox-tts)."
+            ) from exc
+
+        prompt_wav = _prepare_chatterbox_voice_prompt(tmp_dir)
+        chunks = _chunk_text(text, CHATTERBOX_MAX_CHARS)
+        if not chunks:
+            raise RuntimeError("No text provided for TTS.")
+
+        logging.info(f"Chatterbox: generating {len(chunks)} chunks (max {CHATTERBOX_MAX_CHARS} chars each) on device={CHATTERBOX_DEVICE}")
+
+        model = ChatterboxTTS.from_pretrained(device=CHATTERBOX_DEVICE)
+        sr = getattr(model, "sr", 16000)
+
+        gen_sig = inspect.signature(model.generate)
+        base_kwargs = {}
+        if "audio_prompt_path" in gen_sig.parameters:
+            base_kwargs["audio_prompt_path"] = str(prompt_wav)
+        if "exaggeration" in gen_sig.parameters:
+            base_kwargs["exaggeration"] = CHATTERBOX_EXAGGERATION
+
+        chunk_paths: List[Path] = []
+        for i, chunk in enumerate(chunks, 1):
+            logging.info(f"Chatterbox: chunk {i}/{len(chunks)} ({len(chunk)} chars)")
+            wav = model.generate(chunk, **base_kwargs)
+            if hasattr(wav, "detach"):
+                wav = wav.detach().cpu()
+            if getattr(wav, "ndim", 0) == 1:
+                wav = wav.unsqueeze(0)
+            chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
+            ta.save(str(chunk_path), wav, sr)
+            chunk_paths.append(chunk_path)
+
+        concat_list = tmp_dir / "chatterbox_concat.txt"
+        with open(concat_list, "w", encoding="utf-8") as f:
+            for p in chunk_paths:
+                f.write(f"file '{p}'\n")
+
+        subprocess.run(
+            ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_list), "-ac", "1", "-c:a", "pcm_s16le", str(out_wav)],
+            check=True,
+            capture_output=True,
+        )
+
+        # Cleanup intermediate chunk files
+        try:
+            for p in chunk_paths:
+                if p.exists():
+                    p.unlink()
+            if concat_list.exists():
+                concat_list.unlink()
+            if prompt_wav.exists():
+                prompt_wav.unlink()
+        except Exception:
+            pass
+
+    # ElevenLabs helper (only used when TTS_PROVIDER == "elevenlabs")
+    VOICE_ID = ELEVEN_VOICE_ID
+
+    def validate_elevenlabs_auth():
+        """Fail fast with a clear message when the ElevenLabs key is rejected."""
+        resp = requests.get(f"{ELEVEN_API}/user", headers={"xi-api-key": ELEVEN_KEY}, timeout=10)
+        if resp.status_code == 401:
+            raise RuntimeError("ElevenLabs rejected the API key (401). Update ELEVENLABS_API_KEY in .env/GitHub secrets.")
+        resp.raise_for_status()
 
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=2, max=10),
-        retry=retry_if_exception_type((requests.RequestException, requests.Timeout, Exception))
+        retry=retry_if_exception_type((requests.RequestException, requests.Timeout))
     )
-    async def speak_cartesia(text: str, voice_id: str, filename: str):
-        """Generate speech using Cartesia TTS via WebSocket."""
-        uri = "wss://api.cartesia.ai/tts/websocket"
-        # Use the API key from environment or the provided one
-        api_key = os.getenv("CARTESIA_API_KEY")
-        if not api_key:
-            raise ValueError("CARTESIA_API_KEY must be set in environment variables")
-        headers = {
-            "Cartesia-Version": "2025-04-16",
-            "Authorization": f"Bearer {api_key}"
-        }
-        
-        try:
-            # Use additional_headers for websockets 12.0+ (extra_headers is deprecated)
-            try:
-                async with websockets.connect(uri, additional_headers=headers) as websocket:
-                    # Generate a valid context_id from filename (alphanumeric, underscores, hyphens only)
-                    # Cartesia requires context_id to only contain alphanumeric, underscores, and hyphens
-                    filename_base = os.path.basename(filename).replace('.mp3', '').replace('.pcm', '')
-                    # Sanitize to only allow alphanumeric, underscores, and hyphens
-                    context_id = re.sub(r'[^a-zA-Z0-9_-]', '_', filename_base)
-                    # Ensure it's not empty and has valid format
-                    if not context_id or len(context_id) < 1:
-                        context_id = f"lubechange_{int(time.time())}"
-                    # Limit length to reasonable size
-                    context_id = context_id[:100]
-                    
-                    message = {
-                        "model_id": "sonic-2",
-                        "transcript": text,
-                        "voice": {"mode": "id", "id": voice_id},
-                        "language": "en",
-                        "output_format": {"container": "raw", "encoding": "pcm_s16le", "sample_rate": 44100},  # High quality sample rate
-                        "add_timestamps": True,
-                        "continue": False,
-                        "context_id": context_id,
-                        "stream": False  # Ensure complete audio generation
-                        # Note: Removed "emotion" parameter as it may not be supported and could cause quality issues
-                    }
-                    logging.info(f"Sending Cartesia TTS request with voice_id: {voice_id}, context_id: {context_id}")
-                    await websocket.send(json.dumps(message))
-                    
-                    audio_data = b""
-                    while True:
-                        try:
-                            response = await websocket.recv()
-                            response_data = json.loads(response)
-                            
-                            if response_data.get("type") == "chunk":
-                                # Decode base64 audio data
-                                chunk_data = base64.b64decode(response_data.get("data", ""))
-                                audio_data += chunk_data
-                            elif response_data.get("type") == "done":
-                                break
-                            elif response_data.get("type") == "error":
-                                # Log full error response for debugging
-                                error_response = json.dumps(response_data, indent=2)
-                                logging.error(f"Cartesia API error response:\n{error_response}")
-                                
-                                error_msg = response_data.get('error', response_data.get('message', 'Unknown error'))
-                                error_details = response_data.get('details', '')
-                                error_code = response_data.get('status_code', '')
-                                
-                                full_error = f"Cartesia API error"
-                                if error_code:
-                                    full_error += f" (Status: {error_code})"
-                                if error_msg and error_msg != 'Unknown error':
-                                    full_error += f": {error_msg}"
-                                if error_details:
-                                    full_error += f" - Details: {error_details}"
-                                if full_error == "Cartesia API error":
-                                    full_error += ": Unknown error - see logs for full response"
-                                
-                                raise Exception(full_error)
-                        except websockets.exceptions.ConnectionClosed:
-                            break
-                    
-                    # Save raw PCM data
-                    with open(filename.replace('.mp3', '.pcm'), "wb") as f:
-                        f.write(audio_data)
-                    
-                    # Convert PCM to MP3 using ffmpeg with high quality settings
-                    subprocess.run([
-            "ffmpeg", "-y",
-            "-f", "s16le",
-            "-ar", "44100",  # Match Cartesia PCM output sample rate
-            "-ac", "1",
-            "-i", filename.replace('.mp3', '.pcm'),
-            "-ar", "44100",  # Keep at 44.1 kHz for final encoding
-            "-ac", "1",
-            "-c:a", "libmp3lame",
-            "-b:a", "256k",  # Higher bitrate for better quality (was 192k)
-            "-q:a", "0",  # Highest quality VBR setting
-            filename
-        ], check=True, capture_output=True)
-                    
-                    # Clean up PCM file
-                    pcm_file = filename.replace('.mp3', '.pcm')
-                    if os.path.exists(pcm_file):
-                        os.remove(pcm_file)
-            except websockets.exceptions.InvalidStatus as e:
-                # Handle HTTP status errors (like 402 Payment Required)
-                status_code = getattr(e, 'status_code', None) or str(e)
-                if '402' in str(status_code) or '402' in str(e):
-                    error_msg = (
-                        "Cartesia API returned HTTP 402 (Payment Required). "
-                        "This typically means:\n"
-                        "1. The API key is invalid or expired\n"
-                        "2. The account has insufficient credits/quota\n"
-                        "3. The account subscription has expired\n"
-                        "Please check your Cartesia account status and API key."
-                    )
-                    logging.error(error_msg)
-                    raise Exception(error_msg) from e
-                else:
-                    error_msg = f"Cartesia API connection rejected with HTTP {status_code}: {e}"
-                    logging.error(error_msg)
-                    raise Exception(error_msg) from e
-            except websockets.exceptions.ConnectionClosed as e:
-                error_msg = f"Cartesia WebSocket connection closed unexpectedly: {e}"
-                logging.error(error_msg)
-                raise Exception(error_msg) from e
-            except websockets.exceptions.InvalidURI as e:
-                error_msg = f"Cartesia API URI is invalid: {e}"
-                logging.error(error_msg)
-                raise Exception(error_msg) from e
-                    
-        except Exception as e:
-            logging.error(f"Cartesia TTS error: {e}")
-            raise
-
     def speak(text: str, voice_id: str, filename: str):
-        """Synchronous wrapper for Cartesia TTS."""
-        asyncio.run(speak_cartesia(text, voice_id, filename))
+        url = f"{ELEVEN_API}/text-to-speech/{voice_id}/stream"
+        headers = {
+            "xi-api-key": ELEVEN_KEY,
+            "Content-Type": "application/json",
+            "Accept": "audio/mpeg"
+        }
+        payload = {
+            "text": text + "!",
+            "model_id": "eleven_turbo_v2_5",
+            "voice_settings": {
+                "stability": 0.65,
+                "similarity_boost": 0.9,
+                "style": 0.85,
+                "use_speaker_boost": True
+            }
+        }
+        try:
+            r = requests.post(url, json=payload, headers=headers, stream=True, timeout=60)
+            if r.status_code == 401:
+                raise requests.HTTPError(
+                    "ElevenLabs returned 401 Unauthorized. Verify ELEVENLABS_API_KEY and that the voice ID is accessible to this account.",
+                    response=r,
+                )
+            r.raise_for_status()
+        except requests.HTTPError as exc:
+            logging.error("ElevenLabs TTS call failed: %s; response: %s", exc, getattr(exc.response, "text", ""))
+            raise
+        with open(filename, "wb") as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                f.write(chunk)
 
     # Process podcast script - preserve natural sentence structure and pauses for professional TTS
     full_text_parts = []
@@ -2138,47 +2263,42 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
             continue
         if line.startswith("Jason:"):
             text = line[7:].strip()
-            # Only add if there's actual content
             if text:
                 full_text_parts.append(text)
 
-    # Join with proper sentence structure - preserve natural pauses
-    # Use periods and proper punctuation to help TTS recognize sentence breaks naturally
     full_text = " ".join(full_text_parts)
-    
+
     # Professional text preparation for TTS:
-    # 1. Ensure proper spacing around punctuation (critical for natural speech)
-    full_text = re.sub(r'([,.!?;:])([^\s])', r'\1 \2', full_text)  # Space after punctuation
-    full_text = re.sub(r'([^\s])([,.!?;:])', r'\1\2', full_text)  # No space before punctuation
-    
-    # 2. Ensure sentence breaks are clear (period/question/exclamation before capital letters)
+    full_text = re.sub(r'([,.!?;:])([^\s])', r'\1 \2', full_text)
+    full_text = re.sub(r'([^\s])([,.!?;:])', r'\1\2', full_text)
     full_text = re.sub(r'([.!?])([A-Z])', r'\1 \2', full_text)
-    
-    # 3. Normalize spacing (single spaces, but preserve sentence breaks)
-    full_text = re.sub(r' +', ' ', full_text)  # Multiple spaces to single
-    
-    # 4. Apply pronunciation fixes for proper names and terms
+    full_text = re.sub(r' +', ' ', full_text)
     full_text = fix_pronunciation(full_text)
-    
-    # 5. Final pass: Remove unwanted words that might have been reintroduced
     full_text = re.sub(r'\bassists\b', 'helpers', full_text, flags=re.IGNORECASE)
     full_text = re.sub(r'\bassist\b', 'helper', full_text, flags=re.IGNORECASE)
     full_text = re.sub(r'\bshootout\b', 'penalty shots', full_text, flags=re.IGNORECASE)
     full_text = re.sub(r'\bshoot-out\b', 'penalty shots', full_text, flags=re.IGNORECASE)
     full_text = re.sub(r'\bshoot out\b', 'penalty shots', full_text, flags=re.IGNORECASE)
-    
-    # 6. Final normalization - ensure clean, professional text
-    full_text = re.sub(r' +', ' ', full_text)  # Final space normalization
-    full_text = full_text.strip()  # Remove leading/trailing whitespace
+    full_text = re.sub(r' +', ' ', full_text).strip()
 
-    # Track character count for Cartesia
-    credit_usage["services"]["cartesia_api"]["characters"] = len(full_text)
-    logging.info(f"Cartesia TTS: {len(full_text)} characters to convert")
+    # Track character count for TTS
+    credit_usage["services"]["tts_api"]["characters"] = len(full_text)
+    credit_usage["services"]["tts_api"]["provider"] = TTS_PROVIDER
+    logging.info(f"TTS: {len(full_text)} characters to synthesize (provider={TTS_PROVIDER})")
 
     # Generate voice file
-    logging.info("Generating single voice segment for entire podcast...")
-    voice_file = tmp_dir / "jason_full.mp3"
-    speak(full_text, CARTESIA_VOICE_ID, str(voice_file))
+    if TTS_PROVIDER == "chatterbox":
+        logging.info("Generating voice track with Chatterbox (local model)...")
+        voice_file = tmp_dir / "jason_full.wav"
+        _synthesize_with_chatterbox(full_text, voice_file)
+    elif TTS_PROVIDER == "elevenlabs":
+        logging.info("Generating single voice segment with ElevenLabs...")
+        validate_elevenlabs_auth()
+        voice_file = tmp_dir / "jason_full.mp3"
+        speak(full_text, VOICE_ID, str(voice_file))
+    else:
+        raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
+
     audio_files = [str(voice_file)]
     logging.info("Generated complete voice track")
 
