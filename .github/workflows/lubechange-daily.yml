@@ -1,10 +1,6 @@
 name: Lube Change - Oilers Daily News
 
 on:
-  schedule:
-    # Run daily at 9:00 AM MST (16:00 UTC)
-    # This is 9:00 AM MST / 10:00 AM MDT
-    ##- cron: '0 16 * * *'
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
