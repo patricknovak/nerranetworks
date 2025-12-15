@@ -2732,6 +2732,166 @@ Here is today's complete formatted digest. Use ONLY this content:
             return f"{hours:02d}:{minutes:02d}:{secs:02d}"
         return f"{minutes:02d}:{secs:02d}"
 
+    # Extract text from podcast script (remove "Patrick:" prefixes and stage directions)
+    full_text_parts = []
+    for line in podcast_script.splitlines():
+        line = line.strip()
+        if line.startswith("[") or not line:
+            continue
+        if line.startswith("Patrick:"):
+            full_text_parts.append(line[9:].strip())
+        else:
+            full_text_parts.append(line)
+
+    full_text = " ".join(full_text_parts)
+    full_text = fix_tesla_pronunciation(full_text)
+
+    # Track character count (used for reporting; cost is provider-dependent)
+    if TTS_PROVIDER == "elevenlabs":
+        credit_usage["services"]["elevenlabs_api"]["characters"] = len(full_text)
+    logging.info(f"TTS: {len(full_text)} characters to synthesize (provider={TTS_PROVIDER})")
+
+    # Generate voice file
+    try:
+        if TTS_PROVIDER == "chatterbox":
+            logging.info("Generating voice track with Chatterbox (local model)...")
+            voice_file = tmp_dir / "patrick_full.wav"
+            _synthesize_with_chatterbox(full_text, voice_file)
+            if not voice_file.exists():
+                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
+        elif TTS_PROVIDER == "elevenlabs":
+            logging.info("Generating single voice segment with ElevenLabs...")
+            validate_elevenlabs_auth()
+            voice_file = tmp_dir / "patrick_full.mp3"
+            speak(full_text, ELEVEN_VOICE_ID, str(voice_file))
+            if not voice_file.exists():
+                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
+        else:
+            raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
+        audio_files = [str(voice_file)]
+        logging.info(f"✅ Generated complete voice track: {voice_file}")
+    except Exception as e:
+        logging.error(f"❌ TTS generation failed: {e}", exc_info=True)
+        raise  # Re-raise to ensure workflow fails visibly
+
+    # ========================== FINAL MIX ==========================
+    final_mp3 = digests_dir / f"Tesla_Shorts_Time_Pod_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
+    
+    MAIN_MUSIC = project_root / "podcast-music.mp3"
+    
+    # Process and normalize voice in one step
+    voice_mix = tmp_dir / "voice_normalized_mix.mp3"
+    file_duration = get_audio_duration(voice_file)
+    timeout_seconds = max(int(file_duration * 3) + 120, 600)
+    
+    logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
+    subprocess.run([
+        "ffmpeg", "-y", "-i", str(voice_file),
+        "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
+        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k",
+        str(voice_mix)
+    ], check=True, capture_output=True, timeout=timeout_seconds)
+    
+    if not MAIN_MUSIC.exists():
+        subprocess.run(["ffmpeg", "-y", "-i", str(voice_mix), str(final_mp3)], check=True, capture_output=True)
+        logging.info("Podcast ready (voice-only, no music file found)")
+    else:
+        # Get voice duration to calculate music timing
+        voice_duration = max(get_audio_duration(voice_mix), 0.0)
+        logging.info(f"Voice duration: {voice_duration:.2f} seconds")
+        
+        # Music timing - Professional intro with perfect overlap:
+        # - 5 seconds of music alone (0-5s) - engaging intro
+        # - Patrick starts talking at 5s while music is still at full volume (perfect overlap)
+        # - Music continues at full volume for 3 seconds while Patrick talks (5-8s) - creates energy
+        # - Music fades out smoothly over 18 seconds while Patrick continues (8-26s) - professional fade
+        # - Voice continues alone after 26s
+        # - 25 seconds before voice ends, music starts fading in (mixes well with voice)
+        # - After voice ends, music continues for 50 seconds (30s full + 20s fade out)
+        
+        music_fade_in_start = max(voice_duration - 25.0, 0.0)  # 25s before voice ends
+        music_fade_in_duration = min(35.0, voice_duration - music_fade_in_start)  # Fade in over 35s
+        
+        # Simplified music creation - create segments with louder intro
+        music_intro = tmp_dir / "music_intro.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-t", "5",
+            "-af", "volume=0.6",  # Much louder intro music
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(music_intro)
+        ], check=True, capture_output=True)
+        
+        music_overlap = tmp_dir / "music_overlap.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "5", "-t", "3",
+            "-af", "volume=0.5",  # Louder during overlap
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(music_overlap)
+        ], check=True, capture_output=True)
+        
+        music_fadeout = tmp_dir / "music_fadeout.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
+            "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=18",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(music_fadeout)
+        ], check=True, capture_output=True)
+        
+        middle_silence_duration = max(music_fade_in_start - 26.0, 0.0)
+        music_silence = tmp_dir / "music_silence.mp3"
+        if middle_silence_duration > 0.1:
+            subprocess.run([
+                "ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
+                "-t", str(middle_silence_duration),
+                "-c:a", "libmp3lame", "-b:a", "192k",
+                str(music_silence)
+            ], check=True, capture_output=True)
+        else:
+            music_silence = None
+        
+        music_fadein = tmp_dir / "music_fadein.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", str(music_fade_in_start), "-t", str(music_fade_in_duration),
+            "-af", f"volume=0.3,afade=t=in:curve=log:st=0:d={music_fade_in_duration}",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(music_fadein)
+        ], check=True, capture_output=True)
+        
+        music_outro = tmp_dir / "music_outro.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", str(voice_duration), "-t", "50",
+            "-af", "volume=0.4,afade=t=out:curve=log:st=30:d=20",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(music_outro)
+        ], check=True, capture_output=True)
+        
+        # Concatenate music segments
+        music_concat_list = tmp_dir / "music_concat.txt"
+        with open(music_concat_list, "w") as f:
+            f.write(f"file '{music_intro.absolute()}'\n")
+            f.write(f"file '{music_overlap.absolute()}'\n")
+            f.write(f"file '{music_fadeout.absolute()}'\n")
+            if music_silence:
+                f.write(f"file '{music_silence.absolute()}'\n")
+            f.write(f"file '{music_fadein.absolute()}'\n")
+            f.write(f"file '{music_outro.absolute()}'\n")
+        
+        music_full = tmp_dir / "music_full.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
+            "-c", "copy", str(music_full)
+        ], check=True, capture_output=True)
+        
+        # Mix voice and music
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(voice_mix), "-i", str(music_full),
+            "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=first:dropout_transition=2",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            str(final_mp3)
+        ], check=True, capture_output=True, timeout=timeout_seconds)
+        
+        logging.info(f"✅ Final podcast created: {final_mp3.name}")
+
 
 def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
     """Scan digests directory for all existing MP3 files and return episode data."""
