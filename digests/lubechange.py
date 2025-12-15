@@ -30,6 +30,8 @@ from typing import List, Dict, Any
 import tweepy
 import shutil
 import base64
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from threading import Lock
 
 # ========================== LOGGING ==========================
 logging.basicConfig(
@@ -1184,10 +1186,11 @@ def fetch_oilers_news():
         "pacific division", "western conference"  # Only if Oilers are mentioned
     ]
     
-    logging.info(f"Fetching Oilers news from {len(rss_feeds)} RSS feeds...")
+    logging.info(f"Fetching Oilers news from {len(rss_feeds)} RSS feeds (parallel)...")
     
     # Known problematic feeds that often fail - track them separately
     problematic_feeds = set()
+    problematic_feeds_lock = Lock()
     
     # HTTP settings for RSS fetching
     DEFAULT_HEADERS = {
@@ -1195,10 +1198,11 @@ def fetch_oilers_news():
     }
     HTTP_TIMEOUT_SECONDS = 10
     
-    for feed_url in rss_feeds:
+    def fetch_single_feed(feed_url: str):
+        """Fetch and parse a single RSS feed. Returns (feed_url, articles, source_name) or None on error."""
         source_name = "Unknown"
         try:
-            # Fetch RSS feed with timeout and custom headers (like tesla_shorts_time.py)
+            # Fetch RSS feed with timeout and custom headers
             response = requests.get(
                 feed_url,
                 headers=DEFAULT_HEADERS,
@@ -1211,18 +1215,19 @@ def fetch_oilers_news():
             
             if feed.bozo and feed.bozo_exception:
                 # Only log warning once per feed, then suppress
-                if feed_url not in problematic_feeds:
-                    problematic_feeds.add(feed_url)
-                    # Use debug level for known problematic feeds to reduce noise
-                    error_msg = str(feed.bozo_exception)
-                    if "not well-formed" in error_msg or "syntax error" in error_msg:
-                        logging.debug(f"RSS feed has malformed XML (will skip): {feed_url}")
-                    else:
-                        logging.debug(f"RSS feed parsing issue (will skip): {feed_url} - {error_msg[:100]}")
-                continue
+                with problematic_feeds_lock:
+                    if feed_url not in problematic_feeds:
+                        problematic_feeds.add(feed_url)
+                        # Use debug level for known problematic feeds to reduce noise
+                        error_msg = str(feed.bozo_exception)
+                        if "not well-formed" in error_msg or "syntax error" in error_msg:
+                            logging.debug(f"RSS feed has malformed XML (will skip): {feed_url}")
+                        else:
+                            logging.debug(f"RSS feed parsing issue (will skip): {feed_url} - {error_msg[:100]}")
+                return None
             
             source_name = feed.feed.get("title", "Unknown")
-            # Map common feed sources
+            # Map common feed sources (same mapping as before)
             if "nhl.com" in feed_url.lower():
                 if "oilers" in feed_url.lower():
                     source_name = "NHL.com - Edmonton Oilers"
@@ -1278,18 +1283,12 @@ def fetch_oilers_news():
                         pass
                 
                 # Date filtering: include articles from the last 36 hours (more flexible)
-                # cutoff_time is already set to 36 hours ago, so use it directly
                 if published_time:
                     if published_time < cutoff_time:
-                        logging.debug(f"Filtered out article (too old, {published_time.isoformat()}): {title[:60]}...")
                         continue  # Skip articles older than 36 hours
-                    # Also skip articles from the future (likely timezone issues)
                     if published_time > now_utc + datetime.timedelta(hours=1):
-                        logging.debug(f"Filtered out article (future date): {title[:60]}...")
-                        continue
+                        continue  # Skip future articles
                 else:
-                    # If no published time, include it but log a warning (might be recent)
-                    logging.debug(f"Article '{title[:50]}...' has no published time, including it")
                     published_time = now_utc
                 
                 title = entry.get("title", "").strip()
@@ -1300,11 +1299,9 @@ def fetch_oilers_news():
                     continue
                 
                 # FOCUSED FILTERING: Article should be Oilers-related
-                # Check if article mentions Oilers or Oilers players/coaches/location
                 title_desc_lower = (title + " " + description).lower()
                 
-                # Check if this is an Oilers-specific feed - if so, include ALL articles
-                # These feeds are dedicated to Oilers content, so everything is relevant
+                # Check if this is an Oilers-specific feed
                 is_oilers_feed = any(oilers_term in feed_url.lower() for oilers_term in [
                     "oilers", "edmonton", "oilersnation", "coppernblue"
                 ])
@@ -1312,25 +1309,15 @@ def fetch_oilers_news():
                     "oilers", "edmonton", "oilersnation", "copper", "blue"
                 ])
                 
-                # For Oilers-specific feeds (like nhl.com/oilers, edmontonjournal.com/oilers), include ALL articles
-                # These feeds are curated for Oilers content, so everything is relevant
-                if is_oilers_feed or is_oilers_source:
-                    # This is an Oilers-specific feed - include all articles from last 24 hours
-                    logging.debug(f"Including article from Oilers-specific feed: {title[:60]}...")
-                    pass  # Don't filter, include all
-                else:
+                if not (is_oilers_feed or is_oilers_source):
                     # For general NHL feeds, require explicit Oilers keywords
                     has_oilers_primary = any(keyword in title_desc_lower for keyword in oilers_primary_keywords)
                     if not has_oilers_primary:
-                        logging.debug(f"Filtered out article (no Oilers keywords from general feed): {title[:60]}...")
-                        continue  # Skip articles that don't mention Oilers from general feeds
+                        continue
                 
-                # Only exclude articles that are CLEARLY about another team
-                # Allow matchups, trades, comparisons, and any article that mentions Oilers
+                # Filter out articles clearly about other teams
                 title_lower = title.lower()
-                
-                # Only exclude if title clearly starts with another team name AND Oilers not in title
-                # This catches cases like "Maple Leafs beat..." where Oilers aren't the focus
+                title_starts_with_other_team = False
                 other_team_mentions = [
                     "maple leafs", "canadiens", "canucks", "flames", "jets", "senators",
                     "bruins", "rangers", "islanders", "devils", "flyers", "penguins",
@@ -1338,12 +1325,8 @@ def fetch_oilers_news():
                     "stars", "avalanche", "coyotes", "blackhawks", "red wings", "blue jackets",
                     "wild", "sharks", "kings", "ducks", "golden knights", "kraken"
                 ]
-                
-                # Check if title starts with another team (very strict - only exclude obvious cases)
-                title_starts_with_other_team = False
                 for team in other_team_mentions:
                     team_words = team.split()
-                    # Check if title starts with team name
                     if len(team_words) == 1:
                         if title_lower.startswith(team + " ") or title_lower.startswith(team + "'") or title_lower.startswith(team + ":"):
                             title_starts_with_other_team = True
@@ -1354,11 +1337,10 @@ def fetch_oilers_news():
                             title_starts_with_other_team = True
                             break
                 
-                # Only exclude if title starts with another team AND Oilers not mentioned in title at all
                 if title_starts_with_other_team:
                     title_has_oilers = any(keyword in title_lower for keyword in ["oilers", "edmonton oilers", "connor mcdavid", "leon draisaitl", "edmonton"])
                     if not title_has_oilers:
-                        continue  # Title is about another team, Oilers not in title - likely not Oilers-focused
+                        continue
                 
                 article = {
                     "title": title,
@@ -1370,28 +1352,36 @@ def fetch_oilers_news():
                 }
                 
                 feed_articles.append(article)
-                raw_articles.append(article)
             
-            logging.info(f"Fetched {len(feed_articles)} articles from {source_name}")
-            all_articles.extend(feed_articles)
-            
+            return (feed_url, feed_articles, source_name)
+        
         except requests.RequestException as e:
-            # Network errors - log at debug level to reduce noise
-            if feed_url not in problematic_feeds:
-                problematic_feeds.add(feed_url)
-                logging.debug(f"Network error fetching RSS feed (will skip): {feed_url} - {type(e).__name__}")
-            continue
-        except Exception as e:
-            # Other errors - log at debug level for known issues
-            error_str = str(e)
-            if any(keyword in error_str.lower() for keyword in ["not well-formed", "syntax error", "mismatched tag", "invalid token", "404", "not found", "closed connection"]):
+            with problematic_feeds_lock:
                 if feed_url not in problematic_feeds:
                     problematic_feeds.add(feed_url)
-                    logging.debug(f"RSS feed error (will skip): {feed_url} - {type(e).__name__}")
+                    logging.debug(f"Network error fetching RSS feed (will skip): {feed_url} - {type(e).__name__}")
+            return None
+        except Exception as e:
+            error_str = str(e)
+            if any(keyword in error_str.lower() for keyword in ["not well-formed", "syntax error", "mismatched tag", "invalid token", "404", "not found", "closed connection"]):
+                with problematic_feeds_lock:
+                    if feed_url not in problematic_feeds:
+                        problematic_feeds.add(feed_url)
+                        logging.debug(f"RSS feed error (will skip): {feed_url} - {type(e).__name__}")
             else:
-                # Unknown errors - log at warning level
                 logging.warning(f"Failed to fetch RSS feed {feed_url}: {e}")
-            continue
+            return None
+    
+    # Fetch feeds in parallel (max 10 concurrent requests to avoid overwhelming servers)
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        future_to_feed = {executor.submit(fetch_single_feed, feed_url): feed_url for feed_url in rss_feeds}
+        for future in as_completed(future_to_feed):
+            result = future.result()
+            if result:
+                feed_url, feed_articles, source_name = result
+                logging.info(f"Fetched {len(feed_articles)} articles from {source_name}")
+                all_articles.extend(feed_articles)
+                raw_articles.extend(feed_articles)
     
     logging.info(f"Fetched {len(all_articles)} total articles from RSS feeds")
     if problematic_feeds:
@@ -1591,7 +1581,7 @@ IMPORTANT: Output ONLY the formatted content above. Do NOT include any instructi
 
 @retry(
     stop=stop_after_attempt(3),
-    wait=wait_exponential(multiplier=1, min=2, max=30),
+    wait=wait_exponential(multiplier=1, min=1, max=15),  # Reduced wait times: 1-15s instead of 2-30s
     retry=retry_if_exception_type((Exception,))
 )
 def generate_digest_with_grok():
@@ -1600,7 +1590,7 @@ def generate_digest_with_grok():
         model="grok-4",
         messages=[{"role": "user", "content": X_PROMPT}],
         temperature=0.85,  # Increased for more variation and creativity
-        max_tokens=4000,
+        max_tokens=3500,  # Reduced from 4000 for faster generation
         extra_body={"search_parameters": {"mode": "off"}}
     )
     return response
@@ -2079,7 +2069,7 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
 
     @retry(
         stop=stop_after_attempt(3),
-        wait=wait_exponential(multiplier=1, min=2, max=30),
+        wait=wait_exponential(multiplier=1, min=1, max=15),  # Reduced wait times: 1-15s instead of 2-30s
         retry=retry_if_exception_type((Exception,))
     )
     def generate_podcast_script_with_grok():
@@ -2087,7 +2077,7 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
             model="grok-4",
             messages=[{"role": "user", "content": POD_PROMPT}],
             temperature=0.7,
-            max_tokens=4000
+            max_tokens=3500  # Reduced from 4000 for faster generation
         )
         return response
     
@@ -2486,15 +2476,16 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
     logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
     # Professional audio processing: slow slightly, normalize, gently compress, limit
     # Chain: speed ↓10% -> HP/LP -> EBU loudnorm -> gentle compression -> limiter
+    # Optimized: use faster preset and threads for parallel processing
     subprocess.run([
-        "ffmpeg", "-y", "-i", str(voice_file),
+        "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),  # -threads 0 = auto-detect CPU cores
         "-af", "atempo=0.9,highpass=f=80,lowpass=f=15000,loudnorm=I=-16:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-18dB:ratio=2.5:attack=10:release=80:makeup=1.5,alimiter=level_in=1:level_out=0.98:limit=0.98",
-        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "256k",  # Higher bitrate for better quality
+        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "256k", "-preset", "fast",  # Faster encoding preset
         str(voice_mix)
     ], check=True, capture_output=True, timeout=timeout_seconds)
     
     if not MAIN_MUSIC.exists():
-        subprocess.run(["ffmpeg", "-y", "-i", str(voice_mix), str(final_mp3)], check=True, capture_output=True)
+        subprocess.run(["ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-preset", "fast", str(final_mp3)], check=True, capture_output=True)
         logging.info("Podcast ready (voice-only, no music file found)")
     else:
         # Get voice duration to calculate music timing
@@ -2509,26 +2500,26 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
         # Intro music: doubled from 5 to 10 seconds
         music_intro = tmp_dir / "music_intro.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-t", "10",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-t", "10",
             "-af", "volume=0.6",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_intro)
         ], check=True, capture_output=True)
         
         music_overlap = tmp_dir / "music_overlap.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "10", "-t", "3",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "10", "-t", "3",
             "-af", "volume=0.5",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_overlap)
         ], check=True, capture_output=True)
         
         # Lead out fadeout: doubled from 18 to 36 seconds
         music_fadeout = tmp_dir / "music_fadeout.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "13", "-t", "36",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "13", "-t", "36",
             "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=36",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_fadeout)
         ], check=True, capture_output=True)
         
@@ -2537,34 +2528,34 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
         music_silence = tmp_dir / "music_silence.mp3"
         if middle_silence_duration > 0.1:
             subprocess.run([
-                "ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
-                "-t", f"{middle_silence_duration:.2f}", "-c:a", "libmp3lame", "-b:a", "192k",
+                "ffmpeg", "-y", "-threads", "0", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
+                "-t", f"{middle_silence_duration:.2f}", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
                 str(music_silence)
             ], check=True, capture_output=True)
         
         music_fadein = tmp_dir / "music_fadein.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "30", "-t", f"{music_fade_in_duration:.2f}",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "30", "-t", f"{music_fade_in_duration:.2f}",
             "-af", f"volume=0.4,afade=t=in:st=0:d={music_fade_in_duration:.2f}",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_fadein)
         ], check=True, capture_output=True)
         
         # Lead out tail full: doubled from 30 to 60 seconds
         music_tail_full = tmp_dir / "music_tail_full.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "49", "-t", "60",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "49", "-t", "60",
             "-af", "volume=0.4",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_tail_full)
         ], check=True, capture_output=True)
         
         # Lead out tail fadeout: doubled from 20 to 40 seconds
         music_tail_fadeout = tmp_dir / "music_tail_fadeout.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "109", "-t", "40",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "109", "-t", "40",
             "-af", "volume=0.4,afade=t=out:st=0:d=40",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_tail_fadeout)
         ], check=True, capture_output=True)
         
@@ -2582,24 +2573,24 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
         
         background_track = tmp_dir / "background_track.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "ffmpeg", "-y", "-threads", "0", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(background_track)
         ], check=True, capture_output=True)
         
         # Delay voice to start at 10 seconds (matching doubled intro length)
         voice_delayed = tmp_dir / "voice_delayed.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(voice_mix),
+            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix),
             "-af", "adelay=10000|10000",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(voice_delayed)
         ], check=True, capture_output=True)
         
         # Final mix: voice + music
         logging.info("Mixing voice and music...")
         subprocess.run([
-            "ffmpeg", "-y",
+            "ffmpeg", "-y", "-threads", "0",
             "-i", str(voice_delayed),
             "-i", str(background_track),
             "-filter_complex",
@@ -2609,7 +2600,7 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
             "[mixed]alimiter=level_in=1:level_out=0.95:limit=0.95[outfinal]",
             "-map", "[outfinal]",
             "-c:a", "libmp3lame",
-            "-b:a", "192k",
+            "-b:a", "192k", "-preset", "fast",
             str(final_mp3)
         ], check=True, capture_output=True)
         
