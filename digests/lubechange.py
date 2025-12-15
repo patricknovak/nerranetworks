@@ -1106,41 +1106,47 @@ def fetch_oilers_news():
     import feedparser
     
     # Edmonton Oilers and NHL RSS feeds
+    # Prioritized by reliability - working feeds first, then fallbacks
     rss_feeds = [
-        # Official NHL and Oilers sources
+        # HIGH PRIORITY - Oilers-specific news sources (these are Oilers-focused and reliable)
+        "https://oilersnation.com/feed",  # ✅ Working - 10 articles fetched
+        "https://www.coppernblue.com/rss/index.xml",  # The Copper & Blue
+        "https://www.dailyfaceoff.com/teams/edmonton-oilers/news/",  # ✅ Working - 1 article fetched
+        
+        # MEDIUM PRIORITY - General NHL/Oilers feeds (some may have XML issues)
+        "https://www.espn.com/espn/rss/nhl/news",  # ✅ Working - 1 article fetched
+        "https://www.cbssports.com/rss/headlines/nhl",  # CBS Sports
+        
+        # LOWER PRIORITY - These feeds often have malformed XML but kept as fallbacks
+        # Official NHL feeds (often have XML parsing issues)
         "https://www.nhl.com/oilers/rss.xml",
         "https://www.nhl.com/rss/news",
-        "https://www.nhl.com/rss/scores",
+        "https://www.nhl.com/news/rss",
         
-        # Oilers-specific news sources (HIGH PRIORITY - these are Oilers-focused)
-        "https://oilersnation.com/feed",
-        "https://www.coppernblue.com/rss/index.xml",
+        # Team-specific feeds (may have XML issues)
         "https://www.tsn.ca/nhl/team/edmonton-oilers/rss",
         "https://www.espn.com/nhl/team/_/name/edm/edmonton-oilers/rss",
         "https://www.foxsports.com/nhl/edmonton-oilers/rss",
-        "https://www.dailyfaceoff.com/teams/edmonton-oilers/news/",
         
-        # Sports news outlets with Oilers coverage
+        # General NHL feeds (may have XML issues)
         "https://www.tsn.ca/rss/nhl",
         "https://www.sportsnet.ca/rss/nhl",
-        "https://www.espn.com/espn/rss/nhl/news",
-        "https://www.cbssports.com/rss/headlines/nhl",
         "https://www.thescore.com/nhl/rss",
+        "https://www.nhl.com/rss/scores",
         
-        # Canadian sports media (Edmonton-focused)
+        # Canadian sports media (may have XML issues)
         "https://www.cbc.ca/sports/hockey/rss",
         "https://www.theglobeandmail.com/sports/hockey/rss",
         "https://www.edmontonjournal.com/sports/hockey/edmonton-oilers/rss",
         "https://www.edmontonsun.com/sports/hockey/edmonton-oilers/rss",
         
-        # Hockey-specific sites
-        "https://www.nhl.com/news/rss",
+        # Hockey-specific sites (may have XML issues)
         "https://www.hockeynews.com/rss",
         "https://www.thehockeynews.com/rss",
         "https://www.dailyfaceoff.com/rss",
         "https://www.puckprose.com/rss",
         
-        # Analytics and advanced stats
+        # Analytics and advanced stats (may have XML issues)
         "https://www.naturalstattrick.com/rss",
         "https://www.hockey-reference.com/rss",
     ]
@@ -1197,11 +1203,25 @@ def fetch_oilers_news():
     # Known problematic feeds that often fail - track them separately
     problematic_feeds = set()
     
+    # HTTP settings for RSS fetching
+    DEFAULT_HEADERS = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+    HTTP_TIMEOUT_SECONDS = 10
+    
     for feed_url in rss_feeds:
         source_name = "Unknown"
         try:
-            # Add timeout and better error handling
-            feed = feedparser.parse(feed_url)
+            # Fetch RSS feed with timeout and custom headers (like tesla_shorts_time.py)
+            response = requests.get(
+                feed_url,
+                headers=DEFAULT_HEADERS,
+                timeout=HTTP_TIMEOUT_SECONDS
+            )
+            response.raise_for_status()
+            
+            # Parse RSS feed content
+            feed = feedparser.parse(response.content)
             
             if feed.bozo and feed.bozo_exception:
                 # Only log warning once per feed, then suppress
