@@ -116,43 +116,21 @@ def number_to_words(num: float) -> str:
     
     return ('negative ' if is_negative else '') + result
 
-# ========================== PRONUNCIATION FIXER v3 – ACRONYMS + NUMBERS ==========================
+# ========================== PRONUNCIATION FIXER – USING SHARED DICTIONARY ==========================
+# Try to use shared pronunciation module, fallback to local implementation
+try:
+    from assets.pronunciation import apply_pronunciation_fixes, COMMON_ACRONYMS, WORD_PRONUNCIATIONS
+    USE_SHARED_PRONUNCIATION = True
+except ImportError:
+    USE_SHARED_PRONUNCIATION = False
+    logging.warning("Could not import shared pronunciation module, using local implementation")
+
 def fix_pronunciation(text: str) -> str:
     """
     Forces correct spelling of scientific/academic acronyms and converts numbers to words
     for better TTS pronunciation on ElevenLabs.
     """
     import re
-
-    # List of acronyms that must be spelled out letter-by-letter
-    acronyms = {
-        "AI": "A I",
-        "ML": "M L",
-        "NASA": "N A S A",
-        "ESA": "E S A",
-        "JAXA": "J A X A",
-        "ISS": "I S S",
-        "JWST": "J W S T",
-        "HST": "H S T",
-        "SLS": "S L S",
-        "FAA": "F A A",
-        "ULA": "U L A",
-        "SpaceX": "Space X",
-        "FAA": "F A A",
-        "LRO": "L R O",
-        "OSIRIS-REx": "O S I R I S R E X",
-        "DART": "D A R T",
-        "PSYCHE": "P S Y C H E",
-    }
-
-    # Invisible zero-width non-breaking space / word joiner
-    ZWJ = "\u2060"   # U+2060 WORD JOINER — this one is safe
-
-    for acronym, spelled in acronyms.items():
-        # Build a regex that only matches the acronym when it's a whole word
-        pattern = rf'(?<!\w){re.escape(acronym)}(?!\w)'
-        replacement = ZWJ.join(list(spelled))
-        text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
 
     # Convert episode numbers (e.g., "episode 336" → "episode three hundred thirty-six")
     def replace_episode_number(match):
@@ -186,6 +164,21 @@ def fix_pronunciation(text: str) -> str:
             return match.group(0)
     
     text = re.sub(r'([\+\-]?)(\d+\.?\d*)\s*%', replace_percentage, text)
+    
+    # Apply shared pronunciation fixes if available
+    if USE_SHARED_PRONUNCIATION:
+        try:
+            text = apply_pronunciation_fixes(
+                text,
+                acronyms=COMMON_ACRONYMS,
+                hockey_terms={},  # Not needed for Fascinating Frontiers
+                player_names={},  # Not needed for Fascinating Frontiers
+                oilers_player_names={},  # Not needed for Fascinating Frontiers
+                word_pronunciations=WORD_PRONUNCIATIONS,
+                use_zwj=True  # Use ZWJ for Fascinating Frontiers (matches original behavior)
+            )
+        except Exception as e:
+            logging.warning(f"Error applying shared pronunciation fixes: {e}, continuing with local fixes")
     
     return text
 
@@ -1306,7 +1299,12 @@ Here is today's complete formatted digest. Use ONLY this content:
     def _prepare_chatterbox_voice_prompt(tmp_dir: Path) -> Path:
         """
         Return a local WAV file suitable for Chatterbox's audio_prompt_path.
-        Supports either a direct path, base64 prompt, or (default) deriving from a Planetterrian episode MP3.
+        
+        Priority order:
+        1. CHATTERBOX_VOICE_PROMPT_PATH (env var or direct path)
+        2. CHATTERBOX_VOICE_PROMPT_BASE64 (base64 encoded audio)
+        3. Permanent voice prompt in assets/voice_prompts/ (if exists)
+        4. Derive from Planetterrian episodes (fallback to Fascinating Frontiers)
         """
         import base64
 
@@ -1321,7 +1319,27 @@ Here is today's complete formatted digest. Use ONLY this content:
             src.write_bytes(raw)
             created_src = True
         else:
-            # Default: use the most recent Planetterrian episode audio as the voice prompt
+            # Check for permanent voice prompt in assets directory (highest priority fallback)
+            assets_voice_prompts = project_root / "assets" / "voice_prompts"
+            if assets_voice_prompts.exists():
+                # Look for common voice prompt filenames (in priority order)
+                prompt_candidates = [
+                    assets_voice_prompts / "patrick_voice_prompt.wav",
+                    assets_voice_prompts / "voice_prompt.wav",
+                    assets_voice_prompts / "chatterbox_voice_prompt.wav",
+                ]
+                # Also check for any .wav files
+                existing_wavs = list(assets_voice_prompts.glob("*.wav"))
+                if existing_wavs:
+                    prompt_candidates.extend(existing_wavs)
+                
+                for prompt_file in prompt_candidates:
+                    if prompt_file.exists():
+                        logging.info(f"✅ Using permanent voice prompt: {prompt_file.name}")
+                        # Return the prompt file directly (no processing needed - already in correct format)
+                        return prompt_file
+            
+            # Fallback: derive from Planetterrian episodes (fallback to Fascinating Frontiers)
             planetterrian_dir = project_root / "digests" / "planetterrian"
             candidates = sorted(
                 list(planetterrian_dir.glob("Planetterrian_Daily_Ep*.mp3")),
@@ -1338,7 +1356,8 @@ Here is today's complete formatted digest. Use ONLY this content:
             if not candidates:
                 raise RuntimeError(
                     "No episode MP3s found to derive a Chatterbox voice prompt. "
-                    "Run Planetterrian at least once (recommended), or set "
+                    "Either commit at least one episode MP3 (Planetterrian or Fascinating Frontiers), "
+                    "add a permanent voice prompt to assets/voice_prompts/, or set "
                     "CHATTERBOX_VOICE_PROMPT_PATH / CHATTERBOX_VOICE_PROMPT_BASE64."
                 )
             src = candidates[0]
@@ -1347,6 +1366,11 @@ Here is today's complete formatted digest. Use ONLY this content:
 
         if not src.exists():
             raise FileNotFoundError(f"Chatterbox voice prompt source not found: {src}")
+
+        # If src is already a WAV file (permanent prompt), return it directly
+        if src.suffix.lower() == '.wav' and not episode_mode and not created_src:
+            logging.info(f"Using permanent voice prompt file: {src}")
+            return src
 
         prompt_wav = tmp_dir / "chatterbox_voice_prompt.wav"
 

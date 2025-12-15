@@ -135,7 +135,15 @@ def number_to_words(num: float) -> str:
     
     return ('negative ' if is_negative else '') + result
 
-# ========================== PRONUNCIATION FIXER v3 – ACRONYMS + NUMBERS ==========================
+# ========================== PRONUNCIATION FIXER – USING SHARED DICTIONARY ==========================
+# Try to use shared pronunciation module, fallback to local implementation
+try:
+    from assets.pronunciation import apply_pronunciation_fixes, COMMON_ACRONYMS, WORD_PRONUNCIATIONS
+    USE_SHARED_PRONUNCIATION = True
+except ImportError:
+    USE_SHARED_PRONUNCIATION = False
+    logging.warning("Could not import shared pronunciation module, using local implementation")
+
 def fix_tesla_pronunciation(text: str) -> str:
     """
     Forces correct spelling of Tesla acronyms, converts numbers to words,
@@ -318,6 +326,21 @@ def fix_tesla_pronunciation(text: str) -> str:
     text = re.sub(r'\bEDT\b', 'Eastern Daylight Time', text)
     text = re.sub(r'\bUTC\b', 'U T C', text)
     text = re.sub(r'\bGMT\b', 'G M T', text)
+    
+    # Apply shared pronunciation fixes if available
+    if USE_SHARED_PRONUNCIATION:
+        try:
+            text = apply_pronunciation_fixes(
+                text,
+                acronyms=COMMON_ACRONYMS,
+                hockey_terms={},  # Not needed for Tesla Shorts Time
+                player_names={},  # Not needed for Tesla Shorts Time
+                oilers_player_names={},  # Not needed for Tesla Shorts Time
+                word_pronunciations=WORD_PRONUNCIATIONS,
+                use_zwj=False  # Use spaces for Tesla Shorts Time (matches original behavior)
+            )
+        except Exception as e:
+            logging.warning(f"Error applying shared pronunciation fixes: {e}, continuing with local fixes")
     
     return text
 
@@ -2334,7 +2357,12 @@ Here is today's complete formatted digest. Use ONLY this content:
     def _prepare_chatterbox_voice_prompt(tmp_dir: Path) -> Path:
         """
         Return a local WAV file suitable for Chatterbox's audio_prompt_path.
-        Supports either a direct path, base64 prompt, or (default) deriving from a Tesla Shorts Time episode MP3.
+        
+        Priority order:
+        1. CHATTERBOX_VOICE_PROMPT_PATH (env var or direct path)
+        2. CHATTERBOX_VOICE_PROMPT_BASE64 (base64 encoded audio)
+        3. Permanent voice prompt in assets/voice_prompts/ (if exists)
+        4. Derive from Tesla Shorts Time episodes (preferred episode 354 or most recent)
         """
         import base64
 
@@ -2349,6 +2377,27 @@ Here is today's complete formatted digest. Use ONLY this content:
             src.write_bytes(raw)
             created_src = True
         else:
+            # Check for permanent voice prompt in assets directory (highest priority fallback)
+            assets_voice_prompts = project_root / "assets" / "voice_prompts"
+            if assets_voice_prompts.exists():
+                # Look for common voice prompt filenames (in priority order)
+                prompt_candidates = [
+                    assets_voice_prompts / "patrick_voice_prompt.wav",
+                    assets_voice_prompts / "voice_prompt.wav",
+                    assets_voice_prompts / "chatterbox_voice_prompt.wav",
+                ]
+                # Also check for any .wav files
+                existing_wavs = list(assets_voice_prompts.glob("*.wav"))
+                if existing_wavs:
+                    prompt_candidates.extend(existing_wavs)
+                
+                for prompt_file in prompt_candidates:
+                    if prompt_file.exists():
+                        logging.info(f"✅ Using permanent voice prompt: {prompt_file.name}")
+                        # Return the prompt file directly (no processing needed - already in correct format)
+                        return prompt_file
+            
+            # Fallback: derive from Tesla Shorts Time episodes
             # Default: use episode 354 from December 12, 2025 as the voice clone source
             # Fallback to most recent episode if specific one not found
             preferred_episode = digests_dir / "Tesla_Shorts_Time_Pod_Ep354_20251212.mp3"
@@ -2367,8 +2416,8 @@ Here is today's complete formatted digest. Use ONLY this content:
                 if not candidates:
                     raise RuntimeError(
                         "No Tesla Shorts Time episode MP3s found to derive a Chatterbox voice prompt. "
-                        "Expected episode 354 (Dec 12, 2025) not found. Run Tesla Shorts Time at least once to generate an episode, or set "
-                        "CHATTERBOX_VOICE_PROMPT_PATH / CHATTERBOX_VOICE_PROMPT_BASE64."
+                        "Either commit at least one episode MP3, add a permanent voice prompt to "
+                        "assets/voice_prompts/, or set CHATTERBOX_VOICE_PROMPT_PATH / CHATTERBOX_VOICE_PROMPT_BASE64."
                     )
                 src = candidates[0]
                 episode_mode = True
@@ -2376,6 +2425,11 @@ Here is today's complete formatted digest. Use ONLY this content:
 
         if not src.exists():
             raise FileNotFoundError(f"Chatterbox voice prompt source not found: {src}")
+
+        # If src is already a WAV file (permanent prompt), return it directly
+        if src.suffix.lower() == '.wav' and not episode_mode and not created_src:
+            logging.info(f"Using permanent voice prompt file: {src}")
+            return src
 
         prompt_wav = tmp_dir / "chatterbox_voice_prompt.wav"
 
