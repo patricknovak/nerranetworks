@@ -120,13 +120,12 @@ def number_to_words(num: float) -> str:
 def fix_pronunciation(text: str) -> str:
     """
     Forces correct spelling of scientific/academic acronyms and converts numbers to words
-    for better TTS pronunciation on ElevenLabs.
+    for better TTS pronunciation.
     """
     import re
 
     # List of acronyms that must be spelled out letter-by-letter
     acronyms = {
-        "AI": "A I",
         "ML": "M L",
         "DNA": "D N A",
         "RNA": "R N A",
@@ -142,6 +141,24 @@ def fix_pronunciation(text: str) -> str:
 
     # Invisible zero-width non-breaking space / word joiner
     ZWJ = "\u2060"   # U+2060 WORD JOINER — this one is safe
+
+    # --- AI terms ---
+    # Many TTS models misread "AI" in compounds like "AI-powered", "AI's", "AIs", "OpenAI", "GenAI".
+    # Normalize these to a consistent "A.I." form (and a natural plural) before general acronym handling.
+    text = re.sub(r"(?i)\bOpenAI\b", "Open A.I.", text)
+    text = re.sub(r"(?i)\bGenAI\b", "Gen A.I.", text)
+
+    def _fix_ai(m):
+        suffix = m.group(1) or ""
+        sfx = suffix.lower()
+        if sfx == "s":
+            # "AIs" -> "A I models" reads more naturally than "A I s"
+            return "A.I. models"
+        if sfx in {"'s", "’s"}:
+            return "A.I.'s"
+        return "A.I."
+
+    text = re.sub(r"(?i)(?<!\w)AI((?:['’]s)|s)?(?!\w)", _fix_ai, text)
 
     for acronym, spelled in acronyms.items():
         # Build a regex that only matches the acronym when it's a whole word
