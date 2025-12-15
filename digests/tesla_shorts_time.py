@@ -977,10 +977,10 @@ def fetch_tesla_news():
         "gigafactory", "powerwall", "solar roof", "4680", "ai5"
     ]
     
-    logging.info(f"Fetching Tesla news from {len(rss_feeds)} RSS feeds...")
+    logging.info(f"Fetching Tesla news from {len(rss_feeds)} RSS feeds (parallel)...")
     
-    for feed_url in rss_feeds:
-        # Initialize source_name before the try block
+    def fetch_single_feed(feed_url: str):
+        """Fetch and parse a single RSS feed. Returns (feed_url, articles, source_name) or None on error."""
         source_name = "Unknown"
         try:
             # Fetch RSS feed with timeout and custom UA to avoid hanging
@@ -996,7 +996,7 @@ def fetch_tesla_news():
             
             if feed.bozo and feed.bozo_exception:
                 logging.warning(f"Failed to parse RSS feed {feed_url}: {feed.bozo_exception}")
-                continue
+                return None
             
             # Extract source name from feed (before processing entries)
             source_name = feed.feed.get("title", "Unknown")
@@ -1072,13 +1072,11 @@ def fetch_tesla_news():
                 feed_articles.append(article)
                 raw_articles.append(article)
             
-            logging.info(f"Fetched {len(feed_articles)} articles from {source_name}")
-            all_articles.extend(feed_articles)
-            
+            return (feed_url, feed_articles, source_name)
+        
         except Exception as e:
-            # Don't reference source_name in exception handler to avoid scoping issues
             logging.warning(f"Failed to fetch RSS feed {feed_url}: {e}")
-            continue
+            return None
     
     logging.info(f"Fetched {len(all_articles)} total articles from RSS feeds")
     
@@ -1692,7 +1690,7 @@ logging.info(f"✅ Web search enabled for X Spotlight section - Grok will curate
 
 @retry(
     stop=stop_after_attempt(3),
-    wait=wait_exponential(multiplier=1, min=2, max=30),
+    wait=wait_exponential(multiplier=1, min=1, max=15),  # Reduced wait times: 1-15s instead of 2-30s
     retry=retry_if_exception_type((Exception,))
 )
 def generate_digest_with_grok():
@@ -1701,7 +1699,7 @@ def generate_digest_with_grok():
         model="grok-4",
         messages=[{"role": "user", "content": X_PROMPT}],
         temperature=0.7,
-        max_tokens=4000,
+        max_tokens=3500,  # Reduced from 4000 for faster generation
         extra_body={"search_parameters": search_params}
     )
     return response
@@ -2282,7 +2280,7 @@ Here is today's complete formatted digest. Use ONLY this content:
 
     @retry(
         stop=stop_after_attempt(3),
-        wait=wait_exponential(multiplier=1, min=2, max=30),
+        wait=wait_exponential(multiplier=1, min=1, max=15),  # Reduced wait times: 1-15s instead of 2-30s
         retry=retry_if_exception_type((Exception,))
     )
     def generate_podcast_script_with_grok():
@@ -2294,7 +2292,7 @@ Here is today's complete formatted digest. Use ONLY this content:
                 {"role": "user", "content": f"{POD_PROMPT}\n\n{x_thread}"}
             ],
             temperature=0.9,  # higher = more natural energy
-            max_tokens=4000
+            max_tokens=3500  # Reduced from 4000 for faster generation
         )
     
     logging.info("Generating podcast script with Grok (this may take 1-2 minutes)...")
@@ -2794,14 +2792,14 @@ Here is today's complete formatted digest. Use ONLY this content:
     
     logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
     subprocess.run([
-        "ffmpeg", "-y", "-i", str(voice_file),
+        "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
         "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
-        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k",
+        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
         str(voice_mix)
     ], check=True, capture_output=True, timeout=timeout_seconds)
     
     if not MAIN_MUSIC.exists():
-        subprocess.run(["ffmpeg", "-y", "-i", str(voice_mix), str(final_mp3)], check=True, capture_output=True)
+        subprocess.run(["ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-preset", "fast", str(final_mp3)], check=True, capture_output=True)
         logging.info("Podcast ready (voice-only, no music file found)")
     else:
         # Get voice duration to calculate music timing
@@ -2823,25 +2821,25 @@ Here is today's complete formatted digest. Use ONLY this content:
         # Simplified music creation - create segments with louder intro
         music_intro = tmp_dir / "music_intro.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-t", "5",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-t", "5",
             "-af", "volume=0.6",  # Much louder intro music
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_intro)
         ], check=True, capture_output=True)
         
         music_overlap = tmp_dir / "music_overlap.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "5", "-t", "3",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "5", "-t", "3",
             "-af", "volume=0.5",  # Louder during overlap
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_overlap)
         ], check=True, capture_output=True)
         
         music_fadeout = tmp_dir / "music_fadeout.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
             "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=18",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_fadeout)
         ], check=True, capture_output=True)
         
@@ -2849,9 +2847,9 @@ Here is today's complete formatted digest. Use ONLY this content:
         music_silence = tmp_dir / "music_silence.mp3"
         if middle_silence_duration > 0.1:
             subprocess.run([
-                "ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
+                "ffmpeg", "-y", "-threads", "0", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
                 "-t", str(middle_silence_duration),
-                "-c:a", "libmp3lame", "-b:a", "192k",
+                "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
                 str(music_silence)
             ], check=True, capture_output=True)
         else:
@@ -2859,17 +2857,17 @@ Here is today's complete formatted digest. Use ONLY this content:
         
         music_fadein = tmp_dir / "music_fadein.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", str(music_fade_in_start), "-t", str(music_fade_in_duration),
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", str(music_fade_in_start), "-t", str(music_fade_in_duration),
             "-af", f"volume=0.3,afade=t=in:curve=log:st=0:d={music_fade_in_duration}",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_fadein)
         ], check=True, capture_output=True)
         
         music_outro = tmp_dir / "music_outro.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", str(voice_duration), "-t", "50",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", str(voice_duration), "-t", "50",
             "-af", "volume=0.4,afade=t=out:curve=log:st=30:d=20",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_outro)
         ], check=True, capture_output=True)
         
@@ -2886,15 +2884,15 @@ Here is today's complete formatted digest. Use ONLY this content:
         
         music_full = tmp_dir / "music_full.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
+            "ffmpeg", "-y", "-threads", "0", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
             "-c", "copy", str(music_full)
         ], check=True, capture_output=True)
         
         # Mix voice and music
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(voice_mix), "-i", str(music_full),
+            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-i", str(music_full),
             "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=first:dropout_transition=2",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(final_mp3)
         ], check=True, capture_output=True, timeout=timeout_seconds)
         

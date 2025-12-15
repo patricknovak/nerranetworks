@@ -29,6 +29,8 @@ import feedparser
 from typing import List, Dict, Any
 import tweepy
 import shutil
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from threading import Lock
 
 # ========================== LOGGING ==========================
 logging.basicConfig(
@@ -1069,7 +1071,7 @@ Output today's edition exactly as formatted.
 
 @retry(
     stop=stop_after_attempt(3),
-    wait=wait_exponential(multiplier=1, min=2, max=30),
+    wait=wait_exponential(multiplier=1, min=1, max=15),  # Reduced wait times: 1-15s instead of 2-30s
     retry=retry_if_exception_type((Exception,))
 )
 def generate_digest_with_grok():
@@ -1078,7 +1080,7 @@ def generate_digest_with_grok():
         model="grok-4",
         messages=[{"role": "user", "content": X_PROMPT}],
         temperature=0.7,
-        max_tokens=4000,
+        max_tokens=3500,  # Reduced from 4000 for faster generation
         extra_body={"search_parameters": {"mode": "off"}}
     )
     return response
@@ -1430,7 +1432,7 @@ Here is today's complete formatted digest. Use ONLY this content:
 
     @retry(
         stop=stop_after_attempt(3),
-        wait=wait_exponential(multiplier=1, min=2, max=30),
+        wait=wait_exponential(multiplier=1, min=1, max=15),  # Reduced wait times: 1-15s instead of 2-30s
         retry=retry_if_exception_type((Exception,))
     )
     def generate_podcast_script_with_grok():
@@ -1438,7 +1440,7 @@ Here is today's complete formatted digest. Use ONLY this content:
             model="grok-4",
             messages=[{"role": "user", "content": POD_PROMPT}],
             temperature=0.7,
-            max_tokens=4000
+            max_tokens=3500  # Reduced from 4000 for faster generation
         )
         return response
     
@@ -1779,14 +1781,14 @@ Here is today's complete formatted digest. Use ONLY this content:
     
     logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
     subprocess.run([
-        "ffmpeg", "-y", "-i", str(voice_file),
+        "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
         "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
-        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k",
+        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
         str(voice_mix)
     ], check=True, capture_output=True, timeout=timeout_seconds)
     
     if not MAIN_MUSIC.exists():
-        subprocess.run(["ffmpeg", "-y", "-i", str(voice_mix), str(final_mp3)], check=True, capture_output=True)
+        subprocess.run(["ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-preset", "fast", str(final_mp3)], check=True, capture_output=True)
         logging.info("Podcast ready (voice-only, no music file found)")
     else:
         # Get voice duration to calculate music timing
@@ -1808,25 +1810,25 @@ Here is today's complete formatted digest. Use ONLY this content:
         # Simplified music creation - create segments with louder intro
         music_intro = tmp_dir / "music_intro.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-t", "5",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-t", "5",
             "-af", "volume=0.6",  # Much louder intro music
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_intro)
         ], check=True, capture_output=True)
         
         music_overlap = tmp_dir / "music_overlap.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "5", "-t", "3",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "5", "-t", "3",
             "-af", "volume=0.5",  # Louder during overlap
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_overlap)
         ], check=True, capture_output=True)
         
         music_fadeout = tmp_dir / "music_fadeout.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
             "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=18",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_fadeout)
         ], check=True, capture_output=True)
         
@@ -1834,33 +1836,33 @@ Here is today's complete formatted digest. Use ONLY this content:
         music_silence = tmp_dir / "music_silence.mp3"
         if middle_silence_duration > 0.1:
             subprocess.run([
-                "ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
-                "-t", f"{middle_silence_duration:.2f}", "-c:a", "libmp3lame", "-b:a", "192k",
+                "ffmpeg", "-y", "-threads", "0", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
+                "-t", f"{middle_silence_duration:.2f}", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
                 str(music_silence)
             ], check=True, capture_output=True)
         
         music_fadein = tmp_dir / "music_fadein.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "25", "-t", f"{music_fade_in_duration:.2f}",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "25", "-t", f"{music_fade_in_duration:.2f}",
             "-af", f"volume=0.4,afade=t=in:st=0:d={music_fade_in_duration:.2f}",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_fadein)
         ], check=True, capture_output=True)
         
         # Outro music: 30 seconds full volume + 20 seconds fade = 50 seconds total
         music_tail_full = tmp_dir / "music_tail_full.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "55", "-t", "30",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "55", "-t", "30",
             "-af", "volume=0.4",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_tail_full)
         ], check=True, capture_output=True)
         
         music_tail_fadeout = tmp_dir / "music_tail_fadeout.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "85", "-t", "20",
+            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "85", "-t", "20",
             "-af", "volume=0.4,afade=t=out:st=0:d=20",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(music_tail_fadeout)
         ], check=True, capture_output=True)
         
@@ -1878,24 +1880,24 @@ Here is today's complete formatted digest. Use ONLY this content:
         
         background_track = tmp_dir / "background_track.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "ffmpeg", "-y", "-threads", "0", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(background_track)
         ], check=True, capture_output=True)
         
         # Delay voice to start at 5 seconds
         voice_delayed = tmp_dir / "voice_delayed.mp3"
         subprocess.run([
-            "ffmpeg", "-y", "-i", str(voice_mix),
+            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix),
             "-af", "adelay=5000|5000",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(voice_delayed)
         ], check=True, capture_output=True)
         
         # Final mix: voice + music
         logging.info("Mixing voice and music...")
         subprocess.run([
-            "ffmpeg", "-y",
+            "ffmpeg", "-y", "-threads", "0",
             "-i", str(voice_delayed),
             "-i", str(background_track),
             "-filter_complex",
@@ -1905,7 +1907,7 @@ Here is today's complete formatted digest. Use ONLY this content:
             "[mixed]alimiter=level_in=1:level_out=0.95:limit=0.95[outfinal]",
             "-map", "[outfinal]",
             "-c:a", "libmp3lame",
-            "-b:a", "192k",
+            "-b:a", "192k", "-preset", "fast",
             str(final_mp3)
         ], check=True, capture_output=True)
         
