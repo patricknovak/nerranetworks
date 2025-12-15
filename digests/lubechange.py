@@ -834,27 +834,13 @@ used_content_summary = get_used_content_summary(content_tracker)
 
 # Determine episode number by finding the highest existing episode number and incrementing
 def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
-    """Get the next episode number. Checks if episode for today exists, otherwise starts at 1 or increments."""
+    """Get the next episode number. Checks if episode for today exists in RSS feed, otherwise starts at 1 or increments."""
     today_str = datetime.date.today().strftime("%Y%m%d")
     
-    # First, check if an episode already exists for today's date
-    # Check both local files AND RSS feed (RSS feed is source of truth)
-    today_pattern = f"Lube_Change_Ep(\\d+)_{today_str}\\.mp3"
-    
-    # Check local files
-    for mp3_file in digests_dir.glob(f"Lube_Change_Ep*_{today_str}.mp3"):
-        match = re.match(today_pattern, mp3_file.name)
-        if match:
-            try:
-                existing_ep_num = int(match.group(1))
-                logging.info(f"Episode {existing_ep_num} already exists locally for today ({today_str}). Skipping generation.")
-                return None  # Signal to skip generation
-            except ValueError:
-                pass
-    
-    # Also check RSS feed for episodes published today
+    # Check RSS feed for episodes published today (RSS feed is source of truth)
     # Only skip if we find an episode with today's date AND it was published in the last 2 hours
     # This prevents false positives from timezone issues or old episodes
+    # NOTE: We don't check local files because they might be leftover from failed runs
     if rss_path.exists():
         try:
             tree = ET.parse(str(rss_path))
@@ -2670,11 +2656,12 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
             logging.error(f"❌ Failed to update RSS feed: {e}", exc_info=True)
             raise  # Re-raise to ensure workflow knows about the failure
     else:
-        logging.error(f"❌ Podcast audio file not created - cannot update RSS feed")
-        logging.error(f"   final_mp3={final_mp3}")
+        error_msg = f"❌ Podcast audio file not created - cannot update RSS feed. final_mp3={final_mp3}"
         if final_mp3:
-            logging.error(f"   final_mp3.exists()={final_mp3.exists()}")
-        logging.error(f"   This means the episode will NOT appear in the RSS feed or GitHub page")
+            error_msg += f", exists={final_mp3.exists()}"
+        error_msg += ". This means the episode will NOT appear in the RSS feed or GitHub page."
+        logging.error(error_msg)
+        raise RuntimeError(error_msg)  # Fail the workflow so it's visible
         
     # Check if any episodes are missing from RSS feed (only if podcast was generated)
     # Skip this check if no podcast was generated to avoid re-adding old episodes

@@ -1920,6 +1920,16 @@ Here is today's complete formatted digest. Use ONLY this content:
                     pass
 
     # Update RSS feed
+    # Fail loudly if podcast generation was enabled but failed
+    if ENABLE_PODCAST and not TEST_MODE:
+        if not final_mp3 or not final_mp3.exists():
+            error_msg = f"❌ Podcast generation was enabled but failed - final_mp3={final_mp3}"
+            if final_mp3:
+                error_msg += f", exists={final_mp3.exists()}"
+            error_msg += ". This means the episode will NOT appear in the RSS feed or GitHub page."
+            logging.error(error_msg)
+            raise RuntimeError(error_msg)  # Fail the workflow so it's visible
+    
     if final_mp3 and final_mp3.exists():
         try:
             audio_duration = get_audio_duration(final_mp3)
