@@ -459,7 +459,7 @@
         AOS.init();
         
         // Load episodes from RSS feed
-        fetch('lubechange_podcast.rss')
+        fetch('lubechange_podcast.rss?t=' + Date.now()) // Add cache busting
             .then(response => response.text())
             .then(data => {
                 const parser = new DOMParser();
@@ -467,14 +467,22 @@
                 const items = xml.querySelectorAll('item');
                 const container = document.getElementById('episodes-container');
                 
-                // Clear container but keep placeholder if no episodes
+                // Always clear container first
+                container.innerHTML = '';
+                
+                // If no episodes, show placeholder
                 if (items.length === 0) {
-                    // Keep the "Welcome to Lube Change" placeholder
+                    container.innerHTML = `
+                        <div class="episode-card">
+                            <h3 class="episode-title">Welcome to Lube Change</h3>
+                            <p class="episode-date">Coming soon...</p>
+                            <p class="episode-description">Your daily Edmonton Oilers news podcast from the heart of Oil Country.</p>
+                        </div>
+                    `;
                     return;
                 }
                 
-                container.innerHTML = '';
-                
+                // Show episodes
                 items.forEach((item, index) => {
                     if (index >= 10) return; // Show latest 10 episodes
                     
@@ -507,7 +515,15 @@
             })
             .catch(error => {
                 console.error('Error loading episodes:', error);
-                // Keep the placeholder on error
+                // Show placeholder on error
+                const container = document.getElementById('episodes-container');
+                container.innerHTML = `
+                    <div class="episode-card">
+                        <h3 class="episode-title">Welcome to Lube Change</h3>
+                        <p class="episode-date">Coming soon...</p>
+                        <p class="episode-description">Your daily Edmonton Oilers news podcast from the heart of Oil Country.</p>
+                    </div>
+                `;
             });
     </script>
 </body>
