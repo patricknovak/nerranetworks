@@ -1666,7 +1666,9 @@ Here is today's complete formatted digest. Use ONLY this content:
     # ========================== FINAL MIX ==========================
     final_mp3 = digests_dir / f"Fascinating_Frontiers_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
     
-    MAIN_MUSIC = project_root / "science-daily.mp3"  # Can be replaced with space-themed music if available
+    # Intro music: SpaceX STARLINK Rocket Countdown and Launch (first 27 seconds)
+    INTRO_MUSIC = project_root / "SpaceX STARLINK Rocket Countdown and Launch #shortsvideo (Edit).mp3"
+    MAIN_MUSIC = project_root / "science-daily.mp3"  # Background music for middle/outro sections
     
     # Process and normalize voice in one step
     voice_mix = tmp_dir / "voice_normalized_mix.mp3"
@@ -1681,30 +1683,32 @@ Here is today's complete formatted digest. Use ONLY this content:
         str(voice_mix)
     ], check=True, capture_output=True, timeout=timeout_seconds)
     
-    if not MAIN_MUSIC.exists():
+    # Get voice duration to calculate music timing
+    voice_duration = max(get_audio_duration(voice_mix), 0.0)
+    logging.info(f"Voice duration: {voice_duration:.2f} seconds")
+    
+    # Check if we have intro music (SpaceX audio) and background music
+    has_intro_music = INTRO_MUSIC.exists() if INTRO_MUSIC else False
+    has_background_music = MAIN_MUSIC.exists() if MAIN_MUSIC else False
+    
+    if not has_intro_music and not has_background_music:
         subprocess.run(["ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-preset", "fast", str(final_mp3)], check=True, capture_output=True)
-        logging.info("Podcast ready (voice-only, no music file found)")
+        logging.info("Podcast ready (voice-only, no music files found)")
     else:
-        # Get voice duration to calculate music timing
-        voice_duration = max(get_audio_duration(voice_mix), 0.0)
-        logging.info(f"Voice duration: {voice_duration:.2f} seconds")
-        
-        # Music timing - Professional intro with perfect overlap:
-        # - 5 seconds of music alone (0-5s) - engaging intro
-        # - Patrick starts talking at 5s while music is still at full volume (perfect overlap)
-        # - Music continues at full volume for 3 seconds while Patrick talks (5-8s) - creates energy
-        # - Music fades out smoothly over 18 seconds while Patrick continues (8-26s) - professional fade
-        # - Voice continues alone after 26s
-        # - 25 seconds before voice ends, music starts fading in (mixes well with voice)
-        # - After voice ends, music continues for 50 seconds (30s full + 20s fade out)
+        # Music timing with SpaceX intro:
+        # - 20 seconds of SpaceX intro music alone (0-20s) - rocket launch countdown
+        # - Patrick starts talking at 20s while SpaceX music is still playing (overlap starts)
+        # - SpaceX music fades out smoothly over 7 seconds while Patrick talks (20-27s) - smooth transition
+        # - Voice continues alone after 27s
+        # - 25 seconds before voice ends, background music starts fading in (mixes well with voice)
+        # - After voice ends, background music continues for 50 seconds (30s full + 20s fade out)
         
         music_fade_in_start = max(voice_duration - 25.0, 0.0)  # 25s before voice ends
         music_fade_in_duration = min(35.0, voice_duration - music_fade_in_start)  # Fade in over 35s
         
         # OPTIMIZED: Generate independent music segments in parallel
-        music_intro = tmp_dir / "music_intro.mp3"
-        music_overlap = tmp_dir / "music_overlap.mp3"
-        music_fadeout = tmp_dir / "music_fadeout.mp3"
+        music_intro_spacex = tmp_dir / "music_intro_spacex.mp3"
+        music_intro_fadeout = tmp_dir / "music_intro_fadeout.mp3"
         music_tail_full = tmp_dir / "music_tail_full.mp3"
         music_tail_fadeout = tmp_dir / "music_tail_fadeout.mp3"
         
@@ -1712,51 +1716,55 @@ Here is today's complete formatted digest. Use ONLY this content:
             """Helper to generate a single music segment."""
             subprocess.run(cmd_args, check=True, capture_output=True)
         
-        # Generate independent music segments in parallel (don't depend on voice_duration)
+        # Generate independent music segments in parallel
         logging.info("Generating music segments in parallel...")
-        independent_segments = [
-            ("intro", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-t", "5",
-                      "-af", "volume=0.6", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                      str(music_intro)]),
-            ("overlap", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "5", "-t", "3",
-                        "-af", "volume=0.5", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                        str(music_overlap)]),
-            ("fadeout", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
-                        "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=18", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                        str(music_fadeout)]),
-            ("tail_full", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "55", "-t", "30",
-                          "-af", "volume=0.4", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                          str(music_tail_full)]),
-            ("tail_fadeout", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "85", "-t", "20",
-                             "-af", "volume=0.4,afade=t=out:st=0:d=20", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                             str(music_tail_fadeout)]),
-        ]
+        independent_segments = []
         
-        with ThreadPoolExecutor(max_workers=5) as executor:
-            futures = {executor.submit(generate_music_segment, name, cmd): name for name, cmd in independent_segments}
-            for future in as_completed(futures):
-                segment_name = futures[future]
-                try:
-                    future.result()
-                    logging.debug(f"Generated music segment: {segment_name}")
-                except Exception as e:
-                    logging.error(f"Failed to generate music segment {segment_name}: {e}")
-                    raise
+        # SpaceX intro music: first 27 seconds (20s alone + 7s fadeout overlap)
+        if has_intro_music:
+            independent_segments.append(("intro_spacex", ["ffmpeg", "-y", "-threads", "0", "-i", str(INTRO_MUSIC), "-t", "20",
+                                                          "-af", "volume=0.7", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                                                          str(music_intro_spacex)]))
+            independent_segments.append(("intro_fadeout", ["ffmpeg", "-y", "-threads", "0", "-i", str(INTRO_MUSIC), "-ss", "20", "-t", "7",
+                                                          "-af", "volume=0.6,afade=t=out:curve=log:st=0:d=7", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                                                          str(music_intro_fadeout)]))
+        
+        # Background music for outro (only if MAIN_MUSIC exists)
+        if has_background_music:
+            independent_segments.append(("tail_full", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "55", "-t", "30",
+                                                        "-af", "volume=0.4", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                                                        str(music_tail_full)]))
+            independent_segments.append(("tail_fadeout", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "85", "-t", "20",
+                                                         "-af", "volume=0.4,afade=t=out:st=0:d=20", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                                                         str(music_tail_fadeout)]))
+        
+        if independent_segments:
+            with ThreadPoolExecutor(max_workers=len(independent_segments)) as executor:
+                futures = {executor.submit(generate_music_segment, name, cmd): name for name, cmd in independent_segments}
+                for future in as_completed(futures):
+                    segment_name = futures[future]
+                    try:
+                        future.result()
+                        logging.debug(f"Generated music segment: {segment_name}")
+                    except Exception as e:
+                        logging.error(f"Failed to generate music segment {segment_name}: {e}")
+                        raise
         
         # Generate voice-dependent segments (fadein and silence depend on voice_duration)
-        middle_silence_duration = max(music_fade_in_start - 26.0, 0.0)
+        middle_silence_duration = max(music_fade_in_start - 27.0, 0.0)  # Adjusted for 27s intro end
         music_silence = tmp_dir / "music_silence.mp3"
         music_fadein = tmp_dir / "music_fadein.mp3"
         
         voice_dependent_segments = []
-        if middle_silence_duration > 0.1:
+        if middle_silence_duration > 0.1 and has_background_music:
             voice_dependent_segments.append(("silence", ["ffmpeg", "-y", "-threads", "0", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
                                                          "-t", f"{middle_silence_duration:.2f}", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
                                                          str(music_silence)]))
         
-        voice_dependent_segments.append(("fadein", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "25", "-t", f"{music_fade_in_duration:.2f}",
-                                                    "-af", f"volume=0.4,afade=t=in:st=0:d={music_fade_in_duration:.2f}", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                                                    str(music_fadein)]))
+        if has_background_music:
+            voice_dependent_segments.append(("fadein", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "25", "-t", f"{music_fade_in_duration:.2f}",
+                                                        "-af", f"volume=0.4,afade=t=in:st=0:d={music_fade_in_duration:.2f}", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                                                        str(music_fadein)]))
         
         if voice_dependent_segments:
             with ThreadPoolExecutor(max_workers=len(voice_dependent_segments)) as executor:
@@ -1770,21 +1778,23 @@ Here is today's complete formatted digest. Use ONLY this content:
                         logging.error(f"Failed to generate music segment {segment_name}: {e}")
                         raise
         
-        # Concatenate music and delay voice in parallel (they don't depend on each other)
+        # Build music timeline: SpaceX intro + silence + background fadein + background outro
         music_concat_list = tmp_dir / "music_timeline.txt"
         with open(music_concat_list, "w", encoding="utf-8") as f:
-            f.write(f"file '{music_intro}'\n")
-            f.write(f"file '{music_overlap}'\n")
-            f.write(f"file '{music_fadeout}'\n")
-            if middle_silence_duration > 0.1:
+            if has_intro_music:
+                f.write(f"file '{music_intro_spacex}'\n")
+                f.write(f"file '{music_intro_fadeout}'\n")
+            if middle_silence_duration > 0.1 and has_background_music:
                 f.write(f"file '{music_silence}'\n")
-            f.write(f"file '{music_fadein}'\n")
-            f.write(f"file '{music_tail_full}'\n")
-            f.write(f"file '{music_tail_fadeout}'\n")
+            if has_background_music:
+                f.write(f"file '{music_fadein}'\n")
+                f.write(f"file '{music_tail_full}'\n")
+                f.write(f"file '{music_tail_fadeout}'\n")
         
         background_track = tmp_dir / "background_track.mp3"
         voice_delayed = tmp_dir / "voice_delayed.mp3"
         
+        # Concatenate music and delay voice in parallel (they don't depend on each other)
         logging.info("Concatenating music and delaying voice in parallel...")
         with ThreadPoolExecutor(max_workers=2) as executor:
             concat_future = executor.submit(subprocess.run,
@@ -1792,9 +1802,10 @@ Here is today's complete formatted digest. Use ONLY this content:
                  "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
                  str(background_track)],
                 check=True, capture_output=True)
+            # Delay voice to start at 20 seconds (when SpaceX music overlap begins)
             delay_future = executor.submit(subprocess.run,
                 ["ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix),
-                 "-af", "adelay=5000|5000",
+                 "-af", "adelay=20000|20000",  # 20 seconds delay
                  "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
                  str(voice_delayed)],
                 check=True, capture_output=True)
@@ -1819,11 +1830,18 @@ Here is today's complete formatted digest. Use ONLY this content:
             str(final_mp3)
         ], check=True, capture_output=True)
         
-        logging.info("Podcast created successfully with background music")
+        logging.info("Podcast created successfully with SpaceX intro and background music")
         
         # Cleanup music temp files
-        for tmp_file in [music_intro, music_overlap, music_fadeout, music_fadein, music_tail_full, music_tail_fadeout, music_silence, background_track, voice_delayed, music_concat_list]:
-            if tmp_file.exists():
+        cleanup_files = []
+        if has_intro_music:
+            cleanup_files.extend([music_intro_spacex, music_intro_fadeout])
+        if has_background_music:
+            cleanup_files.extend([music_tail_full, music_tail_fadeout])
+        cleanup_files.extend([music_silence, music_fadein, background_track, voice_delayed, music_concat_list])
+        
+        for tmp_file in cleanup_files:
+            if tmp_file and tmp_file.exists():
                 try:
                     os.remove(str(tmp_file))
                 except Exception:
