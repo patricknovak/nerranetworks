@@ -1388,6 +1388,8 @@ def fetch_oilers_news():
             continue
     
     logging.info(f"Fetched {len(all_articles)} total articles from RSS feeds")
+    if problematic_feeds:
+        logging.debug(f"Skipped {len(problematic_feeds)} problematic RSS feed(s) (check debug logs for details)")
     
     if not all_articles:
         logging.warning("⚠️  No articles found from RSS feeds - check feed availability and date filtering")
