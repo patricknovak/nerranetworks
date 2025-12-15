@@ -118,6 +118,14 @@ def number_to_words(num: float) -> str:
     return ('negative ' if is_negative else '') + result
 
 # ========================== PRONUNCIATION FIXER v4 – COMPREHENSIVE HOCKEY TERMS ==========================
+# Try to use shared pronunciation module, fallback to local implementation
+try:
+    from assets.pronunciation import apply_pronunciation_fixes, COMMON_ACRONYMS, HOCKEY_TERMS, PLAYER_NAMES, WORD_PRONUNCIATIONS
+    USE_SHARED_PRONUNCIATION = True
+except ImportError:
+    USE_SHARED_PRONUNCIATION = False
+    logging.warning("Could not import shared pronunciation module, using local implementation")
+
 def fix_pronunciation(text: str) -> str:
     """
     Comprehensive pronunciation fixer for hockey/Oilers content.
@@ -579,6 +587,23 @@ def fix_pronunciation(text: str) -> str:
             return match.group(0)
     
     text = re.sub(r'(\d{1,2}):(\d{2})\s*(AM|PM)', replace_time, text, flags=re.IGNORECASE)
+
+    # If shared pronunciation module is available, apply common fixes
+    # Note: Hockey-specific terms and player names are already handled above
+    if USE_SHARED_PRONUNCIATION:
+        try:
+            # Apply shared pronunciation fixes for common acronyms and terms
+            # Player names are handled locally above, so pass empty dict
+            text = apply_pronunciation_fixes(
+                text,
+                acronyms=COMMON_ACRONYMS,
+                hockey_terms=HOCKEY_TERMS,
+                player_names={},  # Use local player_names dict instead
+                word_pronunciations=WORD_PRONUNCIATIONS,
+                use_zwj=False  # Use spaces for better TTS
+            )
+        except Exception as e:
+            logging.warning(f"Error applying shared pronunciation fixes: {e}, continuing with local fixes")
 
     return text
 
@@ -2124,8 +2149,7 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
         1. CHATTERBOX_VOICE_PROMPT_PATH (env var or direct path)
         2. CHATTERBOX_VOICE_PROMPT_BASE64 (base64 encoded audio)
         3. Permanent voice prompt in assets/voice_prompts/ (if exists)
-        4. Derive from existing Lube Change episodes
-        5. Fallback to Planetterrian episodes
+        4. Derive from Planetterrian episodes only (same host voice)
         """
         created_src = False
         episode_mode = False
@@ -2158,34 +2182,32 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
                         # Return the prompt file directly (no processing needed - already in correct format)
                         return prompt_file
             
-            # Fallback to deriving from episodes
-            # First try to find Lube Change episodes
-            candidates = sorted(
-                list(digests_dir.glob("Lube_Change_Ep*.mp3")),
-                key=lambda p: p.stat().st_mtime,
-                reverse=True,
-            )
-            if not candidates:
-                # Fallback: use Planetterrian episodes (same host voice)
-                planetterrian_dir = project_root / "digests" / "planetterrian"
-                if planetterrian_dir.exists():
-                    candidates = sorted(
-                        list(planetterrian_dir.glob("Planetterrian_Daily_Ep*.mp3")),
-                        key=lambda p: p.stat().st_mtime,
-                        reverse=True,
+            # Fallback: derive voice prompt from Planetterrian episodes only (same host voice)
+            planetterrian_dir = project_root / "digests" / "planetterrian"
+            if planetterrian_dir.exists():
+                candidates = sorted(
+                    list(planetterrian_dir.glob("Planetterrian_Daily_Ep*.mp3")),
+                    key=lambda p: p.stat().st_mtime,
+                    reverse=True,
+                )
+                if candidates:
+                    src = candidates[0]
+                    episode_mode = True
+                    logging.info(f"Chatterbox voice prompt: deriving from Planetterrian episode: {src.name}")
+                else:
+                    raise RuntimeError(
+                        "No Planetterrian episode MP3s found to derive a Chatterbox voice prompt. "
+                        "Either commit at least one Planetterrian episode MP3 to digests/planetterrian/, "
+                        "add a permanent voice prompt to assets/voice_prompts/, or set "
+                        "CHATTERBOX_VOICE_PROMPT_PATH / CHATTERBOX_VOICE_PROMPT_BASE64."
                     )
-                    if candidates:
-                        logging.info(f"Chatterbox voice prompt: no Lube Change episodes found, using Planetterrian episode: {candidates[0].name}")
-            if not candidates:
+            else:
                 raise RuntimeError(
-                    "No existing episode MP3s found to derive a Chatterbox voice prompt. "
-                    "Either commit at least one prior episode MP3 (Lube Change or Planetterrian), or set "
+                    "Planetterrian directory not found and no permanent voice prompt available. "
+                    "Either create digests/planetterrian/ with at least one episode MP3, "
+                    "add a permanent voice prompt to assets/voice_prompts/, or set "
                     "CHATTERBOX_VOICE_PROMPT_PATH / CHATTERBOX_VOICE_PROMPT_BASE64."
                 )
-            src = candidates[0]
-            episode_mode = True
-            if "Planetterrian" not in str(src):
-                logging.info(f"Chatterbox voice prompt: deriving from episode audio: {src.name}")
 
         if not src.exists():
             raise FileNotFoundError(f"Chatterbox voice prompt source not found: {src}")
