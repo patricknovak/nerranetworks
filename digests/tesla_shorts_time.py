@@ -29,6 +29,8 @@ from PIL import Image, ImageDraw, ImageFont
 import feedparser
 from typing import List, Dict, Any
 import tweepy
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from threading import Lock
 
 # ========================== LOGGING ==========================
 logging.basicConfig(
