@@ -136,13 +136,8 @@ def number_to_words(num: float) -> str:
     return ('negative ' if is_negative else '') + result
 
 # ========================== PRONUNCIATION FIXER – USING SHARED DICTIONARY ==========================
-# Try to use shared pronunciation module, fallback to local implementation
-try:
-    from assets.pronunciation import apply_pronunciation_fixes, COMMON_ACRONYMS, WORD_PRONUNCIATIONS
-    USE_SHARED_PRONUNCIATION = True
-except ImportError:
-    USE_SHARED_PRONUNCIATION = False
-    logging.warning("Could not import shared pronunciation module, using local implementation")
+# Note: Import will be set up after project_root is defined
+USE_SHARED_PRONUNCIATION = False
 
 def fix_tesla_pronunciation(text: str) -> str:
     """
