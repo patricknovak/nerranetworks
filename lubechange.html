@@ -467,6 +467,12 @@
                 const items = xml.querySelectorAll('item');
                 const container = document.getElementById('episodes-container');
                 
+                // Clear container but keep placeholder if no episodes
+                if (items.length === 0) {
+                    // Keep the "Welcome to Lube Change" placeholder
+                    return;
+                }
+                
                 container.innerHTML = '';
                 
                 items.forEach((item, index) => {
@@ -501,6 +507,7 @@
             })
             .catch(error => {
                 console.error('Error loading episodes:', error);
+                // Keep the placeholder on error
             });
     </script>
 </body>
