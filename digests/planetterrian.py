@@ -1158,8 +1158,15 @@ else:
     logging.info("X posting is disabled (ENABLE_X_POSTING = False)")
 
 # ========================== RSS FEED FUNCTIONS (DEFINED BEFORE PODCAST GENERATION) ==========================
+# Cache for audio duration lookups to avoid redundant ffprobe calls
+_audio_duration_cache: Dict[Path, float] = {}
+
 def get_audio_duration(path: Path) -> float:
-    """Return duration in seconds for an audio file."""
+    """Return duration in seconds for an audio file. Uses cache to avoid redundant ffprobe calls."""
+    # Check cache first
+    if path in _audio_duration_cache:
+        return _audio_duration_cache[path]
+    
     try:
         result = subprocess.run(
             [
@@ -1176,7 +1183,9 @@ def get_audio_duration(path: Path) -> float:
             text=True,
             check=True,
         )
-        return float(result.stdout.strip())
+        duration = float(result.stdout.strip())
+        _audio_duration_cache[path] = duration  # Cache the result
+        return duration
     except Exception as exc:
         logging.warning(f"Unable to determine duration for {path}: {exc}")
         return 0.0
@@ -1807,66 +1816,76 @@ Here is today's complete formatted digest. Use ONLY this content:
         music_fade_in_start = max(voice_duration - 25.0, 0.0)  # 25s before voice ends
         music_fade_in_duration = min(35.0, voice_duration - music_fade_in_start)  # Fade in over 35s
         
-        # Simplified music creation - create segments with louder intro
+        # OPTIMIZED: Generate independent music segments in parallel
         music_intro = tmp_dir / "music_intro.mp3"
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-t", "5",
-            "-af", "volume=0.6",  # Much louder intro music
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(music_intro)
-        ], check=True, capture_output=True)
-        
         music_overlap = tmp_dir / "music_overlap.mp3"
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "5", "-t", "3",
-            "-af", "volume=0.5",  # Louder during overlap
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(music_overlap)
-        ], check=True, capture_output=True)
-        
         music_fadeout = tmp_dir / "music_fadeout.mp3"
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
-            "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=18",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(music_fadeout)
-        ], check=True, capture_output=True)
+        music_tail_full = tmp_dir / "music_tail_full.mp3"
+        music_tail_fadeout = tmp_dir / "music_tail_fadeout.mp3"
         
+        def generate_music_segment(segment_name, cmd_args):
+            """Helper to generate a single music segment."""
+            subprocess.run(cmd_args, check=True, capture_output=True)
+        
+        # Generate independent music segments in parallel (don't depend on voice_duration)
+        logging.info("Generating music segments in parallel...")
+        independent_segments = [
+            ("intro", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-t", "5",
+                      "-af", "volume=0.6", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                      str(music_intro)]),
+            ("overlap", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "5", "-t", "3",
+                        "-af", "volume=0.5", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                        str(music_overlap)]),
+            ("fadeout", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
+                        "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=18", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                        str(music_fadeout)]),
+            ("tail_full", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "55", "-t", "30",
+                          "-af", "volume=0.4", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                          str(music_tail_full)]),
+            ("tail_fadeout", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "85", "-t", "20",
+                             "-af", "volume=0.4,afade=t=out:st=0:d=20", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                             str(music_tail_fadeout)]),
+        ]
+        
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            futures = {executor.submit(generate_music_segment, name, cmd): name for name, cmd in independent_segments}
+            for future in as_completed(futures):
+                segment_name = futures[future]
+                try:
+                    future.result()
+                    logging.debug(f"Generated music segment: {segment_name}")
+                except Exception as e:
+                    logging.error(f"Failed to generate music segment {segment_name}: {e}")
+                    raise
+        
+        # Generate voice-dependent segments (fadein and silence depend on voice_duration)
         middle_silence_duration = max(music_fade_in_start - 26.0, 0.0)
         music_silence = tmp_dir / "music_silence.mp3"
-        if middle_silence_duration > 0.1:
-            subprocess.run([
-                "ffmpeg", "-y", "-threads", "0", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
-                "-t", f"{middle_silence_duration:.2f}", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                str(music_silence)
-            ], check=True, capture_output=True)
-        
         music_fadein = tmp_dir / "music_fadein.mp3"
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "25", "-t", f"{music_fade_in_duration:.2f}",
-            "-af", f"volume=0.4,afade=t=in:st=0:d={music_fade_in_duration:.2f}",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(music_fadein)
-        ], check=True, capture_output=True)
         
-        # Outro music: 30 seconds full volume + 20 seconds fade = 50 seconds total
-        music_tail_full = tmp_dir / "music_tail_full.mp3"
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "55", "-t", "30",
-            "-af", "volume=0.4",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(music_tail_full)
-        ], check=True, capture_output=True)
+        voice_dependent_segments = []
+        if middle_silence_duration > 0.1:
+            voice_dependent_segments.append(("silence", ["ffmpeg", "-y", "-threads", "0", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
+                                                         "-t", f"{middle_silence_duration:.2f}", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                                                         str(music_silence)]))
         
-        music_tail_fadeout = tmp_dir / "music_tail_fadeout.mp3"
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "85", "-t", "20",
-            "-af", "volume=0.4,afade=t=out:st=0:d=20",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(music_tail_fadeout)
-        ], check=True, capture_output=True)
+        voice_dependent_segments.append(("fadein", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "25", "-t", f"{music_fade_in_duration:.2f}",
+                                                    "-af", f"volume=0.4,afade=t=in:st=0:d={music_fade_in_duration:.2f}", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                                                    str(music_fadein)]))
         
-        # Concatenate music
+        if voice_dependent_segments:
+            with ThreadPoolExecutor(max_workers=len(voice_dependent_segments)) as executor:
+                futures = {executor.submit(generate_music_segment, name, cmd): name for name, cmd in voice_dependent_segments}
+                for future in as_completed(futures):
+                    segment_name = futures[future]
+                    try:
+                        future.result()
+                        logging.debug(f"Generated music segment: {segment_name}")
+                    except Exception as e:
+                        logging.error(f"Failed to generate music segment {segment_name}: {e}")
+                        raise
+        
+        # Concatenate music and delay voice in parallel (they don't depend on each other)
         music_concat_list = tmp_dir / "music_timeline.txt"
         with open(music_concat_list, "w", encoding="utf-8") as f:
             f.write(f"file '{music_intro}'\n")
@@ -1879,20 +1898,24 @@ Here is today's complete formatted digest. Use ONLY this content:
             f.write(f"file '{music_tail_fadeout}'\n")
         
         background_track = tmp_dir / "background_track.mp3"
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(background_track)
-        ], check=True, capture_output=True)
-        
-        # Delay voice to start at 5 seconds
         voice_delayed = tmp_dir / "voice_delayed.mp3"
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix),
-            "-af", "adelay=5000|5000",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(voice_delayed)
-        ], check=True, capture_output=True)
+        
+        logging.info("Concatenating music and delaying voice in parallel...")
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            concat_future = executor.submit(subprocess.run,
+                ["ffmpeg", "-y", "-threads", "0", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
+                 "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                 str(background_track)],
+                check=True, capture_output=True)
+            delay_future = executor.submit(subprocess.run,
+                ["ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix),
+                 "-af", "adelay=5000|5000",
+                 "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                 str(voice_delayed)],
+                check=True, capture_output=True)
+            
+            concat_future.result()
+            delay_future.result()
         
         # Final mix: voice + music
         logging.info("Mixing voice and music...")
