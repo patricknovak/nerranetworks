@@ -2132,20 +2132,33 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
             src.write_bytes(raw)
             created_src = True
         else:
+            # First try to find Lube Change episodes
             candidates = sorted(
                 list(digests_dir.glob("Lube_Change_Ep*.mp3")),
                 key=lambda p: p.stat().st_mtime,
                 reverse=True,
             )
             if not candidates:
+                # Fallback: use Planetterrian episodes (same host voice)
+                planetterrian_dir = project_root / "digests" / "planetterrian"
+                if planetterrian_dir.exists():
+                    candidates = sorted(
+                        list(planetterrian_dir.glob("Planetterrian_Daily_Ep*.mp3")),
+                        key=lambda p: p.stat().st_mtime,
+                        reverse=True,
+                    )
+                    if candidates:
+                        logging.info(f"Chatterbox voice prompt: no Lube Change episodes found, using Planetterrian episode: {candidates[0].name}")
+            if not candidates:
                 raise RuntimeError(
-                    "No existing Lube Change episode MP3s found to derive a Chatterbox voice prompt. "
-                    "Either commit at least one prior episode MP3 to digests/lubechange/, or set "
+                    "No existing episode MP3s found to derive a Chatterbox voice prompt. "
+                    "Either commit at least one prior episode MP3 (Lube Change or Planetterrian), or set "
                     "CHATTERBOX_VOICE_PROMPT_PATH / CHATTERBOX_VOICE_PROMPT_BASE64."
                 )
             src = candidates[0]
             episode_mode = True
-            logging.info(f"Chatterbox voice prompt: deriving from episode audio: {src.name}")
+            if "Planetterrian" not in str(src):
+                logging.info(f"Chatterbox voice prompt: deriving from episode audio: {src.name}")
 
         if not src.exists():
             raise FileNotFoundError(f"Chatterbox voice prompt source not found: {src}")
