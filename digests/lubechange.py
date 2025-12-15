@@ -2119,7 +2119,13 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
     def _prepare_chatterbox_voice_prompt(tmp_dir: Path) -> Path:
         """
         Return a local WAV file suitable for Chatterbox's audio_prompt_path.
-        Supports either a direct path or a base64-encoded audio blob in env vars.
+        
+        Priority order:
+        1. CHATTERBOX_VOICE_PROMPT_PATH (env var or direct path)
+        2. CHATTERBOX_VOICE_PROMPT_BASE64 (base64 encoded audio)
+        3. Permanent voice prompt in assets/voice_prompts/ (if exists)
+        4. Derive from existing Lube Change episodes
+        5. Fallback to Planetterrian episodes
         """
         created_src = False
         episode_mode = False
@@ -2132,6 +2138,27 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
             src.write_bytes(raw)
             created_src = True
         else:
+            # Check for permanent voice prompt in assets directory (highest priority fallback)
+            assets_voice_prompts = project_root / "assets" / "voice_prompts"
+            if assets_voice_prompts.exists():
+                # Look for common voice prompt filenames (in priority order)
+                prompt_candidates = [
+                    assets_voice_prompts / "patrick_voice_prompt.wav",
+                    assets_voice_prompts / "voice_prompt.wav",
+                    assets_voice_prompts / "chatterbox_voice_prompt.wav",
+                ]
+                # Also check for any .wav files
+                existing_wavs = list(assets_voice_prompts.glob("*.wav"))
+                if existing_wavs:
+                    prompt_candidates.extend(existing_wavs)
+                
+                for prompt_file in prompt_candidates:
+                    if prompt_file.exists():
+                        logging.info(f"✅ Using permanent voice prompt: {prompt_file.name}")
+                        # Return the prompt file directly (no processing needed - already in correct format)
+                        return prompt_file
+            
+            # Fallback to deriving from episodes
             # First try to find Lube Change episodes
             candidates = sorted(
                 list(digests_dir.glob("Lube_Change_Ep*.mp3")),
@@ -2162,6 +2189,11 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
 
         if not src.exists():
             raise FileNotFoundError(f"Chatterbox voice prompt source not found: {src}")
+
+        # If src is already a WAV file (permanent prompt), return it directly
+        if src.suffix.lower() == '.wav' and not episode_mode and not created_src:
+            logging.info(f"Using permanent voice prompt file: {src}")
+            return src
 
         prompt_wav = tmp_dir / "chatterbox_voice_prompt.wav"
 
