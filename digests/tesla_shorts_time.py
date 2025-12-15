@@ -360,6 +360,19 @@ if not env_path.exists():
 
 load_dotenv(dotenv_path=env_path)
 
+# ========================== SET UP SHARED PRONUNCIATION MODULE ==========================
+# Try to use shared pronunciation module, fallback to local implementation
+try:
+    import sys
+    # Add project root to path so we can import assets module
+    if str(project_root) not in sys.path:
+        sys.path.insert(0, str(project_root))
+    from assets.pronunciation import apply_pronunciation_fixes, COMMON_ACRONYMS, WORD_PRONUNCIATIONS
+    USE_SHARED_PRONUNCIATION = True
+except ImportError:
+    USE_SHARED_PRONUNCIATION = False
+    logging.warning("Could not import shared pronunciation module, using local implementation")
+
 # ========================== TTS PROVIDER ==========================
 def _normalize_tts_provider(value: str) -> str:
     v = (value or "").strip().lower()
