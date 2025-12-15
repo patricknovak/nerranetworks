@@ -1194,13 +1194,25 @@ def fetch_oilers_news():
     
     logging.info(f"Fetching Oilers news from {len(rss_feeds)} RSS feeds...")
     
+    # Known problematic feeds that often fail - track them separately
+    problematic_feeds = set()
+    
     for feed_url in rss_feeds:
         source_name = "Unknown"
         try:
+            # Add timeout and better error handling
             feed = feedparser.parse(feed_url)
             
             if feed.bozo and feed.bozo_exception:
-                logging.warning(f"Failed to parse RSS feed {feed_url}: {feed.bozo_exception}")
+                # Only log warning once per feed, then suppress
+                if feed_url not in problematic_feeds:
+                    problematic_feeds.add(feed_url)
+                    # Use debug level for known problematic feeds to reduce noise
+                    error_msg = str(feed.bozo_exception)
+                    if "not well-formed" in error_msg or "syntax error" in error_msg:
+                        logging.debug(f"RSS feed has malformed XML (will skip): {feed_url}")
+                    else:
+                        logging.debug(f"RSS feed parsing issue (will skip): {feed_url} - {error_msg[:100]}")
                 continue
             
             source_name = feed.feed.get("title", "Unknown")
@@ -1357,8 +1369,22 @@ def fetch_oilers_news():
             logging.info(f"Fetched {len(feed_articles)} articles from {source_name}")
             all_articles.extend(feed_articles)
             
+        except requests.RequestException as e:
+            # Network errors - log at debug level to reduce noise
+            if feed_url not in problematic_feeds:
+                problematic_feeds.add(feed_url)
+                logging.debug(f"Network error fetching RSS feed (will skip): {feed_url} - {type(e).__name__}")
+            continue
         except Exception as e:
-            logging.warning(f"Failed to fetch RSS feed {feed_url}: {e}")
+            # Other errors - log at debug level for known issues
+            error_str = str(e)
+            if any(keyword in error_str.lower() for keyword in ["not well-formed", "syntax error", "mismatched tag", "invalid token", "404", "not found", "closed connection"]):
+                if feed_url not in problematic_feeds:
+                    problematic_feeds.add(feed_url)
+                    logging.debug(f"RSS feed error (will skip): {feed_url} - {type(e).__name__}")
+            else:
+                # Unknown errors - log at warning level
+                logging.warning(f"Failed to fetch RSS feed {feed_url}: {e}")
             continue
     
     logging.info(f"Fetched {len(all_articles)} total articles from RSS feeds")
