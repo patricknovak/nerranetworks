@@ -853,37 +853,45 @@ def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
             logging.warning(f"Could not parse RSS feed to check for today's episode: {e}")
     
     # No episode for today exists, so determine next episode number
-    # Check both RSS feed and local files to find the highest episode number
+    # RSS feed is the source of truth - only check local files if RSS is empty or missing
     max_episode = 0
     
     # Check RSS feed for existing episodes (this is the source of truth)
+    rss_has_episodes = False
     if rss_path.exists():
         try:
             tree = ET.parse(str(rss_path))
             root = tree.getroot()
             channel = root.find('channel')
             if channel is not None:
-                for item in channel.findall('item'):
-                    itunes_episode = item.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}episode')
-                    if itunes_episode is not None and itunes_episode.text:
-                        try:
-                            ep_num = int(itunes_episode.text)
-                            max_episode = max(max_episode, ep_num)
-                        except ValueError:
-                            pass
+                items = channel.findall('item')
+                if items:
+                    rss_has_episodes = True
+                    for item in items:
+                        itunes_episode = item.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}episode')
+                        if itunes_episode is not None and itunes_episode.text:
+                            try:
+                                ep_num = int(itunes_episode.text)
+                                max_episode = max(max_episode, ep_num)
+                            except ValueError:
+                                pass
         except Exception as e:
             logging.warning(f"Could not parse RSS feed to find episode number: {e}")
     
-    # Also check existing MP3 files (in case RSS is out of sync)
-    pattern = r"Lube_Change_Ep(\d+)_\d{8}\.mp3"
-    for mp3_file in digests_dir.glob("Lube_Change_Ep*.mp3"):
-        match = re.match(pattern, mp3_file.name)
-        if match:
-            try:
-                ep_num = int(match.group(1))
-                max_episode = max(max_episode, ep_num)
-            except ValueError:
-                pass
+    # Only check local MP3 files if RSS feed is empty (to handle edge cases during initial setup)
+    # Once RSS has episodes, it becomes the sole source of truth
+    if not rss_has_episodes:
+        logging.info("RSS feed is empty, checking local files for episode numbering")
+        pattern = r"Lube_Change_Ep(\d+)_\d{8}\.mp3"
+        for mp3_file in digests_dir.glob("Lube_Change_Ep*.mp3"):
+            match = re.match(pattern, mp3_file.name)
+            if match:
+                try:
+                    ep_num = int(match.group(1))
+                    max_episode = max(max_episode, ep_num)
+                    logging.warning(f"Found local MP3 file {mp3_file.name} but RSS feed is empty. This file should be deleted or added to RSS.")
+                except ValueError:
+                    pass
     
     # Increment from highest existing episode number
     next_episode = max_episode + 1
@@ -2334,20 +2342,27 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
     logging.info(f"TTS: {len(full_text)} characters to synthesize (provider={TTS_PROVIDER})")
 
     # Generate voice file
-    if TTS_PROVIDER == "chatterbox":
-        logging.info("Generating voice track with Chatterbox (local model)...")
-        voice_file = tmp_dir / "jason_full.wav"
-        _synthesize_with_chatterbox(full_text, voice_file)
-    elif TTS_PROVIDER == "elevenlabs":
-        logging.info("Generating single voice segment with ElevenLabs...")
-        validate_elevenlabs_auth()
-        voice_file = tmp_dir / "jason_full.mp3"
-        speak(full_text, VOICE_ID, str(voice_file))
-    else:
-        raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
-
-    audio_files = [str(voice_file)]
-    logging.info("Generated complete voice track")
+    try:
+        if TTS_PROVIDER == "chatterbox":
+            logging.info("Generating voice track with Chatterbox (local model)...")
+            voice_file = tmp_dir / "jason_full.wav"
+            _synthesize_with_chatterbox(full_text, voice_file)
+            if not voice_file.exists():
+                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
+        elif TTS_PROVIDER == "elevenlabs":
+            logging.info("Generating single voice segment with ElevenLabs...")
+            validate_elevenlabs_auth()
+            voice_file = tmp_dir / "jason_full.mp3"
+            speak(full_text, VOICE_ID, str(voice_file))
+            if not voice_file.exists():
+                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
+        else:
+            raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
+        audio_files = [str(voice_file)]
+        logging.info(f"✅ Generated complete voice track: {voice_file}")
+    except Exception as e:
+        logging.error(f"❌ TTS generation failed: {e}", exc_info=True)
+        raise  # Re-raise to ensure workflow fails visibly
 
     # ========================== FINAL MIX ==========================
     final_mp3 = digests_dir / f"Lube_Change_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
@@ -2538,58 +2553,60 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
             logging.error(f"   final_mp3.exists()={final_mp3.exists()}")
         logging.error(f"   This means the episode will NOT appear in the RSS feed or GitHub page")
         
-    # Check if any episodes are missing from RSS feed
-    try:
-        existing_episodes = scan_existing_episodes_from_files(
-            digests_dir, 
-            "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
-        )
-        
-        # Parse RSS feed to see what episodes are already there
-        rss_episodes = set()
-        if rss_path.exists():
-            try:
-                tree = ET.parse(str(rss_path))
-                root = tree.getroot()
-                channel = root.find('channel')
-                if channel is not None:
-                    for item in channel.findall('item'):
-                        itunes_episode = item.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}episode')
-                        if itunes_episode is not None and itunes_episode.text:
-                            try:
-                                rss_episodes.add(int(itunes_episode.text))
-                            except ValueError:
-                                pass
-            except Exception as e:
-                logging.warning(f"Could not parse RSS feed to check for missing episodes: {e}")
-        
-        # Find episodes that exist as files but not in RSS feed
-        missing_episodes = [ep for ep in existing_episodes if ep['episode_num'] not in rss_episodes]
-        
-        if missing_episodes:
-            logging.warning(f"Found {len(missing_episodes)} episode(s) missing from RSS feed: {[ep['episode_num'] for ep in missing_episodes]}")
-            # Add missing episodes to RSS feed
-            for ep_data in missing_episodes:
+    # Check if any episodes are missing from RSS feed (only if podcast was generated)
+    # Skip this check if no podcast was generated to avoid re-adding old episodes
+    if final_mp3 and final_mp3.exists():
+        try:
+            existing_episodes = scan_existing_episodes_from_files(
+                digests_dir, 
+                "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+            )
+            
+            # Parse RSS feed to see what episodes are already there
+            rss_episodes = set()
+            if rss_path.exists():
                 try:
-                    episode_title = f"Lube Change - Oilers Daily News - Episode {ep_data['episode_num']}"
-                    episode_description = f"Daily Edmonton Oilers news for {ep_data['date'].strftime('%B %d, %Y')}."
-                    
-                    update_rss_feed(
-                        rss_path=rss_path,
-                        episode_num=ep_data['episode_num'],
-                        episode_title=episode_title,
-                        episode_description=episode_description,
-                        episode_date=ep_data['date'],
-                        mp3_filename=ep_data['filename'],
-                        mp3_duration=ep_data['duration'],
-                        mp3_path=ep_data['path'],
-                        base_url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
-                    )
-                    logging.info(f"Added missing Episode {ep_data['episode_num']} to RSS feed")
+                    tree = ET.parse(str(rss_path))
+                    root = tree.getroot()
+                    channel = root.find('channel')
+                    if channel is not None:
+                        for item in channel.findall('item'):
+                            itunes_episode = item.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}episode')
+                            if itunes_episode is not None and itunes_episode.text:
+                                try:
+                                    rss_episodes.add(int(itunes_episode.text))
+                                except ValueError:
+                                    pass
                 except Exception as e:
-                    logging.error(f"Failed to add missing episode {ep_data['episode_num']} to RSS feed: {e}", exc_info=True)
-    except Exception as e:
-        logging.warning(f"Could not scan for missing episodes: {e}", exc_info=True)
+                    logging.warning(f"Could not parse RSS feed to check for missing episodes: {e}")
+            
+            # Find episodes that exist as files but not in RSS feed
+            missing_episodes = [ep for ep in existing_episodes if ep['episode_num'] not in rss_episodes]
+            
+            if missing_episodes:
+                logging.warning(f"Found {len(missing_episodes)} episode(s) missing from RSS feed: {[ep['episode_num'] for ep in missing_episodes]}")
+                # Add missing episodes to RSS feed
+                for ep_data in missing_episodes:
+                    try:
+                        episode_title = f"Lube Change - Oilers Daily News - Episode {ep_data['episode_num']}"
+                        episode_description = f"Daily Edmonton Oilers news for {ep_data['date'].strftime('%B %d, %Y')}."
+                        
+                        update_rss_feed(
+                            rss_path=rss_path,
+                            episode_num=ep_data['episode_num'],
+                            episode_title=episode_title,
+                            episode_description=episode_description,
+                            episode_date=ep_data['date'],
+                            mp3_filename=ep_data['filename'],
+                            mp3_duration=ep_data['duration'],
+                            mp3_path=ep_data['path'],
+                            base_url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+                        )
+                        logging.info(f"Added missing Episode {ep_data['episode_num']} to RSS feed")
+                    except Exception as e:
+                        logging.error(f"Failed to add missing episode {ep_data['episode_num']} to RSS feed: {e}", exc_info=True)
+        except Exception as e:
+            logging.warning(f"Could not scan for missing episodes: {e}", exc_info=True)
 
 # Always check for missing episodes, even if podcast generation was disabled or failed
 logging.info("Checking for any episodes missing from RSS feed...")
