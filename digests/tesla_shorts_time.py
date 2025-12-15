@@ -138,12 +138,12 @@ def number_to_words(num: float) -> str:
 # ========================== PRONUNCIATION FIXER v3 – ACRONYMS + NUMBERS ==========================
 def fix_tesla_pronunciation(text: str) -> str:
     """
-    Forces correct spelling of Tesla acronyms and converts numbers to words
-    for better TTS pronunciation on ElevenLabs.
+    Forces correct spelling of Tesla acronyms, converts numbers to words,
+    and fixes dates/times for better TTS pronunciation on ElevenLabs.
     """
     import re
 
-    # List of acronyms that must be spelled out letter-by-letter
+    # List of acronyms that must be spelled out letter-by-letter (use spaces, not ZWJ)
     acronyms = {
         "TSLA": "T S L A",
         "FSD":  "F S D",
@@ -159,21 +159,16 @@ def fix_tesla_pronunciation(text: str) -> str:
         "NHTSA":"N H T S A",
         "OTA":  "O T A",
         "LFP":  "L F P",
+        "SpaceX": "Space X",
     }
 
-    # Invisible zero-width non-breaking space / word joiner
-    ZWJ = "\u2060"   # U+2060 WORD JOINER — this one is safe
-
-    # Special case: Fix "Robotaxis" plural pronunciation
-    # Use word joiner to help TTS recognize the plural form correctly
-    # This keeps it as one word but helps TTS pronounce "Robotaxi" + "s" properly
-    text = re.sub(r'\b(Robotaxi)(s)\b', rf'\1{ZWJ}\2', text, flags=re.IGNORECASE)
+    # Special case: Fix "Robotaxis" plural pronunciation (use space instead of ZWJ)
+    text = re.sub(r'\b(Robotaxi)(s)\b', r'\1 \2', text, flags=re.IGNORECASE)
 
     for acronym, spelled in acronyms.items():
         # Build a regex that only matches the acronym when it's a whole word
-        # (surrounded by space, punctuation, start/end of string, etc.)
         pattern = rf'(?<!\w){re.escape(acronym)}(?!\w)'
-        replacement = ZWJ.join(list(spelled))
+        replacement = " ".join(list(spelled))
         text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
 
     # Convert episode numbers (e.g., "episode 336" → "episode three hundred thirty-six")
@@ -236,6 +231,94 @@ def fix_tesla_pronunciation(text: str) -> str:
     
     text = re.sub(r'([\+\-]?)(\d+\.?\d*)\s*%', replace_percentage, text)
     
+    # Fix dates: "November 19, 2025" → "November nineteenth, twenty twenty-five"
+    def replace_date(match):
+        month = match.group(1)
+        day = match.group(2)
+        year = match.group(3)
+        try:
+            day_num = int(day)
+            day_words = number_to_words(day_num)
+            # Convert ordinal numbers
+            if day_num == 1:
+                day_words = "first"
+            elif day_num == 2:
+                day_words = "second"
+            elif day_num == 3:
+                day_words = "third"
+            elif day_num <= 20:
+                if not day_words.endswith(("first", "second", "third")):
+                    day_words += "th"
+            else:
+                if day_num % 10 == 1:
+                    day_words = day_words.replace(" one", " first")
+                elif day_num % 10 == 2:
+                    day_words = day_words.replace(" two", " second")
+                elif day_num % 10 == 3:
+                    day_words = day_words.replace(" three", " third")
+                else:
+                    day_words += "th"
+            
+            # Convert year to words
+            year_num = int(year)
+            if year_num >= 2000:
+                thousands = year_num // 1000
+                remainder = year_num % 1000
+                if remainder == 0:
+                    year_words = number_to_words(thousands) + " thousand"
+                else:
+                    year_words = number_to_words(thousands) + " thousand " + number_to_words(remainder)
+            else:
+                year_words = number_to_words(year_num)
+            
+            return f"{month} {day_words}, {year_words}"
+        except ValueError:
+            return match.group(0)
+    
+    text = re.sub(r'(\w+)\s+(\d{1,2}),\s+(\d{4})', replace_date, text, flags=re.IGNORECASE)
+
+    # Fix times: "02:30 PM" → "two thirty PM"
+    def replace_time(match):
+        hour_str = match.group(1)
+        minute_str = match.group(2)
+        am_pm = match.group(3) if match.group(3) else ""
+        try:
+            hour = int(hour_str)
+            minute = int(minute_str)
+            
+            # Handle 24-hour format
+            if not am_pm and hour >= 13:
+                hour -= 12
+                am_pm = "PM"
+            elif not am_pm and hour == 12:
+                am_pm = "PM"
+            elif not am_pm and hour == 0:
+                hour = 12
+                am_pm = "AM"
+            elif not am_pm:
+                am_pm = "AM"
+            
+            hour_word = number_to_words(hour)
+            if minute == 0:
+                time_str = f"{hour_word} o'clock {am_pm}".strip()
+            else:
+                minute_word = number_to_words(minute)
+                time_str = f"{hour_word} {minute_word} {am_pm}".strip()
+            
+            return time_str
+        except ValueError:
+            return match.group(0)
+    
+    text = re.sub(r'(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)?', replace_time, text)
+    
+    # Fix timezone abbreviations
+    text = re.sub(r'\bPST\b', 'Pacific Standard Time', text)
+    text = re.sub(r'\bPDT\b', 'Pacific Daylight Time', text)
+    text = re.sub(r'\bEST\b', 'Eastern Standard Time', text)
+    text = re.sub(r'\bEDT\b', 'Eastern Daylight Time', text)
+    text = re.sub(r'\bUTC\b', 'U T C', text)
+    text = re.sub(r'\bGMT\b', 'G M T', text)
+    
     return text
 
 def generate_episode_thumbnail(base_image_path, episode_num, date_str, output_path):
@@ -259,12 +342,75 @@ if not env_path.exists():
 
 load_dotenv(dotenv_path=env_path)
 
+# ========================== TTS PROVIDER ==========================
+def _normalize_tts_provider(value: str) -> str:
+    v = (value or "").strip().lower()
+    if not v:
+        return "chatterbox"
+    if v in {"elevenlabs", "eleven", "11labs", "11-labs"}:
+        return "elevenlabs"
+    if v in {"chatterbox", "chatterbox-tts", "chatterbox_tts", "cb"}:
+        return "chatterbox"
+    return v
+
+TTS_PROVIDER = _normalize_tts_provider(os.getenv("TESLA_SHORTS_TIME_TTS_PROVIDER", "chatterbox"))
+
+def _env_float(name: str, default: float) -> float:
+    raw = os.getenv(name)
+    if not raw:
+        return default
+    try:
+        return float(raw)
+    except ValueError:
+        logging.warning(f"Invalid {name}='{raw}' (expected float). Using default {default}.")
+        return default
+
+def _env_int(name: str, default: int) -> int:
+    raw = os.getenv(name)
+    if not raw:
+        return default
+    try:
+        return int(raw)
+    except ValueError:
+        logging.warning(f"Invalid {name}='{raw}' (expected int). Using default {default}.")
+        return default
+
+def _env_bool(name: str, default: bool) -> bool:
+    raw = os.getenv(name)
+    if not raw:
+        return default
+    v = raw.strip().lower()
+    if v in {"1", "true", "yes", "on"}:
+        return True
+    if v in {"0", "false", "no", "off"}:
+        return False
+    logging.warning(f"Invalid {name}='{raw}' (expected bool). Using default {default}.")
+    return default
+
+# Chatterbox (local) TTS config
+CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
+CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
+CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 1000)
+CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
+CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
+CHATTERBOX_VOICE_PROMPT_BASE64 = os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64", "").strip()
+CHATTERBOX_PROMPT_OFFSET_SECONDS = _env_float("CHATTERBOX_PROMPT_OFFSET_SECONDS", 35.0)
+CHATTERBOX_PROMPT_DURATION_SECONDS = _env_float("CHATTERBOX_PROMPT_DURATION_SECONDS", 10.0)
+
 # Required keys (X credentials only required if posting is enabled)
 required = [
-    "GROK_API_KEY", 
-    "ELEVENLABS_API_KEY"
-    # NEWSAPI_KEY no longer required - using RSS feeds instead
+    "GROK_API_KEY"
 ]
+if ENABLE_PODCAST and not TEST_MODE:
+    if TTS_PROVIDER == "elevenlabs":
+        required.append("ELEVENLABS_API_KEY")
+    elif TTS_PROVIDER == "chatterbox":
+        # Local model, no API key required. Voice prompt can be derived from Tesla Shorts Time episodes.
+        pass
+    else:
+        raise OSError(
+            f"Unknown TESLA_SHORTS_TIME_TTS_PROVIDER '{TTS_PROVIDER}'. Use 'chatterbox' or 'elevenlabs'."
+        )
 if ENABLE_X_POSTING:
     required.extend([
         "X_CONSUMER_KEY",
@@ -275,6 +421,13 @@ if ENABLE_X_POSTING:
 for var in required:
     if not os.getenv(var):
         raise OSError(f"Missing {var} in .env")
+
+# Chatterbox voice cloning can use either an explicit prompt (path/base64) OR fall back to a prior Tesla Shorts Time episode audio.
+if ENABLE_PODCAST and not TEST_MODE and TTS_PROVIDER == "chatterbox":
+    if not os.getenv("CHATTERBOX_VOICE_PROMPT_PATH") and not os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64"):
+        logging.info(
+            "Chatterbox voice prompt not provided via env; will attempt to derive a prompt from an existing Tesla Shorts Time episode MP3."
+        )
 
 # ========================== DATE & PRICE (MUST BE FIRST) ==========================
 # Get current date and time in PST
@@ -612,6 +765,7 @@ credit_usage = {
             "total_cost_usd": 0.0
         },
         "elevenlabs_api": {
+            "provider": TTS_PROVIDER,
             "characters": 0,
             "estimated_cost_usd": 0.0
         },
@@ -643,9 +797,15 @@ def save_credit_usage(usage_data: dict, output_dir: Path):
             usage_data["services"]["x_api"]["post_calls"]
         )
         
-        # Calculate total cost (ElevenLabs pricing: ~$0.30 per 1000 characters for turbo model)
-        elevenlabs_cost = (usage_data["services"]["elevenlabs_api"]["characters"] / 1000) * 0.30
-        usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = elevenlabs_cost
+        # Calculate TTS cost (only applies if using a paid API provider like ElevenLabs)
+        tts_provider = str(usage_data["services"]["elevenlabs_api"].get("provider", "elevenlabs")).strip().lower()
+        if tts_provider == "elevenlabs":
+            # ElevenLabs pricing: ~$0.30 per 1000 characters for turbo model
+            elevenlabs_cost = (usage_data["services"]["elevenlabs_api"]["characters"] / 1000) * 0.30
+            usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = elevenlabs_cost
+        else:
+            # Chatterbox is local/free
+            usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = 0.0
         
         usage_data["total_estimated_cost_usd"] = (
             usage_data["services"]["grok_api"]["total_cost_usd"] +
@@ -668,7 +828,7 @@ def save_credit_usage(usage_data: dict, output_dir: Path):
         logging.info(f"Grok API (X Thread): {usage_data['services']['grok_api']['x_thread_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['x_thread_generation']['estimated_cost_usd']:.4f})")
         logging.info(f"Grok API (Podcast Script): {usage_data['services']['grok_api']['podcast_script_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['podcast_script_generation']['estimated_cost_usd']:.4f})")
         logging.info(f"Grok API Total: {usage_data['services']['grok_api']['total_tokens']} tokens (${usage_data['services']['grok_api']['total_cost_usd']:.4f})")
-        logging.info(f"ElevenLabs API: {usage_data['services']['elevenlabs_api']['characters']} characters (${usage_data['services']['elevenlabs_api']['estimated_cost_usd']:.4f})")
+        logging.info(f"TTS ({usage_data['services']['elevenlabs_api'].get('provider', 'unknown')}): {usage_data['services']['elevenlabs_api']['characters']} characters (${usage_data['services']['elevenlabs_api']['estimated_cost_usd']:.4f})")
         logging.info(f"X API: {usage_data['services']['x_api']['total_calls']} API calls (search: {usage_data['services']['x_api']['search_calls']}, post: {usage_data['services']['x_api']['post_calls']})")
         logging.info(f"TOTAL ESTIMATED COST: ${usage_data['total_estimated_cost_usd']:.4f}")
         logging.info("="*80)
@@ -688,6 +848,7 @@ client = OpenAI(
 )
 ELEVEN_API = "https://api.elevenlabs.io/v1"
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
+ELEVEN_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "dTrBzPvD2GpAqkk1MUzA")  # Default: High-energy Patrick
 # NEWSAPI_KEY no longer needed - using RSS feeds instead
 
 
@@ -2135,19 +2296,271 @@ Here is today's complete formatted digest. Use ONLY this content:
         f.write(f"# Tesla Shorts Time – The Pod | Ep {episode_num} | {today_str}\n\n{podcast_script}")
     logging.info("Natural podcast script generated – Patrick starts, super enthusiastic")
 
-    # ========================== 3. ELEVENLABS TTS + COLLECT AUDIO FILES ==========================
-    PATRICK_VOICE_ID = "dTrBzPvD2GpAqkk1MUzA"    # High-energy Patrick
+    # ========================== 3. TTS (VOICE) ==========================
+    logging.info(f"TTS provider selected: {TTS_PROVIDER}")
+    if TTS_PROVIDER != "chatterbox" and TTS_PROVIDER != "elevenlabs":
+        raise RuntimeError(f"Invalid TTS_PROVIDER: {TTS_PROVIDER}. Must be 'chatterbox' or 'elevenlabs'")
+
+    def _chunk_text(text: str, max_chars: int) -> List[str]:
+        """Split long text into chunks for local TTS models."""
+        cleaned = re.sub(r"\s+", " ", (text or "")).strip()
+        if not cleaned:
+            return []
+        if max_chars <= 0 or len(cleaned) <= max_chars:
+            return [cleaned]
+
+        chunks: List[str] = []
+        start = 0
+        n = len(cleaned)
+        while start < n:
+            end = min(start + max_chars, n)
+            window = cleaned[start:end]
+
+            # Prefer cutting at sentence boundaries; fall back to commas; then hard cut.
+            candidates = [window.rfind("."), window.rfind("!"), window.rfind("?"), window.rfind(";"), window.rfind(":")]
+            cut = max(candidates)
+            if cut < int(max_chars * 0.5):
+                cut = window.rfind(",")
+            if cut < int(max_chars * 0.5):
+                cut = len(window) - 1
+
+            piece = window[: cut + 1].strip()
+            if piece:
+                chunks.append(piece)
+            start += cut + 1
+
+        return chunks
+
+    def _prepare_chatterbox_voice_prompt(tmp_dir: Path) -> Path:
+        """
+        Return a local WAV file suitable for Chatterbox's audio_prompt_path.
+        Supports either a direct path, base64 prompt, or (default) deriving from a Tesla Shorts Time episode MP3.
+        """
+        import base64
+
+        created_src = False
+        episode_mode = False
+
+        if CHATTERBOX_VOICE_PROMPT_PATH:
+            src = Path(CHATTERBOX_VOICE_PROMPT_PATH).expanduser()
+        elif CHATTERBOX_VOICE_PROMPT_BASE64:
+            raw = base64.b64decode(CHATTERBOX_VOICE_PROMPT_BASE64)
+            src = tmp_dir / "chatterbox_voice_prompt_input.mp3"
+            src.write_bytes(raw)
+            created_src = True
+        else:
+            # Default: use episode 354 from December 12, 2025 as the voice clone source
+            # Fallback to most recent episode if specific one not found
+            preferred_episode = digests_dir / "Tesla_Shorts_Time_Pod_Ep354_20251212.mp3"
+            
+            if preferred_episode.exists():
+                src = preferred_episode
+                episode_mode = True
+                logging.info(f"Chatterbox voice prompt: using preferred episode 354 (Dec 12, 2025): {src.name}")
+            else:
+                # Fallback: use the most recent Tesla Shorts Time episode audio
+                candidates = sorted(
+                    list(digests_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3")),
+                    key=lambda p: p.stat().st_mtime,
+                    reverse=True,
+                )
+                if not candidates:
+                    raise RuntimeError(
+                        "No Tesla Shorts Time episode MP3s found to derive a Chatterbox voice prompt. "
+                        "Expected episode 354 (Dec 12, 2025) not found. Run Tesla Shorts Time at least once to generate an episode, or set "
+                        "CHATTERBOX_VOICE_PROMPT_PATH / CHATTERBOX_VOICE_PROMPT_BASE64."
+                    )
+                src = candidates[0]
+                episode_mode = True
+                logging.info(f"Chatterbox voice prompt: preferred episode 354 not found, using most recent: {src.name}")
+
+        if not src.exists():
+            raise FileNotFoundError(f"Chatterbox voice prompt source not found: {src}")
+
+        prompt_wav = tmp_dir / "chatterbox_voice_prompt.wav"
+
+        if episode_mode:
+            subprocess.run(
+                [
+                    "ffmpeg",
+                    "-y",
+                    "-ss",
+                    f"{CHATTERBOX_PROMPT_OFFSET_SECONDS:.2f}",
+                    "-t",
+                    f"{CHATTERBOX_PROMPT_DURATION_SECONDS:.2f}",
+                    "-i",
+                    str(src),
+                    "-ac",
+                    "1",
+                    "-ar",
+                    "16000",
+                    "-c:a",
+                    "pcm_s16le",
+                    str(prompt_wav),
+                ],
+                check=True,
+                capture_output=True,
+            )
+        else:
+            subprocess.run(
+                ["ffmpeg", "-y", "-i", str(src), "-ac", "1", "-ar", "16000", "-c:a", "pcm_s16le", str(prompt_wav)],
+                check=True,
+                capture_output=True,
+            )
+
+        if created_src:
+            try:
+                src.unlink()
+            except Exception:
+                pass
+
+        return prompt_wav
+
+    def _synthesize_with_chatterbox(text: str, out_wav: Path):
+        """Generate a single WAV voice track using the local Chatterbox model + a voice prompt."""
+        import inspect
+        import contextlib
+
+        try:
+            import torch  # noqa: F401
+            import torchaudio as ta
+            from chatterbox.tts import ChatterboxTTS
+        except Exception as exc:
+            raise RuntimeError(
+                "Chatterbox dependencies missing. Install Tesla Shorts Time requirements (torch, torchaudio, chatterbox-tts)."
+            ) from exc
+
+        prompt_wav = _prepare_chatterbox_voice_prompt(tmp_dir)
+        chunks = _chunk_text(text, CHATTERBOX_MAX_CHARS)
+        if not chunks:
+            raise RuntimeError("No text provided for TTS.")
+
+        logging.info(f"Chatterbox: generating {len(chunks)} chunks (max {CHATTERBOX_MAX_CHARS} chars each) on device={CHATTERBOX_DEVICE}")
+
+        model = ChatterboxTTS.from_pretrained(device=CHATTERBOX_DEVICE)
+        sr = getattr(model, "sr", 16000)
+
+        gen_sig = inspect.signature(model.generate)
+        base_kwargs = {}
+        if "audio_prompt_path" in gen_sig.parameters:
+            base_kwargs["audio_prompt_path"] = str(prompt_wav)
+        if "exaggeration" in gen_sig.parameters:
+            base_kwargs["exaggeration"] = CHATTERBOX_EXAGGERATION
+
+        chunk_paths: List[Path] = []
+        for i, chunk in enumerate(chunks, 1):
+            logging.info(f"Chatterbox: chunk {i}/{len(chunks)} ({len(chunk)} chars)")
+            with open(os.devnull, "w") as devnull:
+                redir = (
+                    contextlib.redirect_stdout(devnull),
+                    contextlib.redirect_stderr(devnull),
+                ) if CHATTERBOX_QUIET else ()
+                with contextlib.ExitStack() as stack:
+                    for ctx in redir:
+                        stack.enter_context(ctx)
+                    wav = model.generate(chunk, **base_kwargs)
+            if hasattr(wav, "detach"):
+                wav = wav.detach().cpu()
+            if getattr(wav, "ndim", 0) == 1:
+                wav = wav.unsqueeze(0)
+            chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
+            ta.save(str(chunk_path), wav, sr)
+            chunk_paths.append(chunk_path)
+
+        concat_list = tmp_dir / "chatterbox_concat.txt"
+        with open(concat_list, "w", encoding="utf-8") as f:
+            for p in chunk_paths:
+                f.write(f"file '{p}'\n")
+
+        subprocess.run(
+            ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_list), "-ac", "1", "-c:a", "pcm_s16le", str(out_wav)],
+            check=True,
+            capture_output=True,
+        )
+
+        # Cleanup intermediate chunk files
+        try:
+            for p in chunk_paths:
+                if p.exists():
+                    p.unlink()
+            if concat_list.exists():
+                concat_list.unlink()
+            if prompt_wav.exists():
+                prompt_wav.unlink()
+        except Exception:
+            pass
+
+    # ElevenLabs helper (only used when TTS_PROVIDER == "elevenlabs")
+    PATRICK_VOICE_ID = ELEVEN_VOICE_ID
+
+    def validate_elevenlabs_auth():
+        """Fail fast with a clear message when the ElevenLabs key is rejected."""
+        resp = requests.get(f"{ELEVEN_API}/user", headers={"xi-api-key": ELEVEN_KEY}, timeout=10)
+        if resp.status_code == 401:
+            raise RuntimeError("ElevenLabs rejected the API key (401). Update ELEVENLABS_API_KEY in .env/GitHub secrets.")
+        resp.raise_for_status()
+
+    def _chunk_text_for_elevenlabs(text: str, max_chars: int = 4500) -> List[str]:
+        """
+        Split text into chunks for ElevenLabs API (limit is 5000, use 4500 for safety).
+        Splits at sentence boundaries to avoid audio breaks.
+        """
+        if len(text) <= max_chars:
+            return [text]
+        
+        chunks = []
+        remaining = text
+        
+        while len(remaining) > max_chars:
+            # Find the best split point: prefer sentence endings
+            chunk = remaining[:max_chars]
+            
+            # Look for sentence endings (., !, ?) in the last 20% of the chunk
+            search_start = int(max_chars * 0.8)
+            best_split = -1
+            
+            for i in range(search_start, len(chunk)):
+                if chunk[i] in '.!?':
+                    # Check if it's followed by space and capital letter (real sentence end)
+                    if i + 1 < len(chunk) and chunk[i+1] == ' ':
+                        if i + 2 < len(chunk) and chunk[i+2].isupper():
+                            best_split = i + 1
+                            break
+                    elif i + 1 >= len(chunk):
+                        best_split = i + 1
+                        break
+            
+            # Fallback: look for commas or semicolons
+            if best_split == -1:
+                for i in range(search_start, len(chunk)):
+                    if chunk[i] in ',;':
+                        if i + 1 < len(chunk) and chunk[i+1] == ' ':
+                            best_split = i + 1
+                            break
+            
+            # Last resort: hard cut at max_chars
+            if best_split == -1:
+                best_split = max_chars
+            
+            chunks.append(remaining[:best_split].strip())
+            remaining = remaining[best_split:].strip()
+        
+        if remaining:
+            chunks.append(remaining)
+        
+        return chunks
 
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=2, max=10),
         retry=retry_if_exception_type((requests.RequestException, requests.Timeout))
     )
-    def speak(text: str, voice_id: str, filename: str):
+    def _speak_chunk(text: str, voice_id: str, chunk_file: Path):
+        """Generate audio for a single text chunk."""
         url = f"{ELEVEN_API}/text-to-speech/{voice_id}/stream"
         headers = {"xi-api-key": ELEVEN_KEY}
         payload = {
-            "text": text + "!",  # extra excitement
+            "text": text,
             "model_id": "eleven_turbo_v2_5",
             "voice_settings": {
                 "stability": 0.65,
@@ -2161,16 +2574,424 @@ Here is today's complete formatted digest. Use ONLY this content:
             json=payload,
             headers=headers,
             stream=True,
-            timeout=60,
+            timeout=120,
         ) as r:
-            # Treat 429/5xx as retryable
             if r.status_code >= 500 or r.status_code == 429:
                 r.raise_for_status()
             r.raise_for_status()
-            with open(filename, "wb") as f:
+            with open(chunk_file, "wb") as f:
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
-            logging.info(f"ElevenLabs TTS saved to {filename} in {r.elapsed.total_seconds():.2f}s")
+
+    def speak(text: str, voice_id: str, filename: str):
+        """
+        Generate audio with intelligent chunking and seamless concatenation.
+        Handles texts longer than ElevenLabs API limits by splitting at sentence boundaries.
+        """
+        # Split text into chunks if needed
+        chunks = _chunk_text_for_elevenlabs(text)
+        
+        if len(chunks) == 1:
+            # Single chunk: generate directly
+            _speak_chunk(text + "!", voice_id, Path(filename))
+            logging.info(f"ElevenLabs TTS: Generated single chunk ({len(text)} chars)")
+        else:
+            # Multiple chunks: generate each and concatenate seamlessly
+            logging.info(f"ElevenLabs TTS: Splitting into {len(chunks)} chunks for seamless generation")
+            chunk_files = []
+            tmp_dir = Path(filename).parent
+            
+            try:
+                for i, chunk_text in enumerate(chunks):
+                    chunk_file = tmp_dir / f"tts_chunk_{i:03d}.mp3"
+                    # Add punctuation to all but the last chunk to maintain flow
+                    if i < len(chunks) - 1:
+                        chunk_text = chunk_text.rstrip('.!?') + '.'
+                    else:
+                        chunk_text = chunk_text + "!"
+                    
+                    _speak_chunk(chunk_text, voice_id, chunk_file)
+                    chunk_files.append(chunk_file)
+                    logging.info(f"Generated chunk {i+1}/{len(chunks)} ({len(chunk_text)} chars)")
+                
+                # Concatenate chunks seamlessly using ffmpeg
+                concat_list = tmp_dir / "elevenlabs_concat.txt"
+                with open(concat_list, "w", encoding="utf-8") as f:
+                    for chunk_file in chunk_files:
+                        f.write(f"file '{chunk_file.absolute()}'\n")
+                
+                # Use ffmpeg concat with seamless joining (no gaps)
+                subprocess.run([
+                    "ffmpeg", "-y",
+                    "-f", "concat",
+                    "-safe", "0",
+                    "-i", str(concat_list),
+                    "-c", "copy",  # Stream copy for speed and no re-encoding artifacts
+                    str(filename)
+                ], check=True, capture_output=True, timeout=300)
+                
+                logging.info(f"ElevenLabs TTS: Concatenated {len(chunks)} chunks seamlessly")
+                
+            finally:
+                # Cleanup chunk files
+                for chunk_file in chunk_files:
+                    try:
+                        if chunk_file.exists():
+                            chunk_file.unlink()
+                    except Exception:
+                        pass
+                try:
+                    if concat_list.exists():
+                        concat_list.unlink()
+                except Exception:
+                    pass
+
+    def get_audio_duration(path: Path) -> float:
+        """Return duration in seconds for an audio file."""
+        try:
+            result = subprocess.run(
+                [
+                    "ffprobe",
+                    "-v",
+                    "error",
+                    "-show_entries",
+                    "format=duration",
+                    "-of",
+                    "default=noprint_wrappers=1:nokey=1",
+                    str(path),
+                ],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            return float(result.stdout.strip())
+        except Exception as exc:
+            logging.warning(f"Unable to determine duration for {path}: {exc}")
+            return 0.0
+
+    def format_duration(seconds: float) -> str:
+        """Format duration in seconds to HH:MM:SS or MM:SS format."""
+        hours = int(seconds // 3600)
+        minutes = int((seconds % 3600) // 60)
+        secs = int(seconds % 60)
+        if hours > 0:
+            return f"{hours:02d}:{minutes:02d}:{secs:02d}"
+        return f"{minutes:02d}:{secs:02d}"
+
+def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
+        """
+        Return a local WAV file suitable for Chatterbox's audio_prompt_path.
+        Supports either a direct path, base64 prompt, or (default) deriving from a Tesla Shorts Time episode MP3.
+        """
+        import base64
+
+        created_src = False
+        episode_mode = False
+
+        if CHATTERBOX_VOICE_PROMPT_PATH:
+            src = Path(CHATTERBOX_VOICE_PROMPT_PATH).expanduser()
+        elif CHATTERBOX_VOICE_PROMPT_BASE64:
+            raw = base64.b64decode(CHATTERBOX_VOICE_PROMPT_BASE64)
+            src = tmp_dir / "chatterbox_voice_prompt_input.mp3"
+            src.write_bytes(raw)
+            created_src = True
+        else:
+            # Default: use episode 354 from December 12, 2025 as the voice clone source
+            # Fallback to most recent episode if specific one not found
+            preferred_episode = digests_dir / "Tesla_Shorts_Time_Pod_Ep354_20251212.mp3"
+            
+            if preferred_episode.exists():
+                src = preferred_episode
+                episode_mode = True
+                logging.info(f"Chatterbox voice prompt: using preferred episode 354 (Dec 12, 2025): {src.name}")
+            else:
+                # Fallback: use the most recent Tesla Shorts Time episode audio
+                candidates = sorted(
+                    list(digests_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3")),
+                    key=lambda p: p.stat().st_mtime,
+                    reverse=True,
+                )
+                if not candidates:
+                    raise RuntimeError(
+                        "No Tesla Shorts Time episode MP3s found to derive a Chatterbox voice prompt. "
+                        "Expected episode 354 (Dec 12, 2025) not found. Run Tesla Shorts Time at least once to generate an episode, or set "
+                        "CHATTERBOX_VOICE_PROMPT_PATH / CHATTERBOX_VOICE_PROMPT_BASE64."
+                    )
+                src = candidates[0]
+                episode_mode = True
+                logging.info(f"Chatterbox voice prompt: preferred episode 354 not found, using most recent: {src.name}")
+
+        if not src.exists():
+            raise FileNotFoundError(f"Chatterbox voice prompt source not found: {src}")
+
+        prompt_wav = tmp_dir / "chatterbox_voice_prompt.wav"
+
+        if episode_mode:
+            subprocess.run(
+                [
+                    "ffmpeg",
+                    "-y",
+                    "-ss",
+                    f"{CHATTERBOX_PROMPT_OFFSET_SECONDS:.2f}",
+                    "-t",
+                    f"{CHATTERBOX_PROMPT_DURATION_SECONDS:.2f}",
+                    "-i",
+                    str(src),
+                    "-ac",
+                    "1",
+                    "-ar",
+                    "16000",
+                    "-c:a",
+                    "pcm_s16le",
+                    str(prompt_wav),
+                ],
+                check=True,
+                capture_output=True,
+            )
+        else:
+            subprocess.run(
+                ["ffmpeg", "-y", "-i", str(src), "-ac", "1", "-ar", "16000", "-c:a", "pcm_s16le", str(prompt_wav)],
+                check=True,
+                capture_output=True,
+            )
+
+        if created_src:
+            try:
+                src.unlink()
+            except Exception:
+                pass
+
+        return prompt_wav
+
+    def _synthesize_with_chatterbox(text: str, out_wav: Path):
+        """Generate a single WAV voice track using the local Chatterbox model + a voice prompt."""
+        import inspect
+        import contextlib
+
+        try:
+            import torch  # noqa: F401
+            import torchaudio as ta
+            from chatterbox.tts import ChatterboxTTS
+        except Exception as exc:
+            raise RuntimeError(
+                "Chatterbox dependencies missing. Install Tesla Shorts Time requirements (torch, torchaudio, chatterbox-tts)."
+            ) from exc
+
+        prompt_wav = _prepare_chatterbox_voice_prompt(tmp_dir)
+        chunks = _chunk_text(text, CHATTERBOX_MAX_CHARS)
+        if not chunks:
+            raise RuntimeError("No text provided for TTS.")
+
+        logging.info(f"Chatterbox: generating {len(chunks)} chunks (max {CHATTERBOX_MAX_CHARS} chars each) on device={CHATTERBOX_DEVICE}")
+
+        model = ChatterboxTTS.from_pretrained(device=CHATTERBOX_DEVICE)
+        sr = getattr(model, "sr", 16000)
+
+        gen_sig = inspect.signature(model.generate)
+        base_kwargs = {}
+        if "audio_prompt_path" in gen_sig.parameters:
+            base_kwargs["audio_prompt_path"] = str(prompt_wav)
+        if "exaggeration" in gen_sig.parameters:
+            base_kwargs["exaggeration"] = CHATTERBOX_EXAGGERATION
+
+        chunk_paths: List[Path] = []
+        for i, chunk in enumerate(chunks, 1):
+            logging.info(f"Chatterbox: chunk {i}/{len(chunks)} ({len(chunk)} chars)")
+            with open(os.devnull, "w") as devnull:
+                redir = (
+                    contextlib.redirect_stdout(devnull),
+                    contextlib.redirect_stderr(devnull),
+                ) if CHATTERBOX_QUIET else ()
+                with contextlib.ExitStack() as stack:
+                    for ctx in redir:
+                        stack.enter_context(ctx)
+                    wav = model.generate(chunk, **base_kwargs)
+            if hasattr(wav, "detach"):
+                wav = wav.detach().cpu()
+            if getattr(wav, "ndim", 0) == 1:
+                wav = wav.unsqueeze(0)
+            chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
+            ta.save(str(chunk_path), wav, sr)
+            chunk_paths.append(chunk_path)
+
+        concat_list = tmp_dir / "chatterbox_concat.txt"
+        with open(concat_list, "w", encoding="utf-8") as f:
+            for p in chunk_paths:
+                f.write(f"file '{p}'\n")
+
+        subprocess.run(
+            ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_list), "-ac", "1", "-c:a", "pcm_s16le", str(out_wav)],
+            check=True,
+            capture_output=True,
+        )
+
+        # Cleanup intermediate chunk files
+        try:
+            for p in chunk_paths:
+                if p.exists():
+                    p.unlink()
+            if concat_list.exists():
+                concat_list.unlink()
+            if prompt_wav.exists():
+                prompt_wav.unlink()
+        except Exception:
+            pass
+
+    # ElevenLabs helper (only used when TTS_PROVIDER == "elevenlabs")
+    PATRICK_VOICE_ID = ELEVEN_VOICE_ID
+
+    def validate_elevenlabs_auth():
+        """Fail fast with a clear message when the ElevenLabs key is rejected."""
+        resp = requests.get(f"{ELEVEN_API}/user", headers={"xi-api-key": ELEVEN_KEY}, timeout=10)
+        if resp.status_code == 401:
+            raise RuntimeError("ElevenLabs rejected the API key (401). Update ELEVENLABS_API_KEY in .env/GitHub secrets.")
+        resp.raise_for_status()
+
+    def _chunk_text_for_elevenlabs(text: str, max_chars: int = 4500) -> List[str]:
+        """
+        Split text into chunks for ElevenLabs API (limit is 5000, use 4500 for safety).
+        Splits at sentence boundaries to avoid audio breaks.
+        """
+        if len(text) <= max_chars:
+            return [text]
+        
+        chunks = []
+        remaining = text
+        
+        while len(remaining) > max_chars:
+            # Find the best split point: prefer sentence endings
+            chunk = remaining[:max_chars]
+            
+            # Look for sentence endings (., !, ?) in the last 20% of the chunk
+            search_start = int(max_chars * 0.8)
+            best_split = -1
+            
+            for i in range(search_start, len(chunk)):
+                if chunk[i] in '.!?':
+                    # Check if it's followed by space and capital letter (real sentence end)
+                    if i + 1 < len(chunk) and chunk[i+1] == ' ':
+                        if i + 2 < len(chunk) and chunk[i+2].isupper():
+                            best_split = i + 1
+                            break
+                    elif i + 1 >= len(chunk):
+                        best_split = i + 1
+                        break
+            
+            # Fallback: look for commas or semicolons
+            if best_split == -1:
+                for i in range(search_start, len(chunk)):
+                    if chunk[i] in ',;':
+                        if i + 1 < len(chunk) and chunk[i+1] == ' ':
+                            best_split = i + 1
+                            break
+            
+            # Last resort: hard cut at max_chars
+            if best_split == -1:
+                best_split = max_chars
+            
+            chunks.append(remaining[:best_split].strip())
+            remaining = remaining[best_split:].strip()
+        
+        if remaining:
+            chunks.append(remaining)
+        
+        return chunks
+
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        retry=retry_if_exception_type((requests.RequestException, requests.Timeout))
+    )
+    def _speak_chunk(text: str, voice_id: str, chunk_file: Path):
+        """Generate audio for a single text chunk."""
+        url = f"{ELEVEN_API}/text-to-speech/{voice_id}/stream"
+        headers = {"xi-api-key": ELEVEN_KEY}
+        payload = {
+            "text": text,
+            "model_id": "eleven_turbo_v2_5",
+            "voice_settings": {
+                "stability": 0.65,
+                "similarity_boost": 0.9,
+                "style": 0.85,
+                "use_speaker_boost": True
+            }
+        }
+        with requests.post(
+            url,
+            json=payload,
+            headers=headers,
+            stream=True,
+            timeout=120,
+        ) as r:
+            if r.status_code >= 500 or r.status_code == 429:
+                r.raise_for_status()
+            r.raise_for_status()
+            with open(chunk_file, "wb") as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+
+    def speak(text: str, voice_id: str, filename: str):
+        """
+        Generate audio with intelligent chunking and seamless concatenation.
+        Handles texts longer than ElevenLabs API limits by splitting at sentence boundaries.
+        """
+        # Split text into chunks if needed
+        chunks = _chunk_text_for_elevenlabs(text)
+        
+        if len(chunks) == 1:
+            # Single chunk: generate directly
+            _speak_chunk(text + "!", voice_id, Path(filename))
+            logging.info(f"ElevenLabs TTS: Generated single chunk ({len(text)} chars)")
+        else:
+            # Multiple chunks: generate each and concatenate seamlessly
+            logging.info(f"ElevenLabs TTS: Splitting into {len(chunks)} chunks for seamless generation")
+            chunk_files = []
+            tmp_dir = Path(filename).parent
+            
+            try:
+                for i, chunk_text in enumerate(chunks):
+                    chunk_file = tmp_dir / f"tts_chunk_{i:03d}.mp3"
+                    # Add punctuation to all but the last chunk to maintain flow
+                    if i < len(chunks) - 1:
+                        chunk_text = chunk_text.rstrip('.!?') + '.'
+                    else:
+                        chunk_text = chunk_text + "!"
+                    
+                    _speak_chunk(chunk_text, voice_id, chunk_file)
+                    chunk_files.append(chunk_file)
+                    logging.info(f"Generated chunk {i+1}/{len(chunks)} ({len(chunk_text)} chars)")
+                
+                # Concatenate chunks seamlessly using ffmpeg
+                concat_list = tmp_dir / "elevenlabs_concat.txt"
+                with open(concat_list, "w", encoding="utf-8") as f:
+                    for chunk_file in chunk_files:
+                        f.write(f"file '{chunk_file.absolute()}'\n")
+                
+                # Use ffmpeg concat with seamless joining (no gaps)
+                subprocess.run([
+                    "ffmpeg", "-y",
+                    "-f", "concat",
+                    "-safe", "0",
+                    "-i", str(concat_list),
+                    "-c", "copy",  # Stream copy for speed and no re-encoding artifacts
+                    str(filename)
+                ], check=True, capture_output=True, timeout=300)
+                
+                logging.info(f"ElevenLabs TTS: Concatenated {len(chunks)} chunks seamlessly")
+                
+            finally:
+                # Cleanup chunk files
+                for chunk_file in chunk_files:
+                    try:
+                        if chunk_file.exists():
+                            chunk_file.unlink()
+                    except Exception:
+                        pass
+                try:
+                    if concat_list.exists():
+                        concat_list.unlink()
+                except Exception:
+                    pass
 
 
     def get_audio_duration(path: Path) -> float:
@@ -2581,231 +3402,6 @@ def update_rss_feed(
     fg.rss_file(str(rss_path), pretty=True)
     total_episodes = len(fg.entry())
     logging.info(f"RSS feed updated → {rss_path} ({total_episodes} episode(s) total)")
-
-# Since there's only one voice (Patrick), combine entire script into one segment
-# Remove speaker labels and sound cues, keep only the actual spoken text
-full_text_parts = []
-for line in podcast_script.splitlines():
-    line = line.strip()
-    # Skip sound cues and empty lines
-    if line.startswith("[") or not line:
-        continue
-    # Remove speaker labels but keep the text
-    if line.startswith("Patrick:"):
-        full_text_parts.append(line[9:].strip())
-    elif line.startswith("Dan:"):
-        full_text_parts.append(line[4:].strip())
-    else:
-        full_text_parts.append(line)
-
-# Combine into one continuous text
-full_text = " ".join(full_text_parts)
-
-# ←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←
-# CRITICAL: Fix Tesla-world pronunciation for ElevenLabs
-full_text = fix_tesla_pronunciation(full_text)
-# ←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←
-
-# Generate ONE voice file for the entire script
-logging.info("Generating single voice segment for entire podcast...")
-voice_file = tmp_dir / "patrick_full.mp3"
-
-# Track character count for ElevenLabs
-credit_usage["services"]["elevenlabs_api"]["characters"] = len(full_text)
-logging.info(f"ElevenLabs TTS: {len(full_text)} characters to convert")
-
-speak(full_text, PATRICK_VOICE_ID, str(voice_file))
-audio_files = [str(voice_file)]
-logging.info("Generated complete voice track")
-
-# ========================== 4. FINAL MIX – PERFECT LEVELS, NO VOLUME JUMPS ==========================
-final_mp3 = digests_dir / f"Tesla_Shorts_Time_Pod_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
-
-MAIN_MUSIC = project_root / "tesla_shorts_time.mp3"
-
-# Process and normalize voice in one step for simplicity
-voice_mix = tmp_dir / "voice_normalized_mix.mp3"
-concat_file = None
-
-if len(audio_files) == 1:
-    # Single file: process and normalize in one pass
-    file_duration = get_audio_duration(Path(audio_files[0]))
-    timeout_seconds = max(int(file_duration * 3) + 120, 600)
-    
-    logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
-    subprocess.run([
-        "ffmpeg", "-y", "-i", audio_files[0],
-        "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
-        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k",
-        str(voice_mix)
-    ], check=True, capture_output=True, timeout=timeout_seconds)
-else:
-    # Multiple files: concatenate first, then process
-    concat_file = tmp_dir / "concat_list.txt"
-    with open(concat_file, "w") as f:
-        for seg in audio_files:
-            f.write(f"file '{seg}'\n")
-    
-    temp_concat = tmp_dir / "temp_concat.mp3"
-    subprocess.run([
-        "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_file),
-        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k",
-        str(temp_concat)
-    ], check=True, capture_output=True)
-    
-    file_duration = get_audio_duration(temp_concat)
-    timeout_seconds = max(int(file_duration * 3) + 120, 600)
-    
-    logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
-    subprocess.run([
-        "ffmpeg", "-y", "-i", str(temp_concat),
-        "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
-        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k",
-        str(voice_mix)
-    ], check=True, capture_output=True, timeout=timeout_seconds)
-    
-    if temp_concat.exists():
-        os.remove(str(temp_concat))
-
-if not MAIN_MUSIC.exists():
-    subprocess.run(
-        ["ffmpeg", "-y", "-i", str(voice_mix), str(final_mp3)],
-        check=True,
-        capture_output=True,
-        timeout=600
-    )
-    logging.info("Podcast ready (voice-only)")
-else:
-    # Get voice duration to calculate music timing
-    voice_duration = max(get_audio_duration(voice_mix), 0.0)
-    logging.info(f"Voice duration: {voice_duration:.2f} seconds")
-    
-    # Music timing - Professional intro with perfect overlap:
-    # - 5 seconds of music alone (0-5s) - engaging intro
-    # - Patrick starts talking at 5s while music is still at full volume (perfect overlap)
-    # - Music continues at full volume for 3 seconds while Patrick talks (5-8s) - creates energy
-    # - Music fades out smoothly over 18 seconds while Patrick continues (8-26s) - professional fade
-    # - Voice continues alone after 26s
-    # - 25 seconds before voice ends, music starts fading in (mixes well with voice)
-    # - After voice ends, music continues for 50 seconds (30s full + 20s fade out)
-    
-    music_fade_in_start = max(voice_duration - 25.0, 0.0)  # 25s before voice ends
-    music_fade_in_duration = min(35.0, voice_duration - music_fade_in_start)  # Fade in over 35s
-    
-    # Simplified music creation - create segments with louder intro
-    music_intro = tmp_dir / "music_intro.mp3"
-    subprocess.run([
-        "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-t", "5",
-        "-af", "volume=0.6",  # Much louder intro music
-        "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
-        str(music_intro)
-    ], check=True, capture_output=True, timeout=300)
-    
-    music_overlap = tmp_dir / "music_overlap.mp3"
-    subprocess.run([
-        "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "5", "-t", "3",
-        "-af", "volume=0.5",  # Louder during overlap
-        "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
-        str(music_overlap)
-    ], check=True, capture_output=True, timeout=300)
-    
-    music_fadeout = tmp_dir / "music_fadeout.mp3"
-    subprocess.run([
-        "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
-        "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=18",
-        "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
-        str(music_fadeout)
-    ], check=True, capture_output=True, timeout=300)
-    
-    middle_silence_duration = max(music_fade_in_start - 26.0, 0.0)
-    music_silence = tmp_dir / "music_silence.mp3"
-    if middle_silence_duration > 0.1:
-        subprocess.run([
-            "ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
-            "-t", f"{middle_silence_duration:.2f}", "-c:a", "libmp3lame", "-b:a", "192k",
-            str(music_silence)
-        ], check=True, capture_output=True, timeout=300)
-    
-    music_fadein = tmp_dir / "music_fadein.mp3"
-    subprocess.run([
-        "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "25", "-t", f"{music_fade_in_duration:.2f}",
-        "-af", f"volume=0.4,afade=t=in:st=0:d={music_fade_in_duration:.2f}",
-        "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
-        str(music_fadein)
-    ], check=True, capture_output=True, timeout=300)
-    
-    # Outro music: 30 seconds full volume + 20 seconds fade = 50 seconds total
-    music_tail_full = tmp_dir / "music_tail_full.mp3"
-    subprocess.run([
-        "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "55", "-t", "30",
-        "-af", "volume=0.4",
-        "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
-        str(music_tail_full)
-    ], check=True, capture_output=True, timeout=300)
-    
-    music_tail_fadeout = tmp_dir / "music_tail_fadeout.mp3"
-    subprocess.run([
-        "ffmpeg", "-y", "-i", str(MAIN_MUSIC), "-ss", "85", "-t", "20",
-        "-af", "volume=0.4,afade=t=out:st=0:d=20",
-        "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
-        str(music_tail_fadeout)
-    ], check=True, capture_output=True, timeout=300)
-    
-    # Concatenate music
-    music_concat_list = tmp_dir / "music_timeline.txt"
-    with open(music_concat_list, "w", encoding="utf-8") as f:
-        f.write(f"file '{music_intro}'\n")
-        f.write(f"file '{music_overlap}'\n")
-        f.write(f"file '{music_fadeout}'\n")
-        if middle_silence_duration > 0.1:
-            f.write(f"file '{music_silence}'\n")
-        f.write(f"file '{music_fadein}'\n")
-        f.write(f"file '{music_tail_full}'\n")
-        f.write(f"file '{music_tail_fadeout}'\n")
-    
-    background_track = tmp_dir / "background_track.mp3"
-    subprocess.run([
-        "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
-        "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
-        str(background_track)
-    ], check=True, capture_output=True, timeout=600)
-    
-    # Delay voice to start at 5 seconds
-    voice_delayed = tmp_dir / "voice_delayed.mp3"
-    subprocess.run([
-        "ffmpeg", "-y", "-i", str(voice_mix),
-        "-af", "adelay=5000|5000",
-        "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k",
-        str(voice_delayed)
-    ], check=True, capture_output=True, timeout=600)
-    
-    # Final mix: voice + music
-    logging.info("Mixing voice and music...")
-    subprocess.run([
-        "ffmpeg", "-y",
-        "-i", str(voice_delayed),
-        "-i", str(background_track),
-        "-filter_complex",
-        "[0:a]volume=1.0[a_voice];"
-        "[1:a]volume=0.5[a_music];"  # Higher music volume for better presence
-        "[a_voice][a_music]amix=inputs=2:duration=longest:dropout_transition=2:weights=2 1[mixed];"
-        "[mixed]alimiter=level_in=1:level_out=0.95:limit=0.95[outfinal]",
-        "-map", "[outfinal]",
-        "-c:a", "libmp3lame",
-        "-b:a", "192k",
-        str(final_mp3)
-    ], check=True, capture_output=True, timeout=900)
-    
-    logging.info("Podcast created successfully")
-    
-    # Cleanup music temp files
-    for tmp_file in [music_intro, music_overlap, music_fadeout, music_fadein, music_tail_full, music_tail_fadeout, music_concat_list, background_track, voice_delayed]:
-        if tmp_file.exists():
-            os.remove(str(tmp_file))
-    if middle_silence_duration > 0.1 and music_silence.exists():
-        os.remove(str(music_silence))
-    
-    logging.info("BROADCAST-QUALITY PODCAST CREATED – PROFESSIONAL MUSIC TRANSITIONS APPLIED")
 
 # ========================== 5. UPDATE RSS FEED ==========================
 if ENABLE_PODCAST and not TEST_MODE and final_mp3 and final_mp3.exists():
