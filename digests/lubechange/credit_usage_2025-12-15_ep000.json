@@ -1,0 +1,33 @@
+{
+  "date": "2025-12-15",
+  "episode_number": 0,
+  "services": {
+    "grok_api": {
+      "x_thread_generation": {
+        "prompt_tokens": 4038,
+        "completion_tokens": 2102,
+        "total_tokens": 7375,
+        "estimated_cost_usd": 7.375e-05
+      },
+      "podcast_script_generation": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "estimated_cost_usd": 0.0
+      },
+      "total_tokens": 7375,
+      "total_cost_usd": 7.375e-05
+    },
+    "tts_api": {
+      "provider": "chatterbox",
+      "characters": 0,
+      "estimated_cost_usd": 0.0
+    },
+    "x_api": {
+      "search_calls": 0,
+      "post_calls": 1,
+      "total_calls": 1
+    }
+  },
+  "total_estimated_cost_usd": 7.375e-05
+}
