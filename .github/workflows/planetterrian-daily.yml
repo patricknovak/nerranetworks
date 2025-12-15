@@ -164,22 +164,50 @@ jobs:
         # ALWAYS add RSS feed file (even if it was just updated, not new)
         git add planetterrian_podcast.rss 2>/dev/null || true
         
+        # Add HTML page if it exists
+        git add planetterrian.html 2>/dev/null || true
+        
         echo "📋 Staged files:"
         git diff --staged --name-only || echo "No files staged"
+        
+        # Force add RSS feed if it exists (even if git doesn't detect changes)
+        if [ -f planetterrian_podcast.rss ]; then
+          git add -f planetterrian_podcast.rss
+          echo "📡 RSS feed file exists and staged"
+        fi
+        
+        # Force add HTML page if it exists
+        if [ -f planetterrian.html ]; then
+          git add -f planetterrian.html
+          echo "🌐 HTML page staged"
+        fi
         
         # Check if RSS feed has changes (even if not staged, it might have been modified)
         if git diff --name-only | grep -q "planetterrian_podcast.rss" || git diff --staged --name-only | grep -q "planetterrian_podcast.rss"; then
           echo "📡 RSS feed has changes - will be committed"
         fi
         
-        # Check if there are any changes to commit
-        if ! git diff --staged --quiet || ! git diff --quiet planetterrian_podcast.rss; then
-          # If RSS feed has changes but isn't staged, stage it
-          if ! git diff --staged --name-only | grep -q "planetterrian_podcast.rss"; then
-            git add planetterrian_podcast.rss
-            echo "📡 Staged RSS feed changes"
-          fi
-          
+        # Always check for RSS feed and HTML page, and force-add them if they exist
+        RSS_EXISTS=false
+        HTML_EXISTS=false
+        if [ -f planetterrian_podcast.rss ]; then
+          git add -f planetterrian_podcast.rss
+          RSS_EXISTS=true
+          echo "📡 RSS feed file found and staged"
+        else
+          echo "⚠️  RSS feed file not found at planetterrian_podcast.rss"
+        fi
+        
+        if [ -f planetterrian.html ]; then
+          git add -f planetterrian.html
+          HTML_EXISTS=true
+          echo "🌐 HTML page found and staged"
+        else
+          echo "⚠️  HTML page not found at planetterrian.html"
+        fi
+        
+        # Check if there are any changes to commit (including RSS and HTML)
+        if ! git diff --staged --quiet; then
           echo "💾 Committing files..."
           git commit -m "Auto-generated: Planetterrian Daily $(date +%Y-%m-%d)" || echo "Commit failed (may be empty)"
           
@@ -193,10 +221,27 @@ jobs:
           echo "  ✓ Posted to X (@planetterrian)"
           echo "  ✓ Podcast script generated"
           echo "  ✓ Podcast audio created (Chatterbox TTS)"
-          echo "  ✓ RSS feed updated"
+          if [ "$RSS_EXISTS" = true ]; then
+            echo "  ✓ RSS feed updated and committed"
+          else
+            echo "  ⚠️  RSS feed not found (may not have been generated)"
+          fi
+          if [ "$HTML_EXISTS" = true ]; then
+            echo "  ✓ HTML page updated and committed"
+          else
+            echo "  ⚠️  HTML page not found"
+          fi
           echo "  ✓ Credit usage file generated"
         else
-          echo "⚠️  No new files to commit - script may have failed or no new content generated"
+          echo "⚠️  No changes to commit - checking file status..."
+          echo "RSS feed status:"
+          ls -lah planetterrian_podcast.rss 2>/dev/null || echo "  RSS feed does not exist"
+          echo "HTML page status:"
+          ls -lah planetterrian.html 2>/dev/null || echo "  HTML page does not exist"
+          echo "Staged files:"
+          git diff --staged --name-only || echo "  No files staged"
+          echo "Unstaged changes:"
+          git diff --name-only || echo "  No unstaged changes"
         fi
       continue-on-error: true  # Don't fail workflow if commit/push fails
 
