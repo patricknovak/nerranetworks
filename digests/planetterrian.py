@@ -1139,6 +1139,240 @@ if ENABLE_X_POSTING:
 else:
     logging.info("X posting is disabled (ENABLE_X_POSTING = False)")
 
+# ========================== RSS FEED FUNCTIONS (DEFINED BEFORE PODCAST GENERATION) ==========================
+def get_audio_duration(path: Path) -> float:
+    """Return duration in seconds for an audio file."""
+    try:
+        result = subprocess.run(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-show_entries",
+                "format=duration",
+                "-of",
+                "default=noprint_wrappers=1:nokey=1",
+                str(path),
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return float(result.stdout.strip())
+    except Exception as exc:
+        logging.warning(f"Unable to determine duration for {path}: {exc}")
+        return 0.0
+
+def format_duration(seconds: float) -> str:
+    """Format duration in seconds to HH:MM:SS or MM:SS format."""
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    secs = int(seconds % 60)
+    if hours > 0:
+        return f"{hours:02d}:{minutes:02d}:{secs:02d}"
+    return f"{minutes:02d}:{secs:02d}"
+
+def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
+    """Scan for existing episode MP3 files and return episode data."""
+    episodes = []
+    pattern = r"Planetterrian_Daily_Ep(\d+)_(\d{8})\.mp3"
+    for mp3_file in digests_dir.glob("Planetterrian_Daily_Ep*.mp3"):
+        match = re.match(pattern, mp3_file.name)
+        if match:
+            try:
+                ep_num = int(match.group(1))
+                date_str = match.group(2)
+                # Parse date from filename
+                episode_date = datetime.datetime.strptime(date_str, "%Y%m%d").date()
+                
+                # Get file size
+                file_size = mp3_file.stat().st_size if mp3_file.exists() else 0
+                
+                # Get duration
+                duration = get_audio_duration(mp3_file)
+                
+                episodes.append({
+                    'episode_num': ep_num,
+                    'date': episode_date,
+                    'filename': mp3_file.name,
+                    'path': mp3_file,
+                    'size': file_size,
+                    'duration': duration,
+                    'url': f"{base_url}/digests/planetterrian/{mp3_file.name}"
+                })
+            except (ValueError, Exception) as e:
+                logging.warning(f"Could not parse episode from file {mp3_file.name}: {e}")
+    return sorted(episodes, key=lambda x: x['episode_num'])
+
+def update_rss_feed(
+    rss_path: Path,
+    episode_num: int,
+    episode_title: str,
+    episode_description: str,
+    episode_date: datetime.date,
+    mp3_filename: str,
+    mp3_duration: float,
+    mp3_path: Path,
+    base_url: str = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+):
+    """Update or create RSS feed with new episode."""
+    fg = FeedGenerator()
+    fg.load_extension('podcast')
+    
+    # Parse existing RSS feed
+    existing_episodes = []
+    if rss_path.exists():
+        try:
+            tree = ET.parse(str(rss_path))
+            root = tree.getroot()
+            channel = root.find('channel')
+            if channel is not None:
+                items = channel.findall('item')
+                for item in items:
+                    episode_data = {}
+                    for elem in item:
+                        if elem.tag == 'title':
+                            episode_data['title'] = elem.text or ''
+                        elif elem.tag == 'description':
+                            episode_data['description'] = elem.text or ''
+                        elif elem.tag == 'guid':
+                            if elem.text:
+                                episode_data['guid'] = elem.text.strip()
+                        elif elem.tag == 'pubDate':
+                            episode_data['pubDate'] = elem.text or ''
+                        elif elem.tag == 'enclosure':
+                            episode_data['enclosure'] = {
+                                'url': elem.get('url', ''),
+                                'type': elem.get('type', 'audio/mpeg'),
+                                'length': elem.get('length', '0')
+                            }
+                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}episode':
+                            episode_data['itunes_episode'] = elem.text or ''
+                    if episode_data.get('guid'):
+                        existing_episodes.append(episode_data)
+        except Exception as e:
+            logging.warning(f"Could not parse existing RSS feed: {e}")
+    
+    # Deduplicate existing episodes by episode number
+    episodes_by_number = {}
+    for ep_data in existing_episodes:
+        ep_num_str = ep_data.get('itunes_episode', '')
+        if not ep_num_str:
+            guid = ep_data.get('guid', '')
+            match = re.search(r'ep(\d+)', guid)
+            if match:
+                ep_num_str = match.group(1)
+        
+        if ep_num_str:
+            try:
+                ep_num = int(ep_num_str)
+                if ep_num not in episodes_by_number:
+                    episodes_by_number[ep_num] = ep_data
+                else:
+                    existing_guid = episodes_by_number[ep_num].get('guid', '')
+                    current_guid = ep_data.get('guid', '')
+                    existing_ts = existing_guid.split('-')[-1] if '-' in existing_guid else '000000'
+                    current_ts = current_guid.split('-')[-1] if '-' in current_guid else '000000'
+                    if current_ts > existing_ts:
+                        episodes_by_number[ep_num] = ep_data
+            except ValueError:
+                pass
+    
+    # Set channel metadata
+    fg.title("Planetterrian Daily")
+    fg.link(href="https://planetterrian.com")
+    fg.description("Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion.")
+    fg.language('en-us')
+    fg.copyright(f"Copyright {datetime.date.today().year}")
+    fg.podcast.itunes_author("Patrick")
+    fg.podcast.itunes_summary("Daily science, longevity, and health discoveries. Technology as a force for good, sustainability, and environmental consciousness.")
+    fg.podcast.itunes_owner(name='Planetterrian Ventures', email='contact@planetterrian.com')
+    fg.podcast.itunes_image(f"{base_url}/planetterrian-podcast-image.jpg")
+    fg.podcast.itunes_category("Science")
+    fg.podcast.itunes_explicit("no")
+    
+    # Add existing episodes (skip if same episode number)
+    current_time_str = datetime.datetime.now().strftime("%H%M%S")
+    new_episode_guid = f"planetterrian-daily-ep{episode_num:03d}-{episode_date:%Y%m%d}-{current_time_str}"
+    
+    for ep_data in episodes_by_number.values():
+        ep_num_str = ep_data.get('itunes_episode', '')
+        if not ep_num_str:
+            guid = ep_data.get('guid', '')
+            match = re.search(r'ep(\d+)', guid)
+            if match:
+                ep_num_str = match.group(1)
+        
+        if ep_num_str and int(ep_num_str) == episode_num:
+            logging.info(f"Skipping existing episode {ep_num_str} - will be replaced with new version")
+            continue
+        
+        if ep_data.get('guid') == new_episode_guid:
+            continue
+        
+        entry = fg.add_entry()
+        entry.id(ep_data.get('guid', ''))
+        entry.title(ep_data.get('title', ''))
+        entry.description(ep_data.get('description', ''))
+        if ep_data.get('link'):
+            entry.link(href=ep_data['link'])
+        
+        if ep_data.get('pubDate'):
+            try:
+                if isinstance(ep_data['pubDate'], datetime.datetime):
+                    entry.pubDate(ep_data['pubDate'])
+                else:
+                    from email.utils import parsedate_to_datetime
+                    pub_date = parsedate_to_datetime(ep_data['pubDate'])
+                    entry.pubDate(pub_date)
+            except Exception:
+                pass
+        
+        if ep_data.get('enclosure'):
+            enc = ep_data['enclosure']
+            entry.enclosure(url=enc.get('url', ''), type=enc.get('type', 'audio/mpeg'), length=enc.get('length', '0'))
+        
+        if ep_data.get('itunes_title'):
+            entry.podcast.itunes_title(ep_data['itunes_title'])
+        if ep_data.get('itunes_summary'):
+            entry.podcast.itunes_summary(ep_data['itunes_summary'])
+        if ep_data.get('itunes_duration'):
+            entry.podcast.itunes_duration(ep_data['itunes_duration'])
+        if ep_data.get('itunes_episode'):
+            entry.podcast.itunes_episode(ep_data['itunes_episode'])
+        if ep_data.get('itunes_season'):
+            entry.podcast.itunes_season(ep_data['itunes_season'])
+        if ep_data.get('itunes_episode_type'):
+            entry.podcast.itunes_episode_type(ep_data['itunes_episode_type'])
+        entry.podcast.itunes_explicit("no")
+        entry.podcast.itunes_image(f"{base_url}/planetterrian-podcast-image.jpg")
+    
+    # Add new episode
+    entry = fg.add_entry()
+    entry.id(new_episode_guid)
+    entry.title(episode_title)
+    entry.description(episode_description)
+    entry.link(href=f"{base_url}/digests/planetterrian/{mp3_filename}")
+    pub_date = datetime.datetime.combine(episode_date, datetime.time(8, 0, 0), tzinfo=datetime.timezone.utc)
+    entry.pubDate(pub_date)
+    
+    mp3_url = f"{base_url}/digests/planetterrian/{mp3_filename}"
+    mp3_size = mp3_path.stat().st_size if mp3_path.exists() else 0
+    entry.enclosure(url=mp3_url, type="audio/mpeg", length=str(mp3_size))
+    
+    entry.podcast.itunes_title(episode_title)
+    entry.podcast.itunes_summary(episode_description)
+    entry.podcast.itunes_duration(format_duration(mp3_duration))
+    entry.podcast.itunes_episode(str(episode_num))
+    entry.podcast.itunes_season("1")
+    entry.podcast.itunes_episode_type("full")
+    entry.podcast.itunes_explicit("no")
+    entry.podcast.itunes_image(f"{base_url}/planetterrian-podcast-image.jpg")
+    
+    fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
+    fg.rss_file(str(rss_path), pretty=True)
+    logging.info(f"RSS feed updated → {rss_path}")
+
 # ========================== GENERATE PODCAST SCRIPT ==========================
 if not ENABLE_PODCAST:
     logging.info("Podcast generation is disabled (ENABLE_PODCAST = False). Skipping podcast script generation, audio processing, and RSS feed updates.")
@@ -1454,38 +1688,6 @@ Here is today's complete formatted digest. Use ONLY this content:
             for chunk in r.iter_content(chunk_size=8192):
                 f.write(chunk)
 
-    def get_audio_duration(path: Path) -> float:
-        """Return duration in seconds for an audio file."""
-        try:
-            result = subprocess.run(
-                [
-                    "ffprobe",
-                    "-v",
-                    "error",
-                    "-show_entries",
-                    "format=duration",
-                    "-of",
-                    "default=noprint_wrappers=1:nokey=1",
-                    str(path),
-                ],
-                capture_output=True,
-                text=True,
-                check=True,
-            )
-            return float(result.stdout.strip())
-        except Exception as exc:
-            logging.warning(f"Unable to determine duration for {path}: {exc}")
-            return 0.0
-
-    def format_duration(seconds: float) -> str:
-        """Format duration in seconds to HH:MM:SS or MM:SS format."""
-        hours = int(seconds // 3600)
-        minutes = int((seconds % 3600) // 60)
-        secs = int(seconds % 60)
-        if hours > 0:
-            return f"{hours:02d}:{minutes:02d}:{secs:02d}"
-        return f"{minutes:02d}:{secs:02d}"
-
     # Process podcast script
     full_text_parts = []
     for line in podcast_script.splitlines():
@@ -1671,177 +1873,6 @@ Here is today's complete formatted digest. Use ONLY this content:
                 except Exception:
                     pass
 
-    # ========================== UPDATE RSS FEED ==========================
-    # RSS feed update function (similar to Tesla script)
-    def update_rss_feed(
-        rss_path: Path,
-        episode_num: int,
-        episode_title: str,
-        episode_description: str,
-        episode_date: datetime.date,
-        mp3_filename: str,
-        mp3_duration: float,
-        mp3_path: Path,
-        base_url: str = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
-    ):
-        """Update or create RSS feed with new episode."""
-        fg = FeedGenerator()
-        fg.load_extension('podcast')
-        
-        # Parse existing RSS feed
-        existing_episodes = []
-        if rss_path.exists():
-            try:
-                tree = ET.parse(str(rss_path))
-                root = tree.getroot()
-                channel = root.find('channel')
-                if channel is not None:
-                    items = channel.findall('item')
-                    for item in items:
-                        episode_data = {}
-                        for elem in item:
-                            if elem.tag == 'title':
-                                episode_data['title'] = elem.text or ''
-                            elif elem.tag == 'description':
-                                episode_data['description'] = elem.text or ''
-                            elif elem.tag == 'guid':
-                                if elem.text:
-                                    episode_data['guid'] = elem.text.strip()
-                            elif elem.tag == 'pubDate':
-                                episode_data['pubDate'] = elem.text or ''
-                            elif elem.tag == 'enclosure':
-                                episode_data['enclosure'] = {
-                                    'url': elem.get('url', ''),
-                                    'type': elem.get('type', 'audio/mpeg'),
-                                    'length': elem.get('length', '0')
-                                }
-                            elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}episode':
-                                episode_data['itunes_episode'] = elem.text or ''
-                        if episode_data.get('guid'):
-                            existing_episodes.append(episode_data)
-            except Exception as e:
-                logging.warning(f"Could not parse existing RSS feed: {e}")
-        
-        # Deduplicate existing episodes by episode number
-        episodes_by_number = {}
-        for ep_data in existing_episodes:
-            ep_num_str = ep_data.get('itunes_episode', '')
-            if not ep_num_str:
-                guid = ep_data.get('guid', '')
-                match = re.search(r'ep(\d+)', guid)
-                if match:
-                    ep_num_str = match.group(1)
-            
-            if ep_num_str:
-                try:
-                    ep_num = int(ep_num_str)
-                    if ep_num not in episodes_by_number:
-                        episodes_by_number[ep_num] = ep_data
-                    else:
-                        existing_guid = episodes_by_number[ep_num].get('guid', '')
-                        current_guid = ep_data.get('guid', '')
-                        existing_ts = existing_guid.split('-')[-1] if '-' in existing_guid else '000000'
-                        current_ts = current_guid.split('-')[-1] if '-' in current_guid else '000000'
-                        if current_ts > existing_ts:
-                            episodes_by_number[ep_num] = ep_data
-                except ValueError:
-                    pass
-        
-        # Set channel metadata
-        fg.title("Planetterrian Daily")
-        fg.link(href="https://planetterrian.com")
-        fg.description("Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion.")
-        fg.language('en-us')
-        fg.copyright(f"Copyright {datetime.date.today().year}")
-        fg.podcast.itunes_author("Patrick")
-        fg.podcast.itunes_summary("Daily science, longevity, and health discoveries. Technology as a force for good, sustainability, and environmental consciousness.")
-        fg.podcast.itunes_owner(name='Planetterrian Ventures', email='contact@planetterrian.com')
-        fg.podcast.itunes_image(f"{base_url}/planetterrian-podcast-image.jpg")
-        fg.podcast.itunes_category("Science")
-        fg.podcast.itunes_explicit("no")
-        
-        # Add existing episodes (skip if same episode number)
-        current_time_str = datetime.datetime.now().strftime("%H%M%S")
-        new_episode_guid = f"planetterrian-daily-ep{episode_num:03d}-{episode_date:%Y%m%d}-{current_time_str}"
-        
-        for ep_data in episodes_by_number.values():
-            ep_num_str = ep_data.get('itunes_episode', '')
-            if not ep_num_str:
-                guid = ep_data.get('guid', '')
-                match = re.search(r'ep(\d+)', guid)
-                if match:
-                    ep_num_str = match.group(1)
-            
-            if ep_num_str and int(ep_num_str) == episode_num:
-                logging.info(f"Skipping existing episode {ep_num_str} - will be replaced with new version")
-                continue
-            
-            if ep_data.get('guid') == new_episode_guid:
-                continue
-            
-            entry = fg.add_entry()
-            entry.id(ep_data.get('guid', ''))
-            entry.title(ep_data.get('title', ''))
-            entry.description(ep_data.get('description', ''))
-            if ep_data.get('link'):
-                entry.link(href=ep_data['link'])
-            
-            if ep_data.get('pubDate'):
-                try:
-                    if isinstance(ep_data['pubDate'], datetime.datetime):
-                        entry.pubDate(ep_data['pubDate'])
-                    else:
-                        from email.utils import parsedate_to_datetime
-                        pub_date = parsedate_to_datetime(ep_data['pubDate'])
-                        entry.pubDate(pub_date)
-                except Exception:
-                    pass
-            
-            if ep_data.get('enclosure'):
-                enc = ep_data['enclosure']
-                entry.enclosure(url=enc.get('url', ''), type=enc.get('type', 'audio/mpeg'), length=enc.get('length', '0'))
-            
-            if ep_data.get('itunes_title'):
-                entry.podcast.itunes_title(ep_data['itunes_title'])
-            if ep_data.get('itunes_summary'):
-                entry.podcast.itunes_summary(ep_data['itunes_summary'])
-            if ep_data.get('itunes_duration'):
-                entry.podcast.itunes_duration(ep_data['itunes_duration'])
-            if ep_data.get('itunes_episode'):
-                entry.podcast.itunes_episode(ep_data['itunes_episode'])
-            if ep_data.get('itunes_season'):
-                entry.podcast.itunes_season(ep_data['itunes_season'])
-            if ep_data.get('itunes_episode_type'):
-                entry.podcast.itunes_episode_type(ep_data['itunes_episode_type'])
-            entry.podcast.itunes_explicit("no")
-            entry.podcast.itunes_image(f"{base_url}/planetterrian-podcast-image.jpg")
-        
-        # Add new episode
-        entry = fg.add_entry()
-        entry.id(new_episode_guid)
-        entry.title(episode_title)
-        entry.description(episode_description)
-        entry.link(href=f"{base_url}/digests/planetterrian/{mp3_filename}")
-        pub_date = datetime.datetime.combine(episode_date, datetime.time(8, 0, 0), tzinfo=datetime.timezone.utc)
-        entry.pubDate(pub_date)
-        
-        mp3_url = f"{base_url}/digests/planetterrian/{mp3_filename}"
-        mp3_size = mp3_path.stat().st_size if mp3_path.exists() else 0
-        entry.enclosure(url=mp3_url, type="audio/mpeg", length=str(mp3_size))
-        
-        entry.podcast.itunes_title(episode_title)
-        entry.podcast.itunes_summary(episode_description)
-        entry.podcast.itunes_duration(format_duration(mp3_duration))
-        entry.podcast.itunes_episode(str(episode_num))
-        entry.podcast.itunes_season("1")
-        entry.podcast.itunes_episode_type("full")
-        entry.podcast.itunes_explicit("no")
-        entry.podcast.itunes_image(f"{base_url}/planetterrian-podcast-image.jpg")
-        
-        fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
-        fg.rss_file(str(rss_path), pretty=True)
-        logging.info(f"RSS feed updated → {rss_path}")
-
     # Update RSS feed
     if final_mp3 and final_mp3.exists():
         try:
@@ -1869,6 +1900,115 @@ Here is today's complete formatted digest. Use ONLY this content:
             logging.info(f"RSS feed updated with Episode {episode_num}")
         except Exception as e:
             logging.error(f"Failed to update RSS feed: {e}", exc_info=True)
+    
+    # Check if any episodes are missing from RSS feed
+    try:
+        existing_episodes = scan_existing_episodes_from_files(
+            digests_dir, 
+            "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+        )
+        
+        # Parse RSS feed to see what episodes are already there
+        rss_episodes = set()
+        if rss_path.exists():
+            try:
+                tree = ET.parse(str(rss_path))
+                root = tree.getroot()
+                channel = root.find('channel')
+                if channel is not None:
+                    for item in channel.findall('item'):
+                        itunes_episode = item.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}episode')
+                        if itunes_episode is not None and itunes_episode.text:
+                            try:
+                                rss_episodes.add(int(itunes_episode.text))
+                            except ValueError:
+                                pass
+            except Exception as e:
+                logging.warning(f"Could not parse RSS feed to check for missing episodes: {e}")
+        
+        # Find episodes that exist as files but not in RSS feed
+        missing_episodes = [ep for ep in existing_episodes if ep['episode_num'] not in rss_episodes]
+        
+        if missing_episodes:
+            logging.warning(f"Found {len(missing_episodes)} episode(s) missing from RSS feed: {[ep['episode_num'] for ep in missing_episodes]}")
+            # Add missing episodes to RSS feed
+            for ep_data in missing_episodes:
+                try:
+                    episode_title = f"Planetterrian Daily - Episode {ep_data['episode_num']} - {ep_data['date'].strftime('%B %d, %Y')}"
+                    episode_description = f"Daily science, longevity, and health discoveries for {ep_data['date'].strftime('%B %d, %Y')}."
+                    
+                    update_rss_feed(
+                        rss_path=rss_path,
+                        episode_num=ep_data['episode_num'],
+                        episode_title=episode_title,
+                        episode_description=episode_description,
+                        episode_date=ep_data['date'],
+                        mp3_filename=ep_data['filename'],
+                        mp3_duration=ep_data['duration'],
+                        mp3_path=ep_data['path'],
+                        base_url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+                    )
+                    logging.info(f"Added missing Episode {ep_data['episode_num']} to RSS feed")
+                except Exception as e:
+                    logging.error(f"Failed to add missing episode {ep_data['episode_num']} to RSS feed: {e}", exc_info=True)
+    except Exception as e:
+        logging.warning(f"Could not scan for missing episodes: {e}", exc_info=True)
+
+# Always check for missing episodes, even if podcast generation was disabled or failed
+logging.info("Checking for any episodes missing from RSS feed...")
+try:
+    existing_episodes = scan_existing_episodes_from_files(
+        digests_dir, 
+        "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+    )
+    
+    # Parse RSS feed to see what episodes are already there
+    rss_episodes = set()
+    if rss_path.exists():
+        try:
+            tree = ET.parse(str(rss_path))
+            root = tree.getroot()
+            channel = root.find('channel')
+            if channel is not None:
+                for item in channel.findall('item'):
+                    itunes_episode = item.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}episode')
+                    if itunes_episode is not None and itunes_episode.text:
+                        try:
+                            rss_episodes.add(int(itunes_episode.text))
+                        except ValueError:
+                            pass
+        except Exception as e:
+            logging.warning(f"Could not parse RSS feed to check for missing episodes: {e}")
+    
+    # Find episodes that exist as files but not in RSS feed
+    missing_episodes = [ep for ep in existing_episodes if ep['episode_num'] not in rss_episodes]
+    
+    if missing_episodes:
+        logging.warning(f"Found {len(missing_episodes)} episode(s) missing from RSS feed: {[ep['episode_num'] for ep in missing_episodes]}")
+        # Add missing episodes to RSS feed
+        for ep_data in missing_episodes:
+            try:
+                episode_title = f"Planetterrian Daily - Episode {ep_data['episode_num']} - {ep_data['date'].strftime('%B %d, %Y')}"
+                episode_description = f"Daily science, longevity, and health discoveries for {ep_data['date'].strftime('%B %d, %Y')}."
+                
+                update_rss_feed(
+                    rss_path=rss_path,
+                    episode_num=ep_data['episode_num'],
+                    episode_title=episode_title,
+                    episode_description=episode_description,
+                    episode_date=ep_data['date'],
+                    mp3_filename=ep_data['filename'],
+                    mp3_duration=ep_data['duration'],
+                    mp3_path=ep_data['path'],
+                    base_url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+                )
+                logging.info(f"Added missing Episode {ep_data['episode_num']} to RSS feed")
+            except Exception as e:
+                logging.error(f"Failed to add missing episode {ep_data['episode_num']} to RSS feed: {e}", exc_info=True)
+    else:
+        logging.info("All existing episodes are in the RSS feed")
+except Exception as e:
+    logging.warning(f"Could not scan for missing episodes: {e}", exc_info=True)
 
 # Post to X
 if ENABLE_X_POSTING:
