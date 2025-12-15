@@ -589,133 +589,161 @@ def fetch_space_news():
         source_name = feed_title
         # Map common feed sources
         if "nasa.gov" in feed_url.lower():
-                if "kennedy" in feed_url.lower():
-                    source_name = "NASA Kennedy Space Center"
-                elif "jpl" in feed_url.lower():
-                    source_name = "NASA JPL"
-                elif "goddard" in feed_url.lower():
-                    source_name = "NASA Goddard"
-                else:
-                    source_name = "NASA"
-            elif "space.com" in feed_url.lower():
-                source_name = "Space.com"
-            elif "spaceflightnow" in feed_url.lower():
-                source_name = "Spaceflight Now"
-            elif "spacenews.com" in feed_url.lower():
-                source_name = "SpaceNews"
-            elif "astronomy.com" in feed_url.lower():
-                source_name = "Astronomy Magazine"
-            elif "skyandtelescope" in feed_url.lower():
-                source_name = "Sky & Telescope"
-            elif "universetoday" in feed_url.lower():
-                source_name = "Universe Today"
-            elif "esa.int" in feed_url.lower():
-                source_name = "European Space Agency"
-            elif "roscosmos" in feed_url.lower():
-                source_name = "Roscosmos"
-            elif "jaxa.jp" in feed_url.lower():
-                source_name = "JAXA"
-            elif "spacex.com" in feed_url.lower():
-                source_name = "SpaceX"
-            elif "blueorigin" in feed_url.lower():
-                source_name = "Blue Origin"
-            elif "nature.com" in feed_url.lower():
-                if "nbt" in feed_url.lower():
-                    source_name = "Nature Biotechnology"
-                elif "nm" in feed_url.lower() and "nmeth" not in feed_url.lower():
-                    source_name = "Nature Medicine"
-                elif "nmeth" in feed_url.lower():
-                    source_name = "Nature Methods"
-                else:
-                    source_name = "Nature"
-            elif "science.org" in feed_url.lower():
-                source_name = "Science"
-            elif "cell.com" in feed_url.lower():
-                if "cell-metabolism" in feed_url.lower():
-                    source_name = "Cell Metabolism"
-                elif "cell-stem-cell" in feed_url.lower():
-                    source_name = "Cell Stem Cell"
-                else:
-                    source_name = "Cell"
-            elif "newscientist" in feed_url.lower():
-                source_name = "New Scientist"
-            elif "scientificamerican" in feed_url.lower():
-                source_name = "Scientific American"
-            elif "sciencedaily" in feed_url.lower():
-                source_name = "Science Daily"
-            elif "sciencenews" in feed_url.lower():
-                source_name = "Science News"
-            elif "quantamagazine" in feed_url.lower():
-                source_name = "Quanta Magazine"
-            elif "technologyreview" in feed_url.lower():
-                source_name = "MIT Technology Review"
-            elif "the-scientist" in feed_url.lower():
-                source_name = "The Scientist"
-            elif "longevity" in feed_url.lower():
-                source_name = "Longevity Technology"
-            elif "lifespan.io" in feed_url.lower():
-                source_name = "Lifespan.io"
-            elif "aging-us.com" in feed_url.lower():
-                source_name = "Aging (Albany NY)"
-            elif "frontiersin.org" in feed_url.lower() and "aging" in feed_url.lower():
-                source_name = "Frontiers in Aging"
-            elif "healthline" in feed_url.lower():
-                source_name = "Healthline"
-            elif "medicalnewstoday" in feed_url.lower():
-                source_name = "Medical News Today"
-            elif "webmd" in feed_url.lower():
-                source_name = "WebMD"
-            elif "medscape" in feed_url.lower():
-                source_name = "Medscape"
-            elif "statnews" in feed_url.lower():
-                source_name = "STAT News"
-            elif "hopkinsmedicine" in feed_url.lower():
-                source_name = "Johns Hopkins Medicine"
-            elif "nih.gov" in feed_url.lower():
-                source_name = "NIH"
-            elif "cdc.gov" in feed_url.lower():
-                source_name = "CDC"
-            elif "who.int" in feed_url.lower():
-                source_name = "WHO"
-            elif "fda.gov" in feed_url.lower():
-                source_name = "FDA"
-            elif "hhs.gov" in feed_url.lower():
-                source_name = "HHS"
-            elif "thelancet" in feed_url.lower():
-                source_name = "The Lancet"
-            elif "jamanetwork" in feed_url.lower() or "jama" in feed_url.lower():
-                source_name = "JAMA"
-            elif "nejm" in feed_url.lower():
-                source_name = "New England Journal of Medicine"
-            elif "bmj.com" in feed_url.lower():
-                source_name = "BMJ"
-            elif "harvard" in feed_url.lower():
-                if "health" in feed_url.lower():
-                    source_name = "Harvard Health"
-                else:
-                    source_name = "Harvard University"
-            elif "mit.edu" in feed_url.lower():
-                source_name = "MIT"
-            elif "stanford" in feed_url.lower():
-                source_name = "Stanford University"
-            elif "mayo" in feed_url.lower():
-                source_name = "Mayo Clinic"
-            elif "clevelandclinic" in feed_url.lower():
-                source_name = "Cleveland Clinic"
-            elif "nutrition.org" in feed_url.lower():
-                source_name = "American Society for Nutrition"
-            elif "eatright" in feed_url.lower():
-                source_name = "Academy of Nutrition and Dietetics"
-            elif "dana.org" in feed_url.lower():
-                source_name = "Dana Foundation"
-            elif "brainfacts" in feed_url.lower():
-                source_name = "BrainFacts.org"
-            elif "alz.org" in feed_url.lower():
-                source_name = "Alzheimer's Association"
-            elif "apha.org" in feed_url.lower():
-                source_name = "American Public Health Association"
-            elif "healthaffairs" in feed_url.lower():
-                source_name = "Health Affairs"
+            if "kennedy" in feed_url.lower():
+                source_name = "NASA Kennedy Space Center"
+            elif "jpl" in feed_url.lower():
+                source_name = "NASA JPL"
+            elif "goddard" in feed_url.lower():
+                source_name = "NASA Goddard"
+            else:
+                source_name = "NASA"
+        elif "space.com" in feed_url.lower():
+            source_name = "Space.com"
+        elif "spaceflightnow" in feed_url.lower():
+            source_name = "Spaceflight Now"
+        elif "spacenews.com" in feed_url.lower():
+            source_name = "SpaceNews"
+        elif "astronomy.com" in feed_url.lower():
+            source_name = "Astronomy Magazine"
+        elif "skyandtelescope" in feed_url.lower():
+            source_name = "Sky & Telescope"
+        elif "universetoday" in feed_url.lower():
+            source_name = "Universe Today"
+        elif "esa.int" in feed_url.lower():
+            source_name = "European Space Agency"
+        elif "roscosmos" in feed_url.lower():
+            source_name = "Roscosmos"
+        elif "jaxa.jp" in feed_url.lower():
+            source_name = "JAXA"
+        elif "spacex.com" in feed_url.lower():
+            source_name = "SpaceX"
+        elif "blueorigin" in feed_url.lower():
+            source_name = "Blue Origin"
+        elif "nature.com" in feed_url.lower():
+            if "nbt" in feed_url.lower():
+                source_name = "Nature Biotechnology"
+            elif "nm" in feed_url.lower() and "nmeth" not in feed_url.lower():
+                source_name = "Nature Medicine"
+            elif "nmeth" in feed_url.lower():
+                source_name = "Nature Methods"
+            else:
+                source_name = "Nature"
+        elif "science.org" in feed_url.lower():
+            source_name = "Science"
+        elif "cell.com" in feed_url.lower():
+            if "cell-metabolism" in feed_url.lower():
+                source_name = "Cell Metabolism"
+            elif "cell-stem-cell" in feed_url.lower():
+                source_name = "Cell Stem Cell"
+            else:
+                source_name = "Cell"
+        elif "newscientist" in feed_url.lower():
+            source_name = "New Scientist"
+        elif "scientificamerican" in feed_url.lower():
+            source_name = "Scientific American"
+        elif "sciencedaily" in feed_url.lower():
+            source_name = "Science Daily"
+        elif "sciencenews" in feed_url.lower():
+            source_name = "Science News"
+        elif "quantamagazine" in feed_url.lower():
+            source_name = "Quanta Magazine"
+        elif "technologyreview" in feed_url.lower():
+            source_name = "MIT Technology Review"
+        elif "the-scientist" in feed_url.lower():
+            source_name = "The Scientist"
+        elif "longevity" in feed_url.lower():
+            source_name = "Longevity Technology"
+        elif "lifespan.io" in feed_url.lower():
+            source_name = "Lifespan.io"
+        elif "aging-us.com" in feed_url.lower():
+            source_name = "Aging (Albany NY)"
+        elif "frontiersin.org" in feed_url.lower() and "aging" in feed_url.lower():
+            source_name = "Frontiers in Aging"
+        elif "healthline" in feed_url.lower():
+            source_name = "Healthline"
+        elif "medicalnewstoday" in feed_url.lower():
+            source_name = "Medical News Today"
+        elif "webmd" in feed_url.lower():
+            source_name = "WebMD"
+        elif "medscape" in feed_url.lower():
+            source_name = "Medscape"
+        elif "statnews" in feed_url.lower():
+            source_name = "STAT News"
+        elif "hopkinsmedicine" in feed_url.lower():
+            source_name = "Johns Hopkins Medicine"
+        elif "nih.gov" in feed_url.lower():
+            source_name = "NIH"
+        elif "cdc.gov" in feed_url.lower():
+            source_name = "CDC"
+        elif "who.int" in feed_url.lower():
+            source_name = "WHO"
+        elif "fda.gov" in feed_url.lower():
+            source_name = "FDA"
+        elif "hhs.gov" in feed_url.lower():
+            source_name = "HHS"
+        elif "thelancet" in feed_url.lower():
+            source_name = "The Lancet"
+        elif "jamanetwork" in feed_url.lower() or "jama" in feed_url.lower():
+            source_name = "JAMA"
+        elif "nejm" in feed_url.lower():
+            source_name = "New England Journal of Medicine"
+        elif "bmj.com" in feed_url.lower():
+            source_name = "BMJ"
+        elif "harvard" in feed_url.lower():
+            if "health" in feed_url.lower():
+                source_name = "Harvard Health"
+            else:
+                source_name = "Harvard University"
+        elif "mit.edu" in feed_url.lower():
+            source_name = "MIT"
+        elif "stanford" in feed_url.lower():
+            source_name = "Stanford University"
+        elif "mayo" in feed_url.lower():
+            source_name = "Mayo Clinic"
+        elif "clevelandclinic" in feed_url.lower():
+            source_name = "Cleveland Clinic"
+        elif "nutrition.org" in feed_url.lower():
+            source_name = "American Society for Nutrition"
+        elif "eatright" in feed_url.lower():
+            source_name = "Academy of Nutrition and Dietetics"
+        elif "dana.org" in feed_url.lower():
+            source_name = "Dana Foundation"
+        elif "brainfacts" in feed_url.lower():
+            source_name = "BrainFacts.org"
+        elif "alz.org" in feed_url.lower():
+            source_name = "Alzheimer's Association"
+        elif "apha.org" in feed_url.lower():
+            source_name = "American Public Health Association"
+        elif "healthaffairs" in feed_url.lower():
+            source_name = "Health Affairs"
+        
+        return source_name
+    
+    def fetch_single_feed(feed_url: str):
+        """Fetch and parse a single RSS feed. Returns (feed_url, articles, source_name) or None on error."""
+        source_name = "Unknown"
+        try:
+            response = requests.get(
+                feed_url,
+                headers=DEFAULT_HEADERS,
+                timeout=HTTP_TIMEOUT_SECONDS
+            )
+            response.raise_for_status()
+            feed = feedparser.parse(response.content)
+            
+            if feed.bozo and feed.bozo_exception:
+                with problematic_feeds_lock:
+                    if feed_url not in problematic_feeds:
+                        problematic_feeds.add(feed_url)
+                        error_msg = str(feed.bozo_exception)
+                        if "not well-formed" in error_msg or "syntax error" in error_msg:
+                            logging.debug(f"RSS feed has malformed XML (will skip): {feed_url}")
+                        else:
+                            logging.debug(f"RSS feed parsing issue (will skip): {feed_url} - {error_msg[:100]}")
+                return None
+            
+            feed_title = feed.feed.get("title", "Unknown")
+            source_name = get_source_name(feed_url, feed_title)
             
             feed_articles = []
             for entry in feed.entries:
@@ -756,16 +784,40 @@ def fetch_space_news():
                 }
                 
                 feed_articles.append(article)
-                raw_articles.append(article)
             
-            logging.info(f"Fetched {len(feed_articles)} articles from {source_name}")
-            all_articles.extend(feed_articles)
-            
+            return (feed_url, feed_articles, source_name)
+        
+        except requests.RequestException as e:
+            with problematic_feeds_lock:
+                if feed_url not in problematic_feeds:
+                    problematic_feeds.add(feed_url)
+                    logging.debug(f"Network error fetching RSS feed (will skip): {feed_url} - {type(e).__name__}")
+            return None
         except Exception as e:
-            logging.warning(f"Failed to fetch RSS feed {feed_url}: {e}")
-            continue
+            error_str = str(e)
+            if any(keyword in error_str.lower() for keyword in ["not well-formed", "syntax error", "mismatched tag", "invalid token", "404", "not found", "closed connection"]):
+                with problematic_feeds_lock:
+                    if feed_url not in problematic_feeds:
+                        problematic_feeds.add(feed_url)
+                        logging.debug(f"RSS feed error (will skip): {feed_url} - {type(e).__name__}")
+            else:
+                logging.warning(f"Failed to fetch RSS feed {feed_url}: {e}")
+            return None
+    
+    # Fetch feeds in parallel (max 10 concurrent requests to avoid overwhelming servers)
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        future_to_feed = {executor.submit(fetch_single_feed, feed_url): feed_url for feed_url in rss_feeds}
+        for future in as_completed(future_to_feed):
+            result = future.result()
+            if result:
+                feed_url, feed_articles, source_name = result
+                logging.info(f"Fetched {len(feed_articles)} articles from {source_name}")
+                all_articles.extend(feed_articles)
+                raw_articles.extend(feed_articles)
     
     logging.info(f"Fetched {len(all_articles)} total articles from RSS feeds")
+    if problematic_feeds:
+        logging.debug(f"Skipped {len(problematic_feeds)} problematic RSS feed(s) (check debug logs for details)")
     
     if not all_articles:
         logging.warning("No articles found from RSS feeds")
