@@ -118,13 +118,8 @@ def number_to_words(num: float) -> str:
     return ('negative ' if is_negative else '') + result
 
 # ========================== PRONUNCIATION FIXER v4 – COMPREHENSIVE HOCKEY TERMS ==========================
-# Try to use shared pronunciation module, fallback to local implementation
-try:
-    from assets.pronunciation import apply_pronunciation_fixes, COMMON_ACRONYMS, HOCKEY_TERMS, PLAYER_NAMES, WORD_PRONUNCIATIONS
-    USE_SHARED_PRONUNCIATION = True
-except ImportError:
-    USE_SHARED_PRONUNCIATION = False
-    logging.warning("Could not import shared pronunciation module, using local implementation")
+# Note: Import will be set up after project_root is defined
+USE_SHARED_PRONUNCIATION = False
 
 def fix_pronunciation(text: str) -> str:
     """
@@ -627,6 +622,19 @@ if not env_path.exists():
     raise FileNotFoundError(f".env not found at {env_path}")
 
 load_dotenv(dotenv_path=env_path)
+
+# ========================== SET UP SHARED PRONUNCIATION MODULE ==========================
+# Try to use shared pronunciation module, fallback to local implementation
+try:
+    import sys
+    # Add project root to path so we can import assets module
+    if str(project_root) not in sys.path:
+        sys.path.insert(0, str(project_root))
+    from assets.pronunciation import apply_pronunciation_fixes, COMMON_ACRONYMS, HOCKEY_TERMS, PLAYER_NAMES, WORD_PRONUNCIATIONS
+    USE_SHARED_PRONUNCIATION = True
+except ImportError:
+    USE_SHARED_PRONUNCIATION = False
+    logging.warning("Could not import shared pronunciation module, using local implementation")
 
 # TTS provider selection (NO automatic fallback to ElevenLabs)
 # - chatterbox (default): local model (requires torch/torchaudio/chatterbox-tts)
