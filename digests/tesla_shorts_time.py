@@ -398,7 +398,7 @@ def _normalize_tts_provider(value: str) -> str:
         return "chatterbox"
     return v
 
-TTS_PROVIDER = _normalize_tts_provider(os.getenv("TESLA_SHORTS_TIME_TTS_PROVIDER", "chatterbox"))
+TTS_PROVIDER = _normalize_tts_provider(os.getenv("TESLA_SHORTS_TIME_TTS_PROVIDER", "elevenlabs"))
 
 def _env_float(name: str, default: float) -> float:
     raw = os.getenv(name)
@@ -2574,7 +2574,7 @@ Here is today's complete formatted digest. Use ONLY this content:
             raise RuntimeError("ElevenLabs rejected the API key (401). Update ELEVENLABS_API_KEY in .env/GitHub secrets.")
         resp.raise_for_status()
 
-    def _chunk_text_for_elevenlabs(text: str, max_chars: int = 4000) -> List[str]:
+    def _chunk_text_for_elevenlabs(text: str, max_chars: int = 5000) -> List[str]:
         """
         Split text into chunks for ElevenLabs API (limit is 5000, use 4000 for more safety).
         Splits at sentence boundaries to avoid audio breaks and ensure complete thoughts.
@@ -2808,6 +2808,8 @@ Here is today's complete formatted digest. Use ONLY this content:
     logging.info(f"TTS: {len(full_text)} characters to synthesize (provider={TTS_PROVIDER})")
 
     # Generate voice file
+    import time
+    tts_start_time = time.time()
     try:
         if TTS_PROVIDER == "chatterbox":
             logging.info("Generating voice track with Chatterbox (local model)...")
@@ -2825,7 +2827,8 @@ Here is today's complete formatted digest. Use ONLY this content:
         else:
             raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
         audio_files = [str(voice_file)]
-        logging.info(f"✅ Generated complete voice track: {voice_file}")
+        tts_duration = time.time() - tts_start_time
+        logging.info(f"✅ Generated complete voice track: {voice_file} ({tts_duration:.1f}s, {len(full_text)/tts_duration:.1f} chars/sec)")
     except Exception as e:
         logging.error(f"❌ TTS generation failed: {e}", exc_info=True)
         raise  # Re-raise to ensure workflow fails visibly
@@ -2848,9 +2851,11 @@ Here is today's complete formatted digest. Use ONLY this content:
         str(voice_mix)
     ], check=True, capture_output=True, timeout=timeout_seconds)
     
-    if not MAIN_MUSIC.exists():
+    if not has_music:
+        logging.warning(f"⚠️  Background music file '{MAIN_MUSIC}' not found - generating voice-only podcast")
+        logging.warning("💡 To add background music: ensure 'tesla_shorts_time.mp3' exists in project root")
         subprocess.run(["ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-preset", "fast", str(final_mp3)], check=True, capture_output=True)
-        logging.info("Podcast ready (voice-only, no music file found)")
+        logging.info("✅ Podcast ready (voice-only)")
     else:
         # Get voice duration to calculate music timing
         voice_duration = max(get_audio_duration(voice_mix), 0.0)
