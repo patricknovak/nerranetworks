@@ -1603,9 +1603,12 @@ Here is today's complete formatted digest. Use ONLY this content:
         # Note: exaggeration, CFG, and min_p are not supported by Turbo version and will be ignored
         # We don't pass them to avoid warnings and potential issues
 
-        chunk_paths: List[Path] = []
-        for i, chunk in enumerate(chunks, 1):
-            logging.info(f"Chatterbox: chunk {i}/{len(chunks)} ({len(chunk)} chars)")
+        # Generate chunks in parallel for maximum speed
+        def generate_single_chunk(chunk_data):
+            """Generate a single chunk."""
+            i, chunk = chunk_data
+            chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
+
             try:
                 with open(os.devnull, "w") as devnull:
                     redir = (
@@ -1620,35 +1623,58 @@ Here is today's complete formatted digest. Use ONLY this content:
                     wav = wav.detach().cpu()
                 if getattr(wav, "ndim", 0) == 1:
                     wav = wav.unsqueeze(0)
-                
+
                 # Validate generated audio
                 if wav is None or (hasattr(wav, "numel") and wav.numel() == 0):
                     raise RuntimeError(f"Chatterbox generated empty audio for chunk {i}")
-                
+
                 # Check audio duration (estimate: samples / sample_rate)
                 num_samples = wav.shape[-1] if hasattr(wav, "shape") else 0
                 duration_seconds = num_samples / sr if num_samples > 0 else 0
-                
-                # Warn if chunk is suspiciously short (less than 1 second for a 5000 char chunk)
+
+                # Warn if chunk is suspiciously short
                 expected_min_duration = len(chunk) / 20  # Rough estimate: ~20 chars per second
                 if duration_seconds < expected_min_duration * 0.1:  # Less than 10% of expected
                     logging.warning(f"⚠️ Chunk {i} generated very short audio: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s for {len(chunk)} chars)")
-                
-                chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
+
                 ta.save(str(chunk_path), wav, sr)
-                
+
                 # Verify file was created and has content
                 if not chunk_path.exists():
                     raise RuntimeError(f"Failed to save chunk {i} to {chunk_path}")
                 chunk_size = chunk_path.stat().st_size
                 if chunk_size < 1000:  # Less than 1KB is suspicious
                     raise RuntimeError(f"Chunk {i} file is too small ({chunk_size} bytes) - TTS may have failed")
-                
+
                 logging.info(f"✅ Chunk {i} generated: {duration_seconds:.2f}s ({chunk_size} bytes)")
-                chunk_paths.append(chunk_path)
+                return chunk_path
+
             except Exception as e:
                 logging.error(f"❌ Failed to generate chunk {i}/{len(chunks)}: {e}", exc_info=True)
                 raise RuntimeError(f"TTS generation failed for chunk {i}: {e}") from e
+
+        # Process chunks in parallel
+        logging.info(f"🚀 Generating {len(chunks)} chunks in parallel (up to 4 concurrent)...")
+
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        chunk_data = list(enumerate(chunks, 1))
+
+        chunk_paths: List[Path] = []
+        with ThreadPoolExecutor(max_workers=4) as executor:  # Limit to 4 concurrent to avoid resource issues
+            future_to_chunk = {executor.submit(generate_single_chunk, data): data[0] for data in chunk_data}
+
+            for future in as_completed(future_to_chunk):
+                chunk_num = future_to_chunk[future]
+                try:
+                    chunk_path = future.result()
+                    chunk_paths.append(chunk_path)
+                    logging.info(f"✅ Chunk {chunk_num} completed")
+                except Exception as exc:
+                    logging.error(f"❌ Chunk {chunk_num} failed: {exc}")
+                    raise
+
+        # Sort chunk paths by chunk number to ensure proper concatenation order
+        chunk_paths.sort(key=lambda x: int(x.stem.split('_')[-1]))
 
         concat_list = tmp_dir / "chatterbox_concat.txt"
         with open(concat_list, "w", encoding="utf-8") as f:
