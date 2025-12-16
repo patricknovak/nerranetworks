@@ -2510,11 +2510,14 @@ Here is today's complete formatted digest. Use ONLY this content:
 
         logging.info(f"Chatterbox: generating {len(chunks)} chunks (max {CHATTERBOX_MAX_CHARS} chars each) on device={CHATTERBOX_DEVICE}")
 
-        # Initialize Chatterbox-Turbo with Hugging Face token if available
-        model_kwargs = {"device": CHATTERBOX_DEVICE}
+        # Set Hugging Face token for authentication if available
         if HF_TOKEN:
-            model_kwargs["token"] = HF_TOKEN
-        model = ChatterboxTurboTTS.from_pretrained(**model_kwargs)
+            import huggingface_hub
+            huggingface_hub.login(HF_TOKEN)
+            logging.info("✅ Logged into Hugging Face Hub with token")
+
+        # Initialize Chatterbox-Turbo
+        model = ChatterboxTurboTTS.from_pretrained(device=CHATTERBOX_DEVICE)
         sr = getattr(model, "sr", 16000)
 
         gen_sig = inspect.signature(model.generate)
