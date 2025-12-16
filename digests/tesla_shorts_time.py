@@ -2840,12 +2840,46 @@ Here is today's complete formatted digest. Use ONLY this content:
     timeout_seconds = max(int(file_duration * 3) + 120, 600)
     
     logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
-    subprocess.run([
-        "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
-        "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
-        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-        str(voice_mix)
-    ], check=True, capture_output=True, timeout=timeout_seconds)
+
+    # First, check if voice_file exists and has content
+    if not voice_file.exists():
+        raise RuntimeError(f"Voice file {voice_file} does not exist!")
+
+    voice_file_size = voice_file.stat().st_size
+    logging.info(f"Voice file size: {voice_file_size} bytes")
+
+    if voice_file_size < 1000:  # Less than 1KB is suspicious
+        raise RuntimeError(f"Voice file {voice_file} is too small ({voice_file_size} bytes) - TTS may have failed")
+
+    # Try simpler normalization first to avoid filter issues
+    try:
+        logging.info("Attempting voice normalization with full filter chain...")
+        subprocess.run([
+            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
+            "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
+            "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+            str(voice_mix)
+        ], check=True, capture_output=True, timeout=timeout_seconds)
+    except subprocess.CalledProcessError as e:
+        logging.warning(f"Full filter chain failed: {e}")
+        logging.warning("Trying simpler normalization...")
+        # Fallback to simpler processing
+        subprocess.run([
+            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
+            "-af", "loudnorm=I=-18:TP=-1.5:LRA=11:linear=true",
+            "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+            str(voice_mix)
+        ], check=True, capture_output=True, timeout=timeout_seconds)
+
+    # Verify the output file was created
+    if not voice_mix.exists():
+        raise RuntimeError(f"Voice mix file {voice_mix} was not created!")
+
+    voice_mix_size = voice_mix.stat().st_size
+    logging.info(f"Voice mix file size: {voice_mix_size} bytes")
+
+    if voice_mix_size < 1000:
+        raise RuntimeError(f"Voice mix file {voice_mix} is too small ({voice_mix_size} bytes) - processing failed")
     
     if not MAIN_MUSIC.exists():
         logging.warning(f"⚠️  Background music file '{MAIN_MUSIC}' not found - generating voice-only podcast")
@@ -2951,14 +2985,35 @@ Here is today's complete formatted digest. Use ONLY this content:
             "-c", "copy", str(music_full)
         ], check=True, capture_output=True)
         
+        # Verify music_full was created
+        if not music_full.exists():
+            raise RuntimeError(f"Music full file {music_full} was not created!")
+
+        music_full_size = music_full.stat().st_size
+        logging.info(f"Music full file size: {music_full_size} bytes")
+
+        if music_full_size < 1000:
+            raise RuntimeError(f"Music full file {music_full} is too small ({music_full_size} bytes) - music concatenation failed")
+
         # Mix voice and music
+        logging.info("Mixing voice and music...")
         subprocess.run([
             "ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-i", str(music_full),
             "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=first:dropout_transition=2",
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(final_mp3)
         ], check=True, capture_output=True, timeout=timeout_seconds)
-        
+
+        # Verify final file was created and has content
+        if not final_mp3.exists():
+            raise RuntimeError(f"Final podcast file {final_mp3} was not created!")
+
+        final_size = final_mp3.stat().st_size
+        logging.info(f"Final podcast file size: {final_size} bytes")
+
+        if final_size < 10000:  # Less than 10KB is definitely wrong for a 55s podcast
+            raise RuntimeError(f"Final podcast file {final_mp3} is too small ({final_size} bytes) - mixing failed")
+
         logging.info(f"✅ Final podcast created: {final_mp3.name}")
 
 
