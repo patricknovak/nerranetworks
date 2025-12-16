@@ -1093,18 +1093,21 @@
     </footer>
     
     <script>
-        const RSS_FEED_URL = 'https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/podcast.rss';
+        // Add cache-busting parameter to force fresh RSS data
+        const RSS_FEED_URL = 'https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/podcast.rss?t=' + Date.now();
         let currentAudio = null;
         let currentEpisode = null;
         let allEpisodes = [];
-        
+
         // Parse RSS feed
         async function loadPodcast() {
             const loadingEl = document.getElementById('loading');
             const errorEl = document.getElementById('error');
             const episodesEl = document.getElementById('episodes');
-            
+
             try {
+                // Clear any existing episodes to force fresh load
+                allEpisodes = [];
                 console.log('Loading RSS feed from:', RSS_FEED_URL);
                 
                 let response;
