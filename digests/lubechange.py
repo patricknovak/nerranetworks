@@ -776,18 +776,16 @@ required = [
     "GROK_API_KEY"
 ]
 if ENABLE_PODCAST and not TEST_MODE:
-    if TTS_PROVIDER == "elevenlabs":
-        required.append("ELEVENLABS_API_KEY")
-    elif TTS_PROVIDER == "chatterbox":
+    if TTS_PROVIDER == "chatterbox":
         if not _chatterbox_deps_available():
             raise OSError(
-                "Chatterbox TTS selected but dependencies are missing. Install "
-                "requirements_planetterrian.txt (torch, torchaudio, chatterbox-tts)."
+                "Chatterbox-Turbo selected but dependencies are missing. Install "
+                "requirements (torch, torchaudio, chatterbox-tts)."
             )
         pass  # local model, no API key needed
     else:
         raise OSError(
-            f"Unknown LUBECHANGE_TTS_PROVIDER '{TTS_PROVIDER}'. Use 'chatterbox' or 'elevenlabs'."
+            f"Unknown LUBECHANGE_TTS_PROVIDER '{TTS_PROVIDER}'. Only 'chatterbox' is supported (Chatterbox-Turbo)."
         )
 if ENABLE_X_POSTING:
     required.extend([
@@ -2404,7 +2402,7 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
         try:
             import torch  # noqa: F401
             import torchaudio as ta
-            from chatterbox.tts import ChatterboxTTS
+            from chatterbox.tts_turbo import ChatterboxTurboTTS
         except Exception as exc:
             raise RuntimeError(
                 "Chatterbox dependencies missing. Install requirements (torch, torchaudio, chatterbox-tts)."
@@ -2417,7 +2415,7 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
 
         logging.info(f"Chatterbox: generating {len(chunks)} chunks (max {CHATTERBOX_MAX_CHARS} chars each) on device={CHATTERBOX_DEVICE}")
 
-        model = ChatterboxTTS.from_pretrained(device=CHATTERBOX_DEVICE)
+        model = ChatterboxTurboTTS.from_pretrained(device=CHATTERBOX_DEVICE)
         sr = getattr(model, "sr", 16000)
 
         gen_sig = inspect.signature(model.generate)
@@ -2559,21 +2557,11 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
 
     # Generate voice file
     try:
-        if TTS_PROVIDER == "chatterbox":
-            logging.info("Generating voice track with Chatterbox (local model)...")
-            voice_file = tmp_dir / "jason_full.wav"
-            _synthesize_with_chatterbox(full_text, voice_file)
-            if not voice_file.exists():
-                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
-        elif TTS_PROVIDER == "elevenlabs":
-            logging.info("Generating single voice segment with ElevenLabs...")
-            validate_elevenlabs_auth()
-            voice_file = tmp_dir / "jason_full.mp3"
-            speak(full_text, VOICE_ID, str(voice_file))
-            if not voice_file.exists():
-                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
-        else:
-            raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
+        logging.info("Generating voice track with Chatterbox-Turbo (local model)...")
+        voice_file = tmp_dir / "jason_full.wav"
+        _synthesize_with_chatterbox(full_text, voice_file)
+        if not voice_file.exists():
+            raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
         audio_files = [str(voice_file)]
         logging.info(f"✅ Generated complete voice track: {voice_file}")
     except Exception as e:

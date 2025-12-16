@@ -339,15 +339,13 @@ TTS_PROVIDER = _normalize_tts_provider(os.getenv("PLANETTERRIAN_TTS_PROVIDER", "
 required = ["GROK_API_KEY"]
 
 if ENABLE_PODCAST and not TEST_MODE:
-    if TTS_PROVIDER == "elevenlabs":
-        required.append("ELEVENLABS_API_KEY")
-    elif TTS_PROVIDER == "chatterbox":
-        # Chatterbox runs locally (no API key), but needs a voice prompt for voice cloning.
+    if TTS_PROVIDER == "chatterbox":
+        # Chatterbox-Turbo runs locally (no API key), but needs a voice prompt for voice cloning.
         # We validate the presence of the prompt further below.
         pass
     else:
         raise OSError(
-            f"Unknown PLANETTERRIAN_TTS_PROVIDER '{TTS_PROVIDER}'. Use 'chatterbox' or 'elevenlabs'."
+            f"Unknown PLANETTERRIAN_TTS_PROVIDER '{TTS_PROVIDER}'. Only 'chatterbox' is supported (Chatterbox-Turbo)."
         )
 if ENABLE_X_POSTING:
     required.extend([
@@ -1731,7 +1729,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         try:
             import torch  # noqa: F401
             import torchaudio as ta
-            from chatterbox.tts import ChatterboxTTS
+            from chatterbox.tts_turbo import ChatterboxTurboTTS
         except Exception as exc:
             raise RuntimeError(
                 "Chatterbox dependencies missing. Install Planetterrian requirements (torch, torchaudio, chatterbox-tts)."
@@ -1744,7 +1742,7 @@ Here is today's complete formatted digest. Use ONLY this content:
 
         logging.info(f"Chatterbox: generating {len(chunks)} chunks (max {CHATTERBOX_MAX_CHARS} chars each) on device={CHATTERBOX_DEVICE}")
 
-        model = ChatterboxTTS.from_pretrained(device=CHATTERBOX_DEVICE)
+        model = ChatterboxTurboTTS.from_pretrained(device=CHATTERBOX_DEVICE)
         sr = getattr(model, "sr", 16000)
 
         gen_sig = inspect.signature(model.generate)
@@ -1873,17 +1871,9 @@ Here is today's complete formatted digest. Use ONLY this content:
     logging.info(f"TTS: {len(full_text)} characters to synthesize (provider={TTS_PROVIDER})")
 
     # Generate voice file
-    if TTS_PROVIDER == "chatterbox":
-        logging.info("Generating voice track with Chatterbox (local model)...")
-        voice_file = tmp_dir / "patrick_full.wav"
-        _synthesize_with_chatterbox(full_text, voice_file)
-    elif TTS_PROVIDER == "elevenlabs":
-        logging.info("Generating single voice segment with ElevenLabs...")
-        validate_elevenlabs_auth()
-        voice_file = tmp_dir / "patrick_full.mp3"
-        speak(full_text, VOICE_ID, str(voice_file))
-    else:
-        raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
+    logging.info("Generating voice track with Chatterbox-Turbo (local model)...")
+    voice_file = tmp_dir / "patrick_full.wav"
+    _synthesize_with_chatterbox(full_text, voice_file)
     audio_files = [str(voice_file)]
     logging.info("Generated complete voice track")
 

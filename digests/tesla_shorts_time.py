@@ -398,7 +398,7 @@ def _normalize_tts_provider(value: str) -> str:
         return "chatterbox"
     return v
 
-TTS_PROVIDER = _normalize_tts_provider(os.getenv("TESLA_SHORTS_TIME_TTS_PROVIDER", "elevenlabs"))
+TTS_PROVIDER = _normalize_tts_provider(os.getenv("TESLA_SHORTS_TIME_TTS_PROVIDER", "chatterbox"))
 
 def _env_float(name: str, default: float) -> float:
     raw = os.getenv(name)
@@ -447,14 +447,12 @@ required = [
     "GROK_API_KEY"
 ]
 if ENABLE_PODCAST and not TEST_MODE:
-    if TTS_PROVIDER == "elevenlabs":
-        required.append("ELEVENLABS_API_KEY")
-    elif TTS_PROVIDER == "chatterbox":
+    if TTS_PROVIDER == "chatterbox":
         # Local model, no API key required. Voice prompt can be derived from Tesla Shorts Time episodes.
         pass
     else:
         raise OSError(
-            f"Unknown TESLA_SHORTS_TIME_TTS_PROVIDER '{TTS_PROVIDER}'. Use 'chatterbox' or 'elevenlabs'."
+            f"Unknown TESLA_SHORTS_TIME_TTS_PROVIDER '{TTS_PROVIDER}'. Only 'chatterbox' is supported (Chatterbox-Turbo)."
         )
 if ENABLE_X_POSTING:
     required.extend([
@@ -2341,8 +2339,8 @@ Here is today's complete formatted digest. Use ONLY this content:
 
     # ========================== 3. TTS (VOICE) ==========================
     logging.info(f"TTS provider selected: {TTS_PROVIDER}")
-    if TTS_PROVIDER != "chatterbox" and TTS_PROVIDER != "elevenlabs":
-        raise RuntimeError(f"Invalid TTS_PROVIDER: {TTS_PROVIDER}. Must be 'chatterbox' or 'elevenlabs'")
+    if TTS_PROVIDER != "chatterbox":
+        raise RuntimeError(f"Invalid TTS_PROVIDER: {TTS_PROVIDER}. Only 'chatterbox' is supported (Chatterbox-Turbo).")
 
     def _chunk_text(text: str, max_chars: int) -> List[str]:
         """Split long text into chunks for local TTS models."""
@@ -2498,10 +2496,10 @@ Here is today's complete formatted digest. Use ONLY this content:
         try:
             import torch  # noqa: F401
             import torchaudio as ta
-            from chatterbox.tts import ChatterboxTTS
+            from chatterbox.tts_turbo import ChatterboxTurboTTS
         except Exception as exc:
             raise RuntimeError(
-                "Chatterbox dependencies missing. Install Tesla Shorts Time requirements (torch, torchaudio, chatterbox-tts)."
+                "Chatterbox-Turbo dependencies missing. Install chatterbox-tts and ensure Chatterbox-Turbo model is available."
             ) from exc
 
         prompt_wav = _prepare_chatterbox_voice_prompt(tmp_dir)
@@ -2511,7 +2509,7 @@ Here is today's complete formatted digest. Use ONLY this content:
 
         logging.info(f"Chatterbox: generating {len(chunks)} chunks (max {CHATTERBOX_MAX_CHARS} chars each) on device={CHATTERBOX_DEVICE}")
 
-        model = ChatterboxTTS.from_pretrained(device=CHATTERBOX_DEVICE)
+        model = ChatterboxTurboTTS.from_pretrained(device=CHATTERBOX_DEVICE)
         sr = getattr(model, "sr", 16000)
 
         gen_sig = inspect.signature(model.generate)
@@ -2811,26 +2809,16 @@ Here is today's complete formatted digest. Use ONLY this content:
     import time
     tts_start_time = time.time()
     try:
-        if TTS_PROVIDER == "chatterbox":
-            logging.info("Generating voice track with Chatterbox (local model)...")
-            voice_file = tmp_dir / "patrick_full.wav"
-            _synthesize_with_chatterbox(full_text, voice_file)
-            if not voice_file.exists():
-                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
-        elif TTS_PROVIDER == "elevenlabs":
-            logging.info("Generating single voice segment with ElevenLabs...")
-            validate_elevenlabs_auth()
-            voice_file = tmp_dir / "patrick_full.mp3"
-            speak(full_text, ELEVEN_VOICE_ID, str(voice_file))
-            if not voice_file.exists():
-                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
-        else:
-            raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
+        logging.info("Generating voice track with Chatterbox-Turbo (local model)...")
+        voice_file = tmp_dir / "patrick_full.wav"
+        _synthesize_with_chatterbox(full_text, voice_file)
+        if not voice_file.exists():
+            raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
         audio_files = [str(voice_file)]
         tts_duration = time.time() - tts_start_time
         logging.info(f"✅ Generated complete voice track: {voice_file} ({tts_duration:.1f}s, {len(full_text)/tts_duration:.1f} chars/sec)")
     except Exception as e:
-        logging.error(f"❌ TTS generation failed: {e}", exc_info=True)
+        logging.error(f"❌ Chatterbox-Turbo TTS generation failed: {e}", exc_info=True)
         raise  # Re-raise to ensure workflow fails visibly
 
     # ========================== FINAL MIX ==========================
