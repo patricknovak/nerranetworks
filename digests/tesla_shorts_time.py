@@ -280,17 +280,19 @@ def fix_tesla_pronunciation(text: str) -> str:
         except ValueError:
             return match.group(0)
     
+    # Fix dates: multiple formats like "November 19, 2025", "11 December, 2025", "December 11, 2025"
     text = re.sub(r'(\w+)\s+(\d{1,2}),\s+(\d{4})', replace_date, text, flags=re.IGNORECASE)
+    text = re.sub(r'(\d{1,2})\s+(\w+),\s+(\d{4})', lambda m: replace_date(m.group().replace(m.group(1) + ' ' + m.group(2), m.group(2) + ' ' + m.group(1))), text, flags=re.IGNORECASE)
 
-    # Fix times: "02:30 PM" → "two thirty PM"
+    # Fix times: multiple formats "02:30 PM", "2:30PM", "14:30", "2:30 p.m."
     def replace_time(match):
         hour_str = match.group(1)
         minute_str = match.group(2)
-        am_pm = match.group(3) if match.group(3) else ""
+        am_pm = match.group(3).upper() if match.group(3) else ""
         try:
             hour = int(hour_str)
             minute = int(minute_str)
-            
+
             # Handle 24-hour format
             if not am_pm and hour >= 13:
                 hour -= 12
@@ -302,19 +304,29 @@ def fix_tesla_pronunciation(text: str) -> str:
                 am_pm = "AM"
             elif not am_pm:
                 am_pm = "AM"
-            
+
+            # Ensure valid hour range
+            if hour < 1 or hour > 12:
+                return match.group(0)
+
             hour_word = number_to_words(hour)
             if minute == 0:
                 time_str = f"{hour_word} o'clock {am_pm}".strip()
             else:
                 minute_word = number_to_words(minute)
-                time_str = f"{hour_word} {minute_word} {am_pm}".strip()
-            
+                # Handle teen numbers specially (e.g., "fifteen" instead of "fif teen")
+                if 10 <= minute <= 19:
+                    time_str = f"{hour_word} {minute_word} {am_pm}".strip()
+                else:
+                    time_str = f"{hour_word} {minute_word} {am_pm}".strip()
+
             return time_str
-        except ValueError:
+        except (ValueError, AttributeError):
             return match.group(0)
-    
-    text = re.sub(r'(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)?', replace_time, text)
+
+    # Match various time formats
+    text = re.sub(r'(\d{1,2}):(\d{2})\s*(AM|PM|am|pm|A\.M\.|P\.M\.|a\.m\.|p\.m\.)?', replace_time, text)
+    text = re.sub(r'(\d{1,2}):(\d{2})\s*(AM|PM|am|pm|A\.M\.|P\.M\.|a\.m\.|p\.m\.)', replace_time, text)  # Handle periods
     
     # Fix timezone abbreviations
     text = re.sub(r'\bPST\b', 'Pacific Standard Time', text)
@@ -2562,54 +2574,71 @@ Here is today's complete formatted digest. Use ONLY this content:
             raise RuntimeError("ElevenLabs rejected the API key (401). Update ELEVENLABS_API_KEY in .env/GitHub secrets.")
         resp.raise_for_status()
 
-    def _chunk_text_for_elevenlabs(text: str, max_chars: int = 4500) -> List[str]:
+    def _chunk_text_for_elevenlabs(text: str, max_chars: int = 4000) -> List[str]:
         """
-        Split text into chunks for ElevenLabs API (limit is 5000, use 4500 for safety).
-        Splits at sentence boundaries to avoid audio breaks.
+        Split text into chunks for ElevenLabs API (limit is 5000, use 4000 for more safety).
+        Splits at sentence boundaries to avoid audio breaks and ensure complete thoughts.
         """
         if len(text) <= max_chars:
             return [text]
-        
+
         chunks = []
-        remaining = text
-        
+        remaining = text.strip()
+
         while len(remaining) > max_chars:
-            # Find the best split point: prefer sentence endings
-            chunk = remaining[:max_chars]
-            
-            # Look for sentence endings (., !, ?) in the last 20% of the chunk
-            search_start = int(max_chars * 0.8)
+            # Find the best split point: prefer sentence endings, then commas, then spaces
+            chunk_candidate = remaining[:max_chars]
+
+            # Look for sentence endings (., !, ?) anywhere in the chunk, prioritizing later ones
             best_split = -1
-            
-            for i in range(search_start, len(chunk)):
-                if chunk[i] in '.!?':
-                    # Check if it's followed by space and capital letter (real sentence end)
-                    if i + 1 < len(chunk) and chunk[i+1] == ' ':
-                        if i + 2 < len(chunk) and chunk[i+2].isupper():
-                            best_split = i + 1
-                            break
-                    elif i + 1 >= len(chunk):
+            sentence_endings = []
+
+            for i, char in enumerate(chunk_candidate):
+                if char in '.!?':
+                    sentence_endings.append(i + 1)  # +1 to include the punctuation
+
+            # Use the last (rightmost) sentence ending in the chunk
+            if sentence_endings:
+                best_split = sentence_endings[-1]
+            else:
+                # Fallback: look for commas or semicolons
+                for i, char in enumerate(chunk_candidate):
+                    if char in ',;':
+                        best_split = i + 1  # +1 to include the punctuation
+
+            # Last resort: look for spaces to avoid breaking words
+            if best_split == -1:
+                # Find the last space in the last 30% of the chunk
+                search_start = int(max_chars * 0.7)
+                for i in range(len(chunk_candidate) - 1, search_start - 1, -1):
+                    if chunk_candidate[i] == ' ':
+                        best_split = i + 1  # +1 to include the space
+                        break
+
+            # Absolute last resort: hard cut at max_chars (but try to avoid word breaks)
+            if best_split == -1:
+                # Try to find a space near the end
+                for i in range(max_chars - 1, max(max_chars - 50, 0), -1):
+                    if i < len(chunk_candidate) and chunk_candidate[i] == ' ':
                         best_split = i + 1
                         break
-            
-            # Fallback: look for commas or semicolons
-            if best_split == -1:
-                for i in range(search_start, len(chunk)):
-                    if chunk[i] in ',;':
-                        if i + 1 < len(chunk) and chunk[i+1] == ' ':
-                            best_split = i + 1
-                            break
-            
-            # Last resort: hard cut at max_chars
-            if best_split == -1:
+
+            # If still no good split, hard cut
+            if best_split == -1 or best_split == 0:
                 best_split = max_chars
-            
-            chunks.append(remaining[:best_split].strip())
+
+            chunk_text = remaining[:best_split].strip()
+            if chunk_text:  # Only add non-empty chunks
+                chunks.append(chunk_text)
             remaining = remaining[best_split:].strip()
-        
+
         if remaining:
             chunks.append(remaining)
-        
+
+        # Log chunking for debugging
+        if len(chunks) > 1:
+            logging.info(f"Split text into {len(chunks)} chunks: {[len(c) for c in chunks]} characters")
+
         return chunks
 
     @retry(
@@ -2758,9 +2787,19 @@ Here is today's complete formatted digest. Use ONLY this content:
         if line.startswith("Patrick:"):
             full_text_parts.append(line[9:].strip())
         else:
+            # Include all other content that isn't stage directions
             full_text_parts.append(line)
 
-    full_text = " ".join(full_text_parts)
+    full_text = " ".join(full_text_parts).strip()
+
+    # Ensure we have content and log it for debugging
+    if not full_text:
+        logging.error("ERROR: No text content extracted from podcast script!")
+        raise RuntimeError("Podcast script processing failed - no text content found")
+
+    logging.info(f"Extracted podcast script: {len(full_text)} characters")
+    if len(full_text) < 500:
+        logging.warning(f"WARNING: Extracted text seems too short ({len(full_text)} chars). Full text: {full_text[:500]}...")
     full_text = fix_tesla_pronunciation(full_text)
 
     # Track character count (used for reporting; cost is provider-dependent)
@@ -2794,7 +2833,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     # ========================== FINAL MIX ==========================
     final_mp3 = digests_dir / f"Tesla_Shorts_Time_Pod_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
     
-    MAIN_MUSIC = project_root / "podcast-music.mp3"
+    MAIN_MUSIC = project_root / "tesla_shorts_time.mp3"
     
     # Process and normalize voice in one step
     voice_mix = tmp_dir / "voice_normalized_mix.mp3"
@@ -3381,8 +3420,6 @@ try:
         if os.path.exists(file_path):
             os.remove(file_path)
     cleanup_files = [voice_mix]
-    if concat_file and concat_file.exists():
-        cleanup_files.append(concat_file)
     for tmp_file in cleanup_files:
         if tmp_file and Path(tmp_file).exists():
             os.remove(str(tmp_file))
