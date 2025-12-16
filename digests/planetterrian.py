@@ -561,7 +561,7 @@ def _env_bool(name: str, default: bool) -> bool:
 # Chatterbox (local) TTS config
 CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
 CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
-CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 250)  # Reduced to 250 - Turbo has ~15s limit, so chunks must be sized to fit within this limit
+CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 2000)  # Increased for Chatterbox - handles larger chunks better than Turbo, better for podcast quality
 CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
 CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
 CHATTERBOX_VOICE_PROMPT_BASE64 = os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64", "").strip()
@@ -1730,7 +1730,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         try:
             import torch  # noqa: F401
             import torchaudio as ta
-            from chatterbox.tts_turbo import ChatterboxTurboTTS
+            from chatterbox.tts import ChatterboxTTS
         except Exception as exc:
             raise RuntimeError(
                 "Chatterbox dependencies missing. Install Planetterrian requirements (torch, torchaudio, chatterbox-tts)."
@@ -1750,15 +1750,15 @@ Here is today's complete formatted digest. Use ONLY this content:
             logging.info("✅ Logged into Hugging Face Hub with token")
 
         # Initialize Chatterbox-Turbo
-        model = ChatterboxTurboTTS.from_pretrained(device=CHATTERBOX_DEVICE)
-        sr = getattr(model, "sr", 16000)
+        model = ChatterboxTTS.from_pretrained(device=CHATTERBOX_DEVICE)
+        sr = getattr(model, "sr", 24000)  # Chatterbox uses 24kHz by default
 
-        gen_sig = inspect.signature(model.generate)
-        base_kwargs = {}
-        if "audio_prompt_path" in gen_sig.parameters:
-            base_kwargs["audio_prompt_path"] = str(prompt_wav)
-        # Note: exaggeration, CFG, and min_p are not supported by Turbo version and will be ignored
-        # We don't pass them to avoid warnings and potential issues
+        # Configure optimal settings for podcast quality
+        base_kwargs = {
+            "audio_prompt_path": str(prompt_wav),
+            "cfg_weight": 0.5,  # Balanced control - helps maintain voice consistency
+            "exaggeration": 0.4  # Slightly lower for natural podcast delivery
+        }
 
         # Generate chunks in parallel for maximum speed
         def generate_single_chunk(chunk_data):
@@ -1965,7 +1965,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     # Generate voice file
     import time
     tts_start_time = time.time()
-    logging.info("Generating voice track with Chatterbox-Turbo (local model)...")
+    logging.info("Generating voice track with Chatterbox (high-quality local model)...")
     voice_file = tmp_dir / "patrick_full.wav"
     _synthesize_with_chatterbox(full_text, voice_file)
     if not voice_file.exists():

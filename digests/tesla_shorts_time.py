@@ -435,7 +435,7 @@ def _env_bool(name: str, default: bool) -> bool:
 # Chatterbox (local) TTS config
 CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
 CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
-CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 250)  # Reduced to 250 - Turbo has ~15s limit, so chunks must be sized to fit within this limit
+CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 2000)  # Increased for Chatterbox - handles larger chunks better than Turbo, better for podcast quality
 CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
 HF_TOKEN = os.getenv("HF_TOKEN")  # Hugging Face token for Chatterbox-Turbo model access
 CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
@@ -2497,10 +2497,10 @@ Here is today's complete formatted digest. Use ONLY this content:
         try:
             import torch  # noqa: F401
             import torchaudio as ta
-            from chatterbox.tts_turbo import ChatterboxTurboTTS
+            from chatterbox.tts import ChatterboxTTS
         except Exception as exc:
             raise RuntimeError(
-                "Chatterbox-Turbo dependencies missing. Install chatterbox-tts and ensure Chatterbox-Turbo model is available."
+                "Chatterbox dependencies missing. Install chatterbox-tts and ensure Chatterbox model is available."
             ) from exc
 
         prompt_wav = _prepare_chatterbox_voice_prompt(tmp_dir)
@@ -2516,16 +2516,16 @@ Here is today's complete formatted digest. Use ONLY this content:
             huggingface_hub.login(HF_TOKEN)
             logging.info("✅ Logged into Hugging Face Hub with token")
 
-        # Initialize Chatterbox-Turbo
-        model = ChatterboxTurboTTS.from_pretrained(device=CHATTERBOX_DEVICE)
-        sr = getattr(model, "sr", 16000)
+        # Initialize Chatterbox (high-quality model with creative controls)
+        model = ChatterboxTTS.from_pretrained(device=CHATTERBOX_DEVICE)
+        sr = getattr(model, "sr", 24000)  # Chatterbox uses 24kHz by default
 
-        gen_sig = inspect.signature(model.generate)
-        base_kwargs = {}
-        if "audio_prompt_path" in gen_sig.parameters:
-            base_kwargs["audio_prompt_path"] = str(prompt_wav)
-        # Note: exaggeration, CFG, and min_p are not supported by Turbo version and will be ignored
-        # We don't pass them to avoid warnings and potential issues
+        # Configure optimal settings for podcast quality
+        base_kwargs = {
+            "audio_prompt_path": str(prompt_wav),
+            "cfg_weight": 0.5,  # Balanced control - helps maintain voice consistency
+            "exaggeration": 0.4  # Slightly lower for natural podcast delivery
+        }
 
         # Generate chunks in parallel for maximum speed
         def generate_single_chunk(chunk_data):
@@ -2551,8 +2551,7 @@ Here is today's complete formatted digest. Use ONLY this content:
                         with contextlib.ExitStack() as stack:
                             for ctx in redir:
                                 stack.enter_context(ctx)
-                            # Log the actual call for debugging
-                            logging.debug(f"Calling model.generate with chunk length: {len(chunk)}, kwargs: {list(base_kwargs.keys())}")
+                            # Generate with optimal podcast quality settings
                             wav = model.generate(chunk, **base_kwargs)
                             logging.debug(f"Model returned audio with shape: {wav.shape if hasattr(wav, 'shape') else 'unknown'}")
                     if hasattr(wav, "detach"):
@@ -2570,19 +2569,18 @@ Here is today's complete formatted digest. Use ONLY this content:
 
                     # Check if chunk is suspiciously short
                     expected_min_duration = len(chunk) / 20  # Rough estimate: ~20 chars per second
-                    min_acceptable_duration = expected_min_duration * 0.2  # At least 20% of expected
+                    min_acceptable_duration = expected_min_duration * 0.4  # At least 40% of expected for Chatterbox (more reliable than Turbo)
 
                     if duration_seconds < min_acceptable_duration:
                         if retry_count < max_retries - 1:
-                            logging.warning(f"⚠️ Chunk {i} generated very short audio: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s) - will retry")
+                            logging.warning(f"⚠️ Chunk {i} generated short audio: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s) - will retry")
                             retry_count += 1
                             import time
                             time.sleep(2)  # Brief pause before retry
                             continue
                         else:
-                            # After all retries, if we have SOME audio (>3 seconds for small chunks), accept it with a warning
-                            # This is a workaround for Chatterbox-Turbo's tendency to stop early
-                            min_final_duration = 3.0 if len(chunk) < 500 else 5.0
+                            # Chatterbox is more reliable than Turbo, but if retries fail, accept reasonable audio
+                            min_final_duration = 5.0  # Higher threshold since Chatterbox should perform better
                             if duration_seconds > min_final_duration:
                                 logging.warning(f"⚠️ Chunk {i} generated short audio after {max_retries} attempts: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s) - accepting with warning")
                                 # Continue processing - we'll concatenate what we have
@@ -2946,7 +2944,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     import time
     tts_start_time = time.time()
     try:
-        logging.info("Generating voice track with Chatterbox-Turbo (local model)...")
+        logging.info("Generating voice track with Chatterbox (high-quality local model)...")
         voice_file = tmp_dir / "patrick_full.wav"
         _synthesize_with_chatterbox(full_text, voice_file)
         if not voice_file.exists():
@@ -2966,7 +2964,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         tts_duration = time.time() - tts_start_time
         logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
     except Exception as e:
-        logging.error(f"❌ Chatterbox-Turbo TTS generation failed: {e}", exc_info=True)
+        logging.error(f"❌ Chatterbox TTS generation failed: {e}", exc_info=True)
         raise  # Re-raise to ensure workflow fails visibly
 
     # ========================== FINAL MIX ==========================
