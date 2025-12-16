@@ -19,12 +19,20 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        
+
     - name: Install system dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y ffmpeg
-        
+
+    - name: Cache Python dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements_planetterrian.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
     - name: Install Python dependencies
       run: |
         pip install --upgrade pip
