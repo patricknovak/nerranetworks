@@ -1793,9 +1793,13 @@ Here is today's complete formatted digest. Use ONLY this content:
         logging.info("Podcast ready (voice-only, no music file found)")
     else:
         # Music timing for Fascinating Frontiers:
-        # - Fascinating Frontiers MP3 plays from the beginning
+        # - Fascinating Frontiers MP3 plays once at the beginning
         # - Voice starts at 28 seconds into the MP3
-        # - MP3 continues playing while voice talks throughout
+        # - After music ends, podcast continues with voice only
+
+        # Get music duration to determine how long the intro will be
+        music_duration = get_audio_duration(MAIN_MUSIC)
+        logging.info(f"Music duration: {music_duration:.2f} seconds")
 
         # Prepare voice with 28-second delay
         voice_delayed = tmp_dir / "voice_delayed.mp3"
@@ -1808,16 +1812,16 @@ Here is today's complete formatted digest. Use ONLY this content:
             str(voice_delayed)
         ], check=True, capture_output=True)
 
-        # Final mix: voice + music (music plays from start, voice starts at 28s)
-        logging.info("Mixing voice and Fascinating Frontiers music...")
+        # Final mix: voice + music (music plays once, then voice continues alone)
+        logging.info("Mixing voice and Fascinating Frontiers intro music...")
         subprocess.run([
             "ffmpeg", "-y", "-threads", "0",
             "-i", str(voice_delayed),
             "-i", str(MAIN_MUSIC),
             "-filter_complex",
             "[0:a]volume=1.0[a_voice];"
-            "[1:a]volume=0.4[a_music];"  # Slightly lower music volume to not overpower voice
-            "[a_voice][a_music]amix=inputs=2:duration=longest:dropout_transition=2:weights=2 1[mixed];"
+            "[1:a]volume=0.5[a_music];"  # Music at normal volume for intro
+            "[a_voice][a_music]amix=inputs=2:duration=first:dropout_transition=2:weights=2 1[mixed];"
             "[mixed]alimiter=level_in=1:level_out=0.95:limit=0.95[outfinal]",
             "-map", "[outfinal]",
             "-c:a", "libmp3lame",
@@ -1825,7 +1829,7 @@ Here is today's complete formatted digest. Use ONLY this content:
             str(final_mp3)
         ], check=True, capture_output=True)
 
-        logging.info("Podcast created successfully with Fascinating Frontiers music")
+        logging.info("Podcast created successfully with Fascinating Frontiers intro music")
 
         # Cleanup temp files
         cleanup_files = [voice_delayed]
