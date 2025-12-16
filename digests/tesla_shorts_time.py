@@ -3018,52 +3018,96 @@ Here is today's complete formatted digest. Use ONLY this content:
 
 
 def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
-    """Scan digests directory for all existing MP3 files and return episode data."""
+    """Scan digests directory for all existing MP3 files and return episode data.
+    Handles both old format (without timestamp) and new format (with timestamp).
+    Also checks digests/digests subdirectory for older episodes."""
     episodes = []
-    pattern = r"Tesla_Shorts_Time_Pod_Ep(\d+)_(\d{8})_(\d{6})\.mp3"
+    # Pattern for new format: Ep{num}_{date}_{time}.mp3
+    pattern_new = r"Tesla_Shorts_Time_Pod_Ep(\d+)_(\d{8})_(\d{6})\.mp3"
+    # Pattern for old format: Ep{num}_{date}.mp3
+    pattern_old = r"Tesla_Shorts_Time_Pod_Ep(\d+)_(\d{8})\.mp3"
     
-    for mp3_file in digests_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"):
-        match = re.match(pattern, mp3_file.name)
+    # Check main digests directory
+    mp3_files = list(digests_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"))
+    # Also check digests/digests subdirectory if it exists
+    digests_subdir = digests_dir / "digests"
+    if digests_subdir.exists():
+        mp3_files.extend(digests_subdir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"))
+    
+    for mp3_file in mp3_files:
+        # Verify file actually exists and has content
+        if not mp3_file.exists() or mp3_file.stat().st_size < 1000:
+            logging.warning(f"Skipping {mp3_file.name}: file doesn't exist or is too small")
+            continue
+            
+        match = re.match(pattern_new, mp3_file.name)
         if match:
+            # New format with timestamp
             episode_num = int(match.group(1))
             date_str = match.group(2)
             time_str = match.group(3)
             try:
                 episode_date = datetime.datetime.strptime(f"{date_str}_{time_str}", "%Y%m%d_%H%M%S").date()
-                mp3_duration = get_audio_duration(mp3_file)
-                
-                # Create episode data
-                # GUID based on date AND time to allow multiple episodes per day
-                # Use the time from the filename (already extracted as time_str)
-                
                 episode_guid = f"tesla-shorts-time-ep{episode_num:03d}-{date_str}-{time_str}"
-                episode_title = f"Tesla Shorts Time Daily - Episode {episode_num} - {episode_date.strftime('%B %d, %Y')}"
-                
-                episodes.append({
-                    'guid': episode_guid,
-                    'title': episode_title,
-                    'description': f"Daily Tesla news digest for {episode_date.strftime('%B %d, %Y')}.",
-                    'link': f"{base_url}/digests/{mp3_file.name}",
-                    'pubDate': datetime.datetime.combine(episode_date, datetime.time(8, 0, 0), tzinfo=datetime.timezone.utc),
-                    'enclosure': {
-                        'url': f"{base_url}/digests/{mp3_file.name}",
-                        'type': 'audio/mpeg',
-                        'length': str(mp3_file.stat().st_size)
-                    },
-                    'itunes_title': episode_title,
-                    'itunes_summary': f"Daily Tesla news digest for {episode_date.strftime('%B %d, %Y')}.",
-                    'itunes_duration': format_duration(mp3_duration),
-                    'itunes_episode': str(episode_num),
-                    'itunes_season': '1',
-                    'itunes_episode_type': 'full',
-                    'itunes_image': f"{base_url}/podcast-image-v2.jpg",
-                    'mp3_path': mp3_file,
-                    'episode_num': episode_num,
-                    'episode_date': episode_date
-                })
             except Exception as e:
-                logging.warning(f"Could not process {mp3_file.name}: {e}")
+                logging.warning(f"Could not parse date/time from {mp3_file.name}: {e}")
                 continue
+        else:
+            # Try old format without timestamp
+            match = re.match(pattern_old, mp3_file.name)
+            if match:
+                episode_num = int(match.group(1))
+                date_str = match.group(2)
+                try:
+                    episode_date = datetime.datetime.strptime(date_str, "%Y%m%d").date()
+                    # Use file modification time for old format
+                    mtime = datetime.datetime.fromtimestamp(mp3_file.stat().st_mtime)
+                    time_str = mtime.strftime("%H%M%S")
+                    episode_guid = f"tesla-shorts-time-ep{episode_num:03d}-{date_str}-{time_str}"
+                except Exception as e:
+                    logging.warning(f"Could not parse date from {mp3_file.name}: {e}")
+                    continue
+            else:
+                logging.warning(f"Could not match pattern for {mp3_file.name}")
+                continue
+        
+        try:
+            mp3_duration = get_audio_duration(mp3_file)
+            episode_title = f"Tesla Shorts Time Daily - Episode {episode_num} - {episode_date.strftime('%B %d, %Y')}"
+            
+            # Generate correct URL path (handle subdirectories)
+            if digests_subdir.exists() and mp3_file.is_relative_to(digests_subdir):
+                # File is in digests/digests subdirectory
+                url_path = f"{base_url}/digests/digests/{mp3_file.name}"
+            else:
+                # File is in main digests directory
+                url_path = f"{base_url}/digests/{mp3_file.name}"
+            
+            episodes.append({
+                'guid': episode_guid,
+                'title': episode_title,
+                'description': f"Daily Tesla news digest for {episode_date.strftime('%B %d, %Y')}.",
+                'link': url_path,
+                'pubDate': datetime.datetime.combine(episode_date, datetime.time(8, 0, 0), tzinfo=datetime.timezone.utc),
+                'enclosure': {
+                    'url': url_path,
+                    'type': 'audio/mpeg',
+                    'length': str(mp3_file.stat().st_size)
+                },
+                'itunes_title': episode_title,
+                'itunes_summary': f"Daily Tesla news digest for {episode_date.strftime('%B %d, %Y')}.",
+                'itunes_duration': format_duration(mp3_duration),
+                'itunes_episode': str(episode_num),
+                'itunes_season': '1',
+                'itunes_episode_type': 'full',
+                'itunes_image': f"{base_url}/podcast-image-v2.jpg",
+                'mp3_path': mp3_file,
+                'episode_num': episode_num,
+                'episode_date': episode_date
+            })
+        except Exception as e:
+            logging.warning(f"Could not process {mp3_file.name}: {e}")
+            continue
     
     # Sort by episode number (newest first for RSS)
     episodes.sort(key=lambda x: x['episode_num'], reverse=True)
@@ -3262,6 +3306,21 @@ def update_rss_feed(
         if ep_data.get('guid') == new_episode_guid:
             continue
         
+        # Verify the MP3 file actually exists before including in RSS
+        enclosure = ep_data.get('enclosure', {})
+        enclosure_url = enclosure.get('url', '') if isinstance(enclosure, dict) else ''
+        if enclosure_url:
+            # Extract filename from URL
+            filename = enclosure_url.split('/')[-1]
+            # Check main directory first
+            mp3_path_check = digests_dir / filename
+            # Also check subdirectory if main doesn't exist
+            if not mp3_path_check.exists():
+                mp3_path_check = digests_dir / "digests" / filename
+            if not mp3_path_check.exists() or mp3_path_check.stat().st_size < 1000:
+                logging.warning(f"Skipping episode {ep_num_str}: MP3 file {filename} doesn't exist or is too small")
+                continue
+        
         # Re-add existing episode
         entry = fg.add_entry()
         entry.id(ep_data.get('guid', ''))
@@ -3312,6 +3371,21 @@ def update_rss_feed(
         # Skip if exact same GUID
         if ep_data.get('guid') == new_episode_guid:
             continue
+        
+        # Verify the MP3 file actually exists before including in RSS
+        enclosure = ep_data.get('enclosure', {})
+        enclosure_url = enclosure.get('url', '') if isinstance(enclosure, dict) else ''
+        if enclosure_url:
+            # Extract filename from URL
+            filename = enclosure_url.split('/')[-1]
+            # Check main directory first
+            mp3_path_check = digests_dir / filename
+            # Also check subdirectory if main doesn't exist
+            if not mp3_path_check.exists():
+                mp3_path_check = digests_dir / "digests" / filename
+            if not mp3_path_check.exists() or mp3_path_check.stat().st_size < 1000:
+                logging.warning(f"Skipping episode (no number): MP3 file {filename} doesn't exist or is too small")
+                continue
         
         # Re-add episode
         entry = fg.add_entry()

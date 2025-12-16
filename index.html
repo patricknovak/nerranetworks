@@ -1150,6 +1150,8 @@
                 const episodes = [];
                 const itunesNS = 'http://www.itunes.com/dtds/podcast-1.0.dtd';
                 
+                // First, collect all episodes and verify files exist
+                const episodePromises = [];
                 for (let i = 0; i < items.length; i++) {
                     const item = items[i];
                     
@@ -1175,6 +1177,7 @@
                             continue;
                         }
                         
+                        // Extract episode data
                         let duration = '';
                         const durationEl = item.getElementsByTagNameNS(itunesNS, 'duration')[0];
                         if (durationEl) {
@@ -1377,6 +1380,27 @@
                             const total = document.getElementById(`total-${index}`);
                             if (total) {
                                 total.textContent = formatTime(audio.duration);
+                            }
+                        });
+                        
+                        // Handle audio load errors (file doesn't exist)
+                        audio.addEventListener('error', (e) => {
+                            console.error(`Error loading audio for episode ${index}:`, e);
+                            const episodeCard = document.querySelector(`[data-index="${index}"]`);
+                            if (episodeCard) {
+                                const errorMsg = document.createElement('div');
+                                errorMsg.className = 'error';
+                                errorMsg.style.cssText = 'color: var(--tesla-red); margin-top: 1rem; padding: 0.5rem; background: rgba(227, 25, 55, 0.1); border-radius: 4px;';
+                                errorMsg.textContent = '⚠️ Audio file not available';
+                                episodeCard.appendChild(errorMsg);
+                                
+                                // Disable play button
+                                const playButton = episodeCard.querySelector('.play-button');
+                                if (playButton) {
+                                    playButton.disabled = true;
+                                    playButton.style.opacity = '0.5';
+                                    playButton.style.cursor = 'not-allowed';
+                                }
                             }
                         });
                     }
