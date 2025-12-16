@@ -1878,7 +1878,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     logging.info("Generated complete voice track")
 
     # ========================== FINAL MIX ==========================
-    final_mp3 = digests_dir / f"Planetterrian_Daily_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
+    final_mp3 = digests_dir / f"Planetterrian_Daily_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d_%H%M%S}.mp3"
     
     MAIN_MUSIC = project_root / "science-daily.mp3"
     

@@ -767,7 +767,7 @@ def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
             logging.warning(f"Could not parse RSS feed to find episode number: {e}")
     
     # Also check existing MP3 files
-    pattern = r"Tesla_Shorts_Time_Pod_Ep(\d+)_\d{8}\.mp3"
+    pattern = r"Tesla_Shorts_Time_Pod_Ep(\d+)_\d{8}_\d{6}\.mp3"
     for mp3_file in digests_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"):
         match = re.match(pattern, mp3_file.name)
         if match:
@@ -2830,7 +2830,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         raise  # Re-raise to ensure workflow fails visibly
 
     # ========================== FINAL MIX ==========================
-    final_mp3 = digests_dir / f"Tesla_Shorts_Time_Pod_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
+    final_mp3 = digests_dir / f"Tesla_Shorts_Time_Pod_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d_%H%M%S}.mp3"
     
     MAIN_MUSIC = project_root / "tesla_shorts_time.mp3"
     
@@ -3020,25 +3020,21 @@ Here is today's complete formatted digest. Use ONLY this content:
 def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
     """Scan digests directory for all existing MP3 files and return episode data."""
     episodes = []
-    pattern = r"Tesla_Shorts_Time_Pod_Ep(\d+)_(\d{8})\.mp3"
+    pattern = r"Tesla_Shorts_Time_Pod_Ep(\d+)_(\d{8})_(\d{6})\.mp3"
     
     for mp3_file in digests_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"):
         match = re.match(pattern, mp3_file.name)
         if match:
             episode_num = int(match.group(1))
             date_str = match.group(2)
+            time_str = match.group(3)
             try:
-                episode_date = datetime.datetime.strptime(date_str, "%Y%m%d").date()
+                episode_date = datetime.datetime.strptime(f"{date_str}_{time_str}", "%Y%m%d_%H%M%S").date()
                 mp3_duration = get_audio_duration(mp3_file)
                 
                 # Create episode data
                 # GUID based on date AND time to allow multiple episodes per day
-                # Get time from mp3 file modification time or default to 000000
-                try:
-                    mtime = datetime.datetime.fromtimestamp(mp3_file.stat().st_mtime)
-                    time_str = mtime.strftime("%H%M%S")
-                except:
-                    time_str = "000000"
+                # Use the time from the filename (already extracted as time_str)
                 
                 episode_guid = f"tesla-shorts-time-ep{episode_num:03d}-{date_str}-{time_str}"
                 episode_title = f"Tesla Shorts Time Daily - Episode {episode_num} - {episode_date.strftime('%B %d, %Y')}"
@@ -3428,7 +3424,7 @@ if ENABLE_PODCAST and not TEST_MODE and final_mp3 and final_mp3.exists():
         mp3_filename = final_mp3.name
         
         # Generate thumbnail
-        thumbnail_filename = f"Tesla_Shorts_Time_Thumbnail_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.png"
+        thumbnail_filename = f"Tesla_Shorts_Time_Thumbnail_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d_%H%M%S}.png"
         thumbnail_path = digests_dir / thumbnail_filename
         base_image_path = project_root / "podcast-image-v2.jpg"
         generate_episode_thumbnail(base_image_path, episode_num, today_str, thumbnail_path)

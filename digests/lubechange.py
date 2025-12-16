@@ -2569,7 +2569,7 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
         raise  # Re-raise to ensure workflow fails visibly
 
     # ========================== FINAL MIX ==========================
-    final_mp3 = digests_dir / f"Lube_Change_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
+    final_mp3 = digests_dir / f"Lube_Change_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d_%H%M%S}.mp3"
     
     MAIN_MUSIC = project_root / "LubechangeOilers.mp3"
     

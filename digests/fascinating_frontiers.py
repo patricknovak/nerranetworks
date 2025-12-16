@@ -1753,7 +1753,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     logging.info("Generated complete voice track")
 
     # ========================== FINAL MIX ==========================
-    final_mp3 = digests_dir / f"Fascinating_Frontiers_Ep{episode_num:03d}_{datetime.date.today():%Y%m%d}.mp3"
+    final_mp3 = digests_dir / f"Fascinating_Frontiers_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d_%H%M%S}.mp3"
     
     # Main music: Fascinating Frontiers theme
     MAIN_MUSIC = project_root / "fascinatingfrontiers.mp3"
