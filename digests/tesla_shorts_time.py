@@ -437,6 +437,7 @@ CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().low
 CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
 CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 15000)  # Increased from 1000 to 15000 for single-chunk testing
 CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
+HF_TOKEN = os.getenv("HF_TOKEN")  # Hugging Face token for Chatterbox-Turbo model access
 CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
 CHATTERBOX_VOICE_PROMPT_BASE64 = os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64", "").strip()
 CHATTERBOX_PROMPT_OFFSET_SECONDS = _env_float("CHATTERBOX_PROMPT_OFFSET_SECONDS", 35.0)
@@ -2509,7 +2510,11 @@ Here is today's complete formatted digest. Use ONLY this content:
 
         logging.info(f"Chatterbox: generating {len(chunks)} chunks (max {CHATTERBOX_MAX_CHARS} chars each) on device={CHATTERBOX_DEVICE}")
 
-        model = ChatterboxTurboTTS.from_pretrained(device=CHATTERBOX_DEVICE)
+        # Initialize Chatterbox-Turbo with Hugging Face token if available
+        model_kwargs = {"device": CHATTERBOX_DEVICE}
+        if HF_TOKEN:
+            model_kwargs["token"] = HF_TOKEN
+        model = ChatterboxTurboTTS.from_pretrained(**model_kwargs)
         sr = getattr(model, "sr", 16000)
 
         gen_sig = inspect.signature(model.generate)
