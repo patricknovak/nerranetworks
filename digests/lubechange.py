@@ -834,7 +834,7 @@ def _env_bool(name: str, default: bool) -> bool:
 # Chatterbox (local) TTS config
 CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
 CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
-CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 1500)  # Reduced to 1500 - Turbo consistently stops early with larger chunks
+CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 250)  # Reduced to 250 - Turbo has ~15s limit, so chunks must be sized to fit within this limit
 CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
 CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
 CHATTERBOX_VOICE_PROMPT_BASE64 = os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64", "").strip()

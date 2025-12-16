@@ -435,7 +435,7 @@ def _env_bool(name: str, default: bool) -> bool:
 # Chatterbox (local) TTS config
 CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
 CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
-CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 1500)  # Reduced to 1500 - Turbo consistently stops early with larger chunks (~15s max regardless of text length)
+CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 250)  # Reduced to 250 - Turbo has ~15s limit, so chunks must be sized to fit within this limit
 CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
 HF_TOKEN = os.getenv("HF_TOKEN")  # Hugging Face token for Chatterbox-Turbo model access
 CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
@@ -2579,9 +2579,10 @@ Here is today's complete formatted digest. Use ONLY this content:
                             time.sleep(2)  # Brief pause before retry
                             continue
                         else:
-                            # After all retries, if we have SOME audio (>5 seconds), accept it with a warning
+                            # After all retries, if we have SOME audio (>3 seconds for small chunks), accept it with a warning
                             # This is a workaround for Chatterbox-Turbo's tendency to stop early
-                            if duration_seconds > 5.0:
+                            min_final_duration = 3.0 if len(chunk) < 500 else 5.0
+                            if duration_seconds > min_final_duration:
                                 logging.warning(f"⚠️ Chunk {i} generated short audio after {max_retries} attempts: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s) - accepting with warning")
                                 # Continue processing - we'll concatenate what we have
                             else:
