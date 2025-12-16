@@ -561,7 +561,7 @@ def _env_bool(name: str, default: bool) -> bool:
 # Chatterbox (local) TTS config
 CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
 CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
-CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 5000)  # Safe chunk size for Chatterbox-Turbo (15000 was too large and caused failures)
+CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 3000)  # Reduced from 5000 - Turbo seems to have issues with larger chunks in GitHub Actions
 CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
 CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
 CHATTERBOX_VOICE_PROMPT_BASE64 = os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64", "").strip()
@@ -1757,8 +1757,8 @@ Here is today's complete formatted digest. Use ONLY this content:
         base_kwargs = {}
         if "audio_prompt_path" in gen_sig.parameters:
             base_kwargs["audio_prompt_path"] = str(prompt_wav)
-        if "exaggeration" in gen_sig.parameters:
-            base_kwargs["exaggeration"] = CHATTERBOX_EXAGGERATION
+        # Note: exaggeration, CFG, and min_p are not supported by Turbo version and will be ignored
+        # We don't pass them to avoid warnings and potential issues
 
         chunk_paths: List[Path] = []
         for i, chunk in enumerate(chunks, 1):

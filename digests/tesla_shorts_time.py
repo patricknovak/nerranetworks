@@ -435,7 +435,7 @@ def _env_bool(name: str, default: bool) -> bool:
 # Chatterbox (local) TTS config
 CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
 CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
-CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 5000)  # Safe chunk size for Chatterbox-Turbo (15000 was too large and caused failures)
+CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 3000)  # Reduced from 5000 - Turbo seems to have issues with larger chunks in GitHub Actions
 CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
 HF_TOKEN = os.getenv("HF_TOKEN")  # Hugging Face token for Chatterbox-Turbo model access
 CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
@@ -2524,55 +2524,93 @@ Here is today's complete formatted digest. Use ONLY this content:
         base_kwargs = {}
         if "audio_prompt_path" in gen_sig.parameters:
             base_kwargs["audio_prompt_path"] = str(prompt_wav)
-        if "exaggeration" in gen_sig.parameters:
-            base_kwargs["exaggeration"] = CHATTERBOX_EXAGGERATION
+        # Note: exaggeration, CFG, and min_p are not supported by Turbo version and will be ignored
+        # We don't pass them to avoid warnings and potential issues
 
         chunk_paths: List[Path] = []
         for i, chunk in enumerate(chunks, 1):
             logging.info(f"Chatterbox: chunk {i}/{len(chunks)} ({len(chunk)} chars)")
-            try:
-                with open(os.devnull, "w") as devnull:
-                    redir = (
-                        contextlib.redirect_stdout(devnull),
-                        contextlib.redirect_stderr(devnull),
-                    ) if CHATTERBOX_QUIET else ()
-                    with contextlib.ExitStack() as stack:
-                        for ctx in redir:
-                            stack.enter_context(ctx)
-                        wav = model.generate(chunk, **base_kwargs)
-                if hasattr(wav, "detach"):
-                    wav = wav.detach().cpu()
-                if getattr(wav, "ndim", 0) == 1:
-                    wav = wav.unsqueeze(0)
-                
-                # Validate generated audio
-                if wav is None or (hasattr(wav, "numel") and wav.numel() == 0):
-                    raise RuntimeError(f"Chatterbox generated empty audio for chunk {i}")
-                
-                # Check audio duration (estimate: samples / sample_rate)
-                num_samples = wav.shape[-1] if hasattr(wav, "shape") else 0
-                duration_seconds = num_samples / sr if num_samples > 0 else 0
-                
-                # Warn if chunk is suspiciously short (less than 1 second for a 5000 char chunk)
-                expected_min_duration = len(chunk) / 20  # Rough estimate: ~20 chars per second
-                if duration_seconds < expected_min_duration * 0.1:  # Less than 10% of expected
-                    logging.warning(f"⚠️ Chunk {i} generated very short audio: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s for {len(chunk)} chars)")
-                
-                chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
-                ta.save(str(chunk_path), wav, sr)
-                
-                # Verify file was created and has content
-                if not chunk_path.exists():
-                    raise RuntimeError(f"Failed to save chunk {i} to {chunk_path}")
-                chunk_size = chunk_path.stat().st_size
-                if chunk_size < 1000:  # Less than 1KB is suspicious
-                    raise RuntimeError(f"Chunk {i} file is too small ({chunk_size} bytes) - TTS may have failed")
-                
-                logging.info(f"✅ Chunk {i} generated: {duration_seconds:.2f}s ({chunk_size} bytes)")
-                chunk_paths.append(chunk_path)
-            except Exception as e:
-                logging.error(f"❌ Failed to generate chunk {i}/{len(chunks)}: {e}", exc_info=True)
-                raise RuntimeError(f"TTS generation failed for chunk {i}: {e}") from e
+            
+            # Retry logic for failed chunks
+            max_retries = 3
+            retry_count = 0
+            chunk_success = False
+            
+            while retry_count < max_retries and not chunk_success:
+                try:
+                    if retry_count > 0:
+                        logging.info(f"Retrying chunk {i} (attempt {retry_count + 1}/{max_retries})...")
+                    
+                    with open(os.devnull, "w") as devnull:
+                        redir = (
+                            contextlib.redirect_stdout(devnull),
+                            contextlib.redirect_stderr(devnull),
+                        ) if CHATTERBOX_QUIET else ()
+                        with contextlib.ExitStack() as stack:
+                            for ctx in redir:
+                                stack.enter_context(ctx)
+                            wav = model.generate(chunk, **base_kwargs)
+                    if hasattr(wav, "detach"):
+                        wav = wav.detach().cpu()
+                    if getattr(wav, "ndim", 0) == 1:
+                        wav = wav.unsqueeze(0)
+                    
+                    # Validate generated audio
+                    if wav is None or (hasattr(wav, "numel") and wav.numel() == 0):
+                        raise RuntimeError(f"Chatterbox generated empty audio for chunk {i}")
+                    
+                    # Check audio duration (estimate: samples / sample_rate)
+                    num_samples = wav.shape[-1] if hasattr(wav, "shape") else 0
+                    duration_seconds = num_samples / sr if num_samples > 0 else 0
+                    
+                    # Check if chunk is suspiciously short
+                    expected_min_duration = len(chunk) / 20  # Rough estimate: ~20 chars per second
+                    min_acceptable_duration = expected_min_duration * 0.3  # At least 30% of expected
+                    
+                    if duration_seconds < min_acceptable_duration:
+                        if retry_count < max_retries - 1:
+                            logging.warning(f"⚠️ Chunk {i} generated very short audio: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s) - will retry")
+                            retry_count += 1
+                            import time
+                            time.sleep(2)  # Brief pause before retry
+                            continue
+                        else:
+                            raise RuntimeError(f"Chunk {i} generated very short audio after {max_retries} attempts: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s for {len(chunk)} chars)")
+                    
+                    chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
+                    ta.save(str(chunk_path), wav, sr)
+                    
+                    # Verify file was created and has content
+                    if not chunk_path.exists():
+                        raise RuntimeError(f"Failed to save chunk {i} to {chunk_path}")
+                    chunk_size = chunk_path.stat().st_size
+                    if chunk_size < 1000:  # Less than 1KB is suspicious
+                        if retry_count < max_retries - 1:
+                            logging.warning(f"⚠️ Chunk {i} file is too small ({chunk_size} bytes) - will retry")
+                            retry_count += 1
+                            import time
+                            time.sleep(2)
+                            continue
+                        else:
+                            raise RuntimeError(f"Chunk {i} file is too small ({chunk_size} bytes) after {max_retries} attempts - TTS may have failed")
+                    
+                    logging.info(f"✅ Chunk {i} generated: {duration_seconds:.2f}s ({chunk_size} bytes)")
+                    chunk_paths.append(chunk_path)
+                    chunk_success = True
+                    
+                except Exception as e:
+                    if retry_count < max_retries - 1:
+                        logging.warning(f"⚠️ Error generating chunk {i} (attempt {retry_count + 1}): {e} - will retry")
+                        retry_count += 1
+                        import time
+                        time.sleep(2)
+                        continue
+                    else:
+                        logging.error(f"❌ Failed to generate chunk {i}/{len(chunks)} after {max_retries} attempts: {e}", exc_info=True)
+                        raise RuntimeError(f"TTS generation failed for chunk {i} after {max_retries} retries: {e}") from e
+            
+            if not chunk_success:
+                raise RuntimeError(f"Failed to generate chunk {i} after {max_retries} attempts")
 
         concat_list = tmp_dir / "chatterbox_concat.txt"
         with open(concat_list, "w", encoding="utf-8") as f:
