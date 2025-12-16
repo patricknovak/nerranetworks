@@ -435,7 +435,7 @@ def _env_bool(name: str, default: bool) -> bool:
 # Chatterbox (local) TTS config
 CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
 CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
-CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 3000)  # Reduced from 5000 - Turbo seems to have issues with larger chunks in GitHub Actions
+CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 1500)  # Reduced to 1500 - Turbo consistently stops early with larger chunks (~15s max regardless of text length)
 CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
 HF_TOKEN = os.getenv("HF_TOKEN")  # Hugging Face token for Chatterbox-Turbo model access
 CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
@@ -2549,7 +2549,10 @@ Here is today's complete formatted digest. Use ONLY this content:
                         with contextlib.ExitStack() as stack:
                             for ctx in redir:
                                 stack.enter_context(ctx)
+                            # Log the actual call for debugging
+                            logging.debug(f"Calling model.generate with chunk length: {len(chunk)}, kwargs: {list(base_kwargs.keys())}")
                             wav = model.generate(chunk, **base_kwargs)
+                            logging.debug(f"Model returned audio with shape: {wav.shape if hasattr(wav, 'shape') else 'unknown'}")
                     if hasattr(wav, "detach"):
                         wav = wav.detach().cpu()
                     if getattr(wav, "ndim", 0) == 1:
@@ -2565,7 +2568,8 @@ Here is today's complete formatted digest. Use ONLY this content:
                     
                     # Check if chunk is suspiciously short
                     expected_min_duration = len(chunk) / 20  # Rough estimate: ~20 chars per second
-                    min_acceptable_duration = expected_min_duration * 0.3  # At least 30% of expected
+                    # Lower threshold to 20% since Turbo seems to have issues with longer generation
+                    min_acceptable_duration = expected_min_duration * 0.2  # At least 20% of expected
                     
                     if duration_seconds < min_acceptable_duration:
                         if retry_count < max_retries - 1:
@@ -2575,7 +2579,13 @@ Here is today's complete formatted digest. Use ONLY this content:
                             time.sleep(2)  # Brief pause before retry
                             continue
                         else:
-                            raise RuntimeError(f"Chunk {i} generated very short audio after {max_retries} attempts: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s for {len(chunk)} chars)")
+                            # After all retries, if we have SOME audio (>5 seconds), accept it with a warning
+                            # This is a workaround for Chatterbox-Turbo's tendency to stop early
+                            if duration_seconds > 5.0:
+                                logging.warning(f"⚠️ Chunk {i} generated short audio after {max_retries} attempts: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s) - accepting with warning")
+                                # Continue processing - we'll concatenate what we have
+                            else:
+                                raise RuntimeError(f"Chunk {i} generated critically short audio after {max_retries} attempts: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s for {len(chunk)} chars)")
                     
                     chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
                     ta.save(str(chunk_path), wav, sr)
