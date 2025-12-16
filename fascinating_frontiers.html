@@ -296,7 +296,7 @@
         AOS.init();
         
         // Load episodes from RSS feed
-        fetch('fascinating_frontiers_podcast.rss')
+        fetch('fascinating_frontiers_podcast.rss?t=' + Date.now())
             .then(response => response.text())
             .then(data => {
                 const parser = new DOMParser();
