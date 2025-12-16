@@ -602,6 +602,105 @@ def fix_pronunciation(text: str) -> str:
         except Exception as e:
             logging.warning(f"Error applying shared pronunciation fixes: {e}, continuing with local fixes")
 
+    # Fix dates: multiple formats like "November 19, 2025", "11 December, 2025", "December 11, 2025"
+    def replace_date(match):
+        month = match.group(1)
+        day = match.group(2)
+        year = match.group(3)
+        try:
+            day_num = int(day)
+            day_words = number_to_words(day_num)
+            # Convert ordinal numbers
+            if day_num == 1:
+                day_words = "first"
+            elif day_num == 2:
+                day_words = "second"
+            elif day_num == 3:
+                day_words = "third"
+            elif day_num <= 20:
+                if not day_words.endswith(("first", "second", "third")):
+                    day_words += "th"
+            else:
+                if day_num % 10 == 1:
+                    day_words = day_words.replace(" one", " first")
+                elif day_num % 10 == 2:
+                    day_words = day_words.replace(" two", " second")
+                elif day_num % 10 == 3:
+                    day_words = day_words.replace(" three", " third")
+                else:
+                    day_words += "th"
+
+            # Convert year to words
+            year_num = int(year)
+            if year_num >= 2000:
+                thousands = year_num // 1000
+                remainder = year_num % 1000
+                if remainder == 0:
+                    year_words = number_to_words(thousands) + " thousand"
+                else:
+                    year_words = number_to_words(thousands) + " thousand " + number_to_words(remainder)
+            else:
+                year_words = number_to_words(year_num)
+
+            return f"{month} {day_words}, {year_words}"
+        except ValueError:
+            return match.group(0)
+
+    text = re.sub(r'(\w+)\s+(\d{1,2}),\s+(\d{4})', replace_date, text, flags=re.IGNORECASE)
+    text = re.sub(r'(\d{1,2})\s+(\w+),\s+(\d{4})', lambda m: replace_date(m.group().replace(m.group(1) + ' ' + m.group(2), m.group(2) + ' ' + m.group(1))), text, flags=re.IGNORECASE)
+
+    # Fix times: multiple formats "02:30 PM", "2:30PM", "14:30", "2:30 p.m."
+    def replace_time(match):
+        hour_str = match.group(1)
+        minute_str = match.group(2)
+        am_pm = match.group(3).upper() if match.group(3) else ""
+        try:
+            hour = int(hour_str)
+            minute = int(minute_str)
+
+            # Handle 24-hour format
+            if not am_pm and hour >= 13:
+                hour -= 12
+                am_pm = "PM"
+            elif not am_pm and hour == 12:
+                am_pm = "PM"
+            elif not am_pm and hour == 0:
+                hour = 12
+                am_pm = "AM"
+            elif not am_pm:
+                am_pm = "AM"
+
+            # Ensure valid hour range
+            if hour < 1 or hour > 12:
+                return match.group(0)
+
+            hour_word = number_to_words(hour)
+            if minute == 0:
+                time_str = f"{hour_word} o'clock {am_pm}".strip()
+            else:
+                minute_word = number_to_words(minute)
+                # Handle teen numbers specially (e.g., "fifteen" instead of "fif teen")
+                if 10 <= minute <= 19:
+                    time_str = f"{hour_word} {minute_word} {am_pm}".strip()
+                else:
+                    time_str = f"{hour_word} {minute_word} {am_pm}".strip()
+
+            return time_str
+        except (ValueError, AttributeError):
+            return match.group(0)
+
+    # Match various time formats
+    text = re.sub(r'(\d{1,2}):(\d{2})\s*(AM|PM|am|pm|A\.M\.|P\.M\.|a\.m\.|p\.m\.)?', replace_time, text)
+    text = re.sub(r'(\d{1,2}):(\d{2})\s*(AM|PM|am|pm|A\.M\.|P\.M\.|a\.m\.|p\.m\.)', replace_time, text)  # Handle periods
+
+    # Fix timezone abbreviations
+    text = re.sub(r'\bPST\b', 'Pacific Standard Time', text)
+    text = re.sub(r'\bPDT\b', 'Pacific Daylight Time', text)
+    text = re.sub(r'\bEST\b', 'Eastern Standard Time', text)
+    text = re.sub(r'\bEDT\b', 'Eastern Daylight Time', text)
+    text = re.sub(r'\bUTC\b', 'U T C', text)
+    text = re.sub(r'\bGMT\b', 'G M T', text)
+
     return text
 
 def generate_episode_thumbnail(base_image_path, episode_num, date_str, output_path):
@@ -2429,7 +2528,16 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
             if text:
                 full_text_parts.append(text)
 
-    full_text = " ".join(full_text_parts)
+    full_text = " ".join(full_text_parts).strip()
+
+    # Ensure we have content and log it for debugging
+    if not full_text:
+        logging.error("ERROR: No text content extracted from podcast script!")
+        raise RuntimeError("Podcast script processing failed - no text content found")
+
+    logging.info(f"Extracted podcast script: {len(full_text)} characters")
+    if len(full_text) < 500:
+        logging.warning(f"WARNING: Extracted text seems too short ({len(full_text)} chars). Full text: {full_text[:500]}...")
 
     # Professional text preparation for TTS:
     full_text = re.sub(r'([,.!?;:])([^\s])', r'\1 \2', full_text)
