@@ -432,7 +432,8 @@
     </footer>
     
     <script>
-        const RSS_FEED_URL = 'https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian_podcast.rss';
+        // Add cache-busting parameter to force fresh RSS data
+        const RSS_FEED_URL = 'https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian_podcast.rss?t=' + Date.now();
         let currentAudio = null;
         let currentEpisode = null;
         let allEpisodes = [];
