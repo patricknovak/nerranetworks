@@ -47,6 +47,7 @@ jobs:
         GROK_API_KEY=${{ secrets.GROK_API_KEY }}
         ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }}
         NEWSAPI_KEY=${{ secrets.NEWSAPI_KEY }}
+        HF_TOKEN=${{ secrets.HF_TOKEN }}
         X_CONSUMER_KEY=${{ secrets.X_CONSUMER_KEY }}
         X_CONSUMER_SECRET=${{ secrets.X_CONSUMER_SECRET }}
         X_ACCESS_TOKEN=${{ secrets.X_ACCESS_TOKEN }}
@@ -68,6 +69,11 @@ jobs:
           echo "⚠️  WARNING: NEWSAPI_KEY is not set!"
         else
           echo "✅ NEWSAPI_KEY is set"
+        fi
+        if [ -z "${{ secrets.HF_TOKEN }}" ]; then
+          echo "❌ ERROR: HF_TOKEN is not set! Required for Chatterbox-Turbo TTS."
+        else
+          echo "✅ HF_TOKEN is set"
         fi
         echo "Checking X API credentials..."
         if [ -z "${{ secrets.X_CONSUMER_KEY }}" ]; then
