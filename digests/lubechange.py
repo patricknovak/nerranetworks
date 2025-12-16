@@ -834,7 +834,7 @@ def _env_bool(name: str, default: bool) -> bool:
 # Chatterbox (local) TTS config
 CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
 CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
-CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 15000)  # Increased from 1000 to 15000 for single-chunk testing
+CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 5000)  # Safe chunk size for Chatterbox-Turbo (15000 was too large and caused failures)
 CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
 CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
 CHATTERBOX_VOICE_PROMPT_BASE64 = os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64", "").strip()
@@ -2436,22 +2436,49 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
         chunk_paths: List[Path] = []
         for i, chunk in enumerate(chunks, 1):
             logging.info(f"Chatterbox: chunk {i}/{len(chunks)} ({len(chunk)} chars)")
-            with open(os.devnull, "w") as devnull:
-                redir = (
-                    contextlib.redirect_stdout(devnull),
-                    contextlib.redirect_stderr(devnull),
-                ) if CHATTERBOX_QUIET else ()
-                with contextlib.ExitStack() as stack:
-                    for ctx in redir:
-                        stack.enter_context(ctx)
-                    wav = model.generate(chunk, **base_kwargs)
-            if hasattr(wav, "detach"):
-                wav = wav.detach().cpu()
-            if getattr(wav, "ndim", 0) == 1:
-                wav = wav.unsqueeze(0)
-            chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
-            ta.save(str(chunk_path), wav, sr)
-            chunk_paths.append(chunk_path)
+            try:
+                with open(os.devnull, "w") as devnull:
+                    redir = (
+                        contextlib.redirect_stdout(devnull),
+                        contextlib.redirect_stderr(devnull),
+                    ) if CHATTERBOX_QUIET else ()
+                    with contextlib.ExitStack() as stack:
+                        for ctx in redir:
+                            stack.enter_context(ctx)
+                        wav = model.generate(chunk, **base_kwargs)
+                if hasattr(wav, "detach"):
+                    wav = wav.detach().cpu()
+                if getattr(wav, "ndim", 0) == 1:
+                    wav = wav.unsqueeze(0)
+                
+                # Validate generated audio
+                if wav is None or (hasattr(wav, "numel") and wav.numel() == 0):
+                    raise RuntimeError(f"Chatterbox generated empty audio for chunk {i}")
+                
+                # Check audio duration (estimate: samples / sample_rate)
+                num_samples = wav.shape[-1] if hasattr(wav, "shape") else 0
+                duration_seconds = num_samples / sr if num_samples > 0 else 0
+                
+                # Warn if chunk is suspiciously short (less than 1 second for a 5000 char chunk)
+                expected_min_duration = len(chunk) / 20  # Rough estimate: ~20 chars per second
+                if duration_seconds < expected_min_duration * 0.1:  # Less than 10% of expected
+                    logging.warning(f"⚠️ Chunk {i} generated very short audio: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s for {len(chunk)} chars)")
+                
+                chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
+                ta.save(str(chunk_path), wav, sr)
+                
+                # Verify file was created and has content
+                if not chunk_path.exists():
+                    raise RuntimeError(f"Failed to save chunk {i} to {chunk_path}")
+                chunk_size = chunk_path.stat().st_size
+                if chunk_size < 1000:  # Less than 1KB is suspicious
+                    raise RuntimeError(f"Chunk {i} file is too small ({chunk_size} bytes) - TTS may have failed")
+                
+                logging.info(f"✅ Chunk {i} generated: {duration_seconds:.2f}s ({chunk_size} bytes)")
+                chunk_paths.append(chunk_path)
+            except Exception as e:
+                logging.error(f"❌ Failed to generate chunk {i}/{len(chunks)}: {e}", exc_info=True)
+                raise RuntimeError(f"TTS generation failed for chunk {i}: {e}") from e
 
         concat_list = tmp_dir / "chatterbox_concat.txt"
         with open(concat_list, "w", encoding="utf-8") as f:
@@ -2463,6 +2490,31 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
             check=True,
             capture_output=True,
         )
+        
+        # Validate final concatenated audio file
+        if not out_wav.exists():
+            raise RuntimeError(f"Failed to create concatenated audio file: {out_wav}")
+        
+        final_size = out_wav.stat().st_size
+        if final_size < 10000:  # Less than 10KB is suspicious for any podcast
+            raise RuntimeError(f"Concatenated audio file is too small ({final_size} bytes) - TTS generation likely failed")
+        
+        # Check duration using ffprobe
+        try:
+            duration_check = subprocess.run(
+                ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", str(out_wav)],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            duration = float(duration_check.stdout.strip())
+            expected_min_duration = len(text) / 20  # Rough estimate: ~20 chars per second
+            if duration < expected_min_duration * 0.1:  # Less than 10% of expected
+                raise RuntimeError(f"Final audio duration ({duration:.2f}s) is suspiciously short for {len(text)} characters (expected ~{expected_min_duration:.2f}s)")
+            logging.info(f"✅ Final concatenated audio: {duration:.2f}s ({final_size} bytes)")
+        except Exception as e:
+            logging.warning(f"Could not verify audio duration: {e}")
+            # Don't fail if duration check fails, but log it
 
         # Cleanup intermediate chunk files
         try:
@@ -2543,7 +2595,13 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
 
     logging.info(f"Extracted podcast script: {len(full_text)} characters")
     if len(full_text) < 500:
-        logging.warning(f"WARNING: Extracted text seems too short ({len(full_text)} chars). Full text: {full_text[:500]}...")
+        logging.error(f"ERROR: Extracted text is too short ({len(full_text)} chars). This will result in a very short podcast!")
+        logging.error(f"First 1000 chars of extracted text: {full_text[:1000]}")
+        raise RuntimeError(f"Podcast script is too short ({len(full_text)} chars) - expected at least 500 characters")
+    
+    # Estimate expected duration (roughly 20 chars per second of speech)
+    estimated_duration = len(full_text) / 20
+    logging.info(f"Estimated podcast duration: ~{estimated_duration:.1f} seconds ({estimated_duration/60:.1f} minutes)")
 
     # Professional text preparation for TTS:
     full_text = re.sub(r'([,.!?;:])([^\s])', r'\1 \2', full_text)
@@ -2564,14 +2622,28 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
     logging.info(f"TTS: {len(full_text)} characters to synthesize (provider={TTS_PROVIDER})")
 
     # Generate voice file
+    import time
+    tts_start_time = time.time()
     try:
         logging.info("Generating voice track with Chatterbox-Turbo (local model)...")
         voice_file = tmp_dir / "jason_full.wav"
         _synthesize_with_chatterbox(full_text, voice_file)
         if not voice_file.exists():
             raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
+        
+        # Validate voice file size and duration
+        voice_file_size = voice_file.stat().st_size
+        if voice_file_size < 10000:  # Less than 10KB is suspicious
+            raise RuntimeError(f"Generated voice file is too small ({voice_file_size} bytes) - TTS likely failed")
+        
+        voice_audio_duration = get_audio_duration(voice_file)
+        expected_min_duration = len(full_text) / 20  # Rough estimate: ~20 chars per second
+        if voice_audio_duration < expected_min_duration * 0.1:  # Less than 10% of expected
+            raise RuntimeError(f"Generated voice duration ({voice_audio_duration:.2f}s) is suspiciously short for {len(full_text)} characters (expected ~{expected_min_duration:.2f}s)")
+        
         audio_files = [str(voice_file)]
-        logging.info(f"✅ Generated complete voice track: {voice_file}")
+        tts_duration = time.time() - tts_start_time
+        logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
     except Exception as e:
         logging.error(f"❌ TTS generation failed: {e}", exc_info=True)
         raise  # Re-raise to ensure workflow fails visibly
