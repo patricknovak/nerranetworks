@@ -542,12 +542,13 @@ def _env_bool(name: str, default: bool) -> bool:
 # Chatterbox (local) TTS config (shared with Planetterrian)
 CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
 CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
-CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 1000)
+CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 15000)  # Increased from 1000 to 15000 for single-chunk testing
 CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
 CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
 CHATTERBOX_VOICE_PROMPT_BASE64 = os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64", "").strip()
 CHATTERBOX_PROMPT_OFFSET_SECONDS = _env_float("CHATTERBOX_PROMPT_OFFSET_SECONDS", 35.0)
 CHATTERBOX_PROMPT_DURATION_SECONDS = _env_float("CHATTERBOX_PROMPT_DURATION_SECONDS", 10.0)
+HF_TOKEN = os.getenv("HF_TOKEN")  # Hugging Face token for Chatterbox-Turbo model access
 
 # ========================== STEP 1: FETCH SPACE & ASTRONOMY NEWS FROM RSS FEEDS ==========================
 logging.info("Step 1: Fetching space and astronomy news from RSS feeds for the last 24 hours...")
@@ -1585,6 +1586,13 @@ Here is today's complete formatted digest. Use ONLY this content:
 
         logging.info(f"Chatterbox: generating {len(chunks)} chunks (max {CHATTERBOX_MAX_CHARS} chars each) on device={CHATTERBOX_DEVICE}")
 
+        # Set Hugging Face token for authentication if available
+        if HF_TOKEN:
+            import huggingface_hub
+            huggingface_hub.login(HF_TOKEN)
+            logging.info("✅ Logged into Hugging Face Hub with token")
+
+        # Initialize Chatterbox-Turbo
         model = ChatterboxTurboTTS.from_pretrained(device=CHATTERBOX_DEVICE)
         sr = getattr(model, "sr", 16000)
 
@@ -1764,12 +1772,46 @@ Here is today's complete formatted digest. Use ONLY this content:
     timeout_seconds = max(int(file_duration * 3) + 120, 600)
     
     logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
-    subprocess.run([
-        "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
-        "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
-        "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-        str(voice_mix)
-    ], check=True, capture_output=True, timeout=timeout_seconds)
+
+    # First, check if voice_file exists and has content
+    if not voice_file.exists():
+        raise RuntimeError(f"Voice file {voice_file} does not exist!")
+
+    voice_file_size = voice_file.stat().st_size
+    logging.info(f"Voice file size: {voice_file_size} bytes")
+
+    if voice_file_size < 1000:  # Less than 1KB is suspicious
+        raise RuntimeError(f"Voice file {voice_file} is too small ({voice_file_size} bytes) - TTS may have failed")
+
+    # Try simpler normalization first to avoid filter issues
+    try:
+        logging.info("Attempting voice normalization with full filter chain...")
+        subprocess.run([
+            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
+            "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
+            "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+            str(voice_mix)
+        ], check=True, capture_output=True, timeout=timeout_seconds)
+    except subprocess.CalledProcessError as e:
+        logging.warning(f"Full filter chain failed: {e}")
+        logging.warning("Trying simpler normalization...")
+        # Fallback to simpler processing
+        subprocess.run([
+            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
+            "-af", "loudnorm=I=-18:TP=-1.5:LRA=11:linear=true",
+            "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+            str(voice_mix)
+        ], check=True, capture_output=True, timeout=timeout_seconds)
+
+    # Verify the output file was created
+    if not voice_mix.exists():
+        raise RuntimeError(f"Voice mix file {voice_mix} was not created!")
+
+    voice_mix_size = voice_mix.stat().st_size
+    logging.info(f"Voice mix file size: {voice_mix_size} bytes")
+
+    if voice_mix_size < 1000:
+        raise RuntimeError(f"Voice mix file {voice_mix} is too small ({voice_mix_size} bytes) - processing failed")
     
     # Get voice duration
     voice_duration = max(get_audio_duration(voice_mix), 0.0)
@@ -1818,6 +1860,16 @@ Here is today's complete formatted digest. Use ONLY this content:
             "-b:a", "192k", "-preset", "fast",
             str(final_mp3)
         ], check=True, capture_output=True)
+
+        # Verify final file was created and has content
+        if not final_mp3.exists():
+            raise RuntimeError(f"Final podcast file {final_mp3} was not created!")
+
+        final_size = final_mp3.stat().st_size
+        logging.info(f"Final podcast file size: {final_size} bytes")
+
+        if final_size < 10000:  # Less than 10KB is definitely wrong for a 55s podcast
+            raise RuntimeError(f"Final podcast file {final_mp3} is too small ({final_size} bytes) - mixing failed")
 
         logging.info("Podcast created successfully with Fascinating Frontiers intro music")
 
