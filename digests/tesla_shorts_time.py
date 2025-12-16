@@ -2847,7 +2847,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         str(voice_mix)
     ], check=True, capture_output=True, timeout=timeout_seconds)
     
-    if not has_music:
+    if not MAIN_MUSIC.exists():
         logging.warning(f"⚠️  Background music file '{MAIN_MUSIC}' not found - generating voice-only podcast")
         logging.warning("💡 To add background music: ensure 'tesla_shorts_time.mp3' exists in project root")
         subprocess.run(["ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-preset", "fast", str(final_mp3)], check=True, capture_output=True)
