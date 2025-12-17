@@ -53,8 +53,8 @@ jobs:
         echo "Creating .env file..."
         cat > .env << EOF
         GROK_API_KEY=${{ secrets.GROK_API_KEY }}
-        # TTS provider (chatterbox runs locally using a voice prompt sample)
-        PLANETTERRIAN_TTS_PROVIDER=chatterbox
+        # TTS provider (elevenlabs uses ElevenLabs API with Patrick voice)
+        PLANETTERRIAN_TTS_PROVIDER=elevenlabs
         CHATTERBOX_DEVICE=cpu
         CHATTERBOX_EXAGGERATION=0.5
         CHATTERBOX_MAX_CHARS=600
@@ -228,7 +228,7 @@ jobs:
           echo "  ✓ Daily digest (X thread)"
           echo "  ✓ Posted to X (@planetterrian)"
           echo "  ✓ Podcast script generated"
-          echo "  ✓ Podcast audio created (Chatterbox TTS)"
+          echo "  ✓ Podcast audio created (Eleven Labs TTS)"
           if [ "$RSS_EXISTS" = true ]; then
             echo "  ✓ RSS feed updated and committed"
           else
