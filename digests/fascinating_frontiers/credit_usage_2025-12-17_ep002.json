@@ -1,0 +1,33 @@
+{
+  "date": "2025-12-17",
+  "episode_number": 2,
+  "services": {
+    "grok_api": {
+      "x_thread_generation": {
+        "prompt_tokens": 3312,
+        "completion_tokens": 1516,
+        "total_tokens": 7464,
+        "estimated_cost_usd": 7.464e-05
+      },
+      "podcast_script_generation": {
+        "prompt_tokens": 2675,
+        "completion_tokens": 1904,
+        "total_tokens": 5234,
+        "estimated_cost_usd": 5.2340000000000004e-05
+      },
+      "total_tokens": 12698,
+      "total_cost_usd": 0.00012698
+    },
+    "elevenlabs_api": {
+      "provider": "elevenlabs",
+      "characters": 10019,
+      "estimated_cost_usd": 3.0057
+    },
+    "x_api": {
+      "search_calls": 0,
+      "post_calls": 1,
+      "total_calls": 1
+    }
+  },
+  "total_estimated_cost_usd": 3.00582698
+}
