@@ -69,6 +69,7 @@ jobs:
         GROK_API_KEY=${{ secrets.GROK_API_KEY }}
         # TTS provider (elevenlabs uses ElevenLabs API with Patrick voice)
         LUBECHANGE_TTS_PROVIDER=elevenlabs
+        ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }}
         CHATTERBOX_DEVICE=cpu
         CHATTERBOX_EXAGGERATION=0.5
         CHATTERBOX_MAX_CHARS=600
@@ -83,6 +84,11 @@ jobs:
           echo "❌ ERROR: GROK_API_KEY is not set!"
         else
           echo "✅ GROK_API_KEY is set"
+        fi
+        if [ -z "${{ secrets.ELEVENLABS_API_KEY }}" ]; then
+          echo "❌ ERROR: ELEVENLABS_API_KEY is not set!"
+        else
+          echo "✅ ELEVENLABS_API_KEY is set"
         fi
         echo "Checking X API credentials..."
         if [ -z "${{ secrets.PLANETTERRIAN_X_CONSUMER_KEY }}" ]; then
