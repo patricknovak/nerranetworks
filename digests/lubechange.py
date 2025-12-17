@@ -769,14 +769,17 @@ def _chatterbox_deps_available() -> bool:
         and (_module_available("chatterbox.tts") or _module_available("chatterbox"))
     )
 
-TTS_PROVIDER = _normalize_tts_provider(os.getenv("LUBECHANGE_TTS_PROVIDER", "chatterbox"))
+TTS_PROVIDER = _normalize_tts_provider(os.getenv("LUBECHANGE_TTS_PROVIDER", "elevenlabs"))
 
 # Required keys (X credentials for @lubechange_oilers account - using same as planetterrian for now)
 required = [
     "GROK_API_KEY"
 ]
 if ENABLE_PODCAST and not TEST_MODE:
-    if TTS_PROVIDER == "chatterbox":
+    if TTS_PROVIDER == "elevenlabs":
+        # ElevenLabs API required
+        required.append("ELEVENLABS_API_KEY")
+    elif TTS_PROVIDER == "chatterbox":
         if not _chatterbox_deps_available():
             raise OSError(
                 "Chatterbox-Turbo selected but dependencies are missing. Install "
@@ -785,7 +788,7 @@ if ENABLE_PODCAST and not TEST_MODE:
         pass  # local model, no API key needed
     else:
         raise OSError(
-            f"Unknown LUBECHANGE_TTS_PROVIDER '{TTS_PROVIDER}'. Only 'chatterbox' is supported (Chatterbox-Turbo)."
+            f"Unknown LUBECHANGE_TTS_PROVIDER '{TTS_PROVIDER}'. Supported providers: 'elevenlabs', 'chatterbox'."
         )
 if ENABLE_X_POSTING:
     required.extend([
@@ -2651,27 +2654,51 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
     import time
     tts_start_time = time.time()
     try:
-        logging.info("Generating voice track with Chatterbox (high-quality local model)...")
-        voice_file = tmp_dir / "jason_full.wav"
-        _synthesize_with_chatterbox(full_text, voice_file)
-        if not voice_file.exists():
-            raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
-        
-        # Validate voice file size and duration
-        voice_file_size = voice_file.stat().st_size
-        if voice_file_size < 10000:  # Less than 10KB is suspicious
-            raise RuntimeError(f"Generated voice file is too small ({voice_file_size} bytes) - TTS likely failed")
-        
-        voice_audio_duration = get_audio_duration(voice_file)
-        expected_min_duration = len(full_text) / 20  # Rough estimate: ~20 chars per second
-        if voice_audio_duration < expected_min_duration * 0.1:  # Less than 10% of expected
-            raise RuntimeError(f"Generated voice duration ({voice_audio_duration:.2f}s) is suspiciously short for {len(full_text)} characters (expected ~{expected_min_duration:.2f}s)")
-        
-        audio_files = [str(voice_file)]
-        tts_duration = time.time() - tts_start_time
-        logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
+        if TTS_PROVIDER == "elevenlabs":
+            logging.info("Generating voice track with ElevenLabs...")
+            validate_elevenlabs_auth()
+            voice_file = tmp_dir / "jason_full.mp3"
+            speak(full_text, VOICE_ID, str(voice_file))
+            if not voice_file.exists():
+                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
+
+            # Validate voice file size and duration
+            voice_file_size = voice_file.stat().st_size
+            if voice_file_size < 10000:  # Less than 10KB is suspicious
+                raise RuntimeError(f"Generated voice file is too small ({voice_file_size} bytes) - TTS likely failed")
+
+            voice_audio_duration = get_audio_duration(voice_file)
+            expected_min_duration = len(full_text) / 20  # Rough estimate: ~20 chars per second
+            if voice_audio_duration < expected_min_duration * 0.1:  # Less than 10% of expected
+                raise RuntimeError(f"Generated voice duration ({voice_audio_duration:.2f}s) is suspiciously short for {len(full_text)} characters (expected ~{expected_min_duration:.2f}s)")
+
+            audio_files = [str(voice_file)]
+            tts_duration = time.time() - tts_start_time
+            logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
+        elif TTS_PROVIDER == "chatterbox":
+            logging.info("Generating voice track with Chatterbox (high-quality local model)...")
+            voice_file = tmp_dir / "jason_full.wav"
+            _synthesize_with_chatterbox(full_text, voice_file)
+            if not voice_file.exists():
+                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
+
+            # Validate voice file size and duration
+            voice_file_size = voice_file.stat().st_size
+            if voice_file_size < 10000:  # Less than 10KB is suspicious
+                raise RuntimeError(f"Generated voice file is too small ({voice_file_size} bytes) - TTS likely failed")
+
+            voice_audio_duration = get_audio_duration(voice_file)
+            expected_min_duration = len(full_text) / 20  # Rough estimate: ~20 chars per second
+            if voice_audio_duration < expected_min_duration * 0.1:  # Less than 10% of expected
+                raise RuntimeError(f"Generated voice duration ({voice_audio_duration:.2f}s) is suspiciously short for {len(full_text)} characters (expected ~{expected_min_duration:.2f}s)")
+
+            audio_files = [str(voice_file)]
+            tts_duration = time.time() - tts_start_time
+            logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
+        else:
+            raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
     except Exception as e:
-        logging.error(f"❌ TTS generation failed: {e}", exc_info=True)
+        logging.error(f"❌ {TTS_PROVIDER.title()} TTS generation failed: {e}", exc_info=True)
         raise  # Re-raise to ensure workflow fails visibly
 
     # ========================== FINAL MIX ==========================

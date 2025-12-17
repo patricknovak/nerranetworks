@@ -315,18 +315,21 @@ def _normalize_tts_provider(value: str) -> str:
         return "chatterbox"
     return v
 
-TTS_PROVIDER = _normalize_tts_provider(os.getenv("FASCINATING_FRONTIERS_TTS_PROVIDER", "chatterbox"))
+TTS_PROVIDER = _normalize_tts_provider(os.getenv("FASCINATING_FRONTIERS_TTS_PROVIDER", "elevenlabs"))
 
 # Required keys
 required = ["GROK_API_KEY"]
 
 if ENABLE_PODCAST and not TEST_MODE:
-    if TTS_PROVIDER == "chatterbox":
+    if TTS_PROVIDER == "elevenlabs":
+        # ElevenLabs API required
+        required.append("ELEVENLABS_API_KEY")
+    elif TTS_PROVIDER == "chatterbox":
         # Local model, no API key required. Voice prompt can be derived from existing episodes.
         pass
     else:
         raise OSError(
-            f"Unknown FASCINATING_FRONTIERS_TTS_PROVIDER '{TTS_PROVIDER}'. Only 'chatterbox' is supported (Chatterbox-Turbo)."
+            f"Unknown FASCINATING_FRONTIERS_TTS_PROVIDER '{TTS_PROVIDER}'. Supported providers: 'elevenlabs', 'chatterbox'."
         )
 if ENABLE_X_POSTING:
     required.extend([
@@ -1850,25 +1853,49 @@ Here is today's complete formatted digest. Use ONLY this content:
     # Generate voice file
     import time
     tts_start_time = time.time()
-    logging.info("Generating voice track with Chatterbox (high-quality local model)...")
-    voice_file = tmp_dir / "patrick_full.wav"
-    _synthesize_with_chatterbox(full_text, voice_file)
-    if not voice_file.exists():
-        raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
-    
-    # Validate voice file size and duration
-    voice_file_size = voice_file.stat().st_size
-    if voice_file_size < 10000:  # Less than 10KB is suspicious
-        raise RuntimeError(f"Generated voice file is too small ({voice_file_size} bytes) - TTS likely failed")
-    
-    voice_audio_duration = get_audio_duration(voice_file)
-    expected_min_duration = len(full_text) / 20  # Rough estimate: ~20 chars per second
-    if voice_audio_duration < expected_min_duration * 0.1:  # Less than 10% of expected
-        raise RuntimeError(f"Generated voice duration ({voice_audio_duration:.2f}s) is suspiciously short for {len(full_text)} characters (expected ~{expected_min_duration:.2f}s)")
-    
-    audio_files = [str(voice_file)]
-    tts_duration = time.time() - tts_start_time
-    logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
+    if TTS_PROVIDER == "elevenlabs":
+        logging.info("Generating voice track with ElevenLabs...")
+        validate_elevenlabs_auth()
+        voice_file = tmp_dir / "patrick_full.mp3"
+        speak(full_text, VOICE_ID, str(voice_file))
+        if not voice_file.exists():
+            raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
+
+        # Validate voice file size and duration
+        voice_file_size = voice_file.stat().st_size
+        if voice_file_size < 10000:  # Less than 10KB is suspicious
+            raise RuntimeError(f"Generated voice file is too small ({voice_file_size} bytes) - TTS likely failed")
+
+        voice_audio_duration = get_audio_duration(voice_file)
+        expected_min_duration = len(full_text) / 20  # Rough estimate: ~20 chars per second
+        if voice_audio_duration < expected_min_duration * 0.1:  # Less than 10% of expected
+            raise RuntimeError(f"Generated voice duration ({voice_audio_duration:.2f}s) is suspiciously short for {len(full_text)} characters (expected ~{expected_min_duration:.2f}s)")
+
+        audio_files = [str(voice_file)]
+        tts_duration = time.time() - tts_start_time
+        logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
+    elif TTS_PROVIDER == "chatterbox":
+        logging.info("Generating voice track with Chatterbox (high-quality local model)...")
+        voice_file = tmp_dir / "patrick_full.wav"
+        _synthesize_with_chatterbox(full_text, voice_file)
+        if not voice_file.exists():
+            raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
+
+        # Validate voice file size and duration
+        voice_file_size = voice_file.stat().st_size
+        if voice_file_size < 10000:  # Less than 10KB is suspicious
+            raise RuntimeError(f"Generated voice file is too small ({voice_file_size} bytes) - TTS likely failed")
+
+        voice_audio_duration = get_audio_duration(voice_file)
+        expected_min_duration = len(full_text) / 20  # Rough estimate: ~20 chars per second
+        if voice_audio_duration < expected_min_duration * 0.1:  # Less than 10% of expected
+            raise RuntimeError(f"Generated voice duration ({voice_audio_duration:.2f}s) is suspiciously short for {len(full_text)} characters (expected ~{expected_min_duration:.2f}s)")
+
+        audio_files = [str(voice_file)]
+        tts_duration = time.time() - tts_start_time
+        logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
+    else:
+        raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
 
     # ========================== FINAL MIX ==========================
     final_mp3 = digests_dir / f"Fascinating_Frontiers_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d_%H%M%S}.mp3"
