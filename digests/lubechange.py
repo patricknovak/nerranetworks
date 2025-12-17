@@ -1637,43 +1637,57 @@ BRAND PERSONALITY:
 - Host: Patrick in Vancouver, Canada - Oilers lifer bringing the news with west coast clarity
 - Passionate, knowledgeable Oilers fan with deep love for the team
 - Authentic Alberta roots, proud of Oil Country
-- Tone: Enthusiastic, knowledgeable, passionate about the Oilers, authentic and conversational
+- Tone: Enthusiastic, knowledgeable, passionate about the Oilers, authentic and conversational, with Oil Country attitude
+- Style: Use Oilers slang ("snipe", "dangle", "chirp", "Gordie Howe hat trick"), conversational transitions, engaging hooks
 - Audience: Die-hard Oilers fans who want the latest Oilers-specific news and analysis
+- Make it PODCAST-READY: Add personality, excitement, and emotional connection that translates well to audio
 
 === OUTPUT FORMAT (INCLUDE ONLY THIS IN YOUR RESPONSE) ===
 
-# Lube Change - Oilers Daily News
-**Date:** {today_str}
-🏒 **Lube Change** - Your Daily Dose of Oilers News from Oil Country
+GOOD MORNING, OIL COUNTRY! 🏒
+
+It's your favorite grease monkey back in the shop with the freshest Lube Change - {today_str}.
+
+[1-2 sentence engaging hook about today's biggest Oilers story/storyline]
+
+Buckle up, because we've got the stories that matter to Oilers fans...
 
 ━━━━━━━━━━━━━━━━━━━━
-### Top 15 Oilers Stories
+🔥 HOT TAKES - The Oilers Stories That Matter
 
-1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM MST, Source Name**  
-   2–4 sentences: Start with what happened with the Oilers, explain why it matters for Oilers fans. Focus on the Oilers-specific impact. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
-2. [Repeat format for 3-15; if <15 items, stop at available count, add a blank line after each item]
+🚨 HOT TAKE #1: [ENGAGING TITLE THAT HOOKS LISTENERS]
+[2-3 sentences in conversational style: Start with what happened with the Oilers, explain why it matters for Oilers fans. Use Oilers slang and personality. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]]
 
-━━━━━━━━━━━━━━━━━━━━
-### Oil Leaks
-One major story or development that Oilers fans need to know about. Explain why this matters for the team and fans.
+🚨 HOT TAKE #2: [ENGAGING TITLE THAT HOOKS LISTENERS]
+[Repeat format for 3-15; if <15 items, stop at available count, add a blank line after each item. Make each title exciting and podcast-ready!]
 
 ━━━━━━━━━━━━━━━━━━━━
-### Vintage Oil
-Share one interesting, lesser-known historical fact about the Edmonton Oilers. This could be about a player, a game, a season, a record, or team history. Make it engaging and something that even die-hard fans might not know. Keep it to 2-3 sentences.
+OIL LEAKS - Where We Spill the Real Tea ☕
+
+[2-3 paragraphs of analysis: Pick one major story/development that Oilers fans need to know about. Explain why this matters for the team and fans. Be opinionated, predictive, and connect it to bigger picture. Use phrases like "This changes EVERYTHING" or "Here's the reality check..."]
 
 ━━━━━━━━━━━━━━━━━━━━
-### The Drip
-What are Oilers fans and analysts talking about RIGHT NOW based on TODAY'S news? What do they think the team needs to do or change? This MUST reflect the CURRENT conversation, buzz, or hot topic in Oil Country based on the news articles from the last 24 hours. It could be about roster moves, coaching, strategy, player performance, or team needs. Keep it to 3-4 sentences and make it feel like you're capturing the pulse of Oil Country TODAY.
+VINTAGE OIL - Because History Repeats Itself 🕰️
+
+[Share one interesting, lesser-known historical fact about the Edmonton Oilers. Make it engaging and something that even die-hard fans might not know. Connect it to current team/players when possible. Keep it to 2-3 sentences with personality.]
 
 ━━━━━━━━━━━━━━━━━━━━
-### 80s Vibes
-One inspiring or memorable moment from Oilers history, current team, or fan culture. End with: "Let's go Oilers!"
+THE DRIP - What Oilers Fans Are Actually Saying 💬
+
+[3-4 sentences capturing what Oilers fans and analysts are talking about RIGHT NOW based on TODAY'S news. Make it feel like eavesdropping on fan conversations in Oil Country. Use local references and current buzz. Include what fans think the team needs to do.]
 
 ━━━━━━━━━━━━━━━━━━━━
-### Edmonton Oilers Community Foundation
-Highlight NEW and RECENT support, initiatives, or activities that the Edmonton Oilers Community Foundation has done. This section shows Oilers fans where their charity dollars go and celebrates the positive impact the foundation makes in the community. Focus on recent events, donations, programs, partnerships, or community initiatives from the last few weeks or months. Keep it to 3-4 sentences and make it feel inspiring and community-focused.
+80S VIBES - Channeling That Dynasty Energy 🎸
 
-[2-3 sentence uplifting sign-off about the Oilers and Oil Country pride.]
+[One inspiring/memorable moment from Oilers history, current team, or fan culture. Make it emotional and connective. End with: "Let's go Oilers!"]
+
+━━━━━━━━━━━━━━━━━━━━
+OILERS COMMUNITY FOUNDATION - Because Oilers Are About More Than Hockey ❤️
+
+[Highlight NEW and RECENT foundation activities. Show real human impact and community connection. Make it inspiring and specific about recent initiatives, donations, and programs. Focus on the positive change in Oil Country.]
+
+━━━━━━━━━━━━━━━━━━━━
+[2-3 sentence podcast-ready sign-off that's memorable and emotional. Reference Oil Country pride, team spirit, and call to action for fans.]
 
 === END OF OUTPUT FORMAT ===
 
@@ -2104,9 +2118,9 @@ else:
 
 You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Lube Change - Oilers Daily News" Episode {episode_num}.
 
-HOST: Patrick in Vancouver, Canada. Authentic Oilers fan with Alberta roots, knowledgeable about hockey and the Oilers. Voice like a sports radio host breaking Oilers news, not robotic.
+HOST: Patrick in Vancouver, Canada. Authentic Oilers fan with Alberta roots, knowledgeable about hockey and the Oilers. Voice like an excited sports radio host breaking Oilers news - passionate, conversational, and full of Oil Country energy!
 
-BRAND PERSONALITY: Lube Change - Oilers Daily News. Daily Edmonton Oilers news from Oil Country. Passionate, knowledgeable, authentic voice.
+BRAND PERSONALITY: Lube Change - Oilers Daily News. Daily Edmonton Oilers news from Oil Country. Passionate, knowledgeable, authentic voice with personality, Oilers slang, and genuine excitement.
 
 FOCUS REQUIREMENTS:
 - ONLY discuss news that DIRECTLY relates to the Edmonton Oilers
@@ -2129,44 +2143,40 @@ SPEECH REQUIREMENTS:
 - For scores: Say "five to two" not "5-2"
 - For statistics: Write out fully (e.g., "three point five goals against average" not "3.5 GAA")
 - Use ONLY information from the digest below - nothing else
-- Emphasize Oilers pride and Oil Country spirit through enthusiasm, not extra words
+- Emphasize Oilers pride and Oil Country spirit through enthusiasm and personality
 - Make it sound like natural, professional conversation - clear, articulate, and engaging
 - Use proper grammar and complete thoughts - no fragments or incomplete sentences
 
 DELIVERY STYLE:
-- Focus on DELIVERING THE NEWS with enthusiasm - don't add unnecessary hockey terminology
-- Be enthusiastic about the stories themselves, not about using hockey words
+- ADD OILERS PERSONALITY: Use appropriate Oilers slang ("snipe", "dangle", "chirp", "Gordie Howe hat trick", "statement game", "Oilers way") when it fits naturally
+- Be enthusiastic about the stories with genuine Oilers passion
 - Tell the news stories clearly and with excitement - let the content speak for itself
-- Don't add extra hockey context or explanations unless the story requires it
-- Keep it conversational and natural - like a friend excitedly sharing Oilers news
-- Avoid technical hockey jargon, abbreviations, or terminology unless the story specifically requires it
-- WORD CHOICE RESTRICTIONS: DO NOT use these hockey-specific terms that don't belong in natural speech:
-  * DO NOT say "assists" - instead use: "helpers", "setups", "passes that led to goals", "playmaking"
-  * DO NOT say "shootout" - instead use: "penalty shots", "deciding round", "tiebreaker"
-  * DO NOT add unnecessary hockey terminology just to sound "hockey-like"
-  * Focus on the story, not on using hockey words - enthusiasm comes from delivery, not terminology
+- Keep it conversational and natural - like an excited friend sharing Oilers news
+- Add emotional reactions and Oilers fan perspective
+- Use phrases like "Can you believe it?", "This is huge for Oilers fans!", "Oil Country is buzzing!"
+- Make transitions engaging: "Speaking of...", "But wait, there's more...", "You won't believe this..."
 
 === OUTPUT FORMAT (INCLUDE ONLY THIS IN YOUR RESPONSE) ===
 
 [Intro music - 10 seconds]
-Patrick: Welcome to Lube Change - Oilers Daily News, episode {episode_num}. It is {today_str}. I'm Patrick coming to you from Vancouver, sharing the latest from Oil Country. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now let's dive into today's Oilers news.
+Patrick: GOOD MORNING, OIL COUNTRY! Welcome to Lube Change - Oilers Daily News, episode {episode_num}. It is {today_str}. I'm Patrick coming to you from Vancouver, bringing you the freshest Oilers news straight from the heart of Alberta. If you're loving the show, smash that like button, share with your Oilers buddies, and drop us a five-star review - it keeps the Oilers machine running! Let's jump into today's hottest Oilers stories!
 
-[Narrate EVERY item from the digest in order - no skipping]
-- For each news item: Read the title with enthusiasm, then explain the story and why it matters for Oilers fans
-- Oil Leaks: Explain why this story is important for the team and fans
-- Vintage Oil: Share the historical fact with enthusiasm and context
-- The Drip: Present what fans are talking about with energy, like you're breaking the latest buzz
-- 80s Vibes: Share the moment with passion and Oilers pride
-- Edmonton Oilers Community Foundation: Highlight the recent foundation activities with pride and enthusiasm, emphasizing the positive impact on the community and showing fans where their charity dollars go
+[Narrate EVERY item from the digest in order - no skipping, with personality!]
+- For each HOT TAKE: Read the title with excitement and Oilers energy, then dive into the story explaining why it matters for Oilers fans. Add reactions like "Can you believe it?" or "This is huge!"
+- Oil Leaks: Explain why this story changes everything for the team and fans - be opinionated and predictive
+- Vintage Oil: Share the historical fact with enthusiasm, connect it to today's Oilers when possible
+- The Drip: Present what fans are talking about RIGHT NOW with energy, like you're breaking the latest Oil Country buzz
+- 80s Vibes: Share the moment with passion and emotional connection to Oilers legacy
+- Edmonton Oilers Community Foundation: Highlight the foundation activities with pride, show the real human impact and community connection
 
 [FIRST AD - Planetterrian]
-Patrick: [Write an enthusiastic, natural ad for Planetterrian Daily. Must include: This podcast is made possible by Planetterrian Daily. It's a daily science, longevity, and health podcast hosted by Patrick in Vancouver. It covers groundbreaking scientific discoveries, health breakthroughs, and cutting-edge research. Mention that listeners can find it wherever they get podcasts or visit planetterrian.com. Include the tagline about technology meeting compassion. Make it sound natural and enthusiastic, like Patrick is genuinely excited about the podcast. Keep it to 4-5 sentences.]
+Patrick: [Write an enthusiastic, natural ad for Planetterrian Daily with Oilers personality. Must include: Lube Change is made possible by Planetterrian Daily - my other daily podcast where I dive into groundbreaking science, longevity breakthroughs, and cutting-edge health research. Technology meeting compassion, keeping us all living longer and stronger. Find it wherever you get podcasts or visit planetterrian.com. Trust me, if you love Oilers innovation, you'll love the science behind human potential!]
 
 [SECOND AD - Tesla Shorts Time]
-Patrick: [Write an enthusiastic, natural ad for Tesla Shorts Time Daily. Must include: Lube Change is also made possible by Tesla Shorts Time Daily. It's a daily podcast about Tesla news, stock updates, and electric vehicles hosted by Patrick. It covers new vehicle releases, stock movements, and all the latest Tesla developments. Perfect for Tesla fans and investors. Mention listeners can subscribe wherever they get podcasts. Thank Tesla Shorts Time for making Lube Change possible. Make it sound natural and enthusiastic, like Patrick is genuinely excited about the podcast. Keep it to 4-5 sentences.]
+Patrick: [Write an enthusiastic, natural ad for Tesla Shorts Time Daily with Oilers flair. Must include: Lube Change is also powered by Tesla Shorts Time Daily - my daily dive into Tesla news, stock updates, and electric vehicle revolutions. From Cybertruck reveals to stock surges, we cover it all for Tesla fans and investors. Subscribe wherever you get your podcasts, and thank you Tesla Shorts Time for helping keep Oil Country connected! The future of driving meets the heart of hockey!]
 
-[Closing]
-Patrick: That's Lube Change - Oilers Daily News for today. Thanks for tuning in from Oil Country. Let's go Oilers! We'll catch you tomorrow on Lube Change!
+[Closing with personality]
+Patrick: That's all the Oilers news we can fit into today's Lube Change! From the rinks of Rogers Place to the hearts of fans worldwide, the Oilers keep proving why Oil Country is unmatched in spirit and grit. Stay frosty, stay faithful, and remember: ONE TEAM. ONE HEART. ONE OIL COUNTRY! Let's go Oilers! We'll catch you tomorrow with more from the Oil! 🇨🇦🏒
 
 === END OF OUTPUT FORMAT ===
 
