@@ -1900,7 +1900,9 @@ Here is today's complete formatted digest. Use ONLY this content:
     # ========================== FINAL MIX ==========================
     final_mp3 = digests_dir / f"Fascinating_Frontiers_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d_%H%M%S}.mp3"
 
-    # Background music: Fascinating Frontiers theme music
+    # Intro music: Original short intro theme
+    INTRO_MUSIC = project_root / "fascinatingfrontiers.mp3"
+    # Background music: New longer track for end of podcast
     BACKGROUND_MUSIC = project_root / "Fascinating Frontierssmusic.mp3"
 
     # Process and normalize voice in one step
@@ -1954,82 +1956,40 @@ Here is today's complete formatted digest. Use ONLY this content:
     voice_duration = max(get_audio_duration(voice_mix), 0.0)
     logging.info(f"Voice duration: {voice_duration:.2f} seconds")
 
-    # Check if we have the Fascinating Frontiers background music
-    has_music = BACKGROUND_MUSIC.exists() if BACKGROUND_MUSIC else False
+    # Check if we have the required music files
+    has_intro_music = INTRO_MUSIC.exists() if INTRO_MUSIC else False
+    has_background_music = BACKGROUND_MUSIC.exists() if BACKGROUND_MUSIC else False
 
-    if not has_music:
+    if not has_intro_music and not has_background_music:
         subprocess.run(["ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-preset", "fast", str(final_mp3)], check=True, capture_output=True)
-        logging.info("Podcast ready (voice-only, no background music file found)")
-    else:
-        # Background music timing for Fascinating Frontiers:
-        # - Music starts fading in at 30 seconds into the podcast
-        # - Music plays throughout the voice content
-        # - Music continues for 30 seconds after voice ends
-        # - Music fades out at the end
+        logging.info("Podcast ready (voice-only, no music files found)")
+    elif has_intro_music and not has_background_music:
+        # Original logic: only intro music, no background music
+        intro_duration = get_audio_duration(INTRO_MUSIC)
+        logging.info(f"Intro music duration: {intro_duration:.2f} seconds")
 
-        # Get music duration
-        music_duration = get_audio_duration(BACKGROUND_MUSIC)
-        logging.info(f"Background music duration: {music_duration:.2f} seconds")
+        # Prepare voice with 28-second delay
+        voice_delayed = tmp_dir / "voice_delayed.mp3"
 
-        # Calculate timing:
-        # - Music fade-in starts at 30 seconds
-        # - Voice plays from start to voice_duration
-        # - Music plays from 30 seconds to (voice_duration + 30 seconds)
-        # - Total podcast duration = voice_duration + 30 seconds
-        total_duration = voice_duration + 30
-        music_start_time = 30  # seconds
-        music_end_time = voice_duration + 30  # seconds
-
-        logging.info(f"Podcast timing: voice={voice_duration:.2f}s, music starts at {music_start_time}s, music ends at {music_end_time:.2f}s")
-        logging.info(f"Total podcast duration: {total_duration:.2f} seconds")
-
-        # Create music track with proper timing and fading
-        music_segment = tmp_dir / "music_segment.mp3"
-
-        # Extract the portion of music we need (from start to music_end_time)
-        # Apply fade-in from 0 to 5 seconds after music starts, and fade-out at the end
-        music_fade_in_duration = 5  # seconds to fade in
-        music_fade_out_duration = 5  # seconds to fade out
-
-        logging.info("Creating background music segment with fade-in/fade-out...")
+        logging.info("Delaying voice to start at 28 seconds...")
         subprocess.run([
-            "ffmpeg", "-y", "-threads", "0",
-            "-i", str(BACKGROUND_MUSIC),
-            "-ss", "0",  # Start from beginning of music
-            "-t", str(music_end_time),  # Duration we need
-            "-af", f"volume=0:enable='between(t,0,{music_start_time})',"  # Silent until 30s
-                  f"volume='min(1, (t-{music_start_time})/{music_fade_in_duration})':enable='between(t,{music_start_time},{music_start_time + music_fade_in_duration})',"  # Fade in 0-5s after start
-                  f"volume=1:enable='between(t,{music_start_time + music_fade_in_duration},{music_end_time - music_fade_out_duration})',"  # Full volume in middle
-                  f"volume='max(0, ({music_end_time}-t)/{music_fade_out_duration})':enable='between(t,{music_end_time - music_fade_out_duration},{music_end_time})'",  # Fade out at end
+            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix),
+            "-af", "adelay=28000|28000",  # 28 seconds delay
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(music_segment)
+            str(voice_delayed)
         ], check=True, capture_output=True)
 
-        # Extend voice track to match total duration (add silence after voice ends)
-        voice_extended = tmp_dir / "voice_extended.mp3"
-        silence_duration = 30  # seconds of silence after voice ends
-
-        logging.info(f"Extending voice track with {silence_duration} seconds of silence...")
+        # Final mix: voice + intro music (music plays once, then voice continues alone)
+        logging.info("Mixing voice and Fascinating Frontiers intro music...")
         subprocess.run([
             "ffmpeg", "-y", "-threads", "0",
-            "-i", str(voice_mix),
-            "-f", "lavfi", "-t", str(silence_duration), "-i", "anullsrc=r=44100:cl=stereo",
-            "-filter_complex", "[0:a][1:a]concat=n=2:v=0:a=1[aout]",
-            "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(voice_extended)
-        ], check=True, capture_output=True)
-
-        # Final mix: voice + background music
-        logging.info("Mixing voice and background music...")
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0",
-            "-i", str(voice_extended),
-            "-i", str(music_segment),
+            "-i", str(voice_delayed),
+            "-i", str(INTRO_MUSIC),
             "-filter_complex",
             "[0:a]volume=1.0[a_voice];"
-            "[1:a]volume=0.3[a_music];"  # Background music at 30% volume
-            "[a_voice][a_music]amix=inputs=2:duration=first:dropout_transition=2[a_mixed];"
-            "[a_mixed]alimiter=level_in=1:level_out=0.95:limit=0.95[outfinal]",
+            "[1:a]volume=0.5[a_music];"  # Music at normal volume for intro
+            "[a_voice][a_music]amix=inputs=2:duration=first:dropout_transition=2:weights=2 1[mixed];"
+            "[mixed]alimiter=level_in=1:level_out=0.95:limit=0.95[outfinal]",
             "-map", "[outfinal]",
             "-c:a", "libmp3lame",
             "-b:a", "192k", "-preset", "fast",
@@ -2043,19 +2003,148 @@ Here is today's complete formatted digest. Use ONLY this content:
         final_size = final_mp3.stat().st_size
         logging.info(f"Final podcast file size: {final_size} bytes")
 
-        expected_min_size = int(total_duration * 32000)  # Rough estimate: 32KB per second
-        if final_size < expected_min_size:
-            raise RuntimeError(f"Final podcast file {final_mp3} is too small ({final_size} bytes, expected ~{expected_min_size} bytes) - mixing failed")
+        if final_size < 10000:  # Less than 10KB is definitely wrong for a 55s podcast
+            raise RuntimeError(f"Final podcast file {final_mp3} is too small ({final_size} bytes) - mixing failed")
 
-        logging.info("Podcast created successfully with Fascinating Frontiers background music")
+        logging.info("Podcast created successfully with Fascinating Frontiers intro music")
 
         # Cleanup temp files
-        cleanup_files = [music_segment, voice_extended]
-
+        cleanup_files = [voice_delayed]
         for tmp_file in cleanup_files:
             if tmp_file and tmp_file.exists():
                 try:
                     os.remove(str(tmp_file))
+                except Exception:
+                    pass
+    else:
+        # Both intro music and background music
+        intro_duration = get_audio_duration(INTRO_MUSIC)
+        logging.info(f"Intro music duration: {intro_duration:.2f} seconds")
+
+        # Calculate background music timing:
+        # Background music starts fading in 30 seconds before voice ends
+        # Background music continues for 30 seconds after voice ends
+        bg_music_start = max(intro_duration, voice_duration - 30)  # Don't start BG music during intro
+        bg_music_duration = 60  # 30s fade-in + 30s after voice ends
+
+        logging.info(f"Background music: starts at {bg_music_start:.2f}s, duration {bg_music_duration:.2f}s")
+
+        # Create intro section with original logic
+        voice_delayed = tmp_dir / "voice_delayed.mp3"
+        logging.info("Delaying voice to start at 28 seconds (during intro music)...")
+        subprocess.run([
+            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix),
+            "-af", "adelay=28000|28000",  # 28 seconds delay
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+            str(voice_delayed)
+        ], check=True, capture_output=True)
+
+        # Intro mix (first part with intro music)
+        intro_mix = tmp_dir / "intro_mix.mp3"
+        logging.info("Creating intro section with intro music and voice...")
+        subprocess.run([
+            "ffmpeg", "-y", "-threads", "0",
+            "-i", str(voice_delayed),
+            "-i", str(INTRO_MUSIC),
+            "-filter_complex",
+            "[0:a]volume=1.0[a_voice];"
+            "[1:a]volume=0.5[a_music];"
+            "[a_voice][a_music]amix=inputs=2:duration=first:dropout_transition=2:weights=2 1[mixed];"
+            "[mixed]alimiter=level_in=1:level_out=0.95:limit=0.95[outfinal]",
+            "-map", "[outfinal]",
+            "-t", str(bg_music_start),  # Only up to where BG music starts
+            "-c:a", "libmp3lame",
+            "-b:a", "192k", "-preset", "fast",
+            str(intro_mix)
+        ], check=True, capture_output=True)
+
+        # Background music segment with fade-in/fade-out
+        bg_segment = tmp_dir / "bg_segment.mp3"
+        logging.info("Creating background music segment...")
+        subprocess.run([
+            "ffmpeg", "-y", "-threads", "0",
+            "-i", str(BACKGROUND_MUSIC),
+            "-t", str(bg_music_duration),
+            "-af", "volume='min(1, t/5)':enable='between(t,0,5)',"  # Fade in over 5 seconds
+                  "volume=1:enable='between(t,5,55)',"              # Full volume for 50 seconds
+                  "volume='max(0, (60-t)/5)':enable='between(t,55,60)'",  # Fade out over 5 seconds
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+            str(bg_segment)
+        ], check=True, capture_output=True)
+
+        # Voice during background music (from bg_music_start to end of voice)
+        voice_bg_duration = voice_duration - bg_music_start + 30  # Include 30s after voice ends
+        voice_bg = tmp_dir / "voice_bg.mp3"
+        logging.info(f"Creating voice section during background music ({voice_bg_duration:.2f}s)...")
+
+        # Extend voice with silence for the background music duration
+        subprocess.run([
+            "ffmpeg", "-y", "-threads", "0",
+            "-i", str(voice_mix),
+            "-ss", str(bg_music_start),
+            "-t", str(voice_bg_duration),
+            "-af", "apad=pad_dur=30",  # Add 30 seconds of silence at end
+            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+            str(voice_bg)
+        ], check=True, capture_output=True)
+
+        # Mix voice and background music
+        voice_bg_mix = tmp_dir / "voice_bg_mix.mp3"
+        logging.info("Mixing voice with background music...")
+        subprocess.run([
+            "ffmpeg", "-y", "-threads", "0",
+            "-i", str(voice_bg),
+            "-i", str(bg_segment),
+            "-filter_complex",
+            "[0:a]volume=1.0[a_voice];"
+            "[1:a]volume=0.3[a_music];"  # Background music at 30% volume
+            "[a_voice][a_music]amix=inputs=2:duration=first[a_mixed];"
+            "[a_mixed]alimiter=level_in=1:level_out=0.95:limit=0.95[outfinal]",
+            "-map", "[outfinal]",
+            "-c:a", "libmp3lame",
+            "-b:a", "192k", "-preset", "fast",
+            str(voice_bg_mix)
+        ], check=True, capture_output=True)
+
+        # Combine intro and voice+background sections
+        concat_list = tmp_dir / "final_concat.txt"
+        with open(concat_list, "w") as f:
+            f.write(f"file '{intro_mix}'\n")
+            f.write(f"file '{voice_bg_mix}'\n")
+
+        logging.info("Creating final podcast...")
+        subprocess.run([
+            "ffmpeg", "-y", "-threads", "0",
+            "-f", "concat",
+            "-safe", "0",
+            "-i", str(concat_list),
+            "-c:a", "libmp3lame",
+            "-b:a", "192k", "-preset", "fast",
+            str(final_mp3)
+        ], check=True, capture_output=True)
+
+        # Verify final file
+        if not final_mp3.exists():
+            raise RuntimeError(f"Final podcast file {final_mp3} was not created!")
+
+        final_size = final_mp3.stat().st_size
+        logging.info(f"Final podcast file size: {final_size} bytes")
+
+        total_estimated_duration = bg_music_start + voice_bg_duration
+        expected_min_size = int(total_estimated_duration * 32000)
+        if final_size < expected_min_size:
+            raise RuntimeError(f"Final podcast file {final_mp3} is too small ({final_size} bytes, expected ~{expected_min_size} bytes) - mixing failed")
+
+        logging.info("Podcast created successfully with intro music and background music")
+
+        # Cleanup temp files
+        cleanup_files = [voice_delayed, intro_mix, bg_segment, voice_bg, voice_bg_mix, concat_list]
+        for tmp_file in cleanup_files:
+            if tmp_file and tmp_file.exists():
+                try:
+                    os.remove(str(tmp_file))
+                except Exception:
+                    pass
                 except Exception:
                     pass
 
