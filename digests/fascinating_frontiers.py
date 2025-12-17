@@ -2058,16 +2058,15 @@ Here is today's complete formatted digest. Use ONLY this content:
             str(intro_mix)
         ], check=True, capture_output=True)
 
-        # Background music segment with fade-in/fade-out
+        # Background music segment (simplified for now - fades can be added later)
         bg_segment = tmp_dir / "bg_segment.mp3"
         logging.info("Creating background music segment...")
+
+        # Extract the background music segment
         subprocess.run([
             "ffmpeg", "-y", "-threads", "0",
             "-i", str(BACKGROUND_MUSIC),
             "-t", str(bg_music_duration),
-            "-af", "volume='min(1, t/5)':enable='between(t,0,5)',"  # Fade in over 5 seconds
-                  "volume=1:enable='between(t,5,55)',"              # Full volume for 50 seconds
-                  "volume='max(0, (60-t)/5)':enable='between(t,55,60)'",  # Fade out over 5 seconds
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(bg_segment)
         ], check=True, capture_output=True)
