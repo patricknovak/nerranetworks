@@ -282,7 +282,17 @@ def fix_tesla_pronunciation(text: str) -> str:
     
     # Fix dates: multiple formats like "November 19, 2025", "11 December, 2025", "December 11, 2025"
     text = re.sub(r'(\w+)\s+(\d{1,2}),\s+(\d{4})', replace_date, text, flags=re.IGNORECASE)
-    text = re.sub(r'(\d{1,2})\s+(\w+),\s+(\d{4})', lambda m: replace_date(m.group().replace(m.group(1) + ' ' + m.group(2), m.group(2) + ' ' + m.group(1))), text, flags=re.IGNORECASE)
+    def replace_date_swapped(match):
+        # Create a mock match object with the correct group order
+        class MockMatch:
+            def __init__(self, groups):
+                self._groups = groups
+            def group(self, n):
+                return self._groups[n-1]
+        # Swap day and month for "11 December, 2025" → "December 11, 2025"
+        return replace_date(MockMatch([match.group(2), match.group(1), match.group(3)]))
+
+    text = re.sub(r'(\d{1,2})\s+(\w+),\s+(\d{4})', replace_date_swapped, text, flags=re.IGNORECASE)
 
     # Fix times: multiple formats "02:30 PM", "2:30PM", "14:30", "2:30 p.m."
     def replace_time(match):
