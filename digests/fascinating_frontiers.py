@@ -1988,7 +1988,7 @@ Here is today's complete formatted digest. Use ONLY this content:
             "-filter_complex",
             "[0:a]volume=1.0[a_voice];"
             "[1:a]volume=0.5[a_music];"  # Music at normal volume for intro
-            "[a_voice][a_music]amix=inputs=2:duration=first:dropout_transition=2:weights=2 1[mixed];"
+            "[a_voice][a_music]amix=inputs=2:duration=longest:dropout_transition=2:weights=2 1[mixed];"
             "[mixed]alimiter=level_in=1:level_out=0.95:limit=0.95[outfinal]",
             "-map", "[outfinal]",
             "-c:a", "libmp3lame",
@@ -2058,46 +2058,71 @@ Here is today's complete formatted digest. Use ONLY this content:
             str(intro_mix)
         ], check=True, capture_output=True)
 
-        # Background music segment (simplified for now - fades can be added later)
-        bg_segment = tmp_dir / "bg_segment.mp3"
-        logging.info("Creating background music segment...")
+        # Create full background music track (longer than voice to ensure coverage)
+        bg_full = tmp_dir / "bg_full.mp3"
+        # Make background music longer than the remaining podcast duration
+        bg_total_duration = (voice_duration - bg_music_start) + 30 + 10  # voice remaining + 30s after + buffer
+        logging.info(f"Creating full background music track ({bg_total_duration:.2f}s)...")
 
-        # Extract the background music segment
         subprocess.run([
             "ffmpeg", "-y", "-threads", "0",
             "-i", str(BACKGROUND_MUSIC),
-            "-t", str(bg_music_duration),
+            "-t", str(bg_total_duration),
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(bg_segment)
+            str(bg_full)
         ], check=True, capture_output=True)
 
-        # Voice during background music (from bg_music_start to end of voice)
-        voice_bg_duration = voice_duration - bg_music_start + 30  # Include 30s after voice ends
-        voice_bg = tmp_dir / "voice_bg.mp3"
-        logging.info(f"Creating voice section during background music ({voice_bg_duration:.2f}s)...")
+        # Create silence for the period before background music starts
+        silence_before = tmp_dir / "silence_before.mp3"
+        subprocess.run([
+            "ffmpeg", "-y", "-threads", "0",
+            "-f", "lavfi", "-t", str(bg_music_start), "-i", "anullsrc=r=44100:cl=stereo",
+            "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+            str(silence_before)
+        ], check=True, capture_output=True)
 
-        # Extend voice with silence for the background music duration
+        # Combine silence + background music
+        bg_with_silence = tmp_dir / "bg_with_silence.mp3"
+        concat_list_bg = tmp_dir / "concat_bg.txt"
+        with open(concat_list_bg, "w") as f:
+            f.write(f"file '{silence_before}'\n")
+            f.write(f"file '{bg_full}'\n")
+
+        subprocess.run([
+            "ffmpeg", "-y", "-threads", "0",
+            "-f", "concat",
+            "-safe", "0",
+            "-i", str(concat_list_bg),
+            "-c:a", "libmp3lame",
+            "-b:a", "192k", "-preset", "fast",
+            str(bg_with_silence)
+        ], check=True, capture_output=True)
+
+        # Extend voice with silence to match background music duration
+        voice_extended = tmp_dir / "voice_extended.mp3"
+        voice_total_duration = bg_music_start + bg_total_duration
+        logging.info(f"Extending voice track to {voice_total_duration:.2f}s total duration...")
+
         subprocess.run([
             "ffmpeg", "-y", "-threads", "0",
             "-i", str(voice_mix),
-            "-ss", str(bg_music_start),
-            "-t", str(voice_bg_duration),
-            "-af", "apad=pad_dur=30",  # Add 30 seconds of silence at end
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(voice_bg)
+            "-f", "lavfi", "-t", str(voice_total_duration), "-i", "anullsrc=r=44100:cl=stereo",
+            "-filter_complex", "[0:a][1:a]concat=n=2:v=0:a=1[aout]",
+            "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+            str(voice_extended)
         ], check=True, capture_output=True)
 
-        # Mix voice and background music
+        # Mix extended voice with background music
         voice_bg_mix = tmp_dir / "voice_bg_mix.mp3"
-        logging.info("Mixing voice with background music...")
+        logging.info("Mixing extended voice with background music...")
         subprocess.run([
             "ffmpeg", "-y", "-threads", "0",
-            "-i", str(voice_bg),
-            "-i", str(bg_segment),
+            "-i", str(voice_extended),
+            "-i", str(bg_with_silence),
             "-filter_complex",
             "[0:a]volume=1.0[a_voice];"
             "[1:a]volume=0.3[a_music];"  # Background music at 30% volume
-            "[a_voice][a_music]amix=inputs=2:duration=first[a_mixed];"
+            "[a_voice][a_music]amix=inputs=2:duration=longest:dropout_transition=2[a_mixed];"
             "[a_mixed]alimiter=level_in=1:level_out=0.95:limit=0.95[outfinal]",
             "-map", "[outfinal]",
             "-c:a", "libmp3lame",
@@ -2139,7 +2164,8 @@ Here is today's complete formatted digest. Use ONLY this content:
         logging.info("Podcast created successfully with intro music and background music")
 
         # Cleanup temp files
-        cleanup_files = [voice_delayed, intro_mix, bg_segment, voice_bg, voice_bg_mix, concat_list]
+        cleanup_files = [voice_delayed, intro_mix, bg_full, silence_before, bg_with_silence, concat_list_bg,
+                        voice_extended, voice_bg_mix, concat_list]
         for tmp_file in cleanup_files:
             if tmp_file and tmp_file.exists():
                 try:
