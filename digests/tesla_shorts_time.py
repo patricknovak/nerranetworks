@@ -1588,6 +1588,26 @@ else:
 # X POSTS SECTION DISABLED - No longer including X posts in prompt
 x_posts_section = ""
 
+# Build conditional sections
+market_movers_section = ""
+if weekday == 0:  # Monday (0 = Monday in Python weekday())
+    market_movers_section = """
+━━━━━━━━━━━━━━━━━━━━
+### Tesla Market Movers
+📈 Tesla Market Movers - What's Actually Moving TSLA
+
+**The Big Picture:** [Analysis of broader market context affecting Tesla this week]
+
+**Short Interest Update:** [Current short interest levels and week-over-week changes. Include notable movements and what they signal]
+
+**Institutional Moves:** [Recent large buys/sells by institutions, hedge funds, or notable investors]
+
+**Options Flow:** [Unusual options activity, call/put ratios, expiration dates with high volume]
+
+**Whale Watching:** [Large shareholder moves, insider transactions, or notable retail investor activity]
+
+**Market Sentiment:** [Overall market mood toward Tesla, compared to other EV/tech stocks]
+"""
 
 X_PROMPT = f"""
 # Tesla Shorts Time - DAILY EDITION
@@ -1611,7 +1631,8 @@ You are an elite Tesla news curator producing the daily "Tesla Shorts Time" news
 
 ### CRITICAL INSTRUCTIONS (DO NOT INCLUDE THESE IN YOUR OUTPUT):
 - Short Spot: Must be COMPLETELY DIFFERENT from any recent Short Spots. Use a DIFFERENT bearish story, DIFFERENT angle, and DIFFERENT framing.
-- Short Squeeze: Must be COMPLETELY DIFFERENT from any recent Short Squeezes. Use DIFFERENT failed predictions, DIFFERENT bear names, DIFFERENT years, and DIFFERENT examples.
+- Tesla First Principles: Must be COMPLETELY DIFFERENT from any recent First Principles analyses. Use a DIFFERENT current situation, DIFFERENT fundamental question, DIFFERENT data analysis, and DIFFERENT Tesla approach.
+- Tesla Market Movers (Mondays only): Must provide FRESH market analysis from the past week. Focus on REAL market movements, not speculation.
 - Daily Challenge: Must be COMPLETELY NEW and DIFFERENT from any recent Daily Challenges. Use a DIFFERENT theme, DIFFERENT approach, and DIFFERENT wording.
 - Inspiration Quote: Must be from a DIFFERENT author than recent quotes. Use a DIFFERENT quote with a DIFFERENT message. Vary authors widely.
 
@@ -1634,42 +1655,78 @@ You are an elite Tesla news curator producing the daily "Tesla Shorts Time" news
 2. [Repeat format for 3-10; if <10 items, stop at available count, add a blank line after each item and the last item]
 
 ━━━━━━━━━━━━━━━━━━━━
-## X Spotlight: @{spotlight_username} ({spotlight_display_name})
-Today's spotlight is on @{spotlight_username} - follow them at https://x.com/{spotlight_username} to see all their Tesla insights and updates.
+## Tesla X Takeover: @{spotlight_username} ({spotlight_display_name})
+🎙️ Tesla X Takeover - @{spotlight_username} GOES OFF! Today's spotlight is on @{spotlight_username} - follow them at https://x.com/{spotlight_username} to see all their Tesla insights and updates.
 
-1. **Post Title: DD Month, YYYY**  
-   Description of the post content (2-3 sentences). Include the key Tesla-related insight, news, or perspective shared.
+1. 🚨 **[INCREDIBLE TITLE THAT HOOKS]** - @{spotlight_username} just DROPPED this truth bomb...
+   [Make it sound like eavesdropping on an exciting Tesla conversation. Include the key Tesla-related insight, news, or perspective shared. 2-3 sentences with personality.]
    Post: https://x.com/{spotlight_username}/status/[ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID]
 
-2. **Post Title: DD Month, YYYY**  
-   Description of the post content (2-3 sentences).
-   Post: https://x.com/{spotlight_username}/status/[ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID]
+2. 🔥 **[EXCITING TITLE]** - The Tesla community is LOSING IT over this one...
+   [Make it conversational and engaging, like sharing breaking Tesla news with friends. Include why this post matters for Tesla investors.]
 
-3. **Post Title: DD Month, YYYY**  
-   Description of the post content (2-3 sentences).
-   Post: https://x.com/{spotlight_username}/status/[ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID]
+3. 💡 **[INSIGHTFUL TITLE]** - @{spotlight_username} connects the dots on Tesla's master plan...
+   [Highlight unique analysis or predictions that only this influencer would make.]
 
-4. **Post Title: DD Month, YYYY**  
-   Description of the post content (2-3 sentences).
-   Post: https://x.com/{spotlight_username}/status/[ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID]
+4. ⚡ **[ENERGETIC TITLE]** - This post has the Tesla bears RUNNING SCARED...
+   [Focus on contrarian views or bullish takes that challenge conventional wisdom.]
 
-5. **Post Title: DD Month, YYYY**  
-   Description of the post content (2-3 sentences).
-   Post: https://x.com/{spotlight_username}/status/[ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID]
+5. 🎯 **[PRECISION TITLE]** - @{spotlight_username} nails exactly what's happening at Tesla...
+   [Show how this influencer's perspective cuts through the noise.]
 
-**Overall Weekly Sentiment:**
-Summary of the overall sentiment and themes that @{spotlight_username} has been sharing about Tesla this past week. Include whether the sentiment is bullish, bearish, or neutral, and what main topics they've been covering.
+**The Vibe Check:** "Overall, @{spotlight_username} is [BULLISH/BEARISH/MIXED] on Tesla this week, focusing on [key themes like Autopilot, energy, Cybertruck, etc.]. Their unique perspective on [specific insight] is why the Tesla community keeps coming back for more!"
 
 ━━━━━━━━━━━━━━━━━━━━
 ## Short Spot
-One bearish item from pre-fetched news that's negative for Tesla/stock.  
-**Catchy Title: DD Month, YYYY, HH:MM AM/PM PST, @username/Source**  
+One bearish item from pre-fetched news that's negative for Tesla/stock.
+**Catchy Title: DD Month, YYYY, HH:MM AM/PM PST, @username/Source**
 2–4 sentences explaining it & why it's temporary/overblown (frame optimistically). End with: Source/Post: [EXACT URL]
 
 ━━━━━━━━━━━━━━━━━━━━
-### Short Squeeze
-Dedicated paragraph on short-seller pain:
-Add specific failed bear predictions (2020–2025, with references and links from past). Vary the years, vary the bear names, vary the specific predictions. Make it fresh and engaging every day.
+### Tesla First Principles
+🧠 Tesla First Principles - Cutting Through the Noise
+
+Taking a step back from today's headlines, let's apply first principles thinking to [current Tesla situation/challenge/opportunity]...
+
+**The Fundamental Question:** [Core question that actually matters for Tesla's long-term success]
+
+**The Data Says:** [Factual analysis based on Tesla's actual numbers, physics, market realities - no hype]
+
+**The Tesla Approach:** [How Tesla would actually solve this problem using their proven methodologies]
+
+**The Market Implication:** [What this means for TSLA valuation and investor expectations - be realistic]
+
+**The Long-Term Play:** [Why this matters for Tesla's mission to accelerate the world's transition to sustainable energy]
+{market_movers_section}
+🧠 Tesla First Principles - Cutting Through the Noise
+
+Taking a step back from today's headlines, let's apply first principles thinking to [current Tesla situation/challenge/opportunity]...
+
+**The Fundamental Question:** [Core question that actually matters for Tesla's long-term success]
+
+**The Data Says:** [Factual analysis based on Tesla's actual numbers, physics, market realities - no hype]
+
+**The Tesla Approach:** [How Tesla would actually solve this problem using their proven methodologies]
+
+**The Market Implication:** [What this means for TSLA valuation and investor expectations - be realistic]
+
+**The Long-Term Play:** [Why this matters for Tesla's mission to accelerate the world's transition to sustainable energy]
+
+━━━━━━━━━━━━━━━━━━━━
+### Tesla Market Movers
+📈 Tesla Market Movers - What's Actually Moving TSLA
+
+**The Big Picture:** [Analysis of broader market context affecting Tesla this week]
+
+**Short Interest Update:** [Current short interest levels and week-over-week changes. Include notable movements and what they signal]
+
+**Institutional Moves:** [Recent large buys/sells by institutions, hedge funds, or notable investors]
+
+**Options Flow:** [Unusual options activity, call/put ratios, expiration dates with high volume]
+
+**Whale Watching:** [Large shareholder moves, insider transactions, or notable retail investor activity]
+
+**Market Sentiment:** [Overall market mood toward Tesla, compared to other EV/tech stocks]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Daily Challenge
@@ -2293,8 +2350,9 @@ Patrick: Welcome to Tesla Shorts Time Daily, episode {episode_num}. It is {today
 
 [Narrate EVERY item from the digest in order - no skipping]
 - For each news item: Read the title with enthusiasm, then paraphrase the summary naturally
-- X Spotlight: Introduce the spotlight account (@{spotlight_username} - {spotlight_display_name}) with enthusiasm. Mention that listeners can follow them at @{spotlight_username} on X (https://x.com/{spotlight_username}) to see all their Tesla insights and updates. Read each of the top 5 posts with excitement, explaining why each post matters. Then summarize the overall weekly sentiment from @{spotlight_username} about Tesla. Make it engaging and highlight why this account's perspective is valuable.
-- Short Squeeze: Paraphrase with enthusiasm, calling out specific failed predictions and dollar losses
+- Tesla X Takeover: Introduce the spotlight account (@{spotlight_username} - {spotlight_display_name}) with Tesla enthusiasm. Make it sound like Tesla fans are taking over X! Read each post with excitement, explaining why each insight matters for Tesla investors. End with the vibe check summary.
+- Tesla First Principles: Explain the first principles analysis with enthusiasm, breaking down the fundamental question, data, Tesla approach, and market implications. Make it educational but engaging.
+- Tesla Market Movers (Mondays only): Provide an exciting recap of the week's Tesla market activity, highlighting the most important moves that impacted TSLA.
 - Daily Challenge + Quote: Read the quote verbatim, then the challenge verbatim, add one encouraging sentence
 
 [Closing]
