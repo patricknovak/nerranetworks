@@ -2577,12 +2577,72 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
             raise RuntimeError("ElevenLabs rejected the API key (401). Update ELEVENLABS_API_KEY in .env/GitHub secrets.")
         resp.raise_for_status()
 
+    def _chunk_text_for_elevenlabs(text: str, max_chars: int = 4000) -> List[str]:
+        """
+        Split text into chunks for ElevenLabs API (limit is 5000, use 4000 for more safety).
+        Splits at sentence boundaries to avoid audio breaks and ensure complete thoughts.
+        """
+        if len(text) <= max_chars:
+            return [text]
+
+        chunks = []
+        remaining = text.strip()
+
+        while len(remaining) > max_chars:
+            # Find the best split point: prefer sentence endings, then commas, then spaces
+            chunk_candidate = remaining[:max_chars]
+
+            # Look for sentence endings (., !, ?) anywhere in the chunk, prioritizing later ones
+            best_split = -1
+            sentence_endings = []
+
+            for i, char in enumerate(chunk_candidate):
+                if char in '.!?':
+                    sentence_endings.append(i + 1)  # +1 to include the punctuation
+
+            # Use the last (rightmost) sentence ending in the chunk
+            if sentence_endings:
+                best_split = sentence_endings[-1]
+            else:
+                # Fallback: look for commas or semicolons
+                for i, char in enumerate(chunk_candidate):
+                    if char in ',;':
+                        best_split = i + 1  # +1 to include the punctuation
+
+            # Last resort: look for spaces to avoid breaking words
+            if best_split == -1:
+                # Find the last space in the last 30% of the chunk
+                search_start = int(max_chars * 0.7)
+                for i in range(len(chunk_candidate) - 1, search_start - 1, -1):
+                    if chunk_candidate[i] == ' ':
+                        best_split = i + 1  # +1 to include the space
+                        break
+
+            # Absolute last resort: hard cut
+            if best_split == -1 or best_split == 0:
+                best_split = max_chars
+
+            chunk_text = remaining[:best_split].strip()
+            if chunk_text:  # Only add non-empty chunks
+                chunks.append(chunk_text)
+            remaining = remaining[best_split:].strip()
+
+        if remaining:
+            chunks.append(remaining)
+
+        # Log chunking for debugging
+        if len(chunks) > 1:
+            logging.info(f"Split text into {len(chunks)} chunks for ElevenLabs: {[len(c) for c in chunks]} characters")
+
+        return chunks
+
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=2, max=10),
         retry=retry_if_exception_type((requests.RequestException, requests.Timeout))
     )
-    def speak(text: str, voice_id: str, filename: str):
+    def _speak_chunk(text: str, voice_id: str, chunk_file: Path):
+        """Generate audio for a single text chunk."""
         url = f"{ELEVEN_API}/text-to-speech/{voice_id}/stream"
         headers = {
             "xi-api-key": ELEVEN_KEY,
@@ -2590,7 +2650,7 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
             "Accept": "audio/mpeg"
         }
         payload = {
-            "text": text + "!",
+            "text": text,
             "model_id": "eleven_turbo_v2_5",
             "voice_settings": {
                 "stability": 0.65,
@@ -2599,20 +2659,82 @@ IMPORTANT: Output ONLY the podcast script. Do NOT include any instructions, note
                 "use_speaker_boost": True
             }
         }
-        try:
-            r = requests.post(url, json=payload, headers=headers, stream=True, timeout=60)
-            if r.status_code == 401:
-                raise requests.HTTPError(
-                    "ElevenLabs returned 401 Unauthorized. Verify ELEVENLABS_API_KEY and that the voice ID is accessible to this account.",
-                    response=r,
-                )
+        with requests.post(
+            url,
+            json=payload,
+            headers=headers,
+            stream=True,
+            timeout=60,
+        ) as r:
+            if r.status_code >= 500 or r.status_code == 429:
+                r.raise_for_status()
             r.raise_for_status()
-        except requests.HTTPError as exc:
-            logging.error("ElevenLabs TTS call failed: %s; response: %s", exc, getattr(exc.response, "text", ""))
-            raise
-        with open(filename, "wb") as f:
-            for chunk in r.iter_content(chunk_size=8192):
-                f.write(chunk)
+            with open(chunk_file, "wb") as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+
+    def speak(text: str, voice_id: str, filename: str):
+        """
+        Generate audio with intelligent chunking and seamless concatenation.
+        Handles texts longer than ElevenLabs API limits by splitting at sentence boundaries.
+        """
+        # Split text into chunks if needed
+        chunks = _chunk_text_for_elevenlabs(text)
+
+        if len(chunks) == 1:
+            # Single chunk: generate directly
+            _speak_chunk(text + "!", voice_id, Path(filename))
+            logging.info(f"ElevenLabs TTS: Generated single chunk ({len(text)} chars)")
+        else:
+            # Multiple chunks: generate each and concatenate seamlessly
+            logging.info(f"ElevenLabs TTS: Splitting into {len(chunks)} chunks for seamless generation")
+            chunk_files = []
+            tmp_dir = Path(filename).parent
+
+            try:
+                for i, chunk_text in enumerate(chunks):
+                    chunk_file = tmp_dir / f"tts_chunk_{i:03d}.mp3"
+                    # Add punctuation to all but the last chunk to maintain flow
+                    if i < len(chunks) - 1:
+                        chunk_text = chunk_text.rstrip('.!?') + '.'
+                    else:
+                        chunk_text = chunk_text + "!"
+
+                    _speak_chunk(chunk_text, voice_id, chunk_file)
+                    chunk_files.append(chunk_file)
+                    logging.info(f"Generated chunk {i+1}/{len(chunks)} ({len(chunk_text)} chars)")
+
+                # Concatenate chunks seamlessly using ffmpeg
+                concat_list = tmp_dir / "elevenlabs_concat.txt"
+                with open(concat_list, "w", encoding="utf-8") as f:
+                    for chunk_file in chunk_files:
+                        f.write(f"file '{chunk_file.absolute()}'\n")
+
+                # Use ffmpeg concat with seamless joining
+                subprocess.run([
+                    "ffmpeg", "-y",
+                    "-f", "concat",
+                    "-safe", "0",
+                    "-i", str(concat_list),
+                    "-c", "copy",  # Stream copy for speed and no re-encoding artifacts
+                    str(filename)
+                ], check=True, capture_output=True, timeout=300)
+
+                logging.info(f"ElevenLabs TTS: Concatenated {len(chunks)} chunks seamlessly")
+
+            finally:
+                # Cleanup chunk files
+                for chunk_file in chunk_files:
+                    try:
+                        if chunk_file.exists():
+                            chunk_file.unlink()
+                    except Exception:
+                        pass
+                try:
+                    if concat_list.exists():
+                        concat_list.unlink()
+                except Exception:
+                    pass
 
     # Process podcast script - preserve natural sentence structure and pauses for professional TTS
     full_text_parts = []
