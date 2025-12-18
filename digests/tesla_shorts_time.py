@@ -1589,6 +1589,7 @@ else:
 x_posts_section = ""
 
 # Build conditional sections
+weekday = datetime.date.today().weekday()  # 0=Monday, 6=Sunday
 market_movers_section = ""
 if weekday == 0:  # Monday (0 = Monday in Python weekday())
     market_movers_section = """
