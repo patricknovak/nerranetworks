@@ -360,7 +360,31 @@ def fix_tesla_pronunciation(text: str) -> str:
             )
         except Exception as e:
             logging.warning(f"Error applying shared pronunciation fixes: {e}, continuing with local fixes")
-    
+
+    # Fix common words that TTS might mispronounce as acronyms
+    common_word_fixes = {
+        # Words that should not be pronounced as acronyms
+        "who": "hoo",  # Prevent "W.H.O." pronunciation
+        "what": "wut",  # Prevent "W.H.A.T." pronunciation
+        "where": "ware",  # Prevent "W.H.E.R.E." pronunciation
+        "when": "wen",  # Prevent "W.H.E.N." pronunciation
+        "why": "wye",  # Prevent "W.H.Y." pronunciation
+        "how": "how",  # Ensure normal pronunciation
+        "now": "now",  # Ensure normal pronunciation
+        "how": "how",  # Ensure normal pronunciation
+        "new": "new",  # Ensure normal pronunciation
+        "one": "one",  # Ensure normal pronunciation
+        "two": "too",  # Ensure normal pronunciation
+        "too": "too",  # Ensure normal pronunciation
+        "for": "for",  # Ensure normal pronunciation
+        "four": "for",  # Ensure normal pronunciation
+    }
+
+    # Apply common word fixes (case insensitive, whole word only)
+    for word, replacement in common_word_fixes.items():
+        pattern = rf'\b{re.escape(word)}\b'
+        text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+
     return text
 
 def generate_episode_thumbnail(base_image_path, episode_num, date_str, output_path):
@@ -579,9 +603,9 @@ def load_used_content_tracker() -> dict:
             logging.warning(f"Failed to load content tracker: {e}")
     return {
         "short_spots": [],
-        "short_squeezes": [],
         "daily_challenges": [],
         "inspiration_quotes": [],
+        "first_principles": [],
         "last_updated": None
     }
 
@@ -591,7 +615,7 @@ def save_used_content_tracker(tracker: dict):
     try:
         # Keep only last 14 days of content (2 weeks)
         cutoff_date = (datetime.date.today() - datetime.timedelta(days=14)).isoformat()
-        for key in ["short_spots", "short_squeezes", "daily_challenges", "inspiration_quotes"]:
+        for key in ["short_spots", "daily_challenges", "inspiration_quotes", "first_principles"]:
             tracker[key] = [
                 item for item in tracker[key] 
                 if item.get("date", "") >= cutoff_date
@@ -603,7 +627,7 @@ def save_used_content_tracker(tracker: dict):
         logging.warning(f"Failed to save content tracker: {e}")
 
 def extract_sections_from_digest(digest_path: Path) -> dict:
-    """Extract Short Spot, Short Squeeze, Daily Challenge, and Inspiration Quote from a digest file."""
+    """Extract Short Spot, Daily Challenge, and Inspiration Quote from a digest file."""
     sections = {
         "short_spot": None,
         "short_squeeze": None,
@@ -627,14 +651,6 @@ def extract_sections_from_digest(digest_path: Path) -> dict:
         if short_spot_match:
             sections["short_spot"] = short_spot_match.group(1).strip()
         
-        # Extract Short Squeeze (between "### Short Squeeze" or "📈 **Short Squeeze**" and next separator)
-        short_squeeze_match = re.search(
-            r'(?:### Short Squeeze|📈 \*\*Short Squeeze\*\*)(.*?)(?=━━|### Daily Challenge|💪|✨|$)',
-            content,
-            re.DOTALL | re.IGNORECASE
-        )
-        if short_squeeze_match:
-            sections["short_squeeze"] = short_squeeze_match.group(1).strip()
         
         # Extract Daily Challenge (between "### Daily Challenge" or "💪 **Daily Challenge**" and next separator)
         daily_challenge_match = re.search(
@@ -688,11 +704,6 @@ def load_recent_digests(max_days: int = 14) -> dict:
                         "date": check_date.isoformat(),
                         "content": sections["short_spot"][:500]  # First 500 chars
                     })
-                if sections["short_squeeze"]:
-                    tracker["short_squeezes"].append({
-                        "date": check_date.isoformat(),
-                        "content": sections["short_squeeze"][:500]
-                    })
                 if sections["daily_challenge"]:
                     tracker["daily_challenges"].append({
                         "date": check_date.isoformat(),
@@ -716,10 +727,10 @@ def get_used_content_summary(tracker: dict) -> str:
         spots_text = "\n".join([f"- {item.get('content', '')[:200]}..." for item in recent])
         summary_parts.append(f"RECENTLY USED SHORT SPOTS (DO NOT REPEAT - create something COMPLETELY DIFFERENT):\n{spots_text}")
     
-    if tracker.get("short_squeezes"):
-        recent = tracker["short_squeezes"][-7:]  # Last 7 Short Squeezes
-        squeezes_text = "\n".join([f"- {item.get('content', '')[:200]}..." for item in recent])
-        summary_parts.append(f"RECENTLY USED SHORT SQUEEZES (DO NOT REPEAT - use DIFFERENT failed predictions, DIFFERENT years, DIFFERENT bears):\n{squeezes_text}")
+    if tracker.get("first_principles"):
+        recent = tracker["first_principles"][-7:]  # Last 7 First Principles analyses
+        principles_text = "\n".join([f"- {item.get('content', '')[:200]}..." for item in recent])
+        summary_parts.append(f"RECENTLY USED FIRST PRINCIPLES TOPICS (DO NOT REPEAT - use COMPLETELY DIFFERENT topics/analysis):\n{principles_text}")
     
     if tracker.get("daily_challenges"):
         recent = tracker["daily_challenges"][-7:]  # Last 7 Daily Challenges
@@ -740,7 +751,7 @@ content_tracker = load_used_content_tracker()
 # Also load from recent digest files to get the most up-to-date tracking
 recent_tracker = load_recent_digests(max_days=14)
 # Merge both (recent digests take precedence)
-for key in ["short_spots", "short_squeezes", "daily_challenges", "inspiration_quotes"]:
+for key in ["short_spots", "daily_challenges", "inspiration_quotes", "first_principles"]:
     # Combine and deduplicate by content
     combined = content_tracker.get(key, []) + recent_tracker.get(key, [])
     seen_content = set()
@@ -1687,7 +1698,7 @@ One bearish item from pre-fetched news that's negative for Tesla/stock.
 ### Tesla First Principles
 🧠 Tesla First Principles - Cutting Through the Noise
 
-Taking a step back from today's headlines, let's apply first principles thinking to [current Tesla situation/challenge/opportunity]...
+Taking a step back from today's headlines, let's apply first principles thinking to [COMPLETELY DIFFERENT topic than recent days - choose something unrelated to recent analyses like battery tech, autonomous driving, manufacturing, energy storage, international expansion, regulatory challenges, supply chain, competition, or any other fundamental Tesla issue]...
 
 **The Fundamental Question:** [Core question that actually matters for Tesla's long-term success]
 
@@ -1699,35 +1710,6 @@ Taking a step back from today's headlines, let's apply first principles thinking
 
 **The Long-Term Play:** [Why this matters for Tesla's mission to accelerate the world's transition to sustainable energy]
 {market_movers_section}
-🧠 Tesla First Principles - Cutting Through the Noise
-
-Taking a step back from today's headlines, let's apply first principles thinking to [current Tesla situation/challenge/opportunity]...
-
-**The Fundamental Question:** [Core question that actually matters for Tesla's long-term success]
-
-**The Data Says:** [Factual analysis based on Tesla's actual numbers, physics, market realities - no hype]
-
-**The Tesla Approach:** [How Tesla would actually solve this problem using their proven methodologies]
-
-**The Market Implication:** [What this means for TSLA valuation and investor expectations - be realistic]
-
-**The Long-Term Play:** [Why this matters for Tesla's mission to accelerate the world's transition to sustainable energy]
-
-━━━━━━━━━━━━━━━━━━━━
-### Tesla Market Movers
-📈 Tesla Market Movers - What's Actually Moving TSLA
-
-**The Big Picture:** [Analysis of broader market context affecting Tesla this week]
-
-**Short Interest Update:** [Current short interest levels and week-over-week changes. Include notable movements and what they signal]
-
-**Institutional Moves:** [Recent large buys/sells by institutions, hedge funds, or notable investors]
-
-**Options Flow:** [Unusual options activity, call/put ratios, expiration dates with high volume]
-
-**Whale Watching:** [Large shareholder moves, insider transactions, or notable retail investor activity]
-
-**Market Sentiment:** [Overall market mood toward Tesla, compared to other EV/tech stocks]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Daily Challenge
@@ -1753,10 +1735,10 @@ One short, inspiring challenge tied to Tesla/Elon themes (curiosity, first princ
 - ✅ Lists: "1. " format (number, period, space)—no bullets.
 - ✅ Separators: "━━━━━━━━━━━━━━━━━━━━" before each major section.
 - ✅ No duplicates: All items unique (review pairwise).
-- ✅ All sections included: X Spotlight, Short Spot, Short Squeeze, Daily Challenge, Quote, sign-off.
+- ✅ All sections included: Tesla X Takeover, Short Spot, Tesla First Principles, Tesla Market Movers (Mondays only), Daily Challenge, Quote, sign-off.
 - ✅ URLs: Exact from pre-fetched; valid format; no inventions.
 - ✅ FRESHNESS CHECK: Short Spot is DIFFERENT from recent ones (different story/angle).
-- ✅ FRESHNESS CHECK: Short Squeeze uses DIFFERENT predictions/bears/years than recent ones.
+- ✅ FRESHNESS CHECK: Tesla First Principles uses COMPLETELY DIFFERENT topics/analysis than recent ones.
 - ✅ FRESHNESS CHECK: Daily Challenge is COMPLETELY NEW and DIFFERENT from recent ones.
 - ✅ FRESHNESS CHECK: Inspiration Quote is from a DIFFERENT author than recent quotes.
 - If any fail, adjust selections and re-check.
@@ -1914,7 +1896,7 @@ if spotlight_section_match:
             logging.info(f"Added account mention and link for @{username} to X Spotlight section")
 
 # Find and limit news items to exactly 10
-news_pattern = r'(### Top 10 News Items.*?)(## Short Spot|### Short Squeeze|━━)'
+news_pattern = r'(### Top 10 News Items.*?)(## Short Spot|### Tesla First Principles|━━)'
 news_match = re.search(news_pattern, x_thread, re.DOTALL | re.IGNORECASE)
 if news_match:
     news_section = news_match.group(1)
@@ -2278,12 +2260,6 @@ if new_sections["short_spot"]:
     })
     logging.info("Saved new Short Spot to content tracker")
 
-if new_sections["short_squeeze"]:
-    content_tracker["short_squeezes"].append({
-        "date": today_date,
-        "content": new_sections["short_squeeze"][:500]
-    })
-    logging.info("Saved new Short Squeeze to content tracker")
 
 if new_sections["daily_challenge"]:
     content_tracker["daily_challenges"].append({
@@ -2298,6 +2274,13 @@ if new_sections["inspiration_quote"]:
         "content": new_sections["inspiration_quote"][:200]
     })
     logging.info("Saved new Inspiration Quote to content tracker")
+
+if new_sections.get("first_principles"):
+    content_tracker["first_principles"].append({
+        "date": today_date,
+        "content": new_sections["first_principles"][:500]
+    })
+    logging.info("Saved new First Principles to content tracker")
 
 # Save the updated tracker
 save_used_content_tracker(content_tracker)
@@ -2352,6 +2335,7 @@ Patrick: Welcome to Tesla Shorts Time Daily, episode {episode_num}. It is {today
 [Narrate EVERY item from the digest in order - no skipping]
 - For each news item: Read the title with enthusiasm, then paraphrase the summary naturally
 - Tesla X Takeover: Introduce the spotlight account (@{spotlight_username} - {spotlight_display_name}) with Tesla enthusiasm. Make it sound like Tesla fans are taking over X! Read each post with excitement, explaining why each insight matters for Tesla investors. End with the vibe check summary.
+- Short Spot: Read with enthusiasm, explaining the bearish concern and why it's temporary/overblown.
 - Tesla First Principles: Explain the first principles analysis with enthusiasm, breaking down the fundamental question, data, Tesla approach, and market implications. Make it educational but engaging.
 - Tesla Market Movers (Mondays only): Provide an exciting recap of the week's Tesla market activity, highlighting the most important moves that impacted TSLA.
 - Daily Challenge + Quote: Read the quote verbatim, then the challenge verbatim, add one encouraging sentence
