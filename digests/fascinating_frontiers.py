@@ -2103,11 +2103,11 @@ Here is today's complete formatted digest. Use ONLY this content:
         voice_total_duration = bg_music_start + bg_total_duration
         logging.info(f"Extending voice track to {voice_total_duration:.2f}s total duration...")
 
+        # Use apad filter to extend audio with silence instead of concat
         subprocess.run([
             "ffmpeg", "-y", "-threads", "0",
             "-i", str(voice_mix),
-            "-f", "lavfi", "-t", str(voice_total_duration), "-i", "anullsrc=r=44100:cl=stereo",
-            "-filter_complex", "[0:a][1:a]concat=n=2:v=0:a=1[aout]",
+            "-af", f"apad=whole_dur={voice_total_duration}",
             "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(voice_extended)
         ], check=True, capture_output=True)
