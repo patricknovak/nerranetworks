@@ -988,23 +988,28 @@ def fetch_tesla_news():
     
     # Tesla news site RSS feeds - prioritize high-quality, frequently updated sources
     rss_feeds = [
+        # Primary sources (most reliable for fresh, specific content)
         "https://www.teslarati.com/feed/",  # High-quality Tesla news
-        "https://www.theverge.com/rss/tesla/index.xml",  # Good tech coverage
+        "https://electrek.co/feed/",  # Excellent EV/Tesla coverage
+        "https://www.theverge.com/rss/tesla/index.xml",  # Premium tech coverage
         "https://www.findmyelectric.com/feed/",  # EV news and reviews
         "https://insideevs.com/rss/",  # Good EV news
+        "https://cleantechnica.com/tag/tesla/feed/",  # Clean energy focus
+
+        # Secondary sources (good but sometimes generic)
         "https://www.thedrive.com/category/tesla-news/feed",  # Automotive focus
-        "http://feeds.feedburner.com/teslanorth",
-        "https://in.mashable.com/tesla.xml",
-        "https://teslainvestor.blogspot.com/feeds/posts/default",
-        "https://www.teslasiliconvalley.com/blog?format=rss",
-        "https://www.tesmanian.com/blogs/tesmanian-blog.atom",
-        "https://www.torquenews.com/rss/tesla",
-        "https://cleantechnica.com/tag/tesla/feed/",
-        "https://www.cnbc.com/id/10000108/device/rss/rss.html",  # Automotive focus
         "https://whatsuptesla.com/feed",  # Tesla-focused
         "https://www.notateslaapp.com/news/rss",  # Tesla news
+        "https://www.tesmanian.com/blogs/tesmanian-blog.atom",  # Tesmanian
+
+        # Regional sources
         "https://driveteslacanada.ca/feed/",  # Regional coverage
         "https://www.tesery.com/en-in/blogs/news.atom",  # Tesla news
+
+        # Limited use sources (often generic - heavily filtered)
+        "http://feeds.feedburner.com/teslanorth",  # Tesla North
+        "https://www.torquenews.com/rss/tesla",  # Torque News
+        # Removed problematic sources: mashable, teslainvestor.blogspot, teslasiliconvalley, cnbc
     ]
     
     # Calculate cutoff time (last 48 hours for better coverage, since some feeds update slowly)
@@ -1093,30 +1098,64 @@ def fetch_tesla_news():
                     except (ValueError, TypeError):
                         pass
                 
-                # Skip if older than 24 hours
+                # Skip if older than cutoff time
                 if published_time and published_time < cutoff_time:
                     continue
-                
+
+                # Skip articles with obviously wrong dates (future dates beyond reasonable window)
+                now = datetime.datetime.now(datetime.timezone.utc)
+                one_week_future = now + datetime.timedelta(days=7)
+                if published_time and published_time > one_week_future:
+                    logging.debug(f"Skipping article with future date: {published_time}")
+                    continue
+
+                # Skip articles that are too old (more than 7 days, even if within cutoff)
+                seven_days_ago = now - datetime.timedelta(days=7)
+                if published_time and published_time < seven_days_ago:
+                    continue
+
                 # Get title and description
                 title = entry.get("title", "").strip()
                 description = entry.get("description", "").strip() or entry.get("summary", "").strip()
                 link = entry.get("link", "").strip()
-                
+
                 if not title or not link:
                     continue
-                
-                # Check if article is Tesla-related
+
+                # Check if article is Tesla-related (must contain Tesla keywords)
                 title_desc_lower = (title + " " + description).lower()
                 if not any(keyword in title_desc_lower for keyword in tesla_keywords):
+                    continue
+
+                # Skip very short content (likely homepage or summary)
+                if len(title_desc_lower) < 50:
                     continue
                 
                 # Skip stock quotes/price commentary and generic pages
                 skip_terms = [
+                    # Stock/finance content
                     "stock quote", "tradingview", "yahoo finance ticker", "price chart",
                     "stock price", "quote & history", "stock data", "trading data",
+                    "stock hits", "stock climbs", "stock reaches", "stock update",
+
+                    # Generic content
                     "company overview", "general news", "latest news", "news and tips",
                     "rumors and tips", "breaking news model 3", "news, latest software",
-                    "news, tips, rumors", "news and reviews"
+                    "news, tips, rumors", "news and reviews", "latest updates",
+                    "ongoing coverage", "provides ongoing", "covers the latest",
+                    "offers global views", "recent developments", "market positioning",
+
+                    # Homepage/main page indicators
+                    "home page", "main page", "front page", "featured articles",
+                    "popular stories", "trending now", "most read",
+
+                    # Elon Musk generic
+                    "elon musk x posts", "elon musk recent", "musk's recent posts",
+                    "musk active on x", "musk posting about",
+
+                    # Generic Tesla content
+                    "tesla news roundup", "tesla rumors roundup", "tesla updates roundup",
+                    "tesla developments", "tesla innovations", "tesla advancements"
                 ]
                 if any(skip_term in title_desc_lower for skip_term in skip_terms):
                     continue
@@ -1124,14 +1163,26 @@ def fetch_tesla_news():
                 # Skip if title is too generic (indicates homepage/main page)
                 generic_titles = [
                     "tesla news", "tesla", "tesla inc", "elon musk", "tesla updates",
-                    "latest tesla", "tesla latest", "tesla breaking", "tesla rumors"
+                    "latest tesla", "tesla latest", "tesla breaking", "tesla rumors",
+                    "tesla news and rumors", "latest tesla news", "tesla breaking news",
+                    "tesla vehicle updates", "breaking tesla", "tesla developments",
+                    "elon musk x posts", "elon musk recent x", "musk's x posts",
+                    "international tesla news", "tesla international", "global tesla",
+                    "top tesla", "tesla top", "tesla analyst", "analyst on tesla"
                 ]
                 if any(title.lower().strip() == generic for generic in generic_titles):
                     continue
 
-                # Skip very old articles (more than 7 days old even if within cutoff)
-                seven_days_ago = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=7)
-                if published_time and published_time < seven_days_ago:
+                # Source-specific filtering for known problematic feeds
+                if "tesla-mag.com" in link.lower() and ("breaking news" in title_desc_lower or len(description) < 100):
+                    continue  # Tesla Mag often has very short/generic content
+                if "newsweek.com" in link.lower() and "elon musk x" in title_desc_lower:
+                    continue  # Newsweek Elon Musk posts are usually not Tesla-specific
+                if "reuters.com/company/tesla" in link.lower():
+                    continue  # Reuters company overview pages are generic
+
+                # Skip if description is too short or generic
+                if len(description) < 80 or description.lower().startswith(("tesla", "elon musk", "the company")):
                     continue
                 
                 # Format article
@@ -1672,11 +1723,19 @@ X_PROMPT = f"""
 
 You are an elite Tesla news curator producing the daily "Tesla Shorts Time" newsletter. Use ONLY the pre-fetched news above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. Do NOT include a "Top X Posts" section in your output. Prioritize diversity: No duplicates/similar stories (≥70% overlap in angle/content); max 3 from one source/account.
 
-If news articles are limited or unavailable, create a shorter digest focusing on the X Spotlight section and use general Tesla market context for other sections rather than inventing news.
+CRITICAL: Only select articles that are SPECIFIC, FRESH (within last 48 hours), and SUBSTANTIVE. REJECT any articles that are:
+- Generic homepage content ("latest news", "ongoing coverage", "provides updates")
+- Stock price/market data focused
+- Very short descriptions (<100 characters)
+- From obviously wrong dates (future dates or very old)
+- Elon Musk posts that aren't Tesla-specific
+- Company overview pages
+
+If fewer than 8 quality articles are available, use ALL available quality articles and create a shorter digest rather than padding with low-quality content.
 
 **EXCEPTION FOR X SPOTLIGHT SECTION**: For the "X Spotlight: @{spotlight_username}" section ONLY, you may use web search or your knowledge to find recent Tesla-related posts from @{spotlight_username} on X. Curate the top 5 most engaging posts from the past week and provide an overall weekly sentiment summary.
 
-**FINAL FALLBACK**: If absolutely no news articles are available from RSS feeds, you may search for 5-6 recent, legitimate Tesla news articles from reputable sources (Electrek, Teslarati, The Verge, etc.) published within the last 48 hours. Include real URLs and accurate summaries. 
+**FINAL FALLBACK**: Only if RSS feeds provide ZERO quality articles, you may search for 3-5 recent, legitimate Tesla news articles from the most reputable sources (Electrek, Teslarati, The Verge) published within the last 24 hours. Prioritize breaking news and specific product updates over analysis pieces. 
 
 **CRITICAL**: 
 - You MUST include the account mention and link in the X Spotlight section header: "Today's spotlight is on @{spotlight_username} - follow them at https://x.com/{spotlight_username} to see all their Tesla insights and updates."
@@ -1695,7 +1754,7 @@ If news articles are limited or unavailable, create a shorter digest focusing on
 **IMPORTANT**: The format template below shows what your OUTPUT should look like. Do NOT include any instruction text, warnings (🚨 CRITICAL), or meta-commentary in your output. Only output the actual content sections.
 
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
-- **News**: Select as many quality articles as available (ideally 8-10). If you have fewer than 5 available, create a shorter digest with available articles plus general market context. Prioritize high-quality, recent sources; each must cover a DIFFERENT Tesla story/angle. Number them sequentially based on what's available.
+- **News**: Select ONLY high-quality, fresh articles (within 48 hours, specific content, substantial descriptions). If you have 8+ quality articles, select the best 10. If you have 5-7 quality articles, use all of them. If you have fewer than 5 quality articles, create a digest using available articles plus brief market context - DO NOT pad with low-quality or generic content. Each article must have a unique angle and substantial, specific information about Tesla.
 - **CRITICAL URL RULE**: NEVER invent URLs. If you don't have enough pre-fetched articles, output fewer items rather than making up URLs. All URLs must be exact matches from the pre-fetched list above.
 - **Diversity Check**: Before finalizing, verify no similar content; replace if needed from pre-fetched pool.
 
