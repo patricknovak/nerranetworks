@@ -990,14 +990,21 @@ def fetch_tesla_news():
     rss_feeds = [
         "https://www.teslarati.com/feed/",  # High-quality Tesla news
         "https://www.theverge.com/rss/tesla/index.xml",  # Good tech coverage
-        "https://electrek.co/feed/",  # Excellent EV/Tesla coverage
+        "https://www.findmyelectric.com/feed/",  # EV news and reviews
         "https://insideevs.com/rss/",  # Good EV news
         "https://www.thedrive.com/category/tesla-news/feed",  # Automotive focus
+        "http://feeds.feedburner.com/teslanorth",
+        "https://in.mashable.com/tesla.xml",
+        "https://teslainvestor.blogspot.com/feeds/posts/default",
+        "https://www.teslasiliconvalley.com/blog?format=rss",
+        "https://www.tesmanian.com/blogs/tesmanian-blog.atom",
+        "https://www.torquenews.com/rss/tesla",
+        "https://cleantechnica.com/tag/tesla/feed/",
+        "https://www.cnbc.com/id/10000108/device/rss/rss.html",  # Automotive focus
         "https://whatsuptesla.com/feed",  # Tesla-focused
         "https://www.notateslaapp.com/news/rss",  # Tesla news
         "https://driveteslacanada.ca/feed/",  # Regional coverage
         "https://www.tesery.com/en-in/blogs/news.atom",  # Tesla news
-        # Removed less reliable sources: mashable, teslainvestor.blogspot, teslasiliconvalley
     ]
     
     # Calculate cutoff time (last 48 hours for better coverage, since some feeds update slowly)
@@ -1059,6 +1066,16 @@ def fetch_tesla_news():
                 source_name = "Not a Tesla App"
             elif "insideevs" in feed_url.lower():
                 source_name = "InsideEVs"
+            elif "findmyelectric" in feed_url.lower():
+                source_name = "Find My Electric"
+            elif "tesmanian" in feed_url.lower():
+                source_name = "Tesmanian"
+            elif "torquenews" in feed_url.lower():
+                source_name = "Torque News"
+            elif "cleantechnica" in feed_url.lower():
+                source_name = "Clean Technica"
+            elif "cnbc" in feed_url.lower():
+                source_name = "CNBC"
             
             feed_articles = []
             logging.debug(f"Processing {len(feed.entries)} entries from {source_name}")
