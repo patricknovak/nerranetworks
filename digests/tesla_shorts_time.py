@@ -990,7 +990,6 @@ def fetch_tesla_news():
     rss_feeds = [
         # Primary sources (most reliable for fresh, specific content)
         "https://www.teslarati.com/feed/",  # High-quality Tesla news
-        "https://electrek.co/feed/",  # Excellent EV/Tesla coverage
         "https://www.theverge.com/rss/tesla/index.xml",  # Premium tech coverage
         "https://www.findmyelectric.com/feed/",  # EV news and reviews
         "https://insideevs.com/rss/",  # Good EV news
