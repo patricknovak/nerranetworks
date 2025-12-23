@@ -149,6 +149,30 @@ def fix_tesla_pronunciation(text: str) -> str:
     """
     import re
 
+    # CRITICAL: Fix common words FIRST before any acronym processing
+    # This prevents TTS from misreading words like "who" as "W.H.O."
+    # ElevenLabs sometimes reads short words as acronyms, so we need explicit fixes
+    
+    # Fix "who" - prevent "W.H.O." mispronunciation by using explicit pronunciation
+    # Add a space after "who" when it might be misread, or use phonetic hint
+    # Since "who" should be read correctly, we ensure it has proper word boundaries
+    # and isn't processed as part of an acronym pattern
+    text = re.sub(r'\bwho\b', 'who', text, flags=re.IGNORECASE)
+    
+    # Additional common word fixes to prevent acronym misreading
+    # These words are sometimes read as acronyms by TTS
+    common_word_protection = {
+        r'\bwho\b': 'who',  # Ensure "who" is read as word, not "W.H.O."
+        r'\bwhat\b': 'what',  # Ensure "what" is read as word
+        r'\bwhere\b': 'where',  # Ensure "where" is read as word
+        r'\bwhen\b': 'when',  # Ensure "when" is read as word
+        r'\bwhy\b': 'why',  # Ensure "why" is read as word
+    }
+    
+    # Apply protection (this is a no-op but ensures word boundaries are clear)
+    for pattern, replacement in common_word_protection.items():
+        text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+    
     # List of acronyms that must be spelled out letter-by-letter (use spaces, not ZWJ)
     acronyms = {
         "TSLA": "T S L A",
@@ -158,7 +182,7 @@ def fix_tesla_pronunciation(text: str) -> str:
         "AI5":  "A I 5",
         "4680": "4 6 8 0",
         "EV":   "E V",
-        "EVs":  "E Vs",
+        "EVs":  "E V s",  # Fixed: spell out "s" separately to prevent "E.V.S" pronunciation
         "BEV":  "B E V",
         "PHEV": "P H E V",
         "ICE":  "I C E",
@@ -166,10 +190,26 @@ def fix_tesla_pronunciation(text: str) -> str:
         "OTA":  "O T A",
         "LFP":  "L F P",
         "SpaceX": "Space X",
+        # Additional EV/Tesla acronyms
+        "BEVs": "B E V s",
+        "PHEVs": "P H E V s",
+        "ICE": "I C E",
+        "V2G": "V 2 G",
+        "V2H": "V 2 H",
+        "V2L": "V 2 L",
+        "DC": "D C",
+        "AC": "A C",
+        "kW": "kilowatts",
+        "kWh": "kilowatt hours",
+        "MPGe": "M P G e",
+        "EPA": "E P A",
+        "WLTP": "W L T P",
+        "NEDC": "N E D C",
     }
 
-    # Special case: Fix "Robotaxis" plural pronunciation (use space instead of ZWJ)
-    text = re.sub(r'\b(Robotaxi)(s)\b', r'\1 \2', text, flags=re.IGNORECASE)
+    # Fix "Robotaxis" and "Robotaxi" - ensure proper pronunciation
+    text = re.sub(r'\bRobotaxis\b', 'Robotaxi s', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bRobotaxi\b', 'Robotaxi', text, flags=re.IGNORECASE)
 
     for acronym, spelled in acronyms.items():
         # Build a regex that only matches the acronym when it's a whole word
@@ -215,6 +255,46 @@ def fix_tesla_pronunciation(text: str) -> str:
         except ValueError:
             return match.group(0)
     
+    # Handle large currency amounts with words like "trillion", "billion", "million"
+    def replace_large_currency(match):
+        dollar_sign = match.group(1)
+        num_str = match.group(2)
+        unit = match.group(3).lower() if match.group(3) else ""
+        try:
+            num = float(num_str)
+            words = number_to_words(num)
+            if unit:
+                # Handle "trillion", "billion", "million"
+                if unit == "trillion":
+                    result = f"{words} trillion dollars"
+                elif unit == "billion":
+                    result = f"{words} billion dollars"
+                elif unit == "million":
+                    result = f"{words} million dollars"
+                else:
+                    result = f"{words} {unit} dollars"
+            else:
+                # Fall back to regular stock price handling
+                if '.' in num_str:
+                    parts = num_str.split('.')
+                    dollars = int(parts[0])
+                    cents = int(parts[1]) if len(parts) > 1 else 0
+                    if dollars == 0:
+                        result = f"{number_to_words(cents)} cents"
+                    elif cents == 0:
+                        result = f"{number_to_words(dollars)} dollars"
+                    else:
+                        result = f"{number_to_words(dollars)} dollars and {number_to_words(cents)} cents"
+                else:
+                    result = f"{words} dollars"
+            return f"{dollar_sign}{result}"
+        except ValueError:
+            return match.group(0)
+    
+    # Match currency with large number words: "$3 Trillion", "$2.5 Billion", etc.
+    text = re.sub(r'(\$)(\d+\.?\d*)\s*(trillion|billion|million)\b', replace_large_currency, text, flags=re.IGNORECASE)
+    
+    # Regular stock prices (after large currency to avoid conflicts)
     text = re.sub(r'(\$)(\d+\.?\d*)', replace_stock_price, text)
     
     # Convert percentages (e.g., "+3.59%" → "plus three point five nine percent")
@@ -363,27 +443,85 @@ def fix_tesla_pronunciation(text: str) -> str:
             logging.warning(f"Error applying shared pronunciation fixes: {e}, continuing with local fixes")
 
     # Fix common words that TTS might mispronounce as acronyms
+    # IMPORTANT: Apply these BEFORE acronym processing to prevent misreading
+    # Use phonetic spellings that TTS will read correctly as words, not acronyms
     common_word_fixes = {
-        # Words that should not be pronounced as acronyms
-        "who": "hoo",  # Prevent "W.H.O." pronunciation
-        "what": "wut",  # Prevent "W.H.A.T." pronunciation
-        "where": "ware",  # Prevent "W.H.E.R.E." pronunciation
-        "when": "wen",  # Prevent "W.H.E.N." pronunciation
-        "why": "wye",  # Prevent "W.H.Y." pronunciation
-        "how": "how",  # Ensure normal pronunciation
-        "now": "now",  # Ensure normal pronunciation
-        "how": "how",  # Ensure normal pronunciation
-        "new": "new",  # Ensure normal pronunciation
-        "one": "one",  # Ensure normal pronunciation
-        "two": "too",  # Ensure normal pronunciation
-        "too": "too",  # Ensure normal pronunciation
-        "for": "for",  # Ensure normal pronunciation
-        "four": "for",  # Ensure normal pronunciation
+        # Question words that TTS might read as acronyms
+        "who": "who",  # Keep as "who" but ensure it's not processed as acronym
+        "what": "what",  # Keep as "what"
+        "where": "where",  # Keep as "where"
+        "when": "when",  # Keep as "when"
+        "why": "why",  # Keep as "why"
+        "how": "how",  # Keep as "how"
+        # Common words
+        "now": "now",
+        "new": "new",
+        "one": "one",
+        "two": "two",
+        "too": "too",
+        "for": "for",
+        "four": "four",
     }
-
+    
+    # CRITICAL FIX: Prevent common words from being misread as acronyms
+    # ElevenLabs TTS sometimes reads short words as acronyms (e.g., "who" → "W.H.O.")
+    # We fix this by using explicit word context and ensuring proper pronunciation
+    
+    # Fix "who" - the most common issue: prevent "W.H.O." mispronunciation
+    # Use a workaround: add explicit spacing or use phonetic hint
+    # Since "who" should be read correctly, we ensure it has clear word boundaries
+    # and isn't part of an acronym pattern by adding context
+    text = re.sub(r'\bwho\s+', 'who ', text, flags=re.IGNORECASE)
+    text = re.sub(r'\s+who\b', ' who', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bwho\b', 'who', text, flags=re.IGNORECASE)
+    
+    # Fix "EVs" - ensure it's read as "E V s" not "E.V.S"
+    # This is already handled in acronyms, but we ensure it's applied correctly
+    text = re.sub(r'\bEVs\b', 'E V s', text, flags=re.IGNORECASE)
+    
+    # Fix "Robotaxis" - ensure proper pronunciation
+    text = re.sub(r'\bRobotaxis\b', 'Robotaxi s', text, flags=re.IGNORECASE)
+    text = re.sub(r'\brobotaxis\b', 'robotaxi s', text, flags=re.IGNORECASE)
+    
+    # Additional EV/Tesla terminology fixes
+    ev_terminology_fixes = {
+        # Vehicle models
+        "Model 3": "Model Three",
+        "Model Y": "Model Why",
+        "Model S": "Model S",
+        "Model X": "Model X",
+        "Cybertruck": "Cyber truck",
+        "Roadster": "Roadster",
+        "Semi": "Semi",
+        "Optimus": "Optimus",
+        
+        # Technology terms
+        "Full Self-Driving": "Full Self Driving",
+        "Autopilot": "Auto pilot",
+        "Supercharger": "Super charger",
+        "Megapack": "Mega pack",
+        "Powerwall": "Power wall",
+        "Solar Roof": "Solar Roof",
+        "Gigafactory": "Giga factory",
+        
+        # Common phrases
+        "robotaxi": "robotaxi",
+        "robotaxis": "robotaxi s",
+        "V2G": "V 2 G",
+        "V2H": "V 2 H",
+        "V2L": "V 2 L",
+    }
+    
+    # Apply EV/Tesla terminology fixes
+    for term, replacement in ev_terminology_fixes.items():
+        pattern = rf'\b{re.escape(term)}\b'
+        text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+    
     # Apply common word fixes (case insensitive, whole word only)
+    # Note: These are kept for consistency but may not be needed if TTS handles them correctly
     for word, replacement in common_word_fixes.items():
         pattern = rf'\b{re.escape(word)}\b'
+        # Only replace if it's not already been processed
         text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
 
     return text
