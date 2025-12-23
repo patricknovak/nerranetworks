@@ -1005,14 +1005,20 @@ def fetch_tesla_news():
         "https://driveteslacanada.ca/feed/",  # Regional coverage
         "https://www.tesery.com/en-in/blogs/news.atom",  # Tesla news
 
+        # Additional sources for broader coverage
+        "https://www.webpronews.com/search/tesla/feed/rss2/",  # WebProNews Tesla
+        "https://www.autoblog.com/rss.xml",  # Auto news (may contain Tesla)
+        "https://www.greencarreports.com/rss.xml",  # Green car news
+
         # Limited use sources (often generic - heavily filtered)
         "http://feeds.feedburner.com/teslanorth",  # Tesla North
         "https://www.torquenews.com/rss/tesla",  # Torque News
         # Removed problematic sources: mashable, teslainvestor.blogspot, teslasiliconvalley, cnbc
     ]
     
-    # Calculate cutoff time (last 48 hours for better coverage, since some feeds update slowly)
+    # Calculate cutoff time (last 48 hours - strict freshness requirement)
     cutoff_time = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=48)
+    logging.info(f"Fetching articles published after {cutoff_time.strftime('%Y-%m-%d %H:%M:%S UTC')} (last 48 hours)")
     
     all_articles = []
     raw_articles = []
@@ -1078,8 +1084,12 @@ def fetch_tesla_news():
                 source_name = "Torque News"
             elif "cleantechnica" in feed_url.lower():
                 source_name = "Clean Technica"
-            elif "cnbc" in feed_url.lower():
-                source_name = "CNBC"
+            elif "webpronews" in feed_url.lower():
+                source_name = "WebProNews"
+            elif "autoblog" in feed_url.lower():
+                source_name = "Autoblog"
+            elif "greencarreports" in feed_url.lower():
+                source_name = "Green Car Reports"
             
             feed_articles = []
             logging.debug(f"Processing {len(feed.entries)} entries from {source_name}")
@@ -1097,8 +1107,9 @@ def fetch_tesla_news():
                     except (ValueError, TypeError):
                         pass
                 
-                # Skip if older than cutoff time
+                # Skip if older than cutoff time (48 hours)
                 if published_time and published_time < cutoff_time:
+                    logging.debug(f"Skipping article older than 48 hours: {title[:50]}... (published: {published_time})")
                     continue
 
                 # Skip articles with obviously wrong dates (future dates beyond reasonable window)
@@ -1108,9 +1119,9 @@ def fetch_tesla_news():
                     logging.debug(f"Skipping article with future date: {published_time}")
                     continue
 
-                # Skip articles that are too old (more than 7 days, even if within cutoff)
-                seven_days_ago = now - datetime.timedelta(days=7)
-                if published_time and published_time < seven_days_ago:
+                # Skip articles that are too old (more than 10 days, even if within cutoff)
+                ten_days_ago = now - datetime.timedelta(days=10)
+                if published_time and published_time < ten_days_ago:
                     continue
 
                 # Get title and description
@@ -1181,7 +1192,7 @@ def fetch_tesla_news():
                     continue  # Reuters company overview pages are generic
 
                 # Skip if description is too short or generic
-                if len(description) < 80 or description.lower().startswith(("tesla", "elon musk", "the company")):
+                if len(description) < 60 or description.lower().startswith(("tesla", "elon musk", "the company")):
                     continue
                 
                 # Format article
@@ -1226,6 +1237,9 @@ def fetch_tesla_news():
     
     logging.info(f"Filtered to {len(formatted_articles)} unique Tesla news articles")
     logging.info(f"Article counts by source: {dict(sorted(Counter(a['source'] for a in formatted_articles).items()))}")
+    if len(formatted_articles) < 5:
+        logging.warning(f"Only {len(formatted_articles)} quality articles found - web search fallback will be used")
+        logging.warning("This may result in limited news content in the digest")
     filtered_result = formatted_articles[:30]  # Return top 30 for selection
     return filtered_result, raw_articles
 
@@ -1734,7 +1748,7 @@ If fewer than 8 quality articles are available, use ALL available quality articl
 
 **EXCEPTION FOR X SPOTLIGHT SECTION**: For the "X Spotlight: @{spotlight_username}" section ONLY, you may use web search or your knowledge to find recent Tesla-related posts from @{spotlight_username} on X. Curate the top 5 most engaging posts from the past week and provide an overall weekly sentiment summary.
 
-**FINAL FALLBACK**: Only if RSS feeds provide ZERO quality articles, you may search for 3-5 recent, legitimate Tesla news articles from the most reputable sources (Electrek, Teslarati, The Verge) published within the last 24 hours. Prioritize breaking news and specific product updates over analysis pieces. 
+**FINAL FALLBACK**: Only if RSS feeds provide fewer than 5 quality articles, you may search for additional recent, legitimate Tesla news articles from reputable sources (Teslarati, The Verge, WebProNews, CleanTechnica) published within the last 48 hours. Prioritize breaking news and specific product updates over analysis pieces. Ensure no more than 2 articles from any single source. 
 
 **CRITICAL**: 
 - You MUST include the account mention and link in the X Spotlight section header: "Today's spotlight is on @{spotlight_username} - follow them at https://x.com/{spotlight_username} to see all their Tesla insights and updates."
