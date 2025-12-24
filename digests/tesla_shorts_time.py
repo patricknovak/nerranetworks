@@ -3572,7 +3572,7 @@ def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
                 'itunes_episode': str(episode_num),
                 'itunes_season': '1',
                 'itunes_episode_type': 'full',
-                'itunes_image': f"{base_url}/podcast-image-v2.jpg",
+                'itunes_image': f"{base_url}/podcast-image-v3.jpg",
                 'mp3_path': mp3_file,
                 'episode_num': episode_num,
                 'episode_date': episode_date
@@ -3748,8 +3748,10 @@ def update_rss_feed(
     owner = channel_metadata.get('itunes_owner', {'name': 'Patrick', 'email': 'contact@teslashortstime.com'})
     fg.podcast.itunes_owner(name=owner.get('name', 'Patrick'), email=owner.get('email', 'contact@teslashortstime.com'))
     
-    # Set image URL - ensure it's properly formatted for Apple Podcasts Connect
-    image_url = channel_metadata.get('itunes_image', f"{base_url}/podcast-image-v2.jpg")
+    # Set image URL - use compressed v3 (under 512 KB) for Apple Podcasts compliance
+    # Note: Image must be compressed to under 512 KB (current v2 is 752 KB, exceeds limit)
+    # When podcast-image-v3.jpg (compressed) is uploaded, it will be used automatically
+    image_url = channel_metadata.get('itunes_image', f"{base_url}/podcast-image-v3.jpg")
     fg.podcast.itunes_image(image_url)
     
     category = channel_metadata.get('itunes_category', 'Technology')
@@ -4082,6 +4084,23 @@ def update_rss_feed(
                         category_elem.append(subcategory)
                         logging.info("Added Tech News subcategory to RSS feed")
                 
+                # Update all image URLs to use compressed v3 (if v2 is still referenced)
+                channel_image = channel.find(f'{itunes_ns}image')
+                if channel_image is not None and 'podcast-image-v2.jpg' in channel_image.get('href', ''):
+                    channel_image.set('href', channel_image.get('href', '').replace('podcast-image-v2.jpg', 'podcast-image-v3.jpg'))
+                    logging.info("Updated channel image URL to podcast-image-v3.jpg")
+                
+                # Update episode image URLs
+                items = channel.findall('item')
+                updated_count = 0
+                for item in items:
+                    item_image = item.find(f'{itunes_ns}image')
+                    if item_image is not None and 'podcast-image-v2.jpg' in item_image.get('href', ''):
+                        item_image.set('href', item_image.get('href', '').replace('podcast-image-v2.jpg', 'podcast-image-v3.jpg'))
+                        updated_count += 1
+                if updated_count > 0:
+                    logging.info(f"Updated {updated_count} episode image URLs to podcast-image-v3.jpg")
+                
                 tree.write(str(rss_path), encoding='UTF-8', xml_declaration=True)
     except Exception as e:
         logging.warning(f"Could not add enhancements to RSS feed: {e}")
@@ -4127,7 +4146,10 @@ if ENABLE_PODCAST and not TEST_MODE and final_mp3 and final_mp3.exists():
         # Generate thumbnail
         thumbnail_filename = f"Tesla_Shorts_Time_Thumbnail_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d_%H%M%S}.png"
         thumbnail_path = digests_dir / thumbnail_filename
-        base_image_path = project_root / "podcast-image-v2.jpg"
+        # Use v3 if available (compressed), fallback to v2
+        base_image_path = project_root / "podcast-image-v3.jpg"
+        if not base_image_path.exists():
+            base_image_path = project_root / "podcast-image-v2.jpg"
         generate_episode_thumbnail(base_image_path, episode_num, today_str, thumbnail_path)
         
         # Define base_url for RSS feed
