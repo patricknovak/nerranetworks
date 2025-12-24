@@ -3753,20 +3753,38 @@ def update_rss_feed(
     fg.podcast.itunes_image(image_url)
     
     category = channel_metadata.get('itunes_category', 'Technology')
+    # Add main category (subcategory will be added manually after feed generation)
     fg.podcast.itunes_category(category)
     fg.podcast.itunes_explicit("no")
     
     # Add itunes:type tag (required/recommended by Apple)
     fg.podcast.itunes_type("episodic")
     
+    # Add itunes:subtitle for better Apple Podcasts display
+    fg.podcast.itunes_subtitle("Your daily Tesla news and stock digest")
+    
     # Generate GUID for the new episode based on current time to ensure uniqueness
     current_time_str = datetime.datetime.now().strftime("%H%M%S")
     new_episode_guid = f"tesla-shorts-time-ep{episode_num:03d}-{episode_date:%Y%m%d}-{current_time_str}"
     
-    # Deduplicate existing episodes by episode number
-    # Keep only the most recent entry for each episode number (based on GUID timestamp)
-    episodes_by_number = {}
+    # Deduplicate existing episodes by episode number AND by date
+    # Strategy: Keep only the highest episode number per date to remove duplicates
+    episodes_by_number = {}  # For deduplication by episode number
+    episodes_by_date = {}  # For deduplication by date (keep highest episode number per date)
     episodes_without_number = []  # Keep episodes that don't have extractable episode numbers
+    
+    def parse_pubdate(ep_data):
+        """Parse pubDate from episode data and return as datetime or None."""
+        pub_date_str = ep_data.get('pubDate', '')
+        if not pub_date_str:
+            return None
+        try:
+            if isinstance(pub_date_str, datetime.datetime):
+                return pub_date_str
+            from email.utils import parsedate_to_datetime
+            return parsedate_to_datetime(pub_date_str)
+        except Exception:
+            return None
     
     for ep_data in existing_episodes:
         # Extract episode number from itunes_episode field or from GUID
@@ -3781,7 +3799,11 @@ def update_rss_feed(
         if ep_num_str:
             try:
                 ep_num = int(ep_num_str)
-                # If we already have this episode number, keep the one with the more recent GUID (later timestamp)
+                # Parse pubDate for date-based deduplication
+                pub_date = parse_pubdate(ep_data)
+                date_key = pub_date.date() if pub_date else None
+                
+                # Deduplicate by episode number (keep most recent GUID timestamp)
                 if ep_num not in episodes_by_number:
                     episodes_by_number[ep_num] = ep_data
                 else:
@@ -3793,6 +3815,23 @@ def update_rss_feed(
                     current_ts = current_guid.split('-')[-1] if '-' in current_guid else '000000'
                     if current_ts > existing_ts:
                         episodes_by_number[ep_num] = ep_data
+                
+                # Deduplicate by date (keep highest episode number per date)
+                if date_key:
+                    if date_key not in episodes_by_date:
+                        episodes_by_date[date_key] = ep_data
+                    else:
+                        # Extract episode number from existing episode
+                        existing_ep_num_str = episodes_by_date[date_key].get('itunes_episode', '')
+                        if not existing_ep_num_str:
+                            existing_guid = episodes_by_date[date_key].get('guid', '')
+                            match = re.search(r'ep(\d+)', existing_guid)
+                            if match:
+                                existing_ep_num_str = match.group(1)
+                        existing_ep_num = int(existing_ep_num_str) if existing_ep_num_str else 0
+                        # Keep the episode with the higher episode number
+                        if ep_num > existing_ep_num:
+                            episodes_by_date[date_key] = ep_data
             except ValueError:
                 # If we can't parse episode number, keep the episode anyway (shouldn't happen normally)
                 episodes_without_number.append(ep_data)
@@ -3800,43 +3839,30 @@ def update_rss_feed(
             # Episode without extractable episode number - keep it (shouldn't happen normally)
             episodes_without_number.append(ep_data)
     
-    # Add all existing episodes (now deduplicated), but skip if same episode number as new episode
-    # First add episodes with episode numbers
-    for ep_data in episodes_by_number.values():
-        # Extract episode number to check against new episode
+    # Final deduplication: Use date-based deduplication as primary, but ensure we keep unique episode numbers
+    # Build final list: prefer date-based deduplication, but include all unique episode numbers
+    final_episodes = {}
+    for date_key, ep_data in episodes_by_date.items():
         ep_num_str = ep_data.get('itunes_episode', '')
         if not ep_num_str:
             guid = ep_data.get('guid', '')
             match = re.search(r'ep(\d+)', guid)
             if match:
                 ep_num_str = match.group(1)
-        
-        # Skip if this existing episode has the same episode number as the new one we're about to add
-        # (we'll add the new one instead, which should be more up-to-date)
-        if ep_num_str and int(ep_num_str) == episode_num:
-            logging.info(f"Skipping existing episode {ep_num_str} - will be replaced with new version")
-            continue
-        
-        # Skip if exact same GUID (should typically not happen with time-based GUIDs unless run very fast)
-        if ep_data.get('guid') == new_episode_guid:
-            continue
-        
-        # Verify the MP3 file actually exists before including in RSS
-        enclosure = ep_data.get('enclosure', {})
-        enclosure_url = enclosure.get('url', '') if isinstance(enclosure, dict) else ''
-        if enclosure_url:
-            # Extract filename from URL
-            filename = enclosure_url.split('/')[-1]
-            # Check main directory first
-            mp3_path_check = digests_dir / filename
-            # Also check subdirectory if main doesn't exist
-            if not mp3_path_check.exists():
-                mp3_path_check = digests_dir / "digests" / filename
-            if not mp3_path_check.exists() or mp3_path_check.stat().st_size < 1000:
-                logging.warning(f"Skipping episode {ep_num_str}: MP3 file {filename} doesn't exist or is too small")
-                continue
-        
-        # Re-add existing episode
+        if ep_num_str:
+            final_episodes[int(ep_num_str)] = ep_data
+    
+    # Also add episodes that might have been missed (episodes without date matches but with unique numbers)
+    for ep_num, ep_data in episodes_by_number.items():
+        if ep_num not in final_episodes:
+            final_episodes[ep_num] = ep_data
+    
+    # Prepare all episodes for sorting (including new episode)
+    all_episodes_to_add = []
+    
+    # Helper function to add an episode entry to the feed
+    def add_episode_entry(ep_data, is_new_episode=False):
+        """Add an episode entry to the feed generator."""
         entry = fg.add_entry()
         entry.id(ep_data.get('guid', ''))
         entry.title(ep_data.get('title', ''))
@@ -3845,15 +3871,17 @@ def update_rss_feed(
             entry.link(href=ep_data['link'])
         
         # Parse and set pubDate
+        pub_date_dt = None
         if ep_data.get('pubDate'):
             try:
                 # Handle both string dates (from RSS) and datetime objects (from file scan)
                 if isinstance(ep_data['pubDate'], datetime.datetime):
-                    entry.pubDate(ep_data['pubDate'])
+                    pub_date_dt = ep_data['pubDate']
+                    entry.pubDate(pub_date_dt)
                 else:
                     from email.utils import parsedate_to_datetime
-                    pub_date = parsedate_to_datetime(ep_data['pubDate'])
-                    entry.pubDate(pub_date)
+                    pub_date_dt = parsedate_to_datetime(ep_data['pubDate'])
+                    entry.pubDate(pub_date_dt)
             except Exception:
                 pass
         
@@ -3877,11 +3905,52 @@ def update_rss_feed(
             entry.podcast.itunes_episode_type(ep_data['itunes_episode_type'])
         entry.podcast.itunes_explicit("no")
         # Set image for each episode (Apple Podcasts Connect requirement)
-        # Use episode-specific image if available, otherwise use channel image
         episode_image = ep_data.get('itunes_image', image_url)
         entry.podcast.itunes_image(episode_image)
+        
+        return pub_date_dt
     
-    # Also add episodes without extractable episode numbers (shouldn't happen normally, but be safe)
+    # Collect all episodes to add (existing + new), then sort by pubDate descending
+    episodes_to_add = []
+    
+    # Add all existing episodes (now deduplicated), but skip if same episode number as new episode
+    for ep_data in final_episodes.values():
+        # Extract episode number to check against new episode
+        ep_num_str = ep_data.get('itunes_episode', '')
+        if not ep_num_str:
+            guid = ep_data.get('guid', '')
+            match = re.search(r'ep(\d+)', guid)
+            if match:
+                ep_num_str = match.group(1)
+        
+        # Skip if this existing episode has the same episode number as the new one we're about to add
+        if ep_num_str and int(ep_num_str) == episode_num:
+            logging.info(f"Skipping existing episode {ep_num_str} - will be replaced with new version")
+            continue
+        
+        # Skip if exact same GUID
+        if ep_data.get('guid') == new_episode_guid:
+            continue
+        
+        # Verify the MP3 file actually exists before including in RSS
+        enclosure = ep_data.get('enclosure', {})
+        enclosure_url = enclosure.get('url', '') if isinstance(enclosure, dict) else ''
+        if enclosure_url:
+            # Extract filename from URL
+            filename = enclosure_url.split('/')[-1]
+            # Check main directory first
+            mp3_path_check = digests_dir / filename
+            # Also check subdirectory if main doesn't exist
+            if not mp3_path_check.exists():
+                mp3_path_check = digests_dir / "digests" / filename
+            if not mp3_path_check.exists() or mp3_path_check.stat().st_size < 1000:
+                ep_num_str = ep_data.get('itunes_episode', 'unknown')
+                logging.warning(f"Skipping episode {ep_num_str}: MP3 file {filename} doesn't exist or is too small")
+                continue
+        
+        episodes_to_add.append(ep_data)
+    
+    # Also add episodes without extractable episode numbers to the list (will be sorted with others)
     for ep_data in episodes_without_number:
         # Skip if exact same GUID
         if ep_data.get('guid') == new_episode_guid:
@@ -3902,72 +3971,58 @@ def update_rss_feed(
                 logging.warning(f"Skipping episode (no number): MP3 file {filename} doesn't exist or is too small")
                 continue
         
-        # Re-add episode
-        entry = fg.add_entry()
-        entry.id(ep_data.get('guid', ''))
-        entry.title(ep_data.get('title', ''))
-        entry.description(ep_data.get('description', ''))
-        if ep_data.get('link'):
-            entry.link(href=ep_data['link'])
-        
-        # Parse and set pubDate
-        if ep_data.get('pubDate'):
-            try:
-                if isinstance(ep_data['pubDate'], datetime.datetime):
-                    entry.pubDate(ep_data['pubDate'])
-                else:
-                    from email.utils import parsedate_to_datetime
-                    pub_date = parsedate_to_datetime(ep_data['pubDate'])
-                    entry.pubDate(pub_date)
-            except Exception:
-                pass
-        
-        # Set enclosure
-        if ep_data.get('enclosure'):
-            enc = ep_data['enclosure']
-            entry.enclosure(url=enc.get('url', ''), type=enc.get('type', 'audio/mpeg'), length=enc.get('length', '0'))
-        
-        # Set iTunes tags
-        if ep_data.get('itunes_title'):
-            entry.podcast.itunes_title(ep_data['itunes_title'])
-        if ep_data.get('itunes_summary'):
-            entry.podcast.itunes_summary(ep_data['itunes_summary'])
-        if ep_data.get('itunes_duration'):
-            entry.podcast.itunes_duration(ep_data['itunes_duration'])
-        if ep_data.get('itunes_episode'):
-            entry.podcast.itunes_episode(ep_data['itunes_episode'])
-        if ep_data.get('itunes_season'):
-            entry.podcast.itunes_season(ep_data['itunes_season'])
-        if ep_data.get('itunes_episode_type'):
-            entry.podcast.itunes_episode_type(ep_data['itunes_episode_type'])
-        entry.podcast.itunes_explicit("no")
-        episode_image = ep_data.get('itunes_image', image_url)
-        entry.podcast.itunes_image(episode_image)
+        episodes_to_add.append(ep_data)
     
-    # Add or update the new episode
-    entry = fg.add_entry()
-    entry.id(new_episode_guid)
-    entry.title(episode_title)
-    entry.description(episode_description)
-    entry.link(href=f"{base_url}/digests/{mp3_filename}")
+    # Prepare new episode data
     pub_date = datetime.datetime.combine(episode_date, datetime.time(8, 0, 0), tzinfo=datetime.timezone.utc)
-    entry.pubDate(pub_date)
-    
-    # Enclosure
     mp3_url = f"{base_url}/digests/{mp3_filename}"
     mp3_size = mp3_path.stat().st_size if mp3_path.exists() else 0
-    entry.enclosure(url=mp3_url, type="audio/mpeg", length=str(mp3_size))
     
-    # iTunes tags
-    entry.podcast.itunes_title(episode_title)
-    entry.podcast.itunes_summary(episode_description)
-    entry.podcast.itunes_duration(format_duration(mp3_duration))
-    entry.podcast.itunes_episode(str(episode_num))
-    entry.podcast.itunes_season("1")
-    entry.podcast.itunes_episode_type("full")
-    entry.podcast.itunes_explicit("no")
-    # Set image for the episode (Apple Podcasts Connect requirement)
-    entry.podcast.itunes_image(image_url)
+    new_episode_data = {
+        'guid': new_episode_guid,
+        'title': episode_title,
+        'description': episode_description,
+        'link': f"{base_url}/digests/{mp3_filename}",
+        'pubDate': pub_date,
+        'enclosure': {
+            'url': mp3_url,
+            'type': 'audio/mpeg',
+            'length': str(mp3_size)
+        },
+        'itunes_title': episode_title,
+        'itunes_summary': episode_description,
+        'itunes_duration': format_duration(mp3_duration),
+        'itunes_episode': str(episode_num),
+        'itunes_season': '1',
+        'itunes_episode_type': 'full',
+        'itunes_image': image_url
+    }
+    
+    # Add new episode to the list
+    episodes_to_add.append(new_episode_data)
+    
+    # Sort all episodes by pubDate descending (newest first)
+    def get_pubdate_for_sort(ep_data):
+        """Extract pubDate as datetime for sorting."""
+        pub_date = ep_data.get('pubDate')
+        if isinstance(pub_date, datetime.datetime):
+            return pub_date
+        if isinstance(pub_date, str):
+            try:
+                from email.utils import parsedate_to_datetime
+                return parsedate_to_datetime(pub_date)
+            except Exception:
+                pass
+        # Fallback to very old date if can't parse
+        return datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
+    
+    episodes_to_add.sort(key=get_pubdate_for_sort, reverse=True)
+    
+    logging.info(f"Sorting {len(episodes_to_add)} episodes by pubDate descending (newest first)")
+    
+    # Now add all episodes in sorted order
+    for ep_data in episodes_to_add:
+        add_episode_entry(ep_data, is_new_episode=(ep_data.get('guid') == new_episode_guid))
     
     # Update lastBuildDate
     fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
@@ -3999,8 +4054,37 @@ def update_rss_feed(
                     channel.insert(0, atom_link)
                 tree.write(str(rss_path), encoding='UTF-8', xml_declaration=True)
                 logging.info("Added atom:link for self-reference to RSS feed")
+                
+                # Also add itunes:subtitle and category subcategory if not present
+                itunes_ns = '{http://www.itunes.com/dtds/podcast-1.0.dtd}'
+                
+                # Add itunes:subtitle if not present
+                existing_subtitle = channel.find(f'{itunes_ns}subtitle')
+                if existing_subtitle is None:
+                    subtitle = ET.Element(f'{itunes_ns}subtitle')
+                    subtitle.text = "Your daily Tesla news and stock digest"
+                    # Insert after itunes:summary
+                    summary = channel.find(f'{itunes_ns}summary')
+                    if summary is not None:
+                        channel.insert(list(channel).index(summary) + 1, subtitle)
+                    else:
+                        channel.append(subtitle)
+                    logging.info("Added itunes:subtitle to RSS feed")
+                
+                # Add subcategory to existing category if not present
+                category_elem = channel.find(f'{itunes_ns}category')
+                if category_elem is not None and category_elem.get('text') == 'Technology':
+                    # Check if subcategory already exists
+                    subcategory = category_elem.find(f'{itunes_ns}category')
+                    if subcategory is None:
+                        subcategory = ET.Element(f'{itunes_ns}category')
+                        subcategory.set('text', 'Tech News')
+                        category_elem.append(subcategory)
+                        logging.info("Added Tech News subcategory to RSS feed")
+                
+                tree.write(str(rss_path), encoding='UTF-8', xml_declaration=True)
     except Exception as e:
-        logging.warning(f"Could not add atom:link to RSS feed: {e}")
+        logging.warning(f"Could not add enhancements to RSS feed: {e}")
     
     total_episodes = len(fg.entry())
     logging.info(f"RSS feed updated → {rss_path} ({total_episodes} episode(s) total)")
