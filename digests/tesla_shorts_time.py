@@ -3642,7 +3642,16 @@ def update_rss_feed(
                         elif elem.tag == 'description':
                             episode_data['description'] = elem.text or ''
                         elif elem.tag == 'link':
-                            episode_data['link'] = elem.text or ''
+                            link_url = elem.text or ''
+                            # Fix double /digests/digests/ path errors
+                            if '/digests/digests/' in link_url:
+                                link_url = link_url.replace('/digests/digests/', '/digests/')
+                            # Also ensure link doesn't point to MP3 (should point to episode page or GitHub)
+                            if link_url.endswith('.mp3'):
+                                # Extract filename and create proper link
+                                filename = link_url.split('/')[-1]
+                                link_url = f"{base_url}/digests/{filename}"
+                            episode_data['link'] = link_url
                         elif elem.tag == 'guid':
                             # GUID is typically the text content
                             if elem.text:
@@ -3651,8 +3660,12 @@ def update_rss_feed(
                         elif elem.tag == 'pubDate':
                             episode_data['pubDate'] = elem.text or ''
                         elif elem.tag == 'enclosure':
+                            enclosure_url = elem.get('url', '')
+                            # Fix double /digests/digests/ path errors
+                            if '/digests/digests/' in enclosure_url:
+                                enclosure_url = enclosure_url.replace('/digests/digests/', '/digests/')
                             episode_data['enclosure'] = {
-                                'url': elem.get('url', ''),
+                                'url': enclosure_url,
                                 'type': elem.get('type', 'audio/mpeg'),
                                 'length': elem.get('length', '0')
                             }
@@ -3696,14 +3709,41 @@ def update_rss_feed(
     
     logging.info(f"Total episodes to include: {len(existing_episodes)} (from RSS: {len(existing_episodes) - added_from_files}, added from files: {added_from_files})")
     
-    # Set channel metadata
-    fg.title(channel_metadata.get('title', "Tesla Shorts Time Daily"))
-    fg.link(href=channel_metadata.get('link', "https://github.com/patricknovak/Tesla-shorts-time"))
-    fg.description(channel_metadata.get('description', "Daily Tesla news digest and podcast hosted by Patrick in Vancouver. Covering the latest Tesla developments, stock updates, and short squeeze celebrations."))
+    # Set channel metadata - ALWAYS use general descriptions, never episode-specific data
+    # This is critical for Apple Podcasts Connect validation
+    channel_title = "Tesla Shorts Time Daily"
+    channel_link = "https://github.com/patricknovak/Tesla-shorts-time"
+    channel_description = "A daily podcast covering the latest Tesla news, stock prices, and industry insights."
+    channel_summary = "Daily Tesla news digest and podcast covering the latest developments, stock updates, and market analysis."
+    
+    # Only use existing metadata if it's NOT episode-specific (check for episode numbers or dates)
+    existing_title = channel_metadata.get('title', '')
+    if existing_title and not re.search(r'Episode \d+|December|November|January|February|March|April|May|June|July|August|September|October', existing_title, re.IGNORECASE):
+        channel_title = existing_title
+    
+    existing_link = channel_metadata.get('link', '')
+    if existing_link and not existing_link.endswith('.mp3') and 'github.com' in existing_link:
+        channel_link = existing_link
+    
+    existing_desc = channel_metadata.get('description', '')
+    if existing_desc and not re.search(r'Episode \d+|December|November|January|February|March|April|May|June|July|August|September|October|TSLA price', existing_desc, re.IGNORECASE):
+        channel_description = existing_desc
+    
+    existing_summary = channel_metadata.get('itunes_summary', '')
+    if existing_summary and not re.search(r'Episode \d+|December|November|January|February|March|April|May|June|July|August|September|October|TSLA price', existing_summary, re.IGNORECASE):
+        channel_summary = existing_summary
+    
+    fg.title(channel_title)
+    fg.link(href=channel_link)
+    fg.description(channel_description)
     fg.language(channel_metadata.get('language', 'en-us'))
     fg.copyright(channel_metadata.get('copyright', f"Copyright {datetime.date.today().year}"))
+    
+    # RSS feed URL for atom:link (will be added manually after feed generation)
+    rss_feed_url = f"{base_url}/podcast.rss"
+    
     fg.podcast.itunes_author(channel_metadata.get('itunes_author', "Patrick"))
-    fg.podcast.itunes_summary(channel_metadata.get('itunes_summary', "Daily Tesla news digest and podcast covering the latest developments, stock updates, and short squeeze celebrations."))
+    fg.podcast.itunes_summary(channel_summary)
     
     owner = channel_metadata.get('itunes_owner', {'name': 'Patrick', 'email': 'contact@teslashortstime.com'})
     fg.podcast.itunes_owner(name=owner.get('name', 'Patrick'), email=owner.get('email', 'contact@teslashortstime.com'))
@@ -3715,6 +3755,9 @@ def update_rss_feed(
     category = channel_metadata.get('itunes_category', 'Technology')
     fg.podcast.itunes_category(category)
     fg.podcast.itunes_explicit("no")
+    
+    # Add itunes:type tag (required/recommended by Apple)
+    fg.podcast.itunes_type("episodic")
     
     # Generate GUID for the new episode based on current time to ensure uniqueness
     current_time_str = datetime.datetime.now().strftime("%H%M%S")
@@ -3931,6 +3974,34 @@ def update_rss_feed(
     
     # Write RSS feed
     fg.rss_file(str(rss_path), pretty=True)
+    
+    # Manually add atom:link for self-reference (required by Apple Podcasts Connect)
+    # FeedGenerator doesn't have a direct method for this, so we add it via XML manipulation
+    try:
+        tree = ET.parse(str(rss_path))
+        root = tree.getroot()
+        channel = root.find('channel')
+        if channel is not None:
+            # Check if atom:link already exists
+            atom_ns = '{http://www.w3.org/2005/Atom}'
+            existing_atom_link = channel.find(f'{atom_ns}link')
+            if existing_atom_link is None:
+                # Add atom:link element
+                atom_link = ET.Element(f'{atom_ns}link')
+                atom_link.set('href', rss_feed_url)
+                atom_link.set('rel', 'self')
+                atom_link.set('type', 'application/rss+xml')
+                # Insert after <link> or at the beginning of channel
+                first_link = channel.find('link')
+                if first_link is not None:
+                    channel.insert(list(channel).index(first_link) + 1, atom_link)
+                else:
+                    channel.insert(0, atom_link)
+                tree.write(str(rss_path), encoding='UTF-8', xml_declaration=True)
+                logging.info("Added atom:link for self-reference to RSS feed")
+    except Exception as e:
+        logging.warning(f"Could not add atom:link to RSS feed: {e}")
+    
     total_episodes = len(fg.entry())
     logging.info(f"RSS feed updated → {rss_path} ({total_episodes} episode(s) total)")
 
