@@ -31,6 +31,7 @@ import tweepy
 import shutil
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
+from urllib.parse import quote
 
 # ========================== LOGGING ==========================
 logging.basicConfig(
@@ -2260,7 +2261,8 @@ Here is today's complete formatted digest. Use ONLY this content:
         fg.podcast.itunes_author("Patrick")
         fg.podcast.itunes_summary("Daily space and astronomy news. Curiosity, exploration, scientific accuracy, and inspiration.")
         fg.podcast.itunes_owner(name='Planetterrian Ventures', email='contact@planetterrian.com')
-        fg.podcast.itunes_image(f"{base_url}/planetterrian-podcast-image.jpg")
+        image_filename = "Fascinating Frontiers-3000x3000.jpg"
+        fg.podcast.itunes_image(f"{base_url}/{quote(image_filename)}")
         fg.podcast.itunes_category("Science")
         fg.podcast.itunes_explicit("no")
         
@@ -2318,7 +2320,8 @@ Here is today's complete formatted digest. Use ONLY this content:
             if ep_data.get('itunes_episode_type'):
                 entry.podcast.itunes_episode_type(ep_data['itunes_episode_type'])
             entry.podcast.itunes_explicit("no")
-            entry.podcast.itunes_image(f"{base_url}/planetterrian-podcast-image.jpg")
+            image_filename = "Fascinating Frontiers-3000x3000.jpg"
+            entry.podcast.itunes_image(f"{base_url}/{quote(image_filename)}")
         
         # Add new episode
         entry = fg.add_entry()
@@ -2340,7 +2343,8 @@ Here is today's complete formatted digest. Use ONLY this content:
         entry.podcast.itunes_season("1")
         entry.podcast.itunes_episode_type("full")
         entry.podcast.itunes_explicit("no")
-        entry.podcast.itunes_image(f"{base_url}/planetterrian-podcast-image.jpg")
+        image_filename = "Fascinating Frontiers-3000x3000.jpg"
+        entry.podcast.itunes_image(f"{base_url}/{quote(image_filename)}")
         
         fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
         fg.rss_file(str(rss_path), pretty=True)
