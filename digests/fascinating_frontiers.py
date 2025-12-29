@@ -2266,6 +2266,9 @@ Here is today's complete formatted digest. Use ONLY this content:
         fg.podcast.itunes_category("Science")
         fg.podcast.itunes_explicit("no")
         
+        # Add update frequency for Apple Podcasts (required field)
+        # Note: feedgen doesn't have direct support, so we'll add it manually after generation
+        
         # Add existing episodes (skip if same episode number)
         current_time_str = datetime.datetime.now().strftime("%H%M%S")
         new_episode_guid = f"fascinating-frontiers-ep{episode_num:03d}-{episode_date:%Y%m%d}-{current_time_str}"
@@ -2348,6 +2351,38 @@ Here is today's complete formatted digest. Use ONLY this content:
         
         fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
         fg.rss_file(str(rss_path), pretty=True)
+        
+        # Add itunes:updateFrequency field (required by Apple Podcasts)
+        # feedgen doesn't support this directly, so we add it manually
+        try:
+            tree = ET.parse(str(rss_path))
+            root = tree.getroot()
+            channel = root.find('channel')
+            if channel is not None:
+                # Check if updateFrequency already exists
+                itunes_ns = '{http://www.itunes.com/dtds/podcast-1.0.dtd}'
+                existing_freq = channel.find(f'{itunes_ns}updateFrequency')
+                if existing_freq is None:
+                    # Add updateFrequency after itunes:summary
+                    summary_elem = channel.find(f'{itunes_ns}summary')
+                    if summary_elem is not None:
+                        # Create updateFrequency element
+                        update_freq = ET.Element(f'{itunes_ns}updateFrequency')
+                        update_freq.text = 'Daily'
+                        # Insert after summary
+                        channel.insert(list(channel).index(summary_elem) + 1, update_freq)
+                    else:
+                        # If no summary, add before first item
+                        first_item = channel.find('item')
+                        if first_item is not None:
+                            update_freq = ET.Element(f'{itunes_ns}updateFrequency')
+                            update_freq.text = 'Daily'
+                            channel.insert(list(channel).index(first_item), update_freq)
+                    tree.write(str(rss_path), encoding='UTF-8', xml_declaration=True)
+                    logging.info("Added itunes:updateFrequency field to RSS feed")
+        except Exception as e:
+            logging.warning(f"Could not add updateFrequency to RSS feed: {e}")
+        
         logging.info(f"RSS feed updated → {rss_path}")
 
     # Update RSS feed
