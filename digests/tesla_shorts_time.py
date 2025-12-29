@@ -711,24 +711,9 @@ change_str = f"{change:+.2f} ({change_pct:+.2f}%) {market_status}" if change != 
 digests_dir = project_root / "digests"
 digests_dir.mkdir(exist_ok=True)
 
-# ========================== X SPOTLIGHT USERNAME ROTATION ==========================
-def get_spotlight_username() -> tuple[str, str]:
-    """Get the spotlight username and display name based on the day of the week."""
-    weekday = datetime.date.today().weekday()  # 0=Monday, 6=Sunday
-    spotlight_map = {
-        0: ("SawyerMerritt", "Sawyer Merritt"),
-        1: ("WholeMarsBlog", "Whole Mars Blog"),
-        2: ("DirtyTesLa", "Dirty Tesla"),
-        3: ("TeslaPodcast", "Tesla Podcast"),
-        4: ("elonmusk", "Elon Musk"),
-        5: ("tesla_raj", "Tesla Raj"),
-        6: ("TeslaBoomerMama", "Tesla Boomer Mama")
-    }
-    username, display_name = spotlight_map[weekday]
-    logging.info(f"Today's X Spotlight: @{username} ({display_name})")
-    return username, display_name
-
-spotlight_username, spotlight_display_name = get_spotlight_username()
+# ========================== TESLA X TAKEOVER SECTION ==========================
+# Tesla X Takeover now focuses on fresh, interesting Tesla news/trends instead of cycling through specific X accounts
+# This ensures the section is always fresh and interesting, focusing on what's happening in the Tesla world right now
 
 # ========================== CONTENT TRACKING (PREVENT REPETITION) ==========================
 def load_used_content_tracker() -> dict:
@@ -1884,14 +1869,21 @@ CRITICAL: Only select articles that are SPECIFIC, FRESH (within last 48 hours), 
 
 If fewer than 8 quality articles are available, use ALL available quality articles and create a shorter digest rather than padding with low-quality content.
 
-**EXCEPTION FOR X SPOTLIGHT SECTION**: For the "X Spotlight: @{spotlight_username}" section ONLY, you may use web search or your knowledge to find recent Tesla-related posts from @{spotlight_username} on X. Curate the top 5 most engaging posts from the past week and provide an overall weekly sentiment summary.
+**TESLA X TAKEOVER SECTION**: This section should focus on the most interesting, fresh, and engaging recent Tesla news developments, trends, or breaking stories. Use the pre-fetched news articles above to identify 5 compelling Tesla stories or trends that are generating buzz. Focus on what's NEW, INTERESTING, and DIFFERENT from the main news section. This could include:
+- Breaking developments that just emerged
+- Interesting trends or patterns in Tesla's business
+- Surprising announcements or updates
+- Community reactions to major Tesla news
+- Unique angles on Tesla stories that stand out
+
+Make each item engaging and fresh - avoid recycling the same stories from the Top 10 News Items section. Each item should feel like you're sharing exciting, breaking Tesla news with enthusiasm.
 
 **FINAL FALLBACK**: Only if RSS feeds provide fewer than 5 quality articles, you may search for additional recent, legitimate Tesla news articles from reputable sources (Teslarati, The Verge, WebProNews, CleanTechnica) published within the last 48 hours. Prioritize breaking news and specific product updates over analysis pieces. Ensure no more than 2 articles from any single source. 
 
 **CRITICAL**: 
-- You MUST include the account mention and link in the X Spotlight section header: "Today's spotlight is on @{spotlight_username} - follow them at https://x.com/{spotlight_username} to see all their Tesla insights and updates."
-- Only include actual working X post URLs with real numeric post IDs. If you cannot find real post URLs, omit the "Post:" line entirely. Do NOT use placeholder URLs like [POST_ID] or [ACTUAL_POST_ID]. 
 - Do NOT include any instruction language, meta-commentary, or formatting notes in your output - only output the actual content.
+- Focus on FRESH, INTERESTING Tesla news that's different from the main news section
+- Make it engaging and exciting - like sharing breaking Tesla news with friends
 
 {used_content_summary}
 
@@ -1921,26 +1913,26 @@ If fewer than 8 quality articles are available, use ALL available quality articl
 2. [Repeat format for 3-10; if <10 items, stop at available count, add a blank line after each item and the last item]
 
 ━━━━━━━━━━━━━━━━━━━━
-## Tesla X Takeover: @{spotlight_username} ({spotlight_display_name})
-🎙️ Tesla X Takeover - @{spotlight_username} GOES OFF! Today's spotlight is on @{spotlight_username} - follow them at https://x.com/{spotlight_username} to see all their Tesla insights and updates.
+## Tesla X Takeover: What's Hot Right Now
+🎙️ Tesla X Takeover - What's breaking in the Tesla world today! Here are the most interesting, fresh Tesla developments that have everyone talking.
 
-1. 🚨 **[INCREDIBLE TITLE THAT HOOKS]** - @{spotlight_username} just DROPPED this truth bomb...
-   [Make it sound like eavesdropping on an exciting Tesla conversation. Include the key Tesla-related insight, news, or perspective shared. 2-3 sentences with personality.]
-   Post: https://x.com/{spotlight_username}/status/[ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID]
+1. 🚨 **[INCREDIBLE TITLE THAT HOOKS]** - [Breaking Tesla news or development]
+   [Make it sound exciting and fresh - like you're sharing breaking Tesla news with friends. Include what happened, why it matters, and why Tesla investors should care. 2-3 sentences with personality and enthusiasm.]
+   Source: [EXACT URL FROM PRE-FETCHED NEWS - if available]
 
-2. 🔥 **[EXCITING TITLE]** - The Tesla community is LOSING IT over this one...
-   [Make it conversational and engaging, like sharing breaking Tesla news with friends. Include why this post matters for Tesla investors.]
+2. 🔥 **[EXCITING TITLE]** - [Another fresh Tesla development or trend]
+   [Make it conversational and engaging. Focus on what makes this story interesting, surprising, or important for Tesla's future. Include why this matters for Tesla investors.]
 
-3. 💡 **[INSIGHTFUL TITLE]** - @{spotlight_username} connects the dots on Tesla's master plan...
-   [Highlight unique analysis or predictions that only this influencer would make.]
+3. 💡 **[INSIGHTFUL TITLE]** - [Interesting Tesla trend or pattern]
+   [Highlight what's unique or noteworthy about this development. Connect it to Tesla's bigger picture or long-term strategy.]
 
-4. ⚡ **[ENERGETIC TITLE]** - This post has the Tesla bears RUNNING SCARED...
-   [Focus on contrarian views or bullish takes that challenge conventional wisdom.]
+4. ⚡ **[ENERGETIC TITLE]** - [Surprising Tesla announcement or update]
+   [Focus on what makes this development exciting or unexpected. Explain why this could be significant for Tesla's business or stock.]
 
-5. 🎯 **[PRECISION TITLE]** - @{spotlight_username} nails exactly what's happening at Tesla...
-   [Show how this influencer's perspective cuts through the noise.]
+5. 🎯 **[PRECISION TITLE]** - [Fresh Tesla story that stands out]
+   [Show why this particular development is noteworthy and different from the usual news. Make it clear why Tesla fans and investors should pay attention.]
 
-**The Vibe Check:** "Overall, @{spotlight_username} is [BULLISH/BEARISH/MIXED] on Tesla this week, focusing on [key themes like Autopilot, energy, Cybertruck, etc.]. Their unique perspective on [specific insight] is why the Tesla community keeps coming back for more!"
+**The Vibe Check:** "Overall, the Tesla world is [BULLISH/BEARISH/MIXED] this week, with key themes around [Autopilot, energy, Cybertruck, manufacturing, etc.]. The most exciting developments are [specific trends or patterns], showing Tesla's momentum in [relevant area]."
 
 ━━━━━━━━━━━━━━━━━━━━
 ## Short Spot
@@ -1984,7 +1976,7 @@ One short, inspiring challenge tied to Tesla/Elon themes (curiosity, first princ
 
 ### FINAL VALIDATION CHECKLIST (DO THIS BEFORE OUTPUT)
 - ✅ Exactly 10 news items (or all if <10): Numbered 1-10, unique stories.
-- ✅ X Spotlight section included with Top 5 posts from @{spotlight_username} and weekly sentiment summary.
+- ✅ Tesla X Takeover section included with 5 fresh, interesting Tesla news developments or trends.
 - ✅ Podcast link: Full URL as shown.
 - ✅ Lists: "1. " format (number, period, space)—no bullets.
 - ✅ Separators: "━━━━━━━━━━━━━━━━━━━━" before each major section.
@@ -2002,11 +1994,11 @@ Output today's edition exactly as formatted.
 
 logging.info("Generating X thread with Grok using pre-fetched content (this may take 1-2 minutes)...")
 
-# Enable web search ONLY for X Spotlight section (Grok needs to find posts from spotlight account)
+# Web search is available for the Tesla X Takeover section to find fresh, interesting Tesla developments
 # For news items, we still use only pre-fetched content
 enable_web_search = True
-search_params = {"mode": "on"}  # Enable web search for X Spotlight curation
-logging.info(f"✅ Web search enabled for X Spotlight section - Grok will curate posts from @{spotlight_username}")
+search_params = {"mode": "on"}  # Enable web search for finding fresh Tesla news/trends
+logging.info(f"✅ Web search enabled for Tesla X Takeover section - Grok will find fresh, interesting Tesla developments")
 
 @retry(
     stop=stop_after_attempt(3),
@@ -2118,36 +2110,12 @@ x_thread = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/\[[^\]]+\]', '', x_thr
 x_thread = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/[^\d][^\s]*', '', x_thread, flags=re.IGNORECASE)  # Remove URLs without numeric IDs
 x_thread = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID', '', x_thread, flags=re.IGNORECASE)  # Remove placeholder URLs
 
-# Clean up any remaining instruction-like text in X Spotlight section
-x_thread = re.sub(r'(## X Spotlight[^\n]*\n)[^\n]*(?:TODAY\'S FOCUS|must curate|Using your|For each)', r'\1', x_thread, flags=re.IGNORECASE | re.DOTALL)
+# Clean up any remaining instruction-like text in Tesla X Takeover section
+x_thread = re.sub(r'(## Tesla X Takeover[^\n]*\n)[^\n]*(?:TODAY\'S FOCUS|must curate|Using your|For each)', r'\1', x_thread, flags=re.IGNORECASE | re.DOTALL)
 
-# ========================== ENSURE X SPOTLIGHT HAS ACCOUNT MENTION AND LINK ==========================
-# Check if X Spotlight section exists and ensure it has account mention and link
-spotlight_section_match = re.search(r'(## X Spotlight[^\n]*\n)', x_thread, re.IGNORECASE | re.MULTILINE)
-if spotlight_section_match:
-    # Extract username from header if present
-    username_match = re.search(r'## X Spotlight: @(\w+)', x_thread, re.IGNORECASE | re.MULTILINE)
-    if username_match:
-        username = username_match.group(1)
-    else:
-        # Use the current spotlight username
-        username = spotlight_username
-    
-    # Check if account mention line exists
-    has_account_mention = re.search(
-        r'Today\'s spotlight is on @' + re.escape(username) + r'.*follow them at.*x\.com/' + re.escape(username),
-        x_thread,
-        re.IGNORECASE
-    )
-    
-    if not has_account_mention:
-        # Find the X Spotlight header and add account mention right after it
-        spotlight_header_match = re.search(r'(## X Spotlight[^\n]*\n)', x_thread, re.IGNORECASE | re.MULTILINE)
-        if spotlight_header_match:
-            insert_pos = spotlight_header_match.end()
-            account_line = f"\nToday's spotlight is on @{username} ({spotlight_display_name}) - follow them at https://x.com/{username} to see all their Tesla insights and updates.\n\n"
-            x_thread = x_thread[:insert_pos] + account_line + x_thread[insert_pos:]
-            logging.info(f"Added account mention and link for @{username} to X Spotlight section")
+# ========================== TESLA X TAKEOVER SECTION CLEANUP ==========================
+# The Tesla X Takeover section now focuses on fresh Tesla news/trends instead of specific accounts
+# No account-specific formatting needed
 
 # Find and limit news items to exactly 10
 news_pattern = r'(### Top 10 News Items.*?)(## Short Spot|### Tesla First Principles|━━)'
@@ -2274,48 +2242,9 @@ def format_digest_for_x(digest: str) -> str:
     
     # Format section headers with emojis (preserve existing markdown)
     formatted = re.sub(r'^### Top 10 News Items', '📰 **Top 10 News Items**', formatted, flags=re.MULTILINE)
-    # Format X Spotlight section - preserve account mention and link
-    # First, check if the account mention line already exists
-    has_account_mention = re.search(r'Today\'s spotlight is on @\w+.*follow them at.*x\.com', formatted, re.IGNORECASE)
-    
-    # Handle format with display name and link
-    formatted = re.sub(
-        r'^## X Spotlight: @(\w+)\s*\(([^)]+)\)',
-        r'🌟 **X Spotlight: @\1** (\2)',
-        formatted,
-        flags=re.MULTILINE
-    )
-    # Fallback for format without display name
-    formatted = re.sub(
-        r'^## X Spotlight: @(\w+)(?!\s*\()',
-        r'🌟 **X Spotlight: @\1**',
-        formatted,
-        flags=re.MULTILINE
-    )
-    # Handle cases where the intro line might already be there
-    formatted = re.sub(r'^## X Spotlight:', '🌟 **X Spotlight:**', formatted, flags=re.MULTILINE)
-    formatted = re.sub(r'^### X Spotlight:', '🌟 **X Spotlight:**', formatted, flags=re.MULTILINE)
-    
-    # If account mention is missing, add it after the X Spotlight header
-    if not has_account_mention:
-        # Find X Spotlight header and add account mention after it
-        spotlight_match = re.search(r'(🌟 \*\*X Spotlight: @(\w+)[^\n]*)', formatted, re.MULTILINE)
-        if spotlight_match:
-            username = spotlight_match.group(2)
-            insert_pos = spotlight_match.end()
-            # Get display name for this username
-            display_name = spotlight_display_name if username == spotlight_username else username
-            account_line = f"\nToday's spotlight is on @{username} ({display_name}) - follow them at: https://x.com/{username} to see all their Tesla insights and updates.\n\n"
-            formatted = formatted[:insert_pos] + account_line + formatted[insert_pos:]
-            logging.info(f"Added account mention and link for @{username} to formatted X Spotlight section")
-        else:
-            # Fallback: try to find any X Spotlight header and use current spotlight username
-            spotlight_fallback = re.search(r'(🌟 \*\*X Spotlight[^\n]*)', formatted, re.MULTILINE)
-            if spotlight_fallback:
-                insert_pos = spotlight_fallback.end()
-                account_line = f"\nToday's spotlight is on @{spotlight_username} ({spotlight_display_name}) - follow them at: https://x.com/{spotlight_username} to see all their Tesla insights and updates.\n\n"
-                formatted = formatted[:insert_pos] + account_line + formatted[insert_pos:]
-                logging.info(f"Added account mention and link for @{spotlight_username} to formatted X Spotlight section (fallback)")
+    # Format Tesla X Takeover section (now focuses on fresh news/trends, not specific accounts)
+    formatted = re.sub(r'^## Tesla X Takeover:', '🎙️ **Tesla X Takeover:**', formatted, flags=re.MULTILINE)
+    formatted = re.sub(r'^### Tesla X Takeover:', '🎙️ **Tesla X Takeover:**', formatted, flags=re.MULTILINE)
     # X POSTS SECTION DISABLED - No longer formatting X posts header
     formatted = re.sub(r'^## Short Spot', '📉 **Short Spot**', formatted, flags=re.MULTILINE)
     formatted = re.sub(r'^### Short Squeeze', '📈 **Short Squeeze**', formatted, flags=re.MULTILINE)
@@ -2336,19 +2265,19 @@ def format_digest_for_x(digest: str) -> str:
     # Also match after podcast link
     formatted = re.sub(r'(Podcast Link:.*?\n)(📰|\*\*Top 10 News|### Top 10 News)', separator + r'\2', formatted, flags=re.DOTALL)
     
-    # Add separator before X Spotlight
-    formatted = re.sub(r'(\n\n?)(🌟 \*\*X Spotlight)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(## X Spotlight|### X Spotlight)', separator + r'\2', formatted)
+    # Add separator before Tesla X Takeover
+    formatted = re.sub(r'(\n\n?)(🎙️ \*\*Tesla X Takeover)', separator + r'\2', formatted)
+    formatted = re.sub(r'(\n\n?)(## Tesla X Takeover|### Tesla X Takeover)', separator + r'\2', formatted)
     # Also match after last news item (10.)
-    formatted = re.sub(r'(10[️⃣\.]\s+.*?\n)(🌟|\*\*X Spotlight|## X Spotlight|### X Spotlight)', separator + r'\2', formatted, flags=re.DOTALL)
+    formatted = re.sub(r'(10[️⃣\.]\s+.*?\n)(🎙️|\*\*Tesla X Takeover|## Tesla X Takeover|### Tesla X Takeover)', separator + r'\2', formatted, flags=re.DOTALL)
     
     # X POSTS SEPARATOR DISABLED - No longer adding separator before X posts
     
     # Add separator before Short Spot
     formatted = re.sub(r'(\n\n?)(📉 \*\*Short Spot\*\*)', separator + r'\2', formatted)
     formatted = re.sub(r'(\n\n?)(## Short Spot)', separator + r'\2', formatted)
-    # Also match after X Spotlight section
-    formatted = re.sub(r'(Overall Weekly Sentiment.*?\n)(📉|\*\*Short Spot|## Short Spot)', separator + r'\2', formatted, flags=re.DOTALL)
+    # Also match after Tesla X Takeover section (vibe check)
+    formatted = re.sub(r'(The Vibe Check.*?\n)(📉|\*\*Short Spot|## Short Spot)', separator + r'\2', formatted, flags=re.DOTALL)
     
     # Add separator before Short Squeeze
     formatted = re.sub(r'(\n\n?)(📈 \*\*Short Squeeze\*\*)', separator + r'\2', formatted)
@@ -2588,7 +2517,7 @@ Patrick: Welcome to Tesla Shorts Time Daily, episode {episode_num}. It is {today
 
 [Narrate EVERY item from the digest in order - no skipping]
 - For each news item: Read the title with enthusiasm, then paraphrase the summary naturally
-- Tesla X Takeover: Introduce the spotlight account (@{spotlight_username} - {spotlight_display_name}) with Tesla enthusiasm. Make it sound like Tesla fans are taking over X! Read each post with excitement, explaining why each insight matters for Tesla investors. End with the vibe check summary.
+- Tesla X Takeover: Introduce the section with Tesla enthusiasm, focusing on the fresh, interesting Tesla developments and trends. Read each item with excitement, explaining why each development matters for Tesla investors. End with the vibe check summary that captures the overall Tesla news landscape.
 - Short Spot: Read with enthusiasm, explaining the bearish concern and why it's temporary/overblown.
 - Tesla First Principles: Explain the first principles analysis with enthusiasm, breaking down the fundamental question, data, Tesla approach, and market implications. Make it educational but engaging.
 - Tesla Market Movers (Mondays only): Provide an exciting recap of the week's Tesla market activity, highlighting the most important moves that impacted TSLA.
