@@ -2073,41 +2073,32 @@ Here is today's complete formatted digest. Use ONLY this content:
             str(bg_full)
         ], check=True, capture_output=True)
 
-        # Create silence for the period before background music starts
-        silence_before = tmp_dir / "silence_before.mp3"
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0",
-            "-f", "lavfi", "-t", str(bg_music_start), "-i", "anullsrc=r=44100:cl=stereo",
-            "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(silence_before)
-        ], check=True, capture_output=True)
+        # Background music should start immediately with the remaining voice portion
+        # No need for silence since we're starting from bg_music_start in the voice timeline
+        bg_with_silence = bg_full  # Use background music directly, no silence needed
 
-        # Combine silence + background music
-        bg_with_silence = tmp_dir / "bg_with_silence.mp3"
-        concat_list_bg = tmp_dir / "concat_bg.txt"
-        with open(concat_list_bg, "w") as f:
-            f.write(f"file '{silence_before}'\n")
-            f.write(f"file '{bg_full}'\n")
-
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0",
-            "-f", "concat",
-            "-safe", "0",
-            "-i", str(concat_list_bg),
-            "-c:a", "libmp3lame",
-            "-b:a", "192k", "-preset", "fast",
-            str(bg_with_silence)
-        ], check=True, capture_output=True)
-
-        # Extend voice with silence to match background music duration
-        voice_extended = tmp_dir / "voice_extended.mp3"
-        voice_total_duration = bg_music_start + bg_total_duration
-        logging.info(f"Extending voice track to {voice_total_duration:.2f}s total duration...")
-
-        # Use apad filter to extend audio with silence instead of concat
+        # Extract the remaining voice portion (from bg_music_start onwards)
+        # This avoids duplicating the voice that's already in intro_mix
+        voice_remaining = tmp_dir / "voice_remaining.mp3"
+        logging.info(f"Extracting voice portion from {bg_music_start:.2f}s onwards (avoiding duplication with intro section)...")
         subprocess.run([
             "ffmpeg", "-y", "-threads", "0",
             "-i", str(voice_mix),
+            "-ss", str(bg_music_start),  # Start from where intro_mix ends
+            "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+            str(voice_remaining)
+        ], check=True, capture_output=True)
+        
+        # Extend the remaining voice with silence to match background music duration
+        voice_extended = tmp_dir / "voice_extended.mp3"
+        voice_remaining_duration = get_audio_duration(voice_remaining)
+        voice_total_duration = voice_remaining_duration + 30  # Add 30s after voice ends
+        logging.info(f"Extending remaining voice track ({voice_remaining_duration:.2f}s) to {voice_total_duration:.2f}s total duration...")
+
+        # Use apad filter to extend audio with silence
+        subprocess.run([
+            "ffmpeg", "-y", "-threads", "0",
+            "-i", str(voice_remaining),
             "-af", f"apad=whole_dur={voice_total_duration}",
             "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(voice_extended)
@@ -2165,7 +2156,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         logging.info("Podcast created successfully with intro music and background music")
 
         # Cleanup temp files
-        cleanup_files = [voice_delayed, intro_mix, bg_full, silence_before, bg_with_silence, concat_list_bg,
+        cleanup_files = [voice_delayed, intro_mix, bg_full, voice_remaining,
                         voice_extended, voice_bg_mix, concat_list]
         for tmp_file in cleanup_files:
             if tmp_file and tmp_file.exists():

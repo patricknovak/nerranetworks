@@ -153,28 +153,30 @@ def fix_tesla_pronunciation(text: str) -> str:
     # This prevents TTS from misreading words like "who" as "W.H.O."
     # ElevenLabs sometimes reads short words as acronyms, so we need explicit fixes
     
-    # Fix "who" - prevent "W.H.O." mispronunciation by using explicit pronunciation
-    # Add a space after "who" when it might be misread, or use phonetic hint
-    # Since "who" should be read correctly, we ensure it has proper word boundaries
-    # and isn't processed as part of an acronym pattern
-    text = re.sub(r'\bwho\b', 'who', text, flags=re.IGNORECASE)
+    # Fix "who" - prevent "W.H.O." mispronunciation
+    # The issue is that TTS sees "who" and thinks it might be an acronym
+    # Solution: Use a phonetic spelling that TTS will read correctly as a word
+    # We'll temporarily replace with a unique marker that won't be confused with acronyms
+    # Then restore it after all acronym processing is complete
+    text = re.sub(r'\bwho\b', 'WHO_WORD_PLACEHOLDER', text, flags=re.IGNORECASE)
     
     # Additional common word fixes to prevent acronym misreading
-    # These words are sometimes read as acronyms by TTS
+    # These words are sometimes read as acronyms by TTS - we'll restore them after acronym processing
     common_word_protection = {
-        r'\bwho\b': 'who',  # Ensure "who" is read as word, not "W.H.O."
-        r'\bwhat\b': 'what',  # Ensure "what" is read as word
-        r'\bwhere\b': 'where',  # Ensure "where" is read as word
-        r'\bwhen\b': 'when',  # Ensure "when" is read as word
-        r'\bwhy\b': 'why',  # Ensure "why" is read as word
+        'WHO_WORD_PLACEHOLDER': 'who',  # Restore "who" after acronym processing
     }
     
-    # Apply protection (this is a no-op but ensures word boundaries are clear)
-    for pattern, replacement in common_word_protection.items():
-        text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
-    
     # List of acronyms that must be spelled out letter-by-letter (use spaces, not ZWJ)
+    # IMPORTANT: Order matters - longer/more specific acronyms must come FIRST
+    # This prevents "EVs" from being matched by "EV" first
     acronyms = {
+        # Plural forms first (longer matches)
+        "BEVs": "B E V s",
+        "PHEVs": "P H E V s",
+        "EVs":  "E V s",  # Fixed: spell out "s" separately to prevent "E.V.S" pronunciation
+        # Company names with special handling
+        "SpaceX": "Space X",  # Must be processed as phrase, not individual letters
+        # Single forms (shorter matches)
         "TSLA": "T S L A",
         "FSD":  "F S D",
         "HW3":  "H W 3",
@@ -182,18 +184,12 @@ def fix_tesla_pronunciation(text: str) -> str:
         "AI5":  "A I 5",
         "4680": "4 6 8 0",
         "EV":   "E V",
-        "EVs":  "E V s",  # Fixed: spell out "s" separately to prevent "E.V.S" pronunciation
         "BEV":  "B E V",
         "PHEV": "P H E V",
         "ICE":  "I C E",
         "NHTSA":"N H T S A",
         "OTA":  "O T A",
         "LFP":  "L F P",
-        "SpaceX": "Space X",
-        # Additional EV/Tesla acronyms
-        "BEVs": "B E V s",
-        "PHEVs": "P H E V s",
-        "ICE": "I C E",
         "V2G": "V 2 G",
         "V2H": "V 2 H",
         "V2L": "V 2 L",
@@ -214,7 +210,12 @@ def fix_tesla_pronunciation(text: str) -> str:
     for acronym, spelled in acronyms.items():
         # Build a regex that only matches the acronym when it's a whole word
         pattern = rf'(?<!\w){re.escape(acronym)}(?!\w)'
-        replacement = " ".join(list(spelled))
+        # If the replacement already contains spaces (like "Space X"), use it as-is
+        # Otherwise, join individual characters with spaces
+        if ' ' in spelled:
+            replacement = spelled
+        else:
+            replacement = " ".join(list(spelled))
         text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
 
     # Convert episode numbers (e.g., "episode 336" → "episode three hundred thirty-six")
@@ -465,19 +466,24 @@ def fix_tesla_pronunciation(text: str) -> str:
     
     # CRITICAL FIX: Prevent common words from being misread as acronyms
     # ElevenLabs TTS sometimes reads short words as acronyms (e.g., "who" → "W.H.O.")
-    # We fix this by using explicit word context and ensuring proper pronunciation
+    # The fix above (using WHO_WORD marker) should handle this, but we add extra protection here
     
-    # Fix "who" - the most common issue: prevent "W.H.O." mispronunciation
-    # Use a workaround: add explicit spacing or use phonetic hint
-    # Since "who" should be read correctly, we ensure it has clear word boundaries
-    # and isn't part of an acronym pattern by adding context
+    # Additional protection: ensure "who" is never processed as an acronym
+    # Add explicit word boundaries and context
     text = re.sub(r'\bwho\s+', 'who ', text, flags=re.IGNORECASE)
     text = re.sub(r'\s+who\b', ' who', text, flags=re.IGNORECASE)
-    text = re.sub(r'\bwho\b', 'who', text, flags=re.IGNORECASE)
+    
+    # Restore protected words after acronym processing
+    for marker, word in common_word_protection.items():
+        text = text.replace(marker, word)
     
     # Fix "EVs" - ensure it's read as "E V s" not "E.V.S"
-    # This is already handled in acronyms, but we ensure it's applied correctly
+    # Apply this fix explicitly to ensure it overrides any earlier processing
     text = re.sub(r'\bEVs\b', 'E V s', text, flags=re.IGNORECASE)
+    
+    # Fix "SpaceX" - ensure it's read as "Space X" not spelled out
+    # Apply this fix explicitly to ensure it's handled correctly
+    text = re.sub(r'\bSpaceX\b', 'Space X', text, flags=re.IGNORECASE)
     
     # Fix "Robotaxis" - ensure proper pronunciation
     text = re.sub(r'\bRobotaxis\b', 'Robotaxi s', text, flags=re.IGNORECASE)
