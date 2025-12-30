@@ -134,6 +134,10 @@ def fix_pronunciation(text: str) -> str:
     """
     import re
 
+    # CRITICAL: Protect common words from being misread as acronyms
+    # TTS engines sometimes read "who" as "W.H.O." - protect it before acronym processing
+    text = re.sub(r'\bwho\b', 'WHO_WORD_PLACEHOLDER', text, flags=re.IGNORECASE)
+
     # --- AI terms ---
     # Many TTS models misread "AI" in compounds like "AI-powered", "AI's", "AIs", "OpenAI", "GenAI".
     # Normalize these to a consistent "A.I." form (and a natural plural) before general acronym handling.
@@ -298,6 +302,9 @@ def fix_pronunciation(text: str) -> str:
             )
         except Exception as e:
             logging.warning(f"Error applying shared pronunciation fixes: {e}, continuing with local fixes")
+    
+    # Restore protected words after acronym processing
+    text = text.replace('WHO_WORD_PLACEHOLDER', 'who')
     
     return text
 

@@ -59,7 +59,7 @@ COMMON_ACRONYMS: Dict[str, str] = {
     "AI5": "A I 5",
     "4680": "4 6 8 0",
     "EV": "E V",
-    "EVs": "E Vs",
+    "EVs": "E V s",  # Fixed: spell out "s" separately to prevent "E.V.S" pronunciation
     "BEV": "B E V",
     "PHEV": "P H E V",
     "ICE": "I C E",
@@ -248,6 +248,10 @@ WORD_PRONUNCIATIONS: Dict[str, str] = {
     "shoot out": "shoot out",
     "Robotaxis": "Robotaxi s",
     "Robotaxi": "Robotaxi",
+    # Protect common words from being misread as acronyms
+    # TTS engines sometimes read "who" as "W.H.O." - protect it
+    "who": "who",
+    "Who": "Who",
 }
 
 
@@ -293,14 +297,21 @@ def apply_pronunciation_fixes(
     
     # Fix acronyms (must be whole words)
     for acronym, spelled in acronyms.items():
-        pattern = rf'(?<!\w){re.escape(acronym)}(?!\w)'
+        # Special handling for "WHO" - only match uppercase to avoid matching "who" (the word)
+        if acronym == "WHO":
+            pattern = rf'(?<!\w){re.escape(acronym)}(?!\w)'  # Case-sensitive for WHO
+            flags = 0  # No case-insensitive flag
+        else:
+            pattern = rf'(?<!\w){re.escape(acronym)}(?!\w)'
+            flags = re.IGNORECASE
+        
         if ' ' in spelled:
             replacement = spelled
         elif use_zwj:
             replacement = ZWJ.join(list(spelled))
         else:
             replacement = " ".join(list(spelled))
-        text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+        text = re.sub(pattern, replacement, text, flags=flags)
     
     # Fix hockey terms (phrases)
     for term, phrase in hockey_terms.items():

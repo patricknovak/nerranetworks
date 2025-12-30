@@ -15,6 +15,7 @@ import tempfile
 import html
 import json
 import re
+import random
 import xml.etree.ElementTree as ET
 from feedgen.feed import FeedGenerator
 from pathlib import Path
@@ -134,6 +135,10 @@ def fix_pronunciation(text: str) -> str:
     for better TTS pronunciation on ElevenLabs.
     """
     import re
+
+    # CRITICAL: Protect common words from being misread as acronyms
+    # TTS engines sometimes read "who" as "W.H.O." - protect it before acronym processing
+    text = re.sub(r'\bwho\b', 'WHO_WORD_PLACEHOLDER', text, flags=re.IGNORECASE)
 
     # Convert episode numbers (e.g., "episode 336" → "episode three hundred thirty-six")
     def replace_episode_number(match):
@@ -281,6 +286,9 @@ def fix_pronunciation(text: str) -> str:
             )
         except Exception as e:
             logging.warning(f"Error applying shared pronunciation fixes: {e}, continuing with local fixes")
+    
+    # Restore protected words after acronym processing
+    text = text.replace('WHO_WORD_PLACEHOLDER', 'who')
     
     return text
 
@@ -1957,6 +1965,109 @@ Here is today's complete formatted digest. Use ONLY this content:
     voice_duration = max(get_audio_duration(voice_mix), 0.0)
     logging.info(f"Voice duration: {voice_duration:.2f} seconds")
 
+    # ========================== OPTIONAL SPOCK "FASCINATING" INSERTION ==========================
+    # Occasionally add Spock's "Fascinating" clip as an Easter egg (30% chance)
+    # This honors the podcast's namesake - Spock's logical, fact-focused approach to knowledge
+    SPOCK_CLIP = digests_dir / "fascinating_frontiers" / "spock-fascinating.mp3"
+    should_add_spock = random.random() < 0.30 and SPOCK_CLIP.exists()  # 30% chance
+    
+    # Initialize Spock-related variables for cleanup (even if not used)
+    voice_before = None
+    voice_after = None
+    silence_before_spock = None
+    silence_after_spock = None
+    spock_normalized = None
+    spock_concat_list = None
+    voice_with_spock = None
+    
+    if should_add_spock:
+        try:
+            spock_duration = get_audio_duration(SPOCK_CLIP)
+            logging.info(f"Adding Spock 'Fascinating' clip ({spock_duration:.2f}s) - honoring the podcast's namesake!")
+            
+            # Insert Spock clip at ~65% through the voice track (after main content, before closing)
+            # This is typically after the Cosmic Spotlight section
+            insertion_point = voice_duration * 0.65
+            
+            # Split voice into two parts: before and after insertion point
+            voice_before = tmp_dir / "voice_before_spock.mp3"
+            voice_after = tmp_dir / "voice_after_spock.mp3"
+            
+            # Extract first part (up to insertion point)
+            subprocess.run([
+                "ffmpeg", "-y", "-threads", "0",
+                "-i", str(voice_mix),
+                "-t", str(insertion_point),
+                "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                str(voice_before)
+            ], check=True, capture_output=True)
+            
+            # Extract second part (from insertion point onwards)
+            subprocess.run([
+                "ffmpeg", "-y", "-threads", "0",
+                "-i", str(voice_mix),
+                "-ss", str(insertion_point),
+                "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                str(voice_after)
+            ], check=True, capture_output=True)
+            
+            # Create a small pause before Spock (0.3 seconds of silence)
+            silence_before_spock = tmp_dir / "silence_before_spock.mp3"
+            subprocess.run([
+                "ffmpeg", "-y", "-threads", "0",
+                "-f", "lavfi", "-t", "0.3", "-i", "anullsrc=r=44100:cl=mono",
+                "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                str(silence_before_spock)
+            ], check=True, capture_output=True)
+            
+            # Create a small pause after Spock (0.2 seconds of silence)
+            silence_after_spock = tmp_dir / "silence_after_spock.mp3"
+            subprocess.run([
+                "ffmpeg", "-y", "-threads", "0",
+                "-f", "lavfi", "-t", "0.2", "-i", "anullsrc=r=44100:cl=mono",
+                "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                str(silence_after_spock)
+            ], check=True, capture_output=True)
+            
+            # Normalize Spock clip to match voice levels
+            spock_normalized = tmp_dir / "spock_normalized.mp3"
+            subprocess.run([
+                "ffmpeg", "-y", "-threads", "0",
+                "-i", str(SPOCK_CLIP),
+                "-af", "loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,volume=0.9",  # Slightly quieter than voice
+                "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                str(spock_normalized)
+            ], check=True, capture_output=True)
+            
+            # Concatenate: voice_before + silence + Spock + silence + voice_after
+            spock_concat_list = tmp_dir / "spock_concat.txt"
+            with open(spock_concat_list, "w") as f:
+                f.write(f"file '{voice_before.absolute()}'\n")
+                f.write(f"file '{silence_before_spock.absolute()}'\n")
+                f.write(f"file '{spock_normalized.absolute()}'\n")
+                f.write(f"file '{silence_after_spock.absolute()}'\n")
+                f.write(f"file '{voice_after.absolute()}'\n")
+            
+            # Create voice with Spock inserted
+            voice_with_spock = tmp_dir / "voice_with_spock.mp3"
+            subprocess.run([
+                "ffmpeg", "-y", "-threads", "0",
+                "-f", "concat", "-safe", "0", "-i", str(spock_concat_list),
+                "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+                str(voice_with_spock)
+            ], check=True, capture_output=True)
+            
+            # Replace voice_mix with the version that includes Spock
+            if voice_with_spock.exists():
+                voice_mix = voice_with_spock
+                voice_duration = max(get_audio_duration(voice_mix), 0.0)
+                logging.info(f"✅ Spock clip inserted! New voice duration: {voice_duration:.2f} seconds")
+            else:
+                logging.warning("Failed to create voice with Spock clip, using original voice")
+        except Exception as e:
+            logging.warning(f"Failed to insert Spock clip: {e}, continuing with original voice")
+            # Continue with original voice_mix if Spock insertion fails
+
     # Check if we have the required music files
     has_intro_music = INTRO_MUSIC.exists() if INTRO_MUSIC else False
     has_background_music = BACKGROUND_MUSIC.exists() if BACKGROUND_MUSIC else False
@@ -2010,7 +2121,13 @@ Here is today's complete formatted digest. Use ONLY this content:
         logging.info("Podcast created successfully with Fascinating Frontiers intro music")
 
         # Cleanup temp files
+        # Cleanup temp files (including Spock-related files if they exist)
         cleanup_files = [voice_delayed]
+        if should_add_spock:
+            cleanup_files.extend([
+                voice_before, voice_after, silence_before_spock, silence_after_spock,
+                spock_normalized, spock_concat_list, voice_with_spock
+            ])
         for tmp_file in cleanup_files:
             if tmp_file and tmp_file.exists():
                 try:
@@ -2156,8 +2273,14 @@ Here is today's complete formatted digest. Use ONLY this content:
         logging.info("Podcast created successfully with intro music and background music")
 
         # Cleanup temp files
+        # Cleanup temp files (including Spock-related files if they exist)
         cleanup_files = [voice_delayed, intro_mix, bg_full, voice_remaining,
                         voice_extended, voice_bg_mix, concat_list]
+        if should_add_spock:
+            cleanup_files.extend([
+                voice_before, voice_after, silence_before_spock, silence_after_spock,
+                spock_normalized, spock_concat_list, voice_with_spock
+            ])
         for tmp_file in cleanup_files:
             if tmp_file and tmp_file.exists():
                 try:
