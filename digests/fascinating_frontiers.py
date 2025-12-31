@@ -2540,7 +2540,7 @@ if ENABLE_X_POSTING:
         thread_url = f"https://x.com/planetterrian/status/{tweet_id}"
         logging.info(f"DIGEST POSTED → {thread_url}")
     except Exception as e:
-        logging.error(f"X post failed: {e}")
+        logging.error(f"X post failed: {e}", exc_info=True)
 
 # Cleanup
 try:
