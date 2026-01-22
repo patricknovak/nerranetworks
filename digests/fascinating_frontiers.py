@@ -48,6 +48,9 @@ TEST_MODE = False  # Set to False for full run
 # Set to False to disable X posting (thread will still be generated and saved)
 ENABLE_X_POSTING = True
 
+# Set to True to save summaries to GitHub Pages instead of posting full content to X
+ENABLE_GITHUB_SUMMARIES = True
+
 # Set to False to disable podcast generation and RSS feed updates
 ENABLE_PODCAST = True
 
@@ -502,9 +505,51 @@ def save_credit_usage(usage_data: dict, output_dir: Path):
         logging.info(f"X API: {usage_data['services']['x_api']['total_calls']} API calls (search: {usage_data['services']['x_api']['search_calls']}, post: {usage_data['services']['x_api']['post_calls']})")
         logging.info(f"TOTAL ESTIMATED COST: ${usage_data['total_estimated_cost_usd']:.4f}")
         logging.info("="*80)
-        
+
     except Exception as e:
         logging.error(f"Failed to save credit usage: {e}", exc_info=True)
+
+def save_summary_to_github_pages(summary_text: str, output_dir: Path, podcast_name: str = "space"):
+    """
+    Save summary to GitHub Pages JSON file for display on summaries page.
+    """
+    try:
+        # Define the JSON file path
+        json_file = project_root / "digests" / f"summaries_{podcast_name}.json"
+
+        # Load existing summaries or create new structure
+        if json_file.exists():
+            with open(json_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        else:
+            data = {"podcast": podcast_name, "summaries": []}
+
+        # Create new summary entry
+        today = datetime.datetime.now()
+        summary_entry = {
+            "date": today.strftime("%Y-%m-%d"),
+            "datetime": today.isoformat(),
+            "content": summary_text,
+            "episode_num": get_next_episode_number(project_root / "fascinating_frontiers_podcast.rss", output_dir) - 1  # Current episode
+        }
+
+        # Add to summaries (keep only last 30 days to prevent file from growing too large)
+        data["summaries"].insert(0, summary_entry)  # Add to beginning (newest first)
+
+        # Keep only last 30 summaries
+        if len(data["summaries"]) > 30:
+            data["summaries"] = data["summaries"][:30]
+
+        # Save updated data
+        with open(json_file, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+
+        logging.info(f"Summary saved to GitHub Pages JSON: {json_file}")
+        return json_file
+
+    except Exception as e:
+        logging.error(f"Failed to save summary to GitHub Pages: {e}")
+        return None
 
 tmp_dir = Path(tempfile.gettempdir()) / "tts"
 tmp_dir.mkdir(exist_ok=True, parents=True)
@@ -2527,18 +2572,47 @@ Here is today's complete formatted digest. Use ONLY this content:
         except Exception as e:
             logging.error(f"Failed to update RSS feed: {e}", exc_info=True)
 
-# Post to X
+# Save summary to GitHub Pages and post link to X
+if ENABLE_GITHUB_SUMMARIES:
+    try:
+        # Save the full summary to GitHub Pages JSON
+        summary_json_file = save_summary_to_github_pages(formatted_thread.strip(), digests_dir, "space")
+        if summary_json_file:
+            logging.info("Summary saved to GitHub Pages successfully")
+        else:
+            logging.warning("Failed to save summary to GitHub Pages")
+    except Exception as e:
+        logging.error(f"Failed to save summary to GitHub Pages: {e}")
+
+# Post link to GitHub Pages summary on X instead of full content
 if ENABLE_X_POSTING:
     try:
-        thread_text = formatted_thread.strip()
-        
+        # Create link to the Fascinating Frontiers summaries page
+        summaries_url = "https://patricknovak.github.io/Tesla-shorts-time/fascinating-frontiers-summaries.html"
+
+        # Create a teaser post with link to full summary
+        today = datetime.datetime.now()
+        teaser_text = f"""🚀🌌 Fascinating Frontiers - {today.strftime('%B %d, %Y')}
+
+🔭 Today's complete space & astronomy digest is now live!
+
+🪐 Latest space missions & discoveries
+🌟 Cosmic phenomena & astronomical events
+🚁 Space technology & exploration updates
+🎙️ Full podcast episode available
+
+Read the full summary: {summaries_url}
+
+#Space #Astronomy #NASA #SpaceX #FascinatingFrontiers"""
+
         # Track X API post call
         credit_usage["services"]["x_api"]["post_calls"] += 1
-        
-        tweet = x_client.create_tweet(text=thread_text)
+
+        # Post the teaser with link
+        tweet = x_client.create_tweet(text=teaser_text)
         tweet_id = tweet.data['id']
         thread_url = f"https://x.com/planetterrian/status/{tweet_id}"
-        logging.info(f"DIGEST POSTED → {thread_url}")
+        logging.info(f"DIGEST LINK POSTED → {thread_url}")
     except Exception as e:
         logging.error(f"X post failed: {e}", exc_info=True)
 

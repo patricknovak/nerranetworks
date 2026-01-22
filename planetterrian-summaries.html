@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Daily Planetterrian Daily summaries - complete archives of science, longevity, and health discoveries.">
+    <meta name="keywords" content="science podcast summaries, longevity research, health discoveries, Planetterrian Daily, biotech news">
+    <title>Planetterrian Daily Summaries | Science, Longevity & Health Archive</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Planetterrian Brand Colors */
+            --planet-deep-teal: #018DB1;
+            --planet-light-teal: #35B5C4;
+            --planet-yellow: #F2D20D;
+            /* Legacy colors for compatibility */
+            --planet-green: #35B5C4;
+            --planet-green-dark: #018DB1;
+            /* Background and text colors */
+            --planet-dark: #0a1929;
+            --planet-card: #1a2332;
+            --planet-text: #ffffff;
+            --planet-text-light: #b0bec5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--planet-dark);
+            color: var(--planet-text);
+            line-height: 1.6;
+        }
+
+        /* Logo styling */
+        .logo-img {
+            height: 50px;
+            width: auto;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .hero-logo {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            margin: 2rem auto;
+            display: block;
+            filter: drop-shadow(0 10px 30px rgba(1, 141, 177, 0.3));
+        }
+
+        /* Header/Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 25, 41, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            border-bottom: 2px solid var(--planet-light-teal);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--planet-light-teal);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--planet-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--planet-light-teal);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            background: linear-gradient(135deg, var(--planet-dark) 0%, #1a2332 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--planet-light-teal) 0%, var(--planet-yellow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .tagline {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            font-weight: 600;
+            color: var(--planet-yellow);
+            margin-bottom: 2rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            color: var(--planet-text-light);
+            margin-bottom: 3rem;
+        }
+
+        /* Summary Section */
+        .summaries-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .podcast-summary {
+            background: var(--planet-card);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 2px solid var(--planet-light-teal);
+        }
+
+        .podcast-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--planet-text-light);
+        }
+
+        .podcast-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .podcast-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--planet-light-teal);
+            margin: 0;
+        }
+
+        .summary-item {
+            background: var(--planet-dark);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--planet-light-teal);
+        }
+
+        .summary-date {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--planet-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-content {
+            color: var(--planet-text-light);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .summary-content p {
+            margin-bottom: 1rem;
+        }
+
+        .summary-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .no-summaries {
+            text-align: center;
+            color: var(--planet-text-light);
+            padding: 3rem;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--planet-dark);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 2px solid var(--planet-light-teal);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--planet-text);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--planet-light-teal);
+        }
+
+        .footer-text {
+            color: var(--planet-text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: var(--planet-light-teal);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(10, 25, 41, 0.98);
+                flex-direction: column;
+                padding: 1rem;
+                border-top: 2px solid var(--planet-light-teal);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 0.75rem;
+                border-bottom: 1px solid var(--planet-text-light);
+            }
+
+            .hero {
+                padding: 6rem 1rem 2rem;
+            }
+
+            .summaries-section {
+                padding: 2rem 1rem;
+            }
+
+            .podcast-summary {
+                padding: 1.5rem;
+            }
+
+            .podcast-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .podcast-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Focus styles for keyboard navigation */
+        a:focus, button:focus {
+            outline: 2px solid var(--planet-light-teal);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo-container">
+                <a href="index.html" class="logo">Planetterrian</a>
+            </div>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html#episodes">Episodes</a></li>
+                <li><a href="index.html#highlights">Highlights</a></li>
+                <li><a href="index.html#news">News</a></li>
+                <li><a href="index.html#resources">Resources</a></li>
+                <li><a href="./digests/raw_data_index.html" target="_blank">📊 Raw Data</a></li>
+                <li><a href="planetterrian-summaries.html">📝 Science Summaries</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#subscribe">Subscribe</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Planetterrian Daily</h1>
+            <p class="tagline">Complete Archive of Science & Health Digests</p>
+            <p class="subtitle">Full daily summaries of science, longevity, and health discoveries</p>
+        </div>
+    </section>
+
+    <!-- Planetterrian Daily Summaries -->
+    <section class="summaries-section">
+        <div class="podcast-summary" data-aos="fade-up">
+            <div class="podcast-header">
+                <img src="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"
+                     alt="Planetterrian Daily" class="podcast-logo" onerror="this.style.display='none'">
+                <h2 class="podcast-title">Planetterrian Daily Science Summaries</h2>
+            </div>
+            <div id="planet-summaries">
+                <div class="no-summaries">Loading Planetterrian summaries...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="index.html#episodes">🎧 Episodes</a>
+                <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank">🍎 Apple Podcasts</a>
+                <a href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/podcast.rss" target="_blank">📡 RSS Feed</a>
+                <a href="https://x.com/planetterrian" target="_blank">🐦 X / Twitter</a>
+                <a href="./digests/raw_data_index.html" target="_blank">📊 Raw Data Archive</a>
+                <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank">💻 GitHub</a>
+            </div>
+            <p class="footer-text">Planetterrian Daily © 2025 | A tribe of forward-thinking innovators</p>
+            <p class="footer-text">🌍 Intertwining technology and compassion for the planet 🌍</p>
+        </div>
+    </footer>
+
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    easing: 'ease-in-out',
+                    once: true,
+                    offset: 100
+                });
+            }
+
+            // Mobile menu toggle
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.getElementById('navLinks');
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+
+                // Close menu when clicking a link
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        navLinks.classList.remove('active');
+                    });
+                });
+            }
+
+            // Load summaries from GitHub
+            loadSummaries();
+        });
+
+        async function loadSummaries() {
+            const baseUrl = 'https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests';
+
+            try {
+                // Load Planetterrian summaries
+                await loadPodcastSummaries('planet-summaries', `${baseUrl}/summaries_planet.json`);
+
+            } catch (error) {
+                console.error('Error loading summaries:', error);
+            }
+        }
+
+        async function loadPodcastSummaries(containerId, jsonUrl) {
+            try {
+                const response = await fetch(jsonUrl);
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${jsonUrl}`);
+                }
+
+                const data = await response.json();
+                const container = document.getElementById(containerId);
+
+                if (!data.summaries || data.summaries.length === 0) {
+                    container.innerHTML = '<div class="no-summaries">No summaries available yet. Check back after the next daily update!</div>';
+                    return;
+                }
+
+                // Sort summaries by date (newest first)
+                data.summaries.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                const summariesHtml = data.summaries.map(summary => `
+                    <div class="summary-item">
+                        <div class="summary-date">${formatDate(summary.date)}</div>
+                        <div class="summary-content">${summary.content}</div>
+                    </div>
+                `).join('');
+
+                container.innerHTML = summariesHtml;
+
+            } catch (error) {
+                console.error(`Error loading summaries:`, error);
+                const container = document.getElementById(containerId);
+                container.innerHTML = '<div class="no-summaries">Unable to load summaries. Please check back later.</div>';
+            }
+        }
+
+        function formatDate(dateString) {
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    weekday: 'long'
+                });
+            } catch {
+                return dateString;
+            }
+        }
+    </script>
+</body>
+</html>

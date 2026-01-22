@@ -156,8 +156,10 @@ jobs:
         git add digests/*.md digests/*.mp3 digests/*.txt 2>/dev/null || true
         # Add raw data files (JSON and HTML)
         git add digests/raw_data_*.json digests/raw_data_*.html digests/raw_data_index.html 2>/dev/null || true
-        # ALWAYS add RSS feed file (even if it was just updated, not new)
-        git add podcast.rss 2>/dev/null || true
+        # Add GitHub Pages summary files and HTML pages
+        git add digests/summaries_*.json tesla-summaries.html planetterrian-summaries.html fascinating-frontiers-summaries.html 2>/dev/null || true
+        # ALWAYS add RSS feed files (even if they were just updated, not new)
+        git add podcast.rss planetterrian_podcast.rss fascinating_frontiers_podcast.rss 2>/dev/null || true
         echo "Staged files:"
         git diff --staged --name-only || echo "No files staged"
         # Check if RSS feed has changes (even if not staged, it might have been modified)

@@ -21,6 +21,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import yfinance as yf
 from openai import OpenAI
+from openai import RateLimitError, PermissionDeniedError
 from difflib import SequenceMatcher
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 from bs4 import BeautifulSoup
@@ -62,6 +63,9 @@ ENABLE_X_POSTING = True
 
 # Set to False to disable podcast generation and RSS feed updates
 ENABLE_PODCAST = True
+
+# Set to True to save summaries to GitHub Pages instead of posting full content to X
+ENABLE_GITHUB_SUMMARIES = True
 
 # Link validation is currently disabled - validation functions have been removed
 # Set to True and re-implement validation functions if needed in the future
@@ -1030,9 +1034,51 @@ def save_credit_usage(usage_data: dict, output_dir: Path):
         logging.info(f"X API: {usage_data['services']['x_api']['total_calls']} API calls (search: {usage_data['services']['x_api']['search_calls']}, post: {usage_data['services']['x_api']['post_calls']})")
         logging.info(f"TOTAL ESTIMATED COST: ${usage_data['total_estimated_cost_usd']:.4f}")
         logging.info("="*80)
-        
+
     except Exception as e:
         logging.error(f"Failed to save credit usage: {e}", exc_info=True)
+
+def save_summary_to_github_pages(summary_text: str, output_dir: Path, podcast_name: str = "tesla"):
+    """
+    Save summary to GitHub Pages JSON file for display on summaries page.
+    """
+    try:
+        # Define the JSON file path
+        json_file = project_root / "digests" / f"summaries_{podcast_name}.json"
+
+        # Load existing summaries or create new structure
+        if json_file.exists():
+            with open(json_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        else:
+            data = {"podcast": podcast_name, "summaries": []}
+
+        # Create new summary entry
+        today = datetime.datetime.now()
+        summary_entry = {
+            "date": today.strftime("%Y-%m-%d"),
+            "datetime": today.isoformat(),
+            "content": summary_text,
+            "episode_num": get_next_episode_number(project_root / "podcast.rss", output_dir) - 1  # Current episode
+        }
+
+        # Add to summaries (keep only last 30 days to prevent file from growing too large)
+        data["summaries"].insert(0, summary_entry)  # Add to beginning (newest first)
+
+        # Keep only last 30 summaries
+        if len(data["summaries"]) > 30:
+            data["summaries"] = data["summaries"][:30]
+
+        # Save updated data
+        with open(json_file, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+
+        logging.info(f"Summary saved to GitHub Pages JSON: {json_file}")
+        return json_file
+
+    except Exception as e:
+        logging.error(f"Failed to save summary to GitHub Pages: {e}")
+        return None
 
 tmp_dir = Path(tempfile.gettempdir()) / "tts"
 tmp_dir.mkdir(exist_ok=True, parents=True)
@@ -2039,6 +2085,61 @@ try:
         credit_usage["services"]["grok_api"]["x_thread_generation"]["completion_tokens"] = usage.completion_tokens
         credit_usage["services"]["grok_api"]["x_thread_generation"]["total_tokens"] = usage.total_tokens
         credit_usage["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] = estimated_cost
+except PermissionDeniedError as e:
+    # Check if this is a no credits/licenses issue
+    error_str = str(e).lower()
+    if "credit" in error_str or "license" in error_str or "doesn't have any" in error_str or "purchase" in error_str:
+        logging.error("=" * 80)
+        logging.error("❌ GROK API: NO CREDITS OR LICENSES")
+        logging.error("=" * 80)
+        logging.error("The X.AI (Grok) API team associated with this API key:")
+        logging.error("  - Does not have any credits, OR")
+        logging.error("  - Does not have any licenses")
+        logging.error("")
+        logging.error("To continue generating episodes:")
+        logging.error("  1. Go to https://console.x.ai/ and sign in")
+        logging.error("  2. Navigate to your team settings")
+        logging.error("  3. Purchase credits or licenses for your team")
+        logging.error("")
+        # Try to extract team ID from error message if available
+        if "team/" in str(e):
+            import re
+            team_match = re.search(r'team/([a-f0-9-]+)', str(e))
+            if team_match:
+                team_id = team_match.group(1)
+                logging.error(f"  Direct link: https://console.x.ai/team/{team_id}")
+        logging.error("")
+        logging.error("The script will exit now. No episode will be generated.")
+        logging.error("=" * 80)
+        sys.exit(3)  # Exit code 3 for no credits/licenses (different from other errors)
+    else:
+        # Other permission error, log and re-raise
+        logging.error(f"Grok API permission denied: {e}")
+        logging.error("Check your API key permissions and team access.")
+        raise
+except RateLimitError as e:
+    # Check if this is a credit/spending limit issue
+    error_str = str(e).lower()
+    if "credit" in error_str or "spending limit" in error_str or "exhausted" in error_str:
+        logging.error("=" * 80)
+        logging.error("❌ GROK API CREDITS EXHAUSTED")
+        logging.error("=" * 80)
+        logging.error("The X.AI (Grok) API team has either:")
+        logging.error("  - Used all available credits, OR")
+        logging.error("  - Reached the monthly spending limit")
+        logging.error("")
+        logging.error("To continue generating episodes:")
+        logging.error("  1. Purchase more credits in your X.AI account")
+        logging.error("  2. Raise your monthly spending limit")
+        logging.error("")
+        logging.error("The script will exit now. No episode will be generated.")
+        logging.error("=" * 80)
+        sys.exit(2)  # Exit code 2 for credit exhaustion (different from general errors)
+    else:
+        # Regular rate limit (temporary), log and re-raise
+        logging.error(f"Grok API rate limit error: {e}")
+        logging.error("This is a temporary rate limit. The script will retry, but if this persists, check your API usage.")
+        raise
 except Exception as e:
     logging.error(f"Grok API call failed: {e}")
     logging.error("This might be due to network issues or API timeout. Please try again.")
@@ -2572,6 +2673,61 @@ Here is today's complete formatted digest. Use ONLY this content:
             credit_usage["services"]["grok_api"]["podcast_script_generation"]["completion_tokens"] = usage.completion_tokens
             credit_usage["services"]["grok_api"]["podcast_script_generation"]["total_tokens"] = usage.total_tokens
             credit_usage["services"]["grok_api"]["podcast_script_generation"]["estimated_cost_usd"] = estimated_cost
+    except PermissionDeniedError as e:
+        # Check if this is a no credits/licenses issue
+        error_str = str(e).lower()
+        if "credit" in error_str or "license" in error_str or "doesn't have any" in error_str or "purchase" in error_str:
+            logging.error("=" * 80)
+            logging.error("❌ GROK API: NO CREDITS OR LICENSES (during podcast script generation)")
+            logging.error("=" * 80)
+            logging.error("The X.AI (Grok) API team associated with this API key:")
+            logging.error("  - Does not have any credits, OR")
+            logging.error("  - Does not have any licenses")
+            logging.error("")
+            logging.error("To continue generating episodes:")
+            logging.error("  1. Go to https://console.x.ai/ and sign in")
+            logging.error("  2. Navigate to your team settings")
+            logging.error("  3. Purchase credits or licenses for your team")
+            logging.error("")
+            # Try to extract team ID from error message if available
+            if "team/" in str(e):
+                import re
+                team_match = re.search(r'team/([a-f0-9-]+)', str(e))
+                if team_match:
+                    team_id = team_match.group(1)
+                    logging.error(f"  Direct link: https://console.x.ai/team/{team_id}")
+            logging.error("")
+            logging.error("The script will exit now. No episode will be generated.")
+            logging.error("=" * 80)
+            sys.exit(3)  # Exit code 3 for no credits/licenses (different from other errors)
+        else:
+            # Other permission error, log and re-raise
+            logging.error(f"Grok API permission denied (podcast script): {e}")
+            logging.error("Check your API key permissions and team access.")
+            raise
+    except RateLimitError as e:
+        # Check if this is a credit/spending limit issue
+        error_str = str(e).lower()
+        if "credit" in error_str or "spending limit" in error_str or "exhausted" in error_str:
+            logging.error("=" * 80)
+            logging.error("❌ GROK API CREDITS EXHAUSTED (during podcast script generation)")
+            logging.error("=" * 80)
+            logging.error("The X.AI (Grok) API team has either:")
+            logging.error("  - Used all available credits, OR")
+            logging.error("  - Reached the monthly spending limit")
+            logging.error("")
+            logging.error("To continue generating episodes:")
+            logging.error("  1. Purchase more credits in your X.AI account")
+            logging.error("  2. Raise your monthly spending limit")
+            logging.error("")
+            logging.error("The script will exit now. No episode will be generated.")
+            logging.error("=" * 80)
+            sys.exit(2)  # Exit code 2 for credit exhaustion (different from general errors)
+        else:
+            # Regular rate limit (temporary), log and re-raise
+            logging.error(f"Grok API rate limit error (podcast script): {e}")
+            logging.error("This is a temporary rate limit. The script will retry, but if this persists, check your API usage.")
+            raise
     except Exception as e:
         logging.error(f"Grok API call for podcast script failed: {e}")
         logging.error("This might be due to network issues or API timeout. Please try again.")
@@ -4107,20 +4263,46 @@ if ENABLE_PODCAST and not TEST_MODE and final_mp3 and final_mp3.exists():
         logging.error(f"Failed to update RSS feed: {e}", exc_info=True)
         logging.warning("RSS feed update failed, but continuing...")
 
-# Post everything to X in ONE SINGLE POST
+# Save summary to GitHub Pages and post link to X
+if ENABLE_GITHUB_SUMMARIES:
+    try:
+        # Save the full summary to GitHub Pages JSON
+        summary_json_file = save_summary_to_github_pages(x_thread.strip(), digests_dir, "tesla")
+        if summary_json_file:
+            logging.info("Summary saved to GitHub Pages successfully")
+        else:
+            logging.warning("Failed to save summary to GitHub Pages")
+    except Exception as e:
+        logging.error(f"Failed to save summary to GitHub Pages: {e}")
+
+# Post link to GitHub Pages summary on X instead of full content
 if ENABLE_X_POSTING:
     try:
-        # Use the formatted version that's already in memory (from Step 4)
-        thread_text = x_thread.strip()
-        
+        # Create link to the Tesla summaries page
+        summaries_url = "https://patricknovak.github.io/Tesla-shorts-time/tesla-summaries.html"
+
+        # Create a teaser post with link to full summary
+        today = datetime.datetime.now()
+        teaser_text = f"""🚗⚡ Tesla Shorts Time Daily - {today.strftime('%B %d, %Y')}
+
+🔥 Today's complete digest is now live on our website!
+
+📈 TSLA news, stock analysis, and market insights
+🎙️ Full podcast episode available
+📊 Raw data and sources included
+
+Read the full summary: {summaries_url}
+
+#Tesla #TSLA #TeslaShortsTime #EV"""
+
         # Track X API post call
         credit_usage["services"]["x_api"]["post_calls"] += 1
-        
-        # Post as one single tweet (X supports long posts up to 25,000 characters)
-        tweet = x_client.create_tweet(text=thread_text)
+
+        # Post the teaser with link
+        tweet = x_client.create_tweet(text=teaser_text)
         tweet_id = tweet.data['id']
-        thread_url = f"https://x.com/planetterrian/status/{tweet_id}"
-        logging.info(f"DIGEST POSTED → {thread_url}")
+        thread_url = f"https://x.com/teslashortstime/status/{tweet_id}"
+        logging.info(f"DIGEST LINK POSTED → {thread_url}")
     except Exception as e:
         logging.error(f"X post failed: {e}")
 
