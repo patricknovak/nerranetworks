@@ -1,10 +1,12 @@
-name: Fascinating Frontiers Daily
+name: Fascinating Frontiers Bi-Daily
 
 on:
   schedule:
-    # Run daily at 8:00 AM EDT (12:00 UTC)
+    # Run every other day (even-numbered days) at 8:00 AM EDT (12:00 UTC)
     # This is 8:00 AM EDT / 5:00 AM PDT
-    - cron: '0 12 * * *'
+    # Cron: '0 12 2-31/2 * *' runs on 2nd, 4th, 6th, etc. of each month
+    # Collects best news from last 48 hours (2 days)
+    - cron: '0 12 2-31/2 * *'
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
@@ -196,7 +198,7 @@ jobs:
           fi
           
           echo "💾 Committing files..."
-          git commit -m "Auto-generated: Fascinating Frontiers $(date +%Y-%m-%d)" || echo "Commit failed (may be empty)"
+          git commit -m "Auto-generated: Fascinating Frontiers Bi-Daily $(date +%Y-%m-%d)" || echo "Commit failed (may be empty)"
           
           echo "🚀 Pushing to repository..."
           git push || echo "Push failed"

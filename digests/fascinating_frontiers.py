@@ -608,7 +608,7 @@ CHATTERBOX_PROMPT_DURATION_SECONDS = _env_float("CHATTERBOX_PROMPT_DURATION_SECO
 HF_TOKEN = os.getenv("HF_TOKEN")  # Hugging Face token for Chatterbox-Turbo model access
 
 # ========================== STEP 1: FETCH SPACE & ASTRONOMY NEWS FROM RSS FEEDS ==========================
-logging.info("Step 1: Fetching space and astronomy news from RSS feeds for the last 24 hours...")
+logging.info("Step 1: Fetching space and astronomy news from RSS feeds for the last 48 hours...")
 
 def calculate_similarity(text1: str, text2: str) -> float:
     """Calculate similarity ratio between two texts (0.0 to 1.0)."""
@@ -658,7 +658,7 @@ def remove_similar_items(items, similarity_threshold=0.7, get_text_func=None):
     retry=retry_if_exception_type((requests.RequestException, requests.Timeout))
 )
 def fetch_space_news():
-    """Fetch space and astronomy news from RSS feeds for the last 24 hours."""
+    """Fetch space and astronomy news from RSS feeds for the last 48 hours."""
     import feedparser
     
     # Space and astronomy RSS feeds
@@ -708,8 +708,8 @@ def fetch_space_news():
         "https://www.space.com/launches/feed",
     ]
     
-    # Calculate cutoff time (last 24 hours)
-    cutoff_time = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)
+    # Calculate cutoff time (last 48 hours)
+    cutoff_time = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=48)
     
     all_articles = []
     raw_articles = []
@@ -993,8 +993,91 @@ def fetch_space_news():
     formatted_articles.sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
     
     logging.info(f"Filtered to {len(formatted_articles)} unique space/astronomy news articles")
-    filtered_result = formatted_articles[:15]  # Return top 15 for selection
-    return filtered_result, raw_articles
+
+    # Select the best news from the last 48 hours
+    selected_articles = select_best_space_news(formatted_articles, max_articles=12)
+
+    logging.info(f"Selected {len(selected_articles)} best space/astronomy news articles from 48-hour collection")
+    return selected_articles, raw_articles
+
+def select_best_space_news(articles, max_articles=12):
+    """
+    Select the best space/astronomy news from the 48-hour collection.
+    Prioritizes high-quality sources, recent articles, and important missions/events.
+    """
+    if not articles:
+        return []
+
+    # Source quality scores (higher = better)
+    source_scores = {
+        "NASA": 10, "ESA": 10, "SpaceX": 9, "Blue Origin": 8,
+        "Space News": 9, "Space.com": 8, "Ars Technica": 8,
+        "Spaceflight Now": 8, "Universe Today": 7, "Sky & Telescope": 7,
+        "Astronomy Magazine": 7, "New Scientist": 6,
+        "BBC Science": 7, "Scientific American": 6
+    }
+
+    # Mission/event importance scores (higher = more important)
+    important_keywords = {
+        "launch": 4, "mission": 3, "satellite": 3, "rocket": 3,
+        "mars": 5, "moon": 4, "lunar": 4, "artemis": 5,
+        "starship": 4, "falcon": 3, "crew dragon": 4,
+        "iss": 4, "international space station": 4,
+        "telescope": 4, "james webb": 5, "hubble": 4,
+        "discovery": 4, "breakthrough": 4, "first": 4,
+        "asteroid": 3, "comet": 3, "exoplanet": 4,
+        "black hole": 4, "supernova": 3, "galaxy": 3,
+        "alien": 3, "life": 3, "extraterrestrial": 3
+    }
+
+    scored_articles = []
+
+    for article in articles:
+        score = 0
+
+        # Source quality score
+        source = article.get("source", "")
+        score += source_scores.get(source, 3)  # Default score of 3 for unknown sources
+
+        # Recency bonus (newer articles get higher scores)
+        try:
+            published = datetime.datetime.fromisoformat(article.get("publishedAt", "").replace('Z', '+00:00'))
+            hours_old = (datetime.datetime.now(datetime.timezone.utc) - published).total_seconds() / 3600
+            if hours_old < 12:
+                score += 3  # Very recent
+            elif hours_old < 24:
+                score += 2  # Recent
+            elif hours_old < 48:
+                score += 1  # Within 2 days
+        except:
+            pass  # If we can't parse the date, no recency bonus
+
+        # Mission/event importance score
+        text = f"{article.get('title', '')} {article.get('description', '')}".lower()
+        for keyword, bonus in important_keywords.items():
+            if keyword.lower() in text:
+                score += bonus
+                break  # Only count the first matching keyword
+
+        # Title quality bonus (articles with compelling titles)
+        title = article.get('title', '').lower()
+        if any(word in title for word in ['launch', 'mission', 'discovery', 'first', 'historic', 'breakthrough']):
+            score += 1
+
+        scored_articles.append((score, article))
+
+    # Sort by score (highest first) and return top articles
+    scored_articles.sort(key=lambda x: x[0], reverse=True)
+    selected = [article for score, article in scored_articles[:max_articles]]
+
+    # Log the selection
+    logging.info(f"Selected top {len(selected)} articles from {len(articles)} candidates:")
+    for i, article in enumerate(selected[:5], 1):  # Log top 5
+        source = article.get("source", "Unknown")
+        title = article.get("title", "")[:60]
+        logging.info(f"  {i}. {source}: {title}...")
+
+    return selected
 
 space_news, raw_news_articles = fetch_space_news()
 
