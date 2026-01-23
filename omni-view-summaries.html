@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Omni View - Daily balanced news summaries from diverse sources. Multiple perspectives on the stories that matter.">
+    <meta name="keywords" content="balanced news, diverse perspectives, media literacy, news analysis, unbiased reporting, multiple viewpoints">
+    <title>Omni View | Balanced News Summaries</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Balanced/Neutral Theme Colors */
+            --balance-gold: #D4AF37;
+            --balance-silver: #C0C0C0;
+            --balance-scale: #2C3E50;
+            --balance-light: #ECF0F1;
+            --balance-text: #2C3E50;
+            --balance-text-light: #7F8C8D;
+            --balance-accent: #3498DB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--balance-light);
+            color: var(--balance-text);
+            line-height: 1.6;
+        }
+
+        /* Header/Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            border-bottom: 2px solid var(--balance-gold);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--balance-scale);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .balance-icon {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--balance-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--balance-accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            background: linear-gradient(135deg, var(--balance-light) 0%, #F8F9FA 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '⚖️';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--balance-scale);
+        }
+
+        .hero .tagline {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            font-weight: 600;
+            color: var(--balance-accent);
+            margin-bottom: 2rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            color: var(--balance-text-light);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mission-statement {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid var(--balance-silver);
+        }
+
+        .mission-statement h3 {
+            color: var(--balance-scale);
+            margin-bottom: 1rem;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .mission-statement p {
+            color: var(--balance-text-light);
+            line-height: 1.7;
+        }
+
+        /* Summary Section */
+        .summaries-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+        }
+
+        .podcast-summary {
+            background: var(--balance-light);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 2px solid var(--balance-silver);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .podcast-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--balance-gold);
+        }
+
+        .podcast-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--balance-gold);
+        }
+
+        .podcast-title {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--balance-scale);
+            margin: 0;
+        }
+
+        .summary-item {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--balance-accent);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .summary-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .summary-date {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--balance-scale);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-content {
+            color: var(--balance-text);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .summary-content p {
+            margin-bottom: 1rem;
+        }
+
+        .summary-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .source-attribution {
+            font-size: 0.9rem;
+            color: var(--balance-text-light);
+            font-style: italic;
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--balance-silver);
+        }
+
+        .no-summaries {
+            text-align: center;
+            color: var(--balance-text-light);
+            padding: 3rem;
+            font-style: italic;
+        }
+
+        .perspective-notice {
+            background: var(--balance-gold);
+            color: var(--balance-scale);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .perspective-notice strong {
+            color: var(--balance-scale);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--balance-scale);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--balance-silver);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--balance-gold);
+        }
+
+        .footer-text {
+            color: var(--balance-light);
+            font-size: 0.9rem;
+        }
+
+        .footer-mission {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--balance-gold);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: var(--balance-accent);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                padding: 1rem;
+                border-top: 2px solid var(--balance-gold);
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 0.75rem;
+                border-bottom: 1px solid var(--balance-silver);
+            }
+
+            .hero {
+                padding: 6rem 1rem 2rem;
+            }
+
+            .summaries-section {
+                padding: 2rem 1rem;
+            }
+
+            .podcast-summary {
+                padding: 1.5rem;
+            }
+
+            .podcast-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .podcast-title {
+                font-size: 1.5rem;
+            }
+
+            .mission-statement {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Focus styles for keyboard navigation */
+        a:focus, button:focus {
+            outline: 2px solid var(--balance-accent);
+            outline-offset: 2px;
+        }
+
+        /* Balance scale animation */
+        @keyframes balance {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(1deg); }
+            75% { transform: rotate(-1deg); }
+        }
+
+        .balance-icon {
+            animation: balance 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <span class="balance-icon">⚖️</span>
+                Omni View
+            </a>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html#episodes">Episodes</a></li>
+                <li><a href="index.html#highlights">Highlights</a></li>
+                <li><a href="index.html#news">News</a></li>
+                <li><a href="index.html#resources">Resources</a></li>
+                <li><a href="./digests/raw_data_index.html" target="_blank">📊 Raw Data</a></li>
+                <li><a href="omni-view-summaries.html">⚖️ Balanced Summaries</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#subscribe">Subscribe</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Omni View</h1>
+            <p class="tagline">Balanced Perspectives on the News</p>
+            <p class="subtitle">Daily summaries presenting multiple viewpoints on the stories that matter, helping you form your own informed opinions.</p>
+
+            <div class="mission-statement" data-aos="fade-up">
+                <h3>Our Mission</h3>
+                <p>We believe in media literacy and informed citizenship. In an era of polarized information, Omni View provides balanced coverage from diverse sources across the political spectrum. We present facts, multiple perspectives, and context so you can evaluate news for yourself.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Omni View Summaries -->
+    <section class="summaries-section">
+        <div class="podcast-summary" data-aos="fade-up">
+            <div class="podcast-header">
+                <span style="font-size: 3rem;">⚖️</span>
+                <h2 class="podcast-title">Daily Balanced News Summaries</h2>
+            </div>
+
+            <div class="perspective-notice">
+                <strong>📊 Multiple Perspectives:</strong> Each story below includes coverage from diverse sources representing different viewpoints. Consider all angles before forming your opinion.
+            </div>
+
+            <div id="omni-summaries">
+                <div class="no-summaries">Loading Omni View summaries...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-mission">"The truth is usually somewhere in the middle."</p>
+            <div class="footer-links">
+                <a href="index.html#episodes">🎧 Episodes</a>
+                <a href="https://podcasts.apple.com/us/podcast/omni-view/idXXXXXXXXXX" target="_blank">🍎 Apple Podcasts</a>
+                <a href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni_view_podcast.rss" target="_blank">📡 RSS Feed</a>
+                <a href="https://x.com/omniviewnews" target="_blank">🐦 X / Twitter</a>
+                <a href="./digests/raw_data_index.html" target="_blank">📊 Raw Data Archive</a>
+                <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank">💻 GitHub</a>
+            </div>
+            <p class="footer-text">Omni View © 2025 | Promoting media literacy through balanced perspectives</p>
+            <p class="footer-text">⚖️ Stay informed • Think critically • Form your own opinions ⚖️</p>
+        </div>
+    </footer>
+
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    easing: 'ease-in-out',
+                    once: true,
+                    offset: 100
+                });
+            }
+
+            // Mobile menu toggle
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.getElementById('navLinks');
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+
+                // Close menu when clicking a link
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        navLinks.classList.remove('active');
+                    });
+                });
+            }
+
+            // Load summaries from GitHub
+            loadSummaries();
+        });
+
+        async function loadSummaries() {
+            const baseUrl = 'https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests';
+
+            try {
+                // Load Omni View summaries
+                await loadPodcastSummaries('omni-summaries', `${baseUrl}/summaries_omni.json`);
+
+            } catch (error) {
+                console.error('Error loading summaries:', error);
+            }
+        }
+
+        async function loadPodcastSummaries(containerId, jsonUrl) {
+            try {
+                const response = await fetch(jsonUrl);
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${jsonUrl}`);
+                }
+
+                const data = await response.json();
+                const container = document.getElementById(containerId);
+
+                if (!data.summaries || data.summaries.length === 0) {
+                    container.innerHTML = '<div class="no-summaries">No summaries available yet. Check back after the next daily update!</div>';
+                    return;
+                }
+
+                // Sort summaries by date (newest first)
+                data.summaries.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                const summariesHtml = data.summaries.map(summary => `
+                    <div class="summary-item">
+                        <div class="summary-date">${formatDate(summary.date)}</div>
+                        <div class="summary-content">${summary.content}</div>
+                        <div class="source-attribution">📊 This summary includes perspectives from multiple news sources for balanced coverage</div>
+                    </div>
+                `).join('');
+
+                container.innerHTML = summariesHtml;
+
+            } catch (error) {
+                console.error(`Error loading summaries:`, error);
+                const container = document.getElementById(containerId);
+                container.innerHTML = '<div class="no-summaries">Unable to load summaries. Please check back later.</div>';
+            }
+        }
+
+        function formatDate(dateString) {
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    weekday: 'long'
+                });
+            } catch {
+                return dateString;
+            }
+        }
+    </script>
+</body>
+</html>

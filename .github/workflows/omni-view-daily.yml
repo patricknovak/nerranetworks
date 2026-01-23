@@ -1,10 +1,10 @@
-name: Tesla Shorts Time Daily
+name: Omni View Daily
 
 on:
   schedule:
-    # Run daily at 7:00 AM EDT (11:00 UTC)
-    # This is 7:00 AM EDT / 4:00 AM PDT
-    - cron: '0 11 * * *'
+    # Run daily at 6:00 AM EDT (10:00 UTC)
+    # This is 6:00 AM EDT / 3:00 AM PDT
+    - cron: '0 10 * * *'
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Required to commit and push files
-    
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-      
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -46,16 +46,14 @@ jobs:
         fi
         pip install -r requirements.txt
         echo "Installed packages:"
-        pip list | grep -E "(openai|yfinance|tweepy|requests|python-dotenv)" || echo "Some packages may not be listed"
-        
+        pip list | grep -E "(openai|yfinance|tweepy|requests|python-dotenv|feedparser|torch|torchaudio|chatterbox)" || echo "Some packages may not be listed"
+
     - name: Create .env file from secrets
       run: |
         echo "Creating .env file..."
         cat > .env << EOF
         GROK_API_KEY=${{ secrets.GROK_API_KEY }}
         ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }}
-        NEWSAPI_KEY=${{ secrets.NEWSAPI_KEY }}
-        HF_TOKEN=${{ secrets.HF_TOKEN }}
         X_CONSUMER_KEY=${{ secrets.X_CONSUMER_KEY }}
         X_CONSUMER_SECRET=${{ secrets.X_CONSUMER_SECRET }}
         X_ACCESS_TOKEN=${{ secrets.X_ACCESS_TOKEN }}
@@ -72,16 +70,6 @@ jobs:
           echo "⚠️  WARNING: ELEVENLABS_API_KEY is not set!"
         else
           echo "✅ ELEVENLABS_API_KEY is set"
-        fi
-        if [ -z "${{ secrets.NEWSAPI_KEY }}" ]; then
-          echo "⚠️  WARNING: NEWSAPI_KEY is not set!"
-        else
-          echo "✅ NEWSAPI_KEY is set"
-        fi
-        if [ -z "${{ secrets.HF_TOKEN }}" ]; then
-          echo "❌ ERROR: HF_TOKEN is not set! Required for Chatterbox-Turbo TTS."
-        else
-          echo "✅ HF_TOKEN is set"
         fi
         echo "Checking X API credentials..."
         if [ -z "${{ secrets.X_CONSUMER_KEY }}" ]; then
@@ -109,14 +97,14 @@ jobs:
         else
           echo "✅ X_BEARER_TOKEN is set"
         fi
-        
-    - name: Run Tesla Shorts Time script
+
+    - name: Run Omni View script
       working-directory: ./digests
       run: |
         set -e  # Exit on any error
         echo "Current directory: $(pwd)"
         echo "Checking for script file..."
-        if [ ! -f tesla_shorts_time.py ]; then
+        if [ ! -f omni_view.py ]; then
           echo "❌ ERROR: Script not found!"
           exit 1
         fi
@@ -127,57 +115,80 @@ jobs:
           exit 1
         fi
         echo "✅ .env file found"
-        echo "Checking for music file..."
-        if [ -f ../tesla_shorts_time.mp3 ]; then
-          echo "✅ Music file found"
-        else
-          echo "⚠️  Music file not found (script will run without music)"
-        fi
-        echo "Running script..."
-        python3 tesla_shorts_time.py 2>&1
+        echo "Running Omni View script..."
+        python3 omni_view.py 2>&1
       env:
         # Pass through any additional environment variables if needed
         TZ: UTC
       continue-on-error: false
-        
+
     - name: List generated files
       run: |
         echo "Checking for generated files..."
         echo "Files in digests/:"
-        ls -lah digests/*.md digests/*.mp3 digests/*.txt 2>/dev/null || echo "No files found in digests/"
+        ls -lah digests/Omni_View_*.md digests/Omni_View_Ep*.mp3 digests/podcast_transcript_*.txt 2>/dev/null || echo "No Omni View files found in digests/"
         echo "Raw data files in digests/:"
-        ls -lah digests/raw_data_*.json digests/raw_data_*.html digests/raw_data_index.html 2>/dev/null || echo "No raw data files found in digests/"
-        
+        ls -lah digests/raw_data_*.json digests/raw_data_*.html 2>/dev/null || echo "No raw data files found in digests/"
+        echo "Credit usage files in digests/:"
+        ls -lah digests/credit_usage_*.json 2>/dev/null || echo "No credit usage files found in digests/"
+        echo "RSS feed file:"
+        ls -lah omni_view_podcast.rss 2>/dev/null || echo "RSS feed file not found"
+
     - name: Commit and push generated files
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        # Add files from digests/ directory (where script saves them)
-        git add digests/*.md digests/*.mp3 digests/*.txt 2>/dev/null || true
+
+        echo "📦 Staging all Omni View generated files..."
+
+        # Add Omni View digest (X thread)
+        git add digests/Omni_View_*.md 2>/dev/null || true
+
+        # Add podcast audio files
+        git add digests/Omni_View_Ep*.mp3 2>/dev/null || true
+
+        # Add podcast transcript
+        git add digests/podcast_transcript_*.txt 2>/dev/null || true
+
         # Add raw data files (JSON and HTML)
-        git add digests/raw_data_*.json digests/raw_data_*.html digests/raw_data_index.html 2>/dev/null || true
-        # Add GitHub Pages summary files and HTML pages
-        git add digests/summaries_*.json tesla-summaries.html planetterrian-summaries.html fascinating-frontiers-summaries.html omni-view-summaries.html 2>/dev/null || true
-        # ALWAYS add RSS feed files (even if they were just updated, not new)
-        git add podcast.rss planetterrian_podcast.rss fascinating_frontiers_podcast.rss 2>/dev/null || true
-        echo "Staged files:"
+        git add digests/raw_data_*.json digests/raw_data_*.html 2>/dev/null || true
+
+        # Add credit usage files (cost tracking)
+        git add digests/credit_usage_*.json 2>/dev/null || true
+
+        # Add GitHub Pages summary files
+        git add digests/summaries_omni.json omni-view-summaries.html 2>/dev/null || true
+
+        # ALWAYS add RSS feed file (even if it was just updated, not new)
+        git add omni_view_podcast.rss 2>/dev/null || true
+
+        echo "📋 Staged files:"
         git diff --staged --name-only || echo "No files staged"
+
         # Check if RSS feed has changes (even if not staged, it might have been modified)
-        if git diff --name-only | grep -q "podcast.rss" || git diff --staged --name-only | grep -q "podcast.rss"; then
+        if git diff --name-only | grep -q "omni_view_podcast.rss" || git diff --staged --name-only | grep -q "omni_view_podcast.rss"; then
           echo "📡 RSS feed has changes - will be committed"
         fi
+
         # Check if there are any changes to commit
-        if ! git diff --staged --quiet || ! git diff --quiet podcast.rss; then
-          # If RSS feed has changes but isn't staged, stage it
-          if ! git diff --staged --name-only | grep -q "podcast.rss"; then
-            git add podcast.rss
-            echo "📡 Staged RSS feed changes"
-          fi
-          git commit -m "Auto-generated: Tesla Shorts Time $(date +%Y-%m-%d)" || echo "Commit failed (may be empty)"
+        if ! git diff --staged --quiet; then
+          echo "💾 Committing files..."
+          git commit -m "Auto-generated: Omni View $(date +%Y-%m-%d)" || echo "Commit failed (may be empty)"
+
+          echo "🚀 Pushing to repository..."
           git push || echo "Push failed"
+
           echo "✅ Files committed and pushed successfully to repository!"
+          echo ""
+          echo "📊 Summary of what was generated:"
+          echo "  ✓ Balanced news digest (X thread)"
+          echo "  ✓ Posted to X (@omniviewnews)"
+          echo "  ✓ Podcast script generated"
+          echo "  ✓ Podcast audio created (ElevenLabs TTS)"
+          echo "  ✓ RSS feed updated"
+          echo "  ✓ Credit usage file generated"
+          echo "  ✓ Summary saved to GitHub Pages"
         else
           echo "⚠️  No new files to commit - script may have failed or no new content generated"
         fi
       continue-on-error: true  # Don't fail workflow if commit/push fails
-
