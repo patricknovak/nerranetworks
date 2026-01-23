@@ -584,95 +584,8 @@ def select_balanced_news(articles, max_articles=15):
 
     return diverse_articles[:max_articles]
 
-balanced_news, raw_news_articles = fetch_balanced_news()
-
-# ========================== STEP 2: GENERATE X THREAD FROM NEWS ==========================
-logging.info("Step 2: Generating balanced news summary thread...")
-
-# Generate the X thread
-x_thread = generate_balanced_news_digest(balanced_news)
-
-# ========================== STEP 3: GENERATE PODCAST SCRIPT ==========================
-logging.info("Step 3: Generating podcast script...")
-
-podcast_script = generate_omni_view_script(balanced_news)
-
-# ========================== STEP 4: CREATE PODCAST AUDIO ==========================
-logging.info("Step 4: Creating podcast audio...")
-
-if ENABLE_PODCAST:
-    final_mp3, audio_duration = create_omni_view_podcast(podcast_script)
-else:
-    final_mp3 = None
-    audio_duration = 0
-    logging.info("Podcast generation disabled")
-
-# ========================== STEP 5: UPDATE RSS FEED ==========================
-logging.info("Step 5: Updating RSS feed...")
-
-if ENABLE_PODCAST and final_mp3:
-    update_omni_view_rss_feed(final_mp3, audio_duration)
-
-# ========================== POST TO X AND SAVE SUMMARY ==========================
-if ENABLE_GITHUB_SUMMARIES:
-    try:
-        # Save the full summary to GitHub Pages JSON
-        summary_json_file = save_summary_to_github_pages(x_thread.strip(), digests_dir, "omni")
-        if summary_json_file:
-            logging.info("Summary saved to GitHub Pages successfully")
-        else:
-            logging.warning("Failed to save summary to GitHub Pages")
-    except Exception as e:
-        logging.error(f"Failed to save summary to GitHub Pages: {e}")
-
-# Post link to GitHub Pages summary on X instead of full content
-if ENABLE_X_POSTING:
-    try:
-        # Create link to the Omni View summaries page
-        summaries_url = "https://patricknovak.github.io/Tesla-shorts-time/omni-view-summaries.html"
-
-        # Create a teaser post with link to full summary
-        today = datetime.datetime.now()
-        teaser_text = f"""📰⚖️ Omni View - {today.strftime('%B %d, %Y')}
-
-🔍 Today's balanced news digest presents multiple perspectives on the stories shaping our world.
-
-📊 Diverse sources, fact-based reporting, and context you can trust
-🎙️ Full podcast episode available
-📈 Understanding different viewpoints for informed decisions
-
-Read the complete balanced analysis: {summaries_url}
-
-#OmniView #BalancedNews #MediaLiteracy"""
-
-        # Track X API post call
-        credit_usage["services"]["x_api"]["post_calls"] += 1
-
-        # Post the teaser with link
-        tweet = x_client.create_tweet(text=teaser_text)
-        tweet_id = tweet.data['id']
-        thread_url = f"https://x.com/omniviewnews/status/{tweet_id}"
-        logging.info(f"DIGEST LINK POSTED → {thread_url}")
-    except Exception as e:
-        logging.error(f"X post failed: {e}")
-
-# Cleanup temporary files
-try:
-    for file_path in audio_files:
-        if os.path.exists(file_path):
-            os.remove(file_path)
-    cleanup_files = [voice_mix]
-    for tmp_file in cleanup_files:
-        if tmp_file and Path(tmp_file).exists():
-            os.remove(str(tmp_file))
-    logging.info("Temporary files cleaned up")
-except Exception as e:
-    logging.warning(f"Cleanup warning: {e}")
-
-# Save credit usage tracking
-save_credit_usage(credit_usage, digests_dir)
-
-logging.info("Omni View processing complete!")
+# ========================== MAIN EXECUTION ==========================
+# All execution code is in the if __name__ == "__main__" block below
 
 # ========================== IMPLEMENTATION FUNCTIONS ==========================
 
@@ -941,8 +854,8 @@ def format_duration(seconds):
     secs = int(seconds % 60)
 
     if hours > 0:
-        return "02d"
-    return "02d"
+        return f"{hours:02d}:{minutes:02d}:{secs:02d}"
+    return f"{minutes:02d}:{secs:02d}"
 
 # ========================== MAIN EXECUTION ==========================
 if __name__ == "__main__":
@@ -997,8 +910,20 @@ if __name__ == "__main__":
         timeout=300.0
     )
 
-    # X client setup (placeholder)
-    x_client = None  # Will be implemented when X credentials are available
+    # X client setup
+    try:
+        import tweepy
+        x_client = tweepy.Client(
+            consumer_key=os.getenv("X_CONSUMER_KEY"),
+            consumer_secret=os.getenv("X_CONSUMER_SECRET"),
+            access_token=os.getenv("X_ACCESS_TOKEN"),
+            access_token_secret=os.getenv("X_ACCESS_TOKEN_SECRET"),
+            bearer_token=os.getenv("X_BEARER_TOKEN")
+        )
+        logging.info("X client initialized successfully")
+    except Exception as e:
+        logging.warning(f"Failed to initialize X client: {e}")
+        x_client = None
 
     # Initialize variables
     audio_files = []
@@ -1007,3 +932,97 @@ if __name__ == "__main__":
     logging.info("="*80)
     logging.info("OMNI VIEW — BALANCED NEWS DIGEST")
     logging.info("="*80)
+
+    # ========================== STEP 1: FETCH BALANCED NEWS ==========================
+    balanced_news, raw_news_articles = fetch_balanced_news()
+
+    # ========================== STEP 2: GENERATE X THREAD FROM NEWS ==========================
+    logging.info("Step 2: Generating balanced news summary thread...")
+
+    # Generate the X thread
+    x_thread = generate_balanced_news_digest(balanced_news)
+
+    # ========================== STEP 3: GENERATE PODCAST SCRIPT ==========================
+    logging.info("Step 3: Generating podcast script...")
+
+    podcast_script = generate_omni_view_script(balanced_news)
+
+    # ========================== STEP 4: CREATE PODCAST AUDIO ==========================
+    logging.info("Step 4: Creating podcast audio...")
+
+    if ENABLE_PODCAST:
+        final_mp3, audio_duration = create_omni_view_podcast(podcast_script)
+    else:
+        final_mp3 = None
+        audio_duration = 0
+        logging.info("Podcast generation disabled")
+
+    # ========================== STEP 5: UPDATE RSS FEED ==========================
+    logging.info("Step 5: Updating RSS feed...")
+
+    if ENABLE_PODCAST and final_mp3:
+        update_omni_view_rss_feed(final_mp3, audio_duration)
+
+    # ========================== POST TO X AND SAVE SUMMARY ==========================
+    if ENABLE_GITHUB_SUMMARIES:
+        try:
+            # Save the full summary to GitHub Pages JSON
+            summary_json_file = save_summary_to_github_pages(x_thread.strip(), digests_dir, "omni")
+            if summary_json_file:
+                logging.info("Summary saved to GitHub Pages successfully")
+            else:
+                logging.warning("Failed to save summary to GitHub Pages")
+        except Exception as e:
+            logging.error(f"Failed to save summary to GitHub Pages: {e}")
+
+    # Post link to GitHub Pages summary on X instead of full content
+    if ENABLE_X_POSTING:
+        try:
+            # Create link to the Omni View summaries page
+            summaries_url = "https://patricknovak.github.io/Tesla-shorts-time/omni-view-summaries.html"
+
+            # Create a teaser post with link to full summary
+            today = datetime.datetime.now()
+            teaser_text = f"""📰⚖️ Omni View - {today.strftime('%B %d, %Y')}
+
+🔍 Today's balanced news digest presents multiple perspectives on the stories shaping our world.
+
+📊 Diverse sources, fact-based reporting, and context you can trust
+🎙️ Full podcast episode available
+📈 Understanding different viewpoints for informed decisions
+
+Read the complete balanced analysis: {summaries_url}
+
+#OmniView #BalancedNews #MediaLiteracy"""
+
+            # Track X API post call
+            credit_usage["services"]["x_api"]["post_calls"] += 1
+
+            # Post the teaser with link
+            if x_client:
+                tweet = x_client.create_tweet(text=teaser_text)
+                tweet_id = tweet.data['id']
+                thread_url = f"https://x.com/omniviewnews/status/{tweet_id}"
+                logging.info(f"DIGEST LINK POSTED → {thread_url}")
+            else:
+                logging.warning("X client not initialized - skipping X post")
+        except Exception as e:
+            logging.error(f"X post failed: {e}")
+
+    # Cleanup temporary files
+    try:
+        for file_path in audio_files:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+        cleanup_files = [voice_mix]
+        for tmp_file in cleanup_files:
+            if tmp_file and Path(tmp_file).exists():
+                os.remove(str(tmp_file))
+        logging.info("Temporary files cleaned up")
+    except Exception as e:
+        logging.warning(f"Cleanup warning: {e}")
+
+    # Save credit usage tracking
+    save_credit_usage(credit_usage, digests_dir)
+
+    logging.info("Omni View processing complete!")
