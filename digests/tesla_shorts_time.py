@@ -1038,7 +1038,16 @@ def save_credit_usage(usage_data: dict, output_dir: Path):
     except Exception as e:
         logging.error(f"Failed to save credit usage: {e}", exc_info=True)
 
-def save_summary_to_github_pages(summary_text: str, output_dir: Path, podcast_name: str = "tesla"):
+def save_summary_to_github_pages(
+    summary_text: str,
+    output_dir: Path,
+    podcast_name: str = "tesla",
+    *,
+    episode_num: int | None = None,
+    episode_title: str | None = None,
+    audio_url: str | None = None,
+    rss_url: str | None = None,
+):
     """
     Save summary to GitHub Pages JSON file for display on summaries page.
     """
@@ -1055,11 +1064,19 @@ def save_summary_to_github_pages(summary_text: str, output_dir: Path, podcast_na
 
         # Create new summary entry
         today = datetime.datetime.now()
+        computed_episode_num = episode_num
+        if computed_episode_num is None:
+            # Fallback (legacy): infer current episode from RSS
+            computed_episode_num = get_next_episode_number(project_root / "podcast.rss", output_dir) - 1
+
         summary_entry = {
             "date": today.strftime("%Y-%m-%d"),
             "datetime": today.isoformat(),
             "content": summary_text,
-            "episode_num": get_next_episode_number(project_root / "podcast.rss", output_dir) - 1  # Current episode
+            "episode_num": computed_episode_num,
+            "episode_title": episode_title,
+            "audio_url": audio_url,
+            "rss_url": rss_url,
         }
 
         # Add to summaries (keep only last 30 days to prevent file from growing too large)
@@ -4267,7 +4284,23 @@ if ENABLE_PODCAST and not TEST_MODE and final_mp3 and final_mp3.exists():
 if ENABLE_GITHUB_SUMMARIES:
     try:
         # Save the full summary to GitHub Pages JSON
-        summary_json_file = save_summary_to_github_pages(x_thread.strip(), digests_dir, "tesla")
+        _base_url = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+        _audio_url = None
+        try:
+            if ENABLE_PODCAST and final_mp3:
+                _audio_url = f"{_base_url}/digests/{final_mp3.name}"
+        except Exception:
+            _audio_url = None
+
+        summary_json_file = save_summary_to_github_pages(
+            x_thread.strip(),
+            digests_dir,
+            "tesla",
+            episode_num=episode_num if 'episode_num' in globals() else None,
+            episode_title=episode_title if 'episode_title' in globals() else None,
+            audio_url=_audio_url,
+            rss_url=f"{_base_url}/podcast.rss",
+        )
         if summary_json_file:
             logging.info("Summary saved to GitHub Pages successfully")
         else:

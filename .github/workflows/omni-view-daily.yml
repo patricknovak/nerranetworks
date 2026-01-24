@@ -126,7 +126,7 @@ jobs:
       run: |
         echo "Checking for generated files..."
         echo "Files in digests/:"
-        ls -lah digests/Omni_View_*.md digests/Omni_View_Ep*.mp3 digests/podcast_transcript_*.txt 2>/dev/null || echo "No Omni View files found in digests/"
+        ls -lah digests/Omni_View_*.md digests/Omni_View_Ep*.mp3 digests/omni_view_transcript_*.txt 2>/dev/null || echo "No Omni View files found in digests/"
         echo "Raw data files in digests/:"
         ls -lah digests/raw_data_*.json digests/raw_data_*.html 2>/dev/null || echo "No raw data files found in digests/"
         echo "Credit usage files in digests/:"
@@ -148,7 +148,7 @@ jobs:
         git add digests/Omni_View_Ep*.mp3 2>/dev/null || true
 
         # Add podcast transcript
-        git add digests/podcast_transcript_*.txt 2>/dev/null || true
+        git add digests/omni_view_transcript_*.txt 2>/dev/null || true
 
         # Add raw data files (JSON and HTML)
         git add digests/raw_data_*.json digests/raw_data_*.html 2>/dev/null || true
@@ -156,8 +156,8 @@ jobs:
         # Add credit usage files (cost tracking)
         git add digests/credit_usage_*.json 2>/dev/null || true
 
-        # Add GitHub Pages summary files
-        git add digests/summaries_omni.json omni-view-summaries.html 2>/dev/null || true
+        # Add Omni View site pages + summaries JSON (only Omni View content)
+        git add omni-view.html omni-view-summaries.html digests/summaries_omni.json 2>/dev/null || true
 
         # ALWAYS add RSS feed file (even if it was just updated, not new)
         git add omni_view_podcast.rss 2>/dev/null || true

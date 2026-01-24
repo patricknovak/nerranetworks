@@ -27,6 +27,8 @@
             --planet-card: #1a2332;
             --planet-text: #ffffff;
             --planet-text-light: #b0bec5;
+            --header-height: 76px;
+            --sticky-height: 74px;
         }
 
         * {
@@ -116,6 +118,57 @@
             color: var(--planet-light-teal);
         }
 
+        /* Sticky player (under the fixed header) */
+        .sticky-player {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background: rgba(10, 25, 41, 0.96);
+            border-bottom: 1px solid rgba(255,255,255,0.18);
+            backdrop-filter: blur(10px);
+        }
+        .sticky-player.hidden { display: none; }
+        .sticky-player-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0.75rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        .sticky-meta { min-width: 0; }
+        .sticky-now {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: var(--planet-text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sticky-sub {
+            font-size: 0.9rem;
+            color: var(--planet-text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sticky-audio { width: min(560px, 100%); height: 38px; }
+        .sticky-close {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.06);
+            color: var(--planet-text);
+            cursor: pointer;
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+        .sticky-close:hover { border-color: var(--planet-light-teal); }
+
         /* Hero Section */
         .hero {
             min-height: 60vh;
@@ -124,7 +177,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 8rem 2rem 4rem;
+            padding: calc(8rem + var(--sticky-height)) 2rem 4rem;
             background: linear-gradient(135deg, var(--planet-dark) 0%, #1a2332 100%);
             position: relative;
             overflow: hidden;
@@ -219,6 +272,57 @@
             line-height: 1.7;
             font-size: 1rem;
         }
+
+        .summary-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem 1rem;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .summary-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .summary-audio {
+            width: min(520px, 100%);
+            height: 38px;
+        }
+
+        .summary-link {
+            color: var(--planet-text);
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 0.4rem 0.7rem;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .summary-link:hover {
+            border-color: var(--planet-light-teal);
+        }
+
+        /* Make markdown-ish content readable */
+        .summary-content { line-height: 1.85; }
+        .summary-content h1,
+        .summary-content h2,
+        .summary-content h3 {
+            color: var(--planet-text);
+            margin: 1rem 0 0.5rem;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.01em;
+        }
+        .summary-content p { margin: 0 0 0.9rem; }
+        .summary-content ul { margin: 0 0 1rem 1.2rem; }
+        .summary-content li { margin: 0.25rem 0; }
+        .summary-content a { color: var(--planet-yellow); }
+        .summary-content a:hover { color: var(--planet-light-teal); }
 
         .summary-content p {
             margin-bottom: 1rem;
@@ -318,6 +422,12 @@
             .hero {
                 padding: 6rem 1rem 2rem;
             }
+            .sticky-player-inner {
+                padding: 0.6rem 1rem;
+                grid-template-columns: 1fr;
+            }
+            .sticky-audio { width: 100%; }
+            .sticky-close { justify-self: end; }
 
             .summaries-section {
                 padding: 2rem 1rem;
@@ -363,21 +473,29 @@
     <header>
         <nav>
             <div class="logo-container">
-                <a href="index.html" class="logo">Planetterrian</a>
+                <a href="planetterrian.html" class="logo">Planetterrian</a>
             </div>
             <button class="menu-toggle" aria-label="Toggle menu">☰</button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html#episodes">Episodes</a></li>
-                <li><a href="index.html#highlights">Highlights</a></li>
-                <li><a href="index.html#news">News</a></li>
-                <li><a href="index.html#resources">Resources</a></li>
-                <li><a href="./digests/raw_data_index.html" target="_blank">📊 Raw Data</a></li>
+                <li><a href="planetterrian.html#episodes">Episodes</a></li>
+                <li><a href="planetterrian.html#about">About</a></li>
                 <li><a href="planetterrian-summaries.html">📝 Science Summaries</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#subscribe">Subscribe</a></li>
+                <li><a href="planetterrian.html#subscribe">Subscribe</a></li>
             </ul>
         </nav>
     </header>
+
+    <!-- Sticky player -->
+    <div id="stickyPlayer" class="sticky-player hidden" aria-live="polite">
+        <div class="sticky-player-inner">
+            <div class="sticky-meta">
+                <div id="stickyNow" class="sticky-now">Now playing</div>
+                <div id="stickySub" class="sticky-sub"></div>
+            </div>
+            <audio id="stickyAudio" class="sticky-audio" controls preload="none"></audio>
+            <button id="stickyClose" class="sticky-close" aria-label="Close player">×</button>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -406,12 +524,11 @@
     <footer>
         <div class="footer-content">
             <div class="footer-links">
-                <a href="index.html#episodes">🎧 Episodes</a>
-                <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank">🍎 Apple Podcasts</a>
-                <a href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/podcast.rss" target="_blank">📡 RSS Feed</a>
+                <a href="planetterrian.html#episodes">🎧 Episodes</a>
+                <a href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian_podcast.rss" target="_blank">📡 RSS Feed</a>
                 <a href="https://x.com/planetterrian" target="_blank">🐦 X / Twitter</a>
-                <a href="./digests/raw_data_index.html" target="_blank">📊 Raw Data Archive</a>
-                <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank">💻 GitHub</a>
+                <a href="https://github.com/patricknovak/Tesla-shorts-time/tree/main/digests/planetterrian" target="_blank">📚 Archive</a>
+                <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank">💻 Source</a>
             </div>
             <p class="footer-text">Planetterrian Daily © 2025 | A tribe of forward-thinking innovators</p>
             <p class="footer-text">🌍 Intertwining technology and compassion for the planet 🌍</p>
@@ -466,7 +583,15 @@
 
         async function loadPodcastSummaries(containerId, jsonUrl) {
             try {
-                const response = await fetch(jsonUrl);
+                let response;
+                try {
+                    response = await fetch(jsonUrl);
+                    if (!response.ok) throw new Error(`Direct fetch failed: ${response.status}`);
+                } catch (directErr) {
+                    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                    response = await fetch(proxyUrl + encodeURIComponent(jsonUrl));
+                    if (!response.ok) throw new Error(`Proxy fetch failed: ${response.status}`);
+                }
                 if (!response.ok) {
                     throw new Error(`Failed to load ${jsonUrl}`);
                 }
@@ -482,14 +607,28 @@
                 // Sort summaries by date (newest first)
                 data.summaries.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-                const summariesHtml = data.summaries.map(summary => `
-                    <div class="summary-item">
-                        <div class="summary-date">${formatDate(summary.date)}</div>
-                        <div class="summary-content">${summary.content}</div>
-                    </div>
-                `).join('');
+                const summariesHtml = data.summaries.map(summary => {
+                    const audioUrl = summary.audio_url || '';
+                    const audioHtml = audioUrl ? `
+                        <div class="summary-actions">
+                            <audio class="summary-audio" controls preload="none" src="${escapeAttr(audioUrl)}"></audio>
+                            <a class="summary-link" href="${escapeAttr(audioUrl)}" target="_blank" rel="noopener">Download</a>
+                        </div>
+                    ` : '';
+
+                    return `
+                        <div class="summary-item">
+                            <div class="summary-header">
+                                <div class="summary-date">${formatDate(summary.date)}</div>
+                                ${audioHtml}
+                            </div>
+                            <div class="summary-content">${renderMarkdown(summary.content || '')}</div>
+                        </div>
+                    `;
+                }).join('');
 
                 container.innerHTML = summariesHtml;
+                initAudioUX(container);
 
             } catch (error) {
                 console.error(`Error loading summaries:`, error);
@@ -510,6 +649,130 @@
             } catch {
                 return dateString;
             }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text ?? '';
+            return div.innerHTML;
+        }
+
+        function escapeAttr(text) {
+            return String(text ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        function linkify(text) {
+            text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+            text = text.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+            return text;
+        }
+
+        function renderMarkdown(md) {
+            const safe = escapeHtml(md).replace(/\r\n/g, '\n');
+            const lines = safe.split('\n');
+            let htmlOut = '';
+            let inList = false;
+
+            const flushList = () => {
+                if (inList) {
+                    htmlOut += '</ul>';
+                    inList = false;
+                }
+            };
+
+            for (const rawLine of lines) {
+                const line = rawLine.trimEnd();
+                const trimmed = line.trim();
+
+                if (!trimmed) {
+                    flushList();
+                    htmlOut += '<p></p>';
+                    continue;
+                }
+
+                if (trimmed.startsWith('### ')) { flushList(); htmlOut += `<h3>${linkify(trimmed.slice(4))}</h3>`; continue; }
+                if (trimmed.startsWith('## ')) { flushList(); htmlOut += `<h2>${linkify(trimmed.slice(3))}</h2>`; continue; }
+                if (trimmed.startsWith('# '))  { flushList(); htmlOut += `<h1>${linkify(trimmed.slice(2))}</h1>`; continue; }
+
+                if (/^[-•]\s+/.test(trimmed)) {
+                    if (!inList) { htmlOut += '<ul>'; inList = true; }
+                    const item = trimmed.replace(/^[-•]\s+/, '');
+                    htmlOut += `<li>${linkify(item)}</li>`;
+                    continue;
+                }
+
+                flushList();
+                let paragraph = trimmed.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+                paragraph = linkify(paragraph);
+                htmlOut += `<p>${paragraph}</p>`;
+            }
+
+            flushList();
+            htmlOut = htmlOut.replace(/<p><\/p>/g, '<div style="height:0.6rem"></div>');
+            return htmlOut;
+        }
+
+        // Sticky-player + per-card audio UX
+        function initAudioUX(container) {
+            const stickyPlayer = document.getElementById('stickyPlayer');
+            const stickyAudio = document.getElementById('stickyAudio');
+            const stickyNow = document.getElementById('stickyNow');
+            const stickySub = document.getElementById('stickySub');
+            const stickyClose = document.getElementById('stickyClose');
+
+            let activeCardAudio = null;
+
+            const cardAudios = Array.from(container.querySelectorAll('audio.summary-audio'));
+
+            function pauseAllCardAudios() {
+                for (const a of cardAudios) {
+                    try { a.pause(); } catch {}
+                }
+            }
+
+            function setSticky(meta, audioEl) {
+                activeCardAudio = audioEl;
+                stickyNow.textContent = meta?.title || 'Now playing';
+                stickySub.textContent = meta?.date || '';
+                if (audioEl?.src && stickyAudio.src !== audioEl.src) {
+                    stickyAudio.src = audioEl.src;
+                }
+                stickyPlayer.classList.remove('hidden');
+            }
+
+            for (const audioEl of cardAudios) {
+                const card = audioEl.closest('.summary-item');
+                const dateText = card?.querySelector('.summary-date')?.textContent?.trim() || '';
+                const titleGuess =
+                    card?.querySelector('.summary-content h1, .summary-content h2, .summary-content h3')?.textContent?.trim() ||
+                    'Episode';
+                const meta = { date: dateText, title: titleGuess };
+
+                audioEl.addEventListener('play', (e) => {
+                    e.preventDefault();
+                    pauseAllCardAudios();
+                    setSticky(meta, audioEl);
+                    try { audioEl.pause(); } catch {}
+                    try { stickyAudio.currentTime = audioEl.currentTime || 0; } catch {}
+                    stickyAudio.play().catch(() => {});
+                });
+            }
+
+            stickyAudio.addEventListener('timeupdate', () => {
+                if (activeCardAudio) {
+                    try { activeCardAudio.currentTime = stickyAudio.currentTime; } catch {}
+                }
+            });
+
+            stickyClose?.addEventListener('click', () => {
+                try { stickyAudio.pause(); } catch {}
+                stickyPlayer.classList.add('hidden');
+                activeCardAudio = null;
+            });
         }
     </script>
 </body>

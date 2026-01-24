@@ -180,6 +180,9 @@ jobs:
 
         # Add HTML page if it exists
         git add fascinating_frontiers.html 2>/dev/null || true
+
+        # Add Fascinating Frontiers summaries page + JSON (only FF content)
+        git add fascinating-frontiers-summaries.html digests/summaries_space.json 2>/dev/null || true
         
         echo "📋 Staged files:"
         git diff --staged --name-only || echo "No files staged"

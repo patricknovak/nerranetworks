@@ -254,7 +254,16 @@ def save_credit_usage(usage_data: dict, output_dir: Path):
     except Exception as e:
         logging.error(f"Failed to save credit usage: {e}", exc_info=True)
 
-def save_summary_to_github_pages(summary_text: str, output_dir: Path, podcast_name: str = "omni"):
+def save_summary_to_github_pages(
+    summary_text: str,
+    output_dir: Path,
+    podcast_name: str = "omni",
+    *,
+    episode_num: int | None = None,
+    episode_title: str | None = None,
+    audio_url: str | None = None,
+    rss_url: str | None = None,
+):
     """
     Save summary to GitHub Pages JSON file for display on summaries page.
     """
@@ -271,11 +280,18 @@ def save_summary_to_github_pages(summary_text: str, output_dir: Path, podcast_na
 
         # Create new summary entry
         today = datetime.datetime.now()
+        computed_episode_num = episode_num
+        if computed_episode_num is None:
+            computed_episode_num = get_next_episode_number(project_root / "omni_view_podcast.rss", output_dir) - 1
+
         summary_entry = {
             "date": today.strftime("%Y-%m-%d"),
             "datetime": today.isoformat(),
             "content": summary_text,
-            "episode_num": get_next_episode_number(project_root / "omni_view_podcast.rss", output_dir) - 1  # Current episode
+            "episode_num": computed_episode_num,
+            "episode_title": episode_title,
+            "audio_url": audio_url,
+            "rss_url": rss_url,
         }
 
         # Add to summaries (keep only last 30 days to prevent file from growing too large)
@@ -615,46 +631,8 @@ def generate_balanced_news_digest(news_articles):
 
     return "\n".join(digest_lines)
 
-def generate_omni_view_script(news_articles):
-    """Generate podcast script for Omni View."""
-    script_lines = [
-        "Welcome to Omni View, your daily source for balanced news perspectives.",
-        "",
-        f"Today is {datetime.datetime.now().strftime('%B %d, %Y')}.",
-        "",
-        "Here are the key stories from diverse sources, presented with multiple viewpoints:",
-        ""
-    ]
-
-    for i, article in enumerate(news_articles[:10], 1):  # Limit for podcast length
-        title = article.get('title', 'Untitled')
-        source = article.get('source', 'Unknown')
-        script_lines.extend([
-            f"Story number {i}: {title}",
-            f"This story is covered by {source}.",
-            ""
-        ])
-
-    script_lines.extend([
-        "",
-        "Thank you for listening to Omni View. Remember, informed citizens make better decisions.",
-        "Stay curious, stay balanced."
-    ])
-
-    return "\n".join(script_lines)
-
-def create_omni_view_podcast(script_text):
-    """Create the podcast audio file."""
-    # For now, return a dummy file path and duration
-    episode_num = get_next_episode_number(project_root / "omni_view_podcast.rss", digests_dir)
-    audio_file = digests_dir / f"Omni_View_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d}.mp3"
-    duration = 600  # 10 minutes placeholder
-
-    logging.info(f"Podcast audio would be saved to: {audio_file}")
-    return audio_file, duration
-
 def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
-    """Get the next episode number based on existing files."""
+    """Get the next episode number based on existing RSS or MP3 files."""
     try:
         if rss_path.exists():
             tree = ET.parse(rss_path)
@@ -665,90 +643,158 @@ def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
     except Exception:
         pass
 
-    # Fallback: count existing MP3 files
-    mp3_pattern = "Omni_View_Ep*.mp3"
-    existing_episodes = list(digests_dir.glob(mp3_pattern))
-    if existing_episodes:
-        episode_nums = []
-        for ep_file in existing_episodes:
-            match = re.search(r'Ep(\d+)', ep_file.name)
-            if match:
-                episode_nums.append(int(match.group(1)))
-        return max(episode_nums) + 1 if episode_nums else 1
+    existing_episodes = list(digests_dir.glob("Omni_View_Ep*.mp3"))
+    episode_nums: list[int] = []
+    for ep_file in existing_episodes:
+        match = re.search(r'Ep(\d+)', ep_file.name)
+        if match:
+            episode_nums.append(int(match.group(1)))
+    return (max(episode_nums) + 1) if episode_nums else 1
 
-    return 1
 
-def generate_balanced_news_digest(news_articles):
-    """Generate a balanced news digest from the selected articles."""
-    # This is a placeholder - will be implemented with Grok AI
-    logging.info("Generating balanced news digest...")
-
-    # Create a simple digest for now
-    digest_lines = ["📰⚖️ **Omni View - Balanced News Digest**", ""]
-
+def generate_balanced_news_digest(news_articles: list[dict]) -> str:
+    """Generate website-friendly digest text (markdown-ish)."""
     today = datetime.datetime.now().strftime("%B %d, %Y")
-    digest_lines.extend([f"📅 **Date:** {today}", "", "🔍 **Balanced Perspectives on Today's News**", ""])
-
-    for i, article in enumerate(news_articles[:10], 1):  # Limit to 10 for X thread
-        title = article.get('title', 'Untitled')
-        source = article.get('source', 'Unknown')
-        digest_lines.extend([
-            f"**{i}. {title}**",
-            f"📺 *{source}*",
-            ""
-        ])
-
-    digest_lines.extend([
+    digest_lines = [
+        "# Omni View — Balanced News Digest",
+        f"**Date:** {today}",
         "",
-        "🎙️ **Omni View Daily Podcast Link:** https://podcasts.apple.com/us/podcast/omni-view/idXXXXXXXXXX",
+        "## Stories (diverse sources)",
         "",
-        "#OmniView #BalancedNews #MediaLiteracy"
-    ])
-
-    return "\n".join(digest_lines)
-
-def generate_omni_view_script(news_articles):
-    """Generate podcast script for Omni View."""
-    # This is a placeholder - will be implemented with Grok AI
-    logging.info("Generating Omni View podcast script...")
-
-    script_lines = [
-        "Welcome to Omni View, your daily source for balanced news perspectives.",
-        "",
-        f"Today is {datetime.datetime.now().strftime('%B %d, %Y')}.",
-        "",
-        "Here are the key stories from diverse sources, presented with multiple viewpoints:",
-        ""
     ]
 
-    for i, article in enumerate(news_articles[:8], 1):  # Limit for podcast length
-        title = article.get('title', 'Untitled')
-        source = article.get('source', 'Unknown')
-        script_lines.extend([
-            f"Story number {i}: {title}",
-            f"This story is covered by {source}.",
-            ""
-        ])
+    for i, article in enumerate(news_articles[:12], 1):
+        title = article.get('title', 'Untitled').strip()
+        source = article.get('source', 'Unknown').strip()
+        url = article.get('url', '').strip()
+        if url:
+            digest_lines.append(f"- **{i}.** {title} — *{source}* ({url})")
+        else:
+            digest_lines.append(f"- **{i}.** {title} — *{source}*")
 
-    script_lines.extend([
+    digest_lines += [
         "",
-        "Thank you for listening to Omni View. Remember, informed citizens make better decisions.",
-        "Stay curious, stay balanced."
-    ])
+        "## Why multiple perspectives?",
+        "Omni View intentionally includes coverage from different viewpoints so you can compare framing, facts, and emphasis.",
+    ]
+    return "\n".join(digest_lines)
 
-    return "\n".join(script_lines)
 
-def create_omni_view_podcast(script_text):
-    """Create the podcast audio file."""
-    # This is a placeholder - will be implemented with TTS
-    logging.info("Creating Omni View podcast audio...")
+def generate_omni_view_script(news_articles: list[dict]) -> str:
+    """Generate a concise spoken script for TTS."""
+    today = datetime.datetime.now().strftime("%B %d, %Y")
+    lines = [
+        "Welcome to Omni View, your daily balanced news digest.",
+        f"Today is {today}.",
+        "",
+        "Here are the major stories covered by multiple outlets, with different angles to consider:",
+        "",
+    ]
+    for i, article in enumerate(news_articles[:10], 1):
+        title = article.get('title', 'Untitled').strip()
+        source = article.get('source', 'Unknown').strip()
+        lines.append(f"Story {i}. {title}. This is being covered by {source}, among others.")
+    lines += [
+        "",
+        "That’s Omni View. Compare sources, look for primary documents, and decide for yourself.",
+    ]
+    return "\n".join(lines)
 
-    # For now, return a dummy file path and duration
-    audio_file = digests_dir / f"Omni_View_Ep{get_next_episode_number(project_root / 'omni_view_podcast.rss', digests_dir):03d}_{datetime.datetime.now():%Y%m%d}.mp3"
-    duration = 600  # 10 minutes placeholder
 
-    logging.info(f"Podcast audio would be saved to: {audio_file}")
-    return audio_file, duration
+def _chunk_text_for_elevenlabs(text: str, max_chars: int = 4500) -> list[str]:
+    chunks: list[str] = []
+    buf: list[str] = []
+    cur = 0
+    for para in (text or "").splitlines():
+        para = para.strip()
+        if not para:
+            continue
+        # +1 for space
+        if cur + len(para) + 1 > max_chars and buf:
+            chunks.append(" ".join(buf))
+            buf = [para]
+            cur = len(para)
+        else:
+            buf.append(para)
+            cur += len(para) + 1
+    if buf:
+        chunks.append(" ".join(buf))
+    return chunks or [text[:max_chars]]
+
+
+def _elevenlabs_tts_mp3(text: str, out_path: Path, voice_id: str) -> None:
+    api_key = (os.getenv("ELEVENLABS_API_KEY") or "").strip()
+    if not api_key:
+        raise RuntimeError("ELEVENLABS_API_KEY is not set")
+
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
+    headers = {
+        "xi-api-key": api_key,
+        "accept": "audio/mpeg",
+        "content-type": "application/json",
+    }
+    payload = {
+        "text": text,
+        "model_id": os.getenv("ELEVENLABS_MODEL_ID", "eleven_turbo_v2_5"),
+        "voice_settings": {
+            "stability": float(os.getenv("ELEVENLABS_STABILITY", "0.35")),
+            "similarity_boost": float(os.getenv("ELEVENLABS_SIMILARITY_BOOST", "0.75")),
+            "style": float(os.getenv("ELEVENLABS_STYLE", "0.2")),
+            "use_speaker_boost": True,
+        },
+    }
+
+    resp = requests.post(url, headers=headers, json=payload, timeout=120)
+    resp.raise_for_status()
+    out_path.write_bytes(resp.content)
+
+
+def _ffprobe_duration_seconds(path: Path) -> float:
+    try:
+        result = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", str(path)],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        return float((result.stdout or "").strip() or "0")
+    except Exception:
+        return 0.0
+
+
+def create_omni_view_podcast(script_text: str) -> tuple[Path, float]:
+    """Create an MP3 using ElevenLabs (with chunking + concat)."""
+    episode_num = get_next_episode_number(project_root / "omni_view_podcast.rss", digests_dir)
+    out_mp3 = digests_dir / f"Omni_View_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d}.mp3"
+
+    voice_id = (os.getenv("ELEVENLABS_VOICE_ID") or "dTrBzPvD2GpAqkk1MUzA").strip()
+    chunks = _chunk_text_for_elevenlabs(script_text, max_chars=int(os.getenv("ELEVENLABS_MAX_CHARS", "4500")))
+
+    tmp_dir = Path(tempfile.gettempdir()) / "omni_view_tts"
+    tmp_dir.mkdir(parents=True, exist_ok=True)
+
+    chunk_files: list[Path] = []
+    for idx, chunk in enumerate(chunks, 1):
+        chunk_path = tmp_dir / f"omni_view_chunk_{episode_num:03d}_{idx:02d}.mp3"
+        _elevenlabs_tts_mp3(chunk, chunk_path, voice_id)
+        chunk_files.append(chunk_path)
+
+    if len(chunk_files) == 1:
+        out_mp3.write_bytes(chunk_files[0].read_bytes())
+    else:
+        list_file = tmp_dir / f"omni_view_concat_{episode_num:03d}.txt"
+        list_file.write_text("\n".join([f"file '{p.as_posix()}'" for p in chunk_files]), encoding="utf-8")
+        subprocess.run(
+            ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(list_file), "-c", "copy", str(out_mp3)],
+            check=True,
+            capture_output=True,
+        )
+
+    duration = _ffprobe_duration_seconds(out_mp3)
+    # Save transcript alongside
+    transcript_path = digests_dir / f"omni_view_transcript_{datetime.datetime.now():%Y%m%d}.txt"
+    transcript_path.write_text(script_text, encoding="utf-8")
+    return out_mp3, duration
 
 def update_omni_view_rss_feed(audio_file, duration):
     """Update the Omni View RSS feed."""
@@ -760,9 +806,34 @@ def update_omni_view_rss_feed(audio_file, duration):
     fg = FeedGenerator()
     fg.load_extension('podcast')
 
+    # Preserve existing episodes (so the feed grows over time)
+    existing_items: list[dict] = []
+    itunes_ns = "http://www.itunes.com/dtds/podcast-1.0.dtd"
+    if rss_path.exists():
+        try:
+            tree = ET.parse(str(rss_path))
+            root = tree.getroot()
+            channel = root.find("channel")
+            if channel is not None:
+                for item in channel.findall("item"):
+                    enclosure = item.find("enclosure")
+                    existing_items.append({
+                        "guid": (item.findtext("guid") or "").strip(),
+                        "title": (item.findtext("title") or "").strip(),
+                        "description": (item.findtext("description") or "").strip(),
+                        "pubDate": (item.findtext("pubDate") or "").strip(),
+                        "enclosure_url": enclosure.get("url") if enclosure is not None else "",
+                        "enclosure_length": enclosure.get("length") if enclosure is not None else "",
+                        "enclosure_type": enclosure.get("type") if enclosure is not None else "audio/mpeg",
+                        "itunes_duration": (item.findtext(f"{{{itunes_ns}}}duration") or "").strip(),
+                        "itunes_episode": (item.findtext(f"{{{itunes_ns}}}episode") or "").strip(),
+                    })
+        except Exception as e:
+            logging.warning(f"Could not parse existing Omni View RSS feed (will recreate): {e}")
+
     # Set channel metadata
     fg.title("Omni View - Balanced News Perspectives")
-    fg.link(href="https://patricknovak.github.io/Tesla-shorts-time/omni-view-summaries.html")
+    fg.link(href="https://patricknovak.github.io/Tesla-shorts-time/omni-view.html")
     fg.description("Daily balanced news summaries presenting multiple perspectives on the stories that matter. Countering media bias through diverse sources and critical analysis.")
     fg.language('en-us')
     fg.copyright("Copyright 2025")
@@ -811,6 +882,41 @@ def update_omni_view_rss_feed(audio_file, duration):
     entry.podcast.itunes_explicit("no")
     entry.podcast.itunes_image(f"{base_url}/omni-view-podcast-image.jpg")
 
+    # Re-add existing episodes after the newest one (avoid duplicates)
+    new_guid = episode_guid
+    for old in existing_items:
+        if not old.get("enclosure_url") or (old.get("guid") and old.get("guid") == new_guid):
+            continue
+        e = fg.add_entry()
+        if old.get("guid"):
+            e.id(old["guid"])
+        if old.get("title"):
+            e.title(old["title"])
+        if old.get("description"):
+            e.description(old["description"])
+        if old.get("enclosure_url"):
+            e.link(href=old["enclosure_url"])
+            e.enclosure(url=old["enclosure_url"], type=old.get("enclosure_type") or "audio/mpeg", length=old.get("enclosure_length") or "0")
+        if old.get("pubDate"):
+            try:
+                import email.utils
+                e.pubDate(email.utils.parsedate_to_datetime(old["pubDate"]))
+            except Exception:
+                # If parsing fails, skip pubDate (better than crashing)
+                pass
+        if old.get("title"):
+            e.podcast.itunes_title(old["title"])
+        if old.get("description"):
+            e.podcast.itunes_summary(old["description"])
+        if old.get("itunes_duration"):
+            e.podcast.itunes_duration(old["itunes_duration"])
+        if old.get("itunes_episode"):
+            e.podcast.itunes_episode(old["itunes_episode"])
+        e.podcast.itunes_season('1')
+        e.podcast.itunes_episode_type('full')
+        e.podcast.itunes_explicit("no")
+        e.podcast.itunes_image(f"{base_url}/omni-view-podcast-image.jpg")
+
     # Set last build date
     fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
 
@@ -818,32 +924,6 @@ def update_omni_view_rss_feed(audio_file, duration):
     fg.rss_file(str(rss_path), pretty=True)
 
     logging.info(f"RSS feed updated with Episode {episode_num} at {rss_path}")
-
-def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
-    """Get the next episode number based on existing files."""
-    try:
-        if rss_path.exists():
-            tree = ET.parse(rss_path)
-            root = tree.getroot()
-            items = root.findall('.//item')
-            if items:
-                return len(items) + 1
-    except Exception:
-        pass
-
-    # Fallback: count existing MP3 files
-    mp3_pattern = "Omni_View_Ep*.mp3"
-    existing_episodes = list(digests_dir.glob(mp3_pattern))
-    if existing_episodes:
-        episode_nums = []
-        for ep_file in existing_episodes:
-            match = re.search(r'Ep(\d+)', ep_file.name)
-            if match:
-                episode_nums.append(int(match.group(1)))
-        return max(episode_nums) + 1 if episode_nums else 1
-
-    return 1
-
 def format_duration(seconds):
     """Format duration in seconds to HH:MM:SS or MM:SS format."""
     if not seconds or seconds <= 0:
@@ -967,7 +1047,23 @@ if __name__ == "__main__":
     if ENABLE_GITHUB_SUMMARIES:
         try:
             # Save the full summary to GitHub Pages JSON
-            summary_json_file = save_summary_to_github_pages(x_thread.strip(), digests_dir, "omni")
+            _base_url = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+            _audio_url = None
+            try:
+                if ENABLE_PODCAST and final_mp3:
+                    _audio_url = f"{_base_url}/digests/{final_mp3.name}"
+            except Exception:
+                _audio_url = None
+
+            summary_json_file = save_summary_to_github_pages(
+                x_thread.strip(),
+                digests_dir,
+                "omni",
+                episode_num=episode_num,
+                episode_title=None,
+                audio_url=_audio_url,
+                rss_url=f"{_base_url}/omni_view_podcast.rss",
+            )
             if summary_json_file:
                 logging.info("Summary saved to GitHub Pages successfully")
             else:
