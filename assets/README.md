@@ -69,7 +69,7 @@ The `pronunciation.py` module contains shared pronunciation fixes for acronyms, 
 ### Using the Shared Pronunciation Dictionary
 
 ```python
-from assets.pronunciation import apply_pronunciation_fixes, COMMON_ACRONYMS, HOCKEY_TERMS
+from assets.pronunciation import apply_pronunciation_fixes, COMMON_ACRONYMS
 
 # Apply all default fixes
 text = apply_pronunciation_fixes(text)
@@ -78,7 +78,6 @@ text = apply_pronunciation_fixes(text)
 text = apply_pronunciation_fixes(
     text,
     acronyms=COMMON_ACRONYMS,
-    hockey_terms=HOCKEY_TERMS,
     use_zwj=False  # Use spaces instead of zero-width joiners
 )
 ```
@@ -90,9 +89,6 @@ Edit `assets/pronunciation.py` to add new terms:
 ```python
 # Add to COMMON_ACRONYMS
 COMMON_ACRONYMS["NEW_ACRONYM"] = "N E W A C R O N Y M"
-
-# Add to HOCKEY_TERMS
-HOCKEY_TERMS["NEW_TERM"] = "pronunciation phrase"
 
 # Add to PLAYER_NAMES
 PLAYER_NAMES["Player Name"] = "Player Pro nun ci a tion"
