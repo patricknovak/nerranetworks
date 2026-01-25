@@ -48,6 +48,38 @@
             line-height: 1.6;
         }
 
+        /* Buttons (match planetterrian.html) */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 0.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .btn:hover { transform: translateY(-2px); }
+
+        .btn-primary {
+            background: var(--planet-light-teal);
+            color: white;
+            box-shadow: 0 4px 15px rgba(53, 181, 196, 0.4);
+        }
+        .btn-primary:hover {
+            background: var(--planet-deep-teal);
+            box-shadow: 0 6px 20px rgba(53, 181, 196, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--planet-light-teal);
+            border: 2px solid var(--planet-light-teal);
+        }
+        .btn-secondary:hover {
+            background: var(--planet-light-teal);
+            color: white;
+        }
+
         /* Logo styling */
         .logo-img {
             height: 50px;
@@ -181,6 +213,18 @@
             background: linear-gradient(135deg, var(--planet-dark) 0%, #1a2332 100%);
             position: relative;
             overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(1, 141, 177, 0.12) 0%, transparent 55%),
+                        radial-gradient(circle at 70% 80%, rgba(242, 210, 13, 0.10) 0%, transparent 55%);
+            pointer-events: none;
         }
 
         .hero-content {
@@ -472,14 +516,18 @@
     <!-- Header -->
     <header>
         <nav>
-            <div class="logo-container">
-                <a href="planetterrian.html" class="logo">Planetterrian</a>
-            </div>
+            <a href="planetterrian.html" class="logo-container" aria-label="Planetterrian Home">
+                <img src="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/PlanetTerrian%20logo%20only%20final.jpg"
+                     alt="Planetterrian Logo" class="logo-img" onerror="this.style.display='none'">
+                <span class="logo">PLANETTERRIAN</span>
+            </a>
             <button class="menu-toggle" aria-label="Toggle menu">☰</button>
             <ul class="nav-links" id="navLinks">
                 <li><a href="planetterrian.html#episodes">Episodes</a></li>
                 <li><a href="planetterrian.html#about">About</a></li>
                 <li><a href="planetterrian-summaries.html">📝 Science Summaries</a></li>
+                <li><a href="./digests/raw_data_index.html" target="_blank" rel="noopener">📊 Raw Data</a></li>
+                <li><a href="podcasts/">🌐 All Podcasts</a></li>
                 <li><a href="planetterrian.html#subscribe">Subscribe</a></li>
             </ul>
         </nav>
@@ -500,9 +548,16 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
+            <img src="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/PlanetTerrian%20logo%20only%20final.jpg"
+                 alt="Planetterrian Logo" class="hero-logo" onerror="this.style.display='none'">
             <h1>Planetterrian Daily</h1>
             <p class="tagline">Complete Archive of Science & Health Digests</p>
             <p class="subtitle">Full daily summaries of science, longevity, and health discoveries</p>
+            <div>
+                <a href="planetterrian.html#episodes" class="btn btn-primary">🎧 Listen Now</a>
+                <a href="https://x.com/planetterrian" target="_blank" rel="noopener" class="btn btn-secondary">🐦 Follow on X</a>
+                <a href="https://planetterrian.com" target="_blank" rel="noopener" class="btn btn-secondary">🌍 Visit Website</a>
+            </div>
         </div>
     </section>
 
@@ -528,6 +583,7 @@
                 <a href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian_podcast.rss" target="_blank">📡 RSS Feed</a>
                 <a href="https://x.com/planetterrian" target="_blank">🐦 X / Twitter</a>
                 <a href="https://github.com/patricknovak/Tesla-shorts-time/tree/main/digests/planetterrian" target="_blank">📚 Archive</a>
+                <a href="podcasts/">🌐 All Podcasts</a>
                 <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank">💻 Source</a>
             </div>
             <p class="footer-text">Planetterrian Daily © 2025 | A tribe of forward-thinking innovators</p>
