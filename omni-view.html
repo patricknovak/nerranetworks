@@ -171,6 +171,209 @@
         .episode a { color: var(--balance-accent); text-decoration: none; }
         .episode a:hover { text-decoration: underline; }
 
+        /* Prominent player */
+        .hero-player {
+            margin: 1.75rem auto 0;
+            max-width: 880px;
+            text-align: left;
+            border: 2px solid rgba(212, 175, 55, 0.45);
+            box-shadow: 0 18px 40px rgba(44, 62, 80, 0.12);
+        }
+        .hero-player-top {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .now-playing {
+            min-width: 0;
+        }
+        .now-playing .label {
+            color: var(--balance-text-light);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .now-playing .title {
+            font-weight: 800;
+            font-size: 1.15rem;
+            margin-top: 0.15rem;
+            color: var(--balance-scale);
+        }
+        .now-playing .meta {
+            margin-top: 0.25rem;
+            color: var(--balance-text-light);
+            font-size: 0.95rem;
+        }
+        .hero-audio {
+            width: 100%;
+            margin-top: 0.9rem;
+            height: 42px;
+        }
+        .player-actions {
+            display: flex;
+            gap: 0.6rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.45rem 0.7rem;
+            border-radius: 999px;
+            border: 1px solid rgba(0,0,0,0.12);
+            background: rgba(255,255,255,0.65);
+            color: var(--balance-scale);
+            text-decoration: none;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .pill:hover { border-color: var(--balance-accent); }
+
+        .episodes-grid {
+            display: grid;
+            gap: 1.25rem;
+        }
+        .episode .row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        .play-btn {
+            border: 1px solid rgba(0,0,0,0.12);
+            background: rgba(255,255,255,0.7);
+            color: var(--balance-scale);
+            font-weight: 800;
+            padding: 0.55rem 0.8rem;
+            border-radius: 10px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .play-btn:hover { border-color: var(--balance-accent); }
+
+        /* Floating Grok chat */
+        .grok-fab {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 2000;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.14);
+            background: rgba(255,255,255,0.92);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+            cursor: pointer;
+            font-size: 1.3rem;
+        }
+        .grok-drawer {
+            position: fixed;
+            right: 18px;
+            bottom: 86px;
+            z-index: 2000;
+            width: min(440px, calc(100vw - 36px));
+            max-height: min(72vh, 720px);
+            background: rgba(255,255,255,0.97);
+            border: 1px solid rgba(0,0,0,0.14);
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+            overflow: hidden;
+            display: none;
+        }
+        .grok-drawer.open { display: grid; grid-template-rows: auto 1fr auto; }
+        .grok-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.10);
+        }
+        .grok-title {
+            font-weight: 900;
+            color: var(--balance-scale);
+        }
+        .grok-close {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.12);
+            background: rgba(255,255,255,0.65);
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        .grok-body {
+            padding: 0.9rem 1rem;
+            overflow: auto;
+        }
+        .grok-settings {
+            display: grid;
+            gap: 0.6rem;
+            margin-bottom: 0.75rem;
+        }
+        .grok-settings label {
+            font-size: 0.85rem;
+            color: var(--balance-text-light);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+        .grok-settings input, .grok-settings select, .grok-settings textarea {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.14);
+            padding: 0.55rem 0.7rem;
+            font: inherit;
+        }
+        .grok-chat {
+            display: grid;
+            gap: 0.6rem;
+        }
+        .msg {
+            padding: 0.65rem 0.75rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.10);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .msg.user { background: rgba(52, 152, 219, 0.12); }
+        .msg.assistant { background: rgba(212, 175, 55, 0.12); }
+        .msg.system { background: rgba(236, 240, 241, 0.85); color: var(--balance-text-light); }
+        .grok-footer {
+            padding: 0.9rem 1rem;
+            border-top: 1px solid rgba(0,0,0,0.10);
+            display: grid;
+            gap: 0.6rem;
+        }
+        .grok-actions {
+            display: flex;
+            gap: 0.6rem;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .grok-send {
+            background: var(--balance-accent);
+            color: white;
+            border: 0;
+            padding: 0.65rem 0.95rem;
+            border-radius: 12px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+        .grok-secondary {
+            border: 1px solid rgba(0,0,0,0.14);
+            background: rgba(255,255,255,0.65);
+            color: var(--balance-scale);
+            padding: 0.65rem 0.9rem;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .grok-hint { font-size: 0.85rem; color: var(--balance-text-light); }
+
         footer {
             background: var(--balance-scale);
             color: white;
@@ -240,6 +443,25 @@
                 <a class="btn btn-secondary" href="omni-view-summaries.html">📰 Read summaries</a>
                 <a class="btn btn-secondary" href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni_view_podcast.rss" target="_blank" rel="noopener">📡 RSS</a>
             </div>
+
+            <!-- Prominent player -->
+            <div class="card hero-player" aria-live="polite">
+                <div class="hero-player-top">
+                    <div class="now-playing">
+                        <div class="label">Now playing</div>
+                        <div id="nowTitle" class="title">Loading latest episode…</div>
+                        <div id="nowMeta" class="meta muted"></div>
+                    </div>
+                    <div class="player-actions">
+                        <button id="openChatFromHero" class="pill" type="button" title="Ask Grok about the news">💬 Ask Grok</button>
+                        <a id="downloadNow" class="pill" href="#" target="_blank" rel="noopener" style="display:none;">⬇️ Download</a>
+                    </div>
+                </div>
+                <audio id="heroAudio" class="hero-audio" controls preload="none"></audio>
+                <div id="playerHint" class="grok-hint" style="margin-top:0.6rem;">
+                    Tip: Use “Ask Grok” to get more context or a balanced perspective on any topic. (You’ll paste your own Grok API key—stored only in your browser.)
+                </div>
+            </div>
         </div>
     </section>
 
@@ -281,6 +503,48 @@
         <div class="muted" style="color: rgba(255,255,255,0.75);">Omni View © 2026</div>
     </footer>
 
+    <!-- Floating Grok chat -->
+    <button id="grokFab" class="grok-fab" aria-label="Open Grok chat" title="Ask Grok (balanced perspective)">💬</button>
+    <div id="grokDrawer" class="grok-drawer" role="dialog" aria-modal="false" aria-label="Grok chat">
+        <div class="grok-header">
+            <div class="grok-title">Ask Grok (Omni View)</div>
+            <button id="grokClose" class="grok-close" aria-label="Close chat">×</button>
+        </div>
+        <div class="grok-body">
+            <div class="grok-settings">
+                <div>
+                    <label for="grokKey">Grok API key (stored in this browser only)</label>
+                    <input id="grokKey" type="password" placeholder="Paste your GROK / xAI API key…" autocomplete="off" />
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                    <div>
+                        <label for="grokEndpoint">Endpoint</label>
+                        <input id="grokEndpoint" type="text" value="https://api.x.ai/v1/chat/completions" />
+                    </div>
+                    <div>
+                        <label for="grokModel">Model</label>
+                        <select id="grokModel">
+                            <option value="grok-4">grok-4</option>
+                            <option value="grok-2-latest">grok-2-latest</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grok-hint">
+                    If this fails due to browser CORS restrictions, you’ll need a small proxy (e.g., Cloudflare Worker) and set the Endpoint to that proxy URL.
+                </div>
+            </div>
+
+            <div id="grokChat" class="grok-chat" aria-live="polite"></div>
+        </div>
+        <div class="grok-footer">
+            <textarea id="grokPrompt" rows="3" placeholder="Ask for more context, or request a balanced perspective…"></textarea>
+            <div class="grok-actions">
+                <button id="grokClear" class="grok-secondary" type="button">Clear</button>
+                <button id="grokSend" class="grok-send" type="button">Send</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const RSS_URL = 'https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni_view_podcast.rss?t=' + Date.now();
 
@@ -296,6 +560,10 @@
         async function loadEpisodes() {
             const loading = document.getElementById('episodesLoading');
             const list = document.getElementById('episodesList');
+            const heroAudio = document.getElementById('heroAudio');
+            const nowTitle = document.getElementById('nowTitle');
+            const nowMeta = document.getElementById('nowMeta');
+            const downloadNow = document.getElementById('downloadNow');
 
             try {
                 let res;
@@ -323,19 +591,180 @@
                     return { title, pubDate, audioUrl };
                 });
 
-                list.innerHTML = episodes.map(ep => `
+                function setNow(ep, autoplay = true) {
+                    nowTitle.textContent = ep?.title || 'Episode';
+                    nowMeta.textContent = ep?.pubDate ? `📅 ${formatDate(ep.pubDate)}` : '';
+                    if (ep?.audioUrl) {
+                        heroAudio.src = ep.audioUrl;
+                        downloadNow.href = ep.audioUrl;
+                        downloadNow.style.display = 'inline-flex';
+                        if (autoplay) heroAudio.play().catch(() => {});
+                    } else {
+                        heroAudio.removeAttribute('src');
+                        downloadNow.style.display = 'none';
+                    }
+                }
+
+                // Set featured episode (latest)
+                setNow(episodes[0], false);
+
+                list.innerHTML = episodes.map((ep, idx) => `
                     <div class="episode">
-                        <div class="episode-title">${ep.title.replace(/</g, '&lt;')}</div>
-                        <div class="episode-meta">📅 ${formatDate(ep.pubDate)}</div>
+                        <div class="row">
+                            <div>
+                                <div class="episode-title">${ep.title.replace(/</g, '&lt;')}</div>
+                                <div class="episode-meta">📅 ${formatDate(ep.pubDate)}</div>
+                            </div>
+                            ${ep.audioUrl ? `<button class="play-btn" data-idx="${idx}" type="button">Play</button>` : '<span class="muted">No audio</span>'}
+                        </div>
                         ${ep.audioUrl ? `<a href="${ep.audioUrl}" target="_blank" rel="noopener">Open audio</a>` : '<span class="muted">Audio not available</span>'}
                     </div>
                 `).join('');
+
+                // Wire play buttons
+                list.querySelectorAll('button.play-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const idx = Number(btn.getAttribute('data-idx') || '0');
+                        setNow(episodes[idx], true);
+                        try { heroAudio.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch {}
+                    });
+                });
 
                 loading.style.display = 'none';
                 list.style.display = 'grid';
             } catch (e) {
                 loading.textContent = 'No episodes available yet. Check back after the first run.';
+                if (nowTitle) nowTitle.textContent = 'No episodes available yet.';
             }
+        }
+
+        // --- Grok chat (BYO key) ---
+        function initGrokChat() {
+            const fab = document.getElementById('grokFab');
+            const drawer = document.getElementById('grokDrawer');
+            const closeBtn = document.getElementById('grokClose');
+            const keyInput = document.getElementById('grokKey');
+            const endpointInput = document.getElementById('grokEndpoint');
+            const modelSelect = document.getElementById('grokModel');
+            const chatEl = document.getElementById('grokChat');
+            const promptEl = document.getElementById('grokPrompt');
+            const sendBtn = document.getElementById('grokSend');
+            const clearBtn = document.getElementById('grokClear');
+            const openFromHero = document.getElementById('openChatFromHero');
+
+            if (!fab || !drawer) return;
+
+            const LS_KEY = 'omniview_grok_api_key';
+            const LS_ENDPOINT = 'omniview_grok_endpoint';
+            const LS_MODEL = 'omniview_grok_model';
+
+            keyInput.value = localStorage.getItem(LS_KEY) || '';
+            endpointInput.value = localStorage.getItem(LS_ENDPOINT) || endpointInput.value;
+            modelSelect.value = localStorage.getItem(LS_MODEL) || modelSelect.value;
+
+            let messages = [];
+
+            function open() {
+                drawer.classList.add('open');
+                try { promptEl.focus(); } catch {}
+            }
+            function close() {
+                drawer.classList.remove('open');
+            }
+            function pushMsg(role, content) {
+                messages.push({ role, content });
+                render();
+            }
+            function render() {
+                if (!chatEl) return;
+                chatEl.innerHTML = messages.map(m => {
+                    const safe = (m.content || '').replace(/</g, '&lt;');
+                    return `<div class="msg ${m.role}">${safe}</div>`;
+                }).join('');
+                chatEl.scrollTop = chatEl.scrollHeight;
+            }
+            function saveSettings() {
+                localStorage.setItem(LS_KEY, keyInput.value || '');
+                localStorage.setItem(LS_ENDPOINT, endpointInput.value || '');
+                localStorage.setItem(LS_MODEL, modelSelect.value || '');
+            }
+            async function send() {
+                const prompt = (promptEl.value || '').trim();
+                if (!prompt) return;
+                if (!keyInput.value.trim()) {
+                    open();
+                    pushMsg('system', 'Paste your Grok API key to enable chat (stored only in your browser).');
+                    return;
+                }
+                saveSettings();
+                promptEl.value = '';
+                pushMsg('user', prompt);
+
+                const payload = {
+                    model: modelSelect.value || 'grok-4',
+                    messages: [
+                        {
+                            role: 'system',
+                            content:
+                                "You are Grok helping an Omni View listener. Provide a balanced, neutral perspective. " +
+                                "Include 2–3 viewpoints, what’s uncertain, and what to verify via primary sources. " +
+                                "Be concise and avoid inflammatory language."
+                        },
+                        ...messages.filter(m => m.role === 'user' || m.role === 'assistant')
+                    ],
+                    temperature: 0.4,
+                    max_tokens: 700
+                };
+
+                try {
+                    const resp = await fetch(endpointInput.value, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${keyInput.value.trim()}`
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!resp.ok) {
+                        const txt = await resp.text().catch(() => '');
+                        throw new Error(`HTTP ${resp.status}. ${txt}`.trim());
+                    }
+                    const data = await resp.json();
+                    const out = data?.choices?.[0]?.message?.content || data?.choices?.[0]?.text || '';
+                    pushMsg('assistant', (out || 'No response.').trim());
+                } catch (err) {
+                    pushMsg('system', `Chat failed: ${err?.message || String(err)}`);
+                }
+            }
+
+            fab.addEventListener('click', open);
+            closeBtn?.addEventListener('click', close);
+            openFromHero?.addEventListener('click', () => {
+                open();
+                const nowTitle = document.getElementById('nowTitle')?.textContent?.trim() || '';
+                promptEl.value = nowTitle
+                    ? `Give me a balanced perspective and key context on this headline: "${nowTitle}".`
+                    : 'What are today’s biggest stories, and what do different viewpoints emphasize?';
+                try { promptEl.focus(); } catch {}
+            });
+
+            sendBtn?.addEventListener('click', send);
+            clearBtn?.addEventListener('click', () => { messages = []; render(); });
+            promptEl?.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                    e.preventDefault();
+                    send();
+                }
+            });
+
+            // Expose minimal API for other page elements
+            window.OmniGrokChat = {
+                openWithPrompt: (p) => {
+                    open();
+                    promptEl.value = String(p || '');
+                    try { promptEl.focus(); } catch {}
+                }
+            };
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -346,6 +775,7 @@
                 navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('active')));
             }
             loadEpisodes();
+            initGrokChat();
         });
     </script>
 </body>

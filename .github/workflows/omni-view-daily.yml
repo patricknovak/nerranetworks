@@ -2,13 +2,57 @@ name: Omni View Daily
 
 on:
   schedule:
-    # Run daily at 6:00 AM EDT (10:00 UTC)
-    # This is 6:00 AM EDT / 3:00 AM PDT
+    # Run daily at 6:00 AM Eastern Time.
+    #
+    # GitHub cron is UTC and cannot auto-adjust for DST, so we schedule both:
+    # - 10:00 UTC (6:00 AM EDT)
+    # - 11:00 UTC (6:00 AM EST)
+    #
+    # A small "gate" job below ensures only the correct one proceeds each day.
     - cron: '0 10 * * *'
+    - cron: '0 11 * * *'
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.gate.outputs.should_run }}
+      now_et: ${{ steps.gate.outputs.now_et }}
+    steps:
+      - name: Determine if this is 6am ET
+        id: gate
+        run: |
+          python3 - <<'PY'
+          import datetime
+          import os
+          from zoneinfo import ZoneInfo
+          
+          event_name = os.getenv("GITHUB_EVENT_NAME", "")
+          # Manual runs should always proceed, regardless of current time.
+          if event_name == "workflow_dispatch":
+              now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
+              print(f"now_et={now_et.isoformat()}")
+              print("should_run=true")
+              with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+                  f.write(f"now_et={now_et.isoformat()}\n")
+                  f.write("should_run=true\n")
+              raise SystemExit(0)
+          
+          now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
+          should_run = (now_et.hour == 6)
+          
+          print(f"now_et={now_et.isoformat()}")
+          print(f"should_run={'true' if should_run else 'false'}")
+          
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+              f.write(f"now_et={now_et.isoformat()}\n")
+              f.write(f"should_run={'true' if should_run else 'false'}\n")
+          PY
+
   generate-podcast:
+    needs: gate
+    if: needs.gate.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Required to commit and push files

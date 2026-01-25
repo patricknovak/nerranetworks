@@ -185,7 +185,8 @@ def _build_spoken_script_from_summary(md: str) -> str:
 def _generate_mp3(script_text: str) -> tuple[Path, float]:
     OUT_MP3.parent.mkdir(parents=True, exist_ok=True)
 
-    voice_id = (os.getenv("ELEVENLABS_VOICE_ID") or "dTrBzPvD2GpAqkk1MUzA").strip()
+    # Keep in sync with Omni View default voice.
+    voice_id = (os.getenv("OMNI_VIEW_ELEVENLABS_VOICE_ID") or "ns7MjJ6c8tJKnvw7U6sN").strip()
     chunks = _chunk_text(script_text, max_chars=int(os.getenv("ELEVENLABS_MAX_CHARS", "4500")))
 
     tmp_dir = Path(tempfile.gettempdir()) / "omni_view_backfill_tts"

@@ -47,25 +47,24 @@ Output EXACTLY this markdown:
 ### Daily Science Challenge Today I challenge you to __________________________ Reply or quote this post @planetterrian with what you learned/did — let’s level up humanity together!
 The future is here today. Let’s build it. ⚡️🧬🔭🧠"""
 
-    response = grok_client.chat.completions.create(
+    from xai_grok import grok_generate_text
+
+    # Use the supported agent tools API for live web search (no deprecated search_parameters).
+    content, meta = grok_generate_text(
+        prompt=(
+            f"System: MANDATORY: Minimum 6 real science breakthroughs from {yesterday} onward. "
+            f"Every link must be complete and real. Actionable, positive tone.\n\n{prompt}"
+        ),
         model="grok-4",
-        messages=[
-            {"role": "system", "content": f"MANDATORY: Minimum 6 real science breakthroughs from {yesterday} onward. Every link must be complete and real. Actionable, positive tone."},
-            {"role": "user", "content": prompt}
-        ],
         temperature=0.9,
         max_tokens=3800,
-        extra_body={
-            "search_parameters": {
-                "mode": "on",
-                "max_search_results": 29,
-                "from_date": yesterday,
-                "return_citations": True
-            }
-        }
+        timeout_seconds=3600.0,
+        enable_web_search=True,
+        enable_x_search=False,
+        max_turns=3,
     )
 
-    digest = response.choices[0].message.content.strip()
+    digest = (content or "").strip()
     digest = "\n".join(line for line in digest.splitlines() if not line.strip().startswith("**Sources used by Grok"))
 
     digest = re.sub(r'https?://(x\.com|twitter\.com)/i/web/status/(\d+)', r'https://x.com/planetterrian/status/\2', digest)

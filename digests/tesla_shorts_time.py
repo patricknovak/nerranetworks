@@ -177,7 +177,9 @@ def fix_tesla_pronunciation(text: str) -> str:
         # Plural forms first (longer matches)
         "BEVs": "B E V s",
         "PHEVs": "P H E V s",
-        "EVs":  "E V s",  # Fixed: spell out "s" separately to prevent "E.V.S" pronunciation
+        # Prefer a natural pronunciation over letter-by-letter spelling
+        # (e.g., "EVs" -> "ee vees" instead of "E V s")
+        "EVs":  "ee vees",
         # Company names with special handling
         "SpaceX": "Space X",  # Must be processed as phrase, not individual letters
         # Single forms (shorter matches)
@@ -481,9 +483,9 @@ def fix_tesla_pronunciation(text: str) -> str:
     for marker, word in common_word_protection.items():
         text = text.replace(marker, word)
     
-    # Fix "EVs" - ensure it's read as "E V s" not "E.V.S"
+    # Fix "EVs" - ensure it's read naturally (not letter-by-letter)
     # Apply this fix explicitly to ensure it overrides any earlier processing
-    text = re.sub(r'\bEVs\b', 'E V s', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bEVs\b', 'ee vees', text, flags=re.IGNORECASE)
     
     # Fix "SpaceX" - ensure it's read as "Space X" not spelled out
     # Apply this fix explicitly to ensure it's handled correctly
@@ -1111,6 +1113,87 @@ ELEVEN_API = "https://api.elevenlabs.io/v1"
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
 ELEVEN_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "dTrBzPvD2GpAqkk1MUzA")  # Default: High-energy Patrick
 # NEWSAPI_KEY no longer needed - using RSS feeds instead
+
+
+# ========================== XAI RESPONSES API (TOOLS) ==========================
+# xAI deprecated "live search" on Chat Completions (410 Gone). Use Responses API + tools instead.
+XAI_API_BASE_URL = os.getenv("XAI_API_BASE_URL", "https://api.x.ai/v1").rstrip("/")
+
+
+def _get_xai_api_key() -> str:
+    key = (os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY") or "").strip()
+    if not key:
+        raise RuntimeError("Missing xAI API key. Set GROK_API_KEY (preferred) or XAI_API_KEY.")
+    return key
+
+
+def _xai_responses_create(
+    *,
+    model: str,
+    input_payload,
+    tools: list[dict] | None = None,
+    temperature: float | None = None,
+    max_output_tokens: int | None = None,
+    store: bool = False,
+    timeout_seconds: float = 300.0,
+) -> dict:
+    """
+    Call xAI Responses API directly (OpenAI-compatible).
+    Supports server-side tools like {"type": "web_search"} without using deprecated Chat Completions params.
+    """
+    url = f"{XAI_API_BASE_URL}/responses"
+    headers = {
+        "Authorization": f"Bearer {_get_xai_api_key()}",
+        "Content-Type": "application/json",
+    }
+    payload: dict = {
+        "model": model,
+        "input": input_payload,
+        "store": store,
+    }
+    if temperature is not None:
+        payload["temperature"] = temperature
+    if max_output_tokens is not None:
+        payload["max_output_tokens"] = max_output_tokens
+    if tools:
+        payload["tools"] = tools
+
+    resp = requests.post(url, headers=headers, json=payload, timeout=timeout_seconds)
+    if resp.status_code >= 400:
+        try:
+            err = resp.json()
+        except Exception:
+            err = {"error": resp.text}
+        raise RuntimeError(f"xAI Responses API error {resp.status_code}: {err}")
+    return resp.json()
+
+
+def _extract_responses_text(response_json: dict) -> str:
+    out_text = response_json.get("output_text")
+    if isinstance(out_text, str) and out_text.strip():
+        return out_text.strip()
+
+    output = response_json.get("output", [])
+    parts: list[str] = []
+    if isinstance(output, list):
+        for entry in output:
+            if not isinstance(entry, dict):
+                continue
+            content = entry.get("content", [])
+            if not isinstance(content, list):
+                continue
+            for chunk in content:
+                if isinstance(chunk, dict) and isinstance(chunk.get("text"), str):
+                    parts.append(chunk["text"])
+    text = "".join(parts).strip()
+    if not text:
+        raise RuntimeError("xAI Responses API returned no text output.")
+    return text
+
+
+def _extract_responses_usage(response_json: dict) -> dict:
+    usage = response_json.get("usage")
+    return usage if isinstance(usage, dict) else {}
 
 
 # ========================== STEP 1: FETCH TESLA NEWS FROM RSS FEEDS ==========================
@@ -2065,9 +2148,11 @@ logging.info("Generating X thread with Grok using pre-fetched content (this may 
 
 # Web search is available for the Tesla X Takeover section to find fresh, interesting Tesla developments
 # For news items, we still use only pre-fetched content
-enable_web_search = True
-search_params = {"mode": "on"}  # Enable web search for finding fresh Tesla news/trends
-logging.info(f"✅ Web search enabled for Tesla X Takeover section - Grok will find fresh, interesting Tesla developments")
+enable_web_search = os.getenv("GROK_WEB_SEARCH", "1").strip().lower() not in ("0", "false", "no", "off")
+if enable_web_search:
+    logging.info("✅ Web search enabled for Tesla X Takeover section (Responses API tool: web_search)")
+else:
+    logging.info("ℹ️ Web search disabled for Grok (set GROK_WEB_SEARCH=1 to enable)")
 
 @retry(
     stop=stop_after_attempt(3),
@@ -2076,31 +2161,50 @@ logging.info(f"✅ Web search enabled for Tesla X Takeover section - Grok will f
 )
 def generate_digest_with_grok():
     """Generate digest with retry logic"""
-    response = client.chat.completions.create(
+    input_payload = [
+        {"role": "user", "content": [{"type": "input_text", "text": X_PROMPT}]},
+    ]
+    tools = [{"type": "web_search"}] if enable_web_search else None
+    return _xai_responses_create(
         model="grok-4",
-        messages=[{"role": "user", "content": X_PROMPT}],
+        input_payload=input_payload,
+        tools=tools,
         temperature=0.7,
-        max_tokens=3500,  # Reduced from 4000 for faster generation
-        extra_body={"search_parameters": search_params}
+        max_output_tokens=3500,
+        store=False,
+        timeout_seconds=300.0,
     )
-    return response
 
 try:
     response = generate_digest_with_grok()
-    x_thread = response.choices[0].message.content.strip()
+    x_thread = _extract_responses_text(response)
     
     # Log token usage and cost
-    if hasattr(response, 'usage') and response.usage:
-        usage = response.usage
-        logging.info(f"Grok API - Tokens used: {usage.total_tokens} (prompt: {usage.prompt_tokens}, completion: {usage.completion_tokens})")
-        # Estimate cost (Grok pricing may vary, using approximate $0.01 per 1M tokens)
-        estimated_cost = (usage.total_tokens / 1000000) * 0.01
+    usage = _extract_responses_usage(response)
+    if usage:
+        prompt_tokens = usage.get("prompt_tokens", usage.get("input_tokens"))
+        completion_tokens = usage.get("completion_tokens", usage.get("output_tokens"))
+        total_tokens = usage.get("total_tokens")
+        if isinstance(prompt_tokens, int) and isinstance(completion_tokens, int) and not isinstance(total_tokens, int):
+            total_tokens = prompt_tokens + completion_tokens
+
+        if isinstance(total_tokens, int):
+            logging.info(
+                f"Grok API - Tokens used: {total_tokens} (prompt: {prompt_tokens}, completion: {completion_tokens})"
+            )
+            # Estimate cost (Grok pricing may vary, using approximate $0.01 per 1M tokens)
+            estimated_cost = (total_tokens / 1000000) * 0.01
+        else:
+            estimated_cost = 0.0
         logging.info(f"Estimated cost: ${estimated_cost:.4f}")
         
         # Track credit usage
-        credit_usage["services"]["grok_api"]["x_thread_generation"]["prompt_tokens"] = usage.prompt_tokens
-        credit_usage["services"]["grok_api"]["x_thread_generation"]["completion_tokens"] = usage.completion_tokens
-        credit_usage["services"]["grok_api"]["x_thread_generation"]["total_tokens"] = usage.total_tokens
+        if isinstance(prompt_tokens, int):
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["prompt_tokens"] = prompt_tokens
+        if isinstance(completion_tokens, int):
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["completion_tokens"] = completion_tokens
+        if isinstance(total_tokens, int):
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["total_tokens"] = total_tokens
         credit_usage["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] = estimated_cost
 except PermissionDeniedError as e:
     # Check if this is a no credits/licenses issue
@@ -2661,34 +2765,60 @@ Here is today's complete formatted digest. Use ONLY this content:
     )
     def generate_podcast_script_with_grok():
         """Generate podcast script with retry logic"""
-        return client.chat.completions.create(
+        input_payload = [
+            {
+                "role": "system",
+                "content": [
+                    {
+                        "type": "input_text",
+                        "text": "You are the world's best Tesla podcast writer. Make it feel like two real Canadian friends losing their minds (in a good way) over real Tesla news.",
+                    }
+                ],
+            },
+            {"role": "user", "content": [{"type": "input_text", "text": f"{POD_PROMPT}\n\n{x_thread}"}]},
+        ]
+        return _xai_responses_create(
             model="grok-4",
-            messages=[
-                {"role": "system", "content": "You are the world's best Tesla podcast writer. Make it feel like two real Canadian friends losing their minds (in a good way) over real Tesla news."},
-                {"role": "user", "content": f"{POD_PROMPT}\n\n{x_thread}"}
-            ],
+            input_payload=input_payload,
+            tools=None,
             temperature=0.9,  # higher = more natural energy
-            max_tokens=3500  # Reduced from 4000 for faster generation
+            max_output_tokens=3500,
+            store=False,
+            timeout_seconds=300.0,
         )
     
     logging.info("Generating podcast script with Grok (this may take 1-2 minutes)...")
     try:
         # Use only the final formatted digest - much simpler and more reliable
         podcast_response = generate_podcast_script_with_grok()
-        podcast_script = podcast_response.choices[0].message.content.strip()
+        podcast_script = _extract_responses_text(podcast_response)
         
         # Log token usage if available
-        if hasattr(podcast_response, 'usage') and podcast_response.usage:
-            usage = podcast_response.usage
-            logging.info(f"Podcast script generation - Tokens used: {usage.total_tokens} (prompt: {usage.prompt_tokens}, completion: {usage.completion_tokens})")
-            # Estimate cost (Grok pricing may vary, using approximate)
-            estimated_cost = (usage.total_tokens / 1000000) * 0.01  # Rough estimate
+        usage = _extract_responses_usage(podcast_response)
+        if usage:
+            prompt_tokens = usage.get("prompt_tokens", usage.get("input_tokens"))
+            completion_tokens = usage.get("completion_tokens", usage.get("output_tokens"))
+            total_tokens = usage.get("total_tokens")
+            if isinstance(prompt_tokens, int) and isinstance(completion_tokens, int) and not isinstance(total_tokens, int):
+                total_tokens = prompt_tokens + completion_tokens
+
+            if isinstance(total_tokens, int):
+                logging.info(
+                    f"Podcast script generation - Tokens used: {total_tokens} (prompt: {prompt_tokens}, completion: {completion_tokens})"
+                )
+                # Estimate cost (Grok pricing may vary, using approximate)
+                estimated_cost = (total_tokens / 1000000) * 0.01  # Rough estimate
+            else:
+                estimated_cost = 0.0
             logging.info(f"Estimated cost: ${estimated_cost:.4f}")
             
             # Track credit usage
-            credit_usage["services"]["grok_api"]["podcast_script_generation"]["prompt_tokens"] = usage.prompt_tokens
-            credit_usage["services"]["grok_api"]["podcast_script_generation"]["completion_tokens"] = usage.completion_tokens
-            credit_usage["services"]["grok_api"]["podcast_script_generation"]["total_tokens"] = usage.total_tokens
+            if isinstance(prompt_tokens, int):
+                credit_usage["services"]["grok_api"]["podcast_script_generation"]["prompt_tokens"] = prompt_tokens
+            if isinstance(completion_tokens, int):
+                credit_usage["services"]["grok_api"]["podcast_script_generation"]["completion_tokens"] = completion_tokens
+            if isinstance(total_tokens, int):
+                credit_usage["services"]["grok_api"]["podcast_script_generation"]["total_tokens"] = total_tokens
             credit_usage["services"]["grok_api"]["podcast_script_generation"]["estimated_cost_usd"] = estimated_cost
     except PermissionDeniedError as e:
         # Check if this is a no credits/licenses issue
@@ -3477,11 +3607,8 @@ Here is today's complete formatted digest. Use ONLY this content:
         # - Music continues at full volume for 3 seconds while Patrick talks (5-8s) - creates energy
         # - Music fades out smoothly over 18 seconds while Patrick continues (8-26s) - professional fade
         # - Voice continues alone after 26s
-        # - 25 seconds before voice ends, music starts fading in (mixes well with voice)
-        # - After voice ends, music continues for 50 seconds (30s full + 20s fade out)
-        
-        music_fade_in_start = max(voice_duration - 25.0, 0.0)  # 25s before voice ends
-        music_fade_in_duration = min(35.0, voice_duration - music_fade_in_start)  # Fade in over 35s
+        # - End: Keep the final spoken lines clean (no music under them)
+        # - After voice ends, fade in and play 30 seconds of outro music (no overlap with voice)
         
         # OPTIMIZED: Generate independent music segments in parallel
         music_intro = tmp_dir / "music_intro.mp3"
@@ -3505,8 +3632,10 @@ Here is today's complete formatted digest. Use ONLY this content:
             ("fadeout", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
                         "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=18", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
                         str(music_fadeout)]),
-            ("outro", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", str(voice_duration), "-t", "50",
-                      "-af", "volume=0.4,afade=t=out:curve=log:st=30:d=20", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+            # Outro is positioned after the voice ends by adding silence in the music bed.
+            # Use stream_loop so even shorter music beds still produce a full 30s outro.
+            ("outro", ["ffmpeg", "-y", "-threads", "0", "-stream_loop", "-1", "-i", str(MAIN_MUSIC), "-t", "30",
+                      "-af", "volume=0.4,afade=t=in:curve=log:st=0:d=2,afade=t=out:curve=log:st=27:d=3", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
                       str(music_outro)]),
         ]
         
@@ -3521,20 +3650,16 @@ Here is today's complete formatted digest. Use ONLY this content:
                     logging.error(f"Failed to generate music segment {segment_name}: {e}")
                     raise
         
-        # Generate voice-dependent segments (fadein and silence depend on voice_duration)
-        middle_silence_duration = max(music_fade_in_start - 26.0, 0.0)
+        # Generate voice-dependent segments (silence depends on voice_duration)
+        # Keep music silent after 26s until the voice fully ends, so the closing isn't masked/cut off.
+        middle_silence_duration = max(voice_duration - 26.0, 0.0)
         music_silence = tmp_dir / "music_silence.mp3"
-        music_fadein = tmp_dir / "music_fadein.mp3"
         
         voice_dependent_segments = []
         if middle_silence_duration > 0.1:
             voice_dependent_segments.append(("silence", ["ffmpeg", "-y", "-threads", "0", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
                                                         "-t", str(middle_silence_duration), "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
                                                         str(music_silence)]))
-        
-        voice_dependent_segments.append(("fadein", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", str(music_fade_in_start), "-t", str(music_fade_in_duration),
-                                                    "-af", f"volume=0.3,afade=t=in:curve=log:st=0:d={music_fade_in_duration}", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                                                    str(music_fadein)]))
         
         if voice_dependent_segments:
             with ThreadPoolExecutor(max_workers=len(voice_dependent_segments)) as executor:
@@ -3556,7 +3681,6 @@ Here is today's complete formatted digest. Use ONLY this content:
             f.write(f"file '{music_fadeout.absolute()}'\n")
             if middle_silence_duration > 0.1:
                 f.write(f"file '{music_silence.absolute()}'\n")
-            f.write(f"file '{music_fadein.absolute()}'\n")
             f.write(f"file '{music_outro.absolute()}'\n")
         
         music_full = tmp_dir / "music_full.mp3"
@@ -3579,7 +3703,8 @@ Here is today's complete formatted digest. Use ONLY this content:
         logging.info("Mixing voice and music...")
         subprocess.run([
             "ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-i", str(music_full),
-            "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=first:dropout_transition=2",
+            # Use duration=longest so the outro music remains after the voice ends.
+            "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=longest:dropout_transition=2",
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(final_mp3)
         ], check=True, capture_output=True, timeout=timeout_seconds)

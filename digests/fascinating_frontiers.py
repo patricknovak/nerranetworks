@@ -1411,31 +1411,38 @@ Output today's edition exactly as formatted.
 )
 def generate_digest_with_grok():
     """Generate digest with retry logic"""
-    response = client.chat.completions.create(
+    from xai_grok import grok_generate_text
+
+    text, meta = grok_generate_text(
+        prompt=X_PROMPT,
         model="grok-4",
-        messages=[{"role": "user", "content": X_PROMPT}],
         temperature=0.7,
-        max_tokens=3500,  # Reduced from 4000 for faster generation
-        extra_body={"search_parameters": {"mode": "off"}}
+        max_tokens=3500,
+        timeout_seconds=300.0,
+        enable_web_search=False,
+        enable_x_search=False,
     )
-    return response
+    return text, meta
 
 try:
-    response = generate_digest_with_grok()
-    x_thread = response.choices[0].message.content.strip()
+    x_thread, _grok_meta = generate_digest_with_grok()
     
     # Log token usage and cost
-    if hasattr(response, 'usage') and response.usage:
-        usage = response.usage
-        logging.info(f"Grok API - Tokens used: {usage.total_tokens} (prompt: {usage.prompt_tokens}, completion: {usage.completion_tokens})")
-        estimated_cost = (usage.total_tokens / 1000000) * 0.01
-        logging.info(f"Estimated cost: ${estimated_cost:.4f}")
-        
-        # Track credit usage
-        credit_usage["services"]["grok_api"]["x_thread_generation"]["prompt_tokens"] = usage.prompt_tokens
-        credit_usage["services"]["grok_api"]["x_thread_generation"]["completion_tokens"] = usage.completion_tokens
-        credit_usage["services"]["grok_api"]["x_thread_generation"]["total_tokens"] = usage.total_tokens
-        credit_usage["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] = estimated_cost
+    usage = (_grok_meta or {}).get("usage")
+    if usage:
+        total = getattr(usage, "total_tokens", None)
+        prompt_t = getattr(usage, "prompt_tokens", None)
+        completion_t = getattr(usage, "completion_tokens", None)
+        if total is not None:
+            logging.info(f"Grok API - Tokens used: {total} (prompt: {prompt_t}, completion: {completion_t})")
+            estimated_cost = (float(total) / 1000000) * 0.01
+            logging.info(f"Estimated cost: ${estimated_cost:.4f}")
+
+            # Track credit usage
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["prompt_tokens"] = prompt_t
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["completion_tokens"] = completion_t
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["total_tokens"] = total
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] = estimated_cost
 except Exception as e:
     logging.error(f"Grok API call failed: {e}")
     raise
@@ -1538,31 +1545,40 @@ Here is today's complete formatted digest. Use ONLY this content:
         retry=retry_if_exception_type((Exception,))
     )
     def generate_podcast_script_with_grok():
-        response = client.chat.completions.create(
+        from xai_grok import grok_generate_text
+
+        return grok_generate_text(
+            prompt=POD_PROMPT,
             model="grok-4",
-            messages=[{"role": "user", "content": POD_PROMPT}],
             temperature=0.7,
-            max_tokens=3500  # Reduced from 4000 for faster generation
+            max_tokens=3500,  # Reduced from 4000 for faster generation
+            timeout_seconds=300.0,
+            enable_web_search=False,
+            enable_x_search=False,
         )
-        return response
     
     logging.info("Generating podcast script with Grok (this may take 1-2 minutes)...")
     try:
-        podcast_response = generate_podcast_script_with_grok()
-        podcast_script = podcast_response.choices[0].message.content.strip()
+        podcast_script, _pod_meta = generate_podcast_script_with_grok()
         
         # Log token usage if available
-        if hasattr(podcast_response, 'usage') and podcast_response.usage:
-            usage = podcast_response.usage
-            logging.info(f"Podcast script generation - Tokens used: {usage.total_tokens} (prompt: {usage.prompt_tokens}, completion: {usage.completion_tokens})")
-            estimated_cost = (usage.total_tokens / 1000000) * 0.01
-            logging.info(f"Estimated cost: ${estimated_cost:.4f}")
-            
-            # Track credit usage
-            credit_usage["services"]["grok_api"]["podcast_script_generation"]["prompt_tokens"] = usage.prompt_tokens
-            credit_usage["services"]["grok_api"]["podcast_script_generation"]["completion_tokens"] = usage.completion_tokens
-            credit_usage["services"]["grok_api"]["podcast_script_generation"]["total_tokens"] = usage.total_tokens
-            credit_usage["services"]["grok_api"]["podcast_script_generation"]["estimated_cost_usd"] = estimated_cost
+        usage = (_pod_meta or {}).get("usage")
+        if usage:
+            total = getattr(usage, "total_tokens", None)
+            prompt_t = getattr(usage, "prompt_tokens", None)
+            completion_t = getattr(usage, "completion_tokens", None)
+            if total is not None:
+                logging.info(
+                    f"Podcast script generation - Tokens used: {total} (prompt: {prompt_t}, completion: {completion_t})"
+                )
+                estimated_cost = (float(total) / 1000000) * 0.01
+                logging.info(f"Estimated cost: ${estimated_cost:.4f}")
+
+                # Track credit usage
+                credit_usage["services"]["grok_api"]["podcast_script_generation"]["prompt_tokens"] = prompt_t
+                credit_usage["services"]["grok_api"]["podcast_script_generation"]["completion_tokens"] = completion_t
+                credit_usage["services"]["grok_api"]["podcast_script_generation"]["total_tokens"] = total
+                credit_usage["services"]["grok_api"]["podcast_script_generation"]["estimated_cost_usd"] = estimated_cost
     except Exception as e:
         logging.error(f"Grok API call for podcast script failed: {e}")
         raise
@@ -2057,6 +2073,9 @@ Here is today's complete formatted digest. Use ONLY this content:
     INTRO_MUSIC = project_root / "fascinatingfrontiers.mp3"
     # Background music: New longer track for end of podcast
     BACKGROUND_MUSIC = project_root / "Fascinating Frontierssmusic.mp3"
+    # Voice timing: keep a consistent intro delay so mixes/concats align.
+    VOICE_INTRO_DELAY_SECONDS = 28.0
+    VOICE_INTRO_DELAY_MS = int(VOICE_INTRO_DELAY_SECONDS * 1000)
 
     # Process and normalize voice in one step
     voice_mix = tmp_dir / "voice_normalized_mix.mp3"
@@ -2230,7 +2249,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         logging.info("Delaying voice to start at 28 seconds...")
         subprocess.run([
             "ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix),
-            "-af", "adelay=28000|28000",  # 28 seconds delay
+            "-af", f"adelay={VOICE_INTRO_DELAY_MS}|{VOICE_INTRO_DELAY_MS}",  # intro delay
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(voice_delayed)
         ], check=True, capture_output=True)
@@ -2296,7 +2315,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         logging.info("Delaying voice to start at 28 seconds (during intro music)...")
         subprocess.run([
             "ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix),
-            "-af", "adelay=28000|28000",  # 28 seconds delay
+            "-af", f"adelay={VOICE_INTRO_DELAY_MS}|{VOICE_INTRO_DELAY_MS}",  # intro delay
             "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
             str(voice_delayed)
         ], check=True, capture_output=True)
@@ -2304,6 +2323,11 @@ Here is today's complete formatted digest. Use ONLY this content:
         # Intro mix (first part with intro music)
         intro_mix = tmp_dir / "intro_mix.mp3"
         logging.info("Creating intro section with intro music and voice...")
+        # IMPORTANT: `voice_delayed` includes VOICE_INTRO_DELAY_SECONDS of silence.
+        # `bg_music_start` is computed in the *voice timeline*, so we must add the delay
+        # to cut the intro section at the correct point. Otherwise the concat will
+        # drop the final ~VOICE_INTRO_DELAY_SECONDS of spoken audio before the outro/music.
+        intro_cut_time = bg_music_start + VOICE_INTRO_DELAY_SECONDS
         subprocess.run([
             "ffmpeg", "-y", "-threads", "0",
             "-i", str(voice_delayed),
@@ -2314,7 +2338,7 @@ Here is today's complete formatted digest. Use ONLY this content:
             "[a_voice][a_music]amix=inputs=2:duration=first:dropout_transition=2:weights=2 1[mixed];"
             "[mixed]alimiter=level_in=1:level_out=0.95:limit=0.95[outfinal]",
             "-map", "[outfinal]",
-            "-t", str(bg_music_start),  # Only up to where BG music starts
+            "-t", f"{intro_cut_time:.2f}",  # cut at bg_music_start in voice timeline (+ intro delay)
             "-c:a", "libmp3lame",
             "-b:a", "192k", "-preset", "fast",
             str(intro_mix)

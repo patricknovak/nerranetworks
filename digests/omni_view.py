@@ -1183,56 +1183,170 @@ def generate_balanced_news_digest(news_articles: list[dict]) -> str:
 def generate_omni_view_script(briefing_markdown: str) -> str:
     """
     Create a spoken-friendly script from the website briefing.
-    This keeps the podcast short and avoids reading long link lists on-air.
+    Keeps the podcast punchy (no long link lists) while still sounding like a daily news read.
     """
     today = datetime.datetime.now().strftime("%B %d, %Y")
-    text = briefing_markdown or ""
-    # Strip markdown links down to their label
-    text = re.sub(r"\[([^\]]+)\]\(https?://[^\)]+\)", r"\1", text)
-    # Remove bare URLs
-    text = re.sub(r"https?://\S+", "", text)
 
-    lines_in = [ln.strip() for ln in text.splitlines() if ln.strip()]
-    story_titles: list[str] = []
-    story_blurbs: list[str] = []
+    def _strip_md(s: str) -> str:
+        # Drop markdown links down to label + remove emphasis markers
+        s = re.sub(r"\[([^\]]+)\]\(https?://[^\)]+\)", r"\1", s)
+        s = re.sub(r"https?://\S+", "", s)
+        s = re.sub(r"\*\*([^*]+)\*\*", r"\1", s)
+        s = re.sub(r"\*([^*]+)\*", r"\1", s)
+        return s.strip()
 
-    # Extract story headings and the "What happened" line when available
-    for idx, ln in enumerate(lines_in):
+    def _after_colon(ln: str) -> str:
+        parts = ln.split(":", 1)
+        if len(parts) == 2:
+            return _strip_md(parts[1])
+        return ""
+
+    text = _strip_md(briefing_markdown or "")
+    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+
+    # Parse the structured Grok website briefing.
+    stories: list[dict] = []
+    current_section = ""
+    cur: dict | None = None
+    in_questions = False
+
+    for ln in lines:
+        if ln.startswith("## "):
+            current_section = ln[3:].strip()
+            current_section = re.sub(r"\s*\(\d+\)\s*$", "", current_section).strip()
+            continue
+
         if ln.startswith("### "):
-            title = ln.replace("###", "").strip()
-            story_titles.append(title)
-        if ln.lower().startswith("**what happened"):
-            # Take the remainder after ':' if present
-            parts = ln.split(":", 1)
-            if len(parts) == 2:
-                story_blurbs.append(parts[1].strip())
+            if cur:
+                stories.append(cur)
+            raw_title = ln[4:].strip()
+            raw_title = re.sub(r"^\d+\)\s*", "", raw_title).strip()
+            cur = {
+                "section": current_section,
+                "title": raw_title,
+                "what": "",
+                "why": "",
+                "perspectives": [],
+                "questions": [],
+            }
+            in_questions = False
+            continue
 
-    # Fallback: if Grok didn't output the expected structure, just use the first few bullets
-    if not story_titles:
-        for ln in lines_in:
-            if ln.startswith("- **") and len(story_titles) < 8:
-                story_titles.append(re.sub(r"^- \*\*.*?\.\*\*\s*", "", ln).strip())
+        if not cur:
+            continue
 
-    script = [
-        "Welcome to Omni View — balanced news perspectives.",
-        f"Today is {today}.",
-        "",
-        "Here are the top stories, and a few ways different audiences may see them.",
-        "",
+        low = ln.lower()
+        if low.startswith("what happened"):
+            cur["what"] = _after_colon(ln)
+            in_questions = False
+            continue
+        if low.startswith("why it matters"):
+            cur["why"] = _after_colon(ln)
+            in_questions = False
+            continue
+        if low.startswith("questions to consider"):
+            in_questions = True
+            continue
+
+        if in_questions and ln.startswith("- "):
+            q = ln[2:].strip()
+            if q:
+                cur["questions"].append(q)
+            continue
+
+        if ln.startswith("- ") and "perspective" in low[:18]:
+            # "- Perspective 1: ..."
+            p = re.sub(r"^-+\s*", "", ln).strip()
+            p = re.sub(r"^Perspective\s*\d*\s*:\s*", "", p, flags=re.IGNORECASE).strip()
+            if p:
+                cur["perspectives"].append(p)
+            continue
+
+    if cur:
+        stories.append(cur)
+
+    # Fallback: if structure is missing, use bullet headlines
+    if not stories:
+        titles: list[str] = []
+        for ln in lines:
+            if ln.startswith("- ") and len(titles) < 8:
+                titles.append(ln[2:].strip())
+        stories = [{"section": "Top stories", "title": t, "what": "", "why": "", "perspectives": [], "questions": []} for t in titles]
+
+    # Keep this listenable: pick a tight set across sections
+    max_stories = 7
+    picked: list[dict] = []
+    for s in stories:
+        if len(picked) >= max_stories:
+            break
+        picked.append(s)
+
+    section_intro = {
+        "Top stories": "First, here are the top stories of the day.",
+        "Top world stories": "Now, a quick scan of the world headlines.",
+        "Top business stories": "In business and the economy.",
+        "Top technology stories": "In tech.",
+        "Top popular media stories": "And in culture and popular media.",
+        "Top gossip stories": "Finally, a quick round of lighter headlines.",
+    }
+    transitions = [
+        "Next.",
+        "Meanwhile.",
+        "Also in the mix today.",
+        "Here’s another one to watch.",
+        "And one more story worth your attention.",
     ]
 
-    max_stories = 6
-    for i, title in enumerate(story_titles[:max_stories], 1):
-        script.append(f"Story {i}. {title}.")
-        if i - 1 < len(story_blurbs) and story_blurbs[i - 1]:
-            script.append(story_blurbs[i - 1])
+    script: list[str] = []
+    script.append("Good morning. This is Omni View — balanced news perspectives.")
+    script.append(f"Today is {today}.")
+    script.append("")
+    script.append("We’ll cover what happened, why it matters, and how different viewpoints frame it — so you can decide for yourself.")
+    script.append("")
+
+    last_section = None
+    t_i = 0
+    for idx, s in enumerate(picked, 1):
+        sec = (s.get("section") or "").strip() or "Top stories"
+        if sec != last_section:
+            script.append(section_intro.get(sec, f"Now, {sec.lower()}."))
+            script.append("")
+            last_section = sec
+
+        if idx > 1:
+            script.append(transitions[t_i % len(transitions)])
+            t_i += 1
+
+        title = (s.get("title") or "A developing story").strip()
+        what = (s.get("what") or "").strip()
+        why = (s.get("why") or "").strip()
+        perspectives = s.get("perspectives") or []
+        questions = s.get("questions") or []
+
+        script.append(title + ".")
+        if what:
+            script.append(what)
+        if why:
+            script.append("Why it matters: " + why)
+
+        # Add "Omni perspective" framing without taking a side
+        if perspectives:
+            p1 = perspectives[0].strip()
+            p2 = perspectives[1].strip() if len(perspectives) > 1 else ""
+            if p2:
+                script.append("Across perspectives: some emphasize that " + p1 + " Others stress that " + p2)
+            else:
+                script.append("Across perspectives: " + p1)
+
+        if questions:
+            q = questions[0].strip()
+            script.append("Question to consider: " + q)
+
         script.append("")
 
-    script += [
-        "That’s Omni View.",
-        "For full source links and more context, open today’s written briefing on the Omni View summaries page.",
-        "Compare sources, look for primary documents, and decide for yourself.",
-    ]
+    script.append("That’s Omni View.")
+    script.append("For full source links and more context, open today’s written briefing on the Omni View summaries page.")
+    script.append("As always: compare outlets, look for primary documents, and separate what’s known from what’s assumed.")
 
     return fix_omni_pronunciation("\n".join(script))
 
@@ -1303,7 +1417,8 @@ def create_omni_view_podcast(script_text: str) -> tuple[Path, float]:
     episode_num = get_next_episode_number(project_root / "omni_view_podcast.rss", digests_dir)
     out_mp3 = digests_dir / f"Omni_View_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d}.mp3"
 
-    voice_id = (os.getenv("ELEVENLABS_VOICE_ID") or "dTrBzPvD2GpAqkk1MUzA").strip()
+    # Omni View has its own default voice. Override with OMNI_VIEW_ELEVENLABS_VOICE_ID if desired.
+    voice_id = (os.getenv("OMNI_VIEW_ELEVENLABS_VOICE_ID") or "ns7MjJ6c8tJKnvw7U6sN").strip()
     chunks = _chunk_text_for_elevenlabs(script_text, max_chars=int(os.getenv("ELEVENLABS_MAX_CHARS", "4500")))
 
     tmp_dir = Path(tempfile.gettempdir()) / "omni_view_tts"
