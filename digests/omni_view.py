@@ -20,6 +20,7 @@ from feedgen.feed import FeedGenerator
 from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
+from openai import RateLimitError, PermissionDeniedError, APIStatusError
 from difflib import SequenceMatcher
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 from bs4 import BeautifulSoup
@@ -652,53 +653,588 @@ def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
     return (max(episode_nums) + 1) if episode_nums else 1
 
 
+def _source_buckets():
+    # Reuse the same sets as selection logic (keep centralized)
+    left_sources = {"CNN", "New York Times", "Washington Post", "NPR", "BBC", "The Guardian", "Al Jazeera"}
+    center_sources = {"Reuters", "Wall Street Journal", "Bloomberg", "CNBC", "Real Clear Politics"}
+    right_sources = {"Fox News", "Newsmax", "Breitbart", "Daily Mail"}
+    international_sources = {"France 24", "Deutsche Welle"}
+    alternative_sources = {"The Intercept", "Mother Jones", "Reason"}
+    tech_sources = {"Wired", "Ars Technica"}
+    return {
+        "Center/Left": left_sources,
+        "Center": center_sources,
+        "Center/Right": right_sources,
+        "International": international_sources,
+        "Independent": alternative_sources,
+        "Tech/Science": tech_sources,
+    }
+
+
+def _bucket_for_source(source: str) -> str:
+    s = (source or "").strip()
+    for bucket, sources in _source_buckets().items():
+        if s in sources:
+            return bucket
+    return "Other"
+
+
+def _norm_story_key(text: str) -> str:
+    t = (text or "").lower()
+    t = re.sub(r"https?://\S+", "", t)
+    t = re.sub(r"[^a-z0-9\s]", " ", t)
+    t = re.sub(r"\s+", " ", t).strip()
+    # light stopword removal for clustering
+    stop = {"the", "a", "an", "and", "or", "to", "of", "in", "on", "for", "with", "as", "at", "by", "from"}
+    parts = [p for p in t.split() if p not in stop]
+    return " ".join(parts)[:220]
+
+
+def _cluster_articles(articles: list[dict], similarity_threshold: float = 0.78) -> list[dict]:
+    """
+    Cluster articles that appear to describe the same story, based primarily on title similarity.
+    Output clusters contain a representative title and the list of article dicts.
+    """
+    clusters: list[dict] = []
+    for a in (articles or []):
+        title = (a.get("title") or "").strip()
+        if not title:
+            continue
+        key = _norm_story_key(title)
+        placed = False
+        for c in clusters:
+            sim = SequenceMatcher(None, key, c["key"]).ratio()
+            if sim >= similarity_threshold:
+                c["articles"].append(a)
+                # prefer a "cleaner" representative title if this one is longer but not clickbaity
+                if len(title) > len(c["title"]) and len(title) < 140:
+                    c["title"] = title
+                placed = True
+                break
+        if not placed:
+            clusters.append({"key": key, "title": title, "articles": [a]})
+    return clusters
+
+
+def _parse_iso(dt_str: str) -> datetime.datetime:
+    try:
+        return datetime.datetime.fromisoformat((dt_str or "").replace("Z", "+00:00"))
+    except Exception:
+        return datetime.datetime.now(datetime.timezone.utc)
+
+
+def _score_cluster(cluster: dict) -> float:
+    arts = cluster.get("articles") or []
+    sources = {a.get("source") for a in arts if a.get("source")}
+    buckets = {_bucket_for_source(a.get("source")) for a in arts if a.get("source")}
+    latest = max((_parse_iso(a.get("publishedAt", "")) for a in arts), default=datetime.datetime.now(datetime.timezone.utc))
+    hours_old = (datetime.datetime.now(datetime.timezone.utc) - latest).total_seconds() / 3600.0
+
+    # Basic importance heuristic
+    title = (cluster.get("title") or "").lower()
+    importance_terms = [
+        "election", "president", "government", "court", "supreme", "war", "ceasefire", "strike",
+        "inflation", "jobs", "unemployment", "fed", "interest rate", "sanctions", "trade",
+        "climate", "storm", "earthquake", "wildfire", "outbreak", "health", "ai", "cyber", "security",
+    ]
+    importance = 2.0 if any(t in title for t in importance_terms) else 0.0
+
+    recency = max(0.0, 6.0 - min(hours_old, 48.0) / 8.0)  # ~6 down to 0
+    coverage = min(len(sources), 6) * 1.3
+    bucket_cov = min(len(buckets), 5) * 2.0
+    return importance + recency + coverage + bucket_cov
+
+
+def _category_for_title(title: str) -> str:
+    """
+    Assign one primary category for the story based on headline keywords.
+    Categories are tailored to the Omni View sectioning requirement.
+    """
+    t = (title or "").lower()
+
+    # Gossip (celebrity/tabloid/drama)
+    gossip_terms = [
+        "divorce", "dating", "breakup", "split", "engaged", "engagement", "pregnant", "affair",
+        "scandal", "rumor", "rumour", "feud", "caught", "spotted", "exclusive", "sources say",
+        "kardash", "royal", "prince", "princess",
+    ]
+    if any(w in t for w in gossip_terms):
+        return "gossip"
+
+    # Popular media (culture/entertainment/sports that isn't gossip-centric)
+    media_terms = [
+        "movie", "film", "box office", "tv", "series", "netflix", "hbo", "disney", "marvel",
+        "music", "album", "tour", "grammy", "oscar", "emmy",
+        "sports", "nba", "nfl", "nhl", "mlb", "soccer", "football", "olympic", "world cup",
+        "celebrity", "hollywood", "entertainment",
+    ]
+    if any(w in t for w in media_terms):
+        return "popular_media"
+
+    # Technology
+    tech_terms = [
+        "ai", "artificial intelligence", "chatgpt", "openai", "grok", "xai",
+        "cyber", "hack", "breach", "ransomware", "security", "privacy",
+        "chip", "semiconductor", "nvidia", "amd", "intel",
+        "smartphone", "iphone", "android", "google", "microsoft", "apple",
+        "software", "internet", "social media", "platform", "algorithm",
+        "space", "rocket", "spacex", "satellite",
+    ]
+    if any(w in t for w in tech_terms):
+        return "technology"
+
+    # Business
+    business_terms = [
+        "stocks", "market", "shares", "earnings", "revenue", "profit", "loss",
+        "ipo", "merger", "acquisition", "bankruptcy", "layoff", "union",
+        "inflation", "recession", "jobs report", "unemployment", "interest rate", "fed",
+        "oil", "gas", "price", "tariff", "trade", "supply chain",
+        "bitcoin", "crypto", "cryptocurrency",
+        "ceo", "company", "corporate",
+    ]
+    if any(w in t for w in business_terms):
+        return "business"
+
+    # World (international / conflict / diplomacy / non-domestic)
+    world_terms = [
+        "ukraine", "russia", "gaza", "israel", "palest", "iran", "iraq", "syria", "yemen",
+        "china", "taiwan", "north korea", "south korea", "japan", "india", "pakistan",
+        "europe", "eu", "nato", "un", "united nations",
+        "africa", "sahel", "sudan", "ethiopia",
+        "mexico", "brazil", "argentina",
+        "diplomacy", "sanctions", "ceasefire", "war", "conflict", "missile", "attack", "invasion",
+        "refugee", "immigration", "border",
+    ]
+    if any(w in t for w in world_terms):
+        return "world"
+
+    # Default "top stories" (domestic/general)
+    return "top"
+
+
+def _category_for_cluster(cluster: dict) -> str:
+    return _category_for_title(cluster.get("title") or "")
+
+
+def _select_story_sections(
+    clusters: list[dict],
+    *,
+    top_n: int = 5,
+    world_n: int = 5,
+    business_n: int = 3,
+    tech_n: int = 3,
+    popular_media_n: int = 3,
+    gossip_n: int = 3,
+) -> dict[str, list[dict]]:
+    """
+    Select non-overlapping story clusters for each required section.
+    """
+    scored = sorted(((_score_cluster(c), c) for c in clusters), key=lambda x: x[0], reverse=True)
+    used: set[str] = set()
+
+    def pick(category: str, n: int) -> list[dict]:
+        picked: list[dict] = []
+        for _, c in scored:
+            if len(picked) >= n:
+                break
+            key = c.get("key") or ""
+            if not key or key in used:
+                continue
+            if _category_for_cluster(c) != category:
+                continue
+            picked.append(c)
+            used.add(key)
+        return picked
+
+    sections = {
+        "Top stories": pick("top", top_n),
+        "Top world stories": pick("world", world_n),
+        "Top business stories": pick("business", business_n),
+        "Top technology stories": pick("technology", tech_n),
+        "Top popular media stories": pick("popular_media", popular_media_n),
+        "Top gossip stories": pick("gossip", gossip_n),
+    }
+
+    # If any section is short, fill from remaining highest-scoring unused clusters
+    for section_name, target in [
+        ("Top stories", top_n),
+        ("Top world stories", world_n),
+        ("Top business stories", business_n),
+        ("Top technology stories", tech_n),
+        ("Top popular media stories", popular_media_n),
+        ("Top gossip stories", gossip_n),
+    ]:
+        need = target - len(sections[section_name])
+        if need <= 0:
+            continue
+        desired_cat = {
+            "Top stories": "top",
+            "Top world stories": "world",
+            "Top business stories": "business",
+            "Top technology stories": "technology",
+            "Top popular media stories": "popular_media",
+            "Top gossip stories": "gossip",
+        }[section_name]
+
+        # First pass: same category
+        for _, c in scored:
+            if need <= 0:
+                break
+            key = c.get("key") or ""
+            if not key or key in used:
+                continue
+            if _category_for_cluster(c) != desired_cat:
+                continue
+            sections[section_name].append(c)
+            used.add(key)
+            need -= 1
+
+        # Second pass: any remaining
+        for _, c in scored:
+            if need <= 0:
+                break
+            key = c.get("key") or ""
+            if not key or key in used:
+                continue
+            sections[section_name].append(c)
+            used.add(key)
+            need -= 1
+
+    return sections
+
+
+def _pick_diverse_articles(cluster: dict, max_articles: int = 6) -> list[dict]:
+    """
+    Pick a diverse set of articles within a cluster, prioritizing different buckets/sources.
+    """
+    arts = list(cluster.get("articles") or [])
+    if not arts:
+        return []
+    # newest first
+    arts.sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
+
+    picked: list[dict] = []
+    used_sources: set[str] = set()
+    used_buckets: set[str] = set()
+    bucket_priority = ["Center", "Center/Left", "Center/Right", "International", "Independent", "Tech/Science", "Other"]
+
+    # First: try to get one per bucket
+    for b in bucket_priority:
+        for a in arts:
+            s = (a.get("source") or "").strip()
+            if not s or s in used_sources:
+                continue
+            if _bucket_for_source(s) != b:
+                continue
+            picked.append(a)
+            used_sources.add(s)
+            used_buckets.add(b)
+            break
+        if len(picked) >= max_articles:
+            return picked
+
+    # Fill: remaining newest unique sources
+    for a in arts:
+        if len(picked) >= max_articles:
+            break
+        s = (a.get("source") or "").strip()
+        if not s or s in used_sources:
+            continue
+        picked.append(a)
+        used_sources.add(s)
+    return picked
+
+
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=1, max=15),
+    retry=retry_if_exception_type((Exception,)),
+)
+def _grok_balanced_briefing(story_payload: dict) -> str:
+    """
+    Use Grok to write the Omni View briefing.
+    Must only cite the URLs we provide in the payload.
+    """
+    prompt = f"""
+You are Omni View — a neutral, media-literacy-first daily briefing for ages 12+ through adults.
+Your job: help people understand what is happening WITHOUT promoting any single outlet.
+
+Use ONLY the information in the provided story list (titles + short descriptions) and ONLY cite the provided URLs.
+Do NOT invent sources, links, quotes, or specific facts not supported by what’s provided.
+If details are unclear, say what is uncertain and what to verify.
+
+Write a single website-friendly markdown briefing with this exact structure and section sizes:
+
+# Omni View — Omni‑View Briefing
+**Date:** {story_payload.get("date_human")}
+
+## Top stories (5)
+## Top world stories (5)
+## Top business stories (3)
+## Top technology stories (3)
+## Top popular media stories (3)
+## Top gossip stories (3)
+
+Critical rules:
+- Do NOT repeat the same story across sections.
+- Use ONLY the stories and URLs provided in the JSON. Do NOT invent any sources, links, or facts.
+- If the provided sources conflict, describe the disagreement neutrally.
+
+Under each section, for each story:
+### <N>) <short neutral headline>
+**What happened (neutral):** 2–4 sentences, plain language.
+**Why it matters:** 1–3 sentences.
+**Perspectives (multiple viewpoints):**
+- **Perspective 1:** 1–2 sentences
+- **Perspective 2:** 1–2 sentences
+- **Perspective 3 (optional):** 1–2 sentences
+**Questions to consider:** 2–4 bullets (use '-' bullets).
+**Read more (sources):** 3–6 bullets, each as a markdown link like `- [Source](URL) — short note`
+
+Then end with:
+## Media-literacy note
+2–4 sentences encouraging cross-checking and primary documents.
+
+Here are the sections, stories, and allowed sources (JSON). Again: ONLY use these URLs in the Read more section:
+
+{json.dumps(story_payload.get("sections", {}), ensure_ascii=False, indent=2)}
+""".strip()
+
+    # Grok call (mirrors Tesla script patterns)
+    resp = client.chat.completions.create(
+        model=os.getenv("GROK_MODEL", "grok-4"),
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.5,
+        max_tokens=3200,
+    )
+    text = resp.choices[0].message.content.strip()
+
+    # Track token usage/cost (best-effort)
+    try:
+        if hasattr(resp, "usage") and resp.usage:
+            usage = resp.usage
+            est_cost = (usage.total_tokens / 1_000_000) * 0.01
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["prompt_tokens"] = usage.prompt_tokens
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["completion_tokens"] = usage.completion_tokens
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["total_tokens"] = usage.total_tokens
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] = est_cost
+    except Exception:
+        pass
+
+    return text
+
+
 def generate_balanced_news_digest(news_articles: list[dict]) -> str:
-    """Generate website-friendly digest text (markdown-ish)."""
-    today = datetime.datetime.now().strftime("%B %d, %Y")
+    """
+    Generate Omni View’s core product:
+    - A list of TOP STORIES (clustered across outlets)
+    - For each: neutral recap, multiple perspectives, questions, and source links
+    """
+    today_human = datetime.datetime.now().strftime("%B %d, %Y")
+    if not news_articles:
+        return "\n".join([
+            "# Omni View — Balanced Briefing",
+            f"**Date:** {today_human}",
+            "",
+            "No stories were found from the configured RSS sources in the last 24 hours.",
+        ])
+
+    # Cluster headlines into "stories", then select unique stories per required section
+    clusters = _cluster_articles(news_articles, similarity_threshold=0.78)
+    scored = sorted(((_score_cluster(c), c) for c in clusters), key=lambda x: x[0], reverse=True)
+
+    targets: dict[str, int] = {
+        "Top stories": 5,
+        "Top world stories": 5,
+        "Top business stories": 3,
+        "Top technology stories": 3,
+        "Top popular media stories": 3,
+        "Top gossip stories": 3,
+    }
+    desired_cat: dict[str, str] = {
+        "Top stories": "top",
+        "Top world stories": "world",
+        "Top business stories": "business",
+        "Top technology stories": "technology",
+        "Top popular media stories": "popular_media",
+        "Top gossip stories": "gossip",
+    }
+
+    used: set[str] = set()
+    sections_payload: dict[str, list[dict]] = {k: [] for k in targets.keys()}
+
+    def _build_story(cluster: dict, rank: int) -> dict | None:
+        picked = _pick_diverse_articles(cluster, max_articles=6)
+        src_rows = []
+        for a in picked:
+            url = (a.get("url") or "").strip()
+            if not url:
+                continue
+            src_rows.append(
+                {
+                    "source": (a.get("source") or "").strip(),
+                    "bucket": _bucket_for_source(a.get("source") or ""),
+                    "title": (a.get("title") or "").strip(),
+                    "description": (a.get("description") or "").strip()[:320],
+                    "url": url,
+                }
+            )
+        if not src_rows:
+            return None
+
+        distinct_sources = {r.get("source") for r in src_rows if r.get("source")}
+        story = {
+            "rank": rank,
+            "topic_title": (cluster.get("title") or "").strip(),
+            "category": _category_for_cluster(cluster),
+            "source_count": len(distinct_sources),
+            "sources": src_rows,
+        }
+        if story["source_count"] < 2:
+            story["coverage_note"] = "Only one distinct source available in our feeds for this story today."
+        return story
+
+    def _try_add(section: str, cluster: dict) -> bool:
+        key = cluster.get("key") or ""
+        if not key or key in used:
+            return False
+        story = _build_story(cluster, rank=len(sections_payload[section]) + 1)
+        if not story:
+            return False
+        sections_payload[section].append(story)
+        used.add(key)
+        return True
+
+    # Pass 1: fill each section with matching category
+    for section, n in targets.items():
+        cat = desired_cat[section]
+        for _, c in scored:
+            if len(sections_payload[section]) >= n:
+                break
+            if _category_for_cluster(c) != cat:
+                continue
+            _try_add(section, c)
+
+    # Pass 2: top up any short section from remaining best stories (any category), still unique
+    for section, n in targets.items():
+        for _, c in scored:
+            if len(sections_payload[section]) >= n:
+                break
+            _try_add(section, c)
+
+    total_selected = sum(len(v) for v in sections_payload.values())
+    if total_selected < 8:
+        digest_lines = [
+            "# Omni View — Balanced Briefing",
+            f"**Date:** {today_human}",
+            "",
+            "## Top stories (single-source fallback)",
+            "Not enough overlap across sources today to build multi-source clusters. Here are the top headlines we found:",
+            "",
+        ]
+        for i, a in enumerate(news_articles[:10], 1):
+            title = (a.get("title") or "Untitled").strip()
+            source = (a.get("source") or "Unknown").strip()
+            url = (a.get("url") or "").strip()
+            if url:
+                digest_lines.append(f"- **{i}.** {title} — *{source}* ([link]({url}))")
+            else:
+                digest_lines.append(f"- **{i}.** {title} — *{source}*")
+        digest_lines += [
+            "",
+            "## Media-literacy note",
+            "Compare multiple outlets when possible, watch for loaded language, and look for primary documents or official statements.",
+        ]
+        return "\n".join(digest_lines)
+
+    payload = {"date_human": today_human, "sections": sections_payload}
+
+    try:
+        return _grok_balanced_briefing(payload)
+    except PermissionDeniedError as e:
+        logging.error(f"Grok permission denied: {e}")
+    except RateLimitError as e:
+        logging.error(f"Grok rate limited: {e}")
+    except APIStatusError as e:
+        logging.error(f"Grok API status error: {e}")
+    except Exception as e:
+        logging.error(f"Grok briefing generation failed: {e}")
+
+    # Last-resort fallback (no Grok)
     digest_lines = [
-        "# Omni View — Balanced News Digest",
-        f"**Date:** {today}",
+        "# Omni View — Balanced Briefing",
+        f"**Date:** {today_human}",
         "",
-        "## Stories (diverse sources)",
+        "## Top stories (raw)",
+        "Grok briefing generation failed, so this is a raw list of candidate stories and links:",
         "",
     ]
-
-    for i, article in enumerate(news_articles[:12], 1):
-        title = article.get('title', 'Untitled').strip()
-        source = article.get('source', 'Unknown').strip()
-        url = article.get('url', '').strip()
-        if url:
-            digest_lines.append(f"- **{i}.** {title} — *{source}* ({url})")
-        else:
-            digest_lines.append(f"- **{i}.** {title} — *{source}*")
-
-    digest_lines += [
-        "",
-        "## Why multiple perspectives?",
-        "Omni View intentionally includes coverage from different viewpoints so you can compare framing, facts, and emphasis.",
-    ]
+    for section_name, stories in sections_payload.items():
+        digest_lines.append(f"## {section_name}")
+        for i, s in enumerate((stories or [])[:8], 1):
+            digest_lines.append(f"### {i}) {s.get('topic_title','Story').strip()}")
+            digest_lines.append("**Read more (sources):**")
+            for src in (s.get("sources") or [])[:6]:
+                digest_lines.append(f"- [{src.get('source','Source')}]({src.get('url','')})")
+            digest_lines.append("")
     return "\n".join(digest_lines)
 
 
-def generate_omni_view_script(news_articles: list[dict]) -> str:
-    """Generate a concise spoken script for TTS."""
+def generate_omni_view_script(briefing_markdown: str) -> str:
+    """
+    Create a spoken-friendly script from the website briefing.
+    This keeps the podcast short and avoids reading long link lists on-air.
+    """
     today = datetime.datetime.now().strftime("%B %d, %Y")
-    lines = [
-        "Welcome to Omni View, your daily balanced news digest.",
+    text = briefing_markdown or ""
+    # Strip markdown links down to their label
+    text = re.sub(r"\[([^\]]+)\]\(https?://[^\)]+\)", r"\1", text)
+    # Remove bare URLs
+    text = re.sub(r"https?://\S+", "", text)
+
+    lines_in = [ln.strip() for ln in text.splitlines() if ln.strip()]
+    story_titles: list[str] = []
+    story_blurbs: list[str] = []
+
+    # Extract story headings and the "What happened" line when available
+    for idx, ln in enumerate(lines_in):
+        if ln.startswith("### "):
+            title = ln.replace("###", "").strip()
+            story_titles.append(title)
+        if ln.lower().startswith("**what happened"):
+            # Take the remainder after ':' if present
+            parts = ln.split(":", 1)
+            if len(parts) == 2:
+                story_blurbs.append(parts[1].strip())
+
+    # Fallback: if Grok didn't output the expected structure, just use the first few bullets
+    if not story_titles:
+        for ln in lines_in:
+            if ln.startswith("- **") and len(story_titles) < 8:
+                story_titles.append(re.sub(r"^- \*\*.*?\.\*\*\s*", "", ln).strip())
+
+    script = [
+        "Welcome to Omni View — balanced news perspectives.",
         f"Today is {today}.",
         "",
-        "Here are the major stories covered by multiple outlets, with different angles to consider:",
+        "Here are the top stories, and a few ways different audiences may see them.",
         "",
     ]
-    for i, article in enumerate(news_articles[:10], 1):
-        title = article.get('title', 'Untitled').strip()
-        source = article.get('source', 'Unknown').strip()
-        lines.append(f"Story {i}. {title}. This is being covered by {source}, among others.")
-    lines += [
-        "",
-        "That’s Omni View. Compare sources, look for primary documents, and decide for yourself.",
+
+    max_stories = 6
+    for i, title in enumerate(story_titles[:max_stories], 1):
+        script.append(f"Story {i}. {title}.")
+        if i - 1 < len(story_blurbs) and story_blurbs[i - 1]:
+            script.append(story_blurbs[i - 1])
+        script.append("")
+
+    script += [
+        "That’s Omni View.",
+        "For full source links and more context, open today’s written briefing on the Omni View summaries page.",
+        "Compare sources, look for primary documents, and decide for yourself.",
     ]
-    return "\n".join(lines)
+
+    return fix_omni_pronunciation("\n".join(script))
 
 
 def _chunk_text_for_elevenlabs(text: str, max_chars: int = 4500) -> list[str]:
@@ -942,6 +1478,24 @@ if __name__ == "__main__":
     # Load environment variables
     load_dotenv()
 
+    # Optional env overrides (useful for local testing)
+    # These scripts default to fully-automated mode; setting env vars lets you disable side-effects.
+    def _env_bool(name: str, default: bool) -> bool:
+        val = os.getenv(name)
+        if val is None:
+            return default
+        return val.strip().lower() in ("1", "true", "yes", "on")
+
+    TEST_MODE = _env_bool("TEST_MODE", TEST_MODE)
+    ENABLE_X_POSTING = _env_bool("ENABLE_X_POSTING", ENABLE_X_POSTING)
+    ENABLE_PODCAST = _env_bool("ENABLE_PODCAST", ENABLE_PODCAST)
+    ENABLE_GITHUB_SUMMARIES = _env_bool("ENABLE_GITHUB_SUMMARIES", ENABLE_GITHUB_SUMMARIES)
+
+    if TEST_MODE:
+        # In test mode, default to no posting/no audio unless explicitly overridden above
+        ENABLE_X_POSTING = _env_bool("ENABLE_X_POSTING", False)
+        ENABLE_PODCAST = _env_bool("ENABLE_PODCAST", False)
+
     # Set up paths
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
@@ -1025,7 +1579,7 @@ if __name__ == "__main__":
     # ========================== STEP 3: GENERATE PODCAST SCRIPT ==========================
     logging.info("Step 3: Generating podcast script...")
 
-    podcast_script = generate_omni_view_script(balanced_news)
+    podcast_script = generate_omni_view_script(x_thread)
 
     # ========================== STEP 4: CREATE PODCAST AUDIO ==========================
     logging.info("Step 4: Creating podcast audio...")
@@ -1060,7 +1614,7 @@ if __name__ == "__main__":
                 digests_dir,
                 "omni",
                 episode_num=episode_num,
-                episode_title=None,
+                episode_title=f"Omni View — Omni‑View Briefing — {datetime.datetime.now().strftime('%B %d, %Y')}",
                 audio_url=_audio_url,
                 rss_url=f"{_base_url}/omni_view_podcast.rss",
             )

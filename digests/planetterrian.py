@@ -20,6 +20,7 @@ from feedgen.feed import FeedGenerator
 from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
+from openai import APIStatusError
 from difflib import SequenceMatcher
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 from bs4 import BeautifulSoup
@@ -628,6 +629,28 @@ def _env_bool(name: str, default: bool) -> bool:
     if v in {"0", "false", "f", "no", "n", "off"}:
         return False
     return default
+
+
+def _enforce_x_char_limit(text: str, max_chars: int = 280) -> str:
+    """
+    Ensure text fits within X's 280-char limit (non-subscribed accounts).
+    If too long, we progressively compress, then truncate with an ellipsis.
+    """
+    t = (text or "").strip()
+    if len(t) <= max_chars:
+        return t
+
+    # Collapse excessive blank lines / whitespace first
+    t = re.sub(r"[ \t]+\n", "\n", t)
+    t = re.sub(r"\n{3,}", "\n\n", t).strip()
+    if len(t) <= max_chars:
+        return t
+
+    # If still too long, truncate safely
+    suffix = "…"
+    if max_chars <= len(suffix):
+        return suffix[:max_chars]
+    return (t[: max_chars - len(suffix)].rstrip() + suffix)
 
 # Chatterbox (local) TTS config
 CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
@@ -1327,31 +1350,70 @@ Output today's edition exactly as formatted.
 )
 def generate_digest_with_grok():
     """Generate digest with retry logic"""
-    response = client.chat.completions.create(
-        model="grok-4",
-        messages=[{"role": "user", "content": X_PROMPT}],
-        temperature=0.7,
-        max_tokens=3500,  # Reduced from 4000 for faster generation
-        extra_body={"search_parameters": {"mode": "off"}}
-    )
-    return response
+    def _create_via_openai_compat():
+        return client.chat.completions.create(
+            model="grok-4",
+            messages=[{"role": "user", "content": X_PROMPT}],
+            temperature=0.7,
+            max_tokens=3500,  # Reduced from 4000 for faster generation
+        )
+
+    def _create_via_xai_sdk():
+        # xAI is migrating away from OpenAI-compatible chat/completions.
+        # Fall back to the official xAI Python SDK.
+        try:
+            from xai_sdk import Client as XAIClient
+            from xai_sdk.chat import user as xai_user
+        except Exception as exc:
+            raise RuntimeError(
+                "xai-sdk is required for Grok fallback. Please add 'xai-sdk' to requirements."
+            ) from exc
+
+        api_key = (os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY") or "").strip()
+        if not api_key:
+            raise RuntimeError("Missing GROK_API_KEY (or XAI_API_KEY) for xAI SDK client.")
+
+        xai_client = XAIClient(api_key=api_key, timeout=3600)
+        chat = xai_client.chat.create(model="grok-4", store_messages=False)
+        chat.append(xai_user(X_PROMPT))
+        return chat.sample()
+
+    try:
+        return _create_via_openai_compat()
+    except APIStatusError as e:
+        status = getattr(e, "status_code", None)
+        msg = str(e) or ""
+        if status == 410 or "live search is deprecated" in msg.lower():
+            logging.warning("⚠️ xAI chat/completions deprecated (410). Retrying via xAI SDK.")
+            return _create_via_xai_sdk()
+        raise
 
 try:
     response = generate_digest_with_grok()
-    x_thread = response.choices[0].message.content.strip()
+    # Support both OpenAI-compatible responses and xai-sdk responses
+    if hasattr(response, "choices"):
+        x_thread = response.choices[0].message.content.strip()
+    else:
+        x_thread = (getattr(response, "content", "") or "").strip()
     
     # Log token usage and cost
     if hasattr(response, 'usage') and response.usage:
         usage = response.usage
-        logging.info(f"Grok API - Tokens used: {usage.total_tokens} (prompt: {usage.prompt_tokens}, completion: {usage.completion_tokens})")
-        estimated_cost = (usage.total_tokens / 1000000) * 0.01
-        logging.info(f"Estimated cost: ${estimated_cost:.4f}")
-        
-        # Track credit usage
-        credit_usage["services"]["grok_api"]["x_thread_generation"]["prompt_tokens"] = usage.prompt_tokens
-        credit_usage["services"]["grok_api"]["x_thread_generation"]["completion_tokens"] = usage.completion_tokens
-        credit_usage["services"]["grok_api"]["x_thread_generation"]["total_tokens"] = usage.total_tokens
-        credit_usage["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] = estimated_cost
+        total_tokens = getattr(usage, "total_tokens", None)
+        prompt_tokens = getattr(usage, "prompt_tokens", None)
+        completion_tokens = getattr(usage, "completion_tokens", None)
+        if total_tokens is not None:
+            logging.info(
+                f"Grok API - Tokens used: {total_tokens} (prompt: {prompt_tokens}, completion: {completion_tokens})"
+            )
+            estimated_cost = (float(total_tokens) / 1000000) * 0.01
+            logging.info(f"Estimated cost: ${estimated_cost:.4f}")
+            
+            # Track credit usage (best-effort across SDKs)
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["prompt_tokens"] = prompt_tokens
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["completion_tokens"] = completion_tokens
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["total_tokens"] = total_tokens
+            credit_usage["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] = estimated_cost
 except Exception as e:
     logging.error(f"Grok API call failed: {e}")
     raise
@@ -2555,21 +2617,18 @@ if ENABLE_X_POSTING:
     try:
         # Create link to the Planetterrian summaries page
         summaries_url = "https://patricknovak.github.io/Tesla-shorts-time/planetterrian-summaries.html"
+        rss_url = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian_podcast.rss"
 
         # Create a teaser post with link to full summary
         today = datetime.datetime.now()
-        teaser_text = f"""🌍🧬 Planetterrian Daily - {today.strftime('%B %d, %Y')}
-
-🔬 Today's complete science & health digest is now live!
-
-🧠 Latest longevity research & breakthroughs
-🏥 Health discoveries & medical advances
-🌱 Sustainability & environmental science
-🎙️ Full podcast episode available
-
-Read the full summary: {summaries_url}
-
-#Science #Longevity #Health #Biotech #Planetterrian"""
+        teaser_text = (
+            f"🌍🧬 Planetterrian Daily — {today.strftime('%b %d, %Y')}\n"
+            f"Top science + health stories (last 48h) + new episode.\n"
+            f"Read & listen: {summaries_url}\n"
+            f"RSS: {rss_url}\n"
+            f"#Science #Health #Longevity"
+        )
+        teaser_text = _enforce_x_char_limit(teaser_text, max_chars=_env_int("X_TWEET_MAX_CHARS", 280))
 
         # Track X API post call
         credit_usage["services"]["x_api"]["post_calls"] += 1
