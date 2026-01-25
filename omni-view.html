@@ -455,6 +455,7 @@
                     </div>
                     <div class="player-actions">
                         <button id="openChatFromHero" class="pill" type="button" title="Ask Grok about the news">💬 Ask Grok</button>
+                        <button id="openFreeGrokFromHero" class="pill" type="button" title="Open Grok on X (free tier) in a new tab">🆓 Use free Grok</button>
                         <a id="downloadNow" class="pill" href="#" target="_blank" rel="noopener" style="display:none;">⬇️ Download</a>
                     </div>
                 </div>
@@ -542,6 +543,7 @@
             <textarea id="grokPrompt" rows="3" placeholder="Ask for more context, or request a balanced perspective…"></textarea>
             <div class="grok-actions">
                 <button id="grokClear" class="grok-secondary" type="button">Clear</button>
+                <button id="grokFree" class="grok-secondary" type="button" title="Open Grok on X (free tier) in a new tab">🆓 Use free Grok</button>
                 <button id="grokSend" class="grok-send" type="button">Send</button>
             </div>
         </div>
@@ -651,8 +653,10 @@
             const chatEl = document.getElementById('grokChat');
             const promptEl = document.getElementById('grokPrompt');
             const sendBtn = document.getElementById('grokSend');
+            const freeBtn = document.getElementById('grokFree');
             const clearBtn = document.getElementById('grokClear');
             const openFromHero = document.getElementById('openChatFromHero');
+            const openFreeFromHero = document.getElementById('openFreeGrokFromHero');
 
             if (!fab || !drawer) return;
 
@@ -690,12 +694,33 @@
                 localStorage.setItem(LS_ENDPOINT, endpointInput.value || '');
                 localStorage.setItem(LS_MODEL, modelSelect.value || '');
             }
+
+            async function openFreeGrok(prefillPrompt) {
+                const p = String(prefillPrompt || '').trim();
+                // Canonical Grok UI on X
+                const url = 'https://x.com/i/grok';
+                try { window.open(url, '_blank', 'noopener'); } catch {}
+
+                if (!p) {
+                    pushMsg('system', `Opened Grok in a new tab. Type your question there.`);
+                    return;
+                }
+
+                // Best-effort: copy prompt to clipboard for easy paste
+                try {
+                    await navigator.clipboard.writeText(p);
+                    pushMsg('system', 'Opened Grok in a new tab and copied the prompt to your clipboard. Paste it into Grok to continue.');
+                } catch {
+                    pushMsg('system', 'Opened Grok in a new tab. (Could not auto-copy due to browser permissions.) Copy/paste this prompt there:\n\n' + p);
+                }
+            }
+
             async function send() {
                 const prompt = (promptEl.value || '').trim();
                 if (!prompt) return;
                 if (!keyInput.value.trim()) {
                     open();
-                    pushMsg('system', 'Paste your Grok API key to enable chat (stored only in your browser).');
+                    pushMsg('system', 'Paste your Grok API key to chat here, or click “Use free Grok” to open Grok on X (no API key).');
                     return;
                 }
                 saveSettings();
@@ -749,8 +774,16 @@
                     : 'What are today’s biggest stories, and what do different viewpoints emphasize?';
                 try { promptEl.focus(); } catch {}
             });
+            openFreeFromHero?.addEventListener('click', () => {
+                const nowTitle = document.getElementById('nowTitle')?.textContent?.trim() || '';
+                const p = nowTitle
+                    ? `Give me a balanced perspective and key context on this headline: "${nowTitle}".`
+                    : 'What are today’s biggest stories, and what do different viewpoints emphasize?';
+                openFreeGrok(p);
+            });
 
             sendBtn?.addEventListener('click', send);
+            freeBtn?.addEventListener('click', () => openFreeGrok(promptEl.value || ''));
             clearBtn?.addEventListener('click', () => { messages = []; render(); });
             promptEl?.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
@@ -765,7 +798,8 @@
                     open();
                     promptEl.value = String(p || '');
                     try { promptEl.focus(); } catch {}
-                }
+                },
+                openFreeGrok: (p) => openFreeGrok(p),
             };
         }
 
