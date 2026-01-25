@@ -13,6 +13,11 @@ on:
     - cron: '0 11 * * *'
   workflow_dispatch:  # Allow manual triggering
 
+# Prevent simultaneous workflow runs from racing on `main` pushes.
+concurrency:
+  group: publish-main
+  cancel-in-progress: false
+
 jobs:
   gate:
     runs-on: ubuntu-latest
@@ -219,8 +224,21 @@ jobs:
           echo "💾 Committing files..."
           git commit -m "Auto-generated: Omni View $(date +%Y-%m-%d)" || echo "Commit failed (may be empty)"
 
-          echo "🚀 Pushing to repository..."
-          git push || echo "Push failed"
+          echo "🔄 Syncing with remote and pushing..."
+          PUSHED=false
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push; then
+              PUSHED=true
+              break
+            fi
+            echo "⚠️ Push failed (attempt ${attempt}/3). Retrying..."
+            sleep $((attempt * 5))
+          done
+          if [ "$PUSHED" != "true" ]; then
+            echo "❌ Push failed after retries (likely due to concurrent workflow pushes)."
+            exit 1
+          fi
 
           echo "✅ Files committed and pushed successfully to repository!"
           echo ""
@@ -235,4 +253,3 @@ jobs:
         else
           echo "⚠️  No new files to commit - script may have failed or no new content generated"
         fi
-      continue-on-error: true  # Don't fail workflow if commit/push fails

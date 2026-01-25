@@ -7,6 +7,11 @@ on:
     - cron: '0 11 * * *'
   workflow_dispatch:  # Allow manual triggering
 
+# Prevent simultaneous workflow runs from racing on `main` pushes.
+concurrency:
+  group: publish-main
+  cancel-in-progress: false
+
 jobs:
   generate-podcast:
     runs-on: ubuntu-latest
@@ -174,10 +179,20 @@ jobs:
             echo "📡 Staged RSS feed changes"
           fi
           git commit -m "Auto-generated: Tesla Shorts Time $(date +%Y-%m-%d)" || echo "Commit failed (may be empty)"
-          git push || echo "Push failed"
-          echo "✅ Files committed and pushed successfully to repository!"
+          
+          echo "🔄 Syncing with remote and pushing..."
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push; then
+              echo "✅ Files committed and pushed successfully to repository!"
+              exit 0
+            fi
+            echo "⚠️ Push failed (attempt ${attempt}/3). Retrying..."
+            sleep $((attempt * 5))
+          done
+          echo "❌ Push failed after retries (likely due to concurrent workflow pushes)."
+          exit 1
         else
           echo "⚠️  No new files to commit - script may have failed or no new content generated"
         fi
-      continue-on-error: true  # Don't fail workflow if commit/push fails
 
