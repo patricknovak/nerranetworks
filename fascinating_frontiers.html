@@ -236,6 +236,7 @@
             <ul class="nav-links">
                 <li><a href="#episodes">Episodes</a></li>
                 <li><a href="#about">About</a></li>
+                <li><a href="fascinating-frontiers-summaries.html">Summaries</a></li>
                 <li><a href="fascinating_frontiers_podcast.rss">RSS</a></li>
                 <li><a href="podcasts/">All Podcasts</a></li>
             </ul>
@@ -250,6 +251,7 @@
         </p>
         <div class="cta">
             <a class="btn btn-primary" href="fascinating_frontiers_podcast.rss">Subscribe via RSS</a>
+            <a class="btn" href="fascinating-frontiers-summaries.html">Read Summaries</a>
             <a class="btn" href="https://x.com/planetterrian">Follow on X</a>
             <a class="btn" href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
         </div>
@@ -287,6 +289,7 @@
             <p class="footer-text">Hosted by Patrick | Vancouver, Canada</p>
             <div class="footer-links">
                 <a href="fascinating_frontiers_podcast.rss">RSS Feed</a>
+                <a href="fascinating-frontiers-summaries.html">Summaries</a>
                 <a href="podcasts/">All Podcasts</a>
                 <a href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
             </div>
@@ -295,19 +298,42 @@
     
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init();
+        // AOS is optional — don't break episode loading if it's blocked.
+        if (window.AOS && typeof window.AOS.init === 'function') {
+            window.AOS.init();
+        }
         
         // Load episodes from RSS feed
         fetch('fascinating_frontiers_podcast.rss?t=' + Date.now())
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`RSS fetch failed: ${response.status} ${response.statusText}`);
+                }
+                return response.text();
+            })
             .then(data => {
                 const parser = new DOMParser();
                 const xml = parser.parseFromString(data, 'text/xml');
+                const parseError = xml.querySelector('parsererror');
+                if (parseError) {
+                    throw new Error('RSS parse error (invalid XML)');
+                }
                 const items = xml.querySelectorAll('item');
                 const container = document.getElementById('episodes-container');
                 
                 container.innerHTML = '';
                 
+                if (!items || items.length === 0) {
+                    container.innerHTML = `
+                        <div class="episode-card">
+                            <div class="episode-title">No episodes found</div>
+                            <div class="episode-date">RSS loaded but contained 0 items</div>
+                            <div class="episode-description">Check that <code>fascinating_frontiers_podcast.rss</code> contains valid <code>&lt;item&gt;</code> entries.</div>
+                        </div>
+                    `;
+                    return;
+                }
+
                 items.forEach((item, index) => {
                     if (index >= 10) return; // Show latest 10 episodes
                     
