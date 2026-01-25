@@ -334,8 +334,16 @@
                     return;
                 }
 
-                items.forEach((item, index) => {
-                    if (index >= 10) return; // Show latest 10 episodes
+                const getPubDateMs = (item) => {
+                    const pub = item.querySelector('pubDate')?.textContent || '';
+                    const ms = Date.parse(pub);
+                    return isNaN(ms) ? 0 : ms;
+                };
+
+                // Always show the newest episodes even if RSS order changes.
+                const sortedItems = Array.from(items).sort((a, b) => getPubDateMs(b) - getPubDateMs(a));
+
+                sortedItems.slice(0, 10).forEach((item) => {
                     
                     const title = item.querySelector('title')?.textContent || 'Untitled';
                     const description = item.querySelector('description')?.textContent || '';
