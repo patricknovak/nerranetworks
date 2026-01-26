@@ -6,23 +6,26 @@
     <meta name="description" content="Omni View - Daily balanced news summaries from diverse sources. Multiple perspectives on the stories that matter.">
     <meta name="keywords" content="balanced news, diverse perspectives, media literacy, news analysis, unbiased reporting, multiple viewpoints">
     <title>Omni View | Balanced News Summaries</title>
+    <meta name="theme-color" content="#0B6FD6">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
 
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/omni-view-theme.css">
+    <link rel="icon" type="image/svg+xml" href="assets/omni-view-logo.svg">
 
     <style>
         :root {
             /* Balanced/Neutral Theme Colors */
-            --balance-gold: #D4AF37;
-            --balance-silver: #C0C0C0;
-            --balance-scale: #2C3E50;
-            --balance-light: #ECF0F1;
-            --balance-text: #2C3E50;
-            --balance-text-light: #7F8C8D;
-            --balance-accent: #3498DB;
+            --balance-gold: rgba(191, 232, 255, 0.85);
+            --balance-silver: rgba(11, 27, 59, 0.18);
+            --balance-scale: #0B1B3B;
+            --balance-light: #F4F8FF;
+            --balance-text: #0B1B3B;
+            --balance-text-light: rgba(11, 27, 59, 0.62);
+            --balance-accent: #0B6FD6;
             --header-height: 76px;
             --sticky-height: 74px;
         }
@@ -163,14 +166,17 @@
         }
 
         .hero::before {
-            content: '⚖️';
+            content: '';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 8rem;
-            opacity: 0.1;
+            width: min(420px, 72vw);
+            aspect-ratio: 1 / 1;
+            background: url('assets/omni-view-logo.svg') center / contain no-repeat;
+            opacity: 0.08;
             z-index: 0;
+            pointer-events: none;
         }
 
         .hero-content {
@@ -678,13 +684,17 @@
     <!-- Header -->
     <header>
         <nav>
-            <a href="omni-view.html" class="logo">
-                <span class="balance-icon">⚖️</span>
-                Omni View
+            <a href="omni-view.html" class="brand" aria-label="Omni View home">
+                <span class="brand-mark" aria-hidden="true">
+                    <img src="assets/omni-view-logo.svg" alt="" />
+                </span>
+                <span class="wordmark" aria-hidden="true">
+                    <span class="omni">Omni</span><span class="view">View</span>
+                </span>
             </a>
-            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <button class="menu-toggle" aria-label="Toggle menu" type="button">☰</button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="omni-view-summaries.html">⚖️ Balanced Summaries</a></li>
+                <li><a href="omni-view-summaries.html">Summaries</a></li>
                 <li><a href="omni-view.html#episodes">Episodes</a></li>
                 <li><a href="podcasts/">All Podcasts</a></li>
                 <li><a href="omni-view.html#about">About</a></li>
@@ -708,7 +718,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Omni View</h1>
+            <h1><span class="omni">Omni</span> <span class="view" style="background:linear-gradient(90deg,var(--ov-blue),var(--ov-blue-2));-webkit-background-clip:text;background-clip:text;color:transparent;">View</span></h1>
             <p class="tagline">Balanced Perspectives on the News</p>
             <p class="subtitle">Daily summaries presenting multiple viewpoints on the stories that matter, helping you form your own informed opinions.</p>
 
@@ -723,8 +733,8 @@
     <section class="summaries-section">
         <div class="podcast-summary" data-aos="fade-up">
             <div class="podcast-header">
-                <span style="font-size: 3rem;">⚖️</span>
-                <h2 class="podcast-title">Daily Balanced News Summaries</h2>
+                <img src="assets/omni-view-logo.svg" alt="Omni View logo" style="width:54px;height:54px;border-radius:14px;border:1px solid rgba(11,27,59,0.12);background:rgba(255,255,255,0.6);padding:8px;" />
+                <h2 class="podcast-title">Daily News Summaries</h2>
             </div>
 
             <div class="perspective-notice">
@@ -749,7 +759,7 @@
                 <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank">💻 Source</a>
             </div>
             <p class="footer-text">Omni View © 2025 | Promoting media literacy through balanced perspectives</p>
-            <p class="footer-text">⚖️ Stay informed • Think critically • Form your own opinions ⚖️</p>
+            <p class="footer-text">Stay informed • Think critically • Form your own opinions</p>
         </div>
     </footer>
 

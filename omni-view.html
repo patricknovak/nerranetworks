@@ -6,178 +6,26 @@
     <meta name="description" content="Omni View - Daily balanced news podcast. Multiple perspectives on the stories that matter.">
     <meta name="keywords" content="balanced news podcast, diverse perspectives, media literacy, news analysis, multiple viewpoints">
     <title>Omni View | Balanced News Podcast</title>
+    <meta name="theme-color" content="#0B6FD6">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/omni-view-theme.css">
+
+    <link rel="icon" type="image/svg+xml" href="assets/omni-view-logo.svg">
 
     <style>
-        :root {
-            --balance-gold: #D4AF37;
-            --balance-silver: #C0C0C0;
-            --balance-scale: #2C3E50;
-            --balance-light: #ECF0F1;
-            --balance-text: #2C3E50;
-            --balance-text-light: #7F8C8D;
-            --balance-accent: #3498DB;
-            --card: #ffffff;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--balance-light);
-            color: var(--balance-text);
-            line-height: 1.6;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1rem 2rem;
-            border-bottom: 2px solid var(--balance-gold);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Crimson Text', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--balance-scale);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
-        .nav-links a { color: var(--balance-text); text-decoration: none; font-weight: 500; }
-        .nav-links a:hover { color: var(--balance-accent); }
-
-        .hero {
-            min-height: 70vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8rem 2rem 4rem;
-            text-align: center;
-            background: linear-gradient(135deg, var(--balance-light) 0%, #F8F9FA 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '⚖️';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 9rem;
-            opacity: 0.08;
-        }
-
-        .hero-content { position: relative; z-index: 1; max-width: 900px; }
-        h1 {
-            font-family: 'Crimson Text', serif;
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 600;
-            color: var(--balance-scale);
-            margin-bottom: 0.75rem;
-        }
-        .tagline {
-            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-            font-weight: 600;
-            color: var(--balance-accent);
-            margin-bottom: 1.25rem;
-        }
-        .subtitle {
-            color: var(--balance-text-light);
-            font-size: 1.05rem;
-            max-width: 720px;
-            margin: 0 auto 2rem;
-        }
-
-        .cta {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.9rem 1.2rem;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            border: 2px solid transparent;
-            transition: transform 0.15s, box-shadow 0.15s;
-        }
-        .btn-primary {
-            background: var(--balance-accent);
-            color: white;
-            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.25);
-        }
-        .btn-secondary {
-            background: transparent;
-            color: var(--balance-scale);
-            border-color: var(--balance-silver);
-        }
-        .btn:hover { transform: translateY(-1px); }
-
-        .section {
-            padding: 3rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .card {
-            background: var(--card);
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: 14px;
-            padding: 1.5rem;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-        }
-        .section h2 {
-            font-family: 'Crimson Text', serif;
-            font-size: 2rem;
-            color: var(--balance-scale);
-            margin-bottom: 1rem;
-        }
-        .muted { color: var(--balance-text-light); }
+        /* Page-specific add-ons. Global look is in assets/omni-view-theme.css */
 
         .episodes-list { display: grid; gap: 1rem; margin-top: 1rem; }
-        .episode {
-            border-left: 4px solid var(--balance-gold);
-            padding: 1rem;
-            border-radius: 10px;
-            background: rgba(236, 240, 241, 0.6);
-        }
-        .episode-title { font-weight: 700; margin-bottom: 0.25rem; }
-        .episode-meta { font-size: 0.9rem; color: var(--balance-text-light); margin-bottom: 0.5rem; }
-        .episode a { color: var(--balance-accent); text-decoration: none; }
-        .episode a:hover { text-decoration: underline; }
 
         /* Prominent player */
         .hero-player {
             margin: 1.75rem auto 0;
             max-width: 880px;
             text-align: left;
-            border: 2px solid rgba(212, 175, 55, 0.45);
-            box-shadow: 0 18px 40px rgba(44, 62, 80, 0.12);
+            border: 1px solid rgba(11, 27, 59, 0.14);
+            box-shadow: 0 18px 45px rgba(6, 28, 61, 0.14);
         }
         .hero-player-top {
             display: flex;
@@ -190,19 +38,19 @@
             min-width: 0;
         }
         .now-playing .label {
-            color: var(--balance-text-light);
-            font-weight: 600;
+            color: var(--ov-muted);
+            font-weight: 800;
             font-size: 0.95rem;
         }
         .now-playing .title {
-            font-weight: 800;
+            font-weight: 950;
             font-size: 1.15rem;
             margin-top: 0.15rem;
-            color: var(--balance-scale);
+            color: var(--ov-ink);
         }
         .now-playing .meta {
             margin-top: 0.25rem;
-            color: var(--balance-text-light);
+            color: var(--ov-muted);
             font-size: 0.95rem;
         }
         .hero-audio {
@@ -229,7 +77,7 @@
             font-weight: 700;
             cursor: pointer;
         }
-        .pill:hover { border-color: var(--balance-accent); }
+        .pill:hover { border-color: rgba(11, 111, 214, 0.32); }
 
         .episodes-grid {
             display: grid;
@@ -251,10 +99,10 @@
             cursor: pointer;
             white-space: nowrap;
         }
-        .play-btn:hover { border-color: var(--balance-accent); }
+        .play-btn:hover { border-color: rgba(11, 111, 214, 0.32); }
 
         /* Floating Grok chat */
-        .grok-fab {
+        .grok-fab { /* keep, but align to Omni theme */
             position: fixed;
             right: 18px;
             bottom: 18px;
@@ -262,9 +110,9 @@
             width: 56px;
             height: 56px;
             border-radius: 16px;
-            border: 1px solid rgba(0,0,0,0.14);
+            border: 1px solid rgba(11,27,59,0.16);
             background: rgba(255,255,255,0.92);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+            box-shadow: 0 16px 40px rgba(6,28,61,0.18);
             cursor: pointer;
             font-size: 1.3rem;
         }
@@ -276,9 +124,9 @@
             width: min(440px, calc(100vw - 36px));
             max-height: min(72vh, 720px);
             background: rgba(255,255,255,0.97);
-            border: 1px solid rgba(0,0,0,0.14);
+            border: 1px solid rgba(11,27,59,0.16);
             border-radius: 16px;
-            box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+            box-shadow: 0 24px 60px rgba(6,28,61,0.22);
             overflow: hidden;
             display: none;
         }
@@ -291,10 +139,7 @@
             padding: 0.9rem 1rem;
             border-bottom: 1px solid rgba(0,0,0,0.10);
         }
-        .grok-title {
-            font-weight: 900;
-            color: var(--balance-scale);
-        }
+        .grok-title { font-weight: 950; color: var(--ov-ink); }
         .grok-close {
             width: 38px;
             height: 38px;
@@ -338,8 +183,8 @@
             white-space: pre-wrap;
             word-wrap: break-word;
         }
-        .msg.user { background: rgba(52, 152, 219, 0.12); }
-        .msg.assistant { background: rgba(212, 175, 55, 0.12); }
+        .msg.user { background: rgba(11, 111, 214, 0.10); }
+        .msg.assistant { background: rgba(191, 232, 255, 0.38); }
         .msg.system { background: rgba(236, 240, 241, 0.85); color: var(--balance-text-light); }
         .grok-footer {
             padding: 0.9rem 1rem;
@@ -355,12 +200,12 @@
             flex-wrap: wrap;
         }
         .grok-send {
-            background: var(--balance-accent);
+            background: linear-gradient(90deg, var(--ov-blue), var(--ov-blue-2));
             color: white;
             border: 0;
             padding: 0.65rem 0.95rem;
             border-radius: 12px;
-            font-weight: 900;
+            font-weight: 950;
             cursor: pointer;
         }
         .grok-secondary {
@@ -374,53 +219,31 @@
         }
         .grok-hint { font-size: 0.85rem; color: var(--balance-text-light); }
 
-        footer {
-            background: var(--balance-scale);
-            color: white;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            border-top: 2px solid var(--balance-gold);
-        }
-        .footer-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
-        .footer-links a { color: var(--balance-silver); text-decoration: none; }
-        .footer-links a:hover { color: var(--balance-gold); }
-        .menu-toggle { display: none; }
+        /* Footer & nav are themed by global CSS */
 
         @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-                background: var(--balance-accent);
-                border: none;
-                color: white;
-                font-size: 1.3rem;
-                padding: 0.5rem 0.8rem;
-                border-radius: 8px;
-                cursor: pointer;
-            }
             .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: rgba(255, 255, 255, 0.98);
-                flex-direction: column;
-                padding: 1rem;
-                border-top: 2px solid var(--balance-gold);
-                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                /* handled globally */
             }
             .nav-links.active { display: flex; }
-            .nav-links a { padding: 0.75rem; border-bottom: 1px solid rgba(0,0,0,0.08); }
+            .nav-links a { border-bottom: 0; }
         }
 
-        a:focus, button:focus { outline: 2px solid var(--balance-accent); outline-offset: 2px; }
+        /* focus handled globally */
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <a href="#home" class="logo"><span aria-hidden="true">⚖️</span> Omni View</a>
-            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <a href="#home" class="brand" aria-label="Omni View home">
+                <span class="brand-mark" aria-hidden="true">
+                    <img src="assets/omni-view-logo.svg" alt="" />
+                </span>
+                <span class="wordmark" aria-hidden="true">
+                    <span class="omni">Omni</span><span class="view">View</span>
+                </span>
+            </a>
+            <button class="menu-toggle" aria-label="Toggle menu" type="button">☰</button>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#episodes">Episodes</a></li>
                 <li><a href="omni-view-summaries.html">Summaries</a></li>
@@ -433,7 +256,8 @@
 
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1>Omni View</h1>
+            <img class="hero-logo" src="assets/omni-view-logo.svg" alt="Omni View logo" />
+            <h1><span class="omni">Omni</span> <span class="view" style="background:linear-gradient(90deg,var(--ov-blue),var(--ov-blue-2));-webkit-background-clip:text;background-clip:text;color:transparent;">View</span></h1>
             <div class="tagline">Balanced perspectives on the news</div>
             <p class="subtitle">
                 A daily digest designed to counter bias by showing multiple sides of the stories people are being exposed to,
