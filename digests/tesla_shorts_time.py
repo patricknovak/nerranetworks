@@ -153,6 +153,24 @@ def fix_tesla_pronunciation(text: str) -> str:
     """
     import re
 
+    # --------------------------
+    # TTS pronunciation overrides (Tesla Shorts Time)
+    # --------------------------
+    # ElevenLabs tends to spell acronyms like "ICE" / "I.C.E" as "I C E".
+    # For this show we want the spoken word "ice" instead (as requested).
+    text = re.sub(r'(?i)(?<!\w)I\.?C\.?E\.?(?!\w)', 'ice', text)
+
+    # ElevenLabs often misreads "robotaxis" as "robot axis". We bias toward the intended
+    # "robo-taxis" pronunciation. Keep a light touch: whole-word only.
+    def _fix_robotaxi_forms(m: re.Match) -> str:
+        w = m.group(0)
+        # Preserve leading capitalization for sentence starts / titles.
+        if w[:1].isupper():
+            return "Robo-taxis"
+        return "robo-taxis"
+    text = re.sub(r'(?i)(?<!\w)robotaxis(?!\w)', _fix_robotaxi_forms, text)
+    text = re.sub(r'(?i)(?<!\w)robotaxi(?!\w)', lambda m: "Robo-taxi" if m.group(0)[:1].isupper() else "robo-taxi", text)
+
     # CRITICAL: Fix common words FIRST before any acronym processing
     # This prevents TTS from misreading words like "who" as "W.H.O."
     # ElevenLabs sometimes reads short words as acronyms, so we need explicit fixes
@@ -192,7 +210,7 @@ def fix_tesla_pronunciation(text: str) -> str:
         "EV":   "E V",
         "BEV":  "B E V",
         "PHEV": "P H E V",
-        "ICE":  "I C E",
+        # NOTE: We intentionally do NOT spell out ICE for Tesla Shorts Time; we normalize it to "ice" above.
         "NHTSA":"N H T S A",
         "OTA":  "O T A",
         "LFP":  "L F P",
@@ -208,10 +226,6 @@ def fix_tesla_pronunciation(text: str) -> str:
         "WLTP": "W L T P",
         "NEDC": "N E D C",
     }
-
-    # Fix "Robotaxis" and "Robotaxi" - ensure proper pronunciation
-    text = re.sub(r'\bRobotaxis\b', 'Robotaxi s', text, flags=re.IGNORECASE)
-    text = re.sub(r'\bRobotaxi\b', 'Robotaxi', text, flags=re.IGNORECASE)
 
     for acronym, spelled in acronyms.items():
         # Build a regex that only matches the acronym when it's a whole word
@@ -437,13 +451,22 @@ def fix_tesla_pronunciation(text: str) -> str:
     # Apply shared pronunciation fixes if available
     if USE_SHARED_PRONUNCIATION:
         try:
+            # Override shared dictionaries for Tesla Shorts Time so we don't reintroduce
+            # the ICE and Robotaxi issues via the shared defaults.
+            local_acronyms = dict(COMMON_ACRONYMS)
+            local_acronyms.pop("ICE", None)
+            local_word_pronunciations = dict(WORD_PRONUNCIATIONS)
+            local_word_pronunciations.update({
+                "Robotaxis": "robo-taxis",
+                "Robotaxi": "robo-taxi",
+            })
             text = apply_pronunciation_fixes(
                 text,
-                acronyms=COMMON_ACRONYMS,
+                acronyms=local_acronyms,
                 hockey_terms={},  # Not needed for Tesla Shorts Time
                 player_names={},  # Not needed for Tesla Shorts Time
                 oilers_player_names={},  # Not needed for Tesla Shorts Time
-                word_pronunciations=WORD_PRONUNCIATIONS,
+                word_pronunciations=local_word_pronunciations,
                 use_zwj=False  # Use spaces for Tesla Shorts Time (matches original behavior)
             )
         except Exception as e:
@@ -491,9 +514,7 @@ def fix_tesla_pronunciation(text: str) -> str:
     # Apply this fix explicitly to ensure it's handled correctly
     text = re.sub(r'\bSpaceX\b', 'Space X', text, flags=re.IGNORECASE)
     
-    # Fix "Robotaxis" - ensure proper pronunciation
-    text = re.sub(r'\bRobotaxis\b', 'Robotaxi s', text, flags=re.IGNORECASE)
-    text = re.sub(r'\brobotaxis\b', 'robotaxi s', text, flags=re.IGNORECASE)
+    # "robotaxi(s)" handled above (avoid duplicate/contradictory rewrites)
     
     # Additional EV/Tesla terminology fixes
     ev_terminology_fixes = {
@@ -517,8 +538,8 @@ def fix_tesla_pronunciation(text: str) -> str:
         "Gigafactory": "Giga factory",
         
         # Common phrases
-        "robotaxi": "robotaxi",
-        "robotaxis": "robotaxi s",
+        "robotaxi": "robo-taxi",
+        "robotaxis": "robo-taxis",
         "V2G": "V 2 G",
         "V2H": "V 2 H",
         "V2L": "V 2 L",
@@ -3457,6 +3478,15 @@ Here is today's complete formatted digest. Use ONLY this content:
     for line in podcast_script.splitlines():
         line = line.strip()
         if line.startswith("[") or not line:
+            continue
+        # Prevent accidental footer/debug metadata from being spoken by TTS
+        # (e.g., Grok sometimes appends "Word count: ..." or "Content:" at the end)
+        if re.match(r'(?i)^(word\s*count|total\s*words|character\s*count)\b', line):
+            break
+        if re.match(r'(?i)^content\s*:\s*$', line):
+            break
+        # Drop obvious markdown artifacts that can get read aloud ("asterisk", "underscore", etc.)
+        if line in {"**", "*", "__", "—", "–"}:
             continue
         if line.startswith("Patrick:"):
             full_text_parts.append(line[9:].strip())
