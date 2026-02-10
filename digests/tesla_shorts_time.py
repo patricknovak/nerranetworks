@@ -30,6 +30,7 @@ from PIL import Image, ImageDraw, ImageFont
 import feedparser
 from typing import List, Dict, Any
 from collections import Counter
+import random
 import tweepy
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
@@ -767,19 +768,20 @@ def load_used_content_tracker() -> dict:
     }
 
 def save_used_content_tracker(tracker: dict):
-    """Save used content tracker."""
+    """Save used content tracker (only persisted keys; recent_stories is rebuilt from digest files)."""
     tracker_file = digests_dir / "tesla_content_tracker.json"
     try:
         # Keep only last 14 days of content (2 weeks)
         cutoff_date = (datetime.date.today() - datetime.timedelta(days=14)).isoformat()
+        to_save = {}
         for key in ["short_spots", "daily_challenges", "inspiration_quotes", "first_principles"]:
-            tracker[key] = [
-                item for item in tracker[key] 
+            to_save[key] = [
+                item for item in tracker.get(key, [])
                 if item.get("date", "") >= cutoff_date
             ]
-        tracker["last_updated"] = datetime.date.today().isoformat()
+        to_save["last_updated"] = datetime.date.today().isoformat()
         with open(tracker_file, 'w', encoding='utf-8') as f:
-            json.dump(tracker, f, indent=2)
+            json.dump(to_save, f, indent=2)
     except Exception as e:
         logging.warning(f"Failed to save content tracker: {e}")
 
@@ -834,13 +836,64 @@ def extract_sections_from_digest(digest_path: Path) -> dict:
     
     return sections
 
+
+def extract_news_headlines_from_digest(digest_path: Path) -> list[str]:
+    """Extract news story headlines from Top 10 News and Tesla X Takeover sections for dedup tracking."""
+    headlines = []
+    if not digest_path.exists():
+        return headlines
+    try:
+        with open(digest_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        # Top 10 News: match numbered lines with bold title (e.g. "1. **Title...**" or "1️⃣ **Title...**")
+        top10_section = re.search(
+            r'(?:📰 \*\*Top 10 News Items\*\*|### Top 10 News Items)(.*?)(?=━━|## Short Spot|📉|### Tesla First Principles|## Tesla X Takeover|🎙️ \*\*Tesla X Takeover)',
+            content,
+            re.DOTALL | re.IGNORECASE
+        )
+        if top10_section:
+            block = top10_section.group(1)
+            # First 10 bold runs in Top 10 section (handles "1. **Title**" and "1️⃣ **Title**")
+            for m in re.finditer(r'\*{2}([^*]{15,})\*{2}', block):
+                t = m.group(1).strip()
+                if t and t not in headlines:
+                    headlines.append(t)
+                if len(headlines) >= 10:
+                    break
+        # Tesla X Takeover: match "1. 🚨 **Title** -" or "2. 🔥 **Title** -"
+        takeover_section = re.search(
+            r'(?:## Tesla X Takeover|🎙️ \*\*Tesla X Takeover[^\n]*)(.*?)(?=━━|## Short Spot|📉|### Tesla First Principles)',
+            content,
+            re.DOTALL | re.IGNORECASE
+        )
+        if takeover_section:
+            block = takeover_section.group(1)
+            for m in re.finditer(r'^\d+\.\s*(?:🚨|🔥|💡|⚡|🎯)?\s*\*{2}(.+?)\*{2}\s*[-–]', block, re.MULTILINE):
+                headlines.append(m.group(1).strip())
+    except Exception as e:
+        logging.debug(f"Could not extract headlines from {digest_path}: {e}")
+    return headlines
+
+
+def _norm_headline_for_similarity(text: str) -> str:
+    """Normalize headline for similarity comparison: strip dates, sources, extra punctuation."""
+    if not text:
+        return ""
+    # Remove date patterns like "07 February, 2026, 12:09 PM PST, Source" or "DD Month, YYYY, HH:MM AM/PM PST, Source"
+    t = re.sub(r'\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)[a-z]*\s*,?\s*\d{4}[^*]*$', '', text, flags=re.IGNORECASE)
+    t = re.sub(r'\d{1,2}/\d{1,2}/\d{2,4}[^*]*$', '', t)
+    t = ' '.join(t.lower().split())
+    return t.strip()
+
+
 def load_recent_digests(max_days: int = 14) -> dict:
     """Load sections from recent digests to track what's been used."""
     tracker = {
         "short_spots": [],
         "short_squeezes": [],
         "daily_challenges": [],
-        "inspiration_quotes": []
+        "inspiration_quotes": [],
+        "recent_stories": []  # Headlines from Top 10 + Tesla X Takeover for cross-day dedup
     }
     
     # Look for digest files from the last max_days days
@@ -871,6 +924,12 @@ def load_recent_digests(max_days: int = 14) -> dict:
                         "date": check_date.isoformat(),
                         "content": sections["inspiration_quote"][:200]
                     })
+                # Extract news headlines for cross-day story dedup
+                for headline in extract_news_headlines_from_digest(digest_path):
+                    tracker["recent_stories"].append({
+                        "date": check_date.isoformat(),
+                        "content": headline
+                    })
                 break  # Found one, don't check other pattern
     
     return tracker
@@ -899,6 +958,11 @@ def get_used_content_summary(tracker: dict) -> str:
         quotes_text = "\n".join([f"- {item.get('content', '')[:150]}..." for item in recent])
         summary_parts.append(f"RECENTLY USED INSPIRATION QUOTES (DO NOT REPEAT - use a DIFFERENT quote from a DIFFERENT author):\n{quotes_text}")
     
+    if tracker.get("recent_stories"):
+        recent = tracker["recent_stories"][-35:]  # Last ~35 headlines (Top 10 + X Takeover across ~2 days)
+        stories_text = "\n".join([f"- {item.get('content', '')[:120]}" for item in recent])
+        summary_parts.append(f"RECENTLY COVERED NEWS STORIES (DO NOT repeat these in Top 10 News or Tesla X Takeover - pick DIFFERENT stories):\n{stories_text}")
+    
     if summary_parts:
         return "\n\n".join(summary_parts) + "\n\n🚨 CRITICAL: Generate COMPLETELY NEW, FRESH, and DIFFERENT content for ALL sections. Avoid ANY similarity to the above. Each section must be unique and engaging.\n"
     return ""
@@ -908,7 +972,7 @@ content_tracker = load_used_content_tracker()
 # Also load from recent digest files to get the most up-to-date tracking
 recent_tracker = load_recent_digests(max_days=14)
 # Merge both (recent digests take precedence)
-for key in ["short_spots", "daily_challenges", "inspiration_quotes", "first_principles"]:
+for key in ["short_spots", "daily_challenges", "inspiration_quotes", "first_principles", "recent_stories"]:
     # Combine and deduplicate by content
     combined = content_tracker.get(key, []) + recent_tracker.get(key, [])
     seen_content = set()
@@ -918,9 +982,9 @@ for key in ["short_spots", "daily_challenges", "inspiration_quotes", "first_prin
         if content_hash not in seen_content:
             seen_content.add(content_hash)
             unique_items.append(item)
-    # Sort by date, most recent first, keep last 14
+    # Sort by date, most recent first; keep last 14 for sections, last 45 for recent_stories
     unique_items.sort(key=lambda x: x.get("date", ""), reverse=True)
-    content_tracker[key] = unique_items[:14]
+    content_tracker[key] = unique_items[:45] if key == "recent_stories" else unique_items[:14]
 
 used_content_summary = get_used_content_summary(content_tracker)
 
@@ -1272,6 +1336,39 @@ def remove_similar_items(items, similarity_threshold=0.7, get_text_func=None):
     
     return filtered
 
+
+def filter_articles_by_recent_stories(
+    articles: list[dict],
+    recent_headlines: list[str],
+    similarity_threshold: float = 0.72,
+) -> list[dict]:
+    """Drop articles whose title is too similar to a recently covered story (cross-day dedup)."""
+    if not recent_headlines or not articles:
+        return articles
+    filtered = []
+    recent_norm = [_norm_headline_for_similarity(h) for h in recent_headlines if h]
+    for article in articles:
+        title = (article.get("title") or "").strip()
+        if not title:
+            filtered.append(article)
+            continue
+        norm_title = _norm_headline_for_similarity(title)
+        is_covered = False
+        for r in recent_norm:
+            if not r:
+                continue
+            if calculate_similarity(norm_title, r) >= similarity_threshold:
+                is_covered = True
+                logging.debug(f"Skipping already-covered story (similar to recent): {title[:60]}...")
+                break
+        if not is_covered:
+            filtered.append(article)
+    dropped = len(articles) - len(filtered)
+    if dropped:
+        logging.info(f"Filtered {dropped} articles that were too similar to recently covered stories")
+    return filtered
+
+
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_exponential(multiplier=1, min=2, max=10),
@@ -1540,6 +1637,10 @@ def fetch_tesla_news():
     return filtered_result, raw_articles
 
 tesla_news, raw_news_articles = fetch_tesla_news()
+
+# Cross-day dedup: drop articles that are too similar to stories already covered in recent digests
+recent_headlines = [item.get("content", "") for item in content_tracker.get("recent_stories", [])]
+tesla_news = filter_articles_by_recent_stories(tesla_news, recent_headlines, similarity_threshold=0.72)
 
 # ========================== STEP 2: FETCH TOP X POSTS FROM X API ==========================
 # X POSTS DISABLED - No longer fetching X posts to avoid API costs
@@ -2049,7 +2150,7 @@ If fewer than 8 quality articles are available, use ALL available quality articl
 - Community reactions to major Tesla news
 - Unique angles on Tesla stories that stand out
 
-Make each item engaging and fresh - avoid recycling the same stories from the Top 10 News Items section. Each item should feel like you're sharing exciting, breaking Tesla news with enthusiasm.
+CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the 10 Top 10 News items—do NOT use the same article, same headline, or same story angle in both sections. Make each Takeover item engaging and fresh; each should feel like you're sharing exciting, breaking Tesla news with enthusiasm.
 
 **FINAL FALLBACK**: Only if RSS feeds provide fewer than 5 quality articles, you may search for additional recent, legitimate Tesla news articles from reputable sources (Teslarati, The Verge, WebProNews, CleanTechnica) published within the last 48 hours. Prioritize breaking news and specific product updates over analysis pieces. Ensure no more than 2 articles from any single source. 
 
@@ -2072,7 +2173,7 @@ Make each item engaging and fresh - avoid recycling the same stories from the To
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
 - **News**: Select ONLY high-quality, fresh articles (within 48 hours, specific content, substantial descriptions). If you have 8+ quality articles, select the best 10. If you have 5-7 quality articles, use all of them. If you have fewer than 5 quality articles, create a digest using available articles plus brief market context - DO NOT pad with low-quality or generic content. Each article must have a unique angle and substantial, specific information about Tesla.
 - **CRITICAL URL RULE**: NEVER invent URLs. If you don't have enough pre-fetched articles, output fewer items rather than making up URLs. All URLs must be exact matches from the pre-fetched list above.
-- **Diversity Check**: Before finalizing, verify no similar content; replace if needed from pre-fetched pool.
+- **Diversity Check**: Before finalizing, verify no similar content; replace if needed from pre-fetched pool. Top 10 and Tesla X Takeover must have ZERO overlapping stories—each of the 5 Takeover items must be a different story from the 10 news items.
 
 ### FORMATTING (EXACT—USE MARKDOWN AS SHOWN)
 # Tesla Shorts Time
@@ -2153,7 +2254,7 @@ One short, inspiring challenge tied to Tesla/Elon themes (curiosity, first princ
 - ✅ Podcast link: Full URL as shown.
 - ✅ Lists: "1. " format (number, period, space)—no bullets.
 - ✅ Separators: "━━━━━━━━━━━━━━━━━━━━" before each major section.
-- ✅ No duplicates: All items unique (review pairwise).
+- ✅ No duplicates: All items unique (review pairwise). Top 10 and Tesla X Takeover: no story overlap.
 - ✅ All sections included: Tesla X Takeover, Short Spot, Tesla First Principles, Tesla Market Movers (Mondays only), Daily Challenge, Quote, sign-off.
 - ✅ URLs: Exact from pre-fetched; valid format; no inventions.
 - ✅ FRESHNESS CHECK: Short Spot is DIFFERENT from recent ones (different story/angle).
@@ -2748,33 +2849,72 @@ if not ENABLE_PODCAST:
     logging.info("Podcast generation is disabled (ENABLE_PODCAST = False). Skipping podcast script generation, audio processing, and RSS feed updates.")
     final_mp3 = None
 else:
-    # Simplified podcast prompt - use only the final formatted digest
+    # Rotate intro/outro daily (seed by date so same day = same choice)
+    _podcast_seed = int(datetime.date.today().strftime("%Y%m%d"))
+    _podcast_rng = random.Random(_podcast_seed)
+    INTRO_TEMPLATES = [
+        f'Patrick: Welcome back to Tesla Shorts Time Daily, episode {{episode_num}}. It\'s {{today_str}}, and I\'m Patrick in Vancouver, Canada. Let\'s talk about what really moved Tesla today.',
+        f'Patrick: Hey, it\'s Patrick in Vancouver with Tesla Shorts Time Daily, episode {{episode_num}}. Today is {{today_str}}, and we\'ve got a fresh batch of Tesla stories to unpack together.',
+        f'Patrick: This is Tesla Shorts Time Daily, episode {{episode_num}}. I\'m Patrick up in Vancouver, and it\'s {{today_str}}. Grab a coffee, and let\'s walk through what actually mattered for Tesla today.',
+        f'Patrick: Good to have you here for Tesla Shorts Time Daily, episode {{episode_num}}. I\'m Patrick in Vancouver — it\'s {{today_str}}, and we\'re diving into the Tesla news that matters.',
+        f'Patrick: Tesla Shorts Time Daily, episode {{episode_num}}. Patrick in Vancouver, {{today_str}}. Thanks for tuning in; here\'s what\'s going on with Tesla.',
+        f'Patrick: Welcome to Tesla Shorts Time Daily, episode {{episode_num}}. It is {{today_str}}. I\'m Patrick in Vancouver, Canada bringing you the latest Tesla news and updates. If you like the show, like, share, rate and subscribe — it really helps. Now straight to the news.',
+    ]
+    CLOSING_TEMPLATES = [
+        f'Patrick: TSLA is at ${{price:.2f}} as we record. Short term is fun to watch, but with Tesla the long term is what really matters.\nPatrick: That\'s Tesla Shorts Time Daily for today. I\'d love to hear your thoughts — reach out @teslashortstime on X or DM us. Stay safe, keep accelerating, and we\'ll catch you tomorrow.',
+        f'Patrick: Current TSLA price at recording: ${{price:.2f}}. Good to know, but remember it\'s the long game that counts.\nPatrick: Thanks for listening to Tesla Shorts Time Daily. Hit us up @teslashortstime with feedback or ideas. Future is electric — talk to you next time.',
+        f'Patrick: TSLA right now is ${{price:.2f}}. Always good to know the short term; with Tesla, the long term is what really matters.\nPatrick: That\'s it for today\'s Tesla Shorts Time Daily. I look forward to hearing from you — @teslashortstime on X or DM. Stay safe, keep accelerating, and we\'ll catch you tomorrow.',
+        f'Patrick: At the time of recording, TSLA is ${{price:.2f}}. Pace yourself — long term is what matters.\nPatrick: Thanks for spending a few minutes with me. DM @teslashortstime with thoughts or ideas. Your efforts help accelerate the transition to sustainable energy. We\'ll catch you tomorrow on Tesla Shorts Time Daily.',
+        f'Patrick: TSLA at ${{price:.2f}} as we wrap. Short term is noisy; the long term is why we\'re here.\nPatrick: That\'s Tesla Shorts Time Daily for today. Reach out @teslashortstime — I\'d love to hear what you\'re seeing. Take care, and we\'ll talk again tomorrow.',
+    ]
+    _intro_line = _podcast_rng.choice(INTRO_TEMPLATES).format(episode_num=episode_num, today_str=today_str)
+    _closing_block = _podcast_rng.choice(CLOSING_TEMPLATES).format(price=price)
+
+    # Tone hint so script matches the day (not always max enthusiasm)
+    if change > 3:
+        tone_hint = "strongly bullish — okay to sound more excited"
+    elif change > 0.5:
+        tone_hint = "slightly bullish — warm and positive"
+    elif change < -3:
+        tone_hint = "rough/red day — be grounded, reflective, honest; don't fake hype"
+    elif change < -0.5:
+        tone_hint = "slightly bearish — thoughtful, no forced enthusiasm"
+    else:
+        tone_hint = "mixed/unchanged — natural and conversational"
+
+    # Podcast prompt: guidelines + rotated intro/outro for variety
     POD_PROMPT = f"""You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Tesla Shorts Time Daily" Episode {episode_num}.
 
-HOST: Patrick in Vancouver - Canadian, scientist, newscaster. Voice like a solo Podcaster breaking Tesla news, not robotic.
+HOST: Patrick in Vancouver — Canadian, scientist, newscaster. Sound like a real person catching a friend up on Tesla, not a robotic announcer.
 
 RULES:
 - Start every line with "Patrick:"
-- Don't read URLs aloud - mention source names naturally
+- Don't read URLs aloud — mention source names naturally
 - Use natural dates ("today", "this morning") not exact timestamps
 - Enunciate all numbers, dollar amounts, percentages clearly
-- Use ONLY information from the digest below - nothing else
+- Use ONLY information from the digest below — nothing else
+
+TONE (vary by the day):
+- Match your energy to the news and TSLA move today: {tone_hint}.
+- Vary sentence length and pacing; some moments can be calm or thoughtful, not always high-energy.
+- Sound warm and human — occasionally excited, occasionally reflective — never mechanical.
 
 SCRIPT STRUCTURE:
-[Intro music - 10 seconds]
-Patrick: Welcome to Tesla Shorts Time Daily, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada bringing you the latest Tesla news and updates.  Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now straight to the daily news updates you are here for.
+[Intro music - 5–10 seconds]
+Use this exact intro (do not rewrite it):
+{_intro_line}
 
 [Narrate EVERY item from the digest in order - no skipping]
-- For each news item: Read the title with enthusiasm, then paraphrase the summary naturally
-- Tesla X Takeover: Introduce the section with Tesla enthusiasm, focusing on the fresh, interesting Tesla developments and trends. Read each item with excitement, explaining why each development matters for Tesla investors. End with the vibe check summary that captures the overall Tesla news landscape.
-- Short Spot: Read with enthusiasm, explaining the bearish concern and why it's temporary/overblown.
-- Tesla First Principles: Explain the first principles analysis with enthusiasm, breaking down the fundamental question, data, Tesla approach, and market implications. Make it educational but engaging.
-- Tesla Market Movers (Mondays only): Provide an exciting recap of the week's Tesla market activity, highlighting the most important moves that impacted TSLA.
-- Daily Challenge + Quote: Read the quote verbatim, then the challenge verbatim, add one encouraging sentence
+- For each news item: Read the title naturally, then paraphrase the summary in your own words. Vary delivery — not every item needs the same level of enthusiasm.
+- Tesla X Takeover: Introduce the section in your own words. Cover each item clearly; explain why it matters for Tesla investors. End with the vibe check in a natural way.
+- Short Spot: Explain the bearish concern and why it's temporary or overblown — tone can be more measured here.
+- Tesla First Principles: Explain the fundamental question, data, Tesla approach, and market implications. Educational but engaging; no need to oversell.
+- Tesla Market Movers (Mondays only): Recap the week's Tesla market activity and what moved TSLA.
+- Daily Challenge + Quote: Read the quote verbatim, then the challenge verbatim, add one short encouraging sentence.
 
 [Closing]
-Patrick: TSLA current stock price at the time of recording is ${price:.2f} right now.  Always good to know the short term, but with Tesla, the long term is what really matters.
-Patrick: That's Tesla Shorts Time Daily for today. I look forward to hearing your thoughts and ideas — reach out to us @teslashortstime on X or DM us directly. Stay safe, keep accelerating, and remember: the future is electric! Your efforts help accelerate the world's transition to sustainable energy… and beyond. We'll catch you tomorrow on Tesla Shorts Time Daily!
+Use this exact closing (do not rewrite it):
+{_closing_block}
 
 Here is today's complete formatted digest. Use ONLY this content:
 """
@@ -2792,7 +2932,7 @@ Here is today's complete formatted digest. Use ONLY this content:
                 "content": [
                     {
                         "type": "input_text",
-                        "text": "You are the world's best Tesla podcast writer. Make it feel like two real Canadian friends losing their minds (in a good way) over real Tesla news.",
+                        "text": "You are the world's best Tesla podcast writer. Make it feel like a real Canadian friend catching you up on Tesla: warm, honest, occasionally excited, occasionally thoughtful — never robotic or like an AI reading a script.",
                     }
                 ],
             },
@@ -2905,7 +3045,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     transcript_path = digests_dir / f"podcast_transcript_{datetime.date.today():%Y%m%d}.txt"
     with open(transcript_path, "w", encoding="utf-8") as f:
         f.write(f"# Tesla Shorts Time – The Pod | Ep {episode_num} | {today_str}\n\n{podcast_script}")
-    logging.info("Natural podcast script generated – Patrick starts, super enthusiastic")
+    logging.info("Podcast script generated with varied intro/outro and tone")
 
     # ========================== 3. TTS (VOICE) ==========================
     logging.info(f"TTS provider selected: {TTS_PROVIDER}")
