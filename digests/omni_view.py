@@ -364,19 +364,23 @@ def fetch_balanced_news():
     all_articles = []
     raw_articles = []
 
-    # Keywords for important news (avoid overly niche topics)
+    # Keywords for news that helps everyone (children to seniors) understand the world
+    # Prioritize: major policy, safety, economy, world events, health, science, local impact
     important_keywords = [
         "election", "president", "government", "policy", "law", "court", "supreme",
-        "economy", "recession", "inflation", "unemployment", "federal reserve",
+        "economy", "recession", "inflation", "unemployment", "federal reserve", "jobs",
         "war", "conflict", "peace", "treaty", "sanctions", "diplomacy",
-        "climate", "environment", "disaster", "weather", "energy",
-        "health", "pandemic", "vaccine", "medical", "fda", "cdc",
-        "technology", "ai", "internet", "social media", "privacy",
-        "crime", "justice", "police", "protest", "civil rights",
+        "climate", "environment", "disaster", "weather", "storm", "flood", "fire", "energy",
+        "health", "pandemic", "vaccine", "medical", "fda", "cdc", "hospital",
+        "technology", "ai", "internet", "privacy", "cyber",
+        "crime", "justice", "police", "protest", "civil rights", "safety",
         "international", "trade", "immigration", "borders",
-        "business", "corporate", "merger", "bankruptcy", "stocks",
-        "sports", "championship", "olympics", "world cup",  # Major events only
-        "celebrity", "entertainment", "hollywood",  # Major stories only
+        "business", "corporate", "merger", "bankruptcy", "stocks", "market",
+        "education", "school", "student", "college", "university",
+        "housing", "rent", "cost of living", "food", "prices",
+        "science", "space", "research", "discovery",
+        "sports", "championship", "olympics", "world cup",
+        "breaking", "announces", "reports", "says", "deal", "agreement",
     ]
 
     logging.info(f"Fetching balanced news from {len(rss_feeds)} diverse RSS feeds...")
@@ -516,90 +520,79 @@ def fetch_balanced_news():
 
 def select_balanced_news(articles, max_articles=15):
     """
-    Select balanced news that represents diverse perspectives and important topics.
+    Select news that is most important and widely discussed, while keeping source
+    diversity. Prioritizes stories that help everyone (children to seniors) understand
+    what's happening in the world. Articles are scored by importance, recency, then
+    diversity is applied so we don't over-represent one outlet.
     """
     if not articles:
         return []
 
-    # Source diversity scoring - encourage variety
-    processed_sources = set()
-    diverse_articles = []
-
-    # First pass: Get one article from each major source category
-    left_sources = {"CNN", "New York Times", "Washington Post", "NPR", "BBC", "The Guardian", "Al Jazeera"}
-    center_sources = {"Reuters", "Wall Street Journal", "Bloomberg", "CNBC", "Real Clear Politics"}
-    right_sources = {"Fox News", "Newsmax", "Breitbart", "Daily Mail"}
-    international_sources = {"France 24", "Deutsche Welle"}
-    alternative_sources = {"The Intercept", "Mother Jones", "Reason"}
-    tech_sources = {"Wired", "Ars Technica"}
-
-    # Priority order for diversity
-    source_categories = [
-        ("Left/Center-Left", left_sources),
-        ("Center", center_sources),
-        ("Right/Center-Right", right_sources),
-        ("International", international_sources),
-        ("Alternative", alternative_sources),
-        ("Tech/Business", tech_sources)
+    importance_terms = [
+        "election", "president", "government", "court", "supreme", "war", "ceasefire",
+        "inflation", "jobs", "unemployment", "fed", "interest rate", "sanctions",
+        "climate", "storm", "earthquake", "wildfire", "outbreak", "health", "disaster",
+        "ai", "cyber", "security", "breaking", "announces", "deal", "agreement",
     ]
 
-    # Select up to 2-3 articles from each major category
-    target_per_category = 2
+    def _article_importance(a):
+        text = ((a.get("title") or "") + " " + (a.get("description") or "")).lower()
+        return 1 if any(t in text for t in importance_terms) else 0
 
-    for category_name, category_sources in source_categories:
-        category_articles = [a for a in articles if a.get("source") in category_sources]
-        selected_from_category = category_articles[:target_per_category]
+    def _article_recency_score(a):
+        try:
+            published = datetime.datetime.fromisoformat(
+                (a.get("publishedAt") or "").replace("Z", "+00:00")
+            )
+            hours_old = (datetime.datetime.now(datetime.timezone.utc) - published).total_seconds() / 3600
+            if hours_old < 6:
+                return 5
+            if hours_old < 12:
+                return 3
+            if hours_old < 24:
+                return 1
+        except Exception:
+            pass
+        return 0
 
-        for article in selected_from_category:
-            if len(diverse_articles) < max_articles:
-                diverse_articles.append(article)
-                processed_sources.add(article.get("source"))
+    # Score all articles by importance first, then recency
+    scored = [
+        (_article_importance(a) * 10 + _article_recency_score(a), a)
+        for a in articles
+    ]
+    scored.sort(key=lambda x: (x[0], x[1].get("publishedAt", "")), reverse=True)
 
-    # Fill remaining slots with highest quality remaining articles
-    remaining_articles = [a for a in articles if a.get("source") not in processed_sources]
-    remaining_slots = max_articles - len(diverse_articles)
+    # Build selection: take top by score but cap per source for diversity
+    source_counts: dict = {}
+    max_per_source = 3
+    selected = []
+    for _score, article in scored:
+        if len(selected) >= max_articles:
+            break
+        src = article.get("source") or "Unknown"
+        if source_counts.get(src, 0) >= max_per_source:
+            continue
+        selected.append(article)
+        source_counts[src] = source_counts.get(src, 0) + 1
 
-    if remaining_slots > 0 and remaining_articles:
-        # Score remaining articles by recency and source reputation
-        scored_remaining = []
-        for article in remaining_articles[:remaining_slots * 2]:  # Get more than needed for scoring
-            score = 0
-
-            # Recency bonus
-            try:
-                published = datetime.datetime.fromisoformat(article.get("publishedAt", "").replace('Z', '+00:00'))
-                hours_old = (datetime.datetime.now(datetime.timezone.utc) - published).total_seconds() / 3600
-                if hours_old < 6:
-                    score += 5
-                elif hours_old < 12:
-                    score += 3
-                elif hours_old < 24:
-                    score += 1
-            except:
-                pass
-
-            # Source reputation (generic fallback)
-            score += 1
-
-            scored_remaining.append((score, article))
-
-        scored_remaining.sort(key=lambda x: x[0], reverse=True)
-        diverse_articles.extend([article for score, article in scored_remaining[:remaining_slots]])
-
-    # Final sort by published date (newest first)
-    diverse_articles.sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
+    # Sort selected by same importance+recency (most important/discussed first)
+    selected_scored = [
+        (_article_importance(a) * 10 + _article_recency_score(a), a)
+        for a in selected
+    ]
+    selected_scored.sort(key=lambda x: (x[0], x[1].get("publishedAt", "")), reverse=True)
+    selected = [a for _, a in selected_scored]
 
     # Log the selection
-    logging.info(f"Selected {len(diverse_articles)} balanced news articles:")
-    source_counts = {}
-    for article in diverse_articles:
+    log_counts: dict = {}
+    for article in selected:
         source = article.get("source", "Unknown")
-        source_counts[source] = source_counts.get(source, 0) + 1
-
-    for source, count in sorted(source_counts.items()):
+        log_counts[source] = log_counts.get(source, 0) + 1
+    logging.info(f"Selected {len(selected)} news articles (importance + discussion first):")
+    for source, count in sorted(log_counts.items()):
         logging.info(f"  {source}: {count} article(s)")
 
-    return diverse_articles[:max_articles]
+    return selected[:max_articles]
 
 # ========================== MAIN EXECUTION ==========================
 # All execution code is in the if __name__ == "__main__" block below
@@ -956,12 +949,14 @@ def _grok_balanced_briefing(story_payload: dict) -> str:
     Must only cite the URLs we provide in the payload.
     """
     prompt = f"""
-You are Omni View — a neutral, media-literacy-first daily briefing for ages 12+ through adults.
-Your job: help people understand what is happening WITHOUT promoting any single outlet.
+You are Omni View — a neutral, media-literacy-first daily briefing for everyone from children to seniors.
+Your job: help people understand what is happening in the world and around them WITHOUT promoting any single outlet.
 
 Use ONLY the information in the provided story list (titles + short descriptions) and ONLY cite the provided URLs.
 Do NOT invent sources, links, quotes, or specific facts not supported by what’s provided.
 If details are unclear, say what is uncertain and what to verify.
+
+Ordering: Present the most important and widely discussed news first. Within each section, put the biggest and most talked-about stories first. The "Top stories" section must contain the five most important items of the day.
 
 Write a single website-friendly markdown briefing with this exact structure and section sizes:
 
@@ -982,12 +977,10 @@ Critical rules:
 
 Under each section, for each story:
 ### <N>) <short neutral headline>
-**What happened (neutral):** 2–4 sentences, plain language.
-**Why it matters:** 1–3 sentences.
-**Perspectives (multiple viewpoints):**
-- **Perspective 1:** 1–2 sentences
-- **Perspective 2:** 1–2 sentences
-- **Perspective 3 (optional):** 1–2 sentences
+**What happened (neutral):** 2–4 sentences in plain language so any reader can follow.
+
+**Perspectives:** Write 3–6 sentences in flowing prose (do not number or label individual perspectives). Weave together how different outlets or groups frame this story so readers see multiple viewpoints naturally. Be slightly more detailed than a single sentence per view.
+
 **Questions to consider:** 2–4 bullets (use '-' bullets).
 **Read more (sources):** 3–6 bullets, each as a markdown link like `- [Source](URL) — short note`
 
@@ -1105,8 +1098,17 @@ def generate_balanced_news_digest(news_articles: list[dict]) -> str:
         used.add(key)
         return True
 
-    # Pass 1: fill each section with matching category
+    # Pass 1: fill "Top stories" with the 5 highest-scoring clusters (any category)
+    # so the most important and widely discussed news leads the briefing
+    for _, c in scored:
+        if len(sections_payload["Top stories"]) >= targets["Top stories"]:
+            break
+        _try_add("Top stories", c)
+
+    # Pass 2: fill other sections by category (world, business, tech, etc.)
     for section, n in targets.items():
+        if section == "Top stories":
+            continue
         cat = desired_cat[section]
         for _, c in scored:
             if len(sections_payload[section]) >= n:
@@ -1115,7 +1117,7 @@ def generate_balanced_news_digest(news_articles: list[dict]) -> str:
                 continue
             _try_add(section, c)
 
-    # Pass 2: top up any short section from remaining best stories (any category), still unique
+    # Pass 3: top up any short section from remaining best stories (any category), still unique
     for section, n in targets.items():
         for _, c in scored:
             if len(sections_payload[section]) >= n:
@@ -1209,14 +1211,24 @@ def generate_omni_view_script(briefing_markdown: str) -> str:
     current_section = ""
     cur: dict | None = None
     in_questions = False
+    in_perspectives = False
+    perspective_lines: list[str] = []
 
     for ln in lines:
         if ln.startswith("## "):
+            if cur and in_perspectives and perspective_lines:
+                cur["perspectives"] = [" ".join(perspective_lines).strip()]
+            in_perspectives = False
+            perspective_lines = []
             current_section = ln[3:].strip()
             current_section = re.sub(r"\s*\(\d+\)\s*$", "", current_section).strip()
             continue
 
         if ln.startswith("### "):
+            if cur and in_perspectives and perspective_lines:
+                cur["perspectives"] = [" ".join(perspective_lines).strip()]
+            in_perspectives = False
+            perspective_lines = []
             if cur:
                 stories.append(cur)
             raw_title = ln[4:].strip()
@@ -1225,7 +1237,6 @@ def generate_omni_view_script(briefing_markdown: str) -> str:
                 "section": current_section,
                 "title": raw_title,
                 "what": "",
-                "why": "",
                 "perspectives": [],
                 "questions": [],
             }
@@ -1237,14 +1248,20 @@ def generate_omni_view_script(briefing_markdown: str) -> str:
 
         low = ln.lower()
         if low.startswith("what happened"):
+            in_perspectives = False
+            perspective_lines = []
             cur["what"] = _after_colon(ln)
             in_questions = False
             continue
         if low.startswith("why it matters"):
-            cur["why"] = _after_colon(ln)
+            # No longer used; skip this line
             in_questions = False
             continue
         if low.startswith("questions to consider"):
+            if in_perspectives and perspective_lines:
+                cur["perspectives"] = [" ".join(perspective_lines).strip()]
+            in_perspectives = False
+            perspective_lines = []
             in_questions = True
             continue
 
@@ -1254,8 +1271,31 @@ def generate_omni_view_script(briefing_markdown: str) -> str:
                 cur["questions"].append(q)
             continue
 
-        if ln.startswith("- ") and "perspective" in low[:18]:
-            # "- Perspective 1: ..."
+        # Perspectives: either a block of prose (new format) or numbered bullets (legacy)
+        if low.startswith("**perspectives") or (low.startswith("perspectives") and ":" in ln[:20]):
+            in_perspectives = True
+            perspective_lines = []
+            after_colon = _after_colon(ln)
+            if after_colon:
+                perspective_lines.append(after_colon)
+            in_questions = False
+            continue
+        if in_perspectives:
+            # End perspectives block on a new bold header
+            if ln.strip().startswith("**") and not ln.strip().lower().startswith("**perspectives"):
+                if perspective_lines:
+                    cur["perspectives"] = [" ".join(perspective_lines).strip()]
+                in_perspectives = False
+                perspective_lines = []
+                # Re-process this line (could be Questions to consider)
+                if "questions to consider" in ln.lower():
+                    in_questions = True
+                continue
+            perspective_lines.append(ln.strip())
+            continue
+
+        if ln.startswith("- ") and "perspective" in low[:25]:
+            # Legacy: "- Perspective 1: ..." (explicit numbering)
             p = re.sub(r"^-+\s*", "", ln).strip()
             p = re.sub(r"^Perspective\s*\d*\s*:\s*", "", p, flags=re.IGNORECASE).strip()
             if p:
@@ -1263,15 +1303,17 @@ def generate_omni_view_script(briefing_markdown: str) -> str:
             continue
 
     if cur:
+        if in_perspectives and perspective_lines:
+            cur["perspectives"] = [" ".join(perspective_lines).strip()]
         stories.append(cur)
 
     # Fallback: if structure is missing, use bullet headlines
     if not stories:
-        titles: list[str] = []
+        titles = []
         for ln in lines:
             if ln.startswith("- ") and len(titles) < 8:
                 titles.append(ln[2:].strip())
-        stories = [{"section": "Top stories", "title": t, "what": "", "why": "", "perspectives": [], "questions": []} for t in titles]
+        stories = [{"section": "Top stories", "title": t, "what": "", "perspectives": [], "questions": []} for t in titles]
 
     # Keep this listenable: pick a tight set across sections
     max_stories = 7
@@ -1301,7 +1343,7 @@ def generate_omni_view_script(briefing_markdown: str) -> str:
     script.append("Good morning. This is Omni View — balanced news perspectives.")
     script.append(f"Today is {today}.")
     script.append("")
-    script.append("We’ll cover what happened, why it matters, and how different viewpoints frame it — so you can decide for yourself.")
+    script.append("We’ll cover what happened, how different viewpoints frame it — so you can decide for yourself.")
     script.append("")
 
     last_section = None
@@ -1319,24 +1361,22 @@ def generate_omni_view_script(briefing_markdown: str) -> str:
 
         title = (s.get("title") or "A developing story").strip()
         what = (s.get("what") or "").strip()
-        why = (s.get("why") or "").strip()
         perspectives = s.get("perspectives") or []
         questions = s.get("questions") or []
 
         script.append(title + ".")
         if what:
             script.append(what)
-        if why:
-            script.append("Why it matters: " + why)
 
-        # Add "Omni perspective" framing without taking a side
+        # Perspectives: one prose block (new format) or list of short views (legacy)
         if perspectives:
-            p1 = perspectives[0].strip()
-            p2 = perspectives[1].strip() if len(perspectives) > 1 else ""
-            if p2:
-                script.append("Across perspectives: some emphasize that " + p1 + " Others stress that " + p2)
-            else:
-                script.append("Across perspectives: " + p1)
+            p1 = (perspectives[0] or "").strip()
+            if p1:
+                if len(perspectives) > 1:
+                    p2 = (perspectives[1] or "").strip()
+                    script.append("Across perspectives: " + p1 + " " + p2)
+                else:
+                    script.append("Across perspectives: " + p1)
 
         if questions:
             q = questions[0].strip()
