@@ -85,7 +85,7 @@
     .network-section h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem; text-align: center; }
     .network-subtitle { color: var(--text-muted); text-align: center; margin-bottom: 2rem; font-size: 0.95rem; }
     .network-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
-    .network-card { display: flex; flex-direction: column; background: var(--card); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #1e2a42; transition: border-color 0.2s, transform 0.2s; }
+    .network-card { display: flex; flex-direction: column; background: var(--card); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #1e2a42; transition: border-color 0.2s, transform 0.2s; cursor: pointer; }
     .network-card:hover { border-color: var(--brand); transform: translateY(-2px); }
     .network-card.current { border-color: var(--brand); background: #0d1a33; }
     .network-card-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
@@ -171,7 +171,7 @@
       <p class="network-subtitle">Five daily shows covering Tesla, world news, space, science, and the environment.</p>
       <div class="network-grid">
 
-        <div class="network-card">
+        <div class="network-card" data-href="index.html">
           <div class="network-card-header">
             <span class="network-card-emoji">&#9889;</span>
             <span class="network-card-name">Tesla Shorts Time</span>
@@ -200,7 +200,7 @@
           </div>
         </div>
 
-        <div class="network-card">
+        <div class="network-card" data-href="fascinating_frontiers.html">
           <div class="network-card-header">
             <span class="network-card-emoji">&#128640;</span>
             <span class="network-card-name">Fascinating Frontiers</span>
@@ -214,7 +214,7 @@
           </div>
         </div>
 
-        <div class="network-card">
+        <div class="network-card" data-href="planetterrian.html">
           <div class="network-card-header">
             <span class="network-card-emoji">&#127758;</span>
             <span class="network-card-name">Planetterrian Daily</span>
@@ -228,7 +228,7 @@
           </div>
         </div>
 
-        <div class="network-card">
+        <div class="network-card" data-href="env-intel.html">
           <div class="network-card-header">
             <span class="network-card-emoji">&#127793;</span>
             <span class="network-card-name">Environmental Intelligence</span>
@@ -319,7 +319,7 @@
     }
 
     function renderFromJSON(episodes) {
-      if (!episodes || !episodes.length) return;
+      if (!episodes || !episodes.length) { showNoEpisodes(); return; }
       const latest = episodes[0];
       document.getElementById('latest-title').textContent = latest.episode_title || 'Latest Episode';
       document.getElementById('latest-audio').src = latest.audio_url || '';
@@ -385,9 +385,12 @@
             grid.appendChild(card);
           });
         })
-        .catch(() => {
-          document.getElementById('latest-title').textContent = 'Unable to load episodes';
-        });
+        .catch(() => { showNoEpisodes(); });
+    }
+
+    function showNoEpisodes() {
+      document.getElementById('latest-title').textContent = 'No episodes available yet';
+      document.getElementById('episodes-grid').innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;padding:2rem 0;">Episodes will appear here once available. Check back soon!</p>';
     }
 
     function formatDate(d) {
@@ -402,6 +405,14 @@
       el.textContent = s;
       return el.innerHTML;
     }
+
+    // Make network cards clickable
+    document.querySelectorAll('.network-card[data-href]').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('a')) return;
+        window.location.href = card.dataset.href;
+      });
+    });
 
     loadEpisodes();
   </script>
