@@ -52,7 +52,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run a podcast show pipeline.")
     parser.add_argument(
         "show",
-        choices=["tesla", "omni_view", "fascinating_frontiers", "planetterrian"],
+        choices=["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel"],
         help="Show to run",
     )
     parser.add_argument("--test", action="store_true",

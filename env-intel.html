@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Environmental Intelligence - Daily environmental regulatory and compliance briefing for BC professionals.">
+    <title>Environmental Intelligence | BC Environmental Briefing</title>
+    <style>
+        :root { --ei-primary: #1B5E20; --ei-bg: #FAFDF6; --ei-ink: #1a1a2e; --ei-muted: #5a6a5a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--ei-bg); color: var(--ei-ink); line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
+        h1 { color: var(--ei-primary); font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--ei-muted); margin-bottom: 2rem; }
+        .player-card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 2rem; }
+        .player-card h2 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .player-card audio { width: 100%; margin-top: 0.5rem; }
+        .episode-list { list-style: none; }
+        .episode-list li { background: white; border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+        .episode-list li .ep-title { font-weight: 600; }
+        .episode-list li .ep-date { color: var(--ei-muted); font-size: 0.9rem; }
+        .episode-list li audio { width: 100%; margin-top: 0.5rem; }
+        .links { margin-top: 2rem; }
+        .links a { color: var(--ei-primary); text-decoration: none; margin-right: 1.5rem; font-weight: 500; }
+        .links a:hover { text-decoration: underline; }
+        #loading { color: var(--ei-muted); font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔬 Environmental Intelligence</h1>
+        <p class="subtitle">Daily environmental regulatory, science, and compliance briefing for BC professionals.</p>
+
+        <div class="player-card" id="latest-player">
+            <h2>Latest Episode</h2>
+            <p id="loading">Loading latest episode...</p>
+        </div>
+
+        <h2>Recent Episodes</h2>
+        <ul class="episode-list" id="episode-list"></ul>
+
+        <div class="links">
+            <a href="env-intel-summaries.html">📋 Written Briefings</a>
+            <a href="env_intel_podcast.rss">📡 RSS Feed</a>
+        </div>
+    </div>
+
+    <script>
+        const RSS_URL = 'env_intel_podcast.rss';
+
+        async function loadEpisodes() {
+            try {
+                const resp = await fetch(RSS_URL);
+                const text = await resp.text();
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(text, 'text/xml');
+                const items = xml.querySelectorAll('item');
+
+                if (items.length === 0) {
+                    document.getElementById('loading').textContent = 'No episodes yet. Check back soon!';
+                    return;
+                }
+
+                // Latest episode in player card
+                const first = items[0];
+                const title = first.querySelector('title')?.textContent || 'Episode';
+                const enclosure = first.querySelector('enclosure');
+                const audioUrl = enclosure?.getAttribute('url') || '';
+                const pubDate = first.querySelector('pubDate')?.textContent || '';
+
+                document.getElementById('latest-player').innerHTML = `
+                    <h2>${title}</h2>
+                    <p style="color: var(--ei-muted); font-size: 0.9rem;">${new Date(pubDate).toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'})}</p>
+                    <audio controls preload="none" src="${audioUrl}"></audio>
+                `;
+
+                // Episode list
+                const list = document.getElementById('episode-list');
+                items.forEach((item, i) => {
+                    if (i === 0) return; // Skip first (already in player)
+                    const t = item.querySelector('title')?.textContent || 'Episode';
+                    const enc = item.querySelector('enclosure');
+                    const url = enc?.getAttribute('url') || '';
+                    const pd = item.querySelector('pubDate')?.textContent || '';
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span class="ep-title">${t}</span>
+                        <span class="ep-date">${new Date(pd).toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'})}</span>
+                        <audio controls preload="none" src="${url}"></audio>
+                    `;
+                    list.appendChild(li);
+                });
+            } catch (e) {
+                document.getElementById('loading').textContent = 'No episodes yet. Check back after the first broadcast!';
+            }
+        }
+
+        loadEpisodes();
+    </script>
+</body>
+</html>

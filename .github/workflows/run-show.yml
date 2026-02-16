@@ -10,6 +10,8 @@ on:
     - cron: '0 12 1-31/2 * *'
     # Fascinating Frontiers: Even days ~8 AM Eastern
     - cron: '0 12 2-31/2 * *'
+    # Environmental Intelligence: Weekdays ~6 AM Pacific (14:00 UTC)
+    - cron: '0 14 * * 1-5'
 
   workflow_dispatch:
     inputs:
@@ -22,6 +24,7 @@ on:
           - omni_view
           - fascinating_frontiers
           - planetterrian
+          - env_intel
           - all
 
 permissions:
@@ -51,7 +54,7 @@ jobs:
 
           if event_name == "workflow_dispatch":
               if dispatch_show == "all":
-                  shows = ["tesla", "omni_view", "fascinating_frontiers", "planetterrian"]
+                  shows = ["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel"]
               else:
                   shows = [dispatch_show]
           else:
@@ -83,6 +86,11 @@ jobs:
                       shows.append("planetterrian")
                   else:
                       shows.append("fascinating_frontiers")
+              # 14:00 UTC — Environmental Intelligence (weekdays only, ~6 AM Pacific)
+              elif utc_hour == 14:
+                  weekday = now_et.weekday()  # 0=Mon, 6=Sun
+                  if weekday < 5:
+                      shows.append("env_intel")
 
               if not shows:
                   print(f"No shows matched for UTC hour {utc_hour}, ET hour {et_hour}, day {day}")

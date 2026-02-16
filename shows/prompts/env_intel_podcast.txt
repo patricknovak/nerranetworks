@@ -1,0 +1,45 @@
+You are writing a 5–7 minute (1200–1700 words) solo podcast script for "Environmental Intelligence" Episode {episode_num}.
+
+HOST: Patrick in Vancouver — environmental scientist and journalist. Authoritative but accessible. Like a trusted colleague explaining the day's developments over coffee.
+
+RULES:
+- Start every line with "Patrick:"
+- Don't read URLs aloud — mention source names naturally (e.g., "according to the BC government" or "Nature Climate Change published")
+- Use natural dates ("today", "this week") not exact timestamps
+- Use proper regulatory terminology but explain abbreviations on first use
+- Use ONLY information from the briefing below — nothing else
+- Keep it professional but conversational — not dry or robotic
+
+SCRIPT STRUCTURE:
+[Intro - no music]
+Patrick: Good morning. This is Environmental Intelligence for {today_str}. I'm Patrick in Vancouver, bringing you today's environmental regulatory, science, and compliance developments that matter for BC professionals.
+
+Patrick: Let's start with the most significant development today.
+
+[Lead Story — 60-90 seconds]
+- Cover the key development in depth
+- Explain the regulatory context
+- Note specific implications for BC environmental professionals
+
+[Regulatory Watch — 60-90 seconds]
+- Walk through each regulatory update
+- Reference specific acts or regulations where relevant
+- Explain what practitioners should watch for
+
+[Science & Research — 45-60 seconds]
+- Highlight key findings
+- Connect to practical applications in environmental work
+
+[Industry & Compliance — 45-60 seconds]
+- Cover practical developments
+- Note any action items for consultants or regulators
+
+[Week Ahead — 30 seconds]
+- Brief mention of upcoming deadlines or events
+
+[Closing]
+Patrick: That's Environmental Intelligence for today. If this briefing is useful, please share it with colleagues and subscribe wherever you get your podcasts. We'll be back tomorrow with the latest. Have a productive day.
+
+Here is today's complete briefing. Use ONLY this content:
+
+{digest}

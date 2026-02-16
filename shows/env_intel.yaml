@@ -1,0 +1,142 @@
+name: Environmental Intelligence
+slug: env_intel
+description: Daily environmental regulatory, science, and compliance briefing for BC environmental professionals.
+
+sources:
+  # BC Government
+  - url: https://news.gov.bc.ca/ministries/environment-and-parks/feed
+    label: BC Ministry of Environment
+  - url: https://news.gov.bc.ca/ministries/energy-and-climate-solutions/feed
+    label: BC Energy and Climate Solutions
+  - url: https://news.gov.bc.ca/ministries/water-land-and-resource-stewardship/feed
+    label: BC Water Land and Resource Stewardship
+  - url: https://news.gov.bc.ca/ministries/emergency-management-and-climate-readiness/feed
+    label: BC Emergency Management
+
+  # Federal Canada
+  - url: https://www.gazette.gc.ca/rss/p1-eng.xml
+    label: Canada Gazette Part I
+  - url: https://www.gazette.gc.ca/rss/p2-eng.xml
+    label: Canada Gazette Part II
+  - url: https://ecojustice.ca/feed/
+    label: Ecojustice
+
+  # US EPA
+  - url: https://www.epa.gov/newsreleases/search/rss
+    label: US EPA
+
+  # Science Journals
+  - url: https://www.nature.com/nclimate.rss
+    label: Nature Climate Change
+  - url: https://www.sciencedaily.com/rss/top/environment.xml
+    label: ScienceDaily Environment
+  - url: https://www.science.org/rss/news_current.xml
+    label: Science AAAS
+
+  # BC / Canadian Environmental News
+  - url: https://thenarwhal.ca/feed/
+    label: The Narwhal
+  - url: https://thenarwhal.ca/tag/b-c/feed/
+    label: The Narwhal BC
+  - url: https://thetyee.ca/rss2.xml
+    label: The Tyee
+  - url: https://www.cbc.ca/webfeed/rss/rss-canada-britishcolumbia
+    label: CBC British Columbia
+  - url: https://www.desmog.com/feed/
+    label: DeSmog
+
+  # General Environmental / Climate
+  - url: https://grist.org/feed/
+    label: Grist
+  - url: https://insideclimatenews.org/feed/
+    label: Inside Climate News
+  - url: https://eponline.com/rss-feeds/News.aspx
+    label: Environmental Protection Online
+
+keywords:
+  - contaminated sites
+  - remediation
+  - site assessment
+  - groundwater
+  - soil contamination
+  - environmental management act
+  - contaminated sites regulation
+  - CSR
+  - EMA
+  - CEPA
+  - ISO 17025
+  - environmental assessment
+  - impact assessment
+  - water quality
+  - air quality
+  - emissions
+  - climate change
+  - carbon
+  - greenhouse gas
+  - GHG
+  - permit
+  - compliance
+  - enforcement
+  - regulation
+  - amendment
+  - brownfield
+  - risk assessment
+  - vapour intrusion
+  - PFAS
+  - per- and polyfluoroalkyl
+  - hazardous waste
+  - spill
+  - cleanup
+  - monitoring well
+  - aquifer
+  - watershed
+  - effluent
+  - discharge
+  - environmental monitoring
+
+llm:
+  provider: xai
+  model: grok-4
+  digest_prompt_file: shows/prompts/env_intel_digest.txt
+  podcast_prompt_file: shows/prompts/env_intel_podcast.txt
+  digest_temperature: 0.5
+  podcast_temperature: 0.7
+  max_tokens: 3500
+
+tts:
+  voice_id: ns7MjJ6c8tJKnvw7U6sN
+  model: eleven_turbo_v2_5
+  stability: 0.45
+  similarity_boost: 0.8
+  style: 0.3
+  use_speaker_boost: true
+  max_chars: 4500
+
+audio:
+  # No music for professional briefing format
+  music_file: null
+
+publishing:
+  rss_file: env_intel_podcast.rss
+  rss_title: "Environmental Intelligence"
+  rss_description: "Daily environmental regulatory, science, and compliance briefing for BC environmental professionals. Covering contaminated sites, remediation, environmental law, and climate policy."
+  rss_link: https://patricknovak.github.io/Tesla-shorts-time/env-intel.html
+  rss_author: Environmental Intelligence
+  rss_email: contact@teslashortstime.com
+  rss_image: env-intel-podcast-image.jpg
+  rss_category: Science
+  guid_prefix: env-intel
+  base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
+  audio_subdir: digests/env_intel
+  summaries_json: digests/summaries_env_intel.json
+  summaries_podcast_name: env_intel
+  player_html: env-intel.html
+  summaries_html: env-intel-summaries.html
+  x_enabled: false
+  x_env_prefix: ""
+
+episode:
+  prefix: Env_Intel
+  filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
+  output_dir: digests/env_intel
+  mp3_glob: "Env_Intel_Ep*.mp3"
