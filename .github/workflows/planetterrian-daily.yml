@@ -53,21 +53,13 @@ jobs:
         fi
         pip install -r requirements_planetterrian.txt
         echo "Installed packages:"
-        pip list | grep -E "(openai|tweepy|requests|python-dotenv|feedparser|torch|torchaudio|chatterbox)" || echo "Some packages may not be listed"
+        pip list | grep -E "(openai|tweepy|requests|python-dotenv|feedparser)" || echo "Some packages may not be listed"
         
     - name: Create .env file from secrets
       run: |
         echo "Creating .env file..."
         cat > .env << EOF
         GROK_API_KEY=${{ secrets.GROK_API_KEY }}
-        # TTS provider (elevenlabs uses ElevenLabs API with Patrick voice)
-        PLANETTERRIAN_TTS_PROVIDER=elevenlabs
-        CHATTERBOX_DEVICE=cpu
-        CHATTERBOX_EXAGGERATION=0.5
-        CHATTERBOX_MAX_CHARS=600
-        # Optional: if not provided, the script will extract a short prompt from the most recent episode MP3 in the repo
-        CHATTERBOX_VOICE_PROMPT_BASE64=${{ secrets.PLANETTERRIAN_VOICE_PROMPT_BASE64 }}
-        # Optional fallback if you switch PLANETTERRIAN_TTS_PROVIDER back to elevenlabs
         ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }}
         PLANETTERRIAN_X_CONSUMER_KEY=${{ secrets.PLANETTERRIAN_X_CONSUMER_KEY }}
         PLANETTERRIAN_X_CONSUMER_SECRET=${{ secrets.PLANETTERRIAN_X_CONSUMER_SECRET }}

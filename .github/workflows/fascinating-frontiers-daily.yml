@@ -53,22 +53,13 @@ jobs:
         fi
         pip install -r requirements_fascinating_frontiers.txt
         echo "Installed packages:"
-        pip list | grep -E "(openai|tweepy|requests|python-dotenv|feedparser|torch|torchaudio|chatterbox)" || echo "Some packages may not be listed"
+        pip list | grep -E "(openai|tweepy|requests|python-dotenv|feedparser)" || echo "Some packages may not be listed"
         
     - name: Create .env file from secrets
       run: |
         echo "Creating .env file..."
         cat > .env << EOF
         GROK_API_KEY=${{ secrets.GROK_API_KEY }}
-        # TTS provider (elevenlabs uses ElevenLabs API with Patrick voice)
-        FASCINATING_FRONTIERS_TTS_PROVIDER=elevenlabs
-        CHATTERBOX_DEVICE=cpu
-        CHATTERBOX_EXAGGERATION=0.5
-        CHATTERBOX_MAX_CHARS=1000
-        CHATTERBOX_QUIET=1
-        # Optional: override voice prompt directly (otherwise derived from Planetterrian episodes)
-        CHATTERBOX_VOICE_PROMPT_BASE64=${{ secrets.PLANETTERRIAN_VOICE_PROMPT_BASE64 }}
-        # Optional fallback if you switch FASCINATING_FRONTIERS_TTS_PROVIDER back to elevenlabs
         ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }}
         PLANETTERRIAN_X_CONSUMER_KEY=${{ secrets.PLANETTERRIAN_X_CONSUMER_KEY }}
         PLANETTERRIAN_X_CONSUMER_SECRET=${{ secrets.PLANETTERRIAN_X_CONSUMER_SECRET }}
@@ -82,16 +73,10 @@ jobs:
         else
           echo "✅ GROK_API_KEY is set"
         fi
-        # Chatterbox prompt secret is optional (we can derive it from Planetterrian episode MP3s in the repo)
-        if [ -z "${{ secrets.PLANETTERRIAN_VOICE_PROMPT_BASE64 }}" ]; then
-          echo "ℹ️  PLANETTERRIAN_VOICE_PROMPT_BASE64 is not set (optional). Will derive a voice prompt from the most recent Planetterrian episode MP3 in the repo."
-        else
-          echo "✅ PLANETTERRIAN_VOICE_PROMPT_BASE64 is set"
-        fi
         if [ -z "${{ secrets.ELEVENLABS_API_KEY }}" ]; then
-          echo "ℹ️  ELEVENLABS_API_KEY is not set (only needed if you switch back to ElevenLabs)"
+          echo "❌ ERROR: ELEVENLABS_API_KEY is not set!"
         else
-          echo "✅ ELEVENLABS_API_KEY is set (fallback)"
+          echo "✅ ELEVENLABS_API_KEY is set"
         fi
         echo "Checking Planetterrian X API credentials (Fascinating Frontiers uses same account)..."
         if [ -z "${{ secrets.PLANETTERRIAN_X_CONSUMER_KEY }}" ]; then
@@ -137,8 +122,6 @@ jobs:
           exit 1
         fi
         echo "✅ .env file found"
-        echo "Checking for Planetterrian episode MP3s (for voice prompt fallback)..."
-        ls -lah ../digests/planetterrian/Planetterrian_Daily_Ep*.mp3 2>/dev/null | head -5 || echo "⚠️  No Planetterrian episode MP3s found. Provide CHATTERBOX_VOICE_PROMPT_BASE64 to avoid failure."
         echo "Running Fascinating Frontiers script..."
         python3 fascinating_frontiers.py 2>&1
       env:

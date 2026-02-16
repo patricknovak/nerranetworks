@@ -21,7 +21,7 @@
 
 | Variable | Used By | Purpose | Required? | Default | Set in Workflow |
 |----------|---------|---------|-----------|---------|-----------------|
-| `ELEVENLABS_API_KEY` | Tesla, Planetterrian, Fascinating Frontiers, Omni View, `backfill_omni_ep001_audio.py` | ElevenLabs TTS API key | Conditional (when TTS provider = elevenlabs) | — | All 4 workflows |
+| `ELEVENLABS_API_KEY` | Tesla, Planetterrian, Fascinating Frontiers, Omni View, `backfill_omni_ep001_audio.py` | ElevenLabs TTS API key | **Yes** (all shows with podcast) | — | All 4 workflows |
 | `ELEVENLABS_VOICE_ID` | Tesla, Planetterrian, Fascinating Frontiers | ElevenLabs voice to use | No | `dTrBzPvD2GpAqkk1MUzA` | Not set |
 | `OMNI_VIEW_ELEVENLABS_VOICE_ID` | Omni View, `backfill_omni_ep001_audio.py` | Omni View's own ElevenLabs voice | No | `ns7MjJ6c8tJKnvw7U6sN` | Not set |
 | `ELEVENLABS_MODEL_ID` | Omni View, `backfill_omni_ep001_audio.py` | ElevenLabs model override | No | `eleven_turbo_v2_5` | Not set |
@@ -50,29 +50,7 @@
 | `PLANETTERRIAN_X_ACCESS_TOKEN_SECRET` | Planetterrian, Fascinating Frontiers | OAuth 1.0a access token secret | Yes (if X posting enabled) | — | `planetterrian-daily.yml`, `fascinating-frontiers-daily.yml` |
 | `PLANETTERRIAN_X_BEARER_TOKEN` | Planetterrian, Fascinating Frontiers | OAuth 2.0 bearer token | Optional (recommended) | — | `planetterrian-daily.yml`, `fascinating-frontiers-daily.yml` |
 
-### 1e. Chatterbox / HuggingFace (Local Voice Cloning TTS)
-
-| Variable | Used By | Purpose | Required? | Default | Set in Workflow |
-|----------|---------|---------|-----------|---------|-----------------|
-| `HF_TOKEN` | Tesla, Planetterrian, Fascinating Frontiers | HuggingFace token for Chatterbox-Turbo model access | Conditional (if TTS = chatterbox) | — | `daily-podcast.yml` **only** |
-| `CHATTERBOX_VOICE_PROMPT_PATH` | Tesla, Planetterrian, Fascinating Frontiers | Local file path to voice prompt WAV | No (can derive from episode MP3s) | `""` | Not set |
-| `CHATTERBOX_VOICE_PROMPT_BASE64` | Tesla, Planetterrian, Fascinating Frontiers | Base64-encoded voice prompt audio | No (can derive from episode MP3s) | `""` | `planetterrian-daily.yml`, `fascinating-frontiers-daily.yml` (via `PLANETTERRIAN_VOICE_PROMPT_BASE64` secret) |
-| `CHATTERBOX_DEVICE` | Tesla, Planetterrian, Fascinating Frontiers | PyTorch device for inference | No | `cpu` | `planetterrian-daily.yml`, `fascinating-frontiers-daily.yml` (hardcoded `cpu`) |
-| `CHATTERBOX_EXAGGERATION` | Tesla, Planetterrian, Fascinating Frontiers | Voice expressiveness factor | No | `0.5` | `planetterrian-daily.yml`, `fascinating-frontiers-daily.yml` (hardcoded `0.5`) |
-| `CHATTERBOX_MAX_CHARS` | Tesla, Planetterrian, Fascinating Frontiers | Max chars per Chatterbox TTS chunk | No | `2000` (Tesla), `2000` (Planet/FF) | `planetterrian-daily.yml` (`600`), `fascinating-frontiers-daily.yml` (`1000`) |
-| `CHATTERBOX_QUIET` | Tesla, Planetterrian, Fascinating Frontiers | Suppress verbose Chatterbox output | No | `True` | `fascinating-frontiers-daily.yml` (hardcoded `1`) |
-| `CHATTERBOX_PROMPT_OFFSET_SECONDS` | Tesla, Planetterrian, Fascinating Frontiers | Offset into episode MP3 to extract voice sample | No | `35.0` | Not set |
-| `CHATTERBOX_PROMPT_DURATION_SECONDS` | Tesla, Planetterrian, Fascinating Frontiers | Duration of voice sample extraction | No | `10.0` | Not set |
-
-### 1f. TTS Provider Selection
-
-| Variable | Used By | Purpose | Required? | Default | Set in Workflow |
-|----------|---------|---------|-----------|---------|-----------------|
-| `TESLA_SHORTS_TIME_TTS_PROVIDER` | Tesla | Which TTS engine to use | No | `elevenlabs` | Not set (uses default) |
-| `PLANETTERRIAN_TTS_PROVIDER` | Planetterrian | Which TTS engine to use | No | `elevenlabs` | `planetterrian-daily.yml` (hardcoded `elevenlabs`) |
-| `FASCINATING_FRONTIERS_TTS_PROVIDER` | Fascinating Frontiers | Which TTS engine to use | No | `elevenlabs` | `fascinating-frontiers-daily.yml` (hardcoded `elevenlabs`) |
-
-### 1g. Feature Flags (In-Script, Not from .env)
+### 1e. Feature Flags (In-Script, Not from .env)
 
 | Variable | Used By | Purpose | Required? | Default |
 |----------|---------|---------|-----------|---------|
@@ -81,16 +59,13 @@
 | `ENABLE_PODCAST` | All shows | Env-overridable in Omni View; hardcoded `True` in others | No | `True` |
 | `ENABLE_GITHUB_SUMMARIES` | All shows | Env-overridable in Omni View; hardcoded `True` in others | No | `True` |
 
-### 1h. Other / Miscellaneous
+### 1f. Other / Miscellaneous
 
 | Variable | Used By | Purpose | Required? | Default | Set in Workflow |
 |----------|---------|---------|-----------|---------|-----------------|
 | `NEWSAPI_KEY` | Tesla (historically; no longer used in code) | NewsAPI key (legacy) | No | — | `daily-podcast.yml` (still set) |
 | `TICKER_SYMBOL` | `test_tesla_shorts_time.py` | Override stock ticker for testing | No | `TSLA` | Not set |
-| `VOICE_PROMPT_OFFSET` | `generate_voice_prompt.py` | Voice prompt extraction offset | No | `DEFAULT_OFFSET_SECONDS` | Not set |
-| `VOICE_PROMPT_DURATION` | `generate_voice_prompt.py` | Voice prompt extraction duration | No | `DEFAULT_DURATION_SECONDS` | Not set |
-
-### 1i. GitHub Actions Internal Variables
+### 1g. GitHub Actions Internal Variables
 
 | Variable | Used By | Purpose |
 |----------|---------|---------|
@@ -109,7 +84,6 @@ These are the distinct `secrets.*` references across all workflows:
 | `GROK_API_KEY` | All 4 | `GROK_API_KEY` |
 | `ELEVENLABS_API_KEY` | All 4 | `ELEVENLABS_API_KEY` |
 | `NEWSAPI_KEY` | `daily-podcast.yml` only | `NEWSAPI_KEY` |
-| `HF_TOKEN` | `daily-podcast.yml` only | `HF_TOKEN` |
 | `X_CONSUMER_KEY` | `daily-podcast.yml`, `omni-view-daily.yml` | `X_CONSUMER_KEY` |
 | `X_CONSUMER_SECRET` | `daily-podcast.yml`, `omni-view-daily.yml` | `X_CONSUMER_SECRET` |
 | `X_ACCESS_TOKEN` | `daily-podcast.yml`, `omni-view-daily.yml` | `X_ACCESS_TOKEN` |
@@ -120,9 +94,8 @@ These are the distinct `secrets.*` references across all workflows:
 | `PLANETTERRIAN_X_ACCESS_TOKEN` | `planetterrian-daily.yml`, `fascinating-frontiers-daily.yml` | `PLANETTERRIAN_X_ACCESS_TOKEN` |
 | `PLANETTERRIAN_X_ACCESS_TOKEN_SECRET` | `planetterrian-daily.yml`, `fascinating-frontiers-daily.yml` | `PLANETTERRIAN_X_ACCESS_TOKEN_SECRET` |
 | `PLANETTERRIAN_X_BEARER_TOKEN` | `planetterrian-daily.yml`, `fascinating-frontiers-daily.yml` | `PLANETTERRIAN_X_BEARER_TOKEN` |
-| `PLANETTERRIAN_VOICE_PROMPT_BASE64` | `planetterrian-daily.yml`, `fascinating-frontiers-daily.yml` | `CHATTERBOX_VOICE_PROMPT_BASE64` |
 
-**Total distinct secrets: 16**
+**Total distinct secrets: 14**
 
 ---
 
@@ -133,25 +106,21 @@ These are the distinct `secrets.*` references across all workflows:
 | Issue | Details | Severity |
 |-------|---------|----------|
 | **X creds prefix split** | Tesla + Omni View use unprefixed `X_CONSUMER_KEY` etc. Planetterrian + Fascinating Frontiers use `PLANETTERRIAN_X_*`. This correctly maps to two different X accounts, but the naming implies Planetterrian ownership of Fascinating Frontiers' creds. | Medium |
-| **TTS provider var naming** | Each show has its own prefix: `TESLA_SHORTS_TIME_TTS_PROVIDER`, `PLANETTERRIAN_TTS_PROVIDER`, `FASCINATING_FRONTIERS_TTS_PROVIDER`. The names are long and inconsistent with the unprefixed Chatterbox/ElevenLabs vars that are shared globally. | Medium |
+| **TTS provider var naming** | TTS provider selection variables were removed — all shows now use ElevenLabs exclusively. | Resolved |
 | **ElevenLabs voice ID split** | Tesla/Planetterrian/FF share `ELEVENLABS_VOICE_ID` (same default). Omni View uses `OMNI_VIEW_ELEVENLABS_VOICE_ID` with a different default. The Omni View var has a unique prefix but the other three do not. | Low |
 | **ElevenLabs settings scope** | `ELEVENLABS_MODEL_ID`, `ELEVENLABS_STABILITY`, `ELEVENLABS_SIMILARITY_BOOST`, `ELEVENLABS_STYLE`, `ELEVENLABS_MAX_CHARS` are only used by Omni View (and the backfill script), not by Tesla/Planetterrian/FF, despite being named generically. Tesla/Planet/FF hardcode their ElevenLabs settings. | Medium |
-| **Secret name mismatch** | The secret `PLANETTERRIAN_VOICE_PROMPT_BASE64` maps to env var `CHATTERBOX_VOICE_PROMPT_BASE64` -- the secret name doesn't match the env var name. | Low |
 | **`GROK_API_KEY` vs `XAI_API_KEY`** | Two names for the same key. `XAI_API_KEY` is supported as a fallback in Tesla and `xai_grok.py` but never set in any workflow. | Low |
-| **Chatterbox param divergence** | `CHATTERBOX_MAX_CHARS` defaults differ: code says `2000` for all scripts, but workflows override to `600` (Planetterrian) and `1000` (Fascinating Frontiers). Tesla has no workflow override. | Low |
 
 ### 3b. Variables Set But Never Used in Code
 
 | Variable | Set In | Used? | Notes |
 |----------|--------|-------|-------|
 | `NEWSAPI_KEY` | `daily-podcast.yml` secret + .env | **No** | Code comment says "no longer needed - using RSS feeds instead." Dead secret. |
-| `HF_TOKEN` | `daily-podcast.yml` secret + .env | **Only if** Tesla TTS = chatterbox | Currently Tesla uses `elevenlabs` by default, so this secret is loaded but never read at runtime. Not set in Planetterrian/FF workflows despite those scripts also referencing it. |
 
 ### 3c. Variables Used in Code But Not Set in All Required Workflows
 
 | Variable | Used By | Missing From Workflow |
 |----------|---------|----------------------|
-| `HF_TOKEN` | Planetterrian, Fascinating Frontiers (if chatterbox mode) | `planetterrian-daily.yml`, `fascinating-frontiers-daily.yml` |
 | `XAI_API_KEY` | Tesla fallback, `xai_grok.py` fallback | All workflows (never set) |
 | `ELEVENLABS_VOICE_ID` | Tesla, Planetterrian, Fascinating Frontiers | All workflows (relies on code default) |
 | `OMNI_VIEW_ELEVENLABS_VOICE_ID` | Omni View | `omni-view-daily.yml` (relies on code default) |
@@ -180,7 +149,6 @@ These are service credentials that don't change per-show:
 |-----------------|---------------|-------|
 | `GROK_API_KEY` / `XAI_API_KEY` | `XAI_API_KEY` | Align with vendor name. Drop `GROK_API_KEY` alias. |
 | `ELEVENLABS_API_KEY` | `ELEVENLABS_API_KEY` | Keep as-is (shared across shows). |
-| `HF_TOKEN` | `HF_TOKEN` | Keep as-is (HuggingFace standard). |
 
 ### 4b. Per-Show X/Twitter Credentials
 
@@ -202,7 +170,6 @@ Each X account gets its own set. Use a `<SHOW_SLUG>` prefix:
 
 | Current Name(s) | Proposed Pattern | Example |
 |-----------------|------------------|---------|
-| `TESLA_SHORTS_TIME_TTS_PROVIDER` / `PLANETTERRIAN_TTS_PROVIDER` / `FASCINATING_FRONTIERS_TTS_PROVIDER` | `<SLUG>_TTS_PROVIDER` | `TESLA_TTS_PROVIDER`, `PLANET_TTS_PROVIDER`, `FRONTIERS_TTS_PROVIDER`, `OMNI_TTS_PROVIDER` |
 | `ELEVENLABS_VOICE_ID` (shared) + `OMNI_VIEW_ELEVENLABS_VOICE_ID` | `<SLUG>_ELEVENLABS_VOICE_ID` | `TESLA_ELEVENLABS_VOICE_ID`, `OMNI_ELEVENLABS_VOICE_ID` |
 
 ### 4d. Shared TTS Tuning (Engine-Level)
@@ -216,14 +183,6 @@ Keep these unprefixed since they apply globally:
 | `ELEVENLABS_SIMILARITY_BOOST` | Keep |
 | `ELEVENLABS_STYLE` | Keep |
 | `ELEVENLABS_MAX_CHARS` | Keep |
-| `CHATTERBOX_DEVICE` | Keep |
-| `CHATTERBOX_EXAGGERATION` | Keep |
-| `CHATTERBOX_MAX_CHARS` | Keep |
-| `CHATTERBOX_QUIET` | Keep |
-| `CHATTERBOX_VOICE_PROMPT_PATH` | Keep |
-| `CHATTERBOX_VOICE_PROMPT_BASE64` | Keep |
-| `CHATTERBOX_PROMPT_OFFSET_SECONDS` | Keep |
-| `CHATTERBOX_PROMPT_DURATION_SECONDS` | Keep |
 
 ### 4e. Feature Flags (Standardize Across All Shows)
 
@@ -253,7 +212,6 @@ Reduced from 16 to 13 distinct secrets:
 |--------|---------|
 | `XAI_API_KEY` | Shared Grok/xAI key |
 | `ELEVENLABS_API_KEY` | Shared ElevenLabs key |
-| `HF_TOKEN` | Shared HuggingFace token |
 | `TESLA_X_CONSUMER_KEY` | Tesla + Omni View X account |
 | `TESLA_X_CONSUMER_SECRET` | Tesla + Omni View X account |
 | `TESLA_X_ACCESS_TOKEN` | Tesla + Omni View X account |
@@ -265,5 +223,5 @@ Reduced from 16 to 13 distinct secrets:
 | `PLANET_X_ACCESS_TOKEN_SECRET` | Planetterrian + FF X account |
 | `PLANET_X_BEARER_TOKEN` | Planetterrian + FF X account |
 
-> `NEWSAPI_KEY` removed. Voice prompt base64 can stay as `PLANET_VOICE_PROMPT_BASE64`
-> or be moved to a file in the repo (it's a static asset, not a credential).
+> `NEWSAPI_KEY` removed. Chatterbox-related secrets (`HF_TOKEN`,
+> `PLANETTERRIAN_VOICE_PROMPT_BASE64`) removed — all shows use ElevenLabs.

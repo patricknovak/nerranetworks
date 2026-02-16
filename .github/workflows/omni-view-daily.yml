@@ -95,7 +95,7 @@ jobs:
         fi
         pip install -r requirements.txt
         echo "Installed packages:"
-        pip list | grep -E "(openai|yfinance|tweepy|requests|python-dotenv|feedparser|torch|torchaudio|chatterbox)" || echo "Some packages may not be listed"
+        pip list | grep -E "(openai|yfinance|tweepy|requests|python-dotenv|feedparser)" || echo "Some packages may not be listed"
 
     - name: Create .env file from secrets
       run: |

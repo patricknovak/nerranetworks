@@ -20,19 +20,9 @@ Add these to your `.env` file (uses the same APIs as planetterrian.py):
 # Grok API (same as Tesla show and Planetterrian)
 GROK_API_KEY=your_grok_api_key
 
-# TTS (Chatterbox local voice cloning; defaults to using Planetterrian episode MP3s as the voice prompt)
-FASCINATING_FRONTIERS_TTS_PROVIDER=chatterbox
-CHATTERBOX_DEVICE=cpu
-CHATTERBOX_MAX_CHARS=1000
-CHATTERBOX_QUIET=1
-
-# Optional: provide a prompt directly instead of deriving it from Planetterrian episodes
-# CHATTERBOX_VOICE_PROMPT_PATH=/absolute/path/to/your_voice_sample.(wav|mp3)
-# CHATTERBOX_VOICE_PROMPT_BASE64=...
-
-# Optional fallback: ElevenLabs (only needed if you switch FASCINATING_FRONTIERS_TTS_PROVIDER=elevenlabs)
-# ELEVENLABS_API_KEY=your_elevenlabs_api_key
-# ELEVENLABS_VOICE_ID=your_elevenlabs_voice_id  # optional
+# TTS (ElevenLabs)
+ELEVENLABS_API_KEY=your_elevenlabs_api_key
+# ELEVENLABS_VOICE_ID=your_elevenlabs_voice_id  # optional, uses default if not set
 
 # X API credentials for @planetterrian account (same as Planetterrian - posts to same account)
 PLANETTERRIAN_X_CONSUMER_KEY=your_consumer_key

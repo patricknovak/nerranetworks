@@ -152,18 +152,7 @@ Each script constructs output paths using `project_root / "digests" / ...`:
 |--------|------------|
 | `rebuild_rss.py` | `digests_dir.rglob("Tesla_Shorts_Time_Pod_Ep*.mp3")` + markdown lookups in `digests/` and `digests/digests/` |
 | `backfill_omni_ep001_audio.py` | `ROOT / "digests" / "summaries_omni.json"`, `ROOT / "digests" / "Omni_View_Ep001_20260123.mp3"` |
-| `generate_voice_prompt.py` | Takes `digests/planetterrian/Planetterrian_Daily_Ep*.mp3` as CLI argument |
 | `post_digest.py` | Runs `python digests/tesla_shorts_time.py` etc. via subprocess |
-
-### 2f. Script Self-References (Voice Prompt Derivation)
-
-When Chatterbox TTS is used without an explicit voice prompt, the scripts search for existing episode MP3s to extract a voice sample:
-
-| Script | Searches for |
-|--------|-------------|
-| `tesla_shorts_time.py` | Newest `digests/Tesla_Shorts_Time_Pod_Ep*.mp3` |
-| `planetterrian.py` | Newest `digests/planetterrian/Planetterrian_Daily_Ep*.mp3` |
-| `fascinating_frontiers.py` | Newest `digests/planetterrian/Planetterrian_Daily_Ep*.mp3` (cross-show!) |
 
 ---
 
