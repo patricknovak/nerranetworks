@@ -67,13 +67,32 @@
     .about-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
     .about-section p { color: var(--text-muted); margin-bottom: 0.75rem; }
 
-    .network-section { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
-    .network-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
-    .network-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
-    .network-card { display: block; background: var(--card); border-radius: var(--radius); padding: 1rem 1.25rem; border: 1px solid #1a3038; font-weight: 600; font-size: 0.95rem; color: var(--text); transition: border-color 0.2s; }
-    .network-card:hover { border-color: var(--brand); text-decoration: none; }
-    .network-card small { display: block; color: var(--text-muted); font-weight: 400; font-size: 0.8rem; margin-top: 0.25rem; }
-    .network-card.current { opacity: 0.5; pointer-events: none; border-color: var(--brand); }
+    .ep-summary { color: var(--text-muted); font-size: 0.85rem; margin: 0.75rem 0; line-height: 1.7; }
+    .ep-summary-preview { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .ep-summary.expanded .ep-summary-preview { display: none; }
+    .ep-summary-full { display: none; max-height: 500px; overflow-y: auto; padding-right: 0.5rem; }
+    .ep-summary.expanded .ep-summary-full { display: block; }
+    .ep-summary-toggle { display: inline-block; margin-top: 0.5rem; color: var(--brand-alt); font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none; background: none; padding: 0; }
+    .ep-summary-toggle:hover { text-decoration: underline; }
+
+    .network-section { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .network-section h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .network-subtitle { color: var(--text-muted); margin-bottom: 2rem; font-size: 1rem; }
+    .network-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; }
+    .network-card { display: flex; flex-direction: column; background: var(--card); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #1a3038; transition: border-color 0.2s, transform 0.2s; }
+    .network-card:hover { border-color: var(--brand); transform: translateY(-2px); }
+    .network-card.current { border-color: var(--brand); background: var(--card-hover); }
+    .network-card-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .network-card-emoji { font-size: 1.8rem; line-height: 1; }
+    .network-card-name { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .network-card-tagline { color: var(--brand-alt); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .network-card-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem; flex-grow: 1; }
+    .network-card-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .network-card-links a { font-size: 0.8rem; font-weight: 600; color: var(--brand-alt); padding: 0.3rem 0.7rem; border: 1px solid #1a3038; border-radius: 6px; transition: border-color 0.2s, background 0.2s; }
+    .network-card-links a:hover { border-color: var(--brand); background: rgba(1,141,177,0.1); text-decoration: none; }
+    .network-card-current-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; color: var(--brand); background: rgba(1,141,177,0.15); padding: 0.15rem 0.5rem; border-radius: 4px; margin-left: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .network-see-all { display: inline-block; margin-top: 2rem; font-weight: 700; font-size: 1rem; color: var(--brand-alt); }
+    .network-see-all:hover { text-decoration: underline; }
 
     footer { border-top: 1px solid #1a3038; padding: 2rem 1.5rem; text-align: center; }
     .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
@@ -87,7 +106,7 @@
       .nav-links.open { display: flex; }
       .hero { padding: 3rem 1.5rem 2rem; }
       .episodes-grid { grid-template-columns: 1fr; }
-      .network-grid { grid-template-columns: 1fr 1fr; }
+      .network-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -98,6 +117,7 @@
       <button class="menu-toggle" aria-label="Menu">&#9776;</button>
       <div class="nav-links">
         <a href="#episodes">Episodes</a>
+        <a href="planetterrian-summaries.html">Summaries</a>
         <a href="#about">About</a>
         <a href="https://x.com/planetterrian">@planetterrian</a>
         <a href="planetterrian_podcast.rss">RSS</a>
@@ -137,15 +157,83 @@
       <p>Hosted by Patrick in Vancouver, each episode highlights peer-reviewed research, biotech advances, and the innovations pushing the boundaries of human potential.</p>
     </section>
 
-    <section class="network-section">
-      <h2>More from our network</h2>
+    <section id="network" class="network-section">
+      <h2>Explore Our Podcast Network</h2>
+      <p class="network-subtitle">Five daily shows covering science, space, Tesla, news, and the environment.</p>
       <div class="network-grid">
-        <a href="index.html" class="network-card">Tesla Shorts Time<small>Tesla news and EV analysis</small></a>
-        <a href="omni-view.html" class="network-card">Omni View<small>Balanced news perspectives</small></a>
-        <a href="fascinating_frontiers.html" class="network-card">Fascinating Frontiers<small>Space and astronomy</small></a>
-        <a href="planetterrian.html" class="network-card current">Planetterrian Daily<small>You are here</small></a>
-        <a href="env-intel.html" class="network-card">Environmental Intelligence<small>Environmental regulatory briefing</small></a>
+
+        <div class="network-card">
+          <div class="network-card-header">
+            <span class="network-card-emoji">&#9889;</span>
+            <span class="network-card-name">Tesla Shorts Time</span>
+          </div>
+          <div class="network-card-tagline">Shorting Tesla? Time's Up.</div>
+          <div class="network-card-desc">Daily Tesla news, stock analysis, and EV future.</div>
+          <div class="network-card-links">
+            <a href="index.html">Listen</a>
+            <a href="podcast.rss">RSS</a>
+            <a href="https://x.com/teslashortstime">@teslashortstime</a>
+          </div>
+        </div>
+
+        <div class="network-card">
+          <div class="network-card-header">
+            <span class="network-card-emoji">&#128065;</span>
+            <span class="network-card-name">Omni View</span>
+          </div>
+          <div class="network-card-tagline">See every side. Decide for yourself.</div>
+          <div class="network-card-desc">Balanced daily news briefing for media literacy.</div>
+          <div class="network-card-links">
+            <a href="omni-view.html">Listen</a>
+            <a href="omni_view_podcast.rss">RSS</a>
+            <a href="https://x.com/omniviewnews">@omniviewnews</a>
+          </div>
+        </div>
+
+        <div class="network-card">
+          <div class="network-card-header">
+            <span class="network-card-emoji">&#128640;</span>
+            <span class="network-card-name">Fascinating Frontiers</span>
+          </div>
+          <div class="network-card-tagline">Journey to the stars.</div>
+          <div class="network-card-desc">Daily space, astronomy, and cosmic discovery news.</div>
+          <div class="network-card-links">
+            <a href="fascinating_frontiers.html">Listen</a>
+            <a href="fascinating_frontiers_podcast.rss">RSS</a>
+            <a href="https://x.com/planetterrian">@planetterrian</a>
+          </div>
+        </div>
+
+        <div class="network-card current">
+          <div class="network-card-header">
+            <span class="network-card-emoji">&#127758;</span>
+            <span class="network-card-name">Planetterrian Daily</span>
+            <span class="network-card-current-badge">You are here</span>
+          </div>
+          <div class="network-card-tagline">Science, longevity, human health.</div>
+          <div class="network-card-desc">Science, longevity, genetics, and health research.</div>
+          <div class="network-card-links">
+            <a href="planetterrian.html">Listen</a>
+            <a href="planetterrian_podcast.rss">RSS</a>
+            <a href="https://x.com/planetterrian">@planetterrian</a>
+          </div>
+        </div>
+
+        <div class="network-card">
+          <div class="network-card-header">
+            <span class="network-card-emoji">&#127793;</span>
+            <span class="network-card-name">Environmental Intelligence</span>
+          </div>
+          <div class="network-card-tagline">Daily environmental briefing.</div>
+          <div class="network-card-desc">Environmental regulatory and compliance briefing.</div>
+          <div class="network-card-links">
+            <a href="env-intel.html">Listen</a>
+            <a href="env_intel_podcast.rss">RSS</a>
+          </div>
+        </div>
+
       </div>
+      <a href="network.html" class="network-see-all">See all shows &rarr;</a>
     </section>
   </main>
 
@@ -175,6 +263,26 @@
       }
     }
 
+    function renderMarkdown(text) {
+      if (!text) return '';
+      let html = escapeHtml(text);
+      // ### headings to <h4>
+      html = html.replace(/^### (.+)$/gm, '<h4>$1</h4>');
+      // **bold** to <strong>
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      // URLs to links
+      html = html.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+      // newlines to <br>
+      html = html.replace(/\n/g, '<br>');
+      return html;
+    }
+
+    function toggleSummary(btn) {
+      const container = btn.closest('.ep-summary');
+      const isExpanded = container.classList.toggle('expanded');
+      btn.textContent = isExpanded ? 'Collapse summary' : 'Read full summary';
+    }
+
     function renderFromJSON(episodes) {
       if (!episodes || !episodes.length) return;
       const latest = episodes[0];
@@ -186,9 +294,26 @@
       episodes.slice(0, 12).forEach(ep => {
         const card = document.createElement('div');
         card.className = 'episode-card';
+
+        const content = ep.content || '';
+        const preview = content.substring(0, 200) + (content.length > 200 ? '...' : '');
+        const fullHtml = renderMarkdown(content);
+
+        let summaryHtml = '';
+        if (content) {
+          summaryHtml = `
+            <div class="ep-summary">
+              <div class="ep-summary-preview">${escapeHtml(preview)}</div>
+              <div class="ep-summary-full">${fullHtml}</div>
+              <button class="ep-summary-toggle" onclick="toggleSummary(this)">Read full summary</button>
+            </div>
+          `;
+        }
+
         card.innerHTML = `
           <div class="ep-date">${formatDate(ep.date)}</div>
           <div class="ep-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
+          ${summaryHtml}
           <audio controls preload="none" src="${ep.audio_url || ''}"></audio>
         `;
         grid.appendChild(card);
