@@ -1,0 +1,334 @@
+"""Tests for engine.newsletter – markdown-to-email conversion and Buttondown API.
+
+Covers header conversion, inline formatting, HTML structure, send_newsletter,
+and send_show_newsletter with mocked HTTP calls and environment variables.
+"""
+
+import unittest
+from types import SimpleNamespace
+from unittest.mock import MagicMock, patch
+
+from engine.newsletter import (
+    _md_inline,
+    convert_digest_to_email_html,
+    send_newsletter,
+    send_show_newsletter,
+)
+
+
+class TestConvertDigestHeaders(unittest.TestCase):
+    """h1, h2, h3 header conversion with inline styles."""
+
+    def test_h1_conversion(self):
+        html = convert_digest_to_email_html("# Main Title")
+        self.assertIn("<h1", html)
+        self.assertIn("Main Title", html)
+        self.assertIn("</h1>", html)
+
+    def test_h1_has_inline_style(self):
+        html = convert_digest_to_email_html("# Styled")
+        self.assertIn('style="', html.split("<h1")[1].split(">")[0])
+
+    def test_h2_conversion(self):
+        html = convert_digest_to_email_html("## Sub Title")
+        self.assertIn("<h2", html)
+        self.assertIn("Sub Title", html)
+        self.assertIn("</h2>", html)
+
+    def test_h2_has_inline_style(self):
+        html = convert_digest_to_email_html("## Styled")
+        self.assertIn('style="', html.split("<h2")[1].split(">")[0])
+
+    def test_h3_conversion(self):
+        html = convert_digest_to_email_html("### Third Level")
+        self.assertIn("<h3", html)
+        self.assertIn("Third Level", html)
+        self.assertIn("</h3>", html)
+
+    def test_h3_has_inline_style(self):
+        html = convert_digest_to_email_html("### Styled")
+        self.assertIn('style="', html.split("<h3")[1].split(">")[0])
+
+    def test_h1_color(self):
+        html = convert_digest_to_email_html("# Title")
+        self.assertIn("#1a1a2e", html)
+
+    def test_h2_color(self):
+        html = convert_digest_to_email_html("## Title")
+        self.assertIn("#2d3748", html)
+
+    def test_h3_color(self):
+        html = convert_digest_to_email_html("### Title")
+        self.assertIn("#4a5568", html)
+
+
+class TestConvertDigestFormatting(unittest.TestCase):
+    """Bold, italic, links, bullets, numbered lists, separators, empty lines."""
+
+    def test_bold_text(self):
+        html = convert_digest_to_email_html("This is **bold** text")
+        self.assertIn("<strong>bold</strong>", html)
+
+    def test_italic_text(self):
+        html = convert_digest_to_email_html("This is *italic* text")
+        self.assertIn("<em>italic</em>", html)
+
+    def test_link_conversion(self):
+        html = convert_digest_to_email_html("[Click here](https://example.com)")
+        self.assertIn('href="https://example.com"', html)
+        self.assertIn("Click here", html)
+        self.assertIn("</a>", html)
+
+    def test_link_has_inline_style(self):
+        html = convert_digest_to_email_html("[Link](https://example.com)")
+        self.assertIn("color: #2b6cb0", html)
+
+    def test_bullet_list(self):
+        html = convert_digest_to_email_html("- First item\n- Second item")
+        # Bullets are converted to paragraph with bullet character
+        self.assertEqual(html.count("\u2022"), 2)
+        self.assertIn("First item", html)
+        self.assertIn("Second item", html)
+
+    def test_numbered_list(self):
+        html = convert_digest_to_email_html("1. First\n2. Second")
+        self.assertIn("1. First", html)
+        self.assertIn("2. Second", html)
+
+    def test_separator_triple_dash(self):
+        html = convert_digest_to_email_html("---")
+        self.assertIn("<hr", html)
+
+    def test_separator_unicode_bar(self):
+        html = convert_digest_to_email_html("\u2501\u2501\u2501")
+        self.assertIn("<hr", html)
+
+    def test_empty_line_becomes_br(self):
+        html = convert_digest_to_email_html("Line one\n\nLine two")
+        self.assertIn("<br>", html)
+
+    def test_plain_text_becomes_paragraph(self):
+        html = convert_digest_to_email_html("Just some text")
+        self.assertIn("<p", html)
+        self.assertIn("Just some text", html)
+        self.assertIn("</p>", html)
+
+
+class TestConvertDigestStructure(unittest.TestCase):
+    """Generated HTML has proper document structure."""
+
+    def test_has_doctype(self):
+        html = convert_digest_to_email_html("Hello")
+        self.assertTrue(html.startswith("<!DOCTYPE html>"))
+
+    def test_has_html_tag(self):
+        html = convert_digest_to_email_html("Hello")
+        self.assertIn("<html>", html)
+        self.assertIn("</html>", html)
+
+    def test_has_head_tag(self):
+        html = convert_digest_to_email_html("Hello")
+        self.assertIn("<head>", html)
+        self.assertIn("</head>", html)
+
+    def test_has_body_tag(self):
+        html = convert_digest_to_email_html("Hello")
+        self.assertIn("<body", html)
+        self.assertIn("</body>", html)
+
+    def test_body_has_font_family(self):
+        html = convert_digest_to_email_html("Hello")
+        self.assertIn("font-family", html)
+
+    def test_body_has_max_width(self):
+        html = convert_digest_to_email_html("Hello")
+        self.assertIn("max-width: 600px", html)
+
+    def test_has_charset_meta(self):
+        html = convert_digest_to_email_html("Hello")
+        self.assertIn('charset="utf-8"', html)
+
+
+class TestMdInline(unittest.TestCase):
+    """Test _md_inline independently for bold, italic, links."""
+
+    def test_bold(self):
+        result = _md_inline("**hello**")
+        self.assertEqual(result, "<strong>hello</strong>")
+
+    def test_italic(self):
+        result = _md_inline("*world*")
+        self.assertEqual(result, "<em>world</em>")
+
+    def test_link(self):
+        result = _md_inline("[text](https://url.com)")
+        self.assertIn('href="https://url.com"', result)
+        self.assertIn("text</a>", result)
+
+    def test_bold_and_italic_together(self):
+        result = _md_inline("**bold** and *italic*")
+        self.assertIn("<strong>bold</strong>", result)
+        self.assertIn("<em>italic</em>", result)
+
+    def test_no_markdown_returns_unchanged(self):
+        result = _md_inline("plain text")
+        self.assertEqual(result, "plain text")
+
+    def test_multiple_links(self):
+        result = _md_inline("[a](http://a.com) [b](http://b.com)")
+        self.assertIn('href="http://a.com"', result)
+        self.assertIn('href="http://b.com"', result)
+
+
+class TestSendNewsletter(unittest.TestCase):
+    """Mock requests.post for success and failure scenarios."""
+
+    @patch("engine.newsletter.requests.post")
+    def test_success_200_returns_email_id(self, mock_post):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = {"id": "email-123"}
+        mock_post.return_value = mock_resp
+
+        result = send_newsletter("Subject", "Body", api_key="key123")
+        self.assertEqual(result, "email-123")
+
+    @patch("engine.newsletter.requests.post")
+    def test_success_201_returns_email_id(self, mock_post):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 201
+        mock_resp.json.return_value = {"id": "email-456"}
+        mock_post.return_value = mock_resp
+
+        result = send_newsletter("Subject", "Body", api_key="key123")
+        self.assertEqual(result, "email-456")
+
+    @patch("engine.newsletter.requests.post")
+    def test_failure_returns_none(self, mock_post):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 400
+        mock_resp.text = "Bad request"
+        mock_post.return_value = mock_resp
+
+        result = send_newsletter("Subject", "Body", api_key="key123")
+        self.assertIsNone(result)
+
+    @patch("engine.newsletter.requests.post")
+    def test_sends_correct_payload(self, mock_post):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 201
+        mock_resp.json.return_value = {"id": "x"}
+        mock_post.return_value = mock_resp
+
+        send_newsletter("My Subject", "My Body", api_key="mykey", status="draft")
+        mock_post.assert_called_once()
+        call_kwargs = mock_post.call_args
+        self.assertEqual(call_kwargs.kwargs["json"]["subject"], "My Subject")
+        self.assertEqual(call_kwargs.kwargs["json"]["body"], "My Body")
+        self.assertEqual(call_kwargs.kwargs["json"]["status"], "draft")
+
+    @patch("engine.newsletter.requests.post")
+    def test_sends_auth_header(self, mock_post):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = {"id": "x"}
+        mock_post.return_value = mock_resp
+
+        send_newsletter("Subj", "Body", api_key="secret-key")
+        call_kwargs = mock_post.call_args
+        self.assertEqual(
+            call_kwargs.kwargs["headers"]["Authorization"],
+            "Token secret-key",
+        )
+
+    @patch("engine.newsletter.requests.post")
+    def test_missing_id_returns_unknown(self, mock_post):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = {}
+        mock_post.return_value = mock_resp
+
+        result = send_newsletter("Subj", "Body", api_key="key")
+        self.assertEqual(result, "unknown")
+
+    @patch("engine.newsletter.requests.post")
+    def test_default_status_is_about_to_send(self, mock_post):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 201
+        mock_resp.json.return_value = {"id": "x"}
+        mock_post.return_value = mock_resp
+
+        send_newsletter("Subj", "Body", api_key="key")
+        call_kwargs = mock_post.call_args
+        self.assertEqual(call_kwargs.kwargs["json"]["status"], "about_to_send")
+
+
+class TestSendShowNewsletter(unittest.TestCase):
+    """Mock config with newsletter enabled/disabled and missing API key."""
+
+    def _make_config(self, enabled=True, api_key_env="BUTTONDOWN_KEY", name="TestShow"):
+        newsletter = SimpleNamespace(enabled=enabled, api_key_env=api_key_env)
+        return SimpleNamespace(newsletter=newsletter, name=name)
+
+    @patch("engine.newsletter.send_newsletter")
+    @patch("engine.newsletter.os.getenv")
+    def test_enabled_with_key_sends(self, mock_getenv, mock_send):
+        mock_getenv.return_value = "real-api-key"
+        mock_send.return_value = "email-789"
+        config = self._make_config()
+
+        result = send_show_newsletter("digest text", config, 42, "2025-01-15")
+        self.assertEqual(result, "email-789")
+        mock_send.assert_called_once()
+
+    @patch("engine.newsletter.send_newsletter")
+    @patch("engine.newsletter.os.getenv")
+    def test_subject_format(self, mock_getenv, mock_send):
+        mock_getenv.return_value = "key"
+        mock_send.return_value = "id"
+        config = self._make_config(name="My Show")
+
+        send_show_newsletter("digest", config, 10, "2025-03-01")
+        call_kwargs = mock_send.call_args
+        self.assertIn("My Show", call_kwargs.kwargs["subject"])
+        self.assertIn("Episode 10", call_kwargs.kwargs["subject"])
+        self.assertIn("2025-03-01", call_kwargs.kwargs["subject"])
+
+    def test_disabled_newsletter_returns_none(self):
+        config = self._make_config(enabled=False)
+        result = send_show_newsletter("digest", config, 1, "2025-01-01")
+        self.assertIsNone(result)
+
+    def test_no_newsletter_attr_returns_none(self):
+        config = SimpleNamespace(name="Show")  # no newsletter attribute
+        result = send_show_newsletter("digest", config, 1, "2025-01-01")
+        self.assertIsNone(result)
+
+    @patch("engine.newsletter.os.getenv")
+    def test_missing_api_key_returns_none(self, mock_getenv):
+        mock_getenv.return_value = ""
+        config = self._make_config()
+        result = send_show_newsletter("digest", config, 1, "2025-01-01")
+        self.assertIsNone(result)
+
+    @patch("engine.newsletter.os.getenv")
+    def test_whitespace_only_api_key_returns_none(self, mock_getenv):
+        mock_getenv.return_value = "   "
+        config = self._make_config()
+        result = send_show_newsletter("digest", config, 1, "2025-01-01")
+        self.assertIsNone(result)
+
+    @patch("engine.newsletter.send_newsletter")
+    @patch("engine.newsletter.os.getenv")
+    def test_passes_api_key_from_env(self, mock_getenv, mock_send):
+        mock_getenv.return_value = "env-key-value"
+        mock_send.return_value = "id"
+        config = self._make_config()
+
+        send_show_newsletter("digest", config, 1, "2025-01-01")
+        call_kwargs = mock_send.call_args
+        self.assertEqual(call_kwargs.kwargs["api_key"], "env-key-value")
+
+
+if __name__ == "__main__":
+    unittest.main()
