@@ -145,3 +145,9 @@ episode:
   filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
   output_dir: digests
   mp3_glob: "Omni_View_Ep*.mp3"
+
+newsletter:
+  enabled: true
+  platform: buttondown
+  api_key_env: OMNI_VIEW_NEWSLETTER_API_KEY
+  status: about_to_send

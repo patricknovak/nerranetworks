@@ -20,7 +20,7 @@ Update this section as phases complete:
 - [x] Phase 4A: engine/storage.py for R2 + dual-write capability
 - [x] Phase 4B: Migration scripts for existing episodes to R2
 - [x] Phase 5: Environmental Intelligence show
-- [ ] Phase 6: Newsletter integration
+- [x] Phase 6: Newsletter integration
 - [ ] Phase 7: Analytics + monetization prep
 - [ ] Phase 8: Final cleanup + merge prep
 

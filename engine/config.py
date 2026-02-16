@@ -108,6 +108,14 @@ class StorageConfig:
 
 
 @dataclass
+class NewsletterConfig:
+    enabled: bool = False
+    platform: str = "buttondown"
+    api_key_env: str = "BUTTONDOWN_API_KEY"
+    status: str = "about_to_send"  # "about_to_send", "draft", or "scheduled"
+
+
+@dataclass
 class ShowConfig:
     name: str = ""
     slug: str = ""
@@ -120,6 +128,7 @@ class ShowConfig:
     publishing: PublishingConfig = field(default_factory=PublishingConfig)
     episode: EpisodeConfig = field(default_factory=EpisodeConfig)
     storage: StorageConfig = field(default_factory=StorageConfig)
+    newsletter: NewsletterConfig = field(default_factory=NewsletterConfig)
 
 
 # ---------------------------------------------------------------------------
@@ -177,6 +186,7 @@ def load_config(yaml_path: str | Path) -> ShowConfig:
         publishing=_build_nested(PublishingConfig, data.get("publishing")),
         episode=_build_nested(EpisodeConfig, data.get("episode")),
         storage=_build_nested(StorageConfig, data.get("storage")),
+        newsletter=_build_nested(NewsletterConfig, data.get("newsletter")),
     )
     logger.info("Loaded config for '%s' from %s", config.name, path)
     return config

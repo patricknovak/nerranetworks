@@ -4,13 +4,14 @@
 Usage:
     python run_show.py <show_name> [options]
 
-    show_name: tesla | omni_view | fascinating_frontiers | planetterrian
+    show_name: tesla | omni_view | fascinating_frontiers | planetterrian | env_intel
 
 Options:
-    --test          Fetch RSS + generate digest only (no TTS, X posting, or RSS update)
-    --dry-run       Print what would happen; no API calls at all
-    --skip-x        Everything except X posting
-    --skip-podcast  Everything except TTS/audio/RSS update
+    --test              Fetch RSS + generate digest only (no TTS, X posting, or RSS update)
+    --dry-run           Print what would happen; no API calls at all
+    --skip-x            Everything except X posting
+    --skip-podcast      Everything except TTS/audio/RSS update
+    --skip-newsletter   Everything except newsletter sending
 """
 
 from __future__ import annotations
@@ -63,6 +64,8 @@ def parse_args() -> argparse.Namespace:
                         help="Skip X/Twitter posting")
     parser.add_argument("--skip-podcast", action="store_true",
                         help="Skip TTS, audio mixing, and RSS update")
+    parser.add_argument("--skip-newsletter", action="store_true",
+                        help="Skip newsletter sending")
     return parser.parse_args()
 
 
@@ -346,6 +349,16 @@ def run(args: argparse.Namespace) -> None:
         audio_url=audio_url,
         rss_url=f"{config.publishing.base_url}/{config.publishing.rss_file}",
     )
+
+    # 12b. Send newsletter
+    if config.newsletter.enabled and not args.skip_newsletter:
+        from engine.newsletter import send_show_newsletter
+
+        email_id = send_show_newsletter(x_thread, config, episode_num, today_str)
+        if email_id:
+            logger.info("Newsletter sent: %s", email_id)
+        else:
+            logger.info("Newsletter skipped or failed.")
 
     # 13. Post to X
     if config.publishing.x_enabled and not args.skip_x:
