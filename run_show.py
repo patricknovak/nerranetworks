@@ -181,7 +181,9 @@ def run(args: argparse.Namespace) -> None:
 
     template_vars = {
         "today_str": today_str,
+        "date_human": today_str,  # alias used by Omni View prompts
         "news_section": news_section,
+        "sections_json": news_section,  # alias used by Omni View digest prompt
         "episode_num": episode_num,
     }
     # Merge extra context from hooks (e.g. price, change_str, x_posts_section)
@@ -217,6 +219,7 @@ def run(args: argparse.Namespace) -> None:
         pod_vars = {
             "episode_num": episode_num,
             "today_str": today_str,
+            "date_human": today_str,  # alias used by Omni View prompts
             "digest": x_thread,
         }
         # Merge extra context for podcast prompt (e.g. tone_hint, intro_line)

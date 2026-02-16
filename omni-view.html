@@ -1,642 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Omni View - Daily balanced news podcast. Multiple perspectives on the stories that matter.">
-    <meta name="keywords" content="balanced news podcast, diverse perspectives, media literacy, news analysis, multiple viewpoints">
-    <title>Omni View | Balanced News Podcast</title>
-    <meta name="theme-color" content="#0B6FD6">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Balanced daily news briefing designed for media literacy. See every side. Decide for yourself.">
+  <title>Omni View -- Balanced News Perspectives</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128065;</text></svg>">
+  <style>
+    :root {
+      --brand: #0B6FD6;
+      --brand-dark: #0958a8;
+      --bg: #0a0e1a;
+      --card: #141c2e;
+      --card-hover: #1a2438;
+      --text: #ffffff;
+      --text-muted: #8b9dc3;
+      --radius: 12px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/omni-view-theme.css">
+    header { position: sticky; top: 0; z-index: 100; background: rgba(10,14,26,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1e2a42; }
+    nav { max-width: 1100px; margin: 0 auto; padding: 0.8rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-weight: 800; font-size: 1.2rem; color: var(--text); }
+    .logo span { color: var(--brand); }
+    .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
 
-    <link rel="icon" type="image/svg+xml" href="assets/omni-view-logo.svg">
+    .hero { max-width: 1100px; margin: 0 auto; padding: 5rem 1.5rem 3rem; text-align: center; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -1px; }
+    .hero h1 span { color: var(--brand); }
+    .tagline { color: var(--brand); font-size: 1.15rem; font-weight: 600; margin: 0.5rem 0; }
+    .subtitle { color: var(--text-muted); max-width: 550px; margin: 0.5rem auto 2rem; }
+    .cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: 0.65rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: 1px solid #1e2a42; color: var(--text); transition: all 0.2s; }
+    .btn:hover { background: var(--card); text-decoration: none; }
+    .btn-primary { background: var(--brand); border-color: var(--brand); }
+    .btn-primary:hover { background: var(--brand-dark); }
 
-    <style>
-        /* Page-specific add-ons. Global look is in assets/omni-view-theme.css */
+    /* Balanced indicator */
+    .balance-bar { max-width: 400px; margin: 2rem auto 0; }
+    .balance-bar p { font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-bottom: 0.4rem; }
+    .bar-track { height: 4px; background: #1e2a42; border-radius: 2px; position: relative; overflow: hidden; }
+    .bar-fill { position: absolute; top: 0; left: 25%; width: 50%; height: 100%; background: linear-gradient(90deg, #ef4444, var(--brand), #22c55e); border-radius: 2px; }
 
-        .episodes-list { display: grid; gap: 1rem; margin-top: 1rem; }
+    .player-card { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .player-inner { background: var(--card); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #1e2a42; }
+    .player-inner h2 { font-size: 1rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    #latest-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem; }
+    audio { width: 100%; border-radius: 8px; }
 
-        /* Prominent player */
-        .hero-player {
-            margin: 1.75rem auto 0;
-            max-width: 880px;
-            text-align: left;
-            border: 1px solid rgba(11, 27, 59, 0.14);
-            box-shadow: 0 18px 45px rgba(6, 28, 61, 0.14);
-        }
-        .hero-player-top {
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .now-playing {
-            min-width: 0;
-        }
-        .now-playing .label {
-            color: var(--ov-muted);
-            font-weight: 800;
-            font-size: 0.95rem;
-        }
-        .now-playing .title {
-            font-weight: 950;
-            font-size: 1.15rem;
-            margin-top: 0.15rem;
-            color: var(--ov-ink);
-        }
-        .now-playing .meta {
-            margin-top: 0.25rem;
-            color: var(--ov-muted);
-            font-size: 0.95rem;
-        }
-        .hero-audio {
-            width: 100%;
-            margin-top: 0.9rem;
-            height: 42px;
-        }
-        .player-actions {
-            display: flex;
-            gap: 0.6rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-            padding: 0.45rem 0.7rem;
-            border-radius: 999px;
-            border: 1px solid rgba(0,0,0,0.12);
-            background: rgba(255,255,255,0.65);
-            color: var(--balance-scale);
-            text-decoration: none;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .pill:hover { border-color: rgba(11, 111, 214, 0.32); }
+    .episodes-section { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .episodes-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
+    .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+    .episode-card { background: var(--card); border-radius: var(--radius); padding: 1.25rem; border: 1px solid #1e2a42; transition: border-color 0.2s; }
+    .episode-card:hover { border-color: var(--brand); }
+    .episode-card .ep-date { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .episode-card .ep-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.75rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .episode-card audio { width: 100%; }
 
-        .episodes-grid {
-            display: grid;
-            gap: 1.25rem;
-        }
-        .episode .row {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 0.75rem;
-            align-items: center;
-        }
-        .play-btn {
-            border: 1px solid rgba(0,0,0,0.12);
-            background: rgba(255,255,255,0.7);
-            color: var(--balance-scale);
-            font-weight: 800;
-            padding: 0.55rem 0.8rem;
-            border-radius: 10px;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .play-btn:hover { border-color: rgba(11, 111, 214, 0.32); }
+    .about-section { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .about-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
+    .about-section p { color: var(--text-muted); margin-bottom: 0.75rem; }
 
-        /* Floating Grok chat */
-        .grok-fab { /* keep, but align to Omni theme */
-            position: fixed;
-            right: 18px;
-            bottom: 18px;
-            z-index: 2000;
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            border: 1px solid rgba(11,27,59,0.16);
-            background: rgba(255,255,255,0.92);
-            box-shadow: 0 16px 40px rgba(6,28,61,0.18);
-            cursor: pointer;
-            font-size: 1.3rem;
-        }
-        .grok-drawer {
-            position: fixed;
-            right: 18px;
-            bottom: 86px;
-            z-index: 2000;
-            width: min(440px, calc(100vw - 36px));
-            max-height: min(72vh, 720px);
-            background: rgba(255,255,255,0.97);
-            border: 1px solid rgba(11,27,59,0.16);
-            border-radius: 16px;
-            box-shadow: 0 24px 60px rgba(6,28,61,0.22);
-            overflow: hidden;
-            display: none;
-        }
-        .grok-drawer.open { display: grid; grid-template-rows: auto 1fr auto; }
-        .grok-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.75rem;
-            padding: 0.9rem 1rem;
-            border-bottom: 1px solid rgba(0,0,0,0.10);
-        }
-        .grok-title { font-weight: 950; color: var(--ov-ink); }
-        .grok-close {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            border: 1px solid rgba(0,0,0,0.12);
-            background: rgba(255,255,255,0.65);
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-        .grok-body {
-            padding: 0.9rem 1rem;
-            overflow: auto;
-        }
-        .grok-settings {
-            display: grid;
-            gap: 0.6rem;
-            margin-bottom: 0.75rem;
-        }
-        .grok-settings label {
-            font-size: 0.85rem;
-            color: var(--balance-text-light);
-            font-weight: 700;
-            display: block;
-            margin-bottom: 0.2rem;
-        }
-        .grok-settings input, .grok-settings select, .grok-settings textarea {
-            width: 100%;
-            border-radius: 10px;
-            border: 1px solid rgba(0,0,0,0.14);
-            padding: 0.55rem 0.7rem;
-            font: inherit;
-        }
-        .grok-chat {
-            display: grid;
-            gap: 0.6rem;
-        }
-        .msg {
-            padding: 0.65rem 0.75rem;
-            border-radius: 12px;
-            border: 1px solid rgba(0,0,0,0.10);
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        .msg.user { background: rgba(11, 111, 214, 0.10); }
-        .msg.assistant { background: rgba(191, 232, 255, 0.38); }
-        .msg.system { background: rgba(236, 240, 241, 0.85); color: var(--balance-text-light); }
-        .grok-footer {
-            padding: 0.9rem 1rem;
-            border-top: 1px solid rgba(0,0,0,0.10);
-            display: grid;
-            gap: 0.6rem;
-        }
-        .grok-actions {
-            display: flex;
-            gap: 0.6rem;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .grok-send {
-            background: linear-gradient(90deg, var(--ov-blue), var(--ov-blue-2));
-            color: white;
-            border: 0;
-            padding: 0.65rem 0.95rem;
-            border-radius: 12px;
-            font-weight: 950;
-            cursor: pointer;
-        }
-        .grok-secondary {
-            border: 1px solid rgba(0,0,0,0.14);
-            background: rgba(255,255,255,0.65);
-            color: var(--balance-scale);
-            padding: 0.65rem 0.9rem;
-            border-radius: 12px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-        .grok-hint { font-size: 0.85rem; color: var(--balance-text-light); }
+    .network-section { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .network-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
+    .network-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
+    .network-card { display: block; background: var(--card); border-radius: var(--radius); padding: 1rem 1.25rem; border: 1px solid #1e2a42; font-weight: 600; font-size: 0.95rem; color: var(--text); transition: border-color 0.2s; }
+    .network-card:hover { border-color: var(--brand); text-decoration: none; }
+    .network-card small { display: block; color: var(--text-muted); font-weight: 400; font-size: 0.8rem; margin-top: 0.25rem; }
+    .network-card.current { opacity: 0.5; pointer-events: none; border-color: var(--brand); }
 
-        /* Footer & nav are themed by global CSS */
+    footer { border-top: 1px solid #1e2a42; padding: 2rem 1.5rem; text-align: center; }
+    .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+    .footer-links a { color: var(--text-muted); font-size: 0.85rem; }
+    .footer-links a:hover { color: var(--text); }
+    footer p { color: #3a4a6a; font-size: 0.8rem; }
 
-        @media (max-width: 768px) {
-            .nav-links {
-                /* handled globally */
-            }
-            .nav-links.active { display: flex; }
-            .nav-links a { border-bottom: 0; }
-        }
-
-        /* focus handled globally */
-    </style>
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(10,14,26,0.98); flex-direction: column; padding: 1rem 1.5rem; gap: 1rem; border-bottom: 1px solid #1e2a42; }
+      .nav-links.open { display: flex; }
+      .hero { padding: 3rem 1.5rem 2rem; }
+      .episodes-grid { grid-template-columns: 1fr; }
+      .network-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="#home" class="brand" aria-label="Omni View home">
-                <span class="brand-mark" aria-hidden="true">
-                    <img src="assets/omni-view-logo.svg" alt="" />
-                </span>
-                <span class="wordmark" aria-hidden="true">
-                    <span class="omni">Omni</span><span class="view">View</span>
-                </span>
-            </a>
-            <button class="menu-toggle" aria-label="Toggle menu" type="button">☰</button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#episodes">Episodes</a></li>
-                <li><a href="omni-view-summaries.html">Summaries</a></li>
-                <li><a href="podcasts/">All Podcasts</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#subscribe">Subscribe</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <nav>
+      <a class="logo" href="#"><span>Omni</span> View</a>
+      <button class="menu-toggle" aria-label="Menu">&#9776;</button>
+      <div class="nav-links">
+        <a href="#episodes">Episodes</a>
+        <a href="#about">About</a>
+        <a href="https://x.com/omniviewnews">@omniviewnews</a>
+        <a href="omni_view_podcast.rss">RSS</a>
+      </div>
+    </nav>
+  </header>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <img class="hero-logo" src="assets/omni-view-logo.svg" alt="Omni View logo" />
-            <h1><span class="omni">Omni</span> <span class="view" style="background:linear-gradient(90deg,var(--ov-blue),var(--ov-blue-2));-webkit-background-clip:text;background-clip:text;color:transparent;">View</span></h1>
-            <div class="tagline">Balanced perspectives on the news</div>
-            <p class="subtitle">
-                A daily digest designed to counter bias by showing multiple sides of the stories people are being exposed to,
-                so you can evaluate for yourself.
-            </p>
-            <div class="cta">
-                <a class="btn btn-primary" href="#episodes">🎧 Listen</a>
-                <a class="btn btn-secondary" href="omni-view-summaries.html">📰 Read summaries</a>
-                <a class="btn btn-secondary" href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni_view_podcast.rss" target="_blank" rel="noopener">📡 RSS</a>
-            </div>
-
-            <!-- Prominent player -->
-            <div class="card hero-player" aria-live="polite">
-                <div class="hero-player-top">
-                    <div class="now-playing">
-                        <div class="label">Now playing</div>
-                        <div id="nowTitle" class="title">Loading latest episode…</div>
-                        <div id="nowMeta" class="meta muted"></div>
-                    </div>
-                    <div class="player-actions">
-                        <button id="openChatFromHero" class="pill" type="button" title="Ask Grok about the news">💬 Ask Grok</button>
-                        <button id="openFreeGrokFromHero" class="pill" type="button" title="Open Grok on X (free tier) in a new tab">🆓 Use free Grok</button>
-                        <a id="downloadNow" class="pill" href="#" target="_blank" rel="noopener" style="display:none;">⬇️ Download</a>
-                    </div>
-                </div>
-                <audio id="heroAudio" class="hero-audio" controls preload="none"></audio>
-                <div id="playerHint" class="grok-hint" style="margin-top:0.6rem;">
-                    Tip: Use “Ask Grok” to get more context or a balanced perspective on any topic. (You’ll paste your own Grok API key—stored only in your browser.)
-                </div>
-            </div>
-        </div>
+  <main>
+    <section class="hero">
+      <h1><span>Omni View</span></h1>
+      <p class="tagline">See every side. Decide for yourself.</p>
+      <p class="subtitle">Balanced daily news briefing designed for media literacy. Multiple perspectives on every story.</p>
+      <div class="cta">
+        <a href="#episodes" class="btn btn-primary">Listen Now</a>
+        <a href="#" class="btn">Apple Podcasts</a>
+        <a href="https://x.com/omniviewnews" class="btn">Follow on X</a>
+      </div>
+      <div class="balance-bar">
+        <p>Left &mdash; Center &mdash; Right</p>
+        <div class="bar-track"><div class="bar-fill"></div></div>
+      </div>
     </section>
 
-    <section id="episodes" class="section">
-        <div class="card">
-            <h2>Latest episodes</h2>
-            <p class="muted">Loaded from the Omni View RSS feed.</p>
-            <div id="episodesLoading" class="muted" style="margin-top: 1rem;">Loading episodes...</div>
-            <div id="episodesList" class="episodes-list" style="display:none;"></div>
-        </div>
+    <section class="player-card" id="latest-player">
+      <div class="player-inner">
+        <h2>Latest Episode</h2>
+        <p id="latest-title">Loading...</p>
+        <audio id="latest-audio" controls preload="none"></audio>
+      </div>
     </section>
 
-    <section id="about" class="section">
-        <div class="card">
-            <h2>About Omni View</h2>
-            <p class="muted">
-                Omni View is built around media literacy: we surface major stories and their coverage from diverse outlets,
-                aiming to present competing narratives and key context so you can make up your own mind.
-            </p>
-        </div>
+    <section id="episodes" class="episodes-section">
+      <h2>Recent Episodes</h2>
+      <div id="episodes-grid" class="episodes-grid"></div>
     </section>
 
-    <section id="subscribe" class="section">
-        <div class="card">
-            <h2>Subscribe</h2>
-            <p class="muted">Use RSS in your podcast app.</p>
-            <p style="margin-top:0.75rem;">
-                <a class="btn btn-primary" href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni_view_podcast.rss" target="_blank" rel="noopener">📡 Omni View RSS feed</a>
-            </p>
-        </div>
+    <section id="about" class="about-section">
+      <h2>About Omni View</h2>
+      <p>Omni View is a daily news briefing that presents every story from multiple perspectives. We source from left, center, and right-leaning outlets so you can form your own informed opinion.</p>
+      <p>Hosted by Patrick, each episode covers top stories, world news, business, and technology with balanced analysis and source transparency.</p>
     </section>
 
-    <footer>
-        <div class="footer-links">
-            <a href="omni-view-summaries.html">Summaries</a>
-            <a href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni_view_podcast.rss" target="_blank" rel="noopener">RSS Feed</a>
-            <a href="podcasts/">All Podcasts</a>
-            <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">X</a>
-        </div>
-        <div class="muted" style="color: rgba(255,255,255,0.75);">Omni View © 2026</div>
-    </footer>
+    <section class="network-section">
+      <h2>More from our network</h2>
+      <div class="network-grid">
+        <a href="index.html" class="network-card">Tesla Shorts Time<small>Tesla news and EV analysis</small></a>
+        <a href="omni-view.html" class="network-card current">Omni View<small>You are here</small></a>
+        <a href="fascinating_frontiers.html" class="network-card">Fascinating Frontiers<small>Space and astronomy</small></a>
+        <a href="planetterrian.html" class="network-card">Planetterrian Daily<small>Science and longevity</small></a>
+        <a href="env-intel.html" class="network-card">Environmental Intelligence<small>Environmental regulatory briefing</small></a>
+      </div>
+    </section>
+  </main>
 
-    <!-- Floating Grok chat -->
-    <button id="grokFab" class="grok-fab" aria-label="Open Grok chat" title="Ask Grok (balanced perspective)">💬</button>
-    <div id="grokDrawer" class="grok-drawer" role="dialog" aria-modal="false" aria-label="Grok chat">
-        <div class="grok-header">
-            <div class="grok-title">Ask Grok (Omni View)</div>
-            <button id="grokClose" class="grok-close" aria-label="Close chat">×</button>
-        </div>
-        <div class="grok-body">
-            <div class="grok-settings">
-                <div>
-                    <label for="grokKey">Grok API key (stored in this browser only)</label>
-                    <input id="grokKey" type="password" placeholder="Paste your GROK / xAI API key…" autocomplete="off" />
-                </div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                    <div>
-                        <label for="grokEndpoint">Endpoint</label>
-                        <input id="grokEndpoint" type="text" value="https://api.x.ai/v1/chat/completions" />
-                    </div>
-                    <div>
-                        <label for="grokModel">Model</label>
-                        <select id="grokModel">
-                            <option value="grok-4">grok-4</option>
-                            <option value="grok-2-latest">grok-2-latest</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="grok-hint">
-                    If this fails due to browser CORS restrictions, you’ll need a small proxy (e.g., Cloudflare Worker) and set the Endpoint to that proxy URL.
-                </div>
-            </div>
-
-            <div id="grokChat" class="grok-chat" aria-live="polite"></div>
-        </div>
-        <div class="grok-footer">
-            <textarea id="grokPrompt" rows="3" placeholder="Ask for more context, or request a balanced perspective…"></textarea>
-            <div class="grok-actions">
-                <button id="grokClear" class="grok-secondary" type="button">Clear</button>
-                <button id="grokFree" class="grok-secondary" type="button" title="Open Grok on X (free tier) in a new tab">🆓 Use free Grok</button>
-                <button id="grokSend" class="grok-send" type="button">Send</button>
-            </div>
-        </div>
+  <footer>
+    <div class="footer-links">
+      <a href="omni_view_podcast.rss">RSS Feed</a>
+      <a href="#">Apple Podcasts</a>
+      <a href="https://x.com/omniviewnews">X / Twitter</a>
+      <a href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
     </div>
+    <p>&copy; 2026 Omni View</p>
+  </footer>
 
-    <script>
-        const RSS_URL = 'https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni_view_podcast.rss?t=' + Date.now();
+  <script>
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
 
-        function formatDate(dateString) {
-            try {
-                const date = new Date(dateString);
-                return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-            } catch {
-                return dateString || '';
-            }
-        }
+    async function loadEpisodes() {
+      try {
+        const resp = await fetch('digests/summaries_omni.json');
+        if (!resp.ok) throw new Error('JSON not found');
+        const data = await resp.json();
+        renderFromJSON(data.summaries || data);
+      } catch {
+        loadFromRSS();
+      }
+    }
 
-        async function loadEpisodes() {
-            const loading = document.getElementById('episodesLoading');
-            const list = document.getElementById('episodesList');
-            const heroAudio = document.getElementById('heroAudio');
-            const nowTitle = document.getElementById('nowTitle');
-            const nowMeta = document.getElementById('nowMeta');
-            const downloadNow = document.getElementById('downloadNow');
+    function renderFromJSON(episodes) {
+      if (!episodes || !episodes.length) return;
+      const latest = episodes[0];
+      document.getElementById('latest-title').textContent = latest.episode_title || 'Latest Episode';
+      document.getElementById('latest-audio').src = latest.audio_url || '';
 
-            try {
-                let res;
-                let xmlText;
-                try {
-                    res = await fetch(RSS_URL);
-                    if (!res.ok) throw new Error(`Direct fetch failed: ${res.status}`);
-                    xmlText = await res.text();
-                } catch (directErr) {
-                    const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                    res = await fetch(proxyUrl + encodeURIComponent(RSS_URL));
-                    if (!res.ok) throw new Error(`Proxy fetch failed: ${res.status}`);
-                    xmlText = await res.text();
-                }
-                const xmlDoc = new DOMParser().parseFromString(xmlText, 'text/xml');
-                const items = Array.from(xmlDoc.getElementsByTagName('item'));
+      const grid = document.getElementById('episodes-grid');
+      grid.innerHTML = '';
+      episodes.slice(0, 12).forEach(ep => {
+        const card = document.createElement('div');
+        card.className = 'episode-card';
+        card.innerHTML = `
+          <div class="ep-date">${formatDate(ep.date)}</div>
+          <div class="ep-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
+          <audio controls preload="none" src="${ep.audio_url || ''}"></audio>
+        `;
+        grid.appendChild(card);
+      });
+    }
 
-                if (!items.length) throw new Error('No episodes in feed yet');
+    function loadFromRSS() {
+      fetch('omni_view_podcast.rss')
+        .then(r => r.text())
+        .then(xml => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(xml, 'text/xml');
+          const items = doc.querySelectorAll('item');
+          if (!items.length) return;
 
-                const episodes = items.slice(0, 10).map(item => {
-                    const title = item.getElementsByTagName('title')[0]?.textContent?.trim() || 'Untitled';
-                    const pubDate = item.getElementsByTagName('pubDate')[0]?.textContent?.trim() || '';
-                    const enclosure = item.getElementsByTagName('enclosure')[0];
-                    const audioUrl = enclosure?.getAttribute('url') || '';
-                    return { title, pubDate, audioUrl };
-                });
+          const first = items[0];
+          document.getElementById('latest-title').textContent = first.querySelector('title')?.textContent || 'Latest Episode';
+          const enc = first.querySelector('enclosure');
+          if (enc) document.getElementById('latest-audio').src = enc.getAttribute('url') || '';
 
-                function setNow(ep, autoplay = true) {
-                    nowTitle.textContent = ep?.title || 'Episode';
-                    nowMeta.textContent = ep?.pubDate ? `📅 ${formatDate(ep.pubDate)}` : '';
-                    if (ep?.audioUrl) {
-                        heroAudio.src = ep.audioUrl;
-                        downloadNow.href = ep.audioUrl;
-                        downloadNow.style.display = 'inline-flex';
-                        if (autoplay) heroAudio.play().catch(() => {});
-                    } else {
-                        heroAudio.removeAttribute('src');
-                        downloadNow.style.display = 'none';
-                    }
-                }
-
-                // Set featured episode (latest)
-                setNow(episodes[0], false);
-
-                list.innerHTML = episodes.map((ep, idx) => `
-                    <div class="episode">
-                        <div class="row">
-                            <div>
-                                <div class="episode-title">${ep.title.replace(/</g, '&lt;')}</div>
-                                <div class="episode-meta">📅 ${formatDate(ep.pubDate)}</div>
-                            </div>
-                            ${ep.audioUrl ? `<button class="play-btn" data-idx="${idx}" type="button">Play</button>` : '<span class="muted">No audio</span>'}
-                        </div>
-                        ${ep.audioUrl ? `<a href="${ep.audioUrl}" target="_blank" rel="noopener">Open audio</a>` : '<span class="muted">Audio not available</span>'}
-                    </div>
-                `).join('');
-
-                // Wire play buttons
-                list.querySelectorAll('button.play-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const idx = Number(btn.getAttribute('data-idx') || '0');
-                        setNow(episodes[idx], true);
-                        try { heroAudio.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch {}
-                    });
-                });
-
-                loading.style.display = 'none';
-                list.style.display = 'grid';
-            } catch (e) {
-                loading.textContent = 'No episodes available yet. Check back after the first run.';
-                if (nowTitle) nowTitle.textContent = 'No episodes available yet.';
-            }
-        }
-
-        // --- Grok chat (BYO key) ---
-        function initGrokChat() {
-            const fab = document.getElementById('grokFab');
-            const drawer = document.getElementById('grokDrawer');
-            const closeBtn = document.getElementById('grokClose');
-            const keyInput = document.getElementById('grokKey');
-            const endpointInput = document.getElementById('grokEndpoint');
-            const modelSelect = document.getElementById('grokModel');
-            const chatEl = document.getElementById('grokChat');
-            const promptEl = document.getElementById('grokPrompt');
-            const sendBtn = document.getElementById('grokSend');
-            const freeBtn = document.getElementById('grokFree');
-            const clearBtn = document.getElementById('grokClear');
-            const openFromHero = document.getElementById('openChatFromHero');
-            const openFreeFromHero = document.getElementById('openFreeGrokFromHero');
-
-            if (!fab || !drawer) return;
-
-            const LS_KEY = 'omniview_grok_api_key';
-            const LS_ENDPOINT = 'omniview_grok_endpoint';
-            const LS_MODEL = 'omniview_grok_model';
-
-            keyInput.value = localStorage.getItem(LS_KEY) || '';
-            endpointInput.value = localStorage.getItem(LS_ENDPOINT) || endpointInput.value;
-            modelSelect.value = localStorage.getItem(LS_MODEL) || modelSelect.value;
-
-            let messages = [];
-
-            function open() {
-                drawer.classList.add('open');
-                try { promptEl.focus(); } catch {}
-            }
-            function close() {
-                drawer.classList.remove('open');
-            }
-            function pushMsg(role, content) {
-                messages.push({ role, content });
-                render();
-            }
-            function render() {
-                if (!chatEl) return;
-                chatEl.innerHTML = messages.map(m => {
-                    const safe = (m.content || '').replace(/</g, '&lt;');
-                    return `<div class="msg ${m.role}">${safe}</div>`;
-                }).join('');
-                chatEl.scrollTop = chatEl.scrollHeight;
-            }
-            function saveSettings() {
-                localStorage.setItem(LS_KEY, keyInput.value || '');
-                localStorage.setItem(LS_ENDPOINT, endpointInput.value || '');
-                localStorage.setItem(LS_MODEL, modelSelect.value || '');
-            }
-
-            async function openFreeGrok(prefillPrompt) {
-                const p = String(prefillPrompt || '').trim();
-                // Canonical Grok UI on X
-                const url = 'https://x.com/i/grok';
-                try { window.open(url, '_blank', 'noopener'); } catch {}
-
-                if (!p) {
-                    pushMsg('system', `Opened Grok in a new tab. Type your question there.`);
-                    return;
-                }
-
-                // Best-effort: copy prompt to clipboard for easy paste
-                try {
-                    await navigator.clipboard.writeText(p);
-                    pushMsg('system', 'Opened Grok in a new tab and copied the prompt to your clipboard. Paste it into Grok to continue.');
-                } catch {
-                    pushMsg('system', 'Opened Grok in a new tab. (Could not auto-copy due to browser permissions.) Copy/paste this prompt there:\n\n' + p);
-                }
-            }
-
-            async function send() {
-                const prompt = (promptEl.value || '').trim();
-                if (!prompt) return;
-                if (!keyInput.value.trim()) {
-                    open();
-                    pushMsg('system', 'Paste your Grok API key to chat here, or click “Use free Grok” to open Grok on X (no API key).');
-                    return;
-                }
-                saveSettings();
-                promptEl.value = '';
-                pushMsg('user', prompt);
-
-                const payload = {
-                    model: modelSelect.value || 'grok-4',
-                    messages: [
-                        {
-                            role: 'system',
-                            content:
-                                "You are Grok helping an Omni View listener. Provide a balanced, neutral perspective. " +
-                                "Include 2–3 viewpoints, what’s uncertain, and what to verify via primary sources. " +
-                                "Be concise and avoid inflammatory language."
-                        },
-                        ...messages.filter(m => m.role === 'user' || m.role === 'assistant')
-                    ],
-                    temperature: 0.4,
-                    max_tokens: 700
-                };
-
-                try {
-                    const resp = await fetch(endpointInput.value, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${keyInput.value.trim()}`
-                        },
-                        body: JSON.stringify(payload)
-                    });
-                    if (!resp.ok) {
-                        const txt = await resp.text().catch(() => '');
-                        throw new Error(`HTTP ${resp.status}. ${txt}`.trim());
-                    }
-                    const data = await resp.json();
-                    const out = data?.choices?.[0]?.message?.content || data?.choices?.[0]?.text || '';
-                    pushMsg('assistant', (out || 'No response.').trim());
-                } catch (err) {
-                    pushMsg('system', `Chat failed: ${err?.message || String(err)}`);
-                }
-            }
-
-            fab.addEventListener('click', open);
-            closeBtn?.addEventListener('click', close);
-            openFromHero?.addEventListener('click', () => {
-                open();
-                const nowTitle = document.getElementById('nowTitle')?.textContent?.trim() || '';
-                promptEl.value = nowTitle
-                    ? `Give me a balanced perspective and key context on this headline: "${nowTitle}".`
-                    : 'What are today’s biggest stories, and what do different viewpoints emphasize?';
-                try { promptEl.focus(); } catch {}
-            });
-            openFreeFromHero?.addEventListener('click', () => {
-                const nowTitle = document.getElementById('nowTitle')?.textContent?.trim() || '';
-                const p = nowTitle
-                    ? `Give me a balanced perspective and key context on this headline: "${nowTitle}".`
-                    : 'What are today’s biggest stories, and what do different viewpoints emphasize?';
-                openFreeGrok(p);
-            });
-
-            sendBtn?.addEventListener('click', send);
-            freeBtn?.addEventListener('click', () => openFreeGrok(promptEl.value || ''));
-            clearBtn?.addEventListener('click', () => { messages = []; render(); });
-            promptEl?.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-                    e.preventDefault();
-                    send();
-                }
-            });
-
-            // Expose minimal API for other page elements
-            window.OmniGrokChat = {
-                openWithPrompt: (p) => {
-                    open();
-                    promptEl.value = String(p || '');
-                    try { promptEl.focus(); } catch {}
-                },
-                openFreeGrok: (p) => openFreeGrok(p),
-            };
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navLinks = document.getElementById('navLinks');
-            if (menuToggle && navLinks) {
-                menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
-                navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('active')));
-            }
-            loadEpisodes();
-            initGrokChat();
+          const grid = document.getElementById('episodes-grid');
+          grid.innerHTML = '';
+          Array.from(items).slice(0, 12).forEach(item => {
+            const title = item.querySelector('title')?.textContent || 'Episode';
+            const pubDate = item.querySelector('pubDate')?.textContent || '';
+            const enclosure = item.querySelector('enclosure');
+            const url = enclosure ? enclosure.getAttribute('url') : '';
+            const card = document.createElement('div');
+            card.className = 'episode-card';
+            card.innerHTML = `
+              <div class="ep-date">${pubDate ? formatDate(pubDate) : ''}</div>
+              <div class="ep-title">${escapeHtml(title)}</div>
+              <audio controls preload="none" src="${url}"></audio>
+            `;
+            grid.appendChild(card);
+          });
+        })
+        .catch(() => {
+          document.getElementById('latest-title').textContent = 'Unable to load episodes';
         });
-    </script>
+    }
+
+    function formatDate(d) {
+      try {
+        const date = new Date(d);
+        return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+      } catch { return d; }
+    }
+
+    function escapeHtml(s) {
+      const el = document.createElement('span');
+      el.textContent = s;
+      return el.innerHTML;
+    }
+
+    loadEpisodes();
+  </script>
 </body>
 </html>

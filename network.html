@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Podcast network featuring Tesla Shorts Time, Omni View, Fascinating Frontiers, Planetterrian Daily, and Environmental Intelligence. Daily shows covering Tesla, news, space, science, and the environment.">
+    <title>Our Podcast Network | 5 Daily Shows</title>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --card: #14141f;
+            --card-hover: #1a1a2a;
+            --border: #2a2a3a;
+            --text: #ffffff;
+            --text-muted: #9a9ab0;
+            --accent: #7C5CFF;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(10, 10, 15, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+        }
+        nav {
+            max-width: 1100px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo {
+            font-size: 1.15rem; font-weight: 800;
+            color: var(--text); text-decoration: none; letter-spacing: 0.02em;
+        }
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+        .nav-links a:hover { color: var(--text); }
+        .menu-toggle { display: none; background: none; border: 1px solid var(--border); color: var(--text); padding: 0.4rem 0.7rem; border-radius: 6px; cursor: pointer; font-size: 1.2rem; }
+
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            background: radial-gradient(600px circle at 50% 0%, rgba(124, 92, 255, 0.12), transparent);
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3rem); font-weight: 900;
+            margin-bottom: 0.75rem;
+        }
+        .hero p {
+            color: var(--text-muted); font-size: 1.1rem;
+            max-width: 640px; margin: 0 auto;
+        }
+
+        .shows {
+            max-width: 1100px; margin: 0 auto;
+            padding: 2rem 2rem 4rem;
+            display: grid; gap: 2rem;
+        }
+
+        .show-card {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 1.5rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-decoration: none;
+            color: var(--text);
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .show-card:hover {
+            background: var(--card-hover);
+            transform: translateY(-2px);
+        }
+
+        .show-art {
+            width: 120px; height: 120px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3rem;
+            flex-shrink: 0;
+        }
+
+        .show-info h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.25rem; }
+        .show-info .tagline { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.75rem; }
+        .show-info .description { color: var(--text-muted); font-size: 0.92rem; line-height: 1.7; margin-bottom: 1rem; }
+
+        .show-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .show-links a {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.85rem; font-weight: 600;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .show-links a:hover { border-color: var(--text-muted); color: var(--text); }
+        .show-links a.primary {
+            border-color: transparent;
+            color: #fff;
+        }
+
+        /* Per-show accent colors */
+        .show-card.tesla:hover { border-color: #E31937; }
+        .show-card.tesla .show-art { background: linear-gradient(135deg, #E31937, #ff4d6a); }
+        .show-card.tesla .show-links a.primary { background: #E31937; }
+
+        .show-card.omni:hover { border-color: #0B6FD6; }
+        .show-card.omni .show-art { background: linear-gradient(135deg, #0B6FD6, #4da3ff); }
+        .show-card.omni .show-links a.primary { background: #0B6FD6; }
+
+        .show-card.frontiers:hover { border-color: #7C5CFF; }
+        .show-card.frontiers .show-art { background: linear-gradient(135deg, #7C5CFF, #00D4FF); }
+        .show-card.frontiers .show-links a.primary { background: #7C5CFF; }
+
+        .show-card.planet:hover { border-color: #018DB1; }
+        .show-card.planet .show-art { background: linear-gradient(135deg, #018DB1, #35B5C4); }
+        .show-card.planet .show-links a.primary { background: #018DB1; }
+
+        .show-card.envint:hover { border-color: #4CAF50; }
+        .show-card.envint .show-art { background: linear-gradient(135deg, #1B5E20, #4CAF50); }
+        .show-card.envint .show-links a.primary { background: #1B5E20; }
+
+        .subscribe-section {
+            max-width: 700px; margin: 0 auto;
+            padding: 0 2rem 4rem;
+            text-align: center;
+        }
+        .subscribe-section h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .subscribe-section p { color: var(--text-muted); margin-bottom: 1.5rem; }
+        .subscribe-grid {
+            display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+        }
+        .subscribe-grid a {
+            padding: 0.75rem 1.5rem; border-radius: 10px;
+            text-decoration: none; font-weight: 700; font-size: 0.95rem;
+            border: 1px solid var(--border); color: var(--text);
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .subscribe-grid a:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+        }
+        .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
+        .footer-links a:hover { color: var(--text); }
+        .footer-text { color: var(--text-muted); font-size: 0.85rem; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(10, 10, 15, 0.98); flex-direction: column; padding: 1rem 2rem; border-top: 1px solid var(--border); }
+            .nav-links.open { display: flex; }
+            .show-card { grid-template-columns: 1fr; text-align: center; }
+            .show-art { margin: 0 auto; }
+            .show-links { justify-content: center; }
+            .hero { padding: 4rem 1.5rem 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a class="logo" href="network.html">Podcast Network</a>
+            <button class="menu-toggle" aria-label="Menu">&#9776;</button>
+            <ul class="nav-links">
+                <li><a href="#shows">Shows</a></li>
+                <li><a href="#subscribe">Subscribe</a></li>
+                <li><a href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Our Podcast Network</h1>
+        <p>Five daily shows covering Tesla, world news, space, science, and the environment. All free, all daily, all independently produced.</p>
+    </section>
+
+    <section id="shows" class="shows">
+
+        <div class="show-card tesla">
+            <div class="show-art">&#9889;</div>
+            <div class="show-info">
+                <h2>Tesla Shorts Time Daily</h2>
+                <p class="tagline">Shorting Tesla? Time's Up.</p>
+                <p class="description">Daily podcast digesting Tesla news, shorts meltdowns, and the EV future. Hosted by Dan and Patrick. Covers TSLA stock moves, FSD updates, Cybertruck production, and everything the bears don't want you to hear.</p>
+                <div class="show-links">
+                    <a class="primary" href="index.html">Listen</a>
+                    <a href="podcast.rss">RSS</a>
+                    <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939">Apple Podcasts</a>
+                    <a href="#">Spotify</a>
+                    <a href="https://x.com/teslashortstime">@teslashortstime</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="show-card omni">
+            <div class="show-art">&#127760;</div>
+            <div class="show-info">
+                <h2>Omni View &mdash; Balanced News</h2>
+                <p class="tagline">See every side. Decide for yourself.</p>
+                <p class="description">A neutral, media-literacy-first daily briefing designed for everyone from children to seniors. Covers top world, business, technology, and media stories with perspectives from across the political spectrum.</p>
+                <div class="show-links">
+                    <a class="primary" href="omni-view.html">Listen</a>
+                    <a href="omni_view_podcast.rss">RSS</a>
+                    <a href="#">Apple Podcasts</a>
+                    <a href="#">Spotify</a>
+                    <a href="https://x.com/omniviewnews">@omniviewnews</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="show-card frontiers">
+            <div class="show-art">&#128640;</div>
+            <div class="show-info">
+                <h2>Fascinating Frontiers</h2>
+                <p class="tagline">Journey to the stars with today's discoveries.</p>
+                <p class="description">Daily space and astronomy news covering mission updates, cosmic discoveries, exoplanet breakthroughs, and rocket launches. From NASA and ESA to SpaceX and beyond. Hosted by Patrick in Vancouver.</p>
+                <div class="show-links">
+                    <a class="primary" href="fascinating_frontiers.html">Listen</a>
+                    <a href="fascinating_frontiers_podcast.rss">RSS</a>
+                    <a href="#">Apple Podcasts</a>
+                    <a href="#">Spotify</a>
+                    <a href="https://x.com/planetterrian">@planetterrian</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="show-card planet">
+            <div class="show-art">&#129516;</div>
+            <div class="show-info">
+                <h2>Planetterrian Daily</h2>
+                <p class="tagline">Science, longevity, and the frontier of human health.</p>
+                <p class="description">Daily discoveries in longevity science, genetics, biotech, CRISPR, neuroscience, and health research. If it could extend your healthspan or change medicine, we cover it. Hosted by Patrick in Vancouver.</p>
+                <div class="show-links">
+                    <a class="primary" href="planetterrian.html">Listen</a>
+                    <a href="planetterrian_podcast.rss">RSS</a>
+                    <a href="#">Apple Podcasts</a>
+                    <a href="#">Spotify</a>
+                    <a href="https://x.com/planetterrian">@planetterrian</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="show-card envint">
+            <div class="show-art">&#127793;</div>
+            <div class="show-info">
+                <h2>Environmental Intelligence</h2>
+                <p class="tagline">Daily environmental regulatory and compliance briefing.</p>
+                <p class="description">Environmental regulatory, science, and compliance briefing for BC professionals. Covers contaminated sites, CEPA, emissions, carbon policy, PFAS, and remediation developments. Hosted by Patrick in Vancouver.</p>
+                <div class="show-links">
+                    <a class="primary" href="env-intel.html">Listen</a>
+                    <a href="env_intel_podcast.rss">RSS</a>
+                    <a href="#">Apple Podcasts</a>
+                    <a href="#">Spotify</a>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="subscribe" class="subscribe-section">
+        <h2>Subscribe Everywhere</h2>
+        <p>All shows are available on major podcast platforms. Pick your favorite and never miss an episode.</p>
+        <div class="subscribe-grid">
+            <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939">Apple Podcasts</a>
+            <a href="#">Spotify</a>
+            <a href="#">Google Podcasts</a>
+            <a href="#">Overcast</a>
+            <a href="#">Pocket Casts</a>
+        </div>
+        <p style="margin-top: 1.5rem; font-size: 0.9rem;">Spotify, Apple Podcasts, and other directory links will be updated after submission. Use RSS for immediate access.</p>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">Tesla Shorts Time</a>
+            <a href="omni-view.html">Omni View</a>
+            <a href="fascinating_frontiers.html">Fascinating Frontiers</a>
+            <a href="planetterrian.html">Planetterrian Daily</a>
+            <a href="env-intel.html">Env Intelligence</a>
+            <a href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
+        </div>
+        <p class="footer-text">&copy; 2026 Podcast Network. All shows independently produced.</p>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
