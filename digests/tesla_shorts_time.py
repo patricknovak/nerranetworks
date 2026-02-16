@@ -34,6 +34,25 @@ import random
 import tweepy
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
+from urllib.parse import quote
+
+# --- engine/ shared modules ---
+from engine.utils import (
+    env_float, env_int, env_bool,
+    number_to_words as _engine_number_to_words,
+    calculate_similarity as _engine_calculate_similarity,
+    remove_similar_items as _engine_remove_similar_items,
+    norm_headline_for_similarity as _engine_norm_headline,
+    filter_articles_by_recent_stories as _engine_filter_recent,
+)
+from engine.audio import get_audio_duration, format_duration as _engine_format_duration
+from engine.publisher import (
+    update_rss_feed as _engine_update_rss_feed,
+    get_next_episode_number as _engine_get_next_episode_number,
+    save_summary_to_github_pages as _engine_save_summary,
+    generate_episode_thumbnail as _engine_generate_thumbnail,
+)
+from engine.tracking import create_tracker, record_llm_usage, record_tts_usage, record_x_post, save_usage
 
 # ========================== LOGGING ==========================
 logging.basicConfig(
@@ -80,68 +99,7 @@ HTTP_TIMEOUT_SECONDS = 10
 
 
 # ========================== NUMBER TO WORDS CONVERTER ==========================
-def number_to_words(num: float) -> str:
-    """
-    Convert numbers to words for better TTS pronunciation.
-    Handles integers and decimals.
-    """
-    # Define digit names for decimal conversion
-    digit_names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-    
-    def convert_under_1000(n):
-        """Convert numbers under 1000 to words."""
-        ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
-                'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
-                'seventeen', 'eighteen', 'nineteen']
-        tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
-        
-        if n == 0:
-            return 'zero'
-        if n < 20:
-            return ones[n]
-        if n < 100:
-            return tens[n // 10] + ('-' + ones[n % 10] if n % 10 else '')
-        if n < 1000:
-            result = ones[n // 100] + ' hundred'
-            remainder = n % 100
-            if remainder:
-                result += ' ' + convert_under_1000(remainder)
-            return result
-        return str(n)
-    
-    # Handle negative numbers
-    is_negative = num < 0
-    num = abs(num)
-    
-    # Split into integer and decimal parts
-    integer_part = int(num)
-    decimal_part = num - integer_part
-    
-    # Convert integer part
-    if integer_part == 0:
-        result = 'zero'
-    elif integer_part < 1000:
-        result = convert_under_1000(integer_part)
-    elif integer_part < 1000000:
-        thousands = integer_part // 1000
-        remainder = integer_part % 1000
-        result = convert_under_1000(thousands) + ' thousand'
-        if remainder:
-            result += ' ' + convert_under_1000(remainder)
-    else:
-        # For very large numbers, just return the number (TTS usually handles these)
-        result = str(integer_part)
-    
-    # Convert decimal part
-    if decimal_part > 0:
-        # Convert decimal to words (e.g., 0.17 -> "point one seven")
-        decimal_str = f"{decimal_part:.10f}".rstrip('0').rstrip('.')
-        if '.' in decimal_str:
-            decimal_digits = decimal_str.split('.')[1]
-            decimal_words = ' '.join([digit_names[int(d)] if d.isdigit() and int(d) < 10 else d for d in decimal_digits])
-            result += ' point ' + decimal_words
-    
-    return ('negative ' if is_negative else '') + result
+number_to_words = _engine_number_to_words
 
 # ========================== PRONUNCIATION FIXER – USING SHARED DICTIONARY ==========================
 # Note: Import will be set up after project_root is defined
@@ -561,15 +519,7 @@ def fix_tesla_pronunciation(text: str) -> str:
     return text
 
 def generate_episode_thumbnail(base_image_path, episode_num, date_str, output_path):
-    img = Image.open(base_image_path)
-    draw = ImageDraw.Draw(img)
-    try:
-        font = ImageFont.truetype("arial.ttf", 48)
-    except IOError:
-        font = ImageFont.load_default()
-    draw.text((50, 50), f"Episode {episode_num}", font=font, fill=(255, 255, 255))
-    draw.text((50, 100), date_str, font=font, fill=(255, 255, 255))
-    img.save(output_path, "PNG")
+    return _engine_generate_thumbnail(Path(base_image_path), episode_num, date_str, Path(output_path))
 
 # ========================== PATHS & ENV ==========================
 script_dir = Path(__file__).resolve().parent        # → .../digests
@@ -595,37 +545,9 @@ except ImportError:
     logging.warning("Could not import shared pronunciation module, using local implementation")
 
 
-def _env_float(name: str, default: float) -> float:
-    raw = os.getenv(name)
-    if not raw:
-        return default
-    try:
-        return float(raw)
-    except ValueError:
-        logging.warning(f"Invalid {name}='{raw}' (expected float). Using default {default}.")
-        return default
-
-def _env_int(name: str, default: int) -> int:
-    raw = os.getenv(name)
-    if not raw:
-        return default
-    try:
-        return int(raw)
-    except ValueError:
-        logging.warning(f"Invalid {name}='{raw}' (expected int). Using default {default}.")
-        return default
-
-def _env_bool(name: str, default: bool) -> bool:
-    raw = os.getenv(name)
-    if not raw:
-        return default
-    v = raw.strip().lower()
-    if v in {"1", "true", "yes", "on"}:
-        return True
-    if v in {"0", "false", "no", "off"}:
-        return False
-    logging.warning(f"Invalid {name}='{raw}' (expected bool). Using default {default}.")
-    return default
+_env_float = env_float
+_env_int = env_int
+_env_bool = env_bool
 
 
 # Required keys (X credentials only required if posting is enabled)
@@ -838,15 +760,7 @@ def extract_news_headlines_from_digest(digest_path: Path) -> list[str]:
     return headlines
 
 
-def _norm_headline_for_similarity(text: str) -> str:
-    """Normalize headline for similarity comparison: strip dates, sources, extra punctuation."""
-    if not text:
-        return ""
-    # Remove date patterns like "07 February, 2026, 12:09 PM PST, Source" or "DD Month, YYYY, HH:MM AM/PM PST, Source"
-    t = re.sub(r'\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)[a-z]*\s*,?\s*\d{4}[^*]*$', '', text, flags=re.IGNORECASE)
-    t = re.sub(r'\d{1,2}/\d{1,2}/\d{2,4}[^*]*$', '', t)
-    t = ' '.join(t.lower().split())
-    return t.strip()
+_norm_headline_for_similarity = _engine_norm_headline
 
 
 def load_recent_digests(max_days: int = 14) -> dict:
@@ -951,195 +865,32 @@ for key in ["short_spots", "daily_challenges", "inspiration_quotes", "first_prin
 
 used_content_summary = get_used_content_summary(content_tracker)
 
-# Determine episode number by finding the highest existing episode number and incrementing
-def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
-    """Get the next episode number by finding the highest existing episode number."""
-    max_episode = 0
-    
-    # Check RSS feed first
-    if rss_path.exists():
-        try:
-            tree = ET.parse(str(rss_path))
-            root = tree.getroot()
-            channel = root.find('channel')
-            if channel is not None:
-                for item in channel.findall('item'):
-                    itunes_episode = item.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}episode')
-                    if itunes_episode is not None and itunes_episode.text:
-                        try:
-                            ep_num = int(itunes_episode.text)
-                            max_episode = max(max_episode, ep_num)
-                        except ValueError:
-                            pass
-        except Exception as e:
-            logging.warning(f"Could not parse RSS feed to find episode number: {e}")
-    
-    # Also check existing MP3 files
-    pattern = r"Tesla_Shorts_Time_Pod_Ep(\d+)_\d{8}_\d{6}\.mp3"
-    for mp3_file in digests_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"):
-        match = re.match(pattern, mp3_file.name)
-        if match:
-            try:
-                ep_num = int(match.group(1))
-                max_episode = max(max_episode, ep_num)
-            except ValueError:
-                pass
-    
-    # Return next episode number (increment by 1)
-    next_episode = max_episode + 1
-    logging.info(f"Next episode number: {next_episode} (highest existing: {max_episode})")
-    return next_episode
+def get_next_episode_number(rss_path, digests_dir):
+    return _engine_get_next_episode_number(
+        rss_path, digests_dir, mp3_glob_pattern="Tesla_Shorts_Time_Pod_Ep*.mp3",
+    )
 
 # Get the next episode number
 rss_path = project_root / "podcast.rss"
 episode_num = get_next_episode_number(rss_path, digests_dir)
 
 # ========================== CREDIT TRACKING ==========================
-# Initialize credit usage tracking
-credit_usage = {
-    "date": datetime.date.today().isoformat(),
-    "episode_number": episode_num,
-    "services": {
-        "grok_api": {
-            "x_thread_generation": {
-                "prompt_tokens": 0,
-                "completion_tokens": 0,
-                "total_tokens": 0,
-                "estimated_cost_usd": 0.0
-            },
-            "podcast_script_generation": {
-                "prompt_tokens": 0,
-                "completion_tokens": 0,
-                "total_tokens": 0,
-                "estimated_cost_usd": 0.0
-            },
-            "total_tokens": 0,
-            "total_cost_usd": 0.0
-        },
-        "elevenlabs_api": {
-            "provider": "elevenlabs",
-            "characters": 0,
-            "estimated_cost_usd": 0.0
-        },
-        "x_api": {
-            "search_calls": 0,
-            "post_calls": 0,
-            "total_calls": 0
-        }
-    },
-    "total_estimated_cost_usd": 0.0
-}
+credit_usage = create_tracker("Tesla Shorts Time", episode_num)
 
-def save_credit_usage(usage_data: dict, output_dir: Path):
-    """Save credit usage to a JSON file."""
-    try:
-        # Calculate totals
-        grok_total = (
-            usage_data["services"]["grok_api"]["x_thread_generation"]["total_tokens"] +
-            usage_data["services"]["grok_api"]["podcast_script_generation"]["total_tokens"]
-        )
-        usage_data["services"]["grok_api"]["total_tokens"] = grok_total
-        usage_data["services"]["grok_api"]["total_cost_usd"] = (
-            usage_data["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] +
-            usage_data["services"]["grok_api"]["podcast_script_generation"]["estimated_cost_usd"]
-        )
-        
-        usage_data["services"]["x_api"]["total_calls"] = (
-            usage_data["services"]["x_api"]["search_calls"] +
-            usage_data["services"]["x_api"]["post_calls"]
-        )
-        
-        # Calculate TTS cost (ElevenLabs pricing: ~$0.30 per 1000 characters for turbo model)
-        elevenlabs_cost = (usage_data["services"]["elevenlabs_api"]["characters"] / 1000) * 0.30
-        usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = elevenlabs_cost
-        
-        usage_data["total_estimated_cost_usd"] = (
-            usage_data["services"]["grok_api"]["total_cost_usd"] +
-            usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"]
-        )
-        
-        # Save to JSON file
-        filename = f"credit_usage_{usage_data['date']}_ep{usage_data['episode_number']:03d}.json"
-        filepath = output_dir / filename
-        
-        with open(filepath, "w", encoding="utf-8") as f:
-            json.dump(usage_data, f, indent=2)
-        
-        logging.info(f"Credit usage saved to {filepath}")
-        
-        # Also log summary
-        logging.info("="*80)
-        logging.info("CREDIT USAGE SUMMARY")
-        logging.info("="*80)
-        logging.info(f"Grok API (X Thread): {usage_data['services']['grok_api']['x_thread_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['x_thread_generation']['estimated_cost_usd']:.4f})")
-        logging.info(f"Grok API (Podcast Script): {usage_data['services']['grok_api']['podcast_script_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['podcast_script_generation']['estimated_cost_usd']:.4f})")
-        logging.info(f"Grok API Total: {usage_data['services']['grok_api']['total_tokens']} tokens (${usage_data['services']['grok_api']['total_cost_usd']:.4f})")
-        logging.info(f"TTS ({usage_data['services']['elevenlabs_api'].get('provider', 'unknown')}): {usage_data['services']['elevenlabs_api']['characters']} characters (${usage_data['services']['elevenlabs_api']['estimated_cost_usd']:.4f})")
-        logging.info(f"X API: {usage_data['services']['x_api']['total_calls']} API calls (search: {usage_data['services']['x_api']['search_calls']}, post: {usage_data['services']['x_api']['post_calls']})")
-        logging.info(f"TOTAL ESTIMATED COST: ${usage_data['total_estimated_cost_usd']:.4f}")
-        logging.info("="*80)
-
-    except Exception as e:
-        logging.error(f"Failed to save credit usage: {e}", exc_info=True)
+def save_credit_usage(usage_data, output_dir):
+    """Thin wrapper around engine.tracking.save_usage."""
+    save_usage(usage_data, output_dir)
 
 def save_summary_to_github_pages(
-    summary_text: str,
-    output_dir: Path,
-    podcast_name: str = "tesla",
-    *,
-    episode_num: int | None = None,
-    episode_title: str | None = None,
-    audio_url: str | None = None,
-    rss_url: str | None = None,
+    summary_text, output_dir, podcast_name="tesla", *,
+    episode_num=None, episode_title=None, audio_url=None, rss_url=None,
 ):
-    """
-    Save summary to GitHub Pages JSON file for display on summaries page.
-    """
-    try:
-        # Define the JSON file path
-        json_file = project_root / "digests" / f"summaries_{podcast_name}.json"
-
-        # Load existing summaries or create new structure
-        if json_file.exists():
-            with open(json_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-        else:
-            data = {"podcast": podcast_name, "summaries": []}
-
-        # Create new summary entry
-        today = datetime.datetime.now()
-        computed_episode_num = episode_num
-        if computed_episode_num is None:
-            # Fallback (legacy): infer current episode from RSS
-            computed_episode_num = get_next_episode_number(project_root / "podcast.rss", output_dir) - 1
-
-        summary_entry = {
-            "date": today.strftime("%Y-%m-%d"),
-            "datetime": today.isoformat(),
-            "content": summary_text,
-            "episode_num": computed_episode_num,
-            "episode_title": episode_title,
-            "audio_url": audio_url,
-            "rss_url": rss_url,
-        }
-
-        # Add to summaries (keep only last 30 days to prevent file from growing too large)
-        data["summaries"].insert(0, summary_entry)  # Add to beginning (newest first)
-
-        # Keep only last 30 summaries
-        if len(data["summaries"]) > 30:
-            data["summaries"] = data["summaries"][:30]
-
-        # Save updated data
-        with open(json_file, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-
-        logging.info(f"Summary saved to GitHub Pages JSON: {json_file}")
-        return json_file
-
-    except Exception as e:
-        logging.error(f"Failed to save summary to GitHub Pages: {e}")
-        return None
+    json_path = project_root / "digests" / f"summaries_{podcast_name}.json"
+    return _engine_save_summary(
+        summary_text, json_path, podcast_name,
+        episode_num=episode_num, episode_title=episode_title,
+        audio_url=audio_url, rss_url=rss_url,
+    )
 
 tmp_dir = Path(tempfile.gettempdir()) / "tts"
 tmp_dir.mkdir(exist_ok=True, parents=True)
@@ -1241,89 +992,9 @@ def _extract_responses_usage(response_json: dict) -> dict:
 # ========================== STEP 1: FETCH TESLA NEWS FROM RSS FEEDS ==========================
 logging.info("Step 1: Fetching Tesla news from RSS feeds for the last 24 hours...")
 
-def calculate_similarity(text1: str, text2: str) -> float:
-    """Calculate similarity ratio between two texts (0.0 to 1.0)."""
-    if not text1 or not text2:
-        return 0.0
-    # Normalize: lowercase, remove extra whitespace
-    text1_norm = ' '.join(text1.lower().split())
-    text2_norm = ' '.join(text2.lower().split())
-    return SequenceMatcher(None, text1_norm, text2_norm).ratio()
-
-def remove_similar_items(items, similarity_threshold=0.7, get_text_func=None):
-    """
-    Remove similar items from a list based on text similarity.
-    
-    Args:
-        items: List of items to filter
-        similarity_threshold: Similarity ratio above which items are considered duplicates (0.0-1.0)
-        get_text_func: Function to extract text from item for comparison (default: uses 'title' or 'text' key)
-    
-    Returns:
-        Filtered list with similar items removed (keeps first occurrence)
-    """
-    if not items:
-        return items
-    
-    if get_text_func is None:
-        # Default: try 'title', then 'text', then 'description'
-        def get_text_func(item):
-            if isinstance(item, dict):
-                return item.get('title', '') or item.get('text', '') or item.get('description', '')
-            return str(item)
-    
-    filtered = []
-    for item in items:
-        item_text = get_text_func(item)
-        if not item_text:
-            continue
-        
-        # Check similarity against already accepted items
-        is_similar = False
-        for accepted_item in filtered:
-            accepted_text = get_text_func(accepted_item)
-            similarity = calculate_similarity(item_text, accepted_text)
-            if similarity >= similarity_threshold:
-                is_similar = True
-                logging.debug(f"Filtered similar item (similarity: {similarity:.2f}): {item_text[:50]}...")
-                break
-        
-        if not is_similar:
-            filtered.append(item)
-    
-    return filtered
-
-
-def filter_articles_by_recent_stories(
-    articles: list[dict],
-    recent_headlines: list[str],
-    similarity_threshold: float = 0.72,
-) -> list[dict]:
-    """Drop articles whose title is too similar to a recently covered story (cross-day dedup)."""
-    if not recent_headlines or not articles:
-        return articles
-    filtered = []
-    recent_norm = [_norm_headline_for_similarity(h) for h in recent_headlines if h]
-    for article in articles:
-        title = (article.get("title") or "").strip()
-        if not title:
-            filtered.append(article)
-            continue
-        norm_title = _norm_headline_for_similarity(title)
-        is_covered = False
-        for r in recent_norm:
-            if not r:
-                continue
-            if calculate_similarity(norm_title, r) >= similarity_threshold:
-                is_covered = True
-                logging.debug(f"Skipping already-covered story (similar to recent): {title[:60]}...")
-                break
-        if not is_covered:
-            filtered.append(article)
-    dropped = len(articles) - len(filtered)
-    if dropped:
-        logging.info(f"Filtered {dropped} articles that were too similar to recently covered stories")
-    return filtered
+calculate_similarity = _engine_calculate_similarity
+remove_similar_items = _engine_remove_similar_items
+filter_articles_by_recent_stories = _engine_filter_recent
 
 
 @retry(
@@ -3211,45 +2882,8 @@ Here is today's complete formatted digest. Use ONLY this content:
                     pass
 
     # Cache for audio duration lookups to avoid redundant ffprobe calls
-    _audio_duration_cache: Dict[Path, float] = {}
-    
-    def get_audio_duration(path: Path) -> float:
-        """Return duration in seconds for an audio file. Uses cache to avoid redundant ffprobe calls."""
-        # Check cache first
-        if path in _audio_duration_cache:
-            return _audio_duration_cache[path]
-        
-        try:
-            result = subprocess.run(
-                [
-                    "ffprobe",
-                    "-v",
-                    "error",
-                    "-show_entries",
-                    "format=duration",
-                    "-of",
-                    "default=noprint_wrappers=1:nokey=1",
-                    str(path),
-                ],
-                capture_output=True,
-                text=True,
-                check=True,
-            )
-            duration = float(result.stdout.strip())
-            _audio_duration_cache[path] = duration  # Cache the result
-            return duration
-        except Exception as exc:
-            logging.warning(f"Unable to determine duration for {path}: {exc}")
-            return 0.0
-
-    def format_duration(seconds: float) -> str:
-        """Format duration in seconds to HH:MM:SS or MM:SS format."""
-        hours = int(seconds // 3600)
-        minutes = int((seconds % 3600) // 60)
-        secs = int(seconds % 60)
-        if hours > 0:
-            return f"{hours:02d}:{minutes:02d}:{secs:02d}"
-        return f"{minutes:02d}:{secs:02d}"
+    # get_audio_duration and format_duration imported from engine/
+    format_duration = _engine_format_duration
 
     # Extract text from podcast script (remove "Patrick:" prefixes and stage directions)
     full_text_parts = []
