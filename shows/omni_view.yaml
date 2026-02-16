@@ -1,0 +1,153 @@
+name: Omni View
+slug: omni_view
+description: Daily balanced news summaries presenting multiple perspectives on the stories that matter.
+
+sources:
+  - url: https://feeds.npr.org/1001/rss.xml
+    label: NPR
+  - url: https://rss.cnn.com/rss/edition.rss
+    label: CNN
+  - url: https://feeds.bbci.co.uk/news/rss.xml
+    label: BBC
+  - url: https://www.nytimes.com/rss
+    label: NYT
+  - url: https://www.washingtonpost.com/rss/
+    label: Washington Post
+  - url: https://feeds.reuters.com/Reuters/worldNews
+    label: Reuters
+  - url: https://feeds.a.dj.com/rss/RSSWorldNews.xml
+    label: Wall Street Journal
+  - url: https://feeds.foxnews.com/foxnews/politics
+    label: Fox News
+  - url: https://www.newsmax.com/rss/Newsfront/16/
+    label: Newsmax
+  - url: https://www.breitbart.com/rss.xml
+    label: Breitbart
+  - url: https://www.dailymail.co.uk/articles.rss
+    label: Daily Mail
+  - url: https://www.aljazeera.com/xml/rss/all.xml
+    label: Al Jazeera
+  - url: https://www.theguardian.com/world/rss
+    label: The Guardian
+  - url: https://www.france24.com/en/rss
+    label: France24
+  - url: https://www.dw.com/en/rss.xml
+    label: DW
+  - url: https://theintercept.com/feed/?lang=en
+    label: The Intercept
+  - url: https://www.motherjones.com/rss
+    label: Mother Jones
+  - url: https://reason.com/feed/
+    label: Reason
+  - url: https://www.realclearpolitics.com/index.xml
+    label: RealClearPolitics
+  - url: https://feeds.bloomberg.com/markets/news.rss
+    label: Bloomberg
+  - url: https://www.cnbc.com/id/100003114/device/rss/rss.html
+    label: CNBC
+  - url: https://www.wired.com/feed/rss
+    label: Wired
+  - url: https://arstechnica.com/rss.xml
+    label: Ars Technica
+
+keywords:
+  - election
+  - president
+  - government
+  - policy
+  - law
+  - court
+  - supreme
+  - economy
+  - recession
+  - inflation
+  - unemployment
+  - federal reserve
+  - jobs
+  - war
+  - conflict
+  - peace
+  - treaty
+  - sanctions
+  - diplomacy
+  - climate
+  - environment
+  - disaster
+  - weather
+  - energy
+  - health
+  - pandemic
+  - vaccine
+  - medical
+  - technology
+  - ai
+  - internet
+  - privacy
+  - cyber
+  - crime
+  - justice
+  - police
+  - protest
+  - civil rights
+  - international
+  - trade
+  - immigration
+  - business
+  - corporate
+  - stocks
+  - market
+  - education
+  - housing
+  - science
+  - space
+  - breaking
+
+llm:
+  provider: xai
+  model: grok-4
+  digest_prompt_file: shows/prompts/omni_view_digest.txt
+  podcast_prompt_file: shows/prompts/omni_view_podcast.txt
+  digest_temperature: 0.5
+  max_tokens: 3200
+
+tts:
+  voice_id: ns7MjJ6c8tJKnvw7U6sN
+  model: eleven_turbo_v2_5
+  stability: 0.35
+  similarity_boost: 0.75
+  style: 0.2
+  use_speaker_boost: true
+  max_chars: 4500
+
+audio:
+  # Omni View has no music mixing
+  music_file: null
+
+publishing:
+  rss_file: omni_view_podcast.rss
+  rss_title: "Omni View - Balanced News Perspectives"
+  rss_description: "Daily balanced news summaries presenting multiple perspectives on the stories that matter. Countering media bias through diverse sources and critical analysis."
+  rss_link: https://patricknovak.github.io/Tesla-shorts-time/omni-view.html
+  rss_author: Omni View
+  rss_email: omniview@teslashortstime.com
+  rss_image: omni-view-podcast-image.jpg
+  rss_category: News
+  guid_prefix: omni-view
+  base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
+  audio_subdir: digests
+  summaries_json: digests/summaries_omni.json
+  summaries_podcast_name: omni
+  x_enabled: true
+  x_env_prefix: "X_"
+
+episode:
+  prefix: Omni_View
+  filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
+  output_dir: digests
+  mp3_glob: "Omni_View_Ep*.mp3"
+
+newsletter:
+  enabled: true
+  platform: buttondown
+  api_key_env: OMNI_VIEW_NEWSLETTER_API_KEY
+  status: about_to_send

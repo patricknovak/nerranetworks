@@ -34,6 +34,25 @@ import random
 import tweepy
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
+from urllib.parse import quote
+
+# --- engine/ shared modules ---
+from engine.utils import (
+    env_float, env_int, env_bool,
+    number_to_words as _engine_number_to_words,
+    calculate_similarity as _engine_calculate_similarity,
+    remove_similar_items as _engine_remove_similar_items,
+    norm_headline_for_similarity as _engine_norm_headline,
+    filter_articles_by_recent_stories as _engine_filter_recent,
+)
+from engine.audio import get_audio_duration, format_duration as _engine_format_duration
+from engine.publisher import (
+    update_rss_feed as _engine_update_rss_feed,
+    get_next_episode_number as _engine_get_next_episode_number,
+    save_summary_to_github_pages as _engine_save_summary,
+    generate_episode_thumbnail as _engine_generate_thumbnail,
+)
+from engine.tracking import create_tracker, record_llm_usage, record_tts_usage, record_x_post, save_usage
 
 # ========================== LOGGING ==========================
 logging.basicConfig(
@@ -80,68 +99,7 @@ HTTP_TIMEOUT_SECONDS = 10
 
 
 # ========================== NUMBER TO WORDS CONVERTER ==========================
-def number_to_words(num: float) -> str:
-    """
-    Convert numbers to words for better TTS pronunciation.
-    Handles integers and decimals.
-    """
-    # Define digit names for decimal conversion
-    digit_names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-    
-    def convert_under_1000(n):
-        """Convert numbers under 1000 to words."""
-        ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
-                'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
-                'seventeen', 'eighteen', 'nineteen']
-        tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
-        
-        if n == 0:
-            return 'zero'
-        if n < 20:
-            return ones[n]
-        if n < 100:
-            return tens[n // 10] + ('-' + ones[n % 10] if n % 10 else '')
-        if n < 1000:
-            result = ones[n // 100] + ' hundred'
-            remainder = n % 100
-            if remainder:
-                result += ' ' + convert_under_1000(remainder)
-            return result
-        return str(n)
-    
-    # Handle negative numbers
-    is_negative = num < 0
-    num = abs(num)
-    
-    # Split into integer and decimal parts
-    integer_part = int(num)
-    decimal_part = num - integer_part
-    
-    # Convert integer part
-    if integer_part == 0:
-        result = 'zero'
-    elif integer_part < 1000:
-        result = convert_under_1000(integer_part)
-    elif integer_part < 1000000:
-        thousands = integer_part // 1000
-        remainder = integer_part % 1000
-        result = convert_under_1000(thousands) + ' thousand'
-        if remainder:
-            result += ' ' + convert_under_1000(remainder)
-    else:
-        # For very large numbers, just return the number (TTS usually handles these)
-        result = str(integer_part)
-    
-    # Convert decimal part
-    if decimal_part > 0:
-        # Convert decimal to words (e.g., 0.17 -> "point one seven")
-        decimal_str = f"{decimal_part:.10f}".rstrip('0').rstrip('.')
-        if '.' in decimal_str:
-            decimal_digits = decimal_str.split('.')[1]
-            decimal_words = ' '.join([digit_names[int(d)] if d.isdigit() and int(d) < 10 else d for d in decimal_digits])
-            result += ' point ' + decimal_words
-    
-    return ('negative ' if is_negative else '') + result
+number_to_words = _engine_number_to_words
 
 # ========================== PRONUNCIATION FIXER – USING SHARED DICTIONARY ==========================
 # Note: Import will be set up after project_root is defined
@@ -561,15 +519,7 @@ def fix_tesla_pronunciation(text: str) -> str:
     return text
 
 def generate_episode_thumbnail(base_image_path, episode_num, date_str, output_path):
-    img = Image.open(base_image_path)
-    draw = ImageDraw.Draw(img)
-    try:
-        font = ImageFont.truetype("arial.ttf", 48)
-    except IOError:
-        font = ImageFont.load_default()
-    draw.text((50, 50), f"Episode {episode_num}", font=font, fill=(255, 255, 255))
-    draw.text((50, 100), date_str, font=font, fill=(255, 255, 255))
-    img.save(output_path, "PNG")
+    return _engine_generate_thumbnail(Path(base_image_path), episode_num, date_str, Path(output_path))
 
 # ========================== PATHS & ENV ==========================
 script_dir = Path(__file__).resolve().parent        # → .../digests
@@ -594,77 +544,18 @@ except ImportError:
     USE_SHARED_PRONUNCIATION = False
     logging.warning("Could not import shared pronunciation module, using local implementation")
 
-# ========================== TTS PROVIDER ==========================
-def _normalize_tts_provider(value: str) -> str:
-    v = (value or "").strip().lower()
-    if not v:
-        return "chatterbox"
-    if v in {"elevenlabs", "eleven", "11labs", "11-labs"}:
-        return "elevenlabs"
-    if v in {"chatterbox", "chatterbox-tts", "chatterbox_tts", "cb"}:
-        return "chatterbox"
-    return v
 
-TTS_PROVIDER = _normalize_tts_provider(os.getenv("TESLA_SHORTS_TIME_TTS_PROVIDER", "elevenlabs"))
+_env_float = env_float
+_env_int = env_int
+_env_bool = env_bool
 
-def _env_float(name: str, default: float) -> float:
-    raw = os.getenv(name)
-    if not raw:
-        return default
-    try:
-        return float(raw)
-    except ValueError:
-        logging.warning(f"Invalid {name}='{raw}' (expected float). Using default {default}.")
-        return default
-
-def _env_int(name: str, default: int) -> int:
-    raw = os.getenv(name)
-    if not raw:
-        return default
-    try:
-        return int(raw)
-    except ValueError:
-        logging.warning(f"Invalid {name}='{raw}' (expected int). Using default {default}.")
-        return default
-
-def _env_bool(name: str, default: bool) -> bool:
-    raw = os.getenv(name)
-    if not raw:
-        return default
-    v = raw.strip().lower()
-    if v in {"1", "true", "yes", "on"}:
-        return True
-    if v in {"0", "false", "no", "off"}:
-        return False
-    logging.warning(f"Invalid {name}='{raw}' (expected bool). Using default {default}.")
-    return default
-
-# Chatterbox (local) TTS config
-CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
-CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
-CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 2000)  # Increased for Chatterbox - handles larger chunks better than Turbo, better for podcast quality
-CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
-HF_TOKEN = os.getenv("HF_TOKEN")  # Hugging Face token for Chatterbox-Turbo model access
-CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
-CHATTERBOX_VOICE_PROMPT_BASE64 = os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64", "").strip()
-CHATTERBOX_PROMPT_OFFSET_SECONDS = _env_float("CHATTERBOX_PROMPT_OFFSET_SECONDS", 35.0)
-CHATTERBOX_PROMPT_DURATION_SECONDS = _env_float("CHATTERBOX_PROMPT_DURATION_SECONDS", 10.0)
 
 # Required keys (X credentials only required if posting is enabled)
 required = [
     "GROK_API_KEY"
 ]
 if ENABLE_PODCAST and not TEST_MODE:
-    if TTS_PROVIDER == "elevenlabs":
-        # ElevenLabs API required
-        required.append("ELEVENLABS_API_KEY")
-    elif TTS_PROVIDER == "chatterbox":
-        # Local model, no API key required. Voice prompt can be derived from Tesla Shorts Time episodes.
-        pass
-    else:
-        raise OSError(
-            f"Unknown TESLA_SHORTS_TIME_TTS_PROVIDER '{TTS_PROVIDER}'. Supported providers: 'elevenlabs', 'chatterbox'."
-        )
+    required.append("ELEVENLABS_API_KEY")
 if ENABLE_X_POSTING:
     required.extend([
         "X_CONSUMER_KEY",
@@ -676,12 +567,6 @@ for var in required:
     if not os.getenv(var):
         raise OSError(f"Missing {var} in .env")
 
-# Chatterbox voice cloning can use either an explicit prompt (path/base64) OR fall back to a prior Tesla Shorts Time episode audio.
-if ENABLE_PODCAST and not TEST_MODE and TTS_PROVIDER == "chatterbox":
-    if not os.getenv("CHATTERBOX_VOICE_PROMPT_PATH") and not os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64"):
-        logging.info(
-            "Chatterbox voice prompt not provided via env; will attempt to derive a prompt from an existing Tesla Shorts Time episode MP3."
-        )
 
 # ========================== DATE & PRICE (MUST BE FIRST) ==========================
 # Get current date and time in PST
@@ -875,15 +760,7 @@ def extract_news_headlines_from_digest(digest_path: Path) -> list[str]:
     return headlines
 
 
-def _norm_headline_for_similarity(text: str) -> str:
-    """Normalize headline for similarity comparison: strip dates, sources, extra punctuation."""
-    if not text:
-        return ""
-    # Remove date patterns like "07 February, 2026, 12:09 PM PST, Source" or "DD Month, YYYY, HH:MM AM/PM PST, Source"
-    t = re.sub(r'\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)[a-z]*\s*,?\s*\d{4}[^*]*$', '', text, flags=re.IGNORECASE)
-    t = re.sub(r'\d{1,2}/\d{1,2}/\d{2,4}[^*]*$', '', t)
-    t = ' '.join(t.lower().split())
-    return t.strip()
+_norm_headline_for_similarity = _engine_norm_headline
 
 
 def load_recent_digests(max_days: int = 14) -> dict:
@@ -988,201 +865,32 @@ for key in ["short_spots", "daily_challenges", "inspiration_quotes", "first_prin
 
 used_content_summary = get_used_content_summary(content_tracker)
 
-# Determine episode number by finding the highest existing episode number and incrementing
-def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
-    """Get the next episode number by finding the highest existing episode number."""
-    max_episode = 0
-    
-    # Check RSS feed first
-    if rss_path.exists():
-        try:
-            tree = ET.parse(str(rss_path))
-            root = tree.getroot()
-            channel = root.find('channel')
-            if channel is not None:
-                for item in channel.findall('item'):
-                    itunes_episode = item.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}episode')
-                    if itunes_episode is not None and itunes_episode.text:
-                        try:
-                            ep_num = int(itunes_episode.text)
-                            max_episode = max(max_episode, ep_num)
-                        except ValueError:
-                            pass
-        except Exception as e:
-            logging.warning(f"Could not parse RSS feed to find episode number: {e}")
-    
-    # Also check existing MP3 files
-    pattern = r"Tesla_Shorts_Time_Pod_Ep(\d+)_\d{8}_\d{6}\.mp3"
-    for mp3_file in digests_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"):
-        match = re.match(pattern, mp3_file.name)
-        if match:
-            try:
-                ep_num = int(match.group(1))
-                max_episode = max(max_episode, ep_num)
-            except ValueError:
-                pass
-    
-    # Return next episode number (increment by 1)
-    next_episode = max_episode + 1
-    logging.info(f"Next episode number: {next_episode} (highest existing: {max_episode})")
-    return next_episode
+def get_next_episode_number(rss_path, digests_dir):
+    return _engine_get_next_episode_number(
+        rss_path, digests_dir, mp3_glob_pattern="Tesla_Shorts_Time_Pod_Ep*.mp3",
+    )
 
 # Get the next episode number
 rss_path = project_root / "podcast.rss"
 episode_num = get_next_episode_number(rss_path, digests_dir)
 
 # ========================== CREDIT TRACKING ==========================
-# Initialize credit usage tracking
-credit_usage = {
-    "date": datetime.date.today().isoformat(),
-    "episode_number": episode_num,
-    "services": {
-        "grok_api": {
-            "x_thread_generation": {
-                "prompt_tokens": 0,
-                "completion_tokens": 0,
-                "total_tokens": 0,
-                "estimated_cost_usd": 0.0
-            },
-            "podcast_script_generation": {
-                "prompt_tokens": 0,
-                "completion_tokens": 0,
-                "total_tokens": 0,
-                "estimated_cost_usd": 0.0
-            },
-            "total_tokens": 0,
-            "total_cost_usd": 0.0
-        },
-        "elevenlabs_api": {
-            "provider": TTS_PROVIDER,
-            "characters": 0,
-            "estimated_cost_usd": 0.0
-        },
-        "x_api": {
-            "search_calls": 0,
-            "post_calls": 0,
-            "total_calls": 0
-        }
-    },
-    "total_estimated_cost_usd": 0.0
-}
+credit_usage = create_tracker("Tesla Shorts Time", episode_num)
 
-def save_credit_usage(usage_data: dict, output_dir: Path):
-    """Save credit usage to a JSON file."""
-    try:
-        # Calculate totals
-        grok_total = (
-            usage_data["services"]["grok_api"]["x_thread_generation"]["total_tokens"] +
-            usage_data["services"]["grok_api"]["podcast_script_generation"]["total_tokens"]
-        )
-        usage_data["services"]["grok_api"]["total_tokens"] = grok_total
-        usage_data["services"]["grok_api"]["total_cost_usd"] = (
-            usage_data["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] +
-            usage_data["services"]["grok_api"]["podcast_script_generation"]["estimated_cost_usd"]
-        )
-        
-        usage_data["services"]["x_api"]["total_calls"] = (
-            usage_data["services"]["x_api"]["search_calls"] +
-            usage_data["services"]["x_api"]["post_calls"]
-        )
-        
-        # Calculate TTS cost (only applies if using a paid API provider like ElevenLabs)
-        tts_provider = str(usage_data["services"]["elevenlabs_api"].get("provider", "elevenlabs")).strip().lower()
-        if tts_provider == "elevenlabs":
-            # ElevenLabs pricing: ~$0.30 per 1000 characters for turbo model
-            elevenlabs_cost = (usage_data["services"]["elevenlabs_api"]["characters"] / 1000) * 0.30
-            usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = elevenlabs_cost
-        else:
-            # Chatterbox is local/free
-            usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = 0.0
-        
-        usage_data["total_estimated_cost_usd"] = (
-            usage_data["services"]["grok_api"]["total_cost_usd"] +
-            usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"]
-        )
-        
-        # Save to JSON file
-        filename = f"credit_usage_{usage_data['date']}_ep{usage_data['episode_number']:03d}.json"
-        filepath = output_dir / filename
-        
-        with open(filepath, "w", encoding="utf-8") as f:
-            json.dump(usage_data, f, indent=2)
-        
-        logging.info(f"Credit usage saved to {filepath}")
-        
-        # Also log summary
-        logging.info("="*80)
-        logging.info("CREDIT USAGE SUMMARY")
-        logging.info("="*80)
-        logging.info(f"Grok API (X Thread): {usage_data['services']['grok_api']['x_thread_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['x_thread_generation']['estimated_cost_usd']:.4f})")
-        logging.info(f"Grok API (Podcast Script): {usage_data['services']['grok_api']['podcast_script_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['podcast_script_generation']['estimated_cost_usd']:.4f})")
-        logging.info(f"Grok API Total: {usage_data['services']['grok_api']['total_tokens']} tokens (${usage_data['services']['grok_api']['total_cost_usd']:.4f})")
-        logging.info(f"TTS ({usage_data['services']['elevenlabs_api'].get('provider', 'unknown')}): {usage_data['services']['elevenlabs_api']['characters']} characters (${usage_data['services']['elevenlabs_api']['estimated_cost_usd']:.4f})")
-        logging.info(f"X API: {usage_data['services']['x_api']['total_calls']} API calls (search: {usage_data['services']['x_api']['search_calls']}, post: {usage_data['services']['x_api']['post_calls']})")
-        logging.info(f"TOTAL ESTIMATED COST: ${usage_data['total_estimated_cost_usd']:.4f}")
-        logging.info("="*80)
-
-    except Exception as e:
-        logging.error(f"Failed to save credit usage: {e}", exc_info=True)
+def save_credit_usage(usage_data, output_dir):
+    """Thin wrapper around engine.tracking.save_usage."""
+    save_usage(usage_data, output_dir)
 
 def save_summary_to_github_pages(
-    summary_text: str,
-    output_dir: Path,
-    podcast_name: str = "tesla",
-    *,
-    episode_num: int | None = None,
-    episode_title: str | None = None,
-    audio_url: str | None = None,
-    rss_url: str | None = None,
+    summary_text, output_dir, podcast_name="tesla", *,
+    episode_num=None, episode_title=None, audio_url=None, rss_url=None,
 ):
-    """
-    Save summary to GitHub Pages JSON file for display on summaries page.
-    """
-    try:
-        # Define the JSON file path
-        json_file = project_root / "digests" / f"summaries_{podcast_name}.json"
-
-        # Load existing summaries or create new structure
-        if json_file.exists():
-            with open(json_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-        else:
-            data = {"podcast": podcast_name, "summaries": []}
-
-        # Create new summary entry
-        today = datetime.datetime.now()
-        computed_episode_num = episode_num
-        if computed_episode_num is None:
-            # Fallback (legacy): infer current episode from RSS
-            computed_episode_num = get_next_episode_number(project_root / "podcast.rss", output_dir) - 1
-
-        summary_entry = {
-            "date": today.strftime("%Y-%m-%d"),
-            "datetime": today.isoformat(),
-            "content": summary_text,
-            "episode_num": computed_episode_num,
-            "episode_title": episode_title,
-            "audio_url": audio_url,
-            "rss_url": rss_url,
-        }
-
-        # Add to summaries (keep only last 30 days to prevent file from growing too large)
-        data["summaries"].insert(0, summary_entry)  # Add to beginning (newest first)
-
-        # Keep only last 30 summaries
-        if len(data["summaries"]) > 30:
-            data["summaries"] = data["summaries"][:30]
-
-        # Save updated data
-        with open(json_file, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-
-        logging.info(f"Summary saved to GitHub Pages JSON: {json_file}")
-        return json_file
-
-    except Exception as e:
-        logging.error(f"Failed to save summary to GitHub Pages: {e}")
-        return None
+    json_path = project_root / "digests" / f"summaries_{podcast_name}.json"
+    return _engine_save_summary(
+        summary_text, json_path, podcast_name,
+        episode_num=episode_num, episode_title=episode_title,
+        audio_url=audio_url, rss_url=rss_url,
+    )
 
 tmp_dir = Path(tempfile.gettempdir()) / "tts"
 tmp_dir.mkdir(exist_ok=True, parents=True)
@@ -1284,89 +992,9 @@ def _extract_responses_usage(response_json: dict) -> dict:
 # ========================== STEP 1: FETCH TESLA NEWS FROM RSS FEEDS ==========================
 logging.info("Step 1: Fetching Tesla news from RSS feeds for the last 24 hours...")
 
-def calculate_similarity(text1: str, text2: str) -> float:
-    """Calculate similarity ratio between two texts (0.0 to 1.0)."""
-    if not text1 or not text2:
-        return 0.0
-    # Normalize: lowercase, remove extra whitespace
-    text1_norm = ' '.join(text1.lower().split())
-    text2_norm = ' '.join(text2.lower().split())
-    return SequenceMatcher(None, text1_norm, text2_norm).ratio()
-
-def remove_similar_items(items, similarity_threshold=0.7, get_text_func=None):
-    """
-    Remove similar items from a list based on text similarity.
-    
-    Args:
-        items: List of items to filter
-        similarity_threshold: Similarity ratio above which items are considered duplicates (0.0-1.0)
-        get_text_func: Function to extract text from item for comparison (default: uses 'title' or 'text' key)
-    
-    Returns:
-        Filtered list with similar items removed (keeps first occurrence)
-    """
-    if not items:
-        return items
-    
-    if get_text_func is None:
-        # Default: try 'title', then 'text', then 'description'
-        def get_text_func(item):
-            if isinstance(item, dict):
-                return item.get('title', '') or item.get('text', '') or item.get('description', '')
-            return str(item)
-    
-    filtered = []
-    for item in items:
-        item_text = get_text_func(item)
-        if not item_text:
-            continue
-        
-        # Check similarity against already accepted items
-        is_similar = False
-        for accepted_item in filtered:
-            accepted_text = get_text_func(accepted_item)
-            similarity = calculate_similarity(item_text, accepted_text)
-            if similarity >= similarity_threshold:
-                is_similar = True
-                logging.debug(f"Filtered similar item (similarity: {similarity:.2f}): {item_text[:50]}...")
-                break
-        
-        if not is_similar:
-            filtered.append(item)
-    
-    return filtered
-
-
-def filter_articles_by_recent_stories(
-    articles: list[dict],
-    recent_headlines: list[str],
-    similarity_threshold: float = 0.72,
-) -> list[dict]:
-    """Drop articles whose title is too similar to a recently covered story (cross-day dedup)."""
-    if not recent_headlines or not articles:
-        return articles
-    filtered = []
-    recent_norm = [_norm_headline_for_similarity(h) for h in recent_headlines if h]
-    for article in articles:
-        title = (article.get("title") or "").strip()
-        if not title:
-            filtered.append(article)
-            continue
-        norm_title = _norm_headline_for_similarity(title)
-        is_covered = False
-        for r in recent_norm:
-            if not r:
-                continue
-            if calculate_similarity(norm_title, r) >= similarity_threshold:
-                is_covered = True
-                logging.debug(f"Skipping already-covered story (similar to recent): {title[:60]}...")
-                break
-        if not is_covered:
-            filtered.append(article)
-    dropped = len(articles) - len(filtered)
-    if dropped:
-        logging.info(f"Filtered {dropped} articles that were too similar to recently covered stories")
-    return filtered
+calculate_similarity = _engine_calculate_similarity
+remove_similar_items = _engine_remove_similar_items
+filter_articles_by_recent_stories = _engine_filter_recent
 
 
 @retry(
@@ -3048,9 +2676,6 @@ Here is today's complete formatted digest. Use ONLY this content:
     logging.info("Podcast script generated with varied intro/outro and tone")
 
     # ========================== 3. TTS (VOICE) ==========================
-    logging.info(f"TTS provider selected: {TTS_PROVIDER}")
-    if TTS_PROVIDER not in ["elevenlabs", "chatterbox"]:
-        raise RuntimeError(f"Invalid TTS_PROVIDER: {TTS_PROVIDER}. Supported providers: 'elevenlabs', 'chatterbox'.")
 
     def _chunk_text(text: str, max_chars: int) -> List[str]:
         """Split long text into chunks for local TTS models."""
@@ -3082,324 +2707,8 @@ Here is today's complete formatted digest. Use ONLY this content:
 
         return chunks
 
-    def _prepare_chatterbox_voice_prompt(tmp_dir: Path) -> Path:
-        """
-        Return a local WAV file suitable for Chatterbox's audio_prompt_path.
-        
-        Priority order:
-        1. CHATTERBOX_VOICE_PROMPT_PATH (env var or direct path)
-        2. CHATTERBOX_VOICE_PROMPT_BASE64 (base64 encoded audio)
-        3. Permanent voice prompt in assets/voice_prompts/ (if exists)
-        4. Derive from Tesla Shorts Time episodes (preferred episode 354 or most recent)
-        """
-        import base64
 
-        created_src = False
-        episode_mode = False
-
-        if CHATTERBOX_VOICE_PROMPT_PATH:
-            src = Path(CHATTERBOX_VOICE_PROMPT_PATH).expanduser()
-        elif CHATTERBOX_VOICE_PROMPT_BASE64:
-            raw = base64.b64decode(CHATTERBOX_VOICE_PROMPT_BASE64)
-            src = tmp_dir / "chatterbox_voice_prompt_input.mp3"
-            src.write_bytes(raw)
-            created_src = True
-        else:
-            # Check for permanent voice prompt in assets directory (highest priority fallback)
-            assets_voice_prompts = project_root / "assets" / "voice_prompts"
-            if assets_voice_prompts.exists():
-                # Look for common voice prompt filenames (in priority order)
-                prompt_candidates = [
-                    assets_voice_prompts / "patrick_voice_prompt.wav",
-                    assets_voice_prompts / "voice_prompt.wav",
-                    assets_voice_prompts / "chatterbox_voice_prompt.wav",
-                ]
-                # Also check for any .wav files
-                existing_wavs = list(assets_voice_prompts.glob("*.wav"))
-                if existing_wavs:
-                    prompt_candidates.extend(existing_wavs)
-                
-                for prompt_file in prompt_candidates:
-                    if prompt_file.exists():
-                        logging.info(f"✅ Using permanent voice prompt: {prompt_file.name}")
-                        # Return the prompt file directly (no processing needed - already in correct format)
-                        return prompt_file
-            
-            # Fallback: derive from Tesla Shorts Time episodes
-            # Default: use episode 354 from December 12, 2025 as the voice clone source
-            # Fallback to most recent episode if specific one not found
-            preferred_episode = digests_dir / "Tesla_Shorts_Time_Pod_Ep354_20251212.mp3"
-            
-            if preferred_episode.exists():
-                src = preferred_episode
-                episode_mode = True
-                logging.info(f"Chatterbox voice prompt: using preferred episode 354 (Dec 12, 2025): {src.name}")
-            else:
-                # Fallback: use the most recent Tesla Shorts Time episode audio
-                candidates = sorted(
-                    list(digests_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3")),
-                    key=lambda p: p.stat().st_mtime,
-                    reverse=True,
-                )
-                if not candidates:
-                    raise RuntimeError(
-                        "No Tesla Shorts Time episode MP3s found to derive a Chatterbox voice prompt. "
-                        "Either commit at least one episode MP3, add a permanent voice prompt to "
-                        "assets/voice_prompts/, or set CHATTERBOX_VOICE_PROMPT_PATH / CHATTERBOX_VOICE_PROMPT_BASE64."
-                    )
-                src = candidates[0]
-                episode_mode = True
-                logging.info(f"Chatterbox voice prompt: preferred episode 354 not found, using most recent: {src.name}")
-
-        if not src.exists():
-            raise FileNotFoundError(f"Chatterbox voice prompt source not found: {src}")
-
-        # If src is already a WAV file (permanent prompt), return it directly
-        if src.suffix.lower() == '.wav' and not episode_mode and not created_src:
-            logging.info(f"Using permanent voice prompt file: {src}")
-            return src
-
-        prompt_wav = tmp_dir / "chatterbox_voice_prompt.wav"
-
-        if episode_mode:
-            subprocess.run(
-                [
-                    "ffmpeg",
-                    "-y",
-                    "-ss",
-                    f"{CHATTERBOX_PROMPT_OFFSET_SECONDS:.2f}",
-                    "-t",
-                    f"{CHATTERBOX_PROMPT_DURATION_SECONDS:.2f}",
-                    "-i",
-                    str(src),
-                    "-ac",
-                    "1",
-                    "-ar",
-                    "16000",
-                    "-c:a",
-                    "pcm_s16le",
-                    str(prompt_wav),
-                ],
-                check=True,
-                capture_output=True,
-            )
-        else:
-            subprocess.run(
-                ["ffmpeg", "-y", "-i", str(src), "-ac", "1", "-ar", "16000", "-c:a", "pcm_s16le", str(prompt_wav)],
-                check=True,
-                capture_output=True,
-            )
-
-        if created_src:
-            try:
-                src.unlink()
-            except Exception:
-                pass
-
-        return prompt_wav
-
-    def _synthesize_with_chatterbox(text: str, out_wav: Path):
-        """Generate a single WAV voice track using the local Chatterbox model + a voice prompt."""
-        import inspect
-        import contextlib
-
-        try:
-            import torch  # noqa: F401
-            import torchaudio as ta
-            from chatterbox.tts import ChatterboxTTS
-        except Exception as exc:
-            raise RuntimeError(
-                "Chatterbox dependencies missing. Install chatterbox-tts and ensure Chatterbox model is available."
-            ) from exc
-
-        prompt_wav = _prepare_chatterbox_voice_prompt(tmp_dir)
-        chunks = _chunk_text(text, CHATTERBOX_MAX_CHARS)
-        if not chunks:
-            raise RuntimeError("No text provided for TTS.")
-
-        logging.info(f"Chatterbox: generating {len(chunks)} chunks (max {CHATTERBOX_MAX_CHARS} chars each) on device={CHATTERBOX_DEVICE}")
-
-        # Set Hugging Face token for authentication if available
-        if HF_TOKEN:
-            import huggingface_hub
-            huggingface_hub.login(HF_TOKEN)
-            logging.info("✅ Logged into Hugging Face Hub with token")
-
-        # Initialize Chatterbox (high-quality model with creative controls)
-        model = ChatterboxTTS.from_pretrained(device=CHATTERBOX_DEVICE)
-        sr = getattr(model, "sr", 24000)  # Chatterbox uses 24kHz by default
-
-        # Configure optimal settings for podcast quality
-        base_kwargs = {
-            "audio_prompt_path": str(prompt_wav),
-            "cfg_weight": 0.5,  # Balanced control - helps maintain voice consistency
-            "exaggeration": 0.4  # Slightly lower for natural podcast delivery
-        }
-
-        # Generate chunks in parallel for maximum speed
-        def generate_single_chunk(chunk_data):
-            """Generate a single chunk with retry logic."""
-            i, chunk = chunk_data
-            chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
-
-            # Retry logic for failed chunks
-            max_retries = 3
-            retry_count = 0
-            chunk_success = False
-
-            while retry_count < max_retries and not chunk_success:
-                try:
-                    if retry_count > 0:
-                        logging.info(f"Retrying chunk {i} (attempt {retry_count + 1}/{max_retries})...")
-
-                    with open(os.devnull, "w") as devnull:
-                        redir = (
-                            contextlib.redirect_stdout(devnull),
-                            contextlib.redirect_stderr(devnull),
-                        ) if CHATTERBOX_QUIET else ()
-                        with contextlib.ExitStack() as stack:
-                            for ctx in redir:
-                                stack.enter_context(ctx)
-                            # Generate with optimal podcast quality settings
-                            wav = model.generate(chunk, **base_kwargs)
-                            logging.debug(f"Model returned audio with shape: {wav.shape if hasattr(wav, 'shape') else 'unknown'}")
-                    if hasattr(wav, "detach"):
-                        wav = wav.detach().cpu()
-                    if getattr(wav, "ndim", 0) == 1:
-                        wav = wav.unsqueeze(0)
-
-                    # Validate generated audio
-                    if wav is None or (hasattr(wav, "numel") and wav.numel() == 0):
-                        raise RuntimeError(f"Chatterbox generated empty audio for chunk {i}")
-
-                    # Check audio duration (estimate: samples / sample_rate)
-                    num_samples = wav.shape[-1] if hasattr(wav, "shape") else 0
-                    duration_seconds = num_samples / sr if num_samples > 0 else 0
-
-                    # Check if chunk is suspiciously short
-                    expected_min_duration = len(chunk) / 20  # Rough estimate: ~20 chars per second
-                    min_acceptable_duration = expected_min_duration * 0.4  # At least 40% of expected for Chatterbox (more reliable than Turbo)
-
-                    if duration_seconds < min_acceptable_duration:
-                        if retry_count < max_retries - 1:
-                            logging.warning(f"⚠️ Chunk {i} generated short audio: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s) - will retry")
-                            retry_count += 1
-                            import time
-                            time.sleep(2)  # Brief pause before retry
-                            continue
-                        else:
-                            # Chatterbox is more reliable than Turbo, but if retries fail, accept reasonable audio
-                            min_final_duration = 5.0  # Higher threshold since Chatterbox should perform better
-                            if duration_seconds > min_final_duration:
-                                logging.warning(f"⚠️ Chunk {i} generated short audio after {max_retries} attempts: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s) - accepting with warning")
-                                # Continue processing - we'll concatenate what we have
-                            else:
-                                raise RuntimeError(f"Chunk {i} generated critically short audio after {max_retries} attempts: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s for {len(chunk)} chars)")
-
-                    ta.save(str(chunk_path), wav, sr)
-
-                    # Verify file was created and has content
-                    if not chunk_path.exists():
-                        raise RuntimeError(f"Failed to save chunk {i} to {chunk_path}")
-                    chunk_size = chunk_path.stat().st_size
-                    if chunk_size < 1000:  # Less than 1KB is suspicious
-                        if retry_count < max_retries - 1:
-                            logging.warning(f"⚠️ Chunk {i} file is too small ({chunk_size} bytes) - will retry")
-                            retry_count += 1
-                            import time
-                            time.sleep(2)
-                            continue
-                        else:
-                            raise RuntimeError(f"Chunk {i} file is too small ({chunk_size} bytes) after {max_retries} attempts - TTS may have failed")
-
-                    logging.info(f"✅ Chunk {i} generated: {duration_seconds:.2f}s ({chunk_size} bytes)")
-                    return chunk_path
-
-                except Exception as e:
-                    if retry_count < max_retries - 1:
-                        logging.warning(f"⚠️ Error generating chunk {i} (attempt {retry_count + 1}): {e} - will retry")
-                        retry_count += 1
-                        import time
-                        time.sleep(2)
-                        continue
-                    else:
-                        logging.error(f"❌ Failed to generate chunk {i}/{len(chunks)} after {max_retries} attempts: {e}", exc_info=True)
-                        raise RuntimeError(f"TTS generation failed for chunk {i} after {max_retries} retries: {e}") from e
-
-            raise RuntimeError(f"Failed to generate chunk {i} after {max_retries} attempts")
-
-        # Process chunks in parallel
-        logging.info(f"🚀 Generating {len(chunks)} chunks in parallel (up to 4 concurrent)...")
-
-        from concurrent.futures import ThreadPoolExecutor, as_completed
-        chunk_data = list(enumerate(chunks, 1))
-
-        chunk_paths: List[Path] = []
-        with ThreadPoolExecutor(max_workers=4) as executor:  # Limit to 4 concurrent to avoid resource issues
-            future_to_chunk = {executor.submit(generate_single_chunk, data): data[0] for data in chunk_data}
-
-            for future in as_completed(future_to_chunk):
-                chunk_num = future_to_chunk[future]
-                try:
-                    chunk_path = future.result()
-                    chunk_paths.append(chunk_path)
-                    logging.info(f"✅ Chunk {chunk_num} completed")
-                except Exception as exc:
-                    logging.error(f"❌ Chunk {chunk_num} failed: {exc}")
-                    raise
-
-        # Sort chunk paths by chunk number to ensure proper concatenation order
-        chunk_paths.sort(key=lambda x: int(x.stem.split('_')[-1]))
-
-        concat_list = tmp_dir / "chatterbox_concat.txt"
-        with open(concat_list, "w", encoding="utf-8") as f:
-            for p in chunk_paths:
-                f.write(f"file '{p}'\n")
-
-        subprocess.run(
-            ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_list), "-ac", "1", "-c:a", "pcm_s16le", str(out_wav)],
-            check=True,
-            capture_output=True,
-        )
-        
-        # Validate final concatenated audio file
-        if not out_wav.exists():
-            raise RuntimeError(f"Failed to create concatenated audio file: {out_wav}")
-        
-        final_size = out_wav.stat().st_size
-        if final_size < 10000:  # Less than 10KB is suspicious for any podcast
-            raise RuntimeError(f"Concatenated audio file is too small ({final_size} bytes) - TTS generation likely failed")
-        
-        # Check duration using ffprobe
-        try:
-            duration_check = subprocess.run(
-                ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", str(out_wav)],
-                capture_output=True,
-                text=True,
-                check=True,
-            )
-            duration = float(duration_check.stdout.strip())
-            expected_min_duration = len(text) / 20  # Rough estimate: ~20 chars per second
-            if duration < expected_min_duration * 0.1:  # Less than 10% of expected
-                raise RuntimeError(f"Final audio duration ({duration:.2f}s) is suspiciously short for {len(text)} characters (expected ~{expected_min_duration:.2f}s)")
-            logging.info(f"✅ Final concatenated audio: {duration:.2f}s ({final_size} bytes)")
-        except Exception as e:
-            logging.warning(f"Could not verify audio duration: {e}")
-            # Don't fail if duration check fails, but log it
-
-        # Cleanup intermediate chunk files
-        try:
-            for p in chunk_paths:
-                if p.exists():
-                    p.unlink()
-            if concat_list.exists():
-                concat_list.unlink()
-            if prompt_wav.exists():
-                prompt_wav.unlink()
-        except Exception:
-            pass
-
-    # ElevenLabs helper (only used when TTS_PROVIDER == "elevenlabs")
+    # ElevenLabs helper
     PATRICK_VOICE_ID = ELEVEN_VOICE_ID
 
     def validate_elevenlabs_auth():
@@ -3573,45 +2882,8 @@ Here is today's complete formatted digest. Use ONLY this content:
                     pass
 
     # Cache for audio duration lookups to avoid redundant ffprobe calls
-    _audio_duration_cache: Dict[Path, float] = {}
-    
-    def get_audio_duration(path: Path) -> float:
-        """Return duration in seconds for an audio file. Uses cache to avoid redundant ffprobe calls."""
-        # Check cache first
-        if path in _audio_duration_cache:
-            return _audio_duration_cache[path]
-        
-        try:
-            result = subprocess.run(
-                [
-                    "ffprobe",
-                    "-v",
-                    "error",
-                    "-show_entries",
-                    "format=duration",
-                    "-of",
-                    "default=noprint_wrappers=1:nokey=1",
-                    str(path),
-                ],
-                capture_output=True,
-                text=True,
-                check=True,
-            )
-            duration = float(result.stdout.strip())
-            _audio_duration_cache[path] = duration  # Cache the result
-            return duration
-        except Exception as exc:
-            logging.warning(f"Unable to determine duration for {path}: {exc}")
-            return 0.0
-
-    def format_duration(seconds: float) -> str:
-        """Format duration in seconds to HH:MM:SS or MM:SS format."""
-        hours = int(seconds // 3600)
-        minutes = int((seconds % 3600) // 60)
-        secs = int(seconds % 60)
-        if hours > 0:
-            return f"{hours:02d}:{minutes:02d}:{secs:02d}"
-        return f"{minutes:02d}:{secs:02d}"
+    # get_audio_duration and format_duration imported from engine/
+    format_duration = _engine_format_duration
 
     # Extract text from podcast script (remove "Patrick:" prefixes and stage directions)
     full_text_parts = []
@@ -3654,59 +2926,36 @@ Here is today's complete formatted digest. Use ONLY this content:
     full_text = fix_tesla_pronunciation(full_text)
 
     # Track character count (used for reporting; cost is provider-dependent)
-    if TTS_PROVIDER == "elevenlabs":
-        credit_usage["services"]["elevenlabs_api"]["characters"] = len(full_text)
-    logging.info(f"TTS: {len(full_text)} characters to synthesize (provider={TTS_PROVIDER})")
+    credit_usage["services"]["elevenlabs_api"]["characters"] = len(full_text)
+    logging.info(f"TTS: {len(full_text)} characters to synthesize (ElevenLabs)")
 
     # Generate voice file
     import time
     tts_start_time = time.time()
     try:
-        if TTS_PROVIDER == "elevenlabs":
-            logging.info("Generating voice track with ElevenLabs (Patrick voice)...")
-            validate_elevenlabs_auth()
-            voice_file = tmp_dir / "patrick_full.mp3"
-            speak(full_text, PATRICK_VOICE_ID, str(voice_file))
-            if not voice_file.exists():
-                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
+        logging.info("Generating voice track with ElevenLabs (Patrick voice)...")
+        validate_elevenlabs_auth()
+        voice_file = tmp_dir / "patrick_full.mp3"
+        speak(full_text, PATRICK_VOICE_ID, str(voice_file))
+        if not voice_file.exists():
+            raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
 
-            # Validate voice file size and duration
-            voice_file_size = voice_file.stat().st_size
-            if voice_file_size < 10000:  # Less than 10KB is suspicious
-                raise RuntimeError(f"Generated voice file is too small ({voice_file_size} bytes) - TTS likely failed")
+        # Validate voice file size and duration
+        voice_file_size = voice_file.stat().st_size
+        if voice_file_size < 10000:  # Less than 10KB is suspicious
+            raise RuntimeError(f"Generated voice file is too small ({voice_file_size} bytes) - TTS likely failed")
 
-            voice_audio_duration = get_audio_duration(voice_file)
-            expected_min_duration = len(full_text) / 20  # Rough estimate: ~20 chars per second
-            if voice_audio_duration < expected_min_duration * 0.1:  # Less than 10% of expected
-                raise RuntimeError(f"Generated voice duration ({voice_audio_duration:.2f}s) is suspiciously short for {len(full_text)} characters (expected ~{expected_min_duration:.2f}s)")
+        voice_audio_duration = get_audio_duration(voice_file)
+        expected_min_duration = len(full_text) / 20  # Rough estimate: ~20 chars per second
+        if voice_audio_duration < expected_min_duration * 0.1:  # Less than 10% of expected
+            raise RuntimeError(f"Generated voice duration ({voice_audio_duration:.2f}s) is suspiciously short for {len(full_text)} characters (expected ~{expected_min_duration:.2f}s)")
 
-            audio_files = [str(voice_file)]
-            tts_duration = time.time() - tts_start_time
-            logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
-        elif TTS_PROVIDER == "chatterbox":
-            logging.info("Generating voice track with Chatterbox (high-quality local model)...")
-            voice_file = tmp_dir / "patrick_full.wav"
-            _synthesize_with_chatterbox(full_text, voice_file)
-            if not voice_file.exists():
-                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
+        audio_files = [str(voice_file)]
+        tts_duration = time.time() - tts_start_time
+        logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
 
-            # Validate voice file size and duration
-            voice_file_size = voice_file.stat().st_size
-            if voice_file_size < 10000:  # Less than 10KB is suspicious
-                raise RuntimeError(f"Generated voice file is too small ({voice_file_size} bytes) - TTS likely failed")
-
-            voice_audio_duration = get_audio_duration(voice_file)
-            expected_min_duration = len(full_text) / 20  # Rough estimate: ~20 chars per second
-            if voice_audio_duration < expected_min_duration * 0.1:  # Less than 10% of expected
-                raise RuntimeError(f"Generated voice duration ({voice_audio_duration:.2f}s) is suspiciously short for {len(full_text)} characters (expected ~{expected_min_duration:.2f}s)")
-
-            audio_files = [str(voice_file)]
-            tts_duration = time.time() - tts_start_time
-            logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
-        else:
-            raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
     except Exception as e:
-        logging.error(f"❌ {TTS_PROVIDER.title()} TTS generation failed: {e}", exc_info=True)
+        logging.error(f"ElevenLabs TTS generation failed: {e}", exc_info=True)
         raise  # Re-raise to ensure workflow fails visibly
 
     # ========================== FINAL MIX ==========================

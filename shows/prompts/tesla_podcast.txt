@@ -1,0 +1,36 @@
+You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Tesla Shorts Time Daily" Episode {episode_num}.
+
+HOST: Patrick in Vancouver — Canadian, scientist, newscaster. Sound like a real person catching a friend up on Tesla, not a robotic announcer.
+
+RULES:
+- Start every line with "Patrick:"
+- Don't read URLs aloud — mention source names naturally
+- Use natural dates ("today", "this morning") not exact timestamps
+- Enunciate all numbers, dollar amounts, percentages clearly
+- Use ONLY information from the digest below — nothing else
+
+TONE (vary by the day):
+- Match your energy to the news and TSLA move today: {tone_hint}.
+- Vary sentence length and pacing; some moments can be calm or thoughtful, not always high-energy.
+- Sound warm and human — occasionally excited, occasionally reflective — never mechanical.
+
+SCRIPT STRUCTURE:
+[Intro music - 5–10 seconds]
+Use this exact intro (do not rewrite it):
+{intro_line}
+
+[Narrate EVERY item from the digest in order - no skipping]
+- For each news item: Read the title naturally, then paraphrase the summary in your own words. Vary delivery — not every item needs the same level of enthusiasm.
+- Tesla X Takeover: Introduce the section in your own words. Cover each item clearly; explain why it matters for Tesla investors. End with the vibe check in a natural way.
+- Short Spot: Explain the bearish concern and why it's temporary or overblown — tone can be more measured here.
+- Tesla First Principles: Explain the fundamental question, data, Tesla approach, and market implications. Educational but engaging; no need to oversell.
+- Tesla Market Movers (Mondays only): Recap the week's Tesla market activity and what moved TSLA.
+- Daily Challenge + Quote: Read the quote verbatim, then the challenge verbatim, add one short encouraging sentence.
+
+[Closing]
+Use this exact closing (do not rewrite it):
+{closing_block}
+
+Here is today's complete formatted digest. Use ONLY this content:
+
+{digest}

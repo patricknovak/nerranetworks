@@ -9,20 +9,20 @@
 
 Update this section as phases complete:
 
-- [ ] Phase 1A: engine/utils.py, engine/tts.py, engine/audio.py
-- [ ] Phase 1B: engine/publisher.py, engine/tracking.py, engine/fetcher.py
-- [ ] Phase 1C: Migrate omni_view.py to engine/
-- [ ] Phase 1D: Migrate fascinating_frontiers.py, planetterrian.py, tesla_shorts_time.py
-- [ ] Phase 2A: engine/config.py + show YAML configs + prompt extraction
-- [ ] Phase 2B: run_show.py + engine/generator.py
-- [ ] Phase 2C: Validate all 4 shows through run_show.py --test
-- [ ] Phase 3: Unified GitHub Actions workflow
-- [ ] Phase 4A: engine/storage.py for R2 + dual-write capability
-- [ ] Phase 4B: Migration scripts for existing episodes to R2
-- [ ] Phase 5: Environmental Intelligence show
-- [ ] Phase 6: Newsletter integration
-- [ ] Phase 7: Analytics + monetization prep
-- [ ] Phase 8: Final cleanup + merge prep
+- [x] Phase 1A: engine/utils.py, engine/tts.py, engine/audio.py
+- [x] Phase 1B: engine/publisher.py, engine/tracking.py, engine/fetcher.py
+- [x] Phase 1C: Migrate omni_view.py to engine/
+- [x] Phase 1D: Migrate fascinating_frontiers.py, planetterrian.py, tesla_shorts_time.py
+- [x] Phase 2A: engine/config.py + show YAML configs + prompt extraction
+- [x] Phase 2B: run_show.py + engine/generator.py
+- [x] Phase 2C: Validate all 4 shows through run_show.py --test
+- [x] Phase 3: Unified GitHub Actions workflow
+- [x] Phase 4A: engine/storage.py for R2 + dual-write capability
+- [x] Phase 4B: Migration scripts for existing episodes to R2
+- [x] Phase 5: Environmental Intelligence show
+- [x] Phase 6: Newsletter integration
+- [x] Phase 7: Analytics + monetization prep
+- [x] Phase 8: Final cleanup + merge prep
 
 ---
 
