@@ -20,16 +20,9 @@ Add these to your `.env` file:
 # Grok API (same as Tesla show)
 GROK_API_KEY=your_grok_api_key
 
-# TTS (Chatterbox local voice cloning)
-PLANETTERRIAN_TTS_PROVIDER=chatterbox
-CHATTERBOX_VOICE_PROMPT_PATH=/absolute/path/to/your_voice_sample.(wav|mp3)
-CHATTERBOX_DEVICE=cpu
-CHATTERBOX_EXAGGERATION=0.5
-CHATTERBOX_MAX_CHARS=600
-
-# Optional fallback: ElevenLabs (only needed if you switch PLANETTERRIAN_TTS_PROVIDER=elevenlabs)
-# ELEVENLABS_API_KEY=your_elevenlabs_api_key
-# ELEVENLABS_VOICE_ID=your_elevenlabs_voice_id  # optional
+# TTS (ElevenLabs)
+ELEVENLABS_API_KEY=your_elevenlabs_api_key
+# ELEVENLABS_VOICE_ID=your_elevenlabs_voice_id  # optional, uses default if not set
 
 # X API credentials for @planetterrian account
 PLANETTERRIAN_X_CONSUMER_KEY=your_consumer_key
@@ -48,10 +41,7 @@ If you want to run Planetterrian Daily automatically via GitHub Actions, add the
 
 **Required Secrets:**
 - `GROK_API_KEY` - Your Grok/X.AI API key (shared with Tesla show)
-- `PLANETTERRIAN_VOICE_PROMPT_BASE64` - Base64 of a short voice sample (5–10s) used for Chatterbox voice cloning
-
-**Optional Secrets (fallback only):**
-- `ELEVENLABS_API_KEY` - Only needed if you switch `PLANETTERRIAN_TTS_PROVIDER=elevenlabs`
+- `ELEVENLABS_API_KEY` - ElevenLabs TTS API key
 
 **Required for X Posting:**
 - `PLANETTERRIAN_X_CONSUMER_KEY` - X API consumer key for @planetterrian
@@ -61,40 +51,6 @@ If you want to run Planetterrian Daily automatically via GitHub Actions, add the
 - `PLANETTERRIAN_X_BEARER_TOKEN` - X API bearer token for @planetterrian (optional but recommended)
 
 **Note:** The GitHub Actions workflow (`.github/workflows/planetterrian-daily.yml`) will automatically use these secrets to create a `.env` file when running.
-
-## Voice Cloning (Chatterbox) – Creating Your Voice Prompt
-
-Chatterbox voice cloning in this project is **prompt-based**: each run conditions the voice on a short reference clip.
-
-### Option A (Recommended): Derive the prompt from an existing Planetterrian episode
-
-If you already have Planetterrian episode MP3s committed in `digests/planetterrian/`, you can **skip** providing a prompt file/secret.  
-The script will automatically extract a short voice-only window from the most recent episode and use it as the Chatterbox prompt.
-
-**Note:** This will clone the voice heard in those episodes (e.g., if older episodes were generated with ElevenLabs, you’ll be cloning that voice).
-
-### Option B: Provide your own prompt clip (local or GitHub Secrets)
-
-1. Record a clean voice sample (quiet room, no music), **5–10 seconds** is plenty.
-2. Convert it to a small MP3 (recommended for GitHub Secrets size limits):
-
-```bash
-ffmpeg -y -i input.wav -t 8 -ac 1 -ar 16000 -b:a 64k voice_prompt.mp3
-```
-
-3. Base64 encode it and save as the GitHub secret `PLANETTERRIAN_VOICE_PROMPT_BASE64`:
-
-- macOS (copies to clipboard):
-
-```bash
-base64 -i voice_prompt.mp3 | tr -d '\n' | pbcopy
-```
-
-- Linux:
-
-```bash
-base64 -w 0 voice_prompt.mp3
-```
 
 ## Running the Script
 
@@ -194,7 +150,7 @@ The RSS feed is automatically generated at:
 
 ## Notes
 
-- The podcast voice comes from a short voice sample (voice cloning via Chatterbox)
+- The podcast voice is generated via ElevenLabs TTS
 - Credit usage is tracked separately for Planetterrian
 - The RSS feed is separate from the Tesla show's feed
 - All files are organized in `digests/planetterrian/` subdirectory

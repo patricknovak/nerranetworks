@@ -594,18 +594,6 @@ except ImportError:
     USE_SHARED_PRONUNCIATION = False
     logging.warning("Could not import shared pronunciation module, using local implementation")
 
-# ========================== TTS PROVIDER ==========================
-def _normalize_tts_provider(value: str) -> str:
-    v = (value or "").strip().lower()
-    if not v:
-        return "chatterbox"
-    if v in {"elevenlabs", "eleven", "11labs", "11-labs"}:
-        return "elevenlabs"
-    if v in {"chatterbox", "chatterbox-tts", "chatterbox_tts", "cb"}:
-        return "chatterbox"
-    return v
-
-TTS_PROVIDER = _normalize_tts_provider(os.getenv("TESLA_SHORTS_TIME_TTS_PROVIDER", "elevenlabs"))
 
 def _env_float(name: str, default: float) -> float:
     raw = os.getenv(name)
@@ -639,32 +627,13 @@ def _env_bool(name: str, default: bool) -> bool:
     logging.warning(f"Invalid {name}='{raw}' (expected bool). Using default {default}.")
     return default
 
-# Chatterbox (local) TTS config
-CHATTERBOX_DEVICE = (os.getenv("CHATTERBOX_DEVICE", "cpu") or "cpu").strip().lower()
-CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.5)
-CHATTERBOX_MAX_CHARS = _env_int("CHATTERBOX_MAX_CHARS", 2000)  # Increased for Chatterbox - handles larger chunks better than Turbo, better for podcast quality
-CHATTERBOX_QUIET = _env_bool("CHATTERBOX_QUIET", True)
-HF_TOKEN = os.getenv("HF_TOKEN")  # Hugging Face token for Chatterbox-Turbo model access
-CHATTERBOX_VOICE_PROMPT_PATH = os.getenv("CHATTERBOX_VOICE_PROMPT_PATH", "").strip()
-CHATTERBOX_VOICE_PROMPT_BASE64 = os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64", "").strip()
-CHATTERBOX_PROMPT_OFFSET_SECONDS = _env_float("CHATTERBOX_PROMPT_OFFSET_SECONDS", 35.0)
-CHATTERBOX_PROMPT_DURATION_SECONDS = _env_float("CHATTERBOX_PROMPT_DURATION_SECONDS", 10.0)
 
 # Required keys (X credentials only required if posting is enabled)
 required = [
     "GROK_API_KEY"
 ]
 if ENABLE_PODCAST and not TEST_MODE:
-    if TTS_PROVIDER == "elevenlabs":
-        # ElevenLabs API required
-        required.append("ELEVENLABS_API_KEY")
-    elif TTS_PROVIDER == "chatterbox":
-        # Local model, no API key required. Voice prompt can be derived from Tesla Shorts Time episodes.
-        pass
-    else:
-        raise OSError(
-            f"Unknown TESLA_SHORTS_TIME_TTS_PROVIDER '{TTS_PROVIDER}'. Supported providers: 'elevenlabs', 'chatterbox'."
-        )
+    required.append("ELEVENLABS_API_KEY")
 if ENABLE_X_POSTING:
     required.extend([
         "X_CONSUMER_KEY",
@@ -676,12 +645,6 @@ for var in required:
     if not os.getenv(var):
         raise OSError(f"Missing {var} in .env")
 
-# Chatterbox voice cloning can use either an explicit prompt (path/base64) OR fall back to a prior Tesla Shorts Time episode audio.
-if ENABLE_PODCAST and not TEST_MODE and TTS_PROVIDER == "chatterbox":
-    if not os.getenv("CHATTERBOX_VOICE_PROMPT_PATH") and not os.getenv("CHATTERBOX_VOICE_PROMPT_BASE64"):
-        logging.info(
-            "Chatterbox voice prompt not provided via env; will attempt to derive a prompt from an existing Tesla Shorts Time episode MP3."
-        )
 
 # ========================== DATE & PRICE (MUST BE FIRST) ==========================
 # Get current date and time in PST
@@ -1054,7 +1017,7 @@ credit_usage = {
             "total_cost_usd": 0.0
         },
         "elevenlabs_api": {
-            "provider": TTS_PROVIDER,
+            "provider": "elevenlabs",
             "characters": 0,
             "estimated_cost_usd": 0.0
         },
@@ -1086,15 +1049,9 @@ def save_credit_usage(usage_data: dict, output_dir: Path):
             usage_data["services"]["x_api"]["post_calls"]
         )
         
-        # Calculate TTS cost (only applies if using a paid API provider like ElevenLabs)
-        tts_provider = str(usage_data["services"]["elevenlabs_api"].get("provider", "elevenlabs")).strip().lower()
-        if tts_provider == "elevenlabs":
-            # ElevenLabs pricing: ~$0.30 per 1000 characters for turbo model
-            elevenlabs_cost = (usage_data["services"]["elevenlabs_api"]["characters"] / 1000) * 0.30
-            usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = elevenlabs_cost
-        else:
-            # Chatterbox is local/free
-            usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = 0.0
+        # Calculate TTS cost (ElevenLabs pricing: ~$0.30 per 1000 characters for turbo model)
+        elevenlabs_cost = (usage_data["services"]["elevenlabs_api"]["characters"] / 1000) * 0.30
+        usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = elevenlabs_cost
         
         usage_data["total_estimated_cost_usd"] = (
             usage_data["services"]["grok_api"]["total_cost_usd"] +
@@ -3048,9 +3005,6 @@ Here is today's complete formatted digest. Use ONLY this content:
     logging.info("Podcast script generated with varied intro/outro and tone")
 
     # ========================== 3. TTS (VOICE) ==========================
-    logging.info(f"TTS provider selected: {TTS_PROVIDER}")
-    if TTS_PROVIDER not in ["elevenlabs", "chatterbox"]:
-        raise RuntimeError(f"Invalid TTS_PROVIDER: {TTS_PROVIDER}. Supported providers: 'elevenlabs', 'chatterbox'.")
 
     def _chunk_text(text: str, max_chars: int) -> List[str]:
         """Split long text into chunks for local TTS models."""
@@ -3082,324 +3036,8 @@ Here is today's complete formatted digest. Use ONLY this content:
 
         return chunks
 
-    def _prepare_chatterbox_voice_prompt(tmp_dir: Path) -> Path:
-        """
-        Return a local WAV file suitable for Chatterbox's audio_prompt_path.
-        
-        Priority order:
-        1. CHATTERBOX_VOICE_PROMPT_PATH (env var or direct path)
-        2. CHATTERBOX_VOICE_PROMPT_BASE64 (base64 encoded audio)
-        3. Permanent voice prompt in assets/voice_prompts/ (if exists)
-        4. Derive from Tesla Shorts Time episodes (preferred episode 354 or most recent)
-        """
-        import base64
 
-        created_src = False
-        episode_mode = False
-
-        if CHATTERBOX_VOICE_PROMPT_PATH:
-            src = Path(CHATTERBOX_VOICE_PROMPT_PATH).expanduser()
-        elif CHATTERBOX_VOICE_PROMPT_BASE64:
-            raw = base64.b64decode(CHATTERBOX_VOICE_PROMPT_BASE64)
-            src = tmp_dir / "chatterbox_voice_prompt_input.mp3"
-            src.write_bytes(raw)
-            created_src = True
-        else:
-            # Check for permanent voice prompt in assets directory (highest priority fallback)
-            assets_voice_prompts = project_root / "assets" / "voice_prompts"
-            if assets_voice_prompts.exists():
-                # Look for common voice prompt filenames (in priority order)
-                prompt_candidates = [
-                    assets_voice_prompts / "patrick_voice_prompt.wav",
-                    assets_voice_prompts / "voice_prompt.wav",
-                    assets_voice_prompts / "chatterbox_voice_prompt.wav",
-                ]
-                # Also check for any .wav files
-                existing_wavs = list(assets_voice_prompts.glob("*.wav"))
-                if existing_wavs:
-                    prompt_candidates.extend(existing_wavs)
-                
-                for prompt_file in prompt_candidates:
-                    if prompt_file.exists():
-                        logging.info(f"✅ Using permanent voice prompt: {prompt_file.name}")
-                        # Return the prompt file directly (no processing needed - already in correct format)
-                        return prompt_file
-            
-            # Fallback: derive from Tesla Shorts Time episodes
-            # Default: use episode 354 from December 12, 2025 as the voice clone source
-            # Fallback to most recent episode if specific one not found
-            preferred_episode = digests_dir / "Tesla_Shorts_Time_Pod_Ep354_20251212.mp3"
-            
-            if preferred_episode.exists():
-                src = preferred_episode
-                episode_mode = True
-                logging.info(f"Chatterbox voice prompt: using preferred episode 354 (Dec 12, 2025): {src.name}")
-            else:
-                # Fallback: use the most recent Tesla Shorts Time episode audio
-                candidates = sorted(
-                    list(digests_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3")),
-                    key=lambda p: p.stat().st_mtime,
-                    reverse=True,
-                )
-                if not candidates:
-                    raise RuntimeError(
-                        "No Tesla Shorts Time episode MP3s found to derive a Chatterbox voice prompt. "
-                        "Either commit at least one episode MP3, add a permanent voice prompt to "
-                        "assets/voice_prompts/, or set CHATTERBOX_VOICE_PROMPT_PATH / CHATTERBOX_VOICE_PROMPT_BASE64."
-                    )
-                src = candidates[0]
-                episode_mode = True
-                logging.info(f"Chatterbox voice prompt: preferred episode 354 not found, using most recent: {src.name}")
-
-        if not src.exists():
-            raise FileNotFoundError(f"Chatterbox voice prompt source not found: {src}")
-
-        # If src is already a WAV file (permanent prompt), return it directly
-        if src.suffix.lower() == '.wav' and not episode_mode and not created_src:
-            logging.info(f"Using permanent voice prompt file: {src}")
-            return src
-
-        prompt_wav = tmp_dir / "chatterbox_voice_prompt.wav"
-
-        if episode_mode:
-            subprocess.run(
-                [
-                    "ffmpeg",
-                    "-y",
-                    "-ss",
-                    f"{CHATTERBOX_PROMPT_OFFSET_SECONDS:.2f}",
-                    "-t",
-                    f"{CHATTERBOX_PROMPT_DURATION_SECONDS:.2f}",
-                    "-i",
-                    str(src),
-                    "-ac",
-                    "1",
-                    "-ar",
-                    "16000",
-                    "-c:a",
-                    "pcm_s16le",
-                    str(prompt_wav),
-                ],
-                check=True,
-                capture_output=True,
-            )
-        else:
-            subprocess.run(
-                ["ffmpeg", "-y", "-i", str(src), "-ac", "1", "-ar", "16000", "-c:a", "pcm_s16le", str(prompt_wav)],
-                check=True,
-                capture_output=True,
-            )
-
-        if created_src:
-            try:
-                src.unlink()
-            except Exception:
-                pass
-
-        return prompt_wav
-
-    def _synthesize_with_chatterbox(text: str, out_wav: Path):
-        """Generate a single WAV voice track using the local Chatterbox model + a voice prompt."""
-        import inspect
-        import contextlib
-
-        try:
-            import torch  # noqa: F401
-            import torchaudio as ta
-            from chatterbox.tts import ChatterboxTTS
-        except Exception as exc:
-            raise RuntimeError(
-                "Chatterbox dependencies missing. Install chatterbox-tts and ensure Chatterbox model is available."
-            ) from exc
-
-        prompt_wav = _prepare_chatterbox_voice_prompt(tmp_dir)
-        chunks = _chunk_text(text, CHATTERBOX_MAX_CHARS)
-        if not chunks:
-            raise RuntimeError("No text provided for TTS.")
-
-        logging.info(f"Chatterbox: generating {len(chunks)} chunks (max {CHATTERBOX_MAX_CHARS} chars each) on device={CHATTERBOX_DEVICE}")
-
-        # Set Hugging Face token for authentication if available
-        if HF_TOKEN:
-            import huggingface_hub
-            huggingface_hub.login(HF_TOKEN)
-            logging.info("✅ Logged into Hugging Face Hub with token")
-
-        # Initialize Chatterbox (high-quality model with creative controls)
-        model = ChatterboxTTS.from_pretrained(device=CHATTERBOX_DEVICE)
-        sr = getattr(model, "sr", 24000)  # Chatterbox uses 24kHz by default
-
-        # Configure optimal settings for podcast quality
-        base_kwargs = {
-            "audio_prompt_path": str(prompt_wav),
-            "cfg_weight": 0.5,  # Balanced control - helps maintain voice consistency
-            "exaggeration": 0.4  # Slightly lower for natural podcast delivery
-        }
-
-        # Generate chunks in parallel for maximum speed
-        def generate_single_chunk(chunk_data):
-            """Generate a single chunk with retry logic."""
-            i, chunk = chunk_data
-            chunk_path = tmp_dir / f"chatterbox_chunk_{i:03d}.wav"
-
-            # Retry logic for failed chunks
-            max_retries = 3
-            retry_count = 0
-            chunk_success = False
-
-            while retry_count < max_retries and not chunk_success:
-                try:
-                    if retry_count > 0:
-                        logging.info(f"Retrying chunk {i} (attempt {retry_count + 1}/{max_retries})...")
-
-                    with open(os.devnull, "w") as devnull:
-                        redir = (
-                            contextlib.redirect_stdout(devnull),
-                            contextlib.redirect_stderr(devnull),
-                        ) if CHATTERBOX_QUIET else ()
-                        with contextlib.ExitStack() as stack:
-                            for ctx in redir:
-                                stack.enter_context(ctx)
-                            # Generate with optimal podcast quality settings
-                            wav = model.generate(chunk, **base_kwargs)
-                            logging.debug(f"Model returned audio with shape: {wav.shape if hasattr(wav, 'shape') else 'unknown'}")
-                    if hasattr(wav, "detach"):
-                        wav = wav.detach().cpu()
-                    if getattr(wav, "ndim", 0) == 1:
-                        wav = wav.unsqueeze(0)
-
-                    # Validate generated audio
-                    if wav is None or (hasattr(wav, "numel") and wav.numel() == 0):
-                        raise RuntimeError(f"Chatterbox generated empty audio for chunk {i}")
-
-                    # Check audio duration (estimate: samples / sample_rate)
-                    num_samples = wav.shape[-1] if hasattr(wav, "shape") else 0
-                    duration_seconds = num_samples / sr if num_samples > 0 else 0
-
-                    # Check if chunk is suspiciously short
-                    expected_min_duration = len(chunk) / 20  # Rough estimate: ~20 chars per second
-                    min_acceptable_duration = expected_min_duration * 0.4  # At least 40% of expected for Chatterbox (more reliable than Turbo)
-
-                    if duration_seconds < min_acceptable_duration:
-                        if retry_count < max_retries - 1:
-                            logging.warning(f"⚠️ Chunk {i} generated short audio: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s) - will retry")
-                            retry_count += 1
-                            import time
-                            time.sleep(2)  # Brief pause before retry
-                            continue
-                        else:
-                            # Chatterbox is more reliable than Turbo, but if retries fail, accept reasonable audio
-                            min_final_duration = 5.0  # Higher threshold since Chatterbox should perform better
-                            if duration_seconds > min_final_duration:
-                                logging.warning(f"⚠️ Chunk {i} generated short audio after {max_retries} attempts: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s) - accepting with warning")
-                                # Continue processing - we'll concatenate what we have
-                            else:
-                                raise RuntimeError(f"Chunk {i} generated critically short audio after {max_retries} attempts: {duration_seconds:.2f}s (expected ~{expected_min_duration:.2f}s for {len(chunk)} chars)")
-
-                    ta.save(str(chunk_path), wav, sr)
-
-                    # Verify file was created and has content
-                    if not chunk_path.exists():
-                        raise RuntimeError(f"Failed to save chunk {i} to {chunk_path}")
-                    chunk_size = chunk_path.stat().st_size
-                    if chunk_size < 1000:  # Less than 1KB is suspicious
-                        if retry_count < max_retries - 1:
-                            logging.warning(f"⚠️ Chunk {i} file is too small ({chunk_size} bytes) - will retry")
-                            retry_count += 1
-                            import time
-                            time.sleep(2)
-                            continue
-                        else:
-                            raise RuntimeError(f"Chunk {i} file is too small ({chunk_size} bytes) after {max_retries} attempts - TTS may have failed")
-
-                    logging.info(f"✅ Chunk {i} generated: {duration_seconds:.2f}s ({chunk_size} bytes)")
-                    return chunk_path
-
-                except Exception as e:
-                    if retry_count < max_retries - 1:
-                        logging.warning(f"⚠️ Error generating chunk {i} (attempt {retry_count + 1}): {e} - will retry")
-                        retry_count += 1
-                        import time
-                        time.sleep(2)
-                        continue
-                    else:
-                        logging.error(f"❌ Failed to generate chunk {i}/{len(chunks)} after {max_retries} attempts: {e}", exc_info=True)
-                        raise RuntimeError(f"TTS generation failed for chunk {i} after {max_retries} retries: {e}") from e
-
-            raise RuntimeError(f"Failed to generate chunk {i} after {max_retries} attempts")
-
-        # Process chunks in parallel
-        logging.info(f"🚀 Generating {len(chunks)} chunks in parallel (up to 4 concurrent)...")
-
-        from concurrent.futures import ThreadPoolExecutor, as_completed
-        chunk_data = list(enumerate(chunks, 1))
-
-        chunk_paths: List[Path] = []
-        with ThreadPoolExecutor(max_workers=4) as executor:  # Limit to 4 concurrent to avoid resource issues
-            future_to_chunk = {executor.submit(generate_single_chunk, data): data[0] for data in chunk_data}
-
-            for future in as_completed(future_to_chunk):
-                chunk_num = future_to_chunk[future]
-                try:
-                    chunk_path = future.result()
-                    chunk_paths.append(chunk_path)
-                    logging.info(f"✅ Chunk {chunk_num} completed")
-                except Exception as exc:
-                    logging.error(f"❌ Chunk {chunk_num} failed: {exc}")
-                    raise
-
-        # Sort chunk paths by chunk number to ensure proper concatenation order
-        chunk_paths.sort(key=lambda x: int(x.stem.split('_')[-1]))
-
-        concat_list = tmp_dir / "chatterbox_concat.txt"
-        with open(concat_list, "w", encoding="utf-8") as f:
-            for p in chunk_paths:
-                f.write(f"file '{p}'\n")
-
-        subprocess.run(
-            ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_list), "-ac", "1", "-c:a", "pcm_s16le", str(out_wav)],
-            check=True,
-            capture_output=True,
-        )
-        
-        # Validate final concatenated audio file
-        if not out_wav.exists():
-            raise RuntimeError(f"Failed to create concatenated audio file: {out_wav}")
-        
-        final_size = out_wav.stat().st_size
-        if final_size < 10000:  # Less than 10KB is suspicious for any podcast
-            raise RuntimeError(f"Concatenated audio file is too small ({final_size} bytes) - TTS generation likely failed")
-        
-        # Check duration using ffprobe
-        try:
-            duration_check = subprocess.run(
-                ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", str(out_wav)],
-                capture_output=True,
-                text=True,
-                check=True,
-            )
-            duration = float(duration_check.stdout.strip())
-            expected_min_duration = len(text) / 20  # Rough estimate: ~20 chars per second
-            if duration < expected_min_duration * 0.1:  # Less than 10% of expected
-                raise RuntimeError(f"Final audio duration ({duration:.2f}s) is suspiciously short for {len(text)} characters (expected ~{expected_min_duration:.2f}s)")
-            logging.info(f"✅ Final concatenated audio: {duration:.2f}s ({final_size} bytes)")
-        except Exception as e:
-            logging.warning(f"Could not verify audio duration: {e}")
-            # Don't fail if duration check fails, but log it
-
-        # Cleanup intermediate chunk files
-        try:
-            for p in chunk_paths:
-                if p.exists():
-                    p.unlink()
-            if concat_list.exists():
-                concat_list.unlink()
-            if prompt_wav.exists():
-                prompt_wav.unlink()
-        except Exception:
-            pass
-
-    # ElevenLabs helper (only used when TTS_PROVIDER == "elevenlabs")
+    # ElevenLabs helper
     PATRICK_VOICE_ID = ELEVEN_VOICE_ID
 
     def validate_elevenlabs_auth():
@@ -3654,59 +3292,36 @@ Here is today's complete formatted digest. Use ONLY this content:
     full_text = fix_tesla_pronunciation(full_text)
 
     # Track character count (used for reporting; cost is provider-dependent)
-    if TTS_PROVIDER == "elevenlabs":
-        credit_usage["services"]["elevenlabs_api"]["characters"] = len(full_text)
-    logging.info(f"TTS: {len(full_text)} characters to synthesize (provider={TTS_PROVIDER})")
+    credit_usage["services"]["elevenlabs_api"]["characters"] = len(full_text)
+    logging.info(f"TTS: {len(full_text)} characters to synthesize (ElevenLabs)")
 
     # Generate voice file
     import time
     tts_start_time = time.time()
     try:
-        if TTS_PROVIDER == "elevenlabs":
-            logging.info("Generating voice track with ElevenLabs (Patrick voice)...")
-            validate_elevenlabs_auth()
-            voice_file = tmp_dir / "patrick_full.mp3"
-            speak(full_text, PATRICK_VOICE_ID, str(voice_file))
-            if not voice_file.exists():
-                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
+        logging.info("Generating voice track with ElevenLabs (Patrick voice)...")
+        validate_elevenlabs_auth()
+        voice_file = tmp_dir / "patrick_full.mp3"
+        speak(full_text, PATRICK_VOICE_ID, str(voice_file))
+        if not voice_file.exists():
+            raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
 
-            # Validate voice file size and duration
-            voice_file_size = voice_file.stat().st_size
-            if voice_file_size < 10000:  # Less than 10KB is suspicious
-                raise RuntimeError(f"Generated voice file is too small ({voice_file_size} bytes) - TTS likely failed")
+        # Validate voice file size and duration
+        voice_file_size = voice_file.stat().st_size
+        if voice_file_size < 10000:  # Less than 10KB is suspicious
+            raise RuntimeError(f"Generated voice file is too small ({voice_file_size} bytes) - TTS likely failed")
 
-            voice_audio_duration = get_audio_duration(voice_file)
-            expected_min_duration = len(full_text) / 20  # Rough estimate: ~20 chars per second
-            if voice_audio_duration < expected_min_duration * 0.1:  # Less than 10% of expected
-                raise RuntimeError(f"Generated voice duration ({voice_audio_duration:.2f}s) is suspiciously short for {len(full_text)} characters (expected ~{expected_min_duration:.2f}s)")
+        voice_audio_duration = get_audio_duration(voice_file)
+        expected_min_duration = len(full_text) / 20  # Rough estimate: ~20 chars per second
+        if voice_audio_duration < expected_min_duration * 0.1:  # Less than 10% of expected
+            raise RuntimeError(f"Generated voice duration ({voice_audio_duration:.2f}s) is suspiciously short for {len(full_text)} characters (expected ~{expected_min_duration:.2f}s)")
 
-            audio_files = [str(voice_file)]
-            tts_duration = time.time() - tts_start_time
-            logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
-        elif TTS_PROVIDER == "chatterbox":
-            logging.info("Generating voice track with Chatterbox (high-quality local model)...")
-            voice_file = tmp_dir / "patrick_full.wav"
-            _synthesize_with_chatterbox(full_text, voice_file)
-            if not voice_file.exists():
-                raise FileNotFoundError(f"TTS generation failed: voice file not created at {voice_file}")
+        audio_files = [str(voice_file)]
+        tts_duration = time.time() - tts_start_time
+        logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
 
-            # Validate voice file size and duration
-            voice_file_size = voice_file.stat().st_size
-            if voice_file_size < 10000:  # Less than 10KB is suspicious
-                raise RuntimeError(f"Generated voice file is too small ({voice_file_size} bytes) - TTS likely failed")
-
-            voice_audio_duration = get_audio_duration(voice_file)
-            expected_min_duration = len(full_text) / 20  # Rough estimate: ~20 chars per second
-            if voice_audio_duration < expected_min_duration * 0.1:  # Less than 10% of expected
-                raise RuntimeError(f"Generated voice duration ({voice_audio_duration:.2f}s) is suspiciously short for {len(full_text)} characters (expected ~{expected_min_duration:.2f}s)")
-
-            audio_files = [str(voice_file)]
-            tts_duration = time.time() - tts_start_time
-            logging.info(f"✅ Generated complete voice track: {voice_file} ({voice_audio_duration:.2f}s audio, {tts_duration:.1f}s generation time, {len(full_text)/tts_duration:.1f} chars/sec)")
-        else:
-            raise RuntimeError(f"Unsupported TTS provider: {TTS_PROVIDER}")
     except Exception as e:
-        logging.error(f"❌ {TTS_PROVIDER.title()} TTS generation failed: {e}", exc_info=True)
+        logging.error(f"ElevenLabs TTS generation failed: {e}", exc_info=True)
         raise  # Re-raise to ensure workflow fails visibly
 
     # ========================== FINAL MIX ==========================
