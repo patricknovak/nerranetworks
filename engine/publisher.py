@@ -21,6 +21,28 @@ logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
+# Analytics prefix
+# ---------------------------------------------------------------------------
+
+def apply_op3_prefix(url: str, prefix_url: str = "https://op3.dev/e/") -> str:
+    """Prepend the OP3 analytics prefix to an audio URL.
+
+    For HTTPS URLs, the ``https://`` scheme is stripped before prepending.
+    For HTTP URLs, the full original URL (with scheme) is appended.
+
+    Example::
+
+        >>> apply_op3_prefix("https://cdn.example.com/ep1.mp3")
+        'https://op3.dev/e/cdn.example.com/ep1.mp3'
+    """
+    if url.startswith("https://"):
+        return prefix_url + url[len("https://"):]
+    if url.startswith("http://"):
+        return prefix_url + url
+    return prefix_url + url
+
+
+# ---------------------------------------------------------------------------
 # RSS feed update
 # ---------------------------------------------------------------------------
 

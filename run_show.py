@@ -297,6 +297,13 @@ def run(args: argparse.Namespace) -> None:
         if r2_audio_url:
             logger.info("R2 audio URL: %s", r2_audio_url)
 
+    # 10c. Apply OP3 analytics prefix (if enabled)
+    rss_audio_url = r2_audio_url
+    if config.analytics.enabled and rss_audio_url:
+        from engine.publisher import apply_op3_prefix
+        rss_audio_url = apply_op3_prefix(rss_audio_url, config.analytics.prefix_url)
+        logger.info("OP3 prefixed URL: %s", rss_audio_url)
+
     # 11. Update RSS feed
     if final_mp3 and final_mp3.exists():
         from engine.publisher import update_rss_feed
@@ -304,6 +311,14 @@ def run(args: argparse.Namespace) -> None:
 
         episode_title = f"{config.name} - Episode {episode_num} - {today_str}"
         episode_desc = x_thread[:500] + "..." if len(x_thread) > 500 else x_thread
+
+        # If no R2 URL but analytics is enabled, build URL and prefix it
+        feed_audio_url = rss_audio_url
+        if not feed_audio_url and config.analytics.enabled:
+            from engine.publisher import apply_op3_prefix
+            raw_url = f"{config.publishing.base_url}/{config.publishing.audio_subdir}/{final_mp3.name}"
+            feed_audio_url = apply_op3_prefix(raw_url, config.analytics.prefix_url)
+            logger.info("OP3 prefixed URL: %s", feed_audio_url)
 
         logger.info("Updating RSS feed: %s", config.publishing.rss_file)
         update_rss_feed(
@@ -327,7 +342,7 @@ def run(args: argparse.Namespace) -> None:
             channel_category=config.publishing.rss_category,
             guid_prefix=config.publishing.guid_prefix,
             format_duration_func=format_duration,
-            audio_url=r2_audio_url,  # Use R2 URL if available
+            audio_url=feed_audio_url,  # Use R2/OP3-prefixed URL if available
         )
 
     # 12. Save GitHub Pages summary
