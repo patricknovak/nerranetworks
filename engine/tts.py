@@ -1,6 +1,7 @@
 """ElevenLabs TTS helpers for the podcast generation pipeline.
 
 Provides:
+  - synthesize(): top-level entry point — text in, audio file out
   - validate_elevenlabs_auth(): fail-fast API key check
   - chunk_text(): sentence-aware text splitting for the 5000-char API limit
   - speak_chunk(): single-chunk TTS with retry
@@ -270,3 +271,42 @@ def speak(
                 concat_list.unlink()
         except Exception:
             pass
+
+
+def synthesize(
+    text: str,
+    voice_id: str,
+    output_path: str | Path,
+    *,
+    api_key: str,
+    max_chars: int = 4500,
+    model_id: str = "eleven_turbo_v2_5",
+    stability: float = 0.35,
+    similarity_boost: float = 0.75,
+    style: float = 0.2,
+    stream: bool = True,
+    timeout: int = 120,
+    append_exclamation: bool = True,
+) -> Path:
+    """Top-level entry point: text in, audio file path out.
+
+    Handles chunking and concatenation internally so callers just pass
+    text and get back a path.  Default voice settings match Omni View's
+    env-var-driven approach; callers can override per show.
+    """
+    output_path = Path(output_path)
+    speak(
+        text,
+        voice_id,
+        str(output_path),
+        api_key=api_key,
+        max_chars=max_chars,
+        model_id=model_id,
+        stability=stability,
+        similarity_boost=similarity_boost,
+        style=style,
+        stream=stream,
+        timeout=timeout,
+        append_exclamation=append_exclamation,
+    )
+    return output_path

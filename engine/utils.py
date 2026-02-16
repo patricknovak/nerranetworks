@@ -2,14 +2,15 @@
 
 Extracted from the 4 show runner scripts to eliminate duplication.
 Canonical versions chosen for robustness:
-  - _env_float/int/bool: from planetterrian.py (handles None, strips whitespace)
+  - env_float/int/bool: from planetterrian.py (handles None, strips whitespace)
   - number_to_words: identical across all 4 scripts
   - calculate_similarity / remove_similar_items: identical across TST/FF/PT
-  - format_duration: from omni_view.py (handles zero/negative edge case)
+  - norm_headline_for_similarity / filter_articles_by_recent_stories: from TST
 """
 
 import logging
 import os
+import re
 from difflib import SequenceMatcher
 
 logger = logging.getLogger(__name__)
@@ -191,3 +192,77 @@ def remove_similar_items(items, similarity_threshold=0.7, get_text_func=None):
             filtered.append(item)
 
     return filtered
+
+
+def norm_headline_for_similarity(text: str) -> str:
+    """Normalize headline for similarity comparison.
+
+    Strips trailing date patterns, source labels, and extra whitespace so
+    that cross-day deduplication compares only the meaningful portion.
+    """
+    if not text:
+        return ""
+    # Remove "DD Month, YYYY, HH:MM AM/PM TZ, Source" suffixes
+    t = re.sub(
+        r"\d{1,2}\s+(?:January|February|March|April|May|June|July|August|"
+        r"September|October|November|December)[a-z]*\s*,?\s*\d{4}[^*]*$",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    )
+    # Remove "DD/MM/YYYY …" suffixes
+    t = re.sub(r"\d{1,2}/\d{1,2}/\d{2,4}[^*]*$", "", t)
+    t = " ".join(t.lower().split())
+    return t.strip()
+
+
+def filter_articles_by_recent_stories(
+    articles: list,
+    recent_headlines: list,
+    similarity_threshold: float = 0.72,
+) -> list:
+    """Drop articles whose title is too similar to a recently covered story.
+
+    Used for cross-day deduplication so the same headline doesn't appear in
+    consecutive episodes.
+    """
+    if not recent_headlines or not articles:
+        return articles
+    filtered = []
+    recent_norm = [norm_headline_for_similarity(h) for h in recent_headlines if h]
+    for article in articles:
+        title = (article.get("title") or "").strip()
+        if not title:
+            filtered.append(article)
+            continue
+        norm_title = norm_headline_for_similarity(title)
+        is_covered = False
+        for r in recent_norm:
+            if not r:
+                continue
+            if calculate_similarity(norm_title, r) >= similarity_threshold:
+                is_covered = True
+                logger.debug(
+                    "Skipping already-covered story (similar to recent): %s...",
+                    title[:60],
+                )
+                break
+        if not is_covered:
+            filtered.append(article)
+    dropped = len(articles) - len(filtered)
+    if dropped:
+        logger.info(
+            "Filtered %d articles that were too similar to recently covered stories",
+            dropped,
+        )
+    return filtered
+
+
+# ---------------------------------------------------------------------------
+# HTTP constants
+# ---------------------------------------------------------------------------
+
+DEFAULT_HEADERS = {
+    "User-Agent": "PodcastBot/1.0 (+https://github.com/patricknovak/Tesla-shorts-time)"
+}
+HTTP_TIMEOUT_SECONDS = 10
