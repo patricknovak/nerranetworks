@@ -17,7 +17,7 @@ Update this section as phases complete:
 - [x] Phase 2B: run_show.py + engine/generator.py
 - [x] Phase 2C: Validate all 4 shows through run_show.py --test
 - [x] Phase 3: Unified GitHub Actions workflow
-- [ ] Phase 4A: engine/storage.py for R2 + dual-write capability
+- [x] Phase 4A: engine/storage.py for R2 + dual-write capability
 - [ ] Phase 4B: Migration scripts for existing episodes to R2
 - [ ] Phase 5: Environmental Intelligence show
 - [ ] Phase 6: Newsletter integration

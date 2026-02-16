@@ -98,6 +98,16 @@ class EpisodeConfig:
 
 
 @dataclass
+class StorageConfig:
+    provider: str = "github"  # "github" (default) or "r2"
+    bucket: str = "podcast-audio"
+    endpoint_env: str = "R2_ENDPOINT_URL"
+    access_key_env: str = "R2_ACCESS_KEY_ID"
+    secret_key_env: str = "R2_SECRET_ACCESS_KEY"
+    public_base_url: str = ""
+
+
+@dataclass
 class ShowConfig:
     name: str = ""
     slug: str = ""
@@ -109,6 +119,7 @@ class ShowConfig:
     audio: AudioConfig = field(default_factory=AudioConfig)
     publishing: PublishingConfig = field(default_factory=PublishingConfig)
     episode: EpisodeConfig = field(default_factory=EpisodeConfig)
+    storage: StorageConfig = field(default_factory=StorageConfig)
 
 
 # ---------------------------------------------------------------------------
@@ -165,6 +176,7 @@ def load_config(yaml_path: str | Path) -> ShowConfig:
         audio=_build_nested(AudioConfig, data.get("audio")),
         publishing=_build_nested(PublishingConfig, data.get("publishing")),
         episode=_build_nested(EpisodeConfig, data.get("episode")),
+        storage=_build_nested(StorageConfig, data.get("storage")),
     )
     logger.info("Loaded config for '%s' from %s", config.name, path)
     return config

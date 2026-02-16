@@ -286,6 +286,14 @@ def run(args: argparse.Namespace) -> None:
             if raw_mp3.exists() and final_mp3.exists() and raw_mp3 != final_mp3:
                 raw_mp3.unlink(missing_ok=True)
 
+    # 10b. Upload to R2 (if configured)
+    r2_audio_url = None
+    if final_mp3 and final_mp3.exists():
+        from engine.storage import upload_episode
+        r2_audio_url = upload_episode(final_mp3, config)
+        if r2_audio_url:
+            logger.info("R2 audio URL: %s", r2_audio_url)
+
     # 11. Update RSS feed
     if final_mp3 and final_mp3.exists():
         from engine.publisher import update_rss_feed
@@ -316,14 +324,15 @@ def run(args: argparse.Namespace) -> None:
             channel_category=config.publishing.rss_category,
             guid_prefix=config.publishing.guid_prefix,
             format_duration_func=format_duration,
+            audio_url=r2_audio_url,  # Use R2 URL if available
         )
 
     # 12. Save GitHub Pages summary
     from engine.publisher import save_summary_to_github_pages
 
     summaries_json = PROJECT_ROOT / config.publishing.summaries_json
-    audio_url = None
-    if final_mp3 and final_mp3.exists():
+    audio_url = r2_audio_url  # Prefer R2 URL
+    if not audio_url and final_mp3 and final_mp3.exists():
         audio_url = (
             f"{config.publishing.base_url}/{config.publishing.audio_subdir}/{final_mp3.name}"
         )
