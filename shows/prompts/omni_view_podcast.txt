@@ -1,0 +1,28 @@
+# Omni View Podcast Script Generation
+# NOTE: Omni View uses procedural script generation (not LLM-based).
+# The generate_omni_view_script() function in omni_view.py parses the
+# markdown briefing and builds a spoken script programmatically.
+#
+# This file documents the script structure for reference:
+#
+# INTRO:
+#   "Good morning. This is Omni View — balanced news perspectives."
+#   "Today is {date_human}."
+#   "We'll cover what happened, how different viewpoints frame it —
+#    so you can decide for yourself."
+#
+# BODY (up to 7 stories from the briefing):
+#   For each story:
+#   - Section intro (e.g., "First, here are the top stories of the day.")
+#   - Transition phrase between stories
+#   - Story title
+#   - What happened summary
+#   - Perspectives summary
+#   - One question to consider
+#
+# CLOSING:
+#   "That's Omni View."
+#   "For full source links and more context, open today's written briefing
+#    on the Omni View summaries page."
+#   "As always: compare outlets, look for primary documents, and separate
+#    what's known from what's assumed."

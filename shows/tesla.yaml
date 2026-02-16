@@ -1,0 +1,120 @@
+name: Tesla Shorts Time
+slug: tesla
+description: Daily Tesla news digest and podcast covering the latest developments, stock updates, and market analysis.
+
+sources:
+  - url: https://www.teslarati.com/feed/
+    label: Teslarati
+  - url: https://www.theverge.com/rss/tesla/index.xml
+    label: The Verge
+  - url: https://www.findmyelectric.com/feed/
+    label: Find My Electric
+  - url: https://insideevs.com/rss/
+    label: InsideEVs
+  - url: https://cleantechnica.com/tag/tesla/feed/
+    label: CleanTechnica
+  - url: https://www.thedrive.com/category/tesla-news/feed
+    label: The Drive
+  - url: https://whatsuptesla.com/feed
+    label: WhatsUpTesla
+  - url: https://www.notateslaapp.com/news/rss
+    label: Not A Tesla App
+  - url: https://www.tesmanian.com/blogs/tesmanian-blog.atom
+    label: Tesmanian
+  - url: https://driveteslacanada.ca/feed/
+    label: Drive Tesla Canada
+  - url: https://www.tesery.com/en-in/blogs/news.atom
+    label: Tesery
+  - url: https://www.webpronews.com/search/tesla/feed/rss2/
+    label: WebProNews
+  - url: https://www.autoblog.com/rss.xml
+    label: Autoblog
+  - url: https://www.greencarreports.com/rss.xml
+    label: Green Car Reports
+  - url: http://feeds.feedburner.com/teslanorth
+    label: Tesla North
+  - url: https://www.torquenews.com/rss/tesla
+    label: Torque News
+
+keywords:
+  - tesla
+  - tsla
+  - model 3
+  - model y
+  - model s
+  - model x
+  - cybertruck
+  - roadster
+  - semi
+  - robotaxi
+  - optimus
+  - fsd
+  - full self-driving
+  - autopilot
+  - supercharger
+  - giga
+  - gigafactory
+  - gigatexas
+  - gigaberlin
+  - gigashanghai
+  - "4680"
+  - lfp
+  - hw4
+  - hw5
+  - ai5
+  - tesla energy
+  - powerwall
+  - megapack
+  - solar roof
+  - tesla charging
+
+llm:
+  provider: xai
+  model: grok-3
+  system_prompt_file: shows/prompts/tesla_system.txt
+  digest_prompt_file: shows/prompts/tesla_digest.txt
+  podcast_prompt_file: shows/prompts/tesla_podcast.txt
+
+tts:
+  voice_id: dTrBzPvD2GpAqkk1MUzA
+  model: eleven_turbo_v2_5
+  stability: 0.65
+  similarity_boost: 0.9
+  style: 0.85
+  use_speaker_boost: true
+  max_chars: 5000
+
+audio:
+  music_file: tesla_shorts_time.mp3
+  intro_duration: 5.0
+  overlap_duration: 3.0
+  fade_duration: 18.0
+  outro_duration: 30.0
+  intro_volume: 0.6
+  overlap_volume: 0.5
+  fade_volume: 0.4
+  outro_volume: 0.4
+
+publishing:
+  rss_file: podcast.rss
+  rss_title: Tesla Shorts Time Daily
+  rss_description: A daily podcast covering the latest Tesla news, stock prices, and industry insights.
+  rss_summary: Daily Tesla news digest and podcast covering the latest developments, stock updates, and market analysis.
+  rss_link: https://github.com/patricknovak/Tesla-shorts-time
+  rss_author: Patrick
+  rss_email: contact@teslashortstime.com
+  rss_image: podcast-image-v3.jpg
+  rss_category: Technology
+  guid_prefix: tesla-shorts-time
+  base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
+  audio_subdir: digests
+  summaries_json: digests/summaries_tesla.json
+  summaries_podcast_name: tesla
+  x_enabled: true
+  x_env_prefix: "X_"
+
+episode:
+  prefix: Tesla_Shorts_Time_Pod
+  filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d_%H%M%S}.mp3"
+  output_dir: digests
+  mp3_glob: "Tesla_Shorts_Time_Pod_Ep*.mp3"

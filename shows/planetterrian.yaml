@@ -1,0 +1,140 @@
+name: Planetterrian Daily
+slug: planetterrian
+description: Daily science, longevity, and health discoveries. Technology as a force for good, sustainability, and environmental consciousness.
+
+sources:
+  - url: https://www.nature.com/nature.rss
+    label: Nature
+  - url: https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science
+    label: Science Magazine
+  - url: https://www.cell.com/cell/current.rss
+    label: Cell
+  - url: https://www.cell.com/cell-metabolism/current.rss
+    label: Cell Metabolism
+  - url: https://www.cell.com/cell-stem-cell/current.rss
+    label: Cell Stem Cell
+  - url: https://www.nature.com/nbt.rss
+    label: Nature Biotech
+  - url: https://www.nature.com/nm.rss
+    label: Nature Medicine
+  - url: https://www.nature.com/nmeth.rss
+    label: Nature Methods
+  - url: https://www.newscientist.com/feed/home/
+    label: New Scientist
+  - url: https://www.scientificamerican.com/rss/
+    label: Scientific American
+  - url: https://www.sciencedaily.com/rss/all.xml
+    label: ScienceDaily
+  - url: https://www.sciencenews.org/feed
+    label: Science News
+  - url: https://www.quantamagazine.org/feed/
+    label: Quanta Magazine
+  - url: https://www.technologyreview.com/feed/
+    label: MIT Tech Review
+  - url: https://www.the-scientist.com/rss
+    label: The Scientist
+  - url: https://feeds.feedburner.com/longevity-technology
+    label: Longevity Technology
+  - url: https://www.lifespan.io/feed/
+    label: Lifespan.io
+  - url: https://www.longevity.technology/feed/
+    label: Longevity Tech
+  - url: https://www.harvard.edu/feed/
+    label: Harvard
+  - url: https://news.mit.edu/rss/topic/health
+    label: MIT Health
+  - url: https://www.stanford.edu/news/rss/
+    label: Stanford
+  - url: https://www.mayo.edu/research/rss
+    label: Mayo Clinic
+  - url: https://www.clevelandclinic.org/health/rss
+    label: Cleveland Clinic
+
+keywords:
+  - longevity
+  - anti-aging
+  - aging
+  - lifespan
+  - healthspan
+  - biotechnology
+  - genetics
+  - genomics
+  - CRISPR
+  - gene therapy
+  - medicine
+  - medical
+  - health
+  - wellness
+  - nutrition
+  - diet
+  - research
+  - study
+  - clinical trial
+  - discovery
+  - breakthrough
+  - science
+  - scientific
+  - biotech
+  - cancer
+  - disease
+  - treatment
+  - therapy
+  - vaccine
+  - brain
+  - neuroscience
+  - cognitive
+  - mental health
+  - exercise
+  - fitness
+  - metabolism
+  - mitochondria
+
+llm:
+  provider: xai
+  model: grok-3
+  digest_prompt_file: shows/prompts/planetterrian_digest.txt
+  podcast_prompt_file: shows/prompts/planetterrian_podcast.txt
+
+tts:
+  voice_id: dTrBzPvD2GpAqkk1MUzA
+  model: eleven_turbo_v2_5
+  stability: 0.65
+  similarity_boost: 0.9
+  style: 0.85
+  use_speaker_boost: true
+  max_chars: 5000
+
+audio:
+  music_file: science-daily.mp3
+  intro_duration: 5.0
+  overlap_duration: 3.0
+  fade_duration: 18.0
+  outro_duration: 25.0
+  intro_volume: 0.6
+  overlap_volume: 0.5
+  fade_volume: 0.4
+  outro_volume: 0.4
+
+publishing:
+  rss_file: planetterrian_podcast.rss
+  rss_title: Planetterrian Daily
+  rss_description: "Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion."
+  rss_summary: "Daily science, longevity, and health discoveries. Technology as a force for good, sustainability, and environmental consciousness."
+  rss_link: https://planetterrian.com
+  rss_author: Patrick
+  rss_email: contact@planetterrian.com
+  rss_image: planetterrian-podcast-image.jpg
+  rss_category: Science
+  guid_prefix: planetterrian-daily
+  base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
+  audio_subdir: digests/planetterrian
+  summaries_json: digests/summaries_planet.json
+  summaries_podcast_name: planet
+  x_enabled: true
+  x_env_prefix: "PLANETTERRIAN_X_"
+
+episode:
+  prefix: Planetterrian_Daily
+  filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d_%H%M%S}.mp3"
+  output_dir: digests/planetterrian
+  mp3_glob: "Planetterrian_Daily_Ep*.mp3"
