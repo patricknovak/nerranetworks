@@ -1,101 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Environmental Intelligence - Daily environmental regulatory and compliance briefing for BC professionals.">
-    <title>Environmental Intelligence | BC Environmental Briefing</title>
-    <style>
-        :root { --ei-primary: #1B5E20; --ei-bg: #FAFDF6; --ei-ink: #1a1a2e; --ei-muted: #5a6a5a; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--ei-bg); color: var(--ei-ink); line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
-        h1 { color: var(--ei-primary); font-size: 1.8rem; margin-bottom: 0.5rem; }
-        .subtitle { color: var(--ei-muted); margin-bottom: 2rem; }
-        .player-card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 2rem; }
-        .player-card h2 { font-size: 1.1rem; margin-bottom: 0.5rem; }
-        .player-card audio { width: 100%; margin-top: 0.5rem; }
-        .episode-list { list-style: none; }
-        .episode-list li { background: white; border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
-        .episode-list li .ep-title { font-weight: 600; }
-        .episode-list li .ep-date { color: var(--ei-muted); font-size: 0.9rem; }
-        .episode-list li audio { width: 100%; margin-top: 0.5rem; }
-        .links { margin-top: 2rem; }
-        .links a { color: var(--ei-primary); text-decoration: none; margin-right: 1.5rem; font-weight: 500; }
-        .links a:hover { text-decoration: underline; }
-        #loading { color: var(--ei-muted); font-style: italic; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Environmental regulatory, science, and compliance briefing for BC professionals. Daily environmental intelligence.">
+  <title>Environmental Intelligence</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127793;</text></svg>">
+  <style>
+    :root {
+      --brand: #1B5E20;
+      --brand-alt: #4CAF50;
+      --brand-dark: #145218;
+      --bg: #0a1a0e;
+      --card: #122016;
+      --card-hover: #182a1c;
+      --text: #ffffff;
+      --text-muted: #7da882;
+      --radius: 12px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: var(--brand-alt); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header { position: sticky; top: 0; z-index: 100; background: rgba(10,26,14,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1a3020; }
+    nav { max-width: 1100px; margin: 0 auto; padding: 0.8rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-weight: 800; font-size: 1.2rem; color: var(--text); }
+    .logo span { color: var(--brand-alt); }
+    .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    .hero { max-width: 1100px; margin: 0 auto; padding: 5rem 1.5rem 3rem; text-align: center; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -1px; }
+    .hero h1 span { color: var(--brand-alt); }
+    .tagline { color: var(--brand-alt); font-size: 1.15rem; font-weight: 600; margin: 0.5rem 0; }
+    .subtitle { color: var(--text-muted); max-width: 600px; margin: 0.5rem auto 2rem; }
+
+    /* Leaf border accent */
+    .leaf-accent { max-width: 200px; margin: 0 auto 2rem; height: 2px; background: linear-gradient(90deg, transparent, var(--brand-alt), var(--brand), var(--brand-alt), transparent); border-radius: 2px; }
+
+    .cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: 0.65rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: 1px solid #1a3020; color: var(--text); transition: all 0.2s; }
+    .btn:hover { background: var(--card); text-decoration: none; }
+    .btn-primary { background: var(--brand); border-color: var(--brand); }
+    .btn-primary:hover { background: var(--brand-dark); }
+
+    /* Professional badge */
+    .pro-badge { display: inline-block; margin-top: 1.5rem; padding: 0.4rem 1rem; background: rgba(76,175,80,0.1); border: 1px solid rgba(76,175,80,0.3); border-radius: 20px; font-size: 0.8rem; color: var(--brand-alt); font-weight: 500; }
+
+    .player-card { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .player-inner { background: var(--card); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #1a3020; }
+    .player-inner h2 { font-size: 1rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    #latest-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem; }
+    audio { width: 100%; border-radius: 8px; }
+
+    .episodes-section { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .episodes-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
+    .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+    .episode-card { background: var(--card); border-radius: var(--radius); padding: 1.25rem; border: 1px solid #1a3020; transition: border-color 0.2s; }
+    .episode-card:hover { border-color: var(--brand-alt); }
+    .episode-card .ep-date { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .episode-card .ep-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.75rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .episode-card audio { width: 100%; }
+
+    .about-section { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .about-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
+    .about-section p { color: var(--text-muted); margin-bottom: 0.75rem; }
+
+    .network-section { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .network-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
+    .network-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
+    .network-card { display: block; background: var(--card); border-radius: var(--radius); padding: 1rem 1.25rem; border: 1px solid #1a3020; font-weight: 600; font-size: 0.95rem; color: var(--text); transition: border-color 0.2s; }
+    .network-card:hover { border-color: var(--brand-alt); text-decoration: none; }
+    .network-card small { display: block; color: var(--text-muted); font-weight: 400; font-size: 0.8rem; margin-top: 0.25rem; }
+    .network-card.current { opacity: 0.5; pointer-events: none; border-color: var(--brand-alt); }
+
+    footer { border-top: 1px solid #1a3020; padding: 2rem 1.5rem; text-align: center; }
+    .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+    .footer-links a { color: var(--text-muted); font-size: 0.85rem; }
+    .footer-links a:hover { color: var(--text); }
+    footer p { color: #1a3020; font-size: 0.8rem; }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(10,26,14,0.98); flex-direction: column; padding: 1rem 1.5rem; gap: 1rem; border-bottom: 1px solid #1a3020; }
+      .nav-links.open { display: flex; }
+      .hero { padding: 3rem 1.5rem 2rem; }
+      .episodes-grid { grid-template-columns: 1fr; }
+      .network-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🔬 Environmental Intelligence</h1>
-        <p class="subtitle">Daily environmental regulatory, science, and compliance briefing for BC professionals.</p>
+  <header>
+    <nav>
+      <a class="logo" href="#"><span>Environmental</span> Intelligence</a>
+      <button class="menu-toggle" aria-label="Menu">&#9776;</button>
+      <div class="nav-links">
+        <a href="#episodes">Episodes</a>
+        <a href="#about">About</a>
+        <a href="env_intel_podcast.rss">RSS</a>
+      </div>
+    </nav>
+  </header>
 
-        <div class="player-card" id="latest-player">
-            <h2>Latest Episode</h2>
-            <p id="loading">Loading latest episode...</p>
-        </div>
+  <main>
+    <section class="hero">
+      <h1><span>Environmental</span> Intelligence</h1>
+      <p class="tagline">Daily environmental regulatory and compliance briefing.</p>
+      <div class="leaf-accent"></div>
+      <p class="subtitle">Environmental regulatory, science, and compliance briefing for BC professionals. Stay informed on the policies and science shaping our environment.</p>
+      <div class="cta">
+        <a href="#episodes" class="btn btn-primary">Listen Now</a>
+        <a href="#" class="btn">Apple Podcasts</a>
+      </div>
+      <div class="pro-badge">Designed for environmental professionals</div>
+    </section>
 
-        <h2>Recent Episodes</h2>
-        <ul class="episode-list" id="episode-list"></ul>
+    <section class="player-card" id="latest-player">
+      <div class="player-inner">
+        <h2>Latest Episode</h2>
+        <p id="latest-title">Loading...</p>
+        <audio id="latest-audio" controls preload="none"></audio>
+      </div>
+    </section>
 
-        <div class="links">
-            <a href="env-intel-summaries.html">📋 Written Briefings</a>
-            <a href="env_intel_podcast.rss">📡 RSS Feed</a>
-        </div>
+    <section id="episodes" class="episodes-section">
+      <h2>Recent Episodes</h2>
+      <div id="episodes-grid" class="episodes-grid"></div>
+    </section>
+
+    <section id="about" class="about-section">
+      <h2>About Environmental Intelligence</h2>
+      <p>Environmental Intelligence delivers a daily briefing on environmental regulation, compliance requirements, and environmental science relevant to British Columbia professionals.</p>
+      <p>Hosted by Patrick in Vancouver, each episode distills the latest regulatory updates, scientific findings, and policy developments into a concise, actionable briefing for consultants, regulators, and environmental practitioners.</p>
+    </section>
+
+    <section class="network-section">
+      <h2>More from our network</h2>
+      <div class="network-grid">
+        <a href="index.html" class="network-card">Tesla Shorts Time<small>Tesla news and EV analysis</small></a>
+        <a href="omni-view.html" class="network-card">Omni View<small>Balanced news perspectives</small></a>
+        <a href="fascinating_frontiers.html" class="network-card">Fascinating Frontiers<small>Space and astronomy</small></a>
+        <a href="planetterrian.html" class="network-card">Planetterrian Daily<small>Science and longevity</small></a>
+        <a href="env-intel.html" class="network-card current">Environmental Intelligence<small>You are here</small></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="env_intel_podcast.rss">RSS Feed</a>
+      <a href="#">Apple Podcasts</a>
+      <a href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
     </div>
+    <p>&copy; 2026 Environmental Intelligence</p>
+  </footer>
 
-    <script>
-        const RSS_URL = 'env_intel_podcast.rss';
+  <script>
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
 
-        async function loadEpisodes() {
-            try {
-                const resp = await fetch(RSS_URL);
-                const text = await resp.text();
-                const parser = new DOMParser();
-                const xml = parser.parseFromString(text, 'text/xml');
-                const items = xml.querySelectorAll('item');
+    async function loadEpisodes() {
+      try {
+        const resp = await fetch('digests/summaries_env_intel.json');
+        if (!resp.ok) throw new Error('JSON not found');
+        const data = await resp.json();
+        renderFromJSON(data.summaries || data);
+      } catch {
+        loadFromRSS();
+      }
+    }
 
-                if (items.length === 0) {
-                    document.getElementById('loading').textContent = 'No episodes yet. Check back soon!';
-                    return;
-                }
+    function renderFromJSON(episodes) {
+      if (!episodes || !episodes.length) return;
+      const latest = episodes[0];
+      document.getElementById('latest-title').textContent = latest.episode_title || 'Latest Episode';
+      document.getElementById('latest-audio').src = latest.audio_url || '';
 
-                // Latest episode in player card
-                const first = items[0];
-                const title = first.querySelector('title')?.textContent || 'Episode';
-                const enclosure = first.querySelector('enclosure');
-                const audioUrl = enclosure?.getAttribute('url') || '';
-                const pubDate = first.querySelector('pubDate')?.textContent || '';
+      const grid = document.getElementById('episodes-grid');
+      grid.innerHTML = '';
+      episodes.slice(0, 12).forEach(ep => {
+        const card = document.createElement('div');
+        card.className = 'episode-card';
+        card.innerHTML = `
+          <div class="ep-date">${formatDate(ep.date)}</div>
+          <div class="ep-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
+          <audio controls preload="none" src="${ep.audio_url || ''}"></audio>
+        `;
+        grid.appendChild(card);
+      });
+    }
 
-                document.getElementById('latest-player').innerHTML = `
-                    <h2>${title}</h2>
-                    <p style="color: var(--ei-muted); font-size: 0.9rem;">${new Date(pubDate).toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'})}</p>
-                    <audio controls preload="none" src="${audioUrl}"></audio>
-                `;
+    function loadFromRSS() {
+      fetch('env_intel_podcast.rss')
+        .then(r => r.text())
+        .then(xml => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(xml, 'text/xml');
+          const items = doc.querySelectorAll('item');
+          if (!items.length) return;
 
-                // Episode list
-                const list = document.getElementById('episode-list');
-                items.forEach((item, i) => {
-                    if (i === 0) return; // Skip first (already in player)
-                    const t = item.querySelector('title')?.textContent || 'Episode';
-                    const enc = item.querySelector('enclosure');
-                    const url = enc?.getAttribute('url') || '';
-                    const pd = item.querySelector('pubDate')?.textContent || '';
-                    const li = document.createElement('li');
-                    li.innerHTML = `
-                        <span class="ep-title">${t}</span>
-                        <span class="ep-date">${new Date(pd).toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'})}</span>
-                        <audio controls preload="none" src="${url}"></audio>
-                    `;
-                    list.appendChild(li);
-                });
-            } catch (e) {
-                document.getElementById('loading').textContent = 'No episodes yet. Check back after the first broadcast!';
-            }
-        }
+          const first = items[0];
+          document.getElementById('latest-title').textContent = first.querySelector('title')?.textContent || 'Latest Episode';
+          const enc = first.querySelector('enclosure');
+          if (enc) document.getElementById('latest-audio').src = enc.getAttribute('url') || '';
 
-        loadEpisodes();
-    </script>
+          const grid = document.getElementById('episodes-grid');
+          grid.innerHTML = '';
+          Array.from(items).slice(0, 12).forEach(item => {
+            const title = item.querySelector('title')?.textContent || 'Episode';
+            const pubDate = item.querySelector('pubDate')?.textContent || '';
+            const enclosure = item.querySelector('enclosure');
+            const url = enclosure ? enclosure.getAttribute('url') : '';
+            const card = document.createElement('div');
+            card.className = 'episode-card';
+            card.innerHTML = `
+              <div class="ep-date">${pubDate ? formatDate(pubDate) : ''}</div>
+              <div class="ep-title">${escapeHtml(title)}</div>
+              <audio controls preload="none" src="${url}"></audio>
+            `;
+            grid.appendChild(card);
+          });
+        })
+        .catch(() => {
+          document.getElementById('latest-title').textContent = 'Unable to load episodes';
+        });
+    }
+
+    function formatDate(d) {
+      try {
+        const date = new Date(d);
+        return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+      } catch { return d; }
+    }
+
+    function escapeHtml(s) {
+      const el = document.createElement('span');
+      el.textContent = s;
+      return el.innerHTML;
+    }
+
+    loadEpisodes();
+  </script>
 </body>
 </html>

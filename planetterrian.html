@@ -1,719 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion.">
-    <meta name="keywords" content="science podcast, longevity, health discoveries, biotechnology, planetterrian, science news, health news">
-    <title>Planetterrian Daily | Science, Longevity & Health Discoveries</title>
-    
-    <!-- Google Fonts - Using Montserrat as Gotham Bold alternative -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <style>
-        :root {
-            /* Planetterrian Brand Colors from Guidelines */
-            --planet-deep-teal: #018DB1;      /* Deep teal-blue */
-            --planet-light-teal: #35B5C4;      /* Lighter turquoise-blue */
-            --planet-yellow: #F2D20D;          /* Bright yellow */
-            /* Legacy colors for compatibility */
-            --planet-green: #35B5C4;
-            --planet-green-dark: #018DB1;
-            --planet-blue: #35B5C4;
-            /* Background and text colors */
-            --planet-dark: #0a1929;
-            --planet-card: #1a2332;
-            --planet-text: #ffffff;
-            --planet-text-light: #b0bec5;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--planet-dark);
-            color: var(--planet-text);
-            line-height: 1.6;
-        }
-        
-        /* Logo styling */
-        .logo-img {
-            height: 50px;
-            width: auto;
-            margin-right: 0.5rem;
-            vertical-align: middle;
-        }
-        
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        .hero-logo {
-            max-width: 300px;
-            width: 100%;
-            height: auto;
-            margin: 2rem auto;
-            display: block;
-            filter: drop-shadow(0 10px 30px rgba(1, 141, 177, 0.3));
-        }
-        
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 25, 41, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1rem 2rem;
-            border-bottom: 2px solid var(--planet-light-teal);
-        }
-        
-        nav {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--planet-light-teal);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: var(--planet-text);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color: var(--planet-light-teal);
-        }
-        
-        .hero {
-            padding: 120px 2rem 60px;
-            text-align: center;
-            background: linear-gradient(135deg, var(--planet-dark) 0%, #0d1b2a 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 20%, rgba(1, 141, 177, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(242, 210, 13, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--planet-light-teal) 0%, var(--planet-yellow) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .tagline {
-            font-size: 1.5rem;
-            color: var(--planet-text-light);
-            margin-bottom: 1rem;
-        }
-        
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--planet-text-light);
-            max-width: 600px;
-            margin: 0 auto 2rem;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            margin: 0.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.2s;
-        }
-        
-        .btn-primary {
-            background: var(--planet-light-teal);
-            color: white;
-            box-shadow: 0 4px 15px rgba(53, 181, 196, 0.4);
-        }
-        
-        .btn-primary:hover {
-            background: var(--planet-deep-teal);
-            box-shadow: 0 6px 20px rgba(53, 181, 196, 0.6);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: var(--planet-light-teal);
-            border: 2px solid var(--planet-light-teal);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--planet-light-teal);
-            color: white;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .episodes-section {
-            padding: 60px 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .section-header h2 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: var(--planet-light-teal);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .episodes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .episode-card {
-            background: var(--planet-card);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid rgba(53, 181, 196, 0.2);
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-        }
-        
-        .episode-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--planet-light-teal);
-            box-shadow: 0 10px 30px rgba(53, 181, 196, 0.2);
-        }
-        
-        .episode-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--planet-light-teal);
-        }
-        
-        .episode-meta {
-            font-size: 0.9rem;
-            color: var(--planet-text-light);
-            margin-bottom: 1rem;
-        }
-        
-        .episode-description {
-            color: var(--planet-text-light);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-        
-        .play-button {
-            background: var(--planet-light-teal);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            width: 100%;
-            transition: all 0.3s;
-        }
-        
-        .play-button:hover {
-            background: var(--planet-deep-teal);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(53, 181, 196, 0.4);
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: var(--planet-text-light);
-        }
-        
-        .error {
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid red;
-            padding: 1rem;
-            border-radius: 8px;
-            color: #ff6b6b;
-            margin: 1rem 0;
-        }
-        
-        #search-input {
-            width: 100%;
-            max-width: 500px;
-            padding: 12px;
-            border: 2px solid var(--planet-light-teal);
-            border-radius: 8px;
-            background: var(--planet-card);
-            color: var(--planet-text);
-            font-size: 1rem;
-            margin: 0 auto;
-            display: block;
-            transition: border-color 0.3s;
-        }
-        
-        #search-input:focus {
-            outline: none;
-            border-color: var(--planet-yellow);
-        }
-        
-        .about-section {
-            padding: 60px 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        
-        .about-section h2 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
-            color: var(--planet-light-teal);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .about-section p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--planet-text-light);
-            margin-bottom: 1.5rem;
-        }
-        
-        footer {
-            background: var(--planet-card);
-            padding: 2rem;
-            text-align: center;
-            border-top: 1px solid rgba(53, 181, 196, 0.2);
-            margin-top: 4rem;
-        }
-        
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .episodes-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Daily discoveries in science, longevity, genetics, and health. Science, longevity, and the frontier of human health.">
+  <title>Planetterrian Daily</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127758;</text></svg>">
+  <style>
+    :root {
+      --brand: #018DB1;
+      --brand-alt: #35B5C4;
+      --brand-dark: #016f8c;
+      --bg: #0a1a1e;
+      --card: #112228;
+      --card-hover: #162e35;
+      --text: #ffffff;
+      --text-muted: #7eb8c4;
+      --radius: 12px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: var(--brand-alt); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header { position: sticky; top: 0; z-index: 100; background: rgba(10,26,30,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1a3038; }
+    nav { max-width: 1100px; margin: 0 auto; padding: 0.8rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-weight: 800; font-size: 1.2rem; color: var(--text); }
+    .logo span { color: var(--brand-alt); }
+    .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    .hero { max-width: 1100px; margin: 0 auto; padding: 5rem 1.5rem 3rem; text-align: center; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -1px; }
+    .hero h1 span { color: var(--brand-alt); }
+    .tagline { color: var(--brand-alt); font-size: 1.15rem; font-weight: 600; margin: 0.5rem 0; }
+    .subtitle { color: var(--text-muted); max-width: 550px; margin: 0.5rem auto 2rem; }
+
+    /* DNA helix accent */
+    .dna-accent { max-width: 300px; margin: 0 auto 2rem; height: 3px; background: linear-gradient(90deg, transparent, var(--brand), var(--brand-alt), var(--brand), transparent); border-radius: 2px; }
+
+    .cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: 0.65rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: 1px solid #1a3038; color: var(--text); transition: all 0.2s; }
+    .btn:hover { background: var(--card); text-decoration: none; }
+    .btn-primary { background: var(--brand); border-color: var(--brand); }
+    .btn-primary:hover { background: var(--brand-dark); }
+
+    .player-card { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .player-inner { background: var(--card); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #1a3038; }
+    .player-inner h2 { font-size: 1rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    #latest-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem; }
+    audio { width: 100%; border-radius: 8px; }
+
+    .episodes-section { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .episodes-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
+    .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+    .episode-card { background: var(--card); border-radius: var(--radius); padding: 1.25rem; border: 1px solid #1a3038; transition: border-color 0.2s; }
+    .episode-card:hover { border-color: var(--brand); }
+    .episode-card .ep-date { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .episode-card .ep-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.75rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .episode-card audio { width: 100%; }
+
+    .about-section { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .about-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
+    .about-section p { color: var(--text-muted); margin-bottom: 0.75rem; }
+
+    .network-section { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .network-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
+    .network-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
+    .network-card { display: block; background: var(--card); border-radius: var(--radius); padding: 1rem 1.25rem; border: 1px solid #1a3038; font-weight: 600; font-size: 0.95rem; color: var(--text); transition: border-color 0.2s; }
+    .network-card:hover { border-color: var(--brand); text-decoration: none; }
+    .network-card small { display: block; color: var(--text-muted); font-weight: 400; font-size: 0.8rem; margin-top: 0.25rem; }
+    .network-card.current { opacity: 0.5; pointer-events: none; border-color: var(--brand); }
+
+    footer { border-top: 1px solid #1a3038; padding: 2rem 1.5rem; text-align: center; }
+    .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+    .footer-links a { color: var(--text-muted); font-size: 0.85rem; }
+    .footer-links a:hover { color: var(--text); }
+    footer p { color: #1a3038; font-size: 0.8rem; }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(10,26,30,0.98); flex-direction: column; padding: 1rem 1.5rem; gap: 1rem; border-bottom: 1px solid #1a3038; }
+      .nav-links.open { display: flex; }
+      .hero { padding: 3rem 1.5rem 2rem; }
+      .episodes-grid { grid-template-columns: 1fr; }
+      .network-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <nav>
-            <a href="#home" class="logo-container">
-                <img src="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/PlanetTerrian%20logo%20only%20final.jpg" alt="Planetterrian Logo" class="logo-img" onerror="this.style.display='none'">
-                <span class="logo">PLANETTERRIAN</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#episodes">Episodes</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="planetterrian-summaries.html">Summaries</a></li>
-                <li><a href="#subscribe">Subscribe</a></li>
-                <li><a href="podcasts/">All Podcasts</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <img src="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/PlanetTerrian%20logo%20only%20final.jpg" alt="Planetterrian Logo" class="hero-logo" onerror="this.style.display='none'">
-            <h1>Planetterrian Daily</h1>
-            <p class="tagline">Science, Longevity & Health Discoveries</p>
-            <p class="subtitle">A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion. Daily discoveries that push boundaries while caring for Earth.</p>
-            <div>
-                <a href="#episodes" class="btn btn-primary">🎧 Listen Now</a>
-                <a href="planetterrian-summaries.html" class="btn btn-secondary">📝 Read Summaries</a>
-                <a href="https://x.com/planetterrian" target="_blank" class="btn btn-secondary">🐦 Follow on X</a>
-                <a href="https://planetterrian.com" target="_blank" class="btn btn-secondary">🌍 Visit Website</a>
-            </div>
-        </div>
+  <header>
+    <nav>
+      <a class="logo" href="#"><span>Planetterrian</span> Daily</a>
+      <button class="menu-toggle" aria-label="Menu">&#9776;</button>
+      <div class="nav-links">
+        <a href="#episodes">Episodes</a>
+        <a href="#about">About</a>
+        <a href="https://x.com/planetterrian">@planetterrian</a>
+        <a href="planetterrian_podcast.rss">RSS</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1><span>Planetterrian</span> Daily</h1>
+      <p class="tagline">Science, longevity, and the frontier of human health.</p>
+      <div class="dna-accent"></div>
+      <p class="subtitle">Daily discoveries in science, longevity, genetics, and health. Exploring what it means to live longer and better.</p>
+      <div class="cta">
+        <a href="#episodes" class="btn btn-primary">Listen Now</a>
+        <a href="#" class="btn">Apple Podcasts</a>
+        <a href="https://x.com/planetterrian" class="btn">Follow on X</a>
+      </div>
     </section>
-    
-    <!-- Episodes Section -->
+
+    <section class="player-card" id="latest-player">
+      <div class="player-inner">
+        <h2>Latest Episode</h2>
+        <p id="latest-title">Loading...</p>
+        <audio id="latest-audio" controls preload="none"></audio>
+      </div>
+    </section>
+
     <section id="episodes" class="episodes-section">
-        <div class="section-header">
-            <h2>Latest Episodes</h2>
-            <p>Your daily dose of science, longevity, and health discoveries</p>
-        </div>
-        
-        <!-- Search Bar -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <input type="text" id="search-input" placeholder="Search episodes..." aria-label="Search episodes">
-        </div>
-        
-        <!-- Episodes Container -->
-        <div id="loading" class="loading">Loading episodes...</div>
-        <div id="error" class="error" style="display: none;"></div>
-        <div id="episodes" class="episodes-grid"></div>
+      <h2>Recent Episodes</h2>
+      <div id="episodes-grid" class="episodes-grid"></div>
     </section>
-    
-    <!-- About Section -->
+
     <section id="about" class="about-section">
-        <h2>About Planetterrian Ventures</h2>
-        <p>At Planetterrian Ventures, we're more than just a tech company—we're a tribe. A collective of forward-thinking innovators who are deeply passionate about the planet we call home.</p>
-        <p>Our mission is to intertwine technology and compassion, ensuring that every innovation we bring to the table not only pushes the boundaries of what's possible but does so with the Earth's well-being in mind.</p>
-        <p>Every decision we make, every product we develop, and every strategy we implement is filtered through our planet-conscious vision. We're not just in the business of technology; we're in the business of making a difference.</p>
-        <p><strong>Join us in making a difference.</strong> Together, we can drive change, one discovery at a time.</p>
+      <h2>About Planetterrian Daily</h2>
+      <p>Planetterrian Daily covers the latest breakthroughs in science, longevity research, genetics, and human health. We dive deep into the discoveries that are shaping how we live, age, and thrive.</p>
+      <p>Hosted by Patrick in Vancouver, each episode highlights peer-reviewed research, biotech advances, and the innovations pushing the boundaries of human potential.</p>
     </section>
-    
-    <!-- Subscribe Section -->
-    <section id="subscribe" class="about-section">
-        <h2>Subscribe</h2>
-        <p>Never miss a discovery. Subscribe to Planetterrian Daily on your favorite platform.</p>
-        <div>
-            <a href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian_podcast.rss" target="_blank" class="btn btn-primary">📡 RSS Feed</a>
-            <a href="https://x.com/planetterrian" target="_blank" class="btn btn-secondary">🐦 X / Twitter</a>
-        </div>
+
+    <section class="network-section">
+      <h2>More from our network</h2>
+      <div class="network-grid">
+        <a href="index.html" class="network-card">Tesla Shorts Time<small>Tesla news and EV analysis</small></a>
+        <a href="omni-view.html" class="network-card">Omni View<small>Balanced news perspectives</small></a>
+        <a href="fascinating_frontiers.html" class="network-card">Fascinating Frontiers<small>Space and astronomy</small></a>
+        <a href="planetterrian.html" class="network-card current">Planetterrian Daily<small>You are here</small></a>
+        <a href="env-intel.html" class="network-card">Environmental Intelligence<small>Environmental regulatory briefing</small></a>
+      </div>
     </section>
-    
-    <footer>
-        <p>Planetterrian Daily © 2025 | Hosted by Patrick</p>
-        <p>🌍 Keep accelerating positive change! 🌍</p>
-        <p style="margin-top: 0.75rem;">
-            <a href="podcasts/" style="color: var(--planet-light-teal); font-weight: 700; text-decoration: none;">🌐 All Podcasts</a>
-        </p>
-    </footer>
-    
-    <script>
-        // Add cache-busting parameter to force fresh RSS data
-        const RSS_FEED_URL = 'https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian_podcast.rss?t=' + Date.now();
-        let currentAudio = null;
-        let currentEpisode = null;
-        let allEpisodes = [];
-        
-        // Parse RSS feed
-        async function loadPodcast() {
-            const loadingEl = document.getElementById('loading');
-            const errorEl = document.getElementById('error');
-            const episodesEl = document.getElementById('episodes');
-            
-            try {
-                let response;
-                let xmlText;
-                
-                try {
-                    response = await fetch(RSS_FEED_URL);
-                    if (!response.ok) throw new Error(`Direct fetch failed: ${response.status}`);
-                    xmlText = await response.text();
-                } catch (directError) {
-                    const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                    response = await fetch(proxyUrl + encodeURIComponent(RSS_FEED_URL));
-                    if (!response.ok) throw new Error(`Failed to load RSS feed: ${response.status}`);
-                    xmlText = await response.text();
-                }
-                
-                if (!xmlText || xmlText.length < 100) {
-                    throw new Error('RSS feed appears to be empty or invalid');
-                }
-                
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-                
-                const parserError = xmlDoc.querySelector('parsererror');
-                if (parserError) {
-                    throw new Error('Failed to parse RSS feed XML');
-                }
-                
-                const items = xmlDoc.getElementsByTagName('item');
-                if (items.length === 0) {
-                    throw new Error('No items found in RSS feed');
-                }
-                
-                const episodes = [];
-                const itunesNS = 'http://www.itunes.com/dtds/podcast-1.0.dtd';
-                
-                for (let i = 0; i < items.length; i++) {
-                    const item = items[i];
-                    
-                    try {
-                        const titleEl = item.getElementsByTagName('title')[0];
-                        const title = titleEl ? titleEl.textContent.trim() : 'Untitled';
-                        
-                        const descEl = item.getElementsByTagName('description')[0];
-                        const description = descEl ? descEl.textContent.trim() : '';
-                        
-                        const pubDateEl = item.getElementsByTagName('pubDate')[0];
-                        const pubDate = pubDateEl ? pubDateEl.textContent.trim() : '';
-                        
-                        const enclosure = item.getElementsByTagName('enclosure')[0];
-                        if (!enclosure) continue;
-                        
-                        const audioUrl = enclosure.getAttribute('url');
-                        if (!audioUrl) continue;
-                        
-                        let duration = '';
-                        const durationEl = item.getElementsByTagNameNS(itunesNS, 'duration')[0];
-                        if (durationEl) {
-                            duration = durationEl.textContent.trim();
-                        }
-                        
-                        // Extract episode number
-                        let episodeNum = null;
-                        const itunesEpisodeEl = item.getElementsByTagNameNS(itunesNS, 'episode')[0];
-                        if (itunesEpisodeEl && itunesEpisodeEl.textContent) {
-                            episodeNum = parseInt(itunesEpisodeEl.textContent.trim());
-                        } else {
-                            const titleMatch = title.match(/Episode\s+(\d+)/i);
-                            if (titleMatch) {
-                                episodeNum = parseInt(titleMatch[1]);
-                            }
-                        }
-                        
-                        const guidEl = item.getElementsByTagName('guid')[0];
-                        const guid = guidEl ? guidEl.textContent.trim() : '';
-                        
-                        episodes.push({
-                            title: title || 'Untitled Episode',
-                            description: description.replace(/<[^>]*>/g, '').substring(0, 200) + (description.length > 200 ? '...' : ''),
-                            pubDate: formatDate(pubDate),
-                            pubDateRaw: pubDate,
-                            audioUrl: audioUrl,
-                            duration: duration || '0:00',
-                            episodeNum: episodeNum,
-                            guid: guid
-                        });
-                    } catch (itemError) {
-                        console.warn(`Error parsing item ${i}:`, itemError);
-                        continue;
-                    }
-                }
-                
-                // Deduplicate episodes by episode number
-                const episodesByNumber = new Map();
-                const episodesWithoutNumber = [];
-                
-                for (const episode of episodes) {
-                    if (episode.episodeNum !== null && !isNaN(episode.episodeNum)) {
-                        const existing = episodesByNumber.get(episode.episodeNum);
-                        if (!existing) {
-                            episodesByNumber.set(episode.episodeNum, episode);
-                        } else {
-                            const existingDate = new Date(existing.pubDateRaw || 0);
-                            const currentDate = new Date(episode.pubDateRaw || 0);
-                            if (currentDate > existingDate) {
-                                episodesByNumber.set(episode.episodeNum, episode);
-                            }
-                        }
-                    } else {
-                        episodesWithoutNumber.push(episode);
-                    }
-                }
-                
-                const deduplicatedEpisodes = Array.from(episodesByNumber.values()).concat(episodesWithoutNumber);
-                
-                deduplicatedEpisodes.sort((a, b) => {
-                    const dateA = new Date(a.pubDateRaw || 0);
-                    const dateB = new Date(b.pubDateRaw || 0);
-                    return dateB - dateA;
-                });
-                
-                allEpisodes = deduplicatedEpisodes;
-                
-                if (loadingEl) loadingEl.style.display = 'none';
-                if (errorEl) errorEl.style.display = 'none';
-                displayEpisodes(deduplicatedEpisodes);
-            } catch (error) {
-                console.error('Error loading podcast:', error);
-                if (loadingEl) loadingEl.style.display = 'none';
-                if (errorEl) {
-                    errorEl.style.display = 'block';
-                    errorEl.textContent = `Error loading podcast: ${error.message}. Please check the console for details.`;
-                }
-                if (episodesEl) {
-                    episodesEl.innerHTML = '<div class="error">Failed to load episodes. Please refresh the page.</div>';
-                }
-            }
-        }
-        
-        function formatDate(dateString) {
-            try {
-                const date = new Date(dateString);
-                return date.toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                });
-            } catch {
-                return dateString;
-            }
-        }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        function displayEpisodes(episodes) {
-            const container = document.getElementById('episodes');
-            if (!container) return;
-            
-            if (!episodes || episodes.length === 0) {
-                container.innerHTML = '<div class="error">No episodes found</div>';
-                return;
-            }
-            
-            container.innerHTML = '';
-            
-            episodes.forEach((episode, index) => {
-                const episodeCard = document.createElement('div');
-                episodeCard.className = 'episode-card';
-                episodeCard.setAttribute('data-index', index);
-                
-                const title = escapeHtml(episode.title || 'Untitled Episode');
-                const description = escapeHtml(episode.description || '');
-                const pubDate = escapeHtml(episode.pubDate || '');
-                const duration = escapeHtml(episode.duration || '0:00');
-                const audioUrl = episode.audioUrl || '';
-                
-                episodeCard.innerHTML = `
-                    <div class="episode-title">${title}</div>
-                    <div class="episode-meta">
-                        📅 ${pubDate} ${duration ? '• ⏱️ ' + duration : ''}
-                    </div>
-                    <div class="episode-description">${description}</div>
-                    <button class="play-button" data-index="${index}" aria-label="Play episode">
-                        ▶️ Play Episode
-                    </button>
-                    <audio id="audio-${index}" src="${audioUrl}" preload="none"></audio>
-                `;
-                
-                container.appendChild(episodeCard);
-                
-                const playButton = episodeCard.querySelector('.play-button');
-                const audio = episodeCard.querySelector('audio');
-                
-                playButton.addEventListener('click', () => {
-                    togglePlay(index, audioUrl, title);
-                });
-            });
-        }
-        
-        function togglePlay(index, audioUrl, title) {
-            const episode = document.querySelector(`[data-index="${index}"]`);
-            if (!episode) return;
-            
-            const button = episode.querySelector('.play-button');
-            const audio = episode.querySelector('audio');
-            
-            // Stop current audio if playing different episode
-            if (currentAudio && currentAudio !== audio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-                if (currentEpisode) {
-                    const prevButton = currentEpisode.querySelector('.play-button');
-                    if (prevButton) {
-                        prevButton.textContent = '▶️ Play Episode';
-                    }
-                    currentEpisode.classList.remove('active');
-                }
-            }
-            
-            if (audio.paused) {
-                audio.play();
-                button.textContent = '⏸️ Pause';
-                episode.classList.add('active');
-                currentAudio = audio;
-                currentEpisode = episode;
-                
-                audio.onended = () => {
-                    button.textContent = '▶️ Play Episode';
-                    episode.classList.remove('active');
-                    currentAudio = null;
-                    currentEpisode = null;
-                };
-            } else {
-                audio.pause();
-                button.textContent = '▶️ Play Episode';
-                episode.classList.remove('active');
-                currentAudio = null;
-                currentEpisode = null;
-            }
-        }
-        
-        // Search functionality
-        const searchInput = document.getElementById('search-input');
-        if (searchInput) {
-            searchInput.addEventListener('input', (e) => {
-                const query = e.target.value.toLowerCase();
-                if (!query) {
-                    displayEpisodes(allEpisodes);
-                } else {
-                    const filtered = allEpisodes.filter(episode => 
-                        episode.title.toLowerCase().includes(query) ||
-                        episode.description.toLowerCase().includes(query)
-                    );
-                    displayEpisodes(filtered);
-                }
-            });
-        }
-        
-        // Load podcast on page load
-        loadPodcast();
-    </script>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="planetterrian_podcast.rss">RSS Feed</a>
+      <a href="#">Apple Podcasts</a>
+      <a href="https://x.com/planetterrian">X / Twitter</a>
+      <a href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
+    </div>
+    <p>&copy; 2026 Planetterrian Daily</p>
+  </footer>
+
+  <script>
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+
+    async function loadEpisodes() {
+      try {
+        const resp = await fetch('digests/summaries_planet.json');
+        if (!resp.ok) throw new Error('JSON not found');
+        const data = await resp.json();
+        renderFromJSON(data.summaries || data);
+      } catch {
+        loadFromRSS();
+      }
+    }
+
+    function renderFromJSON(episodes) {
+      if (!episodes || !episodes.length) return;
+      const latest = episodes[0];
+      document.getElementById('latest-title').textContent = latest.episode_title || 'Latest Episode';
+      document.getElementById('latest-audio').src = latest.audio_url || '';
+
+      const grid = document.getElementById('episodes-grid');
+      grid.innerHTML = '';
+      episodes.slice(0, 12).forEach(ep => {
+        const card = document.createElement('div');
+        card.className = 'episode-card';
+        card.innerHTML = `
+          <div class="ep-date">${formatDate(ep.date)}</div>
+          <div class="ep-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
+          <audio controls preload="none" src="${ep.audio_url || ''}"></audio>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function loadFromRSS() {
+      fetch('planetterrian_podcast.rss')
+        .then(r => r.text())
+        .then(xml => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(xml, 'text/xml');
+          const items = doc.querySelectorAll('item');
+          if (!items.length) return;
+
+          const first = items[0];
+          document.getElementById('latest-title').textContent = first.querySelector('title')?.textContent || 'Latest Episode';
+          const enc = first.querySelector('enclosure');
+          if (enc) document.getElementById('latest-audio').src = enc.getAttribute('url') || '';
+
+          const grid = document.getElementById('episodes-grid');
+          grid.innerHTML = '';
+          Array.from(items).slice(0, 12).forEach(item => {
+            const title = item.querySelector('title')?.textContent || 'Episode';
+            const pubDate = item.querySelector('pubDate')?.textContent || '';
+            const enclosure = item.querySelector('enclosure');
+            const url = enclosure ? enclosure.getAttribute('url') : '';
+            const card = document.createElement('div');
+            card.className = 'episode-card';
+            card.innerHTML = `
+              <div class="ep-date">${pubDate ? formatDate(pubDate) : ''}</div>
+              <div class="ep-title">${escapeHtml(title)}</div>
+              <audio controls preload="none" src="${url}"></audio>
+            `;
+            grid.appendChild(card);
+          });
+        })
+        .catch(() => {
+          document.getElementById('latest-title').textContent = 'Unable to load episodes';
+        });
+    }
+
+    function formatDate(d) {
+      try {
+        const date = new Date(d);
+        return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+      } catch { return d; }
+    }
+
+    function escapeHtml(s) {
+      const el = document.createElement('span');
+      el.textContent = s;
+      return el.innerHTML;
+    }
+
+    loadEpisodes();
+  </script>
 </body>
 </html>
-

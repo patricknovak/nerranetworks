@@ -1,388 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Daily space and astronomy news. Fascinating Frontiers brings cosmic discoveries, mission updates, and the latest breakthroughs—hosted by Patrick in Vancouver.">
-    <meta name="keywords" content="space podcast, astronomy news, NASA, ESA, space exploration, astrophysics, rockets, telescopes, fascinating frontiers">
-    <title>Fascinating Frontiers Daily | Space & Astronomy News</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <style>
-        :root {
-            /* Space theme */
-            --space-bg: #070A14;
-            --space-bg-2: #0B1024;
-            --space-card: rgba(255, 255, 255, 0.06);
-            --space-border: rgba(124, 92, 255, 0.35);
-            --space-accent: #7C5CFF;
-            --space-accent-2: #00D4FF;
-            --space-text: #FFFFFF;
-            --space-text-muted: rgba(255, 255, 255, 0.75);
-        }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: radial-gradient(1200px 800px at 20% 10%, rgba(124, 92, 255, 0.18), transparent 60%),
-                        radial-gradient(1000px 700px at 80% 30%, rgba(0, 212, 255, 0.12), transparent 55%),
-                        linear-gradient(135deg, var(--space-bg) 0%, var(--space-bg-2) 100%);
-            color: var(--space-text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        /* Starfield */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image:
-                radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8) 0, transparent 40%),
-                radial-gradient(1px 1px at 30% 80%, rgba(255,255,255,0.6) 0, transparent 40%),
-                radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,0.7) 0, transparent 40%),
-                radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.5) 0, transparent 40%),
-                radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.6) 0, transparent 40%);
-            opacity: 0.6;
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(7, 10, 20, 0.85);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1rem 2rem;
-            border-bottom: 1px solid var(--space-border);
-        }
-        
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 900;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            color: var(--space-accent-2);
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 1.25rem;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: var(--space-text);
-            text-decoration: none;
-            font-weight: 500;
-            opacity: 0.9;
-        }
-        
-        .nav-links a:hover { opacity: 1; color: var(--space-accent-2); }
-        
-        .hero {
-            padding: 120px 2rem 60px;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: clamp(2.1rem, 4vw, 3.5rem);
-            font-weight: 900;
-            margin-bottom: 0.75rem;
-            background: linear-gradient(135deg, var(--space-accent-2) 0%, var(--space-accent) 60%, #FFFFFF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .hero .tagline {
-            font-size: 1.15rem;
-            color: var(--space-text-muted);
-            max-width: 820px;
-            margin: 0 auto 1.75rem;
-        }
-        
-        .cta {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
-        
-        .btn {
-            padding: 0.9rem 1.25rem;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            border: 1px solid var(--space-border);
-            color: var(--space-text);
-            background: rgba(255, 255, 255, 0.04);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--space-accent) 0%, var(--space-accent-2) 100%);
-            border: none;
-            color: #06101A;
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.18);
-        }
-        
-        .btn:hover { transform: translateY(-2px); }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem 80px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .section-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 900;
-            margin: 2.25rem 0 1.25rem;
-            letter-spacing: 0.02em;
-        }
-        
-        .episodes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-        
-        .episode-card {
-            background: var(--space-card);
-            border: 1px solid rgba(255, 255, 255, 0.10);
-            border-radius: 14px;
-            padding: 1.25rem;
-        }
-        
-        .episode-title {
-            font-weight: 800;
-            margin-bottom: 0.35rem;
-        }
-        
-        .episode-date {
-            font-size: 0.9rem;
-            color: var(--space-text-muted);
-            margin-bottom: 0.75rem;
-        }
-        
-        .episode-description {
-            color: var(--space-text-muted);
-            font-size: 0.98rem;
-            margin-bottom: 0.9rem;
-        }
-        
-        audio.audio-player { width: 100%; }
-        
-        footer {
-            padding: 2.5rem 2rem;
-            border-top: 1px solid var(--space-border);
-            background: rgba(7, 10, 20, 0.6);
-            position: relative;
-            z-index: 1;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        
-        .footer-text { color: var(--space-text-muted); margin: 0.25rem 0; }
-        
-        .footer-links {
-            margin-top: 0.75rem;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        .footer-links a { color: var(--space-accent-2); text-decoration: none; font-weight: 700; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Daily space and astronomy news - mission updates, cosmic discoveries. Journey to the stars with today's discoveries.">
+  <title>Fascinating Frontiers Daily</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128640;</text></svg>">
+  <style>
+    :root {
+      --brand: #7C5CFF;
+      --brand-alt: #00D4FF;
+      --brand-dark: #6344e0;
+      --bg: #070A14;
+      --card: #0f1424;
+      --card-hover: #151b30;
+      --text: #ffffff;
+      --text-muted: #8890b0;
+      --radius: 12px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; position: relative; }
+    a { color: var(--brand-alt); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Starfield background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 30% 65%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 45% 50%, rgba(124,92,255,0.4), transparent),
+        radial-gradient(1px 1px at 75% 15%, rgba(0,212,255,0.3), transparent),
+        radial-gradient(1px 1px at 85% 55%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 60% 75%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 5% 50%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 35% 90%, rgba(0,212,255,0.3), transparent),
+        radial-gradient(1px 1px at 55% 30%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 80% 70%, rgba(124,92,255,0.3), transparent),
+        radial-gradient(1px 1px at 95% 25%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1.5px 1.5px at 20% 45%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1.5px 1.5px at 65% 55%, rgba(0,212,255,0.5), transparent),
+        radial-gradient(1.5px 1.5px at 40% 80%, rgba(124,92,255,0.5), transparent),
+        radial-gradient(0.5px 0.5px at 8% 72%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(0.5px 0.5px at 42% 18%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(0.5px 0.5px at 78% 92%, rgba(255,255,255,0.2), transparent);
+      z-index: 0;
+      pointer-events: none;
+    }
+    body > * { position: relative; z-index: 1; }
+
+    header { position: sticky; top: 0; z-index: 100; background: rgba(7,10,20,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid #1a1f35; }
+    nav { max-width: 1100px; margin: 0 auto; padding: 0.8rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-weight: 800; font-size: 1.2rem; color: var(--text); }
+    .logo span { background: linear-gradient(135deg, var(--brand), var(--brand-alt)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    .hero { max-width: 1100px; margin: 0 auto; padding: 5rem 1.5rem 3rem; text-align: center; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -1px; background: linear-gradient(135deg, var(--brand), var(--brand-alt)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .tagline { color: var(--brand-alt); font-size: 1.15rem; font-weight: 600; margin: 0.5rem 0; }
+    .subtitle { color: var(--text-muted); max-width: 550px; margin: 0.5rem auto 2rem; }
+    .cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: 0.65rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: 1px solid #1a1f35; color: var(--text); transition: all 0.2s; }
+    .btn:hover { background: var(--card); text-decoration: none; }
+    .btn-primary { background: var(--brand); border-color: var(--brand); }
+    .btn-primary:hover { background: var(--brand-dark); }
+
+    .player-card { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .player-inner { background: var(--card); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #1a1f35; }
+    .player-inner h2 { font-size: 1rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    #latest-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem; }
+    audio { width: 100%; border-radius: 8px; }
+
+    .episodes-section { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .episodes-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
+    .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+    .episode-card { background: var(--card); border-radius: var(--radius); padding: 1.25rem; border: 1px solid #1a1f35; transition: border-color 0.2s; }
+    .episode-card:hover { border-color: var(--brand); }
+    .episode-card .ep-date { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .episode-card .ep-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.75rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .episode-card audio { width: 100%; }
+
+    .about-section { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .about-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
+    .about-section p { color: var(--text-muted); margin-bottom: 0.75rem; }
+
+    .network-section { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .network-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
+    .network-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
+    .network-card { display: block; background: var(--card); border-radius: var(--radius); padding: 1rem 1.25rem; border: 1px solid #1a1f35; font-weight: 600; font-size: 0.95rem; color: var(--text); transition: border-color 0.2s; }
+    .network-card:hover { border-color: var(--brand); text-decoration: none; }
+    .network-card small { display: block; color: var(--text-muted); font-weight: 400; font-size: 0.8rem; margin-top: 0.25rem; }
+    .network-card.current { opacity: 0.5; pointer-events: none; border-color: var(--brand); }
+
+    footer { border-top: 1px solid #1a1f35; padding: 2rem 1.5rem; text-align: center; }
+    .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+    .footer-links a { color: var(--text-muted); font-size: 0.85rem; }
+    .footer-links a:hover { color: var(--text); }
+    footer p { color: #2a3050; font-size: 0.8rem; }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(7,10,20,0.98); flex-direction: column; padding: 1rem 1.5rem; gap: 1rem; border-bottom: 1px solid #1a1f35; }
+      .nav-links.open { display: flex; }
+      .hero { padding: 3rem 1.5rem 2rem; }
+      .episodes-grid { grid-template-columns: 1fr; }
+      .network-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a class="logo" href="fascinating_frontiers.html">Fascinating Frontiers</a>
-            <ul class="nav-links">
-                <li><a href="#episodes">Episodes</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="fascinating-frontiers-summaries.html">Summaries</a></li>
-                <li><a href="fascinating_frontiers_podcast.rss">RSS</a></li>
-                <li><a href="podcasts/">All Podcasts</a></li>
-            </ul>
-        </nav>
-    </header>
-    
+  <header>
+    <nav>
+      <a class="logo" href="#"><span>Fascinating Frontiers</span></a>
+      <button class="menu-toggle" aria-label="Menu">&#9776;</button>
+      <div class="nav-links">
+        <a href="#episodes">Episodes</a>
+        <a href="#about">About</a>
+        <a href="https://x.com/planetterrian">@planetterrian</a>
+        <a href="fascinating_frontiers_podcast.rss">RSS</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
     <section class="hero">
-        <h1>Fascinating Frontiers Daily</h1>
-        <p class="tagline">
-            Daily space & astronomy news—mission updates, cosmic discoveries, and the moments that make you look up.
-            Hosted by <strong>Patrick in Vancouver</strong>.
-        </p>
-        <div class="cta">
-            <a class="btn btn-primary" href="fascinating_frontiers_podcast.rss">Subscribe via RSS</a>
-            <a class="btn" href="fascinating-frontiers-summaries.html">Read Summaries</a>
-            <a class="btn" href="https://x.com/planetterrian">Follow on X</a>
-            <a class="btn" href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
-        </div>
+      <h1>Fascinating Frontiers Daily</h1>
+      <p class="tagline">Journey to the stars with today's discoveries.</p>
+      <p class="subtitle">Daily space and astronomy news -- mission updates, cosmic discoveries, and humanity's next giant leaps.</p>
+      <div class="cta">
+        <a href="#episodes" class="btn btn-primary">Listen Now</a>
+        <a href="#" class="btn">Apple Podcasts</a>
+        <a href="https://x.com/planetterrian" class="btn">Follow on X</a>
+      </div>
     </section>
-    
-    <main class="container">
-        <section id="episodes">
-            <h2 class="section-title">Latest Episodes</h2>
-            <div id="episodes-container" class="episodes-grid">
-                <div class="episode-card">
-                    <div class="episode-title">Loading…</div>
-                    <div class="episode-date">Fetching RSS feed</div>
-                    <div class="episode-description">If this stays stuck, check that `fascinating_frontiers_podcast.rss` exists in the repo.</div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="about">
-            <h2 class="section-title">About</h2>
-            <div class="episode-card">
-                <p class="episode-description">
-                    <strong>Fascinating Frontiers</strong> is a daily digest of the most interesting space and astronomy stories—from launches and missions to exoplanets and cosmic phenomena.
-                    The goal is simple: keep it accurate, keep it exciting, and make the science feel close enough to touch.
-                </p>
-                <p class="episode-description" style="margin-bottom: 0;">
-                    We’re all made of starstuff. Let’s explore.
-                </p>
-            </div>
-        </section>
-    </main>
-    
-    <footer>
-        <div class="footer-content">
-            <p class="footer-text">Fascinating Frontiers Daily</p>
-            <p class="footer-text">Hosted by Patrick | Vancouver, Canada</p>
-            <div class="footer-links">
-                <a href="fascinating_frontiers_podcast.rss">RSS Feed</a>
-                <a href="fascinating-frontiers-summaries.html">Summaries</a>
-                <a href="podcasts/">All Podcasts</a>
-                <a href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
-            </div>
-        </div>
-    </footer>
-    
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        // AOS is optional — don't break episode loading if it's blocked.
-        if (window.AOS && typeof window.AOS.init === 'function') {
-            window.AOS.init();
-        }
-        
-        // Load episodes from RSS feed
-        fetch('fascinating_frontiers_podcast.rss?t=' + Date.now())
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`RSS fetch failed: ${response.status} ${response.statusText}`);
-                }
-                return response.text();
-            })
-            .then(data => {
-                const parser = new DOMParser();
-                const xml = parser.parseFromString(data, 'text/xml');
-                const parseError = xml.querySelector('parsererror');
-                if (parseError) {
-                    throw new Error('RSS parse error (invalid XML)');
-                }
-                const items = xml.querySelectorAll('item');
-                const container = document.getElementById('episodes-container');
-                
-                container.innerHTML = '';
-                
-                if (!items || items.length === 0) {
-                    container.innerHTML = `
-                        <div class="episode-card">
-                            <div class="episode-title">No episodes found</div>
-                            <div class="episode-date">RSS loaded but contained 0 items</div>
-                            <div class="episode-description">Check that <code>fascinating_frontiers_podcast.rss</code> contains valid <code>&lt;item&gt;</code> entries.</div>
-                        </div>
-                    `;
-                    return;
-                }
 
-                const getPubDateMs = (item) => {
-                    const pub = item.querySelector('pubDate')?.textContent || '';
-                    const ms = Date.parse(pub);
-                    return isNaN(ms) ? 0 : ms;
-                };
+    <section class="player-card" id="latest-player">
+      <div class="player-inner">
+        <h2>Latest Episode</h2>
+        <p id="latest-title">Loading...</p>
+        <audio id="latest-audio" controls preload="none"></audio>
+      </div>
+    </section>
 
-                // Always show the newest episodes even if RSS order changes.
-                const sortedItems = Array.from(items).sort((a, b) => getPubDateMs(b) - getPubDateMs(a));
+    <section id="episodes" class="episodes-section">
+      <h2>Recent Episodes</h2>
+      <div id="episodes-grid" class="episodes-grid"></div>
+    </section>
 
-                sortedItems.slice(0, 10).forEach((item) => {
-                    
-                    const title = item.querySelector('title')?.textContent || 'Untitled';
-                    const description = item.querySelector('description')?.textContent || '';
-                    const pubDate = item.querySelector('pubDate')?.textContent || '';
-                    const enclosure = item.querySelector('enclosure');
-                    const audioUrl = enclosure?.getAttribute('url') || '';
-                    
-                    const card = document.createElement('div');
-                    card.className = 'episode-card';
-                    card.setAttribute('data-aos', 'fade-up');
-                    
-                    const date = new Date(pubDate);
-                    const formattedDate = isNaN(date.getTime())
-                        ? pubDate
-                        : date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-                    
-                    card.innerHTML = `
-                        <div class="episode-title">${title}</div>
-                        <div class="episode-date">${formattedDate}</div>
-                        <div class="episode-description">${(description || '').substring(0, 220)}...</div>
-                        ${audioUrl ? `<audio controls class="audio-player"><source src="${audioUrl}" type="audio/mpeg"></audio>` : ''}
-                    `;
-                    
-                    container.appendChild(card);
-                });
-            })
-            .catch(error => {
-                console.error('Error loading episodes:', error);
-                const container = document.getElementById('episodes-container');
-                container.innerHTML = `
-                    <div class="episode-card">
-                        <div class="episode-title">Could not load episodes</div>
-                        <div class="episode-date">RSS fetch failed</div>
-                        <div class="episode-description">Make sure <code>fascinating_frontiers_podcast.rss</code> exists and GitHub Pages is serving it.</div>
-                    </div>
-                `;
-            });
-    </script>
+    <section id="about" class="about-section">
+      <h2>About Fascinating Frontiers</h2>
+      <p>Fascinating Frontiers is a daily podcast exploring the latest in space exploration, astronomy, and cosmic science. From NASA missions to deep-space discoveries, we bring the universe to your ears.</p>
+      <p>Hosted by Patrick in Vancouver, each episode covers the most significant developments from space agencies, observatories, and research labs around the world.</p>
+    </section>
+
+    <section class="network-section">
+      <h2>More from our network</h2>
+      <div class="network-grid">
+        <a href="index.html" class="network-card">Tesla Shorts Time<small>Tesla news and EV analysis</small></a>
+        <a href="omni-view.html" class="network-card">Omni View<small>Balanced news perspectives</small></a>
+        <a href="fascinating_frontiers.html" class="network-card current">Fascinating Frontiers<small>You are here</small></a>
+        <a href="planetterrian.html" class="network-card">Planetterrian Daily<small>Science and longevity</small></a>
+        <a href="env-intel.html" class="network-card">Environmental Intelligence<small>Environmental regulatory briefing</small></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="fascinating_frontiers_podcast.rss">RSS Feed</a>
+      <a href="#">Apple Podcasts</a>
+      <a href="https://x.com/planetterrian">X / Twitter</a>
+      <a href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
+    </div>
+    <p>&copy; 2026 Fascinating Frontiers</p>
+  </footer>
+
+  <script>
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+
+    async function loadEpisodes() {
+      try {
+        const resp = await fetch('digests/summaries_space.json');
+        if (!resp.ok) throw new Error('JSON not found');
+        const data = await resp.json();
+        renderFromJSON(data.summaries || data);
+      } catch {
+        loadFromRSS();
+      }
+    }
+
+    function renderFromJSON(episodes) {
+      if (!episodes || !episodes.length) return;
+      const latest = episodes[0];
+      document.getElementById('latest-title').textContent = latest.episode_title || 'Latest Episode';
+      document.getElementById('latest-audio').src = latest.audio_url || '';
+
+      const grid = document.getElementById('episodes-grid');
+      grid.innerHTML = '';
+      episodes.slice(0, 12).forEach(ep => {
+        const card = document.createElement('div');
+        card.className = 'episode-card';
+        card.innerHTML = `
+          <div class="ep-date">${formatDate(ep.date)}</div>
+          <div class="ep-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
+          <audio controls preload="none" src="${ep.audio_url || ''}"></audio>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function loadFromRSS() {
+      fetch('fascinating_frontiers_podcast.rss')
+        .then(r => r.text())
+        .then(xml => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(xml, 'text/xml');
+          const items = doc.querySelectorAll('item');
+          if (!items.length) return;
+
+          const first = items[0];
+          document.getElementById('latest-title').textContent = first.querySelector('title')?.textContent || 'Latest Episode';
+          const enc = first.querySelector('enclosure');
+          if (enc) document.getElementById('latest-audio').src = enc.getAttribute('url') || '';
+
+          const grid = document.getElementById('episodes-grid');
+          grid.innerHTML = '';
+          Array.from(items).slice(0, 12).forEach(item => {
+            const title = item.querySelector('title')?.textContent || 'Episode';
+            const pubDate = item.querySelector('pubDate')?.textContent || '';
+            const enclosure = item.querySelector('enclosure');
+            const url = enclosure ? enclosure.getAttribute('url') : '';
+            const card = document.createElement('div');
+            card.className = 'episode-card';
+            card.innerHTML = `
+              <div class="ep-date">${pubDate ? formatDate(pubDate) : ''}</div>
+              <div class="ep-title">${escapeHtml(title)}</div>
+              <audio controls preload="none" src="${url}"></audio>
+            `;
+            grid.appendChild(card);
+          });
+        })
+        .catch(() => {
+          document.getElementById('latest-title').textContent = 'Unable to load episodes';
+        });
+    }
+
+    function formatDate(d) {
+      try {
+        const date = new Date(d);
+        return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+      } catch { return d; }
+    }
+
+    function escapeHtml(s) {
+      const el = document.createElement('span');
+      el.textContent = s;
+      return el.innerHTML;
+    }
+
+    loadEpisodes();
+  </script>
 </body>
 </html>
-
-
