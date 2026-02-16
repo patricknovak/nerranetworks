@@ -68,13 +68,37 @@
     .about-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
     .about-section p { color: var(--text-muted); margin-bottom: 0.75rem; }
 
-    .network-section { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
-    .network-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
-    .network-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
-    .network-card { display: block; background: var(--card); border-radius: var(--radius); padding: 1rem 1.25rem; border: 1px solid #1e2a42; font-weight: 600; font-size: 0.95rem; color: var(--text); transition: border-color 0.2s; }
-    .network-card:hover { border-color: var(--brand); text-decoration: none; }
-    .network-card small { display: block; color: var(--text-muted); font-weight: 400; font-size: 0.8rem; margin-top: 0.25rem; }
-    .network-card.current { opacity: 0.5; pointer-events: none; border-color: var(--brand); }
+    /* Episode summaries */
+    .ep-summary { color: var(--text-muted); font-size: 0.85rem; margin: 0.75rem 0; line-height: 1.7; }
+    .ep-summary-preview { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .ep-summary.expanded .ep-summary-preview { display: block; -webkit-line-clamp: unset; }
+    .ep-summary-full { display: none; max-height: 500px; overflow-y: auto; padding-right: 0.5rem; }
+    .ep-summary.expanded .ep-summary-full { display: block; }
+    .ep-summary-toggle { display: inline-block; margin-top: 0.5rem; color: var(--brand); font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none; background: none; padding: 0; }
+    .ep-summary-toggle:hover { text-decoration: underline; }
+    .ep-summary-full h4 { font-size: 0.9rem; color: var(--text); margin: 0.75rem 0 0.25rem; font-weight: 700; }
+    .ep-summary-full a { color: var(--brand); word-break: break-all; }
+    .ep-summary-full a:hover { text-decoration: underline; }
+
+    /* Podcast network section */
+    .network-section { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .network-section h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem; text-align: center; }
+    .network-subtitle { color: var(--text-muted); text-align: center; margin-bottom: 2rem; font-size: 0.95rem; }
+    .network-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+    .network-card { display: flex; flex-direction: column; background: var(--card); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #1e2a42; transition: border-color 0.2s, transform 0.2s; }
+    .network-card:hover { border-color: var(--brand); transform: translateY(-2px); }
+    .network-card.current { border-color: var(--brand); background: #0d1a33; }
+    .network-card-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .network-card-emoji { font-size: 1.8rem; line-height: 1; }
+    .network-card-name { font-weight: 800; font-size: 1.05rem; color: var(--text); }
+    .network-card-tagline { color: var(--brand); font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .network-card-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 0.75rem; flex-grow: 1; }
+    .network-card-current { display: inline-block; background: var(--brand); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+    .network-card-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .network-card-links a { font-size: 0.8rem; font-weight: 600; color: var(--brand); }
+    .network-card-links a:hover { text-decoration: underline; }
+    .network-see-all { text-align: center; margin-top: 1.5rem; }
+    .network-see-all a { font-weight: 700; font-size: 0.95rem; color: var(--brand); }
 
     footer { border-top: 1px solid #1e2a42; padding: 2rem 1.5rem; text-align: center; }
     .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
@@ -88,7 +112,7 @@
       .nav-links.open { display: flex; }
       .hero { padding: 3rem 1.5rem 2rem; }
       .episodes-grid { grid-template-columns: 1fr; }
-      .network-grid { grid-template-columns: 1fr 1fr; }
+      .network-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -99,6 +123,7 @@
       <button class="menu-toggle" aria-label="Menu">&#9776;</button>
       <div class="nav-links">
         <a href="#episodes">Episodes</a>
+        <a href="omni-view-summaries.html">Summaries</a>
         <a href="#about">About</a>
         <a href="https://x.com/omniviewnews">@omniviewnews</a>
         <a href="omni_view_podcast.rss">RSS</a>
@@ -141,14 +166,84 @@
       <p>Hosted by Patrick, each episode covers top stories, world news, business, and technology with balanced analysis and source transparency.</p>
     </section>
 
-    <section class="network-section">
-      <h2>More from our network</h2>
+    <section class="network-section" id="network">
+      <h2>Explore Our Podcast Network</h2>
+      <p class="network-subtitle">Five daily shows covering Tesla, world news, space, science, and the environment.</p>
       <div class="network-grid">
-        <a href="index.html" class="network-card">Tesla Shorts Time<small>Tesla news and EV analysis</small></a>
-        <a href="omni-view.html" class="network-card current">Omni View<small>You are here</small></a>
-        <a href="fascinating_frontiers.html" class="network-card">Fascinating Frontiers<small>Space and astronomy</small></a>
-        <a href="planetterrian.html" class="network-card">Planetterrian Daily<small>Science and longevity</small></a>
-        <a href="env-intel.html" class="network-card">Environmental Intelligence<small>Environmental regulatory briefing</small></a>
+
+        <div class="network-card">
+          <div class="network-card-header">
+            <span class="network-card-emoji">&#9889;</span>
+            <span class="network-card-name">Tesla Shorts Time</span>
+          </div>
+          <div class="network-card-tagline">Shorting Tesla? Time's Up.</div>
+          <div class="network-card-desc">Daily Tesla news, stock analysis, and EV future.</div>
+          <div class="network-card-links">
+            <a href="index.html">Listen</a>
+            <a href="podcast.rss">RSS</a>
+            <a href="https://x.com/teslashortstime">Follow on X</a>
+          </div>
+        </div>
+
+        <div class="network-card current">
+          <div class="network-card-header">
+            <span class="network-card-emoji">&#128065;</span>
+            <span class="network-card-name">Omni View</span>
+          </div>
+          <span class="network-card-current">You are here</span>
+          <div class="network-card-tagline">See every side. Decide for yourself.</div>
+          <div class="network-card-desc">Balanced daily news briefing for media literacy.</div>
+          <div class="network-card-links">
+            <a href="omni-view.html">Listen</a>
+            <a href="omni_view_podcast.rss">RSS</a>
+            <a href="https://x.com/omniviewnews">Follow on X</a>
+          </div>
+        </div>
+
+        <div class="network-card">
+          <div class="network-card-header">
+            <span class="network-card-emoji">&#128640;</span>
+            <span class="network-card-name">Fascinating Frontiers</span>
+          </div>
+          <div class="network-card-tagline">Journey to the stars.</div>
+          <div class="network-card-desc">Daily space, astronomy, and cosmic discovery news.</div>
+          <div class="network-card-links">
+            <a href="fascinating_frontiers.html">Listen</a>
+            <a href="fascinating_frontiers_podcast.rss">RSS</a>
+            <a href="https://x.com/planetterrian">Follow on X</a>
+          </div>
+        </div>
+
+        <div class="network-card">
+          <div class="network-card-header">
+            <span class="network-card-emoji">&#127758;</span>
+            <span class="network-card-name">Planetterrian Daily</span>
+          </div>
+          <div class="network-card-tagline">Science, longevity, human health.</div>
+          <div class="network-card-desc">Science, longevity, genetics, and health research.</div>
+          <div class="network-card-links">
+            <a href="planetterrian.html">Listen</a>
+            <a href="planetterrian_podcast.rss">RSS</a>
+            <a href="https://x.com/planetterrian">Follow on X</a>
+          </div>
+        </div>
+
+        <div class="network-card">
+          <div class="network-card-header">
+            <span class="network-card-emoji">&#127793;</span>
+            <span class="network-card-name">Environmental Intelligence</span>
+          </div>
+          <div class="network-card-tagline">Daily environmental briefing.</div>
+          <div class="network-card-desc">Environmental regulatory and compliance briefing.</div>
+          <div class="network-card-links">
+            <a href="env-intel.html">Listen</a>
+            <a href="env_intel_podcast.rss">RSS</a>
+          </div>
+        </div>
+
+      </div>
+      <div class="network-see-all">
+        <a href="network.html">See all shows &rarr;</a>
       </div>
     </section>
   </main>
@@ -179,6 +274,50 @@
       }
     }
 
+    function markdownToHtml(md) {
+      if (!md) return '';
+      let html = md;
+      // Convert ### headings to <h4>
+      html = html.replace(/^### (.+)$/gm, '<h4>$1</h4>');
+      // Convert ## headings to <h4> as well (keep uniform in card)
+      html = html.replace(/^## (.+)$/gm, '<h4>$1</h4>');
+      // Remove # top-level headings (title already shown)
+      html = html.replace(/^# (.+)$/gm, '');
+      // Bold **text**
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      // Convert markdown links [text](url)
+      html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      // Convert bare URLs that aren't already in href
+      html = html.replace(/(?<!href="|">)(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+      // Convert newlines to <br>
+      html = html.replace(/\n/g, '<br>');
+      // Clean up excessive <br> after block elements
+      html = html.replace(/(<\/h4>)<br>/g, '$1');
+      html = html.replace(/<br><br><br>/g, '<br><br>');
+      return html.trim();
+    }
+
+    function getSummaryPreview(content) {
+      if (!content) return '';
+      // Strip markdown formatting for preview
+      let text = content;
+      text = text.replace(/^#{1,3} .+$/gm, '');
+      text = text.replace(/\*\*(.+?)\*\*/g, '$1');
+      text = text.replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1');
+      text = text.replace(/\n+/g, ' ');
+      text = text.trim();
+      if (text.length > 200) {
+        text = text.substring(0, 200).replace(/\s+\S*$/, '') + '...';
+      }
+      return text;
+    }
+
+    function toggleSummary(btn) {
+      const summary = btn.closest('.ep-summary');
+      const isExpanded = summary.classList.toggle('expanded');
+      btn.textContent = isExpanded ? 'Collapse summary' : 'Read full summary';
+    }
+
     function renderFromJSON(episodes) {
       if (!episodes || !episodes.length) return;
       const latest = episodes[0];
@@ -190,9 +329,25 @@
       episodes.slice(0, 12).forEach(ep => {
         const card = document.createElement('div');
         card.className = 'episode-card';
+        const preview = escapeHtml(getSummaryPreview(ep.content || ''));
+        const fullHtml = markdownToHtml(ep.content || '');
+        const hasSummary = ep.content && ep.content.trim().length > 0;
+
+        let summaryBlock = '';
+        if (hasSummary) {
+          summaryBlock = `
+            <div class="ep-summary">
+              <div class="ep-summary-preview">${preview}</div>
+              <div class="ep-summary-full">${fullHtml}</div>
+              <button class="ep-summary-toggle" onclick="toggleSummary(this)">Read full summary</button>
+            </div>
+          `;
+        }
+
         card.innerHTML = `
           <div class="ep-date">${formatDate(ep.date)}</div>
           <div class="ep-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
+          ${summaryBlock}
           <audio controls preload="none" src="${ep.audio_url || ''}"></audio>
         `;
         grid.appendChild(card);
