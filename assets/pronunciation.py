@@ -1,160 +1,989 @@
 """
-Shared pronunciation dictionary for all podcasts.
-This module provides pronunciation fixes for acronyms, names, and terms
-that TTS engines commonly mispronounce.
+Shared pronunciation module for all podcasts.
+
+Provides comprehensive text-to-speech preparation including:
+  - Text cleanup (emojis, markdown, URLs, unicode decorations)
+  - Number/currency/date/time expansion to spoken words
+  - Acronym and abbreviation handling
+  - Unit abbreviation expansion
+  - Proper name pronunciation guides
+  - Roman numeral conversion
+
+Usage:
+    from assets.pronunciation import prepare_text_for_tts
+
+    # Simple usage (applies all fixes):
+    tts_ready = prepare_text_for_tts(text)
+
+    # Per-show overrides:
+    tts_ready = prepare_text_for_tts(text, extra_acronyms={"DLT": "D L T"})
 """
 
 import re
-from typing import Dict
+from typing import Dict, Optional
+
+# Import shared number_to_words from engine
+from engine.utils import number_to_words
+
+
+# ========================== TEXT CLEANUP ==========================
+
+def strip_emojis(text: str) -> str:
+    """Remove emoji characters that TTS engines may try to describe or garble."""
+    # Unicode emoji ranges (comprehensive)
+    emoji_pattern = re.compile(
+        "["
+        "\U0001F600-\U0001F64F"  # emoticons
+        "\U0001F300-\U0001F5FF"  # symbols & pictographs
+        "\U0001F680-\U0001F6FF"  # transport & map
+        "\U0001F1E0-\U0001F1FF"  # flags
+        "\U00002702-\U000027B0"  # dingbats
+        "\U000024C2-\U0001F251"  # enclosed chars
+        "\U0001F900-\U0001F9FF"  # supplemental symbols
+        "\U0001FA00-\U0001FA6F"  # chess symbols
+        "\U0001FA70-\U0001FAFF"  # symbols extended-A
+        "\U00002600-\U000026FF"  # misc symbols
+        "\U0000FE00-\U0000FE0F"  # variation selectors
+        "\U0000200D"             # zero width joiner
+        "\U000020E3"             # combining enclosing keycap
+        "\U0000FE0F"             # variation selector-16
+        "\U000E0020-\U000E007F"  # tags
+        "]+",
+        flags=re.UNICODE,
+    )
+    text = emoji_pattern.sub("", text)
+    # Clean up keycap sequences like 1️⃣ (digit + VS16 + combining keycap)
+    text = re.sub(r"(\d)\uFE0F?\u20E3", r"\1", text)
+    return text
+
+
+def strip_markdown(text: str) -> str:
+    """Remove markdown formatting that TTS would read literally."""
+    # Remove bold markers: **text** -> text
+    text = re.sub(r"\*\*(.+?)\*\*", r"\1", text)
+    # Remove italic markers: *text* -> text (but not bullet points)
+    text = re.sub(r"(?<!\n)\*(?!\s)(.+?)(?<!\s)\*", r"\1", text)
+    # Remove heading markers: ### Heading -> Heading
+    text = re.sub(r"^#{1,6}\s+", "", text, flags=re.MULTILINE)
+    # Remove horizontal rules (unicode box-drawing and dashes)
+    text = re.sub(r"[━─]{3,}", "", text)
+    text = re.sub(r"^-{3,}$", "", text, flags=re.MULTILINE)
+    text = re.sub(r"^\*{3,}$", "", text, flags=re.MULTILINE)
+    return text
+
+
+def strip_urls(text: str) -> str:
+    """Remove or replace URLs that TTS would spell out character-by-character."""
+    # Remove "Source: URL" lines entirely
+    text = re.sub(r"(?i)source/?(?:post)?:\s*https?://\S+", "", text)
+    # Remove standalone URLs on their own line
+    text = re.sub(r"^\s*https?://\S+\s*$", "", text, flags=re.MULTILINE)
+    # Replace inline URLs with empty string (the surrounding context should suffice)
+    text = re.sub(r"https?://\S+", "", text)
+    return text
+
+
+def strip_unicode_decorations(text: str) -> str:
+    """Remove decorative unicode characters that confuse TTS."""
+    # Zero-width characters
+    text = re.sub(r"[\u200B-\u200F\u2028-\u202F\u2060\uFEFF]", "", text)
+    # Box-drawing characters
+    text = re.sub(r"[\u2500-\u257F]+", "", text)
+    return text
+
+
+def clean_social_handles(text: str) -> str:
+    """Convert @handles to spoken form."""
+    # "@teslashortstime" -> "at tesla shorts time"
+    def _expand_handle(m: re.Match) -> str:
+        handle = m.group(1)
+        # Insert spaces before uppercase letters in camelCase handles
+        spaced = re.sub(r"([a-z])([A-Z])", r"\1 \2", handle)
+        # Split known compound words
+        for compound, expanded in _HANDLE_EXPANSIONS.items():
+            spaced = re.sub(re.escape(compound), expanded, spaced, flags=re.IGNORECASE)
+        return f"at {spaced}"
+
+    text = re.sub(r"@(\w+)", _expand_handle, text)
+    return text
+
+_HANDLE_EXPANSIONS: Dict[str, str] = {
+    "teslashortstime": "tesla shorts time",
+    "omniviewnews": "omni view news",
+    "planetterrian": "planet terry an",
+}
+
+
+def clean_text_for_tts(text: str) -> str:
+    """Apply all text cleanup steps in the correct order."""
+    text = strip_emojis(text)
+    text = strip_markdown(text)
+    text = strip_urls(text)
+    text = strip_unicode_decorations(text)
+    text = clean_social_handles(text)
+    # Collapse multiple blank lines / excessive whitespace
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    text = re.sub(r"  +", " ", text)
+    return text.strip()
 
 
 # ========================== SHARED PRONUNCIATION DICTIONARIES ==========================
 
-# Common acronyms that should be spelled letter-by-letter
+# Common acronyms that should be spelled letter-by-letter.
+# Order matters: longer/more specific entries must come first to prevent
+# partial matches (e.g. "EVs" before "EV").
 COMMON_ACRONYMS: Dict[str, str] = {
-    # AI and ML
-    "AI": "A I",
-    "ML": "M L",
+    # --- AI and ML ---
     "OpenAI": "Open A.I.",
     "GenAI": "Gen A.I.",
-    # Space agencies and missions
-    "NASA": "N A S A",
+    "xAI": "ex A.I.",
+    "AI": "A.I.",
+    "ML": "M L",
+    "LLM": "L L M",
+    "LLMs": "L L Ms",
+    "GPT": "G P T",
+    "AGI": "A G I",
+    "NLP": "N L P",
+
+    # --- Space agencies and missions ---
+    "NASA": "NASA",  # well-known word-acronym, TTS handles it
+    "SpaceX": "Space X",
     "ESA": "E S A",
-    "JAXA": "J A X A",
+    "JAXA": "JAXA",
     "ISS": "I S S",
     "JWST": "J W S T",
     "HST": "H S T",
     "SLS": "S L S",
-    "FAA": "F A A",
     "ULA": "U L A",
-    "SpaceX": "Space X",
     "LRO": "L R O",
-    "OSIRIS-REx": "O S I R I S R E X",
-    "DART": "D A R T",
-    "PSYCHE": "P S Y C H E",
-    # Biology and health
+    "LEO": "L E O",
+    "GEO": "G E O",
+    "OSIRIS-REx": "Osiris Rex",
+    "DART": "DART",
+    "PSYCHE": "Sy-key",
+
+    # --- Biology and health ---
     "DNA": "D N A",
     "RNA": "R N A",
-    "CRISPR": "C R I S P R",
-    "CRISPR-Cas9": "C R I S P R Cas 9",
-    "mRNA": "m R N A",
+    "RNAi": "R N A i",
+    "CRISPR": "CRISPR",
+    "CRISPR-Cas9": "CRISPR Cas nine",
+    "mRNA": "messenger R N A",
     "FDA": "F D A",
     "NIH": "N I H",
     "WHO": "W H O",
-    # Tesla and EVs
+    "CDC": "C D C",
+    "EMA": "E M A",
+
+    # --- Tesla and EVs ---
     "TSLA": "T S L A",
     "FSD": "F S D",
-    "HW3": "H W 3",
-    "HW4": "H W 4",
-    "AI5": "A I 5",
-    "4680": "4 6 8 0",
+    "HW3": "H W three",
+    "HW4": "H W four",
+    "AI5": "A I five",
+    "4680": "forty-six eighty",
+    "EVs": "E Vs",
     "EV": "E V",
-    "EVs": "E V s",  # Fixed: spell out "s" separately to prevent "E.V.S" pronunciation
+    "BEVs": "B E Vs",
     "BEV": "B E V",
+    "PHEVs": "P H E Vs",
     "PHEV": "P H E V",
     "ICE": "I C E",
     "NHTSA": "N H T S A",
     "OTA": "O T A",
     "LFP": "L F P",
+    "V2G": "V two G",
+    "V2H": "V two H",
+    "V2L": "V two L",
+    "EPA": "E P A",
+    "WLTP": "W L T P",
+    "NEDC": "N E D C",
+    "MPGe": "M P G e",
+    "S3XY": "S three X Y",
+
+    # --- Tech / Business ---
+    "CEO": "C E O",
+    "CFO": "C F O",
+    "CTO": "C T O",
+    "COO": "C O O",
+    "IPO": "I P O",
+    "API": "A P I",
+    "APIs": "A P Is",
+    "SDK": "S D K",
+    "IoT": "I o T",
+    "LED": "L E D",
+    "LEDs": "L E Ds",
+    "DLT": "D L T",
+    "DM": "D M",
+    "PR": "P R",
+    "R&D": "R and D",
+    "Q&A": "Q and A",
+    "SEC": "S E C",
+    "NYSE": "N Y S E",
+    "ETF": "E T F",
+    "ETFs": "E T Fs",
+    "ESG": "E S G",
+    "GDP": "G D P",
+    "CPI": "C P I",
+
+    # --- Government / Regulatory ---
+    "FAA": "F A A",
+    "FCC": "F C C",
+    "DOE": "D O E",
+    "DOJ": "D O J",
+    "DOT": "D O T",
+    "EPA": "E P A",
+    "EU": "E U",
+    "UK": "U K",
+    "US": "U S",
+    "USA": "U S A",
+    "UN": "U N",
+    "NATO": "NATO",
+    "OPEC": "OPEC",
+
+    # --- Misc tech ---
+    "USB": "U S B",
+    "HDMI": "H D M I",
+    "WiFi": "Wi-Fi",
+    "GPS": "G P S",
+    "VPN": "V P N",
+    "AR": "A R",
+    "VR": "V R",
+    "XR": "X R",
+    "5G": "five G",
+    "6G": "six G",
+    "4G": "four G",
+    "LTE": "L T E",
+    "SaaS": "sass",
+    "PaaS": "pass",
+    "IaaS": "eye-as",
 }
 
-# Optional domain-specific terms. Keep these empty by default to avoid
-# baking a specific show's vocabulary into all podcasts.
-HOCKEY_TERMS: Dict[str, str] = {}
 
-# Optional domain-specific proper nouns (left empty by default).
-OILERS_PLAYER_NAMES: Dict[str, str] = {}
-
-# Common player names and pronunciations (generic - can be extended)
-PLAYER_NAMES: Dict[str, str] = {
-    # Can be extended with other player names as needed
-}
-
-# Common word pronunciations
+# Proper names and terms that TTS commonly mispronounces
 WORD_PRONUNCIATIONS: Dict[str, str] = {
-    "Planetterrian": "Planet terry an",
-    "planetterrian": "planet terry an",
-    "Robotaxis": "Robotaxi s",
-    "Robotaxi": "Robotaxi",
-    # Protect common words from being misread as acronyms
-    # TTS engines sometimes read "who" as "W.H.O." - protect it
+    # --- Show names ---
+    "Planetterrian": "Planet-terry-an",
+    "planetterrian": "planet-terry-an",
+
+    # --- Tesla product names ---
+    "Robotaxis": "Robo-taxis",
+    "Robotaxi": "Robo-taxi",
+    "robotaxis": "robo-taxis",
+    "robotaxi": "robo-taxi",
+    "Cybertruck": "Cyber-truck",
+    "Cybercab": "Cyber-cab",
+    "Megapack": "Mega-pack",
+    "Megapacks": "Mega-packs",
+    "Powerwall": "Power-wall",
+    "Powerwalls": "Power-walls",
+    "Supercharger": "Super-charger",
+    "Superchargers": "Super-chargers",
+    "Gigafactory": "Giga-factory",
+    "Gigafactories": "Giga-factories",
+    "Autopilot": "Auto-pilot",
+
+    # --- Tesla model names ---
+    "Model 3": "Model Three",
+    "Model Y": "Model Why",
+
+    # --- Company / brand names ---
+    "Teslarati": "Tesla-rah-tee",
+    "CleanTechnica": "Clean Technica",
+    "BrewDog": "Brew Dog",
+    "AstraZeneca": "Astra-Zeneca",
+    "Alnylam": "Al-nye-lam",
+    "Roscosmos": "Ross-cosmos",
+    "Lifespan.io": "Life-span dot i o",
+
+    # --- Scientific names ---
+    "Enceladus": "En-sell-uh-dus",
+    "Cassini": "Kah-see-nee",
+    "Oberth": "Oh-bairt",
+
+    # --- People ---
+    # Add commonly appearing names that TTS stumbles on
+
+    # --- Protected common words ---
+    # TTS engines sometimes read "who" as "W.H.O." - protect these
     "who": "who",
     "Who": "Who",
+    "ice": "ice",  # protect lowercase "ice" from ICE acronym
 }
 
+
+# Unit abbreviations to expand for natural speech
+UNIT_ABBREVIATIONS: Dict[str, str] = {
+    "km": "kilometers",
+    "mi": "miles",
+    "kg": "kilograms",
+    "lb": "pounds",
+    "lbs": "pounds",
+    "ft": "feet",
+    "m": "meters",
+    "cm": "centimeters",
+    "mm": "millimeters",
+    "nm": "nanometers",
+    "kW": "kilowatts",
+    "kWh": "kilowatt hours",
+    "MW": "megawatts",
+    "MWh": "megawatt hours",
+    "GW": "gigawatts",
+    "GWh": "gigawatt hours",
+    "GHz": "gigahertz",
+    "MHz": "megahertz",
+    "Hz": "hertz",
+    "mph": "miles per hour",
+    "kph": "kilometers per hour",
+    "mpg": "miles per gallon",
+    "psi": "P S I",
+    "dB": "decibels",
+}
+
+# Timezone abbreviations to expand
+TIMEZONE_EXPANSIONS: Dict[str, str] = {
+    "PST": "Pacific Standard Time",
+    "PDT": "Pacific Daylight Time",
+    "EST": "Eastern Standard Time",
+    "EDT": "Eastern Daylight Time",
+    "CST": "Central Standard Time",
+    "CDT": "Central Daylight Time",
+    "MST": "Mountain Standard Time",
+    "MDT": "Mountain Daylight Time",
+    "UTC": "U T C",
+    "GMT": "Greenwich Mean Time",
+    "BST": "British Summer Time",
+    "CET": "Central European Time",
+    "CEST": "Central European Summer Time",
+    "JST": "Japan Standard Time",
+    "AEST": "Australian Eastern Standard Time",
+    "IST": "Indian Standard Time",
+}
+
+# Month abbreviations for date matching
+MONTH_ABBREVIATIONS: Dict[str, str] = {
+    "Jan": "January",
+    "Feb": "February",
+    "Mar": "March",
+    "Apr": "April",
+    "Jun": "June",
+    "Jul": "July",
+    "Aug": "August",
+    "Sep": "September",
+    "Sept": "September",
+    "Oct": "October",
+    "Nov": "November",
+    "Dec": "December",
+}
+
+# Roman numerals mapping
+ROMAN_NUMERALS: Dict[str, int] = {
+    "I": 1, "II": 2, "III": 3, "IV": 4, "V": 5,
+    "VI": 6, "VII": 7, "VIII": 8, "IX": 9, "X": 10,
+    "XI": 11, "XII": 12, "XIII": 13, "XIV": 14, "XV": 15,
+    "XVI": 16, "XVII": 17, "XVIII": 18, "XIX": 19, "XX": 20,
+}
+
+
+# ========================== NUMBER / VALUE CONVERTERS ==========================
+
+def _number_to_ordinal(n: int) -> str:
+    """Convert integer to ordinal word form (1 -> 'first', 22 -> 'twenty-second')."""
+    special = {
+        1: "first", 2: "second", 3: "third", 4: "fourth", 5: "fifth",
+        6: "sixth", 7: "seventh", 8: "eighth", 9: "ninth", 10: "tenth",
+        11: "eleventh", 12: "twelfth", 13: "thirteenth", 14: "fourteenth",
+        15: "fifteenth", 16: "sixteenth", 17: "seventeenth", 18: "eighteenth",
+        19: "nineteenth", 20: "twentieth", 30: "thirtieth",
+    }
+    if n in special:
+        return special[n]
+    if n < 100:
+        tens_digit = (n // 10) * 10
+        ones_digit = n % 10
+        if ones_digit == 0:
+            return number_to_words(n) + "th"
+        tens_word = number_to_words(tens_digit)
+        ones_ordinal = special.get(ones_digit, number_to_words(ones_digit) + "th")
+        return f"{tens_word}-{ones_ordinal}"
+    # For larger numbers, just append "th" to the cardinal
+    words = number_to_words(n)
+    if words.endswith("y"):
+        return words[:-1] + "ieth"
+    return words + "th"
+
+
+def _year_to_words(year: int) -> str:
+    """Convert a year number to natural spoken form.
+
+    2026 -> 'twenty twenty-six'
+    2000 -> 'two thousand'
+    2001 -> 'two thousand one'
+    1999 -> 'nineteen ninety-nine'
+    1564 -> 'fifteen sixty-four'
+    """
+    if year == 2000:
+        return "two thousand"
+    if 2001 <= year <= 2009:
+        return "two thousand " + number_to_words(year - 2000)
+    if 2010 <= year <= 2099:
+        first = year // 100  # 20
+        last = year % 100     # 26
+        return f"{number_to_words(first)} {number_to_words(last)}"
+    if 1000 <= year <= 1999:
+        first = year // 100
+        last = year % 100
+        if last == 0:
+            return f"{number_to_words(first)} hundred"
+        return f"{number_to_words(first)} {number_to_words(last)}"
+    return number_to_words(year)
+
+
+def replace_currency(text: str) -> str:
+    """Convert currency values to spoken form."""
+    # Large currency first: "$3 Trillion", "$2.5 Billion", etc.
+    def _large_currency(m: re.Match) -> str:
+        symbol = m.group(1)
+        num_str = m.group(2)
+        unit = m.group(3).lower()
+        currency = {"$": "dollars", "\u20ac": "euros", "\u00a3": "pounds"}.get(symbol, "dollars")
+        try:
+            words = number_to_words(float(num_str))
+            return f"{words} {unit} {currency}"
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(
+        r"([$\u20ac\u00a3])(\d+\.?\d*)\s*(trillion|billion|million)\b",
+        _large_currency,
+        text,
+        flags=re.IGNORECASE,
+    )
+
+    # Regular currency with cents: "$417.44" -> "four hundred seventeen dollars and forty-four cents"
+    def _currency_with_cents(m: re.Match) -> str:
+        symbol = m.group(1)
+        whole = m.group(2)
+        frac = m.group(3)
+        currency = {"$": "dollars", "\u20ac": "euros", "\u00a3": "pounds"}.get(symbol, "dollars")
+        sub_unit = {"$": "cents", "\u20ac": "cents", "\u00a3": "pence"}.get(symbol, "cents")
+        try:
+            whole_n = int(whole)
+            frac_n = int(frac)
+            if whole_n == 0:
+                return f"{number_to_words(frac_n)} {sub_unit}"
+            if frac_n == 0:
+                return f"{number_to_words(whole_n)} {currency}"
+            return f"{number_to_words(whole_n)} {currency} and {number_to_words(frac_n)} {sub_unit}"
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(r"([$\u20ac\u00a3])(\d+)\.(\d{1,2})\b", _currency_with_cents, text)
+
+    # Whole currency: "$500" -> "five hundred dollars"
+    def _currency_whole(m: re.Match) -> str:
+        symbol = m.group(1)
+        num_str = m.group(2)
+        currency = {"$": "dollars", "\u20ac": "euros", "\u00a3": "pounds"}.get(symbol, "dollars")
+        try:
+            return f"{number_to_words(int(num_str))} {currency}"
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(r"([$\u20ac\u00a3])(\d+)\b", _currency_whole, text)
+    return text
+
+
+def replace_percentages(text: str) -> str:
+    """Convert percentages to spoken form: '+3.59%' -> 'plus three point five nine percent'."""
+    def _pct(m: re.Match) -> str:
+        sign = m.group(1) or ""
+        num_str = m.group(2)
+        try:
+            words = number_to_words(abs(float(num_str)))
+            prefix = {"+" : "plus ", "-": "minus "}.get(sign, "")
+            return f"{prefix}{words} percent"
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(r"([+\-]?)(\d+\.?\d*)\s*%", _pct, text)
+    return text
+
+
+def replace_dates(text: str) -> str:
+    """Convert dates to natural spoken form.
+
+    Handles: 'February 15, 2026', '15 February, 2026', 'Feb 15, 2026'
+    """
+    # Expand abbreviated months first
+    for abbr, full in MONTH_ABBREVIATIONS.items():
+        text = re.sub(rf"\b{abbr}\b", full, text)
+
+    def _date(m: re.Match) -> str:
+        month = m.group(1)
+        day = m.group(2)
+        year = m.group(3)
+        try:
+            day_n = int(day)
+            year_n = int(year)
+            return f"{month} {_number_to_ordinal(day_n)}, {_year_to_words(year_n)}"
+        except ValueError:
+            return m.group(0)
+
+    # "Month DD, YYYY"
+    text = re.sub(
+        r"(\b(?:January|February|March|April|May|June|July|August|"
+        r"September|October|November|December)\b)\s+(\d{1,2}),\s*(\d{4})",
+        _date,
+        text,
+        flags=re.IGNORECASE,
+    )
+
+    # "DD Month, YYYY" -> rearrange to "Month DDth, YYYY"
+    def _date_swapped(m: re.Match) -> str:
+        day = m.group(1)
+        month = m.group(2)
+        year = m.group(3)
+        try:
+            day_n = int(day)
+            year_n = int(year)
+            return f"{month} {_number_to_ordinal(day_n)}, {_year_to_words(year_n)}"
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(
+        r"(\d{1,2})\s+(\b(?:January|February|March|April|May|June|July|August|"
+        r"September|October|November|December)\b),?\s*(\d{4})",
+        _date_swapped,
+        text,
+        flags=re.IGNORECASE,
+    )
+
+    return text
+
+
+def replace_times(text: str) -> str:
+    """Convert clock times to spoken form: '03:08 AM' -> 'three oh eight A M'."""
+    def _time(m: re.Match) -> str:
+        hour_str = m.group(1)
+        minute_str = m.group(2)
+        am_pm_raw = (m.group(3) or "").strip()
+        try:
+            hour = int(hour_str)
+            minute = int(minute_str)
+            # Normalize am/pm
+            am_pm = am_pm_raw.upper().replace(".", "").strip()
+            if am_pm not in ("AM", "PM"):
+                # 24-hour format
+                if hour >= 13:
+                    hour -= 12
+                    am_pm = "P M"
+                elif hour == 12:
+                    am_pm = "P M"
+                elif hour == 0:
+                    hour = 12
+                    am_pm = "A M"
+                else:
+                    am_pm = "A M"
+            else:
+                am_pm = am_pm[0] + " " + am_pm[1]  # "AM" -> "A M"
+
+            if hour < 1 or hour > 12:
+                return m.group(0)
+
+            hour_word = number_to_words(hour)
+            if minute == 0:
+                return f"{hour_word} {am_pm}"
+            elif 1 <= minute <= 9:
+                return f"{hour_word} oh {number_to_words(minute)} {am_pm}"
+            else:
+                return f"{hour_word} {number_to_words(minute)} {am_pm}"
+        except (ValueError, AttributeError):
+            return m.group(0)
+
+    text = re.sub(
+        r"(\d{1,2}):(\d{2})\s*(AM|PM|am|pm|A\.M\.|P\.M\.|a\.m\.|p\.m\.)?",
+        _time,
+        text,
+    )
+    return text
+
+
+def replace_timezones(text: str) -> str:
+    """Expand timezone abbreviations to full names."""
+    for tz, expansion in TIMEZONE_EXPANSIONS.items():
+        text = re.sub(rf"\b{re.escape(tz)}\b", expansion, text)
+    return text
+
+
+def replace_episode_numbers(text: str) -> str:
+    """Convert 'episode 39' to 'episode thirty-nine'."""
+    def _ep(m: re.Match) -> str:
+        prefix = m.group(1)
+        num = m.group(2)
+        try:
+            return f"{prefix}{number_to_words(int(num))}"
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(r"(episode\s+)(\d+)", _ep, text, flags=re.IGNORECASE)
+    return text
+
+
+def replace_ordinal_numbers(text: str) -> str:
+    """Convert '7th' to 'seventh', '10th' to 'tenth', etc."""
+    def _ordinal(m: re.Match) -> str:
+        num_str = m.group(1)
+        try:
+            return _number_to_ordinal(int(num_str))
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(r"\b(\d+)(?:st|nd|rd|th)\b", _ordinal, text)
+    return text
+
+
+def replace_roman_numerals(text: str) -> str:
+    """Convert Roman numerals in context: 'Phase III' -> 'Phase three'."""
+    # Only convert when preceded by a context word to avoid false positives
+    context_words = r"(?:Phase|Part|Chapter|Section|Act|Type|Class|Mark|Version|Vol|Volume|Title|Book|Level|Stage|Grade|Tier|Step|Round|Series|Season|Episode|Generation|Gen)"
+
+    def _roman(m: re.Match) -> str:
+        prefix = m.group(1)
+        numeral = m.group(2).upper()
+        val = ROMAN_NUMERALS.get(numeral)
+        if val is not None:
+            return f"{prefix}{number_to_words(val)}"
+        return m.group(0)
+
+    text = re.sub(
+        rf"({context_words}\s+)(I{{1,4}}V?|VI{{0,4}}|IX|X{{1,3}}I{{0,4}}V?)\b",
+        _roman,
+        text,
+        flags=re.IGNORECASE,
+    )
+    return text
+
+
+def replace_quarter_notation(text: str) -> str:
+    """Convert 'Q2 2026' to 'Q two twenty twenty-six'."""
+    def _quarter(m: re.Match) -> str:
+        q_num = m.group(1)
+        year = m.group(2)
+        try:
+            q_word = number_to_words(int(q_num))
+            y_word = _year_to_words(int(year))
+            return f"Q {q_word} {y_word}"
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(r"\bQ([1-4])\s+(\d{4})\b", _quarter, text)
+    # Standalone Q-notation without year
+    text = re.sub(r"\bQ([1-4])\b", lambda m: f"Q {number_to_words(int(m.group(1)))}", text)
+    return text
+
+
+def replace_units(text: str) -> str:
+    """Expand unit abbreviations: '500 km' -> '500 kilometers'.
+
+    Also handles cases where numbers have already been converted to words,
+    e.g. 'five hundred thousand km' -> 'five hundred thousand kilometers'.
+    """
+    for abbr, expansion in UNIT_ABBREVIATIONS.items():
+        # Match unit after a digit-form number (with optional comma separators)
+        text = re.sub(
+            rf"(\d[\d,]*\.?\d*)\s*(?<!\w){re.escape(abbr)}(?!\w)",
+            rf"\1 {expansion}",
+            text,
+        )
+        # Also match unit after a word-form number (e.g. "five hundred thousand km")
+        text = re.sub(
+            rf"(\w)\s+{re.escape(abbr)}(?!\w)",
+            rf"\1 {expansion}",
+            text,
+        )
+    return text
+
+
+def replace_large_numbers_with_k(text: str) -> str:
+    """Convert '2.5k' to '2,500' or words, and 'k km' style issues."""
+    def _k_number(m: re.Match) -> str:
+        num_str = m.group(1)
+        try:
+            val = float(num_str) * 1000
+            if val == int(val):
+                return number_to_words(int(val))
+            return number_to_words(val)
+        except ValueError:
+            return m.group(0)
+
+    # "2.5k" -> "two thousand five hundred"
+    text = re.sub(r"(\d+\.?\d*)k\b", _k_number, text, flags=re.IGNORECASE)
+    return text
+
+
+def replace_scientific_designations(text: str) -> str:
+    """Handle scientific object designations like 'C/2024 E1', '3I/ATLAS', 'HR 8799'."""
+    # Comet designations: "C/2024 E1" -> "C slash twenty twenty-four E one"
+    def _comet(m: re.Match) -> str:
+        prefix = m.group(1)
+        year = m.group(2)
+        suffix = m.group(3)
+        try:
+            year_words = _year_to_words(int(year))
+            # Spell out the suffix letter-by-letter then number
+            letter = suffix[0]
+            num = suffix[1:].strip() if len(suffix) > 1 else ""
+            num_word = number_to_words(int(num)) if num else ""
+            return f"{prefix} slash {year_words} {letter} {num_word}".strip()
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(r"\b(\d*[A-Z])/(\d{4})\s+([A-Z]\d*)\b", _comet, text)
+
+    # Interstellar objects: "3I/ATLAS" -> "three I ATLAS"
+    def _interstellar(m: re.Match) -> str:
+        num = m.group(1)
+        designation = m.group(2)
+        name = m.group(3)
+        try:
+            return f"{number_to_words(int(num))} {designation} {name}"
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(r"\b(\d+)(I)/([A-Z]+)\b", _interstellar, text)
+
+    # Star catalog numbers: "HR 8799" -> "H R eighty-seven ninety-nine"
+    text = re.sub(r"\bHR\s+(\d+)\b", lambda m: f"H R {number_to_words(int(m.group(1)))}", text)
+
+    return text
+
+
+def replace_standalone_large_numbers(text: str) -> str:
+    """Convert large standalone numbers to words for natural speech.
+
+    Handles comma-separated numbers: '500,000' -> 'five hundred thousand'
+    Only converts numbers that aren't part of other patterns (dates, prices, etc.).
+    """
+    def _large_num(m: re.Match) -> str:
+        num_str = m.group(0).replace(",", "")
+        try:
+            val = int(num_str)
+            if val > 999999:
+                # Very large numbers: use millions/billions
+                if val >= 1_000_000_000:
+                    billions = val / 1_000_000_000
+                    if billions == int(billions):
+                        return f"{number_to_words(int(billions))} billion"
+                    return f"{number_to_words(round(billions, 1))} billion"
+                if val >= 1_000_000:
+                    millions = val / 1_000_000
+                    if millions == int(millions):
+                        return f"{number_to_words(int(millions))} million"
+                    return f"{number_to_words(round(millions, 1))} million"
+            return number_to_words(val)
+        except ValueError:
+            return m.group(0)
+
+    # Match numbers with commas (like 500,000) or large plain numbers
+    text = re.sub(r"\b\d{1,3}(?:,\d{3})+\b", _large_num, text)
+    return text
+
+
+# ========================== MAIN PRONUNCIATION FIX FUNCTIONS ==========================
 
 def apply_pronunciation_fixes(
     text: str,
-    acronyms: Dict[str, str] = None,
-    hockey_terms: Dict[str, str] = None,
-    player_names: Dict[str, str] = None,
-    oilers_player_names: Dict[str, str] = None,
-    word_pronunciations: Dict[str, str] = None,
+    acronyms: Optional[Dict[str, str]] = None,
+    hockey_terms: Optional[Dict[str, str]] = None,
+    player_names: Optional[Dict[str, str]] = None,
+    oilers_player_names: Optional[Dict[str, str]] = None,
+    word_pronunciations: Optional[Dict[str, str]] = None,
     use_zwj: bool = False,
 ) -> str:
     """
-    Apply pronunciation fixes to text.
-    
-    Args:
-        text: Input text to fix
-        acronyms: Dictionary of acronyms to spell out (defaults to COMMON_ACRONYMS)
-        hockey_terms: Dictionary of hockey terms (defaults to HOCKEY_TERMS)
-        player_names: Dictionary of player name pronunciations (defaults to PLAYER_NAMES)
-        word_pronunciations: Dictionary of word pronunciations (defaults to WORD_PRONUNCIATIONS)
-        use_zwj: If True, use zero-width joiner; if False, use spaces (better for most TTS)
-    
-    Returns:
-        Text with pronunciation fixes applied
+    Apply dictionary-based pronunciation fixes to text.
+
+    This is the original function preserved for backward compatibility.
+    New code should prefer ``prepare_text_for_tts()`` which calls this
+    internally along with all the other cleanup/expansion steps.
     """
     if acronyms is None:
         acronyms = COMMON_ACRONYMS
     if hockey_terms is None:
-        hockey_terms = HOCKEY_TERMS
+        hockey_terms = {}
     if player_names is None:
-        player_names = PLAYER_NAMES
+        player_names = {}
     if oilers_player_names is None:
-        oilers_player_names = OILERS_PLAYER_NAMES
+        oilers_player_names = {}
     if word_pronunciations is None:
         word_pronunciations = WORD_PRONUNCIATIONS
-    
-    # Merge Oilers player names with generic player names (Oilers take precedence)
+
     all_player_names = {**player_names, **oilers_player_names}
-    
-    # Zero-width joiner (only used if use_zwj=True)
     ZWJ = "\u2060" if use_zwj else " "
-    
-    # Fix acronyms (must be whole words)
+
+    # Protect common words from being matched as acronyms
+    _PROTECTED_WORDS = {"who", "ice", "dart", "psyche"}
+    protected: Dict[str, str] = {}
+    for word in _PROTECTED_WORDS:
+        placeholder = f"__PROT_{word.upper()}__"
+        # Protect lowercase instances
+        text = re.sub(rf"(?<!\w){re.escape(word)}(?!\w)", placeholder, text)
+        protected[placeholder] = word
+        # Protect capitalized (sentence-start) instances
+        cap = word.capitalize()
+        cap_placeholder = f"__PROT_{cap.upper()}_CAP__"
+        text = re.sub(rf"(?<!\w){re.escape(cap)}(?!\w)", cap_placeholder, text)
+        protected[cap_placeholder] = cap
+
+    # Fix acronyms (whole words only)
     for acronym, spelled in acronyms.items():
-        # Special handling for "WHO" - only match uppercase to avoid matching "who" (the word)
-        if acronym == "WHO":
-            pattern = rf'(?<!\w){re.escape(acronym)}(?!\w)'  # Case-sensitive for WHO
-            flags = 0  # No case-insensitive flag
+        # WHO must be case-sensitive to avoid matching "who"
+        if acronym in ("WHO",):
+            pattern = rf"(?<!\w){re.escape(acronym)}(?!\w)"
+            flags = 0
         else:
-            pattern = rf'(?<!\w){re.escape(acronym)}(?!\w)'
+            pattern = rf"(?<!\w){re.escape(acronym)}(?!\w)"
             flags = re.IGNORECASE
-        
-        if ' ' in spelled:
+
+        if " " in spelled or "-" in spelled:
             replacement = spelled
         elif use_zwj:
             replacement = ZWJ.join(list(spelled))
         else:
             replacement = " ".join(list(spelled))
         text = re.sub(pattern, replacement, text, flags=flags)
-    
+
     # Fix hockey terms (phrases)
     for term, phrase in hockey_terms.items():
-        pattern = rf'(?<!\w){re.escape(term)}(?!\w)'
+        pattern = rf"(?<!\w){re.escape(term)}(?!\w)"
         text = re.sub(pattern, phrase, text, flags=re.IGNORECASE)
-    
-    # Fix player names (Oilers + generic)
+
+    # Fix player names
     for name, pronunciation in all_player_names.items():
-        pattern = rf'(?<!\w){re.escape(name)}(?!\w)'
+        pattern = rf"(?<!\w){re.escape(name)}(?!\w)"
         text = re.sub(pattern, pronunciation, text, flags=re.IGNORECASE)
-    
+
     # Fix word pronunciations
     for word, pronunciation in word_pronunciations.items():
-        pattern = rf'(?<!\w){re.escape(word)}(?!\w)'
+        pattern = rf"(?<!\w){re.escape(word)}(?!\w)"
         text = re.sub(pattern, pronunciation, text, flags=re.IGNORECASE)
-    
+
+    # Restore protected words
+    for placeholder, original in protected.items():
+        text = text.replace(placeholder, original)
+
     return text
 
+
+def prepare_text_for_tts(
+    text: str,
+    *,
+    # Dictionary overrides
+    extra_acronyms: Optional[Dict[str, str]] = None,
+    skip_acronyms: Optional[set] = None,
+    extra_words: Optional[Dict[str, str]] = None,
+    # Feature toggles
+    do_clean: bool = True,
+    do_currency: bool = True,
+    do_percentages: bool = True,
+    do_dates: bool = True,
+    do_times: bool = True,
+    do_timezones: bool = True,
+    do_episodes: bool = True,
+    do_ordinals: bool = True,
+    do_roman: bool = True,
+    do_quarters: bool = True,
+    do_units: bool = True,
+    do_large_numbers: bool = True,
+    do_k_numbers: bool = True,
+    do_scientific: bool = True,
+    do_acronyms: bool = True,
+) -> str:
+    """Prepare raw script text for TTS synthesis.
+
+    This is the recommended single entry point. It applies all cleanup
+    and pronunciation fixes in the correct order so that each show script
+    only needs one call.
+
+    Args:
+        text: Raw episode script text (may contain markdown, emojis, URLs).
+        extra_acronyms: Additional acronyms to add to the defaults.
+        skip_acronyms: Acronym keys to remove from the defaults (e.g. {"ICE"}).
+        extra_words: Additional word pronunciations to add to the defaults.
+        do_*: Toggle individual processing steps on/off.
+
+    Returns:
+        Text ready to send to ElevenLabs TTS.
+    """
+    if not text:
+        return text
+
+    # 1. Text cleanup (remove artifacts TTS shouldn't see)
+    if do_clean:
+        text = clean_text_for_tts(text)
+
+    # 2. Number/value expansions (order matters: currency before percentages,
+    #    large numbers before units, etc.)
+    if do_k_numbers:
+        text = replace_large_numbers_with_k(text)
+
+    if do_currency:
+        text = replace_currency(text)
+
+    if do_percentages:
+        text = replace_percentages(text)
+
+    if do_dates:
+        text = replace_dates(text)
+
+    if do_times:
+        text = replace_times(text)
+
+    if do_timezones:
+        text = replace_timezones(text)
+
+    if do_episodes:
+        text = replace_episode_numbers(text)
+
+    if do_quarters:
+        text = replace_quarter_notation(text)
+
+    if do_roman:
+        text = replace_roman_numerals(text)
+
+    if do_ordinals:
+        text = replace_ordinal_numbers(text)
+
+    if do_scientific:
+        text = replace_scientific_designations(text)
+
+    if do_large_numbers:
+        text = replace_standalone_large_numbers(text)
+
+    if do_units:
+        text = replace_units(text)
+
+    # 3. Dictionary-based pronunciation fixes
+    if do_acronyms:
+        acronyms = dict(COMMON_ACRONYMS)
+        if extra_acronyms:
+            acronyms.update(extra_acronyms)
+        if skip_acronyms:
+            for key in skip_acronyms:
+                acronyms.pop(key, None)
+
+        words = dict(WORD_PRONUNCIATIONS)
+        if extra_words:
+            words.update(extra_words)
+
+        text = apply_pronunciation_fixes(
+            text,
+            acronyms=acronyms,
+            word_pronunciations=words,
+        )
+
+    # 4. Final whitespace cleanup
+    text = re.sub(r"  +", " ", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()

@@ -83,22 +83,14 @@ number_to_words = _engine_number_to_words
 
 # ========================== UTILITY FUNCTIONS ==========================
 def fix_omni_pronunciation(text: str) -> str:
-    """Fix pronunciation issues specific to Omni View content."""
-    # Currency fixes
-    text = re.sub(r'\$([0-9]+(?:\.[0-9]+)?)', lambda m: f"{number_to_words(float(m.group(1)))} dollars", text)
-    text = re.sub(r'€([0-9]+(?:\.[0-9]+)?)', lambda m: f"{number_to_words(float(m.group(1)))} euros", text)
-    text = re.sub(r'£([0-9]+(?:\.[0-9]+)?)', lambda m: f"{number_to_words(float(m.group(1)))} pounds", text)
+    """Prepare Omni View script text for ElevenLabs TTS.
 
-    # Percentage fixes
-    text = re.sub(r'([0-9]+(?:\.[0-9]+)?)%', lambda m: f"{number_to_words(float(m.group(1)))} percent", text)
-
-    # Date fixes
-    text = re.sub(r'([0-9]{1,2})(st|nd|rd|th)', r'\1', text)  # Remove ordinal suffixes
-
-    # Time fixes
-    text = re.sub(r'([0-9]{1,2}):([0-9]{2})', lambda m: f"{int(m.group(1))} {int(m.group(2))}", text)
-
-    return text
+    Delegates to the shared pronunciation module (assets/pronunciation.py)
+    which handles text cleanup, number/date/time expansion, acronyms,
+    unit abbreviations, and more.
+    """
+    from assets.pronunciation import prepare_text_for_tts
+    return prepare_text_for_tts(text)
 
 # MIGRATED: engine/utils.py
 remove_similar_items = _engine_remove_similar_items
