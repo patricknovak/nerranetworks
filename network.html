@@ -73,6 +73,7 @@
             text-decoration: none;
             color: var(--text);
             transition: background 0.2s, border-color 0.2s, transform 0.2s;
+            cursor: pointer;
         }
         .show-card:hover {
             background: var(--card-hover);
@@ -188,7 +189,7 @@
 
     <section id="shows" class="shows">
 
-        <div class="show-card tesla">
+        <div class="show-card tesla" data-href="index.html">
             <div class="show-art">&#9889;</div>
             <div class="show-info">
                 <h2>Tesla Shorts Time Daily</h2>
@@ -204,7 +205,7 @@
             </div>
         </div>
 
-        <div class="show-card omni">
+        <div class="show-card omni" data-href="omni-view.html">
             <div class="show-art">&#127760;</div>
             <div class="show-info">
                 <h2>Omni View &mdash; Balanced News</h2>
@@ -220,7 +221,7 @@
             </div>
         </div>
 
-        <div class="show-card frontiers">
+        <div class="show-card frontiers" data-href="fascinating_frontiers.html">
             <div class="show-art">&#128640;</div>
             <div class="show-info">
                 <h2>Fascinating Frontiers</h2>
@@ -236,7 +237,7 @@
             </div>
         </div>
 
-        <div class="show-card planet">
+        <div class="show-card planet" data-href="planetterrian.html">
             <div class="show-art">&#129516;</div>
             <div class="show-info">
                 <h2>Planetterrian Daily</h2>
@@ -252,7 +253,7 @@
             </div>
         </div>
 
-        <div class="show-card envint">
+        <div class="show-card envint" data-href="env-intel.html">
             <div class="show-art">&#127793;</div>
             <div class="show-info">
                 <h2>Environmental Intelligence</h2>
@@ -297,6 +298,14 @@
     <script>
         document.querySelector('.menu-toggle').addEventListener('click', () => {
             document.querySelector('.nav-links').classList.toggle('open');
+        });
+
+        // Make show cards clickable
+        document.querySelectorAll('.show-card[data-href]').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('a')) return;
+                window.location.href = card.dataset.href;
+            });
         });
     </script>
 </body>
