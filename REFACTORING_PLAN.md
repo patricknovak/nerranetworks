@@ -11,7 +11,7 @@ Update this section as phases complete:
 
 - [x] Phase 1A: engine/utils.py, engine/tts.py, engine/audio.py
 - [x] Phase 1B: engine/publisher.py, engine/tracking.py, engine/fetcher.py
-- [ ] Phase 1C: Migrate omni_view.py to engine/
+- [x] Phase 1C: Migrate omni_view.py to engine/
 - [ ] Phase 1D: Migrate fascinating_frontiers.py, planetterrian.py, tesla_shorts_time.py
 - [ ] Phase 2A: engine/config.py + show YAML configs + prompt extraction
 - [ ] Phase 2B: run_show.py + engine/generator.py

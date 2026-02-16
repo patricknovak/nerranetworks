@@ -64,9 +64,11 @@ import logging as _logging
 _tesla_script = DIGESTS_DIR / "tesla_shorts_time.py"
 _omni_script = DIGESTS_DIR / "omni_view.py"
 
-# number_to_words — both scripts have identical copies (at module level)
+# number_to_words — tesla still has inline copy; omni now uses engine/utils.py
 tesla_number_to_words = _load_function(_tesla_script, "number_to_words")
-omni_number_to_words = _load_function(_omni_script, "number_to_words")
+
+# Omni's number_to_words is now migrated to engine/utils.py
+from engine.utils import number_to_words as omni_number_to_words
 
 # calculate_similarity — only in tesla (omni inlines SequenceMatcher)
 tesla_calculate_similarity = _load_function(
@@ -74,7 +76,7 @@ tesla_calculate_similarity = _load_function(
     extra_globals={"SequenceMatcher": SequenceMatcher},
 )
 
-# remove_similar_items — both scripts; tesla version calls calculate_similarity()
+# remove_similar_items — tesla has inline copy; omni now uses engine/utils.py
 tesla_remove_similar_items = _load_function(
     _tesla_script, "remove_similar_items",
     extra_globals={
@@ -82,10 +84,9 @@ tesla_remove_similar_items = _load_function(
         "logging": _logging,
     },
 )
-omni_remove_similar_items = _load_function(
-    _omni_script, "remove_similar_items",
-    extra_globals={"SequenceMatcher": SequenceMatcher},
-)
+
+# Omni's remove_similar_items is now migrated to engine/utils.py
+from engine.utils import remove_similar_items as omni_remove_similar_items
 
 # fix_tesla_pronunciation — needs number_to_words and some flags in scope
 tesla_fix_pronunciation = _load_function(

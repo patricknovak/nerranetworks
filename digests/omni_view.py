@@ -32,6 +32,21 @@ import tweepy
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
 
+# ========================== ENGINE IMPORTS ==========================
+from engine.utils import (
+    number_to_words as _engine_number_to_words,
+    remove_similar_items as _engine_remove_similar_items,
+    env_bool,
+)
+from engine.audio import get_audio_duration, format_duration
+from engine.publisher import (
+    get_next_episode_number as _engine_get_next_episode_number,
+    save_summary_to_github_pages as _engine_save_summary,
+    update_rss_feed as _engine_update_rss_feed,
+)
+from engine.tracking import create_tracker, save_usage as _engine_save_usage
+from engine.tts import synthesize as _engine_synthesize
+
 # ========================== LOGGING ==========================
 logging.basicConfig(
     level=logging.INFO,
@@ -56,92 +71,15 @@ ENABLE_GITHUB_SUMMARIES = True
 # Set to True and re-implement validation functions if needed in the future
 ENABLE_LINK_VALIDATION = False
 
-# ========================== SHARED CONFIGURATION ==========================
-# Set to True to test digest generation only (skips podcast and X posting)
-TEST_MODE = False  # Set to False for full run
-
-# Set to False to disable X posting (thread will still be generated and saved)
-ENABLE_X_POSTING = True
-
-# Set to False to disable podcast generation and RSS feed updates
-ENABLE_PODCAST = True
-
-# Set to True to save summaries to GitHub Pages instead of posting full content to X
-ENABLE_GITHUB_SUMMARIES = True
-
-# Link validation is currently disabled - validation functions have been removed
-# Set to True and re-implement validation functions if needed in the future
-ENABLE_LINK_VALIDATION = False
-
-# Shared HTTP defaults
+# Omni View-specific HTTP defaults (override engine defaults for this show)
 DEFAULT_HEADERS = {
     "User-Agent": "OmniViewBot/1.0 (+https://x.com/omniviewnews)"
 }
 HTTP_TIMEOUT_SECONDS = 10
 
 # ========================== NUMBER TO WORDS CONVERTER ==========================
-def number_to_words(num: float) -> str:
-    """
-    Convert numbers to words for better TTS pronunciation.
-    Handles integers and decimals.
-    """
-    # Define digit names for decimal conversion
-    digit_names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-
-    def convert_under_1000(n):
-        """Convert numbers under 1000 to words."""
-        ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
-                'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
-                'seventeen', 'eighteen', 'nineteen']
-        tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
-
-        if n == 0:
-            return 'zero'
-        if n < 20:
-            return ones[n]
-        if n < 100:
-            return tens[n // 10] + ('-' + ones[n % 10] if n % 10 else '')
-        if n < 1000:
-            result = ones[n // 100] + ' hundred'
-            remainder = n % 100
-            if remainder:
-                result += ' ' + convert_under_1000(remainder)
-            return result
-        return str(n)
-
-    # Handle negative numbers
-    is_negative = num < 0
-    num = abs(num)
-
-    # Split into integer and decimal parts
-    integer_part = int(num)
-    decimal_part = num - integer_part
-
-    # Convert integer part
-    if integer_part == 0:
-        result = 'zero'
-    elif integer_part < 1000:
-        result = convert_under_1000(integer_part)
-    elif integer_part < 1000000:
-        thousands = integer_part // 1000
-        remainder = integer_part % 1000
-        result = convert_under_1000(thousands) + ' thousand'
-        if remainder:
-            result += ' ' + convert_under_1000(remainder)
-    else:
-        return str(integer_part)
-
-    # Convert decimal part
-    if decimal_part:
-        decimal_str = str(decimal_part).lstrip('0.')
-        if decimal_str:
-            decimal_words = ' '.join(digit_names[int(d)] for d in decimal_str)
-            result += ' point ' + decimal_words
-
-    if is_negative:
-        result = 'negative ' + result
-
-    return result
+# MIGRATED: engine/utils.py
+number_to_words = _engine_number_to_words
 
 # ========================== UTILITY FUNCTIONS ==========================
 def fix_omni_pronunciation(text: str) -> str:
@@ -162,156 +100,36 @@ def fix_omni_pronunciation(text: str) -> str:
 
     return text
 
-def remove_similar_items(items, similarity_threshold=0.7, get_text_func=None):
-    """
-    Remove similar/duplicate items based on text similarity.
+# MIGRATED: engine/utils.py
+remove_similar_items = _engine_remove_similar_items
 
-    Args:
-        items: List of items to deduplicate
-        similarity_threshold: Similarity threshold (0-1, higher = more similar required to remove)
-        get_text_func: Function to extract text from item for comparison (default: uses 'title' or 'text' key)
-
-    Returns:
-        List of deduplicated items
-    """
-    if not items:
-        return []
-
-    if get_text_func is None:
-        def get_text_func(item):
-            # Try different keys for text content
-            for key in ['title', 'text', 'content', 'description']:
-                if key in item and item[key]:
-                    return str(item[key])
-            return str(item)
-
-    deduplicated = []
-    for item in items:
-        item_text = get_text_func(item).lower().strip()
-
-        # Check similarity with existing items
-        is_duplicate = False
-        for existing in deduplicated:
-            existing_text = get_text_func(existing).lower().strip()
-            similarity = SequenceMatcher(None, item_text, existing_text).ratio()
-            if similarity >= similarity_threshold:
-                is_duplicate = True
-                break
-
-        if not is_duplicate:
-            deduplicated.append(item)
-
-    return deduplicated
-
+# MIGRATED: engine/tracking.py
 def save_credit_usage(usage_data: dict, output_dir: Path):
     """Save credit usage to a JSON file."""
-    try:
-        # Calculate totals
-        grok_total = (
-            usage_data["services"]["grok_api"]["x_thread_generation"]["total_tokens"] +
-            usage_data["services"]["grok_api"]["podcast_script_generation"]["total_tokens"]
-        )
-        usage_data["services"]["grok_api"]["total_tokens"] = grok_total
-        usage_data["services"]["grok_api"]["total_cost_usd"] = (
-            usage_data["services"]["grok_api"]["x_thread_generation"]["estimated_cost_usd"] +
-            usage_data["services"]["grok_api"]["podcast_script_generation"]["estimated_cost_usd"]
-        )
+    _engine_save_usage(usage_data, output_dir)
 
-        usage_data["services"]["x_api"]["total_calls"] = (
-            usage_data["services"]["x_api"]["search_calls"] +
-            usage_data["services"]["x_api"]["post_calls"]
-        )
-
-        # TTS cost (ElevenLabs pricing: ~$0.30 per 1000 characters)
-        elevenlabs_cost = (usage_data["services"]["elevenlabs_api"]["characters"] / 1000) * 0.30
-        usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"] = elevenlabs_cost
-
-        usage_data["total_estimated_cost_usd"] = (
-            usage_data["services"]["grok_api"]["total_cost_usd"] +
-            usage_data["services"]["elevenlabs_api"]["estimated_cost_usd"]
-        )
-
-        # Save to JSON file
-        filename = f"credit_usage_{usage_data['date']}_ep{usage_data['episode_number']:03d}.json"
-        filepath = output_dir / filename
-
-        with open(filepath, "w", encoding="utf-8") as f:
-            json.dump(usage_data, f, indent=2)
-
-        logging.info(f"Credit usage saved to {filepath}")
-
-        # Also log summary
-        logging.info("="*80)
-        logging.info("CREDIT USAGE SUMMARY")
-        logging.info("="*80)
-        logging.info(f"Grok API (X Thread): {usage_data['services']['grok_api']['x_thread_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['x_thread_generation']['estimated_cost_usd']:.4f})")
-        logging.info(f"Grok API (Podcast Script): {usage_data['services']['grok_api']['podcast_script_generation']['total_tokens']} tokens (${usage_data['services']['grok_api']['podcast_script_generation']['estimated_cost_usd']:.4f})")
-        logging.info(f"Grok API Total: {usage_data['services']['grok_api']['total_tokens']} tokens (${usage_data['services']['grok_api']['total_cost_usd']:.4f})")
-        logging.info(f"TTS (ElevenLabs): {usage_data['services']['elevenlabs_api']['characters']} characters (${usage_data['services']['elevenlabs_api']['estimated_cost_usd']:.4f})")
-        logging.info(f"X API: {usage_data['services']['x_api']['total_calls']} API calls (search: {usage_data['services']['x_api']['search_calls']}, post: {usage_data['services']['x_api']['post_calls']})")
-        logging.info(f"TOTAL ESTIMATED COST: ${usage_data['total_estimated_cost_usd']:.4f}")
-        logging.info("="*80)
-
-    except Exception as e:
-        logging.error(f"Failed to save credit usage: {e}", exc_info=True)
-
+# MIGRATED: engine/publisher.py
 def save_summary_to_github_pages(
     summary_text: str,
     output_dir: Path,
     podcast_name: str = "omni",
     *,
-    episode_num: int | None = None,
-    episode_title: str | None = None,
-    audio_url: str | None = None,
-    rss_url: str | None = None,
+    episode_num=None,
+    episode_title=None,
+    audio_url=None,
+    rss_url=None,
 ):
-    """
-    Save summary to GitHub Pages JSON file for display on summaries page.
-    """
-    try:
-        # Define the JSON file path
-        json_file = project_root / "digests" / f"summaries_{podcast_name}.json"
-
-        # Load existing summaries or create new structure
-        if json_file.exists():
-            with open(json_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-        else:
-            data = {"podcast": podcast_name, "summaries": []}
-
-        # Create new summary entry
-        today = datetime.datetime.now()
-        computed_episode_num = episode_num
-        if computed_episode_num is None:
-            computed_episode_num = get_next_episode_number(project_root / "omni_view_podcast.rss", output_dir) - 1
-
-        summary_entry = {
-            "date": today.strftime("%Y-%m-%d"),
-            "datetime": today.isoformat(),
-            "content": summary_text,
-            "episode_num": computed_episode_num,
-            "episode_title": episode_title,
-            "audio_url": audio_url,
-            "rss_url": rss_url,
-        }
-
-        # Add to summaries (keep only last 30 days to prevent file from growing too large)
-        data["summaries"].insert(0, summary_entry)  # Add to beginning (newest first)
-
-        # Keep only last 30 summaries
-        if len(data["summaries"]) > 30:
-            data["summaries"] = data["summaries"][:30]
-
-        # Save updated data
-        with open(json_file, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-
-        logging.info(f"Summary saved to GitHub Pages JSON: {json_file}")
-        return json_file
-
-    except Exception as e:
-        logging.error(f"Failed to save summary to GitHub Pages: {e}")
-        return None
+    """Thin wrapper around engine.publisher.save_summary_to_github_pages."""
+    json_path = output_dir / f"summaries_{podcast_name}.json"
+    return _engine_save_summary(
+        summary_text,
+        json_path,
+        podcast_name,
+        episode_num=episode_num,
+        episode_title=episode_title,
+        audio_url=audio_url,
+        rss_url=rss_url,
+    )
 
 # ========================== STEP 1: FETCH BALANCED NEWS FROM DIVERSE SOURCES ==========================
 logging.info("Step 1: Fetching balanced news from diverse sources for the last 24 hours...")
@@ -599,51 +417,11 @@ def select_balanced_news(articles, max_articles=15):
 
 # ========================== IMPLEMENTATION FUNCTIONS ==========================
 
-def generate_balanced_news_digest(news_articles):
-    """Generate a balanced news digest from the selected articles."""
-    # Create a simple digest for now
-    digest_lines = ["📰⚖️ **Omni View - Balanced News Digest**", ""]
+# REMOVED: dead code — superseded by generate_balanced_news_digest() below (line ~855)
 
-    today = datetime.datetime.now().strftime("%B %d, %Y")
-    digest_lines.extend([f"📅 **Date:** {today}", "", "🔍 **Balanced Perspectives on Today's News**", ""])
-
-    for i, article in enumerate(news_articles[:12], 1):  # Limit to 12 for X thread
-        title = article.get('title', 'Untitled')
-        source = article.get('source', 'Unknown')
-        digest_lines.extend([
-            f"**{i}. {title}**",
-            f"📺 *{source}*",
-            ""
-        ])
-
-    digest_lines.extend([
-        "",
-        "🎙️ **Omni View Daily Podcast Link:** https://podcasts.apple.com/us/podcast/omni-view/idXXXXXXXXXX",
-        "",
-        "#OmniView #BalancedNews #MediaLiteracy"
-    ])
-
-    return "\n".join(digest_lines)
-
+# MIGRATED: engine/publisher.py
 def get_next_episode_number(rss_path: Path, digests_dir: Path) -> int:
-    """Get the next episode number based on existing RSS or MP3 files."""
-    try:
-        if rss_path.exists():
-            tree = ET.parse(rss_path)
-            root = tree.getroot()
-            items = root.findall('.//item')
-            if items:
-                return len(items) + 1
-    except Exception:
-        pass
-
-    existing_episodes = list(digests_dir.glob("Omni_View_Ep*.mp3"))
-    episode_nums: list[int] = []
-    for ep_file in existing_episodes:
-        match = re.search(r'Ep(\d+)', ep_file.name)
-        if match:
-            episode_nums.append(int(match.group(1)))
-    return (max(episode_nums) + 1) if episode_nums else 1
+    return _engine_get_next_episode_number(rss_path, digests_dir, mp3_glob_pattern="Omni_View_Ep*.mp3")
 
 
 def _source_buckets():
@@ -1391,242 +1169,77 @@ def generate_omni_view_script(briefing_markdown: str) -> str:
     return fix_omni_pronunciation("\n".join(script))
 
 
-def _chunk_text_for_elevenlabs(text: str, max_chars: int = 4500) -> list[str]:
-    chunks: list[str] = []
-    buf: list[str] = []
-    cur = 0
-    for para in (text or "").splitlines():
-        para = para.strip()
-        if not para:
-            continue
-        # +1 for space
-        if cur + len(para) + 1 > max_chars and buf:
-            chunks.append(" ".join(buf))
-            buf = [para]
-            cur = len(para)
-        else:
-            buf.append(para)
-            cur += len(para) + 1
-    if buf:
-        chunks.append(" ".join(buf))
-    return chunks or [text[:max_chars]]
+# MIGRATED: engine/tts.py (_chunk_text_for_elevenlabs, _elevenlabs_tts_mp3)
+# MIGRATED: engine/audio.py (_ffprobe_duration_seconds → get_audio_duration)
 
+def create_omni_view_podcast(script_text: str) -> tuple[Path, float]:
+    """Create an MP3 using ElevenLabs via engine.tts.synthesize."""
+    episode_num = get_next_episode_number(project_root / "omni_view_podcast.rss", digests_dir)
+    out_mp3 = digests_dir / f"Omni_View_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d}.mp3"
 
-def _elevenlabs_tts_mp3(text: str, out_path: Path, voice_id: str) -> None:
+    voice_id = (os.getenv("OMNI_VIEW_ELEVENLABS_VOICE_ID") or "ns7MjJ6c8tJKnvw7U6sN").strip()
     api_key = (os.getenv("ELEVENLABS_API_KEY") or "").strip()
     if not api_key:
         raise RuntimeError("ELEVENLABS_API_KEY is not set")
 
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
-    headers = {
-        "xi-api-key": api_key,
-        "accept": "audio/mpeg",
-        "content-type": "application/json",
-    }
-    payload = {
-        "text": text,
-        "model_id": os.getenv("ELEVENLABS_MODEL_ID", "eleven_turbo_v2_5"),
-        "voice_settings": {
-            "stability": float(os.getenv("ELEVENLABS_STABILITY", "0.35")),
-            "similarity_boost": float(os.getenv("ELEVENLABS_SIMILARITY_BOOST", "0.75")),
-            "style": float(os.getenv("ELEVENLABS_STYLE", "0.2")),
-            "use_speaker_boost": True,
-        },
-    }
+    _engine_synthesize(
+        script_text,
+        voice_id,
+        out_mp3,
+        api_key=api_key,
+        max_chars=int(os.getenv("ELEVENLABS_MAX_CHARS", "4500")),
+        model_id=os.getenv("ELEVENLABS_MODEL_ID", "eleven_turbo_v2_5"),
+        stability=float(os.getenv("ELEVENLABS_STABILITY", "0.35")),
+        similarity_boost=float(os.getenv("ELEVENLABS_SIMILARITY_BOOST", "0.75")),
+        style=float(os.getenv("ELEVENLABS_STYLE", "0.2")),
+        stream=False,
+        append_exclamation=False,
+    )
 
-    resp = requests.post(url, headers=headers, json=payload, timeout=120)
-    resp.raise_for_status()
-    out_path.write_bytes(resp.content)
-
-
-def _ffprobe_duration_seconds(path: Path) -> float:
-    try:
-        result = subprocess.run(
-            ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", str(path)],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-        return float((result.stdout or "").strip() or "0")
-    except Exception:
-        return 0.0
-
-
-def create_omni_view_podcast(script_text: str) -> tuple[Path, float]:
-    """Create an MP3 using ElevenLabs (with chunking + concat)."""
-    episode_num = get_next_episode_number(project_root / "omni_view_podcast.rss", digests_dir)
-    out_mp3 = digests_dir / f"Omni_View_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d}.mp3"
-
-    # Omni View has its own default voice. Override with OMNI_VIEW_ELEVENLABS_VOICE_ID if desired.
-    voice_id = (os.getenv("OMNI_VIEW_ELEVENLABS_VOICE_ID") or "ns7MjJ6c8tJKnvw7U6sN").strip()
-    chunks = _chunk_text_for_elevenlabs(script_text, max_chars=int(os.getenv("ELEVENLABS_MAX_CHARS", "4500")))
-
-    tmp_dir = Path(tempfile.gettempdir()) / "omni_view_tts"
-    tmp_dir.mkdir(parents=True, exist_ok=True)
-
-    chunk_files: list[Path] = []
-    for idx, chunk in enumerate(chunks, 1):
-        chunk_path = tmp_dir / f"omni_view_chunk_{episode_num:03d}_{idx:02d}.mp3"
-        _elevenlabs_tts_mp3(chunk, chunk_path, voice_id)
-        chunk_files.append(chunk_path)
-
-    if len(chunk_files) == 1:
-        out_mp3.write_bytes(chunk_files[0].read_bytes())
-    else:
-        list_file = tmp_dir / f"omni_view_concat_{episode_num:03d}.txt"
-        list_file.write_text("\n".join([f"file '{p.as_posix()}'" for p in chunk_files]), encoding="utf-8")
-        subprocess.run(
-            ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(list_file), "-c", "copy", str(out_mp3)],
-            check=True,
-            capture_output=True,
-        )
-
-    duration = _ffprobe_duration_seconds(out_mp3)
+    duration = get_audio_duration(out_mp3)
     # Save transcript alongside
     transcript_path = digests_dir / f"omni_view_transcript_{datetime.datetime.now():%Y%m%d}.txt"
     transcript_path.write_text(script_text, encoding="utf-8")
     return out_mp3, duration
 
+# MIGRATED: engine/publisher.py (update_omni_view_rss_feed → update_rss_feed)
 def update_omni_view_rss_feed(audio_file, duration):
-    """Update the Omni View RSS feed."""
-    logging.info("Updating Omni View RSS feed...")
-
+    """Update the Omni View RSS feed via engine.publisher.update_rss_feed."""
     rss_path = project_root / "omni_view_podcast.rss"
     base_url = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
-
-    fg = FeedGenerator()
-    fg.load_extension('podcast')
-
-    # Preserve existing episodes (so the feed grows over time)
-    existing_items: list[dict] = []
-    itunes_ns = "http://www.itunes.com/dtds/podcast-1.0.dtd"
-    if rss_path.exists():
-        try:
-            tree = ET.parse(str(rss_path))
-            root = tree.getroot()
-            channel = root.find("channel")
-            if channel is not None:
-                for item in channel.findall("item"):
-                    enclosure = item.find("enclosure")
-                    existing_items.append({
-                        "guid": (item.findtext("guid") or "").strip(),
-                        "title": (item.findtext("title") or "").strip(),
-                        "description": (item.findtext("description") or "").strip(),
-                        "pubDate": (item.findtext("pubDate") or "").strip(),
-                        "enclosure_url": enclosure.get("url") if enclosure is not None else "",
-                        "enclosure_length": enclosure.get("length") if enclosure is not None else "",
-                        "enclosure_type": enclosure.get("type") if enclosure is not None else "audio/mpeg",
-                        "itunes_duration": (item.findtext(f"{{{itunes_ns}}}duration") or "").strip(),
-                        "itunes_episode": (item.findtext(f"{{{itunes_ns}}}episode") or "").strip(),
-                    })
-        except Exception as e:
-            logging.warning(f"Could not parse existing Omni View RSS feed (will recreate): {e}")
-
-    # Set channel metadata
-    fg.title("Omni View - Balanced News Perspectives")
-    fg.link(href="https://patricknovak.github.io/Tesla-shorts-time/omni-view.html")
-    fg.description("Daily balanced news summaries presenting multiple perspectives on the stories that matter. Countering media bias through diverse sources and critical analysis.")
-    fg.language('en-us')
-    fg.copyright("Copyright 2025")
-    fg.generator("python-feedgen")
-    fg.podcast.itunes_author("Omni View")
-    fg.podcast.itunes_summary("Daily balanced news summaries presenting multiple perspectives on the stories that matter. Countering media bias through diverse sources and critical analysis.")
-    fg.podcast.itunes_owner(name='Omni View', email='omniview@teslashortstime.com')
-    fg.podcast.itunes_image(f"{base_url}/omni-view-podcast-image.jpg")
-    fg.podcast.itunes_category("News")
-    fg.podcast.itunes_explicit("no")
-
-    # Get episode number
-    episode_num = get_next_episode_number(project_root / "omni_view_podcast.rss", digests_dir)
-
-    # Create episode title and description
+    episode_num = get_next_episode_number(rss_path, digests_dir)
     today = datetime.datetime.now().strftime("%B %d, %Y")
-    episode_title = f"Omni View - Balanced News Digest - {today}"
-    episode_description = f"Daily balanced news summary for {today}. Multiple perspectives on the stories shaping our world from diverse sources across the political spectrum."
 
-    # Calculate file size
-    try:
-        mp3_size = audio_file.stat().st_size
-    except:
-        mp3_size = 0
+    _engine_update_rss_feed(
+        rss_path,
+        episode_num=episode_num,
+        episode_title=f"Omni View - Balanced News Digest - {today}",
+        episode_description=(
+            f"Daily balanced news summary for {today}. Multiple perspectives on the "
+            "stories shaping our world from diverse sources across the political spectrum."
+        ),
+        episode_date=datetime.date.today(),
+        mp3_filename=audio_file.name,
+        mp3_duration=duration,
+        mp3_path=audio_file,
+        base_url=base_url,
+        audio_subdir="digests",
+        channel_title="Omni View - Balanced News Perspectives",
+        channel_link="https://patricknovak.github.io/Tesla-shorts-time/omni-view.html",
+        channel_description=(
+            "Daily balanced news summaries presenting multiple perspectives on the "
+            "stories that matter. Countering media bias through diverse sources and "
+            "critical analysis."
+        ),
+        channel_author="Omni View",
+        channel_email="omniview@teslashortstime.com",
+        channel_image=f"{base_url}/omni-view-podcast-image.jpg",
+        channel_category="News",
+        guid_prefix="omni-view",
+    )
 
-    # Format duration
-    duration_str = format_duration(duration)
-
-    # Create GUID
-    episode_guid = f"omni-view-ep{episode_num:03d}-{datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}"
-
-    # Add episode to feed
-    entry = fg.add_entry()
-    entry.id(episode_guid)
-    entry.title(episode_title)
-    entry.description(episode_description)
-    entry.link(href=f"{base_url}/digests/{audio_file.name}")
-    entry.pubDate(datetime.datetime.now(datetime.timezone.utc))
-    entry.enclosure(url=f"{base_url}/digests/{audio_file.name}", type="audio/mpeg", length=str(mp3_size))
-    entry.podcast.itunes_title(episode_title)
-    entry.podcast.itunes_summary(episode_description)
-    entry.podcast.itunes_duration(duration_str)
-    entry.podcast.itunes_episode(str(episode_num))
-    entry.podcast.itunes_season('1')
-    entry.podcast.itunes_episode_type('full')
-    entry.podcast.itunes_explicit("no")
-    entry.podcast.itunes_image(f"{base_url}/omni-view-podcast-image.jpg")
-
-    # Re-add existing episodes after the newest one (avoid duplicates)
-    new_guid = episode_guid
-    for old in existing_items:
-        if not old.get("enclosure_url") or (old.get("guid") and old.get("guid") == new_guid):
-            continue
-        e = fg.add_entry()
-        if old.get("guid"):
-            e.id(old["guid"])
-        if old.get("title"):
-            e.title(old["title"])
-        if old.get("description"):
-            e.description(old["description"])
-        if old.get("enclosure_url"):
-            e.link(href=old["enclosure_url"])
-            e.enclosure(url=old["enclosure_url"], type=old.get("enclosure_type") or "audio/mpeg", length=old.get("enclosure_length") or "0")
-        if old.get("pubDate"):
-            try:
-                import email.utils
-                e.pubDate(email.utils.parsedate_to_datetime(old["pubDate"]))
-            except Exception:
-                # If parsing fails, skip pubDate (better than crashing)
-                pass
-        if old.get("title"):
-            e.podcast.itunes_title(old["title"])
-        if old.get("description"):
-            e.podcast.itunes_summary(old["description"])
-        if old.get("itunes_duration"):
-            e.podcast.itunes_duration(old["itunes_duration"])
-        if old.get("itunes_episode"):
-            e.podcast.itunes_episode(old["itunes_episode"])
-        e.podcast.itunes_season('1')
-        e.podcast.itunes_episode_type('full')
-        e.podcast.itunes_explicit("no")
-        e.podcast.itunes_image(f"{base_url}/omni-view-podcast-image.jpg")
-
-    # Set last build date
-    fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
-
-    # Write to file
-    fg.rss_file(str(rss_path), pretty=True)
-
-    logging.info(f"RSS feed updated with Episode {episode_num} at {rss_path}")
-def format_duration(seconds):
-    """Format duration in seconds to HH:MM:SS or MM:SS format."""
-    if not seconds or seconds <= 0:
-        return "00:00"
-
-    hours = int(seconds // 3600)
-    minutes = int((seconds % 3600) // 60)
-    secs = int(seconds % 60)
-
-    if hours > 0:
-        return f"{hours:02d}:{minutes:02d}:{secs:02d}"
-    return f"{minutes:02d}:{secs:02d}"
+# MIGRATED: engine/audio.py (format_duration)
+# format_duration is now imported from engine.audio at the top
 
 # ========================== MAIN EXECUTION ==========================
 if __name__ == "__main__":
@@ -1634,63 +1247,25 @@ if __name__ == "__main__":
     load_dotenv()
 
     # Optional env overrides (useful for local testing)
-    # These scripts default to fully-automated mode; setting env vars lets you disable side-effects.
-    def _env_bool(name: str, default: bool) -> bool:
-        val = os.getenv(name)
-        if val is None:
-            return default
-        return val.strip().lower() in ("1", "true", "yes", "on")
-
-    TEST_MODE = _env_bool("TEST_MODE", TEST_MODE)
-    ENABLE_X_POSTING = _env_bool("ENABLE_X_POSTING", ENABLE_X_POSTING)
-    ENABLE_PODCAST = _env_bool("ENABLE_PODCAST", ENABLE_PODCAST)
-    ENABLE_GITHUB_SUMMARIES = _env_bool("ENABLE_GITHUB_SUMMARIES", ENABLE_GITHUB_SUMMARIES)
+    # MIGRATED: engine/utils.py (_env_bool → env_bool)
+    TEST_MODE = env_bool("TEST_MODE", TEST_MODE)
+    ENABLE_X_POSTING = env_bool("ENABLE_X_POSTING", ENABLE_X_POSTING)
+    ENABLE_PODCAST = env_bool("ENABLE_PODCAST", ENABLE_PODCAST)
+    ENABLE_GITHUB_SUMMARIES = env_bool("ENABLE_GITHUB_SUMMARIES", ENABLE_GITHUB_SUMMARIES)
 
     if TEST_MODE:
         # In test mode, default to no posting/no audio unless explicitly overridden above
-        ENABLE_X_POSTING = _env_bool("ENABLE_X_POSTING", False)
-        ENABLE_PODCAST = _env_bool("ENABLE_PODCAST", False)
+        ENABLE_X_POSTING = env_bool("ENABLE_X_POSTING", False)
+        ENABLE_PODCAST = env_bool("ENABLE_PODCAST", False)
 
     # Set up paths
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
     digests_dir = project_root / "digests"
 
-    # Initialize credit usage tracking
+    # Initialize credit usage tracking — MIGRATED: engine/tracking.py
     episode_num = get_next_episode_number(project_root / "omni_view_podcast.rss", digests_dir)
-    credit_usage = {
-        "date": datetime.datetime.now().strftime("%Y-%m-%d"),
-        "episode_number": episode_num,
-        "services": {
-            "grok_api": {
-                "x_thread_generation": {
-                    "prompt_tokens": 0,
-                    "completion_tokens": 0,
-                    "total_tokens": 0,
-                    "estimated_cost_usd": 0.0
-                },
-                "podcast_script_generation": {
-                    "prompt_tokens": 0,
-                    "completion_tokens": 0,
-                    "total_tokens": 0,
-                    "estimated_cost_usd": 0.0
-                },
-                "total_tokens": 0,
-                "total_cost_usd": 0.0
-            },
-            "elevenlabs_api": {
-                "provider": "elevenlabs",
-                "characters": 0,
-                "estimated_cost_usd": 0.0
-            },
-            "x_api": {
-                "search_calls": 0,
-                "post_calls": 0,
-                "total_calls": 0
-            }
-        },
-        "total_estimated_cost_usd": 0.0
-    }
+    credit_usage = create_tracker("Omni View", episode_num)
 
     # Initialize clients
     client = OpenAI(

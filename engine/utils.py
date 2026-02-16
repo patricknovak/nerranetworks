@@ -165,6 +165,7 @@ def remove_similar_items(items, similarity_threshold=0.7, get_text_func=None):
                 return (
                     item.get("title", "")
                     or item.get("text", "")
+                    or item.get("content", "")
                     or item.get("description", "")
                 )
             return str(item)
