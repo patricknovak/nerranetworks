@@ -107,6 +107,8 @@ llm:
   model: grok-4
   digest_prompt_file: shows/prompts/omni_view_digest.txt
   podcast_prompt_file: shows/prompts/omni_view_podcast.txt
+  digest_temperature: 0.5
+  max_tokens: 3200
 
 tts:
   voice_id: ns7MjJ6c8tJKnvw7U6sN

@@ -33,6 +33,9 @@ class LLMConfig:
     system_prompt_file: str = ""
     digest_prompt_file: str = ""
     podcast_prompt_file: str = ""
+    digest_temperature: float = 0.7
+    podcast_temperature: float = 0.7
+    max_tokens: int = 3500
 
 
 @dataclass

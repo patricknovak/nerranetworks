@@ -14,7 +14,7 @@ Update this section as phases complete:
 - [x] Phase 1C: Migrate omni_view.py to engine/
 - [x] Phase 1D: Migrate fascinating_frontiers.py, planetterrian.py, tesla_shorts_time.py
 - [x] Phase 2A: engine/config.py + show YAML configs + prompt extraction
-- [ ] Phase 2B: run_show.py + engine/generator.py
+- [x] Phase 2B: run_show.py + engine/generator.py
 - [ ] Phase 2C: Validate all 4 shows through run_show.py --test
 - [ ] Phase 3: Unified GitHub Actions workflow
 - [ ] Phase 4A: engine/storage.py for R2 + dual-write capability
