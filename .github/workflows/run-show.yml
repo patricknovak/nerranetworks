@@ -1,0 +1,190 @@
+name: Run Podcast Show
+
+on:
+  schedule:
+    # Tesla Shorts Time: Daily ~7 AM Eastern
+    - cron: '0 11 * * *'
+    # Omni View: Daily ~6 AM Eastern (EDT trigger)
+    - cron: '0 10 * * *'
+    # Planetterrian Daily: Odd days ~8 AM Eastern
+    - cron: '0 12 1-31/2 * *'
+    # Fascinating Frontiers: Even days ~8 AM Eastern
+    - cron: '0 12 2-31/2 * *'
+
+  workflow_dispatch:
+    inputs:
+      show:
+        description: 'Show to run'
+        required: true
+        type: choice
+        options:
+          - tesla
+          - omni_view
+          - fascinating_frontiers
+          - planetterrian
+          - all
+
+permissions:
+  contents: write
+
+concurrency:
+  group: show-${{ github.event.inputs.show || 'scheduled' }}
+  cancel-in-progress: false
+
+jobs:
+  # -----------------------------------------------------------------------
+  # Gate job: determine which show(s) to run based on cron time or dispatch
+  # -----------------------------------------------------------------------
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      shows: ${{ steps.resolve.outputs.shows }}
+    steps:
+      - name: Determine shows to run
+        id: resolve
+        shell: python3 {0}
+        run: |
+          import json, os, datetime
+
+          dispatch_show = "${{ github.event.inputs.show }}" or ""
+          event_name = "${{ github.event_name }}"
+
+          if event_name == "workflow_dispatch":
+              if dispatch_show == "all":
+                  shows = ["tesla", "omni_view", "fascinating_frontiers", "planetterrian"]
+              else:
+                  shows = [dispatch_show]
+          else:
+              # Scheduled: determine from UTC hour + Eastern time
+              try:
+                  from zoneinfo import ZoneInfo
+              except ImportError:
+                  from backports.zoneinfo import ZoneInfo
+
+              now_utc = datetime.datetime.now(datetime.timezone.utc)
+              now_et = now_utc.astimezone(ZoneInfo("America/New_York"))
+              utc_hour = now_utc.hour
+              et_hour = now_et.hour
+              day = now_et.day
+
+              shows = []
+
+              # 10:00 UTC — Omni View if ET hour is 6 (EDT)
+              if utc_hour == 10 and et_hour == 6:
+                  shows.append("omni_view")
+              # 11:00 UTC — Tesla always; Omni View if ET hour is 6 (EST fallback)
+              elif utc_hour == 11:
+                  shows.append("tesla")
+                  if et_hour == 6:
+                      shows.append("omni_view")
+              # 12:00 UTC — odd day = Planetterrian, even day = Fascinating Frontiers
+              elif utc_hour == 12:
+                  if day % 2 == 1:
+                      shows.append("planetterrian")
+                  else:
+                      shows.append("fascinating_frontiers")
+
+              if not shows:
+                  print(f"No shows matched for UTC hour {utc_hour}, ET hour {et_hour}, day {day}")
+
+          matrix = json.dumps(shows)
+          print(f"Shows to run: {matrix}")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"shows={matrix}\n")
+
+  # -----------------------------------------------------------------------
+  # Run show(s) in parallel via matrix
+  # -----------------------------------------------------------------------
+  run:
+    needs: gate
+    if: needs.gate.outputs.shows != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        show: ${{ fromJson(needs.gate.outputs.shows) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          # Show-specific extras
+          if [ "${{ matrix.show }}" = "fascinating_frontiers" ] && [ -f requirements_fascinating_frontiers.txt ]; then
+            pip install -r requirements_fascinating_frontiers.txt
+          fi
+          if [ "${{ matrix.show }}" = "planetterrian" ] && [ -f requirements_planetterrian.txt ]; then
+            pip install -r requirements_planetterrian.txt
+          fi
+
+      - name: Create .env
+        run: |
+          cat > .env <<'ENVEOF'
+          GROK_API_KEY=${{ secrets.GROK_API_KEY }}
+          ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }}
+          X_CONSUMER_KEY=${{ secrets.X_CONSUMER_KEY }}
+          X_CONSUMER_SECRET=${{ secrets.X_CONSUMER_SECRET }}
+          X_ACCESS_TOKEN=${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET=${{ secrets.X_ACCESS_TOKEN_SECRET }}
+          X_BEARER_TOKEN=${{ secrets.X_BEARER_TOKEN }}
+          PLANETTERRIAN_X_CONSUMER_KEY=${{ secrets.PLANETTERRIAN_X_CONSUMER_KEY }}
+          PLANETTERRIAN_X_CONSUMER_SECRET=${{ secrets.PLANETTERRIAN_X_CONSUMER_SECRET }}
+          PLANETTERRIAN_X_ACCESS_TOKEN=${{ secrets.PLANETTERRIAN_X_ACCESS_TOKEN }}
+          PLANETTERRIAN_X_ACCESS_TOKEN_SECRET=${{ secrets.PLANETTERRIAN_X_ACCESS_TOKEN_SECRET }}
+          PLANETTERRIAN_X_BEARER_TOKEN=${{ secrets.PLANETTERRIAN_X_BEARER_TOKEN }}
+          ENVEOF
+
+      - name: Run show pipeline
+        run: python run_show.py ${{ matrix.show }} 2>&1
+        timeout-minutes: 30
+
+      - name: Commit and push output
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Stage all generated output
+          git add -A digests/ || true
+          git add *.rss || true
+          git add *.html || true
+
+          # Check if there are changes to commit
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Auto-generated: ${{ matrix.show }} $(date +%Y-%m-%d)"
+
+          # Push with retry (handles concurrent pushes from matrix jobs)
+          for attempt in 1 2 3 4; do
+            git pull --rebase origin main || true
+            if git push origin main; then
+              echo "Push succeeded on attempt $attempt"
+              exit 0
+            fi
+            echo "Push failed on attempt $attempt, retrying in $((attempt * 5))s..."
+            sleep $((attempt * 5))
+          done
+          echo "All push attempts failed"
+          exit 1
