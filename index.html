@@ -46,7 +46,7 @@
     .btn-primary:hover { background: var(--brand-dark); }
 
     /* Stock ticker */
-    .stock-widget { max-width: 400px; margin: 2rem auto 0; padding: 0.75rem 1.25rem; background: var(--card); border-radius: var(--radius); border: 1px solid #333; display: flex; align-items: center; gap: 1rem; font-size: 0.9rem; }
+    .stock-widget { max-width: 400px; margin: 2rem auto 0; padding: 0.75rem 1.25rem; background: var(--card); border-radius: var(--radius); border: 1px solid #333; display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; flex-wrap: wrap; justify-content: center; }
     .stock-widget .ticker { font-weight: 700; font-size: 1.1rem; }
     .stock-widget .price { font-weight: 600; }
     .stock-widget .change { font-weight: 600; }
@@ -67,7 +67,8 @@
     .episode-card { background: var(--card); border-radius: var(--radius); padding: 1.25rem; border: 1px solid #222; transition: border-color 0.2s; cursor: default; }
     .episode-card:hover { border-color: var(--brand); }
     .episode-card .ep-date { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem; }
-    .episode-card .ep-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.75rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .episode-card .ep-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .episode-card .ep-hook { font-size: 0.85rem; color: var(--brand); font-weight: 600; margin-bottom: 0.75rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .episode-card audio { width: 100%; }
 
     /* Episode summaries */
@@ -331,6 +332,34 @@
       btn.textContent = isExpanded ? 'Collapse summary' : 'Read full summary';
     }
 
+    function extractHook(content) {
+      if (!content) return '';
+      // Try to extract a compelling headline from news items
+      // Match patterns like: **Title here** or numbered items with bold titles
+      const patterns = [
+        /\d+[\.\)️⃣]*\s*\*\*([^*:]+?)(?:\s*[-:])?\s*\*\*/g,
+        /\*\*([^*]{15,80})\*\*/g
+      ];
+      const headlines = [];
+      for (const pat of patterns) {
+        let m;
+        while ((m = pat.exec(content)) !== null) {
+          const h = m[1].trim()
+            .replace(/^#+\s*/, '')
+            .replace(/^\d+[\.\)]\s*/, '');
+          // Skip generic headers and date lines
+          if (h.length >= 15 && h.length <= 120
+              && !/^(Date|REAL-TIME|Tesla Shorts Time|Top \d|Short Spot|Tesla First|Tesla Market|Daily Challenge|Inspiration|Tesla X Takeover|The Vibe)/i.test(h)) {
+            headlines.push(h);
+          }
+        }
+        if (headlines.length >= 3) break;
+      }
+      if (!headlines.length) return '';
+      // Pick the first strong headline
+      return headlines[0];
+    }
+
     function buildSummaryHTML(content) {
       if (!content) return '';
       const preview = escapeHtml(getPreviewText(content));
@@ -355,9 +384,11 @@
       episodes.slice(0, 12).forEach(ep => {
         const card = document.createElement('div');
         card.className = 'episode-card';
+        const hook = extractHook(ep.content);
         card.innerHTML = `
           <div class="ep-date">${formatDate(ep.date)}</div>
           <div class="ep-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
+          ${hook ? `<div class="ep-hook">\u{1F3A7} Hear about: ${escapeHtml(hook)}</div>` : ''}
           ${buildSummaryHTML(ep.content)}
           <audio controls preload="none" src="${ep.audio_url || ''}"></audio>
         `;
@@ -387,11 +418,13 @@
             const enclosure = item.querySelector('enclosure');
             const url = enclosure ? enclosure.getAttribute('url') : '';
             const description = item.querySelector('description')?.textContent || '';
+            const hook = extractHook(description);
             const card = document.createElement('div');
             card.className = 'episode-card';
             card.innerHTML = `
               <div class="ep-date">${pubDate ? formatDate(pubDate) : ''}</div>
               <div class="ep-title">${escapeHtml(title)}</div>
+              ${hook ? `<div class="ep-hook">\u{1F3A7} Hear about: ${escapeHtml(hook)}</div>` : ''}
               ${description ? buildSummaryHTML(description) : ''}
               <audio controls preload="none" src="${url}"></audio>
             `;
@@ -432,40 +465,71 @@
         changeEl.className = 'change ' + (isUp ? 'up' : 'down');
       }
 
-      // Try Yahoo Finance query2 (more reliable for CORS)
-      try {
-        const resp = await fetch('https://query2.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=2d');
-        if (!resp.ok) throw new Error('query2 failed');
-        const data = await resp.json();
-        const meta = data.chart.result[0].meta;
-        displayPrice(meta.regularMarketPrice, meta.chartPreviousClose || meta.previousClose);
-        return;
-      } catch {}
+      const yahooUrl = 'https://query2.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=2d';
+      const proxies = [
+        url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
+        url => 'https://corsproxy.io/?' + encodeURIComponent(url),
+        url => url  // direct (in case CORS is relaxed)
+      ];
 
-      // Fallback: Yahoo Finance query1
-      try {
-        const resp = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=2d');
-        if (!resp.ok) throw new Error('query1 failed');
-        const data = await resp.json();
-        const meta = data.chart.result[0].meta;
-        displayPrice(meta.regularMarketPrice, meta.chartPreviousClose || meta.previousClose);
-        return;
-      } catch {}
-
-      // Fallback: parse price from close data in chart response
-      try {
-        const resp = await fetch('https://query2.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=5d');
-        if (!resp.ok) throw new Error('chart fallback failed');
-        const data = await resp.json();
-        const result = data.chart.result[0];
-        const closes = result.indicators.quote[0].close.filter(c => c !== null);
-        if (closes.length >= 2) {
-          displayPrice(closes[closes.length - 1], closes[closes.length - 2]);
+      for (const makeUrl of proxies) {
+        try {
+          const resp = await fetch(makeUrl(yahooUrl));
+          if (!resp.ok) continue;
+          const data = await resp.json();
+          const meta = data.chart.result[0].meta;
+          displayPrice(meta.regularMarketPrice, meta.chartPreviousClose || meta.previousClose);
           return;
+        } catch {}
+      }
+
+      // Fallback: try 5-day chart data through proxies
+      const yahoo5d = 'https://query2.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=5d';
+      for (const makeUrl of proxies) {
+        try {
+          const resp = await fetch(makeUrl(yahoo5d));
+          if (!resp.ok) continue;
+          const data = await resp.json();
+          const closes = data.chart.result[0].indicators.quote[0].close.filter(c => c !== null);
+          if (closes.length >= 2) {
+            displayPrice(closes[closes.length - 1], closes[closes.length - 2]);
+            return;
+          }
+        } catch {}
+      }
+
+      // Final fallback: extract TSLA price from latest episode content
+      try {
+        const resp = await fetch('digests/summaries_tesla.json');
+        if (resp.ok) {
+          const data = await resp.json();
+          const eps = data.summaries || data;
+          if (eps.length) {
+            const content = eps[0].content || '';
+            // Match patterns like: $417.44 ▲ $1.11 (0.3%) or $417.44 +1.11 (+0.27%)
+            const priceMatch = content.match(/TSLA\s*price[:\s]*\$?([\d,.]+)\s*[▲▼+-]+\s*\$?([\d,.]+)\s*\(([+-]?[\d,.]+%?)\)/i);
+            if (priceMatch) {
+              const price = parseFloat(priceMatch[1].replace(/,/g, ''));
+              const change = parseFloat(priceMatch[2].replace(/,/g, ''));
+              const pctRaw = priceMatch[3].replace('%', '');
+              const isUp = !content.match(/TSLA\s*price[:\s]*\$?[\d,.]+\s*▼/) && !priceMatch[0].includes('-');
+              document.getElementById('stock-price').textContent = '$' + price.toFixed(2);
+              const changeEl = document.getElementById('stock-change');
+              changeEl.textContent = (isUp ? '+' : '-') + change.toFixed(2) + ' (' + (isUp ? '+' : '-') + pctRaw + '%)';
+              changeEl.className = 'change ' + (isUp ? 'up' : 'down');
+              // Add label to indicate this is from the latest episode
+              const widget = document.getElementById('stock-widget');
+              const label = document.createElement('span');
+              label.style.cssText = 'font-size:0.7rem;color:var(--text-muted);';
+              label.textContent = '(as of latest episode)';
+              widget.appendChild(label);
+              return;
+            }
+          }
         }
       } catch {}
 
-      // Final fallback
+      // Absolute fallback
       document.getElementById('stock-price').textContent = 'TSLA';
       document.getElementById('stock-change').textContent = 'Market data unavailable';
     }
