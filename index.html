@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Daily podcast digesting Tesla news, shorts meltdowns, and EV future - hosted by Dan and Patrick.">
+  <meta name="description" content="Daily podcast on how Tesla is advancing sustainable energy, saving lives, and making the world a better place.">
   <title>Tesla Shorts Time Daily</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
   <style>
@@ -84,6 +84,11 @@
     .about-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
     .about-section p { color: var(--text-muted); margin-bottom: 0.75rem; }
 
+    /* X Feed */
+    .x-feed-section { max-width: 700px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+    .x-feed-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
+    .x-feed-wrapper { background: var(--card); border-radius: var(--radius); border: 1px solid #222; padding: 1rem; overflow: hidden; max-height: 600px; overflow-y: auto; }
+
     /* Network */
     .network-section { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 3rem; border-top: 1px solid #222; }
     .network-header { text-align: center; margin-bottom: 2rem; }
@@ -144,7 +149,7 @@
     <section class="hero">
       <h1>Tesla <span>Shorts Time</span> Daily</h1>
       <p class="tagline">Shorting Tesla? Time's Up.</p>
-      <p class="subtitle">Daily podcast digesting Tesla news, shorts meltdowns, and EV future. Hosted by Dan and Patrick.</p>
+      <p class="subtitle">Daily podcast on how Tesla is advancing sustainable energy, saving lives, and making the world a better place.</p>
       <div class="cta">
         <a href="#episodes" class="btn btn-primary">Listen Now</a>
         <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" class="btn">Apple Podcasts</a>
@@ -172,8 +177,15 @@
 
     <section id="about" class="about-section">
       <h2>About Tesla Shorts Time</h2>
-      <p>Tesla Shorts Time is a daily podcast delivering the most important Tesla news, stock analysis, and EV industry updates. We cut through the noise to bring you what matters.</p>
-      <p>Hosted by Dan and Patrick, each episode covers market movements, breaking news, and the latest developments from Tesla and the broader electric vehicle world.</p>
+      <p>Tesla Shorts Time is a daily podcast delivering the most important Tesla news and developments. We focus on how Tesla is advancing its mission to accelerate the world's transition to sustainable energy, saving lives through safer vehicles, and making the world a better place.</p>
+      <p>Hosted by Patrick, each episode covers breaking news, product updates, technology breakthroughs, and the latest developments from Tesla and the broader electric vehicle world.</p>
+    </section>
+
+    <section class="x-feed-section">
+      <h2>Latest from @teslashortstime</h2>
+      <div class="x-feed-wrapper">
+        <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders transparent" data-height="500" href="https://twitter.com/teslashortstime">Posts by @teslashortstime</a>
+      </div>
     </section>
 
     <section id="network" class="network-section">
@@ -189,7 +201,7 @@
             <span class="network-card-name">Tesla Shorts Time</span>
           </div>
           <div class="network-card-tagline">Shorting Tesla? Time's Up.</div>
-          <div class="network-card-desc">Daily Tesla news, stock analysis, and EV future.</div>
+          <div class="network-card-desc">Daily Tesla news, mission updates, and sustainable energy progress.</div>
           <div class="network-card-links">
             <a href="podcast.rss">RSS</a>
             <a href="https://x.com/teslashortstime">@teslashortstime</a>
@@ -268,6 +280,7 @@
     <p>&copy; 2026 Tesla Shorts Time</p>
   </footer>
 
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   <script>
     document.querySelector('.menu-toggle').addEventListener('click', () => {
       document.querySelector('.nav-links').classList.toggle('open');
@@ -407,24 +420,54 @@
     }
 
     async function loadStock() {
+      function displayPrice(price, prev) {
+        const p = parseFloat(price);
+        const pc = parseFloat(prev);
+        const ch = (p - pc).toFixed(2);
+        const pct = ((p - pc) / pc * 100).toFixed(2);
+        const isUp = ch >= 0;
+        document.getElementById('stock-price').textContent = '$' + p.toFixed(2);
+        const changeEl = document.getElementById('stock-change');
+        changeEl.textContent = (isUp ? '+' : '') + ch + ' (' + (isUp ? '+' : '') + pct + '%)';
+        changeEl.className = 'change ' + (isUp ? 'up' : 'down');
+      }
+
+      // Try Yahoo Finance query2 (more reliable for CORS)
       try {
-        const resp = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=1d');
-        if (!resp.ok) throw new Error('Stock API failed');
+        const resp = await fetch('https://query2.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=2d');
+        if (!resp.ok) throw new Error('query2 failed');
         const data = await resp.json();
         const meta = data.chart.result[0].meta;
-        const price = meta.regularMarketPrice.toFixed(2);
-        const prev = meta.previousClose;
-        const change = (meta.regularMarketPrice - prev).toFixed(2);
-        const pct = ((meta.regularMarketPrice - prev) / prev * 100).toFixed(2);
-        const isUp = change >= 0;
-        document.getElementById('stock-price').textContent = '$' + price;
-        const changeEl = document.getElementById('stock-change');
-        changeEl.textContent = (isUp ? '+' : '') + change + ' (' + (isUp ? '+' : '') + pct + '%)';
-        changeEl.className = 'change ' + (isUp ? 'up' : 'down');
-      } catch {
-        document.getElementById('stock-price').textContent = 'TSLA';
-        document.getElementById('stock-change').textContent = 'Market data unavailable';
-      }
+        displayPrice(meta.regularMarketPrice, meta.chartPreviousClose || meta.previousClose);
+        return;
+      } catch {}
+
+      // Fallback: Yahoo Finance query1
+      try {
+        const resp = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=2d');
+        if (!resp.ok) throw new Error('query1 failed');
+        const data = await resp.json();
+        const meta = data.chart.result[0].meta;
+        displayPrice(meta.regularMarketPrice, meta.chartPreviousClose || meta.previousClose);
+        return;
+      } catch {}
+
+      // Fallback: parse price from close data in chart response
+      try {
+        const resp = await fetch('https://query2.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=5d');
+        if (!resp.ok) throw new Error('chart fallback failed');
+        const data = await resp.json();
+        const result = data.chart.result[0];
+        const closes = result.indicators.quote[0].close.filter(c => c !== null);
+        if (closes.length >= 2) {
+          displayPrice(closes[closes.length - 1], closes[closes.length - 2]);
+          return;
+        }
+      } catch {}
+
+      // Final fallback
+      document.getElementById('stock-price').textContent = 'TSLA';
+      document.getElementById('stock-change').textContent = 'Market data unavailable';
     }
 
     // Make network cards clickable
