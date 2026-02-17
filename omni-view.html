@@ -68,6 +68,11 @@
     .about-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
     .about-section p { color: var(--text-muted); margin-bottom: 0.75rem; }
 
+    /* X Feed */
+    .x-feed-section { max-width: 700px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+    .x-feed-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
+    .x-feed-wrapper { background: var(--card); border-radius: var(--radius); border: 1px solid #1e2a42; padding: 1rem; overflow: hidden; max-height: 600px; overflow-y: auto; }
+
     /* Episode summaries */
     .ep-summary { color: var(--text-muted); font-size: 0.85rem; margin: 0.75rem 0; line-height: 1.7; }
     .ep-summary-preview { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
@@ -166,6 +171,13 @@
       <p>Hosted by Patrick, each episode covers top stories, world news, business, and technology with balanced analysis and source transparency.</p>
     </section>
 
+    <section class="x-feed-section">
+      <h2>Latest from @omniviewnews</h2>
+      <div class="x-feed-wrapper">
+        <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders transparent" data-height="500" href="https://twitter.com/omniviewnews">Posts by @omniviewnews</a>
+      </div>
+    </section>
+
     <section class="network-section" id="network">
       <h2>Explore Our Podcast Network</h2>
       <p class="network-subtitle">Five daily shows covering Tesla, world news, space, science, and the environment.</p>
@@ -177,7 +189,7 @@
             <span class="network-card-name">Tesla Shorts Time</span>
           </div>
           <div class="network-card-tagline">Shorting Tesla? Time's Up.</div>
-          <div class="network-card-desc">Daily Tesla news, stock analysis, and EV future.</div>
+          <div class="network-card-desc">Daily Tesla news, mission updates, and sustainable energy progress.</div>
           <div class="network-card-links">
             <a href="index.html">Listen</a>
             <a href="podcast.rss">RSS</a>
@@ -258,6 +270,7 @@
     <p>&copy; 2026 Omni View</p>
   </footer>
 
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   <script>
     document.querySelector('.menu-toggle').addEventListener('click', () => {
       document.querySelector('.nav-links').classList.toggle('open');

@@ -1344,7 +1344,7 @@ if weekday == 0:  # Monday (0 = Monday in Python weekday())
 X_PROMPT = f"""
 # Tesla Shorts Time - DAILY EDITION
 **Date:** {today_str}
-**REAL-TIME TSLA price:** ${price:.2f} {change_str}
+**TSLA:** ${price:.2f} {change_str}
 
 {news_section}
 
@@ -1352,9 +1352,9 @@ X_PROMPT = f"""
 
 You are an elite Tesla news curator producing the daily "Tesla Shorts Time" newsletter. Use ONLY the pre-fetched news above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. Do NOT include a "Top X Posts" section in your output. Prioritize diversity: No duplicates/similar stories (≥70% overlap in angle/content); max 3 from one source/account.
 
-CRITICAL: Only select articles that are SPECIFIC, FRESH (within last 48 hours), and SUBSTANTIVE. REJECT any articles that are:
+CRITICAL: Only select articles that are SPECIFIC, FRESH (within last 48 hours), and SUBSTANTIVE. Prioritize stories about Tesla's products, technology, safety, sustainability, and mission to accelerate the transition to sustainable energy. REJECT any articles that are:
 - Generic homepage content ("latest news", "ongoing coverage", "provides updates")
-- Stock price/market data focused
+- Purely stock price/market data focused (no product or mission angle)
 - Very short descriptions (<100 characters)
 - From obviously wrong dates (future dates or very old)
 - Elon Musk posts that aren't Tesla-specific
@@ -1397,12 +1397,12 @@ CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the 1
 ### FORMATTING (EXACT—USE MARKDOWN AS SHOWN)
 # Tesla Shorts Time
 **Date:** {today_str}
-**REAL-TIME TSLA price:** ${price:.2f} {change_str}
+**TSLA:** ${price:.2f} {change_str}
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 10 News Items
-1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM PST, Source Name**  
-   2–4 sentences: Start with what happened, then why it matters for Tesla's future/stock. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
+1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM PST, Source Name**
+   2–4 sentences: Start with what happened, then why it matters for Tesla's mission and how it advances sustainable energy, saves lives, or makes the world better. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
 2. [Repeat format for 3-10; if <10 items, stop at available count, add a blank line after each item and the last item]
 
 ━━━━━━━━━━━━━━━━━━━━
@@ -1410,28 +1410,28 @@ CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the 1
 🎙️ Tesla X Takeover - What's breaking in the Tesla world today! Here are the most interesting, fresh Tesla developments that have everyone talking.
 
 1. 🚨 **[INCREDIBLE TITLE THAT HOOKS]** - [Breaking Tesla news or development]
-   [Make it sound exciting and fresh - like you're sharing breaking Tesla news with friends. Include what happened, why it matters, and why Tesla investors should care. 2-3 sentences with personality and enthusiasm.]
+   [Make it sound exciting and fresh - like you're sharing breaking Tesla news with friends. Include what happened, why it matters for Tesla's mission, and how it advances sustainable energy or saves lives. 2-3 sentences with personality and enthusiasm.]
    Source: [EXACT URL FROM PRE-FETCHED NEWS - if available]
 
 2. 🔥 **[EXCITING TITLE]** - [Another fresh Tesla development or trend]
-   [Make it conversational and engaging. Focus on what makes this story interesting, surprising, or important for Tesla's future. Include why this matters for Tesla investors.]
+   [Make it conversational and engaging. Focus on what makes this story interesting, surprising, or important for Tesla's mission to make the world better.]
 
 3. 💡 **[INSIGHTFUL TITLE]** - [Interesting Tesla trend or pattern]
-   [Highlight what's unique or noteworthy about this development. Connect it to Tesla's bigger picture or long-term strategy.]
+   [Highlight what's unique or noteworthy about this development. Connect it to Tesla's bigger picture — accelerating sustainable energy, advancing autonomy and safety, or improving lives.]
 
 4. ⚡ **[ENERGETIC TITLE]** - [Surprising Tesla announcement or update]
-   [Focus on what makes this development exciting or unexpected. Explain why this could be significant for Tesla's business or stock.]
+   [Focus on what makes this development exciting or unexpected. Explain why this could be significant for Tesla's mission or for making the world a safer, cleaner place.]
 
 5. 🎯 **[PRECISION TITLE]** - [Fresh Tesla story that stands out]
-   [Show why this particular development is noteworthy and different from the usual news. Make it clear why Tesla fans and investors should pay attention.]
+   [Show why this particular development is noteworthy and different from the usual news. Make it clear why Tesla fans and anyone who cares about the future should pay attention.]
 
-**The Vibe Check:** "Overall, the Tesla world is [BULLISH/BEARISH/MIXED] this week, with key themes around [Autopilot, energy, Cybertruck, manufacturing, etc.]. The most exciting developments are [specific trends or patterns], showing Tesla's momentum in [relevant area]."
+**The Vibe Check:** "Overall, the Tesla world is [ENERGIZED/CHALLENGED/EVOLVING] this week, with key themes around [Autopilot safety, energy storage, Cybertruck deliveries, manufacturing efficiency, etc.]. The most exciting developments are [specific trends or patterns], showing Tesla's progress toward [its mission of sustainable energy / saving lives through autonomy / etc.]."
 
 ━━━━━━━━━━━━━━━━━━━━
 ## Short Spot
-One bearish item from pre-fetched news that's negative for Tesla/stock.
+One bearish or critical item from pre-fetched news about Tesla.
 **Catchy Title: DD Month, YYYY, HH:MM AM/PM PST, @username/Source**
-2–4 sentences explaining it & why it's temporary/overblown (frame optimistically). End with: Source/Post: [EXACT URL]
+2–4 sentences explaining the concern, then why it's temporary or overblown — frame it in terms of Tesla's long-term mission and track record of overcoming obstacles. End with: Source/Post: [EXACT URL]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Tesla First Principles
@@ -1445,9 +1445,9 @@ Taking a step back from today's headlines, let's apply first principles thinking
 
 **The Tesla Approach:** [How Tesla would actually solve this problem using their proven methodologies]
 
-**The Market Implication:** [What this means for TSLA valuation and investor expectations - be realistic]
+**The Real-World Impact:** [What this means for people's lives — safety, environment, energy independence, transportation access]
 
-**The Long-Term Play:** [Why this matters for Tesla's mission to accelerate the world's transition to sustainable energy]
+**The Long-Term Play:** [Why this matters for Tesla's mission to accelerate the world's transition to sustainable energy and how it makes the world a better place]
 {market_movers_section}
 
 ━━━━━━━━━━━━━━━━━━━━
@@ -1463,7 +1463,9 @@ One short, inspiring challenge tied to Tesla/Elon themes (curiosity, first princ
 (Add blank line after sign-off.)
 
 ### TONE & STYLE
-- Inspirational, pro-Tesla, optimistic, energetic.
+- Inspirational, pro-Tesla, optimistic, energetic, mission-focused.
+- Emphasize how Tesla's work saves lives, advances sustainability, and makes the world better.
+- De-emphasize stock price movements and financial metrics — focus on products, technology, and real-world impact.
 - Timestamps: Accurate PST/PDT (convert from pre-fetched).
 - No stock-quote pages/pure price commentary as "news."
 
@@ -2080,26 +2082,26 @@ else:
         f'Patrick: Welcome to Tesla Shorts Time Daily, episode {{episode_num}}. It is {{today_str}}. I\'m Patrick in Vancouver, Canada bringing you the latest Tesla news and updates. If you like the show, like, share, rate and subscribe — it really helps. Now straight to the news.',
     ]
     CLOSING_TEMPLATES = [
-        f'Patrick: TSLA is at ${{price:.2f}} as we record. Short term is fun to watch, but with Tesla the long term is what really matters.\nPatrick: That\'s Tesla Shorts Time Daily for today. I\'d love to hear your thoughts — reach out @teslashortstime on X or DM us. Stay safe, keep accelerating, and we\'ll catch you tomorrow.',
-        f'Patrick: Current TSLA price at recording: ${{price:.2f}}. Good to know, but remember it\'s the long game that counts.\nPatrick: Thanks for listening to Tesla Shorts Time Daily. Hit us up @teslashortstime with feedback or ideas. Future is electric — talk to you next time.',
-        f'Patrick: TSLA right now is ${{price:.2f}}. Always good to know the short term; with Tesla, the long term is what really matters.\nPatrick: That\'s it for today\'s Tesla Shorts Time Daily. I look forward to hearing from you — @teslashortstime on X or DM. Stay safe, keep accelerating, and we\'ll catch you tomorrow.',
-        f'Patrick: At the time of recording, TSLA is ${{price:.2f}}. Pace yourself — long term is what matters.\nPatrick: Thanks for spending a few minutes with me. DM @teslashortstime with thoughts or ideas. Your efforts help accelerate the transition to sustainable energy. We\'ll catch you tomorrow on Tesla Shorts Time Daily.',
-        f'Patrick: TSLA at ${{price:.2f}} as we wrap. Short term is noisy; the long term is why we\'re here.\nPatrick: That\'s Tesla Shorts Time Daily for today. Reach out @teslashortstime — I\'d love to hear what you\'re seeing. Take care, and we\'ll talk again tomorrow.',
+        f'Patrick: Every day Tesla is out there making roads safer, making energy cleaner, and pushing humanity forward. That\'s what this show is really about.\nPatrick: That\'s Tesla Shorts Time Daily for today. I\'d love to hear your thoughts — reach out @teslashortstime on X or DM us. Stay safe, keep accelerating, and we\'ll catch you tomorrow.',
+        f'Patrick: When you step back and look at the big picture, Tesla is saving lives through safer cars, powering homes with clean energy, and building a more sustainable future. That\'s what keeps me excited.\nPatrick: Thanks for listening to Tesla Shorts Time Daily. Hit us up @teslashortstime with feedback or ideas. Future is electric — talk to you next time.',
+        f'Patrick: Remember, the real story with Tesla isn\'t the day-to-day noise. It\'s the lives being saved by autopilot, the grid being stabilized by Megapacks, and the air getting cleaner every time someone drives a Tesla instead of burning gas.\nPatrick: That\'s it for today\'s Tesla Shorts Time Daily. I look forward to hearing from you — @teslashortstime on X or DM. Stay safe, keep accelerating, and we\'ll catch you tomorrow.',
+        f'Patrick: The mission is what matters — accelerating the world\'s transition to sustainable energy. Everything Tesla does feeds into that, and every day we\'re getting closer.\nPatrick: Thanks for spending a few minutes with me. DM @teslashortstime with thoughts or ideas. Your efforts help accelerate the transition to sustainable energy. We\'ll catch you tomorrow on Tesla Shorts Time Daily.',
+        f'Patrick: TSLA is at ${{price:.2f}} today, but the real value of Tesla can\'t be measured in a stock ticker. It\'s measured in lives saved, emissions avoided, and a future being built right now.\nPatrick: That\'s Tesla Shorts Time Daily for today. Reach out @teslashortstime — I\'d love to hear what you\'re seeing. Take care, and we\'ll talk again tomorrow.',
     ]
     _intro_line = _podcast_rng.choice(INTRO_TEMPLATES).format(episode_num=episode_num, today_str=today_str)
     _closing_block = _podcast_rng.choice(CLOSING_TEMPLATES).format(price=price)
 
     # Tone hint so script matches the day (not always max enthusiasm)
     if change > 3:
-        tone_hint = "strongly bullish — okay to sound more excited"
+        tone_hint = "great energy today — okay to sound more excited about Tesla's progress"
     elif change > 0.5:
-        tone_hint = "slightly bullish — warm and positive"
+        tone_hint = "positive day — warm and upbeat about Tesla's mission"
     elif change < -3:
-        tone_hint = "rough/red day — be grounded, reflective, honest; don't fake hype"
+        tone_hint = "challenging day — be grounded, reflective, honest; focus on long-term mission, don't fake hype"
     elif change < -0.5:
-        tone_hint = "slightly bearish — thoughtful, no forced enthusiasm"
+        tone_hint = "mixed signals today — thoughtful, no forced enthusiasm, focus on the fundamentals of what Tesla is building"
     else:
-        tone_hint = "mixed/unchanged — natural and conversational"
+        tone_hint = "steady day — natural and conversational, focus on the news and what it means for the mission"
 
     # Podcast prompt: guidelines + rotated intro/outro for variety
     POD_PROMPT = f"""You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Tesla Shorts Time Daily" Episode {episode_num}.
@@ -2114,7 +2116,9 @@ RULES:
 - Use ONLY information from the digest below — nothing else
 
 TONE (vary by the day):
-- Match your energy to the news and TSLA move today: {tone_hint}.
+- Match your energy to the news today: {tone_hint}.
+- Focus on how Tesla's daily developments advance the mission — saving lives, sustainable energy, making the world better.
+- De-emphasize stock price talk. If stock is mentioned, keep it brief and pivot to what it means for Tesla's ability to execute its mission.
 - Vary sentence length and pacing; some moments can be calm or thoughtful, not always high-energy.
 - Sound warm and human — occasionally excited, occasionally reflective — never mechanical.
 
@@ -2125,10 +2129,10 @@ Use this exact intro (do not rewrite it):
 
 [Narrate EVERY item from the digest in order - no skipping]
 - For each news item: Read the title naturally, then paraphrase the summary in your own words. Vary delivery — not every item needs the same level of enthusiasm.
-- Tesla X Takeover: Introduce the section in your own words. Cover each item clearly; explain why it matters for Tesla investors. End with the vibe check in a natural way.
-- Short Spot: Explain the bearish concern and why it's temporary or overblown — tone can be more measured here.
-- Tesla First Principles: Explain the fundamental question, data, Tesla approach, and market implications. Educational but engaging; no need to oversell.
-- Tesla Market Movers (Mondays only): Recap the week's Tesla market activity and what moved TSLA.
+- Tesla X Takeover: Introduce the section in your own words. Cover each item clearly; explain why it matters for Tesla's mission and for making the world better. End with the vibe check in a natural way.
+- Short Spot: Explain the concern and why it's temporary or overblown in terms of Tesla's long-term mission — tone can be more measured here.
+- Tesla First Principles: Explain the fundamental question, data, Tesla approach, and real-world impact. Educational but engaging; no need to oversell.
+- Tesla Market Movers (Mondays only): Brief recap of the week's Tesla market context, but keep focus on what it means for execution of the mission.
 - Daily Challenge + Quote: Read the quote verbatim, then the challenge verbatim, add one short encouraging sentence.
 
 [Closing]
@@ -2151,7 +2155,7 @@ Here is today's complete formatted digest. Use ONLY this content:
                 "content": [
                     {
                         "type": "input_text",
-                        "text": "You are the world's best Tesla podcast writer. Make it feel like a real Canadian friend catching you up on Tesla: warm, honest, occasionally excited, occasionally thoughtful — never robotic or like an AI reading a script.",
+                        "text": "You are the world's best Tesla podcast writer. Make it feel like a real Canadian friend catching you up on Tesla: warm, honest, occasionally excited, occasionally thoughtful — never robotic or like an AI reading a script. Focus on how Tesla's daily news advances the mission of sustainable energy, saves lives, and makes the world a better place. De-emphasize stock prices and financial metrics — the mission is what matters.",
                     }
                 ],
             },
