@@ -20,6 +20,16 @@ from assets.pronunciation import (
     strip_unicode_decorations,
     clean_social_handles,
     clean_text_for_tts,
+    strip_financial_parentheses,
+    replace_signed_currency,
+    replace_signed_numbers,
+    replace_multiplier_notation,
+    replace_versus,
+    replace_approximate,
+    replace_common_abbreviations,
+    replace_price_ranges,
+    replace_hashtag_numbers,
+    replace_standalone_ampersand,
     replace_currency,
     replace_percentages,
     replace_dates,
@@ -445,8 +455,12 @@ class TestPrepareTextForTts:
         # Currency converted
         assert "four hundred seventeen dollars" in result
 
-        # Percentage converted
+        # Percentage converted — parens stripped first, then value expanded
         assert "percent" in result
+        assert "(" not in result  # financial parens stripped
+
+        # Signed number +1.11 converted (was bare, now "up one point one one")
+        assert "up one point one one" in result
 
         # Date converted
         assert "fifteenth" in result
@@ -541,3 +555,256 @@ class TestPrepareTextForTts:
         assert "billion dollars" in result
         assert "fifteen percent" in result
         assert "Q three" in result
+
+    def test_stock_price_with_change_and_status(self):
+        """Full pipeline test: TSLA price line with movement and market status."""
+        text = "TSLA: $417.44 +$1.11 (+0.27%) (After-hours)"
+        result = prepare_text_for_tts(text)
+
+        # Parentheses stripped
+        assert "(" not in result
+        assert ")" not in result
+
+        # Market status expanded
+        assert "after hours" in result
+
+        # TSLA acronym
+        assert "T S L A" in result
+
+        # Signed currency converted
+        assert "up" in result
+        assert "one dollar" in result
+
+        # Percentage expanded
+        assert "percent" in result
+
+        # Base price converted
+        assert "four hundred seventeen dollars" in result
+
+    def test_stock_price_down(self):
+        """Full pipeline: negative movement."""
+        text = "TSLA at $350.25 -$5.75 (-1.62%) (Pre-market)"
+        result = prepare_text_for_tts(text)
+        assert "down" in result
+        assert "five dollars" in result
+        assert "pre-market" in result
+        assert "(" not in result
+
+    def test_financial_acronyms_in_pipeline(self):
+        """Pipeline handles financial acronyms."""
+        text = "The P/E ratio is high. EPS grew YoY. EBITDA improved."
+        result = prepare_text_for_tts(text)
+        assert "P to E" in result
+        assert "E P S" in result
+        assert "year over year" in result
+        assert "ee-bit-dah" in result
+
+    def test_versus_in_pipeline(self):
+        """Pipeline converts vs. to versus."""
+        text = "Tesla vs. Edison: a battle for the ages."
+        result = prepare_text_for_tts(text)
+        assert "versus" in result
+        assert "vs" not in result
+
+    def test_multiplier_in_pipeline(self):
+        """Pipeline converts multiplier notation."""
+        text = "That's a 10x improvement over last year."
+        result = prepare_text_for_tts(text)
+        assert "ten times" in result
+
+    def test_abbreviations_in_pipeline(self):
+        """Pipeline expands common abbreviations."""
+        text = "Tesla Inc. is investing, e.g. in battery tech, etc."
+        result = prepare_text_for_tts(text)
+        assert "Incorporated" in result
+        assert "for example" in result
+        assert "et cetera" in result
+
+    def test_price_range_in_pipeline(self):
+        """Pipeline converts price ranges."""
+        text = "Analysts expect $350-$400 by year end."
+        result = prepare_text_for_tts(text)
+        assert "three hundred fifty to four hundred dollars" in result
+        assert "$" not in result
+
+    def test_hashtag_number_in_pipeline(self):
+        """Pipeline converts hashtag numbers."""
+        text = "Model Y is the #1 selling EV."
+        result = prepare_text_for_tts(text)
+        assert "number one" in result
+
+    def test_approximate_in_pipeline(self):
+        """Pipeline converts tilde approximation."""
+        text = "~500 Superchargers in the region."
+        result = prepare_text_for_tts(text)
+        assert "approximately" in result
+
+
+# ===================== New Function Unit Tests =====================
+
+class TestStripFinancialParentheses:
+    def test_signed_percentage(self):
+        assert strip_financial_parentheses("(+0.27%)") == "+0.27%"
+
+    def test_negative_percentage(self):
+        assert strip_financial_parentheses("(-1.62%)") == "-1.62%"
+
+    def test_signed_currency(self):
+        assert strip_financial_parentheses("(-$1.11)") == "-$1.11"
+
+    def test_after_hours(self):
+        result = strip_financial_parentheses("(After-hours)")
+        assert result == "after hours"
+
+    def test_pre_market(self):
+        result = strip_financial_parentheses("(Pre-market)")
+        assert result == "pre-market"
+
+    def test_unchanged(self):
+        result = strip_financial_parentheses("(unchanged)")
+        assert result == "unchanged"
+
+    def test_bare_percentage(self):
+        assert strip_financial_parentheses("(0.27%)") == "0.27%"
+
+    def test_preserves_normal_parens(self):
+        text = "Tesla (the company) is growing"
+        assert strip_financial_parentheses(text) == text
+
+
+class TestReplaceSignedCurrency:
+    def test_positive_dollars(self):
+        result = replace_signed_currency("+$1.11")
+        assert result == "up $1.11"
+
+    def test_negative_dollars(self):
+        result = replace_signed_currency("-$2.50")
+        assert result == "down $2.50"
+
+    def test_positive_large(self):
+        result = replace_signed_currency("+$3 billion")
+        assert result == "up $3 billion"
+
+    def test_no_sign(self):
+        result = replace_signed_currency("$417.44")
+        assert result == "$417.44"  # unchanged, no sign
+
+
+class TestReplaceSignedNumbers:
+    def test_positive_decimal(self):
+        result = replace_signed_numbers("+1.11")
+        assert "up" in result
+        assert "one point one one" in result
+
+    def test_negative_decimal(self):
+        result = replace_signed_numbers("-2.50")
+        assert "down" in result
+
+    def test_positive_whole(self):
+        result = replace_signed_numbers("+3")
+        assert "up three" in result
+
+    def test_no_effect_on_percentage(self):
+        # Should not match if followed by %
+        result = replace_signed_numbers("+0.27%")
+        assert "+" in result or "0.27%" in result  # not converted (% follows)
+
+    def test_no_effect_on_currency(self):
+        # Should not match currency symbols
+        result = replace_signed_numbers("+$5")
+        assert "$" in result  # not converted ($ follows +)
+
+
+class TestReplaceMultiplierNotation:
+    def test_2x(self):
+        assert replace_multiplier_notation("2x growth") == "two times growth"
+
+    def test_10x(self):
+        assert replace_multiplier_notation("10x improvement") == "ten times improvement"
+
+    def test_100x(self):
+        assert "one hundred times" in replace_multiplier_notation("100x return")
+
+    def test_no_false_positive(self):
+        # "x" in normal words should not be affected
+        result = replace_multiplier_notation("next year")
+        assert result == "next year"
+
+
+class TestReplaceVersus:
+    def test_vs_period(self):
+        result = replace_versus("Tesla vs. Edison")
+        assert "versus" in result
+
+    def test_vs_no_period(self):
+        result = replace_versus("Tesla vs Edison")
+        assert "versus" in result
+
+    def test_case_insensitive(self):
+        result = replace_versus("BEV Vs ICE")
+        assert "versus" in result
+
+
+class TestReplaceApproximate:
+    def test_tilde_number(self):
+        result = replace_approximate("~500 units")
+        assert "approximately 500 units" == result
+
+    def test_no_tilde(self):
+        result = replace_approximate("about 500 units")
+        assert result == "about 500 units"
+
+
+class TestReplaceCommonAbbreviations:
+    def test_eg(self):
+        result = replace_common_abbreviations("e.g. battery")
+        assert "for example" in result
+
+    def test_ie(self):
+        result = replace_common_abbreviations("i.e. Tesla")
+        assert "that is" in result
+
+    def test_etc(self):
+        result = replace_common_abbreviations("cars, trucks, etc.")
+        assert "et cetera" in result
+
+    def test_inc(self):
+        result = replace_common_abbreviations("Tesla Inc.")
+        assert "Incorporated" in result
+
+    def test_with_slash(self):
+        result = replace_common_abbreviations("w/ battery")
+        assert "with battery" == result
+
+
+class TestReplacePriceRanges:
+    def test_whole_dollar_range(self):
+        result = replace_price_ranges("$350-$400")
+        assert "three hundred fifty to four hundred dollars" in result
+
+    def test_em_dash_range(self):
+        result = replace_price_ranges("$25\u2013$30")
+        assert "twenty-five to thirty dollars" in result
+
+    def test_decimal_range(self):
+        result = replace_price_ranges("$10.50-$12.75")
+        assert "ten dollars" in result
+        assert "twelve dollars" in result
+        assert "to" in result
+
+
+class TestReplaceHashtagNumbers:
+    def test_number_one(self):
+        assert replace_hashtag_numbers("#1 EV") == "number one EV"
+
+    def test_number_ten(self):
+        assert replace_hashtag_numbers("#10 spot") == "number ten spot"
+
+
+class TestReplaceStandaloneAmpersand:
+    def test_standalone(self):
+        assert replace_standalone_ampersand("science & tech") == "science and tech"
+
+    def test_compound_preserved(self):
+        # No spaces around & means it's not standalone
+        assert replace_standalone_ampersand("R&D") == "R&D"

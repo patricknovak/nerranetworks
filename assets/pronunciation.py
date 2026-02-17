@@ -226,6 +226,26 @@ COMMON_ACRONYMS: Dict[str, str] = {
     "GDP": "G D P",
     "CPI": "C P I",
 
+    # --- Financial / Markets ---
+    "P/E": "P to E",
+    "EPS": "E P S",
+    "EBITDA": "ee-bit-dah",
+    "ROI": "R O I",
+    "ROE": "R O E",
+    "YoY": "year over year",
+    "MoM": "month over month",
+    "QoQ": "quarter over quarter",
+    "ATH": "all-time high",
+    "FOMO": "fear of missing out",
+    "DCA": "D C A",
+    "AUM": "A U M",
+    "M&A": "M and A",
+    "SPAC": "SPAC",
+    "SPACs": "SPACs",
+    "GAAP": "gap",
+    "TTM": "T T M",
+    "DCF": "D C F",
+
     # --- Government / Regulatory ---
     "FAA": "F A A",
     "FCC": "F C C",
@@ -383,6 +403,227 @@ ROMAN_NUMERALS: Dict[str, int] = {
     "XI": 11, "XII": 12, "XIII": 13, "XIV": 14, "XV": 15,
     "XVI": 16, "XVII": 17, "XVIII": 18, "XIX": 19, "XX": 20,
 }
+
+
+# ========================== FINANCIAL / STRUCTURAL CLEANUPS ==========================
+
+def strip_financial_parentheses(text: str) -> str:
+    """Remove parentheses around financial values and market status indicators.
+
+    Prevents TTS from reading parentheses literally or inserting awkward pauses.
+    Must run early, before value converters, so the inner content can be
+    processed by downstream handlers.
+
+    Examples:
+        '(+0.27%)'      → '+0.27%'
+        '(-$1.11)'      → '-$1.11'
+        '(After-hours)'  → 'after hours'
+        '(Pre-market)'   → 'pre-market'
+        '(unchanged)'    → 'unchanged'
+    """
+    # Market status indicators in parens
+    text = re.sub(r"\(After[- ]?hours?\)", "after hours", text, flags=re.IGNORECASE)
+    text = re.sub(r"\(Pre[- ]?market\)", "pre-market", text, flags=re.IGNORECASE)
+    text = re.sub(r"\(unchanged\)", "unchanged", text, flags=re.IGNORECASE)
+
+    # Signed values in parens: (+0.27%), (-$1.11), (+$0.50), etc.
+    text = re.sub(r"\(([+\-][$€£]?\d+\.?\d*%?)\)", r"\1", text)
+
+    # Bare percentage in parens: (0.27%)
+    text = re.sub(r"\((\d+\.?\d*%)\)", r"\1", text)
+
+    return text
+
+
+def replace_signed_currency(text: str) -> str:
+    """Convert signed currency amounts to natural spoken form.
+
+    Must run BEFORE replace_currency() so the sign word is placed first,
+    then the bare $-amount is handled by the standard currency converter.
+
+    Examples:
+        '+$1.11'      → 'up one dollar and eleven cents'   (after replace_currency)
+        '-$2.50'      → 'down two dollars and fifty cents'
+        '+$3 billion' → 'up three billion dollars'
+    """
+    def _signed(m: re.Match) -> str:
+        sign = m.group(1)
+        rest = m.group(2)
+        direction = "up" if sign == "+" else "down"
+        return f"{direction} {rest}"
+
+    # Negative lookbehind (?<!\d) prevents matching range separators:
+    # "$350-$400" should NOT convert the "-$400" part.
+    text = re.sub(
+        r"(?<!\d)([+\-])([$€£]\d+\.?\d*(?:\s*(?:trillion|billion|million|thousand))?)",
+        _signed,
+        text,
+        flags=re.IGNORECASE,
+    )
+    return text
+
+
+def replace_signed_numbers(text: str) -> str:
+    """Convert bare signed decimal numbers to spoken form.
+
+    Catches +/- numbers that were NOT already handled by currency or
+    percentage converters.  Runs AFTER both of those.
+
+    Examples:
+        '+1.11'  → 'up one point one one'
+        '-2.50'  → 'down two point five'
+        '+0.5'   → 'up zero point five'
+    """
+    def _signed_num(m: re.Match) -> str:
+        sign = m.group(1)
+        num_str = m.group(2)
+        direction = "up" if sign == "+" else "down"
+        try:
+            words = number_to_words(float(num_str))
+            return f"{direction} {words}"
+        except ValueError:
+            return m.group(0)
+
+    # Match +/- followed by a decimal number, not followed by % and not
+    # part of a longer word.  The \d in the negative lookahead prevents
+    # backtracking from consuming only part of the number (e.g. matching
+    # "+0.2" instead of "+0.27" in "+0.27%").
+    text = re.sub(r"(?<![a-zA-Z])([+\-])(\d+\.\d+)(?!\d|\s*%|[a-zA-Z])", _signed_num, text)
+    # Also handle whole signed numbers like "+3" or "-5" when standalone
+    text = re.sub(r"(?<![a-zA-Z$€£])([+\-])(\d+)(?!\d|\.\d|\s*%|[a-zA-Z])", _signed_num, text)
+    return text
+
+
+def replace_multiplier_notation(text: str) -> str:
+    """Convert multiplier 'x' notation to spoken form.
+
+    Examples:
+        '2x growth'     → 'two times growth'
+        '10x improvement' → 'ten times improvement'
+        '100x'          → 'one hundred times'
+    """
+    def _mult(m: re.Match) -> str:
+        num_str = m.group(1)
+        try:
+            return f"{number_to_words(int(num_str))} times"
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(r"\b(\d+)x\b", _mult, text)
+    return text
+
+
+def replace_versus(text: str) -> str:
+    """Convert 'vs.' and 'vs' abbreviation to 'versus'."""
+    text = re.sub(r"\bvs\.(?:\s)", lambda m: "versus " , text, flags=re.IGNORECASE)
+    text = re.sub(r"\bvs\.\b", "versus", text, flags=re.IGNORECASE)
+    text = re.sub(r"\bvs\b", "versus", text, flags=re.IGNORECASE)
+    return text
+
+
+def replace_approximate(text: str) -> str:
+    """Convert '~' (tilde) prefix to 'approximately' for natural speech.
+
+    Example: '~500 km' → 'approximately 500 km'
+    """
+    text = re.sub(r"~(\d)", r"approximately \1", text)
+    return text
+
+
+def replace_common_abbreviations(text: str) -> str:
+    """Expand common abbreviations that TTS would read literally or mangle.
+
+    Examples:
+        'e.g.' → 'for example'
+        'i.e.' → 'that is'
+        'etc.' → 'et cetera'
+        'w/'   → 'with'
+        'Inc.' → 'Incorporated'
+    """
+    # Order matters: longer patterns first to avoid partial matches
+    abbrevs = [
+        (r"\be\.g\.", "for example"),
+        (r"\bi\.e\.", "that is"),
+        (r"\betc\.", "et cetera"),
+        (r"\bw/(?!\w)", "with"),
+        (r"\bb/w\b", "between"),
+        (r"\bInc\.", "Incorporated"),
+        (r"\bCorp\.", "Corporation"),
+        (r"\bLtd\.", "Limited"),
+    ]
+    for pattern, expansion in abbrevs:
+        text = re.sub(pattern, expansion, text, flags=re.IGNORECASE)
+    return text
+
+
+def replace_price_ranges(text: str) -> str:
+    """Convert price ranges to natural spoken form.
+
+    Examples:
+        '$350-$400'  → 'three hundred fifty to four hundred dollars'
+        '$25–$30'    → 'twenty-five to thirty dollars'
+    """
+    # Decimal ranges: $350.50-$400.75
+    def _range_decimal(m: re.Match) -> str:
+        symbol = m.group(1)
+        low_w, low_d = m.group(2), m.group(3)
+        high_w, high_d = m.group(4), m.group(5)
+        currency = {"$": "dollars", "€": "euros", "£": "pounds"}.get(symbol, "dollars")
+        try:
+            low_words = number_to_words(int(low_w))
+            high_words = number_to_words(int(high_w))
+            low_cents = number_to_words(int(low_d))
+            high_cents = number_to_words(int(high_d))
+            sub = {"$": "cents", "€": "cents", "£": "pence"}.get(symbol, "cents")
+            return (f"{low_words} {currency} and {low_cents} {sub} "
+                    f"to {high_words} {currency} and {high_cents} {sub}")
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(
+        r"([$€£])(\d+)\.(\d{1,2})\s*[-–—]\s*\1(\d+)\.(\d{1,2})",
+        _range_decimal,
+        text,
+    )
+
+    # Whole-number ranges: $350-$400
+    def _range_whole(m: re.Match) -> str:
+        symbol = m.group(1)
+        low, high = m.group(2), m.group(3)
+        currency = {"$": "dollars", "€": "euros", "£": "pounds"}.get(symbol, "dollars")
+        try:
+            return f"{number_to_words(int(low))} to {number_to_words(int(high))} {currency}"
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(r"([$€£])(\d+)\s*[-–—]\s*\1(\d+)", _range_whole, text)
+    return text
+
+
+def replace_hashtag_numbers(text: str) -> str:
+    """Convert '#1', '#2' etc. to 'number one', 'number two'.
+
+    Only converts when # is followed by a small number (rankings).
+    """
+    def _hash(m: re.Match) -> str:
+        num = m.group(1)
+        try:
+            return f"number {number_to_words(int(num))}"
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(r"#(\d{1,3})\b", _hash, text)
+    return text
+
+
+def replace_standalone_ampersand(text: str) -> str:
+    """Convert standalone '&' to 'and' for natural speech.
+
+    Skips compound forms like 'R&D' or 'Q&A' (no spaces around &)
+    which are handled by the acronym dictionary.
+    """
+    text = re.sub(r" & ", " and ", text)
+    return text
 
 
 # ========================== NUMBER / VALUE CONVERTERS ==========================
@@ -906,6 +1147,16 @@ def prepare_text_for_tts(
     and pronunciation fixes in the correct order so that each show script
     only needs one call.
 
+    Processing order:
+      1. Text cleanup (emojis, markdown, URLs, unicode, handles)
+      2. Structural fixes (parens, abbreviations, ampersands, versus, approx)
+      3. Financial notation (signed currency, price ranges, hashtags)
+      4. Number/value expansion (k-numbers, currency, percentages, dates, ...)
+      5. Leftover signed numbers (bare +/- that survived earlier passes)
+      6. Multiplier notation (2x, 10x)
+      7. Dictionary-based pronunciation fixes (acronyms, proper names)
+      8. Final whitespace cleanup
+
     Args:
         text: Raw episode script text (may contain markdown, emojis, URLs).
         extra_acronyms: Additional acronyms to add to the defaults.
@@ -919,12 +1170,35 @@ def prepare_text_for_tts(
     if not text:
         return text
 
-    # 1. Text cleanup (remove artifacts TTS shouldn't see)
+    # ── 1. Text cleanup (remove artifacts TTS shouldn't see) ──
     if do_clean:
         text = clean_text_for_tts(text)
 
-    # 2. Number/value expansions (order matters: currency before percentages,
-    #    large numbers before units, etc.)
+    # ── 2. Structural fixes (before value conversion) ──
+    # Strip parentheses around financial values so handlers can process them
+    text = strip_financial_parentheses(text)
+    # Expand common abbreviations (e.g., i.e., etc., Inc., w/)
+    text = replace_common_abbreviations(text)
+    # Standalone & → "and" (compound forms like R&D handled by acronym dict)
+    text = replace_standalone_ampersand(text)
+    # vs. / vs → "versus"
+    text = replace_versus(text)
+    # ~ prefix → "approximately"
+    text = replace_approximate(text)
+    # #1, #2 → "number one", "number two"
+    text = replace_hashtag_numbers(text)
+
+    # ── 3. Financial notation (before standard currency handler) ──
+    # Signed currency first: +$1.11 → "up $1.11", -$5.75 → "down $5.75"
+    # Must run BEFORE price ranges so "-$5.75" isn't misread as a range endpoint.
+    if do_currency:
+        text = replace_signed_currency(text)
+    # Price ranges: $350-$400 → "three fifty to four hundred dollars"
+    if do_currency:
+        text = replace_price_ranges(text)
+
+    # ── 4. Number/value expansions ──
+    # Order matters: currency before percentages, large numbers before units.
     if do_k_numbers:
         text = replace_large_numbers_with_k(text)
 
@@ -933,6 +1207,9 @@ def prepare_text_for_tts(
 
     if do_percentages:
         text = replace_percentages(text)
+
+    # ── 5. Leftover signed numbers (bare +1.11 / -2.50 not caught above) ──
+    text = replace_signed_numbers(text)
 
     if do_dates:
         text = replace_dates(text)
@@ -964,7 +1241,10 @@ def prepare_text_for_tts(
     if do_units:
         text = replace_units(text)
 
-    # 3. Dictionary-based pronunciation fixes
+    # ── 6. Multiplier notation (after numbers are expanded) ──
+    text = replace_multiplier_notation(text)
+
+    # ── 7. Dictionary-based pronunciation fixes ──
     if do_acronyms:
         acronyms = dict(COMMON_ACRONYMS)
         if extra_acronyms:
@@ -983,7 +1263,7 @@ def prepare_text_for_tts(
             word_pronunciations=words,
         )
 
-    # 4. Final whitespace cleanup
+    # ── 8. Final whitespace cleanup ──
     text = re.sub(r"  +", " ", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
