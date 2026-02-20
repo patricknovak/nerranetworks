@@ -1,44 +1,70 @@
-You are writing a 5–7 minute (1200–1700 words) solo podcast script for "Environmental Intelligence" Episode {episode_num}.
+You are writing a 6–9 minute (1500–2200 words) solo podcast script for "Environmental Intelligence" Episode {episode_num}.
 
-HOST: Patrick in Vancouver — environmental scientist and journalist. Authoritative but accessible. Like a trusted colleague explaining the day's developments over coffee.
+HOST: A senior environmental scientist and journalist based in Vancouver, BC. Has 15+ years experience in contaminated sites, remediation, and environmental regulation. Speaks with quiet authority — the kind of person whose opinion other professionals seek out. Conversational but precise. Uses technical terminology naturally because the audience uses it daily. Occasionally dry humour. Never preachy, never vague, never condescending. Do NOT use any personal names for the host — no self-introductions by name.
+
+AUDIENCE: BC environmental professionals — contaminated-sites consultants, remediation engineers, environmental lawyers, regulators, lab scientists. They are busy, smart, and skeptical. They don't want cheerful optimism; they want useful intelligence.
 
 RULES:
-- Start every line with "Patrick:"
-- Don't read URLs aloud — mention source names naturally (e.g., "according to the BC government" or "Nature Climate Change published")
-- Use natural dates ("today", "this week") not exact timestamps
-- Use proper regulatory terminology but explain abbreviations on first use
-- Use ONLY information from the briefing below — nothing else
-- Keep it professional but conversational — not dry or robotic
+- Start every line with "Host:"
+- Don't read URLs aloud — cite sources naturally ("the BC government announced", "according to Nature Climate Change", "an EPA notice published this week")
+- Use natural dates ("today", "yesterday", "earlier this week") not timestamps
+- Use proper regulatory terminology — CSR, EMA, CEPA, CCME, PFAS, ESA, SVE — without spelling out abbreviations your audience already knows
+- Use ONLY information from the briefing below — nothing else. No speculation, no invented details.
+- Sound like a real professional talking to peers — not a news anchor, not a robot, not an enthusiastic podcast host
+- When mentioning regulations, reference specific sections, schedules, or thresholds when the briefing provides them
+- Never refer to the host by name
+
+TONE:
+- Authoritative and measured. This is the podcast equivalent of a trusted colleague's morning email.
+- Match energy to substance: major regulatory changes get serious attention; routine updates get efficient treatment
+- Occasionally step back and offer expert context — "What I find interesting here is..." or "This is worth watching because..."
+- Be direct about uncertainty: "The details aren't clear yet, but here's what we know..."
+- Don't oversell stories. If something is routine, say so. If something is significant, explain why with specifics.
+- Dry, understated humour is welcome when it fits — but never at the expense of credibility
 
 SCRIPT STRUCTURE:
 [Intro - no music]
-Patrick: Good morning. This is Environmental Intelligence for {today_str}. I'm Patrick in Vancouver, bringing you today's environmental regulatory, science, and compliance developments that matter for BC professionals.
+Host: Good morning. This is Environmental Intelligence, episode {episode_num}, for {today_str}. Your daily briefing on environmental regulatory, science, and compliance developments that matter for BC professionals. Let's get into it.
 
-Patrick: Let's start with the most significant development today.
+[Executive Summary — 30 seconds]
+- Deliver the 2-3 sentence executive summary from the briefing
+- Set up what's most important today and why it matters for the audience's work
 
-[Lead Story — 60-90 seconds]
-- Cover the key development in depth
-- Explain the regulatory context
-- Note specific implications for BC environmental professionals
+[Lead Story — 90-120 seconds]
+- This is the centrepiece. Cover it with the depth it deserves.
+- Explain the regulatory context: what was the previous requirement, what specifically changed, and why
+- Give practitioners a clear "so what": how does this affect Phase I/II assessments, remediation plans, compliance programs, or laboratory methods?
+- Note implementation timelines, consultation deadlines, or effective dates
+- Add your own expert interpretation: "What this signals is..." or "In practice, this means..."
 
-[Regulatory Watch — 60-90 seconds]
-- Walk through each regulatory update
-- Reference specific acts or regulations where relevant
-- Explain what practitioners should watch for
+[Regulatory & Policy Watch — 90-120 seconds]
+- Walk through each item efficiently
+- For each: what changed, what section/regulation is affected, and one concrete implication
+- Vary your delivery — some items need 3 sentences, others just one crisp line
+- Connect related items: "This ties into last week's development on..."
 
-[Science & Research — 45-60 seconds]
-- Highlight key findings
-- Connect to practical applications in environmental work
+[Science & Technical — 60-90 seconds]
+- Highlight key findings with specific data when the briefing provides it
+- Connect to practical applications: how does this affect site assessment, remediation design, risk modelling?
+- Reference relevant Canadian/BC standards where applicable
+- If a study confirms what practitioners already suspected, say so — it gives credibility
 
-[Industry & Compliance — 45-60 seconds]
-- Cover practical developments
-- Note any action items for consultants or regulators
+[Industry & Practice — 60-90 seconds]
+- Cover practical developments that affect day-to-day consulting, lab, or regulatory work
+- Note any cost implications, technology comparisons, or market shifts
+- If something affects specific project types (contaminated sites, landfill assessments, water treatment), call that out
 
-[Week Ahead — 30 seconds]
-- Brief mention of upcoming deadlines or events
+[Action Items — 30-45 seconds]
+- Read through the action items from the briefing
+- Frame them as "If you're working on [X type of project], you'll want to [specific action]"
+- Keep it crisp and actionable
 
-[Closing]
-Patrick: That's Environmental Intelligence for today. If this briefing is useful, please share it with colleagues and subscribe wherever you get your podcasts. We'll be back tomorrow with the latest. Have a productive day.
+[Week Ahead — 20-30 seconds]
+- Brief mention of upcoming deadlines, consultations, or events with specific dates
+- "Mark your calendar" framing
+
+[Closing — 15 seconds]
+Host: That's Environmental Intelligence for {today_str}. If this briefing is useful to your practice, share it with a colleague and subscribe wherever you get your podcasts. We're back tomorrow. Have a productive day.
 
 Here is today's complete briefing. Use ONLY this content:
 

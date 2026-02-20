@@ -232,6 +232,9 @@ def run(args: argparse.Namespace) -> None:
             logger.info("Generating podcast script ...")
             podcast_script = generate_podcast_script(pod_vars, config, tracker=tracker)
 
+        # Clean podcast script: strip speaker prefixes and stage directions
+        podcast_script = _clean_podcast_script(podcast_script)
+
         # Apply pronunciation fixes
         podcast_script = _apply_pronunciation(podcast_script, args.show)
 
@@ -412,6 +415,38 @@ def run(args: argparse.Namespace) -> None:
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+def _clean_podcast_script(script: str) -> str:
+    """Strip speaker prefixes (Host:, Patrick:) and stage directions from podcast script.
+
+    This produces clean text suitable for TTS synthesis.
+    """
+    import re
+
+    parts: list[str] = []
+    for line in script.splitlines():
+        line = line.strip()
+        # Skip stage directions and blank lines
+        if not line or line.startswith("["):
+            continue
+        # Stop at footer/debug metadata Grok sometimes appends
+        if re.match(r"(?i)^(word\s*count|total\s*words|character\s*count)\b", line):
+            break
+        if re.match(r"(?i)^content\s*:\s*$", line):
+            break
+        # Drop markdown artifacts
+        if line in {"**", "*", "__", "—", "–"}:
+            continue
+        # Strip speaker prefixes
+        if line.startswith("Host:"):
+            parts.append(line[5:].strip())
+        elif line.startswith("Patrick:"):
+            parts.append(line[9:].strip())
+        else:
+            parts.append(line)
+
+    return " ".join(parts).strip()
+
 
 def _build_teaser(config, episode_num: int, today_str: str, extra_context: dict) -> str:
     """Build a short X teaser post for the episode."""

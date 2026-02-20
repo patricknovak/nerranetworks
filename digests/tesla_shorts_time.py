@@ -2074,51 +2074,45 @@ else:
     _podcast_seed = int(datetime.date.today().strftime("%Y%m%d"))
     _podcast_rng = random.Random(_podcast_seed)
     INTRO_TEMPLATES = [
-        f'Patrick: Welcome back to Tesla Shorts Time Daily, episode {{episode_num}}. It\'s {{today_str}}, and I\'m Patrick in Vancouver, Canada. Let\'s talk about what really moved Tesla today.',
-        f'Patrick: Hey, it\'s Patrick in Vancouver with Tesla Shorts Time Daily, episode {{episode_num}}. Today is {{today_str}}, and we\'ve got a fresh batch of Tesla stories to unpack together.',
-        f'Patrick: This is Tesla Shorts Time Daily, episode {{episode_num}}. I\'m Patrick up in Vancouver, and it\'s {{today_str}}. Grab a coffee, and let\'s walk through what actually mattered for Tesla today.',
-        f'Patrick: Good to have you here for Tesla Shorts Time Daily, episode {{episode_num}}. I\'m Patrick in Vancouver — it\'s {{today_str}}, and we\'re diving into the Tesla news that matters.',
-        f'Patrick: Tesla Shorts Time Daily, episode {{episode_num}}. Patrick in Vancouver, {{today_str}}. Thanks for tuning in; here\'s what\'s going on with Tesla.',
-        f'Patrick: Welcome to Tesla Shorts Time Daily, episode {{episode_num}}. It is {{today_str}}. I\'m Patrick in Vancouver, Canada bringing you the latest Tesla news and updates. If you like the show, like, share, rate and subscribe — it really helps. Now straight to the news.',
+        f'Host: Welcome back to Tesla Shorts Time Daily, episode {{episode_num}}. It\'s {{today_str}}. Let\'s talk about what really moved Tesla today.',
+        f'Host: Hey, welcome to Tesla Shorts Time Daily, episode {{episode_num}}. Today is {{today_str}}, and we\'ve got a fresh batch of Tesla stories to unpack together.',
+        f'Host: This is Tesla Shorts Time Daily, episode {{episode_num}}. It\'s {{today_str}}. Grab a coffee, and let\'s walk through what actually mattered for Tesla today.',
+        f'Host: Good to have you here for Tesla Shorts Time Daily, episode {{episode_num}}. It\'s {{today_str}}, and we\'re diving into the Tesla news that matters.',
+        f'Host: Tesla Shorts Time Daily, episode {{episode_num}}. {{today_str}}. Thanks for tuning in; here\'s what\'s going on with Tesla.',
+        f'Host: Welcome to Tesla Shorts Time Daily, episode {{episode_num}}. It is {{today_str}}, bringing you the latest Tesla news and updates. If you like the show, like, share, rate and subscribe — it really helps. Now straight to the news.',
     ]
     CLOSING_TEMPLATES = [
-        f'Patrick: Every day Tesla is out there making roads safer, making energy cleaner, and pushing humanity forward. That\'s what this show is really about.\nPatrick: That\'s Tesla Shorts Time Daily for today. I\'d love to hear your thoughts — reach out @teslashortstime on X or DM us. Stay safe, keep accelerating, and we\'ll catch you tomorrow.',
-        f'Patrick: When you step back and look at the big picture, Tesla is saving lives through safer cars, powering homes with clean energy, and building a more sustainable future. That\'s what keeps me excited.\nPatrick: Thanks for listening to Tesla Shorts Time Daily. Hit us up @teslashortstime with feedback or ideas. Future is electric — talk to you next time.',
-        f'Patrick: Remember, the real story with Tesla isn\'t the day-to-day noise. It\'s the lives being saved by autopilot, the grid being stabilized by Megapacks, and the air getting cleaner every time someone drives a Tesla instead of burning gas.\nPatrick: That\'s it for today\'s Tesla Shorts Time Daily. I look forward to hearing from you — @teslashortstime on X or DM. Stay safe, keep accelerating, and we\'ll catch you tomorrow.',
-        f'Patrick: The mission is what matters — accelerating the world\'s transition to sustainable energy. Everything Tesla does feeds into that, and every day we\'re getting closer.\nPatrick: Thanks for spending a few minutes with me. DM @teslashortstime with thoughts or ideas. Your efforts help accelerate the transition to sustainable energy. We\'ll catch you tomorrow on Tesla Shorts Time Daily.',
-        f'Patrick: TSLA is at ${{price:.2f}} today, but the real value of Tesla can\'t be measured in a stock ticker. It\'s measured in lives saved, emissions avoided, and a future being built right now.\nPatrick: That\'s Tesla Shorts Time Daily for today. Reach out @teslashortstime — I\'d love to hear what you\'re seeing. Take care, and we\'ll talk again tomorrow.',
+        f'Host: Every day Tesla is out there making roads safer, making energy cleaner, and pushing humanity forward. That\'s what this show is really about.\nHost: That\'s Tesla Shorts Time Daily for today. I\'d love to hear your thoughts — reach out @teslashortstime on X or DM us. Stay safe, keep accelerating, and we\'ll catch you tomorrow.',
+        f'Host: When you step back and look at the big picture, Tesla is saving lives through safer cars, powering homes with clean energy, and building a more sustainable future. That\'s what keeps me excited.\nHost: Thanks for listening to Tesla Shorts Time Daily. Hit us up @teslashortstime with feedback or ideas. Future is electric — talk to you next time.',
+        f'Host: Remember, the real story with Tesla isn\'t the day-to-day noise. It\'s the lives being saved by autopilot, the grid being stabilized by Megapacks, and the air getting cleaner every time someone drives a Tesla instead of burning gas.\nHost: That\'s it for today\'s Tesla Shorts Time Daily. I look forward to hearing from you — @teslashortstime on X or DM. Stay safe, keep accelerating, and we\'ll catch you tomorrow.',
+        f'Host: The mission is what matters — accelerating the world\'s transition to sustainable energy. Everything Tesla does feeds into that, and every day we\'re getting closer.\nHost: Thanks for spending a few minutes with me. DM @teslashortstime with thoughts or ideas. Your efforts help accelerate the transition to sustainable energy. We\'ll catch you tomorrow on Tesla Shorts Time Daily.',
+        f'Host: The real value of Tesla can\'t be measured in a stock ticker. It\'s measured in lives saved, emissions avoided, and a future being built right now.\nHost: That\'s Tesla Shorts Time Daily for today. Reach out @teslashortstime — I\'d love to hear what you\'re seeing. Take care, and we\'ll talk again tomorrow.',
     ]
     _intro_line = _podcast_rng.choice(INTRO_TEMPLATES).format(episode_num=episode_num, today_str=today_str)
-    _closing_block = _podcast_rng.choice(CLOSING_TEMPLATES).format(price=price)
+    _closing_block = _podcast_rng.choice(CLOSING_TEMPLATES)
 
     # Tone hint so script matches the day (not always max enthusiasm)
-    if change > 3:
-        tone_hint = "great energy today — okay to sound more excited about Tesla's progress"
-    elif change > 0.5:
-        tone_hint = "positive day — warm and upbeat about Tesla's mission"
-    elif change < -3:
-        tone_hint = "challenging day — be grounded, reflective, honest; focus on long-term mission, don't fake hype"
-    elif change < -0.5:
-        tone_hint = "mixed signals today — thoughtful, no forced enthusiasm, focus on the fundamentals of what Tesla is building"
-    else:
-        tone_hint = "steady day — natural and conversational, focus on the news and what it means for the mission"
+    # Driven by news sentiment, not stock price
+    tone_hint = "natural and conversational — match your energy to the news stories, not stock movement. Some days are exciting, some are reflective; let the content guide your delivery."
 
     # Podcast prompt: guidelines + rotated intro/outro for variety
     POD_PROMPT = f"""You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Tesla Shorts Time Daily" Episode {episode_num}.
 
-HOST: Patrick in Vancouver — Canadian, scientist, newscaster. Sound like a real person catching a friend up on Tesla, not a robotic announcer.
+HOST: A Canadian newscaster and science enthusiast. Sound like a real person catching a friend up on Tesla, not a robotic announcer. Do NOT use any personal names for the host — no "I'm [name]" or self-introductions by name.
 
 RULES:
-- Start every line with "Patrick:"
+- Start every line with "Host:"
 - Don't read URLs aloud — mention source names naturally
 - Use natural dates ("today", "this morning") not exact timestamps
 - Enunciate all numbers, dollar amounts, percentages clearly
 - Use ONLY information from the digest below — nothing else
+- Do NOT mention TSLA stock price, share price, dollar amounts for the stock, or percentage changes in the stock. Focus entirely on Tesla's mission, products, and news.
+- Never refer to the host by name
 
 TONE (vary by the day):
-- Match your energy to the news today: {tone_hint}.
+- {tone_hint}
 - Focus on how Tesla's daily developments advance the mission — saving lives, sustainable energy, making the world better.
-- De-emphasize stock price talk. If stock is mentioned, keep it brief and pivot to what it means for Tesla's ability to execute its mission.
+- Do NOT discuss stock price or stock movement. Skip any stock data in the digest — it is only there for internal reference. The podcast is about Tesla's mission, not its share price.
 - Vary sentence length and pacing; some moments can be calm or thoughtful, not always high-energy.
 - Sound warm and human — occasionally excited, occasionally reflective — never mechanical.
 
@@ -2132,7 +2126,7 @@ Use this exact intro (do not rewrite it):
 - Tesla X Takeover: Introduce the section in your own words. Cover each item clearly; explain why it matters for Tesla's mission and for making the world better. End with the vibe check in a natural way.
 - Short Spot: Explain the concern and why it's temporary or overblown in terms of Tesla's long-term mission — tone can be more measured here.
 - Tesla First Principles: Explain the fundamental question, data, Tesla approach, and real-world impact. Educational but engaging; no need to oversell.
-- Tesla Market Movers (Mondays only): Brief recap of the week's Tesla market context, but keep focus on what it means for execution of the mission.
+- Tesla Market Movers (Mondays only): Brief recap of the week's Tesla context in terms of mission progress and product execution. Do NOT read specific stock prices or percentage changes.
 - Daily Challenge + Quote: Read the quote verbatim, then the challenge verbatim, add one short encouraging sentence.
 
 [Closing]
@@ -2155,7 +2149,7 @@ Here is today's complete formatted digest. Use ONLY this content:
                 "content": [
                     {
                         "type": "input_text",
-                        "text": "You are the world's best Tesla podcast writer. Make it feel like a real Canadian friend catching you up on Tesla: warm, honest, occasionally excited, occasionally thoughtful — never robotic or like an AI reading a script. Focus on how Tesla's daily news advances the mission of sustainable energy, saves lives, and makes the world a better place. De-emphasize stock prices and financial metrics — the mission is what matters.",
+                        "text": "You are the world's best Tesla podcast writer. Make it feel like a real Canadian friend catching you up on Tesla: warm, honest, occasionally excited, occasionally thoughtful — never robotic or like an AI reading a script. Focus on how Tesla's daily news advances the mission of sustainable energy, saves lives, and makes the world a better place. Do NOT mention stock prices, share prices, or financial metrics — the mission is what matters. Never use a personal name for the host.",
                     }
                 ],
             },
@@ -2480,7 +2474,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     # get_audio_duration and format_duration imported from engine/
     format_duration = _engine_format_duration
 
-    # Extract text from podcast script (remove "Patrick:" prefixes and stage directions)
+    # Extract text from podcast script (remove "Host:"/"Patrick:" prefixes and stage directions)
     full_text_parts = []
     for line in podcast_script.splitlines():
         line = line.strip()
@@ -2495,7 +2489,10 @@ Here is today's complete formatted digest. Use ONLY this content:
         # Drop obvious markdown artifacts that can get read aloud ("asterisk", "underscore", etc.)
         if line in {"**", "*", "__", "—", "–"}:
             continue
-        if line.startswith("Patrick:"):
+        if line.startswith("Host:"):
+            full_text_parts.append(line[5:].strip())
+        elif line.startswith("Patrick:"):
+            # Backward compat: strip legacy "Patrick:" prefix if Grok still generates it
             full_text_parts.append(line[9:].strip())
         else:
             # Include all other content that isn't stage directions

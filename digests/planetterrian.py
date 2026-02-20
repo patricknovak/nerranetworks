@@ -1037,24 +1037,25 @@ if not ENABLE_PODCAST:
 else:
     POD_PROMPT = f"""You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Planetterrian Daily" Episode {episode_num}.
 
-HOST: Patrick in Vancouver - Canadian, scientist, newscaster. Voice like a solo podcaster breaking science, longevity, and health news, not robotic.
+HOST: A Canadian scientist and newscaster. Voice like a solo podcaster breaking science, longevity, and health news, not robotic. Do NOT use any personal names for the host.
 
 BRAND PERSONALITY: Planetterrian Ventures - A tribe of forward-thinking innovators passionate about the planet. Mission: Intertwine technology and compassion. Values: Technology as a force for good, sustainability, environmental consciousness.
 
 RULES:
-- Start every line with "Patrick:"
+- Start every line with "Host:"
 - Don't read URLs aloud - mention source names naturally
 - Use natural dates ("today", "this morning") not exact timestamps
 - Enunciate all numbers clearly
 - Use ONLY information from the digest below - nothing else
 - Make it sound like a real solo pod: vivid but concise, no robotic repetition
-- Emphasize how discoveries benefit humanity; include planet impact only when concrete (don’t force it)
+- Emphasize how discoveries benefit humanity; include planet impact only when concrete (don't force it)
+- Never refer to the host by name
 
 SCRIPT STRUCTURE:
 [Intro music - 10 seconds]
-Patrick: Welcome to Planetterrian Daily, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada, bringing you today's most exciting discoveries in science, longevity, and health. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now let's dive into today's discoveries.
+Host: Welcome to Planetterrian Daily, episode {episode_num}. It is {today_str}, bringing you today's most exciting discoveries in science, longevity, and health. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now let's dive into today's discoveries.
 
-Patrick: Quick scan before we dive in—three stories to watch today, then we’ll go through the full list in order.
+Host: Quick scan before we dive in—three stories to watch today, then we'll go through the full list in order.
 
 [Narrate EVERY item from the digest in order - no skipping]
 - For each news item: Read the title with energy, then summarize in 2–4 lines: what happened, why it matters for health/longevity, and (only if it naturally fits) one planet/sustainability implication
@@ -1062,7 +1063,7 @@ Patrick: Quick scan before we dive in—three stories to watch today, then we’
 - Daily Inspiration: Read the quote verbatim, add one encouraging sentence
 
 [Closing]
-Patrick: That's Planetterrian Daily for today. Remember: we're not just in the business of technology; we're in the business of making a difference. Together, we can drive change, one discovery at a time. We'll catch you tomorrow on Planetterrian Daily!
+Host: That's Planetterrian Daily for today. Remember: we're not just in the business of technology; we're in the business of making a difference. Together, we can drive change, one discovery at a time. We'll catch you tomorrow on Planetterrian Daily!
 
 Here is today's complete formatted digest. Use ONLY this content:
 
@@ -1191,13 +1192,16 @@ Here is today's complete formatted digest. Use ONLY this content:
             for chunk in r.iter_content(chunk_size=8192):
                 f.write(chunk)
 
-    # Process podcast script
+    # Process podcast script (remove "Host:"/"Patrick:" prefixes and stage directions)
     full_text_parts = []
     for line in podcast_script.splitlines():
         line = line.strip()
         if line.startswith("[") or not line:
             continue
-        if line.startswith("Patrick:"):
+        if line.startswith("Host:"):
+            full_text_parts.append(line[5:].strip())
+        elif line.startswith("Patrick:"):
+            # Backward compat: strip legacy "Patrick:" prefix if Grok still generates it
             full_text_parts.append(line[9:].strip())
         else:
             full_text_parts.append(line)

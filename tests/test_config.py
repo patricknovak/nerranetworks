@@ -447,8 +447,8 @@ class TestLoadConfigRealFiles:
         assert "contaminated sites" in cfg.keywords
         assert cfg.llm.model == "grok-4"
         assert cfg.llm.digest_temperature == 0.5
-        assert cfg.tts.voice_id == "ns7MjJ6c8tJKnvw7U6sN"
-        assert cfg.tts.stability == 0.45
+        assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
+        assert cfg.tts.stability == 0.65
         assert cfg.tts.max_chars == 4500
         assert cfg.audio.music_file is None
         assert cfg.publishing.x_enabled is False
