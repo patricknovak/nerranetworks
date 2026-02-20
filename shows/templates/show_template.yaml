@@ -1,0 +1,160 @@
+# ==========================================================================
+# {SHOW_NAME} — Podcast Show Configuration
+# ==========================================================================
+#
+# Created from template. Before first episode, verify:
+#   1. All {PLACEHOLDERS} are replaced
+#   2. RSS sources tested (curl each URL to confirm they return valid RSS)
+#   3. Keywords cover your domain vocabulary
+#   4. Prompt files are fully customized (no template instructions remain)
+#   5. Run: python validate_show.py {slug}
+#   6. Run: python run_show.py {slug} --test
+#   7. Read the test output — is it the quality you'd pay to listen to?
+
+name: "{SHOW_NAME}"
+slug: {slug}
+description: "{ONE_SENTENCE_DESCRIPTION}"
+
+# ---------------------------------------------------------------------------
+# RSS Sources
+# ---------------------------------------------------------------------------
+# AIM FOR 12-20 SOURCES across these categories:
+#   - 3-5 primary/authoritative sources (government, institutions, journals)
+#   - 3-5 quality journalism sources (beat reporters, investigative outlets)
+#   - 3-5 industry/trade sources (practitioners, professional orgs)
+#   - 2-3 broad science/tech sources for cross-domain catches
+#
+# AVOID: aggregator blogs, low-quality clickbait, sources that rarely update
+# TEST: curl each URL before adding — dead feeds silently produce no content
+sources:
+  # Primary / Authoritative
+  - url: https://example.com/feed
+    label: "Primary Source Name"
+
+  # Quality Journalism
+  - url: https://example.com/feed
+    label: "Quality Journalism Source"
+
+  # Industry / Trade
+  - url: https://example.com/feed
+    label: "Industry Source"
+
+  # Broad Science / Cross-domain
+  - url: https://example.com/feed
+    label: "Broad Source"
+
+# ---------------------------------------------------------------------------
+# Keywords — used for relevance scoring of fetched articles
+# ---------------------------------------------------------------------------
+# AIM FOR 30-60 KEYWORDS covering:
+#   - Core topic terms (5-10)
+#   - Technical terminology your audience uses daily (10-20)
+#   - Regulatory/institutional terms (5-10)
+#   - Emerging/trending terms in your domain (5-10)
+#
+# These are case-insensitive substring matches. More specific = better signal.
+keywords:
+  - keyword1
+  - keyword2
+
+# ---------------------------------------------------------------------------
+# LLM Configuration
+# ---------------------------------------------------------------------------
+llm:
+  provider: xai
+  model: grok-4                    # grok-4 for highest quality; grok-3 for cost savings
+  digest_prompt_file: shows/prompts/{slug}_digest.txt
+  podcast_prompt_file: shows/prompts/{slug}_podcast.txt
+  digest_temperature: 0.5          # Lower = more factual/consistent. 0.4-0.6 for news.
+  podcast_temperature: 0.7         # Slightly higher for natural speech. 0.6-0.8 recommended.
+  max_tokens: 3500                 # 3000-4000 typical. Increase for longer briefings.
+
+# ---------------------------------------------------------------------------
+# TTS Configuration — ElevenLabs
+# ---------------------------------------------------------------------------
+# VOICE ID OPTIONS:
+#   dTrBzPvD2GpAqkk1MUzA — standard voice (used by TST, FF, PT, Env Intel)
+#   ns7MjJ6c8tJKnvw7U6sN — alternate voice (used by Omni View)
+#
+# TUNING GUIDE:
+#   stability:        0.50-0.70 (lower = more expressive, higher = more consistent)
+#   similarity_boost:  0.85-0.95 (higher = closer to base voice)
+#   style:            0.70-0.90 (higher = more expressive/natural delivery)
+#
+# PROVEN SETTINGS:
+#   Professional/authoritative: stability=0.65, similarity=0.9, style=0.85
+#   Conversational/warm:        stability=0.55, similarity=0.85, style=0.80
+#   DO NOT USE: stability < 0.35 or style < 0.3 (sounds robotic/flat)
+tts:
+  voice_id: dTrBzPvD2GpAqkk1MUzA
+  model: eleven_turbo_v2_5
+  stability: 0.65
+  similarity_boost: 0.9
+  style: 0.85
+  use_speaker_boost: true
+  max_chars: 4500                  # Chunk size for TTS. 4000-5000 typical.
+
+# ---------------------------------------------------------------------------
+# Audio — Music Mixing
+# ---------------------------------------------------------------------------
+# Set music_file to null for no music (professional briefing format).
+# Set to a path relative to project root for intro/outro music.
+#
+# If using music, all timing/volume fields are required:
+#   intro_duration:   seconds of music before voice starts (3-8s typical)
+#   overlap_duration: seconds of music+voice overlap at start (2-5s)
+#   fade_duration:    seconds for music fade-out after voice ends (10-20s)
+#   outro_duration:   seconds of music-only outro (20-35s)
+#   *_volume:         relative volume (0.0-1.0) for each phase
+audio:
+  music_file: null
+  # Uncomment below if using music:
+  # music_file: assets/your_show_music.mp3
+  # intro_duration: 5
+  # overlap_duration: 3
+  # fade_duration: 15
+  # outro_duration: 25
+  # intro_volume: 0.5
+  # overlap_volume: 0.15
+  # fade_volume: 0.3
+  # outro_volume: 0.5
+
+# ---------------------------------------------------------------------------
+# Publishing — RSS, X/Twitter, GitHub Pages
+# ---------------------------------------------------------------------------
+publishing:
+  rss_file: "{slug}_podcast.rss"
+  rss_title: "{SHOW_NAME}"
+  rss_description: "{RSS_DESCRIPTION}"
+  rss_link: "https://patricknovak.github.io/Tesla-shorts-time/{slug}.html"
+  rss_author: "{SHOW_NAME}"
+  rss_email: contact@teslashortstime.com
+  rss_image: "{slug}-podcast-image.jpg"
+  rss_category: Science
+  guid_prefix: "{slug}"
+  base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
+  audio_subdir: "digests/{slug}"
+  summaries_json: "digests/summaries_{slug}.json"
+  summaries_podcast_name: "{slug}"
+  player_html: "{slug}.html"
+  summaries_html: "{slug}-summaries.html"
+  x_enabled: false                 # Enable after first few episodes are validated
+  x_env_prefix: ""                 # e.g. "MYSHOW_X_" for MYSHOW_X_CONSUMER_KEY etc.
+
+# ---------------------------------------------------------------------------
+# Episode — File Naming
+# ---------------------------------------------------------------------------
+episode:
+  prefix: "{EPISODE_PREFIX}"       # e.g. "Env_Intel", "Tesla", "FF"
+  filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
+  output_dir: "digests/{slug}"
+  mp3_glob: "{EPISODE_PREFIX}_Ep*.mp3"
+
+# ---------------------------------------------------------------------------
+# Newsletter (optional — remove section if not using)
+# ---------------------------------------------------------------------------
+newsletter:
+  enabled: false
+  # platform: buttondown
+  # api_key_env: "{SLUG_UPPER}_NEWSLETTER_API_KEY"
+  # status: about_to_send

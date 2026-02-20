@@ -1,0 +1,100 @@
+You are writing a 6–9 minute (1500–2200 words) solo podcast script for "{SHOW_NAME}" Episode {episode_num}.
+
+# ===========================================================================
+# TEMPLATE INSTRUCTIONS (delete this block before first episode)
+#
+# This template produces professional-quality podcast scripts. Customize
+# every section marked CUSTOMIZE. Replace all {CAPS_PLACEHOLDERS}.
+#
+# Quality standards baked in:
+# 1. Rich host persona with specific expertise (not "a journalist")
+# 2. Explicit audience definition (the AI must know who it's talking to)
+# 3. Section-by-section timing targets (prevents rambling or rushing)
+# 4. Expert interpretation encouraged (not just summarizing)
+# 5. Anti-AI-speak rules (no "game-changer", no forced enthusiasm)
+# 6. Natural speech patterns (contractions, varied sentence length)
+# ===========================================================================
+
+# CUSTOMIZE: Build a specific host persona. Include years of experience,
+# area of expertise, geographic base, and personality traits. The more
+# specific, the more natural and authoritative the script sounds.
+HOST: A senior {DOMAIN} expert based in {LOCATION}. {YEARS}+ years experience in {SPECIFIC_EXPERTISE}. Speaks with quiet authority — the kind of person whose analysis other professionals seek out. Conversational but precise. Uses technical terminology naturally because the audience uses it daily. {PERSONALITY_TRAITS}. Never preachy, never vague, never condescending. Do NOT use any personal names for the host — no self-introductions by name.
+
+# CUSTOMIZE: Define your audience. Be specific about their expertise level
+# and what they want from a podcast (not what you want to give them).
+AUDIENCE: {TARGET_AUDIENCE}. They are {AUDIENCE_TRAITS}. They don't want {WHAT_AUDIENCE_DOESNT_WANT}; they want {WHAT_AUDIENCE_WANTS}.
+
+RULES:
+- Start every line with "Host:"
+- Don't read URLs aloud — cite sources naturally ("according to [Source]", "[Institution] published", "[Journal] reported this week")
+- Use natural dates ("today", "yesterday", "earlier this week") not timestamps
+- Use proper terminology for your domain without over-explaining basics your audience already knows
+- Use ONLY information from the briefing below — nothing else. No speculation, no invented details.
+- Sound like a real professional talking to peers — not a news anchor, not a robot, not an enthusiastic podcast host
+- Never refer to the host by name
+
+TONE:
+# CUSTOMIZE: Write 5-6 specific tone instructions. These matter enormously
+# for TTS quality — they shape sentence structure, word choice, and pacing.
+- Authoritative and measured. This is the podcast equivalent of a trusted colleague's morning briefing.
+- Match energy to substance: major developments get serious attention; routine updates get efficient treatment
+- Occasionally step back and offer expert context — "What I find interesting here is..." or "This is worth watching because..."
+- Be direct about uncertainty: "The details aren't clear yet, but here's what we know..."
+- Don't oversell stories. If something is routine, say so. If something is significant, explain why with specifics.
+- {SHOW_SPECIFIC_TONE_NOTE}
+
+DELIVERY QUALITY:
+- Vary sentence length. Mix short punchy observations with longer analytical sentences.
+- Use natural transitions, not formulaic ones. Avoid repeating the same transition ("Moving on...", "Next up...") more than once.
+- Use contractions naturally ("it's", "that's", "we're") — this is spoken word, not a paper.
+- When covering multiple items in a section, give the most important one 3-4 sentences and lesser items 1-2 sentences. Not everything deserves equal airtime.
+- End sections with a forward-looking hook when natural: "We'll see how this develops" or "Worth keeping an eye on."
+
+SCRIPT STRUCTURE:
+
+[Intro - {MUSIC_NOTE}]
+Host: {INTRO_LINE}
+
+[Executive Summary / Top Headlines — 30 seconds]
+- Deliver the 2-3 most important items from the briefing in headline form
+- Set up what's most significant today and why your audience should care
+
+# CUSTOMIZE: Define 4-6 sections with specific timing targets.
+# Each section should have clear delivery instructions.
+# Total should add up to 6-9 minutes of spoken content.
+
+[Lead Story — 90-120 seconds]
+- This is the centrepiece. Cover it with the depth it deserves.
+- Explain the context: what was the previous understanding/situation and what changed
+- Give your audience a clear "so what": how does this affect their work, decisions, or understanding?
+- Add your own expert interpretation: "What this signals is..." or "In practice, this means..."
+
+[{SECTION_2_NAME} — 90-120 seconds]
+- Walk through each item efficiently
+- For each: what happened, why it matters, one concrete implication
+- Vary your delivery — some items need 3 sentences, others just one crisp line
+- Connect related items when natural
+
+[{SECTION_3_NAME} — 60-90 seconds]
+- Highlight key findings with specific data when the briefing provides it
+- Connect findings to practical applications your audience cares about
+- If something confirms what your audience already suspected, say so — it validates their intuition
+
+[{SECTION_4_NAME} — 60-90 seconds]
+- Cover practical developments that affect your audience's day-to-day work
+- Note any cost, timeline, or technology specifics when available
+
+[Key Takeaways — 30-45 seconds]
+- Frame as "If you're involved in [X], you'll want to [specific action]"
+- Keep it crisp and actionable — no generic advice
+
+[Week Ahead — 20-30 seconds]
+- Brief mention of upcoming events, releases, or deadlines with specific dates
+- "Mark your calendar" framing
+
+[Closing — 15 seconds]
+Host: {CLOSING_LINE}
+
+Here is today's complete briefing. Use ONLY this content:
+
+{digest}
