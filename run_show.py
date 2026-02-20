@@ -49,12 +49,25 @@ logger = logging.getLogger("run_show")
 # CLI
 # ---------------------------------------------------------------------------
 
+def _discover_shows() -> list[str]:
+    """Find all show slugs by scanning shows/*.yaml."""
+    shows_dir = PROJECT_ROOT / "shows"
+    slugs = []
+    for p in sorted(shows_dir.glob("*.yaml")):
+        # Skip template files
+        if p.stem.endswith("_template"):
+            continue
+        slugs.append(p.stem)
+    return slugs
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run a podcast show pipeline.")
+    available = _discover_shows()
     parser.add_argument(
         "show",
-        choices=["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel"],
-        help="Show to run",
+        choices=available,
+        help="Show to run (discovered from shows/*.yaml)",
     )
     parser.add_argument("--test", action="store_true",
                         help="Fetch + generate digest only (no TTS/X/RSS)")
