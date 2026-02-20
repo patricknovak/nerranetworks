@@ -104,11 +104,11 @@ llm:
   max_tokens: 3500
 
 tts:
-  voice_id: ns7MjJ6c8tJKnvw7U6sN
+  voice_id: dTrBzPvD2GpAqkk1MUzA
   model: eleven_turbo_v2_5
-  stability: 0.45
-  similarity_boost: 0.8
-  style: 0.3
+  stability: 0.65
+  similarity_boost: 0.9
+  style: 0.85
   use_speaker_boost: true
   max_chars: 4500
 
