@@ -77,20 +77,11 @@ def _log_uncaught(exc_type, exc_value, exc_traceback):
 sys.excepthook = _log_uncaught
 
 # ========================== CONFIGURATION ==========================
-# Set to True to test digest generation only (skips podcast and X posting)
-TEST_MODE = False  # Set to False for full run
-
-# Set to False to disable X posting (thread will still be generated and saved)
+# Defaults (overridable via environment variables)
+TEST_MODE = False
 ENABLE_X_POSTING = True
-
-# Set to False to disable podcast generation and RSS feed updates
 ENABLE_PODCAST = True
-
-# Set to True to save summaries to GitHub Pages instead of posting full content to X
 ENABLE_GITHUB_SUMMARIES = True
-
-# Link validation is currently disabled - validation functions have been removed
-# Set to True and re-implement validation functions if needed in the future
 ENABLE_LINK_VALIDATION = False
 
 # Shared HTTP defaults
@@ -131,6 +122,17 @@ if not env_path.exists():
     raise FileNotFoundError(f".env not found at {env_path}")
 
 load_dotenv(dotenv_path=env_path)
+
+# Optional env overrides for feature flags (useful for local testing)
+TEST_MODE = env_bool("TEST_MODE", TEST_MODE)
+ENABLE_X_POSTING = env_bool("ENABLE_X_POSTING", ENABLE_X_POSTING)
+ENABLE_PODCAST = env_bool("ENABLE_PODCAST", ENABLE_PODCAST)
+ENABLE_GITHUB_SUMMARIES = env_bool("ENABLE_GITHUB_SUMMARIES", ENABLE_GITHUB_SUMMARIES)
+
+if TEST_MODE:
+    # In test mode, default to no posting/no audio unless explicitly overridden
+    ENABLE_X_POSTING = env_bool("ENABLE_X_POSTING", False)
+    ENABLE_PODCAST = env_bool("ENABLE_PODCAST", False)
 
 # ========================== SET UP SHARED PRONUNCIATION MODULE ==========================
 import sys
@@ -224,8 +226,9 @@ else:
     change_str = "unchanged"
 
 # Folders - use absolute paths
-digests_dir = project_root / "digests"
-digests_dir.mkdir(exist_ok=True)
+# New episodes go to dedicated subdirectory; old flat files stay in digests/ for RSS compat
+digests_dir = project_root / "digests" / "tesla_shorts_time"
+digests_dir.mkdir(parents=True, exist_ok=True)
 
 # ========================== TESLA X TAKEOVER SECTION ==========================
 # Tesla X Takeover now focuses on fresh, interesting Tesla news/trends instead of cycling through specific X accounts
@@ -268,31 +271,40 @@ def save_used_content_tracker(tracker: dict):
         logging.warning(f"Failed to save content tracker: {e}")
 
 def extract_sections_from_digest(digest_path: Path) -> dict:
-    """Extract Short Spot, Daily Challenge, and Inspiration Quote from a digest file."""
+    """Extract Short Spot, First Principles, Daily Challenge, and Inspiration Quote from a digest file."""
     sections = {
         "short_spot": None,
         "short_squeeze": None,
+        "first_principles": None,
         "daily_challenge": None,
         "inspiration_quote": None
     }
-    
+
     if not digest_path.exists():
         return sections
-    
+
     try:
         with open(digest_path, 'r', encoding='utf-8') as f:
             content = f.read()
-        
+
         # Extract Short Spot (between "## Short Spot" or "📉 **Short Spot**" and next separator)
         short_spot_match = re.search(
-            r'(?:## Short Spot|📉 \*\*Short Spot\*\*)(.*?)(?=━━|### Short Squeeze|📈|### Daily Challenge|💪|✨|$)',
+            r'(?:## Short Spot|📉 \*\*Short Spot\*\*)(.*?)(?=━━|### Short Squeeze|📈|### Tesla First Principles|🧠|### Daily Challenge|💪|✨|$)',
             content,
             re.DOTALL | re.IGNORECASE
         )
         if short_spot_match:
             sections["short_spot"] = short_spot_match.group(1).strip()
-        
-        
+
+        # Extract Tesla First Principles
+        first_principles_match = re.search(
+            r'(?:### Tesla First Principles|🧠 Tesla First Principles)(.*?)(?=━━|### Daily Challenge|💪|## Tesla Market Movers|$)',
+            content,
+            re.DOTALL | re.IGNORECASE
+        )
+        if first_principles_match:
+            sections["first_principles"] = first_principles_match.group(1).strip()
+
         # Extract Daily Challenge (between "### Daily Challenge" or "💪 **Daily Challenge**" and next separator)
         daily_challenge_match = re.search(
             r'(?:### Daily Challenge|💪 \*\*Daily Challenge\*\*)(.*?)(?=━━|✨|Inspiration Quote|$)',
@@ -301,7 +313,7 @@ def extract_sections_from_digest(digest_path: Path) -> dict:
         )
         if daily_challenge_match:
             sections["daily_challenge"] = daily_challenge_match.group(1).strip()
-        
+
         # Extract Inspiration Quote (look for "Inspiration Quote:" or "✨ **Inspiration Quote:**")
         inspiration_quote_match = re.search(
             r'(?:✨ \*\*Inspiration Quote:\*\*|\*\*Inspiration Quote:\*\*|Inspiration Quote:)\s*"([^"]+)"\s*[–-]\s*([^,]+)',
@@ -312,10 +324,10 @@ def extract_sections_from_digest(digest_path: Path) -> dict:
             quote_text = inspiration_quote_match.group(1).strip()
             author = inspiration_quote_match.group(2).strip()
             sections["inspiration_quote"] = f'"{quote_text}" – {author}'
-        
+
     except Exception as e:
         logging.warning(f"Failed to extract sections from {digest_path}: {e}")
-    
+
     return sections
 
 
@@ -377,9 +389,11 @@ def load_recent_digests(max_days: int = 14) -> dict:
         check_date = datetime.date.today() - datetime.timedelta(days=i)
         date_str = check_date.strftime("%Y%m%d")
         
-        # Try both formatted and unformatted versions
-        for pattern in [f"Tesla_Shorts_Time_{date_str}.md", f"Tesla_Shorts_Time_{date_str}_formatted.md"]:
+        for pattern in [f"Tesla_Shorts_Time_{date_str}.md"]:
+            # Check new subdirectory first, then old flat directory
             digest_path = digests_dir / pattern
+            if not digest_path.exists():
+                digest_path = digests_dir.parent / pattern
             if digest_path.exists():
                 sections = extract_sections_from_digest(digest_path)
                 
@@ -502,7 +516,6 @@ client = OpenAI(
 ELEVEN_API = "https://api.elevenlabs.io/v1"
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
 ELEVEN_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "dTrBzPvD2GpAqkk1MUzA")  # Default: High-energy Patrick
-# NEWSAPI_KEY no longer needed - using RSS feeds instead
 
 
 # ========================== XAI RESPONSES API (TOOLS) ==========================
@@ -888,7 +901,8 @@ TRUSTED_USERNAMES = [
     
     # Top Tesla Influencers (High Engagement)
     "SawyerMerritt", "WholeMarsBlog", "TeslaRaj",
-    
+    "tslaming",  # Deep dive Tesla content creator
+
     # Tesla Analysts & Investors (High Engagement)
     "GaryBlack00", "TroyTeslike", "RossGerber",
     
@@ -1383,10 +1397,11 @@ If fewer than 8 quality articles are available, use ALL available quality articl
 - Surprising announcements or updates
 - Community reactions to major Tesla news
 - Unique angles on Tesla stories that stand out
+- Deep dive analysis and insights (check @tslaming on X for excellent deep dive Tesla content)
 
 CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the Top News items—do NOT use the same article, same headline, or same story angle in both sections. Make each Takeover item engaging and fresh; each should feel like you are sharing exciting, breaking Tesla news with enthusiasm.
 '''}
-**FINAL FALLBACK**: Only if RSS feeds provide fewer than 5 quality articles, you may search for additional recent, legitimate Tesla news articles from reputable sources (Teslarati, The Verge, WebProNews, CleanTechnica) published within the last 48 hours. Prioritize breaking news and specific product updates over analysis pieces. Ensure no more than 2 articles from any single source.
+**FINAL FALLBACK**: Only if RSS feeds provide fewer than 5 quality articles, you may search for additional recent, legitimate Tesla news articles from reputable sources (Teslarati, The Verge, WebProNews, CleanTechnica) published within the last 48 hours. Also check @tslaming on X for deep dive Tesla content worth sharing. Prioritize breaking news and specific product updates over analysis pieces. Ensure no more than 2 articles from any single source.
 
 **CRITICAL**:
 - Do NOT include any instruction language, meta-commentary, or formatting notes in your output - only output the actual content.
@@ -1998,22 +2013,9 @@ def format_digest_for_x(digest: str) -> str:
 x_thread_formatted = format_digest_for_x(x_thread)
 logging.info(f"Digest formatted for X ({len(x_thread_formatted)} characters)")
 
-# Save both versions (original and formatted)
-x_path = digests_dir / f"Tesla_Shorts_Time_{datetime.date.today():%Y%m%d}.md"
-x_path_formatted = digests_dir / f"Tesla_Shorts_Time_{datetime.date.today():%Y%m%d}_formatted.md"
-
-with open(x_path, "w", encoding="utf-8") as f:
-    f.write(x_thread)
-logging.info(f"Original X thread saved → {x_path}")
-
-with open(x_path_formatted, "w", encoding="utf-8") as f:
-    f.write(x_thread_formatted)
-logging.info(f"Formatted X thread saved → {x_path_formatted}")
-
-# Use the formatted version for posting
+# Use the formatted version for posting and save once
 x_thread = x_thread_formatted
 
-# Save X thread
 x_path = digests_dir / f"Tesla_Shorts_Time_{datetime.date.today():%Y%m%d}.md"
 with open(x_path, "w", encoding="utf-8") as f:
     f.write(x_thread)
@@ -2782,10 +2784,14 @@ def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
     # Pattern for old format: Ep{num}_{date}.mp3
     pattern_old = r"Tesla_Shorts_Time_Pod_Ep(\d+)_(\d{8})\.mp3"
     
-    # Check main digests directory
+    # Check primary output directory (new: digests/tesla_shorts_time/)
     mp3_files = list(digests_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"))
-    # Also check digests/digests subdirectory if it exists
-    digests_subdir = digests_dir / "digests"
+    # Also check old flat digests/ directory for legacy episodes
+    old_flat_dir = digests_dir.parent  # project_root / "digests"
+    if old_flat_dir != digests_dir:
+        mp3_files.extend(old_flat_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"))
+    # Also check digests/digests subdirectory for very old episodes
+    digests_subdir = old_flat_dir / "digests"
     if digests_subdir.exists():
         mp3_files.extend(digests_subdir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"))
     
@@ -2869,6 +2875,9 @@ def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
     return episodes
 
 
+_TST_BASE_URL = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+
+
 def update_rss_feed(
     rss_path: Path,
     episode_num: int,
@@ -2878,518 +2887,24 @@ def update_rss_feed(
     mp3_filename: str,
     mp3_duration: float,
     mp3_path: Path,
-    base_url: str = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+    base_url: str = _TST_BASE_URL,
 ):
-    """Update or create RSS feed with new episode, preserving all existing episodes."""
-    fg = FeedGenerator()
-    fg.load_extension('podcast')
-    
-    # Parse existing RSS feed to preserve all episodes
-    existing_episodes = []
-    channel_metadata = {}
-    existing_guids = set()
-    
-    if rss_path.exists():
-        try:
-            # Parse existing RSS XML
-            tree = ET.parse(str(rss_path))
-            root = tree.getroot()
-            
-            # Extract channel metadata
-            channel = root.find('channel')
-            if channel is not None:
-                for elem in channel:
-                    if elem.tag in ['title', 'link', 'description', 'language', 'copyright']:
-                        channel_metadata[elem.tag] = elem.text
-                    elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}author':
-                        channel_metadata['itunes_author'] = elem.text
-                    elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}summary':
-                        channel_metadata['itunes_summary'] = elem.text
-                    elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}owner':
-                        name_elem = elem.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}name')
-                        email_elem = elem.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}email')
-                        if name_elem is not None and email_elem is not None:
-                            channel_metadata['itunes_owner'] = {'name': name_elem.text, 'email': email_elem.text}
-                    elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}image':
-                        channel_metadata['itunes_image'] = elem.get('href')
-                    elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}category':
-                        channel_metadata['itunes_category'] = elem.get('text')
-                
-                # Extract all existing episodes
-                items = channel.findall('item')
-                for item in items:
-                    episode_data = {}
-                    for elem in item:
-                        if elem.tag == 'title':
-                            episode_data['title'] = elem.text or ''
-                        elif elem.tag == 'description':
-                            episode_data['description'] = elem.text or ''
-                        elif elem.tag == 'link':
-                            link_url = elem.text or ''
-                            # Fix double /digests/digests/ path errors
-                            if '/digests/digests/' in link_url:
-                                link_url = link_url.replace('/digests/digests/', '/digests/')
-                            # Also ensure link doesn't point to MP3 (should point to episode page or GitHub)
-                            if link_url.endswith('.mp3'):
-                                # Extract filename and create proper link
-                                filename = link_url.split('/')[-1]
-                                link_url = f"{base_url}/digests/{filename}"
-                            episode_data['link'] = link_url
-                        elif elem.tag == 'guid':
-                            # GUID is typically the text content
-                            if elem.text:
-                                episode_data['guid'] = elem.text.strip()
-                            # Some feeds might use guid as an attribute, but we'll use text primarily
-                        elif elem.tag == 'pubDate':
-                            episode_data['pubDate'] = elem.text or ''
-                        elif elem.tag == 'enclosure':
-                            enclosure_url = elem.get('url', '')
-                            # Fix double /digests/digests/ path errors
-                            if '/digests/digests/' in enclosure_url:
-                                enclosure_url = enclosure_url.replace('/digests/digests/', '/digests/')
-                            episode_data['enclosure'] = {
-                                'url': enclosure_url,
-                                'type': elem.get('type', 'audio/mpeg'),
-                                'length': elem.get('length', '0')
-                            }
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}title':
-                            episode_data['itunes_title'] = elem.text or ''
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}summary':
-                            episode_data['itunes_summary'] = elem.text or ''
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}duration':
-                            episode_data['itunes_duration'] = elem.text or ''
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}episode':
-                            episode_data['itunes_episode'] = elem.text or ''
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}season':
-                            episode_data['itunes_season'] = elem.text or ''
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}episodeType':
-                            episode_data['itunes_episode_type'] = elem.text or ''
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}image':
-                            episode_data['itunes_image'] = elem.get('href', '')
-                    
-                    if episode_data.get('guid'):
-                        existing_episodes.append(episode_data)
-            
-            logging.info(f"Loaded {len(existing_episodes)} existing episodes from RSS feed")
-        except Exception as e:
-            logging.warning(f"Could not parse existing RSS feed: {e}, creating new one")
-            existing_episodes = []
-    
-    # Also scan file system for MP3 files to ensure we don't miss any episodes
-    # This is important if the RSS feed was recreated or is missing episodes
-    file_episodes = scan_existing_episodes_from_files(mp3_path.parent, base_url)
-    
-    # Merge episodes from RSS and file system, preferring RSS data but adding missing ones
-    existing_guids = {ep.get('guid') for ep in existing_episodes if ep.get('guid')}
-    file_guids = {fep.get('guid') for fep in file_episodes if fep.get('guid')}
-    added_from_files = 0
-    for file_ep in file_episodes:
-        if file_ep.get('guid') not in existing_guids:
-            logging.info(f"Found episode in file system but not in RSS: {file_ep.get('guid')} - adding it")
-            existing_episodes.append(file_ep)
-            existing_guids.add(file_ep.get('guid'))
-            added_from_files += 1
-    
-    logging.info(f"Total episodes to include: {len(existing_episodes)} (from RSS: {len(existing_episodes) - added_from_files}, added from files: {added_from_files})")
-    
-    # Set channel metadata - ALWAYS use general descriptions, never episode-specific data
-    # This is critical for Apple Podcasts Connect validation
-    channel_title = "Tesla Shorts Time Daily"
-    channel_link = "https://github.com/patricknovak/Tesla-shorts-time"
-    channel_description = "A daily podcast covering the latest Tesla news, stock prices, and industry insights."
-    channel_summary = "Daily Tesla news digest and podcast covering the latest developments, stock updates, and market analysis."
-    
-    # Only use existing metadata if it's NOT episode-specific (check for episode numbers or dates)
-    existing_title = channel_metadata.get('title', '')
-    if existing_title and not re.search(r'Episode \d+|December|November|January|February|March|April|May|June|July|August|September|October', existing_title, re.IGNORECASE):
-        channel_title = existing_title
-    
-    existing_link = channel_metadata.get('link', '')
-    if existing_link and not existing_link.endswith('.mp3') and 'github.com' in existing_link:
-        channel_link = existing_link
-    
-    existing_desc = channel_metadata.get('description', '')
-    if existing_desc and not re.search(r'Episode \d+|December|November|January|February|March|April|May|June|July|August|September|October|TSLA price', existing_desc, re.IGNORECASE):
-        channel_description = existing_desc
-    
-    existing_summary = channel_metadata.get('itunes_summary', '')
-    if existing_summary and not re.search(r'Episode \d+|December|November|January|February|March|April|May|June|July|August|September|October|TSLA price', existing_summary, re.IGNORECASE):
-        channel_summary = existing_summary
-    
-    fg.title(channel_title)
-    fg.link(href=channel_link)
-    fg.description(channel_description)
-    fg.language(channel_metadata.get('language', 'en-us'))
-    fg.copyright(channel_metadata.get('copyright', f"Copyright {datetime.date.today().year}"))
-    
-    # RSS feed URL for atom:link (will be added manually after feed generation)
-    rss_feed_url = f"{base_url}/podcast.rss"
-    
-    fg.podcast.itunes_author(channel_metadata.get('itunes_author', "Patrick"))
-    fg.podcast.itunes_summary(channel_summary)
-    
-    owner = channel_metadata.get('itunes_owner', {'name': 'Patrick', 'email': 'contact@teslashortstime.com'})
-    fg.podcast.itunes_owner(name=owner.get('name', 'Patrick'), email=owner.get('email', 'contact@teslashortstime.com'))
-    
-    # Set image URL - use compressed v3 (under 512 KB) for Apple Podcasts compliance
-    # Note: Image must be compressed to under 512 KB (current v2 is 752 KB, exceeds limit)
-    # When podcast-image-v3.jpg (compressed) is uploaded, it will be used automatically
-    image_url = channel_metadata.get('itunes_image', f"{base_url}/podcast-image-v3.jpg")
-    fg.podcast.itunes_image(image_url)
-    
-    category = channel_metadata.get('itunes_category', 'Technology')
-    # Add main category (subcategory will be added manually after feed generation)
-    fg.podcast.itunes_category(category)
-    fg.podcast.itunes_explicit("no")
-    
-    # Add itunes:type tag (required/recommended by Apple)
-    fg.podcast.itunes_type("episodic")
-    
-    # Add itunes:subtitle for better Apple Podcasts display
-    fg.podcast.itunes_subtitle("Your daily Tesla news and stock digest")
-    
-    # Generate GUID for the new episode based on current time to ensure uniqueness
-    current_time_str = datetime.datetime.now().strftime("%H%M%S")
-    new_episode_guid = f"tesla-shorts-time-ep{episode_num:03d}-{episode_date:%Y%m%d}-{current_time_str}"
-    
-    # Deduplicate existing episodes by episode number AND by date
-    # Strategy: Keep only the highest episode number per date to remove duplicates
-    episodes_by_number = {}  # For deduplication by episode number
-    episodes_by_date = {}  # For deduplication by date (keep highest episode number per date)
-    episodes_without_number = []  # Keep episodes that don't have extractable episode numbers
-    
-    def parse_pubdate(ep_data):
-        """Parse pubDate from episode data and return as datetime or None."""
-        pub_date_str = ep_data.get('pubDate', '')
-        if not pub_date_str:
-            return None
-        try:
-            if isinstance(pub_date_str, datetime.datetime):
-                return pub_date_str
-            from email.utils import parsedate_to_datetime
-            return parsedate_to_datetime(pub_date_str)
-        except Exception:
-            return None
-    
-    for ep_data in existing_episodes:
-        # Extract episode number from itunes_episode field or from GUID
-        ep_num_str = ep_data.get('itunes_episode', '')
-        if not ep_num_str:
-            # Try to extract from GUID pattern: tesla-shorts-time-epXXX-YYYYMMDD-HHMMSS
-            guid = ep_data.get('guid', '')
-            match = re.search(r'ep(\d+)', guid)
-            if match:
-                ep_num_str = match.group(1)
-        
-        if ep_num_str:
-            try:
-                ep_num = int(ep_num_str)
-                # Parse pubDate for date-based deduplication
-                pub_date = parse_pubdate(ep_data)
-                date_key = pub_date.date() if pub_date else None
-                
-                # Deduplicate by episode number (keep most recent GUID timestamp)
-                if ep_num not in episodes_by_number:
-                    episodes_by_number[ep_num] = ep_data
-                else:
-                    # Compare GUIDs to determine which is more recent (later timestamp in GUID)
-                    existing_guid = episodes_by_number[ep_num].get('guid', '')
-                    current_guid = ep_data.get('guid', '')
-                    # Extract timestamp from GUID (last 6 digits after final dash)
-                    existing_ts = existing_guid.split('-')[-1] if '-' in existing_guid else '000000'
-                    current_ts = current_guid.split('-')[-1] if '-' in current_guid else '000000'
-                    if current_ts > existing_ts:
-                        episodes_by_number[ep_num] = ep_data
-                
-                # Deduplicate by date (keep highest episode number per date)
-                if date_key:
-                    if date_key not in episodes_by_date:
-                        episodes_by_date[date_key] = ep_data
-                    else:
-                        # Extract episode number from existing episode
-                        existing_ep_num_str = episodes_by_date[date_key].get('itunes_episode', '')
-                        if not existing_ep_num_str:
-                            existing_guid = episodes_by_date[date_key].get('guid', '')
-                            match = re.search(r'ep(\d+)', existing_guid)
-                            if match:
-                                existing_ep_num_str = match.group(1)
-                        existing_ep_num = int(existing_ep_num_str) if existing_ep_num_str else 0
-                        # Keep the episode with the higher episode number
-                        if ep_num > existing_ep_num:
-                            episodes_by_date[date_key] = ep_data
-            except ValueError:
-                # If we can't parse episode number, keep the episode anyway (shouldn't happen normally)
-                episodes_without_number.append(ep_data)
-        else:
-            # Episode without extractable episode number - keep it (shouldn't happen normally)
-            episodes_without_number.append(ep_data)
-    
-    # Final deduplication: Use date-based deduplication as primary, but ensure we keep unique episode numbers
-    # Build final list: prefer date-based deduplication, but include all unique episode numbers
-    final_episodes = {}
-    for date_key, ep_data in episodes_by_date.items():
-        ep_num_str = ep_data.get('itunes_episode', '')
-        if not ep_num_str:
-            guid = ep_data.get('guid', '')
-            match = re.search(r'ep(\d+)', guid)
-            if match:
-                ep_num_str = match.group(1)
-        if ep_num_str:
-            final_episodes[int(ep_num_str)] = ep_data
-    
-    # Also add episodes that might have been missed (episodes without date matches but with unique numbers)
-    for ep_num, ep_data in episodes_by_number.items():
-        if ep_num not in final_episodes:
-            final_episodes[ep_num] = ep_data
-    
-    # Prepare all episodes for sorting (including new episode)
-    all_episodes_to_add = []
-    
-    # Helper function to add an episode entry to the feed
-    def add_episode_entry(ep_data, is_new_episode=False):
-        """Add an episode entry to the feed generator."""
-        entry = fg.add_entry()
-        entry.id(ep_data.get('guid', ''))
-        entry.title(ep_data.get('title', ''))
-        entry.description(ep_data.get('description', ''))
-        if ep_data.get('link'):
-            entry.link(href=ep_data['link'])
-        
-        # Parse and set pubDate
-        pub_date_dt = None
-        if ep_data.get('pubDate'):
-            try:
-                # Handle both string dates (from RSS) and datetime objects (from file scan)
-                if isinstance(ep_data['pubDate'], datetime.datetime):
-                    pub_date_dt = ep_data['pubDate']
-                    entry.pubDate(pub_date_dt)
-                else:
-                    from email.utils import parsedate_to_datetime
-                    pub_date_dt = parsedate_to_datetime(ep_data['pubDate'])
-                    entry.pubDate(pub_date_dt)
-            except Exception:
-                pass
-        
-        # Set enclosure
-        if ep_data.get('enclosure'):
-            enc = ep_data['enclosure']
-            entry.enclosure(url=enc.get('url', ''), type=enc.get('type', 'audio/mpeg'), length=enc.get('length', '0'))
-        
-        # Set iTunes tags
-        if ep_data.get('itunes_title'):
-            entry.podcast.itunes_title(ep_data['itunes_title'])
-        if ep_data.get('itunes_summary'):
-            entry.podcast.itunes_summary(ep_data['itunes_summary'])
-        if ep_data.get('itunes_duration'):
-            entry.podcast.itunes_duration(ep_data['itunes_duration'])
-        if ep_data.get('itunes_episode'):
-            entry.podcast.itunes_episode(ep_data['itunes_episode'])
-        if ep_data.get('itunes_season'):
-            entry.podcast.itunes_season(ep_data['itunes_season'])
-        if ep_data.get('itunes_episode_type'):
-            entry.podcast.itunes_episode_type(ep_data['itunes_episode_type'])
-        entry.podcast.itunes_explicit("no")
-        # Set image for each episode (Apple Podcasts Connect requirement)
-        episode_image = ep_data.get('itunes_image', image_url)
-        entry.podcast.itunes_image(episode_image)
-        
-        return pub_date_dt
-    
-    # Collect all episodes to add (existing + new), then sort by pubDate descending
-    episodes_to_add = []
-    
-    # Add all existing episodes (now deduplicated), but skip if same episode number as new episode
-    for ep_data in final_episodes.values():
-        # Extract episode number to check against new episode
-        ep_num_str = ep_data.get('itunes_episode', '')
-        if not ep_num_str:
-            guid = ep_data.get('guid', '')
-            match = re.search(r'ep(\d+)', guid)
-            if match:
-                ep_num_str = match.group(1)
-        
-        # Skip if this existing episode has the same episode number as the new one we're about to add
-        if ep_num_str and int(ep_num_str) == episode_num:
-            logging.info(f"Skipping existing episode {ep_num_str} - will be replaced with new version")
-            continue
-        
-        # Skip if exact same GUID
-        if ep_data.get('guid') == new_episode_guid:
-            continue
-        
-        # Verify the MP3 file actually exists before including in RSS
-        enclosure = ep_data.get('enclosure', {})
-        enclosure_url = enclosure.get('url', '') if isinstance(enclosure, dict) else ''
-        if enclosure_url:
-            # Extract filename from URL
-            filename = enclosure_url.split('/')[-1]
-            # Check main directory first
-            mp3_path_check = digests_dir / filename
-            # Also check subdirectory if main doesn't exist
-            if not mp3_path_check.exists():
-                mp3_path_check = digests_dir / "digests" / filename
-            if not mp3_path_check.exists() or mp3_path_check.stat().st_size < 1000:
-                ep_num_str = ep_data.get('itunes_episode', 'unknown')
-                logging.warning(f"Skipping episode {ep_num_str}: MP3 file {filename} doesn't exist or is too small")
-                continue
-        
-        episodes_to_add.append(ep_data)
-    
-    # Also add episodes without extractable episode numbers to the list (will be sorted with others)
-    for ep_data in episodes_without_number:
-        # Skip if exact same GUID
-        if ep_data.get('guid') == new_episode_guid:
-            continue
-        
-        # Verify the MP3 file actually exists before including in RSS
-        enclosure = ep_data.get('enclosure', {})
-        enclosure_url = enclosure.get('url', '') if isinstance(enclosure, dict) else ''
-        if enclosure_url:
-            # Extract filename from URL
-            filename = enclosure_url.split('/')[-1]
-            # Check main directory first
-            mp3_path_check = digests_dir / filename
-            # Also check subdirectory if main doesn't exist
-            if not mp3_path_check.exists():
-                mp3_path_check = digests_dir / "digests" / filename
-            if not mp3_path_check.exists() or mp3_path_check.stat().st_size < 1000:
-                logging.warning(f"Skipping episode (no number): MP3 file {filename} doesn't exist or is too small")
-                continue
-        
-        episodes_to_add.append(ep_data)
-    
-    # Prepare new episode data
-    pub_date = datetime.datetime.combine(episode_date, datetime.time(8, 0, 0), tzinfo=datetime.timezone.utc)
-    mp3_url = f"{base_url}/digests/{mp3_filename}"
-    mp3_size = mp3_path.stat().st_size if mp3_path.exists() else 0
-    
-    new_episode_data = {
-        'guid': new_episode_guid,
-        'title': episode_title,
-        'description': episode_description,
-        'link': f"{base_url}/digests/{mp3_filename}",
-        'pubDate': pub_date,
-        'enclosure': {
-            'url': mp3_url,
-            'type': 'audio/mpeg',
-            'length': str(mp3_size)
-        },
-        'itunes_title': episode_title,
-        'itunes_summary': episode_description,
-        'itunes_duration': format_duration(mp3_duration),
-        'itunes_episode': str(episode_num),
-        'itunes_season': '1',
-        'itunes_episode_type': 'full',
-        'itunes_image': image_url
-    }
-    
-    # Add new episode to the list
-    episodes_to_add.append(new_episode_data)
-    
-    # Sort all episodes by pubDate descending (newest first)
-    def get_pubdate_for_sort(ep_data):
-        """Extract pubDate as datetime for sorting."""
-        pub_date = ep_data.get('pubDate')
-        if isinstance(pub_date, datetime.datetime):
-            return pub_date
-        if isinstance(pub_date, str):
-            try:
-                from email.utils import parsedate_to_datetime
-                return parsedate_to_datetime(pub_date)
-            except Exception:
-                pass
-        # Fallback to very old date if can't parse
-        return datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
-    
-    episodes_to_add.sort(key=get_pubdate_for_sort, reverse=True)
-    
-    logging.info(f"Sorting {len(episodes_to_add)} episodes by pubDate descending (newest first)")
-    
-    # Now add all episodes in sorted order
-    for ep_data in episodes_to_add:
-        add_episode_entry(ep_data, is_new_episode=(ep_data.get('guid') == new_episode_guid))
-    
-    # Update lastBuildDate
-    fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
-    
-    # Write RSS feed
-    fg.rss_file(str(rss_path), pretty=True)
-    
-    # Manually add atom:link for self-reference (required by Apple Podcasts Connect)
-    # FeedGenerator doesn't have a direct method for this, so we add it via XML manipulation
-    try:
-        tree = ET.parse(str(rss_path))
-        root = tree.getroot()
-        channel = root.find('channel')
-        if channel is not None:
-            # Check if atom:link already exists
-            atom_ns = '{http://www.w3.org/2005/Atom}'
-            existing_atom_link = channel.find(f'{atom_ns}link')
-            if existing_atom_link is None:
-                # Add atom:link element
-                atom_link = ET.Element(f'{atom_ns}link')
-                atom_link.set('href', rss_feed_url)
-                atom_link.set('rel', 'self')
-                atom_link.set('type', 'application/rss+xml')
-                # Insert after <link> or at the beginning of channel
-                first_link = channel.find('link')
-                if first_link is not None:
-                    channel.insert(list(channel).index(first_link) + 1, atom_link)
-                else:
-                    channel.insert(0, atom_link)
-                tree.write(str(rss_path), encoding='UTF-8', xml_declaration=True)
-                logging.info("Added atom:link for self-reference to RSS feed")
-                
-                # Also add itunes:subtitle and category subcategory if not present
-                itunes_ns = '{http://www.itunes.com/dtds/podcast-1.0.dtd}'
-                
-                # Add itunes:subtitle if not present
-                existing_subtitle = channel.find(f'{itunes_ns}subtitle')
-                if existing_subtitle is None:
-                    subtitle = ET.Element(f'{itunes_ns}subtitle')
-                    subtitle.text = "Your daily Tesla news and stock digest"
-                    # Insert after itunes:summary
-                    summary = channel.find(f'{itunes_ns}summary')
-                    if summary is not None:
-                        channel.insert(list(channel).index(summary) + 1, subtitle)
-                    else:
-                        channel.append(subtitle)
-                    logging.info("Added itunes:subtitle to RSS feed")
-                
-                # Add subcategory to existing category if not present
-                category_elem = channel.find(f'{itunes_ns}category')
-                if category_elem is not None and category_elem.get('text') == 'Technology':
-                    # Check if subcategory already exists
-                    subcategory = category_elem.find(f'{itunes_ns}category')
-                    if subcategory is None:
-                        subcategory = ET.Element(f'{itunes_ns}category')
-                        subcategory.set('text', 'Tech News')
-                        category_elem.append(subcategory)
-                        logging.info("Added Tech News subcategory to RSS feed")
-                
-                # Update all image URLs to use compressed v3 (if v2 is still referenced)
-                channel_image = channel.find(f'{itunes_ns}image')
-                if channel_image is not None and 'podcast-image-v2.jpg' in channel_image.get('href', ''):
-                    channel_image.set('href', channel_image.get('href', '').replace('podcast-image-v2.jpg', 'podcast-image-v3.jpg'))
-                    logging.info("Updated channel image URL to podcast-image-v3.jpg")
-                
-                # Update episode image URLs
-                items = channel.findall('item')
-                updated_count = 0
-                for item in items:
-                    item_image = item.find(f'{itunes_ns}image')
-                    if item_image is not None and 'podcast-image-v2.jpg' in item_image.get('href', ''):
-                        item_image.set('href', item_image.get('href', '').replace('podcast-image-v2.jpg', 'podcast-image-v3.jpg'))
-                        updated_count += 1
-                if updated_count > 0:
-                    logging.info(f"Updated {updated_count} episode image URLs to podcast-image-v3.jpg")
-                
-                tree.write(str(rss_path), encoding='UTF-8', xml_declaration=True)
-    except Exception as e:
-        logging.warning(f"Could not add enhancements to RSS feed: {e}")
-    
-    total_episodes = len(fg.entry())
-    logging.info(f"RSS feed updated → {rss_path} ({total_episodes} episode(s) total)")
+    """Update Tesla Shorts Time RSS feed — delegates to engine.publisher.update_rss_feed."""
+    _engine_update_rss_feed(
+        rss_path, episode_num, episode_title, episode_description,
+        episode_date, mp3_filename, mp3_duration, mp3_path,
+        base_url=base_url,
+        audio_subdir="digests/tesla_shorts_time",
+        channel_title="Tesla Shorts Time Daily",
+        channel_link="https://github.com/patricknovak/Tesla-shorts-time",
+        channel_description="A daily podcast covering the latest Tesla news, stock prices, and industry insights.",
+        channel_author="Patrick",
+        channel_email="contact@teslashortstime.com",
+        channel_image=f"{base_url}/podcast-image-v3.jpg",
+        channel_category="Technology",
+        guid_prefix="tesla-shorts-time",
+        format_duration_func=format_duration,
+    )
 
 # ========================== 5. UPDATE RSS FEED ==========================
 # Fail loudly if podcast generation was enabled but failed

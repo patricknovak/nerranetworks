@@ -114,6 +114,40 @@ OV_SECTION_PATTERNS: Dict[str, str] = {
     ),
 }
 
+EI_SECTION_PATTERNS: Dict[str, str] = {
+    "headlines": (
+        r"(?:### Lead Story|## Lead Story)"
+        r"(.*?)"
+        r"(?=━━|### Regulatory|## Regulatory|$)"
+    ),
+    "regulatory_watch": (
+        r"(?:### Regulatory & Policy Watch|## Regulatory & Policy Watch)"
+        r"(.*?)"
+        r"(?=━━|### Science|## Science|$)"
+    ),
+    "science_technical": (
+        r"(?:### Science & Technical|## Science & Technical)"
+        r"(.*?)"
+        r"(?=━━|### Industry|## Industry|$)"
+    ),
+    "industry_practice": (
+        r"(?:### Industry & Practice|## Industry & Practice)"
+        r"(.*?)"
+        r"(?=━━|### Action Items|## Action Items|$)"
+    ),
+}
+
+# Registry mapping show slugs to their section patterns.
+# New shows should be added here to enable cross-episode content tracking.
+SHOW_SECTION_PATTERNS: Dict[str, Dict[str, str]] = {
+    "tesla": TST_SECTION_PATTERNS,
+    "tesla_shorts_time": TST_SECTION_PATTERNS,
+    "fascinating_frontiers": FF_SECTION_PATTERNS,
+    "planetterrian": PT_SECTION_PATTERNS,
+    "omni_view": OV_SECTION_PATTERNS,
+    "env_intel": EI_SECTION_PATTERNS,
+}
+
 
 def _extract_bold_headlines(text: str, max_items: int = 20) -> List[str]:
     """Extract bold-formatted headlines from a digest section."""
@@ -270,6 +304,9 @@ class ContentTracker:
             "daily_challenge": "DAILY CHALLENGES",
             "cosmic_spotlight": "COSMIC SPOTLIGHT TOPICS",
             "planetterrian_spotlight": "PLANETTERRIAN SPOTLIGHT TOPICS",
+            "regulatory_watch": "REGULATORY & POLICY WATCH TOPICS",
+            "science_technical": "SCIENCE & TECHNICAL TOPICS",
+            "industry_practice": "INDUSTRY & PRACTICE TOPICS",
         }
         for key, label in section_labels.items():
             items = self.get_recent_section_content(key, max_items=limits.get(key, 7))

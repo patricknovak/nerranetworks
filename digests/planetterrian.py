@@ -47,6 +47,7 @@ from engine.publisher import (
     get_next_episode_number as _engine_get_next_episode_number,
     save_summary_to_github_pages as _engine_save_summary,
     generate_episode_thumbnail as _engine_generate_thumbnail,
+    format_digest_for_x as _engine_format_digest_for_x,
 )
 from engine.tracking import create_tracker, record_llm_usage, record_tts_usage, record_x_post, save_usage
 from engine.content_tracker import ContentTracker, PT_SECTION_PATTERNS
@@ -60,20 +61,11 @@ logging.basicConfig(
 )
 
 # ========================== CONFIGURATION ==========================
-# Set to True to test digest generation only (skips podcast and X posting)
-TEST_MODE = False  # Set to False for full run
-
-# Set to False to disable X posting (thread will still be generated and saved)
+# Defaults (overridable via environment variables)
+TEST_MODE = False
 ENABLE_X_POSTING = True
-
-# Set to False to disable podcast generation and RSS feed updates
 ENABLE_PODCAST = True
-
-# Set to True to save summaries to GitHub Pages instead of posting full content to X
 ENABLE_GITHUB_SUMMARIES = True
-
-# Link validation is currently disabled - validation functions have been removed
-# Set to True and re-implement validation functions if needed in the future
 ENABLE_LINK_VALIDATION = False
 
 
@@ -105,6 +97,15 @@ if not env_path.exists():
 
 load_dotenv(dotenv_path=env_path)
 
+# Optional env overrides for feature flags (useful for local testing)
+TEST_MODE = env_bool("TEST_MODE", TEST_MODE)
+ENABLE_X_POSTING = env_bool("ENABLE_X_POSTING", ENABLE_X_POSTING)
+ENABLE_PODCAST = env_bool("ENABLE_PODCAST", ENABLE_PODCAST)
+ENABLE_GITHUB_SUMMARIES = env_bool("ENABLE_GITHUB_SUMMARIES", ENABLE_GITHUB_SUMMARIES)
+
+if TEST_MODE:
+    ENABLE_X_POSTING = env_bool("ENABLE_X_POSTING", False)
+    ENABLE_PODCAST = env_bool("ENABLE_PODCAST", False)
 
 # Required keys
 required = ["GROK_API_KEY"]
@@ -958,24 +959,8 @@ with open(x_path, "w", encoding="utf-8") as f:
     f.write(x_thread)
 logging.info(f"X thread saved to {x_path}")
 
-# Format for X posting (remove markdown, clean up)
-def format_digest_for_x(digest: str) -> str:
-    """Format digest for X posting."""
-    formatted = digest
-    
-    # Remove markdown headers but keep text
-    formatted = re.sub(r'^#+\s+', '', formatted, flags=re.MULTILINE)
-    
-    # Convert markdown bold to plain text
-    formatted = re.sub(r'\*\*(.*?)\*\*', r'\1', formatted)
-    
-    # Clean up URLs
-    formatted = re.sub(r'\[([^\]]+)\]\((https?://[^\)]+)\)', r'\2', formatted)
-    
-    # Remove excessive blank lines
-    formatted = re.sub(r'\n{3,}', '\n\n', formatted)
-    
-    return formatted.strip()
+# Format for X posting (remove markdown, clean up) — delegates to engine
+format_digest_for_x = _engine_format_digest_for_x
 
 formatted_thread = format_digest_for_x(x_thread)
 

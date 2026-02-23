@@ -15,7 +15,7 @@ import re
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -452,3 +452,31 @@ def generate_episode_thumbnail(
     draw.text((50, 100), date_str, font=font, fill=(255, 255, 255))
     img.save(output_path, "PNG")
     return output_path
+
+
+# ---------------------------------------------------------------------------
+# Digest formatting for X posting
+# ---------------------------------------------------------------------------
+
+def format_digest_for_x(digest: str) -> str:
+    """Format a digest for X posting by stripping markdown formatting.
+
+    Removes headers, bold markers, and markdown link syntax while preserving
+    the actual content text and URLs. Suitable for shows with simple formatting
+    needs (FF, PT).  TST has its own extended version with emoji formatting.
+    """
+    formatted = digest
+
+    # Remove markdown headers but keep text
+    formatted = re.sub(r'^#+\s+', '', formatted, flags=re.MULTILINE)
+
+    # Convert markdown bold to plain text
+    formatted = re.sub(r'\*\*(.*?)\*\*', r'\1', formatted)
+
+    # Extract URLs from markdown links
+    formatted = re.sub(r'\[([^\]]+)\]\((https?://[^\)]+)\)', r'\2', formatted)
+
+    # Remove excessive blank lines
+    formatted = re.sub(r'\n{3,}', '\n\n', formatted)
+
+    return formatted.strip()

@@ -1217,7 +1217,7 @@ def update_omni_view_rss_feed(audio_file, duration):
         mp3_duration=duration,
         mp3_path=audio_file,
         base_url=base_url,
-        audio_subdir="digests",
+        audio_subdir="digests/omni_view",
         channel_title="Omni View - Balanced News Perspectives",
         channel_link="https://patricknovak.github.io/Tesla-shorts-time/omni-view.html",
         channel_description=(
@@ -1255,7 +1255,9 @@ if __name__ == "__main__":
     # Set up paths
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
-    digests_dir = project_root / "digests"
+    # New episodes go to dedicated subdirectory; old flat files stay in digests/ for RSS compat
+    digests_dir = project_root / "digests" / "omni_view"
+    digests_dir.mkdir(parents=True, exist_ok=True)
 
     # Initialize credit usage tracking — MIGRATED: engine/tracking.py
     episode_num = get_next_episode_number(project_root / "omni_view_podcast.rss", digests_dir)
