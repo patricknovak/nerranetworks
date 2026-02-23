@@ -127,7 +127,7 @@
     .network-card-links { display: flex; gap: 1rem; flex-wrap: wrap; }
     .network-card-links a { font-size: 0.8rem; color: var(--brand-alt); font-weight: 500; }
     .network-card-links a:hover { text-decoration: underline; }
-    .network-card.current .network-card-badge { display: inline-block; background: var(--brand); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 4px; margin-left: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .network-card-badge { display: inline-block; font-size: 0.7rem; background: var(--brand); color: #fff; padding: 2px 8px; border-radius: 10px; margin-left: 0.5em; vertical-align: middle; }
     .network-see-all { text-align: center; margin-top: 1.5rem; }
     .network-see-all a { display: inline-block; padding: 0.6rem 2rem; border: 1px solid var(--brand); border-radius: 8px; color: var(--brand-alt); font-weight: 600; font-size: 0.9rem; transition: background 0.2s; }
     .network-see-all a:hover { background: var(--card); text-decoration: none; }
@@ -151,7 +151,7 @@
 <body>
   <header>
     <nav>
-      <a class="logo" href="#"><span>Fascinating Frontiers</span></a>
+      <a class="logo" href="fascinating_frontiers.html"><span>Fascinating Frontiers</span></a>
       <button class="menu-toggle" aria-label="Menu">&#9776;</button>
       <div class="nav-links">
         <a href="#episodes">Episodes</a>
@@ -170,7 +170,7 @@
       <p class="subtitle">Daily space and astronomy news -- mission updates, cosmic discoveries, and humanity's next giant leaps.</p>
       <div class="cta">
         <a href="#episodes" class="btn btn-primary">Listen Now</a>
-        <a href="#" class="btn">Apple Podcasts</a>
+        <a href="fascinating_frontiers_podcast.rss" class="btn">Subscribe via RSS</a>
         <a href="https://x.com/planetterrian" class="btn">Follow on X</a>
       </div>
     </section>
@@ -238,7 +238,7 @@
           <div class="network-card-header">
             <span class="network-card-emoji">&#128640;</span>
             <span class="network-card-name">Fascinating Frontiers</span>
-            <span class="network-card-badge">Current</span>
+            <span class="network-card-badge">You are here</span>
           </div>
           <div class="network-card-tagline">Journey to the stars.</div>
           <div class="network-card-desc">Daily space, astronomy, and cosmic discovery news.</div>
@@ -286,7 +286,7 @@
   <footer>
     <div class="footer-links">
       <a href="fascinating_frontiers_podcast.rss">RSS Feed</a>
-      <a href="#">Apple Podcasts</a>
+      <a href="fascinating_frontiers_podcast.rss">Subscribe via RSS</a>
       <a href="https://x.com/planetterrian">X / Twitter</a>
       <a href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
     </div>

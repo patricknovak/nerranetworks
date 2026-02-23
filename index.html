@@ -107,7 +107,7 @@
     .network-card-links a { font-size: 0.8rem; font-weight: 600; color: var(--brand); }
     .network-card-links a:hover { text-decoration: underline; }
     .network-card.current { border-color: var(--brand); background: linear-gradient(135deg, var(--card) 0%, #1f1015 100%); }
-    .network-card.current .network-card-name::after { content: ' (You are here)'; font-weight: 400; font-size: 0.8rem; color: var(--text-muted); }
+    .network-card-badge { display: inline-block; font-size: 0.7rem; background: var(--brand); color: #fff; padding: 2px 8px; border-radius: 10px; margin-left: 0.5em; vertical-align: middle; }
     .network-all { text-align: center; margin-top: 1.5rem; }
     .network-all a { display: inline-block; padding: 0.65rem 2rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: 1px solid var(--brand); color: var(--brand); transition: all 0.2s; }
     .network-all a:hover { background: var(--brand); color: var(--text); text-decoration: none; }
@@ -134,7 +134,7 @@
 <body>
   <header>
     <nav>
-      <a class="logo" href="#">Tesla <span>Shorts Time</span></a>
+      <a class="logo" href="index.html">Tesla <span>Shorts Time</span></a>
       <button class="menu-toggle" aria-label="Menu">&#9776;</button>
       <div class="nav-links">
         <a href="#episodes">Episodes</a>
@@ -200,6 +200,7 @@
           <div class="network-card-head">
             <span class="network-card-emoji">&#9889;</span>
             <span class="network-card-name">Tesla Shorts Time</span>
+            <span class="network-card-badge">You are here</span>
           </div>
           <div class="network-card-tagline">Shorting Tesla? Time's Up.</div>
           <div class="network-card-desc">Daily Tesla news, mission updates, and sustainable energy progress.</div>

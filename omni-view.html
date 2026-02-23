@@ -98,7 +98,7 @@
     .network-card-name { font-weight: 800; font-size: 1.05rem; color: var(--text); }
     .network-card-tagline { color: var(--brand); font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem; }
     .network-card-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 0.75rem; flex-grow: 1; }
-    .network-card-current { display: inline-block; background: var(--brand); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+    .network-card-badge { display: inline-block; font-size: 0.7rem; background: var(--brand); color: #fff; padding: 2px 8px; border-radius: 10px; margin-left: 0.5em; vertical-align: middle; }
     .network-card-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
     .network-card-links a { font-size: 0.8rem; font-weight: 600; color: var(--brand); }
     .network-card-links a:hover { text-decoration: underline; }
@@ -124,7 +124,7 @@
 <body>
   <header>
     <nav>
-      <a class="logo" href="#"><span>Omni</span> View</a>
+      <a class="logo" href="omni-view.html"><span>Omni</span> View</a>
       <button class="menu-toggle" aria-label="Menu">&#9776;</button>
       <div class="nav-links">
         <a href="#episodes">Episodes</a>
@@ -143,7 +143,7 @@
       <p class="subtitle">Balanced daily news briefing designed for media literacy. Multiple perspectives on every story.</p>
       <div class="cta">
         <a href="#episodes" class="btn btn-primary">Listen Now</a>
-        <a href="#" class="btn">Apple Podcasts</a>
+        <a href="omni_view_podcast.rss" class="btn">Subscribe via RSS</a>
         <a href="https://x.com/omniviewnews" class="btn">Follow on X</a>
       </div>
       <div class="balance-bar">
@@ -202,7 +202,7 @@
             <span class="network-card-emoji">&#128065;</span>
             <span class="network-card-name">Omni View</span>
           </div>
-          <span class="network-card-current">You are here</span>
+          <span class="network-card-badge">You are here</span>
           <div class="network-card-tagline">See every side. Decide for yourself.</div>
           <div class="network-card-desc">Balanced daily news briefing for media literacy.</div>
           <div class="network-card-links">
@@ -263,7 +263,7 @@
   <footer>
     <div class="footer-links">
       <a href="omni_view_podcast.rss">RSS Feed</a>
-      <a href="#">Apple Podcasts</a>
+      <a href="omni_view_podcast.rss">Subscribe via RSS</a>
       <a href="https://x.com/omniviewnews">X / Twitter</a>
       <a href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
     </div>

@@ -393,6 +393,60 @@ def adaptive_cutoff_hours(articles: list, base_hours: int = 24) -> int:
 
 
 # ---------------------------------------------------------------------------
+# Science / content keyword filtering
+# ---------------------------------------------------------------------------
+
+SCIENCE_CONTENT_KEYWORDS = [
+    "longevity", "anti-aging", "aging", "lifespan", "healthspan",
+    "biotechnology", "genetics", "genomics", "CRISPR", "gene therapy",
+    "medicine", "medical", "health", "wellness", "nutrition", "diet",
+    "research", "study", "clinical trial", "discovery", "breakthrough",
+    "science", "scientific", "biotech",
+    "cancer", "disease", "treatment", "therapy", "vaccine",
+    "brain", "neuroscience", "cognitive", "mental health",
+]
+
+
+def is_science_related(text: str) -> bool:
+    """Check if post text contains science/longevity/health keywords."""
+    if not text:
+        return False
+
+    text_lower = text.lower()
+    for keyword in SCIENCE_CONTENT_KEYWORDS:
+        if keyword.lower() in text_lower:
+            return True
+
+    return False
+
+
+# ---------------------------------------------------------------------------
+# X / Twitter character-limit enforcement
+# ---------------------------------------------------------------------------
+
+def enforce_x_char_limit(text: str, max_chars: int = 280) -> str:
+    """Ensure text fits within X's 280-char limit (non-subscribed accounts).
+
+    If too long, progressively compress, then truncate with an ellipsis.
+    """
+    t = (text or "").strip()
+    if len(t) <= max_chars:
+        return t
+
+    # Collapse excessive blank lines / whitespace first
+    t = re.sub(r"[ \t]+\n", "\n", t)
+    t = re.sub(r"\n{3,}", "\n\n", t).strip()
+    if len(t) <= max_chars:
+        return t
+
+    # If still too long, truncate safely
+    suffix = "\u2026"
+    if max_chars <= len(suffix):
+        return suffix[:max_chars]
+    return t[: max_chars - len(suffix)].rstrip() + suffix
+
+
+# ---------------------------------------------------------------------------
 # HTTP constants
 # ---------------------------------------------------------------------------
 

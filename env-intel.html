@@ -95,7 +95,7 @@
     .network-card-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
     .network-card-links a { font-size: 0.8rem; font-weight: 600; color: var(--brand-alt); padding: 0.3rem 0.7rem; border: 1px solid rgba(76,175,80,0.3); border-radius: 6px; transition: background 0.2s; }
     .network-card-links a:hover { background: rgba(76,175,80,0.15); text-decoration: none; }
-    .network-card-current-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; color: var(--brand-alt); background: rgba(76,175,80,0.15); padding: 0.15rem 0.5rem; border-radius: 10px; margin-left: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .network-card-badge { display: inline-block; font-size: 0.7rem; background: var(--brand); color: #fff; padding: 2px 8px; border-radius: 10px; margin-left: 0.5em; vertical-align: middle; }
     .network-see-all { text-align: center; margin-top: 2rem; }
     .network-see-all a { display: inline-block; padding: 0.7rem 2rem; background: var(--brand); color: var(--text); border-radius: 8px; font-weight: 700; font-size: 0.95rem; transition: background 0.2s; }
     .network-see-all a:hover { background: var(--brand-dark); text-decoration: none; }
@@ -119,7 +119,7 @@
 <body>
   <header>
     <nav>
-      <a class="logo" href="#"><span>Environmental</span> Intelligence</a>
+      <a class="logo" href="env-intel.html"><span>Environmental</span> Intelligence</a>
       <button class="menu-toggle" aria-label="Menu">&#9776;</button>
       <div class="nav-links">
         <a href="#episodes">Episodes</a>
@@ -138,7 +138,7 @@
       <p class="subtitle">Environmental regulatory, science, and compliance briefing for BC professionals. Stay informed on the policies and science shaping our environment.</p>
       <div class="cta">
         <a href="#episodes" class="btn btn-primary">Listen Now</a>
-        <a href="#" class="btn">Apple Podcasts</a>
+        <a href="env_intel_podcast.rss" class="btn">Subscribe via RSS</a>
       </div>
       <div class="pro-badge">Designed for environmental professionals</div>
     </section>
@@ -227,7 +227,7 @@
           <div class="network-card-header">
             <span class="network-card-emoji">&#127793;</span>
             <span class="network-card-name">Environmental Intelligence</span>
-            <span class="network-card-current-badge">Current</span>
+            <span class="network-card-badge">You are here</span>
           </div>
           <div class="network-card-tagline">Daily environmental briefing.</div>
           <div class="network-card-desc">Environmental regulatory and compliance briefing.</div>
@@ -247,7 +247,7 @@
   <footer>
     <div class="footer-links">
       <a href="env_intel_podcast.rss">RSS Feed</a>
-      <a href="#">Apple Podcasts</a>
+      <a href="env_intel_podcast.rss">Subscribe via RSS</a>
       <a href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
     </div>
     <p>&copy; 2026 Environmental Intelligence</p>
