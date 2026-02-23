@@ -43,6 +43,7 @@ from engine.publisher import (
     get_next_episode_number as _engine_get_next_episode_number,
     save_summary_to_github_pages as _engine_save_summary,
     update_rss_feed as _engine_update_rss_feed,
+    post_to_x as _engine_post_to_x,
 )
 from engine.tracking import create_tracker, save_usage as _engine_save_usage
 from engine.tts import synthesize as _engine_synthesize
@@ -114,7 +115,9 @@ def save_summary_to_github_pages(
     rss_url=None,
 ):
     """Thin wrapper around engine.publisher.save_summary_to_github_pages."""
-    json_path = output_dir / f"summaries_{podcast_name}.json"
+    # Summaries live in per-show subdirectories under digests/
+    _proj_root = Path(__file__).resolve().parent.parent
+    json_path = _proj_root / "digests" / "omni_view" / f"summaries_{podcast_name}.json"
     return _engine_save_summary(
         summary_text,
         json_path,
@@ -1270,20 +1273,8 @@ if __name__ == "__main__":
         timeout=300.0
     )
 
-    # X client setup
-    try:
-        import tweepy
-        x_client = tweepy.Client(
-            consumer_key=os.getenv("X_CONSUMER_KEY"),
-            consumer_secret=os.getenv("X_CONSUMER_SECRET"),
-            access_token=os.getenv("X_ACCESS_TOKEN"),
-            access_token_secret=os.getenv("X_ACCESS_TOKEN_SECRET"),
-            bearer_token=os.getenv("X_BEARER_TOKEN")
-        )
-        logging.info("X client initialized successfully")
-    except Exception as e:
-        logging.warning(f"Failed to initialize X client: {e}")
-        x_client = None
+    # X posting delegated to engine/publisher.post_to_x()
+    logging.info("X posting will use engine/publisher.post_to_x()")
 
     # Initialize variables
     audio_files = []
@@ -1390,14 +1381,16 @@ Read the complete balanced analysis: {summaries_url}
             # Track X API post call
             credit_usage["services"]["x_api"]["post_calls"] += 1
 
-            # Post the teaser with link
-            if x_client:
-                tweet = x_client.create_tweet(text=teaser_text)
-                tweet_id = tweet.data['id']
-                thread_url = f"https://x.com/omniviewnews/status/{tweet_id}"
-                logging.info(f"DIGEST LINK POSTED → {thread_url}")
-            else:
-                logging.warning("X client not initialized - skipping X post")
+            # Post the teaser with link via engine
+            tweet_url = _engine_post_to_x(
+                teaser_text,
+                consumer_key=os.getenv("X_CONSUMER_KEY", ""),
+                consumer_secret=os.getenv("X_CONSUMER_SECRET", ""),
+                access_token=os.getenv("X_ACCESS_TOKEN", ""),
+                access_token_secret=os.getenv("X_ACCESS_TOKEN_SECRET", ""),
+            )
+            if tweet_url:
+                logging.info(f"DIGEST LINK POSTED \u2192 {tweet_url}")
         except Exception as e:
             logging.error(f"X post failed: {e}")
 

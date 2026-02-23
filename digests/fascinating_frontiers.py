@@ -41,13 +41,14 @@ from engine.utils import (
     calculate_similarity as _engine_calculate_similarity,
     remove_similar_items as _engine_remove_similar_items,
 )
-from engine.audio import get_audio_duration, format_duration as _engine_format_duration
+from engine.audio import get_audio_duration, format_duration as _engine_format_duration, normalize_voice as _engine_normalize_voice
 from engine.publisher import (
     update_rss_feed as _engine_update_rss_feed,
     get_next_episode_number as _engine_get_next_episode_number,
     save_summary_to_github_pages as _engine_save_summary,
     generate_episode_thumbnail as _engine_generate_thumbnail,
     format_digest_for_x as _engine_format_digest_for_x,
+    post_to_x as _engine_post_to_x,
 )
 from engine.tracking import create_tracker, record_llm_usage, record_tts_usage, record_x_post, save_usage
 from engine.content_tracker import ContentTracker, FF_SECTION_PATTERNS
@@ -157,7 +158,7 @@ def save_summary_to_github_pages(
     summary_text, output_dir, podcast_name="space", *,
     episode_num=None, episode_title=None, audio_url=None, rss_url=None,
 ):
-    json_path = project_root / "digests" / f"summaries_{podcast_name}.json"
+    json_path = project_root / "digests" / "fascinating_frontiers" / f"summaries_{podcast_name}.json"
     return _engine_save_summary(
         summary_text, json_path, podcast_name,
         episode_num=episode_num, episode_title=episode_title,
@@ -1010,20 +1011,10 @@ format_digest_for_x = _engine_format_digest_for_x
 
 formatted_thread = format_digest_for_x(x_thread)
 
-# ========================== TWEEPY X CLIENT FOR AUTO-POSTING ==========================
+# ========================== X POSTING (via engine/publisher.post_to_x) ==========================
 tweet_id = None
 if ENABLE_X_POSTING:
-    import tweepy
-
-    x_client = tweepy.Client(
-        consumer_key=os.getenv("PLANETTERRIAN_X_CONSUMER_KEY"),
-        consumer_secret=os.getenv("PLANETTERRIAN_X_CONSUMER_SECRET"),
-        access_token=os.getenv("PLANETTERRIAN_X_ACCESS_TOKEN"),
-        access_token_secret=os.getenv("PLANETTERRIAN_X_ACCESS_TOKEN_SECRET"),
-        bearer_token=os.getenv("PLANETTERRIAN_X_BEARER_TOKEN"),
-        wait_on_rate_limit=True
-    )
-    logging.info("@planetterrian X posting client ready (Fascinating Frontiers posts to @planetterrian)")
+    logging.info("@planetterrian X posting enabled (Fascinating Frontiers, delegating to engine)")
 else:
     logging.info("X posting is disabled (ENABLE_X_POSTING = False)")
 
@@ -1277,50 +1268,8 @@ Here is today's complete formatted digest. Use ONLY this content:
 
     # Process and normalize voice in one step
     voice_mix = tmp_dir / "voice_normalized_mix.mp3"
-    file_duration = get_audio_duration(voice_file)
-    timeout_seconds = max(int(file_duration * 3) + 120, 600)
-
-    logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
-
-    # First, check if voice_file exists and has content
-    if not voice_file.exists():
-        raise RuntimeError(f"Voice file {voice_file} does not exist!")
-
-    voice_file_size = voice_file.stat().st_size
-    logging.info(f"Voice file size: {voice_file_size} bytes")
-
-    if voice_file_size < 1000:  # Less than 1KB is suspicious
-        raise RuntimeError(f"Voice file {voice_file} is too small ({voice_file_size} bytes) - TTS may have failed")
-
-    # Try simpler normalization first to avoid filter issues
-    try:
-        logging.info("Attempting voice normalization with full filter chain...")
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
-            "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
-            "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(voice_mix)
-        ], check=True, capture_output=True, timeout=timeout_seconds)
-    except subprocess.CalledProcessError as e:
-        logging.warning(f"Full filter chain failed: {e}")
-        logging.warning("Trying simpler normalization...")
-        # Fallback to simpler processing
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
-            "-af", "loudnorm=I=-18:TP=-1.5:LRA=11:linear=true",
-            "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(voice_mix)
-        ], check=True, capture_output=True, timeout=timeout_seconds)
-
-    # Verify the output file was created
-    if not voice_mix.exists():
-        raise RuntimeError(f"Voice mix file {voice_mix} was not created!")
-
-    voice_mix_size = voice_mix.stat().st_size
-    logging.info(f"Voice mix file size: {voice_mix_size} bytes")
-
-    if voice_mix_size < 1000:
-        raise RuntimeError(f"Voice mix file {voice_mix} is too small ({voice_mix_size} bytes) - processing failed")
+    logging.info(f"Normalizing voice with engine/audio.normalize_voice()...")
+    _engine_normalize_voice(voice_file, voice_mix)
 
     # Get voice duration
     voice_duration = max(get_audio_duration(voice_mix), 0.0)
@@ -1740,32 +1689,28 @@ if ENABLE_GITHUB_SUMMARIES:
 # Post link to GitHub Pages summary on X instead of full content
 if ENABLE_X_POSTING:
     try:
-        # Create link to the Fascinating Frontiers summaries page
         summaries_url = "https://patricknovak.github.io/Tesla-shorts-time/fascinating-frontiers-summaries.html"
-
-        # Create a teaser post with link to full summary
         today = datetime.datetime.now()
-        teaser_text = f"""🚀🌌 Fascinating Frontiers - {today.strftime('%B %d, %Y')}
-
-🔭 Today's complete space & astronomy digest is now live!
-
-🪐 Latest space missions & discoveries
-🌟 Cosmic phenomena & astronomical events
-🚁 Space technology & exploration updates
-🎙️ Full podcast episode available
-
-Read the full summary: {summaries_url}
-
-#Space #Astronomy #NASA #SpaceX #FascinatingFrontiers"""
-
-        # Track X API post call
+        teaser_text = (
+            f"\U0001f680\U0001f30c Fascinating Frontiers - {today.strftime('%B %d, %Y')}\n\n"
+            f"\U0001f52d Today's complete space & astronomy digest is now live!\n\n"
+            f"\U0001fa90 Latest space missions & discoveries\n"
+            f"\U0001f31f Cosmic phenomena & astronomical events\n"
+            f"\U0001f681 Space technology & exploration updates\n"
+            f"\U0001f399\ufe0f Full podcast episode available\n\n"
+            f"Read the full summary: {summaries_url}\n\n"
+            f"#Space #Astronomy #NASA #SpaceX #FascinatingFrontiers"
+        )
         credit_usage["services"]["x_api"]["post_calls"] += 1
-
-        # Post the teaser with link
-        tweet = x_client.create_tweet(text=teaser_text)
-        tweet_id = tweet.data['id']
-        thread_url = f"https://x.com/planetterrian/status/{tweet_id}"
-        logging.info(f"DIGEST LINK POSTED → {thread_url}")
+        tweet_url = _engine_post_to_x(
+            teaser_text,
+            consumer_key=os.getenv("PLANETTERRIAN_X_CONSUMER_KEY", ""),
+            consumer_secret=os.getenv("PLANETTERRIAN_X_CONSUMER_SECRET", ""),
+            access_token=os.getenv("PLANETTERRIAN_X_ACCESS_TOKEN", ""),
+            access_token_secret=os.getenv("PLANETTERRIAN_X_ACCESS_TOKEN_SECRET", ""),
+        )
+        if tweet_url:
+            logging.info(f"DIGEST LINK POSTED \u2192 {tweet_url}")
     except Exception as e:
         logging.error(f"X post failed: {e}", exc_info=True)
 

@@ -111,7 +111,7 @@ publishing:
   guid_prefix: tesla-shorts-time
   base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
   audio_subdir: digests
-  summaries_json: digests/summaries_tesla.json
+  summaries_json: digests/tesla_shorts_time/summaries_tesla.json
   summaries_podcast_name: tesla
   x_enabled: true
   x_env_prefix: "X_"

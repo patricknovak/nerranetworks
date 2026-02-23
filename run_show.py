@@ -173,6 +173,18 @@ def run(args: argparse.Namespace) -> None:
     )
     logger.info("Fetched %d articles from %d feeds", len(articles), len(config.sources))
 
+    # 5b. Cross-episode content tracking & dedup
+    from engine.content_tracker import ContentTracker, SHOW_SECTION_PATTERNS
+    from engine.utils import deduplicate_by_entity
+
+    section_patterns = SHOW_SECTION_PATTERNS.get(config.slug, {})
+    content_tracker = ContentTracker(config.slug, digests_dir)
+    content_tracker.load()
+
+    articles = deduplicate_by_entity(articles, max_per_entity=2)
+    articles = content_tracker.filter_recent_articles(articles, similarity_threshold=0.65, days=3)
+    logger.info("After cross-episode + entity dedup: %d articles remain", len(articles))
+
     if not articles:
         logger.warning("No articles found. Exiting.")
         return
@@ -206,6 +218,11 @@ def run(args: argparse.Namespace) -> None:
     from engine.generator import generate_digest
     logger.info("Generating digest ...")
     x_thread = generate_digest(template_vars, config, tracker=tracker)
+
+    # Record episode content in the cross-episode tracker
+    if section_patterns:
+        content_tracker.record_episode(x_thread, section_patterns)
+        content_tracker.save()
 
     # Save digest to file
     digest_md = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}.md"

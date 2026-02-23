@@ -45,12 +45,14 @@ from engine.utils import (
     norm_headline_for_similarity as _engine_norm_headline,
     filter_articles_by_recent_stories as _engine_filter_recent,
 )
-from engine.audio import get_audio_duration, format_duration as _engine_format_duration
+from engine.audio import get_audio_duration, format_duration as _engine_format_duration, mix_with_music as _engine_mix_with_music, normalize_voice as _engine_normalize_voice
 from engine.publisher import (
     update_rss_feed as _engine_update_rss_feed,
     get_next_episode_number as _engine_get_next_episode_number,
     save_summary_to_github_pages as _engine_save_summary,
     generate_episode_thumbnail as _engine_generate_thumbnail,
+    format_tst_digest_for_x as _engine_format_tst_digest_for_x,
+    post_to_x as _engine_post_to_x,
 )
 from engine.tracking import create_tracker, record_llm_usage, record_tts_usage, record_x_post, save_usage
 from engine.content_tracker import ContentTracker, TST_SECTION_PATTERNS
@@ -496,7 +498,7 @@ def save_summary_to_github_pages(
     summary_text, output_dir, podcast_name="tesla", *,
     episode_num=None, episode_title=None, audio_url=None, rss_url=None,
 ):
-    json_path = project_root / "digests" / f"summaries_{podcast_name}.json"
+    json_path = project_root / "digests" / "tesla_shorts_time" / f"summaries_{podcast_name}.json"
     return _engine_save_summary(
         summary_text, json_path, podcast_name,
         episode_num=episode_num, episode_title=episode_title,
@@ -1757,257 +1759,8 @@ if news_count != 10:
 logging.info("Step 4: Formatting digest for beautiful X post...")
 
 def format_digest_for_x(digest: str) -> str:
-    """
-    Format the digest beautifully for a long X post with emojis, proper spacing, and visual appeal.
-    X supports up to 25,000 characters for long posts.
-    """
-    import re
-    
-    formatted = digest
-    
-    # Add emoji to main header (only if it's the first line)
-    formatted = re.sub(r'^# Tesla Shorts Time', '🚗⚡ **Tesla Shorts Time**', formatted, flags=re.MULTILINE)
-    
-    # Format date line with emoji
-    formatted = re.sub(r'\*\*Date:\*\*', '📅 **Date:**', formatted)
-    
-    # Format price line with emoji
-    formatted = re.sub(r'\*\*REAL-TIME TSLA price:\*\*', '💰 **REAL-TIME TSLA price:**', formatted)
-    
-    # Ensure podcast link is always present with full URL (add it if missing or incomplete)
-    podcast_url = 'https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939'
-    podcast_link_md = f'🎙️ **Tesla Shorts Time Daily Podcast Link:** {podcast_url}'
-    
-    # Check if the full URL is present (not just the text)
-    # Also check for incomplete podcast links (has emoji but no URL)
-    # More aggressive check - look for any line with podcast emoji that doesn't have the full URL
-    has_incomplete_podcast_link = bool(re.search(r'🎙️[^\n]*[Pp]odcast[^\n]*(?!https://)', formatted))
-    # Also check if podcast link line exists but URL is missing
-    podcast_line_without_url = bool(re.search(r'🎙️[^\n]*[Pp]odcast[^\n]*\n(?!.*https://podcasts\.apple\.com)', formatted, re.DOTALL))
-    
-    if podcast_url not in formatted or has_incomplete_podcast_link or podcast_line_without_url:
-        # Remove any incomplete podcast link text
-        lines = formatted.split('\n')
-        cleaned_lines = []
-        for line in lines:
-            # If line mentions podcast but doesn't have the full URL, skip it
-            if ('podcast' in line.lower() or '🎙️' in line) and podcast_url not in line:
-                continue
-            cleaned_lines.append(line)
-        formatted = '\n'.join(cleaned_lines)
-        
-        # Find the price line and insert podcast link right after it
-        lines = formatted.split('\n')
-        insert_pos = None
-        for i, line in enumerate(lines):
-            # Look for price line (with or without emoji)
-            if 'REAL-TIME TSLA price' in line or '💰' in line:
-                insert_pos = i + 1
-                break
-            # Fallback: look for date line
-            elif 'Date:' in line and '📅' in line and insert_pos is None:
-                insert_pos = i + 1
-        
-        # If we found a position, insert the podcast link
-        if insert_pos is not None:
-            lines.insert(insert_pos, '')
-            lines.insert(insert_pos + 1, podcast_link_md)
-            lines.insert(insert_pos + 2, '')
-        else:
-            # Last resort: add at the very beginning after header
-            header_end = 0
-            for i, line in enumerate(lines[:5]):
-                if line.strip() and (line.startswith('#') or line.startswith('🚗')):
-                    header_end = i
-            lines.insert(header_end + 1, '')
-            lines.insert(header_end + 2, podcast_link_md)
-            lines.insert(header_end + 3, '')
-        
-        formatted = '\n'.join(lines)
-    else:
-        # URL is present, ensure it has the emoji prefix and proper formatting
-        # Replace any variation of the podcast link with the properly formatted version
-        formatted = re.sub(
-            r'🎙️?\s*[Tt]esla\s+[Ss]horts\s+[Tt]ime\s+[Dd]aily\s+[Pp]odcast\s+[Ll]ink:?\s*' + re.escape(podcast_url),
-            podcast_link_md,
-            formatted,
-            flags=re.IGNORECASE
-        )
-        # Also handle case where URL is there but formatting is wrong
-        if podcast_url in formatted and '🎙️' not in formatted.split(podcast_url)[0][-50:]:
-            # URL exists but no emoji nearby, add it
-            formatted = re.sub(
-                r'([^\n]*)' + re.escape(podcast_url),
-                r'\1\n' + podcast_link_md,
-                formatted,
-                count=1
-            )
-    
-    # Format section headers with emojis (preserve existing markdown)
-    formatted = re.sub(r'^### Top 10 News Items', '📰 **Top 10 News Items**', formatted, flags=re.MULTILINE)
-    # Format Tesla X Takeover section (now focuses on fresh news/trends, not specific accounts)
-    formatted = re.sub(r'^## Tesla X Takeover:', '🎙️ **Tesla X Takeover:**', formatted, flags=re.MULTILINE)
-    formatted = re.sub(r'^### Tesla X Takeover:', '🎙️ **Tesla X Takeover:**', formatted, flags=re.MULTILINE)
-    # X POSTS SECTION DISABLED - No longer formatting X posts header
-    formatted = re.sub(r'^## Short Spot', '📉 **Short Spot**', formatted, flags=re.MULTILINE)
-    formatted = re.sub(r'^### Short Squeeze', '📈 **Short Squeeze**', formatted, flags=re.MULTILINE)
-    formatted = re.sub(r'^### Daily Challenge', '💪 **Daily Challenge**', formatted, flags=re.MULTILINE)
-    
-    # Add emoji to Inspiration Quote
-    formatted = re.sub(r'\*\*Inspiration Quote:\*\*', '✨ **Inspiration Quote:**', formatted)
-    
-    # Add separator lines before major sections
-    separator = '\n\n━━━━━━━━━━━━━━━━━━━━\n\n'
-    
-    # First, remove any existing separators to avoid duplicates
-    formatted = re.sub(r'\n\n━━━━━━━━━━━━━━━━━━━━\n\n+', '\n\n', formatted)
-    
-    # Add separator before Top 10 News Items (check multiple patterns)
-    formatted = re.sub(r'(\n\n?)(📰 \*\*Top 10 News Items\*\*)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(### Top 10 News Items)', separator + r'\2', formatted)
-    # Also match after podcast link
-    formatted = re.sub(r'(Podcast Link:.*?\n)(📰|\*\*Top 10 News|### Top 10 News)', separator + r'\2', formatted, flags=re.DOTALL)
-    
-    # Add separator before Tesla X Takeover
-    formatted = re.sub(r'(\n\n?)(🎙️ \*\*Tesla X Takeover)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(## Tesla X Takeover|### Tesla X Takeover)', separator + r'\2', formatted)
-    # Also match after last news item (10.)
-    formatted = re.sub(r'(10[️⃣\.]\s+.*?\n)(🎙️|\*\*Tesla X Takeover|## Tesla X Takeover|### Tesla X Takeover)', separator + r'\2', formatted, flags=re.DOTALL)
-    
-    # X POSTS SEPARATOR DISABLED - No longer adding separator before X posts
-    
-    # Add separator before Short Spot
-    formatted = re.sub(r'(\n\n?)(📉 \*\*Short Spot\*\*)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(## Short Spot)', separator + r'\2', formatted)
-    # Also match after Tesla X Takeover section (vibe check)
-    formatted = re.sub(r'(The Vibe Check.*?\n)(📉|\*\*Short Spot|## Short Spot)', separator + r'\2', formatted, flags=re.DOTALL)
-    
-    # Add separator before Short Squeeze
-    formatted = re.sub(r'(\n\n?)(📈 \*\*Short Squeeze\*\*)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(### Short Squeeze)', separator + r'\2', formatted)
-    
-    # Add separator before Daily Challenge
-    formatted = re.sub(r'(\n\n?)(💪 \*\*Daily Challenge\*\*)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(### Daily Challenge)', separator + r'\2', formatted)
-    
-    # Add separator before Inspiration Quote
-    formatted = re.sub(r'(\n\n?)(✨ \*\*Inspiration Quote:\*\*)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(\*\*Inspiration Quote:\*\*)', separator + r'\2', formatted)
-    
-    # Add emoji to numbered list items for news (1️⃣, 2️⃣, etc.)
-    emoji_numbers = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟']
-    
-    # Find the news section and apply emojis
-    if '📰' in formatted or 'Top 10 News' in formatted:
-        news_section_match = re.search(r'(📰.*?Top 10 News Items.*?)(📉|Short Spot|━━)', formatted, re.DOTALL)
-        if news_section_match:
-            news_section = news_section_match.group(1)
-            for i in range(1, 11):
-                emoji_num = emoji_numbers[i-1]
-                # Replace numbered items in news section
-                news_section = re.sub(
-                    rf'^(\s*){i}\.\s+',
-                    lambda m: m.group(1) + emoji_num + ' ',
-                    news_section,
-                    flags=re.MULTILINE
-                )
-            formatted = formatted.replace(news_section_match.group(1), news_section)
-    
-    # X POSTS EMOJI FORMATTING DISABLED - No longer formatting X posts emojis
-    
-    # Clean up excessive newlines (more than 3 consecutive becomes 2)
-    formatted = re.sub(r'\n{4,}', '\n\n', formatted)
-    
-    # Ensure proper spacing: add a blank line before numbered items if missing
-    formatted = re.sub(r'\n(\d+\.)', r'\n\n\1', formatted)
-    
-    # Clean up: remove any triple newlines that might have been created
-    formatted = re.sub(r'\n{3,}', '\n\n', formatted)
-    
-    # Clean up any markdown code blocks if any (they don't render well on X)
-    formatted = re.sub(r'```[^`]*```', '', formatted, flags=re.DOTALL)
-    
-    # Ensure the post ends nicely if it doesn't already
-    formatted = formatted.strip()
-    if formatted and not formatted[-1] in '!?.':
-        # Check if it ends with a quote or sign-off
-        last_lines = formatted.split('\n')[-3:]
-        last_text = ' '.join(last_lines).strip()
-        if not any(word in last_text.lower() for word in ['feedback', 'dm', 'accelerating', 'electric', 'mission']):
-            formatted += '\n\n⚡ Keep accelerating!'
-    
-    # Fix X post URLs - remove markdown brackets and ensure plain text URLs
-    # Replace [text](url) or [url] with just the URL
-    formatted = re.sub(r'\[([^\]]+)\]\((https?://[^\)]+)\)', r'\2', formatted)
-    formatted = re.sub(r'\[(https?://[^\]]+)\]', r'\1', formatted)
-    # Fix URLs that might have trailing brackets or parentheses
-    formatted = re.sub(r'(https?://x\.com/[^\s\)\]]+)[\)\]]+', r'\1', formatted)
-    
-    # Remove instruction language that might have leaked into output
-    instruction_patterns = [
-        r'🎯\s*TODAY\'S FOCUS:.*?\n',
-        r'\*\*TOP 5 TESLA X POSTS FROM.*?:\*\*\s*\n',
-        r'Using your knowledge.*?\n',
-        r'For each post:.*?\n',
-        r'\(use actual post URLs.*?\)',
-        r'\(if you can find them.*?\)',
-        r'\(format as shown\)',
-        r'\*\*OVERALL WEEKLY SENTIMENT.*?:\*\*\s*\n',
-        r'Provide a.*?summary.*?\n',
-        r'Is the sentiment.*?\n',
-        r'What are the main topics.*?\n',
-        r'What\'s their perspective.*?\n',
-        r'\[Repeat for.*?\]',
-        r'\[ACTUAL_POST_ID\]',
-        r'\[POST_ID\]',
-        # Remove CRITICAL instruction warnings
-        r'🚨\s*CRITICAL:.*?\n',
-        r'CRITICAL:.*?COMPLETELY DIFFERENT.*?\n',
-        r'CRITICAL:.*?COMPLETELY NEW.*?\n',
-        r'Use a DIFFERENT.*?\n',
-        r'Use DIFFERENT.*?\n',
-        r'Avoid repetition.*?\n',
-        r'Do NOT repeat.*?\n',
-        r'Never repeat.*?\n',
-    ]
-    for pattern in instruction_patterns:
-        formatted = re.sub(pattern, '', formatted, flags=re.IGNORECASE | re.MULTILINE)
-    
-    # Remove placeholder/dead URLs (URLs with [POST_ID] or similar placeholders, or invalid format)
-    formatted = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/\[[^\]]+\]', '', formatted, flags=re.IGNORECASE)
-    formatted = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/[^\d/][^\s]*', '', formatted, flags=re.IGNORECASE)  # Remove URLs without proper numeric IDs
-    formatted = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID', '', formatted, flags=re.IGNORECASE)  # Remove placeholder URLs
-    
-    # Final cleanup: normalize whitespace
-    # Replace multiple spaces with single space (but preserve intentional formatting)
-    lines = formatted.split('\n')
-    cleaned_lines = []
-    for line in lines:
-        # Preserve lines that are mostly spaces (intentional spacing)
-        if line.strip() == '':
-            cleaned_lines.append('')
-        else:
-            # Clean up excessive spaces but preserve markdown formatting
-            cleaned_line = re.sub(r'[ \t]{2,}', ' ', line)
-            cleaned_lines.append(cleaned_line)
-    formatted = '\n'.join(cleaned_lines)
-    
-    # Final newline cleanup
-    formatted = re.sub(r'\n{3,}', '\n\n', formatted)
-    formatted = formatted.strip()
-    
-    # Check character limit (X allows 25,000 characters for long posts)
-    max_chars = 25000
-    if len(formatted) > max_chars:
-        logging.warning(f"Formatted digest is {len(formatted)} characters, truncating to {max_chars}")
-        # Try to truncate at a natural break point
-        truncate_at = formatted[:max_chars-100].rfind('\n\n')
-        if truncate_at > max_chars * 0.8:  # Only if we can keep at least 80% of content
-            formatted = formatted[:truncate_at] + "\n\n... (content truncated for length)"
-        else:
-            formatted = formatted[:max_chars-50] + "\n\n... (truncated for length)"
-    
-    return formatted
+    """Delegate to engine.publisher.format_tst_digest_for_x."""
+    return _engine_format_tst_digest_for_x(digest)
 
 # Format the digest
 x_thread_formatted = format_digest_for_x(x_thread)
@@ -2077,20 +1830,10 @@ if TEST_MODE:
     print("="*80)
     sys.exit(0)
 
-# ========================== TWEEPY X CLIENT FOR AUTO-POSTING ==========================
+# ========================== X POSTING (via engine/publisher.post_to_x) ==========================
 tweet_id = None
 if ENABLE_X_POSTING:
-    import tweepy
-
-    x_client = tweepy.Client(
-        consumer_key=os.getenv("X_CONSUMER_KEY"),
-        consumer_secret=os.getenv("X_CONSUMER_SECRET"),
-        access_token=os.getenv("X_ACCESS_TOKEN"),
-        access_token_secret=os.getenv("X_ACCESS_TOKEN_SECRET"),
-        bearer_token=os.getenv("X_BEARER_TOKEN"),
-        wait_on_rate_limit=True
-    )
-    logging.info("@teslashortstime X posting client ready")
+    logging.info("@teslashortstime X posting enabled (delegating to engine)")
 else:
     logging.info("X posting is disabled (ENABLE_X_POSTING = False)")
 
@@ -2591,187 +2334,26 @@ Here is today's complete formatted digest. Use ONLY this content:
         logging.error(f"ElevenLabs TTS generation failed: {e}", exc_info=True)
         raise  # Re-raise to ensure workflow fails visibly
 
-    # ========================== FINAL MIX ==========================
+    # ========================== FINAL MIX (delegated to engine/audio) ==========================
     final_mp3 = digests_dir / f"Tesla_Shorts_Time_Pod_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d_%H%M%S}.mp3"
-    
     MAIN_MUSIC = project_root / "tesla_shorts_time.mp3"
-    
-    # Process and normalize voice in one step
-    voice_mix = tmp_dir / "voice_normalized_mix.mp3"
-    file_duration = get_audio_duration(voice_file)
-    timeout_seconds = max(int(file_duration * 3) + 120, 600)
-    
-    logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
 
-    # First, check if voice_file exists and has content
+    # Validate voice file before mixing
     if not voice_file.exists():
         raise RuntimeError(f"Voice file {voice_file} does not exist!")
-
     voice_file_size = voice_file.stat().st_size
-    logging.info(f"Voice file size: {voice_file_size} bytes")
-
-    if voice_file_size < 1000:  # Less than 1KB is suspicious
+    if voice_file_size < 1000:
         raise RuntimeError(f"Voice file {voice_file} is too small ({voice_file_size} bytes) - TTS may have failed")
 
-    # Try simpler normalization first to avoid filter issues
-    try:
-        logging.info("Attempting voice normalization with full filter chain...")
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
-            "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
-            "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(voice_mix)
-        ], check=True, capture_output=True, timeout=timeout_seconds)
-    except subprocess.CalledProcessError as e:
-        logging.warning(f"Full filter chain failed: {e}")
-        logging.warning("Trying simpler normalization...")
-        # Fallback to simpler processing
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
-            "-af", "loudnorm=I=-18:TP=-1.5:LRA=11:linear=true",
-            "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(voice_mix)
-        ], check=True, capture_output=True, timeout=timeout_seconds)
+    _engine_mix_with_music(voice_file, MAIN_MUSIC, final_mp3)
 
-    # Verify the output file was created
-    if not voice_mix.exists():
-        raise RuntimeError(f"Voice mix file {voice_mix} was not created!")
-
-    voice_mix_size = voice_mix.stat().st_size
-    logging.info(f"Voice mix file size: {voice_mix_size} bytes")
-
-    if voice_mix_size < 1000:
-        raise RuntimeError(f"Voice mix file {voice_mix} is too small ({voice_mix_size} bytes) - processing failed")
-    
-    if not MAIN_MUSIC.exists():
-        logging.warning(f"⚠️  Background music file '{MAIN_MUSIC}' not found - generating voice-only podcast")
-        logging.warning("💡 To add background music: ensure 'tesla_shorts_time.mp3' exists in project root")
-        subprocess.run(["ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-preset", "fast", str(final_mp3)], check=True, capture_output=True)
-        logging.info("✅ Podcast ready (voice-only)")
-    else:
-        # Get voice duration to calculate music timing
-        voice_duration = max(get_audio_duration(voice_mix), 0.0)
-        logging.info(f"Voice duration: {voice_duration:.2f} seconds")
-        
-        # Music timing - Professional intro with perfect overlap:
-        # - 5 seconds of music alone (0-5s) - engaging intro
-        # - Patrick starts talking at 5s while music is still at full volume (perfect overlap)
-        # - Music continues at full volume for 3 seconds while Patrick talks (5-8s) - creates energy
-        # - Music fades out smoothly over 18 seconds while Patrick continues (8-26s) - professional fade
-        # - Voice continues alone after 26s
-        # - End: Keep the final spoken lines clean (no music under them)
-        # - After voice ends, fade in and play 30 seconds of outro music (no overlap with voice)
-        
-        # OPTIMIZED: Generate independent music segments in parallel
-        music_intro = tmp_dir / "music_intro.mp3"
-        music_overlap = tmp_dir / "music_overlap.mp3"
-        music_fadeout = tmp_dir / "music_fadeout.mp3"
-        music_outro = tmp_dir / "music_outro.mp3"
-        
-        def generate_music_segment(segment_name, cmd_args):
-            """Helper to generate a single music segment."""
-            subprocess.run(cmd_args, check=True, capture_output=True)
-        
-        # Generate independent music segments in parallel (don't depend on voice_duration)
-        logging.info("Generating music segments in parallel...")
-        independent_segments = [
-            ("intro", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-t", "5",
-                      "-af", "volume=0.6", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                      str(music_intro)]),
-            ("overlap", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "5", "-t", "3",
-                        "-af", "volume=0.5", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                        str(music_overlap)]),
-            ("fadeout", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
-                        "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=18", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                        str(music_fadeout)]),
-            # Outro is positioned after the voice ends by adding silence in the music bed.
-            # Use stream_loop so even shorter music beds still produce a full 30s outro.
-            ("outro", ["ffmpeg", "-y", "-threads", "0", "-stream_loop", "-1", "-i", str(MAIN_MUSIC), "-t", "30",
-                      "-af", "volume=0.4,afade=t=in:curve=log:st=0:d=2,afade=t=out:curve=log:st=27:d=3", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                      str(music_outro)]),
-        ]
-        
-        with ThreadPoolExecutor(max_workers=4) as executor:
-            futures = {executor.submit(generate_music_segment, name, cmd): name for name, cmd in independent_segments}
-            for future in as_completed(futures):
-                segment_name = futures[future]
-                try:
-                    future.result()
-                    logging.debug(f"Generated music segment: {segment_name}")
-                except Exception as e:
-                    logging.error(f"Failed to generate music segment {segment_name}: {e}")
-                    raise
-        
-        # Generate voice-dependent segments (silence depends on voice_duration)
-        # Keep music silent after 26s until the voice fully ends, so the closing isn't masked/cut off.
-        middle_silence_duration = max(voice_duration - 26.0, 0.0)
-        music_silence = tmp_dir / "music_silence.mp3"
-        
-        voice_dependent_segments = []
-        if middle_silence_duration > 0.1:
-            voice_dependent_segments.append(("silence", ["ffmpeg", "-y", "-threads", "0", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
-                                                        "-t", str(middle_silence_duration), "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                                                        str(music_silence)]))
-        
-        if voice_dependent_segments:
-            with ThreadPoolExecutor(max_workers=len(voice_dependent_segments)) as executor:
-                futures = {executor.submit(generate_music_segment, name, cmd): name for name, cmd in voice_dependent_segments}
-                for future in as_completed(futures):
-                    segment_name = futures[future]
-                    try:
-                        future.result()
-                        logging.debug(f"Generated music segment: {segment_name}")
-                    except Exception as e:
-                        logging.error(f"Failed to generate music segment {segment_name}: {e}")
-                        raise
-        
-        # Concatenate music segments
-        music_concat_list = tmp_dir / "music_concat.txt"
-        with open(music_concat_list, "w") as f:
-            f.write(f"file '{music_intro.absolute()}'\n")
-            f.write(f"file '{music_overlap.absolute()}'\n")
-            f.write(f"file '{music_fadeout.absolute()}'\n")
-            if middle_silence_duration > 0.1:
-                f.write(f"file '{music_silence.absolute()}'\n")
-            f.write(f"file '{music_outro.absolute()}'\n")
-        
-        music_full = tmp_dir / "music_full.mp3"
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
-            "-c", "copy", str(music_full)
-        ], check=True, capture_output=True)
-        
-        # Verify music_full was created
-        if not music_full.exists():
-            raise RuntimeError(f"Music full file {music_full} was not created!")
-
-        music_full_size = music_full.stat().st_size
-        logging.info(f"Music full file size: {music_full_size} bytes")
-
-        if music_full_size < 1000:
-            raise RuntimeError(f"Music full file {music_full} is too small ({music_full_size} bytes) - music concatenation failed")
-
-        # Mix voice and music
-        logging.info("Mixing voice and music...")
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-i", str(music_full),
-            # Use duration=longest so the outro music remains after the voice ends.
-            "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=longest:dropout_transition=2",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(final_mp3)
-        ], check=True, capture_output=True, timeout=timeout_seconds)
-
-        # Verify final file was created and has content
-        if not final_mp3.exists():
-            raise RuntimeError(f"Final podcast file {final_mp3} was not created!")
-
-        final_size = final_mp3.stat().st_size
-        logging.info(f"Final podcast file size: {final_size} bytes")
-
-        if final_size < 10000:  # Less than 10KB is definitely wrong for a 55s podcast
-            raise RuntimeError(f"Final podcast file {final_mp3} is too small ({final_size} bytes) - mixing failed")
-
-        logging.info(f"✅ Final podcast created: {final_mp3.name}")
+    # Verify final output
+    if not final_mp3.exists():
+        raise RuntimeError(f"Final podcast file {final_mp3} was not created!")
+    final_size = final_mp3.stat().st_size
+    if final_size < 10000:
+        raise RuntimeError(f"Final podcast file {final_mp3} is too small ({final_size} bytes) - mixing failed")
+    logging.info(f"Final podcast created: {final_mp3.name}")
 
 
 def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
@@ -3001,31 +2583,27 @@ if ENABLE_GITHUB_SUMMARIES:
 # Post link to GitHub Pages summary on X instead of full content
 if ENABLE_X_POSTING:
     try:
-        # Create link to the Tesla summaries page
         summaries_url = "https://patricknovak.github.io/Tesla-shorts-time/tesla-summaries.html"
-
-        # Create a teaser post with link to full summary
         today = datetime.datetime.now()
-        teaser_text = f"""🚗⚡ Tesla Shorts Time Daily - {today.strftime('%B %d, %Y')}
-
-🔥 Today's complete digest is now live on our website!
-
-📈 TSLA news, stock analysis, and market insights
-🎙️ Full podcast episode available
-📊 Raw data and sources included
-
-Read the full summary: {summaries_url}
-
-#Tesla #TSLA #TeslaShortsTime #EV"""
-
-        # Track X API post call
+        teaser_text = (
+            f"\U0001f697\u26a1 Tesla Shorts Time Daily - {today.strftime('%B %d, %Y')}\n\n"
+            f"\U0001f525 Today's complete digest is now live on our website!\n\n"
+            f"\U0001f4c8 TSLA news, stock analysis, and market insights\n"
+            f"\U0001f399\ufe0f Full podcast episode available\n"
+            f"\U0001f4ca Raw data and sources included\n\n"
+            f"Read the full summary: {summaries_url}\n\n"
+            f"#Tesla #TSLA #TeslaShortsTime #EV"
+        )
         credit_usage["services"]["x_api"]["post_calls"] += 1
-
-        # Post the teaser with link
-        tweet = x_client.create_tweet(text=teaser_text)
-        tweet_id = tweet.data['id']
-        thread_url = f"https://x.com/teslashortstime/status/{tweet_id}"
-        logging.info(f"DIGEST LINK POSTED → {thread_url}")
+        tweet_url = _engine_post_to_x(
+            teaser_text,
+            consumer_key=os.getenv("X_CONSUMER_KEY", ""),
+            consumer_secret=os.getenv("X_CONSUMER_SECRET", ""),
+            access_token=os.getenv("X_ACCESS_TOKEN", ""),
+            access_token_secret=os.getenv("X_ACCESS_TOKEN_SECRET", ""),
+        )
+        if tweet_url:
+            logging.info(f"DIGEST LINK POSTED \u2192 {tweet_url}")
     except Exception as e:
         logging.error(f"X post failed: {e}")
 

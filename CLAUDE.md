@@ -2,53 +2,79 @@
 
 ## Project Overview
 
-Automated daily podcast generation system running 4 shows, each with its own
-GitHub Actions workflow, X/Twitter posting, and RSS feed. All shows use
-**ElevenLabs TTS** (Chatterbox support was fully removed Feb 2026).
+Automated daily podcast generation system running 5 shows via a unified
+`run_show.py` runner + per-show YAML configs, plus 4 legacy standalone scripts.
+All shows use **ElevenLabs TTS** and post to X/Twitter via
+`engine/publisher.post_to_x()`.
 
-| Show | Script | Schedule | X Account |
-|------|--------|----------|-----------|
-| Tesla Shorts Time | `digests/tesla_shorts_time.py` | Daily | `@teslashortstime` |
-| Omni View | `digests/omni_view.py` | Daily | `@omniviewnews` |
-| Fascinating Frontiers | `digests/fascinating_frontiers.py` | Daily | `@planetterrian` |
-| Planetterrian Daily | `digests/planetterrian.py` | Daily | `@planetterrian` |
+| Show | Legacy Script | YAML Config | Schedule | X Account |
+|------|--------------|-------------|----------|-----------|
+| Tesla Shorts Time | `digests/tesla_shorts_time.py` (~2650 lines) | `shows/tesla.yaml` | Daily | `@teslashortstime` |
+| Omni View | `digests/omni_view.py` (~1400 lines) | `shows/omni_view.yaml` | Daily | `@omniviewnews` |
+| Fascinating Frontiers | `digests/fascinating_frontiers.py` (~1730 lines) | `shows/fascinating_frontiers.yaml` | Daily | `@planetterrian` |
+| Planetterrian Daily | `digests/planetterrian.py` (~1660 lines) | `shows/planetterrian.yaml` | Daily | `@planetterrian` |
+| Env Intel | — (run_show.py only) | `shows/env_intel.yaml` | Daily | `@teslashortstime` |
+
+**Science That Changes Everything** (`digests/science_that_changes.py`, ~83 lines)
+is a standalone X-posting script, not a podcast show.
 
 ## Architecture
 
 ### Pipeline (per show, per run)
 
 1. **Fetch** news sources (RSS, xAI/Grok web search, yfinance for Tesla)
-2. **Generate** digest text via xAI/Grok API
-3. **Synthesize** podcast audio via ElevenLabs TTS
-4. **Mix** intro/outro music with voice (ffmpeg) — TST/PT/FF only, OV has no music
-5. **Post** X thread + update RSS feed + commit output to git
+2. **Dedup** via ContentTracker (cross-episode) + entity dedup
+3. **Generate** digest text via xAI/Grok API
+4. **Synthesize** podcast audio via ElevenLabs TTS
+5. **Mix** intro/outro music with voice (ffmpeg) — TST/PT/FF/EI, not OV
+6. **Post** X thread via `engine/publisher.post_to_x()` + update RSS feed + commit output to git
 
 ### Key Directories
 
 ```
 Tesla-shorts-time/
-├── digests/                    # Show runner scripts + ALL generated output
-│   ├── tesla_shorts_time.py    # ~4300 lines — the original, most complex
-│   ├── omni_view.py            # ~1800 lines — structurally different from others
-│   ├── fascinating_frontiers.py # ~2400 lines — near-identical twin of PT
-│   ├── planetterrian.py        # ~2400 lines — near-identical twin of FF
-│   ├── xai_grok.py             # Shared xAI/Grok API helper (112 lines)
-│   ├── summaries_*.json        # Per-show episode summaries for GitHub Pages
-│   ├── planetterrian/          # PT output subdirectory
-│   ├── fascinating_frontiers/  # FF output subdirectory
-│   └── *.mp3, *.md, *.txt     # TST + OV output (flat, mixed with source)
-├── engine/                     # Shared modules (refactoring in progress)
+├── run_show.py                    # Unified show runner (~716 lines)
+├── shows/                         # Per-show YAML configs
+│   ├── tesla.yaml
+│   ├── omni_view.yaml
+│   ├── fascinating_frontiers.yaml
+│   ├── planetterrian.yaml
+│   └── env_intel.yaml
+├── digests/                       # Legacy show scripts + ALL generated output
+│   ├── tesla_shorts_time.py       # ~2650 lines — the original, most complex
+│   ├── omni_view.py               # ~1400 lines — structurally different from others
+│   ├── fascinating_frontiers.py   # ~1730 lines — near-identical twin of PT
+│   ├── planetterrian.py           # ~1660 lines — near-identical twin of FF
+│   ├── science_that_changes.py    # ~83 lines — standalone X posting script
+│   ├── xai_grok.py                # Shared xAI/Grok API helper (~111 lines)
+│   ├── tesla_shorts_time/         # TST output + summaries_tesla.json
+│   ├── omni_view/                 # OV output + summaries_omni.json
+│   ├── fascinating_frontiers/     # FF output + summaries_space.json
+│   ├── planetterrian/             # PT output + summaries_planet.json
+│   ├── env_intel/                 # EI output + summaries_env_intel.json
+│   └── *.mp3, *.md, *.txt        # Legacy TST flat output (historical)
+├── engine/                        # Shared modules
 │   ├── __init__.py
-│   ├── utils.py                # Env helpers, text processing, similarity
-│   ├── tts.py                  # ElevenLabs TTS (auth, chunking, synthesis)
-│   └── audio.py                # Audio duration, format helpers
+│   ├── utils.py                   # Env helpers, text processing, similarity, dedup
+│   ├── tts.py                     # ElevenLabs TTS (auth, chunking, synthesis)
+│   ├── audio.py                   # mix_with_music, normalize_voice, duration helpers
+│   ├── publisher.py               # RSS feeds, X posting, GitHub Pages summaries, digest formatting
+│   ├── content_tracker.py         # Cross-episode dedup (per-show section patterns)
+│   ├── fetcher.py                 # RSS article fetching
+│   ├── generator.py               # LLM digest/podcast script generation
+│   ├── tracking.py                # Credit/usage tracking
+│   ├── config.py                  # YAML config loader
+│   ├── storage.py                 # Cloudflare R2 storage helpers
+│   ├── newsletter.py              # Email newsletter helpers
+│   └── validation.py              # Config validation
 ├── assets/
-│   └── pronunciation.py        # Shared TTS pronunciation fixes
-├── tests/                      # pytest suite
-├── .github/workflows/          # 4 daily cron workflows
-├── *.rss                       # Podcast RSS feeds (consumed by Apple/Spotify)
-├── *.html                      # GitHub Pages web players
-└── docs/                       # Audit docs, storage plan
+│   └── pronunciation.py           # Shared TTS pronunciation fixes
+├── tests/                         # pytest suite (627 tests)
+├── .github/workflows/
+│   └── run-show.yml               # Unified daily cron workflow (all shows)
+├── *.rss                          # Podcast RSS feeds (consumed by Apple/Spotify)
+├── *.html                         # GitHub Pages web players + summaries pages
+└── docs/                          # Audit docs, storage plan
 ```
 
 ### Script Relationships
@@ -56,9 +82,14 @@ Tesla-shorts-time/
 - **FF and PT** are "nearly identical twins" — same structure, same functions,
   different news topics and X account
 - **TST** shares most patterns with FF/PT but adds: complex pronunciation
-  fixes, content tracking, chunked TTS, yfinance stock data
+  fixes, content tracking, chunked TTS, yfinance stock data, TST-specific
+  emoji formatting via `engine.publisher.format_tst_digest_for_x()`
 - **OV** is structurally different — different TTS approach (no streaming, uses
   env vars for voice settings), no music mixing, simpler functions
+- **EI** runs exclusively via `run_show.py` + `shows/env_intel.yaml`; no legacy script
+- All shows delegate X posting to `engine.publisher.post_to_x()`
+- TST/FF/PT delegate voice normalization to `engine.audio.normalize_voice()`
+- TST delegates full music mixing to `engine.audio.mix_with_music()`
 
 ## Conventions
 
@@ -80,7 +111,7 @@ All RSS `<enclosure>` URLs use `raw.githubusercontent.com` pointing to files in
 ### Testing
 
 ```bash
-pytest                  # Run all tests (158 tests)
+pytest                  # Run all tests (627 tests)
 pytest tests/test_utils.py   # Pure function tests (AST extraction)
 pytest tests/test_rss.py     # RSS feed validation
 pytest tests/test_audio_commands.py  # ffmpeg command structure tests
@@ -99,48 +130,61 @@ Tests use AST extraction + `exec()` to load functions from show scripts because
 
 ## Current Refactoring Goal
 
-**Extract duplicated code from the 4 show scripts into `engine/` modules.**
+**Extract duplicated code from the show scripts into `engine/` modules.**
 
-Phase 1 (in progress):
+Phase 1 (complete):
 - `engine/utils.py` — `number_to_words`, `_env_float/int/bool`,
-  `calculate_similarity`, `remove_similar_items`
+  `calculate_similarity`, `remove_similar_items`, `deduplicate_by_entity`
 - `engine/tts.py` — `validate_elevenlabs_auth`, `speak`, `_speak_chunk`,
   `_chunk_text_for_elevenlabs`
-- `engine/audio.py` — `get_audio_duration`, `format_duration`
+- `engine/audio.py` — `get_audio_duration`, `format_duration`,
+  `mix_with_music`, `normalize_voice`
 
-Future phases: RSS management, X posting, content generation, music mixing.
+Phase 2 (complete):
+- `engine/publisher.py` — `update_rss_feed`, `get_next_episode_number`,
+  `save_summary_to_github_pages`, `post_to_x`, `format_digest_for_x`,
+  `format_tst_digest_for_x`, `apply_op3_prefix`
+- `engine/content_tracker.py` — `ContentTracker` with per-show section patterns
+  (TST, FF, PT, OV, EI)
+- `engine/fetcher.py` — `fetch_rss_articles`
+- `engine/generator.py` — `generate_digest`, `generate_podcast_script`
+- `engine/tracking.py` — `create_tracker`, `record_llm_usage`,
+  `record_tts_usage`, `record_x_post`, `save_usage`
+
+Future work: Migrate remaining inline code from legacy scripts to engine
+modules. Goal is for all shows to run via `run_show.py` + YAML configs.
 
 ## Known Landmines
 
 ### From Directory Audit (`docs/directory_audit.md`)
 
-1. **TST + OV dump output into `digests/` flat** — mixed with source code.
-   PT and FF already use subdirectories.
+1. **TST dumps output into `digests/` flat** — mixed with source code.
+   All other shows use subdirectories.
 2. **Legacy `digests/digests/` path bug** — 20 early Tesla files written to
    wrong nested directory. RSS still references them.
 3. **65 duplicate `_formatted.md` files** — Tesla-only, appear identical to
    plain `.md` versions.
-4. **Summaries JSONs at wrong level** — all 4 live at `digests/` top-level
-   instead of per-show subdirectories.
 
 ### From Env Var Audit (`docs/env_var_inventory.md`)
 
-5. **`NEWSAPI_KEY`** set in workflow but never used in code (dead secret).
-6. **OV feature flags are env-overridable** (`TEST_MODE`, `ENABLE_X_POSTING`,
+4. **`NEWSAPI_KEY`** set in workflow but never used in code (dead secret).
+5. **OV feature flags are env-overridable** (`TEST_MODE`, `ENABLE_X_POSTING`,
    etc.) but the other 3 shows hardcode them.
-7. **ElevenLabs tuning vars** (`ELEVENLABS_STABILITY`, etc.) only used by OV;
+6. **ElevenLabs tuning vars** (`ELEVENLABS_STABILITY`, etc.) only used by OV;
    TST/FF/PT hardcode their settings.
 
 ### From Audio Storage Plan (`docs/audio_storage_plan.md`)
 
-8. **2.2 GB of MP3s in git** — repo will hit GitHub's 10 GB limit within ~6
+7. **2.2 GB of MP3s in git** — repo will hit GitHub's 10 GB limit within ~6
    months at current growth. Cloudflare R2 migration recommended.
-9. **Git LFS breaks RSS** — `raw.githubusercontent.com` returns pointer files
+8. **Git LFS breaks RSS** — `raw.githubusercontent.com` returns pointer files
    for LFS-tracked content. Do NOT use LFS for MP3s.
 
 ### Recent Cleanup (Feb 2026)
 
-10. **Early episodes deleted** — first 20 Tesla, 10 FF, 10 PT, 10 OV episodes
-    removed (quality issues). RSS entries removed where applicable.
-11. **Chatterbox TTS fully removed** — ElevenLabs is the only TTS provider.
+9. **Early episodes deleted** — first 20 Tesla, 10 FF, 10 PT, 10 OV episodes
+   removed (quality issues). RSS entries removed where applicable.
+10. **Chatterbox TTS fully removed** — ElevenLabs is the only TTS provider.
     All Chatterbox code, requirements, docs, and voice prompt assets deleted.
+11. **Summaries JSONs moved** — all summaries live in per-show subdirectories
+    (`digests/<show>/summaries_*.json`), not at the `digests/` top level.

@@ -301,7 +301,7 @@
 
     async function loadEpisodes() {
       try {
-        const resp = await fetch('digests/summaries_space.json');
+        const resp = await fetch('digests/fascinating_frontiers/summaries_space.json');
         if (!resp.ok) throw new Error('JSON not found');
         const data = await resp.json();
         renderFromJSON(data.summaries || data);

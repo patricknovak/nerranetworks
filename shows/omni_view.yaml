@@ -135,7 +135,7 @@ publishing:
   guid_prefix: omni-view
   base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
   audio_subdir: digests
-  summaries_json: digests/summaries_omni.json
+  summaries_json: digests/omni_view/summaries_omni.json
   summaries_podcast_name: omni
   x_enabled: true
   x_env_prefix: "X_"

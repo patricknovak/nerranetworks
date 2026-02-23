@@ -128,7 +128,7 @@ publishing:
   guid_prefix: env-intel
   base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
   audio_subdir: digests/env_intel
-  summaries_json: digests/summaries_env_intel.json
+  summaries_json: digests/env_intel/summaries_env_intel.json
   summaries_podcast_name: env_intel
   player_html: env-intel.html
   summaries_html: env-intel-summaries.html

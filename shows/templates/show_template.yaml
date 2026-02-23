@@ -134,7 +134,7 @@ publishing:
   guid_prefix: "{slug}"
   base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
   audio_subdir: "digests/{slug}"
-  summaries_json: "digests/summaries_{slug}.json"
+  summaries_json: "digests/{slug}/summaries_{slug}.json"
   summaries_podcast_name: "{slug}"
   player_html: "{slug}.html"
   summaries_html: "{slug}-summaries.html"
