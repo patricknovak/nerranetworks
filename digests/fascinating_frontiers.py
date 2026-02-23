@@ -49,6 +49,8 @@ from engine.publisher import (
     generate_episode_thumbnail as _engine_generate_thumbnail,
 )
 from engine.tracking import create_tracker, record_llm_usage, record_tts_usage, record_x_post, save_usage
+from engine.content_tracker import ContentTracker, FF_SECTION_PATTERNS
+from engine.utils import deduplicate_by_entity, is_low_news_day
 
 # ========================== LOGGING ==========================
 logging.basicConfig(
@@ -614,6 +616,18 @@ def select_best_space_news(articles, max_articles=12):
 
 space_news, raw_news_articles = fetch_space_news()
 
+# --- Cross-episode content tracking ---
+_ff_tracker = ContentTracker("fascinating_frontiers", digests_dir)
+_ff_tracker.load()
+
+# Entity-level dedup: cap articles to max 2 per primary entity (e.g. Crew-12)
+space_news = deduplicate_by_entity(space_news, max_per_entity=2)
+
+# Cross-episode dedup: drop articles too similar to recently covered stories
+space_news = _ff_tracker.filter_recent_articles(space_news, similarity_threshold=0.65, days=3)
+
+logging.info(f"After cross-episode + entity dedup: {len(space_news)} articles remain")
+
 # ========================== STEP 2: FETCH TOP X POSTS FROM X API ==========================
 # X POSTS DISABLED - Only using news articles
 # Initialize variables
@@ -865,6 +879,10 @@ else:
 # X POSTS DISABLED - No X posts section
 x_posts_section = ""
 
+# Generate content tracking summary for the prompt
+_ff_article_count = len(space_news) if space_news else 0
+_ff_used_content = _ff_tracker.get_summary_for_prompt()
+
 X_PROMPT = f"""
 # Fascinating Frontiers - SPACE & ASTRONOMY EDITION
 **Date:** {today_str}
@@ -872,6 +890,10 @@ X_PROMPT = f"""
 {news_section}
 
 You are an elite space and astronomy news curator producing the daily "Fascinating Frontiers" newsletter. Use ONLY the pre-fetched news articles above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. Do NOT include any X posts or Twitter references.
+
+You have {_ff_article_count} quality articles to work with today.
+
+{_ff_used_content}
 
 **BRAND PERSONALITY:**
 - Fascinating Frontiers: Daily space and astronomy news digest
@@ -881,32 +903,32 @@ You are an elite space and astronomy news curator producing the daily "Fascinati
 - Focus: Latest space missions, astronomy discoveries, cosmic phenomena, and space technology breakthroughs
 
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
-- **News**: You MUST select EXACTLY 15 unique articles. If you have fewer than 15 available, use ALL of them and number them 1 through N. If you have more than 15, select the BEST 15. Prioritize high-quality sources; each must cover a DIFFERENT story/angle.
-- **Curation**: Prefer concrete mission updates, discoveries, research results, and instrument/launch milestones. Avoid “year in review”, listicles, awards, or opinion pieces unless you truly cannot fill 15 without them.
+- **News**: Select the best unique articles from the pre-fetched list. Use up to 15 if available. If fewer than 15 exist, use ALL of them. Each must cover a DIFFERENT story/angle.
+- **Curation**: Prefer concrete mission updates, discoveries, research results, and instrument/launch milestones. Avoid "year in review", listicles, awards, or opinion pieces unless you truly cannot fill without them.
 - **NO X POSTS**: Do NOT include any X posts, Twitter posts, or social media references. Only use news articles.
-- **Diversity Check**: Verify no similar content; each item must cover a DIFFERENT angle.
+- **Diversity Check**: Verify no two items cover the same event, entity, or mission from different sources. Each item must be a genuinely DIFFERENT story.
 
 ### FORMATTING (EXACT—USE MARKDOWN AS SHOWN)
 # Fascinating Frontiers
 **Date:** {today_str}
 🚀 **Fascinating Frontiers** - Space & Astronomy News
 
-**Quick scan:** 1 short sentence theme + “If you only read 3 today: #A, #B, #C.”
+**Quick scan:** 1 short sentence theme + "If you only read 3 today: #A, #B, #C."
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Space & Astronomy Stories
-1. **Title (<= 12 words): DD Month YYYY • Source Name**  
+1. **Title (<= 12 words): DD Month YYYY • Source Name**
    2 sentences max. Sentence 1: what happened (specific + concrete). Sentence 2: why it matters for space exploration/astronomy/our understanding of the cosmos. Avoid filler.
    Source: [EXACT URL FROM PRE-FETCHED—no mods]
-2. [Repeat format for 3-15; if <15 items, stop at available count, add a blank line after each item]
+2. [Repeat format for remaining items; output as many quality items as available up to 15, add a blank line after each item]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Cosmic Spotlight
-Pick ONE item from the Top 15 and go deeper (3–5 sentences). Make it vivid but grounded: what it reveals, how we know, and what could come next. End with ONE question to invite replies.
+Pick ONE item from the Top stories and go deeper (3–5 sentences). Make it vivid but grounded: what it reveals, how we know, and what could come next. IMPORTANT: Choose a DIFFERENT topic area than recent Cosmic Spotlights (avoid Mars if it was featured recently). End with ONE question to invite replies.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Daily Inspiration
-One inspiring quote about space, exploration, astronomy, or the cosmos. End with: "Share your thoughts with us!"
+One inspiring quote about space, exploration, astronomy, or the cosmos from a DIFFERENT author than recently used. End with: "Share your thoughts with us!"
 
 [1-2 sentence uplifting sign-off on space exploration, cosmic discoveries, and humanity's journey to the stars. Keep it punchy.]
 
@@ -971,6 +993,10 @@ for line in x_thread.splitlines():
         break
     lines.append(line)
 x_thread = "\n".join(lines).strip()
+
+# Record episode content in the tracker for future cross-episode dedup
+_ff_tracker.record_episode(x_thread, FF_SECTION_PATTERNS)
+_ff_tracker.save()
 
 # Save X thread
 x_path = digests_dir / f"Fascinating_Frontiers_{datetime.date.today():%Y%m%d}.md"
@@ -1045,7 +1071,7 @@ Host: Welcome to Fascinating Frontiers, episode {episode_num}. It is {today_str}
 Host: Quick scan before we dive in—three stories to watch today, then we'll go through the full list in order.
 
 [Narrate EVERY item from the digest in order - no skipping]
-- For each news item: Read the title with energy, then summarize in 2–4 lines: what happened, why it matters, and one "what to watch next" angle
+- For each news item: Read the title with energy, then summarize in 2–4 lines: what happened and why it matters. VARY the closing angle for each item — do NOT repeat "what to watch next" or any single phrase. Instead, alternate between: a forward-looking implication, a surprising connection to another field, a historical comparison, a practical impact, or simply ending with the significance. Each item should feel distinct in its delivery.
 - Cosmic Spotlight: Explain why this breakthrough represents the cutting edge of space exploration
 - Daily Inspiration: Read the quote verbatim, add one encouraging sentence
 

@@ -8,6 +8,7 @@ Canonical versions chosen for robustness:
   - norm_headline_for_similarity / filter_articles_by_recent_stories: from TST
 """
 
+import datetime
 import logging
 import os
 import re
@@ -117,8 +118,10 @@ def number_to_words(num: float) -> str:
     else:
         result = str(integer_part)
 
-    # Decimal portion
+    # Decimal portion — round to 2 decimal places to prevent floating-point
+    # precision artifacts (e.g. 1.4299999999 from 1.43)
     if decimal_part > 0:
+        decimal_part = round(decimal_part, 2)
         decimal_str = f"{decimal_part:.10f}".rstrip("0").rstrip(".")
         if "." in decimal_str:
             decimal_digits = decimal_str.split(".")[1]
@@ -257,6 +260,136 @@ def filter_articles_by_recent_stories(
             dropped,
         )
     return filtered
+
+
+# ---------------------------------------------------------------------------
+# Entity-level deduplication
+# ---------------------------------------------------------------------------
+
+def extract_primary_entity(title: str, description: str = "") -> str:
+    """Extract the primary subject/entity from a headline.
+
+    Uses simple NLP heuristics: the first 2-3 word capitalised phrase in the
+    title (proper nouns / named entities).  Good enough to catch
+    "Crew Dragon", "SpaceX Starship", "Palestine Action", etc.
+    """
+    if not title:
+        return ""
+    # Remove source labels and dates at the end
+    clean = re.sub(r"\d{1,2}\s+\w+\s+\d{4}.*$", "", title).strip()
+    # Find capitalised runs of 1-2 words (proper nouns / named entities)
+    runs = re.findall(r"(?:[A-Z][a-z]+(?:[-\s][A-Z][a-z]+){0,1})", clean)
+    if not runs:
+        # Fallback: try uppercase segments (acronyms like "USSF-87")
+        runs = re.findall(r"[A-Z][A-Z0-9-]{2,}", clean)
+    if not runs:
+        return clean[:40]
+    # Prefer runs of 2+ words for specificity; fall back to longest single-word run
+    multi_word = [r for r in runs if " " in r or "-" in r]
+    if multi_word:
+        return multi_word[0]
+    return runs[0]
+
+
+def deduplicate_by_entity(
+    articles: list,
+    max_per_entity: int = 2,
+    entity_similarity_threshold: float = 0.70,
+) -> list:
+    """Limit articles to max_per_entity per primary entity.
+
+    If 6 articles all cover "Crew-12", only the 2 most distinct survive.
+    Also deduplicates by URL.
+    """
+    if not articles:
+        return articles
+
+    # URL dedup first
+    seen_urls: set = set()
+    url_deduped = []
+    for article in articles:
+        url = (article.get("url") or article.get("link") or "").strip()
+        if url and url in seen_urls:
+            logger.debug("Dropping duplicate URL: %s", url[:60])
+            continue
+        if url:
+            seen_urls.add(url)
+        url_deduped.append(article)
+
+    # Entity-level dedup
+    entity_counts: dict = {}
+    filtered = []
+    for article in url_deduped:
+        title = article.get("title", "")
+        desc = article.get("description", "")
+        entity = extract_primary_entity(title, desc)
+        if not entity:
+            filtered.append(article)
+            continue
+
+        # Check against existing entities
+        matched_entity = None
+        for existing_entity in entity_counts:
+            if calculate_similarity(entity.lower(), existing_entity.lower()) >= entity_similarity_threshold:
+                matched_entity = existing_entity
+                break
+
+        if matched_entity:
+            if entity_counts[matched_entity] < max_per_entity:
+                entity_counts[matched_entity] += 1
+                filtered.append(article)
+            else:
+                logger.debug(
+                    "Capping entity '%s' (already %d articles): %s",
+                    matched_entity, entity_counts[matched_entity], title[:60],
+                )
+        else:
+            entity_counts[entity] = 1
+            filtered.append(article)
+
+    dropped = len(url_deduped) - len(filtered)
+    if dropped:
+        logger.info(
+            "Entity-level dedup removed %d articles (max %d per entity)",
+            dropped, max_per_entity,
+        )
+    return filtered
+
+
+# ---------------------------------------------------------------------------
+# Weekend / low-news detection
+# ---------------------------------------------------------------------------
+
+def is_low_news_day() -> bool:
+    """Check if today is likely a low-news day (weekend or major holiday)."""
+    today = datetime.date.today()
+    # Weekend
+    if today.weekday() >= 5:
+        return True
+    # Major US/Canadian holidays (approximate)
+    month_day = (today.month, today.day)
+    major_holidays = {
+        (1, 1),   # New Year's Day
+        (7, 1),   # Canada Day
+        (7, 4),   # US Independence Day
+        (12, 25), # Christmas
+        (12, 26), # Boxing Day
+    }
+    return month_day in major_holidays
+
+
+def adaptive_cutoff_hours(articles: list, base_hours: int = 24) -> int:
+    """Expand the cutoff window if too few articles were found.
+
+    Returns the final cutoff_hours that yielded enough articles, or 72 max.
+    """
+    if len(articles) >= 5:
+        return base_hours
+    if base_hours < 48:
+        return 48
+    if base_hours < 72:
+        return 72
+    return base_hours
 
 
 # ---------------------------------------------------------------------------

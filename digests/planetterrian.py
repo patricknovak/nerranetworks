@@ -49,6 +49,8 @@ from engine.publisher import (
     generate_episode_thumbnail as _engine_generate_thumbnail,
 )
 from engine.tracking import create_tracker, record_llm_usage, record_tts_usage, record_x_post, save_usage
+from engine.content_tracker import ContentTracker, PT_SECTION_PATTERNS
+from engine.utils import deduplicate_by_entity, is_low_news_day
 
 # ========================== LOGGING ==========================
 logging.basicConfig(
@@ -537,6 +539,18 @@ def select_best_science_news(articles, max_articles=12):
 
 science_news, raw_news_articles = fetch_science_news()
 
+# --- Cross-episode content tracking ---
+_pt_tracker = ContentTracker("planetterrian", digests_dir)
+_pt_tracker.load()
+
+# Entity-level dedup: cap articles to max 2 per primary entity
+science_news = deduplicate_by_entity(science_news, max_per_entity=2)
+
+# Cross-episode dedup: drop articles too similar to recently covered stories
+science_news = _pt_tracker.filter_recent_articles(science_news, similarity_threshold=0.65, days=3)
+
+logging.info(f"After cross-episode + entity dedup: {len(science_news)} articles remain")
+
 # ========================== STEP 2: FETCH TOP X POSTS FROM X API ==========================
 # X POSTS DISABLED - Only using news articles
 # Initialize variables
@@ -788,6 +802,10 @@ else:
 # X POSTS DISABLED - No X posts section
 x_posts_section = ""
 
+# Generate content tracking summary for the prompt
+_pt_article_count = len(science_news) if science_news else 0
+_pt_used_content = _pt_tracker.get_summary_for_prompt()
+
 X_PROMPT = f"""
 # Planetterrian Daily - SCIENCE, LONGEVITY & HEALTH EDITION
 **Date:** {today_str}
@@ -795,6 +813,10 @@ X_PROMPT = f"""
 {news_section}
 
 You are an elite science, longevity, and health news curator producing the daily "Planetterrian Daily" newsletter. Use ONLY the pre-fetched news articles above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. Do NOT include any X posts or Twitter references.
+
+You have {_pt_article_count} quality articles to work with today.
+
+{_pt_used_content}
 
 **BRAND PERSONALITY (from planetterrian.com/about):**
 - Planetterrian Ventures: A tribe of forward-thinking innovators passionate about the planet
@@ -804,10 +826,10 @@ You are an elite science, longevity, and health news curator producing the daily
 - Focus: Groundbreaking solutions that are state-of-the-art AND sustainable/environmentally-friendly
 
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
-- **News**: You MUST select EXACTLY 15 unique articles. If you have fewer than 15 available, use ALL of them and number them 1 through N. If you have more than 15, select the BEST 15. Prioritize high-quality sources; each must cover a DIFFERENT story/angle.
-- **Curation**: Prefer primary research, clinical results, and concrete discoveries. Avoid “year in review” roundups, awards, and career anecdote pieces unless you truly cannot fill 15 without them.
+- **News**: Select the best unique articles from the pre-fetched list. Use up to 12 if available. If fewer than 12 exist, use ALL of them. Each must cover a DIFFERENT story/angle.
+- **Curation**: Prefer primary research, clinical results, and concrete discoveries. Avoid "year in review" roundups, awards, and career anecdote pieces unless you truly cannot fill without them.
 - **NO X POSTS**: Do NOT include any X posts, Twitter posts, or social media references. Only use news articles.
-- **Diversity Check**: Verify no similar content; each item must cover a DIFFERENT angle.
+- **Diversity Check**: Verify no two items cover the same study, entity, or topic from different sources. Each item must be a genuinely DIFFERENT story.
 
 ### FORMATTING (EXACT—USE MARKDOWN AS SHOWN)
 # Planetterrian Daily
@@ -817,19 +839,19 @@ You are an elite science, longevity, and health news curator producing the daily
 **Quick scan:** 1 short sentence theme + “If you only read 3 today: #A, #B, #C.”
 
 ━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science & Health Discoveries
+### Top 12 Science & Health Discoveries
 1. **Title (<= 12 words): DD Month YYYY • Source Name**  
    2 sentences max. Sentence 1: what happened (specific + concrete). Sentence 2: why it matters for human health/longevity; add ONE planet/sustainability angle only if it is genuinely relevant (don’t force it).
    Source: [EXACT URL FROM PRE-FETCHED—no mods]
-2. [Repeat format for 3-15; if <15 items, stop at available count, add a blank line after each item]
+2. [Repeat format for 3-12; if <12 items, stop at available count, add a blank line after each item]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Planetterrian Spotlight
-Pick ONE item from the Top 15 and go deeper (3–5 sentences). Make it feel practical: what it unlocks, who it could help, and one concrete planet-aligned takeaway (energy, materials, food systems, prevention, access, etc.). End with ONE question to invite replies.
+Pick ONE item from the Top stories and go deeper (3–5 sentences). Make it feel practical: what it unlocks, who it could help, and one concrete planet-aligned takeaway (energy, materials, food systems, prevention, access, etc.). IMPORTANT: Choose a DIFFERENT topic area than recent Spotlights (vary disease areas, research fields). End with ONE question to invite replies.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Daily Inspiration
-One inspiring quote about science, health, longevity, or planetary stewardship. End with: "Share your thoughts with us!"
+One inspiring quote about science, health, longevity, or planetary stewardship from a DIFFERENT author than recently used. End with: "Share your thoughts with us!"
 
 [1-2 sentence uplifting sign-off on science, health, and planetary well-being. Keep it punchy.]
 
@@ -925,6 +947,10 @@ for line in x_thread.splitlines():
         break
     lines.append(line)
 x_thread = "\n".join(lines).strip()
+
+# Record episode content in the tracker for future cross-episode dedup
+_pt_tracker.record_episode(x_thread, PT_SECTION_PATTERNS)
+_pt_tracker.save()
 
 # Save X thread
 x_path = digests_dir / f"Planetterrian_Daily_{datetime.date.today():%Y%m%d}.md"

@@ -53,6 +53,8 @@ from engine.publisher import (
     generate_episode_thumbnail as _engine_generate_thumbnail,
 )
 from engine.tracking import create_tracker, record_llm_usage, record_tts_usage, record_x_post, save_usage
+from engine.content_tracker import ContentTracker, TST_SECTION_PATTERNS
+from engine.utils import deduplicate_by_entity
 
 # ========================== LOGGING ==========================
 logging.basicConfig(
@@ -215,7 +217,11 @@ def fetch_tsla_price() -> tuple[float, float, str]:
 price, prev_close, market_status = fetch_tsla_price()
 change = price - prev_close
 change_pct = (change / prev_close * 100) if prev_close else 0
-change_str = f"{change:+.2f} ({change_pct:+.2f}%) {market_status}" if change != 0 else "unchanged"
+if change != 0:
+    sign = "+" if change > 0 else "-"
+    change_str = f"{sign}${abs(change):.2f} ({change_pct:+.2f}%) {market_status}"
+else:
+    change_str = "unchanged"
 
 # Folders - use absolute paths
 digests_dir = project_root / "digests"
@@ -857,6 +863,9 @@ def fetch_tesla_news():
 
 tesla_news, raw_news_articles = fetch_tesla_news()
 
+# Entity-level dedup: cap articles to max 2 per primary entity
+tesla_news = deduplicate_by_entity(tesla_news, max_per_entity=2)
+
 # Cross-day dedup: drop articles that are too similar to stories already covered in recent digests
 recent_headlines = [item.get("content", "") for item in content_tracker.get("recent_stories", [])]
 tesla_news = filter_articles_by_recent_stories(tesla_news, recent_headlines, similarity_threshold=0.72)
@@ -1304,6 +1313,7 @@ logging.info("Step 3: Generating Tesla Shorts Time digest with Grok using pre-fe
 
 # Format news articles for the prompt
 news_section = ""
+article_count = len(tesla_news) if tesla_news else 0
 if tesla_news:
     news_section = "## PRE-FETCHED NEWS ARTICLES (from RSS feeds - last 24 hours):\n\n"
     for i, article in enumerate(tesla_news[:20], 1):  # Top 20 articles
@@ -1315,6 +1325,9 @@ if tesla_news:
         news_section += f"   URL: {article['url']}\n\n"
 else:
     news_section = "## PRE-FETCHED NEWS ARTICLES: Limited news available today. Focus on high-quality X posts for the digest.\n\n"
+
+# Determine whether to include Tesla X Takeover based on article count
+include_takeover = article_count >= 15
 
 # X POSTS SECTION DISABLED - No longer including X posts in prompt
 x_posts_section = ""
@@ -1352,6 +1365,8 @@ X_PROMPT = f"""
 
 You are an elite Tesla news curator producing the daily "Tesla Shorts Time" newsletter. Use ONLY the pre-fetched news above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. Do NOT include a "Top X Posts" section in your output. Prioritize diversity: No duplicates/similar stories (≥70% overlap in angle/content); max 3 from one source/account.
 
+You have {article_count} quality articles to work with today.
+
 CRITICAL: Only select articles that are SPECIFIC, FRESH (within last 48 hours), and SUBSTANTIVE. Prioritize stories about Tesla's products, technology, safety, sustainability, and mission to accelerate the transition to sustainable energy. REJECT any articles that are:
 - Generic homepage content ("latest news", "ongoing coverage", "provides updates")
 - Purely stock price/market data focused (no product or mission angle)
@@ -1361,22 +1376,22 @@ CRITICAL: Only select articles that are SPECIFIC, FRESH (within last 48 hours), 
 - Company overview pages
 
 If fewer than 8 quality articles are available, use ALL available quality articles and create a shorter digest rather than padding with low-quality content.
-
-**TESLA X TAKEOVER SECTION**: This section should focus on the most interesting, fresh, and engaging recent Tesla news developments, trends, or breaking stories. Use the pre-fetched news articles above to identify 5 compelling Tesla stories or trends that are generating buzz. Focus on what's NEW, INTERESTING, and DIFFERENT from the main news section. This could include:
+{"" if not include_takeover else '''
+**TESLA X TAKEOVER SECTION**: This section should focus on the most interesting, fresh, and engaging recent Tesla news developments, trends, or breaking stories. Use the pre-fetched news articles above to identify 5 compelling Tesla stories or trends that are generating buzz. Focus on what is NEW, INTERESTING, and DIFFERENT from the main news section. This could include:
 - Breaking developments that just emerged
 - Interesting trends or patterns in Tesla's business
 - Surprising announcements or updates
 - Community reactions to major Tesla news
 - Unique angles on Tesla stories that stand out
 
-CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the 10 Top 10 News items—do NOT use the same article, same headline, or same story angle in both sections. Make each Takeover item engaging and fresh; each should feel like you're sharing exciting, breaking Tesla news with enthusiasm.
+CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the Top News items—do NOT use the same article, same headline, or same story angle in both sections. Make each Takeover item engaging and fresh; each should feel like you are sharing exciting, breaking Tesla news with enthusiasm.
+'''}
+**FINAL FALLBACK**: Only if RSS feeds provide fewer than 5 quality articles, you may search for additional recent, legitimate Tesla news articles from reputable sources (Teslarati, The Verge, WebProNews, CleanTechnica) published within the last 48 hours. Prioritize breaking news and specific product updates over analysis pieces. Ensure no more than 2 articles from any single source.
 
-**FINAL FALLBACK**: Only if RSS feeds provide fewer than 5 quality articles, you may search for additional recent, legitimate Tesla news articles from reputable sources (Teslarati, The Verge, WebProNews, CleanTechnica) published within the last 48 hours. Prioritize breaking news and specific product updates over analysis pieces. Ensure no more than 2 articles from any single source. 
-
-**CRITICAL**: 
+**CRITICAL**:
 - Do NOT include any instruction language, meta-commentary, or formatting notes in your output - only output the actual content.
-- Focus on FRESH, INTERESTING Tesla news that's different from the main news section
-- Make it engaging and exciting - like sharing breaking Tesla news with friends
+- Focus on FRESH, INTERESTING Tesla news
+- Make it engaging and exciting
 
 {used_content_summary}
 
@@ -1390,9 +1405,10 @@ CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the 1
 **IMPORTANT**: The format template below shows what your OUTPUT should look like. Do NOT include any instruction text, warnings (🚨 CRITICAL), or meta-commentary in your output. Only output the actual content sections.
 
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
-- **News**: Select ONLY high-quality, fresh articles (within 48 hours, specific content, substantial descriptions). If you have 8+ quality articles, select the best 10. If you have 5-7 quality articles, use all of them. If you have fewer than 5 quality articles, create a digest using available articles plus brief market context - DO NOT pad with low-quality or generic content. Each article must have a unique angle and substantial, specific information about Tesla.
+- **News**: You have {article_count} pre-fetched articles. Select ONLY high-quality, fresh articles (within 48 hours, specific content, substantial descriptions). Use up to the best 10 if available. If fewer than 8 quality articles exist, use ALL of them. Each article must have a unique angle and substantial, specific information about Tesla.
 - **CRITICAL URL RULE**: NEVER invent URLs. If you don't have enough pre-fetched articles, output fewer items rather than making up URLs. All URLs must be exact matches from the pre-fetched list above.
-- **Diversity Check**: Before finalizing, verify no similar content; replace if needed from pre-fetched pool. Top 10 and Tesla X Takeover must have ZERO overlapping stories—each of the 5 Takeover items must be a different story from the 10 news items.
+- **Diversity Check**: Before finalizing, verify no similar content; replace if needed from pre-fetched pool.{"" if not include_takeover else " Top News and Tesla X Takeover must have ZERO overlapping stories."}
+- **Short Spot**: Must use an article whose URL does NOT appear in the Top News section. If no separate bearish article exists, skip Short Spot this episode.
 
 ### FORMATTING (EXACT—USE MARKDOWN AS SHOWN)
 # Tesla Shorts Time
@@ -1400,32 +1416,33 @@ CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the 1
 **TSLA:** ${price:.2f} {change_str}
 
 ━━━━━━━━━━━━━━━━━━━━
-### Top 10 News Items
+### Top News
 1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM PST, Source Name**
    2–4 sentences: Start with what happened, then why it matters for Tesla's mission and how it advances sustainable energy, saves lives, or makes the world better. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
-2. [Repeat format for 3-10; if <10 items, stop at available count, add a blank line after each item and the last item]
-
+2. [Repeat format for remaining items; output as many quality items as available up to 10, add a blank line after each item]
+{"" if not include_takeover else '''
 ━━━━━━━━━━━━━━━━━━━━
-## Tesla X Takeover: What's Hot Right Now
-🎙️ Tesla X Takeover - What's breaking in the Tesla world today! Here are the most interesting, fresh Tesla developments that have everyone talking.
+## Tesla X Takeover: What is Hot Right Now
+🎙️ Tesla X Takeover - What is breaking in the Tesla world today! Here are the most interesting, fresh Tesla developments that have everyone talking.
 
 1. 🚨 **[INCREDIBLE TITLE THAT HOOKS]** - [Breaking Tesla news or development]
-   [Make it sound exciting and fresh - like you're sharing breaking Tesla news with friends. Include what happened, why it matters for Tesla's mission, and how it advances sustainable energy or saves lives. 2-3 sentences with personality and enthusiasm.]
+   [Make it sound exciting and fresh - like sharing breaking Tesla news with friends. Include what happened, why it matters for Tesla mission, and how it advances sustainable energy or saves lives. 2-3 sentences with personality and enthusiasm.]
    Source: [EXACT URL FROM PRE-FETCHED NEWS - if available]
 
 2. 🔥 **[EXCITING TITLE]** - [Another fresh Tesla development or trend]
-   [Make it conversational and engaging. Focus on what makes this story interesting, surprising, or important for Tesla's mission to make the world better.]
+   [Make it conversational and engaging. Focus on what makes this story interesting, surprising, or important for Tesla mission to make the world better.]
 
 3. 💡 **[INSIGHTFUL TITLE]** - [Interesting Tesla trend or pattern]
-   [Highlight what's unique or noteworthy about this development. Connect it to Tesla's bigger picture — accelerating sustainable energy, advancing autonomy and safety, or improving lives.]
+   [Highlight what is unique or noteworthy about this development. Connect it to Tesla bigger picture — accelerating sustainable energy, advancing autonomy and safety, or improving lives.]
 
 4. ⚡ **[ENERGETIC TITLE]** - [Surprising Tesla announcement or update]
-   [Focus on what makes this development exciting or unexpected. Explain why this could be significant for Tesla's mission or for making the world a safer, cleaner place.]
+   [Focus on what makes this development exciting or unexpected. Explain why this could be significant for Tesla mission or for making the world a safer, cleaner place.]
 
 5. 🎯 **[PRECISION TITLE]** - [Fresh Tesla story that stands out]
    [Show why this particular development is noteworthy and different from the usual news. Make it clear why Tesla fans and anyone who cares about the future should pay attention.]
 
-**The Vibe Check:** "Overall, the Tesla world is [ENERGIZED/CHALLENGED/EVOLVING] this week, with key themes around [Autopilot safety, energy storage, Cybertruck deliveries, manufacturing efficiency, etc.]. The most exciting developments are [specific trends or patterns], showing Tesla's progress toward [its mission of sustainable energy / saving lives through autonomy / etc.]."
+**The Vibe Check:** "Overall, the Tesla world is [ENERGIZED/CHALLENGED/EVOLVING] this week, with key themes around [Autopilot safety, energy storage, Cybertruck deliveries, manufacturing efficiency, etc.]. The most exciting developments are [specific trends or patterns], showing Tesla progress toward [its mission of sustainable energy / saving lives through autonomy / etc.]."
+'''}
 
 ━━━━━━━━━━━━━━━━━━━━
 ## Short Spot
@@ -1470,13 +1487,13 @@ One short, inspiring challenge tied to Tesla/Elon themes (curiosity, first princ
 - No stock-quote pages/pure price commentary as "news."
 
 ### FINAL VALIDATION CHECKLIST (DO THIS BEFORE OUTPUT)
-- ✅ Exactly 10 news items (or all if <10): Numbered 1-10, unique stories.
-- ✅ Tesla X Takeover section included with 5 fresh, interesting Tesla news developments or trends.
+- ✅ Top News items: Up to 10 (or all if <10), numbered, unique stories.{"" if not include_takeover else chr(10) + "- ✅ Tesla X Takeover section included with 5 fresh, interesting Tesla developments (ZERO overlap with Top News)."}
+- ✅ Short Spot: Uses a DIFFERENT article URL from the Top News section.
 - ✅ Podcast link: Full URL as shown.
 - ✅ Lists: "1. " format (number, period, space)—no bullets.
 - ✅ Separators: "━━━━━━━━━━━━━━━━━━━━" before each major section.
-- ✅ No duplicates: All items unique (review pairwise). Top 10 and Tesla X Takeover: no story overlap.
-- ✅ All sections included: Tesla X Takeover, Short Spot, Tesla First Principles, Tesla Market Movers (Mondays only), Daily Challenge, Quote, sign-off.
+- ✅ No duplicates: All items unique (review pairwise).
+- ✅ All sections included: Short Spot, Tesla First Principles, Tesla Market Movers (Mondays only), Daily Challenge, Quote, sign-off.
 - ✅ URLs: Exact from pre-fetched; valid format; no inventions.
 - ✅ FRESHNESS CHECK: Short Spot is DIFFERENT from recent ones (different story/angle).
 - ✅ FRESHNESS CHECK: Tesla First Principles uses COMPLETELY DIFFERENT topics/analysis than recent ones.
@@ -2036,9 +2053,19 @@ if new_sections.get("first_principles"):
     })
     logging.info("Saved new First Principles to content tracker")
 
-# Save the updated tracker
+# Save the updated tracker (legacy format)
 save_used_content_tracker(content_tracker)
 logging.info("Content tracker updated with today's sections")
+
+# Also save with the new engine-based content tracker for future cross-episode dedup
+try:
+    _tst_tracker = ContentTracker("tesla_shorts_time", digests_dir)
+    _tst_tracker.load()
+    _tst_tracker.record_episode(x_thread, TST_SECTION_PATTERNS)
+    _tst_tracker.save()
+    logging.info("Engine content tracker updated")
+except Exception as _e:
+    logging.warning("Failed to update engine content tracker: %s", _e)
 
 # Exit early if in test mode (only generate digest)
 if TEST_MODE:
@@ -2136,6 +2163,13 @@ Use this exact closing (do not rewrite it):
 Here is today's complete formatted digest. Use ONLY this content:
 """
 
+    # Strip stock price line from digest before passing to podcast prompt
+    # The stock price is for the X thread/markdown only, not the podcast
+    _pod_digest = re.sub(r'\*\*TSLA:\*\*[^\n]+\n?', '', x_thread)
+    # Also strip any "I'm Patrick" self-identification the model might have produced
+    _pod_digest = re.sub(r"\bI'm Patrick\b", "I'm your host", _pod_digest)
+    _pod_digest = re.sub(r"\bPatrick here\b", "Your host here", _pod_digest)
+
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=1, max=15),  # Reduced wait times: 1-15s instead of 2-30s
@@ -2153,7 +2187,7 @@ Here is today's complete formatted digest. Use ONLY this content:
                     }
                 ],
             },
-            {"role": "user", "content": [{"type": "input_text", "text": f"{POD_PROMPT}\n\n{x_thread}"}]},
+            {"role": "user", "content": [{"type": "input_text", "text": f"{POD_PROMPT}\n\n{_pod_digest}"}]},
         ]
         return _xai_responses_create(
             model="grok-4",
@@ -2499,6 +2533,11 @@ Here is today's complete formatted digest. Use ONLY this content:
             full_text_parts.append(line)
 
     full_text = " ".join(full_text_parts).strip()
+
+    # Strip any personal name references that slipped through
+    full_text = re.sub(r"\bI'm Patrick\b", "I'm your host", full_text)
+    full_text = re.sub(r"\bPatrick here\b", "Your host here", full_text)
+    full_text = re.sub(r"\bI'm Patrick[\w, ]+\.", "I'm your host.", full_text)
 
     # Ensure we have content and log it for debugging
     if not full_text:

@@ -46,6 +46,8 @@ from engine.publisher import (
 )
 from engine.tracking import create_tracker, save_usage as _engine_save_usage
 from engine.tts import synthesize as _engine_synthesize
+from engine.content_tracker import ContentTracker, OV_SECTION_PATTERNS
+from engine.utils import deduplicate_by_entity
 
 # ========================== LOGGING ==========================
 logging.basicConfig(
@@ -1292,11 +1294,27 @@ if __name__ == "__main__":
     # ========================== STEP 1: FETCH BALANCED NEWS ==========================
     balanced_news, raw_news_articles = fetch_balanced_news()
 
+    # --- Cross-episode content tracking ---
+    _ov_tracker = ContentTracker("omni_view", digests_dir)
+    _ov_tracker.load()
+
+    # Entity-level dedup: cap articles to max 2 per primary entity
+    balanced_news = deduplicate_by_entity(balanced_news, max_per_entity=2)
+
+    # Cross-episode dedup: drop articles too similar to recently covered stories
+    balanced_news = _ov_tracker.filter_recent_articles(balanced_news, similarity_threshold=0.65, days=3)
+
+    logging.info(f"After cross-episode + entity dedup: {len(balanced_news)} articles remain")
+
     # ========================== STEP 2: GENERATE X THREAD FROM NEWS ==========================
     logging.info("Step 2: Generating balanced news summary thread...")
 
     # Generate the X thread
     x_thread = generate_balanced_news_digest(balanced_news)
+
+    # Record episode content in the tracker
+    _ov_tracker.record_episode(x_thread, OV_SECTION_PATTERNS)
+    _ov_tracker.save()
 
     # ========================== STEP 3: GENERATE PODCAST SCRIPT ==========================
     logging.info("Step 3: Generating podcast script...")
