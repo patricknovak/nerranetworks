@@ -143,7 +143,7 @@ publishing:
   guid_prefix: fascinating-frontiers
   base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
   audio_subdir: digests/fascinating_frontiers
-  summaries_json: digests/summaries_space.json
+  summaries_json: digests/fascinating_frontiers/summaries_space.json
   summaries_podcast_name: space
   x_enabled: true
   x_env_prefix: "PLANETTERRIAN_X_"

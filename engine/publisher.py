@@ -15,7 +15,7 @@ import re
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -452,3 +452,208 @@ def generate_episode_thumbnail(
     draw.text((50, 100), date_str, font=font, fill=(255, 255, 255))
     img.save(output_path, "PNG")
     return output_path
+
+
+# ---------------------------------------------------------------------------
+# Digest formatting for X posting
+# ---------------------------------------------------------------------------
+
+def format_digest_for_x(digest: str) -> str:
+    """Format a digest for X posting by stripping markdown formatting.
+
+    Removes headers, bold markers, and markdown link syntax while preserving
+    the actual content text and URLs. Suitable for shows with simple formatting
+    needs (FF, PT). For TST's emoji-rich version, use ``format_tst_digest_for_x``.
+    """
+    formatted = digest
+
+    # Remove markdown headers but keep text
+    formatted = re.sub(r'^#+\s+', '', formatted, flags=re.MULTILINE)
+
+    # Convert markdown bold to plain text
+    formatted = re.sub(r'\*\*(.*?)\*\*', r'\1', formatted)
+
+    # Extract URLs from markdown links
+    formatted = re.sub(r'\[([^\]]+)\]\((https?://[^\)]+)\)', r'\2', formatted)
+
+    # Remove excessive blank lines
+    formatted = re.sub(r'\n{3,}', '\n\n', formatted)
+
+    return formatted.strip()
+
+
+def format_tst_digest_for_x(digest: str, *, max_chars: int = 25000) -> str:
+    """Format a Tesla Shorts Time digest for X with emojis and visual polish.
+
+    X supports up to 25,000 characters for long posts. This formatter adds
+    section-specific emojis, numbered-list emoji bullets, separator lines,
+    the Apple Podcasts link, and cleans up leaked instruction text.
+    """
+    formatted = digest
+
+    # --- Header & metadata emojis ---
+    formatted = re.sub(r'^# Tesla Shorts Time', '\U0001f697\u26a1 **Tesla Shorts Time**', formatted, flags=re.MULTILINE)
+    formatted = re.sub(r'\*\*Date:\*\*', '\U0001f4c5 **Date:**', formatted)
+    formatted = re.sub(r'\*\*REAL-TIME TSLA price:\*\*', '\U0001f4b0 **REAL-TIME TSLA price:**', formatted)
+
+    # --- Ensure podcast link is present ---
+    podcast_url = 'https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939'
+    podcast_link_md = f'\U0001f399\ufe0f **Tesla Shorts Time Daily Podcast Link:** {podcast_url}'
+
+    has_incomplete_podcast_link = bool(re.search(r'\U0001f399\ufe0f[^\n]*[Pp]odcast[^\n]*(?!https://)', formatted))
+    podcast_line_without_url = bool(re.search(r'\U0001f399\ufe0f[^\n]*[Pp]odcast[^\n]*\n(?!.*https://podcasts\.apple\.com)', formatted, re.DOTALL))
+
+    if podcast_url not in formatted or has_incomplete_podcast_link or podcast_line_without_url:
+        lines = formatted.split('\n')
+        cleaned_lines = [
+            line for line in lines
+            if not (('podcast' in line.lower() or '\U0001f399\ufe0f' in line) and podcast_url not in line)
+        ]
+        formatted = '\n'.join(cleaned_lines)
+
+        lines = formatted.split('\n')
+        insert_pos = None
+        for i, line in enumerate(lines):
+            if 'REAL-TIME TSLA price' in line or '\U0001f4b0' in line:
+                insert_pos = i + 1
+                break
+            elif 'Date:' in line and '\U0001f4c5' in line and insert_pos is None:
+                insert_pos = i + 1
+
+        if insert_pos is not None:
+            lines[insert_pos:insert_pos] = ['', podcast_link_md, '']
+        else:
+            header_end = 0
+            for i, line in enumerate(lines[:5]):
+                if line.strip() and (line.startswith('#') or line.startswith('\U0001f697')):
+                    header_end = i
+            lines[header_end + 1:header_end + 1] = ['', podcast_link_md, '']
+        formatted = '\n'.join(lines)
+    else:
+        formatted = re.sub(
+            r'\U0001f399\ufe0f?\s*[Tt]esla\s+[Ss]horts\s+[Tt]ime\s+[Dd]aily\s+[Pp]odcast\s+[Ll]ink:?\s*' + re.escape(podcast_url),
+            podcast_link_md, formatted, flags=re.IGNORECASE,
+        )
+        if podcast_url in formatted and '\U0001f399\ufe0f' not in formatted.split(podcast_url)[0][-50:]:
+            formatted = re.sub(
+                r'([^\n]*)' + re.escape(podcast_url),
+                r'\1\n' + podcast_link_md, formatted, count=1,
+            )
+
+    # --- Section header emojis ---
+    formatted = re.sub(r'^### Top 10 News Items', '\U0001f4f0 **Top 10 News Items**', formatted, flags=re.MULTILINE)
+    formatted = re.sub(r'^## Tesla X Takeover:', '\U0001f399\ufe0f **Tesla X Takeover:**', formatted, flags=re.MULTILINE)
+    formatted = re.sub(r'^### Tesla X Takeover:', '\U0001f399\ufe0f **Tesla X Takeover:**', formatted, flags=re.MULTILINE)
+    formatted = re.sub(r'^## Short Spot', '\U0001f4c9 **Short Spot**', formatted, flags=re.MULTILINE)
+    formatted = re.sub(r'^### Short Squeeze', '\U0001f4c8 **Short Squeeze**', formatted, flags=re.MULTILINE)
+    formatted = re.sub(r'^### Daily Challenge', '\U0001f4aa **Daily Challenge**', formatted, flags=re.MULTILINE)
+    formatted = re.sub(r'\*\*Inspiration Quote:\*\*', '\u2728 **Inspiration Quote:**', formatted)
+
+    # --- Section separator lines ---
+    separator = '\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n'
+    formatted = re.sub(r'\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n+', '\n\n', formatted)
+
+    for pattern in [
+        r'(\n\n?)(\U0001f4f0 \*\*Top 10 News Items\*\*)',
+        r'(\n\n?)(### Top 10 News Items)',
+        r'(\n\n?)(\U0001f399\ufe0f \*\*Tesla X Takeover)',
+        r'(\n\n?)(## Tesla X Takeover|### Tesla X Takeover)',
+        r'(\n\n?)(\U0001f4c9 \*\*Short Spot\*\*)',
+        r'(\n\n?)(## Short Spot)',
+        r'(\n\n?)(\U0001f4c8 \*\*Short Squeeze\*\*)',
+        r'(\n\n?)(### Short Squeeze)',
+        r'(\n\n?)(\U0001f4aa \*\*Daily Challenge\*\*)',
+        r'(\n\n?)(### Daily Challenge)',
+        r'(\n\n?)(\u2728 \*\*Inspiration Quote:\*\*)',
+        r'(\n\n?)(\*\*Inspiration Quote:\*\*)',
+    ]:
+        formatted = re.sub(pattern, separator + r'\2', formatted)
+
+    # After-context separators
+    formatted = re.sub(r'(Podcast Link:.*?\n)(\U0001f4f0|\*\*Top 10 News|### Top 10 News)', separator + r'\2', formatted, flags=re.DOTALL)
+    formatted = re.sub(r'(10[\ufe0f\u20e3\.]\s+.*?\n)(\U0001f399\ufe0f|\*\*Tesla X Takeover|## Tesla X Takeover|### Tesla X Takeover)', separator + r'\2', formatted, flags=re.DOTALL)
+    formatted = re.sub(r'(The Vibe Check.*?\n)(\U0001f4c9|\*\*Short Spot|## Short Spot)', separator + r'\2', formatted, flags=re.DOTALL)
+
+    # --- Emoji-number list items (1-10) for news section ---
+    emoji_numbers = ['1\ufe0f\u20e3', '2\ufe0f\u20e3', '3\ufe0f\u20e3', '4\ufe0f\u20e3', '5\ufe0f\u20e3',
+                     '6\ufe0f\u20e3', '7\ufe0f\u20e3', '8\ufe0f\u20e3', '9\ufe0f\u20e3', '\U0001f51f']
+
+    if '\U0001f4f0' in formatted or 'Top 10 News' in formatted:
+        news_match = re.search(r'(\U0001f4f0.*?Top 10 News Items.*?)(\U0001f4c9|Short Spot|\u2501\u2501)', formatted, re.DOTALL)
+        if news_match:
+            news_section = news_match.group(1)
+            for i in range(1, 11):
+                news_section = re.sub(
+                    rf'^(\s*){i}\.\s+',
+                    lambda m, en=emoji_numbers[i - 1]: m.group(1) + en + ' ',
+                    news_section, flags=re.MULTILINE,
+                )
+            formatted = formatted.replace(news_match.group(1), news_section)
+
+    # --- Cleanup ---
+    formatted = re.sub(r'\n{4,}', '\n\n', formatted)
+    formatted = re.sub(r'\n(\d+\.)', r'\n\n\1', formatted)
+    formatted = re.sub(r'\n{3,}', '\n\n', formatted)
+    formatted = re.sub(r'```[^`]*```', '', formatted, flags=re.DOTALL)
+
+    # Ensure a nice ending
+    formatted = formatted.strip()
+    if formatted and formatted[-1] not in '!?.':
+        last_text = ' '.join(formatted.split('\n')[-3:]).strip()
+        if not any(w in last_text.lower() for w in ['feedback', 'dm', 'accelerating', 'electric', 'mission']):
+            formatted += '\n\n\u26a1 Keep accelerating!'
+
+    # Fix X post URLs
+    formatted = re.sub(r'\[([^\]]+)\]\((https?://[^\)]+)\)', r'\2', formatted)
+    formatted = re.sub(r'\[(https?://[^\]]+)\]', r'\1', formatted)
+    formatted = re.sub(r'(https?://x\.com/[^\s\)\]]+)[\)\]]+', r'\1', formatted)
+
+    # Remove leaked instruction language
+    instruction_patterns = [
+        r'\U0001f3af\s*TODAY\'S FOCUS:.*?\n',
+        r'\*\*TOP 5 TESLA X POSTS FROM.*?:\*\*\s*\n',
+        r'Using your knowledge.*?\n',
+        r'For each post:.*?\n',
+        r'\(use actual post URLs.*?\)',
+        r'\(if you can find them.*?\)',
+        r'\(format as shown\)',
+        r'\*\*OVERALL WEEKLY SENTIMENT.*?:\*\*\s*\n',
+        r'Provide a.*?summary.*?\n',
+        r'Is the sentiment.*?\n',
+        r'What are the main topics.*?\n',
+        r'What\'s their perspective.*?\n',
+        r'\[Repeat for.*?\]',
+        r'\[ACTUAL_POST_ID\]',
+        r'\[POST_ID\]',
+        r'\U0001f6a8\s*CRITICAL:.*?\n',
+        r'CRITICAL:.*?COMPLETELY DIFFERENT.*?\n',
+        r'CRITICAL:.*?COMPLETELY NEW.*?\n',
+        r'Use a DIFFERENT.*?\n',
+        r'Use DIFFERENT.*?\n',
+        r'Avoid repetition.*?\n',
+        r'Do NOT repeat.*?\n',
+        r'Never repeat.*?\n',
+    ]
+    for pattern in instruction_patterns:
+        formatted = re.sub(pattern, '', formatted, flags=re.IGNORECASE | re.MULTILINE)
+
+    # Remove placeholder/dead URLs
+    formatted = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/\[[^\]]+\]', '', formatted, flags=re.IGNORECASE)
+    formatted = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/[^\d/][^\s]*', '', formatted, flags=re.IGNORECASE)
+
+    # Normalize whitespace
+    lines = formatted.split('\n')
+    cleaned_lines = ['' if line.strip() == '' else re.sub(r'[ \t]{2,}', ' ', line) for line in lines]
+    formatted = '\n'.join(cleaned_lines)
+    formatted = re.sub(r'\n{3,}', '\n\n', formatted).strip()
+
+    # Enforce character limit
+    if len(formatted) > max_chars:
+        logger.warning("Formatted digest is %d characters, truncating to %d", len(formatted), max_chars)
+        truncate_at = formatted[:max_chars - 100].rfind('\n\n')
+        if truncate_at > max_chars * 0.8:
+            formatted = formatted[:truncate_at] + "\n\n... (content truncated for length)"
+        else:
+            formatted = formatted[:max_chars - 50] + "\n\n... (truncated for length)"
+
+    return formatted

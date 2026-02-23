@@ -246,6 +246,20 @@ COMMON_ACRONYMS: Dict[str, str] = {
     "TTM": "T T M",
     "DCF": "D C F",
 
+    # --- Scientific / Environmental ---
+    "USSF": "U S S F",
+    "PROTAC": "pro-tack",
+    "ARPA-H": "arpa H",
+    "CAGR": "C A G R",
+    "CEPA": "see-pa",
+    "CCME": "C C M E",
+    "SVE": "S V E",
+    "PFAS": "P fas",
+    "CSR": "C S R",
+    "ESA": "E S A",
+    "PD-1": "P D one",
+    "PD-L1": "P D L one",
+
     # --- Government / Regulatory ---
     "FAA": "F A A",
     "FCC": "F C C",

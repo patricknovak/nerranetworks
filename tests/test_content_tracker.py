@@ -1,0 +1,319 @@
+"""Tests for engine/content_tracker.py — cross-episode content tracking."""
+
+import datetime
+import json
+import tempfile
+from pathlib import Path
+
+import pytest
+
+from engine.content_tracker import (
+    ContentTracker,
+    FF_SECTION_PATTERNS,
+    PT_SECTION_PATTERNS,
+    TST_SECTION_PATTERNS,
+    OV_SECTION_PATTERNS,
+    _extract_bold_headlines,
+    _extract_quote_author,
+)
+
+
+# ---- Helpers ----
+
+SAMPLE_FF_DIGEST = """
+# Fascinating Frontiers
+**Date:** 23 February 2026
+🚀 **Fascinating Frontiers** - Space & Astronomy News
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Space & Astronomy Stories
+1. **SpaceX Starship Completes First Orbital Flight: 23 Feb 2026 • SpaceNews**
+   SpaceX achieved a historic milestone. This changes the cost equation.
+   Source: https://example.com/1
+
+2. **NASA Selects New Mars Rover Design: 23 Feb 2026 • NASA**
+   The next Mars rover will carry new instruments. Life detection is the goal.
+   Source: https://example.com/2
+
+3. **James Webb Discovers New Exoplanet: 22 Feb 2026 • Space.com**
+   JWST found a planet in the habitable zone. Could host liquid water.
+   Source: https://example.com/3
+
+━━━━━━━━━━━━━━━━━━━━
+### Cosmic Spotlight
+The SpaceX Starship achievement represents a paradigm shift. Full reusability
+means launch costs could drop by 90%. What does this mean for Mars colonization?
+
+━━━━━━━━━━━━━━━━━━━━
+### Daily Inspiration
+"The Earth is the cradle of humanity, but one cannot live in the cradle forever." – Konstantin Tsiolkovsky
+
+Reach for the stars — they're closer than you think.
+"""
+
+SAMPLE_TST_DIGEST = """
+# Tesla Shorts Time
+**Date:** 23 February 2026
+**TSLA:** $245.67 +$3.21 (+1.32%)
+
+━━━━━━━━━━━━━━━━━━━━
+### Top News
+1. **Tesla Cybertruck Production Ramps to 2,500/Week: 23 Feb 2026, SpaceX News**
+   Production milestone. This matters for delivery targets.
+   Source: https://example.com/ct
+
+2. **FSD v13 Achieves Zero Interventions on Cross-Country Trip: 22 Feb 2026, Teslarati**
+   Breakthrough in autonomous driving. Regulatory implications.
+   Source: https://example.com/fsd
+
+━━━━━━━━━━━━━━━━━━━━
+## Tesla X Takeover: What's Hot Right Now
+🎙️ Tesla X Takeover
+
+1. 🚨 **Megapack Sales Triple Year-Over-Year** - Energy storage is booming.
+   Source: https://example.com/mp
+
+━━━━━━━━━━━━━━━━━━━━
+## Short Spot
+📉 **Short Spot**: Bears point to margin pressure. But margins will recover.
+
+━━━━━━━━━━━━━━━━━━━━
+### Tesla First Principles
+🧠 Tesla First Principles - Battery cost reduction analysis.
+
+**The Fundamental Question:** Can Tesla reach $50/kWh?
+
+━━━━━━━━━━━━━━━━━━━━
+### Daily Challenge
+💪 Today's challenge: Calculate your household energy savings.
+
+━━━━━━━━━━━━━━━━━━━━
+✨ **Inspiration Quote:** "The future is already here — it's just not evenly distributed." – William Gibson
+"""
+
+
+class TestExtractBoldHeadlines:
+    def test_basic_extraction(self):
+        text = """
+1. **SpaceX Launches Starship Successfully** - Big deal.
+2. **NASA Mars Rover Finds Water** - Amazing.
+3. **Short Item** - Too short to extract.
+"""
+        headlines = _extract_bold_headlines(text)
+        assert len(headlines) == 2
+        assert "SpaceX Launches Starship Successfully" in headlines
+        assert "NASA Mars Rover Finds Water" in headlines
+
+    def test_max_items(self):
+        text = "\n".join(f"{i}. **Headline Number {i} Is Long Enough**" for i in range(30))
+        headlines = _extract_bold_headlines(text, max_items=5)
+        assert len(headlines) == 5
+
+    def test_deduplicates(self):
+        text = "**Same Long Headline Here** and **Same Long Headline Here** again."
+        headlines = _extract_bold_headlines(text)
+        assert len(headlines) == 1
+
+
+class TestExtractQuoteAuthor:
+    def test_standard_format(self):
+        text = '"The future is here" – William Gibson'
+        assert _extract_quote_author(text) == "William Gibson"
+
+    def test_em_dash(self):
+        text = '"Be curious" — Richard Feynman'
+        assert _extract_quote_author(text) == "Richard Feynman"
+
+    def test_no_quote(self):
+        assert _extract_quote_author("no quote here") is None
+
+
+class TestContentTrackerBasics:
+    def test_load_save_roundtrip(self, tmp_path):
+        tracker = ContentTracker("test_show", tmp_path)
+        tracker.load()
+        tracker.data["episodes"].append({
+            "date": datetime.date.today().isoformat(),
+            "headlines": ["Test headline one", "Test headline two"],
+            "quote_author": "Test Author",
+            "sections": {"spotlight": "Some content"},
+        })
+        tracker.save()
+
+        # Reload
+        tracker2 = ContentTracker("test_show", tmp_path)
+        tracker2.load()
+        assert len(tracker2.data["episodes"]) == 1
+        assert tracker2.data["episodes"][0]["headlines"] == ["Test headline one", "Test headline two"]
+
+    def test_prune_old_episodes(self, tmp_path):
+        tracker = ContentTracker("test_show", tmp_path, max_days=7)
+        tracker.load()
+
+        # Add old episode
+        old_date = (datetime.date.today() - datetime.timedelta(days=10)).isoformat()
+        tracker.data["episodes"].append({
+            "date": old_date,
+            "headlines": ["Old headline"],
+            "quote_author": None,
+            "sections": {},
+        })
+
+        # Add recent episode
+        recent_date = datetime.date.today().isoformat()
+        tracker.data["episodes"].append({
+            "date": recent_date,
+            "headlines": ["Recent headline"],
+            "quote_author": None,
+            "sections": {},
+        })
+
+        tracker.save()
+        tracker2 = ContentTracker("test_show", tmp_path, max_days=7)
+        tracker2.load()
+        assert len(tracker2.data["episodes"]) == 1
+        assert tracker2.data["episodes"][0]["date"] == recent_date
+
+    def test_fresh_tracker_has_empty_episodes(self, tmp_path):
+        tracker = ContentTracker("test_show", tmp_path)
+        tracker.load()
+        assert tracker.data["episodes"] == []
+
+    def test_get_recent_headlines(self, tmp_path):
+        tracker = ContentTracker("test_show", tmp_path)
+        tracker.load()
+        tracker.data["episodes"].append({
+            "date": datetime.date.today().isoformat(),
+            "headlines": ["Headline A", "Headline B"],
+            "quote_author": None,
+            "sections": {},
+        })
+        headlines = tracker.get_recent_headlines()
+        assert "Headline A" in headlines
+        assert "Headline B" in headlines
+
+
+class TestRecordEpisode:
+    def test_record_ff_digest(self, tmp_path):
+        tracker = ContentTracker("fascinating_frontiers", tmp_path)
+        tracker.load()
+        tracker.record_episode(SAMPLE_FF_DIGEST, FF_SECTION_PATTERNS)
+
+        assert len(tracker.data["episodes"]) == 1
+        ep = tracker.data["episodes"][0]
+        assert ep["date"] == datetime.date.today().isoformat()
+        assert len(ep["headlines"]) >= 2
+        assert "SpaceX Starship Completes First Orbital Flight" in ep["headlines"][0]
+        assert ep["quote_author"] == "Konstantin Tsiolkovsky"
+
+    def test_record_tst_digest(self, tmp_path):
+        tracker = ContentTracker("tesla_shorts_time", tmp_path)
+        tracker.load()
+        tracker.record_episode(SAMPLE_TST_DIGEST, TST_SECTION_PATTERNS)
+
+        ep = tracker.data["episodes"][0]
+        assert len(ep["headlines"]) >= 2  # Top News + Takeover
+        assert ep["quote_author"] == "William Gibson"
+
+    def test_dedup_by_date(self, tmp_path):
+        tracker = ContentTracker("test_show", tmp_path)
+        tracker.load()
+        tracker.record_episode(SAMPLE_FF_DIGEST, FF_SECTION_PATTERNS)
+        tracker.record_episode(SAMPLE_FF_DIGEST, FF_SECTION_PATTERNS)
+        assert len(tracker.data["episodes"]) == 1
+
+
+class TestFilterRecentArticles:
+    def test_filters_similar_titles(self, tmp_path):
+        tracker = ContentTracker("test_show", tmp_path)
+        tracker.load()
+        tracker.data["episodes"].append({
+            "date": datetime.date.today().isoformat(),
+            "headlines": ["SpaceX Starship Completes First Orbital Flight"],
+            "quote_author": None,
+            "sections": {},
+        })
+
+        articles = [
+            {"title": "SpaceX Starship Completes First Orbital Flight Today", "url": "a"},
+            {"title": "NASA Discovers New Exoplanet in Habitable Zone", "url": "b"},
+        ]
+        filtered = tracker.filter_recent_articles(articles, similarity_threshold=0.65)
+        assert len(filtered) == 1
+        assert filtered[0]["url"] == "b"
+
+    def test_keeps_unique_articles(self, tmp_path):
+        tracker = ContentTracker("test_show", tmp_path)
+        tracker.load()
+
+        articles = [
+            {"title": "SpaceX Launch Succeeds", "url": "a"},
+            {"title": "NASA Mars Discovery", "url": "b"},
+        ]
+        filtered = tracker.filter_recent_articles(articles, similarity_threshold=0.65)
+        assert len(filtered) == 2
+
+
+class TestGetSummaryForPrompt:
+    def test_empty_tracker_returns_empty(self, tmp_path):
+        tracker = ContentTracker("test_show", tmp_path)
+        tracker.load()
+        assert tracker.get_summary_for_prompt() == ""
+
+    def test_summary_includes_headlines(self, tmp_path):
+        tracker = ContentTracker("test_show", tmp_path)
+        tracker.load()
+        tracker.data["episodes"].append({
+            "date": datetime.date.today().isoformat(),
+            "headlines": ["Mars Rover Finds Water"],
+            "quote_author": "Feynman",
+            "sections": {"cosmic_spotlight": "Mars water analysis"},
+        })
+        summary = tracker.get_summary_for_prompt()
+        assert "RECENTLY COVERED NEWS STORIES" in summary
+        assert "Mars Rover Finds Water" in summary
+        assert "RECENTLY USED QUOTE AUTHORS" in summary
+        assert "Feynman" in summary
+
+
+class TestCheckQuoteReuse:
+    def test_detects_same_author(self, tmp_path):
+        tracker = ContentTracker("test_show", tmp_path)
+        tracker.load()
+        tracker.data["episodes"].append({
+            "date": datetime.date.today().isoformat(),
+            "headlines": [],
+            "quote_author": "Carl Sagan",
+            "sections": {},
+        })
+        assert tracker.check_quote_reuse("We are star stuff – Carl Sagan") is True
+
+    def test_allows_different_author(self, tmp_path):
+        tracker = ContentTracker("test_show", tmp_path)
+        tracker.load()
+        tracker.data["episodes"].append({
+            "date": datetime.date.today().isoformat(),
+            "headlines": [],
+            "quote_author": "Carl Sagan",
+            "sections": {},
+        })
+        assert tracker.check_quote_reuse("The future is here – William Gibson") is False
+
+
+class TestSectionPatterns:
+    """Verify section patterns can extract content from sample digests."""
+
+    def test_ff_headlines_pattern(self):
+        import re
+        m = re.search(FF_SECTION_PATTERNS["headlines"], SAMPLE_FF_DIGEST, re.DOTALL | re.IGNORECASE)
+        assert m is not None
+
+    def test_tst_headlines_pattern(self):
+        import re
+        m = re.search(TST_SECTION_PATTERNS["headlines"], SAMPLE_TST_DIGEST, re.DOTALL | re.IGNORECASE)
+        assert m is not None
+
+    def test_tst_takeover_pattern(self):
+        import re
+        m = re.search(TST_SECTION_PATTERNS["takeover_headlines"], SAMPLE_TST_DIGEST, re.DOTALL | re.IGNORECASE)
+        assert m is not None

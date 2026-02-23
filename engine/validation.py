@@ -1,0 +1,379 @@
+"""Post-generation digest validation for the podcast pipeline.
+
+Catches within-episode problems (section overlap, missing sections, forbidden
+content, story count shortfalls) before the digest is sent to TTS.
+
+Usage:
+    from engine.validation import validate_digest, ValidationConfig, SectionRule
+
+    config = ValidationConfig(
+        section_pairs=[("Top 10", "Takeover")],
+        sections=[SectionRule("Top 10", min_items=6)],
+        forbidden_patterns=[r"\\$\\d+\\.\\d+\\s*[+\\-]"],
+    )
+    passed, issues = validate_digest(digest_text, config)
+"""
+
+import logging
+import re
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional, Tuple
+
+from engine.utils import calculate_similarity
+
+logger = logging.getLogger(__name__)
+
+
+@dataclass
+class SectionRule:
+    """Validation rule for a named section."""
+    name: str
+    # Regex to locate the section in the digest
+    pattern: str = ""
+    min_items: int = 0
+    max_items: int = 0  # 0 = no max
+    # If True, section is optional (don't flag if missing)
+    optional: bool = False
+
+
+@dataclass
+class ValidationConfig:
+    """Per-show validation configuration."""
+    # Pairs of section names that must not overlap
+    section_pairs: List[Tuple[str, str]] = field(default_factory=list)
+    # Section rules (count validation)
+    sections: List[SectionRule] = field(default_factory=list)
+    # Regex patterns that must NOT appear in the podcast script
+    forbidden_patterns: List[str] = field(default_factory=list)
+    # Overlap similarity threshold for section pairs
+    overlap_threshold: float = 0.50
+    # Cross-episode similarity threshold
+    cross_episode_threshold: float = 0.65
+
+
+def _extract_items_from_section(text: str, pattern: str) -> List[str]:
+    """Extract numbered or bold items from a section matching the pattern."""
+    m = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
+    if not m:
+        return []
+    section_text = m.group(1) if m.lastindex else m.group(0)
+    # Extract bold headlines as items
+    items = []
+    for item_match in re.finditer(r"\*{2}([^*]{10,})\*{2}", section_text):
+        items.append(item_match.group(1).strip())
+    return items
+
+
+def _extract_section_text(text: str, pattern: str) -> str:
+    """Extract raw text of a section."""
+    m = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
+    if not m:
+        return ""
+    return (m.group(1) if m.lastindex else m.group(0)).strip()
+
+
+def check_section_overlap(
+    digest_text: str,
+    section_pairs: List[Tuple[str, str]],
+    section_patterns: Dict[str, str],
+    threshold: float = 0.50,
+) -> List[str]:
+    """Check if any section pair has overlapping stories.
+
+    Returns list of overlap descriptions (empty = no overlaps).
+    """
+    overlaps = []
+    for sec_a_name, sec_b_name in section_pairs:
+        pat_a = section_patterns.get(sec_a_name, "")
+        pat_b = section_patterns.get(sec_b_name, "")
+        if not pat_a or not pat_b:
+            continue
+
+        items_a = _extract_items_from_section(digest_text, pat_a)
+        items_b = _extract_items_from_section(digest_text, pat_b)
+
+        for a_item in items_a:
+            for b_item in items_b:
+                sim = calculate_similarity(a_item, b_item)
+                if sim >= threshold:
+                    overlaps.append(
+                        f"'{sec_a_name}' and '{sec_b_name}' share similar story "
+                        f"(similarity {sim:.0%}): '{a_item[:60]}...' vs '{b_item[:60]}...'"
+                    )
+    return overlaps
+
+
+def check_item_counts(
+    digest_text: str,
+    sections: List[SectionRule],
+) -> List[str]:
+    """Verify each section has the expected number of items."""
+    issues = []
+    for section in sections:
+        if not section.pattern:
+            continue
+
+        items = _extract_items_from_section(digest_text, section.pattern)
+
+        # Check if section exists at all
+        m = re.search(section.pattern, digest_text, re.DOTALL | re.IGNORECASE)
+        if not m:
+            if not section.optional:
+                issues.append(f"Section '{section.name}' is missing from digest")
+            continue
+
+        count = len(items)
+        if section.min_items and count < section.min_items:
+            issues.append(
+                f"Section '{section.name}': {count} items (minimum {section.min_items})"
+            )
+        if section.max_items and count > section.max_items:
+            issues.append(
+                f"Section '{section.name}': {count} items (maximum {section.max_items})"
+            )
+    return issues
+
+
+def check_forbidden_content(
+    digest_text: str,
+    forbidden_patterns: List[str],
+) -> List[str]:
+    """Check for content that should not appear in the digest."""
+    issues = []
+    for pattern in forbidden_patterns:
+        matches = re.findall(pattern, digest_text, re.IGNORECASE)
+        if matches:
+            sample = matches[0] if isinstance(matches[0], str) else str(matches[0])
+            issues.append(
+                f"Forbidden content found ({pattern[:40]}): '{sample[:60]}'"
+            )
+    return issues
+
+
+def check_within_episode_duplicates(
+    digest_text: str,
+    section_patterns: Dict[str, str],
+    threshold: float = 0.60,
+) -> List[str]:
+    """Check for duplicate stories within the same episode across all sections."""
+    issues = []
+    all_items_by_section: Dict[str, List[str]] = {}
+
+    for sec_name, pattern in section_patterns.items():
+        if sec_name in ("headlines", "takeover_headlines"):
+            items = _extract_items_from_section(digest_text, pattern)
+            all_items_by_section[sec_name] = items
+
+    # Check within each section
+    for sec_name, items in all_items_by_section.items():
+        for i, item_a in enumerate(items):
+            for j, item_b in enumerate(items):
+                if j <= i:
+                    continue
+                sim = calculate_similarity(item_a, item_b)
+                if sim >= threshold:
+                    issues.append(
+                        f"Duplicate within '{sec_name}': "
+                        f"'{item_a[:50]}...' and '{item_b[:50]}...' "
+                        f"(similarity {sim:.0%})"
+                    )
+    return issues
+
+
+def check_cross_episode_repeats(
+    digest_text: str,
+    recent_headlines: List[str],
+    section_patterns: Dict[str, str],
+    threshold: float = 0.65,
+) -> List[str]:
+    """Check for stories that repeat from recent episodes."""
+    if not recent_headlines:
+        return []
+
+    issues = []
+    # Extract today's headlines
+    headlines_pattern = section_patterns.get("headlines", "")
+    if not headlines_pattern:
+        return []
+
+    today_items = _extract_items_from_section(digest_text, headlines_pattern)
+
+    from engine.utils import norm_headline_for_similarity
+    recent_norm = [norm_headline_for_similarity(h) for h in recent_headlines if h]
+
+    for item in today_items:
+        norm_item = norm_headline_for_similarity(item)
+        for r in recent_norm:
+            if not r:
+                continue
+            sim = calculate_similarity(norm_item, r)
+            if sim >= threshold:
+                issues.append(
+                    f"Cross-episode repeat: '{item[:60]}...' similar to recent story "
+                    f"(similarity {sim:.0%})"
+                )
+                break
+
+    return issues
+
+
+def validate_digest(
+    digest_text: str,
+    config: ValidationConfig,
+    section_patterns: Optional[Dict[str, str]] = None,
+    recent_headlines: Optional[List[str]] = None,
+) -> Tuple[bool, List[str]]:
+    """Master validation function. Returns (passed, issues).
+
+    Args:
+        digest_text: The generated digest text to validate.
+        config: Validation configuration for this show.
+        section_patterns: Regex patterns for extracting sections.
+        recent_headlines: Headlines from recent episodes for cross-day check.
+
+    Returns:
+        Tuple of (passed: bool, issues: list[str]).
+        passed is True if no issues were found.
+    """
+    if not digest_text:
+        return False, ["Empty digest text"]
+
+    issues: List[str] = []
+    patterns = section_patterns or {}
+
+    # 1. Section overlap check
+    if config.section_pairs and patterns:
+        overlap_issues = check_section_overlap(
+            digest_text, config.section_pairs, patterns, config.overlap_threshold
+        )
+        issues.extend(overlap_issues)
+
+    # 2. Item count validation
+    if config.sections:
+        count_issues = check_item_counts(digest_text, config.sections)
+        issues.extend(count_issues)
+
+    # 3. Forbidden content
+    if config.forbidden_patterns:
+        forbidden_issues = check_forbidden_content(digest_text, config.forbidden_patterns)
+        issues.extend(forbidden_issues)
+
+    # 4. Within-episode duplicates
+    if patterns:
+        dup_issues = check_within_episode_duplicates(digest_text, patterns)
+        issues.extend(dup_issues)
+
+    # 5. Cross-episode repeats
+    if recent_headlines and patterns:
+        repeat_issues = check_cross_episode_repeats(
+            digest_text, recent_headlines, patterns, config.cross_episode_threshold
+        )
+        issues.extend(repeat_issues)
+
+    if issues:
+        logger.warning("Digest validation found %d issue(s):", len(issues))
+        for issue in issues:
+            logger.warning("  - %s", issue)
+    else:
+        logger.info("Digest validation passed — no issues found")
+
+    return (len(issues) == 0, issues)
+
+
+# ---------------------------------------------------------------------------
+# Pre-built validation configs per show
+# ---------------------------------------------------------------------------
+
+def tst_validation_config() -> ValidationConfig:
+    """Validation config for Tesla Shorts Time."""
+    return ValidationConfig(
+        section_pairs=[("headlines", "takeover_headlines")],
+        sections=[
+            SectionRule(
+                name="Top News",
+                pattern=(
+                    r"(?:📰 \*\*Top 10 News Items\*\*|### Top 10 News Items|### Top News)"
+                    r"(.*?)"
+                    r"(?=━━|## Short Spot|📉|### Tesla First Principles|## Tesla X Takeover|🎙️)"
+                ),
+                min_items=5,
+            ),
+            SectionRule(
+                name="Short Spot",
+                pattern=(
+                    r"(?:## Short Spot|📉 \*\*Short Spot\*\*)"
+                    r"(.*?)"
+                    r"(?=━━|### Tesla First Principles|🧠|### Daily Challenge|💪|$)"
+                ),
+                min_items=1,
+            ),
+        ],
+        forbidden_patterns=[
+            # Stock price in podcast script (not digest — only for POD_PROMPT output)
+            # Disabled here since it applies to podcast script, not X thread
+        ],
+    )
+
+
+def ff_validation_config() -> ValidationConfig:
+    """Validation config for Fascinating Frontiers."""
+    return ValidationConfig(
+        section_pairs=[],
+        sections=[
+            SectionRule(
+                name="Space Stories",
+                pattern=(
+                    r"(?:### Top 15 Space|### Top \d+ Space)"
+                    r"(.*?)"
+                    r"(?=━━|### Cosmic Spotlight|$)"
+                ),
+                min_items=8,
+            ),
+            SectionRule(
+                name="Cosmic Spotlight",
+                pattern=r"(?:### Cosmic Spotlight)(.*?)(?=━━|### Daily Inspiration|$)",
+                min_items=1,
+            ),
+        ],
+    )
+
+
+def pt_validation_config() -> ValidationConfig:
+    """Validation config for Planetterrian Daily."""
+    return ValidationConfig(
+        section_pairs=[],
+        sections=[
+            SectionRule(
+                name="Science Stories",
+                pattern=(
+                    r"(?:### Top 15 Science|### Top \d+ Science)"
+                    r"(.*?)"
+                    r"(?=━━|### Planetterrian Spotlight|$)"
+                ),
+                min_items=8,
+            ),
+            SectionRule(
+                name="Planetterrian Spotlight",
+                pattern=r"(?:### Planetterrian Spotlight)(.*?)(?=━━|### Daily Inspiration|$)",
+                min_items=1,
+            ),
+        ],
+    )
+
+
+def ov_validation_config() -> ValidationConfig:
+    """Validation config for Omni View."""
+    return ValidationConfig(
+        section_pairs=[],
+        sections=[
+            SectionRule(
+                name="Top Stories",
+                pattern=(
+                    r"(?:### Top \d+|### Today's Top)"
+                    r"(.*?)"
+                    r"(?=━━|### (?:Deep Dive|Closing)|$)"
+                ),
+                min_items=5,
+            ),
+        ],
+    )

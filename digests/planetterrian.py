@@ -41,14 +41,18 @@ from engine.utils import (
     calculate_similarity as _engine_calculate_similarity,
     remove_similar_items as _engine_remove_similar_items,
 )
-from engine.audio import get_audio_duration, format_duration as _engine_format_duration
+from engine.audio import get_audio_duration, format_duration as _engine_format_duration, normalize_voice as _engine_normalize_voice
 from engine.publisher import (
     update_rss_feed as _engine_update_rss_feed,
     get_next_episode_number as _engine_get_next_episode_number,
     save_summary_to_github_pages as _engine_save_summary,
     generate_episode_thumbnail as _engine_generate_thumbnail,
+    format_digest_for_x as _engine_format_digest_for_x,
+    post_to_x as _engine_post_to_x,
 )
 from engine.tracking import create_tracker, record_llm_usage, record_tts_usage, record_x_post, save_usage
+from engine.content_tracker import ContentTracker, PT_SECTION_PATTERNS
+from engine.utils import deduplicate_by_entity, is_low_news_day
 
 # ========================== LOGGING ==========================
 logging.basicConfig(
@@ -58,20 +62,11 @@ logging.basicConfig(
 )
 
 # ========================== CONFIGURATION ==========================
-# Set to True to test digest generation only (skips podcast and X posting)
-TEST_MODE = False  # Set to False for full run
-
-# Set to False to disable X posting (thread will still be generated and saved)
+# Defaults (overridable via environment variables)
+TEST_MODE = False
 ENABLE_X_POSTING = True
-
-# Set to False to disable podcast generation and RSS feed updates
 ENABLE_PODCAST = True
-
-# Set to True to save summaries to GitHub Pages instead of posting full content to X
 ENABLE_GITHUB_SUMMARIES = True
-
-# Link validation is currently disabled - validation functions have been removed
-# Set to True and re-implement validation functions if needed in the future
 ENABLE_LINK_VALIDATION = False
 
 
@@ -103,6 +98,15 @@ if not env_path.exists():
 
 load_dotenv(dotenv_path=env_path)
 
+# Optional env overrides for feature flags (useful for local testing)
+TEST_MODE = env_bool("TEST_MODE", TEST_MODE)
+ENABLE_X_POSTING = env_bool("ENABLE_X_POSTING", ENABLE_X_POSTING)
+ENABLE_PODCAST = env_bool("ENABLE_PODCAST", ENABLE_PODCAST)
+ENABLE_GITHUB_SUMMARIES = env_bool("ENABLE_GITHUB_SUMMARIES", ENABLE_GITHUB_SUMMARIES)
+
+if TEST_MODE:
+    ENABLE_X_POSTING = env_bool("ENABLE_X_POSTING", False)
+    ENABLE_PODCAST = env_bool("ENABLE_PODCAST", False)
 
 # Required keys
 required = ["GROK_API_KEY"]
@@ -154,7 +158,7 @@ def save_summary_to_github_pages(
     summary_text, output_dir, podcast_name="planet", *,
     episode_num=None, episode_title=None, audio_url=None, rss_url=None,
 ):
-    json_path = project_root / "digests" / f"summaries_{podcast_name}.json"
+    json_path = project_root / "digests" / "planetterrian" / f"summaries_{podcast_name}.json"
     return _engine_save_summary(
         summary_text, json_path, podcast_name,
         episode_num=episode_num, episode_title=episode_title,
@@ -537,6 +541,18 @@ def select_best_science_news(articles, max_articles=12):
 
 science_news, raw_news_articles = fetch_science_news()
 
+# --- Cross-episode content tracking ---
+_pt_tracker = ContentTracker("planetterrian", digests_dir)
+_pt_tracker.load()
+
+# Entity-level dedup: cap articles to max 2 per primary entity
+science_news = deduplicate_by_entity(science_news, max_per_entity=2)
+
+# Cross-episode dedup: drop articles too similar to recently covered stories
+science_news = _pt_tracker.filter_recent_articles(science_news, similarity_threshold=0.65, days=3)
+
+logging.info(f"After cross-episode + entity dedup: {len(science_news)} articles remain")
+
 # ========================== STEP 2: FETCH TOP X POSTS FROM X API ==========================
 # X POSTS DISABLED - Only using news articles
 # Initialize variables
@@ -788,6 +804,10 @@ else:
 # X POSTS DISABLED - No X posts section
 x_posts_section = ""
 
+# Generate content tracking summary for the prompt
+_pt_article_count = len(science_news) if science_news else 0
+_pt_used_content = _pt_tracker.get_summary_for_prompt()
+
 X_PROMPT = f"""
 # Planetterrian Daily - SCIENCE, LONGEVITY & HEALTH EDITION
 **Date:** {today_str}
@@ -795,6 +815,10 @@ X_PROMPT = f"""
 {news_section}
 
 You are an elite science, longevity, and health news curator producing the daily "Planetterrian Daily" newsletter. Use ONLY the pre-fetched news articles above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. Do NOT include any X posts or Twitter references.
+
+You have {_pt_article_count} quality articles to work with today.
+
+{_pt_used_content}
 
 **BRAND PERSONALITY (from planetterrian.com/about):**
 - Planetterrian Ventures: A tribe of forward-thinking innovators passionate about the planet
@@ -804,10 +828,10 @@ You are an elite science, longevity, and health news curator producing the daily
 - Focus: Groundbreaking solutions that are state-of-the-art AND sustainable/environmentally-friendly
 
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
-- **News**: You MUST select EXACTLY 15 unique articles. If you have fewer than 15 available, use ALL of them and number them 1 through N. If you have more than 15, select the BEST 15. Prioritize high-quality sources; each must cover a DIFFERENT story/angle.
-- **Curation**: Prefer primary research, clinical results, and concrete discoveries. Avoid “year in review” roundups, awards, and career anecdote pieces unless you truly cannot fill 15 without them.
+- **News**: Select the best unique articles from the pre-fetched list. Use up to 12 if available. If fewer than 12 exist, use ALL of them. Each must cover a DIFFERENT story/angle.
+- **Curation**: Prefer primary research, clinical results, and concrete discoveries. Avoid "year in review" roundups, awards, and career anecdote pieces unless you truly cannot fill without them.
 - **NO X POSTS**: Do NOT include any X posts, Twitter posts, or social media references. Only use news articles.
-- **Diversity Check**: Verify no similar content; each item must cover a DIFFERENT angle.
+- **Diversity Check**: Verify no two items cover the same study, entity, or topic from different sources. Each item must be a genuinely DIFFERENT story.
 
 ### FORMATTING (EXACT—USE MARKDOWN AS SHOWN)
 # Planetterrian Daily
@@ -817,19 +841,19 @@ You are an elite science, longevity, and health news curator producing the daily
 **Quick scan:** 1 short sentence theme + “If you only read 3 today: #A, #B, #C.”
 
 ━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science & Health Discoveries
+### Top 12 Science & Health Discoveries
 1. **Title (<= 12 words): DD Month YYYY • Source Name**  
    2 sentences max. Sentence 1: what happened (specific + concrete). Sentence 2: why it matters for human health/longevity; add ONE planet/sustainability angle only if it is genuinely relevant (don’t force it).
    Source: [EXACT URL FROM PRE-FETCHED—no mods]
-2. [Repeat format for 3-15; if <15 items, stop at available count, add a blank line after each item]
+2. [Repeat format for 3-12; if <12 items, stop at available count, add a blank line after each item]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Planetterrian Spotlight
-Pick ONE item from the Top 15 and go deeper (3–5 sentences). Make it feel practical: what it unlocks, who it could help, and one concrete planet-aligned takeaway (energy, materials, food systems, prevention, access, etc.). End with ONE question to invite replies.
+Pick ONE item from the Top stories and go deeper (3–5 sentences). Make it feel practical: what it unlocks, who it could help, and one concrete planet-aligned takeaway (energy, materials, food systems, prevention, access, etc.). IMPORTANT: Choose a DIFFERENT topic area than recent Spotlights (vary disease areas, research fields). End with ONE question to invite replies.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Daily Inspiration
-One inspiring quote about science, health, longevity, or planetary stewardship. End with: "Share your thoughts with us!"
+One inspiring quote about science, health, longevity, or planetary stewardship from a DIFFERENT author than recently used. End with: "Share your thoughts with us!"
 
 [1-2 sentence uplifting sign-off on science, health, and planetary well-being. Keep it punchy.]
 
@@ -926,47 +950,25 @@ for line in x_thread.splitlines():
     lines.append(line)
 x_thread = "\n".join(lines).strip()
 
+# Record episode content in the tracker for future cross-episode dedup
+_pt_tracker.record_episode(x_thread, PT_SECTION_PATTERNS)
+_pt_tracker.save()
+
 # Save X thread
 x_path = digests_dir / f"Planetterrian_Daily_{datetime.date.today():%Y%m%d}.md"
 with open(x_path, "w", encoding="utf-8") as f:
     f.write(x_thread)
 logging.info(f"X thread saved to {x_path}")
 
-# Format for X posting (remove markdown, clean up)
-def format_digest_for_x(digest: str) -> str:
-    """Format digest for X posting."""
-    formatted = digest
-    
-    # Remove markdown headers but keep text
-    formatted = re.sub(r'^#+\s+', '', formatted, flags=re.MULTILINE)
-    
-    # Convert markdown bold to plain text
-    formatted = re.sub(r'\*\*(.*?)\*\*', r'\1', formatted)
-    
-    # Clean up URLs
-    formatted = re.sub(r'\[([^\]]+)\]\((https?://[^\)]+)\)', r'\2', formatted)
-    
-    # Remove excessive blank lines
-    formatted = re.sub(r'\n{3,}', '\n\n', formatted)
-    
-    return formatted.strip()
+# Format for X posting (remove markdown, clean up) — delegates to engine
+format_digest_for_x = _engine_format_digest_for_x
 
 formatted_thread = format_digest_for_x(x_thread)
 
-# ========================== TWEEPY X CLIENT FOR AUTO-POSTING ==========================
+# ========================== X POSTING (via engine/publisher.post_to_x) ==========================
 tweet_id = None
 if ENABLE_X_POSTING:
-    import tweepy
-
-    x_client = tweepy.Client(
-        consumer_key=os.getenv("PLANETTERRIAN_X_CONSUMER_KEY"),
-        consumer_secret=os.getenv("PLANETTERRIAN_X_CONSUMER_SECRET"),
-        access_token=os.getenv("PLANETTERRIAN_X_ACCESS_TOKEN"),
-        access_token_secret=os.getenv("PLANETTERRIAN_X_ACCESS_TOKEN_SECRET"),
-        bearer_token=os.getenv("PLANETTERRIAN_X_BEARER_TOKEN"),
-        wait_on_rate_limit=True
-    )
-    logging.info("@planetterrian X posting client ready")
+    logging.info("@planetterrian X posting enabled (delegating to engine)")
 else:
     logging.info("X posting is disabled (ENABLE_X_POSTING = False)")
 
@@ -1260,50 +1262,8 @@ Here is today's complete formatted digest. Use ONLY this content:
     
     # Process and normalize voice in one step
     voice_mix = tmp_dir / "voice_normalized_mix.mp3"
-    file_duration = get_audio_duration(voice_file)
-    timeout_seconds = max(int(file_duration * 3) + 120, 600)
-    
-    logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
-
-    # First, check if voice_file exists and has content
-    if not voice_file.exists():
-        raise RuntimeError(f"Voice file {voice_file} does not exist!")
-
-    voice_file_size = voice_file.stat().st_size
-    logging.info(f"Voice file size: {voice_file_size} bytes")
-
-    if voice_file_size < 1000:  # Less than 1KB is suspicious
-        raise RuntimeError(f"Voice file {voice_file} is too small ({voice_file_size} bytes) - TTS may have failed")
-
-    # Try simpler normalization first to avoid filter issues
-    try:
-        logging.info("Attempting voice normalization with full filter chain...")
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
-            "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
-            "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(voice_mix)
-        ], check=True, capture_output=True, timeout=timeout_seconds)
-    except subprocess.CalledProcessError as e:
-        logging.warning(f"Full filter chain failed: {e}")
-        logging.warning("Trying simpler normalization...")
-        # Fallback to simpler processing
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
-            "-af", "loudnorm=I=-18:TP=-1.5:LRA=11:linear=true",
-            "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(voice_mix)
-        ], check=True, capture_output=True, timeout=timeout_seconds)
-
-    # Verify the output file was created
-    if not voice_mix.exists():
-        raise RuntimeError(f"Voice mix file {voice_mix} was not created!")
-
-    voice_mix_size = voice_mix.stat().st_size
-    logging.info(f"Voice mix file size: {voice_mix_size} bytes")
-
-    if voice_mix_size < 1000:
-        raise RuntimeError(f"Voice mix file {voice_mix} is too small ({voice_mix_size} bytes) - processing failed")
+    logging.info(f"Normalizing voice with engine/audio.normalize_voice()...")
+    _engine_normalize_voice(voice_file, voice_mix)
     
     # Check if we have background music
     has_background_music = MAIN_MUSIC.exists() if MAIN_MUSIC else False
@@ -1663,10 +1623,15 @@ if ENABLE_X_POSTING:
         credit_usage["services"]["x_api"]["post_calls"] += 1
 
         # Post the teaser with link
-        tweet = x_client.create_tweet(text=teaser_text)
-        tweet_id = tweet.data['id']
-        thread_url = f"https://x.com/planetterrian/status/{tweet_id}"
-        logging.info(f"DIGEST LINK POSTED → {thread_url}")
+        tweet_url = _engine_post_to_x(
+            teaser_text,
+            consumer_key=os.getenv("PLANETTERRIAN_X_CONSUMER_KEY", ""),
+            consumer_secret=os.getenv("PLANETTERRIAN_X_CONSUMER_SECRET", ""),
+            access_token=os.getenv("PLANETTERRIAN_X_ACCESS_TOKEN", ""),
+            access_token_secret=os.getenv("PLANETTERRIAN_X_ACCESS_TOKEN_SECRET", ""),
+        )
+        if tweet_url:
+            logging.info(f"DIGEST LINK POSTED \u2192 {tweet_url}")
     except Exception as e:
         logging.error(f"X post failed: {e}")
 

@@ -128,7 +128,7 @@ publishing:
   guid_prefix: planetterrian-daily
   base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
   audio_subdir: digests/planetterrian
-  summaries_json: digests/summaries_planet.json
+  summaries_json: digests/planetterrian/summaries_planet.json
   summaries_podcast_name: planet
   x_enabled: true
   x_env_prefix: "PLANETTERRIAN_X_"

@@ -43,9 +43,12 @@ from engine.publisher import (
     get_next_episode_number as _engine_get_next_episode_number,
     save_summary_to_github_pages as _engine_save_summary,
     update_rss_feed as _engine_update_rss_feed,
+    post_to_x as _engine_post_to_x,
 )
 from engine.tracking import create_tracker, save_usage as _engine_save_usage
 from engine.tts import synthesize as _engine_synthesize
+from engine.content_tracker import ContentTracker, OV_SECTION_PATTERNS
+from engine.utils import deduplicate_by_entity
 
 # ========================== LOGGING ==========================
 logging.basicConfig(
@@ -112,7 +115,9 @@ def save_summary_to_github_pages(
     rss_url=None,
 ):
     """Thin wrapper around engine.publisher.save_summary_to_github_pages."""
-    json_path = output_dir / f"summaries_{podcast_name}.json"
+    # Summaries live in per-show subdirectories under digests/
+    _proj_root = Path(__file__).resolve().parent.parent
+    json_path = _proj_root / "digests" / "omni_view" / f"summaries_{podcast_name}.json"
     return _engine_save_summary(
         summary_text,
         json_path,
@@ -1215,7 +1220,7 @@ def update_omni_view_rss_feed(audio_file, duration):
         mp3_duration=duration,
         mp3_path=audio_file,
         base_url=base_url,
-        audio_subdir="digests",
+        audio_subdir="digests/omni_view",
         channel_title="Omni View - Balanced News Perspectives",
         channel_link="https://patricknovak.github.io/Tesla-shorts-time/omni-view.html",
         channel_description=(
@@ -1253,7 +1258,9 @@ if __name__ == "__main__":
     # Set up paths
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
-    digests_dir = project_root / "digests"
+    # New episodes go to dedicated subdirectory; old flat files stay in digests/ for RSS compat
+    digests_dir = project_root / "digests" / "omni_view"
+    digests_dir.mkdir(parents=True, exist_ok=True)
 
     # Initialize credit usage tracking — MIGRATED: engine/tracking.py
     episode_num = get_next_episode_number(project_root / "omni_view_podcast.rss", digests_dir)
@@ -1266,20 +1273,8 @@ if __name__ == "__main__":
         timeout=300.0
     )
 
-    # X client setup
-    try:
-        import tweepy
-        x_client = tweepy.Client(
-            consumer_key=os.getenv("X_CONSUMER_KEY"),
-            consumer_secret=os.getenv("X_CONSUMER_SECRET"),
-            access_token=os.getenv("X_ACCESS_TOKEN"),
-            access_token_secret=os.getenv("X_ACCESS_TOKEN_SECRET"),
-            bearer_token=os.getenv("X_BEARER_TOKEN")
-        )
-        logging.info("X client initialized successfully")
-    except Exception as e:
-        logging.warning(f"Failed to initialize X client: {e}")
-        x_client = None
+    # X posting delegated to engine/publisher.post_to_x()
+    logging.info("X posting will use engine/publisher.post_to_x()")
 
     # Initialize variables
     audio_files = []
@@ -1292,11 +1287,27 @@ if __name__ == "__main__":
     # ========================== STEP 1: FETCH BALANCED NEWS ==========================
     balanced_news, raw_news_articles = fetch_balanced_news()
 
+    # --- Cross-episode content tracking ---
+    _ov_tracker = ContentTracker("omni_view", digests_dir)
+    _ov_tracker.load()
+
+    # Entity-level dedup: cap articles to max 2 per primary entity
+    balanced_news = deduplicate_by_entity(balanced_news, max_per_entity=2)
+
+    # Cross-episode dedup: drop articles too similar to recently covered stories
+    balanced_news = _ov_tracker.filter_recent_articles(balanced_news, similarity_threshold=0.65, days=3)
+
+    logging.info(f"After cross-episode + entity dedup: {len(balanced_news)} articles remain")
+
     # ========================== STEP 2: GENERATE X THREAD FROM NEWS ==========================
     logging.info("Step 2: Generating balanced news summary thread...")
 
     # Generate the X thread
     x_thread = generate_balanced_news_digest(balanced_news)
+
+    # Record episode content in the tracker
+    _ov_tracker.record_episode(x_thread, OV_SECTION_PATTERNS)
+    _ov_tracker.save()
 
     # ========================== STEP 3: GENERATE PODCAST SCRIPT ==========================
     logging.info("Step 3: Generating podcast script...")
@@ -1370,14 +1381,16 @@ Read the complete balanced analysis: {summaries_url}
             # Track X API post call
             credit_usage["services"]["x_api"]["post_calls"] += 1
 
-            # Post the teaser with link
-            if x_client:
-                tweet = x_client.create_tweet(text=teaser_text)
-                tweet_id = tweet.data['id']
-                thread_url = f"https://x.com/omniviewnews/status/{tweet_id}"
-                logging.info(f"DIGEST LINK POSTED → {thread_url}")
-            else:
-                logging.warning("X client not initialized - skipping X post")
+            # Post the teaser with link via engine
+            tweet_url = _engine_post_to_x(
+                teaser_text,
+                consumer_key=os.getenv("X_CONSUMER_KEY", ""),
+                consumer_secret=os.getenv("X_CONSUMER_SECRET", ""),
+                access_token=os.getenv("X_ACCESS_TOKEN", ""),
+                access_token_secret=os.getenv("X_ACCESS_TOKEN_SECRET", ""),
+            )
+            if tweet_url:
+                logging.info(f"DIGEST LINK POSTED \u2192 {tweet_url}")
         except Exception as e:
             logging.error(f"X post failed: {e}")
 

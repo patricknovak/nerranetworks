@@ -289,7 +289,7 @@
 
     async function loadEpisodes() {
       try {
-        const resp = await fetch('digests/summaries_tesla.json');
+        const resp = await fetch('digests/tesla_shorts_time/summaries_tesla.json');
         if (!resp.ok) throw new Error('JSON not found');
         const data = await resp.json();
         renderFromJSON(data.summaries || data);
@@ -500,7 +500,7 @@
 
       // Final fallback: extract TSLA price from latest episode content
       try {
-        const resp = await fetch('digests/summaries_tesla.json');
+        const resp = await fetch('digests/tesla_shorts_time/summaries_tesla.json');
         if (resp.ok) {
           const data = await resp.json();
           const eps = data.summaries || data;

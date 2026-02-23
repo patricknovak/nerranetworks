@@ -11,7 +11,6 @@ import re
 from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
-import tweepy
 
 # ========================== BULLETPROOF .env ==========================
 script_dir = Path(__file__).resolve().parent
@@ -21,14 +20,9 @@ if not env_path.exists():
     raise FileNotFoundError(f".env not found at {env_path}")
 load_dotenv(dotenv_path=env_path)
 
+from engine.publisher import post_to_x as _engine_post_to_x
+
 grok_client = OpenAI()
-x_client = tweepy.Client(
-    consumer_key=os.getenv("X_CONSUMER_KEY"),
-    consumer_secret=os.getenv("X_CONSUMER_SECRET"),
-    access_token=os.getenv("X_ACCESS_TOKEN"),
-    access_token_secret=os.getenv("X_ACCESS_TOKEN_SECRET"),
-    wait_on_rate_limit=True
-)
 
 def post():
     today = datetime.date.today().strftime("%B %d, %Y")
@@ -70,12 +64,17 @@ The future is here today. Let’s build it. ⚡️🧬🔭🧠"""
     digest = re.sub(r'https?://(x\.com|twitter\.com)/i/web/status/(\d+)', r'https://x.com/planetterrian/status/\2', digest)
     digest = re.sub(r'https?://(x\.com|twitter\.com)/status/(\d+)', r'https://x.com/planetterrian/status/\2', digest)
 
-    try:
-        tweet = x_client.create_tweet(text=digest)
-        url = f"https://x.com/planetterrian/status/{tweet.data['id']}"
-        print(f"Science digest LIVE → {url}")
-    except Exception as e:
-        print(f"Science post failed: {e}")
+    tweet_url = _engine_post_to_x(
+        digest,
+        consumer_key=os.getenv("X_CONSUMER_KEY", ""),
+        consumer_secret=os.getenv("X_CONSUMER_SECRET", ""),
+        access_token=os.getenv("X_ACCESS_TOKEN", ""),
+        access_token_secret=os.getenv("X_ACCESS_TOKEN_SECRET", ""),
+    )
+    if tweet_url:
+        print(f"Science digest LIVE \u2192 {tweet_url}")
+    else:
+        print("Science post failed")
 
     filename = project_root / f"Science_Digest_{datetime.date.today():%Y-%m-%d}.md"
     with open(filename, "w", encoding="utf-8") as f:

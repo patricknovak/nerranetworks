@@ -45,14 +45,18 @@ from engine.utils import (
     norm_headline_for_similarity as _engine_norm_headline,
     filter_articles_by_recent_stories as _engine_filter_recent,
 )
-from engine.audio import get_audio_duration, format_duration as _engine_format_duration
+from engine.audio import get_audio_duration, format_duration as _engine_format_duration, mix_with_music as _engine_mix_with_music, normalize_voice as _engine_normalize_voice
 from engine.publisher import (
     update_rss_feed as _engine_update_rss_feed,
     get_next_episode_number as _engine_get_next_episode_number,
     save_summary_to_github_pages as _engine_save_summary,
     generate_episode_thumbnail as _engine_generate_thumbnail,
+    format_tst_digest_for_x as _engine_format_tst_digest_for_x,
+    post_to_x as _engine_post_to_x,
 )
 from engine.tracking import create_tracker, record_llm_usage, record_tts_usage, record_x_post, save_usage
+from engine.content_tracker import ContentTracker, TST_SECTION_PATTERNS
+from engine.utils import deduplicate_by_entity
 
 # ========================== LOGGING ==========================
 logging.basicConfig(
@@ -75,20 +79,11 @@ def _log_uncaught(exc_type, exc_value, exc_traceback):
 sys.excepthook = _log_uncaught
 
 # ========================== CONFIGURATION ==========================
-# Set to True to test digest generation only (skips podcast and X posting)
-TEST_MODE = False  # Set to False for full run
-
-# Set to False to disable X posting (thread will still be generated and saved)
+# Defaults (overridable via environment variables)
+TEST_MODE = False
 ENABLE_X_POSTING = True
-
-# Set to False to disable podcast generation and RSS feed updates
 ENABLE_PODCAST = True
-
-# Set to True to save summaries to GitHub Pages instead of posting full content to X
 ENABLE_GITHUB_SUMMARIES = True
-
-# Link validation is currently disabled - validation functions have been removed
-# Set to True and re-implement validation functions if needed in the future
 ENABLE_LINK_VALIDATION = False
 
 # Shared HTTP defaults
@@ -129,6 +124,17 @@ if not env_path.exists():
     raise FileNotFoundError(f".env not found at {env_path}")
 
 load_dotenv(dotenv_path=env_path)
+
+# Optional env overrides for feature flags (useful for local testing)
+TEST_MODE = env_bool("TEST_MODE", TEST_MODE)
+ENABLE_X_POSTING = env_bool("ENABLE_X_POSTING", ENABLE_X_POSTING)
+ENABLE_PODCAST = env_bool("ENABLE_PODCAST", ENABLE_PODCAST)
+ENABLE_GITHUB_SUMMARIES = env_bool("ENABLE_GITHUB_SUMMARIES", ENABLE_GITHUB_SUMMARIES)
+
+if TEST_MODE:
+    # In test mode, default to no posting/no audio unless explicitly overridden
+    ENABLE_X_POSTING = env_bool("ENABLE_X_POSTING", False)
+    ENABLE_PODCAST = env_bool("ENABLE_PODCAST", False)
 
 # ========================== SET UP SHARED PRONUNCIATION MODULE ==========================
 import sys
@@ -215,11 +221,16 @@ def fetch_tsla_price() -> tuple[float, float, str]:
 price, prev_close, market_status = fetch_tsla_price()
 change = price - prev_close
 change_pct = (change / prev_close * 100) if prev_close else 0
-change_str = f"{change:+.2f} ({change_pct:+.2f}%) {market_status}" if change != 0 else "unchanged"
+if change != 0:
+    sign = "+" if change > 0 else "-"
+    change_str = f"{sign}${abs(change):.2f} ({change_pct:+.2f}%) {market_status}"
+else:
+    change_str = "unchanged"
 
 # Folders - use absolute paths
-digests_dir = project_root / "digests"
-digests_dir.mkdir(exist_ok=True)
+# New episodes go to dedicated subdirectory; old flat files stay in digests/ for RSS compat
+digests_dir = project_root / "digests" / "tesla_shorts_time"
+digests_dir.mkdir(parents=True, exist_ok=True)
 
 # ========================== TESLA X TAKEOVER SECTION ==========================
 # Tesla X Takeover now focuses on fresh, interesting Tesla news/trends instead of cycling through specific X accounts
@@ -262,31 +273,40 @@ def save_used_content_tracker(tracker: dict):
         logging.warning(f"Failed to save content tracker: {e}")
 
 def extract_sections_from_digest(digest_path: Path) -> dict:
-    """Extract Short Spot, Daily Challenge, and Inspiration Quote from a digest file."""
+    """Extract Short Spot, First Principles, Daily Challenge, and Inspiration Quote from a digest file."""
     sections = {
         "short_spot": None,
         "short_squeeze": None,
+        "first_principles": None,
         "daily_challenge": None,
         "inspiration_quote": None
     }
-    
+
     if not digest_path.exists():
         return sections
-    
+
     try:
         with open(digest_path, 'r', encoding='utf-8') as f:
             content = f.read()
-        
+
         # Extract Short Spot (between "## Short Spot" or "📉 **Short Spot**" and next separator)
         short_spot_match = re.search(
-            r'(?:## Short Spot|📉 \*\*Short Spot\*\*)(.*?)(?=━━|### Short Squeeze|📈|### Daily Challenge|💪|✨|$)',
+            r'(?:## Short Spot|📉 \*\*Short Spot\*\*)(.*?)(?=━━|### Short Squeeze|📈|### Tesla First Principles|🧠|### Daily Challenge|💪|✨|$)',
             content,
             re.DOTALL | re.IGNORECASE
         )
         if short_spot_match:
             sections["short_spot"] = short_spot_match.group(1).strip()
-        
-        
+
+        # Extract Tesla First Principles
+        first_principles_match = re.search(
+            r'(?:### Tesla First Principles|🧠 Tesla First Principles)(.*?)(?=━━|### Daily Challenge|💪|## Tesla Market Movers|$)',
+            content,
+            re.DOTALL | re.IGNORECASE
+        )
+        if first_principles_match:
+            sections["first_principles"] = first_principles_match.group(1).strip()
+
         # Extract Daily Challenge (between "### Daily Challenge" or "💪 **Daily Challenge**" and next separator)
         daily_challenge_match = re.search(
             r'(?:### Daily Challenge|💪 \*\*Daily Challenge\*\*)(.*?)(?=━━|✨|Inspiration Quote|$)',
@@ -295,7 +315,7 @@ def extract_sections_from_digest(digest_path: Path) -> dict:
         )
         if daily_challenge_match:
             sections["daily_challenge"] = daily_challenge_match.group(1).strip()
-        
+
         # Extract Inspiration Quote (look for "Inspiration Quote:" or "✨ **Inspiration Quote:**")
         inspiration_quote_match = re.search(
             r'(?:✨ \*\*Inspiration Quote:\*\*|\*\*Inspiration Quote:\*\*|Inspiration Quote:)\s*"([^"]+)"\s*[–-]\s*([^,]+)',
@@ -306,10 +326,10 @@ def extract_sections_from_digest(digest_path: Path) -> dict:
             quote_text = inspiration_quote_match.group(1).strip()
             author = inspiration_quote_match.group(2).strip()
             sections["inspiration_quote"] = f'"{quote_text}" – {author}'
-        
+
     except Exception as e:
         logging.warning(f"Failed to extract sections from {digest_path}: {e}")
-    
+
     return sections
 
 
@@ -371,9 +391,11 @@ def load_recent_digests(max_days: int = 14) -> dict:
         check_date = datetime.date.today() - datetime.timedelta(days=i)
         date_str = check_date.strftime("%Y%m%d")
         
-        # Try both formatted and unformatted versions
-        for pattern in [f"Tesla_Shorts_Time_{date_str}.md", f"Tesla_Shorts_Time_{date_str}_formatted.md"]:
+        for pattern in [f"Tesla_Shorts_Time_{date_str}.md"]:
+            # Check new subdirectory first, then old flat directory
             digest_path = digests_dir / pattern
+            if not digest_path.exists():
+                digest_path = digests_dir.parent / pattern
             if digest_path.exists():
                 sections = extract_sections_from_digest(digest_path)
                 
@@ -476,7 +498,7 @@ def save_summary_to_github_pages(
     summary_text, output_dir, podcast_name="tesla", *,
     episode_num=None, episode_title=None, audio_url=None, rss_url=None,
 ):
-    json_path = project_root / "digests" / f"summaries_{podcast_name}.json"
+    json_path = project_root / "digests" / "tesla_shorts_time" / f"summaries_{podcast_name}.json"
     return _engine_save_summary(
         summary_text, json_path, podcast_name,
         episode_num=episode_num, episode_title=episode_title,
@@ -496,7 +518,6 @@ client = OpenAI(
 ELEVEN_API = "https://api.elevenlabs.io/v1"
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
 ELEVEN_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "dTrBzPvD2GpAqkk1MUzA")  # Default: High-energy Patrick
-# NEWSAPI_KEY no longer needed - using RSS feeds instead
 
 
 # ========================== XAI RESPONSES API (TOOLS) ==========================
@@ -857,6 +878,9 @@ def fetch_tesla_news():
 
 tesla_news, raw_news_articles = fetch_tesla_news()
 
+# Entity-level dedup: cap articles to max 2 per primary entity
+tesla_news = deduplicate_by_entity(tesla_news, max_per_entity=2)
+
 # Cross-day dedup: drop articles that are too similar to stories already covered in recent digests
 recent_headlines = [item.get("content", "") for item in content_tracker.get("recent_stories", [])]
 tesla_news = filter_articles_by_recent_stories(tesla_news, recent_headlines, similarity_threshold=0.72)
@@ -879,7 +903,8 @@ TRUSTED_USERNAMES = [
     
     # Top Tesla Influencers (High Engagement)
     "SawyerMerritt", "WholeMarsBlog", "TeslaRaj",
-    
+    "tslaming",  # Deep dive Tesla content creator
+
     # Tesla Analysts & Investors (High Engagement)
     "GaryBlack00", "TroyTeslike", "RossGerber",
     
@@ -1304,6 +1329,7 @@ logging.info("Step 3: Generating Tesla Shorts Time digest with Grok using pre-fe
 
 # Format news articles for the prompt
 news_section = ""
+article_count = len(tesla_news) if tesla_news else 0
 if tesla_news:
     news_section = "## PRE-FETCHED NEWS ARTICLES (from RSS feeds - last 24 hours):\n\n"
     for i, article in enumerate(tesla_news[:20], 1):  # Top 20 articles
@@ -1315,6 +1341,9 @@ if tesla_news:
         news_section += f"   URL: {article['url']}\n\n"
 else:
     news_section = "## PRE-FETCHED NEWS ARTICLES: Limited news available today. Focus on high-quality X posts for the digest.\n\n"
+
+# Determine whether to include Tesla X Takeover based on article count
+include_takeover = article_count >= 15
 
 # X POSTS SECTION DISABLED - No longer including X posts in prompt
 x_posts_section = ""
@@ -1352,6 +1381,8 @@ X_PROMPT = f"""
 
 You are an elite Tesla news curator producing the daily "Tesla Shorts Time" newsletter. Use ONLY the pre-fetched news above. Do NOT hallucinate, invent, or search for new content/URLs—stick to exact provided links. Do NOT include a "Top X Posts" section in your output. Prioritize diversity: No duplicates/similar stories (≥70% overlap in angle/content); max 3 from one source/account.
 
+You have {article_count} quality articles to work with today.
+
 CRITICAL: Only select articles that are SPECIFIC, FRESH (within last 48 hours), and SUBSTANTIVE. Prioritize stories about Tesla's products, technology, safety, sustainability, and mission to accelerate the transition to sustainable energy. REJECT any articles that are:
 - Generic homepage content ("latest news", "ongoing coverage", "provides updates")
 - Purely stock price/market data focused (no product or mission angle)
@@ -1361,22 +1392,23 @@ CRITICAL: Only select articles that are SPECIFIC, FRESH (within last 48 hours), 
 - Company overview pages
 
 If fewer than 8 quality articles are available, use ALL available quality articles and create a shorter digest rather than padding with low-quality content.
-
-**TESLA X TAKEOVER SECTION**: This section should focus on the most interesting, fresh, and engaging recent Tesla news developments, trends, or breaking stories. Use the pre-fetched news articles above to identify 5 compelling Tesla stories or trends that are generating buzz. Focus on what's NEW, INTERESTING, and DIFFERENT from the main news section. This could include:
+{"" if not include_takeover else '''
+**TESLA X TAKEOVER SECTION**: This section should focus on the most interesting, fresh, and engaging recent Tesla news developments, trends, or breaking stories. Use the pre-fetched news articles above to identify 5 compelling Tesla stories or trends that are generating buzz. Focus on what is NEW, INTERESTING, and DIFFERENT from the main news section. This could include:
 - Breaking developments that just emerged
 - Interesting trends or patterns in Tesla's business
 - Surprising announcements or updates
 - Community reactions to major Tesla news
 - Unique angles on Tesla stories that stand out
+- Deep dive analysis and insights (check @tslaming on X for excellent deep dive Tesla content)
 
-CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the 10 Top 10 News items—do NOT use the same article, same headline, or same story angle in both sections. Make each Takeover item engaging and fresh; each should feel like you're sharing exciting, breaking Tesla news with enthusiasm.
+CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the Top News items—do NOT use the same article, same headline, or same story angle in both sections. Make each Takeover item engaging and fresh; each should feel like you are sharing exciting, breaking Tesla news with enthusiasm.
+'''}
+**FINAL FALLBACK**: Only if RSS feeds provide fewer than 5 quality articles, you may search for additional recent, legitimate Tesla news articles from reputable sources (Teslarati, The Verge, WebProNews, CleanTechnica) published within the last 48 hours. Also check @tslaming on X for deep dive Tesla content worth sharing. Prioritize breaking news and specific product updates over analysis pieces. Ensure no more than 2 articles from any single source.
 
-**FINAL FALLBACK**: Only if RSS feeds provide fewer than 5 quality articles, you may search for additional recent, legitimate Tesla news articles from reputable sources (Teslarati, The Verge, WebProNews, CleanTechnica) published within the last 48 hours. Prioritize breaking news and specific product updates over analysis pieces. Ensure no more than 2 articles from any single source. 
-
-**CRITICAL**: 
+**CRITICAL**:
 - Do NOT include any instruction language, meta-commentary, or formatting notes in your output - only output the actual content.
-- Focus on FRESH, INTERESTING Tesla news that's different from the main news section
-- Make it engaging and exciting - like sharing breaking Tesla news with friends
+- Focus on FRESH, INTERESTING Tesla news
+- Make it engaging and exciting
 
 {used_content_summary}
 
@@ -1390,9 +1422,10 @@ CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the 1
 **IMPORTANT**: The format template below shows what your OUTPUT should look like. Do NOT include any instruction text, warnings (🚨 CRITICAL), or meta-commentary in your output. Only output the actual content sections.
 
 ### MANDATORY SELECTION & COUNTS (CRITICAL - FOLLOW EXACTLY)
-- **News**: Select ONLY high-quality, fresh articles (within 48 hours, specific content, substantial descriptions). If you have 8+ quality articles, select the best 10. If you have 5-7 quality articles, use all of them. If you have fewer than 5 quality articles, create a digest using available articles plus brief market context - DO NOT pad with low-quality or generic content. Each article must have a unique angle and substantial, specific information about Tesla.
+- **News**: You have {article_count} pre-fetched articles. Select ONLY high-quality, fresh articles (within 48 hours, specific content, substantial descriptions). Use up to the best 10 if available. If fewer than 8 quality articles exist, use ALL of them. Each article must have a unique angle and substantial, specific information about Tesla.
 - **CRITICAL URL RULE**: NEVER invent URLs. If you don't have enough pre-fetched articles, output fewer items rather than making up URLs. All URLs must be exact matches from the pre-fetched list above.
-- **Diversity Check**: Before finalizing, verify no similar content; replace if needed from pre-fetched pool. Top 10 and Tesla X Takeover must have ZERO overlapping stories—each of the 5 Takeover items must be a different story from the 10 news items.
+- **Diversity Check**: Before finalizing, verify no similar content; replace if needed from pre-fetched pool.{"" if not include_takeover else " Top News and Tesla X Takeover must have ZERO overlapping stories."}
+- **Short Spot**: Must use an article whose URL does NOT appear in the Top News section. If no separate bearish article exists, skip Short Spot this episode.
 
 ### FORMATTING (EXACT—USE MARKDOWN AS SHOWN)
 # Tesla Shorts Time
@@ -1400,32 +1433,33 @@ CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the 1
 **TSLA:** ${price:.2f} {change_str}
 
 ━━━━━━━━━━━━━━━━━━━━
-### Top 10 News Items
+### Top News
 1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM PST, Source Name**
    2–4 sentences: Start with what happened, then why it matters for Tesla's mission and how it advances sustainable energy, saves lives, or makes the world better. End with: Source: [EXACT URL FROM PRE-FETCHED—no mods]
-2. [Repeat format for 3-10; if <10 items, stop at available count, add a blank line after each item and the last item]
-
+2. [Repeat format for remaining items; output as many quality items as available up to 10, add a blank line after each item]
+{"" if not include_takeover else '''
 ━━━━━━━━━━━━━━━━━━━━
-## Tesla X Takeover: What's Hot Right Now
-🎙️ Tesla X Takeover - What's breaking in the Tesla world today! Here are the most interesting, fresh Tesla developments that have everyone talking.
+## Tesla X Takeover: What is Hot Right Now
+🎙️ Tesla X Takeover - What is breaking in the Tesla world today! Here are the most interesting, fresh Tesla developments that have everyone talking.
 
 1. 🚨 **[INCREDIBLE TITLE THAT HOOKS]** - [Breaking Tesla news or development]
-   [Make it sound exciting and fresh - like you're sharing breaking Tesla news with friends. Include what happened, why it matters for Tesla's mission, and how it advances sustainable energy or saves lives. 2-3 sentences with personality and enthusiasm.]
+   [Make it sound exciting and fresh - like sharing breaking Tesla news with friends. Include what happened, why it matters for Tesla mission, and how it advances sustainable energy or saves lives. 2-3 sentences with personality and enthusiasm.]
    Source: [EXACT URL FROM PRE-FETCHED NEWS - if available]
 
 2. 🔥 **[EXCITING TITLE]** - [Another fresh Tesla development or trend]
-   [Make it conversational and engaging. Focus on what makes this story interesting, surprising, or important for Tesla's mission to make the world better.]
+   [Make it conversational and engaging. Focus on what makes this story interesting, surprising, or important for Tesla mission to make the world better.]
 
 3. 💡 **[INSIGHTFUL TITLE]** - [Interesting Tesla trend or pattern]
-   [Highlight what's unique or noteworthy about this development. Connect it to Tesla's bigger picture — accelerating sustainable energy, advancing autonomy and safety, or improving lives.]
+   [Highlight what is unique or noteworthy about this development. Connect it to Tesla bigger picture — accelerating sustainable energy, advancing autonomy and safety, or improving lives.]
 
 4. ⚡ **[ENERGETIC TITLE]** - [Surprising Tesla announcement or update]
-   [Focus on what makes this development exciting or unexpected. Explain why this could be significant for Tesla's mission or for making the world a safer, cleaner place.]
+   [Focus on what makes this development exciting or unexpected. Explain why this could be significant for Tesla mission or for making the world a safer, cleaner place.]
 
 5. 🎯 **[PRECISION TITLE]** - [Fresh Tesla story that stands out]
    [Show why this particular development is noteworthy and different from the usual news. Make it clear why Tesla fans and anyone who cares about the future should pay attention.]
 
-**The Vibe Check:** "Overall, the Tesla world is [ENERGIZED/CHALLENGED/EVOLVING] this week, with key themes around [Autopilot safety, energy storage, Cybertruck deliveries, manufacturing efficiency, etc.]. The most exciting developments are [specific trends or patterns], showing Tesla's progress toward [its mission of sustainable energy / saving lives through autonomy / etc.]."
+**The Vibe Check:** "Overall, the Tesla world is [ENERGIZED/CHALLENGED/EVOLVING] this week, with key themes around [Autopilot safety, energy storage, Cybertruck deliveries, manufacturing efficiency, etc.]. The most exciting developments are [specific trends or patterns], showing Tesla progress toward [its mission of sustainable energy / saving lives through autonomy / etc.]."
+'''}
 
 ━━━━━━━━━━━━━━━━━━━━
 ## Short Spot
@@ -1470,13 +1504,13 @@ One short, inspiring challenge tied to Tesla/Elon themes (curiosity, first princ
 - No stock-quote pages/pure price commentary as "news."
 
 ### FINAL VALIDATION CHECKLIST (DO THIS BEFORE OUTPUT)
-- ✅ Exactly 10 news items (or all if <10): Numbered 1-10, unique stories.
-- ✅ Tesla X Takeover section included with 5 fresh, interesting Tesla news developments or trends.
+- ✅ Top News items: Up to 10 (or all if <10), numbered, unique stories.{"" if not include_takeover else chr(10) + "- ✅ Tesla X Takeover section included with 5 fresh, interesting Tesla developments (ZERO overlap with Top News)."}
+- ✅ Short Spot: Uses a DIFFERENT article URL from the Top News section.
 - ✅ Podcast link: Full URL as shown.
 - ✅ Lists: "1. " format (number, period, space)—no bullets.
 - ✅ Separators: "━━━━━━━━━━━━━━━━━━━━" before each major section.
-- ✅ No duplicates: All items unique (review pairwise). Top 10 and Tesla X Takeover: no story overlap.
-- ✅ All sections included: Tesla X Takeover, Short Spot, Tesla First Principles, Tesla Market Movers (Mondays only), Daily Challenge, Quote, sign-off.
+- ✅ No duplicates: All items unique (review pairwise).
+- ✅ All sections included: Short Spot, Tesla First Principles, Tesla Market Movers (Mondays only), Daily Challenge, Quote, sign-off.
 - ✅ URLs: Exact from pre-fetched; valid format; no inventions.
 - ✅ FRESHNESS CHECK: Short Spot is DIFFERENT from recent ones (different story/angle).
 - ✅ FRESHNESS CHECK: Tesla First Principles uses COMPLETELY DIFFERENT topics/analysis than recent ones.
@@ -1725,278 +1759,16 @@ if news_count != 10:
 logging.info("Step 4: Formatting digest for beautiful X post...")
 
 def format_digest_for_x(digest: str) -> str:
-    """
-    Format the digest beautifully for a long X post with emojis, proper spacing, and visual appeal.
-    X supports up to 25,000 characters for long posts.
-    """
-    import re
-    
-    formatted = digest
-    
-    # Add emoji to main header (only if it's the first line)
-    formatted = re.sub(r'^# Tesla Shorts Time', '🚗⚡ **Tesla Shorts Time**', formatted, flags=re.MULTILINE)
-    
-    # Format date line with emoji
-    formatted = re.sub(r'\*\*Date:\*\*', '📅 **Date:**', formatted)
-    
-    # Format price line with emoji
-    formatted = re.sub(r'\*\*REAL-TIME TSLA price:\*\*', '💰 **REAL-TIME TSLA price:**', formatted)
-    
-    # Ensure podcast link is always present with full URL (add it if missing or incomplete)
-    podcast_url = 'https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939'
-    podcast_link_md = f'🎙️ **Tesla Shorts Time Daily Podcast Link:** {podcast_url}'
-    
-    # Check if the full URL is present (not just the text)
-    # Also check for incomplete podcast links (has emoji but no URL)
-    # More aggressive check - look for any line with podcast emoji that doesn't have the full URL
-    has_incomplete_podcast_link = bool(re.search(r'🎙️[^\n]*[Pp]odcast[^\n]*(?!https://)', formatted))
-    # Also check if podcast link line exists but URL is missing
-    podcast_line_without_url = bool(re.search(r'🎙️[^\n]*[Pp]odcast[^\n]*\n(?!.*https://podcasts\.apple\.com)', formatted, re.DOTALL))
-    
-    if podcast_url not in formatted or has_incomplete_podcast_link or podcast_line_without_url:
-        # Remove any incomplete podcast link text
-        lines = formatted.split('\n')
-        cleaned_lines = []
-        for line in lines:
-            # If line mentions podcast but doesn't have the full URL, skip it
-            if ('podcast' in line.lower() or '🎙️' in line) and podcast_url not in line:
-                continue
-            cleaned_lines.append(line)
-        formatted = '\n'.join(cleaned_lines)
-        
-        # Find the price line and insert podcast link right after it
-        lines = formatted.split('\n')
-        insert_pos = None
-        for i, line in enumerate(lines):
-            # Look for price line (with or without emoji)
-            if 'REAL-TIME TSLA price' in line or '💰' in line:
-                insert_pos = i + 1
-                break
-            # Fallback: look for date line
-            elif 'Date:' in line and '📅' in line and insert_pos is None:
-                insert_pos = i + 1
-        
-        # If we found a position, insert the podcast link
-        if insert_pos is not None:
-            lines.insert(insert_pos, '')
-            lines.insert(insert_pos + 1, podcast_link_md)
-            lines.insert(insert_pos + 2, '')
-        else:
-            # Last resort: add at the very beginning after header
-            header_end = 0
-            for i, line in enumerate(lines[:5]):
-                if line.strip() and (line.startswith('#') or line.startswith('🚗')):
-                    header_end = i
-            lines.insert(header_end + 1, '')
-            lines.insert(header_end + 2, podcast_link_md)
-            lines.insert(header_end + 3, '')
-        
-        formatted = '\n'.join(lines)
-    else:
-        # URL is present, ensure it has the emoji prefix and proper formatting
-        # Replace any variation of the podcast link with the properly formatted version
-        formatted = re.sub(
-            r'🎙️?\s*[Tt]esla\s+[Ss]horts\s+[Tt]ime\s+[Dd]aily\s+[Pp]odcast\s+[Ll]ink:?\s*' + re.escape(podcast_url),
-            podcast_link_md,
-            formatted,
-            flags=re.IGNORECASE
-        )
-        # Also handle case where URL is there but formatting is wrong
-        if podcast_url in formatted and '🎙️' not in formatted.split(podcast_url)[0][-50:]:
-            # URL exists but no emoji nearby, add it
-            formatted = re.sub(
-                r'([^\n]*)' + re.escape(podcast_url),
-                r'\1\n' + podcast_link_md,
-                formatted,
-                count=1
-            )
-    
-    # Format section headers with emojis (preserve existing markdown)
-    formatted = re.sub(r'^### Top 10 News Items', '📰 **Top 10 News Items**', formatted, flags=re.MULTILINE)
-    # Format Tesla X Takeover section (now focuses on fresh news/trends, not specific accounts)
-    formatted = re.sub(r'^## Tesla X Takeover:', '🎙️ **Tesla X Takeover:**', formatted, flags=re.MULTILINE)
-    formatted = re.sub(r'^### Tesla X Takeover:', '🎙️ **Tesla X Takeover:**', formatted, flags=re.MULTILINE)
-    # X POSTS SECTION DISABLED - No longer formatting X posts header
-    formatted = re.sub(r'^## Short Spot', '📉 **Short Spot**', formatted, flags=re.MULTILINE)
-    formatted = re.sub(r'^### Short Squeeze', '📈 **Short Squeeze**', formatted, flags=re.MULTILINE)
-    formatted = re.sub(r'^### Daily Challenge', '💪 **Daily Challenge**', formatted, flags=re.MULTILINE)
-    
-    # Add emoji to Inspiration Quote
-    formatted = re.sub(r'\*\*Inspiration Quote:\*\*', '✨ **Inspiration Quote:**', formatted)
-    
-    # Add separator lines before major sections
-    separator = '\n\n━━━━━━━━━━━━━━━━━━━━\n\n'
-    
-    # First, remove any existing separators to avoid duplicates
-    formatted = re.sub(r'\n\n━━━━━━━━━━━━━━━━━━━━\n\n+', '\n\n', formatted)
-    
-    # Add separator before Top 10 News Items (check multiple patterns)
-    formatted = re.sub(r'(\n\n?)(📰 \*\*Top 10 News Items\*\*)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(### Top 10 News Items)', separator + r'\2', formatted)
-    # Also match after podcast link
-    formatted = re.sub(r'(Podcast Link:.*?\n)(📰|\*\*Top 10 News|### Top 10 News)', separator + r'\2', formatted, flags=re.DOTALL)
-    
-    # Add separator before Tesla X Takeover
-    formatted = re.sub(r'(\n\n?)(🎙️ \*\*Tesla X Takeover)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(## Tesla X Takeover|### Tesla X Takeover)', separator + r'\2', formatted)
-    # Also match after last news item (10.)
-    formatted = re.sub(r'(10[️⃣\.]\s+.*?\n)(🎙️|\*\*Tesla X Takeover|## Tesla X Takeover|### Tesla X Takeover)', separator + r'\2', formatted, flags=re.DOTALL)
-    
-    # X POSTS SEPARATOR DISABLED - No longer adding separator before X posts
-    
-    # Add separator before Short Spot
-    formatted = re.sub(r'(\n\n?)(📉 \*\*Short Spot\*\*)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(## Short Spot)', separator + r'\2', formatted)
-    # Also match after Tesla X Takeover section (vibe check)
-    formatted = re.sub(r'(The Vibe Check.*?\n)(📉|\*\*Short Spot|## Short Spot)', separator + r'\2', formatted, flags=re.DOTALL)
-    
-    # Add separator before Short Squeeze
-    formatted = re.sub(r'(\n\n?)(📈 \*\*Short Squeeze\*\*)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(### Short Squeeze)', separator + r'\2', formatted)
-    
-    # Add separator before Daily Challenge
-    formatted = re.sub(r'(\n\n?)(💪 \*\*Daily Challenge\*\*)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(### Daily Challenge)', separator + r'\2', formatted)
-    
-    # Add separator before Inspiration Quote
-    formatted = re.sub(r'(\n\n?)(✨ \*\*Inspiration Quote:\*\*)', separator + r'\2', formatted)
-    formatted = re.sub(r'(\n\n?)(\*\*Inspiration Quote:\*\*)', separator + r'\2', formatted)
-    
-    # Add emoji to numbered list items for news (1️⃣, 2️⃣, etc.)
-    emoji_numbers = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟']
-    
-    # Find the news section and apply emojis
-    if '📰' in formatted or 'Top 10 News' in formatted:
-        news_section_match = re.search(r'(📰.*?Top 10 News Items.*?)(📉|Short Spot|━━)', formatted, re.DOTALL)
-        if news_section_match:
-            news_section = news_section_match.group(1)
-            for i in range(1, 11):
-                emoji_num = emoji_numbers[i-1]
-                # Replace numbered items in news section
-                news_section = re.sub(
-                    rf'^(\s*){i}\.\s+',
-                    lambda m: m.group(1) + emoji_num + ' ',
-                    news_section,
-                    flags=re.MULTILINE
-                )
-            formatted = formatted.replace(news_section_match.group(1), news_section)
-    
-    # X POSTS EMOJI FORMATTING DISABLED - No longer formatting X posts emojis
-    
-    # Clean up excessive newlines (more than 3 consecutive becomes 2)
-    formatted = re.sub(r'\n{4,}', '\n\n', formatted)
-    
-    # Ensure proper spacing: add a blank line before numbered items if missing
-    formatted = re.sub(r'\n(\d+\.)', r'\n\n\1', formatted)
-    
-    # Clean up: remove any triple newlines that might have been created
-    formatted = re.sub(r'\n{3,}', '\n\n', formatted)
-    
-    # Clean up any markdown code blocks if any (they don't render well on X)
-    formatted = re.sub(r'```[^`]*```', '', formatted, flags=re.DOTALL)
-    
-    # Ensure the post ends nicely if it doesn't already
-    formatted = formatted.strip()
-    if formatted and not formatted[-1] in '!?.':
-        # Check if it ends with a quote or sign-off
-        last_lines = formatted.split('\n')[-3:]
-        last_text = ' '.join(last_lines).strip()
-        if not any(word in last_text.lower() for word in ['feedback', 'dm', 'accelerating', 'electric', 'mission']):
-            formatted += '\n\n⚡ Keep accelerating!'
-    
-    # Fix X post URLs - remove markdown brackets and ensure plain text URLs
-    # Replace [text](url) or [url] with just the URL
-    formatted = re.sub(r'\[([^\]]+)\]\((https?://[^\)]+)\)', r'\2', formatted)
-    formatted = re.sub(r'\[(https?://[^\]]+)\]', r'\1', formatted)
-    # Fix URLs that might have trailing brackets or parentheses
-    formatted = re.sub(r'(https?://x\.com/[^\s\)\]]+)[\)\]]+', r'\1', formatted)
-    
-    # Remove instruction language that might have leaked into output
-    instruction_patterns = [
-        r'🎯\s*TODAY\'S FOCUS:.*?\n',
-        r'\*\*TOP 5 TESLA X POSTS FROM.*?:\*\*\s*\n',
-        r'Using your knowledge.*?\n',
-        r'For each post:.*?\n',
-        r'\(use actual post URLs.*?\)',
-        r'\(if you can find them.*?\)',
-        r'\(format as shown\)',
-        r'\*\*OVERALL WEEKLY SENTIMENT.*?:\*\*\s*\n',
-        r'Provide a.*?summary.*?\n',
-        r'Is the sentiment.*?\n',
-        r'What are the main topics.*?\n',
-        r'What\'s their perspective.*?\n',
-        r'\[Repeat for.*?\]',
-        r'\[ACTUAL_POST_ID\]',
-        r'\[POST_ID\]',
-        # Remove CRITICAL instruction warnings
-        r'🚨\s*CRITICAL:.*?\n',
-        r'CRITICAL:.*?COMPLETELY DIFFERENT.*?\n',
-        r'CRITICAL:.*?COMPLETELY NEW.*?\n',
-        r'Use a DIFFERENT.*?\n',
-        r'Use DIFFERENT.*?\n',
-        r'Avoid repetition.*?\n',
-        r'Do NOT repeat.*?\n',
-        r'Never repeat.*?\n',
-    ]
-    for pattern in instruction_patterns:
-        formatted = re.sub(pattern, '', formatted, flags=re.IGNORECASE | re.MULTILINE)
-    
-    # Remove placeholder/dead URLs (URLs with [POST_ID] or similar placeholders, or invalid format)
-    formatted = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/\[[^\]]+\]', '', formatted, flags=re.IGNORECASE)
-    formatted = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/[^\d/][^\s]*', '', formatted, flags=re.IGNORECASE)  # Remove URLs without proper numeric IDs
-    formatted = re.sub(r'Post:\s*https?://x\.com/[^\s]+/status/ONLY_IF_YOU_HAVE_REAL_URL_WITH_NUMERIC_ID', '', formatted, flags=re.IGNORECASE)  # Remove placeholder URLs
-    
-    # Final cleanup: normalize whitespace
-    # Replace multiple spaces with single space (but preserve intentional formatting)
-    lines = formatted.split('\n')
-    cleaned_lines = []
-    for line in lines:
-        # Preserve lines that are mostly spaces (intentional spacing)
-        if line.strip() == '':
-            cleaned_lines.append('')
-        else:
-            # Clean up excessive spaces but preserve markdown formatting
-            cleaned_line = re.sub(r'[ \t]{2,}', ' ', line)
-            cleaned_lines.append(cleaned_line)
-    formatted = '\n'.join(cleaned_lines)
-    
-    # Final newline cleanup
-    formatted = re.sub(r'\n{3,}', '\n\n', formatted)
-    formatted = formatted.strip()
-    
-    # Check character limit (X allows 25,000 characters for long posts)
-    max_chars = 25000
-    if len(formatted) > max_chars:
-        logging.warning(f"Formatted digest is {len(formatted)} characters, truncating to {max_chars}")
-        # Try to truncate at a natural break point
-        truncate_at = formatted[:max_chars-100].rfind('\n\n')
-        if truncate_at > max_chars * 0.8:  # Only if we can keep at least 80% of content
-            formatted = formatted[:truncate_at] + "\n\n... (content truncated for length)"
-        else:
-            formatted = formatted[:max_chars-50] + "\n\n... (truncated for length)"
-    
-    return formatted
+    """Delegate to engine.publisher.format_tst_digest_for_x."""
+    return _engine_format_tst_digest_for_x(digest)
 
 # Format the digest
 x_thread_formatted = format_digest_for_x(x_thread)
 logging.info(f"Digest formatted for X ({len(x_thread_formatted)} characters)")
 
-# Save both versions (original and formatted)
-x_path = digests_dir / f"Tesla_Shorts_Time_{datetime.date.today():%Y%m%d}.md"
-x_path_formatted = digests_dir / f"Tesla_Shorts_Time_{datetime.date.today():%Y%m%d}_formatted.md"
-
-with open(x_path, "w", encoding="utf-8") as f:
-    f.write(x_thread)
-logging.info(f"Original X thread saved → {x_path}")
-
-with open(x_path_formatted, "w", encoding="utf-8") as f:
-    f.write(x_thread_formatted)
-logging.info(f"Formatted X thread saved → {x_path_formatted}")
-
-# Use the formatted version for posting
+# Use the formatted version for posting and save once
 x_thread = x_thread_formatted
 
-# Save X thread
 x_path = digests_dir / f"Tesla_Shorts_Time_{datetime.date.today():%Y%m%d}.md"
 with open(x_path, "w", encoding="utf-8") as f:
     f.write(x_thread)
@@ -2036,9 +1808,19 @@ if new_sections.get("first_principles"):
     })
     logging.info("Saved new First Principles to content tracker")
 
-# Save the updated tracker
+# Save the updated tracker (legacy format)
 save_used_content_tracker(content_tracker)
 logging.info("Content tracker updated with today's sections")
+
+# Also save with the new engine-based content tracker for future cross-episode dedup
+try:
+    _tst_tracker = ContentTracker("tesla_shorts_time", digests_dir)
+    _tst_tracker.load()
+    _tst_tracker.record_episode(x_thread, TST_SECTION_PATTERNS)
+    _tst_tracker.save()
+    logging.info("Engine content tracker updated")
+except Exception as _e:
+    logging.warning("Failed to update engine content tracker: %s", _e)
 
 # Exit early if in test mode (only generate digest)
 if TEST_MODE:
@@ -2048,20 +1830,10 @@ if TEST_MODE:
     print("="*80)
     sys.exit(0)
 
-# ========================== TWEEPY X CLIENT FOR AUTO-POSTING ==========================
+# ========================== X POSTING (via engine/publisher.post_to_x) ==========================
 tweet_id = None
 if ENABLE_X_POSTING:
-    import tweepy
-
-    x_client = tweepy.Client(
-        consumer_key=os.getenv("X_CONSUMER_KEY"),
-        consumer_secret=os.getenv("X_CONSUMER_SECRET"),
-        access_token=os.getenv("X_ACCESS_TOKEN"),
-        access_token_secret=os.getenv("X_ACCESS_TOKEN_SECRET"),
-        bearer_token=os.getenv("X_BEARER_TOKEN"),
-        wait_on_rate_limit=True
-    )
-    logging.info("@teslashortstime X posting client ready")
+    logging.info("@teslashortstime X posting enabled (delegating to engine)")
 else:
     logging.info("X posting is disabled (ENABLE_X_POSTING = False)")
 
@@ -2136,6 +1908,13 @@ Use this exact closing (do not rewrite it):
 Here is today's complete formatted digest. Use ONLY this content:
 """
 
+    # Strip stock price line from digest before passing to podcast prompt
+    # The stock price is for the X thread/markdown only, not the podcast
+    _pod_digest = re.sub(r'\*\*TSLA:\*\*[^\n]+\n?', '', x_thread)
+    # Also strip any "I'm Patrick" self-identification the model might have produced
+    _pod_digest = re.sub(r"\bI'm Patrick\b", "I'm your host", _pod_digest)
+    _pod_digest = re.sub(r"\bPatrick here\b", "Your host here", _pod_digest)
+
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=1, max=15),  # Reduced wait times: 1-15s instead of 2-30s
@@ -2153,7 +1932,7 @@ Here is today's complete formatted digest. Use ONLY this content:
                     }
                 ],
             },
-            {"role": "user", "content": [{"type": "input_text", "text": f"{POD_PROMPT}\n\n{x_thread}"}]},
+            {"role": "user", "content": [{"type": "input_text", "text": f"{POD_PROMPT}\n\n{_pod_digest}"}]},
         ]
         return _xai_responses_create(
             model="grok-4",
@@ -2500,6 +2279,11 @@ Here is today's complete formatted digest. Use ONLY this content:
 
     full_text = " ".join(full_text_parts).strip()
 
+    # Strip any personal name references that slipped through
+    full_text = re.sub(r"\bI'm Patrick\b", "I'm your host", full_text)
+    full_text = re.sub(r"\bPatrick here\b", "Your host here", full_text)
+    full_text = re.sub(r"\bI'm Patrick[\w, ]+\.", "I'm your host.", full_text)
+
     # Ensure we have content and log it for debugging
     if not full_text:
         logging.error("ERROR: No text content extracted from podcast script!")
@@ -2550,187 +2334,26 @@ Here is today's complete formatted digest. Use ONLY this content:
         logging.error(f"ElevenLabs TTS generation failed: {e}", exc_info=True)
         raise  # Re-raise to ensure workflow fails visibly
 
-    # ========================== FINAL MIX ==========================
+    # ========================== FINAL MIX (delegated to engine/audio) ==========================
     final_mp3 = digests_dir / f"Tesla_Shorts_Time_Pod_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d_%H%M%S}.mp3"
-    
     MAIN_MUSIC = project_root / "tesla_shorts_time.mp3"
-    
-    # Process and normalize voice in one step
-    voice_mix = tmp_dir / "voice_normalized_mix.mp3"
-    file_duration = get_audio_duration(voice_file)
-    timeout_seconds = max(int(file_duration * 3) + 120, 600)
-    
-    logging.info(f"Processing and normalizing voice ({file_duration:.1f}s) - this may take a few minutes...")
 
-    # First, check if voice_file exists and has content
+    # Validate voice file before mixing
     if not voice_file.exists():
         raise RuntimeError(f"Voice file {voice_file} does not exist!")
-
     voice_file_size = voice_file.stat().st_size
-    logging.info(f"Voice file size: {voice_file_size} bytes")
-
-    if voice_file_size < 1000:  # Less than 1KB is suspicious
+    if voice_file_size < 1000:
         raise RuntimeError(f"Voice file {voice_file} is too small ({voice_file_size} bytes) - TTS may have failed")
 
-    # Try simpler normalization first to avoid filter issues
-    try:
-        logging.info("Attempting voice normalization with full filter chain...")
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
-            "-af", "highpass=f=80,lowpass=f=15000,loudnorm=I=-18:TP=-1.5:LRA=11:linear=true,acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,alimiter=level_in=1:level_out=0.95:limit=0.95",
-            "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(voice_mix)
-        ], check=True, capture_output=True, timeout=timeout_seconds)
-    except subprocess.CalledProcessError as e:
-        logging.warning(f"Full filter chain failed: {e}")
-        logging.warning("Trying simpler normalization...")
-        # Fallback to simpler processing
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_file),
-            "-af", "loudnorm=I=-18:TP=-1.5:LRA=11:linear=true",
-            "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(voice_mix)
-        ], check=True, capture_output=True, timeout=timeout_seconds)
+    _engine_mix_with_music(voice_file, MAIN_MUSIC, final_mp3)
 
-    # Verify the output file was created
-    if not voice_mix.exists():
-        raise RuntimeError(f"Voice mix file {voice_mix} was not created!")
-
-    voice_mix_size = voice_mix.stat().st_size
-    logging.info(f"Voice mix file size: {voice_mix_size} bytes")
-
-    if voice_mix_size < 1000:
-        raise RuntimeError(f"Voice mix file {voice_mix} is too small ({voice_mix_size} bytes) - processing failed")
-    
-    if not MAIN_MUSIC.exists():
-        logging.warning(f"⚠️  Background music file '{MAIN_MUSIC}' not found - generating voice-only podcast")
-        logging.warning("💡 To add background music: ensure 'tesla_shorts_time.mp3' exists in project root")
-        subprocess.run(["ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-preset", "fast", str(final_mp3)], check=True, capture_output=True)
-        logging.info("✅ Podcast ready (voice-only)")
-    else:
-        # Get voice duration to calculate music timing
-        voice_duration = max(get_audio_duration(voice_mix), 0.0)
-        logging.info(f"Voice duration: {voice_duration:.2f} seconds")
-        
-        # Music timing - Professional intro with perfect overlap:
-        # - 5 seconds of music alone (0-5s) - engaging intro
-        # - Patrick starts talking at 5s while music is still at full volume (perfect overlap)
-        # - Music continues at full volume for 3 seconds while Patrick talks (5-8s) - creates energy
-        # - Music fades out smoothly over 18 seconds while Patrick continues (8-26s) - professional fade
-        # - Voice continues alone after 26s
-        # - End: Keep the final spoken lines clean (no music under them)
-        # - After voice ends, fade in and play 30 seconds of outro music (no overlap with voice)
-        
-        # OPTIMIZED: Generate independent music segments in parallel
-        music_intro = tmp_dir / "music_intro.mp3"
-        music_overlap = tmp_dir / "music_overlap.mp3"
-        music_fadeout = tmp_dir / "music_fadeout.mp3"
-        music_outro = tmp_dir / "music_outro.mp3"
-        
-        def generate_music_segment(segment_name, cmd_args):
-            """Helper to generate a single music segment."""
-            subprocess.run(cmd_args, check=True, capture_output=True)
-        
-        # Generate independent music segments in parallel (don't depend on voice_duration)
-        logging.info("Generating music segments in parallel...")
-        independent_segments = [
-            ("intro", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-t", "5",
-                      "-af", "volume=0.6", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                      str(music_intro)]),
-            ("overlap", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "5", "-t", "3",
-                        "-af", "volume=0.5", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                        str(music_overlap)]),
-            ("fadeout", ["ffmpeg", "-y", "-threads", "0", "-i", str(MAIN_MUSIC), "-ss", "8", "-t", "18",
-                        "-af", "volume=0.4,afade=t=out:curve=log:st=0:d=18", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                        str(music_fadeout)]),
-            # Outro is positioned after the voice ends by adding silence in the music bed.
-            # Use stream_loop so even shorter music beds still produce a full 30s outro.
-            ("outro", ["ffmpeg", "-y", "-threads", "0", "-stream_loop", "-1", "-i", str(MAIN_MUSIC), "-t", "30",
-                      "-af", "volume=0.4,afade=t=in:curve=log:st=0:d=2,afade=t=out:curve=log:st=27:d=3", "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                      str(music_outro)]),
-        ]
-        
-        with ThreadPoolExecutor(max_workers=4) as executor:
-            futures = {executor.submit(generate_music_segment, name, cmd): name for name, cmd in independent_segments}
-            for future in as_completed(futures):
-                segment_name = futures[future]
-                try:
-                    future.result()
-                    logging.debug(f"Generated music segment: {segment_name}")
-                except Exception as e:
-                    logging.error(f"Failed to generate music segment {segment_name}: {e}")
-                    raise
-        
-        # Generate voice-dependent segments (silence depends on voice_duration)
-        # Keep music silent after 26s until the voice fully ends, so the closing isn't masked/cut off.
-        middle_silence_duration = max(voice_duration - 26.0, 0.0)
-        music_silence = tmp_dir / "music_silence.mp3"
-        
-        voice_dependent_segments = []
-        if middle_silence_duration > 0.1:
-            voice_dependent_segments.append(("silence", ["ffmpeg", "-y", "-threads", "0", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
-                                                        "-t", str(middle_silence_duration), "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-                                                        str(music_silence)]))
-        
-        if voice_dependent_segments:
-            with ThreadPoolExecutor(max_workers=len(voice_dependent_segments)) as executor:
-                futures = {executor.submit(generate_music_segment, name, cmd): name for name, cmd in voice_dependent_segments}
-                for future in as_completed(futures):
-                    segment_name = futures[future]
-                    try:
-                        future.result()
-                        logging.debug(f"Generated music segment: {segment_name}")
-                    except Exception as e:
-                        logging.error(f"Failed to generate music segment {segment_name}: {e}")
-                        raise
-        
-        # Concatenate music segments
-        music_concat_list = tmp_dir / "music_concat.txt"
-        with open(music_concat_list, "w") as f:
-            f.write(f"file '{music_intro.absolute()}'\n")
-            f.write(f"file '{music_overlap.absolute()}'\n")
-            f.write(f"file '{music_fadeout.absolute()}'\n")
-            if middle_silence_duration > 0.1:
-                f.write(f"file '{music_silence.absolute()}'\n")
-            f.write(f"file '{music_outro.absolute()}'\n")
-        
-        music_full = tmp_dir / "music_full.mp3"
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-f", "concat", "-safe", "0", "-i", str(music_concat_list),
-            "-c", "copy", str(music_full)
-        ], check=True, capture_output=True)
-        
-        # Verify music_full was created
-        if not music_full.exists():
-            raise RuntimeError(f"Music full file {music_full} was not created!")
-
-        music_full_size = music_full.stat().st_size
-        logging.info(f"Music full file size: {music_full_size} bytes")
-
-        if music_full_size < 1000:
-            raise RuntimeError(f"Music full file {music_full} is too small ({music_full_size} bytes) - music concatenation failed")
-
-        # Mix voice and music
-        logging.info("Mixing voice and music...")
-        subprocess.run([
-            "ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-i", str(music_full),
-            # Use duration=longest so the outro music remains after the voice ends.
-            "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=longest:dropout_transition=2",
-            "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-            str(final_mp3)
-        ], check=True, capture_output=True, timeout=timeout_seconds)
-
-        # Verify final file was created and has content
-        if not final_mp3.exists():
-            raise RuntimeError(f"Final podcast file {final_mp3} was not created!")
-
-        final_size = final_mp3.stat().st_size
-        logging.info(f"Final podcast file size: {final_size} bytes")
-
-        if final_size < 10000:  # Less than 10KB is definitely wrong for a 55s podcast
-            raise RuntimeError(f"Final podcast file {final_mp3} is too small ({final_size} bytes) - mixing failed")
-
-        logging.info(f"✅ Final podcast created: {final_mp3.name}")
+    # Verify final output
+    if not final_mp3.exists():
+        raise RuntimeError(f"Final podcast file {final_mp3} was not created!")
+    final_size = final_mp3.stat().st_size
+    if final_size < 10000:
+        raise RuntimeError(f"Final podcast file {final_mp3} is too small ({final_size} bytes) - mixing failed")
+    logging.info(f"Final podcast created: {final_mp3.name}")
 
 
 def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
@@ -2743,10 +2366,14 @@ def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
     # Pattern for old format: Ep{num}_{date}.mp3
     pattern_old = r"Tesla_Shorts_Time_Pod_Ep(\d+)_(\d{8})\.mp3"
     
-    # Check main digests directory
+    # Check primary output directory (new: digests/tesla_shorts_time/)
     mp3_files = list(digests_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"))
-    # Also check digests/digests subdirectory if it exists
-    digests_subdir = digests_dir / "digests"
+    # Also check old flat digests/ directory for legacy episodes
+    old_flat_dir = digests_dir.parent  # project_root / "digests"
+    if old_flat_dir != digests_dir:
+        mp3_files.extend(old_flat_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"))
+    # Also check digests/digests subdirectory for very old episodes
+    digests_subdir = old_flat_dir / "digests"
     if digests_subdir.exists():
         mp3_files.extend(digests_subdir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"))
     
@@ -2830,6 +2457,9 @@ def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
     return episodes
 
 
+_TST_BASE_URL = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+
+
 def update_rss_feed(
     rss_path: Path,
     episode_num: int,
@@ -2839,518 +2469,24 @@ def update_rss_feed(
     mp3_filename: str,
     mp3_duration: float,
     mp3_path: Path,
-    base_url: str = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+    base_url: str = _TST_BASE_URL,
 ):
-    """Update or create RSS feed with new episode, preserving all existing episodes."""
-    fg = FeedGenerator()
-    fg.load_extension('podcast')
-    
-    # Parse existing RSS feed to preserve all episodes
-    existing_episodes = []
-    channel_metadata = {}
-    existing_guids = set()
-    
-    if rss_path.exists():
-        try:
-            # Parse existing RSS XML
-            tree = ET.parse(str(rss_path))
-            root = tree.getroot()
-            
-            # Extract channel metadata
-            channel = root.find('channel')
-            if channel is not None:
-                for elem in channel:
-                    if elem.tag in ['title', 'link', 'description', 'language', 'copyright']:
-                        channel_metadata[elem.tag] = elem.text
-                    elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}author':
-                        channel_metadata['itunes_author'] = elem.text
-                    elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}summary':
-                        channel_metadata['itunes_summary'] = elem.text
-                    elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}owner':
-                        name_elem = elem.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}name')
-                        email_elem = elem.find('{http://www.itunes.com/dtds/podcast-1.0.dtd}email')
-                        if name_elem is not None and email_elem is not None:
-                            channel_metadata['itunes_owner'] = {'name': name_elem.text, 'email': email_elem.text}
-                    elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}image':
-                        channel_metadata['itunes_image'] = elem.get('href')
-                    elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}category':
-                        channel_metadata['itunes_category'] = elem.get('text')
-                
-                # Extract all existing episodes
-                items = channel.findall('item')
-                for item in items:
-                    episode_data = {}
-                    for elem in item:
-                        if elem.tag == 'title':
-                            episode_data['title'] = elem.text or ''
-                        elif elem.tag == 'description':
-                            episode_data['description'] = elem.text or ''
-                        elif elem.tag == 'link':
-                            link_url = elem.text or ''
-                            # Fix double /digests/digests/ path errors
-                            if '/digests/digests/' in link_url:
-                                link_url = link_url.replace('/digests/digests/', '/digests/')
-                            # Also ensure link doesn't point to MP3 (should point to episode page or GitHub)
-                            if link_url.endswith('.mp3'):
-                                # Extract filename and create proper link
-                                filename = link_url.split('/')[-1]
-                                link_url = f"{base_url}/digests/{filename}"
-                            episode_data['link'] = link_url
-                        elif elem.tag == 'guid':
-                            # GUID is typically the text content
-                            if elem.text:
-                                episode_data['guid'] = elem.text.strip()
-                            # Some feeds might use guid as an attribute, but we'll use text primarily
-                        elif elem.tag == 'pubDate':
-                            episode_data['pubDate'] = elem.text or ''
-                        elif elem.tag == 'enclosure':
-                            enclosure_url = elem.get('url', '')
-                            # Fix double /digests/digests/ path errors
-                            if '/digests/digests/' in enclosure_url:
-                                enclosure_url = enclosure_url.replace('/digests/digests/', '/digests/')
-                            episode_data['enclosure'] = {
-                                'url': enclosure_url,
-                                'type': elem.get('type', 'audio/mpeg'),
-                                'length': elem.get('length', '0')
-                            }
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}title':
-                            episode_data['itunes_title'] = elem.text or ''
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}summary':
-                            episode_data['itunes_summary'] = elem.text or ''
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}duration':
-                            episode_data['itunes_duration'] = elem.text or ''
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}episode':
-                            episode_data['itunes_episode'] = elem.text or ''
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}season':
-                            episode_data['itunes_season'] = elem.text or ''
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}episodeType':
-                            episode_data['itunes_episode_type'] = elem.text or ''
-                        elif elem.tag == '{http://www.itunes.com/dtds/podcast-1.0.dtd}image':
-                            episode_data['itunes_image'] = elem.get('href', '')
-                    
-                    if episode_data.get('guid'):
-                        existing_episodes.append(episode_data)
-            
-            logging.info(f"Loaded {len(existing_episodes)} existing episodes from RSS feed")
-        except Exception as e:
-            logging.warning(f"Could not parse existing RSS feed: {e}, creating new one")
-            existing_episodes = []
-    
-    # Also scan file system for MP3 files to ensure we don't miss any episodes
-    # This is important if the RSS feed was recreated or is missing episodes
-    file_episodes = scan_existing_episodes_from_files(mp3_path.parent, base_url)
-    
-    # Merge episodes from RSS and file system, preferring RSS data but adding missing ones
-    existing_guids = {ep.get('guid') for ep in existing_episodes if ep.get('guid')}
-    file_guids = {fep.get('guid') for fep in file_episodes if fep.get('guid')}
-    added_from_files = 0
-    for file_ep in file_episodes:
-        if file_ep.get('guid') not in existing_guids:
-            logging.info(f"Found episode in file system but not in RSS: {file_ep.get('guid')} - adding it")
-            existing_episodes.append(file_ep)
-            existing_guids.add(file_ep.get('guid'))
-            added_from_files += 1
-    
-    logging.info(f"Total episodes to include: {len(existing_episodes)} (from RSS: {len(existing_episodes) - added_from_files}, added from files: {added_from_files})")
-    
-    # Set channel metadata - ALWAYS use general descriptions, never episode-specific data
-    # This is critical for Apple Podcasts Connect validation
-    channel_title = "Tesla Shorts Time Daily"
-    channel_link = "https://github.com/patricknovak/Tesla-shorts-time"
-    channel_description = "A daily podcast covering the latest Tesla news, stock prices, and industry insights."
-    channel_summary = "Daily Tesla news digest and podcast covering the latest developments, stock updates, and market analysis."
-    
-    # Only use existing metadata if it's NOT episode-specific (check for episode numbers or dates)
-    existing_title = channel_metadata.get('title', '')
-    if existing_title and not re.search(r'Episode \d+|December|November|January|February|March|April|May|June|July|August|September|October', existing_title, re.IGNORECASE):
-        channel_title = existing_title
-    
-    existing_link = channel_metadata.get('link', '')
-    if existing_link and not existing_link.endswith('.mp3') and 'github.com' in existing_link:
-        channel_link = existing_link
-    
-    existing_desc = channel_metadata.get('description', '')
-    if existing_desc and not re.search(r'Episode \d+|December|November|January|February|March|April|May|June|July|August|September|October|TSLA price', existing_desc, re.IGNORECASE):
-        channel_description = existing_desc
-    
-    existing_summary = channel_metadata.get('itunes_summary', '')
-    if existing_summary and not re.search(r'Episode \d+|December|November|January|February|March|April|May|June|July|August|September|October|TSLA price', existing_summary, re.IGNORECASE):
-        channel_summary = existing_summary
-    
-    fg.title(channel_title)
-    fg.link(href=channel_link)
-    fg.description(channel_description)
-    fg.language(channel_metadata.get('language', 'en-us'))
-    fg.copyright(channel_metadata.get('copyright', f"Copyright {datetime.date.today().year}"))
-    
-    # RSS feed URL for atom:link (will be added manually after feed generation)
-    rss_feed_url = f"{base_url}/podcast.rss"
-    
-    fg.podcast.itunes_author(channel_metadata.get('itunes_author', "Patrick"))
-    fg.podcast.itunes_summary(channel_summary)
-    
-    owner = channel_metadata.get('itunes_owner', {'name': 'Patrick', 'email': 'contact@teslashortstime.com'})
-    fg.podcast.itunes_owner(name=owner.get('name', 'Patrick'), email=owner.get('email', 'contact@teslashortstime.com'))
-    
-    # Set image URL - use compressed v3 (under 512 KB) for Apple Podcasts compliance
-    # Note: Image must be compressed to under 512 KB (current v2 is 752 KB, exceeds limit)
-    # When podcast-image-v3.jpg (compressed) is uploaded, it will be used automatically
-    image_url = channel_metadata.get('itunes_image', f"{base_url}/podcast-image-v3.jpg")
-    fg.podcast.itunes_image(image_url)
-    
-    category = channel_metadata.get('itunes_category', 'Technology')
-    # Add main category (subcategory will be added manually after feed generation)
-    fg.podcast.itunes_category(category)
-    fg.podcast.itunes_explicit("no")
-    
-    # Add itunes:type tag (required/recommended by Apple)
-    fg.podcast.itunes_type("episodic")
-    
-    # Add itunes:subtitle for better Apple Podcasts display
-    fg.podcast.itunes_subtitle("Your daily Tesla news and stock digest")
-    
-    # Generate GUID for the new episode based on current time to ensure uniqueness
-    current_time_str = datetime.datetime.now().strftime("%H%M%S")
-    new_episode_guid = f"tesla-shorts-time-ep{episode_num:03d}-{episode_date:%Y%m%d}-{current_time_str}"
-    
-    # Deduplicate existing episodes by episode number AND by date
-    # Strategy: Keep only the highest episode number per date to remove duplicates
-    episodes_by_number = {}  # For deduplication by episode number
-    episodes_by_date = {}  # For deduplication by date (keep highest episode number per date)
-    episodes_without_number = []  # Keep episodes that don't have extractable episode numbers
-    
-    def parse_pubdate(ep_data):
-        """Parse pubDate from episode data and return as datetime or None."""
-        pub_date_str = ep_data.get('pubDate', '')
-        if not pub_date_str:
-            return None
-        try:
-            if isinstance(pub_date_str, datetime.datetime):
-                return pub_date_str
-            from email.utils import parsedate_to_datetime
-            return parsedate_to_datetime(pub_date_str)
-        except Exception:
-            return None
-    
-    for ep_data in existing_episodes:
-        # Extract episode number from itunes_episode field or from GUID
-        ep_num_str = ep_data.get('itunes_episode', '')
-        if not ep_num_str:
-            # Try to extract from GUID pattern: tesla-shorts-time-epXXX-YYYYMMDD-HHMMSS
-            guid = ep_data.get('guid', '')
-            match = re.search(r'ep(\d+)', guid)
-            if match:
-                ep_num_str = match.group(1)
-        
-        if ep_num_str:
-            try:
-                ep_num = int(ep_num_str)
-                # Parse pubDate for date-based deduplication
-                pub_date = parse_pubdate(ep_data)
-                date_key = pub_date.date() if pub_date else None
-                
-                # Deduplicate by episode number (keep most recent GUID timestamp)
-                if ep_num not in episodes_by_number:
-                    episodes_by_number[ep_num] = ep_data
-                else:
-                    # Compare GUIDs to determine which is more recent (later timestamp in GUID)
-                    existing_guid = episodes_by_number[ep_num].get('guid', '')
-                    current_guid = ep_data.get('guid', '')
-                    # Extract timestamp from GUID (last 6 digits after final dash)
-                    existing_ts = existing_guid.split('-')[-1] if '-' in existing_guid else '000000'
-                    current_ts = current_guid.split('-')[-1] if '-' in current_guid else '000000'
-                    if current_ts > existing_ts:
-                        episodes_by_number[ep_num] = ep_data
-                
-                # Deduplicate by date (keep highest episode number per date)
-                if date_key:
-                    if date_key not in episodes_by_date:
-                        episodes_by_date[date_key] = ep_data
-                    else:
-                        # Extract episode number from existing episode
-                        existing_ep_num_str = episodes_by_date[date_key].get('itunes_episode', '')
-                        if not existing_ep_num_str:
-                            existing_guid = episodes_by_date[date_key].get('guid', '')
-                            match = re.search(r'ep(\d+)', existing_guid)
-                            if match:
-                                existing_ep_num_str = match.group(1)
-                        existing_ep_num = int(existing_ep_num_str) if existing_ep_num_str else 0
-                        # Keep the episode with the higher episode number
-                        if ep_num > existing_ep_num:
-                            episodes_by_date[date_key] = ep_data
-            except ValueError:
-                # If we can't parse episode number, keep the episode anyway (shouldn't happen normally)
-                episodes_without_number.append(ep_data)
-        else:
-            # Episode without extractable episode number - keep it (shouldn't happen normally)
-            episodes_without_number.append(ep_data)
-    
-    # Final deduplication: Use date-based deduplication as primary, but ensure we keep unique episode numbers
-    # Build final list: prefer date-based deduplication, but include all unique episode numbers
-    final_episodes = {}
-    for date_key, ep_data in episodes_by_date.items():
-        ep_num_str = ep_data.get('itunes_episode', '')
-        if not ep_num_str:
-            guid = ep_data.get('guid', '')
-            match = re.search(r'ep(\d+)', guid)
-            if match:
-                ep_num_str = match.group(1)
-        if ep_num_str:
-            final_episodes[int(ep_num_str)] = ep_data
-    
-    # Also add episodes that might have been missed (episodes without date matches but with unique numbers)
-    for ep_num, ep_data in episodes_by_number.items():
-        if ep_num not in final_episodes:
-            final_episodes[ep_num] = ep_data
-    
-    # Prepare all episodes for sorting (including new episode)
-    all_episodes_to_add = []
-    
-    # Helper function to add an episode entry to the feed
-    def add_episode_entry(ep_data, is_new_episode=False):
-        """Add an episode entry to the feed generator."""
-        entry = fg.add_entry()
-        entry.id(ep_data.get('guid', ''))
-        entry.title(ep_data.get('title', ''))
-        entry.description(ep_data.get('description', ''))
-        if ep_data.get('link'):
-            entry.link(href=ep_data['link'])
-        
-        # Parse and set pubDate
-        pub_date_dt = None
-        if ep_data.get('pubDate'):
-            try:
-                # Handle both string dates (from RSS) and datetime objects (from file scan)
-                if isinstance(ep_data['pubDate'], datetime.datetime):
-                    pub_date_dt = ep_data['pubDate']
-                    entry.pubDate(pub_date_dt)
-                else:
-                    from email.utils import parsedate_to_datetime
-                    pub_date_dt = parsedate_to_datetime(ep_data['pubDate'])
-                    entry.pubDate(pub_date_dt)
-            except Exception:
-                pass
-        
-        # Set enclosure
-        if ep_data.get('enclosure'):
-            enc = ep_data['enclosure']
-            entry.enclosure(url=enc.get('url', ''), type=enc.get('type', 'audio/mpeg'), length=enc.get('length', '0'))
-        
-        # Set iTunes tags
-        if ep_data.get('itunes_title'):
-            entry.podcast.itunes_title(ep_data['itunes_title'])
-        if ep_data.get('itunes_summary'):
-            entry.podcast.itunes_summary(ep_data['itunes_summary'])
-        if ep_data.get('itunes_duration'):
-            entry.podcast.itunes_duration(ep_data['itunes_duration'])
-        if ep_data.get('itunes_episode'):
-            entry.podcast.itunes_episode(ep_data['itunes_episode'])
-        if ep_data.get('itunes_season'):
-            entry.podcast.itunes_season(ep_data['itunes_season'])
-        if ep_data.get('itunes_episode_type'):
-            entry.podcast.itunes_episode_type(ep_data['itunes_episode_type'])
-        entry.podcast.itunes_explicit("no")
-        # Set image for each episode (Apple Podcasts Connect requirement)
-        episode_image = ep_data.get('itunes_image', image_url)
-        entry.podcast.itunes_image(episode_image)
-        
-        return pub_date_dt
-    
-    # Collect all episodes to add (existing + new), then sort by pubDate descending
-    episodes_to_add = []
-    
-    # Add all existing episodes (now deduplicated), but skip if same episode number as new episode
-    for ep_data in final_episodes.values():
-        # Extract episode number to check against new episode
-        ep_num_str = ep_data.get('itunes_episode', '')
-        if not ep_num_str:
-            guid = ep_data.get('guid', '')
-            match = re.search(r'ep(\d+)', guid)
-            if match:
-                ep_num_str = match.group(1)
-        
-        # Skip if this existing episode has the same episode number as the new one we're about to add
-        if ep_num_str and int(ep_num_str) == episode_num:
-            logging.info(f"Skipping existing episode {ep_num_str} - will be replaced with new version")
-            continue
-        
-        # Skip if exact same GUID
-        if ep_data.get('guid') == new_episode_guid:
-            continue
-        
-        # Verify the MP3 file actually exists before including in RSS
-        enclosure = ep_data.get('enclosure', {})
-        enclosure_url = enclosure.get('url', '') if isinstance(enclosure, dict) else ''
-        if enclosure_url:
-            # Extract filename from URL
-            filename = enclosure_url.split('/')[-1]
-            # Check main directory first
-            mp3_path_check = digests_dir / filename
-            # Also check subdirectory if main doesn't exist
-            if not mp3_path_check.exists():
-                mp3_path_check = digests_dir / "digests" / filename
-            if not mp3_path_check.exists() or mp3_path_check.stat().st_size < 1000:
-                ep_num_str = ep_data.get('itunes_episode', 'unknown')
-                logging.warning(f"Skipping episode {ep_num_str}: MP3 file {filename} doesn't exist or is too small")
-                continue
-        
-        episodes_to_add.append(ep_data)
-    
-    # Also add episodes without extractable episode numbers to the list (will be sorted with others)
-    for ep_data in episodes_without_number:
-        # Skip if exact same GUID
-        if ep_data.get('guid') == new_episode_guid:
-            continue
-        
-        # Verify the MP3 file actually exists before including in RSS
-        enclosure = ep_data.get('enclosure', {})
-        enclosure_url = enclosure.get('url', '') if isinstance(enclosure, dict) else ''
-        if enclosure_url:
-            # Extract filename from URL
-            filename = enclosure_url.split('/')[-1]
-            # Check main directory first
-            mp3_path_check = digests_dir / filename
-            # Also check subdirectory if main doesn't exist
-            if not mp3_path_check.exists():
-                mp3_path_check = digests_dir / "digests" / filename
-            if not mp3_path_check.exists() or mp3_path_check.stat().st_size < 1000:
-                logging.warning(f"Skipping episode (no number): MP3 file {filename} doesn't exist or is too small")
-                continue
-        
-        episodes_to_add.append(ep_data)
-    
-    # Prepare new episode data
-    pub_date = datetime.datetime.combine(episode_date, datetime.time(8, 0, 0), tzinfo=datetime.timezone.utc)
-    mp3_url = f"{base_url}/digests/{mp3_filename}"
-    mp3_size = mp3_path.stat().st_size if mp3_path.exists() else 0
-    
-    new_episode_data = {
-        'guid': new_episode_guid,
-        'title': episode_title,
-        'description': episode_description,
-        'link': f"{base_url}/digests/{mp3_filename}",
-        'pubDate': pub_date,
-        'enclosure': {
-            'url': mp3_url,
-            'type': 'audio/mpeg',
-            'length': str(mp3_size)
-        },
-        'itunes_title': episode_title,
-        'itunes_summary': episode_description,
-        'itunes_duration': format_duration(mp3_duration),
-        'itunes_episode': str(episode_num),
-        'itunes_season': '1',
-        'itunes_episode_type': 'full',
-        'itunes_image': image_url
-    }
-    
-    # Add new episode to the list
-    episodes_to_add.append(new_episode_data)
-    
-    # Sort all episodes by pubDate descending (newest first)
-    def get_pubdate_for_sort(ep_data):
-        """Extract pubDate as datetime for sorting."""
-        pub_date = ep_data.get('pubDate')
-        if isinstance(pub_date, datetime.datetime):
-            return pub_date
-        if isinstance(pub_date, str):
-            try:
-                from email.utils import parsedate_to_datetime
-                return parsedate_to_datetime(pub_date)
-            except Exception:
-                pass
-        # Fallback to very old date if can't parse
-        return datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
-    
-    episodes_to_add.sort(key=get_pubdate_for_sort, reverse=True)
-    
-    logging.info(f"Sorting {len(episodes_to_add)} episodes by pubDate descending (newest first)")
-    
-    # Now add all episodes in sorted order
-    for ep_data in episodes_to_add:
-        add_episode_entry(ep_data, is_new_episode=(ep_data.get('guid') == new_episode_guid))
-    
-    # Update lastBuildDate
-    fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
-    
-    # Write RSS feed
-    fg.rss_file(str(rss_path), pretty=True)
-    
-    # Manually add atom:link for self-reference (required by Apple Podcasts Connect)
-    # FeedGenerator doesn't have a direct method for this, so we add it via XML manipulation
-    try:
-        tree = ET.parse(str(rss_path))
-        root = tree.getroot()
-        channel = root.find('channel')
-        if channel is not None:
-            # Check if atom:link already exists
-            atom_ns = '{http://www.w3.org/2005/Atom}'
-            existing_atom_link = channel.find(f'{atom_ns}link')
-            if existing_atom_link is None:
-                # Add atom:link element
-                atom_link = ET.Element(f'{atom_ns}link')
-                atom_link.set('href', rss_feed_url)
-                atom_link.set('rel', 'self')
-                atom_link.set('type', 'application/rss+xml')
-                # Insert after <link> or at the beginning of channel
-                first_link = channel.find('link')
-                if first_link is not None:
-                    channel.insert(list(channel).index(first_link) + 1, atom_link)
-                else:
-                    channel.insert(0, atom_link)
-                tree.write(str(rss_path), encoding='UTF-8', xml_declaration=True)
-                logging.info("Added atom:link for self-reference to RSS feed")
-                
-                # Also add itunes:subtitle and category subcategory if not present
-                itunes_ns = '{http://www.itunes.com/dtds/podcast-1.0.dtd}'
-                
-                # Add itunes:subtitle if not present
-                existing_subtitle = channel.find(f'{itunes_ns}subtitle')
-                if existing_subtitle is None:
-                    subtitle = ET.Element(f'{itunes_ns}subtitle')
-                    subtitle.text = "Your daily Tesla news and stock digest"
-                    # Insert after itunes:summary
-                    summary = channel.find(f'{itunes_ns}summary')
-                    if summary is not None:
-                        channel.insert(list(channel).index(summary) + 1, subtitle)
-                    else:
-                        channel.append(subtitle)
-                    logging.info("Added itunes:subtitle to RSS feed")
-                
-                # Add subcategory to existing category if not present
-                category_elem = channel.find(f'{itunes_ns}category')
-                if category_elem is not None and category_elem.get('text') == 'Technology':
-                    # Check if subcategory already exists
-                    subcategory = category_elem.find(f'{itunes_ns}category')
-                    if subcategory is None:
-                        subcategory = ET.Element(f'{itunes_ns}category')
-                        subcategory.set('text', 'Tech News')
-                        category_elem.append(subcategory)
-                        logging.info("Added Tech News subcategory to RSS feed")
-                
-                # Update all image URLs to use compressed v3 (if v2 is still referenced)
-                channel_image = channel.find(f'{itunes_ns}image')
-                if channel_image is not None and 'podcast-image-v2.jpg' in channel_image.get('href', ''):
-                    channel_image.set('href', channel_image.get('href', '').replace('podcast-image-v2.jpg', 'podcast-image-v3.jpg'))
-                    logging.info("Updated channel image URL to podcast-image-v3.jpg")
-                
-                # Update episode image URLs
-                items = channel.findall('item')
-                updated_count = 0
-                for item in items:
-                    item_image = item.find(f'{itunes_ns}image')
-                    if item_image is not None and 'podcast-image-v2.jpg' in item_image.get('href', ''):
-                        item_image.set('href', item_image.get('href', '').replace('podcast-image-v2.jpg', 'podcast-image-v3.jpg'))
-                        updated_count += 1
-                if updated_count > 0:
-                    logging.info(f"Updated {updated_count} episode image URLs to podcast-image-v3.jpg")
-                
-                tree.write(str(rss_path), encoding='UTF-8', xml_declaration=True)
-    except Exception as e:
-        logging.warning(f"Could not add enhancements to RSS feed: {e}")
-    
-    total_episodes = len(fg.entry())
-    logging.info(f"RSS feed updated → {rss_path} ({total_episodes} episode(s) total)")
+    """Update Tesla Shorts Time RSS feed — delegates to engine.publisher.update_rss_feed."""
+    _engine_update_rss_feed(
+        rss_path, episode_num, episode_title, episode_description,
+        episode_date, mp3_filename, mp3_duration, mp3_path,
+        base_url=base_url,
+        audio_subdir="digests/tesla_shorts_time",
+        channel_title="Tesla Shorts Time Daily",
+        channel_link="https://github.com/patricknovak/Tesla-shorts-time",
+        channel_description="A daily podcast covering the latest Tesla news, stock prices, and industry insights.",
+        channel_author="Patrick",
+        channel_email="contact@teslashortstime.com",
+        channel_image=f"{base_url}/podcast-image-v3.jpg",
+        channel_category="Technology",
+        guid_prefix="tesla-shorts-time",
+        format_duration_func=format_duration,
+    )
 
 # ========================== 5. UPDATE RSS FEED ==========================
 # Fail loudly if podcast generation was enabled but failed
@@ -3447,31 +2583,27 @@ if ENABLE_GITHUB_SUMMARIES:
 # Post link to GitHub Pages summary on X instead of full content
 if ENABLE_X_POSTING:
     try:
-        # Create link to the Tesla summaries page
         summaries_url = "https://patricknovak.github.io/Tesla-shorts-time/tesla-summaries.html"
-
-        # Create a teaser post with link to full summary
         today = datetime.datetime.now()
-        teaser_text = f"""🚗⚡ Tesla Shorts Time Daily - {today.strftime('%B %d, %Y')}
-
-🔥 Today's complete digest is now live on our website!
-
-📈 TSLA news, stock analysis, and market insights
-🎙️ Full podcast episode available
-📊 Raw data and sources included
-
-Read the full summary: {summaries_url}
-
-#Tesla #TSLA #TeslaShortsTime #EV"""
-
-        # Track X API post call
+        teaser_text = (
+            f"\U0001f697\u26a1 Tesla Shorts Time Daily - {today.strftime('%B %d, %Y')}\n\n"
+            f"\U0001f525 Today's complete digest is now live on our website!\n\n"
+            f"\U0001f4c8 TSLA news, stock analysis, and market insights\n"
+            f"\U0001f399\ufe0f Full podcast episode available\n"
+            f"\U0001f4ca Raw data and sources included\n\n"
+            f"Read the full summary: {summaries_url}\n\n"
+            f"#Tesla #TSLA #TeslaShortsTime #EV"
+        )
         credit_usage["services"]["x_api"]["post_calls"] += 1
-
-        # Post the teaser with link
-        tweet = x_client.create_tweet(text=teaser_text)
-        tweet_id = tweet.data['id']
-        thread_url = f"https://x.com/teslashortstime/status/{tweet_id}"
-        logging.info(f"DIGEST LINK POSTED → {thread_url}")
+        tweet_url = _engine_post_to_x(
+            teaser_text,
+            consumer_key=os.getenv("X_CONSUMER_KEY", ""),
+            consumer_secret=os.getenv("X_CONSUMER_SECRET", ""),
+            access_token=os.getenv("X_ACCESS_TOKEN", ""),
+            access_token_secret=os.getenv("X_ACCESS_TOKEN_SECRET", ""),
+        )
+        if tweet_url:
+            logging.info(f"DIGEST LINK POSTED \u2192 {tweet_url}")
     except Exception as e:
         logging.error(f"X post failed: {e}")
 
