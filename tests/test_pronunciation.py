@@ -403,6 +403,51 @@ class TestApplyPronunciationFixes:
         assert "ice" in result
         assert "I C E" not in result
 
+    def test_us_pronoun_not_expanded(self):
+        """'us' (pronoun) must NOT be expanded to 'U S'."""
+        result = apply_pronunciation_fixes("let us know")
+        assert "us" in result
+        assert "U S" not in result
+
+    def test_US_country_still_expanded(self):
+        """'US' (uppercase, country) must still expand to 'U S'."""
+        result = apply_pronunciation_fixes("across US cities")
+        assert "U S" in result
+
+    def test_led_verb_not_expanded(self):
+        """'led' (past tense of lead) must NOT be expanded to 'L E D'."""
+        result = apply_pronunciation_fixes("Tesla led the charge in EV sales")
+        assert "led" in result
+        assert "L E D" not in result
+
+    def test_LED_acronym_still_expanded(self):
+        """'LED' (uppercase, light-emitting diode) must still expand."""
+        result = apply_pronunciation_fixes("LED headlights")
+        assert "L E D" in result
+
+    def test_dot_word_not_expanded(self):
+        """'dot' must NOT be expanded to 'D O T'."""
+        result = apply_pronunciation_fixes("connecting the dot")
+        assert "dot" in result
+        assert "D O T" not in result
+
+    def test_DOT_acronym_still_expanded(self):
+        """'DOT' (uppercase, Department of Transportation) must still expand."""
+        result = apply_pronunciation_fixes("The DOT approved it")
+        assert "D O T" in result
+
+    def test_megacharger(self):
+        result = apply_pronunciation_fixes("Tesla Megacharger network")
+        assert "Mega-charger" in result
+
+    def test_gigacasting(self):
+        result = apply_pronunciation_fixes("Tesla's gigacasting technology")
+        assert "giga-casting" in result
+
+    def test_ig_metall(self):
+        result = apply_pronunciation_fixes("IG Metall union conflict")
+        assert "I G Metall" in result
+
     def test_robotaxi(self):
         result = apply_pronunciation_fixes("Tesla Robotaxi service")
         assert "Robo-taxi" in result

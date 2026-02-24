@@ -612,3 +612,22 @@ class TestHookExtraction:
         assert "HOOK" not in cleaned
         assert "Cybertruck" not in cleaned
         assert "Top 10 News Items" in cleaned
+
+    def test_clean_podcast_script_drops_leaked_prompt(self):
+        """_clean_podcast_script strips leaked prompt instruction lines."""
+        from run_show import _clean_podcast_script
+        script = (
+            "[Intro music - 5 seconds]\n"
+            "RULES:\n"
+            "Use this exact intro:\n"
+            "Patrick: Welcome to the show!\n"
+            "Patrick: Today we cover big news.\n"
+            "Source: https://example.com\n"
+            "[Outro music]\n"
+        )
+        cleaned = _clean_podcast_script(script)
+        assert "RULES" not in cleaned
+        assert "Use this exact" not in cleaned
+        assert "Source:" not in cleaned
+        assert "Welcome to the show!" in cleaned
+        assert "Today we cover big news." in cleaned

@@ -275,6 +275,10 @@ COMMON_ACRONYMS: Dict[str, str] = {
     "NATO": "NATO",
     "OPEC": "OPEC",
 
+    # --- Vehicle / Manufacturing ---
+    "VIN": "V I N",
+    "QHD": "Q H D",
+
     # --- Misc tech ---
     "USB": "U S B",
     "HDMI": "H D M I",
@@ -316,10 +320,19 @@ WORD_PRONUNCIATIONS: Dict[str, str] = {
     "Gigafactory": "Giga-factory",
     "Gigafactories": "Giga-factories",
     "Autopilot": "Auto-pilot",
+    "Megacharger": "Mega-charger",
+    "Megachargers": "Mega-chargers",
+    "Megafactory": "Mega-factory",
+    "gigacasting": "giga-casting",
+    "Gigacasting": "Giga-casting",
 
     # --- Tesla model names ---
     "Model 3": "Model Three",
     "Model Y": "Model Why",
+
+    # --- Organizations / unions ---
+    "IG Metall": "I G Metall",
+    "IF Metall": "I F Metall",
 
     # --- Company / brand names ---
     "Teslarati": "Tesla-rah-tee",
@@ -338,11 +351,9 @@ WORD_PRONUNCIATIONS: Dict[str, str] = {
     # --- People ---
     # Add commonly appearing names that TTS stumbles on
 
-    # --- Protected common words ---
-    # TTS engines sometimes read "who" as "W.H.O." - protect these
-    "who": "who",
-    "Who": "Who",
-    "ice": "ice",  # protect lowercase "ice" from ICE acronym
+    # Note: Common words like "who", "ice", "us", "led", "dot" are now
+    # protected by case-sensitive acronym matching (_CASE_SENSITIVE_ACRONYMS)
+    # rather than identity entries here.
 }
 
 
@@ -1077,24 +1088,16 @@ def apply_pronunciation_fixes(
     all_player_names = {**player_names, **oilers_player_names}
     ZWJ = "\u2060" if use_zwj else " "
 
-    # Protect common words from being matched as acronyms
-    _PROTECTED_WORDS = {"who", "ice", "dart", "psyche"}
-    protected: Dict[str, str] = {}
-    for word in _PROTECTED_WORDS:
-        placeholder = f"__PROT_{word.upper()}__"
-        # Protect lowercase instances
-        text = re.sub(rf"(?<!\w){re.escape(word)}(?!\w)", placeholder, text)
-        protected[placeholder] = word
-        # Protect capitalized (sentence-start) instances
-        cap = word.capitalize()
-        cap_placeholder = f"__PROT_{cap.upper()}_CAP__"
-        text = re.sub(rf"(?<!\w){re.escape(cap)}(?!\w)", cap_placeholder, text)
-        protected[cap_placeholder] = cap
-
     # Fix acronyms (whole words only)
+    # Acronyms whose uppercase form collides with a common lowercase English
+    # word must be matched case-sensitively so "us", "led", "dot", "ice",
+    # "who", "dart", "psyche", etc. are not mangled.
+    _CASE_SENSITIVE_ACRONYMS = {
+        "WHO", "US", "LED", "DOT", "DOE", "COO", "SEC",
+        "ICE", "DART", "PSYCHE",
+    }
     for acronym, spelled in acronyms.items():
-        # WHO must be case-sensitive to avoid matching "who"
-        if acronym in ("WHO",):
+        if acronym in _CASE_SENSITIVE_ACRONYMS:
             pattern = rf"(?<!\w){re.escape(acronym)}(?!\w)"
             flags = 0
         else:
@@ -1123,10 +1126,6 @@ def apply_pronunciation_fixes(
     for word, pronunciation in word_pronunciations.items():
         pattern = rf"(?<!\w){re.escape(word)}(?!\w)"
         text = re.sub(pattern, pronunciation, text, flags=re.IGNORECASE)
-
-    # Restore protected words
-    for placeholder, original in protected.items():
-        text = text.replace(placeholder, original)
 
     return text
 
