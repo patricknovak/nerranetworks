@@ -108,12 +108,35 @@ def _load_hook(show_slug: str):
 # ---------------------------------------------------------------------------
 
 def _apply_pronunciation(text: str, show_slug: str) -> str:
-    """Apply show-specific pronunciation fixes if available."""
-    # All shows share assets/pronunciation.py patterns; individual scripts
-    # may add extra fixes.  For the unified runner we delegate to the hook.
+    """Apply comprehensive pronunciation fixes for TTS readiness.
+
+    Always calls ``prepare_text_for_tts()`` as the baseline — this handles
+    URL stripping, emoji removal, number-to-words conversion, acronym
+    expansion, and 200+ pronunciation rules.  Per-show hooks can supply
+    extra overrides via ``pronunciation_overrides()`` returning a dict with
+    optional keys: ``skip_acronyms``, ``extra_acronyms``, ``extra_words``.
+    """
+    from assets.pronunciation import prepare_text_for_tts
+
+    # Collect per-show overrides from hook (if any)
+    skip_acronyms: set = set()
+    extra_acronyms: dict = {}
+    extra_words: dict = {}
+
     hook = _load_hook(show_slug)
-    if hook and hasattr(hook, "fix_pronunciation"):
-        return hook.fix_pronunciation(text)
+    if hook and hasattr(hook, "pronunciation_overrides"):
+        overrides = hook.pronunciation_overrides()
+        skip_acronyms = overrides.get("skip_acronyms", set())
+        extra_acronyms = overrides.get("extra_acronyms", {})
+        extra_words = overrides.get("extra_words", {})
+
+    text = prepare_text_for_tts(
+        text,
+        skip_acronyms=skip_acronyms or None,
+        extra_acronyms=extra_acronyms or None,
+        extra_words=extra_words or None,
+    )
+
     return text
 
 

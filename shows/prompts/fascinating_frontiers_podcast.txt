@@ -6,13 +6,19 @@ BRAND PERSONALITY: Fascinating Frontiers - Daily space and astronomy news digest
 
 RULES:
 - Start every line with "Patrick:"
-- Don't read URLs aloud - mention source names naturally
-- Use natural dates ("today", "this morning") not exact timestamps
-- Enunciate all numbers clearly
 - Use ONLY information from the digest below - nothing else
 - Make it sound like a real solo pod: vivid but concise, no robotic repetition
 - Emphasize the wonder and significance of space discoveries
 - Focus on exploration, discovery, and humanity's cosmic journey
+
+NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
+- URLs or links of any kind (e.g. https://..., Source: ..., [link])
+- Exact timestamps or datelines (e.g. "22 February, 2026, 11:30 PM PST")
+- Source attribution lines (e.g. "Source: NASA" on its own line)
+- Production notes, editor comments, or metadata (e.g. "[Note: ...]", "Word count:")
+- Emoji characters or unicode symbols (📊 🚀 ━━━ etc.)
+- Markdown formatting (** bold **, ### headers, bullet markers)
+Instead: mention source names naturally in conversation ("according to NASA"), use natural dates ("today", "this morning"), and enunciate all numbers clearly.
 
 SCRIPT STRUCTURE:
 [Intro music - 10 seconds]
