@@ -384,7 +384,7 @@ class TestLoadConfigRealFiles:
         assert cfg.llm.digest_temperature == 0.7
         assert cfg.llm.podcast_temperature == 0.9
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
-        assert cfg.audio.music_file == "tesla_shorts_time.mp3"
+        assert cfg.audio.music_file == "assets/music/tesla_shorts_time.mp3"
         assert cfg.publishing.rss_title == "Tesla Shorts Time Daily"
         assert cfg.publishing.x_enabled is True
         assert cfg.episode.prefix == "Tesla_Shorts_Time_Pod"
@@ -399,8 +399,8 @@ class TestLoadConfigRealFiles:
         assert "space" in cfg.keywords
         assert cfg.llm.model == "grok-3"
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
-        assert cfg.audio.music_file == "fascinatingfrontiers.mp3"
-        assert cfg.audio.background_music_file == "Fascinating Frontierssmusic.mp3"
+        assert cfg.audio.music_file == "assets/music/fascinatingfrontiers.mp3"
+        assert cfg.audio.background_music_file == "assets/music/fascinatingfrontiers_bg.mp3"
         assert cfg.audio.voice_intro_delay == 28.0
         assert cfg.publishing.rss_category == "Science"
         assert cfg.publishing.x_env_prefix == "PLANETTERRIAN_X_"
@@ -413,7 +413,7 @@ class TestLoadConfigRealFiles:
         assert len(cfg.sources) == 23
         assert cfg.sources[0].label == "Nature"
         assert "longevity" in cfg.keywords
-        assert cfg.audio.music_file == "science-daily.mp3"
+        assert cfg.audio.music_file == "assets/music/planetterrian.mp3"
         assert cfg.audio.outro_duration == 25.0
         assert cfg.publishing.guid_prefix == "planetterrian-daily"
         assert cfg.episode.prefix == "Planetterrian_Daily"
@@ -431,7 +431,7 @@ class TestLoadConfigRealFiles:
         assert cfg.llm.max_tokens == 3200
         assert cfg.tts.stability == 0.35
         assert cfg.tts.style == 0.2
-        assert cfg.audio.music_file is None
+        assert cfg.audio.music_file == "assets/music/omni_view.mp3"
         assert cfg.publishing.rss_category == "News"
         assert cfg.publishing.guid_prefix == "omni-view"
         assert cfg.episode.prefix == "Omni_View"
@@ -450,7 +450,7 @@ class TestLoadConfigRealFiles:
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
         assert cfg.tts.stability == 0.65
         assert cfg.tts.max_chars == 4500
-        assert cfg.audio.music_file is None
+        assert cfg.audio.music_file == "assets/music/env_intel.mp3"
         assert cfg.publishing.x_enabled is False
         assert cfg.episode.prefix == "Env_Intel"
         assert cfg.episode.output_dir == "digests/env_intel"

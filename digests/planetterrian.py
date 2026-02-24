@@ -1198,7 +1198,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     # ========================== FINAL MIX ==========================
     final_mp3 = digests_dir / f"Planetterrian_Daily_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d_%H%M%S}.mp3"
     
-    MAIN_MUSIC = project_root / "science-daily.mp3"
+    MAIN_MUSIC = project_root / "assets" / "music" / "planetterrian.mp3"
     
     # Process and normalize voice in one step
     voice_mix = tmp_dir / "voice_normalized_mix.mp3"

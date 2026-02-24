@@ -1238,9 +1238,9 @@ Here is today's complete formatted digest. Use ONLY this content:
     final_mp3 = digests_dir / f"Fascinating_Frontiers_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d_%H%M%S}.mp3"
 
     # Intro music: Original short intro theme
-    INTRO_MUSIC = project_root / "fascinatingfrontiers.mp3"
+    INTRO_MUSIC = project_root / "assets" / "music" / "fascinatingfrontiers.mp3"
     # Background music: New longer track for end of podcast
-    BACKGROUND_MUSIC = project_root / "Fascinating Frontierssmusic.mp3"
+    BACKGROUND_MUSIC = project_root / "assets" / "music" / "fascinatingfrontiers_bg.mp3"
     # Voice timing: keep a consistent intro delay so mixes/concats align.
     VOICE_INTRO_DELAY_SECONDS = 28.0
     VOICE_INTRO_DELAY_MS = int(VOICE_INTRO_DELAY_SECONDS * 1000)

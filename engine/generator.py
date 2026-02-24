@@ -142,11 +142,12 @@ def generate_digest(
             from engine.tracking import record_llm_usage
             record_llm_usage(
                 tracker,
+                "x_thread_generation",
                 meta["usage"].get("prompt_tokens", 0),
                 meta["usage"].get("completion_tokens", 0),
             )
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Failed to record LLM usage: %s", e)
 
     logger.info("Digest generated (%d chars, %s tokens)",
                 len(text), meta.get("usage", {}).get("total_tokens", "?"))
@@ -204,11 +205,12 @@ def generate_podcast_script(
             from engine.tracking import record_llm_usage
             record_llm_usage(
                 tracker,
+                "podcast_script_generation",
                 meta["usage"].get("prompt_tokens", 0),
                 meta["usage"].get("completion_tokens", 0),
             )
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Failed to record LLM usage: %s", e)
 
     logger.info("Podcast script generated (%d chars, %s tokens)",
                 len(text), meta.get("usage", {}).get("total_tokens", "?"))

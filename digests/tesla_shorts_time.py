@@ -2336,7 +2336,7 @@ Here is today's complete formatted digest. Use ONLY this content:
 
     # ========================== FINAL MIX (delegated to engine/audio) ==========================
     final_mp3 = digests_dir / f"Tesla_Shorts_Time_Pod_Ep{episode_num:03d}_{datetime.datetime.now():%Y%m%d_%H%M%S}.mp3"
-    MAIN_MUSIC = project_root / "tesla_shorts_time.mp3"
+    MAIN_MUSIC = project_root / "assets" / "music" / "tesla_shorts_time.mp3"
 
     # Validate voice file before mixing
     if not voice_file.exists():

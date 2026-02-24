@@ -108,12 +108,35 @@ def _load_hook(show_slug: str):
 # ---------------------------------------------------------------------------
 
 def _apply_pronunciation(text: str, show_slug: str) -> str:
-    """Apply show-specific pronunciation fixes if available."""
-    # All shows share assets/pronunciation.py patterns; individual scripts
-    # may add extra fixes.  For the unified runner we delegate to the hook.
+    """Apply comprehensive pronunciation fixes for TTS readiness.
+
+    Always calls ``prepare_text_for_tts()`` as the baseline — this handles
+    URL stripping, emoji removal, number-to-words conversion, acronym
+    expansion, and 200+ pronunciation rules.  Per-show hooks can supply
+    extra overrides via ``pronunciation_overrides()`` returning a dict with
+    optional keys: ``skip_acronyms``, ``extra_acronyms``, ``extra_words``.
+    """
+    from assets.pronunciation import prepare_text_for_tts
+
+    # Collect per-show overrides from hook (if any)
+    skip_acronyms: set = set()
+    extra_acronyms: dict = {}
+    extra_words: dict = {}
+
     hook = _load_hook(show_slug)
-    if hook and hasattr(hook, "fix_pronunciation"):
-        return hook.fix_pronunciation(text)
+    if hook and hasattr(hook, "pronunciation_overrides"):
+        overrides = hook.pronunciation_overrides()
+        skip_acronyms = overrides.get("skip_acronyms", set())
+        extra_acronyms = overrides.get("extra_acronyms", {})
+        extra_words = overrides.get("extra_words", {})
+
+    text = prepare_text_for_tts(
+        text,
+        skip_acronyms=skip_acronyms or None,
+        extra_acronyms=extra_acronyms or None,
+        extra_words=extra_words or None,
+    )
+
     return text
 
 
@@ -224,6 +247,13 @@ def run(args: argparse.Namespace) -> None:
         content_tracker.record_episode(x_thread, section_patterns)
         content_tracker.save()
 
+    # Extract the daily hook (headline) from the digest
+    hook = _extract_hook(x_thread)
+    if hook:
+        logger.info("Hook: %s", hook)
+    else:
+        logger.warning("No HOOK found in digest — using generic episode title")
+
     # Save digest to file
     digest_md = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}.md"
     digest_md.write_text(x_thread, encoding="utf-8")
@@ -246,18 +276,25 @@ def run(args: argparse.Namespace) -> None:
     if not args.skip_podcast:
         from engine.generator import generate_podcast_script
 
+        # Strip URLs, emojis, unicode decorations, and other metadata from
+        # the digest before feeding it to the podcast script prompt.  The LLM
+        # sometimes echoes these through to the script, and TTS reads them
+        # aloud.  This is defense-in-depth alongside the prompt instructions.
+        clean_digest = _clean_digest_for_podcast(x_thread)
+
         pod_vars = {
             "episode_num": episode_num,
             "today_str": today_str,
             "date_human": today_str,  # alias used by Omni View prompts
-            "digest": x_thread,
+            "digest": clean_digest,
+            "hook": hook or f"Here's what's making news in the {config.name} world today.",
         }
         # Merge extra context for podcast prompt (e.g. tone_hint, intro_line)
         pod_vars.update(extra_context)
 
         # OV uses procedural script generation, not LLM
         if args.show == "omni_view":
-            podcast_script = _generate_omni_view_script(x_thread)
+            podcast_script = _generate_omni_view_script(x_thread, hook=hook)
         else:
             logger.info("Generating podcast script ...")
             podcast_script = generate_podcast_script(pod_vars, config, tracker=tracker)
@@ -301,6 +338,12 @@ def run(args: argparse.Namespace) -> None:
                 music_path = PROJECT_ROOT / config.audio.music_file
                 if music_path.exists():
                     logger.info("Mixing with music: %s", music_path.name)
+
+                    # Resolve optional background/outro music file
+                    bg_music_path = None
+                    if config.audio.background_music_file:
+                        bg_music_path = PROJECT_ROOT / config.audio.background_music_file
+
                     mix_with_music(
                         raw_mp3, music_path, final_mp3,
                         intro_duration=int(config.audio.intro_duration),
@@ -311,6 +354,8 @@ def run(args: argparse.Namespace) -> None:
                         overlap_volume=config.audio.overlap_volume,
                         fade_volume=config.audio.fade_volume,
                         outro_volume=config.audio.outro_volume,
+                        voice_intro_delay=config.audio.voice_intro_delay,
+                        background_music_path=bg_music_path,
                     )
                 else:
                     logger.warning("Music file not found: %s — using voice only", music_path)
@@ -345,7 +390,10 @@ def run(args: argparse.Namespace) -> None:
         from engine.publisher import update_rss_feed
         from engine.audio import format_duration
 
-        episode_title = f"{config.name} - Episode {episode_num} - {today_str}"
+        if hook:
+            episode_title = f"Ep {episode_num}: {hook}"
+        else:
+            episode_title = f"{config.name} - Episode {episode_num} - {today_str}"
         episode_desc = x_thread[:500] + "..." if len(x_thread) > 500 else x_thread
 
         # If no R2 URL but analytics is enabled, build URL and prefix it
@@ -396,7 +444,7 @@ def run(args: argparse.Namespace) -> None:
         summaries_json_path=summaries_json,
         podcast_name=config.publishing.summaries_podcast_name or config.slug,
         episode_num=episode_num,
-        episode_title=f"{config.name} - Episode {episode_num}",
+        episode_title=f"Ep {episode_num}: {hook}" if hook else f"{config.name} - Episode {episode_num}",
         audio_url=audio_url,
         rss_url=f"{config.publishing.base_url}/{config.publishing.rss_file}",
     )
@@ -445,6 +493,67 @@ def run(args: argparse.Namespace) -> None:
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+def _extract_hook(digest: str) -> str | None:
+    """Extract the **HOOK:** line from a generated digest.
+
+    The digest prompts instruct the LLM to include a line like:
+        **HOOK:** Scientists just discovered a new way to...
+
+    Returns the hook text (without the prefix) or *None* if not found.
+    """
+    import re
+
+    for line in digest.splitlines():
+        m = re.match(r"^\s*\*{0,2}HOOK:?\*{0,2}\s*(.+)", line, re.IGNORECASE)
+        if m:
+            hook = m.group(1).strip()
+            # Strip leftover markdown/brackets the LLM sometimes wraps
+            hook = re.sub(r"^\[|\]$", "", hook).strip()
+            if hook:
+                return hook
+    return None
+
+def _clean_digest_for_podcast(digest: str) -> str:
+    """Strip metadata from a digest before it is fed to the podcast script prompt.
+
+    Removes URLs, emoji, unicode box-drawing characters, ``Source:`` lines,
+    markdown formatting, and raw timestamps so the LLM is less likely to echo
+    them into the spoken script.  The *content* (titles, summaries, quotes)
+    is preserved.
+    """
+    import re
+
+    lines: list[str] = []
+    for line in digest.splitlines():
+        # Drop lines that are just separators (━━━, ----, ====, etc.)
+        if re.match(r"^[\s━─═\-=]{4,}$", line):
+            continue
+        # Drop standalone source attribution lines
+        if re.match(r"^\s*(Source|Post|Read more)\s*:", line, re.IGNORECASE):
+            continue
+        # Strip inline URLs  (keeps surrounding text)
+        line = re.sub(r"https?://\S+", "", line)
+        # Strip markdown link syntax  [text](url) -> text
+        line = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", line)
+        # Strip markdown bold/italic markers
+        line = re.sub(r"\*{1,3}([^*]+)\*{1,3}", r"\1", line)
+        # Strip markdown header markers
+        line = re.sub(r"^#{1,6}\s+", "", line)
+        # Strip emoji and common unicode symbols (broad range)
+        line = re.sub(
+            r"[\U0001F300-\U0001FAFF\u2600-\u27BF\u2B50\u2B55"
+            r"\u25B2\u25BC\u2580-\u259F\u2500-\u257F"
+            r"\U0001F900-\U0001F9FF]+",
+            "",
+            line,
+        )
+        # Collapse leftover whitespace
+        line = re.sub(r"  +", " ", line).strip()
+        lines.append(line)
+
+    return "\n".join(lines)
+
 
 def _clean_podcast_script(script: str) -> str:
     """Strip speaker prefixes (Host:, Patrick:) and stage directions from podcast script.
@@ -511,7 +620,7 @@ def _build_teaser(config, episode_num: int, today_str: str, extra_context: dict)
     return f"{config.name} Episode {episode_num} — {today_str}"
 
 
-def _generate_omni_view_script(briefing_markdown: str) -> str:
+def _generate_omni_view_script(briefing_markdown: str, hook: str | None = None) -> str:
     """Procedural podcast script generation for Omni View.
 
     Omni View doesn't use an LLM for podcast scripts — it parses the
@@ -657,6 +766,8 @@ def _generate_omni_view_script(briefing_markdown: str) -> str:
     script: list[str] = []
     script.append("Good morning. This is Omni View — balanced news perspectives.")
     script.append(f"Today is {today}.")
+    if hook:
+        script.append(hook)
     script.append("")
     script.append("We'll cover what happened, how different viewpoints frame it — so you can decide for yourself.")
     script.append("")

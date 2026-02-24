@@ -107,7 +107,8 @@ tts:
   max_chars: 5000
 
 audio:
-  music_file: science-daily.mp3
+  # Music file placeholder — generate using prompts in assets/music/README.md
+  music_file: assets/music/planetterrian.mp3
   intro_duration: 5.0
   overlap_duration: 3.0
   fade_duration: 18.0

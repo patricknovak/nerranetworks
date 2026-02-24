@@ -6,6 +6,11 @@ Provides:
   - normalize_voice(): ffmpeg highpass/lowpass/loudnorm/compressor chain with fallback
   - concatenate_audio(): ffmpeg concat demuxer
   - mix_with_music(): full music mixing pipeline (intro/overlap/fadeout/silence/outro)
+
+Music mixing supports three modes configured via YAML:
+  1. Standard: single music file for intro + overlap + fadeout + outro (TST, PT)
+  2. Delayed intro: voice_intro_delay > 0 shifts voice start so music plays alone
+  3. Dual-music: separate background_music_path for the outro section (FF)
 """
 
 import logging
@@ -232,6 +237,17 @@ def _silence_cmd(duration_seconds: float, silence_out: str) -> list:
     ]
 
 
+def _mono_silence_cmd(duration_seconds: float, silence_out: str) -> list:
+    """Generate mono silence matching the normalized voice format."""
+    return [
+        "ffmpeg", "-y", "-threads", "0",
+        "-f", "lavfi", "-i", "anullsrc=r=44100:cl=mono",
+        "-t", str(duration_seconds),
+        "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+        silence_out,
+    ]
+
+
 def _music_concat_cmd(concat_list: str, music_full_out: str) -> list:
     return [
         "ffmpeg", "-y", "-threads", "0",
@@ -270,15 +286,27 @@ def mix_with_music(
     overlap_volume: float = 0.5,
     fade_volume: float = 0.4,
     outro_volume: float = 0.4,
+    voice_intro_delay: float = 0.0,
+    background_music_path: Optional[Path] = None,
 ) -> Path:
-    """Full music mixing pipeline from tesla_shorts_time.py.
+    """Full music mixing pipeline supporting three modes.
 
-    Timeline:
+    **Standard mode** (voice_intro_delay=0, no background_music_path):
       0–5 s:  music intro alone (intro_volume)
       5–8 s:  music overlap while voice starts (overlap_volume)
       8–26 s: music fadeout (fade_volume -> 0, logarithmic)
       26 s–end: silence (no music under voice)
       after voice: 30 s outro with fade-in/out
+
+    **Delayed-intro mode** (voice_intro_delay > 0):
+      Voice is shifted right by *voice_intro_delay* seconds so music plays
+      alone at the start.  Set intro_duration >= voice_intro_delay so the
+      intro music covers the full delay period.
+
+    **Dual-music mode** (background_music_path provided):
+      Primary *music_path* is used for intro/overlap/fadeout segments.
+      *background_music_path* is used for the outro segment, allowing a
+      different musical feel for the show's closing.
 
     If *music_path* doesn't exist, normalizes voice only and returns.
     """
@@ -289,6 +317,17 @@ def mix_with_music(
     voice_duration = get_audio_duration(voice_path)
     timeout_seconds = max(int(voice_duration * 3) + 120, 600)
 
+    # Resolve the outro music source (primary or background)
+    outro_music = music_path
+    if background_music_path and background_music_path.exists():
+        outro_music = background_music_path
+        logger.info("Using background music for outro: %s", outro_music.name)
+    elif background_music_path:
+        logger.warning(
+            "Background music %s not found — using primary music for outro.",
+            background_music_path,
+        )
+
     with tempfile.TemporaryDirectory(dir=voice_path.parent) as tmp_str:
         tmp_dir = Path(tmp_str)
 
@@ -296,14 +335,46 @@ def mix_with_music(
         voice_mix = tmp_dir / "voice_normalized_mix.mp3"
         normalize_voice(voice_path, voice_mix)
 
-        # --- Generate music segments in parallel ---
-        music_intro = tmp_dir / "music_intro.mp3"
-        music_overlap = tmp_dir / "music_overlap.mp3"
-        music_fadeout = tmp_dir / "music_fadeout.mp3"
-        music_outro = tmp_dir / "music_outro.mp3"
-        music_silence = tmp_dir / "music_silence.mp3"
+        # --- Apply voice intro delay if configured ---
+        effective_voice_duration = voice_duration
+        if voice_intro_delay > 0:
+            logger.info(
+                "Applying %.1fs voice intro delay (music plays alone first).",
+                voice_intro_delay,
+            )
+            if voice_intro_delay > intro_duration:
+                logger.warning(
+                    "voice_intro_delay (%.1fs) > intro_duration (%ds) — "
+                    "consider increasing intro_duration to match.",
+                    voice_intro_delay, intro_duration,
+                )
 
-        fade_start = intro_duration + overlap_duration  # 8
+            voice_silence = tmp_dir / "voice_delay_silence.mp3"
+            subprocess.run(
+                _mono_silence_cmd(voice_intro_delay, str(voice_silence)),
+                check=True, capture_output=True,
+            )
+
+            voice_delayed = tmp_dir / "voice_delayed.mp3"
+            delay_list = tmp_dir / "delay_concat.txt"
+            with open(delay_list, "w") as f:
+                f.write(f"file '{voice_silence.absolute()}'\n")
+                f.write(f"file '{voice_mix.absolute()}'\n")
+            subprocess.run(
+                _music_concat_cmd(str(delay_list), str(voice_delayed)),
+                check=True, capture_output=True,
+            )
+            voice_mix = voice_delayed
+            effective_voice_duration = voice_duration + voice_intro_delay
+
+        # --- Generate music segments in parallel ---
+        music_intro_f = tmp_dir / "music_intro.mp3"
+        music_overlap_f = tmp_dir / "music_overlap.mp3"
+        music_fadeout_f = tmp_dir / "music_fadeout.mp3"
+        music_outro_f = tmp_dir / "music_outro.mp3"
+        music_silence_f = tmp_dir / "music_silence.mp3"
+
+        fade_start = intro_duration + overlap_duration
 
         def _run_segment(name: str, cmd: list) -> str:
             subprocess.run(cmd, check=True, capture_output=True)
@@ -311,28 +382,30 @@ def mix_with_music(
 
         segment_cmds = [
             ("intro", _music_intro_cmd(
-                str(music_path), str(music_intro),
+                str(music_path), str(music_intro_f),
                 duration=intro_duration, volume=intro_volume)),
             ("overlap", _music_overlap_cmd(
-                str(music_path), str(music_overlap),
+                str(music_path), str(music_overlap_f),
                 start=intro_duration, duration=overlap_duration,
                 volume=overlap_volume)),
             ("fadeout", _music_fadeout_cmd(
-                str(music_path), str(music_fadeout),
+                str(music_path), str(music_fadeout_f),
                 start=fade_start, duration=fade_duration,
                 volume=fade_volume)),
             ("outro", _music_outro_cmd(
-                str(music_path), str(music_outro),
+                str(outro_music), str(music_outro_f),
                 duration=outro_duration, volume=outro_volume)),
         ]
 
-        # Silence between fadeout and outro (voice_duration - 26)
-        music_bed_duration = intro_duration + overlap_duration + fade_duration  # 26
-        middle_silence_duration = max(voice_duration - music_bed_duration, 0.0)
+        # Silence between fadeout and outro
+        music_bed_duration = intro_duration + overlap_duration + fade_duration
+        middle_silence_duration = max(
+            effective_voice_duration - music_bed_duration, 0.0,
+        )
 
         if middle_silence_duration > 0.1:
             segment_cmds.append(
-                ("silence", _silence_cmd(middle_silence_duration, str(music_silence)))
+                ("silence", _silence_cmd(middle_silence_duration, str(music_silence_f)))
             )
 
         with ThreadPoolExecutor(max_workers=4) as pool:
@@ -346,10 +419,10 @@ def mix_with_music(
                 logger.info("Generated music segment: %s", name)
 
         # --- Concatenate music segments ---
-        concat_files = [music_intro, music_overlap, music_fadeout]
+        concat_files = [music_intro_f, music_overlap_f, music_fadeout_f]
         if middle_silence_duration > 0.1:
-            concat_files.append(music_silence)
-        concat_files.append(music_outro)
+            concat_files.append(music_silence_f)
+        concat_files.append(music_outro_f)
 
         music_full = tmp_dir / "music_full.mp3"
         music_concat_list = tmp_dir / "music_concat.txt"

@@ -500,7 +500,7 @@ class TestShowConfigs:
         assert config.slug == "env_intel"
         assert config.publishing.x_enabled is False
         assert config.newsletter.enabled is True
-        assert config.audio.music_file is None
+        assert config.audio.music_file == "assets/music/env_intel.mp3"
 
 
 # ---------------------------------------------------------------------------
@@ -552,3 +552,54 @@ class TestCleanup:
         tst = PROJECT_ROOT / "digests" / "tesla_shorts_time.py"
         content = tst.read_text()
         assert "x_path_formatted" not in content, "TST should not create _formatted.md files"
+
+
+# ---------------------------------------------------------------------------
+# Hook extraction
+# ---------------------------------------------------------------------------
+
+
+class TestHookExtraction:
+    """Verify _extract_hook() extracts the daily headline from digests."""
+
+    def test_extracts_bold_hook(self):
+        from run_show import _extract_hook
+        digest = textwrap.dedent("""\
+            # Tesla Shorts Time
+            **Date:** February 24, 2026
+            **HOOK:** Tesla's Cybertruck just broke a sales record in its biggest quarter yet.
+
+            ### Top 10 News Items
+        """)
+        assert _extract_hook(digest) == "Tesla's Cybertruck just broke a sales record in its biggest quarter yet."
+
+    def test_extracts_plain_hook(self):
+        from run_show import _extract_hook
+        digest = "HOOK: A new Mars rover just sent back stunning images of ice deposits.\n\nMore content..."
+        assert _extract_hook(digest) == "A new Mars rover just sent back stunning images of ice deposits."
+
+    def test_extracts_hook_with_brackets(self):
+        """LLM sometimes wraps the hook in square brackets."""
+        from run_show import _extract_hook
+        digest = "**HOOK:** [Scientists discover high-efficiency solar cells using lunar regolith]\n\nOther content"
+        assert _extract_hook(digest) == "Scientists discover high-efficiency solar cells using lunar regolith"
+
+    def test_returns_none_when_missing(self):
+        from run_show import _extract_hook
+        digest = "# Tesla Shorts Time\n**Date:** Feb 24\n\n### Top 10 News Items\n1. Headline"
+        assert _extract_hook(digest) is None
+
+    def test_returns_none_for_empty_hook(self):
+        from run_show import _extract_hook
+        digest = "**HOOK:** \n\n### News"
+        assert _extract_hook(digest) is None
+
+    def test_omni_view_script_includes_hook(self):
+        from run_show import _generate_omni_view_script
+        script = _generate_omni_view_script("## Top stories\n### 1) Big news\nSomething happened.", hook="Trade deal reshapes global markets today.")
+        assert "Trade deal reshapes global markets today." in script
+
+    def test_omni_view_script_without_hook(self):
+        from run_show import _generate_omni_view_script
+        script = _generate_omni_view_script("## Top stories\n### 1) Big news\nSomething happened.")
+        assert "Good morning" in script

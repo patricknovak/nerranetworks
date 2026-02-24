@@ -808,3 +808,171 @@ class TestReplaceStandaloneAmpersand:
     def test_compound_preserved(self):
         # No spaces around & means it's not standalone
         assert replace_standalone_ampersand("R&D") == "R&D"
+
+
+# ===========================================================================
+# TTS readiness integration tests — verify nothing harmful reaches TTS
+# ===========================================================================
+
+class TestTTSReadinessIntegration:
+    """End-to-end tests for prepare_text_for_tts ensuring no raw artifacts
+    survive to reach ElevenLabs.  These are the problems that caused bad
+    podcast audio historically."""
+
+    def test_urls_fully_stripped(self):
+        text = (
+            "Tesla announced a new battery. "
+            "Source: https://www.teslarati.com/tesla-new-battery-tech/ "
+            "This is exciting."
+        )
+        result = prepare_text_for_tts(text)
+        assert "https://" not in result
+        assert "teslarati.com" not in result
+        assert "Source:" not in result.lower() or "source" in result.lower()
+
+    def test_emojis_fully_stripped(self):
+        text = "🚀⚡ Tesla stock is up 📊 today! 🎯"
+        result = prepare_text_for_tts(text)
+        assert "🚀" not in result
+        assert "⚡" not in result
+        assert "📊" not in result
+        assert "🎯" not in result
+        assert "stock" in result.lower()
+
+    def test_markdown_stripped(self):
+        text = "### Top 10 News\n**Tesla** is *great*.\n━━━━━━━━━━"
+        result = prepare_text_for_tts(text)
+        assert "###" not in result
+        assert "**" not in result
+        assert "━" not in result
+
+    def test_tsla_price_fully_spoken(self):
+        """The single most reported issue: raw '$411.82' reaching TTS."""
+        text = "TSLA is trading at $411.82"
+        result = prepare_text_for_tts(text)
+        assert "$" not in result
+        assert "411" not in result
+        assert "dollars" in result
+        assert "T S L A" in result or "T.S.L.A" in result
+
+    def test_price_change_notation(self):
+        """Raw '▲ $0.57 (0.1%)' should not reach TTS."""
+        text = "TSLA $411.82 ▲ $0.57 (0.1%)"
+        result = prepare_text_for_tts(text)
+        assert "▲" not in result
+        assert "$" not in result
+        assert "percent" in result
+
+    def test_social_handles_expanded(self):
+        text = "Follow us @teslashortstime"
+        result = prepare_text_for_tts(text)
+        assert "@teslashortstime" not in result
+        assert "tesla shorts time" in result.lower()
+
+    def test_dateline_timestamps_converted(self):
+        """Raw '22 February, 2026, 11:30 PM PST' should be natural speech."""
+        text = "Tesla announced on February 22, 2026 at 11:30 PM PST."
+        result = prepare_text_for_tts(text)
+        assert "2026" not in result  # year should be words
+        assert "PST" not in result   # timezone should be expanded
+        assert "twenty" in result    # year as words
+
+    def test_unicode_arrows_stripped(self):
+        text = "Stock is ▲ up and ▼ down"
+        result = prepare_text_for_tts(text)
+        assert "▲" not in result
+        assert "▼" not in result
+
+    def test_box_drawing_stripped(self):
+        text = "━━━━━━━━━━━━━━━━━━━━\nNews section"
+        result = prepare_text_for_tts(text)
+        assert "━" not in result
+        assert "News section" in result
+
+
+class TestRunShowPronunciationPipeline:
+    """Verify that run_show.py's _apply_pronunciation actually calls
+    prepare_text_for_tts and produces clean output for all shows."""
+
+    def _apply(self, text: str, show_slug: str) -> str:
+        """Import and call the actual _apply_pronunciation from run_show."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "run_show", PROJECT_ROOT / "run_show.py",
+        )
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod._apply_pronunciation(text, show_slug)
+
+    def test_tesla_pronunciation_strips_urls(self):
+        result = self._apply("Check https://example.com for details.", "tesla")
+        assert "https://" not in result
+
+    def test_tesla_pronunciation_converts_currency(self):
+        result = self._apply("TSLA is at $411.82 today.", "tesla")
+        assert "$" not in result
+        assert "dollars" in result
+
+    def test_tesla_preserves_ice_as_word(self):
+        """Tesla hook skips ICE acronym — 'ice' should stay as 'ice'."""
+        result = self._apply("The ice cream truck drove by.", "tesla")
+        assert "ice" in result.lower()
+        assert "I C E" not in result
+
+    def test_ff_pronunciation_works_without_hook(self):
+        """FF has no hook — should still get full pronunciation pipeline."""
+        result = self._apply("NASA found $5.2 billion in savings.", "fascinating_frontiers")
+        assert "dollars" in result
+        assert "$" not in result
+
+    def test_ei_pronunciation_works_without_hook(self):
+        result = self._apply("The EPA issued https://epa.gov/notice.", "env_intel")
+        assert "https://" not in result
+
+    def test_nonexistent_show_still_gets_pronunciation(self):
+        """Even a show with no hook should get full prepare_text_for_tts."""
+        result = self._apply("Cost is $100.50 per unit.", "some_future_show")
+        assert "$" not in result
+        assert "dollars" in result
+
+
+class TestTeslaIntroFormatting:
+    """Verify the Tesla intro line is pre-formatted for natural TTS."""
+
+    def test_intro_has_no_stock_price(self):
+        """Intro should NOT contain stock price — it's reserved for the closing only."""
+        from shows.hooks.tesla import _pick_intro
+        context = {"price": "411.82", "change_str": "▲ $0.57 (0.1%)"}
+        intro = _pick_intro(context)
+        assert "$" not in intro
+        assert "▲" not in intro
+        assert "dollars" not in intro
+        assert "trading" not in intro.lower()
+
+    def test_intro_has_welcome(self):
+        from shows.hooks.tesla import _pick_intro
+        context = {"price": "411.82", "change_str": "▲ $0.57 (0.1%)"}
+        intro = _pick_intro(context)
+        assert "Welcome" in intro
+        assert "Tesla" in intro
+
+    def test_closing_has_no_at_handle(self):
+        from shows.hooks.tesla import _pick_closing
+        context = {"price": "350.00", "change_str": "▲ $2.50 (0.7%)"}
+        closing = _pick_closing(context)
+        assert "@teslashortstime" not in closing
+        assert "tesla shorts time" in closing.lower()
+
+    def test_closing_has_stock_price(self):
+        from shows.hooks.tesla import _pick_closing
+        context = {"price": "350.00", "change_str": "▲ $2.50 (0.7%)"}
+        closing = _pick_closing(context)
+        assert "three hundred fifty dollars" in closing
+        assert "up" in closing
+
+    def test_closing_has_long_term_perspective(self):
+        from shows.hooks.tesla import _pick_closing
+        context = {"price": "350.00", "change_str": "▼ $1.00 (0.3%)"}
+        closing = _pick_closing(context)
+        assert "long term" in closing.lower()
+        assert "mission" in closing.lower()

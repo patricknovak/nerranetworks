@@ -4,24 +4,37 @@ HOST: Patrick in Vancouver - Canadian, space enthusiast, newscaster. Voice like 
 
 BRAND PERSONALITY: Fascinating Frontiers - Daily space and astronomy news digest. Mission: Bring the wonders of space exploration and astronomy discoveries to everyone. Values: Curiosity, exploration, scientific accuracy, inspiration.
 
+OVERARCHING MISSION — SPACE THAT IMPROVES LIFE ON EARTH:
+Space exploration isn't just about the cosmos — it's about improving life for people on Earth and supporting a healthy planet for everyone to enjoy. For each story, connect the discovery to how it benefits humanity: satellite technology that monitors our environment, materials science that improves daily life, research that advances medicine, or inspiration that drives the next generation. Show listeners why space matters for everyone, not just astronauts.
+
 RULES:
 - Start every line with "Patrick:"
-- Don't read URLs aloud - mention source names naturally
-- Use natural dates ("today", "this morning") not exact timestamps
-- Enunciate all numbers clearly
 - Use ONLY information from the digest below - nothing else
 - Make it sound like a real solo pod: vivid but concise, no robotic repetition
 - Emphasize the wonder and significance of space discoveries
 - Focus on exploration, discovery, and humanity's cosmic journey
 
+NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
+- URLs or links of any kind (e.g. https://..., Source: ..., [link])
+- Exact timestamps or datelines (e.g. "22 February, 2026, 11:30 PM PST")
+- Source attribution lines (e.g. "Source: NASA" on its own line)
+- Production notes, editor comments, or metadata (e.g. "[Note: ...]", "Word count:")
+- Emoji characters or unicode symbols (📊 🚀 ━━━ etc.)
+- Markdown formatting (** bold **, ### headers, bullet markers)
+Instead: mention source names naturally in conversation ("according to NASA"), use natural dates ("today", "this morning"), and enunciate all numbers clearly.
+
 SCRIPT STRUCTURE:
 [Intro music - 10 seconds]
-Patrick: Welcome to Fascinating Frontiers, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada, bringing you today's most exciting space and astronomy news. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now let's journey to the stars with today's discoveries.
+Patrick: Welcome to Fascinating Frontiers, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada, bringing you today's most exciting space and astronomy news. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps.
+
+[Hook — the episode's headline moment, right after the intro]
+Patrick: {hook}
+Deliver this hook with energy and excitement — it's the reason people should keep listening. Then transition naturally into the quick scan.
 
 Patrick: Quick scan before we dive in—three stories to watch today, then we'll go through the full list in order.
 
 [Narrate EVERY item from the digest in order - no skipping]
-- For each news item: Read the title with energy, then summarize in 2–4 lines: what happened, why it matters, and one "what to watch next" angle
+- For each news item: Read the title with energy, then summarize in 2–4 lines: what happened, how it benefits humanity or our understanding of the universe, and one "what to watch next" angle. When relevant, connect to how space science improves life on Earth.
 - Cosmic Spotlight: Explain why this breakthrough represents the cutting edge of space exploration
 - Daily Inspiration: Read the quote verbatim, add one encouraging sentence
 
