@@ -113,8 +113,17 @@ tts:
   max_chars: 4500
 
 audio:
-  # No music for professional briefing format
-  music_file: null
+  # Music file placeholder — generate using prompts in assets/music/README.md
+  # Falls back to voice-only gracefully if file does not exist yet
+  music_file: assets/music/env_intel.mp3
+  intro_duration: 4.0
+  overlap_duration: 2.0
+  fade_duration: 14.0
+  outro_duration: 20.0
+  intro_volume: 0.4
+  overlap_volume: 0.3
+  fade_volume: 0.25
+  outro_volume: 0.3
 
 publishing:
   rss_file: env_intel_podcast.rss

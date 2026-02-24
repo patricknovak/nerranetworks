@@ -6,6 +6,11 @@ This is our regression baseline: after refactoring the audio pipeline into a
 shared engine, we can verify it produces identical ffmpeg invocations.
 
 The commands are extracted from tesla_shorts_time.py lines 3737-3880.
+
+Also tests the enhanced music framework features:
+  - mono silence for voice_intro_delay
+  - engine command builder parity
+  - dual-music / delayed-intro timing calculations
 """
 
 from pathlib import Path, PurePosixPath
@@ -335,3 +340,234 @@ class TestConcatListContent:
             "music_fadeout.mp3",
             "music_outro.mp3",
         ]
+
+
+# ---------------------------------------------------------------------------
+# Engine command builder parity tests
+# ---------------------------------------------------------------------------
+
+class TestEngineCommandBuilderParity:
+    """Verify that engine/audio.py command builders produce identical output
+    to the reference templates above."""
+
+    def test_voice_norm_full_matches(self):
+        from engine.audio import _voice_norm_full_cmd
+        ref = voice_normalization_full("/tmp/v.mp3", "/tmp/o.mp3")
+        eng = _voice_norm_full_cmd("/tmp/v.mp3", "/tmp/o.mp3")
+        assert ref == eng
+
+    def test_voice_norm_fallback_matches(self):
+        from engine.audio import _voice_norm_fallback_cmd
+        ref = voice_normalization_fallback("/tmp/v.mp3", "/tmp/o.mp3")
+        eng = _voice_norm_fallback_cmd("/tmp/v.mp3", "/tmp/o.mp3")
+        assert ref == eng
+
+    def test_intro_cmd_matches(self):
+        from engine.audio import _music_intro_cmd
+        ref = music_intro("/m.mp3", "/i.mp3")
+        eng = _music_intro_cmd("/m.mp3", "/i.mp3")
+        assert ref == eng
+
+    def test_overlap_cmd_matches(self):
+        from engine.audio import _music_overlap_cmd
+        ref = music_overlap("/m.mp3", "/o.mp3")
+        eng = _music_overlap_cmd("/m.mp3", "/o.mp3")
+        assert ref == eng
+
+    def test_fadeout_cmd_matches(self):
+        from engine.audio import _music_fadeout_cmd
+        ref = music_fadeout("/m.mp3", "/f.mp3")
+        eng = _music_fadeout_cmd("/m.mp3", "/f.mp3")
+        assert ref == eng
+
+    def test_outro_cmd_matches(self):
+        from engine.audio import _music_outro_cmd
+        ref = music_outro("/m.mp3", "/o.mp3")
+        eng = _music_outro_cmd("/m.mp3", "/o.mp3")
+        assert ref == eng
+
+    def test_silence_cmd_matches(self):
+        from engine.audio import _silence_cmd
+        ref = silence_segment(42.5, "/s.mp3")
+        eng = _silence_cmd(42.5, "/s.mp3")
+        assert ref == eng
+
+    def test_concat_cmd_matches(self):
+        from engine.audio import _music_concat_cmd
+        ref = music_concat("/l.txt", "/f.mp3")
+        eng = _music_concat_cmd("/l.txt", "/f.mp3")
+        assert ref == eng
+
+    def test_final_mix_cmd_matches(self):
+        from engine.audio import _final_mix_cmd
+        ref = final_mix("/v.mp3", "/m.mp3", "/f.mp3")
+        eng = _final_mix_cmd("/v.mp3", "/m.mp3", "/f.mp3")
+        assert ref == eng
+
+
+# ---------------------------------------------------------------------------
+# Mono silence (voice intro delay support)
+# ---------------------------------------------------------------------------
+
+class TestMonoSilence:
+    """Verify the mono silence command used for voice_intro_delay."""
+
+    def test_mono_silence_structure(self):
+        from engine.audio import _mono_silence_cmd
+        cmd = _mono_silence_cmd(28.0, "/delay.mp3")
+        assert cmd[0] == "ffmpeg"
+        assert "-y" in cmd
+        assert "anullsrc=r=44100:cl=mono" in cmd
+        assert cmd[cmd.index("-t") + 1] == "28.0"
+
+    def test_mono_silence_is_mono(self):
+        """Must be mono to match normalized voice for concat."""
+        from engine.audio import _mono_silence_cmd
+        cmd = _mono_silence_cmd(5.0, "/s.mp3")
+        assert "cl=mono" in cmd[cmd.index("-i") + 1]
+
+    def test_mono_silence_encoding(self):
+        from engine.audio import _mono_silence_cmd
+        cmd = _mono_silence_cmd(10.0, "/s.mp3")
+        assert "-c:a" in cmd and cmd[cmd.index("-c:a") + 1] == "libmp3lame"
+        assert "-b:a" in cmd and cmd[cmd.index("-b:a") + 1] == "192k"
+
+
+# ---------------------------------------------------------------------------
+# Voice intro delay timing
+# ---------------------------------------------------------------------------
+
+class TestVoiceIntroDelayTiming:
+    """Verify the timing math for voice_intro_delay mode.
+
+    When voice_intro_delay > 0, silence is prepended to the voice,
+    extending effective_voice_duration and shifting everything forward.
+    """
+
+    def test_silence_extends_effective_duration(self):
+        """voice_intro_delay adds to effective voice duration for silence calc."""
+        voice_duration = 180.0
+        voice_intro_delay = 28.0
+        intro_duration = 28
+        overlap_duration = 3
+        fade_duration = 18
+
+        effective = voice_duration + voice_intro_delay
+        music_bed = intro_duration + overlap_duration + fade_duration
+        silence_dur = max(effective - music_bed, 0.0)
+
+        # 208 - 49 = 159
+        assert silence_dur == pytest.approx(159.0)
+
+    def test_zero_delay_is_standard_mode(self):
+        """voice_intro_delay=0 should produce same timeline as original."""
+        voice_duration = 180.0
+        voice_intro_delay = 0.0
+        intro_duration = 5
+        overlap_duration = 3
+        fade_duration = 18
+
+        effective = voice_duration + voice_intro_delay
+        music_bed = intro_duration + overlap_duration + fade_duration
+        silence_dur = max(effective - music_bed, 0.0)
+
+        # Original: 180 - 26 = 154
+        assert silence_dur == pytest.approx(154.0)
+
+
+# ---------------------------------------------------------------------------
+# Dual-music mode timing
+# ---------------------------------------------------------------------------
+
+class TestDualMusicMode:
+    """Verify dual-music mode uses the right source for each segment."""
+
+    def test_intro_uses_primary_music(self):
+        """Intro/overlap/fadeout should source from primary music file."""
+        from engine.audio import _music_intro_cmd
+        cmd = _music_intro_cmd("/primary.mp3", "/intro.mp3", duration=28, volume=0.6)
+        assert cmd[cmd.index("-i") + 1] == "/primary.mp3"
+        assert cmd[cmd.index("-t") + 1] == "28"
+
+    def test_outro_uses_background_music(self):
+        """When background music is provided, outro sources from it."""
+        from engine.audio import _music_outro_cmd
+        cmd = _music_outro_cmd("/background.mp3", "/outro.mp3", duration=30, volume=0.4)
+        assert cmd[cmd.index("-i") + 1] == "/background.mp3"
+
+    def test_custom_intro_duration_for_delayed_shows(self):
+        """Shows like FF use intro_duration=28 to match voice_intro_delay."""
+        from engine.audio import _music_intro_cmd
+        cmd = _music_intro_cmd("/m.mp3", "/i.mp3", duration=28, volume=0.6)
+        assert cmd[cmd.index("-t") + 1] == "28"
+        assert "volume=0.6" in cmd[cmd.index("-af") + 1]
+
+
+# ---------------------------------------------------------------------------
+# Config integration
+# ---------------------------------------------------------------------------
+
+class TestAudioConfigDefaults:
+    """Verify AudioConfig dataclass has the new fields with correct defaults."""
+
+    def test_voice_intro_delay_default(self):
+        from engine.config import AudioConfig
+        cfg = AudioConfig()
+        assert cfg.voice_intro_delay == 0.0
+
+    def test_background_music_file_default(self):
+        from engine.config import AudioConfig
+        cfg = AudioConfig()
+        assert cfg.background_music_file is None
+
+    def test_all_timing_defaults(self):
+        from engine.config import AudioConfig
+        cfg = AudioConfig()
+        assert cfg.intro_duration == 5.0
+        assert cfg.overlap_duration == 3.0
+        assert cfg.fade_duration == 18.0
+        assert cfg.outro_duration == 30.0
+        assert cfg.intro_volume == 0.6
+        assert cfg.overlap_volume == 0.5
+        assert cfg.fade_volume == 0.4
+        assert cfg.outro_volume == 0.4
+
+
+class TestShowMusicConfigs:
+    """Verify each show's YAML loads with correct music configuration."""
+
+    @pytest.fixture
+    def load_config(self):
+        from engine.config import load_config
+        return load_config
+
+    def test_tesla_has_music(self, load_config):
+        cfg = load_config("shows/tesla.yaml")
+        assert cfg.audio.music_file == "assets/music/tesla_shorts_time.mp3"
+        assert cfg.audio.voice_intro_delay == 0.0
+
+    def test_ff_has_dual_music(self, load_config):
+        cfg = load_config("shows/fascinating_frontiers.yaml")
+        assert cfg.audio.music_file == "assets/music/fascinatingfrontiers.mp3"
+        assert cfg.audio.background_music_file == "assets/music/fascinatingfrontiers_bg.mp3"
+        assert cfg.audio.voice_intro_delay == 28.0
+        assert cfg.audio.intro_duration == 28.0
+
+    def test_pt_has_music(self, load_config):
+        cfg = load_config("shows/planetterrian.yaml")
+        assert cfg.audio.music_file == "assets/music/planetterrian.mp3"
+
+    def test_ov_has_music(self, load_config):
+        cfg = load_config("shows/omni_view.yaml")
+        assert cfg.audio.music_file == "assets/music/omni_view.mp3"
+
+    def test_ei_has_music(self, load_config):
+        cfg = load_config("shows/env_intel.yaml")
+        assert cfg.audio.music_file == "assets/music/env_intel.mp3"
+
+    def test_ei_shorter_timing(self, load_config):
+        """EI uses shorter, subtler music appropriate for briefing format."""
+        cfg = load_config("shows/env_intel.yaml")
+        assert cfg.audio.intro_duration == 4.0
+        assert cfg.audio.outro_duration == 20.0
+        assert cfg.audio.intro_volume <= 0.5

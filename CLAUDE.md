@@ -26,7 +26,7 @@ is a standalone X-posting script, not a podcast show.
 2. **Dedup** via ContentTracker (cross-episode) + entity dedup
 3. **Generate** digest text via xAI/Grok API
 4. **Synthesize** podcast audio via ElevenLabs TTS
-5. **Mix** intro/outro music with voice (ffmpeg) — TST/PT/FF/EI, not OV
+5. **Mix** intro/outro music with voice (ffmpeg) — all shows (configurable per YAML)
 6. **Post** X thread via `engine/publisher.post_to_x()` + update RSS feed + commit output to git
 
 ### Key Directories
@@ -57,7 +57,7 @@ Tesla-shorts-time/
 │   ├── __init__.py
 │   ├── utils.py                   # Env helpers, text processing, similarity, dedup
 │   ├── tts.py                     # ElevenLabs TTS (auth, chunking, synthesis)
-│   ├── audio.py                   # mix_with_music, normalize_voice, duration helpers
+│   ├── audio.py                   # mix_with_music (3 modes), normalize_voice, duration helpers
 │   ├── publisher.py               # RSS feeds, X posting, GitHub Pages summaries, digest formatting
 │   ├── content_tracker.py         # Cross-episode dedup (per-show section patterns)
 │   ├── fetcher.py                 # RSS article fetching
@@ -68,7 +68,12 @@ Tesla-shorts-time/
 │   ├── newsletter.py              # Email newsletter helpers
 │   └── validation.py              # Config validation
 ├── assets/
-│   └── pronunciation.py           # Shared TTS pronunciation fixes
+│   ├── pronunciation.py           # Shared TTS pronunciation fixes
+│   └── music/                     # Centralized podcast music (intro/outro)
+│       ├── README.md              # Music generation guide + AI prompts
+│       ├── tesla_shorts_time.mp3  # TST theme
+│       ├── fascinatingfrontiers.mp3     # FF intro jingle
+│       └── fascinatingfrontiers_bg.mp3  # FF background/outro
 ├── tests/                         # pytest suite (627 tests)
 ├── .github/workflows/
 │   └── run-show.yml               # Unified daily cron workflow (all shows)
@@ -85,11 +90,13 @@ Tesla-shorts-time/
   fixes, content tracking, chunked TTS, yfinance stock data, TST-specific
   emoji formatting via `engine.publisher.format_tst_digest_for_x()`
 - **OV** is structurally different — different TTS approach (no streaming, uses
-  env vars for voice settings), no music mixing, simpler functions
+  env vars for voice settings), simpler functions
 - **EI** runs exclusively via `run_show.py` + `shows/env_intel.yaml`; no legacy script
 - All shows delegate X posting to `engine.publisher.post_to_x()`
 - TST/FF/PT delegate voice normalization to `engine.audio.normalize_voice()`
-- TST delegates full music mixing to `engine.audio.mix_with_music()`
+- All shows use `engine.audio.mix_with_music()` for music mixing (3 modes:
+  standard, delayed-intro, dual-music). Music files in `assets/music/`.
+  Shows without music files gracefully fall back to voice-only.
 
 ## Conventions
 
@@ -138,7 +145,8 @@ Phase 1 (complete):
 - `engine/tts.py` — `validate_elevenlabs_auth`, `speak`, `_speak_chunk`,
   `_chunk_text_for_elevenlabs`
 - `engine/audio.py` — `get_audio_duration`, `format_duration`,
-  `mix_with_music`, `normalize_voice`
+  `mix_with_music` (standard / delayed-intro / dual-music modes),
+  `normalize_voice`
 
 Phase 2 (complete):
 - `engine/publisher.py` — `update_rss_feed`, `get_next_episode_number`,

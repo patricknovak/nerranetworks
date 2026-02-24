@@ -500,7 +500,7 @@ class TestShowConfigs:
         assert config.slug == "env_intel"
         assert config.publishing.x_enabled is False
         assert config.newsletter.enabled is True
-        assert config.audio.music_file is None
+        assert config.audio.music_file == "assets/music/env_intel.mp3"
 
 
 # ---------------------------------------------------------------------------

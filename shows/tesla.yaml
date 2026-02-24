@@ -88,7 +88,7 @@ tts:
   max_chars: 5000
 
 audio:
-  music_file: tesla_shorts_time.mp3
+  music_file: assets/music/tesla_shorts_time.mp3
   intro_duration: 5.0
   overlap_duration: 3.0
   fade_duration: 18.0

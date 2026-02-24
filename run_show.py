@@ -301,6 +301,12 @@ def run(args: argparse.Namespace) -> None:
                 music_path = PROJECT_ROOT / config.audio.music_file
                 if music_path.exists():
                     logger.info("Mixing with music: %s", music_path.name)
+
+                    # Resolve optional background/outro music file
+                    bg_music_path = None
+                    if config.audio.background_music_file:
+                        bg_music_path = PROJECT_ROOT / config.audio.background_music_file
+
                     mix_with_music(
                         raw_mp3, music_path, final_mp3,
                         intro_duration=int(config.audio.intro_duration),
@@ -311,6 +317,8 @@ def run(args: argparse.Namespace) -> None:
                         overlap_volume=config.audio.overlap_volume,
                         fade_volume=config.audio.fade_volume,
                         outro_volume=config.audio.outro_volume,
+                        voice_intro_delay=config.audio.voice_intro_delay,
+                        background_music_path=bg_music_path,
                     )
                 else:
                     logger.warning("Music file not found: %s — using voice only", music_path)

@@ -128,9 +128,17 @@ tts:
   max_chars: 5000
 
 audio:
-  music_file: fascinatingfrontiers.mp3
-  background_music_file: "Fascinating Frontiers music.mp3"
+  music_file: assets/music/fascinatingfrontiers.mp3
+  background_music_file: assets/music/fascinatingfrontiers_bg.mp3
   voice_intro_delay: 28.0
+  intro_duration: 28.0
+  overlap_duration: 3.0
+  fade_duration: 18.0
+  outro_duration: 30.0
+  intro_volume: 0.6
+  overlap_volume: 0.5
+  fade_volume: 0.4
+  outro_volume: 0.4
 
 publishing:
   rss_file: fascinating_frontiers_podcast.rss
