@@ -657,3 +657,77 @@ def format_tst_digest_for_x(digest: str, *, max_chars: int = 25000) -> str:
             formatted = formatted[:max_chars - 50] + "\n\n... (truncated for length)"
 
     return formatted
+
+
+# ---------------------------------------------------------------------------
+# Scan existing episode MP3 files
+# ---------------------------------------------------------------------------
+
+def scan_existing_episodes_from_files(
+    digests_dir: Path,
+    base_url: str,
+    *,
+    mp3_glob: str = "*_Ep*_*.mp3",
+    filename_pattern: str = r".*_Ep(\d+)_(\d{8})",
+    audio_subdir: str = "digests",
+    get_audio_duration_func=None,
+) -> list:
+    """Scan for existing episode MP3 files and return episode data.
+
+    Parameters
+    ----------
+    digests_dir:
+        Directory containing the MP3 files.
+    base_url:
+        GitHub raw content base URL for constructing download URLs.
+    mp3_glob:
+        Glob pattern to find MP3 files in *digests_dir*.
+    filename_pattern:
+        Regex to extract ``(episode_num, date_str)`` groups from filenames.
+        The date group is expected in ``%Y%m%d`` format.
+    audio_subdir:
+        Path segment appended to *base_url* for the episode URL.
+    get_audio_duration_func:
+        Optional callable ``(Path) -> float`` for reading audio duration.
+        Defaults to ``engine.audio.get_audio_duration``.
+
+    Returns
+    -------
+    list[dict]
+        Sorted by episode number (ascending).  Each dict has keys:
+        ``episode_num``, ``date``, ``filename``, ``path``, ``size``,
+        ``duration``, ``url``.
+    """
+    if get_audio_duration_func is None:
+        from engine.audio import get_audio_duration as _gad
+        get_audio_duration_func = _gad
+
+    import datetime as _dt
+
+    episodes: list = []
+    compiled_pattern = re.compile(filename_pattern)
+
+    for mp3_file in digests_dir.glob(mp3_glob):
+        match = compiled_pattern.match(mp3_file.name)
+        if match:
+            try:
+                ep_num = int(match.group(1))
+                date_str = match.group(2)
+                episode_date = _dt.datetime.strptime(date_str, "%Y%m%d").date()
+
+                file_size = mp3_file.stat().st_size if mp3_file.exists() else 0
+                duration = get_audio_duration_func(mp3_file)
+
+                episodes.append({
+                    "episode_num": ep_num,
+                    "date": episode_date,
+                    "filename": mp3_file.name,
+                    "path": mp3_file,
+                    "size": file_size,
+                    "duration": duration,
+                    "url": f"{base_url}/{audio_subdir}/{mp3_file.name}",
+                })
+            except (ValueError, Exception) as exc:
+                logger.warning("Could not parse episode from file %s: %s", mp3_file.name, exc)
+
+    return sorted(episodes, key=lambda x: x["episode_num"])

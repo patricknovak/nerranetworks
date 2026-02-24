@@ -28,8 +28,6 @@ from zoneinfo import ZoneInfo
 from PIL import Image, ImageDraw, ImageFont
 import feedparser
 from typing import List, Dict, Any
-import tweepy
-import shutil
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
 from urllib.parse import quote
@@ -40,6 +38,9 @@ from engine.utils import (
     number_to_words as _engine_number_to_words,
     calculate_similarity as _engine_calculate_similarity,
     remove_similar_items as _engine_remove_similar_items,
+    SCIENCE_CONTENT_KEYWORDS,
+    is_science_related,
+    enforce_x_char_limit as _engine_enforce_x_char_limit,
 )
 from engine.audio import get_audio_duration, format_duration as _engine_format_duration, normalize_voice as _engine_normalize_voice
 from engine.publisher import (
@@ -49,6 +50,7 @@ from engine.publisher import (
     generate_episode_thumbnail as _engine_generate_thumbnail,
     format_digest_for_x as _engine_format_digest_for_x,
     post_to_x as _engine_post_to_x,
+    scan_existing_episodes_from_files as _engine_scan_episodes,
 )
 from engine.tracking import create_tracker, record_llm_usage, record_tts_usage, record_x_post, save_usage
 from engine.content_tracker import ContentTracker, PT_SECTION_PATTERNS
@@ -184,26 +186,7 @@ _env_int = env_int
 _env_bool = env_bool
 
 
-def _enforce_x_char_limit(text: str, max_chars: int = 280) -> str:
-    """
-    Ensure text fits within X's 280-char limit (non-subscribed accounts).
-    If too long, we progressively compress, then truncate with an ellipsis.
-    """
-    t = (text or "").strip()
-    if len(t) <= max_chars:
-        return t
-
-    # Collapse excessive blank lines / whitespace first
-    t = re.sub(r"[ \t]+\n", "\n", t)
-    t = re.sub(r"\n{3,}", "\n\n", t).strip()
-    if len(t) <= max_chars:
-        return t
-
-    # If still too long, truncate safely
-    suffix = "…"
-    if max_chars <= len(suffix):
-        return suffix[:max_chars]
-    return (t[: max_chars - len(suffix)].rstrip() + suffix)
+_enforce_x_char_limit = _engine_enforce_x_char_limit
 
 
 # ========================== STEP 1: FETCH SCIENCE/LONGEVITY/HEALTH NEWS FROM RSS FEEDS ==========================
@@ -572,28 +555,7 @@ TRUSTED_USERNAMES = [
     "neiltyson", "BillNye", "sciam", "sciencemagazine"
 ]
 
-# Science/longevity/health keywords for content filtering
-SCIENCE_CONTENT_KEYWORDS = [
-    "longevity", "anti-aging", "aging", "lifespan", "healthspan",
-    "biotechnology", "genetics", "genomics", "CRISPR", "gene therapy",
-    "medicine", "medical", "health", "wellness", "nutrition", "diet",
-    "research", "study", "clinical trial", "discovery", "breakthrough",
-    "science", "scientific", "biotech",
-    "cancer", "disease", "treatment", "therapy", "vaccine",
-    "brain", "neuroscience", "cognitive", "mental health"
-]
-
-def is_science_related(text: str) -> bool:
-    """Check if post text contains science/longevity/health keywords."""
-    if not text:
-        return False
-    
-    text_lower = text.lower()
-    for keyword in SCIENCE_CONTENT_KEYWORDS:
-        if keyword.lower() in text_lower:
-            return True
-    
-    return False
+# SCIENCE_CONTENT_KEYWORDS and is_science_related imported from engine.utils
 
 def fetch_x_posts_from_trusted_accounts() -> tuple[List[Dict], List[Dict]]:
     """
@@ -979,35 +941,13 @@ format_duration = _engine_format_duration
 
 def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
     """Scan for existing episode MP3 files and return episode data."""
-    episodes = []
-    pattern = r"Planetterrian_Daily_Ep(\d+)_(\d{8})\.mp3"
-    for mp3_file in digests_dir.glob("Planetterrian_Daily_Ep*.mp3"):
-        match = re.match(pattern, mp3_file.name)
-        if match:
-            try:
-                ep_num = int(match.group(1))
-                date_str = match.group(2)
-                # Parse date from filename
-                episode_date = datetime.datetime.strptime(date_str, "%Y%m%d").date()
-                
-                # Get file size
-                file_size = mp3_file.stat().st_size if mp3_file.exists() else 0
-                
-                # Get duration
-                duration = get_audio_duration(mp3_file)
-                
-                episodes.append({
-                    'episode_num': ep_num,
-                    'date': episode_date,
-                    'filename': mp3_file.name,
-                    'path': mp3_file,
-                    'size': file_size,
-                    'duration': duration,
-                    'url': f"{base_url}/digests/planetterrian/{mp3_file.name}"
-                })
-            except (ValueError, Exception) as e:
-                logging.warning(f"Could not parse episode from file {mp3_file.name}: {e}")
-    return sorted(episodes, key=lambda x: x['episode_num'])
+    return _engine_scan_episodes(
+        digests_dir,
+        base_url,
+        mp3_glob="Planetterrian_Daily_Ep*.mp3",
+        filename_pattern=r"Planetterrian_Daily_Ep(\d+)_(\d{8})",
+        audio_subdir="digests/planetterrian",
+    )
 
 _PT_BASE_URL = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
 
@@ -1269,7 +1209,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     has_background_music = MAIN_MUSIC.exists() if MAIN_MUSIC else False
 
     if not has_background_music:
-        subprocess.run(["ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-preset", "fast", str(final_mp3)], check=True, capture_output=True)
+        _engine_normalize_voice(voice_mix, final_mp3)
         logging.info("Podcast ready (voice-only, no music file found)")
     else:
         # Get voice duration to calculate music timing

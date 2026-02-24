@@ -28,8 +28,6 @@ from zoneinfo import ZoneInfo
 from PIL import Image, ImageDraw, ImageFont
 import feedparser
 from typing import List, Dict, Any
-import tweepy
-import shutil
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
 from urllib.parse import quote
@@ -40,6 +38,8 @@ from engine.utils import (
     number_to_words as _engine_number_to_words,
     calculate_similarity as _engine_calculate_similarity,
     remove_similar_items as _engine_remove_similar_items,
+    SCIENCE_CONTENT_KEYWORDS,
+    is_science_related,
 )
 from engine.audio import get_audio_duration, format_duration as _engine_format_duration, normalize_voice as _engine_normalize_voice
 from engine.publisher import (
@@ -649,28 +649,7 @@ TRUSTED_USERNAMES = [
     "neiltyson", "BillNye", "sciam", "sciencemagazine"
 ]
 
-# Science/longevity/health keywords for content filtering
-SCIENCE_CONTENT_KEYWORDS = [
-    "longevity", "anti-aging", "aging", "lifespan", "healthspan",
-    "biotechnology", "genetics", "genomics", "CRISPR", "gene therapy",
-    "medicine", "medical", "health", "wellness", "nutrition", "diet",
-    "research", "study", "clinical trial", "discovery", "breakthrough",
-    "science", "scientific", "biotech",
-    "cancer", "disease", "treatment", "therapy", "vaccine",
-    "brain", "neuroscience", "cognitive", "mental health"
-]
-
-def is_science_related(text: str) -> bool:
-    """Check if post text contains science/longevity/health keywords."""
-    if not text:
-        return False
-    
-    text_lower = text.lower()
-    for keyword in SCIENCE_CONTENT_KEYWORDS:
-        if keyword.lower() in text_lower:
-            return True
-    
-    return False
+# SCIENCE_CONTENT_KEYWORDS and is_science_related imported from engine.utils
 
 def fetch_x_posts_from_trusted_accounts() -> tuple[List[Dict], List[Dict]]:
     """
@@ -1383,7 +1362,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     has_background_music = BACKGROUND_MUSIC.exists() if BACKGROUND_MUSIC else False
 
     if not has_intro_music and not has_background_music:
-        subprocess.run(["ffmpeg", "-y", "-threads", "0", "-i", str(voice_mix), "-preset", "fast", str(final_mp3)], check=True, capture_output=True)
+        _engine_normalize_voice(voice_mix, final_mp3)
         logging.info("Podcast ready (voice-only, no music files found)")
     elif has_intro_music and not has_background_music:
         # Original logic: only intro music, no background music

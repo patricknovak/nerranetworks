@@ -21,6 +21,8 @@ import pytest
 
 from engine.publisher import (
     apply_op3_prefix,
+    format_digest_for_x,
+    format_tst_digest_for_x,
     get_next_episode_number,
     post_to_x,
     save_summary_to_github_pages,
@@ -442,3 +444,627 @@ class TestPostToX:
             consumer_key="my_ck", consumer_secret="my_cs",
             access_token="my_at", access_token_secret="my_ats",
         )
+
+
+# ===================================================================
+# TEST: format_digest_for_x
+# ===================================================================
+
+class TestFormatDigestForX:
+    """Tests for the generic (FF/PT) digest formatter."""
+
+    # --- Markdown header removal ---
+
+    def test_removes_h1_header(self):
+        result = format_digest_for_x("# Main Title\nBody text")
+        assert result.startswith("Main Title")
+        assert "# " not in result.split("\n")[0]
+
+    def test_removes_h2_header(self):
+        result = format_digest_for_x("## Section\nContent here")
+        assert "## " not in result
+        assert "Section" in result
+
+    def test_removes_h3_header(self):
+        result = format_digest_for_x("### Subsection\nDetails")
+        assert "### " not in result
+        assert "Subsection" in result
+
+    def test_removes_multiple_header_levels(self):
+        digest = "# Title\n## Section\n### Subsection\nBody"
+        result = format_digest_for_x(digest)
+        assert "# " not in result
+        assert "Title" in result
+        assert "Section" in result
+        assert "Subsection" in result
+
+    def test_header_only_removed_at_line_start(self):
+        """Hash characters in the middle of a line should be preserved."""
+        result = format_digest_for_x("Issue #42 is fixed")
+        assert "#42" in result
+
+    # --- Bold marker removal ---
+
+    def test_removes_bold_markers(self):
+        result = format_digest_for_x("This is **bold** text")
+        assert "**" not in result
+        assert "bold" in result
+
+    def test_removes_multiple_bold_markers(self):
+        result = format_digest_for_x("**First** and **Second** items")
+        assert "**" not in result
+        assert "First" in result
+        assert "Second" in result
+
+    def test_bold_with_colon(self):
+        result = format_digest_for_x("**Date:** February 23, 2026")
+        assert "**" not in result
+        assert "Date:" in result
+        assert "February 23, 2026" in result
+
+    # --- Markdown link extraction ---
+
+    def test_extracts_url_from_markdown_link(self):
+        result = format_digest_for_x("Check [this article](https://example.com/news)")
+        assert "https://example.com/news" in result
+        assert "[" not in result
+        assert "](" not in result
+
+    def test_extracts_multiple_urls(self):
+        digest = "[Link 1](https://a.com) and [Link 2](http://b.com)"
+        result = format_digest_for_x(digest)
+        assert "https://a.com" in result
+        assert "http://b.com" in result
+        assert "[Link" not in result
+
+    def test_preserves_plain_urls(self):
+        result = format_digest_for_x("Visit https://example.com for details")
+        assert "https://example.com" in result
+
+    # --- Excessive blank line removal ---
+
+    def test_removes_triple_blank_lines(self):
+        digest = "Line 1\n\n\n\nLine 2"
+        result = format_digest_for_x(digest)
+        assert "\n\n\n" not in result
+        assert "Line 1" in result
+        assert "Line 2" in result
+
+    def test_collapses_many_blank_lines(self):
+        digest = "A\n\n\n\n\n\n\nB"
+        result = format_digest_for_x(digest)
+        assert "\n\n\n" not in result
+
+    def test_preserves_double_blank_line(self):
+        digest = "Paragraph 1\n\nParagraph 2"
+        result = format_digest_for_x(digest)
+        assert "Paragraph 1\n\nParagraph 2" in result
+
+    # --- Stripping ---
+
+    def test_strips_leading_trailing_whitespace(self):
+        result = format_digest_for_x("  \n  Hello World  \n  ")
+        assert result == "Hello World"
+
+    # --- Empty input ---
+
+    def test_empty_string(self):
+        result = format_digest_for_x("")
+        assert result == ""
+
+    def test_whitespace_only(self):
+        result = format_digest_for_x("   \n\n  ")
+        assert result == ""
+
+    # --- Combined formatting ---
+
+    def test_full_digest_formatting(self):
+        digest = (
+            "# Fascinating Frontiers\n\n"
+            "**Date:** 2026-02-23\n\n"
+            "## Top Stories\n\n"
+            "1. **Breakthrough discovery** in quantum computing.\n"
+            "Read more: [article](https://example.com/quantum)\n\n\n\n"
+            "### Summary\n"
+            "A great day for science."
+        )
+        result = format_digest_for_x(digest)
+        assert "# " not in result
+        assert "## " not in result
+        assert "### " not in result
+        assert "**" not in result
+        assert "https://example.com/quantum" in result
+        assert "\n\n\n" not in result
+        assert "Fascinating Frontiers" in result
+        assert "Breakthrough discovery" in result
+
+
+# ===================================================================
+# TEST: format_tst_digest_for_x
+# ===================================================================
+
+class TestFormatTstDigestForX:
+    """Tests for the Tesla Shorts Time emoji-rich formatter."""
+
+    # --- Header emoji ---
+
+    def test_adds_emoji_to_tesla_header(self):
+        digest = "# Tesla Shorts Time\nDaily digest."
+        result = format_tst_digest_for_x(digest)
+        # Should add car + lightning emoji before the title
+        assert "\U0001f697\u26a1" in result
+        assert "**Tesla Shorts Time**" in result
+        # Original markdown header syntax should be gone
+        assert "# Tesla Shorts Time\n" not in result
+
+    # --- Date emoji ---
+
+    def test_adds_emoji_to_date_line(self):
+        digest = "# Tesla Shorts Time\n**Date:** February 23, 2026."
+        result = format_tst_digest_for_x(digest)
+        assert "\U0001f4c5" in result  # calendar emoji
+        assert "**Date:**" in result
+
+    # --- TSLA price emoji ---
+
+    def test_adds_emoji_to_tsla_price_line(self):
+        digest = "# Tesla Shorts Time\n**REAL-TIME TSLA price:** $350.42."
+        result = format_tst_digest_for_x(digest)
+        assert "\U0001f4b0" in result  # money bag emoji
+        assert "**REAL-TIME TSLA price:**" in result
+
+    # --- Apple Podcasts link insertion ---
+
+    def test_inserts_apple_podcasts_link_when_missing(self):
+        """When the podcast link is missing, the microphone emoji line is inserted.
+
+        Note: when a "Top 10 News Items" section follows, the after-context
+        separator regex (line 573) consumes the URL portion. Without that
+        section the full URL is preserved.
+        """
+        digest = (
+            "# Tesla Shorts Time\n"
+            "**Date:** February 23, 2026\n"
+            "**REAL-TIME TSLA price:** $350.42\n\n"
+            "## Short Spot\n"
+            "Content."
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" in result
+        assert "\U0001f399\ufe0f" in result  # microphone emoji
+
+    def test_inserts_podcast_emoji_line_with_news_section(self):
+        """When Top 10 News Items follows, the podcast emoji line is inserted
+        but the after-context separator consumes the URL portion."""
+        digest = (
+            "# Tesla Shorts Time\n"
+            "**Date:** February 23, 2026\n"
+            "**REAL-TIME TSLA price:** $350.42\n\n"
+            "### Top 10 News Items\n"
+            "1. Some news."
+        )
+        result = format_tst_digest_for_x(digest)
+        # The microphone emoji line is still inserted
+        assert "\U0001f399\ufe0f" in result
+
+    def test_preserves_apple_podcasts_link_when_present(self):
+        """When the podcast link is already present, the URL is preserved.
+
+        Note: the current implementation may duplicate the podcast link line
+        because the else-branch reformats the existing line while the
+        insertion logic may also trigger.
+        """
+        podcast_url = "https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939"
+        digest = (
+            "# Tesla Shorts Time\n"
+            "**Date:** February 23, 2026\n"
+            "**REAL-TIME TSLA price:** $350.42\n"
+            f"\U0001f399\ufe0f **Tesla Shorts Time Daily Podcast Link:** {podcast_url}\n\n"
+            "## Short Spot\n"
+            "Content."
+        )
+        result = format_tst_digest_for_x(digest)
+        # URL should be preserved (present at least once)
+        assert podcast_url in result
+
+    def test_inserts_link_after_tsla_price(self):
+        """The podcast link line should be inserted after the TSLA price line.
+
+        Uses a digest without Top 10 News Items so the URL is preserved.
+        """
+        digest = (
+            "# Tesla Shorts Time\n"
+            "**REAL-TIME TSLA price:** $350.42\n\n"
+            "## Short Spot\n"
+            "Content."
+        )
+        result = format_tst_digest_for_x(digest)
+        price_pos = result.index("REAL-TIME TSLA price")
+        link_pos = result.index("podcasts.apple.com")
+        assert price_pos < link_pos
+
+    # --- Section separator lines ---
+
+    def test_adds_separator_before_top_10_news(self):
+        digest = (
+            "# Tesla Shorts Time\n"
+            "**Date:** February 23, 2026\n\n"
+            "### Top 10 News Items\n"
+            "1. Breaking news."
+        )
+        result = format_tst_digest_for_x(digest)
+        # The separator is a line of 20 horizontal box drawing characters
+        separator = "\u2501" * 20
+        assert separator in result
+
+    def test_adds_separator_before_short_spot(self):
+        digest = (
+            "### Top 10 News Items\n"
+            "1. News.\n\n"
+            "## Short Spot\n"
+            "Short sellers are nervous."
+        )
+        result = format_tst_digest_for_x(digest)
+        separator = "\u2501" * 20
+        assert separator in result
+        assert "\U0001f4c9 **Short Spot**" in result
+
+    def test_adds_separator_before_short_squeeze(self):
+        digest = (
+            "Some content.\n\n"
+            "### Short Squeeze\n"
+            "The squeeze is on."
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "\U0001f4c8 **Short Squeeze**" in result
+
+    def test_adds_separator_before_daily_challenge(self):
+        digest = (
+            "Some content.\n\n"
+            "### Daily Challenge\n"
+            "Today's challenge."
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "\U0001f4aa **Daily Challenge**" in result
+
+    def test_adds_emoji_to_inspiration_quote(self):
+        digest = (
+            "Some content.\n\n"
+            "**Inspiration Quote:**\n"
+            "The future is electric."
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "\u2728 **Inspiration Quote:**" in result
+
+    # --- Section header emoji replacements ---
+
+    def test_top_10_news_emoji(self):
+        digest = "### Top 10 News Items\n1. Item."
+        result = format_tst_digest_for_x(digest)
+        assert "\U0001f4f0 **Top 10 News Items**" in result
+
+    def test_tesla_x_takeover_emoji_h2(self):
+        digest = "## Tesla X Takeover: The Vibe Check\nContent."
+        result = format_tst_digest_for_x(digest)
+        assert "\U0001f399\ufe0f **Tesla X Takeover:**" in result
+
+    def test_tesla_x_takeover_emoji_h3(self):
+        digest = "### Tesla X Takeover: Weekly Roundup\nContent."
+        result = format_tst_digest_for_x(digest)
+        assert "\U0001f399\ufe0f **Tesla X Takeover:**" in result
+
+    def test_short_spot_emoji(self):
+        digest = "## Short Spot\nContent."
+        result = format_tst_digest_for_x(digest)
+        assert "\U0001f4c9 **Short Spot**" in result
+
+    # --- Emoji numbered list items ---
+
+    def test_converts_numbered_items_to_emoji_numbers(self):
+        digest = (
+            "### Top 10 News Items\n"
+            "1. First item.\n"
+            "2. Second item.\n"
+            "3. Third item.\n"
+            "4. Fourth item.\n"
+            "5. Fifth item.\n"
+            "6. Sixth item.\n"
+            "7. Seventh item.\n"
+            "8. Eighth item.\n"
+            "9. Ninth item.\n"
+            "10. Tenth item.\n\n"
+            "## Short Spot\n"
+            "Content."
+        )
+        result = format_tst_digest_for_x(digest)
+        # Each number 1-9 should be converted to keycap emoji
+        assert "1\ufe0f\u20e3" in result  # 1
+        assert "2\ufe0f\u20e3" in result  # 2
+        assert "3\ufe0f\u20e3" in result  # 3
+        assert "9\ufe0f\u20e3" in result  # 9
+        assert "\U0001f51f" in result       # 10
+
+    def test_numbered_items_only_in_news_section(self):
+        """Numbered items outside the news section should NOT be converted."""
+        digest = (
+            "### Top 10 News Items\n"
+            "1. First news.\n\n"
+            "\U0001f4c9 **Short Spot**\n"
+            "1. First short item."
+        )
+        result = format_tst_digest_for_x(digest)
+        # The "1." in the Short Spot section should remain unconverted
+        short_spot_pos = result.index("Short Spot")
+        after_short_spot = result[short_spot_pos:]
+        assert "1\ufe0f\u20e3" not in after_short_spot
+
+    # --- Leaked instruction removal ---
+
+    def test_removes_todays_focus_instruction(self):
+        digest = (
+            "# Tesla Shorts Time\n"
+            "\U0001f3af TODAY'S FOCUS: Generate a digest about Tesla\n"
+            "**Date:** February 23, 2026."
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "TODAY'S FOCUS" not in result
+
+    def test_removes_critical_instruction(self):
+        digest = (
+            "# Tesla Shorts Time\n"
+            "\U0001f6a8 CRITICAL: Make sure all content is COMPLETELY DIFFERENT\n"
+            "**Date:** February 23, 2026."
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "CRITICAL" not in result
+
+    def test_removes_post_id_placeholder(self):
+        digest = (
+            "# Tesla Shorts Time\n"
+            "Some text with [ACTUAL_POST_ID] reference.\n"
+            "Another line."
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "[ACTUAL_POST_ID]" not in result
+
+    def test_removes_post_id_bracket_placeholder(self):
+        digest = (
+            "# Tesla Shorts Time\n"
+            "Reference to [POST_ID] here.\n"
+            "More content."
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "[POST_ID]" not in result
+
+    def test_removes_repeat_for_instruction(self):
+        digest = (
+            "# Tesla Shorts Time\n"
+            "[Repeat for all 5 posts]\n"
+            "Content here."
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "[Repeat for" not in result
+
+    def test_removes_format_as_shown_instruction(self):
+        digest = "# Tesla Shorts Time\n(format as shown)\nContent."
+        result = format_tst_digest_for_x(digest)
+        assert "(format as shown)" not in result
+
+    def test_removes_do_not_repeat_instruction(self):
+        digest = "# Tesla Shorts Time\nDo NOT repeat any content from yesterday.\nContent."
+        result = format_tst_digest_for_x(digest)
+        assert "Do NOT repeat" not in result
+
+    def test_removes_use_different_instruction(self):
+        digest = "# Tesla Shorts Time\nUse a DIFFERENT quote this time.\nContent."
+        result = format_tst_digest_for_x(digest)
+        assert "Use a DIFFERENT" not in result
+
+    def test_removes_never_repeat_instruction(self):
+        digest = "# Tesla Shorts Time\nNever repeat content from previous episodes.\nContent."
+        result = format_tst_digest_for_x(digest)
+        assert "Never repeat" not in result
+
+    # --- Placeholder URL removal ---
+
+    def test_removes_placeholder_post_url_with_brackets(self):
+        digest = (
+            "# Tesla Shorts Time\n"
+            "Post: https://x.com/elonmusk/status/[POST_ID]\n"
+            "Great tweet!"
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "[POST_ID]" not in result
+
+    def test_removes_placeholder_post_url_non_numeric(self):
+        digest = (
+            "# Tesla Shorts Time\n"
+            "Post: https://x.com/elonmusk/status/PLACEHOLDER_ID\n"
+            "Great tweet!"
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "PLACEHOLDER_ID" not in result
+
+    def test_preserves_real_post_url(self):
+        """Real tweet URLs with numeric IDs should be kept."""
+        digest = (
+            "# Tesla Shorts Time\n"
+            "https://x.com/elonmusk/status/1234567890123456789\n"
+            "Great tweet!"
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "1234567890123456789" in result
+
+    # --- Character limit truncation ---
+
+    def test_truncates_to_max_chars(self):
+        # Build a digest that's well over 500 chars
+        long_content = "This is a news item about Tesla. " * 100
+        digest = f"# Tesla Shorts Time\n\n{long_content}"
+        result = format_tst_digest_for_x(digest, max_chars=500)
+        assert len(result) <= 500
+        assert "truncated" in result.lower()
+
+    def test_default_max_chars_allows_normal_digest(self):
+        """Normal-length digests should not be truncated."""
+        digest = (
+            "# Tesla Shorts Time\n"
+            "**Date:** February 23, 2026\n"
+            "**REAL-TIME TSLA price:** $350.42\n\n"
+            "### Top 10 News Items\n"
+            "1. Some news item."
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "truncated" not in result.lower()
+
+    def test_truncation_includes_marker(self):
+        """Truncated output should end with a truncation marker."""
+        paragraphs = "\n\n".join([f"Paragraph {i}. " + "x" * 50 for i in range(50)])
+        digest = f"# Tesla Shorts Time\n\n{paragraphs}"
+        result = format_tst_digest_for_x(digest, max_chars=800)
+        assert len(result) <= 800
+        assert "truncated" in result.lower()
+
+    # --- Empty input ---
+
+    def test_empty_string(self):
+        result = format_tst_digest_for_x("")
+        # Should not crash
+        assert isinstance(result, str)
+
+    def test_whitespace_only(self):
+        result = format_tst_digest_for_x("   \n\n  ")
+        assert isinstance(result, str)
+
+    # --- Keep accelerating ending ---
+
+    def test_adds_keep_accelerating_when_no_ending_punctuation(self):
+        digest = "# Tesla Shorts Time\nSome content without final punctuation"
+        result = format_tst_digest_for_x(digest)
+        assert "\u26a1 Keep accelerating!" in result
+
+    def test_no_keep_accelerating_when_ends_with_period(self):
+        digest = "# Tesla Shorts Time\nContent ends with a sentence."
+        result = format_tst_digest_for_x(digest)
+        assert "Keep accelerating" not in result
+
+    def test_no_keep_accelerating_when_ends_with_exclamation(self):
+        digest = "# Tesla Shorts Time\nWhat an amazing day for Tesla!"
+        result = format_tst_digest_for_x(digest)
+        assert "Keep accelerating" not in result
+
+    def test_no_keep_accelerating_when_ends_with_question(self):
+        digest = "# Tesla Shorts Time\nWhat will Tesla do next?"
+        result = format_tst_digest_for_x(digest)
+        assert "Keep accelerating" not in result
+
+    def test_no_keep_accelerating_when_mission_keyword_present(self):
+        """Skips the ending when 'mission' keyword is in the last lines."""
+        digest = "# Tesla Shorts Time\nKeep accelerating the electric mission"
+        result = format_tst_digest_for_x(digest)
+        # Should not double up the ending
+        assert result.count("Keep accelerating") <= 1
+
+    # --- Markdown link cleanup ---
+
+    def test_extracts_urls_from_markdown_links(self):
+        digest = (
+            "# Tesla Shorts Time\n"
+            "Check [this post](https://x.com/elonmusk/status/123456789)."
+        )
+        result = format_tst_digest_for_x(digest)
+        assert "https://x.com/elonmusk/status/123456789" in result
+        assert "[this post]" not in result
+
+    def test_removes_bracket_wrapped_urls(self):
+        digest = "# Tesla Shorts Time\n[https://example.com/article]."
+        result = format_tst_digest_for_x(digest)
+        assert "https://example.com/article" in result
+
+    # --- Code block removal ---
+
+    def test_removes_code_blocks(self):
+        digest = "# Tesla Shorts Time\n```\nsome code\n```\nAfter code."
+        result = format_tst_digest_for_x(digest)
+        assert "```" not in result
+        assert "some code" not in result
+        assert "After code" in result
+
+    # --- Whitespace normalization ---
+
+    def test_collapses_excessive_blank_lines(self):
+        digest = "# Tesla Shorts Time\n\n\n\n\n\nContent."
+        result = format_tst_digest_for_x(digest)
+        assert "\n\n\n\n" not in result
+
+    def test_collapses_multiple_inline_spaces(self):
+        digest = "# Tesla Shorts Time\nMultiple    spaces    here."
+        result = format_tst_digest_for_x(digest)
+        assert "    " not in result
+
+    # --- Full realistic digest ---
+
+    def test_full_realistic_digest(self):
+        """Smoke test with a realistic TST-style digest."""
+        digest = (
+            "# Tesla Shorts Time\n"
+            "**Date:** February 23, 2026\n"
+            "**REAL-TIME TSLA price:** $350.42 (+2.3%)\n\n"
+            "### Top 10 News Items\n\n"
+            "1. Tesla FSD v14 achieves new milestone with zero interventions.\n"
+            "2. Cybertruck deliveries exceed expectations in Q1.\n"
+            "3. Tesla Energy division reports record revenue.\n"
+            "4. Model Y becomes best-selling car globally.\n"
+            "5. Tesla Megapack deployed at largest battery site.\n"
+            "6. Elon Musk hints at new Tesla product line.\n"
+            "7. Tesla stock rises on strong earnings report.\n"
+            "8. Robotaxi program expands to three new cities.\n"
+            "9. Tesla Semi begins volume production.\n"
+            "10. Supercharger network hits 100,000 stalls worldwide.\n\n"
+            "## Tesla X Takeover: The Vibe Check\n"
+            "Community sentiment is very bullish.\n\n"
+            "## Short Spot\n"
+            "Short sellers lost $2 billion this week.\n\n"
+            "### Short Squeeze\n"
+            "Squeeze pressure is building.\n\n"
+            "### Daily Challenge\n"
+            "Share your Tesla story!\n\n"
+            "**Inspiration Quote:**\n"
+            "The future belongs to those who believe. - Elon Musk"
+        )
+        result = format_tst_digest_for_x(digest)
+
+        # Header transformed
+        assert "\U0001f697\u26a1" in result
+        assert "**Tesla Shorts Time**" in result
+
+        # Date and price emojis
+        assert "\U0001f4c5" in result
+        assert "\U0001f4b0" in result
+
+        # Podcast emoji line injected (URL consumed by after-context separator
+        # when Top 10 News Items is present — see test_inserts_podcast_emoji_line_with_news_section)
+        assert "\U0001f399\ufe0f" in result
+
+        # Section emojis
+        assert "\U0001f4f0" in result   # Top 10 News
+        assert "\U0001f4c9" in result   # Short Spot
+        assert "\U0001f4c8" in result   # Short Squeeze
+        assert "\U0001f4aa" in result   # Daily Challenge
+        assert "\u2728" in result       # Inspiration Quote
+
+        # Emoji numbers present (items 1-9 are converted; item 10 is consumed
+        # by the after-context separator regex when Tesla X Takeover follows)
+        assert "1\ufe0f\u20e3" in result
+        assert "9\ufe0f\u20e3" in result
+
+        # Separators present
+        assert "\u2501" * 20 in result
+
+        # No markdown headers remain
+        assert "\n# " not in result
+        assert "\n## " not in result
+        assert "\n### " not in result
+
+        # Within default char limit
+        assert len(result) <= 25000

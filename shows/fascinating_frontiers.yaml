@@ -115,6 +115,8 @@ llm:
   model: grok-3
   digest_prompt_file: shows/prompts/fascinating_frontiers_digest.txt
   podcast_prompt_file: shows/prompts/fascinating_frontiers_podcast.txt
+  digest_temperature: 0.7
+  podcast_temperature: 0.9
 
 tts:
   voice_id: dTrBzPvD2GpAqkk1MUzA

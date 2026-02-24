@@ -30,10 +30,6 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: show-${{ github.event.inputs.show || 'scheduled' }}
-  cancel-in-progress: false
-
 jobs:
   # -----------------------------------------------------------------------
   # Gate job: determine which show(s) to run based on cron time or dispatch
@@ -107,6 +103,9 @@ jobs:
     needs: gate
     if: needs.gate.outputs.shows != '[]'
     runs-on: ubuntu-latest
+    concurrency:
+      group: show-${{ matrix.show }}
+      cancel-in-progress: false
     strategy:
       fail-fast: false
       matrix:
@@ -144,6 +143,9 @@ jobs:
           if [ "${{ matrix.show }}" = "planetterrian" ] && [ -f requirements_planetterrian.txt ]; then
             pip install -r requirements_planetterrian.txt
           fi
+
+      - name: Run tests
+        run: python -m pytest tests/ -x -q --tb=short
 
       - name: Create .env
         run: |

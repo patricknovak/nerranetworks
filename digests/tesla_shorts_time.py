@@ -31,7 +31,6 @@ import feedparser
 from typing import List, Dict, Any
 from collections import Counter
 import random
-import tweepy
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
 from urllib.parse import quote
@@ -53,6 +52,7 @@ from engine.publisher import (
     generate_episode_thumbnail as _engine_generate_thumbnail,
     format_tst_digest_for_x as _engine_format_tst_digest_for_x,
     post_to_x as _engine_post_to_x,
+    scan_existing_episodes_from_files as _engine_scan_episodes,
 )
 from engine.tracking import create_tracker, record_llm_usage, record_tts_usage, record_x_post, save_usage
 from engine.content_tracker import ContentTracker, TST_SECTION_PATTERNS
@@ -2359,73 +2359,75 @@ Here is today's complete formatted digest. Use ONLY this content:
 def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
     """Scan digests directory for all existing MP3 files and return episode data.
     Handles both old format (without timestamp) and new format (with timestamp).
-    Also checks digests/digests subdirectory for older episodes."""
-    episodes = []
-    # Pattern for new format: Ep{num}_{date}_{time}.mp3
-    pattern_new = r"Tesla_Shorts_Time_Pod_Ep(\d+)_(\d{8})_(\d{6})\.mp3"
-    # Pattern for old format: Ep{num}_{date}.mp3
-    pattern_old = r"Tesla_Shorts_Time_Pod_Ep(\d+)_(\d{8})\.mp3"
-    
-    # Check primary output directory (new: digests/tesla_shorts_time/)
-    mp3_files = list(digests_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"))
-    # Also check old flat digests/ directory for legacy episodes
+    Also checks digests/digests subdirectory for older episodes.
+
+    Delegates the common directory-scan logic to engine.publisher.scan_existing_episodes_from_files
+    and adds TST-specific legacy directory handling + rich RSS-ready metadata.
+    """
+    # --- Collect basic episode info from primary directory via engine ----------
+    basic_episodes = _engine_scan_episodes(
+        digests_dir,
+        base_url,
+        mp3_glob="Tesla_Shorts_Time_Pod_Ep*.mp3",
+        filename_pattern=r"Tesla_Shorts_Time_Pod_Ep(\d+)_(\d{8})",
+        audio_subdir="digests",
+    )
+
+    # --- TST legacy: also scan old flat digests/ and digests/digests/ dirs -----
     old_flat_dir = digests_dir.parent  # project_root / "digests"
+    legacy_dirs = []
     if old_flat_dir != digests_dir:
-        mp3_files.extend(old_flat_dir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"))
-    # Also check digests/digests subdirectory for very old episodes
+        legacy_dirs.append(("digests", old_flat_dir))
     digests_subdir = old_flat_dir / "digests"
     if digests_subdir.exists():
-        mp3_files.extend(digests_subdir.glob("Tesla_Shorts_Time_Pod_Ep*.mp3"))
-    
-    for mp3_file in mp3_files:
-        # Verify file actually exists and has content
+        legacy_dirs.append(("digests/digests", digests_subdir))
+
+    for audio_sub, legacy_dir in legacy_dirs:
+        legacy_eps = _engine_scan_episodes(
+            legacy_dir,
+            base_url,
+            mp3_glob="Tesla_Shorts_Time_Pod_Ep*.mp3",
+            filename_pattern=r"Tesla_Shorts_Time_Pod_Ep(\d+)_(\d{8})",
+            audio_subdir=audio_sub,
+        )
+        basic_episodes.extend(legacy_eps)
+
+    # --- Deduplicate by episode number (keep first seen) ----------------------
+    seen_eps = set()
+    deduped = []
+    for ep in basic_episodes:
+        if ep["episode_num"] not in seen_eps:
+            seen_eps.add(ep["episode_num"])
+            deduped.append(ep)
+
+    # --- Build rich RSS-ready dicts from basic episode info --------------------
+    pattern_new = re.compile(r"Tesla_Shorts_Time_Pod_Ep(\d+)_(\d{8})_(\d{6})\.mp3")
+    episodes = []
+    for ep in deduped:
+        mp3_file = ep["path"]
+        # Verify file has content
         if not mp3_file.exists() or mp3_file.stat().st_size < 1000:
             logging.warning(f"Skipping {mp3_file.name}: file doesn't exist or is too small")
             continue
-            
-        match = re.match(pattern_new, mp3_file.name)
-        if match:
-            # New format with timestamp
-            episode_num = int(match.group(1))
-            date_str = match.group(2)
-            time_str = match.group(3)
-            try:
-                episode_date = datetime.datetime.strptime(f"{date_str}_{time_str}", "%Y%m%d_%H%M%S").date()
-                episode_guid = f"tesla-shorts-time-ep{episode_num:03d}-{date_str}-{time_str}"
-            except Exception as e:
-                logging.warning(f"Could not parse date/time from {mp3_file.name}: {e}")
-                continue
+
+        episode_num = ep["episode_num"]
+        episode_date = ep["date"]
+        date_str = episode_date.strftime("%Y%m%d")
+
+        # Extract timestamp from new-format filenames for GUID
+        ts_match = pattern_new.match(mp3_file.name)
+        if ts_match:
+            time_str = ts_match.group(3)
         else:
-            # Try old format without timestamp
-            match = re.match(pattern_old, mp3_file.name)
-            if match:
-                episode_num = int(match.group(1))
-                date_str = match.group(2)
-                try:
-                    episode_date = datetime.datetime.strptime(date_str, "%Y%m%d").date()
-                    # Use file modification time for old format
-                    mtime = datetime.datetime.fromtimestamp(mp3_file.stat().st_mtime)
-                    time_str = mtime.strftime("%H%M%S")
-                    episode_guid = f"tesla-shorts-time-ep{episode_num:03d}-{date_str}-{time_str}"
-                except Exception as e:
-                    logging.warning(f"Could not parse date from {mp3_file.name}: {e}")
-                    continue
-            else:
-                logging.warning(f"Could not match pattern for {mp3_file.name}")
-                continue
-        
+            mtime = datetime.datetime.fromtimestamp(mp3_file.stat().st_mtime)
+            time_str = mtime.strftime("%H%M%S")
+
+        episode_guid = f"tesla-shorts-time-ep{episode_num:03d}-{date_str}-{time_str}"
+        episode_title = f"Tesla Shorts Time Daily - Episode {episode_num} - {episode_date.strftime('%B %d, %Y')}"
+        url_path = ep["url"]
+
         try:
-            mp3_duration = get_audio_duration(mp3_file)
-            episode_title = f"Tesla Shorts Time Daily - Episode {episode_num} - {episode_date.strftime('%B %d, %Y')}"
-            
-            # Generate correct URL path (handle subdirectories)
-            if digests_subdir.exists() and mp3_file.is_relative_to(digests_subdir):
-                # File is in digests/digests subdirectory
-                url_path = f"{base_url}/digests/digests/{mp3_file.name}"
-            else:
-                # File is in main digests directory
-                url_path = f"{base_url}/digests/{mp3_file.name}"
-            
+            mp3_duration = ep["duration"]
             episodes.append({
                 'guid': episode_guid,
                 'title': episode_title,
@@ -2451,7 +2453,7 @@ def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
         except Exception as e:
             logging.warning(f"Could not process {mp3_file.name}: {e}")
             continue
-    
+
     # Sort by episode number (newest first for RSS)
     episodes.sort(key=lambda x: x['episode_num'], reverse=True)
     return episodes
