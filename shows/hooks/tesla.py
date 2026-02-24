@@ -147,37 +147,31 @@ def _format_change_for_speech(change_str: str) -> str:
 
 
 def _tone_from_change(change_str: str) -> str:
-    """Pick a tone hint based on price movement."""
+    """Pick a tone hint based on overall energy of the day."""
     if "▲" in change_str:
-        return "bullish/up — upbeat and energetic"
+        return "positive day — upbeat and energetic"
     elif "▼" in change_str:
-        return "bearish/down — thoughtful but still optimistic"
-    return "mixed/unchanged — natural and conversational"
+        return "quieter day — thoughtful but still optimistic"
+    return "steady day — natural and conversational"
 
 
 def _pick_intro(context: dict) -> str:
     """Return a standard intro line for the podcast script.
 
-    Uses pre-formatted spoken-word price so TTS reads it naturally.
+    Stock price is reserved for the closing only — the intro focuses
+    on welcoming listeners and setting up the mission-focused content.
     """
-    price = context.get("price", "0.00")
-    change = context.get("change_str", "")
-
-    price_spoken = _format_price_for_speech(price)
-    change_spoken = _format_change_for_speech(change)
-
     return (
-        f"Patrick: Welcome to Tesla Shorts Time Daily! I'm Patrick in "
-        f"Vancouver, Canada. T S L A is trading at {price_spoken}, "
-        f"{change_spoken}. Let's dive into today's Tesla news."
+        "Patrick: Welcome to Tesla Shorts Time Daily! I'm Patrick in "
+        "Vancouver, Canada. Let's dive into today's Tesla news."
     )
 
 
 def _pick_closing(context: dict) -> str:
-    """Return a standard closing block with stock price bookend.
+    """Return a standard closing block with stock price and long-term perspective.
 
-    Mirrors the intro by restating the TSLA price at the end, giving
-    listeners a natural bookend.
+    Stock price is mentioned only at the end of the episode, paired with
+    a reminder to focus on the long term over short-term fluctuations.
     """
     price = context.get("price", "0.00")
     change = context.get("change_str", "")
@@ -187,7 +181,9 @@ def _pick_closing(context: dict) -> str:
 
     return (
         "Patrick: That's all for today's Tesla Shorts Time Daily. "
-        "Just a reminder, T S L A is at {price}, {change} today. "
+        "Before we go, T S L A is at {price}, {change} today. "
+        "Good to know, but remember, what matters most is the long term. "
+        "Short term fluctuations come and go. Tesla's mission doesn't change. "
         "If you enjoyed this episode, please like, share, rate, and subscribe. "
         "It really helps the show grow. You can find us on X at tesla shorts time. "
         "We'll catch you tomorrow. Stay charged!"

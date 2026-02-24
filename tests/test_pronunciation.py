@@ -939,27 +939,22 @@ class TestRunShowPronunciationPipeline:
 class TestTeslaIntroFormatting:
     """Verify the Tesla intro line is pre-formatted for natural TTS."""
 
-    def test_intro_has_no_dollar_sign(self):
+    def test_intro_has_no_stock_price(self):
+        """Intro should NOT contain stock price — it's reserved for the closing only."""
         from shows.hooks.tesla import _pick_intro
         context = {"price": "411.82", "change_str": "▲ $0.57 (0.1%)"}
         intro = _pick_intro(context)
         assert "$" not in intro
         assert "▲" not in intro
+        assert "dollars" not in intro
+        assert "trading" not in intro.lower()
 
-    def test_intro_has_spoken_price(self):
+    def test_intro_has_welcome(self):
         from shows.hooks.tesla import _pick_intro
         context = {"price": "411.82", "change_str": "▲ $0.57 (0.1%)"}
         intro = _pick_intro(context)
-        assert "dollars" in intro
-        assert "four hundred" in intro
-
-    def test_intro_has_spoken_change(self):
-        from shows.hooks.tesla import _pick_intro
-        context = {"price": "250.00", "change_str": "▼ $3.50 (1.4%)"}
-        intro = _pick_intro(context)
-        assert "down" in intro
-        assert "percent" in intro
-        assert "▼" not in intro
+        assert "Welcome" in intro
+        assert "Tesla" in intro
 
     def test_closing_has_no_at_handle(self):
         from shows.hooks.tesla import _pick_closing
@@ -968,9 +963,16 @@ class TestTeslaIntroFormatting:
         assert "@teslashortstime" not in closing
         assert "tesla shorts time" in closing.lower()
 
-    def test_closing_has_stock_price_bookend(self):
+    def test_closing_has_stock_price(self):
         from shows.hooks.tesla import _pick_closing
         context = {"price": "350.00", "change_str": "▲ $2.50 (0.7%)"}
         closing = _pick_closing(context)
         assert "three hundred fifty dollars" in closing
         assert "up" in closing
+
+    def test_closing_has_long_term_perspective(self):
+        from shows.hooks.tesla import _pick_closing
+        context = {"price": "350.00", "change_str": "▼ $1.00 (0.3%)"}
+        closing = _pick_closing(context)
+        assert "long term" in closing.lower()
+        assert "mission" in closing.lower()
