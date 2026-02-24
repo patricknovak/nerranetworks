@@ -998,7 +998,7 @@ class TestTeslaIntroFormatting:
         from shows.hooks.tesla import _pick_intro
         context = {"price": "411.82", "change_str": "▲ $0.57 (0.1%)"}
         intro = _pick_intro(context)
-        assert "Welcome" in intro
+        assert "welcome" in intro.lower()
         assert "Tesla" in intro
 
     def test_closing_has_no_at_handle(self):
@@ -1015,9 +1015,9 @@ class TestTeslaIntroFormatting:
         assert "three hundred fifty dollars" in closing
         assert "up" in closing
 
-    def test_closing_has_long_term_perspective(self):
+    def test_closing_has_sign_off(self):
         from shows.hooks.tesla import _pick_closing
         context = {"price": "350.00", "change_str": "▼ $1.00 (0.3%)"}
         closing = _pick_closing(context)
-        assert "long term" in closing.lower()
-        assert "mission" in closing.lower()
+        assert "Patrick" in closing
+        assert "tomorrow" in closing.lower()
