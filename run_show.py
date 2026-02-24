@@ -247,6 +247,13 @@ def run(args: argparse.Namespace) -> None:
         content_tracker.record_episode(x_thread, section_patterns)
         content_tracker.save()
 
+    # Extract the daily hook (headline) from the digest
+    hook = _extract_hook(x_thread)
+    if hook:
+        logger.info("Hook: %s", hook)
+    else:
+        logger.warning("No HOOK found in digest — using generic episode title")
+
     # Save digest to file
     digest_md = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}.md"
     digest_md.write_text(x_thread, encoding="utf-8")
@@ -280,13 +287,14 @@ def run(args: argparse.Namespace) -> None:
             "today_str": today_str,
             "date_human": today_str,  # alias used by Omni View prompts
             "digest": clean_digest,
+            "hook": hook or f"Here's what's making news in the {config.name} world today.",
         }
         # Merge extra context for podcast prompt (e.g. tone_hint, intro_line)
         pod_vars.update(extra_context)
 
         # OV uses procedural script generation, not LLM
         if args.show == "omni_view":
-            podcast_script = _generate_omni_view_script(x_thread)
+            podcast_script = _generate_omni_view_script(x_thread, hook=hook)
         else:
             logger.info("Generating podcast script ...")
             podcast_script = generate_podcast_script(pod_vars, config, tracker=tracker)
@@ -382,7 +390,10 @@ def run(args: argparse.Namespace) -> None:
         from engine.publisher import update_rss_feed
         from engine.audio import format_duration
 
-        episode_title = f"{config.name} - Episode {episode_num} - {today_str}"
+        if hook:
+            episode_title = f"Ep {episode_num}: {hook}"
+        else:
+            episode_title = f"{config.name} - Episode {episode_num} - {today_str}"
         episode_desc = x_thread[:500] + "..." if len(x_thread) > 500 else x_thread
 
         # If no R2 URL but analytics is enabled, build URL and prefix it
@@ -433,7 +444,7 @@ def run(args: argparse.Namespace) -> None:
         summaries_json_path=summaries_json,
         podcast_name=config.publishing.summaries_podcast_name or config.slug,
         episode_num=episode_num,
-        episode_title=f"{config.name} - Episode {episode_num}",
+        episode_title=f"Ep {episode_num}: {hook}" if hook else f"{config.name} - Episode {episode_num}",
         audio_url=audio_url,
         rss_url=f"{config.publishing.base_url}/{config.publishing.rss_file}",
     )
@@ -482,6 +493,26 @@ def run(args: argparse.Namespace) -> None:
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+def _extract_hook(digest: str) -> str | None:
+    """Extract the **HOOK:** line from a generated digest.
+
+    The digest prompts instruct the LLM to include a line like:
+        **HOOK:** Scientists just discovered a new way to...
+
+    Returns the hook text (without the prefix) or *None* if not found.
+    """
+    import re
+
+    for line in digest.splitlines():
+        m = re.match(r"^\s*\*{0,2}HOOK:?\*{0,2}\s*(.+)", line, re.IGNORECASE)
+        if m:
+            hook = m.group(1).strip()
+            # Strip leftover markdown/brackets the LLM sometimes wraps
+            hook = re.sub(r"^\[|\]$", "", hook).strip()
+            if hook:
+                return hook
+    return None
 
 def _clean_digest_for_podcast(digest: str) -> str:
     """Strip metadata from a digest before it is fed to the podcast script prompt.
@@ -589,7 +620,7 @@ def _build_teaser(config, episode_num: int, today_str: str, extra_context: dict)
     return f"{config.name} Episode {episode_num} — {today_str}"
 
 
-def _generate_omni_view_script(briefing_markdown: str) -> str:
+def _generate_omni_view_script(briefing_markdown: str, hook: str | None = None) -> str:
     """Procedural podcast script generation for Omni View.
 
     Omni View doesn't use an LLM for podcast scripts — it parses the
@@ -735,6 +766,8 @@ def _generate_omni_view_script(briefing_markdown: str) -> str:
     script: list[str] = []
     script.append("Good morning. This is Omni View — balanced news perspectives.")
     script.append(f"Today is {today}.")
+    if hook:
+        script.append(hook)
     script.append("")
     script.append("We'll cover what happened, how different viewpoints frame it — so you can decide for yourself.")
     script.append("")

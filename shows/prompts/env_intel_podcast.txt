@@ -34,7 +34,11 @@ TONE:
 
 SCRIPT STRUCTURE:
 [Intro - no music]
-Host: Good morning. This is Environmental Intelligence, episode {episode_num}, for {today_str}. Your daily briefing on environmental regulatory, science, and compliance developments that matter for BC professionals. Let's get into it.
+Host: Good morning. This is Environmental Intelligence, episode {episode_num}, for {today_str}. Your daily briefing on environmental regulatory, science, and compliance developments that matter for BC professionals.
+
+[Hook — the episode's headline, right after the intro]
+Host: {hook}
+Deliver this with authority — it's the reason professionals should keep listening. Then transition directly into the executive summary.
 
 [Executive Summary — 30 seconds]
 - Deliver the 2-3 sentence executive summary from the briefing

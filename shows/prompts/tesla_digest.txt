@@ -63,6 +63,8 @@ CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the 1
 **Date:** {today_str}
 **REAL-TIME TSLA price:** ${price} {change_str}
 
+**HOOK:** [One compelling sentence that captures the single most exciting or important Tesla story today. This becomes the episode headline — make it irresistible. Think: what would make someone stop scrolling and press play? No URLs, no dates, no emoji.]
+
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 10 News Items
 1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM PST, Source Name**
@@ -133,6 +135,7 @@ One short, inspiring challenge tied to Tesla/Elon themes (curiosity, first princ
 - Stories should excite listeners about Tesla changing the world, not about day-trading.
 
 ### FINAL VALIDATION CHECKLIST (DO THIS BEFORE OUTPUT)
+- ✅ HOOK line present: One compelling sentence right after the date/price line.
 - ✅ Exactly 10 news items (or all if <10): Numbered 1-10, unique stories.
 - ✅ Each news item focuses on mission/world impact, NOT stock price impact.
 - ✅ Tesla X Takeover section included with 5 fresh, interesting Tesla news developments or trends.

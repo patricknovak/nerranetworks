@@ -24,7 +24,11 @@ Instead: mention source names naturally in conversation ("according to Nature"),
 
 SCRIPT STRUCTURE:
 [Intro music - 10 seconds]
-Patrick: Welcome to Planetterrian Daily, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada, bringing you today's most exciting discoveries in science, longevity, and health. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps. Now let's dive into today's discoveries.
+Patrick: Welcome to Planetterrian Daily, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada, bringing you today's most exciting discoveries in science, longevity, and health. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps.
+
+[Hook — the episode's headline moment, right after the intro]
+Patrick: {hook}
+Deliver this hook with energy and excitement — it's the reason people should keep listening. Then transition naturally into the quick scan.
 
 Patrick: Quick scan before we dive in—three stories to watch today, then we'll go through the full list in order.
 
