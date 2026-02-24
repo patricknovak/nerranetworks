@@ -51,7 +51,7 @@ def pre_fetch(config) -> dict:
     # Podcast-specific vars
     context["tone_hint"] = _tone_from_change(change_str)
     context["intro_line"] = _pick_intro(context)
-    context["closing_block"] = _pick_closing()
+    context["closing_block"] = _pick_closing(context)
 
     return context
 
@@ -173,11 +173,22 @@ def _pick_intro(context: dict) -> str:
     )
 
 
-def _pick_closing() -> str:
-    """Return a standard closing block for the podcast script."""
+def _pick_closing(context: dict) -> str:
+    """Return a standard closing block with stock price bookend.
+
+    Mirrors the intro by restating the TSLA price at the end, giving
+    listeners a natural bookend.
+    """
+    price = context.get("price", "0.00")
+    change = context.get("change_str", "")
+
+    price_spoken = _format_price_for_speech(price)
+    change_spoken = _format_change_for_speech(change)
+
     return (
         "Patrick: That's all for today's Tesla Shorts Time Daily. "
+        "Just a reminder, T S L A is at {price}, {change} today. "
         "If you enjoyed this episode, please like, share, rate, and subscribe. "
         "It really helps the show grow. You can find us on X at tesla shorts time. "
         "We'll catch you tomorrow. Stay charged!"
-    )
+    ).format(price=price_spoken, change=change_spoken)

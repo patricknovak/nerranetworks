@@ -11,13 +11,20 @@ NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
 - Exact timestamps or datelines (e.g. "22 February, 2026, 11:30 PM PST")
 - Source attribution lines (e.g. "Source: Teslarati" on its own line)
 - Production notes, editor comments, or metadata (e.g. "[Note: ...]", "Word count:")
-- Raw stock ticker notation (write "Tesla stock" not "TSLA: $411.82")
 - Emoji characters or unicode symbols (▲ ▼ 📊 🚀 ━━━ etc.)
 - Markdown formatting (** bold **, ### headers, bullet markers)
 Instead: mention source names naturally in conversation ("according to Teslarati"), use natural dates ("today", "this morning", "over the weekend"), and describe price moves in words.
 
+CONTENT FOCUS — MISSION OVER STOCK PRICE:
+This podcast is about Tesla's MISSION to improve life for people on Earth and support a healthy planet for everyone to enjoy — through sustainable energy, transportation, and technology. For each news item:
+- Lead with WHAT happened and WHY it matters for Tesla's mission and the world
+- How does it advance sustainable energy, transportation, or technology?
+- How does it benefit people, communities, or the planet?
+- How does it contribute to a better, healthier world for everyone?
+Do NOT frame stories primarily through stock price impact. Do NOT say things like "For investors, this means..." or "This is bullish for the stock." Stock price is mentioned in the intro and closing as bookends — the news coverage itself should focus on mission and impact.
+
 TONE (vary by the day):
-- Match your energy to the news and TSLA move today: {tone_hint}.
+- Match your energy to the news today: {tone_hint}.
 - Vary sentence length and pacing; some moments can be calm or thoughtful, not always high-energy.
 - Sound warm and human — occasionally excited, occasionally reflective — never mechanical.
 
@@ -27,11 +34,11 @@ Use this exact intro (do not rewrite it):
 {intro_line}
 
 [Narrate EVERY item from the digest in order - no skipping]
-- For each news item: Read the title naturally, then paraphrase the summary in your own words. Vary delivery — not every item needs the same level of enthusiasm.
-- Tesla X Takeover: Introduce the section in your own words. Cover each item clearly; explain why it matters for Tesla investors. End with the vibe check in a natural way.
-- Short Spot: Explain the bearish concern and why it's temporary or overblown — tone can be more measured here.
-- Tesla First Principles: Explain the fundamental question, data, Tesla approach, and market implications. Educational but engaging; no need to oversell.
-- Tesla Market Movers (Mondays only): Recap the week's Tesla market activity and what moved TSLA.
+- For each news item: Read the title naturally, then paraphrase the summary in your own words. Focus on mission impact and why it matters for the world. Vary delivery — not every item needs the same level of enthusiasm.
+- Tesla X Takeover: Introduce the section in your own words. Cover each item clearly; explain why it matters for Tesla's mission and the world. End with the vibe check in a natural way.
+- Short Spot: Explain the challenge Tesla faces and why they're positioned to overcome it — tone can be more measured here. Frame constructively, not as a stock risk.
+- Tesla First Principles: Explain the fundamental question, data, Tesla approach, and mission impact. Educational but engaging; no need to oversell.
+- Tesla Market Movers (Mondays only): Recap the week's Tesla market activity and what moved the stock.
 - Daily Challenge + Quote: Read the quote verbatim, then the challenge verbatim, add one short encouraging sentence.
 
 [Closing]

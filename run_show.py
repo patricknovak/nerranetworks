@@ -269,11 +269,17 @@ def run(args: argparse.Namespace) -> None:
     if not args.skip_podcast:
         from engine.generator import generate_podcast_script
 
+        # Strip URLs, emojis, unicode decorations, and other metadata from
+        # the digest before feeding it to the podcast script prompt.  The LLM
+        # sometimes echoes these through to the script, and TTS reads them
+        # aloud.  This is defense-in-depth alongside the prompt instructions.
+        clean_digest = _clean_digest_for_podcast(x_thread)
+
         pod_vars = {
             "episode_num": episode_num,
             "today_str": today_str,
             "date_human": today_str,  # alias used by Omni View prompts
-            "digest": x_thread,
+            "digest": clean_digest,
         }
         # Merge extra context for podcast prompt (e.g. tone_hint, intro_line)
         pod_vars.update(extra_context)
@@ -476,6 +482,47 @@ def run(args: argparse.Namespace) -> None:
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+def _clean_digest_for_podcast(digest: str) -> str:
+    """Strip metadata from a digest before it is fed to the podcast script prompt.
+
+    Removes URLs, emoji, unicode box-drawing characters, ``Source:`` lines,
+    markdown formatting, and raw timestamps so the LLM is less likely to echo
+    them into the spoken script.  The *content* (titles, summaries, quotes)
+    is preserved.
+    """
+    import re
+
+    lines: list[str] = []
+    for line in digest.splitlines():
+        # Drop lines that are just separators (━━━, ----, ====, etc.)
+        if re.match(r"^[\s━─═\-=]{4,}$", line):
+            continue
+        # Drop standalone source attribution lines
+        if re.match(r"^\s*(Source|Post|Read more)\s*:", line, re.IGNORECASE):
+            continue
+        # Strip inline URLs  (keeps surrounding text)
+        line = re.sub(r"https?://\S+", "", line)
+        # Strip markdown link syntax  [text](url) -> text
+        line = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", line)
+        # Strip markdown bold/italic markers
+        line = re.sub(r"\*{1,3}([^*]+)\*{1,3}", r"\1", line)
+        # Strip markdown header markers
+        line = re.sub(r"^#{1,6}\s+", "", line)
+        # Strip emoji and common unicode symbols (broad range)
+        line = re.sub(
+            r"[\U0001F300-\U0001FAFF\u2600-\u27BF\u2B50\u2B55"
+            r"\u25B2\u25BC\u2580-\u259F\u2500-\u257F"
+            r"\U0001F900-\U0001F9FF]+",
+            "",
+            line,
+        )
+        # Collapse leftover whitespace
+        line = re.sub(r"  +", " ", line).strip()
+        lines.append(line)
+
+    return "\n".join(lines)
+
 
 def _clean_podcast_script(script: str) -> str:
     """Strip speaker prefixes (Host:, Patrick:) and stage directions from podcast script.

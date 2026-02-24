@@ -963,6 +963,14 @@ class TestTeslaIntroFormatting:
 
     def test_closing_has_no_at_handle(self):
         from shows.hooks.tesla import _pick_closing
-        closing = _pick_closing()
+        context = {"price": "350.00", "change_str": "▲ $2.50 (0.7%)"}
+        closing = _pick_closing(context)
         assert "@teslashortstime" not in closing
         assert "tesla shorts time" in closing.lower()
+
+    def test_closing_has_stock_price_bookend(self):
+        from shows.hooks.tesla import _pick_closing
+        context = {"price": "350.00", "change_str": "▲ $2.50 (0.7%)"}
+        closing = _pick_closing(context)
+        assert "three hundred fifty dollars" in closing
+        assert "up" in closing
