@@ -180,11 +180,11 @@ def run(args: argparse.Namespace) -> None:
     tracker = create_tracker(config.name, episode_num)
 
     # 4. Pre-fetch hook (Tesla: stock price + X posts; others: no-op)
-    hook = _load_hook(args.show)
+    hook_module = _load_hook(args.show)
     extra_context: dict = {}
-    if hook and hasattr(hook, "pre_fetch"):
+    if hook_module and hasattr(hook_module, "pre_fetch"):
         logger.info("Running pre-fetch hook for %s ...", args.show)
-        extra_context = hook.pre_fetch(config) or {}
+        extra_context = hook_module.pre_fetch(config) or {}
 
     # 5. Fetch news
     from engine.fetcher import fetch_rss_articles
@@ -262,6 +262,9 @@ def run(args: argparse.Namespace) -> None:
     if args.test:
         logger.info("[TEST MODE] Digest generated successfully. Stopping here.")
         print("\n" + "=" * 60)
+        if hook:
+            print(f"HOOK: {hook}")
+            print("-" * 60)
         print(x_thread[:2000])
         if len(x_thread) > 2000:
             print(f"\n... ({len(x_thread)} chars total, truncated)")
@@ -444,7 +447,7 @@ def run(args: argparse.Namespace) -> None:
         summaries_json_path=summaries_json,
         podcast_name=config.publishing.summaries_podcast_name or config.slug,
         episode_num=episode_num,
-        episode_title=f"Ep {episode_num}: {hook}" if hook else f"{config.name} - Episode {episode_num}",
+        episode_title=f"Ep {episode_num}: {hook}" if hook else f"{config.name} - Episode {episode_num} - {today_str}",
         audio_url=audio_url,
         rss_url=f"{config.publishing.base_url}/{config.publishing.rss_file}",
     )
@@ -531,6 +534,9 @@ def _clean_digest_for_podcast(digest: str) -> str:
             continue
         # Drop standalone source attribution lines
         if re.match(r"^\s*(Source|Post|Read more)\s*:", line, re.IGNORECASE):
+            continue
+        # Drop the HOOK line (already extracted; don't echo into podcast script)
+        if re.match(r"^\s*\*{0,2}HOOK:?\*{0,2}\s+", line, re.IGNORECASE):
             continue
         # Strip inline URLs  (keeps surrounding text)
         line = re.sub(r"https?://\S+", "", line)
