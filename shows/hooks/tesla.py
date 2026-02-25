@@ -162,8 +162,8 @@ def _pick_intro(context: dict) -> str:
     on welcoming listeners and setting up the mission-focused content.
     """
     return (
-        "Patrick: Welcome to Tesla Shorts Time Daily! I'm Patrick in "
-        "Vancouver, Canada. Let's dive into today's Tesla news."
+        "Patrick: Hey, welcome to Tesla Shorts Time Daily. "
+        "I'm Patrick in Vancouver. Here's what's happening with Tesla today."
     )
 
 
@@ -180,11 +180,10 @@ def _pick_closing(context: dict) -> str:
     change_spoken = _format_change_for_speech(change)
 
     return (
-        "Patrick: That's all for today's Tesla Shorts Time Daily. "
-        "Before we go, T S L A is at {price}, {change} today. "
-        "Good to know, but remember, what matters most is the long term. "
-        "Short term fluctuations come and go. Tesla's mission doesn't change. "
-        "If you enjoyed this episode, please like, share, rate, and subscribe. "
-        "It really helps the show grow. You can find us on X at tesla shorts time. "
-        "We'll catch you tomorrow. Stay charged!"
+        "Patrick: That's your Tesla news for today. "
+        "T S L A closed at {price}, {change}. "
+        "If you found this useful, a rating or review on Apple Podcasts or Spotify "
+        "really helps new listeners find the show. "
+        "You can also find us on X at tesla shorts time. "
+        "I'm Patrick in Vancouver. Thanks for listening, and I'll see you tomorrow."
     ).format(price=price_spoken, change=change_spoken)

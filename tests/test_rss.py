@@ -31,7 +31,7 @@ RSS_FEEDS = {
 }
 
 EXPECTED_EPISODE_COUNTS = {
-    "tesla": 69,
+    "tesla": 70,
     "omni": 22,
     "frontiers": 31,
     "planetterrian": 23,
@@ -265,7 +265,7 @@ class TestItemStructure:
     # Planetterrian and Frontiers only have it on the most recent episode
     # (the scripts only set duration on newly generated episodes).
     EXPECTED_DURATION_COUNTS = {
-        "tesla": 69,
+        "tesla": 70,
         "omni": 22,
         "planetterrian": 5,
         "frontiers": 5,

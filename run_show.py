@@ -308,6 +308,11 @@ def run(args: argparse.Namespace) -> None:
         # Apply pronunciation fixes
         podcast_script = _apply_pronunciation(podcast_script, args.show)
 
+        # Save TTS-ready script for debugging pronunciation/intro issues
+        tts_script_path = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}_tts.txt"
+        tts_script_path.write_text(podcast_script, encoding="utf-8")
+        logger.info("TTS script saved: %s", tts_script_path)
+
         # 9. TTS
         api_key = (os.getenv("ELEVENLABS_API_KEY") or "").strip()
         if not api_key:
@@ -571,7 +576,7 @@ def _clean_podcast_script(script: str) -> str:
     parts: list[str] = []
     for line in script.splitlines():
         line = line.strip()
-        # Skip stage directions and blank lines
+        # Skip stage directions, blank lines, and bracketed notes
         if not line or line.startswith("["):
             continue
         # Stop at footer/debug metadata Grok sometimes appends
@@ -581,6 +586,14 @@ def _clean_podcast_script(script: str) -> str:
             break
         # Drop markdown artifacts
         if line in {"**", "*", "__", "—", "–"}:
+            continue
+        # Drop leaked prompt instruction lines the LLM may echo
+        if re.match(r"(?i)^(RULES|NEVER INCLUDE|CONTENT FOCUS|TONE|SCRIPT STRUCTURE|HOST:)\b", line):
+            continue
+        if re.match(r"(?i)^(Use this exact|Deliver this hook|Narrate EVERY|Here is today)", line):
+            continue
+        # Drop source attribution lines that survived earlier cleaning
+        if re.match(r"(?i)^\s*source\s*:", line):
             continue
         # Strip speaker prefixes
         if line.startswith("Host:"):
