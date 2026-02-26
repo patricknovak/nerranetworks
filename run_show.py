@@ -188,15 +188,9 @@ def run(args: argparse.Namespace) -> None:
             config, episode_num=episode_num, today_str=today_str,
         ) or {}
 
-    # 5. Fetch news
+    # 5. Fetch news (with progressive search expansion on slow news days)
     from engine.fetcher import fetch_rss_articles
     feed_dicts = [{"url": s.url, "label": s.label} for s in config.sources]
-    articles = fetch_rss_articles(
-        feed_dicts,
-        cutoff_hours=24,
-        keywords=config.keywords,
-    )
-    logger.info("Fetched %d articles from %d feeds", len(articles), len(config.sources))
 
     # 5b. Cross-episode content tracking & dedup
     from engine.content_tracker import ContentTracker, SHOW_SECTION_PATTERNS
@@ -206,12 +200,14 @@ def run(args: argparse.Namespace) -> None:
     content_tracker = ContentTracker(config.slug, digests_dir)
     content_tracker.load()
 
-    articles = deduplicate_by_entity(articles, max_per_entity=2)
-    articles = content_tracker.filter_recent_articles(articles, similarity_threshold=0.65, days=3)
-    logger.info("After cross-episode + entity dedup: %d articles remain", len(articles))
+    min_articles = 3
+    articles = _fetch_with_expansion(
+        feed_dicts, config.keywords, content_tracker, min_articles,
+    )
+    logger.info("After fetch + dedup: %d articles", len(articles))
 
     if not articles:
-        logger.warning("No articles found. Exiting.")
+        logger.warning("No articles found even after expanded search. Exiting.")
         return
 
     # 6. Build template vars for digest prompt
@@ -524,6 +520,61 @@ def run(args: argparse.Namespace) -> None:
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+def _fetch_with_expansion(
+    feed_dicts: list[dict],
+    keywords: list[str] | None,
+    content_tracker,
+    min_articles: int = 3,
+) -> list[dict]:
+    """Fetch articles with progressive search expansion on slow news days.
+
+    Tries increasingly wider search windows (24h → 48h → 72h) and relaxed
+    dedup thresholds until at least *min_articles* survive, or all expansion
+    stages are exhausted.  This prevents shows like Env Intel from producing
+    empty episodes on days when RSS feeds are sparse.
+    """
+    from engine.fetcher import fetch_rss_articles
+    from engine.utils import deduplicate_by_entity
+
+    expansion_stages = [
+        # (cutoff_hours, similarity_threshold, keyword_filter)
+        (24, 0.65, True),    # Normal: last 24h, strict dedup, keywords on
+        (48, 0.65, True),    # Expand window to 48h
+        (72, 0.55, True),    # Expand to 72h, relax dedup
+        (72, 0.55, False),   # Drop keyword filter entirely (broader catch)
+    ]
+
+    for cutoff_hours, sim_threshold, use_keywords in expansion_stages:
+        kw = keywords if use_keywords else None
+        articles = fetch_rss_articles(
+            feed_dicts, cutoff_hours=cutoff_hours, keywords=kw,
+        )
+        logger.info(
+            "Fetch (cutoff=%dh, keywords=%s): %d articles",
+            cutoff_hours, "on" if use_keywords else "off", len(articles),
+        )
+
+        articles = deduplicate_by_entity(articles, max_per_entity=2)
+        articles = content_tracker.filter_recent_articles(
+            articles, similarity_threshold=sim_threshold, days=3,
+        )
+        logger.info(
+            "After dedup (sim=%.2f): %d articles remain",
+            sim_threshold, len(articles),
+        )
+
+        if len(articles) >= min_articles:
+            return articles
+
+        logger.info(
+            "Only %d articles (need %d) — expanding search...",
+            len(articles), min_articles,
+        )
+
+    # Return whatever we have, even if below min_articles
+    return articles
+
 
 def _extract_hook(digest: str) -> str | None:
     """Extract the **HOOK:** line from a generated digest.

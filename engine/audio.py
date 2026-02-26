@@ -174,9 +174,10 @@ def concatenate_audio(file_list: List[Path], output_path: Path) -> Path:
 
 def _music_intro_cmd(music_in: str, intro_out: str,
                      duration: int = 5, volume: float = 0.6) -> list:
+    fade_start = max(0, duration - 2)
     return [
         "ffmpeg", "-y", "-threads", "0", "-i", music_in, "-t", str(duration),
-        "-af", f"volume={volume}",
+        "-af", f"volume={volume},afade=t=out:curve=log:st={fade_start}:d=2",
         "-ar", "44100", "-ac", "2",
         "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
         intro_out,
@@ -189,7 +190,7 @@ def _music_overlap_cmd(music_in: str, overlap_out: str,
     return [
         "ffmpeg", "-y", "-threads", "0", "-i", music_in,
         "-ss", str(start), "-t", str(duration),
-        "-af", f"volume={volume}",
+        "-af", f"afade=t=in:curve=log:st=0:d=1,volume={volume}",
         "-ar", "44100", "-ac", "2",
         "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
         overlap_out,

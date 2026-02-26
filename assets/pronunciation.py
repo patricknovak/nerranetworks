@@ -134,10 +134,10 @@ def clean_text_for_tts(text: str) -> str:
 # partial matches (e.g. "EVs" before "EV").
 COMMON_ACRONYMS: Dict[str, str] = {
     # --- AI and ML ---
-    "OpenAI": "Open A.I.",
-    "GenAI": "Gen A.I.",
-    "xAI": "ex A.I.",
-    "AI": "A.I.",
+    "OpenAI": "Open A I",
+    "GenAI": "Gen A I",
+    "xAI": "ex A I",
+    "AI": "A I",
     "ML": "M L",
     "LLM": "L L M",
     "LLMs": "L L Ms",
@@ -146,10 +146,10 @@ COMMON_ACRONYMS: Dict[str, str] = {
     "NLP": "N L P",
 
     # --- Space agencies and missions ---
-    "NASA": "NASA",  # well-known word-acronym, TTS handles it
+    "NASA": "nassa",  # phonetic guide — prevents letter-split
     "SpaceX": "Space X",
     "ESA": "E S A",
-    "JAXA": "JAXA",
+    "JAXA": "jacksa",  # phonetic guide — word-acronym
     "ISS": "I S S",
     "JWST": "J W S T",
     "HST": "H S T",
@@ -159,15 +159,15 @@ COMMON_ACRONYMS: Dict[str, str] = {
     "LEO": "L E O",
     "GEO": "G E O",
     "OSIRIS-REx": "Osiris Rex",
-    "DART": "DART",
+    "DART": "dart",  # phonetic guide — word-acronym
     "PSYCHE": "Sy-key",
 
     # --- Biology and health ---
     "DNA": "D N A",
     "RNA": "R N A",
     "RNAi": "R N A i",
-    "CRISPR": "CRISPR",
-    "CRISPR-Cas9": "CRISPR Cas nine",
+    "CRISPR-Cas9": "crisper Cas nine",
+    "CRISPR": "crisper",  # phonetic guide — word-acronym
     "mRNA": "messenger R N A",
     "FDA": "F D A",
     "NIH": "N I H",
@@ -240,9 +240,9 @@ COMMON_ACRONYMS: Dict[str, str] = {
     "DCA": "D C A",
     "AUM": "A U M",
     "M&A": "M and A",
-    "SPAC": "SPAC",
-    "SPACs": "SPACs",
-    "GAAP": "gap",
+    "SPACs": "spacks",
+    "SPAC": "spack",
+    "GAAP": "gaap",
     "TTM": "T T M",
     "DCF": "D C F",
 
@@ -272,8 +272,8 @@ COMMON_ACRONYMS: Dict[str, str] = {
     "US": "U S",
     "USA": "U S A",
     "UN": "U N",
-    "NATO": "NATO",
-    "OPEC": "OPEC",
+    "NATO": "nay-toe",  # phonetic guide — word-acronym
+    "OPEC": "oh-peck",  # phonetic guide — word-acronym
 
     # --- Vehicle / Manufacturing ---
     "VIN": "V I N",
@@ -292,9 +292,9 @@ COMMON_ACRONYMS: Dict[str, str] = {
     "6G": "six G",
     "4G": "four G",
     "LTE": "L T E",
-    "SaaS": "sass",
-    "PaaS": "pass",
-    "IaaS": "eye-as",
+    "SaaS": "sass",  # lowercase word-form — code must not letter-split
+    "PaaS": "pass",  # lowercase word-form
+    "IaaS": "eye-as",  # has hyphen — handled correctly
 }
 
 
@@ -1104,7 +1104,14 @@ def apply_pronunciation_fixes(
             pattern = rf"(?<!\w){re.escape(acronym)}(?!\w)"
             flags = re.IGNORECASE
 
-        if " " in spelled or "-" in spelled:
+        if " " in spelled or "-" in spelled or "." in spelled:
+            # Already formatted with separators — use verbatim
+            replacement = spelled
+        elif spelled == acronym:
+            # Identity mapping — TTS handles this word naturally, skip
+            continue
+        elif not spelled.isupper():
+            # Mixed/lowercase = word pronunciation (e.g., "nassa", "sass") — use verbatim
             replacement = spelled
         elif use_zwj:
             replacement = ZWJ.join(list(spelled))

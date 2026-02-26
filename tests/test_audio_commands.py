@@ -49,10 +49,10 @@ def voice_normalization_fallback(voice_in: str, voice_out: str) -> list:
 
 
 def music_intro(music_in: str, intro_out: str) -> list:
-    """5-second intro at 0.6 volume."""
+    """5-second intro at 0.6 volume with 2s fade-out at the end."""
     return [
         "ffmpeg", "-y", "-threads", "0", "-i", music_in, "-t", "5",
-        "-af", "volume=0.6",
+        "-af", "volume=0.6,afade=t=out:curve=log:st=3:d=2",
         "-ar", "44100", "-ac", "2",
         "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
         intro_out,
@@ -60,10 +60,10 @@ def music_intro(music_in: str, intro_out: str) -> list:
 
 
 def music_overlap(music_in: str, overlap_out: str) -> list:
-    """3-second overlap starting at 5s mark, 0.5 volume."""
+    """3-second overlap starting at 5s mark, 0.5 volume with 1s fade-in."""
     return [
         "ffmpeg", "-y", "-threads", "0", "-i", music_in, "-ss", "5", "-t", "3",
-        "-af", "volume=0.5",
+        "-af", "afade=t=in:curve=log:st=0:d=1,volume=0.5",
         "-ar", "44100", "-ac", "2",
         "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
         overlap_out,
@@ -186,7 +186,9 @@ class TestMusicSegments:
     def test_intro_duration_and_volume(self):
         cmd = music_intro("/music.mp3", "/intro.mp3")
         assert cmd[cmd.index("-t") + 1] == "5"
-        assert "volume=0.6" in cmd[cmd.index("-af") + 1]
+        af = cmd[cmd.index("-af") + 1]
+        assert "volume=0.6" in af
+        assert "afade=t=out:curve=log:st=3:d=2" in af
 
     def test_intro_stereo(self):
         cmd = music_intro("/m.mp3", "/i.mp3")
@@ -196,7 +198,9 @@ class TestMusicSegments:
         cmd = music_overlap("/music.mp3", "/overlap.mp3")
         assert cmd[cmd.index("-ss") + 1] == "5"
         assert cmd[cmd.index("-t") + 1] == "3"
-        assert "volume=0.5" in cmd[cmd.index("-af") + 1]
+        af = cmd[cmd.index("-af") + 1]
+        assert "volume=0.5" in af
+        assert "afade=t=in:curve=log:st=0:d=1" in af
 
     def test_fadeout_timing_and_curve(self):
         cmd = music_fadeout("/music.mp3", "/fadeout.mp3")
