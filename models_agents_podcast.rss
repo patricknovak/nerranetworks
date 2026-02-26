@@ -1,21 +1,48 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
   <channel>
     <title>Models &amp; Agents</title>
     <link>https://patricknovak.github.io/Tesla-shorts-time/models-agents.html</link>
     <description>Daily AI briefing covering new model releases, agent frameworks, and the latest developments in AI. Not the models and agents you are thinking about! Stay on top of the most exciting developments of our generation.</description>
+    <copyright>Copyright 2026</copyright>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 26 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 26 Feb 2026 20:39:17 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
     <itunes:category text="Technology"/>
     <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
     <itunes:explicit>no</itunes:explicit>
     <itunes:owner>
-      <itunes:email>contact@teslashortstime.com</itunes:email>
       <itunes:name>Patrick</itunes:name>
+      <itunes:email>contact@teslashortstime.com</itunes:email>
     </itunes:owner>
     <itunes:summary>Daily AI briefing covering new model releases, agent frameworks, and the latest developments in AI. Not the models and agents you are thinking about! Stay on top of the most exciting developments of our generation.</itunes:summary>
+    <item>
+      <title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</title>
+      <link>https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep001_20260226.mp3</link>
+      <description># Models &amp; Agents
+**Date:** February 26, 2026
+
+**HOOK:** Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.
+
+**What You Need to Know:** Anthropic's acquisition of Vercept integrates advanced screen recognition into Claude, potentially revolutionizing agentic computer use by improving visual control without major retraining—expect better automation in tools like browser agents. Google's Nano Banana 2 brings pro-...</description>
+      <guid isPermaLink="false">models-agents-ep001-20260226-203917</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep001_20260226.mp3" length="16131805" type="audio/mpeg"/>
+      <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
+      <itunes:duration>11:12</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Models &amp; Agents
+**Date:** February 26, 2026
+
+**HOOK:** Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.
+
+**What You Need to Know:** Anthropic's acquisition of Vercept integrates advanced screen recognition into Claude, potentially revolutionizing agentic computer use by improving visual control without major retraining—expect better automation in tools like browser agents. Google's Nano Banana 2 brings pro-...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>1</itunes:episode>
+      <itunes:title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
   </channel>
 </rss>
