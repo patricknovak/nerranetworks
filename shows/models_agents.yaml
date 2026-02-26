@@ -147,10 +147,10 @@ audio:
   fade_duration: 10.0
   outro_duration: 30.0
   outro_crossfade: 20.0
-  intro_volume: 0.4
-  overlap_volume: 0.3
-  fade_volume: 0.25
-  outro_volume: 0.3
+  intro_volume: 0.6
+  overlap_volume: 0.5
+  fade_volume: 0.4
+  outro_volume: 0.4
 
 publishing:
   rss_file: models_agents_podcast.rss
