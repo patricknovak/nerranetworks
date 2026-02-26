@@ -12,6 +12,8 @@ on:
     - cron: '0 12 2-31/2 * *'
     # Environmental Intelligence: Weekdays ~6 AM Pacific (14:00 UTC)
     - cron: '0 14 * * 1-5'
+    # Models & Agents: Daily ~7 AM Pacific (15:00 UTC)
+    - cron: '0 15 * * *'
 
   workflow_dispatch:
     inputs:
@@ -25,6 +27,7 @@ on:
           - fascinating_frontiers
           - planetterrian
           - env_intel
+          - models_agents
           - all
 
 permissions:
@@ -50,7 +53,7 @@ jobs:
 
           if event_name == "workflow_dispatch":
               if dispatch_show == "all":
-                  shows = ["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel"]
+                  shows = ["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel", "models_agents"]
               else:
                   shows = [dispatch_show]
           else:
@@ -87,6 +90,9 @@ jobs:
                   weekday = now_et.weekday()  # 0=Mon, 6=Sun
                   if weekday < 5:
                       shows.append("env_intel")
+              # 15:00 UTC — Models & Agents (daily, ~7 AM Pacific)
+              elif utc_hour == 15:
+                  shows.append("models_agents")
 
               if not shows:
                   print(f"No shows matched for UTC hour {utc_hour}, ET hour {et_hour}, day {day}")

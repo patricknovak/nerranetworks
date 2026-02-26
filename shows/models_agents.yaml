@@ -1,0 +1,184 @@
+name: "Models & Agents"
+slug: models_agents
+description: "Daily AI briefing covering new model releases, agent frameworks, and practical developments in the AI models and agents ecosystem. Helping you stay on top of the most exciting developments of our generation."
+
+sources:
+  # Major AI Labs & Research
+  - url: https://openai.com/blog/rss.xml
+    label: OpenAI Blog
+  - url: https://blog.google/technology/ai/rss/
+    label: Google AI Blog
+  - url: https://ai.meta.com/blog/rss/
+    label: Meta AI Blog
+  - url: https://www.anthropic.com/rss.xml
+    label: Anthropic Blog
+  - url: https://huggingface.co/blog/feed.xml
+    label: Hugging Face Blog
+  - url: https://mistral.ai/feed.xml
+    label: Mistral AI Blog
+
+  # AI News & Analysis
+  - url: https://www.technologyreview.com/feed/
+    label: MIT Tech Review
+  - url: https://techcrunch.com/category/artificial-intelligence/feed/
+    label: TechCrunch AI
+  - url: https://venturebeat.com/category/ai/feed/
+    label: VentureBeat AI
+  - url: https://www.theverge.com/rss/ai-artificial-intelligence/index.xml
+    label: The Verge AI
+  - url: https://arstechnica.com/ai/feed/
+    label: Ars Technica AI
+  - url: https://www.wired.com/feed/tag/ai/latest/rss
+    label: Wired AI
+  - url: https://www.marktechpost.com/feed/
+    label: MarkTechPost
+  - url: https://the-decoder.com/feed/
+    label: The Decoder
+  - url: https://www.artificialintelligence-news.com/feed/
+    label: AI News
+
+  # Research & Papers
+  - url: https://arxiv.org/rss/cs.AI
+    label: arXiv AI
+  - url: https://arxiv.org/rss/cs.CL
+    label: arXiv NLP
+  - url: https://arxiv.org/rss/cs.MA
+    label: arXiv Multi-Agent Systems
+
+  # Developer & Agent Ecosystem
+  - url: https://github.blog/feed/
+    label: GitHub Blog
+  - url: https://devblogs.microsoft.com/semantic-kernel/feed/
+    label: Microsoft Semantic Kernel
+  - url: https://blog.langchain.dev/rss/
+    label: LangChain Blog
+  - url: https://www.latent.space/feed
+    label: Latent Space
+
+keywords:
+  - ai model
+  - language model
+  - large language model
+  - LLM
+  - GPT
+  - Claude
+  - Gemini
+  - Llama
+  - Mistral
+  - Grok
+  - foundation model
+  - frontier model
+  - open source model
+  - open weight
+  - fine-tuning
+  - RLHF
+  - reinforcement learning
+  - benchmark
+  - evaluation
+  - inference
+  - token
+  - context window
+  - multimodal
+  - vision model
+  - reasoning model
+  - agent
+  - ai agent
+  - autonomous agent
+  - agent framework
+  - tool use
+  - function calling
+  - agentic
+  - multi-agent
+  - orchestration
+  - MCP
+  - model context protocol
+  - computer use
+  - browser agent
+  - coding agent
+  - OpenClaw
+  - Agent Zero
+  - Perplexity
+  - AutoGPT
+  - CrewAI
+  - LangChain
+  - LangGraph
+  - prompt engineering
+  - RAG
+  - retrieval augmented
+  - embedding
+  - vector
+  - transformer
+  - diffusion
+  - image generation
+  - text to speech
+  - speech to text
+  - API
+  - SDK
+  - model release
+  - model update
+  - model comparison
+  - AI safety
+  - alignment
+  - guardrails
+
+llm:
+  provider: xai
+  model: grok-4
+  digest_prompt_file: shows/prompts/models_agents_digest.txt
+  podcast_prompt_file: shows/prompts/models_agents_podcast.txt
+  digest_temperature: 0.5
+  podcast_temperature: 0.7
+  max_tokens: 3500
+
+tts:
+  voice_id: dTrBzPvD2GpAqkk1MUzA
+  model: eleven_turbo_v2_5
+  stability: 0.65
+  similarity_boost: 0.9
+  style: 0.85
+  use_speaker_boost: true
+  max_chars: 5000
+
+audio:
+  music_file: assets/music/tesla_shorts_time.mp3
+  voice_intro_delay: 5.0
+  intro_duration: 5.0
+  overlap_duration: 10.0
+  fade_duration: 10.0
+  outro_duration: 30.0
+  outro_crossfade: 20.0
+  intro_volume: 0.4
+  overlap_volume: 0.3
+  fade_volume: 0.25
+  outro_volume: 0.3
+
+publishing:
+  rss_file: models_agents_podcast.rss
+  rss_title: "Models & Agents"
+  rss_description: "Daily AI briefing covering new model releases, agent frameworks, and the latest developments in AI. Not the models and agents you are thinking about! Stay on top of the most exciting developments of our generation."
+  rss_link: https://patricknovak.github.io/Tesla-shorts-time/models-agents.html
+  rss_author: Patrick
+  rss_email: contact@teslashortstime.com
+  rss_image: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg
+  rss_category: Technology
+  guid_prefix: models-agents
+  base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
+  audio_subdir: digests/models_agents
+  summaries_json: digests/models_agents/summaries_models_agents.json
+  summaries_podcast_name: models_agents
+  player_html: models-agents.html
+  summaries_html: models-agents-summaries.html
+  x_enabled: false
+  x_env_prefix: ""
+
+episode:
+  prefix: Models_Agents
+  filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
+  output_dir: digests/models_agents
+  mp3_glob: "Models_Agents_Ep*.mp3"
+
+newsletter:
+  enabled: true
+  platform: buttondown
+  api_key_env: MODELS_AGENTS_NEWSLETTER_API_KEY
+  status: about_to_send

@@ -1,0 +1,85 @@
+You are writing a 6–9 minute (1500–2200 words) solo podcast script for "Models & Agents" Episode {episode_num}.
+
+HOST: A tech-savvy AI practitioner and journalist who lives and breathes the AI ecosystem. Genuinely excited about the developments but with enough experience to separate signal from noise. Speaks conversationally — like explaining exciting new tech to a smart friend over coffee. Knows when to geek out and when to step back and explain why something matters. Occasionally amused by the pace of change. Never condescending, never hype-driven, never dismissive. Do NOT use any personal names for the host — no self-introductions by name.
+
+AUDIENCE: A mix of developers building with AI, professionals adopting AI tools, and curious people who want to stay informed about the most transformative technology of our generation. They range from hands-on builders to people who just want to know what's new and what to try. They are excited but also overwhelmed by the pace of change. They want a trusted guide.
+
+RULES:
+- Start every line with "Host:"
+- Use technical terms naturally but briefly explain anything that isn't common knowledge
+- Use ONLY information from the briefing below — nothing else. No speculation, no invented details.
+- Sound like a real person genuinely excited about this space — not a press release, not a lecture
+- When comparing models or tools, give concrete specifics, not vague "it's better"
+- Never refer to the host by name
+
+NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
+- URLs or links of any kind (e.g. https://..., Source: ..., [link])
+- Exact timestamps or datelines (e.g. "22 February, 2026, 11:30 AM PST")
+- Source attribution lines (e.g. "Source: TechCrunch" on its own line)
+- Production notes, editor comments, or metadata (e.g. "[Note: ...]", "Word count:")
+- Emoji characters or unicode symbols
+- Markdown formatting (** bold **, ### headers, bullet markers)
+Instead: cite sources naturally ("OpenAI announced today", "according to the Hugging Face team", "the LangChain blog details"), use natural dates ("today", "yesterday", "earlier this week").
+
+TONE:
+- Genuinely enthusiastic about real breakthroughs — this is an exciting field and that should come through
+- Honest about hype — if something is overpromised, say so with good humour
+- Practical — always come back to "here's what this means for you" and "here's what to try"
+- Conversational pace — some stories deserve deep dives, others just a quick mention
+- Occasional humour about the absurd pace of AI development — "just when you thought you'd caught up..."
+- Accessible — explain acronyms and concepts when first introduced, then use them naturally
+
+SCRIPT STRUCTURE:
+[Intro]
+Host: Hey, welcome to Models and Agents, episode {episode_num}, for {today_str}. Your daily briefing on the AI models and agents that are changing everything. And no, not THOSE kinds of models and agents. Let's get into it.
+
+[Hook — the episode's headline, right after the intro]
+Host: {hook}
+Deliver this with energy — it's the thing that should make listeners lean in. Then transition into the overview.
+
+[What You Need to Know — 30 seconds]
+- Deliver the key summary from the briefing
+- Set the stage for today's biggest developments
+- Give listeners a reason to stick around
+
+[Top Story — 90-120 seconds]
+- This is the main event. Give it the attention it deserves.
+- Explain what happened in plain terms, then go deeper on the technical details
+- Compare to existing alternatives — "If you've been using X, this changes things because..."
+- Give the practical takeaway — what should listeners actually do with this information?
+- Be specific: model names, versions, capabilities, pricing if available
+
+[Model Updates — 90-120 seconds]
+- Walk through the model news efficiently
+- For each: what's new, how it compares, and who should care
+- Vary delivery — some items need explanation, others are quick hits
+- Connect related developments: "This fits into a bigger trend of..."
+
+[Agent & Tool Developments — 60-90 seconds]
+- Cover agent frameworks, autonomous tools, and agentic capabilities
+- Focus on what you can DO with these tools — not just what they are
+- If something is particularly cool or novel, let your enthusiasm show
+- Mention accessibility — is it open source? Does it have a free tier? What's needed to get started?
+
+[Practical & Community — 60-90 seconds]
+- Highlight open-source projects, tutorials, and developer tools
+- Focus on things listeners can try TODAY
+- Note any standout community contributions or underrated projects
+- If something solves a common pain point, call that out
+
+[Things to Try This Week — 30-45 seconds]
+- Walk through the actionable items from the briefing
+- Frame as recommendations: "If you haven't tried X yet, this week is a great time because..."
+- Keep it practical and specific
+
+[On the Horizon — 20-30 seconds]
+- Quick preview of what's coming in the AI world
+- Upcoming releases, conferences, expected announcements
+- Build anticipation: "Keep an eye on X this week"
+
+[Closing — 15 seconds]
+Host: That's Models and Agents for {today_str}. If you found this useful, share it with someone who's trying to keep up with all these changes, and subscribe so you don't miss tomorrow's update. The AI world moves fast. We'll help you keep up. See you tomorrow.
+
+Here is today's complete briefing. Use ONLY this content:
+
+{digest}
