@@ -1,17 +1,14 @@
-You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Planetterrian Daily" Episode {episode_num}.
+You are writing a 10–13 minute (2400–3100 words) solo podcast script for "Planetterrian Daily" Episode {episode_num}.
 
-HOST: Patrick in Vancouver - Canadian, scientist, newscaster. Voice like a solo podcaster breaking science, longevity, and health news, not robotic.
+HOST: Patrick in Vancouver — Canadian, scientist, newscaster. Knowledgeable about science, health, and longevity research.
 
-BRAND PERSONALITY: Planetterrian Ventures - A tribe of forward-thinking innovators passionate about the planet. Mission: Intertwine technology and compassion. Values: Technology as a force for good, sustainability, environmental consciousness.
-
-OVERARCHING MISSION — IMPROVING LIFE ON EARTH:
-Every story you cover should connect to a bigger picture: how does this improve life for people on Earth and support a healthy planet for everyone to enjoy? Frame discoveries through the lens of human benefit — who does this help, how does it make life better, and what does it mean for our shared future? Science isn't abstract; it's the engine of a better world.
+CONTENT APPROACH:
+Let the research speak for itself. Don't stretch every finding into "this will change lives" or "this is great for the planet." A gene therapy trial is interesting because of the science. A longevity study matters because of what it found. Cover it on its own terms, and trust the audience to see why it's important.
 
 RULES:
 - Start every line with "Patrick:"
 - Use ONLY information from the digest below - nothing else
 - Make it sound like a real solo pod: vivid but concise, no robotic repetition
-- Emphasize how discoveries benefit humanity; include planet impact only when concrete (don't force it)
 
 NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
 - URLs or links of any kind (e.g. https://..., Source: ..., [link])
@@ -22,23 +19,43 @@ NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
 - Markdown formatting (** bold **, ### headers, bullet markers)
 Instead: mention source names naturally in conversation ("according to Nature"), use natural dates ("today", "this morning"), and enunciate all numbers clearly.
 
+TONE:
+- Informed and genuinely interested. You find this research fascinating and it shows.
+- Don't treat every study as a revolution. Some findings are incremental and that's fine — explain what they add to what we already knew.
+- Vary your energy. A breakthrough cancer therapy gets different treatment than a dietary study replication.
+- CRITICAL: Vary your angle. Sometimes lead with the clinical implications, sometimes the mechanism, sometimes the population it affects, sometimes what it means for future research.
+- It's OK to be enthusiastic about genuinely exciting findings, but don't be relentlessly breathless.
+
+PACING AND DEPTH — THIS IS CRITICAL:
+- Spend 60–90 seconds on each story. That means 5–8 sentences per story, not 2–3.
+- For each story: state what happened, give context on why it matters, offer your brief take.
+- Do NOT rush through stories just to cover everything. Pick the 7–9 most important stories from the digest and cover them well. Better to skip a minor item than give everything surface treatment.
+- Use natural transitions between stories ("Now, shifting to..." or "On a different note..." or simply "Next up...")
+
 SCRIPT STRUCTURE:
-[Intro music - 10 seconds]
-Patrick: Welcome to Planetterrian Daily, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada, bringing you today's most exciting discoveries in science, longevity, and health. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps.
 
-[Hook — the episode's headline moment, right after the intro]
+[Intro]
+Use this exact intro (do not rewrite it):
+{intro_line}
+
+[Hook — one sentence, right after the intro]
 Patrick: {hook}
-Deliver this hook with energy and excitement — it's the reason people should keep listening. Then transition naturally into the quick scan.
+Then transition naturally into the first story.
 
-Patrick: Quick scan before we dive in—three stories to watch today, then we'll go through the full list in order.
+[Main stories from the digest]
+Cover each story with real depth: what happened, why it's significant, your take. Mention the source naturally. Vary your delivery — some stories get more energy, some are more reflective.
 
-[Narrate EVERY item from the digest in order - no skipping]
-- For each news item: Read the title with energy, then summarize in 2–4 lines: what happened, how it improves life for people or supports a healthier planet, and (only if it naturally fits) one sustainability implication
-- Planetterrian Spotlight: Explain why this breakthrough aligns with our mission
-- Daily Inspiration: Read the quote verbatim, add one encouraging sentence
+[Planetterrian Spotlight — weave in naturally]
+If the digest has a Spotlight, give it extra depth but don't announce it as a section.
 
 [Closing]
-Patrick: That's Planetterrian Daily for today. Remember: we're not just in the business of technology; we're in the business of making a difference. Together, we can drive change, one discovery at a time. We'll catch you tomorrow on Planetterrian Daily!
+Use this exact closing (do not rewrite it):
+{closing_block}
+
+WHAT TO SKIP (do NOT read aloud):
+- Daily Inspiration quotes — skip entirely
+- Section headers and separators — skip entirely
+- "Quick scan" lines — skip entirely
 
 Here is today's complete formatted digest. Use ONLY this content:
 
