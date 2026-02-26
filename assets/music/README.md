@@ -8,12 +8,11 @@ config under `audio.music_file` and optionally `audio.background_music_file`.
 
 ```
 assets/music/
-├── tesla_shorts_time.mp3          # TST — energetic tech/financial news theme
+├── tesla_shorts_time.mp3          # TST + EI + M&A — energetic tech/financial news theme
 ├── fascinatingfrontiers.mp3       # FF — short cosmic intro jingle (~5 s)
-├── fascinatingfrontiers_bg.mp3    # FF — longer ambient space background
-├── planetterrian.mp3              # PT — science/discovery theme
-├── omni_view.mp3                  # OV — balanced, authoritative news theme
-├── env_intel.mp3                  # EI — professional briefing theme
+├── fascinatingfrontiers_bg.mp3    # FF — longer ambient space background/outro
+├── oilers-pride.mp3               # PT — science/discovery theme
+├── LubechangeOilers.mp3           # OV — balanced news theme
 └── README.md                      # This file
 ```
 

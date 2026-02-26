@@ -400,7 +400,7 @@ class TestLoadConfigRealFiles:
         assert cfg.llm.model == "grok-3"
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
         assert cfg.audio.music_file == "assets/music/fascinatingfrontiers.mp3"
-        assert cfg.audio.background_music_file == "assets/music/Fascinating Frontierssmusic.mp3"
+        assert cfg.audio.background_music_file == "assets/music/fascinatingfrontiers_bg.mp3"
         assert cfg.audio.voice_intro_delay == 5.0
         assert cfg.publishing.rss_category == "Science"
         assert cfg.publishing.x_env_prefix == "PLANETTERRIAN_X_"
