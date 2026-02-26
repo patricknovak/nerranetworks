@@ -388,7 +388,7 @@ class TestLoadConfigRealFiles:
         assert cfg.publishing.rss_title == "Tesla Shorts Time Daily"
         assert cfg.publishing.x_enabled is True
         assert cfg.episode.prefix == "Tesla_Shorts_Time_Pod"
-        assert cfg.episode.output_dir == "digests"
+        assert cfg.episode.output_dir == "digests/tesla_shorts_time"
 
     def test_fascinating_frontiers_show(self):
         cfg = load_config(SHOWS_DIR / "fascinating_frontiers.yaml")

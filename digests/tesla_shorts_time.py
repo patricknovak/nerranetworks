@@ -2562,7 +2562,7 @@ if ENABLE_GITHUB_SUMMARIES:
         _audio_url = None
         try:
             if ENABLE_PODCAST and final_mp3:
-                _audio_url = f"{_base_url}/digests/{final_mp3.name}"
+                _audio_url = f"{_base_url}/digests/tesla_shorts_time/{final_mp3.name}"
         except Exception:
             _audio_url = None
 

@@ -62,7 +62,7 @@ After each run:
 
 **Where to find them on GitHub:**
 1. Go to your repository on GitHub
-2. Navigate to the `digests/digests/` folder
+2. Navigate to the `digests/` folder
 3. You'll see all the generated files committed by the workflow
 4. Each commit will have a message like "Auto-generated: Tesla Shorts Time YYYY-MM-DD"
 

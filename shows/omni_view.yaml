@@ -144,7 +144,7 @@ publishing:
   rss_category: News
   guid_prefix: omni-view
   base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
-  audio_subdir: digests
+  audio_subdir: digests/omni_view
   summaries_json: digests/omni_view/summaries_omni.json
   summaries_podcast_name: omni
   x_enabled: true
@@ -153,7 +153,7 @@ publishing:
 episode:
   prefix: Omni_View
   filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
-  output_dir: digests
+  output_dir: digests/omni_view
   mp3_glob: "Omni_View_Ep*.mp3"
 
 newsletter:

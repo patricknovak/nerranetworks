@@ -383,7 +383,7 @@ class TestReplaceStandaloneLargeNumbers:
 class TestApplyPronunciationFixes:
     def test_xai_fix(self):
         result = apply_pronunciation_fixes("The xAI company")
-        assert "ex A.I." in result
+        assert "ex A I" in result
 
     def test_evs_fix(self):
         result = apply_pronunciation_fixes("Electric EVs are growing")
@@ -517,7 +517,7 @@ class TestPrepareTextForTts:
         assert "Pacific Standard Time" in result
 
         # xAI handled
-        assert "ex A.I." in result
+        assert "ex A I" in result
 
         # TSLA spelled out
         assert "T S L A" in result
@@ -595,8 +595,8 @@ class TestPrepareTextForTts:
         assert "F D A" in result
         assert "L E D" in result
         assert "E U" in result
-        # AI should be expanded (could be "A.I." or "A . I ." depending on spacing)
-        assert "A" in result and "I" in result
+        # AI should be expanded to "A I"
+        assert "A I" in result
         assert "billion dollars" in result
         assert "fifteen percent" in result
         assert "Q three" in result
