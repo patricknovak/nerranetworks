@@ -137,6 +137,29 @@ EI_SECTION_PATTERNS: Dict[str, str] = {
     ),
 }
 
+MA_SECTION_PATTERNS: Dict[str, str] = {
+    "headlines": (
+        r"(?:### Top Story|## Top Story)"
+        r"(.*?)"
+        r"(?=━━|### Model Updates|## Model Updates|$)"
+    ),
+    "model_updates": (
+        r"(?:### Model Updates|## Model Updates)"
+        r"(.*?)"
+        r"(?=━━|### Agent|## Agent|$)"
+    ),
+    "agent_developments": (
+        r"(?:### Agent & Tool Developments|## Agent & Tool Developments)"
+        r"(.*?)"
+        r"(?=━━|### Practical|## Practical|$)"
+    ),
+    "practical_community": (
+        r"(?:### Practical & Community|## Practical & Community)"
+        r"(.*?)"
+        r"(?=━━|### Things to Try|## Things to Try|$)"
+    ),
+}
+
 # Registry mapping show slugs to their section patterns.
 # New shows should be added here to enable cross-episode content tracking.
 SHOW_SECTION_PATTERNS: Dict[str, Dict[str, str]] = {
@@ -146,6 +169,7 @@ SHOW_SECTION_PATTERNS: Dict[str, Dict[str, str]] = {
     "planetterrian": PT_SECTION_PATTERNS,
     "omni_view": OV_SECTION_PATTERNS,
     "env_intel": EI_SECTION_PATTERNS,
+    "models_agents": MA_SECTION_PATTERNS,
 }
 
 

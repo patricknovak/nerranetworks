@@ -71,9 +71,11 @@ Tesla-shorts-time/
 │   ├── pronunciation.py           # Shared TTS pronunciation fixes
 │   └── music/                     # Centralized podcast music (intro/outro)
 │       ├── README.md              # Music generation guide + AI prompts
-│       ├── tesla_shorts_time.mp3  # TST theme
+│       ├── tesla_shorts_time.mp3  # TST + EI + M&A theme
 │       ├── fascinatingfrontiers.mp3     # FF intro jingle
-│       └── fascinatingfrontiers_bg.mp3  # FF background/outro
+│       ├── fascinatingfrontiers_bg.mp3  # FF background/outro
+│       ├── LubechangeOilers.mp3         # OV theme
+│       └── oilers-pride.mp3             # PT theme
 ├── tests/                         # pytest suite (627 tests)
 ├── .github/workflows/
 │   └── run-show.yml               # Unified daily cron workflow (all shows)

@@ -28,6 +28,7 @@ RSS_FEEDS = {
     "omni": PROJECT_ROOT / "omni_view_podcast.rss",
     "planetterrian": PROJECT_ROOT / "planetterrian_podcast.rss",
     "frontiers": PROJECT_ROOT / "fascinating_frontiers_podcast.rss",
+    "models_agents": PROJECT_ROOT / "models_agents_podcast.rss",
 }
 
 EXPECTED_EPISODE_COUNTS = {
@@ -35,6 +36,7 @@ EXPECTED_EPISODE_COUNTS = {
     "omni": 1,
     "frontiers": 20,
     "planetterrian": 11,
+    "models_agents": 0,
 }
 
 # ---------------------------------------------------------------------------
@@ -122,6 +124,13 @@ EXPECTED_CHANNEL_METADATA = {
         "itunes_category": "Science",
         "itunes_explicit": "no",
     },
+    "models_agents": {
+        "title": "Models & Agents",
+        "language": "en-us",
+        "generator": "python-feedgen",
+        "itunes_category": "Technology",
+        "itunes_explicit": "no",
+    },
 }
 
 
@@ -201,6 +210,7 @@ ENCLOSURE_URL_PATTERNS = {
     "omni": f"{BASE_URL}/digests/",
     "planetterrian": f"{BASE_URL}/digests/planetterrian/",
     "frontiers": f"{BASE_URL}/digests/fascinating_frontiers/",
+    "models_agents": f"{BASE_URL}/digests/models_agents/",
 }
 
 
@@ -269,6 +279,7 @@ class TestItemStructure:
         "omni": 1,
         "planetterrian": 0,
         "frontiers": 0,
+        "models_agents": 0,
     }
 
     @pytest.mark.parametrize("show", list(RSS_FEEDS.keys()))

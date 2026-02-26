@@ -550,7 +550,7 @@ class TestShowMusicConfigs:
     def test_ff_has_dual_music(self, load_config):
         cfg = load_config("shows/fascinating_frontiers.yaml")
         assert cfg.audio.music_file == "assets/music/fascinatingfrontiers.mp3"
-        assert cfg.audio.background_music_file == "assets/music/Fascinating Frontierssmusic.mp3"
+        assert cfg.audio.background_music_file == "assets/music/fascinatingfrontiers_bg.mp3"
         assert cfg.audio.voice_intro_delay == 5.0
         assert cfg.audio.fade_duration == 27.0
 
