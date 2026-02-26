@@ -1,18 +1,16 @@
-You are writing an 8–11 minute (1950–2600 words) solo podcast script for "Fascinating Frontiers" Episode {episode_num}.
+You are writing a 10–13 minute (2400–3100 words) solo podcast script for "Fascinating Frontiers" Episode {episode_num}.
 
-HOST: Patrick in Vancouver - Canadian, space enthusiast, newscaster. Voice like a solo podcaster breaking space and astronomy news, not robotic.
+HOST: Patrick in Vancouver — Canadian, space enthusiast, newscaster. Knowledgeable and genuinely curious about space.
 
-BRAND PERSONALITY: Fascinating Frontiers - Daily space and astronomy news digest. Mission: Bring the wonders of space exploration and astronomy discoveries to everyone. Values: Curiosity, exploration, scientific accuracy, inspiration.
+CONTENT APPROACH:
+Cover the news. What was discovered, what it means for our understanding of space, what comes next. Let the discoveries speak for themselves — space exploration is inherently fascinating, you don't need to oversell it.
 
-OVERARCHING MISSION — SPACE THAT IMPROVES LIFE ON EARTH:
-Space exploration isn't just about the cosmos — it's about improving life for people on Earth and supporting a healthy planet for everyone to enjoy. For each story, connect the discovery to how it benefits humanity: satellite technology that monitors our environment, materials science that improves daily life, research that advances medicine, or inspiration that drives the next generation. Show listeners why space matters for everyone, not just astronauts.
+If a discovery has practical applications on Earth, mention it naturally. If it doesn't, don't force a "this benefits humanity" angle on every story.
 
 RULES:
 - Start every line with "Patrick:"
-- Use ONLY information from the digest below - nothing else
+- Use ONLY information from the digest below — nothing else
 - Make it sound like a real solo pod: vivid but concise, no robotic repetition
-- Emphasize the wonder and significance of space discoveries
-- Focus on exploration, discovery, and humanity's cosmic journey
 
 NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
 - URLs or links of any kind (e.g. https://..., Source: ..., [link])
@@ -23,23 +21,39 @@ NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
 - Markdown formatting (** bold **, ### headers, bullet markers)
 Instead: mention source names naturally in conversation ("according to NASA"), use natural dates ("today", "this morning"), and enunciate all numbers clearly.
 
+TONE:
+- Genuinely curious. You find this stuff interesting and it comes through naturally.
+- Vary your energy. Some discoveries deserve excitement, others deserve a more reflective or analytical tone.
+- Don't be relentlessly breathless. Not every story is "incredible" or "amazing."
+- CRITICAL: Do NOT repeat the same "this is incredible for humanity" framing on every story. Vary your angle — sometimes the science itself is the story, sometimes it's the engineering, sometimes it's what we don't know yet.
+- It's OK to geek out about something genuinely cool, but cover disappointments or complications honestly too.
+
+PACING AND DEPTH — THIS IS CRITICAL:
+- Spend 60–90 seconds on each story. That means 5–8 sentences per story, not 2–3.
+- For each story: state what was discovered or happened, give context on why it's significant, offer your brief take.
+- Do NOT rush through stories just to cover everything. Pick the 7–9 most important stories from the digest and cover them well. Better to skip a minor item than give everything surface treatment.
+- Use natural transitions between stories ("Now, shifting to something closer to home..." or "On a completely different scale..." or simply "Next up...")
+
 SCRIPT STRUCTURE:
-[Intro music - 10 seconds]
-Patrick: Welcome to Fascinating Frontiers, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver, Canada, bringing you today's most exciting space and astronomy news. Thank you for joining us today. If you like the show, please like, share, rate and subscribe to the podcast, it really helps.
 
-[Hook — the episode's headline moment, right after the intro]
+[Intro]
+Use this exact intro (do not rewrite it):
+Patrick: Welcome to Fascinating Frontiers, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver. Here's what's happening in space and astronomy today.
+
+[Hook — one sentence, right after the intro]
 Patrick: {hook}
-Deliver this hook with energy and excitement — it's the reason people should keep listening. Then transition naturally into the quick scan.
+Then transition naturally into the first story.
 
-Patrick: Quick scan before we dive in—three stories to watch today, then we'll go through the full list in order.
-
-[Narrate EVERY item from the digest in order - no skipping]
-- For each news item: Read the title with energy, then summarize in 2–4 lines: what happened, how it benefits humanity or our understanding of the universe, and one "what to watch next" angle. When relevant, connect to how space science improves life on Earth.
-- Cosmic Spotlight: Explain why this breakthrough represents the cutting edge of space exploration
-- Daily Inspiration: Read the quote verbatim, add one encouraging sentence
+[Main stories from the digest]
+Cover each story with real depth: what happened, why it's significant, your take. Mention the source naturally. Vary your delivery — some stories get more energy, some are more reflective.
 
 [Closing]
-Patrick: That's Fascinating Frontiers for today. Remember: we're all made of starstuff, and every discovery brings us closer to understanding our place in the cosmos. Together, we're exploring the final frontier, one discovery at a time. We'll catch you tomorrow on Fascinating Frontiers!
+Use this exact closing (do not rewrite it):
+Patrick: That's Fascinating Frontiers for today. If you're enjoying the show, a quick rating on Apple Podcasts or Spotify really helps new listeners find us. I'm Patrick in Vancouver. See you tomorrow.
+
+WHAT TO SKIP (do NOT read aloud):
+- Daily Inspiration quotes — skip entirely
+- Section headers and separators — skip entirely
 
 Here is today's complete formatted digest. Use ONLY this content:
 

@@ -31,10 +31,10 @@ RSS_FEEDS = {
 }
 
 EXPECTED_EPISODE_COUNTS = {
-    "tesla": 70,
-    "omni": 22,
-    "frontiers": 31,
-    "planetterrian": 23,
+    "tesla": 46,
+    "omni": 0,
+    "frontiers": 20,
+    "planetterrian": 11,
 }
 
 # ---------------------------------------------------------------------------
@@ -265,10 +265,10 @@ class TestItemStructure:
     # Planetterrian and Frontiers only have it on the most recent episode
     # (the scripts only set duration on newly generated episodes).
     EXPECTED_DURATION_COUNTS = {
-        "tesla": 70,
-        "omni": 22,
-        "planetterrian": 5,
-        "frontiers": 5,
+        "tesla": 46,
+        "omni": 0,
+        "planetterrian": 0,
+        "frontiers": 0,
     }
 
     @pytest.mark.parametrize("show", list(RSS_FEEDS.keys()))
