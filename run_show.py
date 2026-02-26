@@ -184,7 +184,9 @@ def run(args: argparse.Namespace) -> None:
     extra_context: dict = {}
     if hook_module and hasattr(hook_module, "pre_fetch"):
         logger.info("Running pre-fetch hook for %s ...", args.show)
-        extra_context = hook_module.pre_fetch(config) or {}
+        extra_context = hook_module.pre_fetch(
+            config, episode_num=episode_num, today_str=today_str,
+        ) or {}
 
     # 5. Fetch news
     from engine.fetcher import fetch_rss_articles
@@ -285,19 +287,39 @@ def run(args: argparse.Namespace) -> None:
         # aloud.  This is defense-in-depth alongside the prompt instructions.
         clean_digest = _clean_digest_for_podcast(x_thread)
 
+        effective_hook = hook or f"Here's what's making news in the {config.name} world today."
+
         pod_vars = {
             "episode_num": episode_num,
             "today_str": today_str,
             "date_human": today_str,  # alias used by Omni View prompts
             "digest": clean_digest,
-            "hook": hook or f"Here's what's making news in the {config.name} world today.",
+            "hook": effective_hook,
         }
         # Merge extra context for podcast prompt (e.g. tone_hint, intro_line)
         pod_vars.update(extra_context)
 
+        # Provide default intro_line/closing_block if hook didn't supply them.
+        # All intros include the show name, episode number, date, and hook.
+        pod_vars.setdefault(
+            "intro_line",
+            f"Patrick: Welcome to {config.name}, episode {episode_num}. "
+            f"Today is {today_str}. {effective_hook}",
+        )
+        pod_vars.setdefault(
+            "closing_block",
+            f"Patrick: That's {config.name} for today. "
+            f"If you enjoyed this episode, a rating or review on Apple Podcasts or Spotify "
+            f"really helps new listeners find the show. "
+            f"I'm Patrick in Vancouver. Thanks for listening, and I'll see you tomorrow.",
+        )
+        pod_vars.setdefault("tone_hint", "natural and conversational")
+
         # OV uses procedural script generation, not LLM
         if args.show == "omni_view":
-            podcast_script = _generate_omni_view_script(x_thread, hook=hook)
+            podcast_script = _generate_omni_view_script(
+                x_thread, hook=hook, episode_num=episode_num,
+            )
         else:
             logger.info("Generating podcast script ...")
             podcast_script = generate_podcast_script(pod_vars, config, tracker=tracker)
@@ -364,6 +386,7 @@ def run(args: argparse.Namespace) -> None:
                         outro_volume=config.audio.outro_volume,
                         voice_intro_delay=config.audio.voice_intro_delay,
                         background_music_path=bg_music_path,
+                        outro_crossfade=config.audio.outro_crossfade,
                     )
                 else:
                     logger.warning("Music file not found: %s — using voice only", music_path)
@@ -639,7 +662,11 @@ def _build_teaser(config, episode_num: int, today_str: str, extra_context: dict)
     return f"{config.name} Episode {episode_num} — {today_str}"
 
 
-def _generate_omni_view_script(briefing_markdown: str, hook: str | None = None) -> str:
+def _generate_omni_view_script(
+    briefing_markdown: str,
+    hook: str | None = None,
+    episode_num: int | None = None,
+) -> str:
     """Procedural podcast script generation for Omni View.
 
     Omni View doesn't use an LLM for podcast scripts — it parses the
@@ -783,7 +810,8 @@ def _generate_omni_view_script(briefing_markdown: str, hook: str | None = None) 
     ]
 
     script: list[str] = []
-    script.append("Good morning. This is Omni View — balanced news perspectives.")
+    ep_str = f", episode {episode_num}" if episode_num else ""
+    script.append(f"Good morning. This is Omni View{ep_str} — balanced news perspectives.")
     script.append(f"Today is {today}.")
     if hook:
         script.append(hook)

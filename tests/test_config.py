@@ -400,8 +400,8 @@ class TestLoadConfigRealFiles:
         assert cfg.llm.model == "grok-3"
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
         assert cfg.audio.music_file == "assets/music/fascinatingfrontiers.mp3"
-        assert cfg.audio.background_music_file == "assets/music/fascinatingfrontiers_bg.mp3"
-        assert cfg.audio.voice_intro_delay == 28.0
+        assert cfg.audio.background_music_file == "assets/music/Fascinating Frontierssmusic.mp3"
+        assert cfg.audio.voice_intro_delay == 5.0
         assert cfg.publishing.rss_category == "Science"
         assert cfg.publishing.x_env_prefix == "PLANETTERRIAN_X_"
         assert cfg.episode.prefix == "Fascinating_Frontiers"
@@ -413,8 +413,8 @@ class TestLoadConfigRealFiles:
         assert len(cfg.sources) == 23
         assert cfg.sources[0].label == "Nature"
         assert "longevity" in cfg.keywords
-        assert cfg.audio.music_file == "assets/music/planetterrian.mp3"
-        assert cfg.audio.outro_duration == 25.0
+        assert cfg.audio.music_file == "assets/music/oilers-pride.mp3"
+        assert cfg.audio.outro_duration == 30.0
         assert cfg.publishing.guid_prefix == "planetterrian-daily"
         assert cfg.episode.prefix == "Planetterrian_Daily"
         assert cfg.episode.output_dir == "digests/planetterrian"
@@ -429,9 +429,9 @@ class TestLoadConfigRealFiles:
         assert cfg.llm.model == "grok-4"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.llm.max_tokens == 3200
-        assert cfg.tts.stability == 0.35
-        assert cfg.tts.style == 0.2
-        assert cfg.audio.music_file == "assets/music/omni_view.mp3"
+        assert cfg.tts.stability == 0.65
+        assert cfg.tts.style == 0.85
+        assert cfg.audio.music_file == "assets/music/LubechangeOilers.mp3"
         assert cfg.publishing.rss_category == "News"
         assert cfg.publishing.guid_prefix == "omni-view"
         assert cfg.episode.prefix == "Omni_View"
@@ -442,15 +442,16 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "env_intel.yaml")
         assert cfg.name == "Environmental Intelligence"
         assert cfg.slug == "env_intel"
-        assert len(cfg.sources) == 19
+        assert len(cfg.sources) == 24
         assert cfg.sources[0].label == "BC Ministry of Environment"
         assert "contaminated sites" in cfg.keywords
+        assert "CCME" in cfg.keywords
         assert cfg.llm.model == "grok-4"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
         assert cfg.tts.stability == 0.65
         assert cfg.tts.max_chars == 4500
-        assert cfg.audio.music_file == "assets/music/env_intel.mp3"
+        assert cfg.audio.music_file == "assets/music/tesla_shorts_time.mp3"
         assert cfg.publishing.x_enabled is False
         assert cfg.episode.prefix == "Env_Intel"
         assert cfg.episode.output_dir == "digests/env_intel"

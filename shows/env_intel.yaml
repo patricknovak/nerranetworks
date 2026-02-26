@@ -1,9 +1,9 @@
 name: Environmental Intelligence
 slug: env_intel
-description: Daily environmental regulatory, science, and compliance briefing for BC environmental professionals.
+description: Daily environmental regulatory, science, and compliance briefing for Canadian environmental professionals covering all provinces, territories, and federal jurisdictions.
 
 sources:
-  # BC Government
+  # British Columbia
   - url: https://news.gov.bc.ca/ministries/environment-and-parks/feed
     label: BC Ministry of Environment
   - url: https://news.gov.bc.ca/ministries/energy-and-climate-solutions/feed
@@ -13,15 +13,29 @@ sources:
   - url: https://news.gov.bc.ca/ministries/emergency-management-and-climate-readiness/feed
     label: BC Emergency Management
 
+  # Alberta
+  - url: https://www.alberta.ca/news-rss-feeds.aspx
+    label: Alberta Government News
+  - url: https://www.aer.ca/providing-information/news-and-resources/news-and-announcements/rss-feeds
+    label: Alberta Energy Regulator
+
+  # Ontario
+  - url: https://news.ontario.ca/en/rss
+    label: Ontario Government News
+
   # Federal Canada
   - url: https://www.gazette.gc.ca/rss/p1-eng.xml
     label: Canada Gazette Part I
   - url: https://www.gazette.gc.ca/rss/p2-eng.xml
     label: Canada Gazette Part II
+  - url: https://www.canada.ca/en/environment-climate-change/news.atom
+    label: Environment and Climate Change Canada
+  - url: https://www.canada.ca/en/impact-assessment-agency/news.atom
+    label: Impact Assessment Agency of Canada
   - url: https://ecojustice.ca/feed/
     label: Ecojustice
 
-  # US EPA
+  # US EPA (cross-border relevance)
   - url: https://www.epa.gov/newsreleases/search/rss
     label: US EPA
 
@@ -33,17 +47,17 @@ sources:
   - url: https://www.science.org/rss/news_current.xml
     label: Science AAAS
 
-  # BC / Canadian Environmental News
+  # Canadian Environmental News
   - url: https://thenarwhal.ca/feed/
     label: The Narwhal
-  - url: https://thenarwhal.ca/tag/b-c/feed/
-    label: The Narwhal BC
   - url: https://thetyee.ca/rss2.xml
     label: The Tyee
-  - url: https://www.cbc.ca/webfeed/rss/rss-canada-britishcolumbia
-    label: CBC British Columbia
+  - url: https://www.cbc.ca/webfeed/rss/rss-canada
+    label: CBC Canada
   - url: https://www.desmog.com/feed/
     label: DeSmog
+  - url: https://www.canadiangeographic.ca/rss
+    label: Canadian Geographic
 
   # General Environmental / Climate
   - url: https://grist.org/feed/
@@ -93,6 +107,23 @@ keywords:
   - effluent
   - discharge
   - environmental monitoring
+  # Pan-Canadian additions
+  - CCME
+  - federal impact assessment
+  - Alberta Energy Regulator
+  - AER
+  - Ontario environmental
+  - Quebec environment
+  - Saskatchewan environment
+  - Manitoba environment
+  - provincial regulation
+  - interprovincial
+  - pipeline
+  - tailings
+  - oil sands
+  - mining environmental
+  - fisheries act
+  - species at risk
 
 llm:
   provider: xai
@@ -113,13 +144,13 @@ tts:
   max_chars: 4500
 
 audio:
-  # Music file placeholder — generate using prompts in assets/music/README.md
-  # Falls back to voice-only gracefully if file does not exist yet
-  music_file: assets/music/env_intel.mp3
-  intro_duration: 4.0
-  overlap_duration: 2.0
-  fade_duration: 14.0
-  outro_duration: 20.0
+  music_file: assets/music/tesla_shorts_time.mp3
+  voice_intro_delay: 5.0
+  intro_duration: 5.0
+  overlap_duration: 10.0
+  fade_duration: 10.0
+  outro_duration: 30.0
+  outro_crossfade: 20.0
   intro_volume: 0.4
   overlap_volume: 0.3
   fade_volume: 0.25
@@ -128,7 +159,7 @@ audio:
 publishing:
   rss_file: env_intel_podcast.rss
   rss_title: "Environmental Intelligence"
-  rss_description: "Daily environmental regulatory, science, and compliance briefing for BC environmental professionals. Covering contaminated sites, remediation, environmental law, and climate policy."
+  rss_description: "Daily environmental regulatory, science, and compliance briefing for Canadian environmental professionals. Covering contaminated sites, remediation, environmental law, and climate policy across all provinces, territories, and federal jurisdictions."
   rss_link: https://patricknovak.github.io/Tesla-shorts-time/env-intel.html
   rss_author: Environmental Intelligence
   rss_email: contact@teslashortstime.com
