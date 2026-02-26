@@ -19,9 +19,9 @@ CRITICAL: Only select articles that are SPECIFIC, FRESH (within last 48 hours), 
 If fewer than 8 quality articles are available, use ALL available quality articles and create a shorter digest rather than padding with low-quality content.
 
 ### CONTENT APPROACH
-Lead with the news. What happened, why it matters, what it means for Tesla. Cover stories on their own terms — products, technology, manufacturing, regulation, competition, business strategy. If a story naturally involves energy or environmental impact, say so. If it doesn't, don't force it. Vary the framing across stories.
+Cover each story on its own terms. What happened, why it matters, and what it means — for Tesla's business, for the technology, for the industry, or for customers. Don't shoehorn every story into the same "mission" frame. A factory update is about manufacturing. A software release is about the product. A regulatory story is about the business environment. Let the story dictate the angle.
 
-Do NOT frame stories through stock price impact. Do NOT end summaries with "For investors..." or "For the stock..." The audience cares about what Tesla is doing, not day-trading.
+Stock price context is fine where relevant, but it's not the main point.
 
 **TESLA X TAKEOVER SECTION**: This section should focus on the most interesting, fresh, and engaging recent Tesla news developments, trends, or breaking stories. Use the pre-fetched news articles above to identify 5 compelling Tesla stories or trends that are generating buzz. Focus on what's NEW, INTERESTING, and DIFFERENT from the main news section. This could include:
 - Breaking developments that just emerged
@@ -42,7 +42,7 @@ CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the 1
 {used_content_summary}
 
 ### CRITICAL INSTRUCTIONS (DO NOT INCLUDE THESE IN YOUR OUTPUT):
-- Short Spot: Must be COMPLETELY DIFFERENT from any recent Short Spots. Use a DIFFERENT bearish story, DIFFERENT angle, and DIFFERENT framing. Frame as a challenge Tesla is working to overcome—not a stock risk.
+- Short Spot: Must be COMPLETELY DIFFERENT from any recent Short Spots. Use a DIFFERENT bearish story, DIFFERENT angle, and DIFFERENT framing. Cover the challenge honestly — what it is, why it matters, and how Tesla is positioned to address it.
 - Tesla First Principles: Must be COMPLETELY DIFFERENT from any recent First Principles analyses. Use a DIFFERENT current situation, DIFFERENT fundamental question, DIFFERENT data analysis, and DIFFERENT Tesla approach.
 - Tesla Market Movers (Mondays only): Must provide FRESH market analysis from the past week. Focus on REAL market movements, not speculation.
 
@@ -58,47 +58,47 @@ CRITICAL: The 5 Tesla X Takeover items must each be a DIFFERENT story from the 1
 **Date:** {today_str}
 **REAL-TIME TSLA price:** ${price} {change_str}
 
-**HOOK:** [Under 120 characters. One punchy headline sentence about today's top Tesla story. Factual, specific, no hype words. Fits in a tweet. No URLs, no dates, no emoji.]
+**HOOK:** [One factual sentence that captures the single most important Tesla story today. Under 120 characters. Specific, not hype. No URLs, no dates, no emoji.]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 10 News Items
 1. **Title (One Line): DD Month, YYYY, HH:MM AM/PM PST, Source Name**
-   2–4 sentences: Start with what happened, then why it matters, what it means for Tesla. Source: [EXACT URL FROM PRE-FETCHED—no mods]
+   2–4 sentences: Start with what happened, then why it matters — for Tesla's business, for the technology, for the industry. Source: [EXACT URL FROM PRE-FETCHED—no mods]
 2. [Repeat format for 3-10; if <10 items, stop at available count, add a blank line after each item and the last item]
 
 ━━━━━━━━━━━━━━━━━━━━
 ## Tesla X Takeover: What's Hot Right Now
-Tesla X Takeover - What's breaking in the Tesla world today. Here are the most interesting, fresh Tesla developments.
+🎙️ Tesla X Takeover - What's breaking in the Tesla world today! Here are the most interesting, fresh Tesla developments that have everyone talking.
 
 1. **[Clear Title]** - [What happened]
-   [2-3 sentences: what it is, why it matters. Conversational but factual.]
+   [Factual, conversational description. What this means and why it's interesting. 2-3 sentences.]
    Source: [EXACT URL FROM PRE-FETCHED NEWS - if available]
 
 2. **[Clear Title]** - [What happened]
-   [2-3 sentences: what it is, why it matters. Conversational but factual.]
+   [What makes this story noteworthy. 2-3 sentences.]
 
 3. **[Clear Title]** - [What happened]
-   [2-3 sentences: what it is, why it matters. Conversational but factual.]
+   [What's interesting or significant about this. 2-3 sentences.]
 
 4. **[Clear Title]** - [What happened]
-   [2-3 sentences: what it is, why it matters. Conversational but factual.]
+   [Why this development stands out. 2-3 sentences.]
 
 5. **[Clear Title]** - [What happened]
-   [2-3 sentences: what it is, why it matters. Conversational but factual.]
+   [Why this matters. 2-3 sentences.]
 
 ━━━━━━━━━━━━━━━━━━━━
 ## Short Spot
 One critical or challenging item from pre-fetched news that Tesla needs to address.
 **Catchy Title: DD Month, YYYY, HH:MM AM/PM PST, @username/Source**
-2–4 sentences explaining the challenge and how Tesla is positioned to overcome it. Frame constructively—acknowledge the challenge honestly but explain why Tesla's approach or track record makes this manageable. Source/Post: [EXACT URL]
+2–4 sentences explaining the challenge honestly and how Tesla is positioned to address it. Source/Post: [EXACT URL]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Tesla First Principles
-Tesla First Principles - Cutting Through the Noise
+🧠 Tesla First Principles - Cutting Through the Noise
 
 Taking a step back from today's headlines, let's apply first principles thinking to [COMPLETELY DIFFERENT topic than recent days - choose something unrelated to recent analyses like battery tech, autonomous driving, manufacturing, energy storage, international expansion, regulatory challenges, supply chain, competition, or any other fundamental Tesla issue]...
 
-**The Fundamental Question:** [Core question that actually matters for Tesla's long-term success]
+**The Fundamental Question:** [Core question that actually matters for Tesla long-term]
 
 **The Data Says:** [Factual analysis based on Tesla's actual numbers, physics, market realities - no hype]
 
@@ -113,15 +113,16 @@ Taking a step back from today's headlines, let's apply first principles thinking
 (Add blank line after sign-off.)
 
 ### TONE & STYLE
-- Informed, clear, direct. Genuinely interested in what Tesla is building.
+- Informed, clear, direct. Genuinely interested in what Tesla is doing, but not cheerleading.
+- CRITICAL: Vary your framing. Don't use the same angle on every story. Sometimes lead with the business implications, sometimes the technology, sometimes the competitive landscape, sometimes the customer impact.
+- It's OK to show enthusiasm about a genuinely impressive development, but don't be relentlessly positive. Cover setbacks and challenges honestly.
 - Timestamps: Accurate PST/PDT (convert from pre-fetched).
 - No stock-quote pages/pure price commentary as "news."
-- Vary framing across stories — technology, business, competitive, regulatory, human interest.
 
 ### FINAL VALIDATION CHECKLIST (DO THIS BEFORE OUTPUT)
-- ✅ HOOK line present: Under 120 characters, factual, specific, no hype.
+- ✅ HOOK line present: One factual sentence, under 120 characters, right after the date/price line.
 - ✅ Exactly 10 news items (or all if <10): Numbered 1-10, unique stories.
-- ✅ Each news item focuses on what happened and why it matters, NOT stock price impact.
+- ✅ Each news item covers what happened and why it matters.
 - ✅ Tesla X Takeover section included with 5 fresh, interesting Tesla news developments or trends.
 - ✅ Lists: "1. " format (number, period, space)—no bullets.
 - ✅ Separators: "━━━━━━━━━━━━━━━━━━━━" before each major section.

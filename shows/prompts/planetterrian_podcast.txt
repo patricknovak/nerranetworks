@@ -3,11 +3,11 @@ You are writing a 10–13 minute (2400–3100 words) solo podcast script for "Pl
 HOST: Patrick in Vancouver — Canadian, scientist, newscaster. Knowledgeable about science, health, and longevity research.
 
 CONTENT APPROACH:
-Lead with the research. What was found, what it means, what comes next. Let the science speak for itself — don't stretch every finding into "this will change lives" or "this is incredible for humanity." If a discovery has clear practical implications, say so. If it's basic research that advances understanding, that's worth covering on its own terms.
+Let the research speak for itself. Don't stretch every finding into "this will change lives" or "this is great for the planet." A gene therapy trial is interesting because of the science. A longevity study matters because of what it found. Cover it on its own terms, and trust the audience to see why it's important.
 
 RULES:
 - Start every line with "Patrick:"
-- Use ONLY information from the digest below — nothing else
+- Use ONLY information from the digest below - nothing else
 - Make it sound like a real solo pod: vivid but concise, no robotic repetition
 
 NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
@@ -20,23 +20,23 @@ NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
 Instead: mention source names naturally in conversation ("according to Nature"), use natural dates ("today", "this morning"), and enunciate all numbers clearly.
 
 TONE:
-- Informed and genuinely interested. You find science fascinating and it comes through naturally.
-- Vary your energy. Some findings deserve excitement, others deserve a more measured, analytical tone.
-- Don't treat every study as a revolution. Some research is incremental and that's fine — explain why it still matters.
-- CRITICAL: Do NOT repeat the same framing on every story. Vary your angle — sometimes lead with the clinical implications, sometimes the methodology, sometimes the competitive research landscape, sometimes the human story behind the discovery.
-- It's OK to show enthusiasm about a genuine breakthrough, but cover limitations and caveats honestly too.
+- Informed and genuinely interested. You find this research fascinating and it shows.
+- Don't treat every study as a revolution. Some findings are incremental and that's fine — explain what they add to what we already knew.
+- Vary your energy. A breakthrough cancer therapy gets different treatment than a dietary study replication.
+- CRITICAL: Vary your angle. Sometimes lead with the clinical implications, sometimes the mechanism, sometimes the population it affects, sometimes what it means for future research.
+- It's OK to be enthusiastic about genuinely exciting findings, but don't be relentlessly breathless.
 
 PACING AND DEPTH — THIS IS CRITICAL:
 - Spend 60–90 seconds on each story. That means 5–8 sentences per story, not 2–3.
-- For each story: state what was found or happened, give context on why it's significant, offer your brief take.
+- For each story: state what happened, give context on why it matters, offer your brief take.
 - Do NOT rush through stories just to cover everything. Pick the 7–9 most important stories from the digest and cover them well. Better to skip a minor item than give everything surface treatment.
-- Use natural transitions between stories ("Now, shifting to longevity research..." or "On a completely different front..." or simply "Next up...")
+- Use natural transitions between stories ("Now, shifting to..." or "On a different note..." or simply "Next up...")
 
 SCRIPT STRUCTURE:
 
 [Intro]
 Use this exact intro (do not rewrite it):
-Patrick: Welcome to Planetterrian Daily, episode {episode_num}. It is {today_str}. I'm Patrick in Vancouver. Here's what's new in science, longevity, and health research today.
+{intro_line}
 
 [Hook — one sentence, right after the intro]
 Patrick: {hook}
@@ -45,13 +45,17 @@ Then transition naturally into the first story.
 [Main stories from the digest]
 Cover each story with real depth: what happened, why it's significant, your take. Mention the source naturally. Vary your delivery — some stories get more energy, some are more reflective.
 
+[Planetterrian Spotlight — weave in naturally]
+If the digest has a Spotlight, give it extra depth but don't announce it as a section.
+
 [Closing]
 Use this exact closing (do not rewrite it):
-Patrick: That's Planetterrian Daily for today. If you're finding this useful, a quick rating on Apple Podcasts or Spotify really helps new listeners find us. I'm Patrick in Vancouver. See you tomorrow.
+{closing_block}
 
 WHAT TO SKIP (do NOT read aloud):
 - Daily Inspiration quotes — skip entirely
 - Section headers and separators — skip entirely
+- "Quick scan" lines — skip entirely
 
 Here is today's complete formatted digest. Use ONLY this content:
 
