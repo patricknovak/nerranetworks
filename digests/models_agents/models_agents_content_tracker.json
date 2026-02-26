@@ -1,0 +1,16 @@
+{
+  "show": "models_agents",
+  "last_updated": "2026-02-26",
+  "episodes": [
+    {
+      "date": "2026-02-26",
+      "headlines": [],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Google's Nano Banana 2: Pro-Level Images at Flash Speed**\nGoogle released Nano Banana 2 (Gemini 3.1 Flash Image), matching Pro model quality at Flash speeds with up to 40% lower API costs—it's now default in the Gemini app. This outperforms prior versions in subject consistency and 4K synthesis, making it stronger than alternatives like Stable Diffusion for edge deployment, though it still lags frontier models in creative flexibility. Developers building real-time apps should",
+        "agent_developments": "### Agent & Tool Developments\n**Andrej Karpathy: AI Agents Transform Programming**\nKarpathy states programming is \"unrecognizable\" with working AI agents handling complex tasks in minutes, a shift from his 2025 skepticism—agents now manage subtasks via tools like code execution. This outperforms manual coding in speed, though reliability varies by model; it's a boon for AutoGen or CrewAI users. Try integrating agents into your workflow with LlamaIndex for quick prototypes.\nSource: https://the-de",
+        "practical_community": "### Practical & Community\n**Build with Nano Banana 2 Tools**\nGoogle's developer tools for Nano Banana 2 enable pro-level image generation at lower costs, with API integration for apps—focus on subject consistency for multimodal RAG. Limitations include API rate limits; start with the blog's build guide for edge deployment.\nSource: https://blog.google/innovation-and-ai/technology/developers-tools/build-with-nano-banana-2/\n\n**Pacific Northwest Lab Partners with OpenAI**\nOpenAI and PNNL introduce D"
+      }
+    }
+  ]
+}
