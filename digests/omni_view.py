@@ -1184,9 +1184,9 @@ def create_omni_view_podcast(script_text: str) -> tuple[Path, float]:
         api_key=api_key,
         max_chars=int(os.getenv("ELEVENLABS_MAX_CHARS", "4500")),
         model_id=os.getenv("ELEVENLABS_MODEL_ID", "eleven_turbo_v2_5"),
-        stability=float(os.getenv("ELEVENLABS_STABILITY", "0.35")),
-        similarity_boost=float(os.getenv("ELEVENLABS_SIMILARITY_BOOST", "0.75")),
-        style=float(os.getenv("ELEVENLABS_STYLE", "0.2")),
+        stability=float(os.getenv("ELEVENLABS_STABILITY", "0.65")),
+        similarity_boost=float(os.getenv("ELEVENLABS_SIMILARITY_BOOST", "0.9")),
+        style=float(os.getenv("ELEVENLABS_STYLE", "0.85")),
         stream=False,
         append_exclamation=False,
     )
@@ -1336,7 +1336,7 @@ if __name__ == "__main__":
             _audio_url = None
             try:
                 if ENABLE_PODCAST and final_mp3:
-                    _audio_url = f"{_base_url}/digests/{final_mp3.name}"
+                    _audio_url = f"{_base_url}/digests/omni_view/{final_mp3.name}"
             except Exception:
                 _audio_url = None
 

@@ -166,35 +166,42 @@ modules. Goal is for all shows to run via `run_show.py` + YAML configs.
 
 ## Known Landmines
 
-### From Directory Audit (`docs/directory_audit.md`)
+### Active Issues
 
-1. **TST dumps output into `digests/` flat** — mixed with source code.
-   All other shows use subdirectories.
-2. **Legacy `digests/digests/` path bug** — 20 early Tesla files written to
-   wrong nested directory. RSS still references them.
-3. **65 duplicate `_formatted.md` files** — Tesla-only, appear identical to
-   plain `.md` versions.
-
-### From Env Var Audit (`docs/env_var_inventory.md`)
-
-4. **`NEWSAPI_KEY`** set in workflow but never used in code (dead secret).
-5. **OV feature flags are env-overridable** (`TEST_MODE`, `ENABLE_X_POSTING`,
-   etc.) but the other 3 shows hardcode them.
-6. **ElevenLabs tuning vars** (`ELEVENLABS_STABILITY`, etc.) only used by OV;
-   TST/FF/PT hardcode their settings.
-
-### From Audio Storage Plan (`docs/audio_storage_plan.md`)
-
-7. **2.2 GB of MP3s in git** — repo will hit GitHub's 10 GB limit within ~6
+1. **2.2 GB of MP3s in git** — repo will hit GitHub's 10 GB limit within ~6
    months at current growth. Cloudflare R2 migration recommended.
-8. **Git LFS breaks RSS** — `raw.githubusercontent.com` returns pointer files
+2. **Git LFS breaks RSS** — `raw.githubusercontent.com` returns pointer files
    for LFS-tracked content. Do NOT use LFS for MP3s.
+3. **Historical TST/OV flat files in `digests/`** — ~220 legacy output files
+   (MP3s, markdown, JSON, HTML, TXT) remain at the `digests/` top level from
+   before shows were migrated to subdirectories. These cannot be moved without
+   breaking existing RSS feed URLs. New episodes now write to subdirectories.
 
-### Recent Cleanup (Feb 2026)
+### Resolved Issues (Feb 2026)
 
-9. **Early episodes deleted** — first 20 Tesla, 10 FF, 10 PT, 10 OV episodes
-   removed (quality issues). RSS entries removed where applicable.
-10. **Chatterbox TTS fully removed** — ElevenLabs is the only TTS provider.
+4. **TST/OV output dirs fixed** — `shows/tesla.yaml` and `shows/omni_view.yaml`
+   now use `digests/tesla_shorts_time/` and `digests/omni_view/` for
+   `output_dir` and `audio_subdir`, matching FF/PT/EI. Legacy scripts already
+   pointed to subdirectories. Audio URL construction in both legacy scripts
+   also fixed.
+5. **Legacy `digests/digests/` path bug cleaned up** — nested directory deleted,
+   RSS references removed, SETUP.md corrected. Defensive scanning code remains
+   in `tesla_shorts_time.py` in case any legacy files resurface.
+6. **58 duplicate `_formatted.md` files deleted** — removed in commit
+   `0c10b7f`, code no longer generates them.
+7. **`NEWSAPI_KEY` dead secret removed** — not present in active workflow
+   (`run-show.yml`), not used in any code. Integration test
+   `test_no_newsapi_in_active_workflow()` guards against re-introduction.
+8. **Feature flags consistent across shows** — all four legacy scripts
+   (TST, FF, PT, OV) support env-overridable `TEST_MODE`, `ENABLE_X_POSTING`,
+   `ENABLE_PODCAST`, and `ENABLE_GITHUB_SUMMARIES`. `run_show.py` uses
+   CLI flags (`--test`, `--skip-x`, `--skip-podcast`) instead.
+9. **OV ElevenLabs tuning defaults aligned** — OV legacy script defaults
+   updated from 0.35/0.75/0.2 to 0.65/0.9/0.85, matching all YAML configs
+   and other legacy scripts. Env var overrides still supported.
+10. **Early episodes deleted** — first 20 Tesla, 10 FF, 10 PT, 10 OV episodes
+    removed (quality issues). RSS entries removed where applicable.
+11. **Chatterbox TTS fully removed** — ElevenLabs is the only TTS provider.
     All Chatterbox code, requirements, docs, and voice prompt assets deleted.
-11. **Summaries JSONs moved** — all summaries live in per-show subdirectories
+12. **Summaries JSONs moved** — all summaries live in per-show subdirectories
     (`digests/<show>/summaries_*.json`), not at the `digests/` top level.
