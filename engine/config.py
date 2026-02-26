@@ -62,6 +62,7 @@ class AudioConfig:
     fade_volume: float = 0.4
     outro_volume: float = 0.4
     voice_intro_delay: float = 0.0
+    outro_crossfade: float = 0.0
 
 
 @dataclass

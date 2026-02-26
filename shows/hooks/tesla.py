@@ -18,7 +18,7 @@ from engine.utils import number_to_words
 logger = logging.getLogger(__name__)
 
 
-def pre_fetch(config) -> dict:
+def pre_fetch(config, *, episode_num: int | None = None, today_str: str | None = None) -> dict:
     """Return extra template variables for the Tesla digest/podcast prompts.
 
     Called by ``run_show.py`` before digest generation.  Returns a dict
@@ -50,7 +50,7 @@ def pre_fetch(config) -> dict:
 
     # Podcast-specific vars
     context["tone_hint"] = _tone_from_change(change_str)
-    context["intro_line"] = _pick_intro(context)
+    context["intro_line"] = _pick_intro(context, episode_num=episode_num, today_str=today_str)
     context["closing_block"] = _pick_closing(context)
 
     return context
@@ -155,15 +155,23 @@ def _tone_from_change(change_str: str) -> str:
     return "steady day — natural and conversational"
 
 
-def _pick_intro(context: dict) -> str:
+def _pick_intro(
+    context: dict,
+    *,
+    episode_num: int | None = None,
+    today_str: str | None = None,
+) -> str:
     """Return a standard intro line for the podcast script.
 
-    Stock price is reserved for the closing only — the intro focuses
-    on welcoming listeners and setting up the mission-focused content.
+    Includes episode number and date so listeners know exactly which
+    episode they're hearing.  Stock price is reserved for the closing.
     """
+    ep_part = f", episode {episode_num}" if episode_num else ""
+    date_part = f" Today is {today_str}." if today_str else ""
     return (
-        "Patrick: Hey, welcome to Tesla Shorts Time Daily. "
-        "I'm Patrick in Vancouver. Here's what's happening with Tesla today."
+        f"Patrick: Hey, welcome to Tesla Shorts Time Daily{ep_part}. "
+        f"I'm Patrick in Vancouver.{date_part} "
+        f"Here's what's happening with Tesla today."
     )
 
 

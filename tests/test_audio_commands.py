@@ -544,30 +544,32 @@ class TestShowMusicConfigs:
     def test_tesla_has_music(self, load_config):
         cfg = load_config("shows/tesla.yaml")
         assert cfg.audio.music_file == "assets/music/tesla_shorts_time.mp3"
-        assert cfg.audio.voice_intro_delay == 0.0
+        assert cfg.audio.voice_intro_delay == 5.0
+        assert cfg.audio.outro_crossfade == 20.0
 
     def test_ff_has_dual_music(self, load_config):
         cfg = load_config("shows/fascinating_frontiers.yaml")
         assert cfg.audio.music_file == "assets/music/fascinatingfrontiers.mp3"
-        assert cfg.audio.background_music_file == "assets/music/fascinatingfrontiers_bg.mp3"
-        assert cfg.audio.voice_intro_delay == 28.0
-        assert cfg.audio.intro_duration == 28.0
+        assert cfg.audio.background_music_file == "assets/music/Fascinating Frontierssmusic.mp3"
+        assert cfg.audio.voice_intro_delay == 5.0
+        assert cfg.audio.fade_duration == 27.0
 
     def test_pt_has_music(self, load_config):
         cfg = load_config("shows/planetterrian.yaml")
-        assert cfg.audio.music_file == "assets/music/planetterrian.mp3"
+        assert cfg.audio.music_file == "assets/music/oilers-pride.mp3"
 
     def test_ov_has_music(self, load_config):
         cfg = load_config("shows/omni_view.yaml")
-        assert cfg.audio.music_file == "assets/music/omni_view.mp3"
+        assert cfg.audio.music_file == "assets/music/LubechangeOilers.mp3"
 
     def test_ei_has_music(self, load_config):
         cfg = load_config("shows/env_intel.yaml")
-        assert cfg.audio.music_file == "assets/music/env_intel.mp3"
+        assert cfg.audio.music_file == "assets/music/tesla_shorts_time.mp3"
 
-    def test_ei_shorter_timing(self, load_config):
-        """EI uses shorter, subtler music appropriate for briefing format."""
+    def test_ei_standard_timing(self, load_config):
+        """EI uses standard intro timing with lower volumes for briefing format."""
         cfg = load_config("shows/env_intel.yaml")
-        assert cfg.audio.intro_duration == 4.0
-        assert cfg.audio.outro_duration == 20.0
+        assert cfg.audio.intro_duration == 5.0
+        assert cfg.audio.outro_duration == 30.0
+        assert cfg.audio.outro_crossfade == 20.0
         assert cfg.audio.intro_volume <= 0.5

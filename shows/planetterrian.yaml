@@ -107,12 +107,13 @@ tts:
   max_chars: 5000
 
 audio:
-  # Music file placeholder — generate using prompts in assets/music/README.md
-  music_file: assets/music/planetterrian.mp3
+  music_file: assets/music/oilers-pride.mp3
+  voice_intro_delay: 5.0
   intro_duration: 5.0
-  overlap_duration: 3.0
-  fade_duration: 18.0
-  outro_duration: 25.0
+  overlap_duration: 10.0
+  fade_duration: 10.0
+  outro_duration: 30.0
+  outro_crossfade: 20.0
   intro_volume: 0.6
   overlap_volume: 0.5
   fade_volume: 0.4

@@ -288,14 +288,15 @@ def mix_with_music(
     outro_volume: float = 0.4,
     voice_intro_delay: float = 0.0,
     background_music_path: Optional[Path] = None,
+    outro_crossfade: float = 0.0,
 ) -> Path:
     """Full music mixing pipeline supporting three modes.
 
     **Standard mode** (voice_intro_delay=0, no background_music_path):
       0–5 s:  music intro alone (intro_volume)
-      5–8 s:  music overlap while voice starts (overlap_volume)
-      8–26 s: music fadeout (fade_volume -> 0, logarithmic)
-      26 s–end: silence (no music under voice)
+      5–15 s: music overlap while voice starts (overlap_volume)
+      15–25 s: music fadeout (fade_volume -> 0, logarithmic)
+      25 s–end: silence (no music under voice)
       after voice: 30 s outro with fade-in/out
 
     **Delayed-intro mode** (voice_intro_delay > 0):
@@ -307,6 +308,11 @@ def mix_with_music(
       Primary *music_path* is used for intro/overlap/fadeout segments.
       *background_music_path* is used for the outro segment, allowing a
       different musical feel for the show's closing.
+
+    **Outro crossfade** (outro_crossfade > 0):
+      Outro music begins fading in *outro_crossfade* seconds before the
+      voice ends, overlapping the final portion of speech.  The outro then
+      continues for *outro_duration* seconds after the voice finishes.
 
     If *music_path* doesn't exist, normalizes voice only and returns.
     """
@@ -380,6 +386,26 @@ def mix_with_music(
             subprocess.run(cmd, check=True, capture_output=True)
             return name
 
+        # Calculate outro segment parameters with crossfade support
+        total_outro_duration = int(outro_crossfade + outro_duration)
+        if outro_crossfade > 0:
+            # Fade-in over the crossfade period, fade-out over 3s at end
+            outro_fade_in = int(outro_crossfade)
+            outro_fade_out_start = max(total_outro_duration - 3, 0)
+            outro_fade_out_dur = 3
+            logger.info(
+                "Outro crossfade: music starts %.0fs before voice ends, "
+                "%ds total outro (%ds fade-in, %ds tail).",
+                outro_crossfade, total_outro_duration,
+                outro_fade_in, outro_duration,
+            )
+        else:
+            # Default: short 2s fade-in, 3s fade-out at end
+            total_outro_duration = outro_duration
+            outro_fade_in = 2
+            outro_fade_out_start = max(outro_duration - 3, 0)
+            outro_fade_out_dur = 3
+
         segment_cmds = [
             ("intro", _music_intro_cmd(
                 str(music_path), str(music_intro_f),
@@ -394,13 +420,16 @@ def mix_with_music(
                 volume=fade_volume)),
             ("outro", _music_outro_cmd(
                 str(outro_music), str(music_outro_f),
-                duration=outro_duration, volume=outro_volume)),
+                duration=total_outro_duration, volume=outro_volume,
+                fade_in_duration=outro_fade_in,
+                fade_out_start=outro_fade_out_start,
+                fade_out_duration=outro_fade_out_dur)),
         ]
 
         # Silence between fadeout and outro
         music_bed_duration = intro_duration + overlap_duration + fade_duration
         middle_silence_duration = max(
-            effective_voice_duration - music_bed_duration, 0.0,
+            effective_voice_duration - music_bed_duration - outro_crossfade, 0.0,
         )
 
         if middle_silence_duration > 0.1:
