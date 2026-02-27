@@ -24,6 +24,7 @@ import json
 import logging
 import os
 import sys
+import time
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -184,9 +185,16 @@ def run(args: argparse.Namespace) -> None:
     extra_context: dict = {}
     if hook_module and hasattr(hook_module, "pre_fetch"):
         logger.info("Running pre-fetch hook for %s ...", args.show)
-        extra_context = hook_module.pre_fetch(
-            config, episode_num=episode_num, today_str=today_str,
-        ) or {}
+        try:
+            extra_context = hook_module.pre_fetch(
+                config, episode_num=episode_num, today_str=today_str,
+            ) or {}
+        except Exception as exc:
+            logger.warning(
+                "Pre-fetch hook failed for %s: %s — continuing without hook data",
+                args.show, exc,
+            )
+            extra_context = {}
 
     # 5. Fetch news (with progressive search expansion on slow news days)
     from engine.fetcher import fetch_rss_articles
@@ -238,7 +246,9 @@ def run(args: argparse.Namespace) -> None:
     # 7. Generate digest
     from engine.generator import generate_digest
     logger.info("Generating digest ...")
+    t0 = time.monotonic()
     x_thread = generate_digest(template_vars, config, tracker=tracker)
+    logger.info("Digest generation took %.1fs", time.monotonic() - t0)
 
     # Record episode content in the cross-episode tracker
     if section_patterns:
@@ -311,14 +321,10 @@ def run(args: argparse.Namespace) -> None:
         )
         pod_vars.setdefault("tone_hint", "natural and conversational")
 
-        # OV uses procedural script generation, not LLM
-        if args.show == "omni_view":
-            podcast_script = _generate_omni_view_script(
-                x_thread, hook=hook, episode_num=episode_num,
-            )
-        else:
-            logger.info("Generating podcast script ...")
-            podcast_script = generate_podcast_script(pod_vars, config, tracker=tracker)
+        t0 = time.monotonic()
+        logger.info("Generating podcast script ...")
+        podcast_script = generate_podcast_script(pod_vars, config, tracker=tracker)
+        logger.info("Podcast script generation took %.1fs", time.monotonic() - t0)
 
         # Clean podcast script: strip speaker prefixes and stage directions
         podcast_script = _clean_podcast_script(podcast_script)
@@ -341,6 +347,7 @@ def run(args: argparse.Namespace) -> None:
 
             raw_mp3 = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}_raw.mp3"
             logger.info("Synthesizing audio ...")
+            t0 = time.monotonic()
             synthesize(
                 podcast_script,
                 config.tts.voice_id,
@@ -352,6 +359,7 @@ def run(args: argparse.Namespace) -> None:
                 similarity_boost=config.tts.similarity_boost,
                 style=config.tts.style,
             )
+            logger.info("TTS synthesis took %.1fs", time.monotonic() - t0)
             from engine.tracking import record_tts_usage
             record_tts_usage(tracker, len(podcast_script))
 
@@ -360,6 +368,7 @@ def run(args: argparse.Namespace) -> None:
 
             final_mp3 = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}.mp3"
 
+            t0 = time.monotonic()
             if config.audio.music_file:
                 music_path = PROJECT_ROOT / config.audio.music_file
                 if music_path.exists():
@@ -390,6 +399,7 @@ def run(args: argparse.Namespace) -> None:
             else:
                 normalize_voice(raw_mp3, final_mp3)
 
+            logger.info("Audio mixing took %.1fs", time.monotonic() - t0)
             audio_duration = get_audio_duration(final_mp3)
             logger.info("Final audio: %s (%.0fs)", final_mp3.name, audio_duration)
 
@@ -512,7 +522,17 @@ def run(args: argparse.Namespace) -> None:
         else:
             logger.warning("X credentials missing (prefix=%s). Skipping X post.", prefix)
 
-    # 14. Save tracking
+    # 14. Post-run validation
+    from engine.post_run_validation import run_post_validation
+    run_post_validation(
+        mp3_path=final_mp3,
+        rss_path=rss_path,
+        digest_text=x_thread,
+        show_name=config.name,
+        episode_num=episode_num,
+    )
+
+    # 15. Save tracking
     save_usage(tracker, digests_dir)
     logger.info("=== %s complete ===", config.name)
 

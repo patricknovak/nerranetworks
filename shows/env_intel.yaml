@@ -128,6 +128,7 @@ keywords:
 llm:
   provider: xai
   model: grok-4
+  system_prompt_file: shows/prompts/env_intel_system.txt
   digest_prompt_file: shows/prompts/env_intel_digest.txt
   podcast_prompt_file: shows/prompts/env_intel_podcast.txt
   digest_temperature: 0.5

@@ -24,6 +24,7 @@ Usage:
 """
 
 import datetime
+import fcntl
 import json
 import logging
 import re
@@ -233,11 +234,15 @@ class ContentTracker:
         }
 
     def load(self) -> None:
-        """Load tracker from JSON file."""
+        """Load tracker from JSON file with shared lock."""
         if self.tracker_file.exists():
             try:
                 with open(self.tracker_file, "r", encoding="utf-8") as f:
-                    loaded = json.load(f)
+                    fcntl.flock(f.fileno(), fcntl.LOCK_SH)
+                    try:
+                        loaded = json.load(f)
+                    finally:
+                        fcntl.flock(f.fileno(), fcntl.LOCK_UN)
                 if isinstance(loaded, dict) and "episodes" in loaded:
                     self.data = loaded
                     self._prune_old_episodes()
@@ -261,13 +266,21 @@ class ContentTracker:
         logger.info("Starting fresh content tracker for '%s'", self.show_slug)
 
     def save(self) -> None:
-        """Persist tracker to JSON file."""
+        """Persist tracker to JSON file with file locking.
+
+        Uses ``fcntl.flock()`` to prevent concurrent writes from
+        parallel show runs corrupting the tracker JSON.
+        """
         self._prune_old_episodes()
         self.data["last_updated"] = datetime.date.today().isoformat()
         try:
             self.output_dir.mkdir(parents=True, exist_ok=True)
             with open(self.tracker_file, "w", encoding="utf-8") as f:
-                json.dump(self.data, f, indent=2, ensure_ascii=False)
+                fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+                try:
+                    json.dump(self.data, f, indent=2, ensure_ascii=False)
+                finally:
+                    fcntl.flock(f.fileno(), fcntl.LOCK_UN)
             logger.info("Saved content tracker to %s", self.tracker_file)
         except Exception as e:
             logger.error("Failed to save content tracker: %s", e)

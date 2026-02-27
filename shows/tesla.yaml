@@ -74,7 +74,7 @@ llm:
   system_prompt_file: shows/prompts/tesla_system.txt
   digest_prompt_file: shows/prompts/tesla_digest.txt
   podcast_prompt_file: shows/prompts/tesla_podcast.txt
-  digest_temperature: 0.7
+  digest_temperature: 0.5
   podcast_temperature: 0.9
   max_tokens: 3500
 

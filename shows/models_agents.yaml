@@ -124,6 +124,7 @@ keywords:
 llm:
   provider: xai
   model: grok-4
+  system_prompt_file: shows/prompts/models_agents_system.txt
   digest_prompt_file: shows/prompts/models_agents_digest.txt
   podcast_prompt_file: shows/prompts/models_agents_podcast.txt
   digest_temperature: 0.5

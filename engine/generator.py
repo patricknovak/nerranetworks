@@ -96,6 +96,60 @@ def _call_grok(
 
 
 # ---------------------------------------------------------------------------
+# Output validation
+# ---------------------------------------------------------------------------
+
+# Patterns that suggest leaked prompt instructions in the output
+_INSTRUCTION_LEAK_PATTERNS = [
+    r"(?i)^(RULES|NEVER INCLUDE|CONTENT FOCUS|TONE|SCRIPT STRUCTURE)\s*:",
+    r"(?i)\{[a-z_]+\}",  # Unfilled template placeholders
+    r"(?i)^(Use this exact|Deliver this hook|Narrate EVERY|Here is today)",
+    r"(?i)^As an AI",
+    r"(?i)^I('m| am) (an AI|a language model|ChatGPT|GPT|Claude)",
+]
+
+_MIN_CHARS = {"digest": 200, "podcast_script": 500}
+
+
+def _validate_llm_output(
+    text: str,
+    stage: str = "digest",
+    show_name: str = "unknown",
+) -> None:
+    """Warn if LLM output appears empty, too short, or contains leaked instructions.
+
+    Does not raise — it logs warnings so the pipeline can still proceed
+    (an imperfect episode is better than no episode), but operators are
+    alerted to quality issues.
+    """
+    import re
+
+    if not text or not text.strip():
+        logger.error(
+            "LLM returned EMPTY %s for '%s' — episode will likely be unusable",
+            stage, show_name,
+        )
+        return
+
+    char_count = len(text.strip())
+    min_chars = _MIN_CHARS.get(stage, 200)
+    if char_count < min_chars:
+        logger.warning(
+            "LLM %s for '%s' is suspiciously short (%d chars, minimum expected %d)",
+            stage, show_name, char_count, min_chars,
+        )
+
+    # Check for leaked prompt instructions
+    for pattern in _INSTRUCTION_LEAK_PATTERNS:
+        if re.search(pattern, text, re.MULTILINE):
+            logger.warning(
+                "LLM %s for '%s' may contain leaked prompt instructions (matched: %s)",
+                stage, show_name, pattern,
+            )
+            break
+
+
+# ---------------------------------------------------------------------------
 # Public generation functions
 # ---------------------------------------------------------------------------
 
@@ -127,12 +181,20 @@ def generate_digest(
         The generated digest text.
     """
     prompt = load_prompt(config.llm.digest_prompt_file, template_vars)
+
+    system_prompt = None
+    if config.llm.system_prompt_file:
+        sp_path = Path(config.llm.system_prompt_file)
+        if sp_path.exists():
+            system_prompt = sp_path.read_text(encoding="utf-8").strip()
+
     logger.info("Generating digest for '%s' (model=%s, temp=%.1f) ...",
                 config.name, config.llm.model, config.llm.digest_temperature)
 
     text, meta = _call_grok(
         prompt,
         model=config.llm.model,
+        system_prompt=system_prompt,
         temperature=config.llm.digest_temperature,
         max_tokens=config.llm.max_tokens,
     )
@@ -151,6 +213,10 @@ def generate_digest(
 
     logger.info("Digest generated (%d chars, %s tokens)",
                 len(text), meta.get("usage", {}).get("total_tokens", "?"))
+
+    # Validate the digest is usable
+    _validate_llm_output(text, stage="digest", show_name=config.name)
+
     return text
 
 
@@ -214,4 +280,8 @@ def generate_podcast_script(
 
     logger.info("Podcast script generated (%d chars, %s tokens)",
                 len(text), meta.get("usage", {}).get("total_tokens", "?"))
+
+    # Validate the podcast script is usable
+    _validate_llm_output(text, stage="podcast_script", show_name=config.name)
+
     return text

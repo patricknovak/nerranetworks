@@ -381,7 +381,7 @@ class TestLoadConfigRealFiles:
         assert cfg.sources[0].label == "Teslarati"
         assert "tsla" in cfg.keywords
         assert cfg.llm.model == "grok-4"
-        assert cfg.llm.digest_temperature == 0.7
+        assert cfg.llm.digest_temperature == 0.5
         assert cfg.llm.podcast_temperature == 0.9
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
         assert cfg.audio.music_file == "assets/music/tesla_shorts_time.mp3"
@@ -397,7 +397,7 @@ class TestLoadConfigRealFiles:
         assert len(cfg.sources) == 28
         assert cfg.sources[0].label == "NASA Breaking"
         assert "space" in cfg.keywords
-        assert cfg.llm.model == "grok-3"
+        assert cfg.llm.model == "grok-4"
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
         assert cfg.audio.music_file == "assets/music/fascinatingfrontiers.mp3"
         assert cfg.audio.background_music_file == "assets/music/fascinatingfrontiers_bg.mp3"

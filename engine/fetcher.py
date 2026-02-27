@@ -292,8 +292,10 @@ def fetch_rss_articles(
 
     logger.info("Fetched %d total articles from RSS feeds", len(all_articles))
     if problematic_feeds:
-        logger.debug(
-            "Skipped %d problematic feed(s)", len(problematic_feeds)
+        logger.warning(
+            "Skipped %d problematic feed(s): %s",
+            len(problematic_feeds),
+            ", ".join(sorted(problematic_feeds)),
         )
 
     if not all_articles:
