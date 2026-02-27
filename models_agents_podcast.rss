@@ -8,7 +8,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Feb 2026 20:39:17 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 27 Feb 2026 19:26:31 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
     <itunes:category text="Technology"/>
     <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
@@ -19,8 +19,69 @@
     </itunes:owner>
     <itunes:summary>Daily AI briefing covering new model releases, agent frameworks, and the latest developments in AI. Not the models and agents you are thinking about! Stay on top of the most exciting developments of our generation.</itunes:summary>
     <item>
+      <title>Ep 2: Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.</title>
+      <link>https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep002_20260227.mp3</link>
+      <description># Models &amp; Agents
+**Date:** February 27, 2026
+
+**HOOK:** Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.
+
+**What You Need to Know:** Sakana AI introduced Doc-to-LoRA and Text-to-LoRA, innovative hypernetworks that enable instant, zero-shot adaptation of LLMs to long contexts and tasks using natural language, bypassing traditional trade-offs between in-context learning and fine-tuning. OpenAI and Amazon announced a partnership integrating OpenAI's Frontier platform into AWS for expanded AI agents and custom models, while new arXiv papers explore advanced multi-agent frameworks like ClawMobile for smartphone-native agents and HyperAgent for optimized communication topologies. Pay attention this week to how these developments enhance agentic workflows in finance and mobile environments, offering practical boosts for developers building scalable, adaptive systems.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Sakana AI has unveiled Doc-to-LoRA and Text-to-LoRA, two hypernetworks designed to instantly internalize long contexts and adapt LLMs via zero-shot natural language instructions. These approaches amortize customization costs by generating LoRA adapters on-the-fly from text or documents, combining the flexibility of in-context learning with the efficiency of supervised fine-tuning without requiring retraining. Compared to traditional methods like Context Distillation or SFT, they reduce engineering overhead and enable rapid adaptation for models like Llama or Mistral, potentially handling contexts far beyond standard token limits. Developers building RAG pipelines or task-specific agents can now experiment with more dynamic LLM personalization, making this a game-changer for applications needing quick, low-cost tweaks. Keep an eye on open-source implementations emerging from this; it's worth testing for code generation or long-form reasoning tasks where context overflow is a bottleneck. Honest take: This sounds like a breakthrough for efficiency, but real-world scaling will depend on hypernetwork stability across diverse model architectures.
+Source: https://www.marktechpost.com/2026/02/27/sakana-ai-introduces-doc-to-lora-and-text-to-lora-hypernetworks-that-instantly-internalize-long-contexts-and-adapt-llms-via-zero-shot-natural-language/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Perplexity’s new Computer: AI News &amp; Artificial Intelligence | TechCrunch**  
+Perplexity launched the Perplexity Computer, a unified system integrating multiple AI capabilities like search, reasoning, and generation into a single interface, betting on users needing diverse models for complex tasks. It stands out from siloed tools like ChatGPT or Claude by enabling seamless switching between models such as GPT or Llama variants, with improved context handling and reduced latency. This matters for practitioners juggling multi-model workflows, as it could cut integration time and costs, though it still relies on proprietary backends with potential vendor lock-in.  
+Source: https://techcrunch.com/2026/02/27/perplexitys-new-computer-is-another-bet-that-users-need-many-ai-models/
+
+**OpenAI and Amazon announce strategic partnership: OpenAI News**  
+OpenAI and Amazon revealed a partnership bringing OpenAI's Frontier platform to AWS, including custom models, enterprise AI agents, and expanded infrastructure for inference and fine-tuning. This extends beyond basic API access, offering optimized deployments on AWS hardware with features like quantization and edge support, comparing favorably to Azure's integrations but with Amazon's cost advantages. Developers in enterprise settings should care for easier scaling of agentic apps, though limitations include dependency on AWS ecosystems and potential alignment guardrails.  
+Source: https://openai.com/index/amazon-partnership
+
+**ParamMem: Augmenting Language Agents with Parametric Reflective Memory: cs.MA updates on arXiv.org**  
+This arXiv pape...</description>
+      <guid isPermaLink="false">models-agents-ep002-20260227-192631</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep002_20260227.mp3" length="17462169" type="audio/mpeg"/>
+      <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
+      <itunes:duration>12:07</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Models &amp; Agents
+**Date:** February 27, 2026
+
+**HOOK:** Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.
+
+**What You Need to Know:** Sakana AI introduced Doc-to-LoRA and Text-to-LoRA, innovative hypernetworks that enable instant, zero-shot adaptation of LLMs to long contexts and tasks using natural language, bypassing traditional trade-offs between in-context learning and fine-tuning. OpenAI and Amazon announced a partnership integrating OpenAI's Frontier platform into AWS for expanded AI agents and custom models, while new arXiv papers explore advanced multi-agent frameworks like ClawMobile for smartphone-native agents and HyperAgent for optimized communication topologies. Pay attention this week to how these developments enhance agentic workflows in finance and mobile environments, offering practical boosts for developers building scalable, adaptive systems.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Sakana AI has unveiled Doc-to-LoRA and Text-to-LoRA, two hypernetworks designed to instantly internalize long contexts and adapt LLMs via zero-shot natural language instructions. These approaches amortize customization costs by generating LoRA adapters on-the-fly from text or documents, combining the flexibility of in-context learning with the efficiency of supervised fine-tuning without requiring retraining. Compared to traditional methods like Context Distillation or SFT, they reduce engineering overhead and enable rapid adaptation for models like Llama or Mistral, potentially handling contexts far beyond standard token limits. Developers building RAG pipelines or task-specific agents can now experiment with more dynamic LLM personalization, making this a game-changer for applications needing quick, low-cost tweaks. Keep an eye on open-source implementations emerging from this; it's worth testing for code generation or long-form reasoning tasks where context overflow is a bottleneck. Honest take: This sounds like a breakthrough for efficiency, but real-world scaling will depend on hypernetwork stability across diverse model architectures.
+Source: https://www.marktechpost.com/2026/02/27/sakana-ai-introduces-doc-to-lora-and-text-to-lora-hypernetworks-that-instantly-internalize-long-contexts-and-adapt-llms-via-zero-shot-natural-language/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Perplexity’s new Computer: AI News &amp; Artificial Intelligence | TechCrunch**  
+Perplexity launched the Perplexity Computer, a unified system integrating multiple AI capabilities like search, reasoning, and generation into a single interface, betting on users needing diverse models for complex tasks. It stands out from siloed tools like ChatGPT or Claude by enabling seamless switching between models such as GPT or Llama variants, with improved context handling and reduced latency. This matters for practitioners juggling multi-model workflows, as it could cut integration time and costs, though it still relies on proprietary backends with potential vendor lock-in.  
+Source: https://techcrunch.com/2026/02/27/perplexitys-new-computer-is-another-bet-that-users-need-many-ai-models/
+
+**OpenAI and Amazon announce strategic partnership: OpenAI News**  
+OpenAI and Amazon revealed a partnership bringing OpenAI's Frontier platform to AWS, including custom models, enterprise AI agents, and expanded infrastructure for inference and fine-tuning. This extends beyond basic API access, offering optimized deployments on AWS hardware with features like quantization and edge support, comparing favorably to Azure's integrations but with Amazon's cost advantages. Developers in enterprise settings should care for easier scaling of agentic apps, though limitations include dependency on AWS ecosystems and potential alignment guardrails.  
+Source: https://openai.com/index/amazon-partnership
+
+**ParamMem: Augmenting Language Agents with Parametric Reflective Memory: cs.MA updates on arXiv.org**  
+This arXiv pape...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>2</itunes:episode>
+      <itunes:title>Ep 2: Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
       <title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</title>
-      <link>https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep001_20260226.mp3</link>
       <description># Models &amp; Agents
 **Date:** February 26, 2026
 

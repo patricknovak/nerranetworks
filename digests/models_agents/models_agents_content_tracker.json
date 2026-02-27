@@ -1,6 +1,6 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-02-26",
+  "last_updated": "2026-02-27",
   "episodes": [
     {
       "date": "2026-02-26",
@@ -10,6 +10,28 @@
         "model_updates": "### Model Updates\n**Google's Nano Banana 2: Pro-Level Images at Flash Speed**\nGoogle released Nano Banana 2 (Gemini 3.1 Flash Image), matching Pro model quality at Flash speeds with up to 40% lower API costs—it's now default in the Gemini app. This outperforms prior versions in subject consistency and 4K synthesis, making it stronger than alternatives like Stable Diffusion for edge deployment, though it still lags frontier models in creative flexibility. Developers building real-time apps should",
         "agent_developments": "### Agent & Tool Developments\n**Andrej Karpathy: AI Agents Transform Programming**\nKarpathy states programming is \"unrecognizable\" with working AI agents handling complex tasks in minutes, a shift from his 2025 skepticism—agents now manage subtasks via tools like code execution. This outperforms manual coding in speed, though reliability varies by model; it's a boon for AutoGen or CrewAI users. Try integrating agents into your workflow with LlamaIndex for quick prototypes.\nSource: https://the-de",
         "practical_community": "### Practical & Community\n**Build with Nano Banana 2 Tools**\nGoogle's developer tools for Nano Banana 2 enable pro-level image generation at lower costs, with API integration for apps—focus on subject consistency for multimodal RAG. Limitations include API rate limits; start with the blog's build guide for edge deployment.\nSource: https://blog.google/innovation-and-ai/technology/developers-tools/build-with-nano-banana-2/\n\n**Pacific Northwest Lab Partners with OpenAI**\nOpenAI and PNNL introduce D"
+      }
+    },
+    {
+      "date": "2026-02-27",
+      "headlines": [],
+      "urls": [
+        "https://www.marktechpost.com/2026/02/27/sakana-ai-introduces-doc-to-lora-and-text-to-lora-hypernetworks-that-instantly-internalize-long-contexts-and-adapt-llms-via-zero-shot-natural-language/",
+        "https://techcrunch.com/2026/02/27/perplexitys-new-computer-is-another-bet-that-users-need-many-ai-models/",
+        "https://openai.com/index/amazon-partnership",
+        "https://arxiv.org/abs/2602.23320",
+        "https://arxiv.org/abs/2602.22942",
+        "https://openai.com/index/introducing-the-stateful-runtime-environment-for-agents-in-amazon-bedrock",
+        "https://arxiv.org/abs/2510.10611",
+        "https://arxiv.org/abs/2602.22302",
+        "https://arxiv.org/abs/2602.14337",
+        "https://arxiv.org/abs/2602.21670"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Perplexity’s new Computer: AI News & Artificial Intelligence | TechCrunch**  \nPerplexity launched the Perplexity Computer, a unified system integrating multiple AI capabilities like search, reasoning, and generation into a single interface, betting on users needing diverse models for complex tasks. It stands out from siloed tools like ChatGPT or Claude by enabling seamless switching between models such as GPT or Llama variants, with improved context handling and reduced laten",
+        "agent_developments": "### Agent & Tool Developments\n**ClawMobile: Rethinking Smartphone-Native Agentic Systems: cs.MA updates on arXiv.org**  \nClawMobile is a hierarchical framework for LLM-based agents on smartphones, separating high-level reasoning from deterministic controls to handle constrained mobile environments like fragmented interfaces and changing states. It's a step up from cloud-reliant agents like AutoGPT, offering stable execution via open-sourced implementation for browser automation or code gen on de",
+        "practical_community": "### Practical & Community\n**Agent Behavioral Contracts: Formal Specification and Runtime Enforcement for Reliable Autonomous AI Agents: cs.MA updates on arXiv.org**  \nThis introduces Agent Behavioral Contracts (ABC), a framework with preconditions, invariants, and recovery for enforcing reliable behavior in agents, implemented in AgentAssert for runtime checks. It solves drift in agent chains, achieving 88-100% compliance on benchmarks with low overhead, outperforming uncontracted baselines. Get"
       }
     }
   ]
