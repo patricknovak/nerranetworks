@@ -2,18 +2,19 @@
 
 ## Project Overview
 
-Automated daily podcast generation system running 5 shows via a unified
-`run_show.py` runner + per-show YAML configs, plus 4 legacy standalone scripts.
-All shows use **ElevenLabs TTS** and post to X/Twitter via
-`engine/publisher.post_to_x()`.
+Automated daily podcast generation system running 6 shows via a unified
+`run_show.py` runner + per-show YAML configs, plus 4 legacy standalone scripts
+(deprecated — see note below). All shows use **ElevenLabs TTS** and post to
+X/Twitter via `engine/publisher.post_to_x()`.
 
 | Show | Legacy Script | YAML Config | Schedule | X Account |
 |------|--------------|-------------|----------|-----------|
-| Tesla Shorts Time | `digests/tesla_shorts_time.py` (~2650 lines) | `shows/tesla.yaml` | Daily | `@teslashortstime` |
-| Omni View | `digests/omni_view.py` (~1400 lines) | `shows/omni_view.yaml` | Daily | `@omniviewnews` |
-| Fascinating Frontiers | `digests/fascinating_frontiers.py` (~1730 lines) | `shows/fascinating_frontiers.yaml` | Daily | `@planetterrian` |
-| Planetterrian Daily | `digests/planetterrian.py` (~1660 lines) | `shows/planetterrian.yaml` | Daily | `@planetterrian` |
-| Env Intel | — (run_show.py only) | `shows/env_intel.yaml` | Daily | `@teslashortstime` |
+| Tesla Shorts Time | `digests/tesla_shorts_time.py` (deprecated) | `shows/tesla.yaml` | Daily | `@teslashortstime` |
+| Omni View | `digests/omni_view.py` (deprecated) | `shows/omni_view.yaml` | Daily | `@omniviewnews` |
+| Fascinating Frontiers | `digests/fascinating_frontiers.py` (deprecated) | `shows/fascinating_frontiers.yaml` | Daily | `@planetterrian` |
+| Planetterrian Daily | `digests/planetterrian.py` (deprecated) | `shows/planetterrian.yaml` | Daily | `@planetterrian` |
+| Env Intel | — | `shows/env_intel.yaml` | Weekdays | `@teslashortstime` |
+| Models & Agents | — | `shows/models_agents.yaml` | Daily | — (X disabled) |
 
 **Science That Changes Everything** (`digests/science_that_changes.py`, ~83 lines)
 is a standalone X-posting script, not a podcast show.
@@ -39,12 +40,13 @@ Tesla-shorts-time/
 │   ├── omni_view.yaml
 │   ├── fascinating_frontiers.yaml
 │   ├── planetterrian.yaml
-│   └── env_intel.yaml
-├── digests/                       # Legacy show scripts + ALL generated output
-│   ├── tesla_shorts_time.py       # ~2650 lines — the original, most complex
-│   ├── omni_view.py               # ~1400 lines — structurally different from others
-│   ├── fascinating_frontiers.py   # ~1730 lines — near-identical twin of PT
-│   ├── planetterrian.py           # ~1660 lines — near-identical twin of FF
+│   ├── env_intel.yaml
+│   └── models_agents.yaml
+├── digests/                       # Legacy show scripts (deprecated) + ALL generated output
+│   ├── tesla_shorts_time.py       # DEPRECATED — use run_show.py tesla
+│   ├── omni_view.py               # DEPRECATED — use run_show.py omni_view
+│   ├── fascinating_frontiers.py   # DEPRECATED — use run_show.py fascinating_frontiers
+│   ├── planetterrian.py           # DEPRECATED — use run_show.py planetterrian
 │   ├── science_that_changes.py    # ~83 lines — standalone X posting script
 │   ├── xai_grok.py                # Shared xAI/Grok API helper (~111 lines)
 │   ├── tesla_shorts_time/         # TST output + summaries_tesla.json
@@ -52,6 +54,7 @@ Tesla-shorts-time/
 │   ├── fascinating_frontiers/     # FF output + summaries_space.json
 │   ├── planetterrian/             # PT output + summaries_planet.json
 │   ├── env_intel/                 # EI output + summaries_env_intel.json
+│   ├── models_agents/             # M&A output + summaries_models_agents.json
 │   └── *.mp3, *.md, *.txt        # Legacy TST flat output (historical)
 ├── engine/                        # Shared modules
 │   ├── __init__.py
@@ -76,7 +79,7 @@ Tesla-shorts-time/
 │       ├── fascinatingfrontiers_bg.mp3  # FF background/outro
 │       ├── LubechangeOilers.mp3         # OV theme
 │       └── oilers-pride.mp3             # PT theme
-├── tests/                         # pytest suite (627 tests)
+├── tests/                         # pytest suite
 ├── .github/workflows/
 │   └── run-show.yml               # Unified daily cron workflow (all shows)
 ├── *.rss                          # Podcast RSS feeds (consumed by Apple/Spotify)
@@ -94,6 +97,8 @@ Tesla-shorts-time/
 - **OV** is structurally different — different TTS approach (no streaming, uses
   env vars for voice settings), simpler functions
 - **EI** runs exclusively via `run_show.py` + `shows/env_intel.yaml`; no legacy script
+- **M&A** (Models & Agents) runs exclusively via `run_show.py` +
+  `shows/models_agents.yaml`; no legacy script. X posting disabled.
 - All shows delegate X posting to `engine.publisher.post_to_x()`
 - TST/FF/PT delegate voice normalization to `engine.audio.normalize_voice()`
 - All shows use `engine.audio.mix_with_music()` for music mixing (3 modes:
@@ -120,10 +125,11 @@ All RSS `<enclosure>` URLs use `raw.githubusercontent.com` pointing to files in
 ### Testing
 
 ```bash
-pytest                  # Run all tests (627 tests)
-pytest tests/test_utils.py   # Pure function tests (AST extraction)
-pytest tests/test_rss.py     # RSS feed validation
+pytest                             # Run all tests
+pytest tests/test_utils.py         # Pure function tests (AST extraction)
+pytest tests/test_rss.py           # RSS feed validation
 pytest tests/test_audio_commands.py  # ffmpeg command structure tests
+pytest tests/test_integration.py   # Pipeline integration tests
 ```
 
 Tests use AST extraction + `exec()` to load functions from show scripts because
@@ -155,14 +161,18 @@ Phase 2 (complete):
   `save_summary_to_github_pages`, `post_to_x`, `format_digest_for_x`,
   `format_tst_digest_for_x`, `apply_op3_prefix`
 - `engine/content_tracker.py` — `ContentTracker` with per-show section patterns
-  (TST, FF, PT, OV, EI)
+  (TST, FF, PT, OV, EI, M&A)
 - `engine/fetcher.py` — `fetch_rss_articles`
 - `engine/generator.py` — `generate_digest`, `generate_podcast_script`
 - `engine/tracking.py` — `create_tracker`, `record_llm_usage`,
   `record_tts_usage`, `record_x_post`, `save_usage`
 
-Future work: Migrate remaining inline code from legacy scripts to engine
-modules. Goal is for all shows to run via `run_show.py` + YAML configs.
+Phase 3 (current):
+- All 6 shows now run via `run_show.py` + YAML configs in production (CI/CD).
+- Legacy scripts (`digests/{tesla_shorts_time,omni_view,fascinating_frontiers,
+  planetterrian}.py`) are **deprecated** — retained for reference only.
+- `run_show.py` is the canonical entry point; legacy scripts are not called
+  by any workflow or cron job.
 
 ## Known Landmines
 

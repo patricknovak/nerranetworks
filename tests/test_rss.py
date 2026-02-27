@@ -28,15 +28,17 @@ RSS_FEEDS = {
     "omni": PROJECT_ROOT / "omni_view_podcast.rss",
     "planetterrian": PROJECT_ROOT / "planetterrian_podcast.rss",
     "frontiers": PROJECT_ROOT / "fascinating_frontiers_podcast.rss",
+    "env_intel": PROJECT_ROOT / "env_intel_podcast.rss",
     "models_agents": PROJECT_ROOT / "models_agents_podcast.rss",
 }
 
 EXPECTED_EPISODE_COUNTS = {
-    "tesla": 47,
-    "omni": 1,
-    "frontiers": 20,
-    "planetterrian": 11,
-    "models_agents": 0,
+    "tesla": 48,
+    "omni": 2,
+    "frontiers": 21,
+    "planetterrian": 12,
+    "env_intel": 1,
+    "models_agents": 1,
 }
 
 # ---------------------------------------------------------------------------
@@ -119,6 +121,13 @@ EXPECTED_CHANNEL_METADATA = {
     },
     "frontiers": {
         "title": "Fascinating Frontiers",
+        "language": "en-us",
+        "generator": "python-feedgen",
+        "itunes_category": "Science",
+        "itunes_explicit": "no",
+    },
+    "env_intel": {
+        "title": "Environmental Intelligence",
         "language": "en-us",
         "generator": "python-feedgen",
         "itunes_category": "Science",
@@ -210,6 +219,7 @@ ENCLOSURE_URL_PATTERNS = {
     "omni": f"{BASE_URL}/digests/",
     "planetterrian": f"{BASE_URL}/digests/planetterrian/",
     "frontiers": f"{BASE_URL}/digests/fascinating_frontiers/",
+    "env_intel": f"{BASE_URL}/digests/env_intel/",
     "models_agents": f"{BASE_URL}/digests/models_agents/",
 }
 
@@ -275,11 +285,12 @@ class TestItemStructure:
     # Planetterrian and Frontiers only have it on the most recent episode
     # (the scripts only set duration on newly generated episodes).
     EXPECTED_DURATION_COUNTS = {
-        "tesla": 47,
-        "omni": 1,
-        "planetterrian": 0,
-        "frontiers": 0,
-        "models_agents": 0,
+        "tesla": 48,
+        "omni": 2,
+        "planetterrian": 1,
+        "frontiers": 1,
+        "env_intel": 1,
+        "models_agents": 1,
     }
 
     @pytest.mark.parametrize("show", list(RSS_FEEDS.keys()))

@@ -3,6 +3,11 @@
 Tesla Shorts Time – FULL AUTO X + PODCAST MACHINE
 X Thread + Daily Podcast (Patrick in Vancouver)
 Auto-published to X — November 19, 2025+
+
+.. deprecated::
+    This legacy script is no longer used in production.
+    All shows now run via ``python run_show.py tesla``.
+    Retained for reference only — do not add new features here.
 """
 
 import os

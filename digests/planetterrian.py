@@ -3,6 +3,11 @@
 Planetterrian Daily – FULL AUTO X + PODCAST MACHINE
 Daily Science, Longevity & Health Digest (Patrick in Vancouver)
 Auto-published to X — December 2025+
+
+.. deprecated::
+    This legacy script is no longer used in production.
+    All shows now run via ``python run_show.py planetterrian``.
+    Retained for reference only — do not add new features here.
 """
 
 import os
