@@ -428,7 +428,7 @@ class TestLoadConfigRealFiles:
         assert "election" in cfg.keywords
         assert cfg.llm.model == "grok-4"
         assert cfg.llm.digest_temperature == 0.5
-        assert cfg.llm.max_tokens == 3200
+        assert cfg.llm.max_tokens == 4000
         assert cfg.tts.stability == 0.65
         assert cfg.tts.style == 0.85
         assert cfg.audio.music_file == "assets/music/LubechangeOilers.mp3"
@@ -449,7 +449,8 @@ class TestLoadConfigRealFiles:
         assert cfg.llm.model == "grok-4"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
-        assert cfg.tts.stability == 0.65
+        assert cfg.tts.stability == 0.78
+        assert cfg.tts.style == 0.55
         assert cfg.tts.max_chars == 4500
         assert cfg.audio.music_file == "assets/music/tesla_shorts_time.mp3"
         assert cfg.publishing.x_enabled is False

@@ -14,6 +14,15 @@ from typing import Any, Dict, Optional
 
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_exponential
 
+# Only retry on transient API errors — permanent errors (KeyError, FileNotFoundError,
+# RuntimeError) will fail immediately instead of wasting 3x API credits.
+try:
+    from openai import APITimeoutError, APIConnectionError, RateLimitError
+    _TRANSIENT_ERRORS = (APITimeoutError, APIConnectionError, RateLimitError)
+except ImportError:
+    # Fallback if openai isn't installed (e.g. in tests)
+    _TRANSIENT_ERRORS = (TimeoutError, ConnectionError)
+
 logger = logging.getLogger(__name__)
 
 
@@ -148,6 +157,24 @@ def _validate_llm_output(
             )
             break
 
+    # Check for potential hallucinations — words repeated 4+ times in close
+    # proximity often indicate corruption (e.g. "Nano Banana 2" x4)
+    words = text.split()
+    if len(words) > 50:
+        # Scan for any 2-3 word phrase that appears 4+ times
+        from collections import Counter
+        bigrams = [" ".join(words[i:i+2]).lower() for i in range(len(words) - 1)]
+        bigram_counts = Counter(bigrams)
+        for phrase, count in bigram_counts.most_common(5):
+            # Skip common phrases
+            if phrase in ("the the", "of the", "in the", "to the", "and the", "on the", "for the", "is the"):
+                continue
+            if count >= 4:
+                logger.warning(
+                    "LLM %s for '%s' has suspicious repetition: '%s' appears %d times (possible hallucination)",
+                    stage, show_name, phrase, count,
+                )
+
 
 # ---------------------------------------------------------------------------
 # Public generation functions
@@ -156,7 +183,7 @@ def _validate_llm_output(
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_exponential(multiplier=1, min=1, max=15),
-    retry=retry_if_exception_type(Exception),
+    retry=retry_if_exception_type(_TRANSIENT_ERRORS),
 )
 def generate_digest(
     template_vars: Dict[str, Any],
@@ -223,7 +250,7 @@ def generate_digest(
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_exponential(multiplier=1, min=1, max=15),
-    retry=retry_if_exception_type(Exception),
+    retry=retry_if_exception_type(_TRANSIENT_ERRORS),
 )
 def generate_podcast_script(
     template_vars: Dict[str, Any],
@@ -258,12 +285,15 @@ def generate_podcast_script(
     logger.info("Generating podcast script for '%s' (model=%s, temp=%.1f) ...",
                 config.name, config.llm.model, config.llm.podcast_temperature)
 
+    # Use podcast-specific max_tokens if configured, otherwise fall back to shared max_tokens
+    podcast_tokens = getattr(config.llm, "podcast_max_tokens", 0) or config.llm.max_tokens
+
     text, meta = _call_grok(
         prompt,
         model=config.llm.model,
         system_prompt=system_prompt,
         temperature=config.llm.podcast_temperature,
-        max_tokens=config.llm.max_tokens,
+        max_tokens=podcast_tokens,
     )
 
     if tracker and "usage" in meta:

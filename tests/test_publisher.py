@@ -271,14 +271,9 @@ class TestSaveSummaryToGithubPages:
 # TEST: update_rss_feed
 # ===================================================================
 
-try:
-    import feedgen  # noqa: F401
-    _has_feedgen = True
-except ImportError:
-    _has_feedgen = False
+_feedgen = pytest.importorskip("feedgen", reason="feedgen required for RSS tests")
 
 
-@pytest.mark.skipif(not _has_feedgen, reason="feedgen not installed")
 class TestUpdateRssFeed:
 
     def test_creates_new_rss_file(self, tmp_path):

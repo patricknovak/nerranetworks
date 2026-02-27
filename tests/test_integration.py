@@ -851,16 +851,6 @@ class TestHookExtraction:
         digest = "**HOOK:** \n\n### News"
         assert _extract_hook(digest) is None
 
-    def test_omni_view_script_includes_hook(self):
-        from run_show import _generate_omni_view_script
-        script = _generate_omni_view_script("## Top stories\n### 1) Big news\nSomething happened.", hook="Trade deal reshapes global markets today.")
-        assert "Trade deal reshapes global markets today." in script
-
-    def test_omni_view_script_without_hook(self):
-        from run_show import _generate_omni_view_script
-        script = _generate_omni_view_script("## Top stories\n### 1) Big news\nSomething happened.")
-        assert "Good morning" in script
-
     def test_clean_digest_strips_hook_line(self):
         """_clean_digest_for_podcast removes the HOOK line so it doesn't leak into the script."""
         from run_show import _clean_digest_for_podcast

@@ -96,7 +96,8 @@ llm:
   digest_prompt_file: shows/prompts/planetterrian_digest.txt
   podcast_prompt_file: shows/prompts/planetterrian_podcast.txt
   digest_temperature: 0.5
-  podcast_temperature: 0.9
+  podcast_temperature: 0.75
+  max_tokens: 3500
 
 tts:
   voice_id: dTrBzPvD2GpAqkk1MUzA
@@ -140,6 +141,6 @@ publishing:
 
 episode:
   prefix: Planetterrian_Daily
-  filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d_%H%M%S}.mp3"
+  filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
   output_dir: digests/planetterrian
   mp3_glob: "Planetterrian_Daily_Ep*.mp3"

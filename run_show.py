@@ -23,11 +23,29 @@ import importlib.util
 import json
 import logging
 import os
+import signal
 import sys
 import time
 from pathlib import Path
 
 from dotenv import load_dotenv
+
+
+# ---------------------------------------------------------------------------
+# Pipeline timeout — guard against hung API calls or infinite loops.
+# Default 15 minutes; override with PIPELINE_TIMEOUT_SECONDS env var.
+# ---------------------------------------------------------------------------
+_PIPELINE_TIMEOUT = int(os.environ.get("PIPELINE_TIMEOUT_SECONDS", 900))
+
+
+def _timeout_handler(signum, frame):
+    raise SystemExit(f"PIPELINE TIMEOUT: exceeded {_PIPELINE_TIMEOUT}s — aborting to prevent hung CI job")
+
+
+# Only set alarm on platforms that support it (not Windows)
+if hasattr(signal, "SIGALRM"):
+    signal.signal(signal.SIGALRM, _timeout_handler)
+    signal.alarm(_PIPELINE_TIMEOUT)
 
 # ---------------------------------------------------------------------------
 # Bootstrap
@@ -215,8 +233,25 @@ def run(args: argparse.Namespace) -> None:
     logger.info("After fetch + dedup: %d articles", len(articles))
 
     if not articles:
-        logger.warning("No articles found even after expanded search. Exiting.")
+        logger.warning("No articles found even after expanded search. Skipping episode to avoid publishing empty content.")
         return
+
+    # Skip episode if digest would be too thin (< 3 articles is not enough for quality)
+    if len(articles) < 3:
+        logger.warning(
+            "Only %d article(s) found — below minimum threshold for a quality episode. Skipping.",
+            len(articles),
+        )
+        return
+
+    # 5c. Cap article count to prevent prompt bloat and quality degradation
+    MAX_ARTICLES_FOR_LLM = 25
+    if len(articles) > MAX_ARTICLES_FOR_LLM:
+        logger.info(
+            "Capping articles from %d to %d to prevent prompt bloat",
+            len(articles), MAX_ARTICLES_FOR_LLM,
+        )
+        articles = articles[:MAX_ARTICLES_FOR_LLM]
 
     # 6. Build template vars for digest prompt
     news_lines = []
@@ -233,12 +268,18 @@ def run(args: argparse.Namespace) -> None:
         )
     news_section = "\n\n".join(news_lines)
 
+    # Get content tracker summary for the LLM to avoid cross-episode repetition
+    content_tracker_summary = content_tracker.get_summary_for_prompt()
+    if content_tracker_summary:
+        logger.info("Injecting content tracker summary into LLM prompt (%d chars)", len(content_tracker_summary))
+
     template_vars = {
         "today_str": today_str,
         "date_human": today_str,  # alias used by Omni View prompts
         "news_section": news_section,
         "sections_json": news_section,  # alias used by Omni View digest prompt
         "episode_num": episode_num,
+        "recent_content_summary": content_tracker_summary,
     }
     # Merge extra context from hooks (e.g. price, change_str, x_posts_section)
     template_vars.update(extra_context)
@@ -307,17 +348,18 @@ def run(args: argparse.Namespace) -> None:
 
         # Provide default intro_line/closing_block if hook didn't supply them.
         # All intros include the show name, episode number, date, and hook.
+        host = getattr(config.publishing, "host_name", "Patrick")
         pod_vars.setdefault(
             "intro_line",
-            f"Patrick: Welcome to {config.name}, episode {episode_num}. "
+            f"{host}: Welcome to {config.name}, episode {episode_num}. "
             f"Today is {today_str}. {effective_hook}",
         )
         pod_vars.setdefault(
             "closing_block",
-            f"Patrick: That's {config.name} for today. "
+            f"{host}: That's {config.name} for today. "
             f"If you enjoyed this episode, a rating or review on Apple Podcasts or Spotify "
             f"really helps new listeners find the show. "
-            f"I'm Patrick in Vancouver. Thanks for listening, and I'll see you tomorrow.",
+            f"I'm {host} in Vancouver. Thanks for listening, and I'll see you tomorrow.",
         )
         pod_vars.setdefault("tone_hint", "natural and conversational")
 
@@ -327,7 +369,7 @@ def run(args: argparse.Namespace) -> None:
         logger.info("Podcast script generation took %.1fs", time.monotonic() - t0)
 
         # Clean podcast script: strip speaker prefixes and stage directions
-        podcast_script = _clean_podcast_script(podcast_script)
+        podcast_script = _clean_podcast_script(podcast_script, host_name=host)
 
         # Apply pronunciation fixes
         podcast_script = _apply_pronunciation(podcast_script, args.show)
@@ -403,9 +445,8 @@ def run(args: argparse.Namespace) -> None:
             audio_duration = get_audio_duration(final_mp3)
             logger.info("Final audio: %s (%.0fs)", final_mp3.name, audio_duration)
 
-            # Cleanup raw audio
-            if raw_mp3.exists() and final_mp3.exists() and raw_mp3 != final_mp3:
-                raw_mp3.unlink(missing_ok=True)
+            # NOTE: raw MP3 cleanup is deferred until after post-validation
+            # passes, so we have recovery if the mix is corrupt (see #20).
 
     # 10b. Upload to R2 (if configured)
     r2_audio_url = None
@@ -431,7 +472,7 @@ def run(args: argparse.Namespace) -> None:
             episode_title = f"Ep {episode_num}: {hook}"
         else:
             episode_title = f"{config.name} - Episode {episode_num} - {today_str}"
-        episode_desc = x_thread[:500] + "..." if len(x_thread) > 500 else x_thread
+        episode_desc = x_thread[:4000] + "..." if len(x_thread) > 4000 else x_thread
 
         # If no R2 URL but analytics is enabled, build URL and prefix it
         feed_audio_url = rss_audio_url
@@ -524,13 +565,24 @@ def run(args: argparse.Namespace) -> None:
 
     # 14. Post-run validation
     from engine.post_run_validation import run_post_validation
-    run_post_validation(
+    validation_passed = run_post_validation(
         mp3_path=final_mp3,
         rss_path=rss_path,
         digest_text=x_thread,
         show_name=config.name,
         episode_num=episode_num,
     )
+    if not validation_passed:
+        logger.error("Post-run validation FAILED — exiting with error code")
+        save_usage(tracker, digests_dir)
+        sys.exit(1)
+
+    # 14b. Cleanup raw audio now that validation has passed
+    if not args.skip_podcast and final_mp3 and final_mp3.exists():
+        raw_mp3_cleanup = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}_raw.mp3"
+        if raw_mp3_cleanup.exists() and raw_mp3_cleanup != final_mp3:
+            raw_mp3_cleanup.unlink(missing_ok=True)
+            logger.info("Cleaned up raw audio: %s", raw_mp3_cleanup.name)
 
     # 15. Save tracking
     save_usage(tracker, digests_dir)
@@ -660,13 +712,14 @@ def _clean_digest_for_podcast(digest: str) -> str:
     return "\n".join(lines)
 
 
-def _clean_podcast_script(script: str) -> str:
-    """Strip speaker prefixes (Host:, Patrick:) and stage directions from podcast script.
+def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
+    """Strip speaker prefixes (Host:, <host_name>:) and stage directions from podcast script.
 
     This produces clean text suitable for TTS synthesis.
     """
     import re
 
+    host_prefix = f"{host_name}:"
     parts: list[str] = []
     for line in script.splitlines():
         line = line.strip()
@@ -692,16 +745,31 @@ def _clean_podcast_script(script: str) -> str:
         # Strip speaker prefixes
         if line.startswith("Host:"):
             parts.append(line[5:].strip())
-        elif line.startswith("Patrick:"):
-            parts.append(line[9:].strip())
+        elif line.startswith(host_prefix):
+            parts.append(line[len(host_prefix):].strip())
         else:
             parts.append(line)
 
-    return " ".join(parts).strip()
+    return "\n\n".join(parts).strip()
 
 
 def _build_teaser(config, episode_num: int, today_str: str, extra_context: dict) -> str:
-    """Build a short X teaser post for the episode."""
+    """Build a short X teaser post for the episode.
+
+    If the YAML config has ``x_teaser_template``, it's used as a format string
+    with ``{episode_num}``, ``{today_str}``, and any extra_context keys.  Otherwise,
+    falls back to the per-show hardcoded templates below.
+    """
+    # Use YAML template if configured
+    template = getattr(config.publishing, "x_teaser_template", "")
+    if template:
+        fmt_vars = {"episode_num": episode_num, "today_str": today_str, "show_name": config.name}
+        fmt_vars.update(extra_context)
+        try:
+            return template.format(**fmt_vars)
+        except (KeyError, IndexError):
+            logger.warning("x_teaser_template format failed, falling back to hardcoded")
+
     slug = config.slug
     if slug == "tesla":
         price_str = ""
@@ -732,201 +800,6 @@ def _build_teaser(config, episode_num: int, today_str: str, extra_context: dict)
         )
     return f"{config.name} Episode {episode_num} — {today_str}"
 
-
-def _generate_omni_view_script(
-    briefing_markdown: str,
-    hook: str | None = None,
-    episode_num: int | None = None,
-) -> str:
-    """Procedural podcast script generation for Omni View.
-
-    Omni View doesn't use an LLM for podcast scripts — it parses the
-    markdown briefing and builds a spoken script programmatically.
-    This is a simplified version of omni_view.py's generate_omni_view_script().
-    """
-    import re
-
-    today = datetime.datetime.now().strftime("%B %d, %Y")
-
-    def _strip_md(s: str) -> str:
-        s = re.sub(r"\[([^\]]+)\]\(https?://[^\)]+\)", r"\1", s)
-        s = re.sub(r"https?://\S+", "", s)
-        s = re.sub(r"\*\*([^*]+)\*\*", r"\1", s)
-        s = re.sub(r"\*([^*]+)\*", r"\1", s)
-        return s.strip()
-
-    def _after_colon(ln: str) -> str:
-        parts = ln.split(":", 1)
-        return _strip_md(parts[1]) if len(parts) == 2 else ""
-
-    text = _strip_md(briefing_markdown or "")
-    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
-
-    stories: list[dict] = []
-    current_section = ""
-    cur: dict | None = None
-    in_questions = False
-    in_perspectives = False
-    perspective_lines: list[str] = []
-
-    for ln in lines:
-        if ln.startswith("## "):
-            if cur and in_perspectives and perspective_lines:
-                cur["perspectives"] = [" ".join(perspective_lines).strip()]
-            in_perspectives = False
-            perspective_lines = []
-            current_section = ln[3:].strip()
-            current_section = re.sub(r"\s*\(\d+\)\s*$", "", current_section).strip()
-            continue
-
-        if ln.startswith("### "):
-            if cur and in_perspectives and perspective_lines:
-                cur["perspectives"] = [" ".join(perspective_lines).strip()]
-            in_perspectives = False
-            perspective_lines = []
-            if cur:
-                stories.append(cur)
-            raw_title = ln[4:].strip()
-            raw_title = re.sub(r"^\d+\)\s*", "", raw_title).strip()
-            cur = {
-                "section": current_section,
-                "title": raw_title,
-                "what": "",
-                "perspectives": [],
-                "questions": [],
-            }
-            in_questions = False
-            continue
-
-        if not cur:
-            continue
-
-        low = ln.lower()
-        if low.startswith("what happened"):
-            in_perspectives = False
-            perspective_lines = []
-            cur["what"] = _after_colon(ln)
-            in_questions = False
-            continue
-        if low.startswith("why it matters"):
-            in_questions = False
-            continue
-        if low.startswith("questions to consider"):
-            if in_perspectives and perspective_lines:
-                cur["perspectives"] = [" ".join(perspective_lines).strip()]
-            in_perspectives = False
-            perspective_lines = []
-            in_questions = True
-            continue
-
-        if in_questions and ln.startswith("- "):
-            q = ln[2:].strip()
-            if q:
-                cur["questions"].append(q)
-            continue
-
-        if low.startswith("**perspectives") or (low.startswith("perspectives") and ":" in ln[:20]):
-            in_perspectives = True
-            perspective_lines = []
-            after_colon = _after_colon(ln)
-            if after_colon:
-                perspective_lines.append(after_colon)
-            in_questions = False
-            continue
-        if in_perspectives:
-            if ln.strip().startswith("**") and not ln.strip().lower().startswith("**perspectives"):
-                if perspective_lines:
-                    cur["perspectives"] = [" ".join(perspective_lines).strip()]
-                in_perspectives = False
-                perspective_lines = []
-                if "questions to consider" in ln.lower():
-                    in_questions = True
-                continue
-            perspective_lines.append(ln.strip())
-            continue
-
-        if ln.startswith("- ") and "perspective" in low[:25]:
-            p = re.sub(r"^-+\s*", "", ln).strip()
-            p = re.sub(r"^Perspective\s*\d*\s*:\s*", "", p, flags=re.IGNORECASE).strip()
-            if p:
-                cur["perspectives"].append(p)
-            continue
-
-    if cur:
-        if in_perspectives and perspective_lines:
-            cur["perspectives"] = [" ".join(perspective_lines).strip()]
-        stories.append(cur)
-
-    if not stories:
-        titles = []
-        for ln in lines:
-            if ln.startswith("- ") and len(titles) < 8:
-                titles.append(ln[2:].strip())
-        stories = [{"section": "Top stories", "title": t, "what": "", "perspectives": [], "questions": []} for t in titles]
-
-    max_stories = 7
-    picked = stories[:max_stories]
-
-    section_intro = {
-        "Top stories": "First, here are the top stories of the day.",
-        "Top world stories": "Now, a quick scan of the world headlines.",
-        "Top business stories": "In business and the economy.",
-        "Top technology stories": "In tech.",
-        "Top popular media stories": "And in culture and popular media.",
-        "Top gossip stories": "Finally, a quick round of lighter headlines.",
-    }
-    transitions = [
-        "Next.", "Meanwhile.", "Also in the mix today.",
-        "Here's another one to watch.", "And one more story worth your attention.",
-    ]
-
-    script: list[str] = []
-    ep_str = f", episode {episode_num}" if episode_num else ""
-    script.append(f"Good morning. This is Omni View{ep_str} — balanced news perspectives.")
-    script.append(f"Today is {today}.")
-    if hook:
-        script.append(hook)
-    script.append("")
-    script.append("We'll cover what happened, how different viewpoints frame it — so you can decide for yourself.")
-    script.append("")
-
-    last_section = None
-    t_i = 0
-    for idx, s in enumerate(picked, 1):
-        sec = (s.get("section") or "").strip() or "Top stories"
-        if sec != last_section:
-            script.append(section_intro.get(sec, f"Now, {sec.lower()}."))
-            script.append("")
-            last_section = sec
-
-        if idx > 1:
-            script.append(transitions[t_i % len(transitions)])
-            t_i += 1
-
-        title = (s.get("title") or "A developing story").strip()
-        what = (s.get("what") or "").strip()
-        perspectives = s.get("perspectives") or []
-        questions = s.get("questions") or []
-
-        script.append(title + ".")
-        if what:
-            script.append(what)
-        if perspectives:
-            p1 = (perspectives[0] or "").strip()
-            if p1:
-                if len(perspectives) > 1:
-                    script.append("Across perspectives: " + p1 + " " + (perspectives[1] or "").strip())
-                else:
-                    script.append("Across perspectives: " + p1)
-        if questions:
-            script.append("Question to consider: " + questions[0].strip())
-        script.append("")
-
-    script.append("That's Omni View.")
-    script.append("For full source links and more context, open today's written briefing on the Omni View summaries page.")
-    script.append("As always: compare outlets, look for primary documents, and separate what's known from what's assumed.")
-
-    return "\n".join(script)
 
 
 # ---------------------------------------------------------------------------

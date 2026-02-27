@@ -270,20 +270,23 @@ def speak(
             for cf in chunk_files:
                 f.write(f"file '{cf.absolute()}'\n")
 
+        # Re-encode with libmp3lame instead of -c copy to avoid clicks/pops
+        # at chunk boundaries caused by misaligned MP3 frames.
         subprocess.run(
             [
                 "ffmpeg", "-y",
                 "-f", "concat",
                 "-safe", "0",
                 "-i", str(concat_list),
-                "-c", "copy",
+                "-c:a", "libmp3lame",
+                "-q:a", "2",
                 str(filename),
             ],
             check=True,
             capture_output=True,
             timeout=300,
         )
-        logger.info("ElevenLabs TTS: Concatenated %d chunks seamlessly", len(chunks))
+        logger.info("ElevenLabs TTS: Concatenated %d chunks (re-encoded for seamless joins)", len(chunks))
 
     finally:
         for cf in chunk_files:
@@ -308,9 +311,9 @@ def synthesize(
     api_key: str,
     max_chars: int = 4500,
     model_id: str = "eleven_turbo_v2_5",
-    stability: float = 0.35,
-    similarity_boost: float = 0.75,
-    style: float = 0.2,
+    stability: float = 0.65,
+    similarity_boost: float = 0.9,
+    style: float = 0.85,
     stream: bool = True,
     timeout: int = 120,
     append_exclamation: bool = False,

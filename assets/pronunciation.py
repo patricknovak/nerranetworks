@@ -144,6 +144,12 @@ COMMON_ACRONYMS: Dict[str, str] = {
     "GPT": "G P T",
     "AGI": "A G I",
     "NLP": "N L P",
+    "RAG": "rag",
+    "LoRA": "Laura",
+    "RLHF": "R L H F",
+    "CUDA": "koo-dah",
+    "TPU": "T P U",
+    "MCP": "M C P",
 
     # --- Space agencies and missions ---
     "NASA": "nassa",  # phonetic guide — prevents letter-split
@@ -161,6 +167,9 @@ COMMON_ACRONYMS: Dict[str, str] = {
     "OSIRIS-REx": "Osiris Rex",
     "DART": "dart",  # phonetic guide — word-acronym
     "PSYCHE": "Sy-key",
+    "LOFAR": "low-far",
+    "ALMA": "alma",
+    "ESCAPADE": "escape-ade",
 
     # --- Biology and health ---
     "DNA": "D N A",
@@ -342,14 +351,32 @@ WORD_PRONUNCIATIONS: Dict[str, str] = {
     "Alnylam": "Al-nye-lam",
     "Roscosmos": "Ross-cosmos",
     "Lifespan.io": "Life-span dot i o",
+    "LangChain": "Lang Chain",
+    "PyTorch": "Pie Torch",
+    "Mistral": "Mee-stral",
+    "Anthropic": "An-thropic",
+    "NVIDIA": "En-vidia",
 
     # --- Scientific names ---
     "Enceladus": "En-sell-uh-dus",
     "Cassini": "Kah-see-nee",
     "Oberth": "Oh-bairt",
+    "xenotransplantation": "zeno-transplantation",
+    "inflammaging": "inflamma-aging",
+    "epigenetic": "epi-genetic",
+    "epigenetics": "epi-genetics",
 
     # --- People ---
-    # Add commonly appearing names that TTS stumbles on
+    "Karpathy": "Kar-pathy",
+    "Milei": "Mee-lay",
+    "Starmer": "Star-mer",
+    "Zelenskyy": "Zeh-len-skee",
+    "Zelenskyj": "Zeh-len-skee",
+    "Zelensky": "Zeh-len-skee",
+    "Tianwen": "Tee-en-wen",
+    "Altman": "Awlt-man",
+    "Hassabis": "Hah-sah-biss",
+    "Amodei": "Ah-mo-day",
 
     # Note: Common words like "who", "ice", "us", "led", "dot" are now
     # protected by case-sensitive acronym matching (_CASE_SENSITIVE_ACRONYMS)

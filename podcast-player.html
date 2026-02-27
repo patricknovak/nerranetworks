@@ -105,6 +105,24 @@
             margin-top: 15px;
         }
         
+        .speed-button {
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: #e0e0e0;
+            border: 1px solid #ccc;
+            color: #333;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            min-width: 44px;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        .speed-button:hover {
+            background: #d0d0f0;
+        }
+
         .play-button {
             width: 60px;
             height: 60px;
@@ -356,6 +374,7 @@
                             </div>
                         </div>
                     </div>
+                    <button class="speed-button" id="speed-${index}" onclick="cycleSpeed(${index})">1x</button>
                     <audio id="audio-${index}" src="${episode.audioUrl}" preload="none"></audio>
                 </div>
             `).join('');
@@ -403,6 +422,17 @@
             }
         }
         
+        const speedSteps = [1, 1.25, 1.5, 2];
+        function cycleSpeed(index) {
+            const audio = document.getElementById(`audio-${index}`);
+            const btn = document.getElementById(`speed-${index}`);
+            const cur = audio.playbackRate || 1;
+            const idx = speedSteps.indexOf(cur);
+            const next = speedSteps[(idx + 1) % speedSteps.length];
+            audio.playbackRate = next;
+            btn.textContent = next + 'x';
+        }
+
         function updateProgress(index, audio) {
             const progress = document.getElementById(`progress-${index}`);
             const current = document.getElementById(`current-${index}`);

@@ -192,6 +192,8 @@ jobs:
           ENV_INTEL_NEWSLETTER_API_KEY=${{ secrets.ENV_INTEL_NEWSLETTER_API_KEY }}
           MODELS_AGENTS_NEWSLETTER_API_KEY=${{ secrets.MODELS_AGENTS_NEWSLETTER_API_KEY }}
           ENVEOF
+          # Strip leading whitespace from heredoc lines (YAML indentation artifact)
+          sed -i 's/^[[:space:]]*//' .env
 
       - name: Validate config before run
         run: |
@@ -293,3 +295,12 @@ jobs:
           done
           echo "All push attempts failed"
           exit 1
+
+      - name: Alert on failure
+        if: failure()
+        run: |
+          echo "::error::PIPELINE FAILURE: ${{ matrix.show }} failed on $(date -u +%Y-%m-%d)"
+          echo "Check the workflow logs for details."
+          echo "Show: ${{ matrix.show }}"
+          echo "Run ID: ${{ github.run_id }}"
+          echo "Run URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

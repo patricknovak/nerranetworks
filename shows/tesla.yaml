@@ -120,6 +120,6 @@ publishing:
 
 episode:
   prefix: Tesla_Shorts_Time_Pod
-  filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d_%H%M%S}.mp3"
+  filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
   output_dir: digests/tesla_shorts_time
   mp3_glob: "Tesla_Shorts_Time_Pod_Ep*.mp3"

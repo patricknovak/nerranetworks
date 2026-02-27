@@ -175,15 +175,50 @@ SHOW_SECTION_PATTERNS: Dict[str, Dict[str, str]] = {
 
 
 def _extract_bold_headlines(text: str, max_items: int = 20) -> List[str]:
-    """Extract bold-formatted headlines from a digest section."""
-    headlines = []
+    """Extract headlines from a digest section.
+
+    Tries bold-formatted headlines first (``**text**``).  Falls back to
+    numbered list items (``1. text``) and markdown header lines
+    (``### text``) so that cross-episode dedup works regardless of the
+    LLM's formatting choices.
+    """
+    headlines: List[str] = []
+
+    # Primary: bold-formatted headlines
     for m in re.finditer(r"\*{2}([^*]{10,})\*{2}", text):
         t = m.group(1).strip()
-        # Skip short items that are likely formatting, not headlines
         if t and len(t) > 15 and t not in headlines:
             headlines.append(t)
         if len(headlines) >= max_items:
-            break
+            return headlines
+
+    # Fallback 1: numbered list items  (e.g. "1. Some headline text")
+    if not headlines:
+        for m in re.finditer(r"^\s*\d{1,2}\.\s+(.{15,})", text, re.MULTILINE):
+            t = m.group(1).strip().rstrip(".")
+            # Strip residual markdown bold if partially formatted
+            t = re.sub(r"\*{1,2}", "", t).strip()
+            if t and t not in headlines:
+                headlines.append(t)
+            if len(headlines) >= max_items:
+                return headlines
+
+    # Fallback 2: markdown sub-headers  (### Headline)
+    if not headlines:
+        for m in re.finditer(r"^#{2,4}\s+(.{15,})", text, re.MULTILINE):
+            t = m.group(1).strip()
+            if t and t not in headlines:
+                headlines.append(t)
+            if len(headlines) >= max_items:
+                return headlines
+
+    if not headlines:
+        logger.warning(
+            "Could not extract any headlines from digest section (%d chars). "
+            "Cross-episode dedup may miss repeated stories.",
+            len(text),
+        )
+
     return headlines
 
 
