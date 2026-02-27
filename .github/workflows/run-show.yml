@@ -8,8 +8,8 @@ on:
     - cron: '0 10 * * *'
     # Planetterrian Daily: Odd days ~8 AM Eastern
     - cron: '0 12 1-31/2 * *'
-    # Fascinating Frontiers: Even days ~8 AM Eastern
-    - cron: '0 12 2-31/2 * *'
+    # Fascinating Frontiers: Even days ~8:15 AM Eastern (staggered to avoid API competition)
+    - cron: '15 12 2-31/2 * *'
     # Environmental Intelligence: Weekdays ~6 AM Pacific (14:00 UTC)
     - cron: '0 14 * * 1-5'
     # Models & Agents: Daily ~7 AM Pacific (15:00 UTC)
@@ -66,6 +66,7 @@ jobs:
               now_utc = datetime.datetime.now(datetime.timezone.utc)
               now_et = now_utc.astimezone(ZoneInfo("America/New_York"))
               utc_hour = now_utc.hour
+              utc_minute = now_utc.minute
               et_hour = now_et.hour
               day = now_et.day
 
@@ -79,11 +80,11 @@ jobs:
                   shows.append("tesla")
                   if et_hour == 6:
                       shows.append("omni_view")
-              # 12:00 UTC — odd day = Planetterrian, even day = Fascinating Frontiers
+              # 12:00 UTC — odd day = Planetterrian; 12:15 UTC — even day = Fascinating Frontiers
               elif utc_hour == 12:
-                  if day % 2 == 1:
+                  if utc_minute < 10 and day % 2 == 1:
                       shows.append("planetterrian")
-                  else:
+                  elif utc_minute >= 10 and day % 2 == 0:
                       shows.append("fascinating_frontiers")
               # 14:00 UTC — Environmental Intelligence (weekdays only, ~6 AM Pacific)
               elif utc_hour == 14:
@@ -95,12 +96,31 @@ jobs:
                   shows.append("models_agents")
 
               if not shows:
-                  print(f"No shows matched for UTC hour {utc_hour}, ET hour {et_hour}, day {day}")
+                  msg = f"WARNING: No shows matched for UTC {utc_hour}:{utc_minute:02d}, ET hour {et_hour}, day {day}"
+                  print(msg)
+                  print(f"::warning::{msg}")
 
           matrix = json.dumps(shows)
           print(f"Shows to run: {matrix}")
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
               f.write(f"shows={matrix}\n")
+
+  # -----------------------------------------------------------------------
+  # Alert if no shows were scheduled (catch misconfiguration / DST issues)
+  # -----------------------------------------------------------------------
+  alert-skip:
+    needs: gate
+    if: needs.gate.outputs.shows == '[]' && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Alert on skipped schedule
+        run: |
+          echo "::warning::SCHEDULE SKIP: No shows were matched for this cron trigger."
+          echo "This may indicate a cron misconfiguration or DST edge case."
+          echo "UTC time: $(date -u)"
+          echo "Shows output: ${{ needs.gate.outputs.shows }}"
+          # Exit with failure to surface in workflow dashboard
+          exit 1
 
   # -----------------------------------------------------------------------
   # Run show(s) in parallel via matrix
@@ -172,10 +192,78 @@ jobs:
           ENV_INTEL_NEWSLETTER_API_KEY=${{ secrets.ENV_INTEL_NEWSLETTER_API_KEY }}
           MODELS_AGENTS_NEWSLETTER_API_KEY=${{ secrets.MODELS_AGENTS_NEWSLETTER_API_KEY }}
           ENVEOF
+          # Strip leading whitespace from heredoc lines (YAML indentation artifact)
+          sed -i 's/^[[:space:]]*//' .env
+
+      - name: Validate config before run
+        run: |
+          python3 -c "
+          from engine.config import load_config
+          config = load_config('shows/${{ matrix.show }}.yaml')
+          assert config.name, 'Show name is empty'
+          assert config.llm.digest_prompt_file, 'Missing digest prompt file'
+          assert config.llm.podcast_prompt_file, 'Missing podcast prompt file'
+          from pathlib import Path
+          assert Path(config.llm.digest_prompt_file).exists(), f'Digest prompt not found: {config.llm.digest_prompt_file}'
+          assert Path(config.llm.podcast_prompt_file).exists(), f'Podcast prompt not found: {config.llm.podcast_prompt_file}'
+          if config.llm.system_prompt_file:
+              assert Path(config.llm.system_prompt_file).exists(), f'System prompt not found: {config.llm.system_prompt_file}'
+          assert len(config.sources) > 0, 'No RSS sources configured'
+          print(f'Config validated: {config.name} ({len(config.sources)} sources, model={config.llm.model})')
+          "
 
       - name: Run show pipeline
         run: python run_show.py ${{ matrix.show }} 2>&1
         timeout-minutes: 30
+
+      - name: Validate output
+        run: |
+          SHOW="${{ matrix.show }}"
+          echo "Validating output for $SHOW..."
+
+          # Determine output directory
+          OUTPUT_DIR="digests/${SHOW}"
+          if [ "$SHOW" = "tesla" ]; then
+            OUTPUT_DIR="digests/tesla_shorts_time"
+          fi
+
+          # Check that at least one .md digest file was created today
+          TODAY=$(date +%Y%m%d)
+          MD_COUNT=$(find "$OUTPUT_DIR" -name "*${TODAY}*.md" -type f 2>/dev/null | wc -l)
+          if [ "$MD_COUNT" -eq 0 ]; then
+            echo "WARNING: No digest markdown found for today in $OUTPUT_DIR"
+          else
+            echo "Found $MD_COUNT digest file(s) for today"
+          fi
+
+          # Check for MP3 output (skip for test-only runs)
+          MP3_COUNT=$(find "$OUTPUT_DIR" -name "*${TODAY}*.mp3" -not -name "*_raw.mp3" -type f 2>/dev/null | wc -l)
+          if [ "$MP3_COUNT" -eq 0 ]; then
+            echo "WARNING: No final MP3 found for today in $OUTPUT_DIR"
+          else
+            # Validate MP3 is reasonable size (> 100KB = not empty/corrupt)
+            for mp3 in $(find "$OUTPUT_DIR" -name "*${TODAY}*.mp3" -not -name "*_raw.mp3" -type f 2>/dev/null); do
+              SIZE=$(stat -c%s "$mp3" 2>/dev/null || echo 0)
+              if [ "$SIZE" -lt 100000 ]; then
+                echo "ERROR: MP3 $mp3 is suspiciously small (${SIZE} bytes)"
+                exit 1
+              fi
+              echo "MP3 validated: $mp3 (${SIZE} bytes)"
+            done
+          fi
+
+          # Validate RSS feed is well-formed XML
+          RSS_FILES=$(find . -maxdepth 1 -name "*.rss" -newer "$OUTPUT_DIR" -type f 2>/dev/null || true)
+          for rss in *.rss; do
+            if [ -f "$rss" ]; then
+              python3 -c "import xml.etree.ElementTree as ET; ET.parse('$rss'); print('RSS valid: $rss')" || {
+                echo "ERROR: RSS feed $rss is not valid XML"
+                exit 1
+              }
+            fi
+          done
+
+          echo "Output validation passed"
 
       - name: Commit and push output
         run: |
@@ -207,3 +295,12 @@ jobs:
           done
           echo "All push attempts failed"
           exit 1
+
+      - name: Alert on failure
+        if: failure()
+        run: |
+          echo "::error::PIPELINE FAILURE: ${{ matrix.show }} failed on $(date -u +%Y-%m-%d)"
+          echo "Check the workflow logs for details."
+          echo "Show: ${{ matrix.show }}"
+          echo "Run ID: ${{ github.run_id }}"
+          echo "Run URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

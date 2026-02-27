@@ -24,6 +24,7 @@ Usage:
 """
 
 import datetime
+import fcntl
 import json
 import logging
 import re
@@ -174,16 +175,63 @@ SHOW_SECTION_PATTERNS: Dict[str, Dict[str, str]] = {
 
 
 def _extract_bold_headlines(text: str, max_items: int = 20) -> List[str]:
-    """Extract bold-formatted headlines from a digest section."""
-    headlines = []
+    """Extract headlines from a digest section.
+
+    Tries bold-formatted headlines first (``**text**``).  Falls back to
+    numbered list items (``1. text``) and markdown header lines
+    (``### text``) so that cross-episode dedup works regardless of the
+    LLM's formatting choices.
+    """
+    headlines: List[str] = []
+
+    # Primary: bold-formatted headlines
     for m in re.finditer(r"\*{2}([^*]{10,})\*{2}", text):
         t = m.group(1).strip()
-        # Skip short items that are likely formatting, not headlines
         if t and len(t) > 15 and t not in headlines:
             headlines.append(t)
         if len(headlines) >= max_items:
-            break
+            return headlines
+
+    # Fallback 1: numbered list items  (e.g. "1. Some headline text")
+    if not headlines:
+        for m in re.finditer(r"^\s*\d{1,2}\.\s+(.{15,})", text, re.MULTILINE):
+            t = m.group(1).strip().rstrip(".")
+            # Strip residual markdown bold if partially formatted
+            t = re.sub(r"\*{1,2}", "", t).strip()
+            if t and t not in headlines:
+                headlines.append(t)
+            if len(headlines) >= max_items:
+                return headlines
+
+    # Fallback 2: markdown sub-headers  (### Headline)
+    if not headlines:
+        for m in re.finditer(r"^#{2,4}\s+(.{15,})", text, re.MULTILINE):
+            t = m.group(1).strip()
+            if t and t not in headlines:
+                headlines.append(t)
+            if len(headlines) >= max_items:
+                return headlines
+
+    if not headlines:
+        logger.warning(
+            "Could not extract any headlines from digest section (%d chars). "
+            "Cross-episode dedup may miss repeated stories.",
+            len(text),
+        )
+
     return headlines
+
+
+def _normalize_url_for_dedup(url: str) -> str:
+    """Strip query params and trailing slashes for URL-based dedup.
+
+    Different sources may syndicate the same story under different UTM
+    parameters.  We compare the path only, lowercased.
+    """
+    from urllib.parse import urlparse
+
+    p = urlparse(url.strip().lower())
+    return (p.netloc + p.path).rstrip("/")
 
 
 def _extract_quote_author(text: str) -> Optional[str]:
@@ -221,32 +269,53 @@ class ContentTracker:
         }
 
     def load(self) -> None:
-        """Load tracker from JSON file."""
+        """Load tracker from JSON file with shared lock."""
         if self.tracker_file.exists():
             try:
                 with open(self.tracker_file, "r", encoding="utf-8") as f:
-                    loaded = json.load(f)
+                    fcntl.flock(f.fileno(), fcntl.LOCK_SH)
+                    try:
+                        loaded = json.load(f)
+                    finally:
+                        fcntl.flock(f.fileno(), fcntl.LOCK_UN)
                 if isinstance(loaded, dict) and "episodes" in loaded:
                     self.data = loaded
                     self._prune_old_episodes()
+                    ep_count = len(self.data["episodes"])
                     logger.info(
                         "Loaded content tracker for '%s': %d episodes tracked",
                         self.show_slug,
-                        len(self.data["episodes"]),
+                        ep_count,
                     )
+                    if ep_count == 0:
+                        logger.warning(
+                            "Content tracker for '%s' has ZERO episodes — "
+                            "cross-episode dedup is effectively DISABLED. "
+                            "All articles will pass through without "
+                            "repetition checks.",
+                            self.show_slug,
+                        )
                     return
             except Exception as e:
                 logger.warning("Failed to load content tracker for %s: %s", self.show_slug, e)
         logger.info("Starting fresh content tracker for '%s'", self.show_slug)
 
     def save(self) -> None:
-        """Persist tracker to JSON file."""
+        """Persist tracker to JSON file with file locking.
+
+        Uses ``fcntl.flock()`` to prevent concurrent writes from
+        parallel show runs corrupting the tracker JSON.
+        """
         self._prune_old_episodes()
         self.data["last_updated"] = datetime.date.today().isoformat()
         try:
             self.output_dir.mkdir(parents=True, exist_ok=True)
             with open(self.tracker_file, "w", encoding="utf-8") as f:
-                json.dump(self.data, f, indent=2, ensure_ascii=False)
+                fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+                try:
+                    json.dump(self.data, f, indent=2, ensure_ascii=False)
+                finally:
+                    fcntl.flock(f.fileno(), fcntl.LOCK_UN)
             logger.info("Saved content tracker to %s", self.tracker_file)
         except Exception as e:
             logger.error("Failed to save content tracker: %s", e)
@@ -271,6 +340,20 @@ class ContentTracker:
             if ep.get("date", "") >= cutoff:
                 headlines.extend(ep.get("headlines", []))
         return headlines
+
+    def get_recent_urls(self, days: Optional[int] = None) -> set:
+        """Return normalized article URLs from recent episodes."""
+        cutoff = (
+            datetime.date.today() - datetime.timedelta(days=days or self.max_days)
+        ).isoformat()
+        urls: set = set()
+        for ep in self.data["episodes"]:
+            if ep.get("date", "") >= cutoff:
+                for u in ep.get("urls", []):
+                    norm = _normalize_url_for_dedup(u)
+                    if norm:
+                        urls.add(norm)
+        return urls
 
     def get_recent_quote_authors(self, window_days: int = 30) -> List[str]:
         """Return quote authors used within the window."""
@@ -356,16 +439,34 @@ class ContentTracker:
     ) -> List[Dict]:
         """Filter out articles that are too similar to recently covered stories.
 
+        Uses two complementary checks:
+        1. **URL match** — catches the same story syndicated across sources
+           (different domains but identical path slug).
+        2. **Title similarity** — catches rephrased versions of the same story.
+
         More aggressive than the in-episode dedup (0.85 threshold) because
         cross-episode repetition is more noticeable to listeners.
         """
-        recent_headlines = self.get_recent_headlines(days=days or 3)
-        if not recent_headlines or not articles:
+        day_window = days or 3
+        recent_headlines = self.get_recent_headlines(days=day_window)
+        recent_urls = self.get_recent_urls(days=day_window)
+
+        if (not recent_headlines and not recent_urls) or not articles:
             return articles
 
         recent_norm = [norm_headline_for_similarity(h) for h in recent_headlines if h]
         filtered = []
         for article in articles:
+            # URL-based check (exact path match ignoring query params)
+            article_url = (article.get("url") or "").strip()
+            if article_url and recent_urls:
+                norm_url = _normalize_url_for_dedup(article_url)
+                if norm_url and norm_url in recent_urls:
+                    logger.debug(
+                        "Filtering article by URL match: %s...", article_url[:80]
+                    )
+                    continue
+
             title = (article.get("title") or "").strip()
             if not title:
                 filtered.append(article)
@@ -401,6 +502,10 @@ class ContentTracker:
     ) -> None:
         """Extract and record content from a generated digest.
 
+        Multiple episodes on the same date are supported: headlines are
+        *merged* (not replaced) so that same-day re-runs don't lose the
+        earlier episode's dedup context.
+
         Args:
             digest_text: The full digest markdown text.
             section_patterns: Dict mapping section names to regex patterns.
@@ -408,20 +513,19 @@ class ContentTracker:
         """
         ep_date = date or datetime.date.today().isoformat()
 
-        # Don't record duplicate dates
-        existing_dates = {ep.get("date") for ep in self.data["episodes"]}
-        if ep_date in existing_dates:
-            logger.debug("Episode for %s already recorded, updating", ep_date)
-            self.data["episodes"] = [
-                ep for ep in self.data["episodes"] if ep.get("date") != ep_date
-            ]
-
-        episode_record = {
+        episode_record: Dict = {
             "date": ep_date,
             "headlines": [],
+            "urls": [],
             "quote_author": None,
             "sections": {},
         }
+
+        # Extract source URLs from the digest for URL-based dedup
+        for url_match in re.finditer(r"Source:\s*(https?://[^\s)\]]+)", digest_text):
+            url = url_match.group(1).strip().rstrip(",.")
+            if url:
+                episode_record["urls"].append(url)
 
         # Extract headlines
         headlines_pattern = section_patterns.get("headlines")
@@ -453,14 +557,43 @@ class ContentTracker:
                     if author:
                         episode_record["quote_author"] = author
 
-        self.data["episodes"].append(episode_record)
-        logger.info(
-            "Recorded episode %s: %d headlines, %d sections, quote by %s",
-            ep_date,
-            len(episode_record["headlines"]),
-            len(episode_record["sections"]),
-            episode_record["quote_author"] or "unknown",
-        )
+        # Merge with existing same-date entry instead of replacing it.
+        # This ensures multiple same-day runs accumulate headlines for
+        # cross-episode dedup rather than losing earlier episodes' data.
+        existing = [ep for ep in self.data["episodes"] if ep.get("date") == ep_date]
+        if existing:
+            prev = existing[0]
+            prev_headlines = set(prev.get("headlines", []))
+            for h in episode_record["headlines"]:
+                if h not in prev_headlines:
+                    prev["headlines"].append(h)
+            # Merge URLs
+            prev_urls = set(prev.get("urls", []))
+            if "urls" not in prev:
+                prev["urls"] = list(prev_urls)
+            for u in episode_record.get("urls", []):
+                if u not in prev_urls:
+                    prev["urls"].append(u)
+            # Keep sections from the latest run (most current)
+            prev["sections"].update(episode_record["sections"])
+            if episode_record["quote_author"]:
+                prev["quote_author"] = episode_record["quote_author"]
+            logger.info(
+                "Merged same-day episode %s: now %d headlines, %d urls, %d sections",
+                ep_date,
+                len(prev["headlines"]),
+                len(prev.get("urls", [])),
+                len(prev["sections"]),
+            )
+        else:
+            self.data["episodes"].append(episode_record)
+            logger.info(
+                "Recorded episode %s: %d headlines, %d sections, quote by %s",
+                ep_date,
+                len(episode_record["headlines"]),
+                len(episode_record["sections"]),
+                episode_record["quote_author"] or "unknown",
+            )
 
     def check_quote_reuse(self, quote_text: str, window_days: int = 30) -> bool:
         """Check if a quote's author has been used within the window.

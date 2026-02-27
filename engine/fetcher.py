@@ -145,15 +145,23 @@ def _fetch_single_feed(
         feed = feedparser.parse(response.content)
 
         if feed.bozo and feed.bozo_exception:
-            with problematic_feeds_lock:
-                if feed_url not in problematic_feeds:
-                    problematic_feeds.add(feed_url)
-                    logger.debug(
-                        "RSS feed parsing issue (skipping): %s — %s",
-                        feed_url,
-                        str(feed.bozo_exception)[:100],
-                    )
-            return None
+            # Only skip if the feed produced zero entries — many valid feeds
+            # trigger bozo on minor XML issues but still have usable entries.
+            if not feed.entries:
+                with problematic_feeds_lock:
+                    if feed_url not in problematic_feeds:
+                        problematic_feeds.add(feed_url)
+                        logger.warning(
+                            "RSS feed parsing failed (no entries): %s — %s",
+                            feed_url,
+                            str(feed.bozo_exception)[:100],
+                        )
+                return None
+            else:
+                logger.debug(
+                    "RSS feed has minor XML issues but %d entries parsed OK: %s",
+                    len(feed.entries), feed_url,
+                )
 
         feed_title = feed.feed.get("title", "Unknown")
         source_name = _get_source_name(feed_url, feed_title)
@@ -292,8 +300,10 @@ def fetch_rss_articles(
 
     logger.info("Fetched %d total articles from RSS feeds", len(all_articles))
     if problematic_feeds:
-        logger.debug(
-            "Skipped %d problematic feed(s)", len(problematic_feeds)
+        logger.warning(
+            "Skipped %d problematic feed(s): %s",
+            len(problematic_feeds),
+            ", ".join(sorted(problematic_feeds)),
         )
 
     if not all_articles:

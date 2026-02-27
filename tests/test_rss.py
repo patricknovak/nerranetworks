@@ -34,7 +34,7 @@ RSS_FEEDS = {
 
 EXPECTED_EPISODE_COUNTS = {
     "tesla": 48,
-    "omni": 2,
+    "omni": 3,
     "frontiers": 21,
     "planetterrian": 12,
     "env_intel": 1,
@@ -286,7 +286,7 @@ class TestItemStructure:
     # (the scripts only set duration on newly generated episodes).
     EXPECTED_DURATION_COUNTS = {
         "tesla": 48,
-        "omni": 2,
+        "omni": 3,
         "planetterrian": 1,
         "frontiers": 1,
         "env_intel": 1,

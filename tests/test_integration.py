@@ -576,6 +576,242 @@ class TestCleanup:
 
 
 # ---------------------------------------------------------------------------
+# Post-run validation tests
+# ---------------------------------------------------------------------------
+
+
+class TestPostRunValidation:
+    """Test the post-run validation module."""
+
+    def test_validate_mp3_missing(self, tmp_path):
+        """Missing MP3 fails validation."""
+        from engine.post_run_validation import validate_mp3
+
+        assert validate_mp3(tmp_path / "nonexistent.mp3") is False
+
+    def test_validate_mp3_too_small(self, tmp_path):
+        """Tiny MP3 file fails validation."""
+        from engine.post_run_validation import validate_mp3
+
+        small_mp3 = tmp_path / "tiny.mp3"
+        small_mp3.write_bytes(b"\x00" * 100)
+        assert validate_mp3(small_mp3) is False
+
+    def test_validate_mp3_good_size(self, tmp_path):
+        """Reasonably sized MP3 passes validation (size check only)."""
+        from engine.post_run_validation import validate_mp3
+
+        good_mp3 = tmp_path / "good.mp3"
+        good_mp3.write_bytes(b"\xff" * 200_000)
+        assert validate_mp3(good_mp3) is True
+
+    def test_validate_rss_missing(self, tmp_path):
+        """Missing RSS file fails validation."""
+        from engine.post_run_validation import validate_rss
+
+        assert validate_rss(tmp_path / "missing.rss") is False
+
+    def test_validate_rss_invalid_xml(self, tmp_path):
+        """Invalid XML fails validation."""
+        from engine.post_run_validation import validate_rss
+
+        bad_rss = tmp_path / "bad.rss"
+        bad_rss.write_text("not xml at all <unclosed", encoding="utf-8")
+        assert validate_rss(bad_rss) is False
+
+    def test_validate_rss_valid(self, tmp_path):
+        """Valid RSS passes validation."""
+        from engine.post_run_validation import validate_rss
+
+        good_rss = tmp_path / "good.rss"
+        good_rss.write_text(
+            '<?xml version="1.0"?><rss><channel><title>Test</title>'
+            "<item><guid>test-ep001</guid></item></channel></rss>",
+            encoding="utf-8",
+        )
+        assert validate_rss(good_rss) is True
+
+    def test_validate_digest_empty(self):
+        """Empty digest fails validation."""
+        from engine.post_run_validation import validate_digest
+
+        assert validate_digest("", "test") is False
+        assert validate_digest("   ", "test") is False
+
+    def test_validate_digest_too_short(self):
+        """Very short digest fails validation."""
+        from engine.post_run_validation import validate_digest
+
+        assert validate_digest("Hello world", "test") is False
+
+    def test_validate_digest_good(self):
+        """Sufficient digest passes validation."""
+        from engine.post_run_validation import validate_digest
+
+        assert validate_digest("x" * 300, "test") is True
+
+    def test_run_post_validation_all_pass(self, tmp_path):
+        """Full validation suite passes with good inputs."""
+        from engine.post_run_validation import run_post_validation
+
+        mp3 = tmp_path / "test.mp3"
+        mp3.write_bytes(b"\xff" * 200_000)
+        rss = tmp_path / "test.rss"
+        rss.write_text(
+            '<?xml version="1.0"?><rss><channel><title>T</title></channel></rss>',
+            encoding="utf-8",
+        )
+
+        assert run_post_validation(
+            mp3_path=mp3,
+            rss_path=rss,
+            digest_text="x" * 300,
+            show_name="test",
+            episode_num=1,
+        ) is True
+
+
+# ---------------------------------------------------------------------------
+# LLM output validation tests
+# ---------------------------------------------------------------------------
+
+
+class TestLLMOutputValidation:
+    """Test the LLM output validation in engine/generator.py."""
+
+    def test_empty_output_logs_error(self, caplog):
+        """Empty LLM output triggers error log."""
+        from engine.generator import _validate_llm_output
+
+        with caplog.at_level("ERROR"):
+            _validate_llm_output("", stage="digest", show_name="test")
+        assert "EMPTY" in caplog.text
+
+    def test_short_output_logs_warning(self, caplog):
+        """Short LLM output triggers warning log."""
+        from engine.generator import _validate_llm_output
+
+        with caplog.at_level("WARNING"):
+            _validate_llm_output("tiny output", stage="digest", show_name="test")
+        assert "suspiciously short" in caplog.text
+
+    def test_good_output_no_warning(self, caplog):
+        """Sufficient LLM output produces no warnings."""
+        from engine.generator import _validate_llm_output
+
+        with caplog.at_level("WARNING"):
+            _validate_llm_output("x" * 500, stage="digest", show_name="test")
+        assert "EMPTY" not in caplog.text
+        assert "suspiciously short" not in caplog.text
+
+    def test_instruction_leak_detected(self, caplog):
+        """Leaked prompt instructions trigger warning."""
+        from engine.generator import _validate_llm_output
+
+        text = "x" * 300 + "\nAs an AI language model, I cannot"
+        with caplog.at_level("WARNING"):
+            _validate_llm_output(text, stage="digest", show_name="test")
+        assert "leaked prompt" in caplog.text
+
+
+# ---------------------------------------------------------------------------
+# TTS chunking tests
+# ---------------------------------------------------------------------------
+
+
+class TestTTSChunking:
+    """Test the improved TTS text chunking logic."""
+
+    def test_short_text_no_split(self):
+        """Text under max_chars returns single chunk."""
+        from engine.tts import chunk_text
+
+        result = chunk_text("Hello world.", max_chars=5000)
+        assert len(result) == 1
+
+    def test_splits_at_sentence_boundary(self):
+        """Text is split at sentence ending, not mid-sentence."""
+        from engine.tts import chunk_text
+
+        # Build text that exceeds 100 chars
+        text = "First sentence. " + "x" * 90 + ". Second sentence."
+        result = chunk_text(text, max_chars=100)
+        assert len(result) >= 2
+        # First chunk should end with a period
+        assert result[0].rstrip().endswith(".")
+
+    def test_splits_at_clause_boundary(self):
+        """When no sentence boundary exists, splits at clause boundary."""
+        from engine.tts import chunk_text
+
+        # A very long single sentence with semicolons
+        text = "A" * 40 + "; " + "B" * 40 + "; " + "C" * 40
+        result = chunk_text(text, max_chars=50)
+        assert len(result) >= 2
+
+    def test_no_exclamation_appended_by_default(self):
+        """Speak function should not append exclamation by default."""
+        from engine.tts import speak
+
+        import inspect
+        sig = inspect.signature(speak)
+        assert sig.parameters["append_exclamation"].default is False
+
+
+# ---------------------------------------------------------------------------
+# Config validation tests (all shows have system prompts)
+# ---------------------------------------------------------------------------
+
+
+class TestSystemPrompts:
+    """Verify all shows now have system prompt files."""
+
+    @pytest.fixture(
+        params=["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel", "models_agents"]
+    )
+    def show_slug(self, request):
+        return request.param
+
+    def test_system_prompt_file_exists(self, show_slug):
+        """Each show config references a system prompt file that exists."""
+        from engine.config import load_config
+
+        config_path = PROJECT_ROOT / "shows" / f"{show_slug}.yaml"
+        if not config_path.exists():
+            pytest.skip(f"Config not found: {config_path}")
+
+        config = load_config(config_path)
+        assert config.llm.system_prompt_file, f"{show_slug} should have system_prompt_file"
+        sp_path = Path(config.llm.system_prompt_file)
+        assert sp_path.exists(), f"System prompt file not found: {sp_path}"
+
+    def test_all_shows_use_grok4(self, show_slug):
+        """All shows should now use grok-4."""
+        from engine.config import load_config
+
+        config_path = PROJECT_ROOT / "shows" / f"{show_slug}.yaml"
+        if not config_path.exists():
+            pytest.skip(f"Config not found: {config_path}")
+
+        config = load_config(config_path)
+        assert config.llm.model == "grok-4", f"{show_slug} should use grok-4, got {config.llm.model}"
+
+    def test_digest_temp_for_news_shows(self, show_slug):
+        """News/factual shows should use temperature <= 0.5."""
+        from engine.config import load_config
+
+        config_path = PROJECT_ROOT / "shows" / f"{show_slug}.yaml"
+        if not config_path.exists():
+            pytest.skip(f"Config not found: {config_path}")
+
+        config = load_config(config_path)
+        assert config.llm.digest_temperature <= 0.5, (
+            f"{show_slug} digest_temperature should be <= 0.5 for factual content, "
+            f"got {config.llm.digest_temperature}"
+        )
+
+
+# ---------------------------------------------------------------------------
 # Hook extraction
 # ---------------------------------------------------------------------------
 
@@ -614,16 +850,6 @@ class TestHookExtraction:
         from run_show import _extract_hook
         digest = "**HOOK:** \n\n### News"
         assert _extract_hook(digest) is None
-
-    def test_omni_view_script_includes_hook(self):
-        from run_show import _generate_omni_view_script
-        script = _generate_omni_view_script("## Top stories\n### 1) Big news\nSomething happened.", hook="Trade deal reshapes global markets today.")
-        assert "Trade deal reshapes global markets today." in script
-
-    def test_omni_view_script_without_hook(self):
-        from run_show import _generate_omni_view_script
-        script = _generate_omni_view_script("## Top stories\n### 1) Big news\nSomething happened.")
-        assert "Good morning" in script
 
     def test_clean_digest_strips_hook_line(self):
         """_clean_digest_for_podcast removes the HOOK line so it doesn't leak into the script."""

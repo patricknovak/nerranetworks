@@ -269,26 +269,52 @@ def filter_articles_by_recent_stories(
 def extract_primary_entity(title: str, description: str = "") -> str:
     """Extract the primary subject/entity from a headline.
 
-    Uses simple NLP heuristics: the first 2-3 word capitalised phrase in the
-    title (proper nouns / named entities).  Good enough to catch
-    "Crew Dragon", "SpaceX Starship", "Palestine Action", etc.
+    Uses simple NLP heuristics to find the most likely subject:
+    1. Multi-word capitalised phrases (2-4 words: "SpaceX Starship", "Crew Dragon")
+    2. Known pattern compounds ("SpaceX launches Starship" → "SpaceX Starship")
+    3. Acronyms / uppercase tokens ("USSF-87", "NASA")
+    4. Fallback: first significant capitalised word (skip common title-case words)
     """
     if not title:
         return ""
+
+    # Common words that appear capitalised in headlines but aren't entities
+    _STOP_WORDS = {
+        "The", "New", "How", "Why", "What", "When", "Where", "Who",
+        "First", "Top", "Big", "Major", "Latest", "Breaking", "Just",
+        "After", "Before", "More", "Most", "Some", "All", "Every",
+        "Could", "Would", "Should", "Will", "May", "Can", "Says",
+        "Report", "Study", "Research", "Update", "News", "Daily",
+    }
+
     # Remove source labels and dates at the end
     clean = re.sub(r"\d{1,2}\s+\w+\s+\d{4}.*$", "", title).strip()
-    # Find capitalised runs of 1-2 words (proper nouns / named entities)
-    runs = re.findall(r"(?:[A-Z][a-z]+(?:[-\s][A-Z][a-z]+){0,1})", clean)
-    if not runs:
+
+    # Find capitalised runs of 1-4 words (proper nouns / named entities)
+    runs = re.findall(r"(?:[A-Z][a-zA-Z]+(?:[-\s][A-Z][a-zA-Z]+){0,3})", clean)
+
+    # Filter out runs that are entirely stop words
+    filtered_runs = []
+    for r in runs:
+        words = r.split()
+        non_stop = [w for w in words if w not in _STOP_WORDS]
+        if non_stop:
+            filtered_runs.append(" ".join(non_stop))
+
+    if not filtered_runs:
         # Fallback: try uppercase segments (acronyms like "USSF-87")
-        runs = re.findall(r"[A-Z][A-Z0-9-]{2,}", clean)
-    if not runs:
+        filtered_runs = re.findall(r"[A-Z][A-Z0-9-]{2,}", clean)
+
+    if not filtered_runs:
         return clean[:40]
+
     # Prefer runs of 2+ words for specificity; fall back to longest single-word run
-    multi_word = [r for r in runs if " " in r or "-" in r]
+    multi_word = [r for r in filtered_runs if " " in r or "-" in r]
     if multi_word:
         return multi_word[0]
-    return runs[0]
+
+    # Return the longest single-word entity (more likely to be specific)
+    return max(filtered_runs, key=len)
 
 
 def deduplicate_by_entity(

@@ -44,8 +44,12 @@ def validate_elevenlabs_auth(api_key: str) -> None:
 def chunk_text(text: str, max_chars: int = 5000) -> List[str]:
     """Split text into chunks for ElevenLabs API.
 
-    Splits at sentence boundaries (., !, ?) to avoid mid-sentence audio
-    breaks.  Falls back to commas/semicolons, then spaces.
+    Split priority (best → worst for natural audio):
+      1. Sentence boundaries (., !, ?) — cleanest break
+      2. Clause boundaries (semicolons, colons, em dashes) — natural pause
+      3. Conjunctions after commas (", and", ", but", ", so") — clause-level
+      4. Any comma — last resort within-sentence split
+      5. Last space in the trailing 30% of the chunk
     """
     if len(text) <= max_chars:
         return [text]
@@ -56,22 +60,45 @@ def chunk_text(text: str, max_chars: int = 5000) -> List[str]:
     while len(remaining) > max_chars:
         chunk_candidate = remaining[:max_chars]
 
-        # Prefer the rightmost sentence ending
         best_split = -1
+
+        # 1. Prefer the rightmost sentence ending
         sentence_endings: List[int] = []
         for i, char in enumerate(chunk_candidate):
             if char in ".!?":
-                sentence_endings.append(i + 1)
+                # Avoid splitting on abbreviations (e.g., "U.S.") or decimals
+                # by requiring whitespace or end-of-text after the punctuation
+                if i + 1 >= len(chunk_candidate) or chunk_candidate[i + 1] in " \n\t":
+                    sentence_endings.append(i + 1)
 
         if sentence_endings:
             best_split = sentence_endings[-1]
-        else:
-            # Fallback: commas / semicolons (keep last one found)
+
+        # 2. Fallback: clause boundaries (semicolons, colons, em dashes)
+        if best_split == -1:
+            clause_splits: List[int] = []
             for i, char in enumerate(chunk_candidate):
-                if char in ",;":
+                if char in ";:" or (char == '—'):
+                    clause_splits.append(i + 1)
+            if clause_splits:
+                best_split = clause_splits[-1]
+
+        # 3. Fallback: conjunction after comma (", and", ", but", ", so", ", or")
+        if best_split == -1:
+            import re
+            conj_pattern = re.compile(r",\s+(?:and|but|so|or|yet|because|while|although)\s", re.IGNORECASE)
+            conj_matches = list(conj_pattern.finditer(chunk_candidate))
+            if conj_matches:
+                # Split after the comma, before the conjunction
+                best_split = conj_matches[-1].start() + 1
+
+        # 4. Fallback: any comma (keep last one found)
+        if best_split == -1:
+            for i, char in enumerate(chunk_candidate):
+                if char == ",":
                     best_split = i + 1
 
-        # Fallback: last space in the trailing 30 %
+        # 5. Fallback: last space in the trailing 30%
         if best_split == -1:
             search_start = int(max_chars * 0.7)
             for i in range(len(chunk_candidate) - 1, search_start - 1, -1):
@@ -187,7 +214,7 @@ def speak(
     use_speaker_boost: bool = True,
     stream: bool = True,
     timeout: int = 120,
-    append_exclamation: bool = True,
+    append_exclamation: bool = False,
 ) -> None:
     """Generate audio with automatic chunking and ffmpeg concatenation.
 
@@ -243,20 +270,23 @@ def speak(
             for cf in chunk_files:
                 f.write(f"file '{cf.absolute()}'\n")
 
+        # Re-encode with libmp3lame instead of -c copy to avoid clicks/pops
+        # at chunk boundaries caused by misaligned MP3 frames.
         subprocess.run(
             [
                 "ffmpeg", "-y",
                 "-f", "concat",
                 "-safe", "0",
                 "-i", str(concat_list),
-                "-c", "copy",
+                "-c:a", "libmp3lame",
+                "-q:a", "2",
                 str(filename),
             ],
             check=True,
             capture_output=True,
             timeout=300,
         )
-        logger.info("ElevenLabs TTS: Concatenated %d chunks seamlessly", len(chunks))
+        logger.info("ElevenLabs TTS: Concatenated %d chunks (re-encoded for seamless joins)", len(chunks))
 
     finally:
         for cf in chunk_files:
@@ -281,12 +311,12 @@ def synthesize(
     api_key: str,
     max_chars: int = 4500,
     model_id: str = "eleven_turbo_v2_5",
-    stability: float = 0.35,
-    similarity_boost: float = 0.75,
-    style: float = 0.2,
+    stability: float = 0.65,
+    similarity_boost: float = 0.9,
+    style: float = 0.85,
     stream: bool = True,
     timeout: int = 120,
-    append_exclamation: bool = True,
+    append_exclamation: bool = False,
 ) -> Path:
     """Top-level entry point: text in, audio file path out.
 

@@ -112,11 +112,13 @@ keywords:
 
 llm:
   provider: xai
-  model: grok-3
+  model: grok-4
+  system_prompt_file: shows/prompts/fascinating_frontiers_system.txt
   digest_prompt_file: shows/prompts/fascinating_frontiers_digest.txt
   podcast_prompt_file: shows/prompts/fascinating_frontiers_podcast.txt
-  digest_temperature: 0.7
-  podcast_temperature: 0.9
+  digest_temperature: 0.5
+  podcast_temperature: 0.75
+  max_tokens: 3500
 
 tts:
   voice_id: dTrBzPvD2GpAqkk1MUzA
@@ -161,6 +163,6 @@ publishing:
 
 episode:
   prefix: Fascinating_Frontiers
-  filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d_%H%M%S}.mp3"
+  filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
   output_dir: digests/fascinating_frontiers
   mp3_glob: "Fascinating_Frontiers_Ep*.mp3"

@@ -36,6 +36,7 @@ class LLMConfig:
     digest_temperature: float = 0.7
     podcast_temperature: float = 0.7
     max_tokens: int = 3500
+    podcast_max_tokens: int = 0  # 0 = use max_tokens for both
 
 
 @dataclass
@@ -88,6 +89,7 @@ class PublishingConfig:
     x_env_prefix: str = "X_"
     x_teaser_template: str = ""
     x_hashtags: str = ""
+    host_name: str = "Patrick"
 
 
 @dataclass
