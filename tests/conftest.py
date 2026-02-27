@@ -128,8 +128,8 @@ RSS_FEEDS = {
 }
 
 EXPECTED_EPISODE_COUNTS = {
-    "tesla": 48,
-    "omni": 2,
+    "tesla": 49,
+    "omni": 3,
     "frontiers": 21,
     "planetterrian": 12,
     "env_intel": 1,
