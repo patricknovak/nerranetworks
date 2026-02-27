@@ -3,6 +3,11 @@
 Fascinating Frontiers – FULL AUTO X + PODCAST MACHINE
 Daily Space & Astronomy News Digest (Patrick in Vancouver)
 Auto-published to X — December 2025+
+
+.. deprecated::
+    This legacy script is no longer used in production.
+    All shows now run via ``python run_show.py fascinating_frontiers``.
+    Retained for reference only — do not add new features here.
 """
 
 import os

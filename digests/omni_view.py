@@ -3,6 +3,11 @@
 Omni View – FULL AUTO X + PODCAST MACHINE
 Daily Balanced News Digest (Patrick in Vancouver)
 Auto-published to X — January 2026+
+
+.. deprecated::
+    This legacy script is no longer used in production.
+    All shows now run via ``python run_show.py omni_view``.
+    Retained for reference only — do not add new features here.
 """
 
 import os

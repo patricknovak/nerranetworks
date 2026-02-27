@@ -471,7 +471,7 @@ class TestFeatureFlags:
 class TestShowConfigs:
     """Verify all show YAML configs can be loaded."""
 
-    @pytest.fixture(params=["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel"])
+    @pytest.fixture(params=["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel", "models_agents"])
     def show_slug(self, request):
         return request.param
 
@@ -502,6 +502,23 @@ class TestShowConfigs:
         assert config.newsletter.enabled is True
         assert config.audio.music_file == "assets/music/tesla_shorts_time.mp3"
 
+    def test_models_agents_config_details(self):
+        """Models & Agents config has expected properties."""
+        from engine.config import load_config
+
+        config_path = PROJECT_ROOT / "shows" / "models_agents.yaml"
+        if not config_path.exists():
+            pytest.skip("models_agents.yaml not found")
+
+        config = load_config(config_path)
+        assert config.slug == "models_agents"
+        assert config.name == "Models & Agents"
+        assert config.publishing.x_enabled is False
+        assert config.newsletter.enabled is True
+        assert config.newsletter.api_key_env == "MODELS_AGENTS_NEWSLETTER_API_KEY"
+        assert len(config.sources) > 10  # Has many RSS feeds
+        assert config.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
+
 
 # ---------------------------------------------------------------------------
 # Subdirectory structure
@@ -530,6 +547,10 @@ class TestOutputDirectories:
     def test_ov_subdirectory_exists(self):
         subdir = PROJECT_ROOT / "digests" / "omni_view"
         assert subdir.is_dir(), "OV should have digests/omni_view/"
+
+    def test_ma_subdirectory_exists(self):
+        subdir = PROJECT_ROOT / "digests" / "models_agents"
+        assert subdir.is_dir(), "M&A should have digests/models_agents/"
 
 
 # ---------------------------------------------------------------------------
@@ -631,3 +652,99 @@ class TestHookExtraction:
         assert "Source:" not in cleaned
         assert "Welcome to the show!" in cleaned
         assert "Today we cover big news." in cleaned
+
+
+# ---------------------------------------------------------------------------
+# run_show.py pipeline integration
+# ---------------------------------------------------------------------------
+
+
+class TestRunShowPipeline:
+    """Verify run_show.py works for all shows (dry-run only — no API calls)."""
+
+    ALL_SHOWS = ["tesla", "omni_view", "fascinating_frontiers",
+                 "planetterrian", "env_intel", "models_agents"]
+
+    @pytest.mark.parametrize("show", ALL_SHOWS)
+    def test_dry_run(self, show):
+        """--dry-run should print the plan and exit cleanly."""
+        import subprocess
+
+        result = subprocess.run(
+            [sys.executable, str(PROJECT_ROOT / "run_show.py"), show, "--dry-run"],
+            capture_output=True, text=True, timeout=30,
+            cwd=str(PROJECT_ROOT),
+        )
+        assert result.returncode == 0, (
+            f"Dry run failed for {show}:\nstdout: {result.stdout}\nstderr: {result.stderr}"
+        )
+        assert "DRY RUN" in result.stdout
+
+    def test_discover_shows_finds_all(self):
+        """_discover_shows() finds all 6 show configs."""
+        from run_show import _discover_shows
+        shows = _discover_shows()
+        for s in self.ALL_SHOWS:
+            assert s in shows, f"{s} not found by _discover_shows()"
+
+    def test_build_teaser_all_shows(self):
+        """_build_teaser returns non-empty text for each show."""
+        from engine.config import load_config
+        from run_show import _build_teaser
+
+        for show in self.ALL_SHOWS:
+            config = load_config(PROJECT_ROOT / "shows" / f"{show}.yaml")
+            teaser = _build_teaser(config, episode_num=1,
+                                   today_str="February 27, 2026",
+                                   extra_context={})
+            assert teaser, f"_build_teaser returned empty for {show}"
+            assert "Episode 1" in teaser or "episode 1" in teaser.lower()
+
+
+# ---------------------------------------------------------------------------
+# Legacy script deprecation
+# ---------------------------------------------------------------------------
+
+
+class TestLegacyDeprecation:
+    """Verify legacy scripts carry deprecation notices."""
+
+    LEGACY_SCRIPTS = [
+        "tesla_shorts_time.py",
+        "omni_view.py",
+        "fascinating_frontiers.py",
+        "planetterrian.py",
+    ]
+
+    @pytest.mark.parametrize("script", LEGACY_SCRIPTS)
+    def test_has_deprecation_notice(self, script):
+        """Each legacy script should have a deprecation notice in its docstring."""
+        path = PROJECT_ROOT / "digests" / script
+        content = path.read_text(encoding="utf-8")
+        assert "deprecated" in content.lower(), (
+            f"{script} is missing a deprecation notice"
+        )
+        assert "run_show.py" in content, (
+            f"{script} deprecation notice should reference run_show.py"
+        )
+
+    def test_workflow_uses_run_show_not_legacy(self):
+        """The CI workflow should call run_show.py, not legacy scripts."""
+        workflow = PROJECT_ROOT / ".github" / "workflows" / "run-show.yml"
+        content = workflow.read_text()
+        assert "python run_show.py" in content
+        for script in self.LEGACY_SCRIPTS:
+            assert script not in content, (
+                f"Workflow should not reference legacy script {script}"
+            )
+
+    def test_newsletter_env_vars_in_workflow(self):
+        """CI workflow should inject newsletter API keys for shows that need them."""
+        workflow = PROJECT_ROOT / ".github" / "workflows" / "run-show.yml"
+        content = workflow.read_text()
+        for var in ["OMNI_VIEW_NEWSLETTER_API_KEY",
+                     "ENV_INTEL_NEWSLETTER_API_KEY",
+                     "MODELS_AGENTS_NEWSLETTER_API_KEY"]:
+            assert var in content, (
+                f"Workflow .env should include {var} for newsletter delivery"
+            )

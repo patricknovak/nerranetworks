@@ -123,13 +123,17 @@ RSS_FEEDS = {
     "omni": PROJECT_ROOT / "omni_view_podcast.rss",
     "planetterrian": PROJECT_ROOT / "planetterrian_podcast.rss",
     "frontiers": PROJECT_ROOT / "fascinating_frontiers_podcast.rss",
+    "env_intel": PROJECT_ROOT / "env_intel_podcast.rss",
+    "models_agents": PROJECT_ROOT / "models_agents_podcast.rss",
 }
 
 EXPECTED_EPISODE_COUNTS = {
-    "tesla": 79,
-    "omni": 24,
-    "frontiers": 38,
-    "planetterrian": 28,
+    "tesla": 48,
+    "omni": 2,
+    "frontiers": 21,
+    "planetterrian": 12,
+    "env_intel": 1,
+    "models_agents": 1,
 }
 
 

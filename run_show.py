@@ -4,7 +4,7 @@
 Usage:
     python run_show.py <show_name> [options]
 
-    show_name: tesla | omni_view | fascinating_frontiers | planetterrian | env_intel
+    show_name: tesla | omni_view | fascinating_frontiers | planetterrian | env_intel | models_agents
 
 Options:
     --test              Fetch RSS + generate digest only (no TTS, X posting, or RSS update)
