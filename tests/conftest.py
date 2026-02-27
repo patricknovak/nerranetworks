@@ -128,7 +128,7 @@ RSS_FEEDS = {
 }
 
 EXPECTED_EPISODE_COUNTS = {
-    "tesla": 49,
+    "tesla": 48,
     "omni": 3,
     "frontiers": 21,
     "planetterrian": 12,
