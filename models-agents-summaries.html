@@ -63,7 +63,7 @@
                     let dateStr = '';
                     try {
                         const d = new Date(ep.date);
-                        dateStr = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+                        dateStr = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
                     } catch { dateStr = ep.date || ''; }
 
                     let contentHtml = '';
