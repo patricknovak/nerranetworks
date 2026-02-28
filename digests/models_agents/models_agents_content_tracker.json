@@ -1,6 +1,6 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-02-27",
+  "last_updated": "2026-02-28",
   "episodes": [
     {
       "date": "2026-02-26",
@@ -32,6 +32,29 @@
         "model_updates": "### Model Updates\n**Perplexity’s new Computer: AI News & Artificial Intelligence | TechCrunch**  \nPerplexity launched the Perplexity Computer, a unified system integrating multiple AI capabilities like search, reasoning, and generation into a single interface, betting on users needing diverse models for complex tasks. It stands out from siloed tools like ChatGPT or Claude by enabling seamless switching between models such as GPT or Llama variants, with improved context handling and reduced laten",
         "agent_developments": "### Agent & Tool Developments\n**ClawMobile: Rethinking Smartphone-Native Agentic Systems: cs.MA updates on arXiv.org**  \nClawMobile is a hierarchical framework for LLM-based agents on smartphones, separating high-level reasoning from deterministic controls to handle constrained mobile environments like fragmented interfaces and changing states. It's a step up from cloud-reliant agents like AutoGPT, offering stable execution via open-sourced implementation for browser automation or code gen on de",
         "practical_community": "### Practical & Community\n**Agent Behavioral Contracts: Formal Specification and Runtime Enforcement for Reliable Autonomous AI Agents: cs.MA updates on arXiv.org**  \nThis introduces Agent Behavioral Contracts (ABC), a framework with preconditions, invariants, and recovery for enforcing reliable behavior in agents, implemented in AgentAssert for runtime checks. It solves drift in agent chains, achieving 88-100% compliance on benchmarks with low overhead, outperforming uncontracted baselines. Get"
+      }
+    },
+    {
+      "date": "2026-02-28",
+      "headlines": [],
+      "urls": [
+        "https://the-decoder.com/perplexity-open-sources-embedding-models-that-match-google-and-alibaba-at-a-fraction-of-the-memory-cost/",
+        "https://the-decoder.com/current-language-model-training-leaves-large-parts-of-the-internet-on-the-table/",
+        "https://arxiv.org/abs/2602.22351",
+        "https://arxiv.org/abs/2602.22543",
+        "https://arxiv.org/abs/2602.22661",
+        "https://the-decoder.com/a-new-benchmark-pits-five-ai-models-against-each-other-as-autonomous-social-media-agents-on-x/",
+        "https://arxiv.org/abs/2602.22675",
+        "https://arxiv.org/abs/2602.22453",
+        "https://arxiv.org/abs/2602.22391",
+        "https://arxiv.org/abs/2602.22404",
+        "https://arxiv.org/abs/2602.22424"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Current language model training leaves large parts of the internet on the table: The Decoder**  \nResearchers from Apple, Stanford, and UW revealed how different HTML extractors lead to vastly different training data for LLMs, with tools like Trafilatura capturing more diverse content than BeautifulSoup. This highlights a key limitation in current foundation model training, where extractor choice can exclude up to 50% of web data, affecting model robustness compared to more in",
+        "agent_developments": "### Agent & Tool Developments\n**A new benchmark pits five AI models against each other as autonomous social media agents on X: The Decoder**  \nArcada Labs' benchmark tests leading LLMs like GPT-4o and Claude as autonomous agents on X, evaluating social engagement and task completion in real-time scenarios. It's a step up from static benchmarks, revealing strengths in models like Grok for dynamic interactions, but highlights latency issues in agent frameworks like AutoGen. Try it by running the o",
+        "practical_community": "### Practical & Community\n**Detecting Hate and Inflammatory Content in Bengali Memes: A New Multimodal Dataset and Co-Attention Framework: cs.CL updates on arXiv.org**  \nBn-HIB is a new dataset of 3,247 annotated Bengali memes for multilabel hate detection, paired with the MCFM model that fuses visual and textual features via co-attention, outperforming baselines on low-resource tasks. It solves multimodal challenges in non-English contexts, but requires multimodal LLMs like Claude for full use."
       }
     }
   ]

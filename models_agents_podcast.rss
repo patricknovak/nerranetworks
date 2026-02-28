@@ -8,7 +8,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 27 Feb 2026 19:26:31 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 Feb 2026 15:17:21 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
     <itunes:category text="Technology"/>
     <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
@@ -19,8 +19,102 @@
     </itunes:owner>
     <itunes:summary>Daily AI briefing covering new model releases, agent frameworks, and the latest developments in AI. Not the models and agents you are thinking about! Stay on top of the most exciting developments of our generation.</itunes:summary>
     <item>
+      <title>Ep 3: Perplexity open-sources embedding models that match Google and Alibaba performance at a fraction of the memory cost.</title>
+      <link>https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep003_20260228.mp3</link>
+      <description># Models &amp; Agents
+**Date:** February 28, 2026
+
+**HOOK:** Perplexity open-sources embedding models that match Google and Alibaba performance at a fraction of the memory cost.
+
+**What You Need to Know:** Perplexity's new open-source embedding models deliver high-quality text representations with drastically lower memory footprints, making them a game-changer for resource-constrained RAG setups compared to heavier alternatives from Google or Alibaba. Meanwhile, a wave of arXiv papers introduces innovative frameworks like CultureManager for task-specific cultural alignment and SMTL for efficient agentic search, pushing boundaries in multilingual and long-horizon reasoning. Pay attention this week to how these tools bridge gaps in low-resource languages and agent efficiency, offering fresh ways to optimize your workflows without massive compute.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Perplexity has open-sourced two new text embedding models that rival or surpass offerings from Google and Alibaba while using far less memory. These models focus on efficient embeddings for search and RAG applications, with one optimized for short queries and another for longer passages, achieving top performance on benchmarks like MTEB at reduced sizes. Compared to Google's Gecko or Alibaba's BGE, they cut memory needs by up to 10x without sacrificing accuracy, thanks to techniques like Matryoshka Representation Learning. Developers building AI search or retrieval systems should care, as this democratizes high-performance embeddings for edge devices or cost-sensitive apps. To get started, integrate them via Hugging Face for quick RAG prototypes. Watch for community fine-tunes and integrations with agent frameworks like LangChain, which could amplify their impact on multilingual search.
+Source: https://the-decoder.com/perplexity-open-sources-embedding-models-that-match-google-and-alibaba-at-a-fraction-of-the-memory-cost/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Current language model training leaves large parts of the internet on the table: The Decoder**  
+Researchers from Apple, Stanford, and UW revealed how different HTML extractors lead to vastly different training data for LLMs, with tools like Trafilatura capturing more diverse content than BeautifulSoup. This highlights a key limitation in current foundation model training, where extractor choice can exclude up to 50% of web data, affecting model robustness compared to more inclusive pipelines. It matters for practitioners fine-tuning models, as it suggests auditing your data pipeline for better generalization in real-world apps.  
+Source: https://the-decoder.com/current-language-model-training-leaves-large-parts-of-the-internet-on-the-table/
+
+**Decoder-based Sense Knowledge Distillation: cs.CL updates on arXiv.org**  
+DSKD introduces a framework to distill lexical knowledge from sense dictionaries into decoder LLMs like Llama, improving performance on benchmarks without needing runtime lookups. It outperforms vanilla distillation by enhancing semantic understanding, though it adds training overhead compared to encoder-focused methods. This is crucial for builders creating generative agents that need structured knowledge integration, bridging gaps in models like GPT or Claude.  
+Source: https://arxiv.org/abs/2602.22351
+
+**Ruyi2 Technical Report: cs.CL updates on arXiv.org**  
+Ruyi2 evolves the AI Flow framework for adaptive, variable-depth computation in LLMs, using 3D parallel training to speed up by 2-3x over Ruyi while matching Qwen2 models. It enables "Train Once, Deploy Many" via family-based parameter sharing, reducing costs for edge deployment compared to full retraining in models like Mistral. Developers in inference optimization will benefit from its balance of efficiency and performance in dynamic agent scenarios.  
+Source: https://arxiv.org/abs/2602.22543
+
+**dLLM: Simple Diffusion Language Modeling: cs.CL updates on arXiv.org**  
+dLLM is an open-source framework unifying training, infere...</description>
+      <guid isPermaLink="false">models-agents-ep003-20260228-151721</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep003_20260228.mp3" length="18884693" type="audio/mpeg"/>
+      <pubDate>Sat, 28 Feb 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
+      <itunes:duration>13:06</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Models &amp; Agents
+**Date:** February 28, 2026
+
+**HOOK:** Perplexity open-sources embedding models that match Google and Alibaba performance at a fraction of the memory cost.
+
+**What You Need to Know:** Perplexity's new open-source embedding models deliver high-quality text representations with drastically lower memory footprints, making them a game-changer for resource-constrained RAG setups compared to heavier alternatives from Google or Alibaba. Meanwhile, a wave of arXiv papers introduces innovative frameworks like CultureManager for task-specific cultural alignment and SMTL for efficient agentic search, pushing boundaries in multilingual and long-horizon reasoning. Pay attention this week to how these tools bridge gaps in low-resource languages and agent efficiency, offering fresh ways to optimize your workflows without massive compute.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Perplexity has open-sourced two new text embedding models that rival or surpass offerings from Google and Alibaba while using far less memory. These models focus on efficient embeddings for search and RAG applications, with one optimized for short queries and another for longer passages, achieving top performance on benchmarks like MTEB at reduced sizes. Compared to Google's Gecko or Alibaba's BGE, they cut memory needs by up to 10x without sacrificing accuracy, thanks to techniques like Matryoshka Representation Learning. Developers building AI search or retrieval systems should care, as this democratizes high-performance embeddings for edge devices or cost-sensitive apps. To get started, integrate them via Hugging Face for quick RAG prototypes. Watch for community fine-tunes and integrations with agent frameworks like LangChain, which could amplify their impact on multilingual search.
+Source: https://the-decoder.com/perplexity-open-sources-embedding-models-that-match-google-and-alibaba-at-a-fraction-of-the-memory-cost/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Current language model training leaves large parts of the internet on the table: The Decoder**  
+Researchers from Apple, Stanford, and UW revealed how different HTML extractors lead to vastly different training data for LLMs, with tools like Trafilatura capturing more diverse content than BeautifulSoup. This highlights a key limitation in current foundation model training, where extractor choice can exclude up to 50% of web data, affecting model robustness compared to more inclusive pipelines. It matters for practitioners fine-tuning models, as it suggests auditing your data pipeline for better generalization in real-world apps.  
+Source: https://the-decoder.com/current-language-model-training-leaves-large-parts-of-the-internet-on-the-table/
+
+**Decoder-based Sense Knowledge Distillation: cs.CL updates on arXiv.org**  
+DSKD introduces a framework to distill lexical knowledge from sense dictionaries into decoder LLMs like Llama, improving performance on benchmarks without needing runtime lookups. It outperforms vanilla distillation by enhancing semantic understanding, though it adds training overhead compared to encoder-focused methods. This is crucial for builders creating generative agents that need structured knowledge integration, bridging gaps in models like GPT or Claude.  
+Source: https://arxiv.org/abs/2602.22351
+
+**Ruyi2 Technical Report: cs.CL updates on arXiv.org**  
+Ruyi2 evolves the AI Flow framework for adaptive, variable-depth computation in LLMs, using 3D parallel training to speed up by 2-3x over Ruyi while matching Qwen2 models. It enables "Train Once, Deploy Many" via family-based parameter sharing, reducing costs for edge deployment compared to full retraining in models like Mistral. Developers in inference optimization will benefit from its balance of efficiency and performance in dynamic agent scenarios.  
+Source: https://arxiv.org/abs/2602.22543
+
+**dLLM: Simple Diffusion Language Modeling: cs.CL updates on arXiv.org**  
+dLLM is an open-source framework unifying training, infere...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>3</itunes:episode>
+      <itunes:title>Ep 3: Perplexity open-sources embedding models that match Google and Alibaba performance at a fraction of the memory cost.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</title>
+      <description># Models &amp; Agents
+**Date:** February 26, 2026
+
+**HOOK:** Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.
+
+**What You Need to Know:** Anthropic's acquisition of Vercept integrates advanced screen recognition into Claude, potentially revolutionizing agentic computer use by improving visual control without major retraining—expect better automation in tools like browser agents. Google's Nano Banana 2 brings pro-...</description>
+      <guid isPermaLink="false">models-agents-ep001-20260226-203917</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep001_20260226.mp3" length="16131805" type="audio/mpeg"/>
+      <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
+      <itunes:duration>11:12</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Models &amp; Agents
+**Date:** February 26, 2026
+
+**HOOK:** Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.
+
+**What You Need to Know:** Anthropic's acquisition of Vercept integrates advanced screen recognition into Claude, potentially revolutionizing agentic computer use by improving visual control without major retraining—expect better automation in tools like browser agents. Google's Nano Banana 2 brings pro-...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>1</itunes:episode>
+      <itunes:title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
       <title>Ep 2: Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.</title>
-      <link>https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep002_20260227.mp3</link>
       <description># Models &amp; Agents
 **Date:** February 27, 2026
 
@@ -78,31 +172,6 @@ This arXiv pape...</itunes:summary>
       <itunes:season>1</itunes:season>
       <itunes:episode>2</itunes:episode>
       <itunes:title>Ep 2: Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</title>
-      <description># Models &amp; Agents
-**Date:** February 26, 2026
-
-**HOOK:** Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.
-
-**What You Need to Know:** Anthropic's acquisition of Vercept integrates advanced screen recognition into Claude, potentially revolutionizing agentic computer use by improving visual control without major retraining—expect better automation in tools like browser agents. Google's Nano Banana 2 brings pro-...</description>
-      <guid isPermaLink="false">models-agents-ep001-20260226-203917</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep001_20260226.mp3" length="16131805" type="audio/mpeg"/>
-      <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
-      <itunes:duration>11:12</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents
-**Date:** February 26, 2026
-
-**HOOK:** Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.
-
-**What You Need to Know:** Anthropic's acquisition of Vercept integrates advanced screen recognition into Claude, potentially revolutionizing agentic computer use by improving visual control without major retraining—expect better automation in tools like browser agents. Google's Nano Banana 2 brings pro-...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>1</itunes:episode>
-      <itunes:title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>
