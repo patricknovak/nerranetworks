@@ -33,12 +33,12 @@ RSS_FEEDS = {
 }
 
 EXPECTED_EPISODE_COUNTS = {
-    "tesla": 48,
-    "omni": 3,
-    "frontiers": 21,
-    "planetterrian": 12,
-    "env_intel": 1,
-    "models_agents": 1,
+    "tesla": 49,
+    "omni": 4,
+    "frontiers": 22,
+    "planetterrian": 13,
+    "env_intel": 2,
+    "models_agents": 2,
 }
 
 # ---------------------------------------------------------------------------
@@ -82,14 +82,20 @@ def _parse_rss(rss_path: Path):
 
 class TestEpisodeCounts:
 
-    @pytest.mark.parametrize("show,expected_count", list(EXPECTED_EPISODE_COUNTS.items()))
-    def test_episode_count(self, show, expected_count):
+    @pytest.mark.parametrize("show,min_count", list(EXPECTED_EPISODE_COUNTS.items()))
+    def test_episode_count(self, show, min_count):
+        """Verify RSS feed has at least the expected number of episodes.
+
+        Uses >= instead of == because new episodes are auto-generated daily
+        and committed to main.  A strict == check breaks CI whenever the
+        show pipeline runs between conftest updates.
+        """
         rss_path = RSS_FEEDS[show]
         assert rss_path.exists(), f"RSS file not found: {rss_path}"
         _, items = _parse_rss(rss_path)
         actual = len(items)
-        assert actual == expected_count, (
-            f"{show}: expected {expected_count} episodes, found {actual}"
+        assert actual >= min_count, (
+            f"{show}: expected at least {min_count} episodes, found {actual}"
         )
 
 
@@ -281,30 +287,29 @@ class TestItemStructure:
                 f"{show} item {i}: missing <pubDate>"
             )
 
-    # Current state: Tesla and Omni have duration on all episodes.
-    # Planetterrian and Frontiers only have it on the most recent episode
-    # (the scripts only set duration on newly generated episodes).
-    EXPECTED_DURATION_COUNTS = {
-        "tesla": 48,
-        "omni": 3,
-        "planetterrian": 1,
-        "frontiers": 1,
-        "env_intel": 1,
-        "models_agents": 1,
+    # Minimum expected itunes:duration counts per show.
+    # Uses >= because new episodes are auto-generated daily.
+    MIN_DURATION_COUNTS = {
+        "tesla": 49,
+        "omni": 4,
+        "planetterrian": 2,
+        "frontiers": 2,
+        "env_intel": 2,
+        "models_agents": 2,
     }
 
     @pytest.mark.parametrize("show", list(RSS_FEEDS.keys()))
     def test_itunes_duration_counts(self, show):
-        """Capture the current state of itunes:duration coverage per feed."""
+        """Verify itunes:duration coverage meets minimum per feed."""
         _, items = _parse_rss(RSS_FEEDS[show])
         with_duration = sum(
             1 for item in items
             if _find_itunes(item, "duration") is not None
             and _find_itunes(item, "duration").text
         )
-        expected = self.EXPECTED_DURATION_COUNTS[show]
-        assert with_duration == expected, (
-            f"{show}: expected {expected} items with itunes:duration, found {with_duration}"
+        minimum = self.MIN_DURATION_COUNTS[show]
+        assert with_duration >= minimum, (
+            f"{show}: expected at least {minimum} items with itunes:duration, found {with_duration}"
         )
 
     @pytest.mark.parametrize("show", list(RSS_FEEDS.keys()))
