@@ -41,6 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       shows: ${{ steps.resolve.outputs.shows }}
+      known_noop: ${{ steps.resolve.outputs.known_noop }}
     steps:
       - name: Determine shows to run
         id: resolve
@@ -95,15 +96,27 @@ jobs:
               elif utc_hour == 15:
                   shows.append("models_agents")
 
+              # Detect known DST no-ops (cron fires but show runs at a different
+              # UTC hour depending on EST/EDT).  These are expected empty results.
+              known_noop = False
+
               if not shows:
-                  msg = f"WARNING: No shows matched for UTC {utc_hour}:{utc_minute:02d}, ET hour {et_hour}, day {day}"
-                  print(msg)
-                  print(f"::warning::{msg}")
+                  # 10:00 UTC is the EDT-only Omni View trigger.
+                  # During EST, Omni View runs at 11:00 UTC instead.
+                  if utc_hour == 10 and et_hour != 6:
+                      known_noop = True
+                      print(f"DST no-op: 10:00 UTC Omni View trigger during EST (ET hour={et_hour}). "
+                            f"Omni View will run at 11:00 UTC instead.")
+                  else:
+                      msg = f"WARNING: No shows matched for UTC {utc_hour}:{utc_minute:02d}, ET hour {et_hour}, day {day}"
+                      print(msg)
+                      print(f"::warning::{msg}")
 
           matrix = json.dumps(shows)
           print(f"Shows to run: {matrix}")
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
               f.write(f"shows={matrix}\n")
+              f.write(f"known_noop={'true' if known_noop else 'false'}\n")
 
   # -----------------------------------------------------------------------
   # Alert if no shows were scheduled (catch misconfiguration / DST issues)
@@ -115,7 +128,13 @@ jobs:
     steps:
       - name: Alert on skipped schedule
         run: |
-          echo "::warning::SCHEDULE SKIP: No shows were matched for this cron trigger."
+          if [ "${{ needs.gate.outputs.known_noop }}" = "true" ]; then
+            echo "DST no-op: cron fired at a UTC hour that only applies during the other DST state."
+            echo "The affected show will run at its alternate UTC trigger instead."
+            echo "UTC time: $(date -u)"
+            exit 0
+          fi
+          echo "::error::SCHEDULE SKIP: No shows were matched for this cron trigger."
           echo "This may indicate a cron misconfiguration or DST edge case."
           echo "UTC time: $(date -u)"
           echo "Shows output: ${{ needs.gate.outputs.shows }}"
