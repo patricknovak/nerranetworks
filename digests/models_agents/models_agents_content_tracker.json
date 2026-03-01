@@ -1,6 +1,6 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-02-28",
+  "last_updated": "2026-03-01",
   "episodes": [
     {
       "date": "2026-02-26",
@@ -55,6 +55,24 @@
         "model_updates": "### Model Updates\n**Current language model training leaves large parts of the internet on the table: The Decoder**  \nResearchers from Apple, Stanford, and UW revealed how different HTML extractors lead to vastly different training data for LLMs, with tools like Trafilatura capturing more diverse content than BeautifulSoup. This highlights a key limitation in current foundation model training, where extractor choice can exclude up to 50% of web data, affecting model robustness compared to more in",
         "agent_developments": "### Agent & Tool Developments\n**A new benchmark pits five AI models against each other as autonomous social media agents on X: The Decoder**  \nArcada Labs' benchmark tests leading LLMs like GPT-4o and Claude as autonomous agents on X, evaluating social engagement and task completion in real-time scenarios. It's a step up from static benchmarks, revealing strengths in models like Grok for dynamic interactions, but highlights latency issues in agent frameworks like AutoGen. Try it by running the o",
         "practical_community": "### Practical & Community\n**Detecting Hate and Inflammatory Content in Bengali Memes: A New Multimodal Dataset and Co-Attention Framework: cs.CL updates on arXiv.org**  \nBn-HIB is a new dataset of 3,247 annotated Bengali memes for multilabel hate detection, paired with the MCFM model that fuses visual and textual features via co-attention, outperforming baselines on low-resource tasks. It solves multimodal challenges in non-English contexts, but requires multimodal LLMs like Claude for full use."
+      }
+    },
+    {
+      "date": "2026-03-01",
+      "headlines": [],
+      "urls": [
+        "https://www.marktechpost.com/2026/03/01/alibaba-team-open-sources-copaw-a-high-performance-personal-agent-workstation-for-developers-to-scale-multi-channel-ai-workflows-and-memory/",
+        "https://the-decoder.com/elevenlabs-and-google-dominate-artificial-analysis-updated-speech-to-text-benchmark/",
+        "https://the-decoder.com/moltbooks-alleged-ai-civilization-is-just-a-massive-void-of-bloated-bot-traffic/",
+        "https://www.marktechpost.com/2026/03/01/alibaba-team-open-sources-copaw-a-high-performance-personal-agent-workstation-for-developers-to-scale-multi-channel-ai-workflows-and-memory/",
+        "https://the-decoder.com/ai-can-link-fake-online-names-to-real-identities-in-minutes-for-just-a-few-dollars/",
+        "https://www.marktechpost.com/2026/03/01/a-complete-end-to-end-coding-guide-to-mlflow-experiment-tracking-hyperparameter-optimization-model-evaluation-and-live-model-deployment/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**ElevenLabs and Google dominate Artificial Analysis' updated speech-to-text benchmark: The Decoder**  \nElevenLabs and Google are tied for top spots in Artificial Analysis' latest speech-to-text benchmark, with ElevenLabs edging out on accents and noise robustness while Google excels in speed for large datasets. This update compares them to alternatives like OpenAI's Whisper, showing ElevenLabs' model achieving up to 95% accuracy in challenging conditions versus Whisper's 90% i",
+        "agent_developments": "### Agent & Tool Developments\n**Moltbook's alleged AI civilization is just a massive void of bloated bot traffic: The Decoder**  \nMoltbook runs over 2.6 million AI agents in a simulated social network, where they post, comment, and vote autonomously, but a new study reveals no real learning, shared memory, or social structures—just hollow interactions. This exposes limitations in current agent frameworks like AutoGPT or CrewAI, where bots generate traffic without mutual influence, unlike more ad",
+        "practical_community": "### Practical & Community\n**AI can link fake online names to real identities in minutes for just a few dollars: The Decoder**  \nResearchers from ETH Zurich and Anthropic show how commercial models like Claude or GPT can de-anonymize pseudonymous users by cross-referencing online data, costing just dollars per person and challenging assumptions about privacy in agent-driven systems. It solves (or exposes) issues in AI safety for tasks like red-teaming anonymous interactions but highlights risks i"
       }
     }
   ]
