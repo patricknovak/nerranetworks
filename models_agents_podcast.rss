@@ -8,7 +8,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 01 Mar 2026 15:14:51 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Mar 2026 15:29:29 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
     <itunes:category text="Technology"/>
     <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
@@ -19,155 +19,65 @@
     </itunes:owner>
     <itunes:summary>Daily AI briefing covering new model releases, agent frameworks, and the latest developments in AI. Not the models and agents you are thinking about! Stay on top of the most exciting developments of our generation.</itunes:summary>
     <item>
-      <title>Ep 4: Alibaba open-sources CoPaw, a workstation for scaling multi-channel AI agent workflows.</title>
-      <link>https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep004_20260301.mp3</link>
+      <title>Ep 5: FireRedTeam releases FireRed-OCR-2B, a 2B-parameter model tackling structural hallucinations in document parsing for tables and LaTeX.</title>
+      <link>https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep005_20260302.mp3</link>
       <description># Models &amp; Agents
-**Date:** March 01, 2026
+**Date:** March 02, 2026
 
-**HOOK:** Alibaba open-sources CoPaw, a workstation for scaling multi-channel AI agent workflows.
+**HOOK:** FireRedTeam releases FireRed-OCR-2B, a 2B-parameter model tackling structural hallucinations in document parsing for tables and LaTeX.
 
-**What You Need to Know:** Alibaba's team just dropped CoPaw, an open-source framework that turns your setup into a high-performance agent workstation, handling complex workflows and memory across channels— a game-changer for devs building autonomous systems beyond basic LLM inference. Meanwhile, benchmarks show ElevenLabs and Google leading in speech-to-text accuracy, and a study reveals AI agents on platforms like Moltbook are mostly generating empty noise without real learning. Pay attention to how these tools expose the gap between hype and practical agentic AI this week, especially if you're experimenting with multi-agent setups.
+**What You Need to Know:** The standout development today is FireRed-OCR-2B, a new open-source model from FireRedTeam that uses GRPO optimization to eliminate common errors in large vision-language models when handling complex document structures like tables and LaTeX. Meanwhile, a wave of arXiv papers introduces innovative multi-agent systems, from payment workflows and urban planning to suicide ideation detection, showcasing how LLMs are being integrated into agentic frameworks for real-world tasks. Pay attention this week to how these agent hierarchies could streamline your workflows in domains like healthcare and simulation, and test them against benchmarks for practical gains.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top Story
-Alibaba's research team open-sourced CoPaw, a high-performance personal agent workstation designed for developers to scale multi-channel AI workflows and memory management in autonomous systems. Built to address the shift from simple LLM inference to full agentic environments, CoPaw integrates with frameworks like LangChain or AutoGen, offering features for workflow orchestration, persistent memory, and multi-modal inputs that outperform basic setups in handling concurrent tasks. Compared to tools like Microsoft AutoGen, it emphasizes developer-friendly scaling for personal use, with lower overhead for edge deployment and better support for custom tool calling. This means you can now prototype complex agent networks on your local machine without cloud dependency, ideal for AI practitioners iterating on RAG pipelines or browser automation agents. Keep an eye on community forks and integrations with models like Qwen or Llama; try cloning the repo to build a simple multi-agent workflow for task automation. What to watch: Expect tutorials popping up on fine-tuning CoPaw for specific use cases like code generation agents.
-Source: https://www.marktechpost.com/2026/03/01/alibaba-team-open-sources-copaw-a-high-performance-personal-agent-workstation-for-developers-to-scale-multi-channel-ai-workflows-and-memory/
+FireRedTeam has released FireRed-OCR-2B, a 2B-parameter model designed to solve structural hallucinations in document parsing, particularly for tables and LaTeX, using Gradient-Response Prompt Optimization (GRPO). This model treats document parsing as a unified task, avoiding the multi-stage pitfalls of traditional LVLMs that lead to disordered outputs or invented elements. Compared to prior approaches, it offers better accuracy on structured data without needing separate layout detection and text extraction steps, making it a step up from models like those in the Florence or PaliGemma families for software developers dealing with code or scientific docs. Practically, this enables more reliable OCR for automating code reviews or extracting formulas from papers, so developers in data-heavy fields should care if they've struggled with hallucinated outputs. Keep an eye on community fine-tunes for domain-specific adaptations, and try integrating it into your pipelines via Hugging Face. What to watch: Potential expansions to multimodal agents that combine this with tools like LangChain for end-to-end document intelligence.
+Source: https://www.marktechpost.com/2026/03/01/fireredteam-releases-firered-ocr-2b-utilizing-grpo-to-solve-structural-hallucinations-in-tables-and-latex-for-software-developers/
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Model Updates
-**ElevenLabs and Google dominate Artificial Analysis' updated speech-to-text benchmark: The Decoder**  
-ElevenLabs and Google are tied for top spots in Artificial Analysis' latest speech-to-text benchmark, with ElevenLabs edging out on accents and noise robustness while Google excels in speed for large datasets. This update compares them to alternatives like OpenAI's Whisper, showing ElevenLabs' model achieving up to 95% accuracy in challenging conditions versus Whisper's 90% in similar tests. It matters for your work if you're building voice-enabled apps or agents, as it highlights cost-effective options for real-time transcription without sacrificing quality.  
-Source: https://the-decoder.com/elevenlabs-and-google-dominate-artificial-analysis-updated-speech-to-text-benchmark/
+**FireRed-OCR-2B: MarkTechPost**
+FireRed-OCR-2B is a new 2B-parameter flagship model from FireRedTeam that uses GRPO to unify document digitization, fixing structural hallucinations in LVLMs for tables and LaTeX without multi-stage processing. It outperforms traditional methods on benchmarks by preserving order and syntax, comparing favorably to smaller models like MiniCPM-V but with specialized focus on developer tools. This matters for your work if you're building apps that parse code or scientific docs, as it reduces errors in automated extraction at low inference cost.
+Source: https://www.marktechpost.com/2026/03/01/fireredteam-releases-firered-ocr-2b-utilizing-grpo-to-solve-structural-hallucinations-in-tables-and-latex-for-software-developers/
 
-━━━━━━━━━━━━━━━━━━━━
-### Agent &amp; Tool Developments
-**Moltbook's alleged AI civilization is just a massive void of bloated bot traffic: The Decoder**  
-Moltbook runs over 2.6 million AI agents in a simulated social network, where they post, comment, and vote autonomously, but a new study reveals no real learning, shared memory, or social structures—just hollow interactions. This exposes limitations in current agent frameworks like AutoGPT or CrewAI, where bots generate traffic without mutual influence, unlike more advanced setups in LangGraph that incorporate feedback loops. You can try exploring similar agent simulations today via open-source repos to test for genuine emergence in your own multi-agent projects.  
-Source: https://the-decoder.com/moltbooks-alleged-ai-civilization-is-just-a-massive-void-of-bloated-bot-traffic/
+**Enhancing CLIP Robustness: cs.MA updates on arXiv.org**
+This paper introduces COLA, a training-free framework using optimal transport to improve CLIP's adversarial robustness via cross-modality alignment, boosting zero-shot classification by 6.7% on ImageNet variants under PGD attacks. It filters non-semantic noise and aligns image-text features better than fine-tuned baselines, addressing gaps in models like CLIP or Flamingo. For practitioners, this means more reliable VLMs in security-sensitive apps, though it requires augmented views for full effect.
+Source: https://arxiv.org/abs/2510.24038
 
-**Alibaba Team Open-Sources CoPaw: A High-Performance Personal Agent Workstation for Developers to Scale Multi-Channel AI Workflows and Memory: MarkTechPost**  
-CoPaw is an open-source fr...</description>
-      <guid isPermaLink="false">models-agents-ep004-20260301-151451</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep004_20260301.mp3" length="17344305" type="audio/mpeg"/>
-      <pubDate>Sun, 01 Mar 2026 08:00:00 +0000</pubDate>
+**Toward General Semantic Chunking: cs.CL updates on arXiv.org**
+A new discriminative model based on Qwen3-0.6B handles ultra-long documents for topic segmentation, supporting 13k-token inputs and compressing representations via vector fusion, outperforming Jina's Qwen2-0.5B models with faster inference. It beats generative LLMs by two orders of magnitude in spe...</description>
+      <guid isPermaLink="false">models-agents-ep005-20260302-152929</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep005_20260302.mp3" length="18304775" type="audio/mpeg"/>
+      <pubDate>Mon, 02 Mar 2026 08:00:00 +0000</pubDate>
       <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
-      <itunes:duration>12:02</itunes:duration>
+      <itunes:duration>12:42</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:summary># Models &amp; Agents
-**Date:** March 01, 2026
+**Date:** March 02, 2026
 
-**HOOK:** Alibaba open-sources CoPaw, a workstation for scaling multi-channel AI agent workflows.
+**HOOK:** FireRedTeam releases FireRed-OCR-2B, a 2B-parameter model tackling structural hallucinations in document parsing for tables and LaTeX.
 
-**What You Need to Know:** Alibaba's team just dropped CoPaw, an open-source framework that turns your setup into a high-performance agent workstation, handling complex workflows and memory across channels— a game-changer for devs building autonomous systems beyond basic LLM inference. Meanwhile, benchmarks show ElevenLabs and Google leading in speech-to-text accuracy, and a study reveals AI agents on platforms like Moltbook are mostly generating empty noise without real learning. Pay attention to how these tools expose the gap between hype and practical agentic AI this week, especially if you're experimenting with multi-agent setups.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top Story
-Alibaba's research team open-sourced CoPaw, a high-performance personal agent workstation designed for developers to scale multi-channel AI workflows and memory management in autonomous systems. Built to address the shift from simple LLM inference to full agentic environments, CoPaw integrates with frameworks like LangChain or AutoGen, offering features for workflow orchestration, persistent memory, and multi-modal inputs that outperform basic setups in handling concurrent tasks. Compared to tools like Microsoft AutoGen, it emphasizes developer-friendly scaling for personal use, with lower overhead for edge deployment and better support for custom tool calling. This means you can now prototype complex agent networks on your local machine without cloud dependency, ideal for AI practitioners iterating on RAG pipelines or browser automation agents. Keep an eye on community forks and integrations with models like Qwen or Llama; try cloning the repo to build a simple multi-agent workflow for task automation. What to watch: Expect tutorials popping up on fine-tuning CoPaw for specific use cases like code generation agents.
-Source: https://www.marktechpost.com/2026/03/01/alibaba-team-open-sources-copaw-a-high-performance-personal-agent-workstation-for-developers-to-scale-multi-channel-ai-workflows-and-memory/
-
-━━━━━━━━━━━━━━━━━━━━
-### Model Updates
-**ElevenLabs and Google dominate Artificial Analysis' updated speech-to-text benchmark: The Decoder**  
-ElevenLabs and Google are tied for top spots in Artificial Analysis' latest speech-to-text benchmark, with ElevenLabs edging out on accents and noise robustness while Google excels in speed for large datasets. This update compares them to alternatives like OpenAI's Whisper, showing ElevenLabs' model achieving up to 95% accuracy in challenging conditions versus Whisper's 90% in similar tests. It matters for your work if you're building voice-enabled apps or agents, as it highlights cost-effective options for real-time transcription without sacrificing quality.  
-Source: https://the-decoder.com/elevenlabs-and-google-dominate-artificial-analysis-updated-speech-to-text-benchmark/
-
-━━━━━━━━━━━━━━━━━━━━
-### Agent &amp; Tool Developments
-**Moltbook's alleged AI civilization is just a massive void of bloated bot traffic: The Decoder**  
-Moltbook runs over 2.6 million AI agents in a simulated social network, where they post, comment, and vote autonomously, but a new study reveals no real learning, shared memory, or social structures—just hollow interactions. This exposes limitations in current agent frameworks like AutoGPT or CrewAI, where bots generate traffic without mutual influence, unlike more advanced setups in LangGraph that incorporate feedback loops. You can try exploring similar agent simulations today via open-source repos to test for genuine emergence in your own multi-agent projects.  
-Source: https://the-decoder.com/moltbooks-alleged-ai-civilization-is-just-a-massive-void-of-bloated-bot-traffic/
-
-**Alibaba Team Open-Sources CoPaw: A High-Performance Personal Agent Workstation for Developers to Scale Multi-Channel AI Workflows and Memory: MarkTechPost**  
-CoPaw is an open-source fr...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>4</itunes:episode>
-      <itunes:title>Ep 4: Alibaba open-sources CoPaw, a workstation for scaling multi-channel AI agent workflows.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 2: Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.</title>
-      <description># Models &amp; Agents
-**Date:** February 27, 2026
-
-**HOOK:** Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.
-
-**What You Need to Know:** Sakana AI introduced Doc-to-LoRA and Text-to-LoRA, innovative hypernetworks that enable instant, zero-shot adaptation of LLMs to long contexts and tasks using natural language, bypassing traditional trade-offs between in-context learning and fine-tuning. OpenAI and Amazon announced a partnership integrating OpenAI's Frontier platform into AWS for expanded AI agents and custom models, while new arXiv papers explore advanced multi-agent frameworks like ClawMobile for smartphone-native agents and HyperAgent for optimized communication topologies. Pay attention this week to how these developments enhance agentic workflows in finance and mobile environments, offering practical boosts for developers building scalable, adaptive systems.
+**What You Need to Know:** The standout development today is FireRed-OCR-2B, a new open-source model from FireRedTeam that uses GRPO optimization to eliminate common errors in large vision-language models when handling complex document structures like tables and LaTeX. Meanwhile, a wave of arXiv papers introduces innovative multi-agent systems, from payment workflows and urban planning to suicide ideation detection, showcasing how LLMs are being integrated into agentic frameworks for real-world tasks. Pay attention this week to how these agent hierarchies could streamline your workflows in domains like healthcare and simulation, and test them against benchmarks for practical gains.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top Story
-Sakana AI has unveiled Doc-to-LoRA and Text-to-LoRA, two hypernetworks designed to instantly internalize long contexts and adapt LLMs via zero-shot natural language instructions. These approaches amortize customization costs by generating LoRA adapters on-the-fly from text or documents, combining the flexibility of in-context learning with the efficiency of supervised fine-tuning without requiring retraining. Compared to traditional methods like Context Distillation or SFT, they reduce engineering overhead and enable rapid adaptation for models like Llama or Mistral, potentially handling contexts far beyond standard token limits. Developers building RAG pipelines or task-specific agents can now experiment with more dynamic LLM personalization, making this a game-changer for applications needing quick, low-cost tweaks. Keep an eye on open-source implementations emerging from this; it's worth testing for code generation or long-form reasoning tasks where context overflow is a bottleneck. Honest take: This sounds like a breakthrough for efficiency, but real-world scaling will depend on hypernetwork stability across diverse model architectures.
-Source: https://www.marktechpost.com/2026/02/27/sakana-ai-introduces-doc-to-lora-and-text-to-lora-hypernetworks-that-instantly-internalize-long-contexts-and-adapt-llms-via-zero-shot-natural-language/
+FireRedTeam has released FireRed-OCR-2B, a 2B-parameter model designed to solve structural hallucinations in document parsing, particularly for tables and LaTeX, using Gradient-Response Prompt Optimization (GRPO). This model treats document parsing as a unified task, avoiding the multi-stage pitfalls of traditional LVLMs that lead to disordered outputs or invented elements. Compared to prior approaches, it offers better accuracy on structured data without needing separate layout detection and text extraction steps, making it a step up from models like those in the Florence or PaliGemma families for software developers dealing with code or scientific docs. Practically, this enables more reliable OCR for automating code reviews or extracting formulas from papers, so developers in data-heavy fields should care if they've struggled with hallucinated outputs. Keep an eye on community fine-tunes for domain-specific adaptations, and try integrating it into your pipelines via Hugging Face. What to watch: Potential expansions to multimodal agents that combine this with tools like LangChain for end-to-end document intelligence.
+Source: https://www.marktechpost.com/2026/03/01/fireredteam-releases-firered-ocr-2b-utilizing-grpo-to-solve-structural-hallucinations-in-tables-and-latex-for-software-developers/
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Model Updates
-**Perplexity’s new Computer: AI News &amp; Artificial Intelligence | TechCrunch**  
-Perplexity launched the Perplexity Computer, a unified system integrating multiple AI capabilities like search, reasoning, and generation into a single interface, betting on users needing diverse models for complex tasks. It stands out from siloed tools like ChatGPT or Claude by enabling seamless switching between models such as GPT or Llama variants, with improved context handling and reduced latency. This matters for practitioners juggling multi-model workflows, as it could cut integration time and costs, though it still relies on proprietary backends with potential vendor lock-in.  
-Source: https://techcrunch.com/2026/02/27/perplexitys-new-computer-is-another-bet-that-users-need-many-ai-models/
+**FireRed-OCR-2B: MarkTechPost**
+FireRed-OCR-2B is a new 2B-parameter flagship model from FireRedTeam that uses GRPO to unify document digitization, fixing structural hallucinations in LVLMs for tables and LaTeX without multi-stage processing. It outperforms traditional methods on benchmarks by preserving order and syntax, comparing favorably to smaller models like MiniCPM-V but with specialized focus on developer tools. This matters for your work if you're building apps that parse code or scientific docs, as it reduces errors in automated extraction at low inference cost.
+Source: https://www.marktechpost.com/2026/03/01/fireredteam-releases-firered-ocr-2b-utilizing-grpo-to-solve-structural-hallucinations-in-tables-and-latex-for-software-developers/
 
-**OpenAI and Amazon announce strategic partnership: OpenAI News**  
-OpenAI and Amazon revealed a partnership bringing OpenAI's Frontier platform to AWS, including custom models, enterprise AI agents, and expanded infrastructure for inference and fine-tuning. This extends beyond basic API access, offering optimized deployments on AWS hardware with features like quantization and edge support, comparing favorably to Azure's integrations but with Amazon's cost advantages. Developers in enterprise settings should care for easier scaling of agentic apps, though limitations include dependency on AWS ecosystems and potential alignment guardrails.  
-Source: https://openai.com/index/amazon-partnership
+**Enhancing CLIP Robustness: cs.MA updates on arXiv.org**
+This paper introduces COLA, a training-free framework using optimal transport to improve CLIP's adversarial robustness via cross-modality alignment, boosting zero-shot classification by 6.7% on ImageNet variants under PGD attacks. It filters non-semantic noise and aligns image-text features better than fine-tuned baselines, addressing gaps in models like CLIP or Flamingo. For practitioners, this means more reliable VLMs in security-sensitive apps, though it requires augmented views for full effect.
+Source: https://arxiv.org/abs/2510.24038
 
-**ParamMem: Augmenting Language Agents with Parametric Reflective Memory: cs.MA updates on arXiv.org**  
-This arXiv pape...</description>
-      <guid isPermaLink="false">models-agents-ep002-20260227-192631</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep002_20260227.mp3" length="17462169" type="audio/mpeg"/>
-      <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
-      <itunes:duration>12:07</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents
-**Date:** February 27, 2026
-
-**HOOK:** Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.
-
-**What You Need to Know:** Sakana AI introduced Doc-to-LoRA and Text-to-LoRA, innovative hypernetworks that enable instant, zero-shot adaptation of LLMs to long contexts and tasks using natural language, bypassing traditional trade-offs between in-context learning and fine-tuning. OpenAI and Amazon announced a partnership integrating OpenAI's Frontier platform into AWS for expanded AI agents and custom models, while new arXiv papers explore advanced multi-agent frameworks like ClawMobile for smartphone-native agents and HyperAgent for optimized communication topologies. Pay attention this week to how these developments enhance agentic workflows in finance and mobile environments, offering practical boosts for developers building scalable, adaptive systems.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top Story
-Sakana AI has unveiled Doc-to-LoRA and Text-to-LoRA, two hypernetworks designed to instantly internalize long contexts and adapt LLMs via zero-shot natural language instructions. These approaches amortize customization costs by generating LoRA adapters on-the-fly from text or documents, combining the flexibility of in-context learning with the efficiency of supervised fine-tuning without requiring retraining. Compared to traditional methods like Context Distillation or SFT, they reduce engineering overhead and enable rapid adaptation for models like Llama or Mistral, potentially handling contexts far beyond standard token limits. Developers building RAG pipelines or task-specific agents can now experiment with more dynamic LLM personalization, making this a game-changer for applications needing quick, low-cost tweaks. Keep an eye on open-source implementations emerging from this; it's worth testing for code generation or long-form reasoning tasks where context overflow is a bottleneck. Honest take: This sounds like a breakthrough for efficiency, but real-world scaling will depend on hypernetwork stability across diverse model architectures.
-Source: https://www.marktechpost.com/2026/02/27/sakana-ai-introduces-doc-to-lora-and-text-to-lora-hypernetworks-that-instantly-internalize-long-contexts-and-adapt-llms-via-zero-shot-natural-language/
-
-━━━━━━━━━━━━━━━━━━━━
-### Model Updates
-**Perplexity’s new Computer: AI News &amp; Artificial Intelligence | TechCrunch**  
-Perplexity launched the Perplexity Computer, a unified system integrating multiple AI capabilities like search, reasoning, and generation into a single interface, betting on users needing diverse models for complex tasks. It stands out from siloed tools like ChatGPT or Claude by enabling seamless switching between models such as GPT or Llama variants, with improved context handling and reduced latency. This matters for practitioners juggling multi-model workflows, as it could cut integration time and costs, though it still relies on proprietary backends with potential vendor lock-in.  
-Source: https://techcrunch.com/2026/02/27/perplexitys-new-computer-is-another-bet-that-users-need-many-ai-models/
-
-**OpenAI and Amazon announce strategic partnership: OpenAI News**  
-OpenAI and Amazon revealed a partnership bringing OpenAI's Frontier platform to AWS, including custom models, enterprise AI agents, and expanded infrastructure for inference and fine-tuning. This extends beyond basic API access, offering optimized deployments on AWS hardware with features like quantization and edge support, comparing favorably to Azure's integrations but with Amazon's cost advantages. Developers in enterprise settings should care for easier scaling of agentic apps, though limitations include dependency on AWS ecosystems and potential alignment guardrails.  
-Source: https://openai.com/index/amazon-partnership
-
-**ParamMem: Augmenting Language Agents with Parametric Reflective Memory: cs.MA updates on arXiv.org**  
-This arXiv pape...</itunes:summary>
+**Toward General Semantic Chunking: cs.CL updates on arXiv.org**
+A new discriminative model based on Qwen3-0.6B handles ultra-long documents for topic segmentation, supporting 13k-token inputs and compressing representations via vector fusion, outperforming Jina's Qwen2-0.5B models with faster inference. It beats generative LLMs by two orders of magnitude in spe...</itunes:summary>
       <itunes:season>1</itunes:season>
-      <itunes:episode>2</itunes:episode>
-      <itunes:title>Ep 2: Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</title>
-      <description># Models &amp; Agents
-**Date:** February 26, 2026
-
-**HOOK:** Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.
-
-**What You Need to Know:** Anthropic's acquisition of Vercept integrates advanced screen recognition into Claude, potentially revolutionizing agentic computer use by improving visual control without major retraining—expect better automation in tools like browser agents. Google's Nano Banana 2 brings pro-...</description>
-      <guid isPermaLink="false">models-agents-ep001-20260226-203917</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep001_20260226.mp3" length="16131805" type="audio/mpeg"/>
-      <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
-      <itunes:duration>11:12</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents
-**Date:** February 26, 2026
-
-**HOOK:** Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.
-
-**What You Need to Know:** Anthropic's acquisition of Vercept integrates advanced screen recognition into Claude, potentially revolutionizing agentic computer use by improving visual control without major retraining—expect better automation in tools like browser agents. Google's Nano Banana 2 brings pro-...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>1</itunes:episode>
-      <itunes:title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</itunes:title>
+      <itunes:episode>5</itunes:episode>
+      <itunes:title>Ep 5: FireRedTeam releases FireRed-OCR-2B, a 2B-parameter model tackling structural hallucinations in document parsing for tables and LaTeX.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
@@ -237,6 +147,157 @@ dLLM is an open-source framework unifying training, infere...</itunes:summary>
       <itunes:season>1</itunes:season>
       <itunes:episode>3</itunes:episode>
       <itunes:title>Ep 3: Perplexity open-sources embedding models that match Google and Alibaba performance at a fraction of the memory cost.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</title>
+      <description># Models &amp; Agents
+**Date:** February 26, 2026
+
+**HOOK:** Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.
+
+**What You Need to Know:** Anthropic's acquisition of Vercept integrates advanced screen recognition into Claude, potentially revolutionizing agentic computer use by improving visual control without major retraining—expect better automation in tools like browser agents. Google's Nano Banana 2 brings pro-...</description>
+      <guid isPermaLink="false">models-agents-ep001-20260226-203917</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep001_20260226.mp3" length="16131805" type="audio/mpeg"/>
+      <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
+      <itunes:duration>11:12</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Models &amp; Agents
+**Date:** February 26, 2026
+
+**HOOK:** Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.
+
+**What You Need to Know:** Anthropic's acquisition of Vercept integrates advanced screen recognition into Claude, potentially revolutionizing agentic computer use by improving visual control without major retraining—expect better automation in tools like browser agents. Google's Nano Banana 2 brings pro-...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>1</itunes:episode>
+      <itunes:title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 2: Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.</title>
+      <description># Models &amp; Agents
+**Date:** February 27, 2026
+
+**HOOK:** Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.
+
+**What You Need to Know:** Sakana AI introduced Doc-to-LoRA and Text-to-LoRA, innovative hypernetworks that enable instant, zero-shot adaptation of LLMs to long contexts and tasks using natural language, bypassing traditional trade-offs between in-context learning and fine-tuning. OpenAI and Amazon announced a partnership integrating OpenAI's Frontier platform into AWS for expanded AI agents and custom models, while new arXiv papers explore advanced multi-agent frameworks like ClawMobile for smartphone-native agents and HyperAgent for optimized communication topologies. Pay attention this week to how these developments enhance agentic workflows in finance and mobile environments, offering practical boosts for developers building scalable, adaptive systems.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Sakana AI has unveiled Doc-to-LoRA and Text-to-LoRA, two hypernetworks designed to instantly internalize long contexts and adapt LLMs via zero-shot natural language instructions. These approaches amortize customization costs by generating LoRA adapters on-the-fly from text or documents, combining the flexibility of in-context learning with the efficiency of supervised fine-tuning without requiring retraining. Compared to traditional methods like Context Distillation or SFT, they reduce engineering overhead and enable rapid adaptation for models like Llama or Mistral, potentially handling contexts far beyond standard token limits. Developers building RAG pipelines or task-specific agents can now experiment with more dynamic LLM personalization, making this a game-changer for applications needing quick, low-cost tweaks. Keep an eye on open-source implementations emerging from this; it's worth testing for code generation or long-form reasoning tasks where context overflow is a bottleneck. Honest take: This sounds like a breakthrough for efficiency, but real-world scaling will depend on hypernetwork stability across diverse model architectures.
+Source: https://www.marktechpost.com/2026/02/27/sakana-ai-introduces-doc-to-lora-and-text-to-lora-hypernetworks-that-instantly-internalize-long-contexts-and-adapt-llms-via-zero-shot-natural-language/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Perplexity’s new Computer: AI News &amp; Artificial Intelligence | TechCrunch**  
+Perplexity launched the Perplexity Computer, a unified system integrating multiple AI capabilities like search, reasoning, and generation into a single interface, betting on users needing diverse models for complex tasks. It stands out from siloed tools like ChatGPT or Claude by enabling seamless switching between models such as GPT or Llama variants, with improved context handling and reduced latency. This matters for practitioners juggling multi-model workflows, as it could cut integration time and costs, though it still relies on proprietary backends with potential vendor lock-in.  
+Source: https://techcrunch.com/2026/02/27/perplexitys-new-computer-is-another-bet-that-users-need-many-ai-models/
+
+**OpenAI and Amazon announce strategic partnership: OpenAI News**  
+OpenAI and Amazon revealed a partnership bringing OpenAI's Frontier platform to AWS, including custom models, enterprise AI agents, and expanded infrastructure for inference and fine-tuning. This extends beyond basic API access, offering optimized deployments on AWS hardware with features like quantization and edge support, comparing favorably to Azure's integrations but with Amazon's cost advantages. Developers in enterprise settings should care for easier scaling of agentic apps, though limitations include dependency on AWS ecosystems and potential alignment guardrails.  
+Source: https://openai.com/index/amazon-partnership
+
+**ParamMem: Augmenting Language Agents with Parametric Reflective Memory: cs.MA updates on arXiv.org**  
+This arXiv pape...</description>
+      <guid isPermaLink="false">models-agents-ep002-20260227-192631</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep002_20260227.mp3" length="17462169" type="audio/mpeg"/>
+      <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
+      <itunes:duration>12:07</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Models &amp; Agents
+**Date:** February 27, 2026
+
+**HOOK:** Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.
+
+**What You Need to Know:** Sakana AI introduced Doc-to-LoRA and Text-to-LoRA, innovative hypernetworks that enable instant, zero-shot adaptation of LLMs to long contexts and tasks using natural language, bypassing traditional trade-offs between in-context learning and fine-tuning. OpenAI and Amazon announced a partnership integrating OpenAI's Frontier platform into AWS for expanded AI agents and custom models, while new arXiv papers explore advanced multi-agent frameworks like ClawMobile for smartphone-native agents and HyperAgent for optimized communication topologies. Pay attention this week to how these developments enhance agentic workflows in finance and mobile environments, offering practical boosts for developers building scalable, adaptive systems.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Sakana AI has unveiled Doc-to-LoRA and Text-to-LoRA, two hypernetworks designed to instantly internalize long contexts and adapt LLMs via zero-shot natural language instructions. These approaches amortize customization costs by generating LoRA adapters on-the-fly from text or documents, combining the flexibility of in-context learning with the efficiency of supervised fine-tuning without requiring retraining. Compared to traditional methods like Context Distillation or SFT, they reduce engineering overhead and enable rapid adaptation for models like Llama or Mistral, potentially handling contexts far beyond standard token limits. Developers building RAG pipelines or task-specific agents can now experiment with more dynamic LLM personalization, making this a game-changer for applications needing quick, low-cost tweaks. Keep an eye on open-source implementations emerging from this; it's worth testing for code generation or long-form reasoning tasks where context overflow is a bottleneck. Honest take: This sounds like a breakthrough for efficiency, but real-world scaling will depend on hypernetwork stability across diverse model architectures.
+Source: https://www.marktechpost.com/2026/02/27/sakana-ai-introduces-doc-to-lora-and-text-to-lora-hypernetworks-that-instantly-internalize-long-contexts-and-adapt-llms-via-zero-shot-natural-language/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Perplexity’s new Computer: AI News &amp; Artificial Intelligence | TechCrunch**  
+Perplexity launched the Perplexity Computer, a unified system integrating multiple AI capabilities like search, reasoning, and generation into a single interface, betting on users needing diverse models for complex tasks. It stands out from siloed tools like ChatGPT or Claude by enabling seamless switching between models such as GPT or Llama variants, with improved context handling and reduced latency. This matters for practitioners juggling multi-model workflows, as it could cut integration time and costs, though it still relies on proprietary backends with potential vendor lock-in.  
+Source: https://techcrunch.com/2026/02/27/perplexitys-new-computer-is-another-bet-that-users-need-many-ai-models/
+
+**OpenAI and Amazon announce strategic partnership: OpenAI News**  
+OpenAI and Amazon revealed a partnership bringing OpenAI's Frontier platform to AWS, including custom models, enterprise AI agents, and expanded infrastructure for inference and fine-tuning. This extends beyond basic API access, offering optimized deployments on AWS hardware with features like quantization and edge support, comparing favorably to Azure's integrations but with Amazon's cost advantages. Developers in enterprise settings should care for easier scaling of agentic apps, though limitations include dependency on AWS ecosystems and potential alignment guardrails.  
+Source: https://openai.com/index/amazon-partnership
+
+**ParamMem: Augmenting Language Agents with Parametric Reflective Memory: cs.MA updates on arXiv.org**  
+This arXiv pape...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>2</itunes:episode>
+      <itunes:title>Ep 2: Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 4: Alibaba open-sources CoPaw, a workstation for scaling multi-channel AI agent workflows.</title>
+      <description># Models &amp; Agents
+**Date:** March 01, 2026
+
+**HOOK:** Alibaba open-sources CoPaw, a workstation for scaling multi-channel AI agent workflows.
+
+**What You Need to Know:** Alibaba's team just dropped CoPaw, an open-source framework that turns your setup into a high-performance agent workstation, handling complex workflows and memory across channels— a game-changer for devs building autonomous systems beyond basic LLM inference. Meanwhile, benchmarks show ElevenLabs and Google leading in speech-to-text accuracy, and a study reveals AI agents on platforms like Moltbook are mostly generating empty noise without real learning. Pay attention to how these tools expose the gap between hype and practical agentic AI this week, especially if you're experimenting with multi-agent setups.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Alibaba's research team open-sourced CoPaw, a high-performance personal agent workstation designed for developers to scale multi-channel AI workflows and memory management in autonomous systems. Built to address the shift from simple LLM inference to full agentic environments, CoPaw integrates with frameworks like LangChain or AutoGen, offering features for workflow orchestration, persistent memory, and multi-modal inputs that outperform basic setups in handling concurrent tasks. Compared to tools like Microsoft AutoGen, it emphasizes developer-friendly scaling for personal use, with lower overhead for edge deployment and better support for custom tool calling. This means you can now prototype complex agent networks on your local machine without cloud dependency, ideal for AI practitioners iterating on RAG pipelines or browser automation agents. Keep an eye on community forks and integrations with models like Qwen or Llama; try cloning the repo to build a simple multi-agent workflow for task automation. What to watch: Expect tutorials popping up on fine-tuning CoPaw for specific use cases like code generation agents.
+Source: https://www.marktechpost.com/2026/03/01/alibaba-team-open-sources-copaw-a-high-performance-personal-agent-workstation-for-developers-to-scale-multi-channel-ai-workflows-and-memory/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**ElevenLabs and Google dominate Artificial Analysis' updated speech-to-text benchmark: The Decoder**  
+ElevenLabs and Google are tied for top spots in Artificial Analysis' latest speech-to-text benchmark, with ElevenLabs edging out on accents and noise robustness while Google excels in speed for large datasets. This update compares them to alternatives like OpenAI's Whisper, showing ElevenLabs' model achieving up to 95% accuracy in challenging conditions versus Whisper's 90% in similar tests. It matters for your work if you're building voice-enabled apps or agents, as it highlights cost-effective options for real-time transcription without sacrificing quality.  
+Source: https://the-decoder.com/elevenlabs-and-google-dominate-artificial-analysis-updated-speech-to-text-benchmark/
+
+━━━━━━━━━━━━━━━━━━━━
+### Agent &amp; Tool Developments
+**Moltbook's alleged AI civilization is just a massive void of bloated bot traffic: The Decoder**  
+Moltbook runs over 2.6 million AI agents in a simulated social network, where they post, comment, and vote autonomously, but a new study reveals no real learning, shared memory, or social structures—just hollow interactions. This exposes limitations in current agent frameworks like AutoGPT or CrewAI, where bots generate traffic without mutual influence, unlike more advanced setups in LangGraph that incorporate feedback loops. You can try exploring similar agent simulations today via open-source repos to test for genuine emergence in your own multi-agent projects.  
+Source: https://the-decoder.com/moltbooks-alleged-ai-civilization-is-just-a-massive-void-of-bloated-bot-traffic/
+
+**Alibaba Team Open-Sources CoPaw: A High-Performance Personal Agent Workstation for Developers to Scale Multi-Channel AI Workflows and Memory: MarkTechPost**  
+CoPaw is an open-source fr...</description>
+      <guid isPermaLink="false">models-agents-ep004-20260301-151451</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep004_20260301.mp3" length="17344305" type="audio/mpeg"/>
+      <pubDate>Sun, 01 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
+      <itunes:duration>12:02</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Models &amp; Agents
+**Date:** March 01, 2026
+
+**HOOK:** Alibaba open-sources CoPaw, a workstation for scaling multi-channel AI agent workflows.
+
+**What You Need to Know:** Alibaba's team just dropped CoPaw, an open-source framework that turns your setup into a high-performance agent workstation, handling complex workflows and memory across channels— a game-changer for devs building autonomous systems beyond basic LLM inference. Meanwhile, benchmarks show ElevenLabs and Google leading in speech-to-text accuracy, and a study reveals AI agents on platforms like Moltbook are mostly generating empty noise without real learning. Pay attention to how these tools expose the gap between hype and practical agentic AI this week, especially if you're experimenting with multi-agent setups.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Alibaba's research team open-sourced CoPaw, a high-performance personal agent workstation designed for developers to scale multi-channel AI workflows and memory management in autonomous systems. Built to address the shift from simple LLM inference to full agentic environments, CoPaw integrates with frameworks like LangChain or AutoGen, offering features for workflow orchestration, persistent memory, and multi-modal inputs that outperform basic setups in handling concurrent tasks. Compared to tools like Microsoft AutoGen, it emphasizes developer-friendly scaling for personal use, with lower overhead for edge deployment and better support for custom tool calling. This means you can now prototype complex agent networks on your local machine without cloud dependency, ideal for AI practitioners iterating on RAG pipelines or browser automation agents. Keep an eye on community forks and integrations with models like Qwen or Llama; try cloning the repo to build a simple multi-agent workflow for task automation. What to watch: Expect tutorials popping up on fine-tuning CoPaw for specific use cases like code generation agents.
+Source: https://www.marktechpost.com/2026/03/01/alibaba-team-open-sources-copaw-a-high-performance-personal-agent-workstation-for-developers-to-scale-multi-channel-ai-workflows-and-memory/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**ElevenLabs and Google dominate Artificial Analysis' updated speech-to-text benchmark: The Decoder**  
+ElevenLabs and Google are tied for top spots in Artificial Analysis' latest speech-to-text benchmark, with ElevenLabs edging out on accents and noise robustness while Google excels in speed for large datasets. This update compares them to alternatives like OpenAI's Whisper, showing ElevenLabs' model achieving up to 95% accuracy in challenging conditions versus Whisper's 90% in similar tests. It matters for your work if you're building voice-enabled apps or agents, as it highlights cost-effective options for real-time transcription without sacrificing quality.  
+Source: https://the-decoder.com/elevenlabs-and-google-dominate-artificial-analysis-updated-speech-to-text-benchmark/
+
+━━━━━━━━━━━━━━━━━━━━
+### Agent &amp; Tool Developments
+**Moltbook's alleged AI civilization is just a massive void of bloated bot traffic: The Decoder**  
+Moltbook runs over 2.6 million AI agents in a simulated social network, where they post, comment, and vote autonomously, but a new study reveals no real learning, shared memory, or social structures—just hollow interactions. This exposes limitations in current agent frameworks like AutoGPT or CrewAI, where bots generate traffic without mutual influence, unlike more advanced setups in LangGraph that incorporate feedback loops. You can try exploring similar agent simulations today via open-source repos to test for genuine emergence in your own multi-agent projects.  
+Source: https://the-decoder.com/moltbooks-alleged-ai-civilization-is-just-a-massive-void-of-bloated-bot-traffic/
+
+**Alibaba Team Open-Sources CoPaw: A High-Performance Personal Agent Workstation for Developers to Scale Multi-Channel AI Workflows and Memory: MarkTechPost**  
+CoPaw is an open-source fr...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>4</itunes:episode>
+      <itunes:title>Ep 4: Alibaba open-sources CoPaw, a workstation for scaling multi-channel AI agent workflows.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>
