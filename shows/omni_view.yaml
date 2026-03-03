@@ -157,6 +157,18 @@ episode:
   output_dir: digests/omni_view
   mp3_glob: "Omni_View_Ep*.mp3"
 
+chapters:
+  enabled: true
+  section_markers:
+    - pattern: "This is Omni View"
+      title: "Introduction"
+    - pattern: "Shifting now to|Meanwhile|first story|first up"
+      title: "Main Stories"
+    - pattern: "Before we go"
+      title: "Tomorrow Teaser"
+    - pattern: "That's Omni View"
+      title: "Closing"
+
 newsletter:
   enabled: true
   platform: buttondown

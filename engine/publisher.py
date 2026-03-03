@@ -70,6 +70,7 @@ def update_rss_feed(
     channel_category: str = "Technology",
     guid_prefix: str = "podcast",
     format_duration_func=None,
+    chapters_url: Optional[str] = None,
 ) -> Path:
     """Create or update an RSS feed with a new episode.
 
@@ -289,8 +290,55 @@ def update_rss_feed(
 
     fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
     fg.rss_file(str(rss_path), pretty=True)
+
+    # Post-process: add Podcasting 2.0 <podcast:chapters> to the new episode
+    if chapters_url:
+        _inject_chapters_tag(rss_path, new_guid, chapters_url)
+
     logger.info("RSS feed updated: %s", rss_path)
     return rss_path
+
+
+def _inject_chapters_tag(rss_path: Path, guid: str, chapters_url: str) -> None:
+    """Add a Podcasting 2.0 ``<podcast:chapters>`` tag to an RSS episode.
+
+    Feedgen doesn't support the ``podcast`` namespace natively, so we
+    post-process the XML to insert the tag into the matching ``<item>``.
+    """
+    PODCAST_NS = "https://podcastindex.org/namespace/1.0"
+
+    try:
+        tree = ET.parse(str(rss_path))
+        root = tree.getroot()
+
+        # Ensure the podcast namespace is declared on <rss>
+        namespaces = dict(root.attrib) if root.attrib else {}
+        ns_declared = any(
+            v == PODCAST_NS for v in namespaces.values()
+        )
+        if not ns_declared:
+            root.set("xmlns:podcast", PODCAST_NS)
+
+        # Find the item with the matching GUID
+        channel = root.find("channel")
+        if channel is None:
+            return
+
+        for item in channel.findall("item"):
+            guid_el = item.find("guid")
+            if guid_el is not None and guid_el.text and guid_el.text.strip() == guid:
+                chapters_el = ET.SubElement(item, f"{{{PODCAST_NS}}}chapters")
+                chapters_el.set("url", chapters_url)
+                chapters_el.set("type", "application/json+chapters")
+                break
+
+        # Register namespace prefix for clean output
+        ET.register_namespace("podcast", PODCAST_NS)
+        tree.write(str(rss_path), xml_declaration=True, encoding="UTF-8")
+        logger.info("Injected <podcast:chapters> for %s", guid)
+
+    except Exception as exc:
+        logger.warning("Failed to inject <podcast:chapters> tag: %s", exc)
 
 
 # ---------------------------------------------------------------------------

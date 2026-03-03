@@ -178,6 +178,30 @@ episode:
   output_dir: digests/models_agents
   mp3_glob: "Models_Agents_Ep*.mp3"
 
+chapters:
+  enabled: true
+  section_markers:
+    - pattern: "welcome to Models and Agents"
+      title: "Introduction"
+    - pattern: "what you need to know|key summary"
+      title: "What You Need to Know"
+    - pattern: "top story|main event"
+      title: "Top Story"
+    - pattern: "model updates|model news"
+      title: "Model Updates"
+    - pattern: "agent|tool developments|agentic"
+      title: "Agent & Tool Developments"
+    - pattern: "practical|community|open.source"
+      title: "Practical & Community"
+    - pattern: "things to try|try this week"
+      title: "Things to Try"
+    - pattern: "on the horizon|coming up|what's coming"
+      title: "On the Horizon"
+    - pattern: "Before we go"
+      title: "Tomorrow Teaser"
+    - pattern: "That's Models and Agents"
+      title: "Closing"
+
 newsletter:
   enabled: true
   platform: buttondown

@@ -182,6 +182,30 @@ episode:
   output_dir: digests/env_intel
   mp3_glob: "Env_Intel_Ep*.mp3"
 
+chapters:
+  enabled: true
+  section_markers:
+    - pattern: "This is Environmental Intelligence"
+      title: "Introduction"
+    - pattern: "executive summary|here's what matters"
+      title: "Executive Summary"
+    - pattern: "lead story|centrepiece|most significant"
+      title: "Lead Story"
+    - pattern: "regulatory|policy watch"
+      title: "Regulatory & Policy Watch"
+    - pattern: "science|technical"
+      title: "Science & Technical"
+    - pattern: "industry|practice"
+      title: "Industry & Practice"
+    - pattern: "action items|if you're working on"
+      title: "Action Items"
+    - pattern: "week ahead|mark your calendar"
+      title: "Week Ahead"
+    - pattern: "Before we wrap|Tomorrow"
+      title: "Tomorrow Teaser"
+    - pattern: "That's Environmental Intelligence"
+      title: "Closing"
+
 newsletter:
   enabled: true
   platform: buttondown

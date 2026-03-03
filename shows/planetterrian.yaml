@@ -144,3 +144,15 @@ episode:
   filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
   output_dir: digests/planetterrian
   mp3_glob: "Planetterrian_Daily_Ep*.mp3"
+
+chapters:
+  enabled: true
+  section_markers:
+    - pattern: "Welcome to Planetterrian"
+      title: "Introduction"
+    - pattern: "Planetterrian Spotlight|Spotlight"
+      title: "Planetterrian Spotlight"
+    - pattern: "Before we go|Next time"
+      title: "Tomorrow Teaser"
+    - pattern: "That's Planetterrian"
+      title: "Closing"

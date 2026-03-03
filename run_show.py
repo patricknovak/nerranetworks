@@ -374,6 +374,14 @@ def run(args: argparse.Namespace) -> None:
         # Apply pronunciation fixes
         podcast_script = _apply_pronunciation(podcast_script, args.show)
 
+        # Parse chapter markers from the cleaned script (before TTS)
+        from engine.chapters import parse_chapters
+        episode_chapters = parse_chapters(
+            podcast_script,
+            config.chapters.section_markers,
+            show_name=config.name,
+        ) if config.chapters.enabled and config.chapters.section_markers else []
+
         # Save TTS-ready script for debugging pronunciation/intro issues
         tts_script_path = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}_tts.txt"
         tts_script_path.write_text(podcast_script, encoding="utf-8")
@@ -445,6 +453,26 @@ def run(args: argparse.Namespace) -> None:
             audio_duration = get_audio_duration(final_mp3)
             logger.info("Final audio: %s (%.0fs)", final_mp3.name, audio_duration)
 
+            # 10a. Generate chapter data (timestamps + JSON)
+            if episode_chapters and audio_duration > 0:
+                from engine.chapters import calculate_timestamps, write_chapters_json
+
+                # Music intro offset = time before voice starts
+                music_intro_offset = config.audio.voice_intro_delay + config.audio.intro_duration
+                calculate_timestamps(
+                    episode_chapters,
+                    audio_duration,
+                    music_intro_offset=music_intro_offset,
+                )
+
+                ep_title = f"Ep {episode_num}: {hook}" if hook else f"{config.name} - Episode {episode_num}"
+                chapters_json_path = digests_dir / f"chapters_ep{episode_num:03d}.json"
+                write_chapters_json(
+                    episode_chapters,
+                    chapters_json_path,
+                    episode_title=ep_title,
+                )
+
             # NOTE: raw MP3 cleanup is deferred until after post-validation
             # passes, so we have recovery if the mix is corrupt (see #20).
 
@@ -482,6 +510,15 @@ def run(args: argparse.Namespace) -> None:
             feed_audio_url = apply_op3_prefix(raw_url, config.analytics.prefix_url)
             logger.info("OP3 prefixed URL: %s", feed_audio_url)
 
+        # Build chapters URL for RSS if chapter JSON was written
+        chapters_url = None
+        chapters_json_ep = digests_dir / f"chapters_ep{episode_num:03d}.json"
+        if chapters_json_ep.exists():
+            chapters_url = (
+                f"{config.publishing.base_url}/{config.publishing.audio_subdir}"
+                f"/chapters_ep{episode_num:03d}.json"
+            )
+
         logger.info("Updating RSS feed: %s", config.publishing.rss_file)
         update_rss_feed(
             rss_path=rss_path,
@@ -505,6 +542,7 @@ def run(args: argparse.Namespace) -> None:
             guid_prefix=config.publishing.guid_prefix,
             format_duration_func=format_duration,
             audio_url=feed_audio_url,  # Use R2/OP3-prefixed URL if available
+            chapters_url=chapters_url,
         )
 
     # 12. Save GitHub Pages summary
