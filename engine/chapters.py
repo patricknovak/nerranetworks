@@ -32,6 +32,9 @@ class Chapter:
     # Word range within the script (used for proportion calculation)
     word_start: int = 0
     word_end: int = 0
+    # Character range within the script (used for text splitting)
+    char_start: int = 0
+    char_end: int = 0
 
 
 def parse_chapters(
@@ -82,27 +85,30 @@ def parse_chapters(
     # Split script into words with their character positions
     words = script.split()
     total_words = len(words)
+    total_chars = len(script)
     if total_words == 0:
         return []
 
-    # Build a word-index → character-position map for matching
-    # We scan line by line and try to match section markers
-    lines = script.splitlines()
+    # Scan line by line, tracking both word index and character offset
+    lines = script.splitlines(keepends=True)
     word_idx = 0
-    matches: list[tuple[int, str]] = []  # (word_index, title)
+    char_offset = 0
+    matches: list[tuple[int, int, str]] = []  # (word_index, char_offset, title)
 
     for line in lines:
         line_words = line.split()
         line_word_count = len(line_words)
+        line_stripped = line.rstrip("\n\r")
 
         for regex, title in compiled_markers:
-            if regex.search(line):
+            if regex.search(line_stripped):
                 # Avoid duplicate consecutive matches for the same title
-                if not matches or matches[-1][1] != title:
-                    matches.append((word_idx, title))
+                if not matches or matches[-1][2] != title:
+                    matches.append((word_idx, char_offset, title))
                 break  # Only match first marker per line
 
         word_idx += line_word_count
+        char_offset += len(line)
 
     if not matches:
         logger.info("No chapter markers matched in podcast script for %s", show_name)
@@ -110,12 +116,15 @@ def parse_chapters(
 
     # Build Chapter objects from matches
     chapters: list[Chapter] = []
-    for i, (w_start, title) in enumerate(matches):
+    for i, (w_start, c_start, title) in enumerate(matches):
         w_end = matches[i + 1][0] if i + 1 < len(matches) else total_words
+        c_end = matches[i + 1][1] if i + 1 < len(matches) else total_chars
         chapters.append(Chapter(
             title=title,
             word_start=w_start,
             word_end=w_end,
+            char_start=c_start,
+            char_end=c_end,
         ))
 
     logger.info(
@@ -125,6 +134,40 @@ def parse_chapters(
         [c.title for c in chapters],
     )
     return chapters
+
+
+def split_script_at_chapters(
+    script: str,
+    chapters: List[Chapter],
+) -> List[str]:
+    """Split a podcast script into text sections at chapter boundaries.
+
+    Uses the ``char_start``/``char_end`` character offsets stored by
+    ``parse_chapters()`` to slice the script into one text segment per
+    chapter.  Each segment can then be synthesized separately via TTS.
+
+    Parameters
+    ----------
+    script:
+        The full podcast script text (same text passed to ``parse_chapters()``).
+    chapters:
+        Chapters with ``char_start``/``char_end`` set.
+
+    Returns
+    -------
+    list[str]
+        Ordered list of text sections, one per chapter.
+        Empty sections are preserved to keep alignment with chapters.
+    """
+    if not chapters:
+        return [script] if script.strip() else []
+
+    sections: list[str] = []
+    for ch in chapters:
+        section = script[ch.char_start:ch.char_end].strip()
+        sections.append(section)
+
+    return sections
 
 
 def calculate_timestamps(

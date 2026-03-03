@@ -54,6 +54,7 @@ class TTSConfig:
 class AudioConfig:
     music_file: Optional[str] = None
     background_music_file: Optional[str] = None
+    transition_sting: Optional[str] = None
     intro_duration: float = 5.0
     overlap_duration: float = 3.0
     fade_duration: float = 18.0

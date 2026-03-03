@@ -398,17 +398,87 @@ def run(args: argparse.Namespace) -> None:
             raw_mp3 = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}_raw.mp3"
             logger.info("Synthesizing audio ...")
             t0 = time.monotonic()
-            synthesize(
-                podcast_script,
-                config.tts.voice_id,
-                raw_mp3,
-                api_key=api_key,
-                max_chars=config.tts.max_chars,
-                model_id=config.tts.model,
-                stability=config.tts.stability,
-                similarity_boost=config.tts.similarity_boost,
-                style=config.tts.style,
+
+            # Section-aware TTS: split at chapter boundaries and
+            # concatenate with transition stings between sections.
+            sting_path = None
+            if config.audio.transition_sting:
+                sting_path = PROJECT_ROOT / config.audio.transition_sting
+
+            use_section_tts = (
+                episode_chapters
+                and len(episode_chapters) >= 2
+                and sting_path
             )
+
+            if use_section_tts:
+                from engine.chapters import split_script_at_chapters
+                from engine.tts import synthesize_sections
+                from engine.audio import generate_transition_sting, concatenate_with_stings
+
+                sections = split_script_at_chapters(podcast_script, episode_chapters)
+                # Filter out empty sections
+                sections = [s for s in sections if s.strip()]
+
+                if len(sections) >= 2:
+                    logger.info("Section TTS: synthesizing %d sections separately", len(sections))
+                    section_tmp_dir = digests_dir / f"_sections_ep{episode_num:03d}"
+                    section_files = synthesize_sections(
+                        sections,
+                        config.tts.voice_id,
+                        section_tmp_dir,
+                        api_key=api_key,
+                        section_prefix=f"sec_ep{episode_num:03d}",
+                        max_chars=config.tts.max_chars,
+                        model_id=config.tts.model,
+                        stability=config.tts.stability,
+                        similarity_boost=config.tts.similarity_boost,
+                        style=config.tts.style,
+                    )
+
+                    # Generate sting if it doesn't exist yet
+                    generate_transition_sting(sting_path)
+
+                    concatenate_with_stings(
+                        section_files, raw_mp3, sting_path=sting_path,
+                    )
+
+                    # Clean up section temp files
+                    for sf in section_files:
+                        try:
+                            sf.unlink()
+                        except Exception:
+                            pass
+                    try:
+                        section_tmp_dir.rmdir()
+                    except Exception:
+                        pass
+                else:
+                    # Not enough sections — fall back to single synthesis
+                    synthesize(
+                        podcast_script,
+                        config.tts.voice_id,
+                        raw_mp3,
+                        api_key=api_key,
+                        max_chars=config.tts.max_chars,
+                        model_id=config.tts.model,
+                        stability=config.tts.stability,
+                        similarity_boost=config.tts.similarity_boost,
+                        style=config.tts.style,
+                    )
+            else:
+                synthesize(
+                    podcast_script,
+                    config.tts.voice_id,
+                    raw_mp3,
+                    api_key=api_key,
+                    max_chars=config.tts.max_chars,
+                    model_id=config.tts.model,
+                    stability=config.tts.stability,
+                    similarity_boost=config.tts.similarity_boost,
+                    style=config.tts.style,
+                )
+
             logger.info("TTS synthesis took %.1fs", time.monotonic() - t0)
             from engine.tracking import record_tts_usage
             record_tts_usage(tracker, len(podcast_script))
