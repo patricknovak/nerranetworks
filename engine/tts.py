@@ -340,3 +340,76 @@ def synthesize(
         append_exclamation=append_exclamation,
     )
     return output_path
+
+
+def synthesize_sections(
+    sections: List[str],
+    voice_id: str,
+    output_dir: Path,
+    *,
+    api_key: str,
+    section_prefix: str = "section",
+    max_chars: int = 4500,
+    model_id: str = "eleven_turbo_v2_5",
+    stability: float = 0.65,
+    similarity_boost: float = 0.9,
+    style: float = 0.85,
+    stream: bool = True,
+    timeout: int = 120,
+) -> List[Path]:
+    """Synthesize multiple script sections into individual audio files.
+
+    Each section is synthesized via ``speak()`` (which handles chunking
+    internally for sections exceeding *max_chars*).  Returns an ordered
+    list of MP3 paths — one per section.
+
+    Parameters
+    ----------
+    sections:
+        Ordered list of text sections to synthesize.
+    voice_id:
+        ElevenLabs voice ID.
+    output_dir:
+        Directory for intermediate per-section MP3 files.
+    api_key:
+        ElevenLabs API key.
+    section_prefix:
+        Filename prefix for section files.
+    max_chars:
+        Maximum characters per TTS API chunk.
+
+    Returns
+    -------
+    list[Path]
+        Ordered list of MP3 file paths, one per section.
+    """
+    output_dir.mkdir(parents=True, exist_ok=True)
+    section_files: List[Path] = []
+
+    for i, section_text in enumerate(sections):
+        section_text = section_text.strip()
+        if not section_text:
+            logger.warning("Skipping empty section %d", i)
+            continue
+
+        section_path = output_dir / f"{section_prefix}_{i:03d}.mp3"
+        speak(
+            section_text,
+            voice_id,
+            str(section_path),
+            api_key=api_key,
+            max_chars=max_chars,
+            model_id=model_id,
+            stability=stability,
+            similarity_boost=similarity_boost,
+            style=style,
+            stream=stream,
+            timeout=timeout,
+        )
+        section_files.append(section_path)
+        logger.info(
+            "Synthesized section %d/%d (%d chars): %s",
+            i + 1, len(sections), len(section_text), section_path.name,
+        )
+
+    return section_files

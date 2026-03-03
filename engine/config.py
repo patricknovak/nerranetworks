@@ -54,6 +54,7 @@ class TTSConfig:
 class AudioConfig:
     music_file: Optional[str] = None
     background_music_file: Optional[str] = None
+    transition_sting: Optional[str] = None
     intro_duration: float = 5.0
     overlap_duration: float = 3.0
     fade_duration: float = 18.0
@@ -125,6 +126,18 @@ class NewsletterConfig:
 
 
 @dataclass
+class SectionMarker:
+    pattern: str = ""
+    title: str = ""
+
+
+@dataclass
+class ChaptersConfig:
+    enabled: bool = True
+    section_markers: List[SectionMarker] = field(default_factory=list)
+
+
+@dataclass
 class ShowConfig:
     name: str = ""
     slug: str = ""
@@ -139,6 +152,7 @@ class ShowConfig:
     storage: StorageConfig = field(default_factory=StorageConfig)
     analytics: AnalyticsConfig = field(default_factory=AnalyticsConfig)
     newsletter: NewsletterConfig = field(default_factory=NewsletterConfig)
+    chapters: ChaptersConfig = field(default_factory=ChaptersConfig)
 
 
 # ---------------------------------------------------------------------------
@@ -154,6 +168,27 @@ def _build_sources(raw: list) -> List[SourceConfig]:
         elif isinstance(item, dict):
             sources.append(SourceConfig(url=item.get("url", ""), label=item.get("label", "")))
     return sources
+
+
+def _build_section_markers(raw: list) -> List[SectionMarker]:
+    """Convert a list of dicts into SectionMarker objects."""
+    markers = []
+    for item in raw or []:
+        if isinstance(item, dict):
+            markers.append(SectionMarker(
+                pattern=item.get("pattern", ""),
+                title=item.get("title", ""),
+            ))
+    return markers
+
+
+def _build_chapters(raw: dict) -> ChaptersConfig:
+    """Build a ChaptersConfig from a dict, handling nested section_markers."""
+    if not raw or not isinstance(raw, dict):
+        return ChaptersConfig()
+    markers = _build_section_markers(raw.get("section_markers"))
+    enabled = raw.get("enabled", True)
+    return ChaptersConfig(enabled=enabled, section_markers=markers)
 
 
 def _build_nested(cls, raw: dict):
@@ -198,6 +233,7 @@ def load_config(yaml_path: str | Path) -> ShowConfig:
         storage=_build_nested(StorageConfig, data.get("storage")),
         analytics=_build_nested(AnalyticsConfig, data.get("analytics")),
         newsletter=_build_nested(NewsletterConfig, data.get("newsletter")),
+        chapters=_build_chapters(data.get("chapters")),
     )
     logger.info("Loaded config for '%s' from %s", config.name, path)
     return config

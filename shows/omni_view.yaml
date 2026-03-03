@@ -123,6 +123,7 @@ tts:
 
 audio:
   music_file: assets/music/LubechangeOilers.mp3
+  transition_sting: assets/music/transition_sting.mp3
   voice_intro_delay: 5.0
   intro_duration: 5.0
   overlap_duration: 10.0
@@ -156,6 +157,18 @@ episode:
   filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
   output_dir: digests/omni_view
   mp3_glob: "Omni_View_Ep*.mp3"
+
+chapters:
+  enabled: true
+  section_markers:
+    - pattern: "This is Omni View"
+      title: "Introduction"
+    - pattern: "Shifting now to|Meanwhile|first story|first up"
+      title: "Main Stories"
+    - pattern: "Before we go"
+      title: "Tomorrow Teaser"
+    - pattern: "That's Omni View"
+      title: "Closing"
 
 newsletter:
   enabled: true

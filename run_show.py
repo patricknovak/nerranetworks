@@ -374,6 +374,14 @@ def run(args: argparse.Namespace) -> None:
         # Apply pronunciation fixes
         podcast_script = _apply_pronunciation(podcast_script, args.show)
 
+        # Parse chapter markers from the cleaned script (before TTS)
+        from engine.chapters import parse_chapters
+        episode_chapters = parse_chapters(
+            podcast_script,
+            config.chapters.section_markers,
+            show_name=config.name,
+        ) if config.chapters.enabled and config.chapters.section_markers else []
+
         # Save TTS-ready script for debugging pronunciation/intro issues
         tts_script_path = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}_tts.txt"
         tts_script_path.write_text(podcast_script, encoding="utf-8")
@@ -390,17 +398,87 @@ def run(args: argparse.Namespace) -> None:
             raw_mp3 = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}_raw.mp3"
             logger.info("Synthesizing audio ...")
             t0 = time.monotonic()
-            synthesize(
-                podcast_script,
-                config.tts.voice_id,
-                raw_mp3,
-                api_key=api_key,
-                max_chars=config.tts.max_chars,
-                model_id=config.tts.model,
-                stability=config.tts.stability,
-                similarity_boost=config.tts.similarity_boost,
-                style=config.tts.style,
+
+            # Section-aware TTS: split at chapter boundaries and
+            # concatenate with transition stings between sections.
+            sting_path = None
+            if config.audio.transition_sting:
+                sting_path = PROJECT_ROOT / config.audio.transition_sting
+
+            use_section_tts = (
+                episode_chapters
+                and len(episode_chapters) >= 2
+                and sting_path
             )
+
+            if use_section_tts:
+                from engine.chapters import split_script_at_chapters
+                from engine.tts import synthesize_sections
+                from engine.audio import generate_transition_sting, concatenate_with_stings
+
+                sections = split_script_at_chapters(podcast_script, episode_chapters)
+                # Filter out empty sections
+                sections = [s for s in sections if s.strip()]
+
+                if len(sections) >= 2:
+                    logger.info("Section TTS: synthesizing %d sections separately", len(sections))
+                    section_tmp_dir = digests_dir / f"_sections_ep{episode_num:03d}"
+                    section_files = synthesize_sections(
+                        sections,
+                        config.tts.voice_id,
+                        section_tmp_dir,
+                        api_key=api_key,
+                        section_prefix=f"sec_ep{episode_num:03d}",
+                        max_chars=config.tts.max_chars,
+                        model_id=config.tts.model,
+                        stability=config.tts.stability,
+                        similarity_boost=config.tts.similarity_boost,
+                        style=config.tts.style,
+                    )
+
+                    # Generate sting if it doesn't exist yet
+                    generate_transition_sting(sting_path)
+
+                    concatenate_with_stings(
+                        section_files, raw_mp3, sting_path=sting_path,
+                    )
+
+                    # Clean up section temp files
+                    for sf in section_files:
+                        try:
+                            sf.unlink()
+                        except Exception:
+                            pass
+                    try:
+                        section_tmp_dir.rmdir()
+                    except Exception:
+                        pass
+                else:
+                    # Not enough sections — fall back to single synthesis
+                    synthesize(
+                        podcast_script,
+                        config.tts.voice_id,
+                        raw_mp3,
+                        api_key=api_key,
+                        max_chars=config.tts.max_chars,
+                        model_id=config.tts.model,
+                        stability=config.tts.stability,
+                        similarity_boost=config.tts.similarity_boost,
+                        style=config.tts.style,
+                    )
+            else:
+                synthesize(
+                    podcast_script,
+                    config.tts.voice_id,
+                    raw_mp3,
+                    api_key=api_key,
+                    max_chars=config.tts.max_chars,
+                    model_id=config.tts.model,
+                    stability=config.tts.stability,
+                    similarity_boost=config.tts.similarity_boost,
+                    style=config.tts.style,
+                )
+
             logger.info("TTS synthesis took %.1fs", time.monotonic() - t0)
             from engine.tracking import record_tts_usage
             record_tts_usage(tracker, len(podcast_script))
@@ -445,6 +523,26 @@ def run(args: argparse.Namespace) -> None:
             audio_duration = get_audio_duration(final_mp3)
             logger.info("Final audio: %s (%.0fs)", final_mp3.name, audio_duration)
 
+            # 10a. Generate chapter data (timestamps + JSON)
+            if episode_chapters and audio_duration > 0:
+                from engine.chapters import calculate_timestamps, write_chapters_json
+
+                # Music intro offset = time before voice starts
+                music_intro_offset = config.audio.voice_intro_delay + config.audio.intro_duration
+                calculate_timestamps(
+                    episode_chapters,
+                    audio_duration,
+                    music_intro_offset=music_intro_offset,
+                )
+
+                ep_title = f"Ep {episode_num}: {hook}" if hook else f"{config.name} - Episode {episode_num}"
+                chapters_json_path = digests_dir / f"chapters_ep{episode_num:03d}.json"
+                write_chapters_json(
+                    episode_chapters,
+                    chapters_json_path,
+                    episode_title=ep_title,
+                )
+
             # NOTE: raw MP3 cleanup is deferred until after post-validation
             # passes, so we have recovery if the mix is corrupt (see #20).
 
@@ -482,6 +580,15 @@ def run(args: argparse.Namespace) -> None:
             feed_audio_url = apply_op3_prefix(raw_url, config.analytics.prefix_url)
             logger.info("OP3 prefixed URL: %s", feed_audio_url)
 
+        # Build chapters URL for RSS if chapter JSON was written
+        chapters_url = None
+        chapters_json_ep = digests_dir / f"chapters_ep{episode_num:03d}.json"
+        if chapters_json_ep.exists():
+            chapters_url = (
+                f"{config.publishing.base_url}/{config.publishing.audio_subdir}"
+                f"/chapters_ep{episode_num:03d}.json"
+            )
+
         logger.info("Updating RSS feed: %s", config.publishing.rss_file)
         update_rss_feed(
             rss_path=rss_path,
@@ -505,6 +612,7 @@ def run(args: argparse.Namespace) -> None:
             guid_prefix=config.publishing.guid_prefix,
             format_duration_func=format_duration,
             audio_url=feed_audio_url,  # Use R2/OP3-prefixed URL if available
+            chapters_url=chapters_url,
         )
 
     # 12. Save GitHub Pages summary

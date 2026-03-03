@@ -5,7 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Daily Fascinating Frontiers summaries - complete archives of space and astronomy news.">
     <meta name="keywords" content="space podcast summaries, astronomy news, NASA discoveries, space exploration, Fascinating Frontiers">
-    <title>Fascinating Frontiers Summaries | Space & Astronomy Archive</title>
+    <title>Fascinating Frontiers | Summaries</title>
+    
+    <meta name="theme-color" content="#06b6d4">
+    
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Fascinating Frontiers | Summaries">
+    <meta property="og:description" content="Daily Fascinating Frontiers summaries - complete archives of space and astronomy news.">
+    <meta property="og:type" content="website">
+    
+    <meta property="og:image" content="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg">
+    
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -13,17 +24,22 @@
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+    <!-- Favicon -->
+    
+    
+
     <style>
         :root {
-            /* Space/Astronomy Theme Colors */
-            --space-purple: #6366f1;
-            --space-blue: #3b82f6;
-            --space-cyan: #06b6d4;
-            --space-dark: #0f172a;
-            --space-card: #1e293b;
-            --space-text: #ffffff;
-            --space-text-light: #cbd5e1;
-            --stars-bg: radial-gradient(ellipse at center, #1e293b 0%, #0f172a 100%);
+            --primary: #06b6d4;
+            --primary-dark: #6366f1;
+            --accent: #6366f1;
+            --bg: #0f172a;
+            --bg-alt: #1e293b;
+            --card: #1e293b;
+            --text: #ffffff;
+            --text-light: #cbd5e1;
+            --border-subtle: rgba(255,255,255,0.18);
+            --header-bg: rgba(15, 23, 42, 0.95);
             --header-height: 76px;
             --sticky-height: 74px;
         }
@@ -40,9 +56,10 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--space-dark);
-            color: var(--space-text);
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         /* Header/Navigation */
@@ -50,11 +67,11 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(15, 23, 42, 0.95);
+            background: var(--header-bg);
             backdrop-filter: blur(10px);
             z-index: 1000;
             padding: 1rem 2rem;
-            border-bottom: 2px solid var(--space-cyan);
+            border-bottom: 2px solid var(--primary);
         }
 
         nav {
@@ -69,10 +86,15 @@
             font-family: 'Montserrat', sans-serif;
             font-size: 1.5rem;
             font-weight: 800;
-            color: var(--space-cyan);
+            color: var(--primary);
             text-decoration: none;
+            
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .nav-links {
@@ -82,14 +104,14 @@
         }
 
         .nav-links a {
-            color: var(--space-text);
+            color: var(--text);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            color: var(--space-cyan);
+            color: var(--primary);
         }
 
         /* Sticky player (under the fixed header) */
@@ -99,8 +121,8 @@
             left: 0;
             right: 0;
             z-index: 999;
-            background: rgba(15, 23, 42, 0.96);
-            border-bottom: 1px solid rgba(255,255,255,0.18);
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border-subtle);
             backdrop-filter: blur(10px);
         }
         .sticky-player.hidden { display: none; }
@@ -109,39 +131,63 @@
             margin: 0 auto;
             padding: 0.75rem 2rem;
             display: grid;
-            grid-template-columns: 1fr auto auto;
+            grid-template-columns: 1fr auto auto auto;
             gap: 0.75rem;
             align-items: center;
         }
         .sticky-meta { min-width: 0; }
         .sticky-now {
             font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
-            color: var(--space-text);
+            font-weight: 700;
+            color: var(--text);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .sticky-sub {
             font-size: 0.9rem;
-            color: var(--space-text-light);
+            color: var(--text-light);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .sticky-audio { width: min(560px, 100%); height: 38px; }
+
+        /* Speed control */
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .speed-btn {
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255,255,255,0.04);
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .speed-btn:hover, .speed-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(255,255,255,0.08);
+        }
+
         .sticky-close {
             width: 38px;
             height: 38px;
             border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.25);
-            background: rgba(255,255,255,0.06);
-            color: var(--space-text);
+            border: 1px solid var(--border-subtle);
+            background: rgba(255,255,255,0.04);
+            color: var(--text);
             cursor: pointer;
             font-size: 1.1rem;
             line-height: 1;
         }
-        .sticky-close:hover { border-color: var(--space-cyan); }
+        .sticky-close:hover { border-color: var(--primary); }
 
         /* Hero Section */
         .hero {
@@ -152,34 +198,16 @@
             align-items: center;
             text-align: center;
             padding: calc(8rem + var(--sticky-height)) 2rem 4rem;
-            background: var(--stars-bg);
+            background: radial-gradient(ellipse at center, #1e293b 0%, #0f172a 100%);
             position: relative;
             overflow: hidden;
         }
 
+        
         .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image:
-                radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
-                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
-                radial-gradient(1px 1px at 90px 40px, #ffffff, transparent),
-                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
-                radial-gradient(2px 2px at 160px 30px, #ffffff, transparent);
-            background-repeat: repeat;
-            background-size: 200px 100px;
-            animation: twinkle 4s ease-in-out infinite alternate;
-            opacity: 0.6;
+            content: '';position: absolute; top: 0; left: 0; right: 0; bottom: 0;background-image:  radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),  radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),  radial-gradient(1px 1px at 90px 40px, #ffffff, transparent),  radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),  radial-gradient(2px 2px at 160px 30px, #ffffff, transparent);background-repeat: repeat;background-size: 200px 100px;animation: twinkle 4s ease-in-out infinite alternate;opacity: 0.6;
         }
-
-        @keyframes twinkle {
-            0% { opacity: 0.3; }
-            100% { opacity: 0.8; }
-        }
+        
 
         .hero-content {
             position: relative;
@@ -192,7 +220,7 @@
             font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 900;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--space-cyan) 0%, var(--space-purple) 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -201,29 +229,74 @@
         .hero .tagline {
             font-size: clamp(1.2rem, 2.5vw, 1.8rem);
             font-weight: 600;
-            color: var(--space-cyan);
+            color: var(--accent);
             margin-bottom: 2rem;
         }
 
         .hero .subtitle {
             font-size: 1.1rem;
-            color: var(--space-text-light);
+            color: var(--text-light);
             margin-bottom: 3rem;
+        }
+
+        /* Search & Filter Controls */
+        .controls {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .search-box {
+            flex: 1;
+            min-width: 220px;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+            background: var(--card);
+            color: var(--text);
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+        .search-box::placeholder { color: var(--text-light); }
+        .search-box:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+            background: var(--card);
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .episode-count {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-left: auto;
         }
 
         /* Summary Section */
         .summaries-section {
-            padding: 4rem 2rem;
+            padding: 4rem 2rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .podcast-summary {
-            background: var(--space-card);
+            background: var(--card);
             border-radius: 12px;
             padding: 2rem;
             margin-bottom: 3rem;
-            border: 2px solid var(--space-cyan);
+            border: 2px solid var(--primary);
         }
 
         .podcast-header {
@@ -232,7 +305,7 @@
             gap: 1rem;
             margin-bottom: 2rem;
             padding-bottom: 1rem;
-            border-bottom: 2px solid var(--space-text-light);
+            border-bottom: 2px solid var(--border-subtle);
         }
 
         .podcast-logo {
@@ -246,28 +319,28 @@
             font-family: 'Montserrat', sans-serif;
             font-size: 1.8rem;
             font-weight: 700;
-            color: var(--space-cyan);
+            color: var(--primary);
             margin: 0;
         }
 
         .summary-item {
-            background: var(--space-dark);
+            background: var(--bg);
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            border-left: 4px solid var(--space-cyan);
+            border-left: 4px solid var(--primary);
         }
 
         .summary-date {
             font-size: 1.1rem;
             font-weight: 600;
-            color: var(--space-text);
+            color: var(--text);
             margin-bottom: 0.5rem;
         }
 
         .summary-content {
-            color: var(--space-text-light);
-            line-height: 1.7;
+            color: var(--text-light);
+            line-height: 1.85;
             font-size: 1rem;
         }
 
@@ -293,56 +366,64 @@
         }
 
         .summary-link {
-            color: var(--space-text);
+            color: var(--text);
             text-decoration: none;
             font-weight: 600;
-            border: 1px solid rgba(255,255,255,0.25);
+            border: 1px solid var(--border-subtle);
             padding: 0.4rem 0.7rem;
             border-radius: 8px;
-            background: rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.04);
+            transition: border-color 0.2s;
         }
 
         .summary-link:hover {
-            border-color: var(--space-cyan);
+            border-color: var(--primary);
         }
 
-        /* Make markdown-ish content readable */
-        .summary-content { line-height: 1.85; }
+        /* Share button */
+        .share-btn {
+            padding: 0.4rem 0.7rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255,255,255,0.04);
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .share-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .share-btn.copied { border-color: var(--primary); color: var(--primary); }
+
+        /* Markdown content styles */
         .summary-content h1,
         .summary-content h2,
         .summary-content h3 {
-            color: var(--space-text);
+            color: var(--text);
             margin: 1rem 0 0.5rem;
             font-family: 'Montserrat', sans-serif;
             letter-spacing: 0.01em;
         }
         .summary-content p { margin: 0 0 0.9rem; }
+        .summary-content p:last-child { margin-bottom: 0; }
         .summary-content ul { margin: 0 0 1rem 1.2rem; }
         .summary-content li { margin: 0.25rem 0; }
-        .summary-content a { color: var(--space-cyan); }
-        .summary-content a:hover { color: var(--space-purple); }
-
-        .summary-content p {
-            margin-bottom: 1rem;
-        }
-
-        .summary-content p:last-child {
-            margin-bottom: 0;
-        }
+        .summary-content a { color: var(--accent); }
+        .summary-content a:hover { color: var(--primary); }
 
         .no-summaries {
             text-align: center;
-            color: var(--space-text-light);
+            color: var(--text-light);
             padding: 3rem;
             font-style: italic;
         }
 
         /* Footer */
         footer {
-            background: var(--space-dark);
+            background: var(--bg);
             padding: 3rem 2rem;
             text-align: center;
-            border-top: 2px solid var(--space-cyan);
+            border-top: 2px solid var(--primary);
         }
 
         .footer-content {
@@ -359,24 +440,46 @@
         }
 
         .footer-links a {
-            color: var(--space-text);
+            color: var(--text);
             text-decoration: none;
             transition: color 0.3s;
         }
 
         .footer-links a:hover {
-            color: var(--space-cyan);
+            color: var(--primary);
         }
 
         .footer-text {
-            color: var(--space-text-light);
+            color: var(--text-light);
             font-size: 0.9rem;
         }
+
+        /* Nerra Network cross-links */
+        .network-shows {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .network-shows a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.2s;
+        }
+        .network-shows a:hover { border-color: var(--primary); color: var(--primary); }
+        .network-shows a.current { border-color: var(--primary); color: var(--primary); font-weight: 600; }
 
         /* Mobile Menu Toggle */
         .menu-toggle {
             display: none;
-            background: var(--space-cyan);
+            background: var(--primary);
             border: none;
             color: white;
             font-size: 1.5rem;
@@ -397,10 +500,10 @@
                 top: 100%;
                 left: 0;
                 right: 0;
-                background: rgba(15, 23, 42, 0.98);
+                background: var(--header-bg);
                 flex-direction: column;
                 padding: 1rem;
-                border-top: 2px solid var(--space-cyan);
+                border-top: 2px solid var(--primary);
             }
 
             .nav-links.active {
@@ -414,7 +517,7 @@
             .nav-links a {
                 display: block;
                 padding: 0.75rem;
-                border-bottom: 1px solid var(--space-text-light);
+                border-bottom: 1px solid var(--border-subtle);
             }
 
             .hero {
@@ -426,9 +529,14 @@
             }
             .sticky-audio { width: 100%; }
             .sticky-close { justify-self: end; }
+            .speed-control { justify-self: start; }
 
             .summaries-section {
                 padding: 2rem 1rem;
+            }
+
+            .controls {
+                padding: 0 1rem;
             }
 
             .podcast-summary {
@@ -459,25 +567,38 @@
             border-width: 0;
         }
 
-        /* Focus styles for keyboard navigation */
         a:focus, button:focus {
-            outline: 2px solid var(--space-cyan);
+            outline: 2px solid var(--primary);
             outline-offset: 2px;
         }
+
+        
+        @keyframes twinkle { 0% { opacity: 0.3; } 100% { opacity: 0.8; } }
+        
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
         <nav>
-            <a href="fascinating_frontiers.html" class="logo">Fascinating Frontiers</a>
-            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <a href="fascinating_frontiers.html" class="logo">
+                
+                 Fascinating Frontiers
+                
+            </a>
+            <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
             <ul class="nav-links" id="navLinks">
+                
                 <li><a href="fascinating_frontiers.html#episodes">Episodes</a></li>
+                
                 <li><a href="fascinating_frontiers.html#about">About</a></li>
-                <li><a href="fascinating-frontiers-summaries.html">📝 Space Summaries</a></li>
-                <li><a href="podcasts/">🌐 All Podcasts</a></li>
+                
+                <li><a href="fascinating-frontiers-summaries.html">Summaries</a></li>
+                
+                <li><a href="podcasts/">All Podcasts</a></li>
+                
                 <li><a href="fascinating_frontiers.html#subscribe">Subscribe</a></li>
+                
             </ul>
         </nav>
     </header>
@@ -490,28 +611,47 @@
                 <div id="stickySub" class="sticky-sub"></div>
             </div>
             <audio id="stickyAudio" class="sticky-audio" controls preload="none"></audio>
-            <button id="stickyClose" class="sticky-close" aria-label="Close player">×</button>
+            <div class="speed-control">
+                <button class="speed-btn" data-speed="0.75">0.75x</button>
+                <button class="speed-btn active" data-speed="1">1x</button>
+                <button class="speed-btn" data-speed="1.25">1.25x</button>
+                <button class="speed-btn" data-speed="1.5">1.5x</button>
+                <button class="speed-btn" data-speed="2">2x</button>
+            </div>
+            <button id="stickyClose" class="sticky-close" aria-label="Close player">&times;</button>
         </div>
     </div>
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
+            
             <h1>Fascinating Frontiers</h1>
             <p class="tagline">Complete Archive of Space & Astronomy Digests</p>
             <p class="subtitle">Full daily summaries of space missions, astronomical discoveries, and cosmic phenomena</p>
         </div>
     </section>
 
-    <!-- Fascinating Frontiers Summaries -->
+    <!-- Search & Filter Controls -->
+    <div class="controls" data-aos="fade-up">
+        <input type="text" class="search-box" id="searchBox" placeholder="Search episodes..." aria-label="Search episodes">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="week">This Week</button>
+        <button class="filter-btn" data-filter="month">This Month</button>
+        <span class="episode-count" id="episodeCount"></span>
+    </div>
+
+    <!-- Summaries -->
     <section class="summaries-section">
         <div class="podcast-summary" data-aos="fade-up">
             <div class="podcast-header">
+                
                 <img src="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"
                      alt="Fascinating Frontiers" class="podcast-logo" onerror="this.style.display='none'">
+                
                 <h2 class="podcast-title">Fascinating Frontiers Space Summaries</h2>
             </div>
-            <div id="space-summaries">
+            <div id="summaries-container">
                 <div class="no-summaries">Loading Fascinating Frontiers summaries...</div>
             </div>
         </div>
@@ -520,118 +660,193 @@
     <!-- Footer -->
     <footer>
         <div class="footer-content">
+            <!-- Nerra Network cross-links -->
+            <div class="network-shows">
+                
+                <a href="tesla-summaries.html">Tesla Shorts Time</a>
+                
+                <a href="omni-view-summaries.html">Omni View</a>
+                
+                <a href="fascinating-frontiers-summaries.html" class="current">Fascinating Frontiers</a>
+                
+                <a href="planetterrian-summaries.html">Planetterrian Daily</a>
+                
+                <a href="env-intel-summaries.html">Environmental Intelligence</a>
+                
+                <a href="models-agents-summaries.html">Models & Agents</a>
+                
+                <a href="network.html">Nerra Network</a>
+            </div>
             <div class="footer-links">
+                
                 <a href="fascinating_frontiers.html#episodes">🎧 Episodes</a>
+                
                 <a href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/fascinating_frontiers_podcast.rss" target="_blank">📡 RSS Feed</a>
+                
                 <a href="https://x.com/planetterrian" target="_blank">🐦 X / Twitter</a>
+                
                 <a href="https://github.com/patricknovak/Tesla-shorts-time/tree/main/digests/fascinating_frontiers" target="_blank">📚 Archive</a>
+                
                 <a href="podcasts/">🌐 All Podcasts</a>
+                
                 <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank">💻 Source</a>
+                
             </div>
             <p class="footer-text">Fascinating Frontiers © 2025 | Exploring the wonders of space and astronomy</p>
+            
             <p class="footer-text">🚀🌌 Bringing the cosmos to your ears 🚀🌌</p>
+            
         </div>
     </footer>
 
     <!-- AOS Animation Library -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize AOS
+        const JSON_URL = 'digests/fascinating_frontiers/summaries_space.json';
+        const JSON_FORMAT = 'wrapped';
+        const SHOW_NAME = "Fascinating Frontiers";
+
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof AOS !== 'undefined') {
-                AOS.init({
-                    duration: 800,
-                    easing: 'ease-in-out',
-                    once: true,
-                    offset: 100
-                });
+                AOS.init({ duration: 800, easing: 'ease-in-out', once: true, offset: 100 });
             }
 
             // Mobile menu toggle
             const menuToggle = document.querySelector('.menu-toggle');
             const navLinks = document.getElementById('navLinks');
             if (menuToggle && navLinks) {
-                menuToggle.addEventListener('click', function() {
-                    navLinks.classList.toggle('active');
-                });
-
-                // Close menu when clicking a link
-                navLinks.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', function() {
-                        navLinks.classList.remove('active');
-                    });
-                });
+                menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+                navLinks.querySelectorAll('a').forEach(link =>
+                    link.addEventListener('click', () => navLinks.classList.remove('active'))
+                );
             }
 
-            // Load summaries from GitHub
+            // Speed controls
+            document.querySelectorAll('.speed-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const speed = parseFloat(btn.dataset.speed);
+                    const audio = document.getElementById('stickyAudio');
+                    if (audio) audio.playbackRate = speed;
+                    document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+
+            // Search & filter
+            const searchBox = document.getElementById('searchBox');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            let currentFilter = 'all';
+
+            searchBox.addEventListener('input', applyFilters);
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            function applyFilters() {
+                const query = (searchBox.value || '').toLowerCase();
+                const items = document.querySelectorAll('.summary-item');
+                const now = new Date();
+                let visible = 0;
+
+                items.forEach(item => {
+                    const text = (item.textContent || '').toLowerCase();
+                    const dateStr = item.dataset.date || '';
+                    let dateMatch = true;
+
+                    if (currentFilter === 'week') {
+                        const d = new Date(dateStr);
+                        dateMatch = (now - d) <= 7 * 86400000;
+                    } else if (currentFilter === 'month') {
+                        const d = new Date(dateStr);
+                        dateMatch = (now - d) <= 31 * 86400000;
+                    }
+
+                    const show = text.includes(query) && dateMatch;
+                    item.style.display = show ? '' : 'none';
+                    if (show) visible++;
+                });
+
+                const countEl = document.getElementById('episodeCount');
+                if (countEl) countEl.textContent = `${visible} episode${visible !== 1 ? 's' : ''}`;
+            }
+
             loadSummaries();
         });
 
         async function loadSummaries() {
-            const baseUrl = 'https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests';
-
-            try {
-                // Load Fascinating Frontiers summaries
-                await loadPodcastSummaries('space-summaries', `${baseUrl}/fascinating_frontiers/summaries_space.json`);
-
-            } catch (error) {
-                console.error('Error loading summaries:', error);
-            }
-        }
-
-        async function loadPodcastSummaries(containerId, jsonUrl) {
             try {
                 let response;
                 try {
-                    response = await fetch(jsonUrl);
+                    response = await fetch(JSON_URL);
                     if (!response.ok) throw new Error(`Direct fetch failed: ${response.status}`);
                 } catch (directErr) {
                     const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                    response = await fetch(proxyUrl + encodeURIComponent(jsonUrl));
+                    const fullUrl = new URL(JSON_URL, window.location.href).href;
+                    response = await fetch(proxyUrl + encodeURIComponent(fullUrl));
                     if (!response.ok) throw new Error(`Proxy fetch failed: ${response.status}`);
-                }
-                if (!response.ok) {
-                    throw new Error(`Failed to load ${jsonUrl}`);
                 }
 
                 const data = await response.json();
-                const container = document.getElementById(containerId);
+                const container = document.getElementById('summaries-container');
 
-                if (!data.summaries || data.summaries.length === 0) {
+                // Handle both {summaries: [...]} and [...] formats
+                const summaries = (JSON_FORMAT === 'array') ? (Array.isArray(data) ? data : [])
+                    : (data.summaries || []);
+
+                if (!summaries.length) {
                     container.innerHTML = '<div class="no-summaries">No summaries available yet. Check back after the next daily update!</div>';
                     return;
                 }
 
-                // Sort summaries by date (newest first)
-                data.summaries.sort((a, b) => new Date(b.date) - new Date(a.date));
+                summaries.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-                const summariesHtml = data.summaries.map(summary => {
-                    const audioUrl = summary.audio_url || '';
+                const html = summaries.map(s => {
+                    const audioUrl = s.audio_url || '';
+                    const content = s.content || s.summary || '';
+                    const title = s.episode_title || '';
+                    const date = s.date || '';
+
                     const audioHtml = audioUrl ? `
                         <div class="summary-actions">
                             <audio class="summary-audio" controls preload="none" src="${escapeAttr(audioUrl)}"></audio>
                             <a class="summary-link" href="${escapeAttr(audioUrl)}" target="_blank" rel="noopener">Download</a>
+                            <button class="share-btn" data-url="${escapeAttr(audioUrl)}" title="Copy link">Share</button>
                         </div>
                     ` : '';
 
+                    const titleHtml = title ? `<div style="font-weight:600;color:var(--primary);font-size:0.9rem;">${escapeHtml(title)}</div>` : '';
+
                     return `
-                        <div class="summary-item">
+                        <div class="summary-item" data-date="${escapeAttr(date)}">
                             <div class="summary-header">
-                                <div class="summary-date">${formatDate(summary.date)}</div>
+                                <div>
+                                    <div class="summary-date">${formatDate(date)}</div>
+                                    ${titleHtml}
+                                </div>
                                 ${audioHtml}
                             </div>
-                            <div class="summary-content">${renderMarkdown(summary.content || '')}</div>
+                            <div class="summary-content">${renderMarkdown(content)}</div>
                         </div>
                     `;
                 }).join('');
 
-                container.innerHTML = summariesHtml;
+                container.innerHTML = html;
                 initAudioUX(container);
+                initShareButtons(container);
+
+                // Update count
+                const countEl = document.getElementById('episodeCount');
+                if (countEl) countEl.textContent = `${summaries.length} episode${summaries.length !== 1 ? 's' : ''}`;
 
             } catch (error) {
-                console.error(`Error loading summaries:`, error);
-                const container = document.getElementById(containerId);
-                container.innerHTML = '<div class="no-summaries">Unable to load summaries. Please check back later.</div>';
+                console.error('Error loading summaries:', error);
+                document.getElementById('summaries-container').innerHTML =
+                    '<div class="no-summaries">Unable to load summaries. Please check back later.</div>';
             }
         }
 
@@ -639,15 +854,10 @@
             try {
                 const date = new Date(dateString);
                 return date.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    weekday: 'long',
-                    timeZone: 'UTC'
+                    year: 'numeric', month: 'long', day: 'numeric',
+                    weekday: 'long', timeZone: 'UTC'
                 });
-            } catch {
-                return dateString;
-            }
+            } catch { return dateString; }
         }
 
         function escapeHtml(text) {
@@ -665,57 +875,47 @@
         }
 
         function linkify(text) {
-            text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-            text = text.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+            text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+                '<a href="$2" target="_blank" rel="noopener">$1</a>');
+            text = text.replace(/(https?:\/\/[^\s<]+)/g,
+                '<a href="$1" target="_blank" rel="noopener">$1</a>');
             return text;
         }
 
         function renderMarkdown(md) {
             const safe = escapeHtml(md).replace(/\r\n/g, '\n');
             const lines = safe.split('\n');
-            let htmlOut = '';
+            let out = '';
             let inList = false;
 
-            const flushList = () => {
-                if (inList) {
-                    htmlOut += '</ul>';
-                    inList = false;
-                }
-            };
+            const flush = () => { if (inList) { out += '</ul>'; inList = false; } };
 
             for (const rawLine of lines) {
-                const line = rawLine.trimEnd();
-                const trimmed = line.trim();
+                const trimmed = rawLine.trim();
 
-                if (!trimmed) {
-                    flushList();
-                    htmlOut += '<p></p>';
+                if (!trimmed) { flush(); out += '<p></p>'; continue; }
+
+                if (trimmed.startsWith('### ')) { flush(); out += `<h3>${linkify(trimmed.slice(4))}</h3>`; continue; }
+                if (trimmed.startsWith('## '))  { flush(); out += `<h2>${linkify(trimmed.slice(3))}</h2>`; continue; }
+                if (trimmed.startsWith('# '))   { flush(); out += `<h1>${linkify(trimmed.slice(2))}</h1>`; continue; }
+
+                if (/^[-\u2022]\s+/.test(trimmed)) {
+                    if (!inList) { out += '<ul>'; inList = true; }
+                    out += `<li>${linkify(trimmed.replace(/^[-\u2022]\s+/, ''))}</li>`;
                     continue;
                 }
 
-                if (trimmed.startsWith('### ')) { flushList(); htmlOut += `<h3>${linkify(trimmed.slice(4))}</h3>`; continue; }
-                if (trimmed.startsWith('## ')) { flushList(); htmlOut += `<h2>${linkify(trimmed.slice(3))}</h2>`; continue; }
-                if (trimmed.startsWith('# '))  { flushList(); htmlOut += `<h1>${linkify(trimmed.slice(2))}</h1>`; continue; }
-
-                if (/^[-•]\s+/.test(trimmed)) {
-                    if (!inList) { htmlOut += '<ul>'; inList = true; }
-                    const item = trimmed.replace(/^[-•]\s+/, '');
-                    htmlOut += `<li>${linkify(item)}</li>`;
-                    continue;
-                }
-
-                flushList();
-                let paragraph = trimmed.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-                paragraph = linkify(paragraph);
-                htmlOut += `<p>${paragraph}</p>`;
+                flush();
+                let p = trimmed.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+                p = linkify(p);
+                out += `<p>${p}</p>`;
             }
 
-            flushList();
-            htmlOut = htmlOut.replace(/<p><\/p>/g, '<div style="height:0.6rem"></div>');
-            return htmlOut;
+            flush();
+            return out.replace(/<p><\/p>/g, '<div style="height:0.6rem"></div>');
         }
 
-        // Sticky-player + per-card audio UX
+        // Sticky player + per-card audio UX
         function initAudioUX(container) {
             const stickyPlayer = document.getElementById('stickyPlayer');
             const stickyAudio = document.getElementById('stickyAudio');
@@ -728,9 +928,7 @@
             const cardAudios = Array.from(container.querySelectorAll('audio.summary-audio'));
 
             function pauseAllCardAudios() {
-                for (const a of cardAudios) {
-                    try { a.pause(); } catch {}
-                }
+                for (const a of cardAudios) { try { a.pause(); } catch {} }
             }
 
             function setSticky(meta, audioEl) {
@@ -771,6 +969,34 @@
                 try { stickyAudio.pause(); } catch {}
                 stickyPlayer.classList.add('hidden');
                 activeCardAudio = null;
+            });
+        }
+
+        // Share buttons
+        function initShareButtons(container) {
+            container.querySelectorAll('.share-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const url = btn.dataset.url;
+                    try {
+                        await navigator.clipboard.writeText(url);
+                        btn.textContent = 'Copied!';
+                        btn.classList.add('copied');
+                        setTimeout(() => {
+                            btn.textContent = 'Share';
+                            btn.classList.remove('copied');
+                        }, 2000);
+                    } catch {
+                        // Fallback: select text
+                        const input = document.createElement('input');
+                        input.value = url;
+                        document.body.appendChild(input);
+                        input.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(input);
+                        btn.textContent = 'Copied!';
+                        setTimeout(() => { btn.textContent = 'Share'; }, 2000);
+                    }
+                });
             });
         }
     </script>

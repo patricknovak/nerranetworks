@@ -146,6 +146,7 @@ tts:
 
 audio:
   music_file: assets/music/tesla_shorts_time.mp3
+  transition_sting: assets/music/transition_sting.mp3
   voice_intro_delay: 5.0
   intro_duration: 5.0
   overlap_duration: 10.0
@@ -181,6 +182,30 @@ episode:
   filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
   output_dir: digests/env_intel
   mp3_glob: "Env_Intel_Ep*.mp3"
+
+chapters:
+  enabled: true
+  section_markers:
+    - pattern: "This is Environmental Intelligence"
+      title: "Introduction"
+    - pattern: "executive summary|here's what matters"
+      title: "Executive Summary"
+    - pattern: "lead story|centrepiece|most significant"
+      title: "Lead Story"
+    - pattern: "regulatory|policy watch"
+      title: "Regulatory & Policy Watch"
+    - pattern: "science|technical"
+      title: "Science & Technical"
+    - pattern: "industry|practice"
+      title: "Industry & Practice"
+    - pattern: "action items|if you're working on"
+      title: "Action Items"
+    - pattern: "week ahead|mark your calendar"
+      title: "Week Ahead"
+    - pattern: "Before we wrap|Tomorrow"
+      title: "Tomorrow Teaser"
+    - pattern: "That's Environmental Intelligence"
+      title: "Closing"
 
 newsletter:
   enabled: true

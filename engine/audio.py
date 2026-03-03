@@ -5,6 +5,8 @@ Provides:
   - format_duration(): seconds -> HH:MM:SS or MM:SS string
   - normalize_voice(): ffmpeg highpass/lowpass/loudnorm/compressor chain with fallback
   - concatenate_audio(): ffmpeg concat demuxer
+  - generate_transition_sting(): create a short audio sting with ffmpeg
+  - concatenate_with_stings(): interleave section audio with sting transitions
   - mix_with_music(): full music mixing pipeline (intro/overlap/fadeout/silence/outro)
 
 Music mixing supports three modes configured via YAML:
@@ -165,6 +167,154 @@ def concatenate_audio(file_list: List[Path], output_path: Path) -> Path:
         except Exception:
             pass
 
+    return output_path
+
+
+# ---------------------------------------------------------------------------
+# Transition sting generation
+# ---------------------------------------------------------------------------
+
+def _generate_sting_cmd(output_path: str) -> list:
+    """Build the ffmpeg command to generate a short transition sting.
+
+    Creates a ~0.15 s two-tone chime (880 Hz + 1320 Hz) with quick
+    fade-in/out, suitable as a subtle section break marker.
+    """
+    return [
+        "ffmpeg", "-y", "-threads", "0",
+        "-f", "lavfi", "-i", "sine=frequency=880:duration=0.15",
+        "-f", "lavfi", "-i", "sine=frequency=1320:duration=0.15",
+        "-filter_complex",
+        "[0][1]amix=inputs=2,"
+        "afade=t=in:d=0.05,"
+        "afade=t=out:st=0.1:d=0.05,"
+        "adelay=100|100",
+        "-ar", "44100", "-ac", "1",
+        "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+        output_path,
+    ]
+
+
+def generate_transition_sting(output_path: Path) -> Path:
+    """Generate a short audio transition sting if it doesn't already exist.
+
+    The sting is a subtle two-tone chime (~0.15 s) generated with ffmpeg's
+    sine wave synthesiser.  Safe to call multiple times — skips generation
+    if the file already exists.
+
+    Returns *output_path* on success.
+    """
+    if output_path.exists():
+        logger.info("Transition sting already exists: %s", output_path)
+        return output_path
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = _generate_sting_cmd(str(output_path))
+    subprocess.run(cmd, check=True, capture_output=True)
+    logger.info("Generated transition sting: %s", output_path)
+    return output_path
+
+
+def _sting_padding_cmd(sting_path: str, padded_out: str,
+                       pre_silence: float = 0.4,
+                       post_silence: float = 0.4) -> list:
+    """Build command to wrap a sting with silence padding.
+
+    Produces: [pre_silence] + [sting] + [post_silence] so transitions
+    have a natural breathing room around them.
+    """
+    total_pad = pre_silence + post_silence
+    return [
+        "ffmpeg", "-y", "-threads", "0",
+        "-f", "lavfi", "-i", f"anullsrc=r=44100:cl=mono",
+        "-t", f"{pre_silence:.2f}",
+        "-i", sting_path,
+        "-f", "lavfi", "-i", f"anullsrc=r=44100:cl=mono",
+        "-t", f"{post_silence:.2f}",
+        "-filter_complex",
+        "[0][1][2]concat=n=3:v=0:a=1",
+        "-ar", "44100", "-ac", "1",
+        "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
+        padded_out,
+    ]
+
+
+def concatenate_with_stings(
+    section_files: List[Path],
+    output_path: Path,
+    *,
+    sting_path: Optional[Path] = None,
+    pre_silence: float = 0.4,
+    post_silence: float = 0.4,
+) -> Path:
+    """Concatenate section audio files with transition stings between them.
+
+    If *sting_path* is ``None`` or doesn't exist, falls back to plain
+    concatenation without stings.
+
+    Parameters
+    ----------
+    section_files:
+        Ordered list of per-section MP3 files from TTS.
+    output_path:
+        Where to write the combined voice track.
+    sting_path:
+        Path to the transition sting audio file.
+    pre_silence:
+        Seconds of silence before the sting.
+    post_silence:
+        Seconds of silence after the sting.
+
+    Returns
+    -------
+    Path
+        The *output_path* that was written.
+    """
+    if len(section_files) <= 1 or not sting_path or not sting_path.exists():
+        # Fall back to plain concatenation
+        if len(section_files) == 1:
+            # Just copy/re-encode the single file
+            import shutil
+            shutil.copy2(section_files[0], output_path)
+            return output_path
+        return concatenate_audio(section_files, output_path)
+
+    with tempfile.TemporaryDirectory(dir=output_path.parent) as tmp_str:
+        tmp_dir = Path(tmp_str)
+
+        # Create a padded sting (silence + sting + silence)
+        padded_sting = tmp_dir / "padded_sting.mp3"
+        cmd = _sting_padding_cmd(
+            str(sting_path), str(padded_sting),
+            pre_silence=pre_silence, post_silence=post_silence,
+        )
+        subprocess.run(cmd, check=True, capture_output=True)
+
+        # Build the interleaved file list: section, sting, section, sting, ...
+        interleaved: List[Path] = []
+        for i, section_file in enumerate(section_files):
+            interleaved.append(section_file)
+            if i < len(section_files) - 1:
+                interleaved.append(padded_sting)
+
+        # Concatenate with re-encoding for seamless joins
+        concat_list = tmp_dir / "sting_concat.txt"
+        with open(concat_list, "w", encoding="utf-8") as f:
+            for fp in interleaved:
+                f.write(f"file '{fp.absolute()}'\n")
+
+        cmd = [
+            "ffmpeg", "-y", "-threads", "0",
+            "-f", "concat", "-safe", "0", "-i", str(concat_list),
+            "-c:a", "libmp3lame", "-q:a", "2",
+            str(output_path),
+        ]
+        subprocess.run(cmd, check=True, capture_output=True)
+
+    logger.info(
+        "Concatenated %d sections with stings → %s",
+        len(section_files), output_path,
+    )
     return output_path
 
 

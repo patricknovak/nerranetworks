@@ -132,6 +132,7 @@ tts:
 audio:
   music_file: assets/music/fascinatingfrontiers.mp3
   background_music_file: assets/music/fascinatingfrontiers_bg.mp3
+  transition_sting: assets/music/transition_sting.mp3
   voice_intro_delay: 5.0
   intro_duration: 5.0
   overlap_duration: 10.0
@@ -166,3 +167,15 @@ episode:
   filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
   output_dir: digests/fascinating_frontiers
   mp3_glob: "Fascinating_Frontiers_Ep*.mp3"
+
+chapters:
+  enabled: true
+  section_markers:
+    - pattern: "Welcome to Fascinating Frontiers"
+      title: "Introduction"
+    - pattern: "Cosmic Spotlight"
+      title: "Cosmic Spotlight"
+    - pattern: "Before we go|Next time"
+      title: "Tomorrow Teaser"
+    - pattern: "That's Fascinating Frontiers"
+      title: "Closing"

@@ -3,41 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Models & Agents - Written briefing summaries on AI models, agent frameworks, and practical AI developments.">
-    <meta name="keywords" content="AI models, agent frameworks, LLM news, AI briefings, Models and Agents">
-    <title>Models & Agents | Summaries</title>
-    
-    <meta name="theme-color" content="#8B5CF6">
-    
+    <meta name="description" content="{{ meta_description }}">
+    <meta name="keywords" content="{{ meta_keywords }}">
+    <title>{{ page_title }}</title>
+    {% if theme_color %}
+    <meta name="theme-color" content="{{ theme_color }}">
+    {% endif %}
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Models & Agents | Summaries">
-    <meta property="og:description" content="Models & Agents - Written briefing summaries on AI models, agent frameworks, and practical AI developments.">
+    <meta property="og:title" content="{{ page_title }}">
+    <meta property="og:description" content="{{ meta_description }}">
     <meta property="og:type" content="website">
-    
+    {% if og_image %}
+    <meta property="og:image" content="{{ og_image }}">
+    {% endif %}
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?{{ google_fonts_params }}&display=swap" rel="stylesheet">
 
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <!-- Favicon -->
-    
-    
+    {% if favicon_svg %}
+    <link rel="icon" type="image/svg+xml" href="{{ favicon_svg }}">
+    {% endif %}
+    {% for extra_link in extra_head_links %}
+    <link {{ extra_link }}>
+    {% endfor %}
 
     <style>
         :root {
-            --primary: #8B5CF6;
-            --primary-dark: #6D28D9;
-            --accent: #06B6D4;
-            --bg: #0B0D1A;
-            --bg-alt: #12152A;
-            --card: #12152A;
-            --text: #ffffff;
-            --text-light: #8B8FAE;
-            --border-subtle: #1E2140;
-            --header-bg: rgba(11, 13, 26, 0.95);
+            --primary: {{ colors.primary }};
+            --primary-dark: {{ colors.primary_dark | default(colors.primary) }};
+            --accent: {{ colors.accent | default(colors.primary) }};
+            --bg: {{ colors.bg }};
+            --bg-alt: {{ colors.bg_alt | default(colors.bg) }};
+            --card: {{ colors.card }};
+            --text: {{ colors.text }};
+            --text-light: {{ colors.text_light }};
+            --border-subtle: {{ colors.border_subtle | default('rgba(255,255,255,0.18)') }};
+            --header-bg: {{ colors.header_bg | default('rgba(0, 0, 0, 0.95)') }};
             --header-height: 76px;
             --sticky-height: 74px;
         }
@@ -53,7 +59,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-family: {{ body_font | default("'Inter', -apple-system, BlinkMacSystemFont, sans-serif") }};
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -81,12 +87,15 @@
         }
 
         .logo {
-            font-family: 'Montserrat', sans-serif;
+            font-family: {{ heading_font | default("'Montserrat', sans-serif") }};
             font-size: 1.5rem;
-            font-weight: 800;
+            font-weight: {{ logo_weight | default(800) }};
             color: var(--primary);
             text-decoration: none;
-            
+            {% if logo_uppercase | default(false) %}
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            {% endif %}
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -132,7 +141,7 @@
         }
         .sticky-meta { min-width: 0; }
         .sticky-now {
-            font-family: 'Montserrat', sans-serif;
+            font-family: {{ heading_font | default("'Montserrat', sans-serif") }};
             font-weight: 700;
             color: var(--text);
             white-space: nowrap;
@@ -193,12 +202,16 @@
             align-items: center;
             text-align: center;
             padding: calc(8rem + var(--sticky-height)) 2rem 4rem;
-            background: linear-gradient(135deg, var(--bg) 0%, #12152A 100%);
+            background: {{ hero_bg | default('linear-gradient(135deg, var(--bg) 0%, var(--bg-alt) 100%)') }};
             position: relative;
             overflow: hidden;
         }
 
-        
+        {% if hero_before_css %}
+        .hero::before {
+            {{ hero_before_css }}
+        }
+        {% endif %}
 
         .hero-content {
             position: relative;
@@ -207,11 +220,11 @@
         }
 
         .hero h1 {
-            font-family: 'Montserrat', sans-serif;
+            font-family: {{ heading_font | default("'Montserrat', sans-serif") }};
             font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 900;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            background: {{ hero_h1_gradient | default('linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%)') }};
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -307,7 +320,7 @@
         }
 
         .podcast-title {
-            font-family: 'Montserrat', sans-serif;
+            font-family: {{ heading_font | default("'Montserrat', sans-serif") }};
             font-size: 1.8rem;
             font-weight: 700;
             color: var(--primary);
@@ -392,7 +405,7 @@
         .summary-content h3 {
             color: var(--text);
             margin: 1rem 0 0.5rem;
-            font-family: 'Montserrat', sans-serif;
+            font-family: {{ heading_font | default("'Montserrat', sans-serif") }};
             letter-spacing: 0.01em;
         }
         .summary-content p { margin: 0 0 0.9rem; }
@@ -563,29 +576,27 @@
             outline-offset: 2px;
         }
 
-        
+        {% if extra_css %}
+        {{ extra_css }}
+        {% endif %}
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
         <nav>
-            <a href="models-agents.html" class="logo">
-                
-                 Models & Agents
-                
+            <a href="{{ show_page }}" class="logo">
+                {% if logo_html %}
+                {{ logo_html }}
+                {% else %}
+                {{ logo_emoji | default('') }} {{ show_name }}
+                {% endif %}
             </a>
             <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
             <ul class="nav-links" id="navLinks">
-                
-                <li><a href="models-agents.html">Podcast Player</a></li>
-                
-                <li><a href="models-agents-summaries.html">Summaries</a></li>
-                
-                <li><a href="network.html">Nerra Network</a></li>
-                
-                <li><a href="podcasts/">All Podcasts</a></li>
-                
+                {% for link in nav_links %}
+                <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+                {% endfor %}
             </ul>
         </nav>
     </header>
@@ -612,10 +623,12 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            
-            <h1>Models & Agents</h1>
-            <p class="tagline">Briefing Summaries Archive</p>
-            <p class="subtitle">Written summaries of daily AI model and agent development briefings.</p>
+            {% if hero_logo_url %}
+            <img src="{{ hero_logo_url }}" alt="{{ show_name }} Logo" style="max-width:300px;width:100%;height:auto;margin:0 auto 2rem;display:block;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.3));" onerror="this.style.display='none'">
+            {% endif %}
+            <h1>{{ hero_title | default(show_name) }}</h1>
+            <p class="tagline">{{ hero_tagline }}</p>
+            <p class="subtitle">{{ hero_subtitle }}</p>
         </div>
     </section>
 
@@ -632,11 +645,14 @@
     <section class="summaries-section">
         <div class="podcast-summary" data-aos="fade-up">
             <div class="podcast-header">
-                
-                <h2 class="podcast-title">Models & Agents Briefings</h2>
+                {% if podcast_logo_url %}
+                <img src="{{ podcast_logo_url }}"
+                     alt="{{ show_name }}" class="podcast-logo" onerror="this.style.display='none'">
+                {% endif %}
+                <h2 class="podcast-title">{{ section_title }}</h2>
             </div>
             <div id="summaries-container">
-                <div class="no-summaries">Loading Models & Agents summaries...</div>
+                <div class="no-summaries">Loading {{ show_name }} summaries...</div>
             </div>
         </div>
     </section>
@@ -646,43 +662,29 @@
         <div class="footer-content">
             <!-- Nerra Network cross-links -->
             <div class="network-shows">
-                
-                <a href="tesla-summaries.html">Tesla Shorts Time</a>
-                
-                <a href="omni-view-summaries.html">Omni View</a>
-                
-                <a href="fascinating-frontiers-summaries.html">Fascinating Frontiers</a>
-                
-                <a href="planetterrian-summaries.html">Planetterrian Daily</a>
-                
-                <a href="env-intel-summaries.html">Environmental Intelligence</a>
-                
-                <a href="models-agents-summaries.html" class="current">Models & Agents</a>
-                
+                {% for s in network_shows %}
+                <a href="{{ s.summaries_page }}"{% if s.slug == slug %} class="current"{% endif %}>{{ s.name }}</a>
+                {% endfor %}
                 <a href="network.html">Nerra Network</a>
             </div>
             <div class="footer-links">
-                
-                <a href="models-agents.html">🎧 Podcast Player</a>
-                
-                <a href="models_agents_podcast.rss">📡 RSS Feed</a>
-                
-                <a href="network.html">🌐 Nerra Network</a>
-                
-                <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank">💻 Source</a>
-                
+                {% for link in footer_links %}
+                <a href="{{ link.href }}"{% if link.target %} target="{{ link.target }}"{% endif %}{% if link.rel %} rel="{{ link.rel }}"{% endif %}>{{ link.label }}</a>
+                {% endfor %}
             </div>
-            <p class="footer-text">Models & Agents © 2025 | Nerra Network</p>
-            
+            <p class="footer-text">{{ footer_copyright }}</p>
+            {% if footer_tagline %}
+            <p class="footer-text">{{ footer_tagline }}</p>
+            {% endif %}
         </div>
     </footer>
 
     <!-- AOS Animation Library -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        const JSON_URL = 'digests/models_agents/summaries_models_agents.json';
-        const JSON_FORMAT = 'wrapped';
-        const SHOW_NAME = "Models \u0026 Agents";
+        const JSON_URL = '{{ json_path }}';
+        const JSON_FORMAT = '{{ json_format | default("wrapped") }}';
+        const SHOW_NAME = {{ show_name | tojson }};
 
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof AOS !== 'undefined') {

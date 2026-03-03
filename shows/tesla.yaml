@@ -89,6 +89,7 @@ tts:
 
 audio:
   music_file: assets/music/tesla_shorts_time.mp3
+  transition_sting: assets/music/transition_sting.mp3
   voice_intro_delay: 5.0
   intro_duration: 5.0
   overlap_duration: 10.0
@@ -123,3 +124,21 @@ episode:
   filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
   output_dir: digests/tesla_shorts_time
   mp3_glob: "Tesla_Shorts_Time_Pod_Ep*.mp3"
+
+chapters:
+  enabled: true
+  section_markers:
+    - pattern: "Welcome to Tesla Shorts Time"
+      title: "Introduction"
+    - pattern: "Top \\d+ News"
+      title: "Top Stories"
+    - pattern: "X Takeover"
+      title: "Tesla X Takeover"
+    - pattern: "one thing worth watching|challenge worth discussing|Short Spot"
+      title: "The Counterpoint"
+    - pattern: "First Principles"
+      title: "First Principles"
+    - pattern: "Before we go"
+      title: "Tomorrow Teaser"
+    - pattern: "That's Tesla Shorts Time"
+      title: "Closing"

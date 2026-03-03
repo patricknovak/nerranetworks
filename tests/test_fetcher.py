@@ -554,6 +554,72 @@ class TestFetchSingleFeed:
         assert len(probs) == 1
 
     @patch("engine.fetcher.requests")
+    def test_max_articles_caps_high_volume_feed(self, mock_requests, mock_feedparser):
+        """Per-feed cap limits articles from high-volume feeds like arXiv."""
+        now = _utc_now()
+        entries = [
+            _make_entry(
+                title=f"Paper {i}: Novel Approach to AI Problem {i}",
+                link=f"https://arxiv.org/abs/2602.{i:05d}",
+                description=f"We present a novel method for problem {i}.",
+                published_parsed=_dt_to_timetuple(now),
+            )
+            for i in range(100)
+        ]
+
+        mock_response = MagicMock()
+        mock_response.content = b"<rss/>"
+        mock_requests.get.return_value = mock_response
+        mock_requests.RequestException = Exception
+
+        mock_feedparser.parse.return_value = _make_feed(entries, title="arXiv AI")
+
+        probs, lock = self._make_lock_and_set()
+        result = _fetch_single_feed(
+            "https://arxiv.org/rss/cs.AI",
+            self._cutoff(),
+            None,
+            probs,
+            lock,
+            max_articles=10,
+        )
+        assert result is not None
+        _, articles, _ = result
+        assert len(articles) == 10
+
+    @patch("engine.fetcher.requests")
+    def test_max_articles_zero_disables_cap(self, mock_requests, mock_feedparser):
+        """max_articles=0 disables the per-feed cap."""
+        now = _utc_now()
+        entries = [
+            _make_entry(
+                title=f"Article {i}",
+                link=f"https://example.com/{i}",
+                published_parsed=_dt_to_timetuple(now),
+            )
+            for i in range(60)
+        ]
+
+        mock_response = MagicMock()
+        mock_response.content = b"<rss/>"
+        mock_requests.get.return_value = mock_response
+        mock_requests.RequestException = Exception
+
+        mock_feedparser.parse.return_value = _make_feed(entries)
+
+        probs, lock = self._make_lock_and_set()
+        result = _fetch_single_feed(
+            "https://example.com/feed",
+            self._cutoff(),
+            None,
+            probs,
+            lock,
+            max_articles=0,
+        )
+        _, articles, _ = result
+        assert len(articles) == 60
+
+    @patch("engine.fetcher.requests")
     def test_multiple_entries_mixed_dates(self, mock_requests, mock_feedparser):
         """Mix of old and recent entries: only recent ones are returned."""
         now = _utc_now()
@@ -1072,6 +1138,29 @@ class TestDeduplication:
         feeds = [{"url": "https://feed.com/rss", "label": "Feed"}]
         result = fetch_rss_articles(feeds, similarity_threshold=0.85)
         assert len(result) == 4
+
+    @patch("engine.fetcher._fetch_single_feed")
+    def test_max_articles_per_feed_passthrough(self, mock_fetch):
+        """max_articles_per_feed is passed to _fetch_single_feed."""
+        mock_fetch.return_value = None
+
+        feeds = [{"url": "https://feed.com/rss", "label": "Feed"}]
+        fetch_rss_articles(feeds, max_articles_per_feed=10)
+
+        call_args = mock_fetch.call_args
+        # max_articles is the 6th positional argument (index 5)
+        assert call_args[0][5] == 10
+
+    @patch("engine.fetcher._fetch_single_feed")
+    def test_max_articles_per_feed_default(self, mock_fetch):
+        """Default max_articles_per_feed (50) is passed to _fetch_single_feed."""
+        mock_fetch.return_value = None
+
+        feeds = [{"url": "https://feed.com/rss", "label": "Feed"}]
+        fetch_rss_articles(feeds)
+
+        call_args = mock_fetch.call_args
+        assert call_args[0][5] == 50
 
     @patch("engine.fetcher._fetch_single_feed")
     def test_three_duplicates_reduced_to_one(self, mock_fetch):
