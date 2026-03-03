@@ -1,5 +1,5 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:ns0="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
   <channel>
     <title>Planetterrian Daily</title>
     <link>https://planetterrian.com</link>
@@ -9,15 +9,15 @@
     <generator>python-feedgen</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 03 Mar 2026 12:13:18 +0000</lastBuildDate>
-    <itunes:author>Patrick</itunes:author>
-    <itunes:category text="Science"/>
-    <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-    <itunes:explicit>no</itunes:explicit>
-    <itunes:owner>
-      <itunes:name>Patrick</itunes:name>
-      <itunes:email>contact@planetterrian.com</itunes:email>
-    </itunes:owner>
-    <itunes:summary>Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion.</itunes:summary>
+    <ns0:author>Patrick</ns0:author>
+    <ns0:category text="Science" />
+    <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+    <ns0:explicit>no</ns0:explicit>
+    <ns0:owner>
+      <ns0:name>Patrick</ns0:name>
+      <ns0:email>contact@planetterrian.com</ns0:email>
+    </ns0:owner>
+    <ns0:summary>Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion.</ns0:summary>
     <item>
       <title>Ep 25: Phase 1 trial uses base editing to safely lower LDL cholesterol in familial hypercholesterolemia patients.</title>
       <link>https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep025_20260303.mp3</link>
@@ -69,12 +69,12 @@
    Researchers developed lab-made insulin cells protected by engineered immune cells to avoid rejection without drugs. This could provide a durable treatment for long-term diabetes patients.
    Source: https://www.sciencedaily.com/releases/2026/03/2603020...</description>
       <guid isPermaLink="false">planetterrian-daily-ep025-20260303-121318</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep025_20260303.mp3" length="13021562" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep025_20260303.mp3" length="13021562" type="audio/mpeg" />
       <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:duration>09:02</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Planetterrian Daily
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:duration>09:02</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Planetterrian Daily
 **Date:** March 03, 2026
 🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
 
@@ -120,11 +120,11 @@
 
 10. **New therapy approach for type 1 diabetes** : 02 March 2026 • Science Daily
    Researchers developed lab-made insulin cells protected by engineered immune cells to avoid rejection without drugs. This could provide a durable treatment for long-term diabetes patients.
-   Source: https://www.sciencedaily.com/releases/2026/03/2603020...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>25</itunes:episode>
-      <itunes:title>Ep 25: Phase 1 trial uses base editing to safely lower LDL cholesterol in familial hypercholesterolemia patients.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
+   Source: https://www.sciencedaily.com/releases/2026/03/2603020...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>25</ns0:episode>
+      <ns0:title>Ep 25: Phase 1 trial uses base editing to safely lower LDL cholesterol in familial hypercholesterolemia patients.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
     </item>
     <item>
       <title>Ep 23: Infusing stem cells from young donors reduced frailty in older people, boosting their strength and mobility.</title>
@@ -171,12 +171,12 @@
 9. **DNA structured before genome activation**: 27 February 2026 • Science Daily  
    Pico-C imaging revealed fertilized eggs' DNA is pre-organized in 3D before genes activate, setting up future expression. It challeng...</description>
       <guid isPermaLink="false">planetterrian-daily-ep023-20260227-192343</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep023_20260227.mp3" length="14779498" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep023_20260227.mp3" length="14779498" type="audio/mpeg" />
       <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:duration>10:15</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Planetterrian Daily
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:duration>10:15</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Planetterrian Daily
 **Date:** February 27, 2026
 🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
 
@@ -217,121 +217,121 @@
    Source: https://www.sciencedaily.com/releases/2026/02/260227071945.htm
 
 9. **DNA structured before genome activation**: 27 February 2026 • Science Daily  
-   Pico-C imaging revealed fertilized eggs' DNA is pre-organized in 3D before genes activate, setting up future expression. It challeng...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>23</itunes:episode>
-      <itunes:title>Ep 23: Infusing stem cells from young donors reduced frailty in older people, boosting their strength and mobility.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
+   Pico-C imaging revealed fertilized eggs' DNA is pre-organized in 3D before genes activate, setting up future expression. It challeng...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>23</ns0:episode>
+      <ns0:title>Ep 23: Infusing stem cells from young donors reduced frailty in older people, boosting their strength and mobility.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
     </item>
     <item>
       <title>Planetterrian Daily - Episode 21 - January 31, 2026 at 04:13 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 31, 2026 at 04:13 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep021-20260131-121545</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep021_20260131_121527.mp3" length="3663221" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep021_20260131_121527.mp3" length="3663221" type="audio/mpeg" />
       <pubDate>Sat, 31 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>21</itunes:episode>
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:episode>21</ns0:episode>
     </item>
     <item>
       <title>Planetterrian Daily - Episode 19 - January 27, 2026 at 04:19 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 27, 2026 at 04:19 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep019-20260127-122245</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep019_20260127_122228.mp3" length="3329271" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep019_20260127_122228.mp3" length="3329271" type="audio/mpeg" />
       <pubDate>Tue, 27 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>19</itunes:episode>
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:episode>19</ns0:episode>
     </item>
     <item>
       <title>Planetterrian Daily - Episode 17 - January 25, 2026 at 04:12 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 25, 2026 at 04:12 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep017-20260125-121513</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep017_20260125_121454.mp3" length="3865931" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep017_20260125_121454.mp3" length="3865931" type="audio/mpeg" />
       <pubDate>Sun, 25 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>17</itunes:episode>
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:episode>17</ns0:episode>
     </item>
     <item>
       <title>Planetterrian Daily - Episode 15 - January 08, 2026 at 04:13 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 08, 2026 at 04:13 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep015-20260108-121623</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep015_20260108_121603.mp3" length="3989020" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep015_20260108_121603.mp3" length="3989020" type="audio/mpeg" />
       <pubDate>Thu, 08 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>15</itunes:episode>
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:episode>15</ns0:episode>
     </item>
     <item>
       <title>Planetterrian Daily - Episode 11 - December 10, 2025</title>
       <description>Daily science, longevity, and health discoveries for December 10, 2025.</description>
       <guid isPermaLink="false">planetterrian-daily-ep011-20251210-182941</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep011_20251210.mp3" length="5104971" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep011_20251210.mp3" length="5104971" type="audio/mpeg" />
       <pubDate>Wed, 10 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>11</itunes:episode>
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:episode>11</ns0:episode>
     </item>
     <item>
       <title>Planetterrian Daily - Episode 12 - December 11, 2025 at 04:10 AM PST</title>
       <description>Daily science, longevity, and health discoveries for December 11, 2025 at 04:10 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep012-20251211-121441</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep012_20251211.mp3" length="5332341" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep012_20251211.mp3" length="5332341" type="audio/mpeg" />
       <pubDate>Thu, 11 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>12</itunes:episode>
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:episode>12</ns0:episode>
     </item>
     <item>
       <title>Planetterrian Daily - Episode 13 - December 17, 2025 at 09:30 AM PST</title>
       <description>Daily science, longevity, and health discoveries for December 17, 2025 at 09:30 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep013-20251217-182941</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep013_20251217_182922.mp3" length="4005947" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep013_20251217_182922.mp3" length="4005947" type="audio/mpeg" />
       <pubDate>Wed, 17 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>13</itunes:episode>
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:episode>13</ns0:episode>
     </item>
     <item>
       <title>Planetterrian Daily - Episode 14 - December 19, 2025 at 04:11 AM PST</title>
       <description>Daily science, longevity, and health discoveries for December 19, 2025 at 04:11 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep014-20251219-121520</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep014_20251219_121458.mp3" length="4289951" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep014_20251219_121458.mp3" length="4289951" type="audio/mpeg" />
       <pubDate>Fri, 19 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>14</itunes:episode>
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:episode>14</ns0:episode>
     </item>
     <item>
       <title>Planetterrian Daily - Episode 16 - January 21, 2026 at 11:58 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 21, 2026 at 11:58 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep016-20260121-200121</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep016_20260121_200105.mp3" length="3284550" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep016_20260121_200105.mp3" length="3284550" type="audio/mpeg" />
       <pubDate>Wed, 21 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>16</itunes:episode>
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:episode>16</ns0:episode>
     </item>
     <item>
       <title>Planetterrian Daily - Episode 18 - January 26, 2026 at 04:16 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 26, 2026 at 04:16 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep018-20260126-121955</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep018_20260126_121937.mp3" length="3588824" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep018_20260126_121937.mp3" length="3588824" type="audio/mpeg" />
       <pubDate>Mon, 26 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>18</itunes:episode>
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:episode>18</ns0:episode>
     </item>
     <item>
       <title>Planetterrian Daily - Episode 20 - January 29, 2026 at 04:16 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 29, 2026 at 04:16 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep020-20260129-122034</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep020_20260129_122011.mp3" length="4589836" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep020_20260129_122011.mp3" length="4589836" type="audio/mpeg" />
       <pubDate>Thu, 29 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>20</itunes:episode>
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:episode>20</ns0:episode>
     </item>
     <item>
       <title>Ep 22: Shingles vaccine may slow biological aging and reduce inflammation.</title>
@@ -346,12 +346,12 @@
 1. **Shingles Vaccine Slows Aging: 26 February 2026 • Science Daily**
    A large study of over 3,800 Americans aged 70+ found that the shingles vaccine slows biological aging by reducing chronic inflammation. This could lower risks of heart ...</description>
       <guid isPermaLink="false">planetterrian-daily-ep022-20260226-203549</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep022_20260226.mp3" length="9358986" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep022_20260226.mp3" length="9358986" type="audio/mpeg" />
       <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:duration>06:29</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Planetterrian Daily
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:duration>06:29</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Planetterrian Daily
 **Date:** February 26, 2026
 🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
 
@@ -360,11 +360,11 @@
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Science &amp; Health Discoveries
 1. **Shingles Vaccine Slows Aging: 26 February 2026 • Science Daily**
-   A large study of over 3,800 Americans aged 70+ found that the shingles vaccine slows biological aging by reducing chronic inflammation. This could lower risks of heart ...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>22</itunes:episode>
-      <itunes:title>Ep 22: Shingles vaccine may slow biological aging and reduce inflammation.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
+   A large study of over 3,800 Americans aged 70+ found that the shingles vaccine slows biological aging by reducing chronic inflammation. This could lower risks of heart ...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>22</ns0:episode>
+      <ns0:title>Ep 22: Shingles vaccine may slow biological aging and reduce inflammation.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
     </item>
     <item>
       <title>Ep 24: A massive cellular atlas of 7 million cells shows aging begins earlier and coordinates across 21 organs.</title>
@@ -411,12 +411,12 @@
 9. **Milk protein plastic biodegrades in 13 weeks for packaging**: 28 February 2026 • Science Daily  
    A film blending calcium caseinate, starch, and nanoclay mimicked plastic durability but ful...</description>
       <guid isPermaLink="false">planetterrian-daily-ep024-20260301-120932</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep024_20260301.mp3" length="13314969" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep024_20260301.mp3" length="13314969" type="audio/mpeg" />
       <pubDate>Sun, 01 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg"/>
-      <itunes:duration>09:14</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Planetterrian Daily
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian-podcast-image.jpg" />
+      <ns0:duration>09:14</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Planetterrian Daily
 **Date:** March 01, 2026
 🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
 
@@ -457,11 +457,11 @@
    Source: https://www.sciencedaily.com/releases/2026/02/260227071940.htm
 
 9. **Milk protein plastic biodegrades in 13 weeks for packaging**: 28 February 2026 • Science Daily  
-   A film blending calcium caseinate, starch, and nanoclay mimicked plastic durability but ful...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>24</itunes:episode>
-      <itunes:title>Ep 24: A massive cellular atlas of 7 million cells shows aging begins earlier and coordinates across 21 organs.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
+   A film blending calcium caseinate, starch, and nanoclay mimicked plastic durability but ful...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>24</ns0:episode>
+      <ns0:title>Ep 24: A massive cellular atlas of 7 million cells shows aging begins earlier and coordinates across 21 organs.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
     </item>
   </channel>
 </rss>
