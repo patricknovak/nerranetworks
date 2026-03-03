@@ -5,27 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Omni View - Daily balanced news summaries from diverse sources. Multiple perspectives on the stories that matter.">
     <meta name="keywords" content="balanced news, diverse perspectives, media literacy, news analysis, unbiased reporting, multiple viewpoints">
-    <title>Omni View | Balanced News Summaries</title>
+    <title>Omni View | Summaries</title>
+    
     <meta name="theme-color" content="#0B6FD6">
+    
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Omni View | Summaries">
+    <meta property="og:description" content="Omni View - Daily balanced news summaries from diverse sources. Multiple perspectives on the stories that matter.">
+    <meta property="og:type" content="website">
+    
+    <meta property="og:image" content="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni-view-podcast-image.jpg">
+    
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
 
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/omni-view-theme.css">
+
+    <!-- Favicon -->
+    
     <link rel="icon" type="image/svg+xml" href="assets/omni-view-logo.svg">
+    
+    
+    <link rel="stylesheet" href="assets/omni-view-theme.css">
+    
 
     <style>
         :root {
-            /* Balanced/Neutral Theme Colors */
-            --balance-gold: rgba(191, 232, 255, 0.85);
-            --balance-silver: rgba(11, 27, 59, 0.18);
-            --balance-scale: #0B1B3B;
-            --balance-light: #F4F8FF;
-            --balance-text: #0B1B3B;
-            --balance-text-light: rgba(11, 27, 59, 0.62);
-            --balance-accent: #0B6FD6;
+            --primary: #0B6FD6;
+            --primary-dark: #0B1B3B;
+            --accent: rgba(191, 232, 255, 0.85);
+            --bg: #F4F8FF;
+            --bg-alt: #F4F8FF;
+            --card: #ffffff;
+            --text: #0B1B3B;
+            --text-light: rgba(11, 27, 59, 0.62);
+            --border-subtle: rgba(11, 27, 59, 0.18);
+            --header-bg: rgba(255, 255, 255, 0.95);
             --header-height: 76px;
             --sticky-height: 74px;
         }
@@ -42,9 +60,10 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--balance-light);
-            color: var(--balance-text);
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         /* Header/Navigation */
@@ -52,12 +71,11 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--header-bg);
             backdrop-filter: blur(10px);
             z-index: 1000;
             padding: 1rem 2rem;
-            border-bottom: 2px solid var(--balance-gold);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 2px solid var(--primary);
         }
 
         nav {
@@ -70,17 +88,14 @@
 
         .logo {
             font-family: 'Crimson Text', serif;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            color: var(--balance-scale);
+            color: var(--primary);
             text-decoration: none;
+            
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-
-        .balance-icon {
-            font-size: 2rem;
         }
 
         .nav-links {
@@ -90,14 +105,14 @@
         }
 
         .nav-links a {
-            color: var(--balance-text);
+            color: var(--text);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            color: var(--balance-accent);
+            color: var(--primary);
         }
 
         /* Sticky player (under the fixed header) */
@@ -107,8 +122,8 @@
             left: 0;
             right: 0;
             z-index: 999;
-            background: rgba(255, 255, 255, 0.96);
-            border-bottom: 1px solid rgba(0,0,0,0.12);
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border-subtle);
             backdrop-filter: blur(10px);
         }
         .sticky-player.hidden { display: none; }
@@ -117,67 +132,79 @@
             margin: 0 auto;
             padding: 0.75rem 2rem;
             display: grid;
-            grid-template-columns: 1fr auto auto;
+            grid-template-columns: 1fr auto auto auto;
             gap: 0.75rem;
             align-items: center;
         }
         .sticky-meta { min-width: 0; }
         .sticky-now {
             font-family: 'Crimson Text', serif;
-            font-weight: 600;
-            color: var(--balance-scale);
+            font-weight: 700;
+            color: var(--text);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .sticky-sub {
             font-size: 0.9rem;
-            color: var(--balance-text-light);
+            color: var(--text-light);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .sticky-audio { width: min(560px, 100%); height: 38px; }
+
+        /* Speed control */
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .speed-btn {
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255,255,255,0.04);
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .speed-btn:hover, .speed-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(255,255,255,0.08);
+        }
+
         .sticky-close {
             width: 38px;
             height: 38px;
             border-radius: 10px;
-            border: 1px solid var(--balance-silver);
-            background: rgba(255,255,255,0.6);
-            color: var(--balance-scale);
+            border: 1px solid var(--border-subtle);
+            background: rgba(255,255,255,0.04);
+            color: var(--text);
             cursor: pointer;
             font-size: 1.1rem;
             line-height: 1;
         }
-        .sticky-close:hover { border-color: var(--balance-accent); }
+        .sticky-close:hover { border-color: var(--primary); }
 
         /* Hero Section */
         .hero {
-            min-height: 70vh;
+            min-height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             padding: calc(8rem + var(--sticky-height)) 2rem 4rem;
-            background: linear-gradient(135deg, var(--balance-light) 0%, #F8F9FA 100%);
+            background: linear-gradient(135deg, var(--bg) 0%, #E8F0FE 100%);
             position: relative;
             overflow: hidden;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: min(420px, 72vw);
-            aspect-ratio: 1 / 1;
-            background: url('assets/omni-view-logo.svg') center / contain no-repeat;
-            opacity: 0.08;
-            z-index: 0;
-            pointer-events: none;
-        }
+        
 
         .hero-content {
             position: relative;
@@ -187,63 +214,86 @@
 
         .hero h1 {
             font-family: 'Crimson Text', serif;
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 600;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
             margin-bottom: 1rem;
-            color: var(--balance-scale);
+            background: linear-gradient(135deg, var(--primary) 0%, #3498DB 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero .tagline {
             font-size: clamp(1.2rem, 2.5vw, 1.8rem);
             font-weight: 600;
-            color: var(--balance-accent);
+            color: var(--accent);
             margin-bottom: 2rem;
         }
 
         .hero .subtitle {
             font-size: 1.1rem;
-            color: var(--balance-text-light);
+            color: var(--text-light);
             margin-bottom: 3rem;
-            max-width: 600px;
+        }
+
+        /* Search & Filter Controls */
+        .controls {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .search-box {
+            flex: 1;
+            min-width: 220px;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+            background: var(--card);
+            color: var(--text);
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+        .search-box::placeholder { color: var(--text-light); }
+        .search-box:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+            background: var(--card);
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .episode-count {
+            font-size: 0.85rem;
+            color: var(--text-light);
             margin-left: auto;
-            margin-right: auto;
-        }
-
-        .mission-statement {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-top: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border: 1px solid var(--balance-silver);
-        }
-
-        .mission-statement h3 {
-            color: var(--balance-scale);
-            margin-bottom: 1rem;
-            font-family: 'Crimson Text', serif;
-        }
-
-        .mission-statement p {
-            color: var(--balance-text-light);
-            line-height: 1.7;
         }
 
         /* Summary Section */
         .summaries-section {
-            padding: 4rem 2rem;
+            padding: 4rem 2rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
         }
 
         .podcast-summary {
-            background: var(--balance-light);
+            background: var(--card);
             border-radius: 12px;
             padding: 2rem;
             margin-bottom: 3rem;
-            border: 2px solid var(--balance-silver);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 2px solid var(--primary);
         }
 
         .podcast-header {
@@ -252,45 +302,43 @@
             gap: 1rem;
             margin-bottom: 2rem;
             padding-bottom: 1rem;
-            border-bottom: 2px solid var(--balance-gold);
+            border-bottom: 2px solid var(--border-subtle);
         }
 
         .podcast-logo {
             width: 60px;
             height: 60px;
-            border-radius: 50%;
+            border-radius: 12px;
             object-fit: cover;
-            border: 3px solid var(--balance-gold);
         }
 
         .podcast-title {
             font-family: 'Crimson Text', serif;
             font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--balance-scale);
+            font-weight: 700;
+            color: var(--primary);
             margin: 0;
         }
 
         .summary-item {
-            background: white;
+            background: var(--bg);
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            border-left: 4px solid var(--balance-accent);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-        }
-
-        .summary-item:hover {
-            transform: translateY(-2px);
+            border-left: 4px solid var(--primary);
         }
 
         .summary-date {
-            font-family: 'Inter', sans-serif;
             font-size: 1.1rem;
             font-weight: 600;
-            color: var(--balance-scale);
+            color: var(--text);
             margin-bottom: 0.5rem;
+        }
+
+        .summary-content {
+            color: var(--text-light);
+            line-height: 1.85;
+            font-size: 1rem;
         }
 
         .summary-header {
@@ -315,85 +363,64 @@
         }
 
         .summary-link {
-            color: var(--balance-scale);
+            color: var(--text);
             text-decoration: none;
             font-weight: 600;
-            border: 1px solid var(--balance-silver);
+            border: 1px solid var(--border-subtle);
             padding: 0.4rem 0.7rem;
             border-radius: 8px;
-            background: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.04);
+            transition: border-color 0.2s;
         }
 
         .summary-link:hover {
-            border-color: var(--balance-accent);
+            border-color: var(--primary);
         }
 
-        .summary-content {
-            color: var(--balance-text);
-            line-height: 1.7;
-            font-size: 1rem;
+        /* Share button */
+        .share-btn {
+            padding: 0.4rem 0.7rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255,255,255,0.04);
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
         }
+        .share-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .share-btn.copied { border-color: var(--primary); color: var(--primary); }
 
-        /* Make markdown-ish content readable */
-        .summary-content { line-height: 1.9; }
+        /* Markdown content styles */
         .summary-content h1,
         .summary-content h2,
         .summary-content h3 {
-            color: var(--balance-scale);
+            color: var(--text);
             margin: 1rem 0 0.5rem;
             font-family: 'Crimson Text', serif;
             letter-spacing: 0.01em;
         }
         .summary-content p { margin: 0 0 0.9rem; }
+        .summary-content p:last-child { margin-bottom: 0; }
         .summary-content ul { margin: 0 0 1rem 1.2rem; }
         .summary-content li { margin: 0.25rem 0; }
-        .summary-content a { color: var(--balance-accent); }
-        .summary-content a:hover { text-decoration: underline; }
-
-        .summary-content p {
-            margin-bottom: 1rem;
-        }
-
-        .summary-content p:last-child {
-            margin-bottom: 0;
-        }
-
-        .source-attribution {
-            font-size: 0.9rem;
-            color: var(--balance-text-light);
-            font-style: italic;
-            margin-top: 0.5rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid var(--balance-silver);
-        }
+        .summary-content a { color: var(--accent); }
+        .summary-content a:hover { color: var(--primary); }
 
         .no-summaries {
             text-align: center;
-            color: var(--balance-text-light);
+            color: var(--text-light);
             padding: 3rem;
             font-style: italic;
         }
 
-        .perspective-notice {
-            background: var(--balance-gold);
-            color: var(--balance-scale);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        .perspective-notice strong {
-            color: var(--balance-scale);
-        }
-
         /* Footer */
         footer {
-            background: var(--balance-scale);
-            color: white;
+            background: var(--bg);
             padding: 3rem 2rem;
             text-align: center;
+            border-top: 2px solid var(--primary);
         }
 
         .footer-content {
@@ -410,31 +437,46 @@
         }
 
         .footer-links a {
-            color: var(--balance-silver);
+            color: var(--text);
             text-decoration: none;
             transition: color 0.3s;
         }
 
         .footer-links a:hover {
-            color: var(--balance-gold);
+            color: var(--primary);
         }
 
         .footer-text {
-            color: var(--balance-light);
+            color: var(--text-light);
             font-size: 0.9rem;
         }
 
-        .footer-mission {
-            font-family: 'Crimson Text', serif;
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            color: var(--balance-gold);
+        /* Nerra Network cross-links */
+        .network-shows {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-subtle);
         }
+        .network-shows a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.2s;
+        }
+        .network-shows a:hover { border-color: var(--primary); color: var(--primary); }
+        .network-shows a.current { border-color: var(--primary); color: var(--primary); font-weight: 600; }
 
         /* Mobile Menu Toggle */
         .menu-toggle {
             display: none;
-            background: var(--balance-accent);
+            background: var(--primary);
             border: none;
             color: white;
             font-size: 1.5rem;
@@ -455,11 +497,10 @@
                 top: 100%;
                 left: 0;
                 right: 0;
-                background: rgba(255, 255, 255, 0.98);
+                background: var(--header-bg);
                 flex-direction: column;
                 padding: 1rem;
-                border-top: 2px solid var(--balance-gold);
-                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                border-top: 2px solid var(--primary);
             }
 
             .nav-links.active {
@@ -473,7 +514,7 @@
             .nav-links a {
                 display: block;
                 padding: 0.75rem;
-                border-bottom: 1px solid var(--balance-silver);
+                border-bottom: 1px solid var(--border-subtle);
             }
 
             .hero {
@@ -485,9 +526,14 @@
             }
             .sticky-audio { width: 100%; }
             .sticky-close { justify-self: end; }
+            .speed-control { justify-self: start; }
 
             .summaries-section {
                 padding: 2rem 1rem;
+            }
+
+            .controls {
+                padding: 0 1rem;
             }
 
             .podcast-summary {
@@ -502,11 +548,6 @@
 
             .podcast-title {
                 font-size: 1.5rem;
-            }
-
-            .mission-statement {
-                margin: 1rem;
-                padding: 1.5rem;
             }
         }
 
@@ -523,182 +564,36 @@
             border-width: 0;
         }
 
-        /* Focus styles for keyboard navigation */
         a:focus, button:focus {
-            outline: 2px solid var(--balance-accent);
+            outline: 2px solid var(--primary);
             outline-offset: 2px;
         }
 
-        /* Balance scale animation */
-        @keyframes balance {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(1deg); }
-            75% { transform: rotate(-1deg); }
-        }
-
-        .balance-icon {
-            animation: balance 4s ease-in-out infinite;
-        }
-
-        /* Inline "Ask Grok" buttons for questions */
-        .grok-inline-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            margin-left: 0.5rem;
-            padding: 0.2rem 0.55rem;
-            border-radius: 999px;
-            border: 1px solid rgba(0,0,0,0.14);
-            background: rgba(255,255,255,0.75);
-            color: var(--balance-scale);
-            font-weight: 800;
-            cursor: pointer;
-            font-size: 0.85rem;
-            line-height: 1.1;
-        }
-        .grok-inline-btn:hover { border-color: var(--balance-accent); }
-
-        /* Floating Grok chat drawer */
-        .grok-fab {
-            position: fixed;
-            right: 18px;
-            bottom: 18px;
-            z-index: 2000;
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            border: 1px solid rgba(0,0,0,0.14);
-            background: rgba(255,255,255,0.92);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
-            cursor: pointer;
-            font-size: 1.3rem;
-        }
-        .grok-drawer {
-            position: fixed;
-            right: 18px;
-            bottom: calc(18px + 56px + 12px);
-            z-index: 2000;
-            width: min(460px, calc(100vw - 36px));
-            max-height: min(72vh, 720px);
-            background: rgba(255,255,255,0.97);
-            border: 1px solid rgba(0,0,0,0.14);
-            border-radius: 16px;
-            box-shadow: 0 24px 60px rgba(0,0,0,0.22);
-            overflow: hidden;
-            display: none;
-        }
-        .grok-drawer.open { display: grid; grid-template-rows: auto 1fr auto; }
-        .grok-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.75rem;
-            padding: 0.9rem 1rem;
-            border-bottom: 1px solid rgba(0,0,0,0.10);
-        }
-        .grok-title {
-            font-weight: 900;
-            color: var(--balance-scale);
-        }
-        .grok-close {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            border: 1px solid rgba(0,0,0,0.12);
-            background: rgba(255,255,255,0.65);
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-        .grok-body {
-            padding: 0.9rem 1rem;
-            overflow: auto;
-        }
-        .grok-settings {
-            display: grid;
-            gap: 0.6rem;
-            margin-bottom: 0.75rem;
-        }
-        .grok-settings label {
-            font-size: 0.85rem;
-            color: var(--balance-text-light);
-            font-weight: 700;
-            display: block;
-            margin-bottom: 0.2rem;
-        }
-        .grok-settings input, .grok-settings select, .grok-settings textarea {
-            width: 100%;
-            border-radius: 10px;
-            border: 1px solid rgba(0,0,0,0.14);
-            padding: 0.55rem 0.7rem;
-            font: inherit;
-        }
-        .grok-chat {
-            display: grid;
-            gap: 0.6rem;
-        }
-        .msg {
-            padding: 0.65rem 0.75rem;
-            border-radius: 12px;
-            border: 1px solid rgba(0,0,0,0.10);
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        .msg.user { background: rgba(52, 152, 219, 0.12); }
-        .msg.assistant { background: rgba(212, 175, 55, 0.12); }
-        .msg.system { background: rgba(236, 240, 241, 0.85); color: var(--balance-text-light); }
-        .grok-footer {
-            padding: 0.9rem 1rem;
-            border-top: 1px solid rgba(0,0,0,0.10);
-            display: grid;
-            gap: 0.6rem;
-        }
-        .grok-actions {
-            display: flex;
-            gap: 0.6rem;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .grok-send {
-            background: var(--balance-accent);
-            color: white;
-            border: 0;
-            padding: 0.65rem 0.95rem;
-            border-radius: 12px;
-            font-weight: 900;
-            cursor: pointer;
-        }
-        .grok-secondary {
-            border: 1px solid rgba(0,0,0,0.14);
-            background: rgba(255,255,255,0.65);
-            color: var(--balance-scale);
-            padding: 0.65rem 0.9rem;
-            border-radius: 12px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-        .grok-hint { font-size: 0.85rem; color: var(--balance-text-light); }
+        
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
         <nav>
-            <a href="omni-view.html" class="brand" aria-label="Omni View home">
-                <span class="brand-mark" aria-hidden="true">
-                    <img src="assets/omni-view-logo.svg" alt="" />
-                </span>
-                <span class="wordmark" aria-hidden="true">
-                    <span class="omni">Omni</span><span class="view">View</span>
-                </span>
+            <a href="omni-view.html" class="logo">
+                
+                 Omni View
+                
             </a>
-            <button class="menu-toggle" aria-label="Toggle menu" type="button">☰</button>
+            <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
             <ul class="nav-links" id="navLinks">
+                
                 <li><a href="omni-view-summaries.html">Summaries</a></li>
+                
                 <li><a href="omni-view.html#episodes">Episodes</a></li>
+                
                 <li><a href="podcasts/">All Podcasts</a></li>
+                
                 <li><a href="omni-view.html#about">About</a></li>
+                
                 <li><a href="omni-view.html#subscribe">Subscribe</a></li>
+                
             </ul>
         </nav>
     </header>
@@ -711,37 +606,47 @@
                 <div id="stickySub" class="sticky-sub"></div>
             </div>
             <audio id="stickyAudio" class="sticky-audio" controls preload="none"></audio>
-            <button id="stickyClose" class="sticky-close" aria-label="Close player">×</button>
+            <div class="speed-control">
+                <button class="speed-btn" data-speed="0.75">0.75x</button>
+                <button class="speed-btn active" data-speed="1">1x</button>
+                <button class="speed-btn" data-speed="1.25">1.25x</button>
+                <button class="speed-btn" data-speed="1.5">1.5x</button>
+                <button class="speed-btn" data-speed="2">2x</button>
+            </div>
+            <button id="stickyClose" class="sticky-close" aria-label="Close player">&times;</button>
         </div>
     </div>
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1><span class="omni">Omni</span> <span class="view" style="background:linear-gradient(90deg,var(--ov-blue),var(--ov-blue-2));-webkit-background-clip:text;background-clip:text;color:transparent;">View</span></h1>
+            
+            <h1>Omni View</h1>
             <p class="tagline">Balanced Perspectives on the News</p>
             <p class="subtitle">Daily summaries presenting multiple viewpoints on the stories that matter, helping you form your own informed opinions.</p>
-
-            <div class="mission-statement" data-aos="fade-up">
-                <h3>Our Mission</h3>
-                <p>We believe in media literacy and informed citizenship. In an era of polarized information, Omni View provides balanced coverage from diverse sources across the political spectrum. We present facts, multiple perspectives, and context so you can evaluate news for yourself.</p>
-            </div>
         </div>
     </section>
 
-    <!-- Omni View Summaries -->
+    <!-- Search & Filter Controls -->
+    <div class="controls" data-aos="fade-up">
+        <input type="text" class="search-box" id="searchBox" placeholder="Search episodes..." aria-label="Search episodes">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="week">This Week</button>
+        <button class="filter-btn" data-filter="month">This Month</button>
+        <span class="episode-count" id="episodeCount"></span>
+    </div>
+
+    <!-- Summaries -->
     <section class="summaries-section">
         <div class="podcast-summary" data-aos="fade-up">
             <div class="podcast-header">
-                <img src="assets/omni-view-logo.svg" alt="Omni View logo" style="width:54px;height:54px;border-radius:14px;border:1px solid rgba(11,27,59,0.12);background:rgba(255,255,255,0.6);padding:8px;" />
+                
+                <img src="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni-view-podcast-image.jpg"
+                     alt="Omni View" class="podcast-logo" onerror="this.style.display='none'">
+                
                 <h2 class="podcast-title">Daily News Summaries</h2>
             </div>
-
-            <div class="perspective-notice">
-                <strong>📊 Multiple Perspectives:</strong> Each story below includes coverage from diverse sources representing different viewpoints. Consider all angles before forming your opinion.
-            </div>
-
-            <div id="omni-summaries">
+            <div id="summaries-container">
                 <div class="no-summaries">Loading Omni View summaries...</div>
             </div>
         </div>
@@ -750,370 +655,191 @@
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <p class="footer-mission">"The truth is usually somewhere in the middle."</p>
+            <!-- Nerra Network cross-links -->
+            <div class="network-shows">
+                
+                <a href="tesla-summaries.html">Tesla Shorts Time</a>
+                
+                <a href="omni-view-summaries.html" class="current">Omni View</a>
+                
+                <a href="fascinating-frontiers-summaries.html">Fascinating Frontiers</a>
+                
+                <a href="planetterrian-summaries.html">Planetterrian Daily</a>
+                
+                <a href="env-intel-summaries.html">Environmental Intelligence</a>
+                
+                <a href="models-agents-summaries.html">Models & Agents</a>
+                
+                <a href="network.html">Nerra Network</a>
+            </div>
             <div class="footer-links">
+                
                 <a href="omni-view.html#episodes">🎧 Episodes</a>
+                
                 <a href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni_view_podcast.rss" target="_blank">📡 RSS Feed</a>
+                
                 <a href="https://x.com/omniviewnews" target="_blank">🐦 X / Twitter</a>
+                
                 <a href="podcasts/">🌐 All Podcasts</a>
+                
                 <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank">💻 Source</a>
+                
             </div>
             <p class="footer-text">Omni View © 2025 | Promoting media literacy through balanced perspectives</p>
+            
             <p class="footer-text">Stay informed • Think critically • Form your own opinions</p>
+            
         </div>
     </footer>
-
-    <!-- Floating Grok chat -->
-    <button id="grokFab" class="grok-fab" aria-label="Open Grok chat" title="Ask Grok (balanced perspective)">💬</button>
-    <div id="grokDrawer" class="grok-drawer" role="dialog" aria-modal="false" aria-label="Grok chat">
-        <div class="grok-header">
-            <div class="grok-title">Ask Grok (Omni View)</div>
-            <button id="grokClose" class="grok-close" aria-label="Close chat">×</button>
-        </div>
-        <div class="grok-body">
-            <div class="grok-settings">
-                <div>
-                    <label for="grokKey">Grok API key (stored in this browser only)</label>
-                    <input id="grokKey" type="password" placeholder="Paste your GROK / xAI API key…" autocomplete="off" />
-                </div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                    <div>
-                        <label for="grokEndpoint">Endpoint</label>
-                        <input id="grokEndpoint" type="text" value="https://api.x.ai/v1/chat/completions" />
-                    </div>
-                    <div>
-                        <label for="grokModel">Model</label>
-                        <select id="grokModel">
-                            <option value="grok-4">grok-4</option>
-                            <option value="grok-2-latest">grok-2-latest</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="grok-hint">
-                    If this fails due to browser CORS restrictions, you’ll need a small proxy (e.g., Cloudflare Worker) and set the Endpoint to that proxy URL.
-                </div>
-            </div>
-
-            <div id="grokChat" class="grok-chat" aria-live="polite"></div>
-        </div>
-        <div class="grok-footer">
-            <textarea id="grokPrompt" rows="3" placeholder="Ask for more context, or request a balanced perspective…"></textarea>
-            <div class="grok-actions">
-                <button id="grokClear" class="grok-secondary" type="button">Clear</button>
-                <button id="grokFree" class="grok-secondary" type="button" title="Open Grok on X (free tier) in a new tab">🆓 Use free Grok</button>
-                <button id="grokSend" class="grok-send" type="button">Send</button>
-            </div>
-        </div>
-    </div>
 
     <!-- AOS Animation Library -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize AOS
+        const JSON_URL = 'digests/omni_view/summaries_omni.json';
+        const JSON_FORMAT = 'wrapped';
+        const SHOW_NAME = "Omni View";
+
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof AOS !== 'undefined') {
-                AOS.init({
-                    duration: 800,
-                    easing: 'ease-in-out',
-                    once: true,
-                    offset: 100
-                });
+                AOS.init({ duration: 800, easing: 'ease-in-out', once: true, offset: 100 });
             }
 
             // Mobile menu toggle
             const menuToggle = document.querySelector('.menu-toggle');
             const navLinks = document.getElementById('navLinks');
             if (menuToggle && navLinks) {
-                menuToggle.addEventListener('click', function() {
-                    navLinks.classList.toggle('active');
-                });
-
-                // Close menu when clicking a link
-                navLinks.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', function() {
-                        navLinks.classList.remove('active');
-                    });
-                });
+                menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+                navLinks.querySelectorAll('a').forEach(link =>
+                    link.addEventListener('click', () => navLinks.classList.remove('active'))
+                );
             }
 
-            // Load summaries from GitHub
+            // Speed controls
+            document.querySelectorAll('.speed-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const speed = parseFloat(btn.dataset.speed);
+                    const audio = document.getElementById('stickyAudio');
+                    if (audio) audio.playbackRate = speed;
+                    document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+
+            // Search & filter
+            const searchBox = document.getElementById('searchBox');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            let currentFilter = 'all';
+
+            searchBox.addEventListener('input', applyFilters);
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            function applyFilters() {
+                const query = (searchBox.value || '').toLowerCase();
+                const items = document.querySelectorAll('.summary-item');
+                const now = new Date();
+                let visible = 0;
+
+                items.forEach(item => {
+                    const text = (item.textContent || '').toLowerCase();
+                    const dateStr = item.dataset.date || '';
+                    let dateMatch = true;
+
+                    if (currentFilter === 'week') {
+                        const d = new Date(dateStr);
+                        dateMatch = (now - d) <= 7 * 86400000;
+                    } else if (currentFilter === 'month') {
+                        const d = new Date(dateStr);
+                        dateMatch = (now - d) <= 31 * 86400000;
+                    }
+
+                    const show = text.includes(query) && dateMatch;
+                    item.style.display = show ? '' : 'none';
+                    if (show) visible++;
+                });
+
+                const countEl = document.getElementById('episodeCount');
+                if (countEl) countEl.textContent = `${visible} episode${visible !== 1 ? 's' : ''}`;
+            }
+
             loadSummaries();
         });
 
-        // --- Grok chat (BYO key) ---
-        function initGrokChat() {
-            if (window.OmniGrokChat) return; // avoid double-init if called again
-            const fab = document.getElementById('grokFab');
-            const drawer = document.getElementById('grokDrawer');
-            const closeBtn = document.getElementById('grokClose');
-            const keyInput = document.getElementById('grokKey');
-            const endpointInput = document.getElementById('grokEndpoint');
-            const modelSelect = document.getElementById('grokModel');
-            const chatEl = document.getElementById('grokChat');
-            const promptEl = document.getElementById('grokPrompt');
-            const sendBtn = document.getElementById('grokSend');
-            const freeBtn = document.getElementById('grokFree');
-            const clearBtn = document.getElementById('grokClear');
-
-            if (!fab || !drawer) return;
-
-            const LS_KEY = 'omniview_grok_api_key';
-            const LS_ENDPOINT = 'omniview_grok_endpoint';
-            const LS_MODEL = 'omniview_grok_model';
-
-            keyInput.value = localStorage.getItem(LS_KEY) || '';
-            endpointInput.value = localStorage.getItem(LS_ENDPOINT) || endpointInput.value;
-            modelSelect.value = localStorage.getItem(LS_MODEL) || modelSelect.value;
-
-            let messages = [];
-
-            function open() {
-                drawer.classList.add('open');
-                try { promptEl.focus(); } catch {}
-            }
-            function close() {
-                drawer.classList.remove('open');
-            }
-            function pushMsg(role, content) {
-                messages.push({ role, content });
-                render();
-            }
-            function render() {
-                if (!chatEl) return;
-                chatEl.innerHTML = messages.map(m => {
-                    const safe = (m.content || '').replace(/</g, '&lt;');
-                    return `<div class="msg ${m.role}">${safe}</div>`;
-                }).join('');
-                chatEl.scrollTop = chatEl.scrollHeight;
-            }
-            function saveSettings() {
-                localStorage.setItem(LS_KEY, keyInput.value || '');
-                localStorage.setItem(LS_ENDPOINT, endpointInput.value || '');
-                localStorage.setItem(LS_MODEL, modelSelect.value || '');
-            }
-
-            async function openFreeGrok(prefillPrompt) {
-                const p = String(prefillPrompt || '').trim();
-                const url = 'https://x.com/i/grok';
-                try { window.open(url, '_blank', 'noopener'); } catch {}
-
-                if (!p) {
-                    pushMsg('system', `Opened Grok in a new tab. Type your question there.`);
-                    return;
-                }
-
-                try {
-                    await navigator.clipboard.writeText(p);
-                    pushMsg('system', 'Opened Grok in a new tab and copied the prompt to your clipboard. Paste it into Grok to continue.');
-                } catch {
-                    pushMsg('system', 'Opened Grok in a new tab. (Could not auto-copy due to browser permissions.) Copy/paste this prompt there:\n\n' + p);
-                }
-            }
-
-            async function send() {
-                const prompt = (promptEl.value || '').trim();
-                if (!prompt) return;
-                if (!keyInput.value.trim()) {
-                    open();
-                    pushMsg('system', 'Paste your Grok API key to chat here, or click “Use free Grok” to open Grok on X (no API key).');
-                    return;
-                }
-                saveSettings();
-                promptEl.value = '';
-                pushMsg('user', prompt);
-
-                const payload = {
-                    model: modelSelect.value || 'grok-4',
-                    messages: [
-                        {
-                            role: 'system',
-                            content:
-                                "You are Grok helping an Omni View reader. Provide a balanced, neutral perspective. " +
-                                "Include 2–3 viewpoints, what’s uncertain, and what to verify via primary sources. " +
-                                "Be concise and avoid inflammatory language."
-                        },
-                        ...messages.filter(m => m.role === 'user' || m.role === 'assistant')
-                    ],
-                    temperature: 0.4,
-                    max_tokens: 800
-                };
-
-                try {
-                    const resp = await fetch(endpointInput.value, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${keyInput.value.trim()}`
-                        },
-                        body: JSON.stringify(payload)
-                    });
-                    if (!resp.ok) {
-                        const txt = await resp.text().catch(() => '');
-                        throw new Error(`HTTP ${resp.status}. ${txt}`.trim());
-                    }
-                    const data = await resp.json();
-                    const out = data?.choices?.[0]?.message?.content || data?.choices?.[0]?.text || '';
-                    pushMsg('assistant', (out || 'No response.').trim());
-                } catch (err) {
-                    pushMsg('system', `Chat failed: ${err?.message || String(err)}`);
-                }
-            }
-
-            fab.addEventListener('click', open);
-            closeBtn?.addEventListener('click', close);
-            sendBtn?.addEventListener('click', send);
-            freeBtn?.addEventListener('click', () => openFreeGrok(promptEl.value || ''));
-            clearBtn?.addEventListener('click', () => { messages = []; render(); });
-            promptEl?.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-                    e.preventDefault();
-                    send();
-                }
-            });
-
-            window.OmniGrokChat = {
-                openWithPrompt: (p) => {
-                    open();
-                    promptEl.value = String(p || '');
-                    try { promptEl.focus(); } catch {}
-                },
-                openFreeGrok: (p) => openFreeGrok(p),
-            };
-        }
-
-        function injectQuestionAskButtons(root) {
-            const containers = Array.from(root.querySelectorAll('.summary-content'));
-            for (const content of containers) {
-                const paragraphs = Array.from(content.querySelectorAll('p'));
-                for (const p of paragraphs) {
-                    const txt = (p.textContent || '').trim().toLowerCase();
-                    if (!txt.includes('questions to consider')) continue;
-
-                    // Find the UL right after the "Questions to consider" paragraph
-                    let ul = p.nextElementSibling;
-                    if (!ul || ul.tagName !== 'UL') continue;
-
-                    // Best-effort story title = previous heading in this story block
-                    let storyTitle = '';
-                    let prev = p.previousElementSibling;
-                    while (prev) {
-                        if (prev.tagName === 'H3' || prev.tagName === 'H2' || prev.tagName === 'H1') {
-                            storyTitle = (prev.textContent || '').trim();
-                            break;
-                        }
-                        prev = prev.previousElementSibling;
-                    }
-
-                    const lis = Array.from(ul.querySelectorAll('li'));
-                    for (const li of lis) {
-                        const qText = (li.textContent || '').trim();
-                        if (!qText) continue;
-
-                        const btn = document.createElement('button');
-                        btn.type = 'button';
-                        btn.className = 'grok-inline-btn';
-                        btn.title = 'Ask Grok for a balanced perspective';
-                        btn.setAttribute('aria-label', 'Ask Grok for a balanced perspective on this question');
-                        btn.textContent = '💬 Ask Grok';
-
-                        const prompt =
-                            `Give a balanced perspective on this question from Omni View.\n\n` +
-                            (storyTitle ? `Story: "${storyTitle}"\n` : '') +
-                            `Question: "${qText}"\n\n` +
-                            `Please provide:\n` +
-                            `- 2–3 credible viewpoints (what each side emphasizes)\n` +
-                            `- What’s uncertain / what to verify\n` +
-                            `- Primary sources or documents to look for\n` +
-                            `Keep it concise.`;
-
-                        btn.addEventListener('click', () => {
-                            // If no API key is set, fall back to opening Grok's free web UI.
-                            const hasKey = !!(localStorage.getItem('omniview_grok_api_key') || '').trim();
-                            if (!hasKey && window.OmniGrokChat?.openFreeGrok) {
-                                window.OmniGrokChat.openFreeGrok(prompt);
-                                return;
-                            }
-                            if (window.OmniGrokChat?.openWithPrompt) {
-                                window.OmniGrokChat.openWithPrompt(prompt);
-                                return;
-                            }
-                            alert('Grok chat is not ready yet. Try again in a moment.');
-                        });
-
-                        li.appendChild(btn);
-                    }
-                }
-            }
-        }
-
         async function loadSummaries() {
-            const baseUrl = 'https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests';
-
-            try {
-                // Load Omni View summaries
-                await loadPodcastSummaries('omni-summaries', `${baseUrl}/omni_view/summaries_omni.json`);
-
-            } catch (error) {
-                console.error('Error loading summaries:', error);
-            }
-        }
-
-        async function loadPodcastSummaries(containerId, jsonUrl) {
             try {
                 let response;
                 try {
-                    response = await fetch(jsonUrl);
+                    response = await fetch(JSON_URL);
                     if (!response.ok) throw new Error(`Direct fetch failed: ${response.status}`);
                 } catch (directErr) {
                     const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                    response = await fetch(proxyUrl + encodeURIComponent(jsonUrl));
+                    const fullUrl = new URL(JSON_URL, window.location.href).href;
+                    response = await fetch(proxyUrl + encodeURIComponent(fullUrl));
                     if (!response.ok) throw new Error(`Proxy fetch failed: ${response.status}`);
-                }
-                if (!response.ok) {
-                    throw new Error(`Failed to load ${jsonUrl}`);
                 }
 
                 const data = await response.json();
-                const container = document.getElementById(containerId);
+                const container = document.getElementById('summaries-container');
 
-                if (!data.summaries || data.summaries.length === 0) {
+                // Handle both {summaries: [...]} and [...] formats
+                const summaries = (JSON_FORMAT === 'array') ? (Array.isArray(data) ? data : [])
+                    : (data.summaries || []);
+
+                if (!summaries.length) {
                     container.innerHTML = '<div class="no-summaries">No summaries available yet. Check back after the next daily update!</div>';
                     return;
                 }
 
-                // Sort summaries by date (newest first)
-                data.summaries.sort((a, b) => new Date(b.date) - new Date(a.date));
+                summaries.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-                const summariesHtml = data.summaries.map(summary => {
-                    const audioUrl = summary.audio_url || '';
+                const html = summaries.map(s => {
+                    const audioUrl = s.audio_url || '';
+                    const content = s.content || s.summary || '';
+                    const title = s.episode_title || '';
+                    const date = s.date || '';
+
                     const audioHtml = audioUrl ? `
                         <div class="summary-actions">
                             <audio class="summary-audio" controls preload="none" src="${escapeAttr(audioUrl)}"></audio>
                             <a class="summary-link" href="${escapeAttr(audioUrl)}" target="_blank" rel="noopener">Download</a>
+                            <button class="share-btn" data-url="${escapeAttr(audioUrl)}" title="Copy link">Share</button>
                         </div>
                     ` : '';
 
+                    const titleHtml = title ? `<div style="font-weight:600;color:var(--primary);font-size:0.9rem;">${escapeHtml(title)}</div>` : '';
+
                     return `
-                        <div class="summary-item">
+                        <div class="summary-item" data-date="${escapeAttr(date)}">
                             <div class="summary-header">
-                                <div class="summary-date">${formatDate(summary.date)}</div>
+                                <div>
+                                    <div class="summary-date">${formatDate(date)}</div>
+                                    ${titleHtml}
+                                </div>
                                 ${audioHtml}
                             </div>
-                            <div class="summary-content">${renderMarkdown(summary.content || '')}</div>
-                            <div class="source-attribution">📊 This summary includes perspectives from multiple news sources for balanced coverage</div>
+                            <div class="summary-content">${renderMarkdown(content)}</div>
                         </div>
                     `;
                 }).join('');
 
-                container.innerHTML = summariesHtml;
+                container.innerHTML = html;
                 initAudioUX(container);
-                initGrokChat();
-                injectQuestionAskButtons(container);
+                initShareButtons(container);
+
+                // Update count
+                const countEl = document.getElementById('episodeCount');
+                if (countEl) countEl.textContent = `${summaries.length} episode${summaries.length !== 1 ? 's' : ''}`;
 
             } catch (error) {
-                console.error(`Error loading summaries:`, error);
-                const container = document.getElementById(containerId);
-                container.innerHTML = '<div class="no-summaries">Unable to load summaries. Please check back later.</div>';
+                console.error('Error loading summaries:', error);
+                document.getElementById('summaries-container').innerHTML =
+                    '<div class="no-summaries">Unable to load summaries. Please check back later.</div>';
             }
         }
 
@@ -1121,15 +847,10 @@
             try {
                 const date = new Date(dateString);
                 return date.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    weekday: 'long',
-                    timeZone: 'UTC'
+                    year: 'numeric', month: 'long', day: 'numeric',
+                    weekday: 'long', timeZone: 'UTC'
                 });
-            } catch {
-                return dateString;
-            }
+            } catch { return dateString; }
         }
 
         function escapeHtml(text) {
@@ -1147,57 +868,47 @@
         }
 
         function linkify(text) {
-            text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-            text = text.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+            text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+                '<a href="$2" target="_blank" rel="noopener">$1</a>');
+            text = text.replace(/(https?:\/\/[^\s<]+)/g,
+                '<a href="$1" target="_blank" rel="noopener">$1</a>');
             return text;
         }
 
         function renderMarkdown(md) {
             const safe = escapeHtml(md).replace(/\r\n/g, '\n');
             const lines = safe.split('\n');
-            let htmlOut = '';
+            let out = '';
             let inList = false;
 
-            const flushList = () => {
-                if (inList) {
-                    htmlOut += '</ul>';
-                    inList = false;
-                }
-            };
+            const flush = () => { if (inList) { out += '</ul>'; inList = false; } };
 
             for (const rawLine of lines) {
-                const line = rawLine.trimEnd();
-                const trimmed = line.trim();
+                const trimmed = rawLine.trim();
 
-                if (!trimmed) {
-                    flushList();
-                    htmlOut += '<p></p>';
+                if (!trimmed) { flush(); out += '<p></p>'; continue; }
+
+                if (trimmed.startsWith('### ')) { flush(); out += `<h3>${linkify(trimmed.slice(4))}</h3>`; continue; }
+                if (trimmed.startsWith('## '))  { flush(); out += `<h2>${linkify(trimmed.slice(3))}</h2>`; continue; }
+                if (trimmed.startsWith('# '))   { flush(); out += `<h1>${linkify(trimmed.slice(2))}</h1>`; continue; }
+
+                if (/^[-\u2022]\s+/.test(trimmed)) {
+                    if (!inList) { out += '<ul>'; inList = true; }
+                    out += `<li>${linkify(trimmed.replace(/^[-\u2022]\s+/, ''))}</li>`;
                     continue;
                 }
 
-                if (trimmed.startsWith('### ')) { flushList(); htmlOut += `<h3>${linkify(trimmed.slice(4))}</h3>`; continue; }
-                if (trimmed.startsWith('## ')) { flushList(); htmlOut += `<h2>${linkify(trimmed.slice(3))}</h2>`; continue; }
-                if (trimmed.startsWith('# '))  { flushList(); htmlOut += `<h1>${linkify(trimmed.slice(2))}</h1>`; continue; }
-
-                if (/^[-•]\s+/.test(trimmed)) {
-                    if (!inList) { htmlOut += '<ul>'; inList = true; }
-                    const item = trimmed.replace(/^[-•]\s+/, '');
-                    htmlOut += `<li>${linkify(item)}</li>`;
-                    continue;
-                }
-
-                flushList();
-                let paragraph = trimmed.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-                paragraph = linkify(paragraph);
-                htmlOut += `<p>${paragraph}</p>`;
+                flush();
+                let p = trimmed.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+                p = linkify(p);
+                out += `<p>${p}</p>`;
             }
 
-            flushList();
-            htmlOut = htmlOut.replace(/<p><\/p>/g, '<div style="height:0.6rem"></div>');
-            return htmlOut;
+            flush();
+            return out.replace(/<p><\/p>/g, '<div style="height:0.6rem"></div>');
         }
 
-        // Sticky-player + per-card audio UX
+        // Sticky player + per-card audio UX
         function initAudioUX(container) {
             const stickyPlayer = document.getElementById('stickyPlayer');
             const stickyAudio = document.getElementById('stickyAudio');
@@ -1210,9 +921,7 @@
             const cardAudios = Array.from(container.querySelectorAll('audio.summary-audio'));
 
             function pauseAllCardAudios() {
-                for (const a of cardAudios) {
-                    try { a.pause(); } catch {}
-                }
+                for (const a of cardAudios) { try { a.pause(); } catch {} }
             }
 
             function setSticky(meta, audioEl) {
@@ -1253,6 +962,34 @@
                 try { stickyAudio.pause(); } catch {}
                 stickyPlayer.classList.add('hidden');
                 activeCardAudio = null;
+            });
+        }
+
+        // Share buttons
+        function initShareButtons(container) {
+            container.querySelectorAll('.share-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const url = btn.dataset.url;
+                    try {
+                        await navigator.clipboard.writeText(url);
+                        btn.textContent = 'Copied!';
+                        btn.classList.add('copied');
+                        setTimeout(() => {
+                            btn.textContent = 'Share';
+                            btn.classList.remove('copied');
+                        }, 2000);
+                    } catch {
+                        // Fallback: select text
+                        const input = document.createElement('input');
+                        input.value = url;
+                        document.body.appendChild(input);
+                        input.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(input);
+                        btn.textContent = 'Copied!';
+                        setTimeout(() => { btn.textContent = 'Share'; }, 2000);
+                    }
+                });
             });
         }
     </script>
