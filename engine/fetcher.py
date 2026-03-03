@@ -127,6 +127,7 @@ def _fetch_single_feed(
     keywords: Optional[List[str]],
     problematic_feeds: set,
     problematic_feeds_lock: Lock,
+    max_articles: int = 0,
 ) -> Optional[tuple]:
     """Fetch and parse a single RSS feed.
 
@@ -208,6 +209,15 @@ def _fetch_single_feed(
                 }
             )
 
+        # Cap per-feed articles to prevent high-volume feeds (e.g. arXiv)
+        # from flooding the pipeline with hundreds of entries.
+        if max_articles and len(articles) > max_articles:
+            logger.info(
+                "Capping %s from %d to %d articles",
+                source_name, len(articles), max_articles,
+            )
+            articles = articles[:max_articles]
+
         return (feed_url, articles, source_name)
 
     except requests.RequestException:
@@ -239,6 +249,7 @@ def fetch_rss_articles(
     *,
     max_workers: int = 10,
     similarity_threshold: float = 0.85,
+    max_articles_per_feed: int = 50,
 ) -> List[Dict]:
     """Fetch, filter, and deduplicate articles from RSS feeds.
 
@@ -256,6 +267,10 @@ def fetch_rss_articles(
     similarity_threshold:
         Threshold for deduplication (0.0–1.0).  Articles above this
         similarity are considered duplicates.
+    max_articles_per_feed:
+        Maximum number of articles to keep from any single feed.
+        Prevents high-volume feeds (e.g. arXiv) from flooding the
+        pipeline.  Set to 0 to disable the cap.
 
     Returns
     -------
@@ -284,6 +299,7 @@ def fetch_rss_articles(
                 keywords,
                 problematic_feeds,
                 problematic_feeds_lock,
+                max_articles_per_feed,
             ): url
             for url in urls
         }
