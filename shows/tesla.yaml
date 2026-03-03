@@ -142,3 +142,11 @@ chapters:
       title: "Tomorrow Teaser"
     - pattern: "That's Tesla Shorts Time"
       title: "Closing"
+
+storage:
+  provider: r2
+  bucket: podcast-audio
+  endpoint_env: R2_ENDPOINT_URL
+  access_key_env: R2_ACCESS_KEY_ID
+  secret_key_env: R2_SECRET_ACCESS_KEY
+  public_base_url: "https://audio.nerranetwork.com"
