@@ -33,6 +33,8 @@ RSS_FEEDS = [
     ("omni_view_podcast.rss", "omni_view"),
     ("fascinating_frontiers_podcast.rss", "fascinating_frontiers"),
     ("planetterrian_podcast.rss", "planetterrian"),
+    ("env_intel_podcast.rss", "env_intel"),
+    ("models_agents_podcast.rss", "models_agents"),
 ]
 
 
