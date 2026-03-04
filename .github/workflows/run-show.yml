@@ -51,6 +51,7 @@ jobs:
 
           dispatch_show = "${{ github.event.inputs.show }}" or ""
           event_name = "${{ github.event_name }}"
+          known_noop = False
 
           if event_name == "workflow_dispatch":
               if dispatch_show == "all":
@@ -98,8 +99,6 @@ jobs:
 
               # Detect known DST no-ops (cron fires but show runs at a different
               # UTC hour depending on EST/EDT).  These are expected empty results.
-              known_noop = False
-
               if not shows:
                   # 10:00 UTC is the EDT-only Omni View trigger.
                   # During EST, Omni View runs at 11:00 UTC instead.
