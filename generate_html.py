@@ -19,7 +19,7 @@ from jinja2 import Environment, FileSystemLoader
 
 ROOT = Path(__file__).resolve().parent
 TEMPLATES_DIR = ROOT / "templates"
-GITHUB_RAW = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+GITHUB_RAW = "https://nerranetwork.com"
 
 # ---------------------------------------------------------------------------
 # Per-show configuration
@@ -139,6 +139,7 @@ NETWORK_SHOWS = {
         ],
         "footer_copyright": "Omni View © 2025 | Promoting media literacy through balanced perspectives",
         "footer_tagline": "Stay informed • Think critically • Form your own opinions",
+        # TODO: Add Apple Podcasts / Spotify links once submitted
     },
     "fascinating_frontiers": {
         "name": "Fascinating Frontiers",
@@ -149,7 +150,7 @@ NETWORK_SHOWS = {
         "json_path": "digests/fascinating_frontiers/summaries_space.json",
         "json_format": "wrapped",
         "rss_file": "fascinating_frontiers_podcast.rss",
-        "podcast_image": "planetterrian-podcast-image.jpg",
+        "podcast_image": "Fascinating%20Frontiers-3000x3000.jpg",
         "x_account": "planetterrian",
         "colors": {
             "primary": "#06b6d4",
@@ -211,6 +212,7 @@ NETWORK_SHOWS = {
         ],
         "footer_copyright": "Fascinating Frontiers © 2025 | Exploring the wonders of space and astronomy",
         "footer_tagline": "🚀🌌 Bringing the cosmos to your ears 🚀🌌",
+        # TODO: Add Apple Podcasts / Spotify links once submitted
     },
     "planetterrian": {
         "name": "Planetterrian Daily",
@@ -242,7 +244,7 @@ NETWORK_SHOWS = {
         "logo_weight": 800,
         "logo_uppercase": True,
         "logo_html": (
-            '<img src="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/PlanetTerrian%20logo%20only%20final.jpg" '
+            '<img src="https://nerranetwork.com/PlanetTerrian%20logo%20only%20final.jpg" '
             'alt="Planetterrian Logo" style="height:50px;width:auto;border-radius:8px;" onerror="this.style.display=\'none\'">'
             '<span style="font-family:Montserrat,sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">PLANETTERRIAN</span>'
         ),
@@ -279,6 +281,7 @@ NETWORK_SHOWS = {
         ],
         "footer_copyright": "Planetterrian Daily © 2025 | A tribe of forward-thinking innovators",
         "footer_tagline": "🌍 Intertwining technology and compassion for the planet 🌍",
+        # TODO: Add Apple Podcasts / Spotify links once submitted
     },
     "env_intel": {
         "name": "Environmental Intelligence",
@@ -329,6 +332,7 @@ NETWORK_SHOWS = {
             {"href": "https://github.com/patricknovak/Tesla-shorts-time", "label": "💻 Source", "target": "_blank"},
         ],
         "footer_copyright": "Environmental Intelligence © 2025 | Nerra Network",
+        # TODO: Add Apple Podcasts / Spotify links once submitted
     },
     "models_agents": {
         "name": "Models & Agents",
@@ -339,6 +343,7 @@ NETWORK_SHOWS = {
         "json_path": "digests/models_agents/summaries_models_agents.json",
         "json_format": "wrapped",
         "rss_file": "models_agents_podcast.rss",
+        "podcast_image": "models-agents-podcast-image.jpg",
         "x_account": None,
         "colors": {
             "primary": "#8B5CF6",
@@ -378,6 +383,7 @@ NETWORK_SHOWS = {
             {"href": "https://github.com/patricknovak/Tesla-shorts-time", "label": "💻 Source", "target": "_blank"},
         ],
         "footer_copyright": "Models & Agents © 2025 | Nerra Network",
+        # TODO: Add Apple Podcasts / Spotify links once submitted
     },
 }
 

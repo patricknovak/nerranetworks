@@ -288,6 +288,9 @@ jobs:
 
           echo "Output validation passed"
 
+      - name: Regenerate network RSS
+        run: python generate_network_rss.py
+
       - name: Commit and push output
         run: |
           git config --local user.email "action@github.com"
@@ -297,6 +300,9 @@ jobs:
           git add -A digests/ || true
           git add *.rss || true
           git add *.html || true
+
+          # Exclude MP3 files (hosted on R2, not in git)
+          git reset HEAD -- '*.mp3' 2>/dev/null || true
 
           # Check if there are changes to commit
           if git diff --cached --quiet; then
