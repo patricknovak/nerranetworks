@@ -14,6 +14,8 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://nerranetwork.com/planetterrian-podcast-image.jpg">
 
+    <link rel="canonical" href="https://nerranetwork.com/planetterrian-summaries.html">
+
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,7 +50,7 @@
                     <div class="nn-nav-dropdown-menu">
                         
                         <a href="index.html">
-                            <img src="podcast-image.jpg" alt="" loading="lazy">
+                            <img src="podcast-image-v3.jpg" alt="" loading="lazy">
                             Tesla Shorts Time
                         </a>
                         
@@ -107,7 +109,7 @@
             <div class="nn-mobile-shows-title">All Shows</div>
             
             <a href="index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
-                <img src="podcast-image.jpg" alt="" loading="lazy">
+                <img src="podcast-image-v3.jpg" alt="" loading="lazy">
                 Tesla Shorts Time
             </a>
             
@@ -147,7 +149,7 @@
                 <div id="stickyNow" class="nn-sticky-title">Now playing</div>
                 <div id="stickySub" class="nn-sticky-sub"></div>
             </div>
-            <audio id="stickyAudio" class="nn-sticky-audio" controls preload="none"></audio>
+            <audio id="stickyAudio" class="nn-sticky-audio" controls preload="none" aria-label="Episode player"></audio>
             <div class="nn-speed-control">
                 <button class="nn-speed-btn" data-speed="0.75">0.75x</button>
                 <button class="nn-speed-btn active" data-speed="1">1x</button>
@@ -170,6 +172,7 @@
             
             <h1>Planetterrian Daily</h1>
             <p>Complete archive of Planetterrian Daily episode summaries.</p>
+            <p id="heroEpisodeCount" style="color:var(--nn-text-muted);font-family:var(--font-ui);font-size:0.88rem;margin-top:var(--sp-2);opacity:0;transition:opacity 0.3s;"></p>
         </div>
     </section>
 
@@ -201,7 +204,7 @@
                 
                 
                 <a href="tesla-summaries.html" class="cross-network-card">
-                    <img src="podcast-image.jpg" alt="Tesla Shorts Time" loading="lazy">
+                    <img src="podcast-image-v3.jpg" alt="Tesla Shorts Time" loading="lazy">
                     <div class="cross-network-card-info">
                         <div class="cross-network-card-name">Tesla Shorts Time</div>
                         <div class="cross-network-card-tagline">Shorting Tesla? Time's Up.</div>
@@ -236,7 +239,7 @@
                     <img src="env-intel-podcast-image.jpg" alt="Environmental Intelligence" loading="lazy">
                     <div class="cross-network-card-info">
                         <div class="cross-network-card-name">Environmental Intelligence</div>
-                        <div class="cross-network-card-tagline">Daily environmental regulatory and compliance briefing.</div>
+                        <div class="cross-network-card-tagline">Environmental regulatory and compliance briefing.</div>
                     </div>
                 </a>
                 
@@ -246,7 +249,7 @@
                     <img src="models-agents-podcast-image.jpg" alt="Models & Agents" loading="lazy">
                     <div class="cross-network-card-info">
                         <div class="cross-network-card-name">Models & Agents</div>
-                        <div class="cross-network-card-tagline">Not the ones you're thinking about!</div>
+                        <div class="cross-network-card-tagline">Daily AI models, agents, and practical developments.</div>
                     </div>
                 </a>
                 
@@ -384,6 +387,7 @@
                     response = await fetch(JSON_URL);
                     if (!response.ok) throw new Error(`Direct fetch failed: ${response.status}`);
                 } catch (directErr) {
+                    console.warn(`[Nerra] Direct fetch failed for ${SHOW_NAME}, trying CORS proxy...`, directErr);
                     const proxyUrl = 'https://api.allorigins.win/raw?url=';
                     const fullUrl = new URL(JSON_URL, window.location.href).href;
                     response = await fetch(proxyUrl + encodeURIComponent(fullUrl));
@@ -403,7 +407,10 @@
 
                 summaries.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-                const html = summaries.map(s => {
+                const PAGE_SIZE = 20;
+                let visibleCount = PAGE_SIZE;
+
+                function renderSummaryCard(s) {
                     const audioUrl = s.audio_url || '';
                     const content = s.content || s.summary || '';
                     const title = s.episode_title || '';
@@ -411,7 +418,7 @@
 
                     const audioHtml = audioUrl ? `
                         <div class="nn-summary-actions">
-                            <audio class="nn-summary-audio" controls preload="none" src="${escapeAttr(audioUrl)}"></audio>
+                            <audio class="nn-summary-audio" controls preload="none" src="${escapeAttr(audioUrl)}" aria-label="${escapeAttr(title || 'Episode')} audio"></audio>
                             <a class="nn-summary-link" href="${escapeAttr(audioUrl)}" target="_blank" rel="noopener">Download</a>
                             <button class="nn-summary-link" data-share-url="${escapeAttr(audioUrl)}" title="Copy link">Share</button>
                         </div>
@@ -431,14 +438,41 @@
                             <div class="nn-summary-content">${renderMarkdown(content)}</div>
                         </div>
                     `;
-                }).join('');
+                }
 
-                container.innerHTML = html;
-                initAudioUX(container);
-                initShareButtons(container);
+                function renderPage() {
+                    const visible = summaries.slice(0, visibleCount);
+                    const remaining = summaries.length - visibleCount;
+                    let html = visible.map(renderSummaryCard).join('');
+                    if (remaining > 0) {
+                        html += `<div style="text-align:center;padding:var(--sp-6) 0;">
+                            <button id="loadMoreBtn" class="nn-btn" style="--show-color:var(--show-color);">
+                                Load more (${remaining} remaining)
+                            </button>
+                        </div>`;
+                    }
+                    container.innerHTML = html;
+                    initAudioUX(container);
+                    initShareButtons(container);
+                    const loadMoreBtn = document.getElementById('loadMoreBtn');
+                    if (loadMoreBtn) {
+                        loadMoreBtn.addEventListener('click', () => {
+                            visibleCount += PAGE_SIZE;
+                            renderPage();
+                        });
+                    }
+                }
 
+                renderPage();
+
+                // Update episode counts
                 const countEl = document.getElementById('episodeCount');
                 if (countEl) countEl.textContent = `${summaries.length} episode${summaries.length !== 1 ? 's' : ''}`;
+                const heroCount = document.getElementById('heroEpisodeCount');
+                if (heroCount) {
+                    heroCount.textContent = `${summaries.length} episode${summaries.length !== 1 ? 's' : ''} and counting`;
+                    heroCount.style.opacity = '1';
+                }
 
             } catch (error) {
                 console.error('Error loading summaries:', error);
