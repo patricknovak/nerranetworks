@@ -1,404 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Environmental regulatory, science, and compliance briefing for BC professionals. Daily environmental intelligence.">
-  <title>Environmental Intelligence</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127793;</text></svg>">
-  <style>
-    :root {
-      --brand: #1B5E20;
-      --brand-alt: #4CAF50;
-      --brand-dark: #145218;
-      --bg: #0a1a0e;
-      --card: #122016;
-      --card-hover: #182a1c;
-      --text: #ffffff;
-      --text-muted: #7da882;
-      --radius: 12px;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-    a { color: var(--brand-alt); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Environmental Intelligence — Daily environmental regulatory and compliance briefing for BC professionals.">
+    <meta name="keywords" content="environmental intelligence, regulatory compliance, environmental briefings, Canadian environment">
+    <title>Environmental Intelligence | Nerra Network</title>
+    <meta name="theme-color" content="#1B5E20">
 
-    header { position: sticky; top: 0; z-index: 100; background: rgba(10,26,14,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1a3020; }
-    nav { max-width: 1100px; margin: 0 auto; padding: 0.8rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-weight: 800; font-size: 1.2rem; color: var(--text); }
-    .logo span { color: var(--brand-alt); }
-    .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
-    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-    .nav-links a { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
-    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    <!-- Open Graph -->
+    <meta property="og:title" content="Environmental Intelligence | Nerra Network">
+    <meta property="og:description" content="Environmental Intelligence — Daily environmental regulatory and compliance briefing for BC professionals.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://nerranetwork.com/env-intel-podcast-image.jpg">
 
-    .hero { max-width: 1100px; margin: 0 auto; padding: 5rem 1.5rem 3rem; text-align: center; }
-    .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -1px; }
-    .hero h1 span { color: var(--brand-alt); }
-    .tagline { color: var(--brand-alt); font-size: 1.15rem; font-weight: 600; margin: 0.5rem 0; }
-    .subtitle { color: var(--text-muted); max-width: 600px; margin: 0.5rem auto 2rem; }
+    <!-- Google Fonts: DM Sans + Source Serif 4 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
 
-    /* Leaf border accent */
-    .leaf-accent { max-width: 200px; margin: 0 auto 2rem; height: 2px; background: linear-gradient(90deg, transparent, var(--brand-alt), var(--brand), var(--brand-alt), transparent); border-radius: 2px; }
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
-    .cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
-    .btn { display: inline-block; padding: 0.65rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: 1px solid #1a3020; color: var(--text); transition: all 0.2s; }
-    .btn:hover { background: var(--card); text-decoration: none; }
-    .btn-primary { background: var(--brand); border-color: var(--brand); }
-    .btn-primary:hover { background: var(--brand-dark); }
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="styles/main.css">
 
-    /* Professional badge */
-    .pro-badge { display: inline-block; margin-top: 1.5rem; padding: 0.4rem 1rem; background: rgba(76,175,80,0.1); border: 1px solid rgba(76,175,80,0.3); border-radius: 20px; font-size: 0.8rem; color: var(--brand-alt); font-weight: 500; }
+    
 
-    .player-card { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem; }
-    .player-inner { background: var(--card); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #1a3020; }
-    .player-inner h2 { font-size: 1rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
-    #latest-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem; }
-    audio { width: 100%; border-radius: 8px; }
 
-    .episodes-section { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
-    .episodes-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
-    .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
-    .episode-card { background: var(--card); border-radius: var(--radius); padding: 1.25rem; border: 1px solid #1a3020; transition: border-color 0.2s; }
-    .episode-card:hover { border-color: var(--brand-alt); }
-    .episode-card .ep-date { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem; }
-    .episode-card .ep-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.75rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .episode-card audio { width: 100%; }
 
-    .about-section { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
-    .about-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
-    .about-section p { color: var(--text-muted); margin-bottom: 0.75rem; }
-
-    /* Episode summary styles */
-    .ep-summary { color: var(--text-muted); font-size: 0.85rem; margin: 0.75rem 0; line-height: 1.7; }
-    .ep-summary-preview { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-    .ep-summary.expanded .ep-summary-preview { display: block; -webkit-line-clamp: unset; }
-    .ep-summary-full { display: none; max-height: 500px; overflow-y: auto; padding-right: 0.5rem; }
-    .ep-summary.expanded .ep-summary-full { display: block; }
-    .ep-summary-toggle { display: inline-block; margin-top: 0.5rem; color: var(--brand-alt); font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none; background: none; padding: 0; }
-    .ep-summary-toggle:hover { text-decoration: underline; }
-
-    /* Network cross-promotion section */
-    .network-section { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 3rem; }
-    .network-section h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem; }
-    .network-section .network-subtitle { color: var(--text-muted); margin-bottom: 2rem; font-size: 1rem; }
-    .network-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
-    .network-card { display: flex; flex-direction: column; background: var(--card); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #1a3020; transition: border-color 0.2s, transform 0.2s; cursor: pointer; }
-    .network-card:hover { border-color: var(--brand-alt); transform: translateY(-2px); }
-    .network-card.current { border-color: var(--brand-alt); background: rgba(76,175,80,0.05); }
-    .network-card-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
-    .network-card-emoji { font-size: 2rem; line-height: 1; }
-    .network-card-name { font-weight: 800; font-size: 1.1rem; color: var(--text); }
-    .network-card-tagline { color: var(--brand-alt); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; font-style: italic; }
-    .network-card-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem; flex-grow: 1; }
-    .network-card-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-    .network-card-links a { font-size: 0.8rem; font-weight: 600; color: var(--brand-alt); padding: 0.3rem 0.7rem; border: 1px solid rgba(76,175,80,0.3); border-radius: 6px; transition: background 0.2s; }
-    .network-card-links a:hover { background: rgba(76,175,80,0.15); text-decoration: none; }
-    .network-card-badge { display: inline-block; font-size: 0.7rem; background: var(--brand); color: #fff; padding: 2px 8px; border-radius: 10px; margin-left: 0.5em; vertical-align: middle; }
-    .network-see-all { text-align: center; margin-top: 2rem; }
-    .network-see-all a { display: inline-block; padding: 0.7rem 2rem; background: var(--brand); color: var(--text); border-radius: 8px; font-weight: 700; font-size: 0.95rem; transition: background 0.2s; }
-    .network-see-all a:hover { background: var(--brand-dark); text-decoration: none; }
-
-    footer { border-top: 1px solid #1a3020; padding: 2rem 1.5rem; text-align: center; }
-    .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
-    .footer-links a { color: var(--text-muted); font-size: 0.85rem; }
-    .footer-links a:hover { color: var(--text); }
-    footer p { color: #1a3020; font-size: 0.8rem; }
-
-    @media (max-width: 768px) {
-      .menu-toggle { display: block; }
-      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(10,26,14,0.98); flex-direction: column; padding: 1rem 1.5rem; gap: 1rem; border-bottom: 1px solid #1a3020; }
-      .nav-links.open { display: flex; }
-      .hero { padding: 3rem 1.5rem 2rem; }
-      .episodes-grid { grid-template-columns: 1fr; }
-      .network-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+    
+    <style>:root { --show-color: #1B5E20; --show-color-dark: #0D3B0F; }</style>
+    
 </head>
 <body>
-  <header>
-    <nav>
-      <a class="logo" href="env-intel.html"><span>Environmental</span> Intelligence</a>
-      <button class="menu-toggle" aria-label="Menu">&#9776;</button>
-      <div class="nav-links">
-        <a href="#episodes">Episodes</a>
-        <a href="env-intel-summaries.html">Summaries</a>
-        <a href="#about">About</a>
-        <a href="env_intel_podcast.rss">RSS</a>
-      </div>
+    <!-- Navigation -->
+    <nav class="nn-nav">
+        <div class="nn-nav-inner">
+            <a href="network.html" class="nn-nav-logo">
+                <span class="gradient-text">Nerra</span> Network
+            </a>
+
+            <ul class="nn-nav-links">
+                <li class="nn-nav-dropdown">
+                    <button class="nn-nav-dropdown-btn">
+                        Shows
+                        <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="nn-nav-dropdown-menu">
+                        
+                        <a href="index.html">
+                            <img src="podcast-image.jpg" alt="" loading="lazy">
+                            Tesla Shorts Time
+                        </a>
+                        
+                        <a href="omni-view.html">
+                            <img src="omni-view-podcast-image.jpg" alt="" loading="lazy">
+                            Omni View
+                        </a>
+                        
+                        <a href="fascinating_frontiers.html">
+                            <img src="Fascinating Frontiers-3000x3000.jpg" alt="" loading="lazy">
+                            Fascinating Frontiers
+                        </a>
+                        
+                        <a href="planetterrian.html">
+                            <img src="planetterrian-podcast-image.jpg" alt="" loading="lazy">
+                            Planetterrian Daily
+                        </a>
+                        
+                        <a href="env-intel.html">
+                            <img src="env-intel-podcast-image.jpg" alt="" loading="lazy">
+                            Environmental Intelligence
+                        </a>
+                        
+                        <a href="models-agents.html">
+                            <img src="models-agents-podcast-image.jpg" alt="" loading="lazy">
+                            Models & Agents
+                        </a>
+                        
+                    </div>
+                </li>
+                
+<li><a href="env-intel-summaries.html">Summaries</a></li>
+<li><a href="env_intel_podcast.rss">RSS</a></li>
+<li><a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a></li>
+
+                <li><a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank" rel="noopener">GitHub</a></li>
+            </ul>
+
+            <button class="nn-hamburger" aria-label="Toggle menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">&#9776;</button>
+        </div>
     </nav>
-  </header>
 
-  <main>
-    <section class="hero">
-      <h1><span>Environmental</span> Intelligence</h1>
-      <p class="tagline">Daily environmental regulatory and compliance briefing.</p>
-      <div class="leaf-accent"></div>
-      <p class="subtitle">Environmental regulatory, science, and compliance briefing for BC professionals. Stay informed on the policies and science shaping our environment.</p>
-      <div class="cta">
-        <a href="#episodes" class="btn btn-primary">Listen Now</a>
-        <a href="env_intel_podcast.rss" class="btn">Subscribe via RSS</a>
-      </div>
-      <div class="pro-badge">Designed for environmental professionals</div>
-    </section>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="nn-mobile-menu">
+        
+<a href="env-intel.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+<a href="env-intel-summaries.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Summaries</a>
+<a href="#episodes" onclick="document.getElementById('mobileMenu').classList.remove('open')">Episodes</a>
+<a href="#about" onclick="document.getElementById('mobileMenu').classList.remove('open')">About</a>
 
-    <section class="player-card" id="latest-player">
-      <div class="player-inner">
-        <h2>Latest Episode</h2>
-        <p id="latest-title">Loading...</p>
-        <audio id="latest-audio" controls preload="none"></audio>
-      </div>
-    </section>
-
-    <section id="episodes" class="episodes-section">
-      <h2>Recent Episodes</h2>
-      <div id="episodes-grid" class="episodes-grid"></div>
-    </section>
-
-    <section id="about" class="about-section">
-      <h2>About Environmental Intelligence</h2>
-      <p>Environmental Intelligence delivers a daily briefing on environmental regulation, compliance requirements, and environmental science relevant to British Columbia professionals.</p>
-      <p>Hosted by Patrick in Vancouver, each episode distills the latest regulatory updates, scientific findings, and policy developments into a concise, actionable briefing for consultants, regulators, and environmental practitioners.</p>
-    </section>
-
-    <section class="network-section" id="network">
-      <h2>Explore the Nerra Network</h2>
-      <p class="network-subtitle">Six daily shows keeping you informed about exciting changes in the world.</p>
-      <div class="network-grid">
-
-        <div class="network-card" data-href="index.html">
-          <div class="network-card-header">
-            <span class="network-card-emoji">&#9889;</span>
-            <span class="network-card-name">Tesla Shorts Time</span>
-          </div>
-          <div class="network-card-tagline">Shorting Tesla? Time's Up.</div>
-          <div class="network-card-desc">Daily Tesla news, mission updates, and sustainable energy progress.</div>
-          <div class="network-card-links">
-            <a href="index.html">Listen</a>
-            <a href="podcast.rss">RSS</a>
-            <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">Follow on X</a>
-          </div>
+        <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank" rel="noopener" onclick="document.getElementById('mobileMenu').classList.remove('open')">GitHub</a>
+        <div class="nn-mobile-shows">
+            <div class="nn-mobile-shows-title">All Shows</div>
+            
+            <a href="index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="podcast-image.jpg" alt="" loading="lazy">
+                Tesla Shorts Time
+            </a>
+            
+            <a href="omni-view.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="omni-view-podcast-image.jpg" alt="" loading="lazy">
+                Omni View
+            </a>
+            
+            <a href="fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="Fascinating Frontiers-3000x3000.jpg" alt="" loading="lazy">
+                Fascinating Frontiers
+            </a>
+            
+            <a href="planetterrian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="planetterrian-podcast-image.jpg" alt="" loading="lazy">
+                Planetterrian Daily
+            </a>
+            
+            <a href="env-intel.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="env-intel-podcast-image.jpg" alt="" loading="lazy">
+                Environmental Intelligence
+            </a>
+            
+            <a href="models-agents.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="models-agents-podcast-image.jpg" alt="" loading="lazy">
+                Models & Agents
+            </a>
+            
         </div>
-
-        <div class="network-card" data-href="omni-view.html">
-          <div class="network-card-header">
-            <span class="network-card-emoji">&#128065;</span>
-            <span class="network-card-name">Omni View</span>
-          </div>
-          <div class="network-card-tagline">See every side. Decide for yourself.</div>
-          <div class="network-card-desc">Balanced daily news briefing for media literacy.</div>
-          <div class="network-card-links">
-            <a href="omni-view.html">Listen</a>
-            <a href="omni_view_podcast.rss">RSS</a>
-            <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">Follow on X</a>
-          </div>
-        </div>
-
-        <div class="network-card" data-href="fascinating_frontiers.html">
-          <div class="network-card-header">
-            <span class="network-card-emoji">&#128640;</span>
-            <span class="network-card-name">Fascinating Frontiers</span>
-          </div>
-          <div class="network-card-tagline">Journey to the stars.</div>
-          <div class="network-card-desc">Daily space, astronomy, and cosmic discovery news.</div>
-          <div class="network-card-links">
-            <a href="fascinating_frontiers.html">Listen</a>
-            <a href="fascinating_frontiers_podcast.rss">RSS</a>
-            <a href="https://x.com/planetterrian" target="_blank" rel="noopener">Follow on X</a>
-          </div>
-        </div>
-
-        <div class="network-card" data-href="planetterrian.html">
-          <div class="network-card-header">
-            <span class="network-card-emoji">&#127758;</span>
-            <span class="network-card-name">Planetterrian Daily</span>
-          </div>
-          <div class="network-card-tagline">Science, longevity, human health.</div>
-          <div class="network-card-desc">Science, longevity, genetics, and health research.</div>
-          <div class="network-card-links">
-            <a href="planetterrian.html">Listen</a>
-            <a href="planetterrian_podcast.rss">RSS</a>
-            <a href="https://x.com/planetterrian" target="_blank" rel="noopener">Follow on X</a>
-          </div>
-        </div>
-
-        <div class="network-card current">
-          <div class="network-card-header">
-            <span class="network-card-emoji">&#127793;</span>
-            <span class="network-card-name">Environmental Intelligence</span>
-            <span class="network-card-badge">You are here</span>
-          </div>
-          <div class="network-card-tagline">Daily environmental briefing.</div>
-          <div class="network-card-desc">Environmental regulatory and compliance briefing.</div>
-          <div class="network-card-links">
-            <a href="env-intel.html">Listen</a>
-            <a href="env_intel_podcast.rss">RSS</a>
-          </div>
-        </div>
-
-        <div class="network-card" data-href="models-agents.html">
-          <div class="network-card-header">
-            <span class="network-card-emoji">&#129302;</span>
-            <span class="network-card-name">Models &amp; Agents</span>
-          </div>
-          <div class="network-card-tagline">Not the ones you're thinking about!</div>
-          <div class="network-card-desc">Daily AI models and agent developments briefing.</div>
-          <div class="network-card-links">
-            <a href="models-agents.html">Listen</a>
-            <a href="models_agents_podcast.rss">RSS</a>
-          </div>
-        </div>
-
-      </div>
-      <div class="network-see-all">
-        <a href="network.html">Nerra Network &mdash; All Shows &rarr;</a>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-links">
-      <a href="env_intel_podcast.rss">RSS Feed</a>
-      <a href="env_intel_podcast.rss">Subscribe via RSS</a>
-      <a href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
     </div>
-    <p>&copy; 2026 Nerra Network</p>
-  </footer>
 
-  <script>
-    document.querySelector('.menu-toggle').addEventListener('click', () => {
-      document.querySelector('.nav-links').classList.toggle('open');
-    });
-
-    async function loadEpisodes() {
-      try {
-        const resp = await fetch('digests/env_intel/summaries_env_intel.json');
-        if (!resp.ok) throw new Error('JSON not found');
-        const data = await resp.json();
-        renderFromJSON(data.summaries || data);
-      } catch {
-        loadFromRSS();
-      }
-    }
-
-    function renderFromJSON(episodes) {
-      if (!episodes || !episodes.length) { showNoEpisodes(); return; }
-      const latest = episodes[0];
-      document.getElementById('latest-title').textContent = latest.episode_title || 'Latest Episode';
-      document.getElementById('latest-audio').src = latest.audio_url || '';
-
-      const grid = document.getElementById('episodes-grid');
-      grid.innerHTML = '';
-      episodes.slice(0, 12).forEach((ep, idx) => {
-        const card = document.createElement('div');
-        card.className = 'episode-card';
-
-        let summaryHtml = '';
-        if (ep.content) {
-          const preview = ep.content.substring(0, 200).replace(/\s+\S*$/, '') + (ep.content.length > 200 ? '...' : '');
-          const fullHtml = renderMarkdown(ep.content);
-          summaryHtml = `
-            <div class="ep-summary" id="summary-${idx}">
-              <div class="ep-summary-preview">${escapeHtml(preview)}</div>
-              <div class="ep-summary-full">${fullHtml}</div>
-              <button class="ep-summary-toggle" onclick="toggleSummary(${idx})">Read full summary</button>
+    
+    <!-- Hero -->
+    <section class="show-hero">
+        <div class="show-hero-bg"></div>
+        <div class="show-hero-inner">
+            <img src="env-intel-podcast-image.jpg" alt="Environmental Intelligence" class="show-hero-art"
+                 onerror="this.style.display='none'">
+            <div class="show-hero-info">
+                <h1>Environmental Intelligence</h1>
+                <p class="show-hero-tagline">Daily environmental regulatory and compliance briefing.</p>
+                <p class="show-hero-desc">Environmental regulatory, science, and compliance briefing for BC professionals. Covers contaminated sites, CEPA, emissions, carbon policy, PFAS, and remediation developments.</p>
+                <div class="show-hero-actions">
+                    <a href="#episodes" class="nn-btn nn-btn-primary">Listen Now</a>
+                    
+                    <a href="env_intel_podcast.rss" class="nn-btn">RSS Feed</a>
+                    
+                    <a href="https://x.com/teslashortstime" class="nn-btn" target="_blank" rel="noopener">@teslashortstime</a>
+                    
+                </div>
+                
             </div>
-          `;
+        </div>
+    </section>
+
+    <!-- Latest Episode -->
+    <section class="nn-section" style="padding-top: var(--sp-8);">
+        <div class="container">
+            <div class="latest-episode glass-card" id="latest-player">
+                <div class="latest-episode-label">Latest Episode</div>
+                <div class="latest-episode-title" id="latest-title">Loading...</div>
+                <div class="latest-episode-date" id="latest-date"></div>
+                <audio id="latest-audio" controls preload="none" style="width:100%;height:42px;border-radius:8px;"></audio>
+                <div id="latest-summary" style="margin-top:var(--sp-4);color:var(--nn-text-muted);font-size:0.92rem;display:none;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Episode Archive -->
+    <section id="episodes" class="nn-section" style="padding-top: 0;">
+        <div class="container">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Recent Episodes</h2>
+            </div>
+            <div id="episodes-grid" class="episodes-grid"></div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="nn-section" style="border-top:1px solid var(--nn-border);">
+        <div class="container">
+            <div class="nn-section-header">
+                <h2>About Environmental Intelligence</h2>
+            </div>
+            <div class="about-section-text">
+                <p>Environmental regulatory, science, and compliance briefing for BC professionals. Covers contaminated sites, CEPA, emissions, carbon policy, PFAS, and remediation developments.</p>
+                
+                <p>Hosted by Patrick in Vancouver.</p>
+                
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- More from Nerra Network -->
+    <section class="cross-network nn-section">
+        <div class="container">
+            <div class="nn-section-header">
+                <h2>More from Nerra Network</h2>
+                <p>Six daily shows keeping you informed.</p>
+            </div>
+            <div class="cross-network-grid">
+                
+                
+                <a href="index.html" class="cross-network-card">
+                    <img src="podcast-image.jpg" alt="Tesla Shorts Time" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Tesla Shorts Time</div>
+                        <div class="cross-network-card-tagline">Shorting Tesla? Time's Up.</div>
+                    </div>
+                </a>
+                
+                
+                
+                <a href="omni-view.html" class="cross-network-card">
+                    <img src="omni-view-podcast-image.jpg" alt="Omni View" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Omni View</div>
+                        <div class="cross-network-card-tagline">See every side. Decide for yourself.</div>
+                    </div>
+                </a>
+                
+                
+                
+                <a href="fascinating_frontiers.html" class="cross-network-card">
+                    <img src="Fascinating Frontiers-3000x3000.jpg" alt="Fascinating Frontiers" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Fascinating Frontiers</div>
+                        <div class="cross-network-card-tagline">Journey to the stars with today's discoveries.</div>
+                    </div>
+                </a>
+                
+                
+                
+                <a href="planetterrian.html" class="cross-network-card">
+                    <img src="planetterrian-podcast-image.jpg" alt="Planetterrian Daily" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Planetterrian Daily</div>
+                        <div class="cross-network-card-tagline">Science, longevity, and the frontier of human health.</div>
+                    </div>
+                </a>
+                
+                
+                
+                
+                
+                <a href="models-agents.html" class="cross-network-card">
+                    <img src="models-agents-podcast-image.jpg" alt="Models & Agents" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Models & Agents</div>
+                        <div class="cross-network-card-tagline">Not the ones you're thinking about!</div>
+                    </div>
+                </a>
+                
+                
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="nn-footer">
+        <div class="container">
+            <div class="nn-footer-grid">
+                <div>
+                    <div class="nn-footer-brand"><span class="gradient-text">Nerra</span> Network</div>
+                    <p class="nn-footer-desc">Six daily shows. Zero fluff. Independent podcast network produced in Vancouver, Canada.</p>
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Shows</h4>
+                    
+                    <a href="index.html">Tesla Shorts Time</a>
+                    
+                    <a href="omni-view.html">Omni View</a>
+                    
+                    <a href="fascinating_frontiers.html">Fascinating Frontiers</a>
+                    
+                    <a href="planetterrian.html">Planetterrian Daily</a>
+                    
+                    <a href="env-intel.html">Environmental Intelligence</a>
+                    
+                    <a href="models-agents.html">Models & Agents</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Listen</h4>
+                    <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
+                    <a href="network.rss">Network RSS</a>
+                    
+                    <a href="podcast.rss">Tesla Shorts Time RSS</a>
+                    
+                    <a href="omni_view_podcast.rss">Omni View RSS</a>
+                    
+                    <a href="fascinating_frontiers_podcast.rss">Fascinating Frontiers RSS</a>
+                    
+                    <a href="planetterrian_podcast.rss">Planetterrian Daily RSS</a>
+                    
+                    <a href="env_intel_podcast.rss">Environmental Intelligence RSS</a>
+                    
+                    <a href="models_agents_podcast.rss">Models & Agents RSS</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Connect</h4>
+                    <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
+                    <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
+                    <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
+                    <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank" rel="noopener">GitHub</a>
+                </div>
+            </div>
+            <div class="nn-footer-bottom">
+                <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
+                <a href="network.html">nerranetwork.com</a>
+            </div>
+        </div>
+    </footer>
+
+    
+    
+    <script>
+        const JSON_URL = 'digests/env_intel/summaries_env_intel.json';
+        const JSON_FORMAT = 'array';
+        const RSS_URL = 'env_intel_podcast.rss';
+        const SHOW_NAME = "Environmental Intelligence";
+
+        // --- Helpers ---
+        function formatDate(d) {
+            try {
+                const date = new Date(d);
+                return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+            } catch { return d; }
+        }
+        function escapeHtml(s) {
+            const el = document.createElement('span');
+            el.textContent = s;
+            return el.innerHTML;
+        }
+        function getPreviewText(content) {
+            if (!content) return '';
+            let plain = content
+                .replace(/^###\s+/gm, '')
+                .replace(/\*\*(.+?)\*\*/g, '$1')
+                .replace(/https?:\/\/[^\s]+/g, '')
+                .replace(/[━─]+/g, '')
+                .replace(/[\n\r]+/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+            return plain.length > 200 ? plain.substring(0, 200) + '...' : plain;
         }
 
-        card.innerHTML = `
-          <div class="ep-date">${formatDate(ep.date)}</div>
-          <div class="ep-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
-          ${summaryHtml}
-          <audio controls preload="none" src="${ep.audio_url || ''}"></audio>
-        `;
-        grid.appendChild(card);
-      });
-    }
+        // --- Load episodes ---
+        async function loadEpisodes() {
+            try {
+                const resp = await fetch(JSON_URL);
+                if (!resp.ok) throw new Error('JSON not found');
+                const data = await resp.json();
+                const episodes = (JSON_FORMAT === 'array') ? (Array.isArray(data) ? data : []) : (data.summaries || data);
+                renderEpisodes(episodes);
+            } catch {
+                loadFromRSS();
+            }
+        }
 
-    function toggleSummary(idx) {
-      const summary = document.getElementById('summary-' + idx);
-      if (!summary) return;
-      const isExpanded = summary.classList.toggle('expanded');
-      const btn = summary.querySelector('.ep-summary-toggle');
-      if (btn) btn.textContent = isExpanded ? 'Collapse summary' : 'Read full summary';
-    }
+        function renderEpisodes(episodes) {
+            if (!episodes || !episodes.length) { showNoEpisodes(); return; }
+            episodes.sort((a, b) => new Date(b.date) - new Date(a.date));
+            const latest = episodes[0];
+            document.getElementById('latest-title').textContent = latest.episode_title || 'Latest Episode';
+            document.getElementById('latest-date').textContent = formatDate(latest.date);
+            document.getElementById('latest-audio').src = latest.audio_url || '';
 
-    function renderMarkdown(text) {
-      let html = escapeHtml(text);
-      // ### headings to <h4>
-      html = html.replace(/^### (.+)$/gm, '<h4 style="color:var(--text);font-size:0.95rem;margin:0.75rem 0 0.25rem;">$1</h4>');
-      // **bold** to <strong>
-      html = html.replace(/\*\*(.+?)\*\*/g, '<strong style="color:var(--text);">$1</strong>');
-      // URLs to clickable links
-      html = html.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-      // Newlines to <br>
-      html = html.replace(/\n/g, '<br>');
-      return html;
-    }
+            if (latest.content) {
+                const summaryEl = document.getElementById('latest-summary');
+                summaryEl.textContent = getPreviewText(latest.content);
+                summaryEl.style.display = 'block';
+            }
 
-    function loadFromRSS() {
-      fetch('env_intel_podcast.rss')
-        .then(r => r.text())
-        .then(xml => {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(xml, 'text/xml');
-          const items = doc.querySelectorAll('item');
-          if (!items.length) return;
+            const grid = document.getElementById('episodes-grid');
+            grid.innerHTML = '';
+            episodes.slice(1, 13).forEach(ep => {
+                const card = document.createElement('div');
+                card.className = 'episode-card glass-card';
+                card.innerHTML = `
+                    <div class="episode-card-date">${formatDate(ep.date)}</div>
+                    <div class="episode-card-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
+                    <div style="color:var(--nn-text-muted);font-size:0.85rem;margin-bottom:var(--sp-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHtml(getPreviewText(ep.content))}</div>
+                    <audio controls preload="none" src="${ep.audio_url || ''}" style="width:100%;height:36px;border-radius:8px;"></audio>
+                `;
+                grid.appendChild(card);
+            });
+        }
 
-          const first = items[0];
-          document.getElementById('latest-title').textContent = first.querySelector('title')?.textContent || 'Latest Episode';
-          const enc = first.querySelector('enclosure');
-          if (enc) document.getElementById('latest-audio').src = enc.getAttribute('url') || '';
+        function loadFromRSS() {
+            fetch(RSS_URL)
+                .then(r => r.text())
+                .then(xml => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(xml, 'text/xml');
+                    const items = doc.querySelectorAll('item');
+                    if (!items.length) { showNoEpisodes(); return; }
 
-          const grid = document.getElementById('episodes-grid');
-          grid.innerHTML = '';
-          Array.from(items).slice(0, 12).forEach(item => {
-            const title = item.querySelector('title')?.textContent || 'Episode';
-            const pubDate = item.querySelector('pubDate')?.textContent || '';
-            const enclosure = item.querySelector('enclosure');
-            const url = enclosure ? enclosure.getAttribute('url') : '';
-            const card = document.createElement('div');
-            card.className = 'episode-card';
-            card.innerHTML = `
-              <div class="ep-date">${pubDate ? formatDate(pubDate) : ''}</div>
-              <div class="ep-title">${escapeHtml(title)}</div>
-              <audio controls preload="none" src="${url}"></audio>
-            `;
-            grid.appendChild(card);
-          });
-        })
-        .catch(() => { showNoEpisodes(); });
-    }
+                    const first = items[0];
+                    document.getElementById('latest-title').textContent = first.querySelector('title')?.textContent || 'Latest Episode';
+                    const pubDate = first.querySelector('pubDate')?.textContent || '';
+                    document.getElementById('latest-date').textContent = pubDate ? formatDate(pubDate) : '';
+                    const enc = first.querySelector('enclosure');
+                    if (enc) document.getElementById('latest-audio').src = enc.getAttribute('url') || '';
 
-    function showNoEpisodes() {
-      document.getElementById('latest-title').textContent = 'No episodes available yet';
-      document.getElementById('episodes-grid').innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;padding:2rem 0;">Episodes will appear here once available. Check back soon!</p>';
-    }
+                    const grid = document.getElementById('episodes-grid');
+                    grid.innerHTML = '';
+                    Array.from(items).slice(1, 13).forEach(item => {
+                        const title = item.querySelector('title')?.textContent || 'Episode';
+                        const pd = item.querySelector('pubDate')?.textContent || '';
+                        const enclosure = item.querySelector('enclosure');
+                        const url = enclosure ? enclosure.getAttribute('url') : '';
+                        const desc = item.querySelector('description')?.textContent || '';
+                        const card = document.createElement('div');
+                        card.className = 'episode-card glass-card';
+                        card.innerHTML = `
+                            <div class="episode-card-date">${pd ? formatDate(pd) : ''}</div>
+                            <div class="episode-card-title">${escapeHtml(title)}</div>
+                            <div style="color:var(--nn-text-muted);font-size:0.85rem;margin-bottom:var(--sp-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHtml(getPreviewText(desc))}</div>
+                            <audio controls preload="none" src="${url}" style="width:100%;height:36px;border-radius:8px;"></audio>
+                        `;
+                        grid.appendChild(card);
+                    });
+                })
+                .catch(() => { showNoEpisodes(); });
+        }
 
-    function formatDate(d) {
-      try {
-        const date = new Date(d);
-        return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
-      } catch { return d; }
-    }
+        function showNoEpisodes() {
+            document.getElementById('latest-title').textContent = 'No episodes available yet';
+            document.getElementById('episodes-grid').innerHTML = '<p style="color:var(--nn-text-muted);grid-column:1/-1;text-align:center;padding:2rem 0;">Episodes will appear here once available.</p>';
+        }
 
-    function escapeHtml(s) {
-      const el = document.createElement('span');
-      el.textContent = s;
-      return el.innerHTML;
-    }
+        
 
-    // Make network cards clickable
-    document.querySelectorAll('.network-card[data-href]').forEach(card => {
-      card.addEventListener('click', (e) => {
-        if (e.target.closest('a')) return;
-        window.location.href = card.dataset.href;
-      });
-    });
+        loadEpisodes();
+    </script>
 
-    loadEpisodes();
-  </script>
 </body>
 </html>

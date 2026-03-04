@@ -3,738 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Daily Planetterrian Daily summaries - complete archives of science, longevity, and health discoveries.">
-    <meta name="keywords" content="science podcast summaries, longevity research, health discoveries, Planetterrian Daily, biotech news">
+    <meta name="description" content="Planetterrian Daily — Science, longevity, and health discoveries. Genetics, biotech, CRISPR, and more.">
+    <meta name="keywords" content="science podcast, longevity research, health discoveries, Planetterrian Daily, biotech news">
     <title>Planetterrian Daily | Summaries</title>
-    
-    <meta name="theme-color" content="#35B5C4">
-    
+    <meta name="theme-color" content="#018DB1">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Planetterrian Daily | Summaries">
-    <meta property="og:description" content="Daily Planetterrian Daily summaries - complete archives of science, longevity, and health discoveries.">
+    <meta property="og:description" content="Planetterrian Daily — Science, longevity, and health discoveries. Genetics, biotech, CRISPR, and more.">
     <meta property="og:type" content="website">
-    
     <meta property="og:image" content="https://nerranetwork.com/planetterrian-podcast-image.jpg">
-    
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts: DM Sans + Source Serif 4 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
+
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="styles/main.css">
+
     
+
     
-
-    <style>
-        :root {
-            --primary: #35B5C4;
-            --primary-dark: #018DB1;
-            --accent: #F2D20D;
-            --bg: #0a1929;
-            --bg-alt: #1a2332;
-            --card: #1a2332;
-            --text: #ffffff;
-            --text-light: #b0bec5;
-            --border-subtle: rgba(255,255,255,0.18);
-            --header-bg: rgba(10, 25, 41, 0.95);
-            --header-height: 76px;
-            --sticky-height: 74px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Header/Navigation */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: var(--header-bg);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1rem 2rem;
-            border-bottom: 2px solid var(--primary);
-        }
-
-        nav {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-decoration: none;
-            
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        /* Sticky player (under the fixed header) */
-        .sticky-player {
-            position: fixed;
-            top: var(--header-height);
-            left: 0;
-            right: 0;
-            z-index: 999;
-            background: var(--header-bg);
-            border-bottom: 1px solid var(--border-subtle);
-            backdrop-filter: blur(10px);
-        }
-        .sticky-player.hidden { display: none; }
-        .sticky-player-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0.75rem 2rem;
-            display: grid;
-            grid-template-columns: 1fr auto auto auto;
-            gap: 0.75rem;
-            align-items: center;
-        }
-        .sticky-meta { min-width: 0; }
-        .sticky-now {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            color: var(--text);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .sticky-sub {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .sticky-audio { width: min(560px, 100%); height: 38px; }
-
-        /* Speed control */
-        .speed-control {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        .speed-btn {
-            padding: 0.25rem 0.5rem;
-            border-radius: 6px;
-            border: 1px solid var(--border-subtle);
-            background: rgba(255,255,255,0.04);
-            color: var(--text-light);
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .speed-btn:hover, .speed-btn.active {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: rgba(255,255,255,0.08);
-        }
-
-        .sticky-close {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            border: 1px solid var(--border-subtle);
-            background: rgba(255,255,255,0.04);
-            color: var(--text);
-            cursor: pointer;
-            font-size: 1.1rem;
-            line-height: 1;
-        }
-        .sticky-close:hover { border-color: var(--primary); }
-
-        /* Hero Section */
-        .hero {
-            min-height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: calc(8rem + var(--sticky-height)) 2rem 4rem;
-            background: linear-gradient(135deg, var(--bg) 0%, #1a2332 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        
-        .hero::before {
-            content: '';position: absolute; top: 0; left: 0; right: 0; bottom: 0;background: radial-gradient(circle at 30% 20%, rgba(1, 141, 177, 0.12) 0%, transparent 55%),            radial-gradient(circle at 70% 80%, rgba(242, 210, 13, 0.10) 0%, transparent 55%);pointer-events: none;
-        }
-        
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-        }
-
-        .hero h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 900;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero .tagline {
-            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-            font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 2rem;
-        }
-
-        .hero .subtitle {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            margin-bottom: 3rem;
-        }
-
-        /* Search & Filter Controls */
-        .controls {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        .search-box {
-            flex: 1;
-            min-width: 220px;
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-subtle);
-            background: var(--card);
-            color: var(--text);
-            font-size: 0.95rem;
-            font-family: inherit;
-        }
-        .search-box::placeholder { color: var(--text-light); }
-        .search-box:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
-        .filter-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-subtle);
-            background: var(--card);
-            color: var(--text-light);
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .filter-btn:hover, .filter-btn.active {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        .episode-count {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin-left: auto;
-        }
-
-        /* Summary Section */
-        .summaries-section {
-            padding: 4rem 2rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .podcast-summary {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 3rem;
-            border: 2px solid var(--primary);
-        }
-
-        .podcast-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border-subtle);
-        }
-
-        .podcast-logo {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            object-fit: cover;
-        }
-
-        .podcast-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 0;
-        }
-
-        .summary-item {
-            background: var(--bg);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid var(--primary);
-        }
-
-        .summary-date {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 0.5rem;
-        }
-
-        .summary-content {
-            color: var(--text-light);
-            line-height: 1.85;
-            font-size: 1rem;
-        }
-
-        .summary-header {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem 1rem;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 0.75rem;
-        }
-
-        .summary-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .summary-audio {
-            width: min(520px, 100%);
-            height: 38px;
-        }
-
-        .summary-link {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 600;
-            border: 1px solid var(--border-subtle);
-            padding: 0.4rem 0.7rem;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.04);
-            transition: border-color 0.2s;
-        }
-
-        .summary-link:hover {
-            border-color: var(--primary);
-        }
-
-        /* Share button */
-        .share-btn {
-            padding: 0.4rem 0.7rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-subtle);
-            background: rgba(255,255,255,0.04);
-            color: var(--text-light);
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .share-btn:hover { border-color: var(--primary); color: var(--primary); }
-        .share-btn.copied { border-color: var(--primary); color: var(--primary); }
-
-        /* Markdown content styles */
-        .summary-content h1,
-        .summary-content h2,
-        .summary-content h3 {
-            color: var(--text);
-            margin: 1rem 0 0.5rem;
-            font-family: 'Montserrat', sans-serif;
-            letter-spacing: 0.01em;
-        }
-        .summary-content p { margin: 0 0 0.9rem; }
-        .summary-content p:last-child { margin-bottom: 0; }
-        .summary-content ul { margin: 0 0 1rem 1.2rem; }
-        .summary-content li { margin: 0.25rem 0; }
-        .summary-content a { color: var(--accent); }
-        .summary-content a:hover { color: var(--primary); }
-
-        .no-summaries {
-            text-align: center;
-            color: var(--text-light);
-            padding: 3rem;
-            font-style: italic;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--bg);
-            padding: 3rem 2rem;
-            text-align: center;
-            border-top: 2px solid var(--primary);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
-        }
-
-        .footer-links a {
-            color: var(--text);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .footer-text {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        /* Nerra Network cross-links */
-        .network-shows {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-        .network-shows a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 0.85rem;
-            padding: 0.3rem 0.7rem;
-            border-radius: 6px;
-            border: 1px solid var(--border-subtle);
-            transition: all 0.2s;
-        }
-        .network-shows a:hover { border-color: var(--primary); color: var(--primary); }
-        .network-shows a.current { border-color: var(--primary); color: var(--primary); font-weight: 600; }
-
-        /* Mobile Menu Toggle */
-        .menu-toggle {
-            display: none;
-            background: var(--primary);
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--header-bg);
-                flex-direction: column;
-                padding: 1rem;
-                border-top: 2px solid var(--primary);
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links li {
-                width: 100%;
-            }
-
-            .nav-links a {
-                display: block;
-                padding: 0.75rem;
-                border-bottom: 1px solid var(--border-subtle);
-            }
-
-            .hero {
-                padding: 6rem 1rem 2rem;
-            }
-            .sticky-player-inner {
-                padding: 0.6rem 1rem;
-                grid-template-columns: 1fr;
-            }
-            .sticky-audio { width: 100%; }
-            .sticky-close { justify-self: end; }
-            .speed-control { justify-self: start; }
-
-            .summaries-section {
-                padding: 2rem 1rem;
-            }
-
-            .controls {
-                padding: 0 1rem;
-            }
-
-            .podcast-summary {
-                padding: 1.5rem;
-            }
-
-            .podcast-header {
-                flex-direction: column;
-                text-align: center;
-                gap: 0.5rem;
-            }
-
-            .podcast-title {
-                font-size: 1.5rem;
-            }
-        }
-
-        /* Accessibility */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border-width: 0;
-        }
-
-        a:focus, button:focus {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
-        }
-
-        
-    </style>
+    <style>:root { --show-color: #018DB1; --show-color-dark: #35B5C4; }</style>
+    
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <nav>
-            <a href="planetterrian.html" class="logo">
-                
-                <img src="https://nerranetwork.com/PlanetTerrian%20logo%20only%20final.jpg" alt="Planetterrian Logo" style="height:50px;width:auto;border-radius:8px;" onerror="this.style.display='none'"><span style="font-family:Montserrat,sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">PLANETTERRIAN</span>
-                
+    <!-- Navigation -->
+    <nav class="nn-nav">
+        <div class="nn-nav-inner">
+            <a href="network.html" class="nn-nav-logo">
+                <span class="gradient-text">Nerra</span> Network
             </a>
-            <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
-            <ul class="nav-links" id="navLinks">
-                
-                <li><a href="planetterrian.html#episodes">Episodes</a></li>
-                
-                <li><a href="planetterrian.html#about">About</a></li>
-                
-                <li><a href="planetterrian-summaries.html">Summaries</a></li>
-                
-                <li><a href="podcasts/">All Podcasts</a></li>
-                
-                <li><a href="planetterrian.html#subscribe">Subscribe</a></li>
-                
-            </ul>
-        </nav>
-    </header>
 
-    <!-- Sticky player -->
-    <div id="stickyPlayer" class="sticky-player hidden" aria-live="polite">
-        <div class="sticky-player-inner">
-            <div class="sticky-meta">
-                <div id="stickyNow" class="sticky-now">Now playing</div>
-                <div id="stickySub" class="sticky-sub"></div>
-            </div>
-            <audio id="stickyAudio" class="sticky-audio" controls preload="none"></audio>
-            <div class="speed-control">
-                <button class="speed-btn" data-speed="0.75">0.75x</button>
-                <button class="speed-btn active" data-speed="1">1x</button>
-                <button class="speed-btn" data-speed="1.25">1.25x</button>
-                <button class="speed-btn" data-speed="1.5">1.5x</button>
-                <button class="speed-btn" data-speed="2">2x</button>
-            </div>
-            <button id="stickyClose" class="sticky-close" aria-label="Close player">&times;</button>
+            <ul class="nn-nav-links">
+                <li class="nn-nav-dropdown">
+                    <button class="nn-nav-dropdown-btn">
+                        Shows
+                        <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="nn-nav-dropdown-menu">
+                        
+                        <a href="index.html">
+                            <img src="podcast-image.jpg" alt="" loading="lazy">
+                            Tesla Shorts Time
+                        </a>
+                        
+                        <a href="omni-view.html">
+                            <img src="omni-view-podcast-image.jpg" alt="" loading="lazy">
+                            Omni View
+                        </a>
+                        
+                        <a href="fascinating_frontiers.html">
+                            <img src="Fascinating Frontiers-3000x3000.jpg" alt="" loading="lazy">
+                            Fascinating Frontiers
+                        </a>
+                        
+                        <a href="planetterrian.html">
+                            <img src="planetterrian-podcast-image.jpg" alt="" loading="lazy">
+                            Planetterrian Daily
+                        </a>
+                        
+                        <a href="env-intel.html">
+                            <img src="env-intel-podcast-image.jpg" alt="" loading="lazy">
+                            Environmental Intelligence
+                        </a>
+                        
+                        <a href="models-agents.html">
+                            <img src="models-agents-podcast-image.jpg" alt="" loading="lazy">
+                            Models & Agents
+                        </a>
+                        
+                    </div>
+                </li>
+                
+<li><a href="planetterrian.html">Planetterrian Daily</a></li>
+<li><a href="planetterrian-summaries.html">Summaries</a></li>
+<li><a href="planetterrian_podcast.rss">RSS</a></li>
+<li><a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a></li>
+
+                <li><a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank" rel="noopener">GitHub</a></li>
+            </ul>
+
+            <button class="nn-hamburger" aria-label="Toggle menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">&#9776;</button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="nn-mobile-menu">
+        
+<a href="planetterrian.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Planetterrian Daily</a>
+<a href="planetterrian-summaries.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Summaries</a>
+<a href="planetterrian_podcast.rss" onclick="document.getElementById('mobileMenu').classList.remove('open')">RSS</a>
+
+<a href="https://x.com/planetterrian" target="_blank" rel="noopener" onclick="document.getElementById('mobileMenu').classList.remove('open')">@planetterrian</a>
+
+
+        <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank" rel="noopener" onclick="document.getElementById('mobileMenu').classList.remove('open')">GitHub</a>
+        <div class="nn-mobile-shows">
+            <div class="nn-mobile-shows-title">All Shows</div>
+            
+            <a href="index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="podcast-image.jpg" alt="" loading="lazy">
+                Tesla Shorts Time
+            </a>
+            
+            <a href="omni-view.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="omni-view-podcast-image.jpg" alt="" loading="lazy">
+                Omni View
+            </a>
+            
+            <a href="fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="Fascinating Frontiers-3000x3000.jpg" alt="" loading="lazy">
+                Fascinating Frontiers
+            </a>
+            
+            <a href="planetterrian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="planetterrian-podcast-image.jpg" alt="" loading="lazy">
+                Planetterrian Daily
+            </a>
+            
+            <a href="env-intel.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="env-intel-podcast-image.jpg" alt="" loading="lazy">
+                Environmental Intelligence
+            </a>
+            
+            <a href="models-agents.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="models-agents-podcast-image.jpg" alt="" loading="lazy">
+                Models & Agents
+            </a>
+            
         </div>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
+    
+    <!-- Sticky Player -->
+    <div id="stickyPlayer" class="nn-sticky-player hidden" aria-live="polite">
+        <div class="nn-sticky-player-inner">
+            <div class="nn-sticky-meta">
+                <div id="stickyNow" class="nn-sticky-title">Now playing</div>
+                <div id="stickySub" class="nn-sticky-sub"></div>
+            </div>
+            <audio id="stickyAudio" class="nn-sticky-audio" controls preload="none"></audio>
+            <div class="nn-speed-control">
+                <button class="nn-speed-btn" data-speed="0.75">0.75x</button>
+                <button class="nn-speed-btn active" data-speed="1">1x</button>
+                <button class="nn-speed-btn" data-speed="1.25">1.25x</button>
+                <button class="nn-speed-btn" data-speed="1.5">1.5x</button>
+                <button class="nn-speed-btn" data-speed="2">2x</button>
+            </div>
+            <button id="stickyClose" class="nn-sticky-close" aria-label="Close player">&times;</button>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="summaries-hero">
+        <div class="summaries-hero-bg"></div>
+        <div class="summaries-hero-inner container">
             
-            <img src="https://nerranetwork.com/PlanetTerrian%20logo%20only%20final.jpg" alt="Planetterrian Daily Logo" style="max-width:300px;width:100%;height:auto;margin:0 auto 2rem;display:block;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.3));" onerror="this.style.display='none'">
+            <img src="https://nerranetwork.com/planetterrian-podcast-image.jpg" alt="Planetterrian Daily"
+                 style="width:80px;height:80px;border-radius:14px;object-fit:cover;margin:0 auto var(--sp-4);box-shadow:0 8px 30px rgba(0,0,0,0.3);"
+                 onerror="this.style.display='none'">
             
             <h1>Planetterrian Daily</h1>
-            <p class="tagline">Complete Archive of Science & Health Digests</p>
-            <p class="subtitle">Full daily summaries of science, longevity, and health discoveries</p>
+            <p>Complete archive of Planetterrian Daily episode summaries.</p>
         </div>
     </section>
 
     <!-- Search & Filter Controls -->
-    <div class="controls" data-aos="fade-up">
-        <input type="text" class="search-box" id="searchBox" placeholder="Search episodes..." aria-label="Search episodes">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="week">This Week</button>
-        <button class="filter-btn" data-filter="month">This Month</button>
-        <span class="episode-count" id="episodeCount"></span>
+    <div class="nn-controls">
+        <input type="text" class="nn-search" id="searchBox" placeholder="Search episodes..." aria-label="Search episodes">
+        <button class="nn-filter-btn active" data-filter="all">All</button>
+        <button class="nn-filter-btn" data-filter="week">This Week</button>
+        <button class="nn-filter-btn" data-filter="month">This Month</button>
+        <span class="nn-episode-count" id="episodeCount"></span>
     </div>
 
     <!-- Summaries -->
-    <section class="summaries-section">
-        <div class="podcast-summary" data-aos="fade-up">
-            <div class="podcast-header">
-                
-                <img src="https://nerranetwork.com/planetterrian-podcast-image.jpg"
-                     alt="Planetterrian Daily" class="podcast-logo" onerror="this.style.display='none'">
-                
-                <h2 class="podcast-title">Planetterrian Daily Science Summaries</h2>
-            </div>
+    <section style="padding:var(--sp-4) 0 var(--sp-12);">
+        <div class="container">
             <div id="summaries-container">
-                <div class="no-summaries">Loading Planetterrian Daily summaries...</div>
+                <div style="text-align:center;color:var(--nn-text-muted);padding:3rem;font-style:italic;">Loading Planetterrian Daily summaries...</div>
             </div>
         </div>
     </section>
 
+    <!-- More from Nerra Network -->
+    <section class="cross-network nn-section">
+        <div class="container">
+            <div class="nn-section-header">
+                <h2>More from Nerra Network</h2>
+            </div>
+            <div class="cross-network-grid">
+                
+                
+                <a href="tesla-summaries.html" class="cross-network-card">
+                    <img src="podcast-image.jpg" alt="Tesla Shorts Time" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Tesla Shorts Time</div>
+                        <div class="cross-network-card-tagline">Shorting Tesla? Time's Up.</div>
+                    </div>
+                </a>
+                
+                
+                
+                <a href="omni-view-summaries.html" class="cross-network-card">
+                    <img src="omni-view-podcast-image.jpg" alt="Omni View" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Omni View</div>
+                        <div class="cross-network-card-tagline">See every side. Decide for yourself.</div>
+                    </div>
+                </a>
+                
+                
+                
+                <a href="fascinating-frontiers-summaries.html" class="cross-network-card">
+                    <img src="Fascinating Frontiers-3000x3000.jpg" alt="Fascinating Frontiers" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Fascinating Frontiers</div>
+                        <div class="cross-network-card-tagline">Journey to the stars with today's discoveries.</div>
+                    </div>
+                </a>
+                
+                
+                
+                
+                
+                <a href="env-intel-summaries.html" class="cross-network-card">
+                    <img src="env-intel-podcast-image.jpg" alt="Environmental Intelligence" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Environmental Intelligence</div>
+                        <div class="cross-network-card-tagline">Daily environmental regulatory and compliance briefing.</div>
+                    </div>
+                </a>
+                
+                
+                
+                <a href="models-agents-summaries.html" class="cross-network-card">
+                    <img src="models-agents-podcast-image.jpg" alt="Models & Agents" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Models & Agents</div>
+                        <div class="cross-network-card-tagline">Not the ones you're thinking about!</div>
+                    </div>
+                </a>
+                
+                
+            </div>
+        </div>
+    </section>
+
+
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <!-- Nerra Network cross-links -->
-            <div class="network-shows">
-                
-                <a href="tesla-summaries.html">Tesla Shorts Time</a>
-                
-                <a href="omni-view-summaries.html">Omni View</a>
-                
-                <a href="fascinating-frontiers-summaries.html">Fascinating Frontiers</a>
-                
-                <a href="planetterrian-summaries.html" class="current">Planetterrian Daily</a>
-                
-                <a href="env-intel-summaries.html">Environmental Intelligence</a>
-                
-                <a href="models-agents-summaries.html">Models & Agents</a>
-                
-                <a href="network.html">Nerra Network</a>
+    <footer class="nn-footer">
+        <div class="container">
+            <div class="nn-footer-grid">
+                <div>
+                    <div class="nn-footer-brand"><span class="gradient-text">Nerra</span> Network</div>
+                    <p class="nn-footer-desc">Six daily shows. Zero fluff. Independent podcast network produced in Vancouver, Canada.</p>
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Shows</h4>
+                    
+                    <a href="index.html">Tesla Shorts Time</a>
+                    
+                    <a href="omni-view.html">Omni View</a>
+                    
+                    <a href="fascinating_frontiers.html">Fascinating Frontiers</a>
+                    
+                    <a href="planetterrian.html">Planetterrian Daily</a>
+                    
+                    <a href="env-intel.html">Environmental Intelligence</a>
+                    
+                    <a href="models-agents.html">Models & Agents</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Listen</h4>
+                    <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
+                    <a href="network.rss">Network RSS</a>
+                    
+                    <a href="podcast.rss">Tesla Shorts Time RSS</a>
+                    
+                    <a href="omni_view_podcast.rss">Omni View RSS</a>
+                    
+                    <a href="fascinating_frontiers_podcast.rss">Fascinating Frontiers RSS</a>
+                    
+                    <a href="planetterrian_podcast.rss">Planetterrian Daily RSS</a>
+                    
+                    <a href="env_intel_podcast.rss">Environmental Intelligence RSS</a>
+                    
+                    <a href="models_agents_podcast.rss">Models & Agents RSS</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Connect</h4>
+                    <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
+                    <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
+                    <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
+                    <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank" rel="noopener">GitHub</a>
+                </div>
             </div>
-            <div class="footer-links">
-                
-                <a href="planetterrian.html#episodes">🎧 Episodes</a>
-                
-                <a href="https://nerranetwork.com/planetterrian_podcast.rss" target="_blank">📡 RSS Feed</a>
-                
-                <a href="https://x.com/planetterrian" target="_blank">🐦 X / Twitter</a>
-                
-                <a href="https://github.com/patricknovak/Tesla-shorts-time/tree/main/digests/planetterrian" target="_blank">📚 Archive</a>
-                
-                <a href="podcasts/">🌐 All Podcasts</a>
-                
-                <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank">💻 Source</a>
-                
+            <div class="nn-footer-bottom">
+                <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
+                <a href="network.html">nerranetwork.com</a>
             </div>
-            <p class="footer-text">Planetterrian Daily © 2025 | A tribe of forward-thinking innovators</p>
-            
-            <p class="footer-text">🌍 Intertwining technology and compassion for the planet 🌍</p>
-            
         </div>
     </footer>
 
-    <!-- AOS Animation Library -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <script>
         const JSON_URL = 'digests/planetterrian/summaries_planet.json';
         const JSON_FORMAT = 'wrapped';
         const SHOW_NAME = "Planetterrian Daily";
 
         document.addEventListener('DOMContentLoaded', function() {
-            if (typeof AOS !== 'undefined') {
-                AOS.init({ duration: 800, easing: 'ease-in-out', once: true, offset: 100 });
-            }
-
-            // Mobile menu toggle
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navLinks = document.getElementById('navLinks');
-            if (menuToggle && navLinks) {
-                menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
-                navLinks.querySelectorAll('a').forEach(link =>
-                    link.addEventListener('click', () => navLinks.classList.remove('active'))
-                );
-            }
-
             // Speed controls
-            document.querySelectorAll('.speed-btn').forEach(btn => {
+            document.querySelectorAll('.nn-speed-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const speed = parseFloat(btn.dataset.speed);
                     const audio = document.getElementById('stickyAudio');
                     if (audio) audio.playbackRate = speed;
-                    document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.nn-speed-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                 });
             });
 
             // Search & filter
             const searchBox = document.getElementById('searchBox');
-            const filterBtns = document.querySelectorAll('.filter-btn');
+            const filterBtns = document.querySelectorAll('.nn-filter-btn');
             let currentFilter = 'all';
 
             searchBox.addEventListener('input', applyFilters);
@@ -749,7 +348,7 @@
 
             function applyFilters() {
                 const query = (searchBox.value || '').toLowerCase();
-                const items = document.querySelectorAll('.summary-item');
+                const items = document.querySelectorAll('.nn-summary-item');
                 const now = new Date();
                 let visible = 0;
 
@@ -794,12 +393,11 @@
                 const data = await response.json();
                 const container = document.getElementById('summaries-container');
 
-                // Handle both {summaries: [...]} and [...] formats
                 const summaries = (JSON_FORMAT === 'array') ? (Array.isArray(data) ? data : [])
                     : (data.summaries || []);
 
                 if (!summaries.length) {
-                    container.innerHTML = '<div class="no-summaries">No summaries available yet. Check back after the next daily update!</div>';
+                    container.innerHTML = '<div style="text-align:center;color:var(--nn-text-muted);padding:3rem;font-style:italic;">No summaries available yet. Check back after the next daily update!</div>';
                     return;
                 }
 
@@ -812,25 +410,25 @@
                     const date = s.date || '';
 
                     const audioHtml = audioUrl ? `
-                        <div class="summary-actions">
-                            <audio class="summary-audio" controls preload="none" src="${escapeAttr(audioUrl)}"></audio>
-                            <a class="summary-link" href="${escapeAttr(audioUrl)}" target="_blank" rel="noopener">Download</a>
-                            <button class="share-btn" data-url="${escapeAttr(audioUrl)}" title="Copy link">Share</button>
+                        <div class="nn-summary-actions">
+                            <audio class="nn-summary-audio" controls preload="none" src="${escapeAttr(audioUrl)}"></audio>
+                            <a class="nn-summary-link" href="${escapeAttr(audioUrl)}" target="_blank" rel="noopener">Download</a>
+                            <button class="nn-summary-link" data-share-url="${escapeAttr(audioUrl)}" title="Copy link">Share</button>
                         </div>
                     ` : '';
 
-                    const titleHtml = title ? `<div style="font-weight:600;color:var(--primary);font-size:0.9rem;">${escapeHtml(title)}</div>` : '';
+                    const titleHtml = title ? `<div style="font-weight:600;color:var(--show-color);font-family:var(--font-ui);font-size:0.88rem;">${escapeHtml(title)}</div>` : '';
 
                     return `
-                        <div class="summary-item" data-date="${escapeAttr(date)}">
-                            <div class="summary-header">
+                        <div class="nn-summary-item" data-date="${escapeAttr(date)}">
+                            <div class="nn-summary-header">
                                 <div>
-                                    <div class="summary-date">${formatDate(date)}</div>
+                                    <div class="nn-summary-date">${formatDate(date)}</div>
                                     ${titleHtml}
                                 </div>
                                 ${audioHtml}
                             </div>
-                            <div class="summary-content">${renderMarkdown(content)}</div>
+                            <div class="nn-summary-content">${renderMarkdown(content)}</div>
                         </div>
                     `;
                 }).join('');
@@ -839,14 +437,13 @@
                 initAudioUX(container);
                 initShareButtons(container);
 
-                // Update count
                 const countEl = document.getElementById('episodeCount');
                 if (countEl) countEl.textContent = `${summaries.length} episode${summaries.length !== 1 ? 's' : ''}`;
 
             } catch (error) {
                 console.error('Error loading summaries:', error);
                 document.getElementById('summaries-container').innerHTML =
-                    '<div class="no-summaries">Unable to load summaries. Please check back later.</div>';
+                    '<div style="text-align:center;color:var(--nn-text-muted);padding:3rem;font-style:italic;">Unable to load summaries. Please check back later.</div>';
             }
         }
 
@@ -925,7 +522,7 @@
 
             let activeCardAudio = null;
 
-            const cardAudios = Array.from(container.querySelectorAll('audio.summary-audio'));
+            const cardAudios = Array.from(container.querySelectorAll('audio.nn-summary-audio'));
 
             function pauseAllCardAudios() {
                 for (const a of cardAudios) { try { a.pause(); } catch {} }
@@ -942,10 +539,10 @@
             }
 
             for (const audioEl of cardAudios) {
-                const card = audioEl.closest('.summary-item');
-                const dateText = card?.querySelector('.summary-date')?.textContent?.trim() || '';
+                const card = audioEl.closest('.nn-summary-item');
+                const dateText = card?.querySelector('.nn-summary-date')?.textContent?.trim() || '';
                 const titleGuess =
-                    card?.querySelector('.summary-content h1, .summary-content h2, .summary-content h3')?.textContent?.trim() ||
+                    card?.querySelector('.nn-summary-content h1, .nn-summary-content h2, .nn-summary-content h3')?.textContent?.trim() ||
                     'Episode';
                 const meta = { date: dateText, title: titleGuess };
 
@@ -974,19 +571,14 @@
 
         // Share buttons
         function initShareButtons(container) {
-            container.querySelectorAll('.share-btn').forEach(btn => {
+            container.querySelectorAll('[data-share-url]').forEach(btn => {
                 btn.addEventListener('click', async () => {
-                    const url = btn.dataset.url;
+                    const url = btn.dataset.shareUrl;
                     try {
                         await navigator.clipboard.writeText(url);
                         btn.textContent = 'Copied!';
-                        btn.classList.add('copied');
-                        setTimeout(() => {
-                            btn.textContent = 'Share';
-                            btn.classList.remove('copied');
-                        }, 2000);
+                        setTimeout(() => { btn.textContent = 'Share'; }, 2000);
                     } catch {
-                        // Fallback: select text
                         const input = document.createElement('input');
                         input.value = url;
                         document.body.appendChild(input);
@@ -1000,5 +592,6 @@
             });
         }
     </script>
+
 </body>
 </html>

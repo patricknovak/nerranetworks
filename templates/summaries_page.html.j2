@@ -1,720 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{{ meta_description }}">
-    <meta name="keywords" content="{{ meta_keywords }}">
-    <title>{{ page_title }}</title>
-    {% if theme_color %}
-    <meta name="theme-color" content="{{ theme_color }}">
-    {% endif %}
+{% extends "base.html.j2" %}
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="{{ page_title }}">
-    <meta property="og:description" content="{{ meta_description }}">
-    <meta property="og:type" content="website">
-    {% if og_image %}
-    <meta property="og:image" content="{{ og_image }}">
-    {% endif %}
+{% block nav_links %}
+<li><a href="{{ show_page }}">{{ show_name }}</a></li>
+<li><a href="{{ summaries_page }}">Summaries</a></li>
+<li><a href="{{ rss_file }}">RSS</a></li>
+{% if x_account %}<li><a href="https://x.com/{{ x_account }}" target="_blank" rel="noopener">@{{ x_account }}</a></li>{% endif %}
+{% endblock %}
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?{{ google_fonts_params }}&display=swap" rel="stylesheet">
+{% block mobile_nav_links %}
+<a href="{{ show_page }}" onclick="document.getElementById('mobileMenu').classList.remove('open')">{{ show_name }}</a>
+<a href="{{ summaries_page }}" onclick="document.getElementById('mobileMenu').classList.remove('open')">Summaries</a>
+<a href="{{ rss_file }}" onclick="document.getElementById('mobileMenu').classList.remove('open')">RSS</a>
+{% if x_account %}
+<a href="https://x.com/{{ x_account }}" target="_blank" rel="noopener" onclick="document.getElementById('mobileMenu').classList.remove('open')">@{{ x_account }}</a>
+{% endif %}
+{% endblock %}
 
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <!-- Favicon -->
-    {% if favicon_svg %}
-    <link rel="icon" type="image/svg+xml" href="{{ favicon_svg }}">
-    {% endif %}
-    {% for extra_link in extra_head_links %}
-    <link {{ extra_link }}>
-    {% endfor %}
-
-    <style>
-        :root {
-            --primary: {{ colors.primary }};
-            --primary-dark: {{ colors.primary_dark | default(colors.primary) }};
-            --accent: {{ colors.accent | default(colors.primary) }};
-            --bg: {{ colors.bg }};
-            --bg-alt: {{ colors.bg_alt | default(colors.bg) }};
-            --card: {{ colors.card }};
-            --text: {{ colors.text }};
-            --text-light: {{ colors.text_light }};
-            --border-subtle: {{ colors.border_subtle | default('rgba(255,255,255,0.18)') }};
-            --header-bg: {{ colors.header_bg | default('rgba(0, 0, 0, 0.95)') }};
-            --header-height: 76px;
-            --sticky-height: 74px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: {{ body_font | default("'Inter', -apple-system, BlinkMacSystemFont, sans-serif") }};
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Header/Navigation */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: var(--header-bg);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1rem 2rem;
-            border-bottom: 2px solid var(--primary);
-        }
-
-        nav {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: {{ heading_font | default("'Montserrat', sans-serif") }};
-            font-size: 1.5rem;
-            font-weight: {{ logo_weight | default(800) }};
-            color: var(--primary);
-            text-decoration: none;
-            {% if logo_uppercase | default(false) %}
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            {% endif %}
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        /* Sticky player (under the fixed header) */
-        .sticky-player {
-            position: fixed;
-            top: var(--header-height);
-            left: 0;
-            right: 0;
-            z-index: 999;
-            background: var(--header-bg);
-            border-bottom: 1px solid var(--border-subtle);
-            backdrop-filter: blur(10px);
-        }
-        .sticky-player.hidden { display: none; }
-        .sticky-player-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0.75rem 2rem;
-            display: grid;
-            grid-template-columns: 1fr auto auto auto;
-            gap: 0.75rem;
-            align-items: center;
-        }
-        .sticky-meta { min-width: 0; }
-        .sticky-now {
-            font-family: {{ heading_font | default("'Montserrat', sans-serif") }};
-            font-weight: 700;
-            color: var(--text);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .sticky-sub {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .sticky-audio { width: min(560px, 100%); height: 38px; }
-
-        /* Speed control */
-        .speed-control {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        .speed-btn {
-            padding: 0.25rem 0.5rem;
-            border-radius: 6px;
-            border: 1px solid var(--border-subtle);
-            background: rgba(255,255,255,0.04);
-            color: var(--text-light);
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .speed-btn:hover, .speed-btn.active {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: rgba(255,255,255,0.08);
-        }
-
-        .sticky-close {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            border: 1px solid var(--border-subtle);
-            background: rgba(255,255,255,0.04);
-            color: var(--text);
-            cursor: pointer;
-            font-size: 1.1rem;
-            line-height: 1;
-        }
-        .sticky-close:hover { border-color: var(--primary); }
-
-        /* Hero Section */
-        .hero {
-            min-height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: calc(8rem + var(--sticky-height)) 2rem 4rem;
-            background: {{ hero_bg | default('linear-gradient(135deg, var(--bg) 0%, var(--bg-alt) 100%)') }};
-            position: relative;
-            overflow: hidden;
-        }
-
-        {% if hero_before_css %}
-        .hero::before {
-            {{ hero_before_css }}
-        }
-        {% endif %}
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-        }
-
-        .hero h1 {
-            font-family: {{ heading_font | default("'Montserrat', sans-serif") }};
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 900;
-            margin-bottom: 1rem;
-            background: {{ hero_h1_gradient | default('linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%)') }};
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero .tagline {
-            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-            font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 2rem;
-        }
-
-        .hero .subtitle {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            margin-bottom: 3rem;
-        }
-
-        /* Search & Filter Controls */
-        .controls {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        .search-box {
-            flex: 1;
-            min-width: 220px;
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-subtle);
-            background: var(--card);
-            color: var(--text);
-            font-size: 0.95rem;
-            font-family: inherit;
-        }
-        .search-box::placeholder { color: var(--text-light); }
-        .search-box:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
-        .filter-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-subtle);
-            background: var(--card);
-            color: var(--text-light);
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .filter-btn:hover, .filter-btn.active {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        .episode-count {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin-left: auto;
-        }
-
-        /* Summary Section */
-        .summaries-section {
-            padding: 4rem 2rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .podcast-summary {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 3rem;
-            border: 2px solid var(--primary);
-        }
-
-        .podcast-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border-subtle);
-        }
-
-        .podcast-logo {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            object-fit: cover;
-        }
-
-        .podcast-title {
-            font-family: {{ heading_font | default("'Montserrat', sans-serif") }};
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 0;
-        }
-
-        .summary-item {
-            background: var(--bg);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid var(--primary);
-        }
-
-        .summary-date {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 0.5rem;
-        }
-
-        .summary-content {
-            color: var(--text-light);
-            line-height: 1.85;
-            font-size: 1rem;
-        }
-
-        .summary-header {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem 1rem;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 0.75rem;
-        }
-
-        .summary-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .summary-audio {
-            width: min(520px, 100%);
-            height: 38px;
-        }
-
-        .summary-link {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 600;
-            border: 1px solid var(--border-subtle);
-            padding: 0.4rem 0.7rem;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.04);
-            transition: border-color 0.2s;
-        }
-
-        .summary-link:hover {
-            border-color: var(--primary);
-        }
-
-        /* Share button */
-        .share-btn {
-            padding: 0.4rem 0.7rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-subtle);
-            background: rgba(255,255,255,0.04);
-            color: var(--text-light);
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .share-btn:hover { border-color: var(--primary); color: var(--primary); }
-        .share-btn.copied { border-color: var(--primary); color: var(--primary); }
-
-        /* Markdown content styles */
-        .summary-content h1,
-        .summary-content h2,
-        .summary-content h3 {
-            color: var(--text);
-            margin: 1rem 0 0.5rem;
-            font-family: {{ heading_font | default("'Montserrat', sans-serif") }};
-            letter-spacing: 0.01em;
-        }
-        .summary-content p { margin: 0 0 0.9rem; }
-        .summary-content p:last-child { margin-bottom: 0; }
-        .summary-content ul { margin: 0 0 1rem 1.2rem; }
-        .summary-content li { margin: 0.25rem 0; }
-        .summary-content a { color: var(--accent); }
-        .summary-content a:hover { color: var(--primary); }
-
-        .no-summaries {
-            text-align: center;
-            color: var(--text-light);
-            padding: 3rem;
-            font-style: italic;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--bg);
-            padding: 3rem 2rem;
-            text-align: center;
-            border-top: 2px solid var(--primary);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
-        }
-
-        .footer-links a {
-            color: var(--text);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .footer-text {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        /* Nerra Network cross-links */
-        .network-shows {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-        .network-shows a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 0.85rem;
-            padding: 0.3rem 0.7rem;
-            border-radius: 6px;
-            border: 1px solid var(--border-subtle);
-            transition: all 0.2s;
-        }
-        .network-shows a:hover { border-color: var(--primary); color: var(--primary); }
-        .network-shows a.current { border-color: var(--primary); color: var(--primary); font-weight: 600; }
-
-        /* Mobile Menu Toggle */
-        .menu-toggle {
-            display: none;
-            background: var(--primary);
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--header-bg);
-                flex-direction: column;
-                padding: 1rem;
-                border-top: 2px solid var(--primary);
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links li {
-                width: 100%;
-            }
-
-            .nav-links a {
-                display: block;
-                padding: 0.75rem;
-                border-bottom: 1px solid var(--border-subtle);
-            }
-
-            .hero {
-                padding: 6rem 1rem 2rem;
-            }
-            .sticky-player-inner {
-                padding: 0.6rem 1rem;
-                grid-template-columns: 1fr;
-            }
-            .sticky-audio { width: 100%; }
-            .sticky-close { justify-self: end; }
-            .speed-control { justify-self: start; }
-
-            .summaries-section {
-                padding: 2rem 1rem;
-            }
-
-            .controls {
-                padding: 0 1rem;
-            }
-
-            .podcast-summary {
-                padding: 1.5rem;
-            }
-
-            .podcast-header {
-                flex-direction: column;
-                text-align: center;
-                gap: 0.5rem;
-            }
-
-            .podcast-title {
-                font-size: 1.5rem;
-            }
-        }
-
-        /* Accessibility */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border-width: 0;
-        }
-
-        a:focus, button:focus {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
-        }
-
-        {% if extra_css %}
-        {{ extra_css }}
-        {% endif %}
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <nav>
-            <a href="{{ show_page }}" class="logo">
-                {% if logo_html %}
-                {{ logo_html }}
-                {% else %}
-                {{ logo_emoji | default('') }} {{ show_name }}
-                {% endif %}
-            </a>
-            <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
-            <ul class="nav-links" id="navLinks">
-                {% for link in nav_links %}
-                <li><a href="{{ link.href }}">{{ link.label }}</a></li>
-                {% endfor %}
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Sticky player -->
-    <div id="stickyPlayer" class="sticky-player hidden" aria-live="polite">
-        <div class="sticky-player-inner">
-            <div class="sticky-meta">
-                <div id="stickyNow" class="sticky-now">Now playing</div>
-                <div id="stickySub" class="sticky-sub"></div>
+{% block content %}
+    <!-- Sticky Player -->
+    <div id="stickyPlayer" class="nn-sticky-player hidden" aria-live="polite">
+        <div class="nn-sticky-player-inner">
+            <div class="nn-sticky-meta">
+                <div id="stickyNow" class="nn-sticky-title">Now playing</div>
+                <div id="stickySub" class="nn-sticky-sub"></div>
             </div>
-            <audio id="stickyAudio" class="sticky-audio" controls preload="none"></audio>
-            <div class="speed-control">
-                <button class="speed-btn" data-speed="0.75">0.75x</button>
-                <button class="speed-btn active" data-speed="1">1x</button>
-                <button class="speed-btn" data-speed="1.25">1.25x</button>
-                <button class="speed-btn" data-speed="1.5">1.5x</button>
-                <button class="speed-btn" data-speed="2">2x</button>
+            <audio id="stickyAudio" class="nn-sticky-audio" controls preload="none"></audio>
+            <div class="nn-speed-control">
+                <button class="nn-speed-btn" data-speed="0.75">0.75x</button>
+                <button class="nn-speed-btn active" data-speed="1">1x</button>
+                <button class="nn-speed-btn" data-speed="1.25">1.25x</button>
+                <button class="nn-speed-btn" data-speed="1.5">1.5x</button>
+                <button class="nn-speed-btn" data-speed="2">2x</button>
             </div>
-            <button id="stickyClose" class="sticky-close" aria-label="Close player">&times;</button>
+            <button id="stickyClose" class="nn-sticky-close" aria-label="Close player">&times;</button>
         </div>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            {% if hero_logo_url %}
-            <img src="{{ hero_logo_url }}" alt="{{ show_name }} Logo" style="max-width:300px;width:100%;height:auto;margin:0 auto 2rem;display:block;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.3));" onerror="this.style.display='none'">
+    <!-- Hero -->
+    <section class="summaries-hero">
+        <div class="summaries-hero-bg"></div>
+        <div class="summaries-hero-inner container">
+            {% if podcast_logo_url %}
+            <img src="{{ podcast_logo_url }}" alt="{{ show_name }}"
+                 style="width:80px;height:80px;border-radius:14px;object-fit:cover;margin:0 auto var(--sp-4);box-shadow:0 8px 30px rgba(0,0,0,0.3);"
+                 onerror="this.style.display='none'">
             {% endif %}
             <h1>{{ hero_title | default(show_name) }}</h1>
-            <p class="tagline">{{ hero_tagline }}</p>
-            <p class="subtitle">{{ hero_subtitle }}</p>
+            <p>{{ hero_subtitle }}</p>
         </div>
     </section>
 
     <!-- Search & Filter Controls -->
-    <div class="controls" data-aos="fade-up">
-        <input type="text" class="search-box" id="searchBox" placeholder="Search episodes..." aria-label="Search episodes">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="week">This Week</button>
-        <button class="filter-btn" data-filter="month">This Month</button>
-        <span class="episode-count" id="episodeCount"></span>
+    <div class="nn-controls">
+        <input type="text" class="nn-search" id="searchBox" placeholder="Search episodes..." aria-label="Search episodes">
+        <button class="nn-filter-btn active" data-filter="all">All</button>
+        <button class="nn-filter-btn" data-filter="week">This Week</button>
+        <button class="nn-filter-btn" data-filter="month">This Month</button>
+        <span class="nn-episode-count" id="episodeCount"></span>
     </div>
 
     <!-- Summaries -->
-    <section class="summaries-section">
-        <div class="podcast-summary" data-aos="fade-up">
-            <div class="podcast-header">
-                {% if podcast_logo_url %}
-                <img src="{{ podcast_logo_url }}"
-                     alt="{{ show_name }}" class="podcast-logo" onerror="this.style.display='none'">
-                {% endif %}
-                <h2 class="podcast-title">{{ section_title }}</h2>
-            </div>
+    <section style="padding:var(--sp-4) 0 var(--sp-12);">
+        <div class="container">
             <div id="summaries-container">
-                <div class="no-summaries">Loading {{ show_name }} summaries...</div>
+                <div style="text-align:center;color:var(--nn-text-muted);padding:3rem;font-style:italic;">Loading {{ show_name }} summaries...</div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <!-- Nerra Network cross-links -->
-            <div class="network-shows">
-                {% for s in network_shows %}
-                <a href="{{ s.summaries_page }}"{% if s.slug == slug %} class="current"{% endif %}>{{ s.name }}</a>
-                {% endfor %}
-                <a href="network.html">Nerra Network</a>
+    <!-- More from Nerra Network -->
+    <section class="cross-network nn-section">
+        <div class="container">
+            <div class="nn-section-header">
+                <h2>More from Nerra Network</h2>
             </div>
-            <div class="footer-links">
-                {% for link in footer_links %}
-                <a href="{{ link.href }}"{% if link.target %} target="{{ link.target }}"{% endif %}{% if link.rel %} rel="{{ link.rel }}"{% endif %}>{{ link.label }}</a>
+            <div class="cross-network-grid">
+                {% for s in all_shows %}
+                {% if s.slug != slug %}
+                <a href="{{ s.summaries_page }}" class="cross-network-card">
+                    <img src="{{ s.podcast_image }}" alt="{{ s.name }}" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">{{ s.name }}</div>
+                        <div class="cross-network-card-tagline">{{ s.tagline }}</div>
+                    </div>
+                </a>
+                {% endif %}
                 {% endfor %}
             </div>
-            <p class="footer-text">{{ footer_copyright }}</p>
-            {% if footer_tagline %}
-            <p class="footer-text">{{ footer_tagline }}</p>
-            {% endif %}
         </div>
-    </footer>
+    </section>
+{% endblock %}
 
-    <!-- AOS Animation Library -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+{% block scripts %}
     <script>
         const JSON_URL = '{{ json_path }}';
         const JSON_FORMAT = '{{ json_format | default("wrapped") }}';
         const SHOW_NAME = {{ show_name | tojson }};
 
         document.addEventListener('DOMContentLoaded', function() {
-            if (typeof AOS !== 'undefined') {
-                AOS.init({ duration: 800, easing: 'ease-in-out', once: true, offset: 100 });
-            }
-
-            // Mobile menu toggle
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navLinks = document.getElementById('navLinks');
-            if (menuToggle && navLinks) {
-                menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
-                navLinks.querySelectorAll('a').forEach(link =>
-                    link.addEventListener('click', () => navLinks.classList.remove('active'))
-                );
-            }
-
             // Speed controls
-            document.querySelectorAll('.speed-btn').forEach(btn => {
+            document.querySelectorAll('.nn-speed-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const speed = parseFloat(btn.dataset.speed);
                     const audio = document.getElementById('stickyAudio');
                     if (audio) audio.playbackRate = speed;
-                    document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.nn-speed-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                 });
             });
 
             // Search & filter
             const searchBox = document.getElementById('searchBox');
-            const filterBtns = document.querySelectorAll('.filter-btn');
+            const filterBtns = document.querySelectorAll('.nn-filter-btn');
             let currentFilter = 'all';
 
             searchBox.addEventListener('input', applyFilters);
@@ -729,7 +126,7 @@
 
             function applyFilters() {
                 const query = (searchBox.value || '').toLowerCase();
-                const items = document.querySelectorAll('.summary-item');
+                const items = document.querySelectorAll('.nn-summary-item');
                 const now = new Date();
                 let visible = 0;
 
@@ -774,12 +171,11 @@
                 const data = await response.json();
                 const container = document.getElementById('summaries-container');
 
-                // Handle both {summaries: [...]} and [...] formats
                 const summaries = (JSON_FORMAT === 'array') ? (Array.isArray(data) ? data : [])
                     : (data.summaries || []);
 
                 if (!summaries.length) {
-                    container.innerHTML = '<div class="no-summaries">No summaries available yet. Check back after the next daily update!</div>';
+                    container.innerHTML = '<div style="text-align:center;color:var(--nn-text-muted);padding:3rem;font-style:italic;">No summaries available yet. Check back after the next daily update!</div>';
                     return;
                 }
 
@@ -792,25 +188,25 @@
                     const date = s.date || '';
 
                     const audioHtml = audioUrl ? `
-                        <div class="summary-actions">
-                            <audio class="summary-audio" controls preload="none" src="${escapeAttr(audioUrl)}"></audio>
-                            <a class="summary-link" href="${escapeAttr(audioUrl)}" target="_blank" rel="noopener">Download</a>
-                            <button class="share-btn" data-url="${escapeAttr(audioUrl)}" title="Copy link">Share</button>
+                        <div class="nn-summary-actions">
+                            <audio class="nn-summary-audio" controls preload="none" src="${escapeAttr(audioUrl)}"></audio>
+                            <a class="nn-summary-link" href="${escapeAttr(audioUrl)}" target="_blank" rel="noopener">Download</a>
+                            <button class="nn-summary-link" data-share-url="${escapeAttr(audioUrl)}" title="Copy link">Share</button>
                         </div>
                     ` : '';
 
-                    const titleHtml = title ? `<div style="font-weight:600;color:var(--primary);font-size:0.9rem;">${escapeHtml(title)}</div>` : '';
+                    const titleHtml = title ? `<div style="font-weight:600;color:var(--show-color);font-family:var(--font-ui);font-size:0.88rem;">${escapeHtml(title)}</div>` : '';
 
                     return `
-                        <div class="summary-item" data-date="${escapeAttr(date)}">
-                            <div class="summary-header">
+                        <div class="nn-summary-item" data-date="${escapeAttr(date)}">
+                            <div class="nn-summary-header">
                                 <div>
-                                    <div class="summary-date">${formatDate(date)}</div>
+                                    <div class="nn-summary-date">${formatDate(date)}</div>
                                     ${titleHtml}
                                 </div>
                                 ${audioHtml}
                             </div>
-                            <div class="summary-content">${renderMarkdown(content)}</div>
+                            <div class="nn-summary-content">${renderMarkdown(content)}</div>
                         </div>
                     `;
                 }).join('');
@@ -819,14 +215,13 @@
                 initAudioUX(container);
                 initShareButtons(container);
 
-                // Update count
                 const countEl = document.getElementById('episodeCount');
                 if (countEl) countEl.textContent = `${summaries.length} episode${summaries.length !== 1 ? 's' : ''}`;
 
             } catch (error) {
                 console.error('Error loading summaries:', error);
                 document.getElementById('summaries-container').innerHTML =
-                    '<div class="no-summaries">Unable to load summaries. Please check back later.</div>';
+                    '<div style="text-align:center;color:var(--nn-text-muted);padding:3rem;font-style:italic;">Unable to load summaries. Please check back later.</div>';
             }
         }
 
@@ -905,7 +300,7 @@
 
             let activeCardAudio = null;
 
-            const cardAudios = Array.from(container.querySelectorAll('audio.summary-audio'));
+            const cardAudios = Array.from(container.querySelectorAll('audio.nn-summary-audio'));
 
             function pauseAllCardAudios() {
                 for (const a of cardAudios) { try { a.pause(); } catch {} }
@@ -922,10 +317,10 @@
             }
 
             for (const audioEl of cardAudios) {
-                const card = audioEl.closest('.summary-item');
-                const dateText = card?.querySelector('.summary-date')?.textContent?.trim() || '';
+                const card = audioEl.closest('.nn-summary-item');
+                const dateText = card?.querySelector('.nn-summary-date')?.textContent?.trim() || '';
                 const titleGuess =
-                    card?.querySelector('.summary-content h1, .summary-content h2, .summary-content h3')?.textContent?.trim() ||
+                    card?.querySelector('.nn-summary-content h1, .nn-summary-content h2, .nn-summary-content h3')?.textContent?.trim() ||
                     'Episode';
                 const meta = { date: dateText, title: titleGuess };
 
@@ -954,19 +349,14 @@
 
         // Share buttons
         function initShareButtons(container) {
-            container.querySelectorAll('.share-btn').forEach(btn => {
+            container.querySelectorAll('[data-share-url]').forEach(btn => {
                 btn.addEventListener('click', async () => {
-                    const url = btn.dataset.url;
+                    const url = btn.dataset.shareUrl;
                     try {
                         await navigator.clipboard.writeText(url);
                         btn.textContent = 'Copied!';
-                        btn.classList.add('copied');
-                        setTimeout(() => {
-                            btn.textContent = 'Share';
-                            btn.classList.remove('copied');
-                        }, 2000);
+                        setTimeout(() => { btn.textContent = 'Share'; }, 2000);
                     } catch {
-                        // Fallback: select text
                         const input = document.createElement('input');
                         input.value = url;
                         document.body.appendChild(input);
@@ -980,5 +370,4 @@
             });
         }
     </script>
-</body>
-</html>
+{% endblock %}

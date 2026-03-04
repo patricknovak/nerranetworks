@@ -1,563 +1,516 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Daily podcast on how Tesla is advancing sustainable energy, saving lives, and making the world a better place.">
-  <title>Tesla Shorts Time Daily</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
-  <style>
-    :root {
-      --brand: #E31937;
-      --brand-dark: #b5142c;
-      --bg: #0a0a0a;
-      --card: #1a1a1a;
-      --card-hover: #222;
-      --text: #ffffff;
-      --text-muted: #a0a0a0;
-      --radius: 12px;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-    a { color: var(--brand); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Daily Tesla Shorts Time podcast — Tesla news, TSLA stock, FSD updates, and sustainable energy progress.">
+    <meta name="keywords" content="Tesla podcast, TSLA news, Tesla stock, EV analysis, Tesla Shorts Time, daily digests">
+    <title>Tesla Shorts Time | Nerra Network</title>
+    <meta name="theme-color" content="#E31937">
 
-    /* Header */
-    header { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #222; }
-    nav { max-width: 1100px; margin: 0 auto; padding: 0.8rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-weight: 800; font-size: 1.2rem; color: var(--text); }
-    .logo span { color: var(--brand); }
-    .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
-    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-    .nav-links a { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
-    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    <!-- Open Graph -->
+    <meta property="og:title" content="Tesla Shorts Time | Nerra Network">
+    <meta property="og:description" content="Daily Tesla Shorts Time podcast — Tesla news, TSLA stock, FSD updates, and sustainable energy progress.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://nerranetwork.com/podcast-image.jpg">
 
-    /* Hero */
-    .hero { max-width: 1100px; margin: 0 auto; padding: 5rem 1.5rem 3rem; text-align: center; }
-    .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -1px; }
-    .hero h1 span { color: var(--brand); }
-    .tagline { color: var(--brand); font-size: 1.15rem; font-weight: 600; margin: 0.5rem 0; }
-    .subtitle { color: var(--text-muted); max-width: 550px; margin: 0.5rem auto 2rem; }
-    .cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
-    .btn { display: inline-block; padding: 0.65rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: 1px solid #333; color: var(--text); transition: all 0.2s; }
-    .btn:hover { background: #222; text-decoration: none; }
-    .btn-primary { background: var(--brand); border-color: var(--brand); }
-    .btn-primary:hover { background: var(--brand-dark); }
+    <!-- Google Fonts: DM Sans + Source Serif 4 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
 
-    /* Stock ticker */
-    .stock-widget { max-width: 400px; margin: 2rem auto 0; padding: 0.75rem 1.25rem; background: var(--card); border-radius: var(--radius); border: 1px solid #333; display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; flex-wrap: wrap; justify-content: center; }
-    .stock-widget .ticker { font-weight: 700; font-size: 1.1rem; }
-    .stock-widget .price { font-weight: 600; }
-    .stock-widget .change { font-weight: 600; }
-    .stock-widget .change.up { color: #22c55e; }
-    .stock-widget .change.down { color: #ef4444; }
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
-    /* Player card */
-    .player-card { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem; }
-    .player-inner { background: var(--card); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #222; }
-    .player-inner h2 { font-size: 1rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
-    #latest-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem; }
-    audio { width: 100%; border-radius: 8px; }
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="styles/main.css">
 
-    /* Episodes */
-    .episodes-section { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
-    .episodes-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
-    .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
-    .episode-card { background: var(--card); border-radius: var(--radius); padding: 1.25rem; border: 1px solid #222; transition: border-color 0.2s; cursor: default; }
-    .episode-card:hover { border-color: var(--brand); }
-    .episode-card .ep-date { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem; }
-    .episode-card .ep-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .episode-card .ep-hook { font-size: 0.85rem; color: var(--brand); font-weight: 600; margin-bottom: 0.75rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .episode-card audio { width: 100%; }
+    
 
-    /* Episode summaries */
-    .ep-summary { color: var(--text-muted); font-size: 0.85rem; margin: 0.75rem 0; line-height: 1.7; }
-    .ep-summary-preview { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-    .ep-summary.expanded .ep-summary-preview { display: none; }
-    .ep-summary-full { display: none; max-height: 500px; overflow-y: auto; padding-right: 0.5rem; }
-    .ep-summary.expanded .ep-summary-full { display: block; }
-    .ep-summary-toggle { display: inline-block; margin-top: 0.5rem; color: var(--brand); font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none; background: none; padding: 0; }
-    .ep-summary-toggle:hover { text-decoration: underline; }
+<style>
+  .stock-widget { max-width: 400px; margin: 2rem auto 0; padding: 12px 20px; background: var(--nn-card); border-radius: 12px; border: 1px solid var(--nn-border); display: flex; align-items: center; gap: 12px; font-family: var(--font-ui); font-size: 0.9rem; flex-wrap: wrap; justify-content: center; }
+  .stock-widget .ticker { font-weight: 700; font-size: 1.1rem; color: var(--nn-white); }
+  .stock-widget .price { font-weight: 600; color: var(--nn-white); }
+  .stock-widget .change { font-weight: 600; }
+  .stock-widget .change.up { color: #22c55e; }
+  .stock-widget .change.down { color: #ef4444; }
+</style>
 
-    /* About */
-    .about-section { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
-    .about-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
-    .about-section p { color: var(--text-muted); margin-bottom: 0.75rem; }
 
-    /* X Feed */
-    .x-feed-section { max-width: 700px; margin: 0 auto; padding: 0 1.5rem 3rem; }
-    .x-feed-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
-    .x-feed-wrapper { background: var(--card); border-radius: var(--radius); border: 1px solid #222; padding: 1rem; overflow: hidden; max-height: 600px; overflow-y: auto; }
 
-    /* Network */
-    .network-section { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 3rem; border-top: 1px solid #222; }
-    .network-header { text-align: center; margin-bottom: 2rem; }
-    .network-header h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem; }
-    .network-header p { color: var(--text-muted); max-width: 550px; margin: 0 auto; }
-    .network-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
-    .network-card { display: flex; flex-direction: column; background: var(--card); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #222; color: var(--text); transition: border-color 0.2s, transform 0.2s; text-decoration: none; cursor: pointer; }
-    .network-card:hover { border-color: var(--brand); transform: translateY(-2px); text-decoration: none; }
-    .network-card-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
-    .network-card-emoji { font-size: 1.8rem; line-height: 1; }
-    .network-card-name { font-weight: 700; font-size: 1.05rem; }
-    .network-card-tagline { color: var(--brand); font-size: 0.85rem; font-weight: 600; font-style: italic; margin-bottom: 0.5rem; }
-    .network-card-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 0.75rem; flex: 1; }
-    .network-card-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-    .network-card-links a { font-size: 0.8rem; font-weight: 600; color: var(--brand); }
-    .network-card-links a:hover { text-decoration: underline; }
-    .network-card.current { border-color: var(--brand); background: linear-gradient(135deg, var(--card) 0%, #1f1015 100%); }
-    .network-card-badge { display: inline-block; font-size: 0.7rem; background: var(--brand); color: #fff; padding: 2px 8px; border-radius: 10px; margin-left: 0.5em; vertical-align: middle; }
-    .network-all { text-align: center; margin-top: 1.5rem; }
-    .network-all a { display: inline-block; padding: 0.65rem 2rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: 1px solid var(--brand); color: var(--brand); transition: all 0.2s; }
-    .network-all a:hover { background: var(--brand); color: var(--text); text-decoration: none; }
-
-    /* Footer */
-    footer { border-top: 1px solid #222; padding: 2rem 1.5rem; text-align: center; }
-    .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
-    .footer-links a { color: var(--text-muted); font-size: 0.85rem; }
-    .footer-links a:hover { color: var(--text); }
-    footer p { color: #555; font-size: 0.8rem; }
-
-    /* Mobile */
-    @media (max-width: 768px) {
-      .menu-toggle { display: block; }
-      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(10,10,10,0.98); flex-direction: column; padding: 1rem 1.5rem; gap: 1rem; border-bottom: 1px solid #222; }
-      .nav-links.open { display: flex; }
-      .hero { padding: 3rem 1.5rem 2rem; }
-      .episodes-grid { grid-template-columns: 1fr; }
-      .network-grid { grid-template-columns: 1fr; }
-      .stock-widget { flex-direction: column; text-align: center; gap: 0.25rem; }
-    }
-  </style>
+    
+    <style>:root { --show-color: #E31937; --show-color-dark: #C4122E; }</style>
+    
 </head>
 <body>
-  <header>
-    <nav>
-      <a class="logo" href="index.html">Tesla <span>Shorts Time</span></a>
-      <button class="menu-toggle" aria-label="Menu">&#9776;</button>
-      <div class="nav-links">
-        <a href="#episodes">Episodes</a>
-        <a href="tesla-summaries.html">Summaries</a>
-        <a href="#about">About</a>
-        <a href="https://x.com/teslashortstime">@teslashortstime</a>
-        <a href="podcast.rss">RSS</a>
-      </div>
+    <!-- Navigation -->
+    <nav class="nn-nav">
+        <div class="nn-nav-inner">
+            <a href="network.html" class="nn-nav-logo">
+                <span class="gradient-text">Nerra</span> Network
+            </a>
+
+            <ul class="nn-nav-links">
+                <li class="nn-nav-dropdown">
+                    <button class="nn-nav-dropdown-btn">
+                        Shows
+                        <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="nn-nav-dropdown-menu">
+                        
+                        <a href="index.html">
+                            <img src="podcast-image.jpg" alt="" loading="lazy">
+                            Tesla Shorts Time
+                        </a>
+                        
+                        <a href="omni-view.html">
+                            <img src="omni-view-podcast-image.jpg" alt="" loading="lazy">
+                            Omni View
+                        </a>
+                        
+                        <a href="fascinating_frontiers.html">
+                            <img src="Fascinating Frontiers-3000x3000.jpg" alt="" loading="lazy">
+                            Fascinating Frontiers
+                        </a>
+                        
+                        <a href="planetterrian.html">
+                            <img src="planetterrian-podcast-image.jpg" alt="" loading="lazy">
+                            Planetterrian Daily
+                        </a>
+                        
+                        <a href="env-intel.html">
+                            <img src="env-intel-podcast-image.jpg" alt="" loading="lazy">
+                            Environmental Intelligence
+                        </a>
+                        
+                        <a href="models-agents.html">
+                            <img src="models-agents-podcast-image.jpg" alt="" loading="lazy">
+                            Models & Agents
+                        </a>
+                        
+                    </div>
+                </li>
+                
+<li><a href="tesla-summaries.html">Summaries</a></li>
+<li><a href="podcast.rss">RSS</a></li>
+<li><a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a></li>
+
+                <li><a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank" rel="noopener">GitHub</a></li>
+            </ul>
+
+            <button class="nn-hamburger" aria-label="Toggle menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">&#9776;</button>
+        </div>
     </nav>
-  </header>
 
-  <main>
-    <section class="hero">
-      <h1>Tesla <span>Shorts Time</span> Daily</h1>
-      <p class="tagline">Shorting Tesla? Time's Up.</p>
-      <p class="subtitle">Daily podcast on how Tesla is advancing sustainable energy, saving lives, and making the world a better place.</p>
-      <div class="cta">
-        <a href="#episodes" class="btn btn-primary">Listen Now</a>
-        <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" class="btn">Apple Podcasts</a>
-        <a href="https://x.com/teslashortstime" class="btn">Follow on X</a>
-      </div>
-      <div class="stock-widget" id="stock-widget">
-        <span class="ticker">TSLA</span>
-        <span class="price" id="stock-price">--</span>
-        <span class="change" id="stock-change">--</span>
-      </div>
-    </section>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="nn-mobile-menu">
+        
+<a href="index.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+<a href="tesla-summaries.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Summaries</a>
+<a href="#episodes" onclick="document.getElementById('mobileMenu').classList.remove('open')">Episodes</a>
+<a href="#about" onclick="document.getElementById('mobileMenu').classList.remove('open')">About</a>
 
-    <section class="player-card" id="latest-player">
-      <div class="player-inner">
-        <h2>Latest Episode</h2>
-        <p id="latest-title">Loading...</p>
-        <audio id="latest-audio" controls preload="none"></audio>
-      </div>
-    </section>
-
-    <section id="episodes" class="episodes-section">
-      <h2>Recent Episodes</h2>
-      <div id="episodes-grid" class="episodes-grid"></div>
-    </section>
-
-    <section id="about" class="about-section">
-      <h2>About Tesla Shorts Time</h2>
-      <p>Tesla Shorts Time is a daily podcast delivering the most important Tesla news and developments. We focus on how Tesla is advancing its mission to accelerate the world's transition to sustainable energy, saving lives through safer vehicles, and making the world a better place.</p>
-      <p>Hosted by Patrick, each episode covers breaking news, product updates, technology breakthroughs, and the latest developments from Tesla and the broader electric vehicle world.</p>
-    </section>
-
-    <section class="x-feed-section">
-      <h2>Latest from @teslashortstime</h2>
-      <div class="x-feed-wrapper">
-        <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders transparent" data-height="500" href="https://twitter.com/teslashortstime">Posts by @teslashortstime</a>
-      </div>
-    </section>
-
-    <section id="network" class="network-section">
-      <div class="network-header">
-        <h2>Explore the Nerra Network</h2>
-        <p>Six daily shows keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage you can trust.</p>
-      </div>
-      <div class="network-grid">
-
-        <div class="network-card current">
-          <div class="network-card-head">
-            <span class="network-card-emoji">&#9889;</span>
-            <span class="network-card-name">Tesla Shorts Time</span>
-            <span class="network-card-badge">You are here</span>
-          </div>
-          <div class="network-card-tagline">Shorting Tesla? Time's Up.</div>
-          <div class="network-card-desc">Daily Tesla news, mission updates, and sustainable energy progress.</div>
-          <div class="network-card-links">
-            <a href="podcast.rss">RSS</a>
-            <a href="https://x.com/teslashortstime">@teslashortstime</a>
-          </div>
+        <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank" rel="noopener" onclick="document.getElementById('mobileMenu').classList.remove('open')">GitHub</a>
+        <div class="nn-mobile-shows">
+            <div class="nn-mobile-shows-title">All Shows</div>
+            
+            <a href="index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="podcast-image.jpg" alt="" loading="lazy">
+                Tesla Shorts Time
+            </a>
+            
+            <a href="omni-view.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="omni-view-podcast-image.jpg" alt="" loading="lazy">
+                Omni View
+            </a>
+            
+            <a href="fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="Fascinating Frontiers-3000x3000.jpg" alt="" loading="lazy">
+                Fascinating Frontiers
+            </a>
+            
+            <a href="planetterrian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="planetterrian-podcast-image.jpg" alt="" loading="lazy">
+                Planetterrian Daily
+            </a>
+            
+            <a href="env-intel.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="env-intel-podcast-image.jpg" alt="" loading="lazy">
+                Environmental Intelligence
+            </a>
+            
+            <a href="models-agents.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="models-agents-podcast-image.jpg" alt="" loading="lazy">
+                Models & Agents
+            </a>
+            
         </div>
-
-        <div class="network-card" data-href="omni-view.html">
-          <div class="network-card-head">
-            <span class="network-card-emoji">&#128065;</span>
-            <span class="network-card-name">Omni View</span>
-          </div>
-          <div class="network-card-tagline">See every side. Decide for yourself.</div>
-          <div class="network-card-desc">Balanced daily news briefing for media literacy.</div>
-          <div class="network-card-links">
-            <a href="omni-view.html">Listen</a>
-            <a href="omni_view_podcast.rss">RSS</a>
-            <a href="https://x.com/omniviewnews">@omniviewnews</a>
-          </div>
-        </div>
-
-        <div class="network-card" data-href="fascinating_frontiers.html">
-          <div class="network-card-head">
-            <span class="network-card-emoji">&#128640;</span>
-            <span class="network-card-name">Fascinating Frontiers</span>
-          </div>
-          <div class="network-card-tagline">Journey to the stars.</div>
-          <div class="network-card-desc">Daily space, astronomy, and cosmic discovery news.</div>
-          <div class="network-card-links">
-            <a href="fascinating_frontiers.html">Listen</a>
-            <a href="fascinating_frontiers_podcast.rss">RSS</a>
-            <a href="https://x.com/planetterrian">@planetterrian</a>
-          </div>
-        </div>
-
-        <div class="network-card" data-href="planetterrian.html">
-          <div class="network-card-head">
-            <span class="network-card-emoji">&#127758;</span>
-            <span class="network-card-name">Planetterrian Daily</span>
-          </div>
-          <div class="network-card-tagline">Science, longevity, human health.</div>
-          <div class="network-card-desc">Science, longevity, genetics, and health research.</div>
-          <div class="network-card-links">
-            <a href="planetterrian.html">Listen</a>
-            <a href="planetterrian_podcast.rss">RSS</a>
-            <a href="https://x.com/planetterrian">@planetterrian</a>
-          </div>
-        </div>
-
-        <div class="network-card" data-href="env-intel.html">
-          <div class="network-card-head">
-            <span class="network-card-emoji">&#127793;</span>
-            <span class="network-card-name">Environmental Intelligence</span>
-          </div>
-          <div class="network-card-tagline">Daily environmental briefing.</div>
-          <div class="network-card-desc">Environmental regulatory and compliance briefing.</div>
-          <div class="network-card-links">
-            <a href="env-intel.html">Listen</a>
-            <a href="env_intel_podcast.rss">RSS</a>
-          </div>
-        </div>
-
-        <div class="network-card" data-href="models-agents.html">
-          <div class="network-card-head">
-            <span class="network-card-emoji">&#129302;</span>
-            <span class="network-card-name">Models &amp; Agents</span>
-          </div>
-          <div class="network-card-tagline">Not the ones you're thinking about!</div>
-          <div class="network-card-desc">Daily AI models and agent developments briefing.</div>
-          <div class="network-card-links">
-            <a href="models-agents.html">Listen</a>
-            <a href="models_agents_podcast.rss">RSS</a>
-          </div>
-        </div>
-
-      </div>
-      <div class="network-all">
-        <a href="network.html">Nerra Network &mdash; All Shows &rarr;</a>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-links">
-      <a href="podcast.rss">RSS Feed</a>
-      <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939">Apple Podcasts</a>
-      <a href="https://x.com/teslashortstime">X / Twitter</a>
-      <a href="https://github.com/patricknovak/Tesla-shorts-time">GitHub</a>
     </div>
-    <p>&copy; 2026 Nerra Network</p>
-  </footer>
 
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-  <script>
-    document.querySelector('.menu-toggle').addEventListener('click', () => {
-      document.querySelector('.nav-links').classList.toggle('open');
-    });
-
-    async function loadEpisodes() {
-      try {
-        const resp = await fetch('digests/tesla_shorts_time/summaries_tesla.json');
-        if (!resp.ok) throw new Error('JSON not found');
-        const data = await resp.json();
-        renderFromJSON(data.summaries || data);
-      } catch {
-        loadFromRSS();
-      }
-    }
-
-    function formatMarkdown(text) {
-      if (!text) return '';
-      let html = escapeHtml(text);
-      // Convert ### headers to <h4>
-      html = html.replace(/^###\s+(.+)$/gm, '<h4 style="margin:0.75rem 0 0.25rem;font-size:0.95rem;color:var(--text);">$1</h4>');
-      // Convert **bold** to <strong>
-      html = html.replace(/\*\*(.+?)\*\*/g, '<strong style="color:var(--text);">$1</strong>');
-      // Convert URLs to clickable links (not already inside an href)
-      html = html.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-      // Convert newlines to <br>
-      html = html.replace(/\n/g, '<br>');
-      return html;
-    }
-
-    function getPreviewText(content) {
-      if (!content) return '';
-      // Strip markdown formatting for a clean preview
-      let plain = content
-        .replace(/^###\s+/gm, '')
-        .replace(/\*\*(.+?)\*\*/g, '$1')
-        .replace(/https?:\/\/[^\s]+/g, '')
-        .replace(/[━─]+/g, '')
-        .replace(/[\n\r]+/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-      return plain.length > 200 ? plain.substring(0, 200) + '...' : plain;
-    }
-
-    function toggleSummary(btn) {
-      const summary = btn.closest('.ep-summary');
-      const isExpanded = summary.classList.toggle('expanded');
-      btn.textContent = isExpanded ? 'Collapse summary' : 'Read full summary';
-    }
-
-    function extractHook(content) {
-      if (!content) return '';
-      // Try to extract a compelling headline from news items
-      // Match patterns like: **Title here** or numbered items with bold titles
-      const patterns = [
-        /\d+[\.\)️⃣]*\s*\*\*([^*:]+?)(?:\s*[-:])?\s*\*\*/g,
-        /\*\*([^*]{15,80})\*\*/g
-      ];
-      const headlines = [];
-      for (const pat of patterns) {
-        let m;
-        while ((m = pat.exec(content)) !== null) {
-          const h = m[1].trim()
-            .replace(/^#+\s*/, '')
-            .replace(/^\d+[\.\)]\s*/, '');
-          // Skip generic headers and date lines
-          if (h.length >= 15 && h.length <= 120
-              && !/^(Date|REAL-TIME|Tesla Shorts Time|Top \d|Short Spot|Tesla First|Tesla Market|Daily Challenge|Inspiration|Tesla X Takeover|The Vibe)/i.test(h)) {
-            headlines.push(h);
-          }
-        }
-        if (headlines.length >= 3) break;
-      }
-      if (!headlines.length) return '';
-      // Pick the first strong headline
-      return headlines[0];
-    }
-
-    function buildSummaryHTML(content) {
-      if (!content) return '';
-      const preview = escapeHtml(getPreviewText(content));
-      const full = formatMarkdown(content);
-      return `
-        <div class="ep-summary">
-          <div class="ep-summary-preview">${preview}</div>
-          <div class="ep-summary-full">${full}</div>
-          <button class="ep-summary-toggle" onclick="toggleSummary(this)">Read full summary</button>
+    
+    <!-- Hero -->
+    <section class="show-hero">
+        <div class="show-hero-bg"></div>
+        <div class="show-hero-inner">
+            <img src="podcast-image.jpg" alt="Tesla Shorts Time" class="show-hero-art"
+                 onerror="this.style.display='none'">
+            <div class="show-hero-info">
+                <h1>Tesla Shorts Time</h1>
+                <p class="show-hero-tagline">Shorting Tesla? Time's Up.</p>
+                <p class="show-hero-desc">Tesla Shorts Time is a daily podcast delivering the most important Tesla news and developments. We focus on how Tesla is advancing its mission to accelerate the world's transition to sustainable energy, saving lives through safer vehicles, and making the world a better place.</p>
+                <div class="show-hero-actions">
+                    <a href="#episodes" class="nn-btn nn-btn-primary">Listen Now</a>
+                    
+                    <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" class="nn-btn" target="_blank" rel="noopener">Apple Podcasts</a>
+                    
+                    <a href="podcast.rss" class="nn-btn">RSS Feed</a>
+                    
+                    <a href="https://x.com/teslashortstime" class="nn-btn" target="_blank" rel="noopener">@teslashortstime</a>
+                    
+                </div>
+                
+                <div class="stock-widget" id="stock-widget">
+                    <span class="ticker">TSLA</span>
+                    <span class="price" id="stock-price">--</span>
+                    <span class="change" id="stock-change">--</span>
+                </div>
+                
+            </div>
         </div>
-      `;
-    }
+    </section>
 
-    function renderFromJSON(episodes) {
-      if (!episodes || !episodes.length) { showNoEpisodes(); return; }
-      const latest = episodes[0];
-      document.getElementById('latest-title').textContent = latest.episode_title || 'Latest Episode';
-      document.getElementById('latest-audio').src = latest.audio_url || '';
+    <!-- Latest Episode -->
+    <section class="nn-section" style="padding-top: var(--sp-8);">
+        <div class="container">
+            <div class="latest-episode glass-card" id="latest-player">
+                <div class="latest-episode-label">Latest Episode</div>
+                <div class="latest-episode-title" id="latest-title">Loading...</div>
+                <div class="latest-episode-date" id="latest-date"></div>
+                <audio id="latest-audio" controls preload="none" style="width:100%;height:42px;border-radius:8px;"></audio>
+                <div id="latest-summary" style="margin-top:var(--sp-4);color:var(--nn-text-muted);font-size:0.92rem;display:none;"></div>
+            </div>
+        </div>
+    </section>
 
-      const grid = document.getElementById('episodes-grid');
-      grid.innerHTML = '';
-      episodes.slice(0, 12).forEach(ep => {
-        const card = document.createElement('div');
-        card.className = 'episode-card';
-        const hook = extractHook(ep.content);
-        card.innerHTML = `
-          <div class="ep-date">${formatDate(ep.date)}</div>
-          <div class="ep-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
-          ${hook ? `<div class="ep-hook">\u{1F3A7} Hear about: ${escapeHtml(hook)}</div>` : ''}
-          ${buildSummaryHTML(ep.content)}
-          <audio controls preload="none" src="${ep.audio_url || ''}"></audio>
-        `;
-        grid.appendChild(card);
-      });
-    }
+    <!-- Episode Archive -->
+    <section id="episodes" class="nn-section" style="padding-top: 0;">
+        <div class="container">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Recent Episodes</h2>
+            </div>
+            <div id="episodes-grid" class="episodes-grid"></div>
+        </div>
+    </section>
 
-    function loadFromRSS() {
-      fetch('podcast.rss')
-        .then(r => r.text())
-        .then(xml => {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(xml, 'text/xml');
-          const items = doc.querySelectorAll('item');
-          if (!items.length) { showNoEpisodes(); return; }
+    <!-- About -->
+    <section id="about" class="nn-section" style="border-top:1px solid var(--nn-border);">
+        <div class="container">
+            <div class="nn-section-header">
+                <h2>About Tesla Shorts Time</h2>
+            </div>
+            <div class="about-section-text">
+                <p>Tesla Shorts Time is a daily podcast delivering the most important Tesla news and developments. We focus on how Tesla is advancing its mission to accelerate the world's transition to sustainable energy, saving lives through safer vehicles, and making the world a better place.</p>
+                
+                <p>Hosted by Patrick, each episode covers breaking news, product updates, technology breakthroughs, and the latest developments from Tesla and the broader electric vehicle world.</p>
+                
+            </div>
+        </div>
+    </section>
 
-          const first = items[0];
-          document.getElementById('latest-title').textContent = first.querySelector('title')?.textContent || 'Latest Episode';
-          const enc = first.querySelector('enclosure');
-          if (enc) document.getElementById('latest-audio').src = enc.getAttribute('url') || '';
+    
+    <!-- X Feed -->
+    <section class="nn-section" style="padding-top:0;">
+        <div class="container" style="max-width:700px;">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Latest from @teslashortstime</h2>
+            </div>
+            <div class="glass-card" style="padding:var(--sp-4);overflow:hidden;max-height:600px;overflow-y:auto;">
+                <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders transparent" data-height="500" href="https://twitter.com/teslashortstime">Posts by @teslashortstime</a>
+            </div>
+        </div>
+    </section>
+    
 
-          const grid = document.getElementById('episodes-grid');
-          grid.innerHTML = '';
-          Array.from(items).slice(0, 12).forEach(item => {
-            const title = item.querySelector('title')?.textContent || 'Episode';
-            const pubDate = item.querySelector('pubDate')?.textContent || '';
-            const enclosure = item.querySelector('enclosure');
-            const url = enclosure ? enclosure.getAttribute('url') : '';
-            const description = item.querySelector('description')?.textContent || '';
-            const hook = extractHook(description);
-            const card = document.createElement('div');
-            card.className = 'episode-card';
-            card.innerHTML = `
-              <div class="ep-date">${pubDate ? formatDate(pubDate) : ''}</div>
-              <div class="ep-title">${escapeHtml(title)}</div>
-              ${hook ? `<div class="ep-hook">\u{1F3A7} Hear about: ${escapeHtml(hook)}</div>` : ''}
-              ${description ? buildSummaryHTML(description) : ''}
-              <audio controls preload="none" src="${url}"></audio>
-            `;
-            grid.appendChild(card);
-          });
-        })
-        .catch(() => { showNoEpisodes(); });
-    }
+    <!-- More from Nerra Network -->
+    <section class="cross-network nn-section">
+        <div class="container">
+            <div class="nn-section-header">
+                <h2>More from Nerra Network</h2>
+                <p>Six daily shows keeping you informed.</p>
+            </div>
+            <div class="cross-network-grid">
+                
+                
+                
+                
+                <a href="omni-view.html" class="cross-network-card">
+                    <img src="omni-view-podcast-image.jpg" alt="Omni View" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Omni View</div>
+                        <div class="cross-network-card-tagline">See every side. Decide for yourself.</div>
+                    </div>
+                </a>
+                
+                
+                
+                <a href="fascinating_frontiers.html" class="cross-network-card">
+                    <img src="Fascinating Frontiers-3000x3000.jpg" alt="Fascinating Frontiers" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Fascinating Frontiers</div>
+                        <div class="cross-network-card-tagline">Journey to the stars with today's discoveries.</div>
+                    </div>
+                </a>
+                
+                
+                
+                <a href="planetterrian.html" class="cross-network-card">
+                    <img src="planetterrian-podcast-image.jpg" alt="Planetterrian Daily" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Planetterrian Daily</div>
+                        <div class="cross-network-card-tagline">Science, longevity, and the frontier of human health.</div>
+                    </div>
+                </a>
+                
+                
+                
+                <a href="env-intel.html" class="cross-network-card">
+                    <img src="env-intel-podcast-image.jpg" alt="Environmental Intelligence" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Environmental Intelligence</div>
+                        <div class="cross-network-card-tagline">Daily environmental regulatory and compliance briefing.</div>
+                    </div>
+                </a>
+                
+                
+                
+                <a href="models-agents.html" class="cross-network-card">
+                    <img src="models-agents-podcast-image.jpg" alt="Models & Agents" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Models & Agents</div>
+                        <div class="cross-network-card-tagline">Not the ones you're thinking about!</div>
+                    </div>
+                </a>
+                
+                
+            </div>
+        </div>
+    </section>
 
-    function showNoEpisodes() {
-      document.getElementById('latest-title').textContent = 'No episodes available yet';
-      document.getElementById('episodes-grid').innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;padding:2rem 0;">Episodes will appear here once available. Check back soon!</p>';
-    }
 
-    function formatDate(d) {
-      try {
-        const date = new Date(d);
-        return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
-      } catch { return d; }
-    }
+    <!-- Footer -->
+    <footer class="nn-footer">
+        <div class="container">
+            <div class="nn-footer-grid">
+                <div>
+                    <div class="nn-footer-brand"><span class="gradient-text">Nerra</span> Network</div>
+                    <p class="nn-footer-desc">Six daily shows. Zero fluff. Independent podcast network produced in Vancouver, Canada.</p>
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Shows</h4>
+                    
+                    <a href="index.html">Tesla Shorts Time</a>
+                    
+                    <a href="omni-view.html">Omni View</a>
+                    
+                    <a href="fascinating_frontiers.html">Fascinating Frontiers</a>
+                    
+                    <a href="planetterrian.html">Planetterrian Daily</a>
+                    
+                    <a href="env-intel.html">Environmental Intelligence</a>
+                    
+                    <a href="models-agents.html">Models & Agents</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Listen</h4>
+                    <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
+                    <a href="network.rss">Network RSS</a>
+                    
+                    <a href="podcast.rss">Tesla Shorts Time RSS</a>
+                    
+                    <a href="omni_view_podcast.rss">Omni View RSS</a>
+                    
+                    <a href="fascinating_frontiers_podcast.rss">Fascinating Frontiers RSS</a>
+                    
+                    <a href="planetterrian_podcast.rss">Planetterrian Daily RSS</a>
+                    
+                    <a href="env_intel_podcast.rss">Environmental Intelligence RSS</a>
+                    
+                    <a href="models_agents_podcast.rss">Models & Agents RSS</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Connect</h4>
+                    <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
+                    <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
+                    <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
+                    <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank" rel="noopener">GitHub</a>
+                </div>
+            </div>
+            <div class="nn-footer-bottom">
+                <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
+                <a href="network.html">nerranetwork.com</a>
+            </div>
+        </div>
+    </footer>
 
-    function escapeHtml(s) {
-      const el = document.createElement('span');
-      el.textContent = s;
-      return el.innerHTML;
-    }
+    
+    
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    
+    <script>
+        const JSON_URL = 'digests/tesla_shorts_time/summaries_tesla.json';
+        const JSON_FORMAT = 'wrapped';
+        const RSS_URL = 'podcast.rss';
+        const SHOW_NAME = "Tesla Shorts Time";
 
-    async function loadStock() {
-      function displayPrice(price, prev) {
-        const p = parseFloat(price);
-        const pc = parseFloat(prev);
-        const ch = (p - pc).toFixed(2);
-        const pct = ((p - pc) / pc * 100).toFixed(2);
-        const isUp = ch >= 0;
-        document.getElementById('stock-price').textContent = '$' + p.toFixed(2);
-        const changeEl = document.getElementById('stock-change');
-        changeEl.textContent = (isUp ? '+' : '') + ch + ' (' + (isUp ? '+' : '') + pct + '%)';
-        changeEl.className = 'change ' + (isUp ? 'up' : 'down');
-      }
-
-      const yahooUrl = 'https://query2.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=2d';
-      const proxies = [
-        url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
-        url => 'https://corsproxy.io/?' + encodeURIComponent(url),
-        url => url  // direct (in case CORS is relaxed)
-      ];
-
-      for (const makeUrl of proxies) {
-        try {
-          const resp = await fetch(makeUrl(yahooUrl));
-          if (!resp.ok) continue;
-          const data = await resp.json();
-          const meta = data.chart.result[0].meta;
-          displayPrice(meta.regularMarketPrice, meta.chartPreviousClose || meta.previousClose);
-          return;
-        } catch {}
-      }
-
-      // Fallback: try 5-day chart data through proxies
-      const yahoo5d = 'https://query2.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=5d';
-      for (const makeUrl of proxies) {
-        try {
-          const resp = await fetch(makeUrl(yahoo5d));
-          if (!resp.ok) continue;
-          const data = await resp.json();
-          const closes = data.chart.result[0].indicators.quote[0].close.filter(c => c !== null);
-          if (closes.length >= 2) {
-            displayPrice(closes[closes.length - 1], closes[closes.length - 2]);
-            return;
-          }
-        } catch {}
-      }
-
-      // Final fallback: extract TSLA price from latest episode content
-      try {
-        const resp = await fetch('digests/tesla_shorts_time/summaries_tesla.json');
-        if (resp.ok) {
-          const data = await resp.json();
-          const eps = data.summaries || data;
-          if (eps.length) {
-            const content = eps[0].content || '';
-            // Match patterns like: $417.44 ▲ $1.11 (0.3%) or $417.44 +1.11 (+0.27%)
-            const priceMatch = content.match(/TSLA\s*price[:\s]*\$?([\d,.]+)\s*[▲▼+-]+\s*\$?([\d,.]+)\s*\(([+-]?[\d,.]+%?)\)/i);
-            if (priceMatch) {
-              const price = parseFloat(priceMatch[1].replace(/,/g, ''));
-              const change = parseFloat(priceMatch[2].replace(/,/g, ''));
-              const pctRaw = priceMatch[3].replace('%', '');
-              const isUp = !content.match(/TSLA\s*price[:\s]*\$?[\d,.]+\s*▼/) && !priceMatch[0].includes('-');
-              document.getElementById('stock-price').textContent = '$' + price.toFixed(2);
-              const changeEl = document.getElementById('stock-change');
-              changeEl.textContent = (isUp ? '+' : '-') + change.toFixed(2) + ' (' + (isUp ? '+' : '-') + pctRaw + '%)';
-              changeEl.className = 'change ' + (isUp ? 'up' : 'down');
-              // Add label to indicate this is from the latest episode
-              const widget = document.getElementById('stock-widget');
-              const label = document.createElement('span');
-              label.style.cssText = 'font-size:0.7rem;color:var(--text-muted);';
-              label.textContent = '(as of latest episode)';
-              widget.appendChild(label);
-              return;
-            }
-          }
+        // --- Helpers ---
+        function formatDate(d) {
+            try {
+                const date = new Date(d);
+                return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+            } catch { return d; }
         }
-      } catch {}
+        function escapeHtml(s) {
+            const el = document.createElement('span');
+            el.textContent = s;
+            return el.innerHTML;
+        }
+        function getPreviewText(content) {
+            if (!content) return '';
+            let plain = content
+                .replace(/^###\s+/gm, '')
+                .replace(/\*\*(.+?)\*\*/g, '$1')
+                .replace(/https?:\/\/[^\s]+/g, '')
+                .replace(/[━─]+/g, '')
+                .replace(/[\n\r]+/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+            return plain.length > 200 ? plain.substring(0, 200) + '...' : plain;
+        }
 
-      // Absolute fallback
-      document.getElementById('stock-price').textContent = 'TSLA';
-      document.getElementById('stock-change').textContent = 'Market data unavailable';
-    }
+        // --- Load episodes ---
+        async function loadEpisodes() {
+            try {
+                const resp = await fetch(JSON_URL);
+                if (!resp.ok) throw new Error('JSON not found');
+                const data = await resp.json();
+                const episodes = (JSON_FORMAT === 'array') ? (Array.isArray(data) ? data : []) : (data.summaries || data);
+                renderEpisodes(episodes);
+            } catch {
+                loadFromRSS();
+            }
+        }
 
-    // Make network cards clickable
-    document.querySelectorAll('.network-card[data-href]').forEach(card => {
-      card.addEventListener('click', (e) => {
-        if (e.target.closest('a')) return;
-        window.location.href = card.dataset.href;
-      });
-    });
+        function renderEpisodes(episodes) {
+            if (!episodes || !episodes.length) { showNoEpisodes(); return; }
+            episodes.sort((a, b) => new Date(b.date) - new Date(a.date));
+            const latest = episodes[0];
+            document.getElementById('latest-title').textContent = latest.episode_title || 'Latest Episode';
+            document.getElementById('latest-date').textContent = formatDate(latest.date);
+            document.getElementById('latest-audio').src = latest.audio_url || '';
 
-    loadEpisodes();
-    loadStock();
-  </script>
+            if (latest.content) {
+                const summaryEl = document.getElementById('latest-summary');
+                summaryEl.textContent = getPreviewText(latest.content);
+                summaryEl.style.display = 'block';
+            }
+
+            const grid = document.getElementById('episodes-grid');
+            grid.innerHTML = '';
+            episodes.slice(1, 13).forEach(ep => {
+                const card = document.createElement('div');
+                card.className = 'episode-card glass-card';
+                card.innerHTML = `
+                    <div class="episode-card-date">${formatDate(ep.date)}</div>
+                    <div class="episode-card-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
+                    <div style="color:var(--nn-text-muted);font-size:0.85rem;margin-bottom:var(--sp-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHtml(getPreviewText(ep.content))}</div>
+                    <audio controls preload="none" src="${ep.audio_url || ''}" style="width:100%;height:36px;border-radius:8px;"></audio>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function loadFromRSS() {
+            fetch(RSS_URL)
+                .then(r => r.text())
+                .then(xml => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(xml, 'text/xml');
+                    const items = doc.querySelectorAll('item');
+                    if (!items.length) { showNoEpisodes(); return; }
+
+                    const first = items[0];
+                    document.getElementById('latest-title').textContent = first.querySelector('title')?.textContent || 'Latest Episode';
+                    const pubDate = first.querySelector('pubDate')?.textContent || '';
+                    document.getElementById('latest-date').textContent = pubDate ? formatDate(pubDate) : '';
+                    const enc = first.querySelector('enclosure');
+                    if (enc) document.getElementById('latest-audio').src = enc.getAttribute('url') || '';
+
+                    const grid = document.getElementById('episodes-grid');
+                    grid.innerHTML = '';
+                    Array.from(items).slice(1, 13).forEach(item => {
+                        const title = item.querySelector('title')?.textContent || 'Episode';
+                        const pd = item.querySelector('pubDate')?.textContent || '';
+                        const enclosure = item.querySelector('enclosure');
+                        const url = enclosure ? enclosure.getAttribute('url') : '';
+                        const desc = item.querySelector('description')?.textContent || '';
+                        const card = document.createElement('div');
+                        card.className = 'episode-card glass-card';
+                        card.innerHTML = `
+                            <div class="episode-card-date">${pd ? formatDate(pd) : ''}</div>
+                            <div class="episode-card-title">${escapeHtml(title)}</div>
+                            <div style="color:var(--nn-text-muted);font-size:0.85rem;margin-bottom:var(--sp-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHtml(getPreviewText(desc))}</div>
+                            <audio controls preload="none" src="${url}" style="width:100%;height:36px;border-radius:8px;"></audio>
+                        `;
+                        grid.appendChild(card);
+                    });
+                })
+                .catch(() => { showNoEpisodes(); });
+        }
+
+        function showNoEpisodes() {
+            document.getElementById('latest-title').textContent = 'No episodes available yet';
+            document.getElementById('episodes-grid').innerHTML = '<p style="color:var(--nn-text-muted);grid-column:1/-1;text-align:center;padding:2rem 0;">Episodes will appear here once available.</p>';
+        }
+
+        
+        // --- Stock widget (Tesla only) ---
+        async function loadStock() {
+            function displayPrice(price, prev) {
+                const p = parseFloat(price), pc = parseFloat(prev);
+                const ch = (p - pc).toFixed(2);
+                const pct = ((p - pc) / pc * 100).toFixed(2);
+                const isUp = ch >= 0;
+                document.getElementById('stock-price').textContent = '$' + p.toFixed(2);
+                const changeEl = document.getElementById('stock-change');
+                changeEl.textContent = (isUp ? '+' : '') + ch + ' (' + (isUp ? '+' : '') + pct + '%)';
+                changeEl.className = 'change ' + (isUp ? 'up' : 'down');
+            }
+            const yahooUrl = 'https://query2.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=2d';
+            const proxies = [
+                url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
+                url => 'https://corsproxy.io/?' + encodeURIComponent(url),
+                url => url
+            ];
+            for (const makeUrl of proxies) {
+                try {
+                    const resp = await fetch(makeUrl(yahooUrl));
+                    if (!resp.ok) continue;
+                    const data = await resp.json();
+                    const meta = data.chart.result[0].meta;
+                    displayPrice(meta.regularMarketPrice, meta.chartPreviousClose || meta.previousClose);
+                    return;
+                } catch {}
+            }
+            document.getElementById('stock-price').textContent = 'TSLA';
+            document.getElementById('stock-change').textContent = 'Market data unavailable';
+        }
+        loadStock();
+        
+
+        loadEpisodes();
+    </script>
+
 </body>
 </html>
