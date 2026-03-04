@@ -234,6 +234,10 @@ jobs:
       - name: Run show pipeline
         run: python run_show.py ${{ matrix.show }} 2>&1
         timeout-minutes: 30
+        env:
+          R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
 
       - name: Validate output
         run: |
