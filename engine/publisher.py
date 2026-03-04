@@ -308,16 +308,21 @@ def _inject_chapters_tag(rss_path: Path, guid: str, chapters_url: str) -> None:
     PODCAST_NS = "https://podcastindex.org/namespace/1.0"
 
     try:
+        # Register namespace prefixes before parsing so serialization uses
+        # clean prefixes and declares xmlns automatically.
+        ET.register_namespace("podcast", PODCAST_NS)
+        ET.register_namespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
+
         tree = ET.parse(str(rss_path))
         root = tree.getroot()
 
-        # Ensure the podcast namespace is declared on <rss>
-        namespaces = dict(root.attrib) if root.attrib else {}
-        ns_declared = any(
-            v == PODCAST_NS for v in namespaces.values()
-        )
-        if not ns_declared:
-            root.set("xmlns:podcast", PODCAST_NS)
+        # Remove any manually-set xmlns:podcast attribute to avoid
+        # duplicating the declaration that ET.register_namespace handles.
+        for attr in list(root.attrib):
+            if attr == "xmlns:podcast" or (
+                attr.startswith("xmlns:") and root.attrib[attr] == PODCAST_NS
+            ):
+                del root.attrib[attr]
 
         # Find the item with the matching GUID
         channel = root.find("channel")
@@ -332,8 +337,6 @@ def _inject_chapters_tag(rss_path: Path, guid: str, chapters_url: str) -> None:
                 chapters_el.set("type", "application/json+chapters")
                 break
 
-        # Register namespace prefix for clean output
-        ET.register_namespace("podcast", PODCAST_NS)
         tree.write(str(rss_path), xml_declaration=True, encoding="UTF-8")
         logger.info("Injected <podcast:chapters> for %s", guid)
 
