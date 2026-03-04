@@ -184,10 +184,3 @@ newsletter:
   api_key_env: OMNI_VIEW_NEWSLETTER_API_KEY
   status: about_to_send
 
-storage:
-  provider: r2
-  bucket: podcast-audio
-  endpoint_env: R2_ENDPOINT_URL
-  access_key_env: R2_ACCESS_KEY_ID
-  secret_key_env: R2_SECRET_ACCESS_KEY
-  public_base_url: "https://audio.nerranetwork.com"
