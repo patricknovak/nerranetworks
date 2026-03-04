@@ -1,0 +1,294 @@
+{% extends "base.html.j2" %}
+
+{% block head_extra %}
+{% if show_slug == 'tesla' %}
+<style>
+  .stock-widget { max-width: 400px; margin: 2rem auto 0; padding: 12px 20px; background: var(--nn-card); border-radius: 12px; border: 1px solid var(--nn-border); display: flex; align-items: center; gap: 12px; font-family: var(--font-ui); font-size: 0.9rem; flex-wrap: wrap; justify-content: center; }
+  .stock-widget .ticker { font-weight: 700; font-size: 1.1rem; color: var(--nn-white); }
+  .stock-widget .price { font-weight: 600; color: var(--nn-white); }
+  .stock-widget .change { font-weight: 600; }
+  .stock-widget .change.up { color: #22c55e; }
+  .stock-widget .change.down { color: #ef4444; }
+</style>
+{% endif %}
+{% endblock %}
+
+{% block nav_links %}
+<li><a href="{{ summaries_page }}">Summaries</a></li>
+<li><a href="{{ rss_file }}">RSS</a></li>
+{% if x_account %}<li><a href="https://x.com/{{ x_account }}" target="_blank" rel="noopener">@{{ x_account }}</a></li>{% endif %}
+{% endblock %}
+
+{% block mobile_nav_links %}
+<a href="{{ show_page }}" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+<a href="{{ summaries_page }}" onclick="document.getElementById('mobileMenu').classList.remove('open')">Summaries</a>
+<a href="#episodes" onclick="document.getElementById('mobileMenu').classList.remove('open')">Episodes</a>
+<a href="#about" onclick="document.getElementById('mobileMenu').classList.remove('open')">About</a>
+{% endblock %}
+
+{% block content %}
+    <!-- Hero -->
+    <section class="show-hero">
+        <div class="show-hero-bg"></div>
+        <div class="show-hero-inner">
+            <img src="{{ podcast_image_url }}" alt="{{ show_name }}" class="show-hero-art"
+                 onerror="this.style.display='none'">
+            <div class="show-hero-info">
+                <h1>{{ show_name }}</h1>
+                <p class="show-hero-tagline">{{ hero_tagline }}</p>
+                <p class="show-hero-desc">{{ show_description }}</p>
+                <div class="show-hero-actions">
+                    <a href="#episodes" class="nn-btn nn-btn-primary">Listen Now</a>
+                    {% if apple_podcasts_url %}
+                    <a href="{{ apple_podcasts_url }}" class="nn-btn" target="_blank" rel="noopener">Apple Podcasts</a>
+                    {% endif %}
+                    <a href="{{ rss_file }}" class="nn-btn">RSS Feed</a>
+                    {% if x_account %}
+                    <a href="https://x.com/{{ x_account }}" class="nn-btn" target="_blank" rel="noopener">@{{ x_account }}</a>
+                    {% endif %}
+                </div>
+                {% if show_slug == 'tesla' %}
+                <div class="stock-widget" id="stock-widget">
+                    <span class="ticker">TSLA</span>
+                    <span class="price" id="stock-price">--</span>
+                    <span class="change" id="stock-change">--</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Episode -->
+    <section class="nn-section" style="padding-top: var(--sp-8);">
+        <div class="container">
+            <div class="latest-episode glass-card" id="latest-player">
+                <div class="latest-episode-label">Latest Episode</div>
+                <div class="latest-episode-title" id="latest-title">Loading...</div>
+                <div class="latest-episode-date" id="latest-date"></div>
+                <audio id="latest-audio" controls preload="none" style="width:100%;height:42px;border-radius:8px;"></audio>
+                <div id="latest-summary" style="margin-top:var(--sp-4);color:var(--nn-text-muted);font-size:0.92rem;display:none;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Episode Archive -->
+    <section id="episodes" class="nn-section" style="padding-top: 0;">
+        <div class="container">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Recent Episodes</h2>
+            </div>
+            <div id="episodes-grid" class="episodes-grid"></div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="nn-section" style="border-top:1px solid var(--nn-border);">
+        <div class="container">
+            <div class="nn-section-header">
+                <h2>About {{ show_name }}</h2>
+            </div>
+            <div class="about-section-text">
+                <p>{{ about_text }}</p>
+                {% if about_host %}
+                <p>{{ about_host }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    {% if x_account and show_slug == 'tesla' %}
+    <!-- X Feed -->
+    <section class="nn-section" style="padding-top:0;">
+        <div class="container" style="max-width:700px;">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Latest from @{{ x_account }}</h2>
+            </div>
+            <div class="glass-card" style="padding:var(--sp-4);overflow:hidden;max-height:600px;overflow-y:auto;">
+                <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders transparent" data-height="500" href="https://twitter.com/{{ x_account }}">Posts by @{{ x_account }}</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- More from Nerra Network -->
+    <section class="cross-network nn-section">
+        <div class="container">
+            <div class="nn-section-header">
+                <h2>More from Nerra Network</h2>
+                <p>Six daily shows keeping you informed.</p>
+            </div>
+            <div class="cross-network-grid">
+                {% for s in all_shows %}
+                {% if s.slug != show_slug %}
+                <a href="{{ s.show_page }}" class="cross-network-card">
+                    <img src="{{ s.podcast_image }}" alt="{{ s.name }}" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">{{ s.name }}</div>
+                        <div class="cross-network-card-tagline">{{ s.tagline }}</div>
+                    </div>
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    {% if x_account and show_slug == 'tesla' %}
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    {% endif %}
+    <script>
+        const JSON_URL = '{{ json_path }}';
+        const JSON_FORMAT = '{{ json_format }}';
+        const RSS_URL = '{{ rss_file }}';
+        const SHOW_NAME = {{ show_name | tojson }};
+
+        // --- Helpers ---
+        function formatDate(d) {
+            try {
+                const date = new Date(d);
+                return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+            } catch { return d; }
+        }
+        function escapeHtml(s) {
+            const el = document.createElement('span');
+            el.textContent = s;
+            return el.innerHTML;
+        }
+        function getPreviewText(content) {
+            if (!content) return '';
+            let plain = content
+                .replace(/^###\s+/gm, '')
+                .replace(/\*\*(.+?)\*\*/g, '$1')
+                .replace(/https?:\/\/[^\s]+/g, '')
+                .replace(/[━─]+/g, '')
+                .replace(/[\n\r]+/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+            return plain.length > 200 ? plain.substring(0, 200) + '...' : plain;
+        }
+
+        // --- Load episodes ---
+        async function loadEpisodes() {
+            try {
+                const resp = await fetch(JSON_URL);
+                if (!resp.ok) throw new Error('JSON not found');
+                const data = await resp.json();
+                const episodes = (JSON_FORMAT === 'array') ? (Array.isArray(data) ? data : []) : (data.summaries || data);
+                renderEpisodes(episodes);
+            } catch {
+                loadFromRSS();
+            }
+        }
+
+        function renderEpisodes(episodes) {
+            if (!episodes || !episodes.length) { showNoEpisodes(); return; }
+            episodes.sort((a, b) => new Date(b.date) - new Date(a.date));
+            const latest = episodes[0];
+            document.getElementById('latest-title').textContent = latest.episode_title || 'Latest Episode';
+            document.getElementById('latest-date').textContent = formatDate(latest.date);
+            document.getElementById('latest-audio').src = latest.audio_url || '';
+
+            if (latest.content) {
+                const summaryEl = document.getElementById('latest-summary');
+                summaryEl.textContent = getPreviewText(latest.content);
+                summaryEl.style.display = 'block';
+            }
+
+            const grid = document.getElementById('episodes-grid');
+            grid.innerHTML = '';
+            episodes.slice(1, 13).forEach(ep => {
+                const card = document.createElement('div');
+                card.className = 'episode-card glass-card';
+                card.innerHTML = `
+                    <div class="episode-card-date">${formatDate(ep.date)}</div>
+                    <div class="episode-card-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
+                    <div style="color:var(--nn-text-muted);font-size:0.85rem;margin-bottom:var(--sp-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHtml(getPreviewText(ep.content))}</div>
+                    <audio controls preload="none" src="${ep.audio_url || ''}" style="width:100%;height:36px;border-radius:8px;"></audio>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function loadFromRSS() {
+            fetch(RSS_URL)
+                .then(r => r.text())
+                .then(xml => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(xml, 'text/xml');
+                    const items = doc.querySelectorAll('item');
+                    if (!items.length) { showNoEpisodes(); return; }
+
+                    const first = items[0];
+                    document.getElementById('latest-title').textContent = first.querySelector('title')?.textContent || 'Latest Episode';
+                    const pubDate = first.querySelector('pubDate')?.textContent || '';
+                    document.getElementById('latest-date').textContent = pubDate ? formatDate(pubDate) : '';
+                    const enc = first.querySelector('enclosure');
+                    if (enc) document.getElementById('latest-audio').src = enc.getAttribute('url') || '';
+
+                    const grid = document.getElementById('episodes-grid');
+                    grid.innerHTML = '';
+                    Array.from(items).slice(1, 13).forEach(item => {
+                        const title = item.querySelector('title')?.textContent || 'Episode';
+                        const pd = item.querySelector('pubDate')?.textContent || '';
+                        const enclosure = item.querySelector('enclosure');
+                        const url = enclosure ? enclosure.getAttribute('url') : '';
+                        const desc = item.querySelector('description')?.textContent || '';
+                        const card = document.createElement('div');
+                        card.className = 'episode-card glass-card';
+                        card.innerHTML = `
+                            <div class="episode-card-date">${pd ? formatDate(pd) : ''}</div>
+                            <div class="episode-card-title">${escapeHtml(title)}</div>
+                            <div style="color:var(--nn-text-muted);font-size:0.85rem;margin-bottom:var(--sp-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHtml(getPreviewText(desc))}</div>
+                            <audio controls preload="none" src="${url}" style="width:100%;height:36px;border-radius:8px;"></audio>
+                        `;
+                        grid.appendChild(card);
+                    });
+                })
+                .catch(() => { showNoEpisodes(); });
+        }
+
+        function showNoEpisodes() {
+            document.getElementById('latest-title').textContent = 'No episodes available yet';
+            document.getElementById('episodes-grid').innerHTML = '<p style="color:var(--nn-text-muted);grid-column:1/-1;text-align:center;padding:2rem 0;">Episodes will appear here once available.</p>';
+        }
+
+        {% if show_slug == 'tesla' %}
+        // --- Stock widget (Tesla only) ---
+        async function loadStock() {
+            function displayPrice(price, prev) {
+                const p = parseFloat(price), pc = parseFloat(prev);
+                const ch = (p - pc).toFixed(2);
+                const pct = ((p - pc) / pc * 100).toFixed(2);
+                const isUp = ch >= 0;
+                document.getElementById('stock-price').textContent = '$' + p.toFixed(2);
+                const changeEl = document.getElementById('stock-change');
+                changeEl.textContent = (isUp ? '+' : '') + ch + ' (' + (isUp ? '+' : '') + pct + '%)';
+                changeEl.className = 'change ' + (isUp ? 'up' : 'down');
+            }
+            const yahooUrl = 'https://query2.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=2d';
+            const proxies = [
+                url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
+                url => 'https://corsproxy.io/?' + encodeURIComponent(url),
+                url => url
+            ];
+            for (const makeUrl of proxies) {
+                try {
+                    const resp = await fetch(makeUrl(yahooUrl));
+                    if (!resp.ok) continue;
+                    const data = await resp.json();
+                    const meta = data.chart.result[0].meta;
+                    displayPrice(meta.regularMarketPrice, meta.chartPreviousClose || meta.previousClose);
+                    return;
+                } catch {}
+            }
+            document.getElementById('stock-price').textContent = 'TSLA';
+            document.getElementById('stock-change').textContent = 'Market data unavailable';
+        }
+        loadStock();
+        {% endif %}
+
+        loadEpisodes();
+    </script>
+{% endblock %}
