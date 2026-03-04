@@ -954,7 +954,7 @@ def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
         audio_subdir="digests/planetterrian",
     )
 
-_PT_BASE_URL = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+_PT_BASE_URL = "https://nerranetwork.com"
 
 def update_rss_feed(
     rss_path, episode_num, episode_title, episode_description,
@@ -1403,7 +1403,7 @@ Here is today's complete formatted digest. Use ONLY this content:
                 mp3_filename=final_mp3.name,
                 mp3_duration=audio_duration,
                 mp3_path=final_mp3,
-                base_url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+                base_url="https://nerranetwork.com"
             )
             logging.info(f"RSS feed updated with Episode {episode_num}")
         except Exception as e:
@@ -1413,7 +1413,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     try:
         existing_episodes = scan_existing_episodes_from_files(
             digests_dir, 
-            "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+            "https://nerranetwork.com"
         )
         
         # Parse RSS feed to see what episodes are already there
@@ -1454,7 +1454,7 @@ Here is today's complete formatted digest. Use ONLY this content:
                         mp3_filename=ep_data['filename'],
                         mp3_duration=ep_data['duration'],
                         mp3_path=ep_data['path'],
-                        base_url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+                        base_url="https://nerranetwork.com"
                     )
                     logging.info(f"Added missing Episode {ep_data['episode_num']} to RSS feed")
                 except Exception as e:
@@ -1467,7 +1467,7 @@ logging.info("Checking for any episodes missing from RSS feed...")
 try:
     existing_episodes = scan_existing_episodes_from_files(
         digests_dir, 
-        "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+        "https://nerranetwork.com"
     )
     
     # Parse RSS feed to see what episodes are already there
@@ -1508,7 +1508,7 @@ try:
                     mp3_filename=ep_data['filename'],
                     mp3_duration=ep_data['duration'],
                     mp3_path=ep_data['path'],
-                    base_url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+                    base_url="https://nerranetwork.com"
                 )
                 logging.info(f"Added missing Episode {ep_data['episode_num']} to RSS feed")
             except Exception as e:
@@ -1522,7 +1522,7 @@ except Exception as e:
 if ENABLE_GITHUB_SUMMARIES:
     try:
         # Save the full summary to GitHub Pages JSON
-        _base_url = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+        _base_url = "https://nerranetwork.com"
         _audio_url = None
         try:
             if ENABLE_PODCAST and final_mp3:
@@ -1550,8 +1550,8 @@ if ENABLE_GITHUB_SUMMARIES:
 if ENABLE_X_POSTING:
     try:
         # Create link to the Planetterrian summaries page
-        summaries_url = "https://patricknovak.github.io/Tesla-shorts-time/planetterrian-summaries.html"
-        rss_url = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian_podcast.rss"
+        summaries_url = "https://nerranetwork.com/planetterrian-summaries.html"
+        rss_url = "https://nerranetwork.com/planetterrian_podcast.rss"
 
         # Create a teaser post with link to full summary
         today = datetime.datetime.now()

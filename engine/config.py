@@ -80,7 +80,7 @@ class PublishingConfig:
     rss_category: str = "Technology"
     rss_language: str = "en-us"
     guid_prefix: str = "podcast"
-    base_url: str = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+    base_url: str = "https://nerranetwork.com"
     audio_subdir: str = "digests"
     summaries_json: str = "digests/summaries.json"
     summaries_podcast_name: str = ""

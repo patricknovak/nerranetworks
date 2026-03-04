@@ -26,8 +26,12 @@ Thumbs.db
 *.tmp
 *.log
 
-# Audio files (hosted on Cloudflare R2, not tracked in git)
-*.mp3
+# Episode audio files (hosted on Cloudflare R2, not tracked in git)
+digests/**/*.mp3
+digests/*.mp3
+
+# Keep music stings tracked
+!assets/music/*.mp3
 
 
 
