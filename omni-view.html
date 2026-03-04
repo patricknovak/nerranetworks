@@ -167,6 +167,9 @@
                     <span style="background:var(--nn-card);border:1px solid var(--nn-border);padding:2px 10px;border-radius:6px;">~20 min</span>
                 </div>
                 <p class="show-hero-desc">Omni View is a neutral, media-literacy-first daily briefing designed for everyone from children to seniors. Covers top world, business, technology, and media stories with perspectives from across the political spectrum.</p>
+                
+                <p style="font-family:var(--font-ui);font-size:0.88rem;color:var(--nn-text-muted);margin-bottom:var(--sp-4);font-style:italic;">For thoughtful news consumers who want every side of the story — not just the one their algorithm picks.</p>
+                
                 <div class="show-hero-actions">
                     <a href="#episodes" class="nn-btn nn-btn-primary">Listen Now</a>
                     <a href="omni-view-summaries.html" class="nn-btn">View Summaries</a>
@@ -201,6 +204,9 @@
                 <h2>Recent Episodes</h2>
             </div>
             <div id="episodes-grid" class="episodes-grid"></div>
+            <div style="text-align:center;margin-top:var(--sp-6);">
+                <a href="omni-view-summaries.html" class="nn-btn">View All Episodes</a>
+            </div>
         </div>
     </section>
 
@@ -219,6 +225,68 @@
         </div>
     </section>
 
+    <!-- Resources -->
+    
+    <section class="nn-section" style="padding-top:0;">
+        <div class="container">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Resources & Further Reading</h2>
+            </div>
+            <div class="resources-grid">
+                
+                <a href="https://www.allsides.com/media-bias/ratings" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">AllSides Media Bias Chart</div>
+                    <div class="resource-card-desc">See where news sources fall on the political spectrum</div>
+                    <div class="resource-card-url">www.allsides.com/media-bias/ratings</div>
+                </a>
+                
+                <a href="https://ground.news" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">Ground News</div>
+                    <div class="resource-card-desc">Compare how different outlets cover the same story</div>
+                    <div class="resource-card-url">ground.news</div>
+                </a>
+                
+                <a href="https://adfontesmedia.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">Ad Fontes Media Bias Chart</div>
+                    <div class="resource-card-desc">Independent media reliability and bias ratings</div>
+                    <div class="resource-card-url">adfontesmedia.com</div>
+                </a>
+                
+                <a href="https://www.reuters.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">Reuters</div>
+                    <div class="resource-card-desc">Wire service known for factual, neutral reporting</div>
+                    <div class="resource-card-url">www.reuters.com</div>
+                </a>
+                
+                <a href="https://apnews.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">AP News</div>
+                    <div class="resource-card-desc">Non-profit global news wire with minimal editorial bias</div>
+                    <div class="resource-card-url">apnews.com</div>
+                </a>
+                
+                <a href="https://www.factcheck.org" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">FactCheck.org</div>
+                    <div class="resource-card-desc">Non-partisan fact-checking from the Annenberg Public Policy Center</div>
+                    <div class="resource-card-url">www.factcheck.org</div>
+                </a>
+                
+            </div>
+        </div>
+    </section>
+    
+
+    
+    <!-- X Feed -->
+    <section class="nn-section" style="padding-top:0;">
+        <div class="container" style="max-width:700px;">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Latest from @omniviewnews</h2>
+            </div>
+            <div class="glass-card" style="padding:var(--sp-4);overflow:hidden;max-height:600px;overflow-y:auto;">
+                <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders transparent" data-height="500" href="https://twitter.com/omniviewnews">Posts by @omniviewnews</a>
+            </div>
+        </div>
+    </section>
     
 
     <!-- Related Show Recommendation -->
@@ -363,6 +431,8 @@
     </footer>
 
     
+    
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     
     <script>
         const JSON_URL = 'digests/omni_view/summaries_omni.json';

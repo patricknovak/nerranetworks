@@ -55,6 +55,16 @@ NETWORK_SHOWS = {
         "theme_color": "#E31937",
         "meta_description": "Daily Tesla Shorts Time podcast — Tesla news, TSLA stock, FSD updates, and sustainable energy progress.",
         "meta_keywords": "Tesla podcast, TSLA news, Tesla stock, EV analysis, Tesla Shorts Time, daily digests",
+        "audience": "For Tesla owners, TSLA investors, EV enthusiasts, and anyone following the transition to sustainable energy.",
+        "source_highlights": ["Teslarati", "CleanTechnica", "InsideEVs", "The Verge"],
+        "resources": [
+            {"name": "Tesla Investor Relations", "url": "https://ir.tesla.com", "desc": "Official SEC filings, earnings calls, and shareholder letters"},
+            {"name": "Tesla Blog", "url": "https://www.tesla.com/blog", "desc": "Official Tesla announcements and product updates"},
+            {"name": "TSLA on Yahoo Finance", "url": "https://finance.yahoo.com/quote/TSLA", "desc": "Real-time stock price, charts, and financial data"},
+            {"name": "Teslarati", "url": "https://www.teslarati.com", "desc": "Independent Tesla and SpaceX news coverage"},
+            {"name": "Not A Tesla App", "url": "https://www.notateslaapp.com", "desc": "Tesla software updates and feature tracking"},
+            {"name": "CleanTechnica", "url": "https://cleantechnica.com", "desc": "Clean energy and electric vehicle industry news"},
+        ],
     },
     "omni_view": {
         "name": "Omni View",
@@ -82,6 +92,16 @@ NETWORK_SHOWS = {
         "theme_color": "#0B6FD6",
         "meta_description": "Omni View — Daily balanced news summaries from diverse sources. Multiple perspectives on the stories that matter.",
         "meta_keywords": "balanced news, diverse perspectives, media literacy, news analysis, unbiased reporting",
+        "audience": "For thoughtful news consumers who want every side of the story — not just the one their algorithm picks.",
+        "source_highlights": ["NPR", "BBC", "Reuters", "WSJ", "Al Jazeera", "The Guardian"],
+        "resources": [
+            {"name": "AllSides Media Bias Chart", "url": "https://www.allsides.com/media-bias/ratings", "desc": "See where news sources fall on the political spectrum"},
+            {"name": "Ground News", "url": "https://ground.news", "desc": "Compare how different outlets cover the same story"},
+            {"name": "Ad Fontes Media Bias Chart", "url": "https://adfontesmedia.com", "desc": "Independent media reliability and bias ratings"},
+            {"name": "Reuters", "url": "https://www.reuters.com", "desc": "Wire service known for factual, neutral reporting"},
+            {"name": "AP News", "url": "https://apnews.com", "desc": "Non-profit global news wire with minimal editorial bias"},
+            {"name": "FactCheck.org", "url": "https://www.factcheck.org", "desc": "Non-partisan fact-checking from the Annenberg Public Policy Center"},
+        ],
     },
     "fascinating_frontiers": {
         "name": "Fascinating Frontiers",
@@ -109,6 +129,16 @@ NETWORK_SHOWS = {
         "theme_color": "#7C5CFF",
         "meta_description": "Fascinating Frontiers — Daily space and astronomy news podcast. Mission updates, cosmic discoveries, and rocket launches.",
         "meta_keywords": "space podcast, astronomy news, NASA discoveries, space exploration, Fascinating Frontiers",
+        "audience": "For space enthusiasts, amateur astronomers, students, and anyone who looks up and wonders what's out there.",
+        "source_highlights": ["NASA", "ESA", "Space.com", "SpaceNews"],
+        "resources": [
+            {"name": "NASA", "url": "https://www.nasa.gov", "desc": "Official NASA mission updates, images, and research"},
+            {"name": "NASA APOD", "url": "https://apod.nasa.gov", "desc": "Astronomy Picture of the Day — daily cosmic imagery with explanations"},
+            {"name": "Space.com", "url": "https://www.space.com", "desc": "Space news, astronomy guides, and stargazing tips"},
+            {"name": "Webb Telescope", "url": "https://webbtelescope.org", "desc": "James Webb Space Telescope images and science results"},
+            {"name": "Heavens-Above", "url": "https://www.heavens-above.com", "desc": "Track satellites, ISS passes, and night sky objects for your location"},
+            {"name": "The Planetary Society", "url": "https://www.planetary.org", "desc": "Space exploration advocacy and citizen science projects"},
+        ],
     },
     "planetterrian": {
         "name": "Planetterrian Daily",
@@ -136,6 +166,16 @@ NETWORK_SHOWS = {
         "theme_color": "#018DB1",
         "meta_description": "Planetterrian Daily — Science, longevity, and health discoveries. Genetics, biotech, CRISPR, and more.",
         "meta_keywords": "science podcast, longevity research, health discoveries, Planetterrian Daily, biotech news",
+        "audience": "For the health-curious, longevity enthusiasts, biohackers, and anyone who wants tomorrow's medicine explained today.",
+        "source_highlights": ["Nature", "Science", "Cell", "New Scientist"],
+        "resources": [
+            {"name": "PubMed", "url": "https://pubmed.ncbi.nlm.nih.gov", "desc": "Free access to biomedical and life science research papers"},
+            {"name": "ClinicalTrials.gov", "url": "https://clinicaltrials.gov", "desc": "Database of clinical studies and trials worldwide"},
+            {"name": "Nature", "url": "https://www.nature.com", "desc": "Premier multidisciplinary science journal"},
+            {"name": "Quanta Magazine", "url": "https://www.quantamagazine.org", "desc": "Accessible coverage of math, physics, and biology research"},
+            {"name": "Lifespan.io", "url": "https://www.lifespan.io", "desc": "Longevity research news and rejuvenation science tracker"},
+            {"name": "Examine.com", "url": "https://examine.com", "desc": "Evidence-based supplement and nutrition research"},
+        ],
     },
     "env_intel": {
         "name": "Environmental Intelligence",
@@ -163,6 +203,16 @@ NETWORK_SHOWS = {
         "theme_color": "#1B5E20",
         "meta_description": "Environmental Intelligence — Daily environmental regulatory and compliance briefing for BC professionals.",
         "meta_keywords": "environmental intelligence, regulatory compliance, environmental briefings, Canadian environment",
+        "audience": "For Canadian environmental professionals — contaminated sites consultants, regulators, lawyers, and lab scientists.",
+        "source_highlights": ["Canada Gazette", "ECCC", "BC Ministry of Environment", "The Narwhal"],
+        "resources": [
+            {"name": "Canada Gazette", "url": "https://www.gazette.gc.ca", "desc": "Official source for federal regulations and proposed amendments"},
+            {"name": "ECCC", "url": "https://www.canada.ca/en/environment-climate-change.html", "desc": "Environment and Climate Change Canada — federal policy and enforcement"},
+            {"name": "CCME", "url": "https://ccme.ca", "desc": "Canadian Council of Ministers of the Environment — guidelines and standards"},
+            {"name": "BC Site Remediation", "url": "https://www2.gov.bc.ca/gov/content/environment/air-land-water/site-remediation", "desc": "BC contaminated sites registry, guidance, and CSR protocols"},
+            {"name": "The Narwhal", "url": "https://thenarwhal.ca", "desc": "Independent Canadian environmental investigative journalism"},
+            {"name": "Ecojustice", "url": "https://ecojustice.ca", "desc": "Canada's leading environmental law charity"},
+        ],
     },
     "models_agents": {
         "name": "Models & Agents",
@@ -190,6 +240,16 @@ NETWORK_SHOWS = {
         "theme_color": "#8B5CF6",
         "meta_description": "Models & Agents — Daily AI briefing on models, agent frameworks, and practical AI developments.",
         "meta_keywords": "AI models, agent frameworks, LLM news, AI briefings, Models and Agents",
+        "audience": "For developers building with AI, professionals adopting AI tools, and anyone who wants to stay ahead of the most transformative technology of our generation.",
+        "source_highlights": ["OpenAI", "Anthropic", "Hugging Face", "arXiv"],
+        "resources": [
+            {"name": "Hugging Face", "url": "https://huggingface.co", "desc": "Open-source models, datasets, demos, and the model Hub"},
+            {"name": "Papers With Code", "url": "https://paperswithcode.com", "desc": "ML papers with code, benchmarks, and leaderboards"},
+            {"name": "arXiv AI", "url": "https://arxiv.org/list/cs.AI/recent", "desc": "Latest AI research preprints from the research community"},
+            {"name": "LM Arena", "url": "https://lmarena.ai", "desc": "Chatbot Arena — crowdsourced LLM rankings and leaderboard"},
+            {"name": "Latent Space", "url": "https://www.latent.space", "desc": "AI engineering podcast, newsletter, and community"},
+            {"name": "The Decoder", "url": "https://the-decoder.com", "desc": "AI news focused on practical developments and new releases"},
+        ],
     },
 }
 
@@ -209,6 +269,7 @@ def _build_all_shows_list():
             "schedule": cfg.get("schedule", "Daily"),
             "episode_length": cfg.get("episode_length", ""),
             "description_long": cfg.get("description_long", cfg["description"]),
+            "source_highlights": cfg.get("source_highlights", []),
         }
         for cfg in NETWORK_SHOWS.values()
     ]

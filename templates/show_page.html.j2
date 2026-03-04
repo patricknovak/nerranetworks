@@ -54,6 +54,9 @@
                     {% if episode_length %}<span style="background:var(--nn-card);border:1px solid var(--nn-border);padding:2px 10px;border-radius:6px;">{{ episode_length }}</span>{% endif %}
                 </div>
                 <p class="show-hero-desc">{{ show_description }}</p>
+                {% if audience %}
+                <p style="font-family:var(--font-ui);font-size:0.88rem;color:var(--nn-text-muted);margin-bottom:var(--sp-4);font-style:italic;">{{ audience }}</p>
+                {% endif %}
                 <div class="show-hero-actions">
                     <a href="#episodes" class="nn-btn nn-btn-primary">Listen Now</a>
                     <a href="{{ summaries_page }}" class="nn-btn">View Summaries</a>
@@ -96,6 +99,9 @@
                 <h2>Recent Episodes</h2>
             </div>
             <div id="episodes-grid" class="episodes-grid"></div>
+            <div style="text-align:center;margin-top:var(--sp-6);">
+                <a href="{{ summaries_page }}" class="nn-btn">View All Episodes</a>
+            </div>
         </div>
     </section>
 
@@ -114,7 +120,27 @@
         </div>
     </section>
 
-    {% if x_account and show_slug == 'tesla' %}
+    <!-- Resources -->
+    {% if resources %}
+    <section class="nn-section" style="padding-top:0;">
+        <div class="container">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Resources & Further Reading</h2>
+            </div>
+            <div class="resources-grid">
+                {% for r in resources %}
+                <a href="{{ r.url }}" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">{{ r.name }}</div>
+                    <div class="resource-card-desc">{{ r.desc }}</div>
+                    <div class="resource-card-url">{{ r.url | replace('https://', '') | replace('http://', '') }}</div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {% if x_account %}
     <!-- X Feed -->
     <section class="nn-section" style="padding-top:0;">
         <div class="container" style="max-width:700px;">
@@ -171,7 +197,7 @@
 {% endblock %}
 
 {% block scripts %}
-    {% if x_account and show_slug == 'tesla' %}
+    {% if x_account %}
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     {% endif %}
     <script>

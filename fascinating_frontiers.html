@@ -167,6 +167,9 @@
                     <span style="background:var(--nn-card);border:1px solid var(--nn-border);padding:2px 10px;border-radius:6px;">~15 min</span>
                 </div>
                 <p class="show-hero-desc">Daily space and astronomy news covering mission updates, cosmic discoveries, exoplanet breakthroughs, and rocket launches. From NASA and ESA to SpaceX and beyond.</p>
+                
+                <p style="font-family:var(--font-ui);font-size:0.88rem;color:var(--nn-text-muted);margin-bottom:var(--sp-4);font-style:italic;">For space enthusiasts, amateur astronomers, students, and anyone who looks up and wonders what's out there.</p>
+                
                 <div class="show-hero-actions">
                     <a href="#episodes" class="nn-btn nn-btn-primary">Listen Now</a>
                     <a href="fascinating-frontiers-summaries.html" class="nn-btn">View Summaries</a>
@@ -201,6 +204,9 @@
                 <h2>Recent Episodes</h2>
             </div>
             <div id="episodes-grid" class="episodes-grid"></div>
+            <div style="text-align:center;margin-top:var(--sp-6);">
+                <a href="fascinating-frontiers-summaries.html" class="nn-btn">View All Episodes</a>
+            </div>
         </div>
     </section>
 
@@ -219,6 +225,68 @@
         </div>
     </section>
 
+    <!-- Resources -->
+    
+    <section class="nn-section" style="padding-top:0;">
+        <div class="container">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Resources & Further Reading</h2>
+            </div>
+            <div class="resources-grid">
+                
+                <a href="https://www.nasa.gov" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">NASA</div>
+                    <div class="resource-card-desc">Official NASA mission updates, images, and research</div>
+                    <div class="resource-card-url">www.nasa.gov</div>
+                </a>
+                
+                <a href="https://apod.nasa.gov" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">NASA APOD</div>
+                    <div class="resource-card-desc">Astronomy Picture of the Day — daily cosmic imagery with explanations</div>
+                    <div class="resource-card-url">apod.nasa.gov</div>
+                </a>
+                
+                <a href="https://www.space.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">Space.com</div>
+                    <div class="resource-card-desc">Space news, astronomy guides, and stargazing tips</div>
+                    <div class="resource-card-url">www.space.com</div>
+                </a>
+                
+                <a href="https://webbtelescope.org" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">Webb Telescope</div>
+                    <div class="resource-card-desc">James Webb Space Telescope images and science results</div>
+                    <div class="resource-card-url">webbtelescope.org</div>
+                </a>
+                
+                <a href="https://www.heavens-above.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">Heavens-Above</div>
+                    <div class="resource-card-desc">Track satellites, ISS passes, and night sky objects for your location</div>
+                    <div class="resource-card-url">www.heavens-above.com</div>
+                </a>
+                
+                <a href="https://www.planetary.org" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">The Planetary Society</div>
+                    <div class="resource-card-desc">Space exploration advocacy and citizen science projects</div>
+                    <div class="resource-card-url">www.planetary.org</div>
+                </a>
+                
+            </div>
+        </div>
+    </section>
+    
+
+    
+    <!-- X Feed -->
+    <section class="nn-section" style="padding-top:0;">
+        <div class="container" style="max-width:700px;">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Latest from @planetterrian</h2>
+            </div>
+            <div class="glass-card" style="padding:var(--sp-4);overflow:hidden;max-height:600px;overflow-y:auto;">
+                <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders transparent" data-height="500" href="https://twitter.com/planetterrian">Posts by @planetterrian</a>
+            </div>
+        </div>
+    </section>
     
 
     <!-- Related Show Recommendation -->
@@ -363,6 +431,8 @@
     </footer>
 
     
+    
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     
     <script>
         const JSON_URL = 'digests/fascinating_frontiers/summaries_space.json';

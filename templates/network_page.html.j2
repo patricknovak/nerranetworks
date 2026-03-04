@@ -67,6 +67,9 @@
                         {% if s.episode_length %}<span class="show-card-badge">{{ s.episode_length }}</span>{% endif %}
                     </div>
                     <div class="show-card-tagline">{{ s.description_long | default(s.tagline) }}</div>
+                    {% if s.source_highlights %}
+                    <div class="show-card-sources">Sources: {{ s.source_highlights | join(', ') }}</div>
+                    {% endif %}
                     <div class="show-card-listen">
                         Listen
                         <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -115,17 +118,26 @@
         <div class="container">
             <div class="nn-section-header">
                 <h2>Subscribe Everywhere</h2>
-                <p>All shows are available on major podcast platforms. Pick your favorite and never miss an episode.</p>
+                <p>All shows are available via RSS. Pick your favorite podcast app and never miss an episode.</p>
             </div>
             <div class="subscribe-badges">
                 <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" class="subscribe-badge" target="_blank" rel="noopener">
-                    Apple Podcasts
+                    Apple Podcasts (Tesla Shorts Time)
                 </a>
                 <a href="network.rss" class="subscribe-badge">
-                    RSS Feed
+                    Network RSS (All Shows)
                 </a>
             </div>
-            <p style="text-align:center;color:var(--nn-text-muted);font-family:var(--font-ui);font-size:0.88rem;margin-top:var(--sp-6);">More platforms coming soon. Use RSS for immediate access to all shows.</p>
+            <div class="subscribe-rss-grid">
+                {% for s in all_shows %}
+                <a href="{{ s.rss_file }}" class="subscribe-rss-item">
+                    <img src="{{ s.podcast_image }}" alt="" loading="lazy">
+                    <span>{{ s.name }}</span>
+                    <span class="subscribe-rss-label">RSS</span>
+                </a>
+                {% endfor %}
+            </div>
+            <p style="text-align:center;color:var(--nn-text-muted);font-family:var(--font-ui);font-size:0.88rem;margin-top:var(--sp-6);">Copy any RSS link into your podcast app of choice — Apple Podcasts, Spotify, Pocket Casts, Overcast, or any RSS reader.</p>
         </div>
     </section>
 {% endblock %}
