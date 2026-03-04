@@ -1,5 +1,5 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:ns0="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
   <channel>
     <title>Environmental Intelligence</title>
     <link>https://patricknovak.github.io/Tesla-shorts-time/env-intel.html</link>
@@ -9,15 +9,15 @@
     <generator>python-feedgen</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 03 Mar 2026 14:26:57 +0000</lastBuildDate>
-    <itunes:author>Environmental Intelligence</itunes:author>
-    <itunes:category text="Science"/>
-    <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg"/>
-    <itunes:explicit>no</itunes:explicit>
-    <itunes:owner>
-      <itunes:name>Environmental Intelligence</itunes:name>
-      <itunes:email>contact@teslashortstime.com</itunes:email>
-    </itunes:owner>
-    <itunes:summary>Daily environmental regulatory, science, and compliance briefing for Canadian environmental professionals. Covering contaminated sites, remediation, environmental law, and climate policy across all provinces, territories, and federal jurisdictions.</itunes:summary>
+    <ns0:author>Environmental Intelligence</ns0:author>
+    <ns0:category text="Science" />
+    <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg" />
+    <ns0:explicit>no</ns0:explicit>
+    <ns0:owner>
+      <ns0:name>Environmental Intelligence</ns0:name>
+      <ns0:email>contact@teslashortstime.com</ns0:email>
+    </ns0:owner>
+    <ns0:summary>Daily environmental regulatory, science, and compliance briefing for Canadian environmental professionals. Covering contaminated sites, remediation, environmental law, and climate policy across all provinces, territories, and federal jurisdictions.</ns0:summary>
     <item>
       <title>Ep 4: New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.</title>
       <link>https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/env_intel/Env_Intel_Ep004_20260303.mp3</link>
@@ -44,12 +44,12 @@ Source: https://insideclimatenews.org/news/01032026/icn-sunday-morning-ocean-war
 Field efforts in the US demonstrate assisted migration of tree species to counter climate shifts, with survival rates of 70-85% for relocated oaks and maples in warming zones, informing wildfire interface planning. In Canada, this aligns with Alberta EPEA and Manitoba Environment Act requirements for reforestation in remediation, where practitioners can apply similar techniques to enhance monitored natural attenuation in fire-prone sites; reference CCME soil guidelines for root zone contaminant uptake. For BC CSR projects, incorporate into Protocol 1 risk assessments to mitigate heat island effects, potentially reducing long-term monitoring timelines by 2-3 years through resilient vegetation barriers.  
 Source: https://insideclimatenews.org/news/010320...</description>
       <guid isPermaLink="false">env-intel-ep004-20260303-142657</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/env_intel/Env_Intel_Ep004_20260303.mp3" length="15408318" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep004_20260303.mp3" length="15408318" type="audio/mpeg" />
       <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg"/>
-      <itunes:duration>10:41</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Environmental Intelligence
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg" />
+      <ns0:duration>10:41</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Environmental Intelligence
 **Date:** March 03, 2026
 🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
 
@@ -70,11 +70,11 @@ Source: https://insideclimatenews.org/news/01032026/icn-sunday-morning-ocean-war
 
 **Deep Analysis: Assisted Tree Migration for Urban Climate Adaptation**  
 Field efforts in the US demonstrate assisted migration of tree species to counter climate shifts, with survival rates of 70-85% for relocated oaks and maples in warming zones, informing wildfire interface planning. In Canada, this aligns with Alberta EPEA and Manitoba Environment Act requirements for reforestation in remediation, where practitioners can apply similar techniques to enhance monitored natural attenuation in fire-prone sites; reference CCME soil guidelines for root zone contaminant uptake. For BC CSR projects, incorporate into Protocol 1 risk assessments to mitigate heat island effects, potentially reducing long-term monitoring timelines by 2-3 years through resilient vegetation barriers.  
-Source: https://insideclimatenews.org/news/010320...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>4</itunes:episode>
-      <itunes:title>Ep 4: New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
+Source: https://insideclimatenews.org/news/010320...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>4</ns0:episode>
+      <ns0:title>Ep 4: New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
     </item>
     <item>
       <title>Ep 2: Port of Churchill expansion push triggers federal IAA assessments for Manitoba Arctic infrastructure, with oil spill risks under Fisheries Act.</title>
@@ -106,12 +106,12 @@ Source: https://www.nature.com/articles/s41558-026-02563-7
 **Melt channelization stronger than previously recognized: Nature**
 Nature Climate Change maps reveal basal melt rates in Antarctic ice shelves up to 50% higher in narrow channels, accelerating projections by 10-20 cm for global sea-level rise by 2100. For Canadian practitioners, this refines flood risk mapping under CCME guidelines and BC CSR Protocol 13,...</description>
       <guid isPermaLink="false">env-intel-ep002-20260227-192331</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/env_intel/Env_Intel_Ep002_20260227.mp3" length="13136292" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep002_20260227.mp3" length="13136292" type="audio/mpeg" />
       <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg"/>
-      <itunes:duration>09:07</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Environmental Intelligence
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg" />
+      <ns0:duration>09:07</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Environmental Intelligence
 **Date:** February 27, 2026
 🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
 
@@ -137,11 +137,11 @@ Source: https://www.nature.com/articles/s41558-026-02563-7
 ━━━━━━━━━━━━━━━━━━━━
 ### Science &amp; Technical
 **Melt channelization stronger than previously recognized: Nature**
-Nature Climate Change maps reveal basal melt rates in Antarctic ice shelves up to 50% higher in narrow channels, accelerating projections by 10-20 cm for global sea-level rise by 2100. For Canadian practitioners, this refines flood risk mapping under CCME guidelines and BC CSR Protocol 13,...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>2</itunes:episode>
-      <itunes:title>Ep 2: Port of Churchill expansion push triggers federal IAA assessments for Manitoba Arctic infrastructure, with oil spill risks under Fisheries Act.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
+Nature Climate Change maps reveal basal melt rates in Antarctic ice shelves up to 50% higher in narrow channels, accelerating projections by 10-20 cm for global sea-level rise by 2100. For Canadian practitioners, this refines flood risk mapping under CCME guidelines and BC CSR Protocol 13,...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>2</ns0:episode>
+      <ns0:title>Ep 2: Port of Churchill expansion push triggers federal IAA assessments for Manitoba Arctic infrastructure, with oil spill risks under Fisheries Act.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
     </item>
     <item>
       <title>Ep 1: No qualifying environmental regulatory or technical developments reported today.</title>
@@ -153,22 +153,22 @@ Nature Climate Change maps reveal basal melt rates in Antarctic ice shelves up t
 
 **Executive Summary:** The available source does not meet criteria for inclusion, providing no updates on Canadian environmental regulations, enforcement, or science. No specific changes to thresholds, deadlines, or compliance obligations in any province, territory, or ...</description>
       <guid isPermaLink="false">env-intel-ep001-20260226-203635</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/env_intel/Env_Intel_Ep001_20260226.mp3" length="12021595" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep001_20260226.mp3" length="12021595" type="audio/mpeg" />
       <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg"/>
-      <itunes:duration>08:20</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Environmental Intelligence
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg" />
+      <ns0:duration>08:20</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Environmental Intelligence
 **Date:** February 26, 2026
 🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
 
 **HOOK:** No qualifying environmental regulatory or technical developments reported today.
 
-**Executive Summary:** The available source does not meet criteria for inclusion, providing no updates on Canadian environmental regulations, enforcement, or science. No specific changes to thresholds, deadlines, or compliance obligations in any province, territory, or ...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>1</itunes:episode>
-      <itunes:title>Ep 1: No qualifying environmental regulatory or technical developments reported today.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
+**Executive Summary:** The available source does not meet criteria for inclusion, providing no updates on Canadian environmental regulations, enforcement, or science. No specific changes to thresholds, deadlines, or compliance obligations in any province, territory, or ...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>1</ns0:episode>
+      <ns0:title>Ep 1: No qualifying environmental regulatory or technical developments reported today.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
     </item>
     <item>
       <title>Ep 3: Road salt accumulation in Ontario's Lake Simcoe watershed exceeds CCME chloride guidelines, triggering site assessments under O. Reg. 153/04.</title>
@@ -204,12 +204,12 @@ Source: https://www.nature.com/articles/s41558-026-02579-z
 ### Action Items
 - Review Phase I and II ESAs for Ontario projects to incorporate chloride sampling per CCME guidelines, updating risk assessments under O. ...</description>
       <guid isPermaLink="false">env-intel-ep003-20260302-142655</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/env_intel/Env_Intel_Ep003_20260302.mp3" length="14297382" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep003_20260302.mp3" length="14297382" type="audio/mpeg" />
       <pubDate>Mon, 02 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg"/>
-      <itunes:duration>09:55</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Environmental Intelligence
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg" />
+      <ns0:duration>09:55</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Environmental Intelligence
 **Date:** March 02, 2026
 🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
 
@@ -239,11 +239,11 @@ Source: https://www.nature.com/articles/s41558-026-02579-z
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Action Items
-- Review Phase I and II ESAs for Ontario projects to incorporate chloride sampling per CCME guidelines, updating risk assessments under O. ...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>3</itunes:episode>
-      <itunes:title>Ep 3: Road salt accumulation in Ontario's Lake Simcoe watershed exceeds CCME chloride guidelines, triggering site assessments under O. Reg. 153/04.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
+- Review Phase I and II ESAs for Ontario projects to incorporate chloride sampling per CCME guidelines, updating risk assessments under O. ...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>3</ns0:episode>
+      <ns0:title>Ep 3: Road salt accumulation in Ontario's Lake Simcoe watershed exceeds CCME chloride guidelines, triggering site assessments under O. Reg. 153/04.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
     </item>
   </channel>
 </rss>

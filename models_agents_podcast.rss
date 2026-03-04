@@ -1,5 +1,5 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:ns0="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
   <channel>
     <title>Models &amp; Agents</title>
     <link>https://patricknovak.github.io/Tesla-shorts-time/models-agents.html</link>
@@ -9,15 +9,15 @@
     <generator>python-feedgen</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 02 Mar 2026 15:29:29 +0000</lastBuildDate>
-    <itunes:author>Patrick</itunes:author>
-    <itunes:category text="Technology"/>
-    <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
-    <itunes:explicit>no</itunes:explicit>
-    <itunes:owner>
-      <itunes:name>Patrick</itunes:name>
-      <itunes:email>contact@teslashortstime.com</itunes:email>
-    </itunes:owner>
-    <itunes:summary>Daily AI briefing covering new model releases, agent frameworks, and the latest developments in AI. Not the models and agents you are thinking about! Stay on top of the most exciting developments of our generation.</itunes:summary>
+    <ns0:author>Patrick</ns0:author>
+    <ns0:category text="Technology" />
+    <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg" />
+    <ns0:explicit>no</ns0:explicit>
+    <ns0:owner>
+      <ns0:name>Patrick</ns0:name>
+      <ns0:email>contact@teslashortstime.com</ns0:email>
+    </ns0:owner>
+    <ns0:summary>Daily AI briefing covering new model releases, agent frameworks, and the latest developments in AI. Not the models and agents you are thinking about! Stay on top of the most exciting developments of our generation.</ns0:summary>
     <item>
       <title>Ep 5: FireRedTeam releases FireRed-OCR-2B, a 2B-parameter model tackling structural hallucinations in document parsing for tables and LaTeX.</title>
       <link>https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep005_20260302.mp3</link>
@@ -46,12 +46,12 @@ Source: https://arxiv.org/abs/2510.24038
 **Toward General Semantic Chunking: cs.CL updates on arXiv.org**
 A new discriminative model based on Qwen3-0.6B handles ultra-long documents for topic segmentation, supporting 13k-token inputs and compressing representations via vector fusion, outperforming Jina's Qwen2-0.5B models with faster inference. It beats generative LLMs by two orders of magnitude in spe...</description>
       <guid isPermaLink="false">models-agents-ep005-20260302-152929</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep005_20260302.mp3" length="18304775" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep005_20260302.mp3" length="18304775" type="audio/mpeg" />
       <pubDate>Mon, 02 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
-      <itunes:duration>12:42</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg" />
+      <ns0:duration>12:42</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents
 **Date:** March 02, 2026
 
 **HOOK:** FireRedTeam releases FireRed-OCR-2B, a 2B-parameter model tackling structural hallucinations in document parsing for tables and LaTeX.
@@ -74,11 +74,11 @@ This paper introduces COLA, a training-free framework using optimal transport to
 Source: https://arxiv.org/abs/2510.24038
 
 **Toward General Semantic Chunking: cs.CL updates on arXiv.org**
-A new discriminative model based on Qwen3-0.6B handles ultra-long documents for topic segmentation, supporting 13k-token inputs and compressing representations via vector fusion, outperforming Jina's Qwen2-0.5B models with faster inference. It beats generative LLMs by two orders of magnitude in spe...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>5</itunes:episode>
-      <itunes:title>Ep 5: FireRedTeam releases FireRed-OCR-2B, a 2B-parameter model tackling structural hallucinations in document parsing for tables and LaTeX.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
+A new discriminative model based on Qwen3-0.6B handles ultra-long documents for topic segmentation, supporting 13k-token inputs and compressing representations via vector fusion, outperforming Jina's Qwen2-0.5B models with faster inference. It beats generative LLMs by two orders of magnitude in spe...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>5</ns0:episode>
+      <ns0:title>Ep 5: FireRedTeam releases FireRed-OCR-2B, a 2B-parameter model tackling structural hallucinations in document parsing for tables and LaTeX.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
     </item>
     <item>
       <title>Ep 3: Perplexity open-sources embedding models that match Google and Alibaba performance at a fraction of the memory cost.</title>
@@ -111,12 +111,12 @@ Source: https://arxiv.org/abs/2602.22543
 **dLLM: Simple Diffusion Language Modeling: cs.CL updates on arXiv.org**  
 dLLM is an open-source framework unifying training, infere...</description>
       <guid isPermaLink="false">models-agents-ep003-20260228-151721</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep003_20260228.mp3" length="18884693" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep003_20260228.mp3" length="18884693" type="audio/mpeg" />
       <pubDate>Sat, 28 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
-      <itunes:duration>13:06</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg" />
+      <ns0:duration>13:06</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents
 **Date:** February 28, 2026
 
 **HOOK:** Perplexity open-sources embedding models that match Google and Alibaba performance at a fraction of the memory cost.
@@ -143,11 +143,11 @@ Ruyi2 evolves the AI Flow framework for adaptive, variable-depth computation in 
 Source: https://arxiv.org/abs/2602.22543
 
 **dLLM: Simple Diffusion Language Modeling: cs.CL updates on arXiv.org**  
-dLLM is an open-source framework unifying training, infere...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>3</itunes:episode>
-      <itunes:title>Ep 3: Perplexity open-sources embedding models that match Google and Alibaba performance at a fraction of the memory cost.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
+dLLM is an open-source framework unifying training, infere...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>3</ns0:episode>
+      <ns0:title>Ep 3: Perplexity open-sources embedding models that match Google and Alibaba performance at a fraction of the memory cost.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
     </item>
     <item>
       <title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</title>
@@ -158,21 +158,21 @@ dLLM is an open-source framework unifying training, infere...</itunes:summary>
 
 **What You Need to Know:** Anthropic's acquisition of Vercept integrates advanced screen recognition into Claude, potentially revolutionizing agentic computer use by improving visual control without major retraining—expect better automation in tools like browser agents. Google's Nano Banana 2 brings pro-...</description>
       <guid isPermaLink="false">models-agents-ep001-20260226-203917</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep001_20260226.mp3" length="16131805" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep001_20260226.mp3" length="16131805" type="audio/mpeg" />
       <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
-      <itunes:duration>11:12</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg" />
+      <ns0:duration>11:12</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents
 **Date:** February 26, 2026
 
 **HOOK:** Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.
 
-**What You Need to Know:** Anthropic's acquisition of Vercept integrates advanced screen recognition into Claude, potentially revolutionizing agentic computer use by improving visual control without major retraining—expect better automation in tools like browser agents. Google's Nano Banana 2 brings pro-...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>1</itunes:episode>
-      <itunes:title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
+**What You Need to Know:** Anthropic's acquisition of Vercept integrates advanced screen recognition into Claude, potentially revolutionizing agentic computer use by improving visual control without major retraining—expect better automation in tools like browser agents. Google's Nano Banana 2 brings pro-...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>1</ns0:episode>
+      <ns0:title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
     </item>
     <item>
       <title>Ep 2: Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.</title>
@@ -201,12 +201,12 @@ Source: https://openai.com/index/amazon-partnership
 **ParamMem: Augmenting Language Agents with Parametric Reflective Memory: cs.MA updates on arXiv.org**  
 This arXiv pape...</description>
       <guid isPermaLink="false">models-agents-ep002-20260227-192631</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep002_20260227.mp3" length="17462169" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep002_20260227.mp3" length="17462169" type="audio/mpeg" />
       <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
-      <itunes:duration>12:07</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg" />
+      <ns0:duration>12:07</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents
 **Date:** February 27, 2026
 
 **HOOK:** Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.
@@ -229,11 +229,11 @@ OpenAI and Amazon revealed a partnership bringing OpenAI's Frontier platform to 
 Source: https://openai.com/index/amazon-partnership
 
 **ParamMem: Augmenting Language Agents with Parametric Reflective Memory: cs.MA updates on arXiv.org**  
-This arXiv pape...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>2</itunes:episode>
-      <itunes:title>Ep 2: Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
+This arXiv pape...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>2</ns0:episode>
+      <ns0:title>Ep 2: Sakana AI launches Doc-to-LoRA and Text-to-LoRA hypernetworks for zero-shot LLM adaptation to long contexts via natural language.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
     </item>
     <item>
       <title>Ep 4: Alibaba open-sources CoPaw, a workstation for scaling multi-channel AI agent workflows.</title>
@@ -264,12 +264,12 @@ Source: https://the-decoder.com/moltbooks-alleged-ai-civilization-is-just-a-mass
 **Alibaba Team Open-Sources CoPaw: A High-Performance Personal Agent Workstation for Developers to Scale Multi-Channel AI Workflows and Memory: MarkTechPost**  
 CoPaw is an open-source fr...</description>
       <guid isPermaLink="false">models-agents-ep004-20260301-151451</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep004_20260301.mp3" length="17344305" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep004_20260301.mp3" length="17344305" type="audio/mpeg" />
       <pubDate>Sun, 01 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg"/>
-      <itunes:duration>12:02</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents
+      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg" />
+      <ns0:duration>12:02</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents
 **Date:** March 01, 2026
 
 **HOOK:** Alibaba open-sources CoPaw, a workstation for scaling multi-channel AI agent workflows.
@@ -294,11 +294,11 @@ Moltbook runs over 2.6 million AI agents in a simulated social network, where th
 Source: https://the-decoder.com/moltbooks-alleged-ai-civilization-is-just-a-massive-void-of-bloated-bot-traffic/
 
 **Alibaba Team Open-Sources CoPaw: A High-Performance Personal Agent Workstation for Developers to Scale Multi-Channel AI Workflows and Memory: MarkTechPost**  
-CoPaw is an open-source fr...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>4</itunes:episode>
-      <itunes:title>Ep 4: Alibaba open-sources CoPaw, a workstation for scaling multi-channel AI agent workflows.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
+CoPaw is an open-source fr...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>4</ns0:episode>
+      <ns0:title>Ep 4: Alibaba open-sources CoPaw, a workstation for scaling multi-channel AI agent workflows.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
     </item>
   </channel>
 </rss>
