@@ -14,6 +14,8 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://nerranetwork.com/planetterrian-podcast-image.jpg">
 
+    <link rel="canonical" href="https://nerranetwork.com/planetterrian.html">
+
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +29,18 @@
 
     
 
+<!-- Schema.org PodcastSeries -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PodcastSeries",
+  "name": "Planetterrian Daily",
+  "description": "Planetterrian Daily \u2014 Science, longevity, and health discoveries. Genetics, biotech, CRISPR, and more.",
+  "url": "https://nerranetwork.com/planetterrian.html",
+  "webFeed": "planetterrian_podcast.rss",
+  "image": "planetterrian-podcast-image.jpg"
+}
+</script>
 
 
     
@@ -50,7 +64,7 @@
                     <div class="nn-nav-dropdown-menu">
                         
                         <a href="index.html">
-                            <img src="podcast-image.jpg" alt="" loading="lazy">
+                            <img src="podcast-image-v3.jpg" alt="" loading="lazy">
                             Tesla Shorts Time
                         </a>
                         
@@ -106,7 +120,7 @@
             <div class="nn-mobile-shows-title">All Shows</div>
             
             <a href="index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
-                <img src="podcast-image.jpg" alt="" loading="lazy">
+                <img src="podcast-image-v3.jpg" alt="" loading="lazy">
                 Tesla Shorts Time
             </a>
             
@@ -148,9 +162,14 @@
             <div class="show-hero-info">
                 <h1>Planetterrian Daily</h1>
                 <p class="show-hero-tagline">Science, longevity, and the frontier of human health.</p>
+                <div style="display:flex;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3);font-family:var(--font-ui);font-size:0.85rem;color:var(--nn-text-muted);">
+                    <span style="background:var(--nn-card);border:1px solid var(--nn-border);padding:2px 10px;border-radius:6px;">Daily</span>
+                    <span style="background:var(--nn-card);border:1px solid var(--nn-border);padding:2px 10px;border-radius:6px;">~15 min</span>
+                </div>
                 <p class="show-hero-desc">Daily discoveries in longevity science, genetics, biotech, CRISPR, neuroscience, and health research. If it could extend your healthspan or change medicine, we cover it.</p>
                 <div class="show-hero-actions">
                     <a href="#episodes" class="nn-btn nn-btn-primary">Listen Now</a>
+                    <a href="planetterrian-summaries.html" class="nn-btn">View Summaries</a>
                     
                     <a href="planetterrian_podcast.rss" class="nn-btn">RSS Feed</a>
                     
@@ -169,7 +188,7 @@
                 <div class="latest-episode-label">Latest Episode</div>
                 <div class="latest-episode-title" id="latest-title">Loading...</div>
                 <div class="latest-episode-date" id="latest-date"></div>
-                <audio id="latest-audio" controls preload="none" style="width:100%;height:42px;border-radius:8px;"></audio>
+                <audio id="latest-audio" controls preload="none" aria-label="Latest episode audio player" style="width:100%;height:42px;border-radius:8px;"></audio>
                 <div id="latest-summary" style="margin-top:var(--sp-4);color:var(--nn-text-muted);font-size:0.92rem;display:none;"></div>
             </div>
         </div>
@@ -202,6 +221,24 @@
 
     
 
+    <!-- Related Show Recommendation -->
+    
+    <section class="nn-section" style="padding-top:0;padding-bottom:var(--sp-8);">
+        <div class="container" style="max-width:700px;">
+            <div class="glass-card" style="padding:var(--sp-6);border-color:color-mix(in srgb, var(--show-color) 30%, var(--nn-border));">
+                <div style="font-family:var(--font-ui);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--show-color);margin-bottom:var(--sp-3);">Recommended for you</div>
+                <a href="fascinating_frontiers.html" style="display:flex;align-items:center;gap:var(--sp-4);text-decoration:none;">
+                    <img src="Fascinating Frontiers-3000x3000.jpg" alt="Fascinating Frontiers" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;" loading="lazy">
+                    <div>
+                        <div style="font-family:var(--font-heading);font-weight:600;color:var(--nn-white);font-size:1.05rem;margin-bottom:var(--sp-1);">Fascinating Frontiers</div>
+                        <div style="font-family:var(--font-ui);font-size:0.88rem;color:var(--nn-text-muted);line-height:1.5;">If you enjoy Planetterrian Daily, you might also like Fascinating Frontiers — daily space and astronomy news.</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+
     <!-- More from Nerra Network -->
     <section class="cross-network nn-section">
         <div class="container">
@@ -213,7 +250,7 @@
                 
                 
                 <a href="index.html" class="cross-network-card">
-                    <img src="podcast-image.jpg" alt="Tesla Shorts Time" loading="lazy">
+                    <img src="podcast-image-v3.jpg" alt="Tesla Shorts Time" loading="lazy">
                     <div class="cross-network-card-info">
                         <div class="cross-network-card-name">Tesla Shorts Time</div>
                         <div class="cross-network-card-tagline">Shorting Tesla? Time's Up.</div>
@@ -248,7 +285,7 @@
                     <img src="env-intel-podcast-image.jpg" alt="Environmental Intelligence" loading="lazy">
                     <div class="cross-network-card-info">
                         <div class="cross-network-card-name">Environmental Intelligence</div>
-                        <div class="cross-network-card-tagline">Daily environmental regulatory and compliance briefing.</div>
+                        <div class="cross-network-card-tagline">Environmental regulatory and compliance briefing.</div>
                     </div>
                 </a>
                 
@@ -258,7 +295,7 @@
                     <img src="models-agents-podcast-image.jpg" alt="Models & Agents" loading="lazy">
                     <div class="cross-network-card-info">
                         <div class="cross-network-card-name">Models & Agents</div>
-                        <div class="cross-network-card-tagline">Not the ones you're thinking about!</div>
+                        <div class="cross-network-card-tagline">Daily AI models, agents, and practical developments.</div>
                     </div>
                 </a>
                 
@@ -366,7 +403,8 @@
                 const data = await resp.json();
                 const episodes = (JSON_FORMAT === 'array') ? (Array.isArray(data) ? data : []) : (data.summaries || data);
                 renderEpisodes(episodes);
-            } catch {
+            } catch (err) {
+                console.warn(`[${SHOW_NAME}] JSON load failed, falling back to RSS:`, err.message);
                 loadFromRSS();
             }
         }
@@ -387,14 +425,14 @@
 
             const grid = document.getElementById('episodes-grid');
             grid.innerHTML = '';
-            episodes.slice(1, 13).forEach(ep => {
+            episodes.slice(1, 13).forEach((ep, i) => {
                 const card = document.createElement('div');
                 card.className = 'episode-card glass-card';
                 card.innerHTML = `
                     <div class="episode-card-date">${formatDate(ep.date)}</div>
                     <div class="episode-card-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
                     <div style="color:var(--nn-text-muted);font-size:0.85rem;margin-bottom:var(--sp-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHtml(getPreviewText(ep.content))}</div>
-                    <audio controls preload="none" src="${ep.audio_url || ''}" style="width:100%;height:36px;border-radius:8px;"></audio>
+                    <audio controls preload="none" src="${ep.audio_url || ''}" aria-label="Play ${escapeHtml(ep.episode_title || 'episode')}" style="width:100%;height:36px;border-radius:8px;"></audio>
                 `;
                 grid.appendChild(card);
             });
@@ -430,12 +468,15 @@
                             <div class="episode-card-date">${pd ? formatDate(pd) : ''}</div>
                             <div class="episode-card-title">${escapeHtml(title)}</div>
                             <div style="color:var(--nn-text-muted);font-size:0.85rem;margin-bottom:var(--sp-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHtml(getPreviewText(desc))}</div>
-                            <audio controls preload="none" src="${url}" style="width:100%;height:36px;border-radius:8px;"></audio>
+                            <audio controls preload="none" src="${url}" aria-label="Play ${escapeHtml(title)}" style="width:100%;height:36px;border-radius:8px;"></audio>
                         `;
                         grid.appendChild(card);
                     });
                 })
-                .catch(() => { showNoEpisodes(); });
+                .catch(err => {
+                    console.warn(`[${SHOW_NAME}] RSS load failed:`, err.message);
+                    showNoEpisodes();
+                });
         }
 
         function showNoEpisodes() {

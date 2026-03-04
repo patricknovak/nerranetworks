@@ -11,6 +11,19 @@
   .stock-widget .change.down { color: #ef4444; }
 </style>
 {% endif %}
+<!-- Schema.org PodcastSeries -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PodcastSeries",
+  "name": {{ show_name | tojson }},
+  "description": {{ meta_description | tojson }},
+  "url": {{ canonical_url | tojson }},
+  "webFeed": "{{ rss_file }}"{% if podcast_image_url %},
+  "image": "{{ podcast_image_url }}"{% endif %}{% if apple_podcasts_url %},
+  "sameAs": [{{ apple_podcasts_url | tojson }}]{% endif %}
+}
+</script>
 {% endblock %}
 
 {% block nav_links %}
@@ -36,9 +49,14 @@
             <div class="show-hero-info">
                 <h1>{{ show_name }}</h1>
                 <p class="show-hero-tagline">{{ hero_tagline }}</p>
+                <div style="display:flex;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3);font-family:var(--font-ui);font-size:0.85rem;color:var(--nn-text-muted);">
+                    <span style="background:var(--nn-card);border:1px solid var(--nn-border);padding:2px 10px;border-radius:6px;">{{ schedule | default('Daily') }}</span>
+                    {% if episode_length %}<span style="background:var(--nn-card);border:1px solid var(--nn-border);padding:2px 10px;border-radius:6px;">{{ episode_length }}</span>{% endif %}
+                </div>
                 <p class="show-hero-desc">{{ show_description }}</p>
                 <div class="show-hero-actions">
                     <a href="#episodes" class="nn-btn nn-btn-primary">Listen Now</a>
+                    <a href="{{ summaries_page }}" class="nn-btn">View Summaries</a>
                     {% if apple_podcasts_url %}
                     <a href="{{ apple_podcasts_url }}" class="nn-btn" target="_blank" rel="noopener">Apple Podcasts</a>
                     {% endif %}
@@ -65,7 +83,7 @@
                 <div class="latest-episode-label">Latest Episode</div>
                 <div class="latest-episode-title" id="latest-title">Loading...</div>
                 <div class="latest-episode-date" id="latest-date"></div>
-                <audio id="latest-audio" controls preload="none" style="width:100%;height:42px;border-radius:8px;"></audio>
+                <audio id="latest-audio" controls preload="none" aria-label="Latest episode audio player" style="width:100%;height:42px;border-radius:8px;"></audio>
                 <div id="latest-summary" style="margin-top:var(--sp-4);color:var(--nn-text-muted);font-size:0.92rem;display:none;"></div>
             </div>
         </div>
@@ -105,6 +123,24 @@
             </div>
             <div class="glass-card" style="padding:var(--sp-4);overflow:hidden;max-height:600px;overflow-y:auto;">
                 <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders transparent" data-height="500" href="https://twitter.com/{{ x_account }}">Posts by @{{ x_account }}</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Related Show Recommendation -->
+    {% if related_show %}
+    <section class="nn-section" style="padding-top:0;padding-bottom:var(--sp-8);">
+        <div class="container" style="max-width:700px;">
+            <div class="glass-card" style="padding:var(--sp-6);border-color:color-mix(in srgb, var(--show-color) 30%, var(--nn-border));">
+                <div style="font-family:var(--font-ui);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--show-color);margin-bottom:var(--sp-3);">Recommended for you</div>
+                <a href="{{ related_show.show_page }}" style="display:flex;align-items:center;gap:var(--sp-4);text-decoration:none;">
+                    <img src="{{ related_show.podcast_image }}" alt="{{ related_show.name }}" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;" loading="lazy">
+                    <div>
+                        <div style="font-family:var(--font-heading);font-weight:600;color:var(--nn-white);font-size:1.05rem;margin-bottom:var(--sp-1);">{{ related_show.name }}</div>
+                        <div style="font-family:var(--font-ui);font-size:0.88rem;color:var(--nn-text-muted);line-height:1.5;">{{ related_show.reason }}</div>
+                    </div>
+                </a>
             </div>
         </div>
     </section>
@@ -177,7 +213,8 @@
                 const data = await resp.json();
                 const episodes = (JSON_FORMAT === 'array') ? (Array.isArray(data) ? data : []) : (data.summaries || data);
                 renderEpisodes(episodes);
-            } catch {
+            } catch (err) {
+                console.warn(`[${SHOW_NAME}] JSON load failed, falling back to RSS:`, err.message);
                 loadFromRSS();
             }
         }
@@ -198,14 +235,14 @@
 
             const grid = document.getElementById('episodes-grid');
             grid.innerHTML = '';
-            episodes.slice(1, 13).forEach(ep => {
+            episodes.slice(1, 13).forEach((ep, i) => {
                 const card = document.createElement('div');
                 card.className = 'episode-card glass-card';
                 card.innerHTML = `
                     <div class="episode-card-date">${formatDate(ep.date)}</div>
                     <div class="episode-card-title">${escapeHtml(ep.episode_title || 'Episode')}</div>
                     <div style="color:var(--nn-text-muted);font-size:0.85rem;margin-bottom:var(--sp-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHtml(getPreviewText(ep.content))}</div>
-                    <audio controls preload="none" src="${ep.audio_url || ''}" style="width:100%;height:36px;border-radius:8px;"></audio>
+                    <audio controls preload="none" src="${ep.audio_url || ''}" aria-label="Play ${escapeHtml(ep.episode_title || 'episode')}" style="width:100%;height:36px;border-radius:8px;"></audio>
                 `;
                 grid.appendChild(card);
             });
@@ -241,12 +278,15 @@
                             <div class="episode-card-date">${pd ? formatDate(pd) : ''}</div>
                             <div class="episode-card-title">${escapeHtml(title)}</div>
                             <div style="color:var(--nn-text-muted);font-size:0.85rem;margin-bottom:var(--sp-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHtml(getPreviewText(desc))}</div>
-                            <audio controls preload="none" src="${url}" style="width:100%;height:36px;border-radius:8px;"></audio>
+                            <audio controls preload="none" src="${url}" aria-label="Play ${escapeHtml(title)}" style="width:100%;height:36px;border-radius:8px;"></audio>
                         `;
                         grid.appendChild(card);
                     });
                 })
-                .catch(() => { showNoEpisodes(); });
+                .catch(err => {
+                    console.warn(`[${SHOW_NAME}] RSS load failed:`, err.message);
+                    showNoEpisodes();
+                });
         }
 
         function showNoEpisodes() {

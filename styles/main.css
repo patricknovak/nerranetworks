@@ -320,6 +320,21 @@ button { font-family: var(--font-ui); cursor: pointer; }
   color: var(--nn-white);
   margin-bottom: var(--sp-1);
 }
+.show-card-badges {
+  display: flex; gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+.show-card-badge {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.72rem; font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px var(--sp-2);
+  border-radius: 4px;
+  border: 1px solid var(--nn-border);
+  color: var(--nn-text-muted);
+}
 .show-card-tagline {
   font-family: var(--font-ui);
   font-size: 0.88rem;
@@ -544,7 +559,7 @@ button { font-family: var(--font-ui); cursor: pointer; }
 }
 .cross-network-card:hover { background: var(--nn-card-hover); }
 .cross-network-card img {
-  width: 56px; height: 56px; border-radius: 10px; object-fit: cover;
+  width: 64px; height: 64px; border-radius: 10px; object-fit: cover;
   flex-shrink: 0;
 }
 .cross-network-card-info { min-width: 0; }
@@ -899,12 +914,12 @@ button { font-family: var(--font-ui); cursor: pointer; }
   }
 
   .nn-sticky-player-inner {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr auto;
     padding: var(--sp-3);
   }
-  .nn-sticky-audio { width: 100%; }
+  .nn-sticky-audio { width: 100%; grid-column: 1 / -1; }
   .nn-sticky-close { justify-self: end; }
-  .nn-speed-control { justify-self: start; }
+  .nn-speed-control { display: none; }
 
   .episodes-grid { grid-template-columns: 1fr; }
 
