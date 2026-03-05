@@ -2485,7 +2485,7 @@ def update_rss_feed(
         base_url=base_url,
         audio_subdir="digests/tesla_shorts_time",
         channel_title="Tesla Shorts Time Daily",
-        channel_link="https://nerranetwork.com/index.html",
+        channel_link="https://nerranetwork.com/",
         channel_description="A daily podcast covering the latest Tesla news, stock prices, and industry insights.",
         channel_author="Patrick",
         channel_email="contact@teslashortstime.com",
