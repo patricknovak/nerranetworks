@@ -5,7 +5,7 @@
     <description>Six daily podcasts keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, and the environment.</description>
     <link>https://nerranetwork.com/network.html</link>
     <language>en</language>
-    <lastBuildDate>Thu, 05 Mar 2026 14:29:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Mar 2026 15:30:43 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/omni-view-podcast-image.jpg</url>
       <title>Nerra Network</title>
@@ -264,6 +264,69 @@ Source: https://www.sciencedaily.com/releases/2026/03/260303201755.htm
       <ns0:title>Ep 5: BC opens consultation on Koksilah Watershed Plan, requiring input by April 30 for water sustainability compliance under Water Sustainability Act.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
       <ns1:chapters url="https://nerranetwork.com/digests/env_intel/chapters_ep005.json" type="application/json+chapters" />
+    </item>
+    <item>
+      <title>Ep 6: YuanLab AI launches Yuan 3.0 Ultra, a 1T-parameter multimodal MoE model cutting parameters by 33% while boosting efficiency 49%.</title>
+      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep006_20260305.mp3</link>
+      <description># Models &amp; Agents
+**Date:** March 05, 2026
+
+**HOOK:** YuanLab AI launches Yuan 3.0 Ultra, a 1T-parameter multimodal MoE model cutting parameters by 33% while boosting efficiency 49%.
+
+**What You Need to Know:** YuanLab AI dropped Yuan 3.0 Ultra, a flagship multimodal Mixture-of-Experts foundation model with 1T total parameters but only 68.8B activated, delivering state-of-the-art enterprise performance at reduced cost—think stronger intelligence with unrivaled efficiency compared to dense models like Llama 3. Meanwhile, a wave of multi-agent research highlights emergent behaviors in large-scale agent populations and new frameworks for tasks like sarcasm detection and scientific exploration, pushing the boundaries of collaborative AI. Pay attention this week to how these agent systems balance autonomy with reliability, especially in high-stakes domains like finance and robotics.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+YuanLab AI has released Yuan 3.0 Ultra, an open-source Mixture-of-Experts (MoE) large language model featuring 1T total parameters and just 68.8B activated parameters for multimodal tasks. This architecture optimizes performance by reducing total parameters by 33.3% and boosting pre-training efficiency by 49% compared to previous dense models, enabling state-of-the-art results in enterprise scenarios while maintaining strong intelligence across text, vision, and beyond. It stands out from alternatives like Qwen or Llama by emphasizing efficiency in MoE scaling, making it a compelling option for cost-sensitive deployments. Developers building multimodal apps should care, as this enables more accessible fine-tuning for tasks like visual question answering or document analysis without massive compute. What to watch: Community benchmarks will likely compare it head-to-head with Gemini or Claude variants; try integrating it via Hugging Face for efficiency tests. Expect forks and fine-tunes to emerge quickly in the open-source ecosystem.
+Source: https://www.marktechpost.com/2026/03/04/yuanlab-ai-releases-yuan-3-0-ultra-a-flagship-multimodal-moe-foundation-model-built-for-stronger-intelligence-and-unrivaled-efficiency/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Beyond the Pilot: Dyna.Ai Raises Eight-Figure Series A**
+Dyna.Ai secured an eight-figure Series A to scale agentic AI for financial services, focusing on moving beyond proofs-of-concept to production deployments with AI-as-a-Service tools. Compared to general-purpose models like GPT or Claude, it specializes in breaking the "pilot problem" where AI dashboards impress but stall, offering tailored agents for tasks like fraud detection or compliance. This matters for fintech devs, as it promises more reliable integration of agentic workflows, potentially reducing deployment friction in regulated environments.
+Source: https://www.artificialintelligence-news.com/news/dyna-ai-series-a-agentic-ai-financial-services/
+
+**One Bias After Another: Mechanistic Reward Shaping**
+Researchers introduced mechanistic reward shaping to mitigate biases in language reward models (RMs) used for aligning LLMs like Llama or Mistral, addressing issues like length, sycophancy, and overconfidence via post-hoc interventions with minimal labeled data. It outperforms vanilla RMs by reducing targeted biases without degrading reward quality, and it's extensible to new issues like model-specific styles. For alignment practitioners, this means more robust fine-tuning pipelines, especially in high-stakes preference-tuning where hallucinations could amplify errors.
+Source: https://arxiv.org/abs/2603.03291
+
+**Greedy-based Value Representation for Optimal Coordination**
+A new greedy-based value representation (GVR) method improves multi-agent reinforcement learning by ensuring optimal consistency in value decomposition, outperforming baselines on benchmarks with better handling of relative overgeneralization. It compares favorably to linear or monotonic value decomposition in Dec-POMDPs, using inferior targ...</description>
+      <guid isPermaLink="false">models-agents-ep006-20260305-153043</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep006_20260305.mp3" length="18311671" type="audio/mpeg" />
+      <pubDate>Thu, 05 Mar 2026 08:00:00 +0000</pubDate>
+      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
+      <ns0:duration>12:42</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents
+**Date:** March 05, 2026
+
+**HOOK:** YuanLab AI launches Yuan 3.0 Ultra, a 1T-parameter multimodal MoE model cutting parameters by 33% while boosting efficiency 49%.
+
+**What You Need to Know:** YuanLab AI dropped Yuan 3.0 Ultra, a flagship multimodal Mixture-of-Experts foundation model with 1T total parameters but only 68.8B activated, delivering state-of-the-art enterprise performance at reduced cost—think stronger intelligence with unrivaled efficiency compared to dense models like Llama 3. Meanwhile, a wave of multi-agent research highlights emergent behaviors in large-scale agent populations and new frameworks for tasks like sarcasm detection and scientific exploration, pushing the boundaries of collaborative AI. Pay attention this week to how these agent systems balance autonomy with reliability, especially in high-stakes domains like finance and robotics.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+YuanLab AI has released Yuan 3.0 Ultra, an open-source Mixture-of-Experts (MoE) large language model featuring 1T total parameters and just 68.8B activated parameters for multimodal tasks. This architecture optimizes performance by reducing total parameters by 33.3% and boosting pre-training efficiency by 49% compared to previous dense models, enabling state-of-the-art results in enterprise scenarios while maintaining strong intelligence across text, vision, and beyond. It stands out from alternatives like Qwen or Llama by emphasizing efficiency in MoE scaling, making it a compelling option for cost-sensitive deployments. Developers building multimodal apps should care, as this enables more accessible fine-tuning for tasks like visual question answering or document analysis without massive compute. What to watch: Community benchmarks will likely compare it head-to-head with Gemini or Claude variants; try integrating it via Hugging Face for efficiency tests. Expect forks and fine-tunes to emerge quickly in the open-source ecosystem.
+Source: https://www.marktechpost.com/2026/03/04/yuanlab-ai-releases-yuan-3-0-ultra-a-flagship-multimodal-moe-foundation-model-built-for-stronger-intelligence-and-unrivaled-efficiency/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Beyond the Pilot: Dyna.Ai Raises Eight-Figure Series A**
+Dyna.Ai secured an eight-figure Series A to scale agentic AI for financial services, focusing on moving beyond proofs-of-concept to production deployments with AI-as-a-Service tools. Compared to general-purpose models like GPT or Claude, it specializes in breaking the "pilot problem" where AI dashboards impress but stall, offering tailored agents for tasks like fraud detection or compliance. This matters for fintech devs, as it promises more reliable integration of agentic workflows, potentially reducing deployment friction in regulated environments.
+Source: https://www.artificialintelligence-news.com/news/dyna-ai-series-a-agentic-ai-financial-services/
+
+**One Bias After Another: Mechanistic Reward Shaping**
+Researchers introduced mechanistic reward shaping to mitigate biases in language reward models (RMs) used for aligning LLMs like Llama or Mistral, addressing issues like length, sycophancy, and overconfidence via post-hoc interventions with minimal labeled data. It outperforms vanilla RMs by reducing targeted biases without degrading reward quality, and it's extensible to new issues like model-specific styles. For alignment practitioners, this means more robust fine-tuning pipelines, especially in high-stakes preference-tuning where hallucinations could amplify errors.
+Source: https://arxiv.org/abs/2603.03291
+
+**Greedy-based Value Representation for Optimal Coordination**
+A new greedy-based value representation (GVR) method improves multi-agent reinforcement learning by ensuring optimal consistency in value decomposition, outperforming baselines on benchmarks with better handling of relative overgeneralization. It compares favorably to linear or monotonic value decomposition in Dec-POMDPs, using inferior targ...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>6</ns0:episode>
+      <ns0:title>Ep 6: YuanLab AI launches Yuan 3.0 Ultra, a 1T-parameter multimodal MoE model cutting parameters by 33% while boosting efficiency 49%.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
+      <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep006.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 398: Automakers are exiting Tesla's EU carbon credit pool, which could squeeze a key revenue stream worth billions.</title>
@@ -984,7 +1047,6 @@ Source: https://www.nature.com/articles/s41558-026-02579-z
     </item>
     <item>
       <title>Ep 5: FireRedTeam releases FireRed-OCR-2B, a 2B-parameter model tackling structural hallucinations in document parsing for tables and LaTeX.</title>
-      <link>https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/models_agents/Models_Agents_Ep005_20260302.mp3</link>
       <description># Models &amp; Agents
 **Date:** March 02, 2026
 
@@ -1012,7 +1074,7 @@ A new discriminative model based on Qwen3-0.6B handles ultra-long documents for 
       <guid isPermaLink="false">models-agents-ep005-20260302-152929</guid>
       <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep005_20260302.mp3" length="18304775" type="audio/mpeg" />
       <pubDate>Mon, 02 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg" />
+      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
       <ns0:duration>12:42</ns0:duration>
       <ns0:explicit>no</ns0:explicit>
       <ns0:summary># Models &amp; Agents
@@ -1310,7 +1372,7 @@ CoPaw is an open-source fr...</description>
       <guid isPermaLink="false">models-agents-ep004-20260301-151451</guid>
       <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep004_20260301.mp3" length="17344305" type="audio/mpeg" />
       <pubDate>Sun, 01 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg" />
+      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
       <ns0:duration>12:02</ns0:duration>
       <ns0:explicit>no</ns0:explicit>
       <ns0:summary># Models &amp; Agents
@@ -1444,7 +1506,7 @@ dLLM is an open-source framework unifying training, infere...</description>
       <guid isPermaLink="false">models-agents-ep003-20260228-151721</guid>
       <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep003_20260228.mp3" length="18884693" type="audio/mpeg" />
       <pubDate>Sat, 28 Feb 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg" />
+      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
       <ns0:duration>13:06</ns0:duration>
       <ns0:explicit>no</ns0:explicit>
       <ns0:summary># Models &amp; Agents
@@ -1943,7 +2005,7 @@ This arXiv pape...</description>
       <guid isPermaLink="false">models-agents-ep002-20260227-192631</guid>
       <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep002_20260227.mp3" length="17462169" type="audio/mpeg" />
       <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg" />
+      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
       <ns0:duration>12:07</ns0:duration>
       <ns0:explicit>no</ns0:explicit>
       <ns0:summary># Models &amp; Agents
@@ -2203,7 +2265,7 @@ This arXiv pape...</ns0:summary>
       <guid isPermaLink="false">models-agents-ep001-20260226-203917</guid>
       <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep001_20260226.mp3" length="16131805" type="audio/mpeg" />
       <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models-agents-podcast-image.jpg" />
+      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
       <ns0:duration>11:12</ns0:duration>
       <ns0:explicit>no</ns0:explicit>
       <ns0:summary># Models &amp; Agents
@@ -2401,16 +2463,6 @@ This arXiv pape...</ns0:summary>
       <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/Fascinating%20Frontiers-3000x3000.jpg" />
       <ns0:explicit>no</ns0:explicit>
       <ns0:episode>28</ns0:episode>
-    </item>
-    <item>
-      <title>Planetterrian Daily - Episode 17 - January 25, 2026 at 04:12 AM PST</title>
-      <description>Daily science, longevity, and health discoveries for January 25, 2026 at 04:12 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep017-20260125-121513</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep017_20260125_121454.mp3" length="3865931" type="audio/mpeg" />
-      <pubDate>Sun, 25 Jan 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:episode>17</ns0:episode>
     </item>
   </channel>
 </rss>

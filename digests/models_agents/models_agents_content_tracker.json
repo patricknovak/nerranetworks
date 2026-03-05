@@ -1,6 +1,6 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-02",
+  "last_updated": "2026-03-05",
   "episodes": [
     {
       "date": "2026-02-26",
@@ -96,6 +96,28 @@
         "model_updates": "### Model Updates\n**FireRed-OCR-2B: MarkTechPost**\nFireRed-OCR-2B is a new 2B-parameter flagship model from FireRedTeam that uses GRPO to unify document digitization, fixing structural hallucinations in LVLMs for tables and LaTeX without multi-stage processing. It outperforms traditional methods on benchmarks by preserving order and syntax, comparing favorably to smaller models like MiniCPM-V but with specialized focus on developer tools. This matters for your work if you're building apps that p",
         "agent_developments": "### Agent & Tool Developments\n**Hierarchical Multi-Agent System for Payments: cs.MA updates on arXiv.org**\nThis introduces HMASP, a hierarchical LLM-based system with agents like CPA and Supervisor for end-to-end payment workflows, using MCP for secure data access and modular execution. It's a first for agentic payments, improving over static LLMs by handling multi-level coordination, and works with open or proprietary models like those from OpenAI or Claude. Try it today via the open-source cod",
         "practical_community": "### Practical & Community\n**Integrating LLMs in Social Simulation: cs.MA updates on arXiv.org**\nThis position paper proposes Hybrid Constitutional Architectures for agent-based simulations, combining ABMs like GAMA/NetLogo with SLMs and LLMs to balance flexibility and transparency. It solves issues in benchmarks like Smallville by addressing biases and scalability, ideal for researchers in multi-agent systems. Get started by experimenting with the outlined integrations in NetLogo; limitations in"
+      }
+    },
+    {
+      "date": "2026-03-05",
+      "headlines": [],
+      "urls": [
+        "https://www.marktechpost.com/2026/03/04/yuanlab-ai-releases-yuan-3-0-ultra-a-flagship-multimodal-moe-foundation-model-built-for-stronger-intelligence-and-unrivaled-efficiency/",
+        "https://www.artificialintelligence-news.com/news/dyna-ai-series-a-agentic-ai-financial-services/",
+        "https://arxiv.org/abs/2603.03291",
+        "https://arxiv.org/abs/2112.04454",
+        "https://arxiv.org/abs/2603.03555",
+        "https://arxiv.org/abs/2603.03590",
+        "https://arxiv.org/abs/2603.03780",
+        "https://arxiv.org/abs/2603.03372",
+        "https://arxiv.org/abs/2507.15518",
+        "https://arxiv.org/abs/2508.06803"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Beyond the Pilot: Dyna.Ai Raises Eight-Figure Series A**\nDyna.Ai secured an eight-figure Series A to scale agentic AI for financial services, focusing on moving beyond proofs-of-concept to production deployments with AI-as-a-Service tools. Compared to general-purpose models like GPT or Claude, it specializes in breaking the \"pilot problem\" where AI dashboards impress but stall, offering tailored agents for tasks like fraud detection or compliance. This matters for fintech dev",
+        "agent_developments": "### Agent & Tool Developments\n**Molt Dynamics: Emergent Social Phenomena in Autonomous AI Agent Populations**\nMoltBook simulates 770K+ LLM agents in a multi-agent environment, revealing emergent roles, information cascades, and cooperative patterns, with power-law cascade sizes and low success in distributed tasks compared to single-agent baselines. This advances agent frameworks like AutoGen or CrewAI by providing empirical baselines for large-scale coordination, showing nascent cooperation but",
+        "practical_community": "### Practical & Community\n**TritonDFT: Automating DFT with a Multi-Agent Framework**\nTritonDFT is a multi-agent framework for automating Density Functional Theory workflows in materials science, using entropy-aware gating, conflict-aware coarsening, and Pareto-aware inference to balance accuracy and cost. It solves coordination issues in complex simulations, with a benchmark (DFTBench) showing strong multi-dimensional performance. Get started via the GitHub repo for real-world DFT tasks, though "
       }
     }
   ]
