@@ -470,7 +470,7 @@ def _get_kokoro_model():
         if model_path is None or voices_path is None:
             raise FileNotFoundError(
                 "Kokoro model files not found. Download kokoro-v1.0.onnx and "
-                "voices-v1.0.bin from https://huggingface.co/hexgrad/Kokoro-82M "
+                "voices-v1.0.bin from https://github.com/thewh1teagle/kokoro-onnx/releases/tag/model-files-v1.0 "
                 "and place them in the project root or models/ directory."
             )
 
