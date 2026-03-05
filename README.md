@@ -14,12 +14,12 @@ All shows are produced independently in Vancouver, Canada.
 
 | Show | Schedule | Player | RSS |
 |------|----------|--------|-----|
-| **Tesla Shorts Time** | Daily | [Player](https://nerranetwork.com/) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/tesla_shorts_time_podcast.rss) |
-| **Omni View** | Daily | [Player](https://nerranetwork.com/omni-view.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni_view_podcast.rss) |
-| **Fascinating Frontiers** | Daily | [Player](https://nerranetwork.com/fascinating_frontiers.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/fascinating_frontiers_podcast.rss) |
-| **Planetterrian Daily** | Daily | [Player](https://nerranetwork.com/planetterrian.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian_podcast.rss) |
-| **Environmental Intelligence** | Weekdays | [Player](https://nerranetwork.com/env-intel.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env_intel_podcast.rss) |
-| **Models & Agents** | Daily | [Player](https://nerranetwork.com/models-agents.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models_agents_podcast.rss) |
+| **Tesla Shorts Time** | Daily | [Player](https://nerranetwork.com/tesla.html) | [RSS](https://nerranetwork.com/podcast.rss) |
+| **Omni View** | Daily | [Player](https://nerranetwork.com/omni-view.html) | [RSS](https://nerranetwork.com/omni_view_podcast.rss) |
+| **Fascinating Frontiers** | Daily | [Player](https://nerranetwork.com/fascinating_frontiers.html) | [RSS](https://nerranetwork.com/fascinating_frontiers_podcast.rss) |
+| **Planetterrian Daily** | Daily | [Player](https://nerranetwork.com/planetterrian.html) | [RSS](https://nerranetwork.com/planetterrian_podcast.rss) |
+| **Environmental Intelligence** | Weekdays | [Player](https://nerranetwork.com/env-intel.html) | [RSS](https://nerranetwork.com/env_intel_podcast.rss) |
+| **Models & Agents** | Daily | [Player](https://nerranetwork.com/models-agents.html) | [RSS](https://nerranetwork.com/models_agents_podcast.rss) |
 
 ## Apple Podcasts
 

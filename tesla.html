@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Omni View — Daily balanced news summaries from diverse sources. Multiple perspectives on the stories that matter.">
-    <meta name="keywords" content="balanced news, diverse perspectives, media literacy, news analysis, unbiased reporting">
-    <title>Omni View | Nerra Network</title>
-    <meta name="theme-color" content="#0B6FD6">
+    <meta name="description" content="Daily Tesla Shorts Time podcast — Tesla news, TSLA stock, FSD updates, and sustainable energy progress.">
+    <meta name="keywords" content="Tesla podcast, TSLA news, Tesla stock, EV analysis, Tesla Shorts Time, daily digests">
+    <title>Tesla Shorts Time | Nerra Network</title>
+    <meta name="theme-color" content="#E31937">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Omni View | Nerra Network">
-    <meta property="og:description" content="Omni View — Daily balanced news summaries from diverse sources. Multiple perspectives on the stories that matter.">
+    <meta property="og:title" content="Tesla Shorts Time | Nerra Network">
+    <meta property="og:description" content="Daily Tesla Shorts Time podcast — Tesla news, TSLA stock, FSD updates, and sustainable energy progress.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://nerranetwork.com/omni-view-podcast-image.jpg">
+    <meta property="og:image" content="https://nerranetwork.com/podcast-image-v3.jpg">
 
-    <link rel="canonical" href="https://nerranetwork.com/omni-view.html">
+    <link rel="canonical" href="https://nerranetwork.com/tesla.html">
 
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,22 +29,32 @@
 
     
 
+<style>
+  .stock-widget { max-width: 400px; margin: 2rem auto 0; padding: 12px 20px; background: var(--nn-card); border-radius: 12px; border: 1px solid var(--nn-border); display: flex; align-items: center; gap: 12px; font-family: var(--font-ui); font-size: 0.9rem; flex-wrap: wrap; justify-content: center; }
+  .stock-widget .ticker { font-weight: 700; font-size: 1.1rem; color: var(--nn-white); }
+  .stock-widget .price { font-weight: 600; color: var(--nn-white); }
+  .stock-widget .change { font-weight: 600; }
+  .stock-widget .change.up { color: #22c55e; }
+  .stock-widget .change.down { color: #ef4444; }
+</style>
+
 <!-- Schema.org PodcastSeries -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "PodcastSeries",
-  "name": "Omni View",
-  "description": "Omni View \u2014 Daily balanced news summaries from diverse sources. Multiple perspectives on the stories that matter.",
-  "url": "https://nerranetwork.com/omni-view.html",
-  "webFeed": "omni_view_podcast.rss",
-  "image": "omni-view-podcast-image.jpg"
+  "name": "Tesla Shorts Time",
+  "description": "Daily Tesla Shorts Time podcast \u2014 Tesla news, TSLA stock, FSD updates, and sustainable energy progress.",
+  "url": "https://nerranetwork.com/tesla.html",
+  "webFeed": "podcast.rss",
+  "image": "podcast-image-v3.jpg",
+  "sameAs": ["https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939"]
 }
 </script>
 
 
     
-    <style>:root { --show-color: #0B6FD6; --show-color-dark: #0B1B3B; }</style>
+    <style>:root { --show-color: #E31937; --show-color-dark: #C4122E; }</style>
     
 </head>
 <body>
@@ -96,9 +106,9 @@
                     </div>
                 </li>
                 
-<li><a href="omni-view-summaries.html">Summaries</a></li>
-<li><a href="omni_view_podcast.rss">RSS</a></li>
-<li><a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a></li>
+<li><a href="tesla-summaries.html">Summaries</a></li>
+<li><a href="podcast.rss">RSS</a></li>
+<li><a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a></li>
 
                 <li><a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank" rel="noopener">GitHub</a></li>
             </ul>
@@ -110,8 +120,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
-<a href="omni-view.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
-<a href="omni-view-summaries.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Summaries</a>
+<a href="tesla.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+<a href="tesla-summaries.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Summaries</a>
 <a href="#episodes" onclick="document.getElementById('mobileMenu').classList.remove('open')">Episodes</a>
 <a href="#about" onclick="document.getElementById('mobileMenu').classList.remove('open')">About</a>
 
@@ -157,27 +167,35 @@
     <section class="show-hero">
         <div class="show-hero-bg"></div>
         <div class="show-hero-inner">
-            <img src="omni-view-podcast-image.jpg" alt="Omni View" class="show-hero-art"
+            <img src="podcast-image-v3.jpg" alt="Tesla Shorts Time" class="show-hero-art"
                  onerror="this.style.display='none'">
             <div class="show-hero-info">
-                <h1>Omni View</h1>
-                <p class="show-hero-tagline">See every side. Decide for yourself.</p>
+                <h1>Tesla Shorts Time</h1>
+                <p class="show-hero-tagline">Shorting Tesla? Time's Up.</p>
                 <div style="display:flex;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3);font-family:var(--font-ui);font-size:0.85rem;color:var(--nn-text-muted);">
                     <span style="background:var(--nn-card);border:1px solid var(--nn-border);padding:2px 10px;border-radius:6px;">Daily</span>
-                    <span style="background:var(--nn-card);border:1px solid var(--nn-border);padding:2px 10px;border-radius:6px;">~20 min</span>
+                    <span style="background:var(--nn-card);border:1px solid var(--nn-border);padding:2px 10px;border-radius:6px;">~15 min</span>
                 </div>
-                <p class="show-hero-desc">Omni View is a neutral, media-literacy-first daily briefing designed for everyone from children to seniors. Covers top world, business, technology, and media stories with perspectives from across the political spectrum.</p>
+                <p class="show-hero-desc">Tesla Shorts Time is a daily podcast delivering the most important Tesla news and developments. We focus on how Tesla is advancing its mission to accelerate the world's transition to sustainable energy, saving lives through safer vehicles, and making the world a better place.</p>
                 
-                <p style="font-family:var(--font-ui);font-size:0.88rem;color:var(--nn-text-muted);margin-bottom:var(--sp-4);font-style:italic;">For thoughtful news consumers who want every side of the story — not just the one their algorithm picks.</p>
+                <p style="font-family:var(--font-ui);font-size:0.88rem;color:var(--nn-text-muted);margin-bottom:var(--sp-4);font-style:italic;">For Tesla owners, TSLA investors, EV enthusiasts, and anyone following the transition to sustainable energy.</p>
                 
                 <div class="show-hero-actions">
                     <a href="#episodes" class="nn-btn nn-btn-primary">Listen Now</a>
-                    <a href="omni-view-summaries.html" class="nn-btn">View Summaries</a>
+                    <a href="tesla-summaries.html" class="nn-btn">View Summaries</a>
                     
-                    <a href="omni_view_podcast.rss" class="nn-btn">RSS Feed</a>
+                    <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" class="nn-btn" target="_blank" rel="noopener">Apple Podcasts</a>
                     
-                    <a href="https://x.com/omniviewnews" class="nn-btn" target="_blank" rel="noopener">@omniviewnews</a>
+                    <a href="podcast.rss" class="nn-btn">RSS Feed</a>
                     
+                    <a href="https://x.com/teslashortstime" class="nn-btn" target="_blank" rel="noopener">@teslashortstime</a>
+                    
+                </div>
+                
+                <div class="stock-widget" id="stock-widget">
+                    <span class="ticker">TSLA</span>
+                    <span class="price" id="stock-price">--</span>
+                    <span class="change" id="stock-change">--</span>
                 </div>
                 
             </div>
@@ -205,7 +223,7 @@
             </div>
             <div id="episodes-grid" class="episodes-grid"></div>
             <div style="text-align:center;margin-top:var(--sp-6);">
-                <a href="omni-view-summaries.html" class="nn-btn">View All Episodes</a>
+                <a href="tesla-summaries.html" class="nn-btn">View All Episodes</a>
             </div>
         </div>
     </section>
@@ -214,12 +232,12 @@
     <section id="about" class="nn-section" style="border-top:1px solid var(--nn-border);">
         <div class="container">
             <div class="nn-section-header">
-                <h2>About Omni View</h2>
+                <h2>About Tesla Shorts Time</h2>
             </div>
             <div class="about-section-text">
-                <p>Omni View is a neutral, media-literacy-first daily briefing designed for everyone from children to seniors. Covers top world, business, technology, and media stories with perspectives from across the political spectrum.</p>
+                <p>Tesla Shorts Time is a daily podcast delivering the most important Tesla news and developments. We focus on how Tesla is advancing its mission to accelerate the world's transition to sustainable energy, saving lives through safer vehicles, and making the world a better place.</p>
                 
-                <p>Hosted by Patrick in Vancouver. Helping you form your own informed opinions through balanced, multi-perspective coverage.</p>
+                <p>Hosted by Patrick, each episode covers breaking news, product updates, technology breakthroughs, and the latest developments from Tesla and the broader electric vehicle world.</p>
                 
             </div>
         </div>
@@ -234,40 +252,40 @@
             </div>
             <div class="resources-grid">
                 
-                <a href="https://www.allsides.com/media-bias/ratings" class="resource-card glass-card" target="_blank" rel="noopener">
-                    <div class="resource-card-name">AllSides Media Bias Chart</div>
-                    <div class="resource-card-desc">See where news sources fall on the political spectrum</div>
-                    <div class="resource-card-url">www.allsides.com/media-bias/ratings</div>
+                <a href="https://ir.tesla.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">Tesla Investor Relations</div>
+                    <div class="resource-card-desc">Official SEC filings, earnings calls, and shareholder letters</div>
+                    <div class="resource-card-url">ir.tesla.com</div>
                 </a>
                 
-                <a href="https://ground.news" class="resource-card glass-card" target="_blank" rel="noopener">
-                    <div class="resource-card-name">Ground News</div>
-                    <div class="resource-card-desc">Compare how different outlets cover the same story</div>
-                    <div class="resource-card-url">ground.news</div>
+                <a href="https://www.tesla.com/blog" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">Tesla Blog</div>
+                    <div class="resource-card-desc">Official Tesla announcements and product updates</div>
+                    <div class="resource-card-url">www.tesla.com/blog</div>
                 </a>
                 
-                <a href="https://adfontesmedia.com" class="resource-card glass-card" target="_blank" rel="noopener">
-                    <div class="resource-card-name">Ad Fontes Media Bias Chart</div>
-                    <div class="resource-card-desc">Independent media reliability and bias ratings</div>
-                    <div class="resource-card-url">adfontesmedia.com</div>
+                <a href="https://finance.yahoo.com/quote/TSLA" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">TSLA on Yahoo Finance</div>
+                    <div class="resource-card-desc">Real-time stock price, charts, and financial data</div>
+                    <div class="resource-card-url">finance.yahoo.com/quote/TSLA</div>
                 </a>
                 
-                <a href="https://www.reuters.com" class="resource-card glass-card" target="_blank" rel="noopener">
-                    <div class="resource-card-name">Reuters</div>
-                    <div class="resource-card-desc">Wire service known for factual, neutral reporting</div>
-                    <div class="resource-card-url">www.reuters.com</div>
+                <a href="https://www.teslarati.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">Teslarati</div>
+                    <div class="resource-card-desc">Independent Tesla and SpaceX news coverage</div>
+                    <div class="resource-card-url">www.teslarati.com</div>
                 </a>
                 
-                <a href="https://apnews.com" class="resource-card glass-card" target="_blank" rel="noopener">
-                    <div class="resource-card-name">AP News</div>
-                    <div class="resource-card-desc">Non-profit global news wire with minimal editorial bias</div>
-                    <div class="resource-card-url">apnews.com</div>
+                <a href="https://www.notateslaapp.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">Not A Tesla App</div>
+                    <div class="resource-card-desc">Tesla software updates and feature tracking</div>
+                    <div class="resource-card-url">www.notateslaapp.com</div>
                 </a>
                 
-                <a href="https://www.factcheck.org" class="resource-card glass-card" target="_blank" rel="noopener">
-                    <div class="resource-card-name">FactCheck.org</div>
-                    <div class="resource-card-desc">Non-partisan fact-checking from the Annenberg Public Policy Center</div>
-                    <div class="resource-card-url">www.factcheck.org</div>
+                <a href="https://cleantechnica.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                    <div class="resource-card-name">CleanTechnica</div>
+                    <div class="resource-card-desc">Clean energy and electric vehicle industry news</div>
+                    <div class="resource-card-url">cleantechnica.com</div>
                 </a>
                 
             </div>
@@ -280,10 +298,10 @@
     <section class="nn-section" style="padding-top:0;">
         <div class="container" style="max-width:700px;">
             <div class="nn-section-header" style="text-align:left;">
-                <h2>Latest from @omniviewnews</h2>
+                <h2>Latest from @teslashortstime</h2>
             </div>
             <div class="glass-card" style="padding:var(--sp-4);overflow:hidden;max-height:600px;overflow-y:auto;">
-                <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders transparent" data-height="500" href="https://twitter.com/omniviewnews">Posts by @omniviewnews</a>
+                <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders transparent" data-height="500" href="https://twitter.com/teslashortstime">Posts by @teslashortstime</a>
             </div>
         </div>
     </section>
@@ -295,11 +313,11 @@
         <div class="container" style="max-width:700px;">
             <div class="glass-card" style="padding:var(--sp-6);border-color:color-mix(in srgb, var(--show-color) 30%, var(--nn-border));">
                 <div style="font-family:var(--font-ui);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--show-color);margin-bottom:var(--sp-3);">Recommended for you</div>
-                <a href="tesla.html" style="display:flex;align-items:center;gap:var(--sp-4);text-decoration:none;">
-                    <img src="podcast-image-v3.jpg" alt="Tesla Shorts Time" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;" loading="lazy">
+                <a href="omni-view.html" style="display:flex;align-items:center;gap:var(--sp-4);text-decoration:none;">
+                    <img src="omni-view-podcast-image.jpg" alt="Omni View" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;" loading="lazy">
                     <div>
-                        <div style="font-family:var(--font-heading);font-weight:600;color:var(--nn-white);font-size:1.05rem;margin-bottom:var(--sp-1);">Tesla Shorts Time</div>
-                        <div style="font-family:var(--font-ui);font-size:0.88rem;color:var(--nn-text-muted);line-height:1.5;">If you enjoy Omni View, you might also like Tesla Shorts Time — daily news focused on Tesla and sustainable energy.</div>
+                        <div style="font-family:var(--font-heading);font-weight:600;color:var(--nn-white);font-size:1.05rem;margin-bottom:var(--sp-1);">Omni View</div>
+                        <div style="font-family:var(--font-ui);font-size:0.88rem;color:var(--nn-text-muted);line-height:1.5;">If you enjoy Tesla Shorts Time, you might also like Omni View — balanced daily news from every perspective.</div>
                     </div>
                 </a>
             </div>
@@ -317,15 +335,15 @@
             <div class="cross-network-grid">
                 
                 
-                <a href="tesla.html" class="cross-network-card">
-                    <img src="podcast-image-v3.jpg" alt="Tesla Shorts Time" loading="lazy">
+                
+                
+                <a href="omni-view.html" class="cross-network-card">
+                    <img src="omni-view-podcast-image.jpg" alt="Omni View" loading="lazy">
                     <div class="cross-network-card-info">
-                        <div class="cross-network-card-name">Tesla Shorts Time</div>
-                        <div class="cross-network-card-tagline">Shorting Tesla? Time's Up.</div>
+                        <div class="cross-network-card-name">Omni View</div>
+                        <div class="cross-network-card-tagline">See every side. Decide for yourself.</div>
                     </div>
                 </a>
-                
-                
                 
                 
                 
@@ -435,10 +453,10 @@
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     
     <script>
-        const JSON_URL = 'digests/omni_view/summaries_omni.json';
+        const JSON_URL = 'digests/tesla_shorts_time/summaries_tesla.json';
         const JSON_FORMAT = 'wrapped';
-        const RSS_URL = 'omni_view_podcast.rss';
-        const SHOW_NAME = "Omni View";
+        const RSS_URL = 'podcast.rss';
+        const SHOW_NAME = "Tesla Shorts Time";
 
         // --- Helpers ---
         function formatDate(d) {
@@ -554,6 +572,39 @@
             document.getElementById('episodes-grid').innerHTML = '<p style="color:var(--nn-text-muted);grid-column:1/-1;text-align:center;padding:2rem 0;">Episodes will appear here once available.</p>';
         }
 
+        
+        // --- Stock widget (Tesla only) ---
+        async function loadStock() {
+            function displayPrice(price, prev) {
+                const p = parseFloat(price), pc = parseFloat(prev);
+                const ch = (p - pc).toFixed(2);
+                const pct = ((p - pc) / pc * 100).toFixed(2);
+                const isUp = ch >= 0;
+                document.getElementById('stock-price').textContent = '$' + p.toFixed(2);
+                const changeEl = document.getElementById('stock-change');
+                changeEl.textContent = (isUp ? '+' : '') + ch + ' (' + (isUp ? '+' : '') + pct + '%)';
+                changeEl.className = 'change ' + (isUp ? 'up' : 'down');
+            }
+            const yahooUrl = 'https://query2.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=2d';
+            const proxies = [
+                url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
+                url => 'https://corsproxy.io/?' + encodeURIComponent(url),
+                url => url
+            ];
+            for (const makeUrl of proxies) {
+                try {
+                    const resp = await fetch(makeUrl(yahooUrl));
+                    if (!resp.ok) continue;
+                    const data = await resp.json();
+                    const meta = data.chart.result[0].meta;
+                    displayPrice(meta.regularMarketPrice, meta.chartPreviousClose || meta.previousClose);
+                    return;
+                } catch {}
+            }
+            document.getElementById('stock-price').textContent = 'TSLA';
+            document.getElementById('stock-change').textContent = 'Market data unavailable';
+        }
+        loadStock();
         
 
         loadEpisodes();

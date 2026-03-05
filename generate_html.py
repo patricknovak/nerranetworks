@@ -33,7 +33,7 @@ NETWORK_SHOWS = {
         "name": "Tesla Shorts Time",
         "slug": "tesla",
         "description": "Daily Tesla news digest and podcast.",
-        "show_page": "index.html",
+        "show_page": "tesla.html",
         "summaries_page": "tesla-summaries.html",
         "json_path": "digests/tesla_shorts_time/summaries_tesla.json",
         "json_format": "wrapped",
@@ -420,13 +420,13 @@ def generate_network_page(*, dry_run=False):
         "meta_keywords": "podcast network, daily podcasts, Nerra Network, Tesla, space, science, AI, environment",
         "theme_color": "#7C5CFF",
         "og_image": None,  # No single show image represents the network
-        "canonical_url": f"{GITHUB_RAW}/network.html",
+        "canonical_url": f"{GITHUB_RAW}/index.html",
         "all_shows": _build_all_shows_list(),
     }
 
     html = template.render(**context)
 
-    out_path = ROOT / "network.html"
+    out_path = ROOT / "index.html"
     if dry_run:
         print(f"[dry-run] Would write {out_path} ({len(html):,} bytes)")
         return None
