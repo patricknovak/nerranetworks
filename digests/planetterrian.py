@@ -967,7 +967,7 @@ def update_rss_feed(
         base_url=base_url,
         audio_subdir="digests/planetterrian",
         channel_title="Planetterrian Daily",
-        channel_link="https://planetterrian.com",
+        channel_link="https://nerranetwork.com/planetterrian.html",
         channel_description="Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion.",
         channel_author="Patrick",
         channel_email="contact@planetterrian.com",

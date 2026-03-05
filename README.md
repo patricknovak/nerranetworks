@@ -1,18 +1,25 @@
-# Tesla Shorts Time — Podcast Network
+# Nerra Network — Daily Podcast Network
 
-Automated daily podcast generation system running 5 shows. Each show fetches
-news via RSS, generates a digest and podcast script via xAI/Grok, synthesizes
-audio via ElevenLabs TTS, and publishes to RSS feeds, GitHub Pages, and X/Twitter.
+Automated daily podcast generation system running 6 shows via a unified
+`run_show.py` runner + per-show YAML configs. Each show fetches news via RSS
+and xAI/Grok web search, generates a digest and podcast script via xAI/Grok,
+synthesizes audio via ElevenLabs TTS, mixes intro/outro music, and publishes
+to RSS feeds, GitHub Pages, and X/Twitter.
+
+All shows are produced independently in Vancouver, Canada.
+
+**Website:** [nerranetwork.com](https://nerranetwork.com)
 
 ## Shows
 
 | Show | Schedule | Player | RSS |
 |------|----------|--------|-----|
-| **Tesla Shorts Time** | Daily | [Player](https://patricknovak.github.io/Tesla-shorts-time/) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/tesla_shorts_time_podcast.rss) |
-| **Omni View** | Daily | [Player](https://patricknovak.github.io/Tesla-shorts-time/omni-view.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni_view_podcast.rss) |
-| **Fascinating Frontiers** | Even days | [Player](https://patricknovak.github.io/Tesla-shorts-time/fascinating-frontiers.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/fascinating_frontiers_podcast.rss) |
-| **Planetterrian Daily** | Odd days | [Player](https://patricknovak.github.io/Tesla-shorts-time/planetterrian.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian_podcast.rss) |
-| **Environmental Intelligence** | Weekdays | [Player](https://patricknovak.github.io/Tesla-shorts-time/env-intel.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env_intel_podcast.rss) |
+| **Tesla Shorts Time** | Daily | [Player](https://nerranetwork.com/) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/tesla_shorts_time_podcast.rss) |
+| **Omni View** | Daily | [Player](https://nerranetwork.com/omni-view.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni_view_podcast.rss) |
+| **Fascinating Frontiers** | Daily | [Player](https://nerranetwork.com/fascinating_frontiers.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/fascinating_frontiers_podcast.rss) |
+| **Planetterrian Daily** | Daily | [Player](https://nerranetwork.com/planetterrian.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian_podcast.rss) |
+| **Environmental Intelligence** | Weekdays | [Player](https://nerranetwork.com/env-intel.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env_intel_podcast.rss) |
+| **Models & Agents** | Daily | [Player](https://nerranetwork.com/models-agents.html) | [RSS](https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/models_agents_podcast.rss) |
 
 ## Apple Podcasts
 
@@ -38,9 +45,17 @@ run_show.py                     # Unified entry point for all shows
 │   ├── prompts/                # LLM prompt templates
 │   └── hooks/                  # Show-specific pre-fetch hooks
 ├── digests/                    # Generated output (audio, markdown, JSON)
+├── templates/                  # Jinja2 HTML templates
+│   ├── base.html.j2            # Shared layout (nav, footer, design tokens)
+│   ├── show_page.html.j2       # Per-show player + episodes page
+│   ├── summaries_page.html.j2  # Per-show episode archive
+│   └── network_page.html.j2    # Network landing page
+├── styles/
+│   └── main.css                # Shared stylesheet (dark theme, glassmorphism)
+├── generate_html.py            # Static site generator (Jinja2 → HTML)
 ├── .github/workflows/
 │   └── run-show.yml            # Unified GitHub Actions workflow
-└── scripts/                    # Migration + verification utilities
+└── *.rss                       # Podcast RSS feeds
 ```
 
 ### Pipeline (per show, per run)
@@ -73,11 +88,14 @@ python run_show.py env_intel --dry-run
 # Skip specific steps
 python run_show.py tesla --skip-x --skip-newsletter
 python run_show.py fascinating_frontiers --skip-podcast
+
+# Regenerate all HTML pages
+python generate_html.py --all
 ```
 
 ### Available shows
 
-`tesla`, `omni_view`, `fascinating_frontiers`, `planetterrian`, `env_intel`
+`tesla`, `omni_view`, `fascinating_frontiers`, `planetterrian`, `env_intel`, `models_agents`
 
 ## Adding a New Show
 
@@ -86,15 +104,16 @@ python run_show.py fascinating_frontiers --skip-podcast
 3. Optionally create `shows/hooks/<slug>.py` for pre-fetch logic
 4. Add the slug to `run_show.py` choices
 5. Add cron schedule to `.github/workflows/run-show.yml`
-6. Create GitHub Pages player HTML
+6. Add show config to `generate_html.py` and run `python generate_html.py --all`
 
 ## Testing
 
 ```bash
-pytest                           # Run all 158 tests
+pytest                           # Run all tests
 pytest tests/test_utils.py       # Pure function tests
 pytest tests/test_rss.py         # RSS feed validation
 pytest tests/test_audio_commands.py  # ffmpeg command structure
+pytest tests/test_integration.py # Pipeline integration tests
 ```
 
 ## Environment Variables
