@@ -1206,7 +1206,7 @@ def create_omni_view_podcast(script_text: str) -> tuple[Path, float]:
 def update_omni_view_rss_feed(audio_file, duration):
     """Update the Omni View RSS feed via engine.publisher.update_rss_feed."""
     rss_path = project_root / "omni_view_podcast.rss"
-    base_url = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+    base_url = "https://nerranetwork.com"
     episode_num = get_next_episode_number(rss_path, digests_dir)
     today = datetime.datetime.now().strftime("%B %d, %Y")
 
@@ -1225,7 +1225,7 @@ def update_omni_view_rss_feed(audio_file, duration):
         base_url=base_url,
         audio_subdir="digests/omni_view",
         channel_title="Omni View - Balanced News Perspectives",
-        channel_link="https://patricknovak.github.io/Tesla-shorts-time/omni-view.html",
+        channel_link="https://nerranetwork.com/omni-view.html",
         channel_description=(
             "Daily balanced news summaries presenting multiple perspectives on the "
             "stories that matter. Countering media bias through diverse sources and "
@@ -1337,7 +1337,7 @@ if __name__ == "__main__":
     if ENABLE_GITHUB_SUMMARIES:
         try:
             # Save the full summary to GitHub Pages JSON
-            _base_url = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+            _base_url = "https://nerranetwork.com"
             _audio_url = None
             try:
                 if ENABLE_PODCAST and final_mp3:
@@ -1365,7 +1365,7 @@ if __name__ == "__main__":
     if ENABLE_X_POSTING:
         try:
             # Create link to the Omni View summaries page
-            summaries_url = "https://patricknovak.github.io/Tesla-shorts-time/omni-view-summaries.html"
+            summaries_url = "https://nerranetwork.com/omni-view-summaries.html"
 
             # Create a teaser post with link to full summary
             today = datetime.datetime.now()

@@ -886,25 +886,25 @@ def _build_teaser(config, episode_num: int, today_str: str, extra_context: dict)
         return (
             f"🚀⚡ Tesla Shorts Time Daily — {today_str}{price_str}\n\n"
             f"Episode {episode_num} is live!\n"
-            f"🎧 Listen & read: https://patricknovak.github.io/Tesla-shorts-time/tesla-summaries.html"
+            f"🎧 Listen & read: https://nerranetwork.com/tesla-summaries.html"
         )
     elif slug == "omni_view":
         return (
             f"📰⚖️ Omni View — {today_str}\n\n"
             f"Episode {episode_num}: Balanced news perspectives.\n"
-            f"🎧 Read & listen: https://patricknovak.github.io/Tesla-shorts-time/omni-view-summaries.html"
+            f"🎧 Read & listen: https://nerranetwork.com/omni-view-summaries.html"
         )
     elif slug == "fascinating_frontiers":
         return (
             f"🚀🌌 Fascinating Frontiers — {today_str}\n\n"
             f"Episode {episode_num}: Space & astronomy news.\n"
-            f"🎧 Read & listen: https://patricknovak.github.io/Tesla-shorts-time/fascinating-frontiers-summaries.html"
+            f"🎧 Read & listen: https://nerranetwork.com/fascinating-frontiers-summaries.html"
         )
     elif slug == "planetterrian":
         return (
             f"🌍🧬 Planetterrian Daily — {today_str}\n\n"
             f"Episode {episode_num}: Science, longevity & health.\n"
-            f"🎧 Read & listen: https://patricknovak.github.io/Tesla-shorts-time/planetterrian-summaries.html"
+            f"🎧 Read & listen: https://nerranetwork.com/planetterrian-summaries.html"
         )
     return f"{config.name} Episode {episode_num} — {today_str}"
 

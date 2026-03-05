@@ -57,7 +57,7 @@ def update_rss_feed(
     mp3_duration: float,
     mp3_path: Path,
     *,
-    base_url: str = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main",
+    base_url: str = "https://nerranetwork.com",
     audio_url: Optional[str] = None,
     audio_subdir: str = "digests",
     channel_title: str = "Podcast",

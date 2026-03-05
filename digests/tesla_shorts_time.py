@@ -2464,7 +2464,7 @@ def scan_existing_episodes_from_files(digests_dir: Path, base_url: str) -> list:
     return episodes
 
 
-_TST_BASE_URL = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+_TST_BASE_URL = "https://nerranetwork.com"
 
 
 def update_rss_feed(
@@ -2485,7 +2485,7 @@ def update_rss_feed(
         base_url=base_url,
         audio_subdir="digests/tesla_shorts_time",
         channel_title="Tesla Shorts Time Daily",
-        channel_link="https://github.com/patricknovak/Tesla-shorts-time",
+        channel_link="https://nerranetwork.com/index.html",
         channel_description="A daily podcast covering the latest Tesla news, stock prices, and industry insights.",
         channel_author="Patrick",
         channel_email="contact@teslashortstime.com",
@@ -2540,7 +2540,7 @@ if ENABLE_PODCAST and not TEST_MODE and final_mp3 and final_mp3.exists():
         generate_episode_thumbnail(base_image_path, episode_num, today_str, thumbnail_path)
         
         # Define base_url for RSS feed
-        base_url = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+        base_url = "https://nerranetwork.com"
         
         # Update RSS feed
         update_rss_feed(
@@ -2563,7 +2563,7 @@ if ENABLE_PODCAST and not TEST_MODE and final_mp3 and final_mp3.exists():
 if ENABLE_GITHUB_SUMMARIES:
     try:
         # Save the full summary to GitHub Pages JSON
-        _base_url = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+        _base_url = "https://nerranetwork.com"
         _audio_url = None
         try:
             if ENABLE_PODCAST and final_mp3:
@@ -2590,7 +2590,7 @@ if ENABLE_GITHUB_SUMMARIES:
 # Post link to GitHub Pages summary on X instead of full content
 if ENABLE_X_POSTING:
     try:
-        summaries_url = "https://patricknovak.github.io/Tesla-shorts-time/tesla-summaries.html"
+        summaries_url = "https://nerranetwork.com/tesla-summaries.html"
         today = datetime.datetime.now()
         teaser_text = (
             f"\U0001f697\u26a1 Tesla Shorts Time Daily - {today.strftime('%B %d, %Y')}\n\n"

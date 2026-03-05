@@ -126,13 +126,13 @@ publishing:
   rss_file: "{slug}_podcast.rss"
   rss_title: "{SHOW_NAME}"
   rss_description: "{RSS_DESCRIPTION}"
-  rss_link: "https://patricknovak.github.io/Tesla-shorts-time/{slug}.html"
+  rss_link: "https://nerranetwork.com/{slug}.html"
   rss_author: "{SHOW_NAME}"
   rss_email: contact@teslashortstime.com
   rss_image: "{slug}-podcast-image.jpg"
   rss_category: Science
   guid_prefix: "{slug}"
-  base_url: https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main
+  base_url: https://nerranetwork.com
   audio_subdir: "digests/{slug}"
   summaries_json: "digests/{slug}/summaries_{slug}.json"
   summaries_podcast_name: "{slug}"

@@ -8,7 +8,7 @@ import subprocess
 project_root = Path(__file__).parent
 digests_dir = project_root / "digests"
 rss_path = project_root / "podcast.rss"
-base_url = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+base_url = "https://nerranetwork.com"
 
 def get_audio_duration(mp3_path):
     cmd = [

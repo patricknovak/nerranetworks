@@ -8,7 +8,7 @@ from pathlib import Path
 
 # Path to RSS feed
 rss_path = Path(__file__).parent / "podcast.rss"
-base_url = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+base_url = "https://nerranetwork.com"
 
 # Register namespace
 ET.register_namespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
