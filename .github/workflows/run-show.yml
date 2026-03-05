@@ -189,19 +189,38 @@ jobs:
           path: |
             kokoro-v1.0.onnx
             voices-v1.0.bin
-          key: kokoro-model-v1.0
+          key: kokoro-model-v1.0-validated
 
       - name: Download Kokoro model files
         if: matrix.show == 'models_agents_beginners'
         run: |
+          # Validate existing files (detect corrupt cache hits)
+          ONNX_MIN_SIZE=300000000  # ~326MB expected
+          VOICES_MIN_SIZE=50000000  # ~57MB expected
+
+          if [ -f kokoro-v1.0.onnx ]; then
+            SIZE=$(stat -c%s kokoro-v1.0.onnx 2>/dev/null || echo 0)
+            if [ "$SIZE" -lt "$ONNX_MIN_SIZE" ]; then
+              echo "Cached kokoro-v1.0.onnx is corrupt (${SIZE} bytes, expected >300MB). Re-downloading..."
+              rm -f kokoro-v1.0.onnx
+            fi
+          fi
+          if [ -f voices-v1.0.bin ]; then
+            SIZE=$(stat -c%s voices-v1.0.bin 2>/dev/null || echo 0)
+            if [ "$SIZE" -lt "$VOICES_MIN_SIZE" ]; then
+              echo "Cached voices-v1.0.bin is corrupt (${SIZE} bytes, expected >50MB). Re-downloading..."
+              rm -f voices-v1.0.bin
+            fi
+          fi
+
           if [ ! -f kokoro-v1.0.onnx ]; then
             echo "Downloading Kokoro ONNX model..."
-            curl -L -o kokoro-v1.0.onnx \
+            curl -L --fail -o kokoro-v1.0.onnx \
               "https://huggingface.co/hexgrad/Kokoro-82M/resolve/main/kokoro-v1.0.onnx"
           fi
           if [ ! -f voices-v1.0.bin ]; then
             echo "Downloading Kokoro voices..."
-            curl -L -o voices-v1.0.bin \
+            curl -L --fail -o voices-v1.0.bin \
               "https://huggingface.co/hexgrad/Kokoro-82M/resolve/main/voices-v1.0.bin"
           fi
           echo "Kokoro model files ready"
