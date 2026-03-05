@@ -24,7 +24,7 @@ NETWORK_DESCRIPTION = (
     "Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, "
     "and the environment."
 )
-NETWORK_LINK = "https://nerranetwork.com/network.html"
+NETWORK_LINK = "https://nerranetwork.com/"
 NETWORK_IMAGE = "https://nerranetwork.com/omni-view-podcast-image.jpg"
 
 
