@@ -387,14 +387,28 @@ def run(args: argparse.Namespace) -> None:
         tts_script_path.write_text(podcast_script, encoding="utf-8")
         logger.info("TTS script saved: %s", tts_script_path)
 
-        # 9. TTS
-        api_key = (os.getenv("ELEVENLABS_API_KEY") or "").strip()
-        if not api_key:
-            logger.error("ELEVENLABS_API_KEY not set. Skipping TTS.")
-        else:
-            from engine.tts import synthesize, validate_elevenlabs_auth
-            validate_elevenlabs_auth(api_key)
+        # 9. TTS — route based on provider (elevenlabs or kokoro)
+        tts_provider = getattr(config.tts, "provider", "elevenlabs")
 
+        tts_ready = False
+        if tts_provider == "kokoro":
+            try:
+                from engine.tts import synthesize_kokoro, synthesize_kokoro_sections
+                tts_ready = True
+                logger.info("TTS provider: Kokoro (voice=%s, speed=%.2f)",
+                            config.tts.kokoro_voice, config.tts.kokoro_speed)
+            except Exception as e:
+                logger.error("Kokoro TTS unavailable: %s. Skipping TTS.", e)
+        else:
+            api_key = (os.getenv("ELEVENLABS_API_KEY") or "").strip()
+            if not api_key:
+                logger.error("ELEVENLABS_API_KEY not set. Skipping TTS.")
+            else:
+                from engine.tts import synthesize, validate_elevenlabs_auth
+                validate_elevenlabs_auth(api_key)
+                tts_ready = True
+
+        if tts_ready:
             raw_mp3 = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}_raw.mp3"
             logger.info("Synthesizing audio ...")
             t0 = time.monotonic()
@@ -413,37 +427,45 @@ def run(args: argparse.Namespace) -> None:
 
             if use_section_tts:
                 from engine.chapters import split_script_at_chapters
-                from engine.tts import synthesize_sections
                 from engine.audio import generate_transition_sting, concatenate_with_stings
 
                 sections = split_script_at_chapters(podcast_script, episode_chapters)
-                # Filter out empty sections
                 sections = [s for s in sections if s.strip()]
 
                 if len(sections) >= 2:
                     logger.info("Section TTS: synthesizing %d sections separately", len(sections))
                     section_tmp_dir = digests_dir / f"_sections_ep{episode_num:03d}"
-                    section_files = synthesize_sections(
-                        sections,
-                        config.tts.voice_id,
-                        section_tmp_dir,
-                        api_key=api_key,
-                        section_prefix=f"sec_ep{episode_num:03d}",
-                        max_chars=config.tts.max_chars,
-                        model_id=config.tts.model,
-                        stability=config.tts.stability,
-                        similarity_boost=config.tts.similarity_boost,
-                        style=config.tts.style,
-                    )
 
-                    # Generate sting if it doesn't exist yet
+                    if tts_provider == "kokoro":
+                        section_files = synthesize_kokoro_sections(
+                            sections,
+                            section_tmp_dir,
+                            voice=config.tts.kokoro_voice,
+                            speed=config.tts.kokoro_speed,
+                            lang=config.tts.kokoro_lang,
+                            section_prefix=f"sec_ep{episode_num:03d}",
+                            max_chars=config.tts.max_chars,
+                        )
+                    else:
+                        from engine.tts import synthesize_sections
+                        section_files = synthesize_sections(
+                            sections,
+                            config.tts.voice_id,
+                            section_tmp_dir,
+                            api_key=api_key,
+                            section_prefix=f"sec_ep{episode_num:03d}",
+                            max_chars=config.tts.max_chars,
+                            model_id=config.tts.model,
+                            stability=config.tts.stability,
+                            similarity_boost=config.tts.similarity_boost,
+                            style=config.tts.style,
+                        )
+
                     generate_transition_sting(sting_path)
-
                     concatenate_with_stings(
                         section_files, raw_mp3, sting_path=sting_path,
                     )
 
-                    # Clean up section temp files
                     for sf in section_files:
                         try:
                             sf.unlink()
@@ -455,29 +477,39 @@ def run(args: argparse.Namespace) -> None:
                         pass
                 else:
                     # Not enough sections — fall back to single synthesis
-                    synthesize(
-                        podcast_script,
-                        config.tts.voice_id,
-                        raw_mp3,
-                        api_key=api_key,
+                    if tts_provider == "kokoro":
+                        synthesize_kokoro(
+                            podcast_script, raw_mp3,
+                            voice=config.tts.kokoro_voice,
+                            speed=config.tts.kokoro_speed,
+                            lang=config.tts.kokoro_lang,
+                            max_chars=config.tts.max_chars,
+                        )
+                    else:
+                        synthesize(
+                            podcast_script, config.tts.voice_id, raw_mp3,
+                            api_key=api_key, max_chars=config.tts.max_chars,
+                            model_id=config.tts.model, stability=config.tts.stability,
+                            similarity_boost=config.tts.similarity_boost,
+                            style=config.tts.style,
+                        )
+            else:
+                if tts_provider == "kokoro":
+                    synthesize_kokoro(
+                        podcast_script, raw_mp3,
+                        voice=config.tts.kokoro_voice,
+                        speed=config.tts.kokoro_speed,
+                        lang=config.tts.kokoro_lang,
                         max_chars=config.tts.max_chars,
-                        model_id=config.tts.model,
-                        stability=config.tts.stability,
+                    )
+                else:
+                    synthesize(
+                        podcast_script, config.tts.voice_id, raw_mp3,
+                        api_key=api_key, max_chars=config.tts.max_chars,
+                        model_id=config.tts.model, stability=config.tts.stability,
                         similarity_boost=config.tts.similarity_boost,
                         style=config.tts.style,
                     )
-            else:
-                synthesize(
-                    podcast_script,
-                    config.tts.voice_id,
-                    raw_mp3,
-                    api_key=api_key,
-                    max_chars=config.tts.max_chars,
-                    model_id=config.tts.model,
-                    stability=config.tts.stability,
-                    similarity_boost=config.tts.similarity_boost,
-                    style=config.tts.style,
-                )
 
             logger.info("TTS synthesis took %.1fs", time.monotonic() - t0)
             from engine.tracking import record_tts_usage

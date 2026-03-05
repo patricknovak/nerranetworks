@@ -14,3 +14,5 @@ websockets>=12.0
 pytest>=7.0.0
 pyyaml>=6.0
 boto3>=1.28.0
+kokoro-onnx>=0.4.0
+soundfile>=0.12.0

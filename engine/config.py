@@ -41,6 +41,7 @@ class LLMConfig:
 
 @dataclass
 class TTSConfig:
+    provider: str = "elevenlabs"  # "elevenlabs" or "kokoro"
     voice_id: str = "dTrBzPvD2GpAqkk1MUzA"
     model: str = "eleven_turbo_v2_5"
     stability: float = 0.65
@@ -48,6 +49,10 @@ class TTSConfig:
     style: float = 0.85
     use_speaker_boost: bool = True
     max_chars: int = 5000
+    # Kokoro-specific (ignored when provider=elevenlabs)
+    kokoro_voice: str = "am_adam"
+    kokoro_speed: float = 1.0
+    kokoro_lang: str = "a"  # "a" = American English, "b" = British English
 
 
 @dataclass

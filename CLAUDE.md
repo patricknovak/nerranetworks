@@ -2,19 +2,21 @@
 
 ## Project Overview
 
-Automated daily podcast generation system running 6 shows via a unified
+Automated daily podcast generation system running 7 shows via a unified
 `run_show.py` runner + per-show YAML configs, plus 4 legacy standalone scripts
-(deprecated — see note below). All shows use **ElevenLabs TTS** and post to
-X/Twitter via `engine/publisher.post_to_x()`.
+(deprecated — see note below). Shows use **ElevenLabs TTS** or **Kokoro TTS**
+(configurable per show via `tts.provider` in YAML) and post to X/Twitter via
+`engine/publisher.post_to_x()`.
 
-| Show | Legacy Script | YAML Config | Schedule | X Account |
-|------|--------------|-------------|----------|-----------|
-| Tesla Shorts Time | `digests/tesla_shorts_time.py` (deprecated) | `shows/tesla.yaml` | Daily | `@teslashortstime` |
-| Omni View | `digests/omni_view.py` (deprecated) | `shows/omni_view.yaml` | Daily | `@omniviewnews` |
-| Fascinating Frontiers | `digests/fascinating_frontiers.py` (deprecated) | `shows/fascinating_frontiers.yaml` | Daily | `@planetterrian` |
-| Planetterrian Daily | `digests/planetterrian.py` (deprecated) | `shows/planetterrian.yaml` | Daily | `@planetterrian` |
-| Env Intel | — | `shows/env_intel.yaml` | Weekdays | `@teslashortstime` |
-| Models & Agents | — | `shows/models_agents.yaml` | Daily | — (X disabled) |
+| Show | Legacy Script | YAML Config | Schedule | X Account | TTS |
+|------|--------------|-------------|----------|-----------|-----|
+| Tesla Shorts Time | `digests/tesla_shorts_time.py` (deprecated) | `shows/tesla.yaml` | Daily | `@teslashortstime` | ElevenLabs |
+| Omni View | `digests/omni_view.py` (deprecated) | `shows/omni_view.yaml` | Daily | `@omniviewnews` | ElevenLabs |
+| Fascinating Frontiers | `digests/fascinating_frontiers.py` (deprecated) | `shows/fascinating_frontiers.yaml` | Daily | `@planetterrian` | ElevenLabs |
+| Planetterrian Daily | `digests/planetterrian.py` (deprecated) | `shows/planetterrian.yaml` | Daily | `@planetterrian` | ElevenLabs |
+| Env Intel | — | `shows/env_intel.yaml` | Weekdays | `@teslashortstime` | ElevenLabs |
+| Models & Agents | — | `shows/models_agents.yaml` | Daily | — (X disabled) | ElevenLabs |
+| Models & Agents for Beginners | — | `shows/models_agents_beginners.yaml` | Daily | — (X disabled) | Kokoro |
 
 **Science That Changes Everything** (`digests/science_that_changes.py`, ~83 lines)
 is a standalone X-posting script, not a podcast show.
@@ -26,7 +28,7 @@ is a standalone X-posting script, not a podcast show.
 1. **Fetch** news sources (RSS, xAI/Grok web search, yfinance for Tesla)
 2. **Dedup** via ContentTracker (cross-episode) + entity dedup
 3. **Generate** digest text via xAI/Grok API
-4. **Synthesize** podcast audio via ElevenLabs TTS
+4. **Synthesize** podcast audio via ElevenLabs TTS or Kokoro TTS (per-show config)
 5. **Mix** intro/outro music with voice (ffmpeg) — all shows (configurable per YAML)
 6. **Post** X thread via `engine/publisher.post_to_x()` + update RSS feed + commit output to git
 
@@ -55,6 +57,7 @@ Tesla-shorts-time/
 │   ├── planetterrian/             # PT output + summaries_planet.json
 │   ├── env_intel/                 # EI output + summaries_env_intel.json
 │   ├── models_agents/             # M&A output + summaries_models_agents.json
+│   ├── models_agents_beginners/   # MAB output (Kokoro TTS trial)
 │   └── *.mp3, *.md, *.txt        # Legacy TST flat output (historical)
 ├── engine/                        # Shared modules
 │   ├── __init__.py
@@ -99,6 +102,10 @@ Tesla-shorts-time/
 - **EI** runs exclusively via `run_show.py` + `shows/env_intel.yaml`; no legacy script
 - **M&A** (Models & Agents) runs exclusively via `run_show.py` +
   `shows/models_agents.yaml`; no legacy script. X posting disabled.
+- **MAB** (Models & Agents for Beginners) runs via `run_show.py` +
+  `shows/models_agents_beginners.yaml`; beginner/teen-focused version of M&A.
+  Uses **Kokoro TTS** (free, local) instead of ElevenLabs as a trial for
+  transitioning the network to free TTS. X posting disabled.
 - All shows delegate X posting to `engine.publisher.post_to_x()`
 - TST/FF/PT delegate voice normalization to `engine.audio.normalize_voice()`
 - All shows use `engine.audio.mix_with_music()` for music mixing (3 modes:
@@ -113,7 +120,8 @@ Tesla-shorts-time/
 - `GROK_API_KEY` — primary xAI key (all shows)
 - `ELEVENLABS_API_KEY` — ElevenLabs TTS (all shows)
 - `X_*` / `PLANETTERRIAN_X_*` — two separate X accounts
-- Voice IDs: TST/FF/PT share `dTrBzPvD2GpAqkk1MUzA`, OV uses `ns7MjJ6c8tJKnvw7U6sN`
+- Voice IDs: TST/FF/PT/M&A/EI share `dTrBzPvD2GpAqkk1MUzA`, OV uses `ns7MjJ6c8tJKnvw7U6sN`
+- MAB uses Kokoro TTS (local, free) with voice `am_adam` — no API key required
 - See `docs/env_var_inventory.md` for the complete inventory
 
 ### RSS Feeds
@@ -168,7 +176,7 @@ Phase 2 (complete):
   `record_tts_usage`, `record_x_post`, `save_usage`
 
 Phase 3 (current):
-- All 6 shows now run via `run_show.py` + YAML configs in production (CI/CD).
+- All 7 shows now run via `run_show.py` + YAML configs in production (CI/CD).
 - Legacy scripts (`digests/{tesla_shorts_time,omni_view,fascinating_frontiers,
   planetterrian}.py`) are **deprecated** — retained for reference only.
 - `run_show.py` is the canonical entry point; legacy scripts are not called
@@ -211,7 +219,8 @@ Phase 3 (current):
    and other legacy scripts. Env var overrides still supported.
 10. **Early episodes deleted** — first 20 Tesla, 10 FF, 10 PT, 10 OV episodes
     removed (quality issues). RSS entries removed where applicable.
-11. **Chatterbox TTS fully removed** — ElevenLabs is the only TTS provider.
-    All Chatterbox code, requirements, docs, and voice prompt assets deleted.
+11. **Chatterbox TTS fully removed** — ElevenLabs was the only TTS provider
+    until Kokoro was added for MAB. Chatterbox code, requirements, docs, and
+    voice prompt assets deleted.
 12. **Summaries JSONs moved** — all summaries live in per-show subdirectories
     (`digests/<show>/summaries_*.json`), not at the `digests/` top level.

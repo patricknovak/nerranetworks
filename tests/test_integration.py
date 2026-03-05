@@ -237,7 +237,8 @@ class TestContentTrackerIntegration:
         from engine.content_tracker import SHOW_SECTION_PATTERNS
 
         expected = {"tesla", "tesla_shorts_time", "fascinating_frontiers",
-                    "planetterrian", "omni_view", "env_intel", "models_agents"}
+                    "planetterrian", "omni_view", "env_intel", "models_agents",
+                    "models_agents_beginners"}
         assert set(SHOW_SECTION_PATTERNS.keys()) == expected
 
     def test_cross_episode_dedup(self, tmp_tracker_dir):

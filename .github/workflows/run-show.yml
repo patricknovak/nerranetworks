@@ -14,6 +14,8 @@ on:
     - cron: '0 14 * * 1-5'
     # Models & Agents: Daily ~7 AM Pacific (15:00 UTC)
     - cron: '0 15 * * *'
+    # Models & Agents for Beginners: Daily ~8 AM Pacific (16:00 UTC)
+    - cron: '0 16 * * *'
 
   workflow_dispatch:
     inputs:
@@ -28,6 +30,7 @@ on:
           - planetterrian
           - env_intel
           - models_agents
+          - models_agents_beginners
           - all
 
 permissions:
@@ -55,7 +58,7 @@ jobs:
 
           if event_name == "workflow_dispatch":
               if dispatch_show == "all":
-                  shows = ["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel", "models_agents"]
+                  shows = ["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel", "models_agents", "models_agents_beginners"]
               else:
                   shows = [dispatch_show]
           else:
@@ -96,6 +99,9 @@ jobs:
               # 15:00 UTC — Models & Agents (daily, ~7 AM Pacific)
               elif utc_hour == 15:
                   shows.append("models_agents")
+              # 16:00 UTC — Models & Agents for Beginners (daily, ~8 AM Pacific)
+              elif utc_hour == 16:
+                  shows.append("models_agents_beginners")
 
               # Detect known DST no-ops (cron fires but show runs at a different
               # UTC hour depending on EST/EDT).  These are expected empty results.
@@ -175,6 +181,31 @@ jobs:
 
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Cache Kokoro model files
+        if: matrix.show == 'models_agents_beginners'
+        uses: actions/cache@v4
+        with:
+          path: |
+            kokoro-v1.0.onnx
+            voices-v1.0.bin
+          key: kokoro-model-v1.0
+
+      - name: Download Kokoro model files
+        if: matrix.show == 'models_agents_beginners'
+        run: |
+          if [ ! -f kokoro-v1.0.onnx ]; then
+            echo "Downloading Kokoro ONNX model..."
+            curl -L -o kokoro-v1.0.onnx \
+              "https://huggingface.co/hexgrad/Kokoro-82M/resolve/main/kokoro-v1.0.onnx"
+          fi
+          if [ ! -f voices-v1.0.bin ]; then
+            echo "Downloading Kokoro voices..."
+            curl -L -o voices-v1.0.bin \
+              "https://huggingface.co/hexgrad/Kokoro-82M/resolve/main/voices-v1.0.bin"
+          fi
+          echo "Kokoro model files ready"
+          ls -lh kokoro-v1.0.onnx voices-v1.0.bin
 
       - name: Install Python dependencies
         run: |
