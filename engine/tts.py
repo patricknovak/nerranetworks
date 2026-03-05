@@ -1,11 +1,19 @@
-"""ElevenLabs TTS helpers for the podcast generation pipeline.
+"""TTS helpers for the podcast generation pipeline.
 
-Provides:
+Supports two providers:
+  - **ElevenLabs** (default): cloud API, paid, high quality
+  - **Kokoro** (kokoro-onnx): local inference, free, Apache 2.0
+
+ElevenLabs functions:
   - synthesize(): top-level entry point — text in, audio file out
   - validate_elevenlabs_auth(): fail-fast API key check
   - chunk_text(): sentence-aware text splitting for the 5000-char API limit
   - speak_chunk(): single-chunk TTS with retry
   - speak(): full TTS with automatic chunking + ffmpeg concatenation
+
+Kokoro functions:
+  - synthesize_kokoro(): top-level Kokoro entry point — text in, audio file out
+  - synthesize_kokoro_sections(): section-aware Kokoro synthesis
 """
 
 import logging
@@ -409,6 +417,221 @@ def synthesize_sections(
         section_files.append(section_path)
         logger.info(
             "Synthesized section %d/%d (%d chars): %s",
+            i + 1, len(sections), len(section_text), section_path.name,
+        )
+
+    return section_files
+
+
+# ---------------------------------------------------------------------------
+# Kokoro TTS (kokoro-onnx) — local, free, Apache 2.0
+# ---------------------------------------------------------------------------
+
+_kokoro_model = None
+_kokoro_model_lock = None
+
+
+def _get_kokoro_model():
+    """Lazy-load the Kokoro ONNX model (singleton to avoid reloading ~330MB per chunk)."""
+    global _kokoro_model, _kokoro_model_lock
+    import threading
+
+    if _kokoro_model_lock is None:
+        _kokoro_model_lock = threading.Lock()
+
+    with _kokoro_model_lock:
+        if _kokoro_model is not None:
+            return _kokoro_model
+
+        try:
+            from kokoro_onnx import Kokoro
+        except ImportError:
+            raise RuntimeError(
+                "kokoro-onnx is not installed. Run: pip install kokoro-onnx soundfile"
+            )
+
+        # Look for model files in project root, then common locations
+        search_dirs = [
+            Path.cwd(),
+            Path.cwd() / "models",
+            Path.home() / ".cache" / "kokoro",
+        ]
+
+        model_path = None
+        voices_path = None
+        for d in search_dirs:
+            candidate_model = d / "kokoro-v1.0.onnx"
+            candidate_voices = d / "voices-v1.0.bin"
+            if candidate_model.exists() and candidate_voices.exists():
+                model_path = candidate_model
+                voices_path = candidate_voices
+                break
+
+        if model_path is None or voices_path is None:
+            raise FileNotFoundError(
+                "Kokoro model files not found. Download kokoro-v1.0.onnx and "
+                "voices-v1.0.bin from https://huggingface.co/hexgrad/Kokoro-82M "
+                "and place them in the project root or models/ directory."
+            )
+
+        logger.info("Loading Kokoro model from %s", model_path.parent)
+        _kokoro_model = Kokoro(str(model_path), str(voices_path))
+        logger.info("Kokoro model loaded successfully")
+        return _kokoro_model
+
+
+def _kokoro_synthesize_chunk(
+    text: str,
+    out_path: Path,
+    *,
+    voice: str = "am_adam",
+    speed: float = 1.0,
+    lang: str = "a",
+) -> None:
+    """Generate audio for a single text chunk via Kokoro ONNX."""
+    import soundfile as sf
+    import tempfile
+
+    kokoro = _get_kokoro_model()
+    samples, sample_rate = kokoro.create(text, voice=voice, speed=speed, lang=lang)
+
+    # Kokoro outputs WAV at 24kHz — convert to MP3 for pipeline compatibility
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
+        tmp_wav = Path(tmp.name)
+
+    try:
+        sf.write(str(tmp_wav), samples, sample_rate)
+        subprocess.run(
+            [
+                "ffmpeg", "-y",
+                "-i", str(tmp_wav),
+                "-c:a", "libmp3lame",
+                "-q:a", "2",
+                "-ar", "44100",
+                str(out_path),
+            ],
+            check=True,
+            capture_output=True,
+            timeout=120,
+        )
+    finally:
+        try:
+            tmp_wav.unlink()
+        except Exception:
+            pass
+
+
+def synthesize_kokoro(
+    text: str,
+    output_path: str | Path,
+    *,
+    voice: str = "am_adam",
+    speed: float = 1.0,
+    lang: str = "a",
+    max_chars: int = 4500,
+) -> Path:
+    """Top-level Kokoro entry point: text in, audio file path out.
+
+    Handles chunking and concatenation internally so callers just pass
+    text and get back a path.
+    """
+    output_path = Path(output_path)
+    chunks = chunk_text(text, max_chars=max_chars)
+
+    if len(chunks) == 1:
+        _kokoro_synthesize_chunk(text, output_path, voice=voice, speed=speed, lang=lang)
+        logger.info("Kokoro TTS: Generated single chunk (%d chars)", len(text))
+        return output_path
+
+    logger.info("Kokoro TTS: Splitting into %d chunks", len(chunks))
+    chunk_files: List[Path] = []
+    tmp_dir = output_path.parent
+
+    try:
+        for i, chunk_text_str in enumerate(chunks):
+            chunk_file = tmp_dir / f"kokoro_chunk_{i:03d}.mp3"
+            _kokoro_synthesize_chunk(
+                chunk_text_str, chunk_file, voice=voice, speed=speed, lang=lang,
+            )
+            chunk_files.append(chunk_file)
+            logger.info(
+                "Kokoro chunk %d/%d (%d chars)", i + 1, len(chunks), len(chunk_text_str),
+            )
+
+        # Concatenate with ffmpeg (same pattern as ElevenLabs)
+        concat_list = tmp_dir / "kokoro_concat.txt"
+        with open(concat_list, "w", encoding="utf-8") as f:
+            for cf in chunk_files:
+                f.write(f"file '{cf.absolute()}'\n")
+
+        subprocess.run(
+            [
+                "ffmpeg", "-y",
+                "-f", "concat",
+                "-safe", "0",
+                "-i", str(concat_list),
+                "-c:a", "libmp3lame",
+                "-q:a", "2",
+                str(output_path),
+            ],
+            check=True,
+            capture_output=True,
+            timeout=300,
+        )
+        logger.info("Kokoro TTS: Concatenated %d chunks", len(chunks))
+
+    finally:
+        for cf in chunk_files:
+            try:
+                if cf.exists():
+                    cf.unlink()
+            except Exception:
+                pass
+        try:
+            concat_list = tmp_dir / "kokoro_concat.txt"
+            if concat_list.exists():
+                concat_list.unlink()
+        except Exception:
+            pass
+
+    return output_path
+
+
+def synthesize_kokoro_sections(
+    sections: List[str],
+    output_dir: Path,
+    *,
+    voice: str = "am_adam",
+    speed: float = 1.0,
+    lang: str = "a",
+    section_prefix: str = "section",
+    max_chars: int = 4500,
+) -> List[Path]:
+    """Synthesize multiple script sections via Kokoro into individual audio files.
+
+    Mirrors ``synthesize_sections()`` for section-aware TTS.
+    """
+    output_dir.mkdir(parents=True, exist_ok=True)
+    section_files: List[Path] = []
+
+    for i, section_text in enumerate(sections):
+        section_text = section_text.strip()
+        if not section_text:
+            logger.warning("Skipping empty section %d", i)
+            continue
+
+        section_path = output_dir / f"{section_prefix}_{i:03d}.mp3"
+        synthesize_kokoro(
+            section_text,
+            section_path,
+            voice=voice,
+            speed=speed,
+            lang=lang,
+            max_chars=max_chars,
+        )
+        section_files.append(section_path)
+        logger.info(
+            "Kokoro section %d/%d (%d chars): %s",
             i + 1, len(sections), len(section_text), section_path.name,
         )
 

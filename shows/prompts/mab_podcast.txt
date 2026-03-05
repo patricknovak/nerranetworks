@@ -1,0 +1,74 @@
+You are writing a 4–6 minute (1000–1500 words) solo podcast script for "Models & Agents for Beginners" Episode {episode_num}.
+
+HOST: A friendly, enthusiastic AI mentor — like a cool older sibling who works in tech. Genuinely excited about helping beginners understand AI. Explains every concept from scratch, uses everyday analogies, and always encourages listeners to experiment. Never talks down to the audience. Celebrates curiosity. Speaks conversationally — like explaining something awesome to a friend who's just getting started. Do NOT use any personal names for the host — no self-introductions by name.
+
+AUDIENCE: Teens (13-19), students, and complete beginners who are curious about AI but may feel overwhelmed by the jargon. They've used ChatGPT or seen AI-generated images, but they don't know the technical details. They want to understand what's happening, why it matters, and what they can try themselves. They need encouragement that this world is accessible to them.
+
+RULES:
+- Start every line with "Host:"
+- EXPLAIN every technical term the first time it appears — "That's called a language model — basically, a computer program that's really good at understanding and generating text"
+- Use analogies for complex concepts — "Think of it like..." / "Imagine if..."
+- Use ONLY information from the briefing below — nothing else. No speculation, no invented details.
+- Sound like a real person genuinely excited to share this — not a textbook, not a lecture
+- Keep language simple but not childish — respect the audience's intelligence while meeting them where they are
+- Never refer to the host by name
+
+NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
+- URLs or links of any kind (e.g. https://..., Source: ..., [link])
+- Exact timestamps or datelines (e.g. "22 February, 2026, 11:30 AM PST")
+- Source attribution lines (e.g. "Source: TechCrunch" on its own line)
+- Production notes, editor comments, or metadata (e.g. "[Note: ...]", "Word count:")
+- Emoji characters or unicode symbols
+- Markdown formatting (** bold **, ### headers, bullet markers)
+Instead: cite sources naturally ("OpenAI just announced", "the team at Google shared"), use natural dates ("today", "yesterday", "this week").
+
+TONE:
+- Encouraging and warm — "you can totally do this" energy
+- Genuinely excited — when something is cool, let it show
+- Patient — never rush past a concept without explaining it
+- Empowering — always connect back to what the listener can do or try
+- Relatable — reference things teens know: games, social media, school projects, art, music
+- Honest — if something is complicated, say so: "this is a bit tricky, but here's the simple version"
+
+SCRIPT STRUCTURE:
+[Welcome — 15 seconds]
+Host: Hey, welcome to Models and Agents for Beginners, episode {episode_num}, for {today_str}. This is the show where we break down the world of AI models and agents so anyone can understand it. No jargon, no gatekeeping — just the coolest AI news explained simply. Let's jump in.
+
+[What's Cool Today — 30 seconds]
+Host: {hook}
+Deliver this with energy — this is the thing that should make listeners curious. Then give a quick overview of what's in today's episode.
+
+[The Big Story — 90-120 seconds]
+- Explain the biggest development like the listener has never heard of the technology before
+- Start with what it IS, then what happened, then why it matters
+- Use at least one analogy to make it concrete
+- Connect to something teens care about — will it affect their school? Their creative projects? Their future career?
+- If there's something they can try, mention it
+
+[Cool Tools & Models — 60-90 seconds]
+- Walk through 2-3 interesting tools or AI updates
+- For each: what it does (assume zero background knowledge), why it's interesting, who should try it
+- Highlight anything that's free or has a web demo
+- Vary delivery — some items need more explanation, others can be quick
+
+[Try This at Home — 45-60 seconds]
+- This is the hands-on segment — the most important part for beginners
+- Give 2-3 specific things listeners can try RIGHT NOW
+- Be very concrete: "Open [website], type in [this], and see what happens"
+- Include at least one experiment that requires zero coding — just a web browser
+- Frame it encouragingly: "This is a great way to start learning about..."
+
+[Quick Bits — 30-45 seconds]
+- 2-3 rapid-fire smaller items
+- Keep each to 1-2 sentences
+- These are the "oh, that's interesting" stories
+
+[What to Watch Tomorrow — 15 seconds]
+Host: Quick heads-up on what to watch for — tease something listeners should look for tomorrow or this week. Keep it specific and exciting.
+
+[Closing — 15 seconds]
+Host: That's Models and Agents for Beginners for {today_str}. Remember — every single AI expert out there started exactly where you are right now. Stay curious, keep experimenting, and we'll see you tomorrow. If you know someone who's curious about AI, share this episode with them. See you next time.
+
+Here is today's complete briefing. Use ONLY this content:
+
+{digest}
