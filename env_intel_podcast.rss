@@ -1,5 +1,5 @@
-<?xml version='1.0' encoding='utf-8'?>
-<rss xmlns:ns0="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcast="https://podcastindex.org/namespace/1.0" version="2.0">
   <channel>
     <title>Environmental Intelligence</title>
     <link>https://nerranetwork.com/env-intel.html</link>
@@ -8,168 +8,94 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 03 Mar 2026 14:26:57 +0000</lastBuildDate>
-    <ns0:author>Environmental Intelligence</ns0:author>
-    <ns0:category text="Science" />
-    <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg" />
-    <ns0:explicit>no</ns0:explicit>
-    <ns0:owner>
-      <ns0:name>Environmental Intelligence</ns0:name>
-      <ns0:email>contact@teslashortstime.com</ns0:email>
-    </ns0:owner>
-    <ns0:summary>Daily environmental regulatory, science, and compliance briefing for Canadian environmental professionals. Covering contaminated sites, remediation, environmental law, and climate policy across all provinces, territories, and federal jurisdictions.</ns0:summary>
+    <lastBuildDate>Thu, 05 Mar 2026 14:29:00 +0000</lastBuildDate>
+    <itunes:author>Environmental Intelligence</itunes:author>
+    <itunes:category text="Science" />
+    <itunes:image href="https://nerranetwork.com/env-intel-podcast-image.jpg" />
+    <itunes:explicit>no</itunes:explicit>
+    <itunes:owner>
+      <itunes:name>Environmental Intelligence</itunes:name>
+      <itunes:email>contact@teslashortstime.com</itunes:email>
+    </itunes:owner>
+    <itunes:summary>Daily environmental regulatory, science, and compliance briefing for Canadian environmental professionals. Covering contaminated sites, remediation, environmental law, and climate policy across all provinces, territories, and federal jurisdictions.</itunes:summary>
     <item>
-      <title>Ep 4: New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.</title>
-      <link>https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/env_intel/Env_Intel_Ep004_20260303.mp3</link>
+      <title>Ep 5: BC opens consultation on Koksilah Watershed Plan, requiring input by April 30 for water sustainability compliance under Water Sustainability Act.</title>
+      <link>https://audio.nerranetwork.com/env_intel/Env_Intel_Ep005_20260305.mp3</link>
       <description># Environmental Intelligence
-**Date:** March 03, 2026
+**Date:** March 05, 2026
 🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
 
-**HOOK:** New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.
+**HOOK:** BC opens consultation on Koksilah Watershed Plan, requiring input by April 30 for water sustainability compliance under Water Sustainability Act.
 
-**Executive Summary:** Field data from West Antarctica reveals meltwater contributes far less iron to oceans than previously thought, shifting reliance to deep ocean sources and raising questions for CCME climate guidelines and federal IAA assessments incorporating carbon sequestration projections. This impacts risk assessments for coastal projects in BC and Atlantic provinces where sea-level rise models assume higher algal CO2 uptake. Professionals should review IAA submissions this week for alignment with updated ocean iron dynamics.
-
-━━━━━━━━━━━━━━━━━━━━
-### Deep Dive &amp; Practice Intelligence
-
-**Deep Analysis: Antarctic Meltwater Iron Release Findings**  
-New field data from West Antarctica indicates glacial meltwater provides negligible bioavailable iron for algal blooms, with concentrations below 0.1 nmol/L compared to prior estimates of 1-10 nmol/L; instead, up to 90% of iron originates from deep ocean currents and sediments. This challenges CCME environmental quality guidelines for marine systems and federal CEPA climate modeling, as reduced algal CO2 sequestration could accelerate sea-level rise projections by 10-20% in models like those used for BC CSR coastal site assessments. For practitioners, this means recalibrating risk assessments under Ontario EPA O. Reg. 153/04 or Alberta EPEA for sites with marine exposure, potentially requiring enhanced flood risk mapping; cross-reference with Fisheries Act habitat protections where ocean productivity affects species at risk. In Quebec under LQE/RPRT, update contaminant transport models to account for lower iron-driven carbon sinks. Watch for CCME guideline revisions in Q2 2026, as this data may prompt interprovincial harmonization on climate adaptation thresholds.  
-Source: https://www.sciencedaily.com/releases/2026/02/260228082714.htm  
-
-**Deep Analysis: Ocean Warming Impacts on Whale Populations**  
-Research highlights that rising ocean temperatures disrupt whale migration and feeding, with Antarctic krill declines of 20-30% linked to warmer waters, threatening rebounding populations under international protections. For Canadian contexts, this intersects with federal Species at Risk Act (SARA) listings for species like North Atlantic right whales, where habitat assessments under Fisheries Act must now factor in accelerated warming projections; compare to BC EMA protocols for marine mammal risk in contaminated sites near pipelines. Practitioners handling oil sands or Atlantic offshore projects should integrate these findings into IAA environmental impact statements, potentially increasing mitigation costs by 15% for acoustic monitoring or habitat offsets; Saskatchewan EMPA mine tailings assessments may need similar updates for indirect aquatic impacts.  
-Source: https://insideclimatenews.org/news/01032026/icn-sunday-morning-ocean-warming-whales/  
-
-**Deep Analysis: Assisted Tree Migration for Urban Climate Adaptation**  
-Field efforts in the US demonstrate assisted migration of tree species to counter climate shifts, with survival rates of 70-85% for relocated oaks and maples in warming zones, informing wildfire interface planning. In Canada, this aligns with Alberta EPEA and Manitoba Environment Act requirements for reforestation in remediation, where practitioners can apply similar techniques to enhance monitored natural attenuation in fire-prone sites; reference CCME soil guidelines for root zone contaminant uptake. For BC CSR projects, incorporate into Protocol 1 risk assessments to mitigate heat island effects, potentially reducing long-term monitoring timelines by 2-3 years through resilient vegetation barriers.  
-Source: https://insideclimatenews.org/news/010320...</description>
-      <guid isPermaLink="false">env-intel-ep004-20260303-142657</guid>
-      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep004_20260303.mp3" length="15408318" type="audio/mpeg" />
-      <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg" />
-      <ns0:duration>10:41</ns0:duration>
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:summary># Environmental Intelligence
-**Date:** March 03, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.
-
-**Executive Summary:** Field data from West Antarctica reveals meltwater contributes far less iron to oceans than previously thought, shifting reliance to deep ocean sources and raising questions for CCME climate guidelines and federal IAA assessments incorporating carbon sequestration projections. This impacts risk assessments for coastal projects in BC and Atlantic provinces where sea-level rise models assume higher algal CO2 uptake. Professionals should review IAA submissions this week for alignment with updated ocean iron dynamics.
-
-━━━━━━━━━━━━━━━━━━━━
-### Deep Dive &amp; Practice Intelligence
-
-**Deep Analysis: Antarctic Meltwater Iron Release Findings**  
-New field data from West Antarctica indicates glacial meltwater provides negligible bioavailable iron for algal blooms, with concentrations below 0.1 nmol/L compared to prior estimates of 1-10 nmol/L; instead, up to 90% of iron originates from deep ocean currents and sediments. This challenges CCME environmental quality guidelines for marine systems and federal CEPA climate modeling, as reduced algal CO2 sequestration could accelerate sea-level rise projections by 10-20% in models like those used for BC CSR coastal site assessments. For practitioners, this means recalibrating risk assessments under Ontario EPA O. Reg. 153/04 or Alberta EPEA for sites with marine exposure, potentially requiring enhanced flood risk mapping; cross-reference with Fisheries Act habitat protections where ocean productivity affects species at risk. In Quebec under LQE/RPRT, update contaminant transport models to account for lower iron-driven carbon sinks. Watch for CCME guideline revisions in Q2 2026, as this data may prompt interprovincial harmonization on climate adaptation thresholds.  
-Source: https://www.sciencedaily.com/releases/2026/02/260228082714.htm  
-
-**Deep Analysis: Ocean Warming Impacts on Whale Populations**  
-Research highlights that rising ocean temperatures disrupt whale migration and feeding, with Antarctic krill declines of 20-30% linked to warmer waters, threatening rebounding populations under international protections. For Canadian contexts, this intersects with federal Species at Risk Act (SARA) listings for species like North Atlantic right whales, where habitat assessments under Fisheries Act must now factor in accelerated warming projections; compare to BC EMA protocols for marine mammal risk in contaminated sites near pipelines. Practitioners handling oil sands or Atlantic offshore projects should integrate these findings into IAA environmental impact statements, potentially increasing mitigation costs by 15% for acoustic monitoring or habitat offsets; Saskatchewan EMPA mine tailings assessments may need similar updates for indirect aquatic impacts.  
-Source: https://insideclimatenews.org/news/01032026/icn-sunday-morning-ocean-warming-whales/  
-
-**Deep Analysis: Assisted Tree Migration for Urban Climate Adaptation**  
-Field efforts in the US demonstrate assisted migration of tree species to counter climate shifts, with survival rates of 70-85% for relocated oaks and maples in warming zones, informing wildfire interface planning. In Canada, this aligns with Alberta EPEA and Manitoba Environment Act requirements for reforestation in remediation, where practitioners can apply similar techniques to enhance monitored natural attenuation in fire-prone sites; reference CCME soil guidelines for root zone contaminant uptake. For BC CSR projects, incorporate into Protocol 1 risk assessments to mitigate heat island effects, potentially reducing long-term monitoring timelines by 2-3 years through resilient vegetation barriers.  
-Source: https://insideclimatenews.org/news/010320...</ns0:summary>
-      <ns0:season>1</ns0:season>
-      <ns0:episode>4</ns0:episode>
-      <ns0:title>Ep 4: New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.</ns0:title>
-      <ns0:episodeType>full</ns0:episodeType>
-    </item>
-    <item>
-      <title>Ep 2: Port of Churchill expansion push triggers federal IAA assessments for Manitoba Arctic infrastructure, with oil spill risks under Fisheries Act.</title>
-      <description># Environmental Intelligence
-**Date:** February 27, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** Port of Churchill expansion push triggers federal IAA assessments for Manitoba Arctic infrastructure, with oil spill risks under Fisheries Act.
-
-**Executive Summary:** Expansion proposals for Manitoba's Port of Churchill under federal IAA could mandate enhanced environmental assessments for pipeline and rail projects on permafrost, altering compliance for northern contaminated sites consultants. New Nature studies highlight climate overshoot implications and Antarctic melt channelization, requiring updates to sea-level rise projections in BC and Atlantic provincial risk assessments. Professionals should monitor federal IAA consultation deadlines and review adaptation strategies for Q1 2026 projects this week.
+**Executive Summary:** BC's Ministry of Water, Land and Resource Stewardship invites public input on the Xwulqw’selu (Koksilah) Watershed and Water Sustainability Plan, introducing potential new management measures for groundwater and surface water in Vancouver Island's Cowichan Valley. This directly impacts remediation projects involving water extraction or discharge under BC's EMA and Water Sustainability Act, with submissions due April 30, 2026. Professionals should monitor Indigenous consent disputes in BC mining, as they could delay site assessments near Princeton under CSR protocols, and review boreal wildfire emission data for GHG reporting adjustments under federal CEPA.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Lead Story
-Proposals to expand the Port of Churchill in Manitoba, Canada's only deepwater Arctic port, involve potential pipeline and rail developments on tundra, raising federal oversight under the Impact Assessment Act (IAA) and Fisheries Act for oil spill risks. Previously, port operations were limited by seasonal ice, with environmental reviews under Manitoba's Environment Act and federal CEPA for contaminant releases; the push now includes major infrastructure upgrades that could trigger full IAA processes for projects exceeding 50 km of new rail or pipeline. Changes introduce stricter habitat protection requirements under Species at Risk Act (SARA) for species like beluga whales in Hudson Bay. For practitioners, this means northern Manitoba site assessments must incorporate permafrost thaw modeling and spill response planning in Phase I ESAs, potentially delaying remediation timelines by 6-12 months. Watch for federal IAA registry updates on project notices, with public consultations likely opening in Q2 2026. Provincial coordination with Nunavut under interjurisdictional agreements may impose additional EPEA-equivalent standards for cross-border impacts.
-Source: https://thenarwhal.ca/port-of-churchill-pipeline-plans/
+Similkameen Indian Bands assert that the Copper Mountain mine expansion near Princeton, BC, is proceeding without their consent, violating BC's Declaration on the Rights of Indigenous Peoples Act (DRIPA) and potentially EMA permitting requirements for mining operations. Previously, mine expansions required federal IAA triggers for significant environmental effects, but this project revives an old pit and raises a tailings dam by 87 meters without apparent Indigenous consultation under provincial frameworks. The expansion's proximity to the Similkameen River heightens risks under the Fisheries Act for sediment and contaminant transport. For practitioners, this means heightened scrutiny on Phase I ESAs and risk assessments for mining sites in BC, with potential stop-work orders delaying remediation timelines. Watch for enforcement actions via BC's Ministry of Energy, Mines and Low Carbon Innovation, as Bands may seek judicial review, impacting projects within 60 days. Consultants should audit client permits for DRIPA compliance to mitigate litigation risks.
+Source: https://thenarwhal.ca/similkameen-copper-mountain-mine-expansion/
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Regulatory &amp; Policy Watch
-**Prospects and challenges of risk-based insurance pricing for disaster adaptation: Nature**
-Nature Climate Change analysis details trade-offs in regulating property insurance to reflect disaster risks, shifting from uniform pricing to property-specific rates that could increase premiums by 20-50% in high-risk zones. For Canadian compliance, this aligns with federal climate adaptation under the Pan-Canadian Framework, affecting flood-prone sites in Ontario (EPA) and wildfire areas in BC (CSR), where consultants must integrate insurance data into risk assessments. Action required: Update client advisories on adaptation costs by March 31, 2026, to align with provincial building code amendments.
-Source: https://www.nature.com/articles/s41558-026-02577-1
-
-**Implications of overshoot for climate mitigation strategies: Nature**
-Nature Climate Change review quantifies temperature overshoot scenarios, projecting 0.1-0.3°C temporary exceedance of 1.5°C targets, with socio-economic impacts including amplified adaptation costs under Canada's Net-Zero Emissions Accountability Act. This updates federal CEPA climate provisions and provincial frameworks like Alberta EPEA, requiring revised GHG inventories for mining and oil sands operations. Deadline: Incorporate overshoot modeling into 2026 annual compliance reports due April 15 federally.
-Source: https://www.nature.com/articles/s41558-026-02563-7
+**Welcoming input on watershed plan: BC Gov News**  
+BC's Ministry of Water, Land and Resource Stewardship opens consultation on the Xwulqw’selu (Koksilah) Watershed and Water Sustainability Plan under the Water Sustainability Act, targeting integrated management of groundwater, surface water, and drought risks in the Cowichan Valley. This shifts from ad-hoc permitting to plan-based approvals, affecting discharge limits and monitoring for contaminated sites under EMA and CSR Protocol 12. Submit comments by April 30, 2026, to influence final thresholds; BC practitioners should integrate plan elements into current water-related remediation designs.
+Source: https://news.gov.bc.ca/releases/2026WLRS0010-000217
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Science &amp; Technical
-**Melt channelization stronger than previously recognized: Nature**
-Nature Climate Change maps reveal basal melt rates in Antarctic ice shelves up to 50% higher in narrow channels, accelerating projections by 10-20 cm for global sea-level rise by 2100. For Canadian practitioners, this refines flood risk mapping under CCME guidelines and BC CSR Protocol 13,...</description>
-      <guid isPermaLink="false">env-intel-ep002-20260227-192331</guid>
-      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep002_20260227.mp3" length="13136292" type="audio/mpeg" />
-      <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg" />
-      <ns0:duration>09:07</ns0:duration>
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:summary># Environmental Intelligence
-**Date:** February 27, 2026
+**Climate models may be missing massive carbon emissions from boreal wildfires: Science Daily**  
+Research reveals boreal forest wildfires in Canada burn deep into peat soils, releasing ancient carbon at rates up to 10x higher than satellite estimates, with smoldering fires contributing unreported CO2 equivalents exceeding 1 Gt annually. This affects risk assessments under CCME climate guidelines and federal CEPA GHG inventories, where underestimation could invalidate site-specific carbon offset calculations for northern remediation projects. Reference BC CSR Protocol 13 for integrating updated emission factors into environmental impact models.
+Source: https://www.sciencedaily.com/releases/2026/03/260303201755.htm
+
+━━━━━━━━━━━━━━━━━━━━
+### Industry &amp; Practice
+
+━━━━━━━━━━━━━━━━━━━━
+### Action Items
+- Review BC DRIPA compliance in mining-related ESAs near Indigenous territories to avoid project delays from consent disputes.
+- Submit feedback on BC's Koksilah Watershed Plan by April 30, focusing on implications ...</description>
+      <guid isPermaLink="false">env-intel-ep005-20260305-142900</guid>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep005_20260305.mp3" length="13057297" type="audio/mpeg" />
+      <pubDate>Thu, 05 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/env-intel-podcast-image.jpg" />
+      <itunes:duration>09:04</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Environmental Intelligence
+**Date:** March 05, 2026
 🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
 
-**HOOK:** Port of Churchill expansion push triggers federal IAA assessments for Manitoba Arctic infrastructure, with oil spill risks under Fisheries Act.
+**HOOK:** BC opens consultation on Koksilah Watershed Plan, requiring input by April 30 for water sustainability compliance under Water Sustainability Act.
 
-**Executive Summary:** Expansion proposals for Manitoba's Port of Churchill under federal IAA could mandate enhanced environmental assessments for pipeline and rail projects on permafrost, altering compliance for northern contaminated sites consultants. New Nature studies highlight climate overshoot implications and Antarctic melt channelization, requiring updates to sea-level rise projections in BC and Atlantic provincial risk assessments. Professionals should monitor federal IAA consultation deadlines and review adaptation strategies for Q1 2026 projects this week.
+**Executive Summary:** BC's Ministry of Water, Land and Resource Stewardship invites public input on the Xwulqw’selu (Koksilah) Watershed and Water Sustainability Plan, introducing potential new management measures for groundwater and surface water in Vancouver Island's Cowichan Valley. This directly impacts remediation projects involving water extraction or discharge under BC's EMA and Water Sustainability Act, with submissions due April 30, 2026. Professionals should monitor Indigenous consent disputes in BC mining, as they could delay site assessments near Princeton under CSR protocols, and review boreal wildfire emission data for GHG reporting adjustments under federal CEPA.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Lead Story
-Proposals to expand the Port of Churchill in Manitoba, Canada's only deepwater Arctic port, involve potential pipeline and rail developments on tundra, raising federal oversight under the Impact Assessment Act (IAA) and Fisheries Act for oil spill risks. Previously, port operations were limited by seasonal ice, with environmental reviews under Manitoba's Environment Act and federal CEPA for contaminant releases; the push now includes major infrastructure upgrades that could trigger full IAA processes for projects exceeding 50 km of new rail or pipeline. Changes introduce stricter habitat protection requirements under Species at Risk Act (SARA) for species like beluga whales in Hudson Bay. For practitioners, this means northern Manitoba site assessments must incorporate permafrost thaw modeling and spill response planning in Phase I ESAs, potentially delaying remediation timelines by 6-12 months. Watch for federal IAA registry updates on project notices, with public consultations likely opening in Q2 2026. Provincial coordination with Nunavut under interjurisdictional agreements may impose additional EPEA-equivalent standards for cross-border impacts.
-Source: https://thenarwhal.ca/port-of-churchill-pipeline-plans/
+Similkameen Indian Bands assert that the Copper Mountain mine expansion near Princeton, BC, is proceeding without their consent, violating BC's Declaration on the Rights of Indigenous Peoples Act (DRIPA) and potentially EMA permitting requirements for mining operations. Previously, mine expansions required federal IAA triggers for significant environmental effects, but this project revives an old pit and raises a tailings dam by 87 meters without apparent Indigenous consultation under provincial frameworks. The expansion's proximity to the Similkameen River heightens risks under the Fisheries Act for sediment and contaminant transport. For practitioners, this means heightened scrutiny on Phase I ESAs and risk assessments for mining sites in BC, with potential stop-work orders delaying remediation timelines. Watch for enforcement actions via BC's Ministry of Energy, Mines and Low Carbon Innovation, as Bands may seek judicial review, impacting projects within 60 days. Consultants should audit client permits for DRIPA compliance to mitigate litigation risks.
+Source: https://thenarwhal.ca/similkameen-copper-mountain-mine-expansion/
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Regulatory &amp; Policy Watch
-**Prospects and challenges of risk-based insurance pricing for disaster adaptation: Nature**
-Nature Climate Change analysis details trade-offs in regulating property insurance to reflect disaster risks, shifting from uniform pricing to property-specific rates that could increase premiums by 20-50% in high-risk zones. For Canadian compliance, this aligns with federal climate adaptation under the Pan-Canadian Framework, affecting flood-prone sites in Ontario (EPA) and wildfire areas in BC (CSR), where consultants must integrate insurance data into risk assessments. Action required: Update client advisories on adaptation costs by March 31, 2026, to align with provincial building code amendments.
-Source: https://www.nature.com/articles/s41558-026-02577-1
-
-**Implications of overshoot for climate mitigation strategies: Nature**
-Nature Climate Change review quantifies temperature overshoot scenarios, projecting 0.1-0.3°C temporary exceedance of 1.5°C targets, with socio-economic impacts including amplified adaptation costs under Canada's Net-Zero Emissions Accountability Act. This updates federal CEPA climate provisions and provincial frameworks like Alberta EPEA, requiring revised GHG inventories for mining and oil sands operations. Deadline: Incorporate overshoot modeling into 2026 annual compliance reports due April 15 federally.
-Source: https://www.nature.com/articles/s41558-026-02563-7
+**Welcoming input on watershed plan: BC Gov News**  
+BC's Ministry of Water, Land and Resource Stewardship opens consultation on the Xwulqw’selu (Koksilah) Watershed and Water Sustainability Plan under the Water Sustainability Act, targeting integrated management of groundwater, surface water, and drought risks in the Cowichan Valley. This shifts from ad-hoc permitting to plan-based approvals, affecting discharge limits and monitoring for contaminated sites under EMA and CSR Protocol 12. Submit comments by April 30, 2026, to influence final thresholds; BC practitioners should integrate plan elements into current water-related remediation designs.
+Source: https://news.gov.bc.ca/releases/2026WLRS0010-000217
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Science &amp; Technical
-**Melt channelization stronger than previously recognized: Nature**
-Nature Climate Change maps reveal basal melt rates in Antarctic ice shelves up to 50% higher in narrow channels, accelerating projections by 10-20 cm for global sea-level rise by 2100. For Canadian practitioners, this refines flood risk mapping under CCME guidelines and BC CSR Protocol 13,...</ns0:summary>
-      <ns0:season>1</ns0:season>
-      <ns0:episode>2</ns0:episode>
-      <ns0:title>Ep 2: Port of Churchill expansion push triggers federal IAA assessments for Manitoba Arctic infrastructure, with oil spill risks under Fisheries Act.</ns0:title>
-      <ns0:episodeType>full</ns0:episodeType>
-    </item>
-    <item>
-      <title>Ep 1: No qualifying environmental regulatory or technical developments reported today.</title>
-      <description># Environmental Intelligence
-**Date:** February 26, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+**Climate models may be missing massive carbon emissions from boreal wildfires: Science Daily**  
+Research reveals boreal forest wildfires in Canada burn deep into peat soils, releasing ancient carbon at rates up to 10x higher than satellite estimates, with smoldering fires contributing unreported CO2 equivalents exceeding 1 Gt annually. This affects risk assessments under CCME climate guidelines and federal CEPA GHG inventories, where underestimation could invalidate site-specific carbon offset calculations for northern remediation projects. Reference BC CSR Protocol 13 for integrating updated emission factors into environmental impact models.
+Source: https://www.sciencedaily.com/releases/2026/03/260303201755.htm
 
-**HOOK:** No qualifying environmental regulatory or technical developments reported today.
+━━━━━━━━━━━━━━━━━━━━
+### Industry &amp; Practice
 
-**Executive Summary:** The available source does not meet criteria for inclusion, providing no updates on Canadian environmental regulations, enforcement, or science. No specific changes to thresholds, deadlines, or compliance obligations in any province, territory, or ...</description>
-      <guid isPermaLink="false">env-intel-ep001-20260226-203635</guid>
-      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep001_20260226.mp3" length="12021595" type="audio/mpeg" />
-      <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg" />
-      <ns0:duration>08:20</ns0:duration>
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:summary># Environmental Intelligence
-**Date:** February 26, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** No qualifying environmental regulatory or technical developments reported today.
-
-**Executive Summary:** The available source does not meet criteria for inclusion, providing no updates on Canadian environmental regulations, enforcement, or science. No specific changes to thresholds, deadlines, or compliance obligations in any province, territory, or ...</ns0:summary>
-      <ns0:season>1</ns0:season>
-      <ns0:episode>1</ns0:episode>
-      <ns0:title>Ep 1: No qualifying environmental regulatory or technical developments reported today.</ns0:title>
-      <ns0:episodeType>full</ns0:episodeType>
-    </item>
+━━━━━━━━━━━━━━━━━━━━
+### Action Items
+- Review BC DRIPA compliance in mining-related ESAs near Indigenous territories to avoid project delays from consent disputes.
+- Submit feedback on BC's Koksilah Watershed Plan by April 30, focusing on implications ...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>5</itunes:episode>
+      <itunes:title>Ep 5: BC opens consultation on Koksilah Watershed Plan, requiring input by April 30 for water sustainability compliance under Water Sustainability Act.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/env_intel/chapters_ep005.json" type="application/json+chapters" /></item>
     <item>
       <title>Ep 3: Road salt accumulation in Ontario's Lake Simcoe watershed exceeds CCME chloride guidelines, triggering site assessments under O. Reg. 153/04.</title>
       <description># Environmental Intelligence
@@ -206,10 +132,10 @@ Source: https://www.nature.com/articles/s41558-026-02579-z
       <guid isPermaLink="false">env-intel-ep003-20260302-142655</guid>
       <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep003_20260302.mp3" length="14297382" type="audio/mpeg" />
       <pubDate>Mon, 02 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env-intel-podcast-image.jpg" />
-      <ns0:duration>09:55</ns0:duration>
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:summary># Environmental Intelligence
+      <itunes:image href="https://nerranetwork.com/env-intel-podcast-image.jpg" />
+      <itunes:duration>09:55</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Environmental Intelligence
 **Date:** March 02, 2026
 🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
 
@@ -239,11 +165,162 @@ Source: https://www.nature.com/articles/s41558-026-02579-z
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Action Items
-- Review Phase I and II ESAs for Ontario projects to incorporate chloride sampling per CCME guidelines, updating risk assessments under O. ...</ns0:summary>
-      <ns0:season>1</ns0:season>
-      <ns0:episode>3</ns0:episode>
-      <ns0:title>Ep 3: Road salt accumulation in Ontario's Lake Simcoe watershed exceeds CCME chloride guidelines, triggering site assessments under O. Reg. 153/04.</ns0:title>
-      <ns0:episodeType>full</ns0:episodeType>
+- Review Phase I and II ESAs for Ontario projects to incorporate chloride sampling per CCME guidelines, updating risk assessments under O. ...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>3</itunes:episode>
+      <itunes:title>Ep 3: Road salt accumulation in Ontario's Lake Simcoe watershed exceeds CCME chloride guidelines, triggering site assessments under O. Reg. 153/04.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 1: No qualifying environmental regulatory or technical developments reported today.</title>
+      <description># Environmental Intelligence
+**Date:** February 26, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** No qualifying environmental regulatory or technical developments reported today.
+
+**Executive Summary:** The available source does not meet criteria for inclusion, providing no updates on Canadian environmental regulations, enforcement, or science. No specific changes to thresholds, deadlines, or compliance obligations in any province, territory, or ...</description>
+      <guid isPermaLink="false">env-intel-ep001-20260226-203635</guid>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep001_20260226.mp3" length="12021595" type="audio/mpeg" />
+      <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/env-intel-podcast-image.jpg" />
+      <itunes:duration>08:20</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Environmental Intelligence
+**Date:** February 26, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** No qualifying environmental regulatory or technical developments reported today.
+
+**Executive Summary:** The available source does not meet criteria for inclusion, providing no updates on Canadian environmental regulations, enforcement, or science. No specific changes to thresholds, deadlines, or compliance obligations in any province, territory, or ...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>1</itunes:episode>
+      <itunes:title>Ep 1: No qualifying environmental regulatory or technical developments reported today.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 2: Port of Churchill expansion push triggers federal IAA assessments for Manitoba Arctic infrastructure, with oil spill risks under Fisheries Act.</title>
+      <description># Environmental Intelligence
+**Date:** February 27, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** Port of Churchill expansion push triggers federal IAA assessments for Manitoba Arctic infrastructure, with oil spill risks under Fisheries Act.
+
+**Executive Summary:** Expansion proposals for Manitoba's Port of Churchill under federal IAA could mandate enhanced environmental assessments for pipeline and rail projects on permafrost, altering compliance for northern contaminated sites consultants. New Nature studies highlight climate overshoot implications and Antarctic melt channelization, requiring updates to sea-level rise projections in BC and Atlantic provincial risk assessments. Professionals should monitor federal IAA consultation deadlines and review adaptation strategies for Q1 2026 projects this week.
+
+━━━━━━━━━━━━━━━━━━━━
+### Lead Story
+Proposals to expand the Port of Churchill in Manitoba, Canada's only deepwater Arctic port, involve potential pipeline and rail developments on tundra, raising federal oversight under the Impact Assessment Act (IAA) and Fisheries Act for oil spill risks. Previously, port operations were limited by seasonal ice, with environmental reviews under Manitoba's Environment Act and federal CEPA for contaminant releases; the push now includes major infrastructure upgrades that could trigger full IAA processes for projects exceeding 50 km of new rail or pipeline. Changes introduce stricter habitat protection requirements under Species at Risk Act (SARA) for species like beluga whales in Hudson Bay. For practitioners, this means northern Manitoba site assessments must incorporate permafrost thaw modeling and spill response planning in Phase I ESAs, potentially delaying remediation timelines by 6-12 months. Watch for federal IAA registry updates on project notices, with public consultations likely opening in Q2 2026. Provincial coordination with Nunavut under interjurisdictional agreements may impose additional EPEA-equivalent standards for cross-border impacts.
+Source: https://thenarwhal.ca/port-of-churchill-pipeline-plans/
+
+━━━━━━━━━━━━━━━━━━━━
+### Regulatory &amp; Policy Watch
+**Prospects and challenges of risk-based insurance pricing for disaster adaptation: Nature**
+Nature Climate Change analysis details trade-offs in regulating property insurance to reflect disaster risks, shifting from uniform pricing to property-specific rates that could increase premiums by 20-50% in high-risk zones. For Canadian compliance, this aligns with federal climate adaptation under the Pan-Canadian Framework, affecting flood-prone sites in Ontario (EPA) and wildfire areas in BC (CSR), where consultants must integrate insurance data into risk assessments. Action required: Update client advisories on adaptation costs by March 31, 2026, to align with provincial building code amendments.
+Source: https://www.nature.com/articles/s41558-026-02577-1
+
+**Implications of overshoot for climate mitigation strategies: Nature**
+Nature Climate Change review quantifies temperature overshoot scenarios, projecting 0.1-0.3°C temporary exceedance of 1.5°C targets, with socio-economic impacts including amplified adaptation costs under Canada's Net-Zero Emissions Accountability Act. This updates federal CEPA climate provisions and provincial frameworks like Alberta EPEA, requiring revised GHG inventories for mining and oil sands operations. Deadline: Incorporate overshoot modeling into 2026 annual compliance reports due April 15 federally.
+Source: https://www.nature.com/articles/s41558-026-02563-7
+
+━━━━━━━━━━━━━━━━━━━━
+### Science &amp; Technical
+**Melt channelization stronger than previously recognized: Nature**
+Nature Climate Change maps reveal basal melt rates in Antarctic ice shelves up to 50% higher in narrow channels, accelerating projections by 10-20 cm for global sea-level rise by 2100. For Canadian practitioners, this refines flood risk mapping under CCME guidelines and BC CSR Protocol 13,...</description>
+      <guid isPermaLink="false">env-intel-ep002-20260227-192331</guid>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep002_20260227.mp3" length="13136292" type="audio/mpeg" />
+      <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/env-intel-podcast-image.jpg" />
+      <itunes:duration>09:07</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Environmental Intelligence
+**Date:** February 27, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** Port of Churchill expansion push triggers federal IAA assessments for Manitoba Arctic infrastructure, with oil spill risks under Fisheries Act.
+
+**Executive Summary:** Expansion proposals for Manitoba's Port of Churchill under federal IAA could mandate enhanced environmental assessments for pipeline and rail projects on permafrost, altering compliance for northern contaminated sites consultants. New Nature studies highlight climate overshoot implications and Antarctic melt channelization, requiring updates to sea-level rise projections in BC and Atlantic provincial risk assessments. Professionals should monitor federal IAA consultation deadlines and review adaptation strategies for Q1 2026 projects this week.
+
+━━━━━━━━━━━━━━━━━━━━
+### Lead Story
+Proposals to expand the Port of Churchill in Manitoba, Canada's only deepwater Arctic port, involve potential pipeline and rail developments on tundra, raising federal oversight under the Impact Assessment Act (IAA) and Fisheries Act for oil spill risks. Previously, port operations were limited by seasonal ice, with environmental reviews under Manitoba's Environment Act and federal CEPA for contaminant releases; the push now includes major infrastructure upgrades that could trigger full IAA processes for projects exceeding 50 km of new rail or pipeline. Changes introduce stricter habitat protection requirements under Species at Risk Act (SARA) for species like beluga whales in Hudson Bay. For practitioners, this means northern Manitoba site assessments must incorporate permafrost thaw modeling and spill response planning in Phase I ESAs, potentially delaying remediation timelines by 6-12 months. Watch for federal IAA registry updates on project notices, with public consultations likely opening in Q2 2026. Provincial coordination with Nunavut under interjurisdictional agreements may impose additional EPEA-equivalent standards for cross-border impacts.
+Source: https://thenarwhal.ca/port-of-churchill-pipeline-plans/
+
+━━━━━━━━━━━━━━━━━━━━
+### Regulatory &amp; Policy Watch
+**Prospects and challenges of risk-based insurance pricing for disaster adaptation: Nature**
+Nature Climate Change analysis details trade-offs in regulating property insurance to reflect disaster risks, shifting from uniform pricing to property-specific rates that could increase premiums by 20-50% in high-risk zones. For Canadian compliance, this aligns with federal climate adaptation under the Pan-Canadian Framework, affecting flood-prone sites in Ontario (EPA) and wildfire areas in BC (CSR), where consultants must integrate insurance data into risk assessments. Action required: Update client advisories on adaptation costs by March 31, 2026, to align with provincial building code amendments.
+Source: https://www.nature.com/articles/s41558-026-02577-1
+
+**Implications of overshoot for climate mitigation strategies: Nature**
+Nature Climate Change review quantifies temperature overshoot scenarios, projecting 0.1-0.3°C temporary exceedance of 1.5°C targets, with socio-economic impacts including amplified adaptation costs under Canada's Net-Zero Emissions Accountability Act. This updates federal CEPA climate provisions and provincial frameworks like Alberta EPEA, requiring revised GHG inventories for mining and oil sands operations. Deadline: Incorporate overshoot modeling into 2026 annual compliance reports due April 15 federally.
+Source: https://www.nature.com/articles/s41558-026-02563-7
+
+━━━━━━━━━━━━━━━━━━━━
+### Science &amp; Technical
+**Melt channelization stronger than previously recognized: Nature**
+Nature Climate Change maps reveal basal melt rates in Antarctic ice shelves up to 50% higher in narrow channels, accelerating projections by 10-20 cm for global sea-level rise by 2100. For Canadian practitioners, this refines flood risk mapping under CCME guidelines and BC CSR Protocol 13,...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>2</itunes:episode>
+      <itunes:title>Ep 2: Port of Churchill expansion push triggers federal IAA assessments for Manitoba Arctic infrastructure, with oil spill risks under Fisheries Act.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 4: New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.</title>
+      <description># Environmental Intelligence
+**Date:** March 03, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.
+
+**Executive Summary:** Field data from West Antarctica reveals meltwater contributes far less iron to oceans than previously thought, shifting reliance to deep ocean sources and raising questions for CCME climate guidelines and federal IAA assessments incorporating carbon sequestration projections. This impacts risk assessments for coastal projects in BC and Atlantic provinces where sea-level rise models assume higher algal CO2 uptake. Professionals should review IAA submissions this week for alignment with updated ocean iron dynamics.
+
+━━━━━━━━━━━━━━━━━━━━
+### Deep Dive &amp; Practice Intelligence
+
+**Deep Analysis: Antarctic Meltwater Iron Release Findings**  
+New field data from West Antarctica indicates glacial meltwater provides negligible bioavailable iron for algal blooms, with concentrations below 0.1 nmol/L compared to prior estimates of 1-10 nmol/L; instead, up to 90% of iron originates from deep ocean currents and sediments. This challenges CCME environmental quality guidelines for marine systems and federal CEPA climate modeling, as reduced algal CO2 sequestration could accelerate sea-level rise projections by 10-20% in models like those used for BC CSR coastal site assessments. For practitioners, this means recalibrating risk assessments under Ontario EPA O. Reg. 153/04 or Alberta EPEA for sites with marine exposure, potentially requiring enhanced flood risk mapping; cross-reference with Fisheries Act habitat protections where ocean productivity affects species at risk. In Quebec under LQE/RPRT, update contaminant transport models to account for lower iron-driven carbon sinks. Watch for CCME guideline revisions in Q2 2026, as this data may prompt interprovincial harmonization on climate adaptation thresholds.  
+Source: https://www.sciencedaily.com/releases/2026/02/260228082714.htm  
+
+**Deep Analysis: Ocean Warming Impacts on Whale Populations**  
+Research highlights that rising ocean temperatures disrupt whale migration and feeding, with Antarctic krill declines of 20-30% linked to warmer waters, threatening rebounding populations under international protections. For Canadian contexts, this intersects with federal Species at Risk Act (SARA) listings for species like North Atlantic right whales, where habitat assessments under Fisheries Act must now factor in accelerated warming projections; compare to BC EMA protocols for marine mammal risk in contaminated sites near pipelines. Practitioners handling oil sands or Atlantic offshore projects should integrate these findings into IAA environmental impact statements, potentially increasing mitigation costs by 15% for acoustic monitoring or habitat offsets; Saskatchewan EMPA mine tailings assessments may need similar updates for indirect aquatic impacts.  
+Source: https://insideclimatenews.org/news/01032026/icn-sunday-morning-ocean-warming-whales/  
+
+**Deep Analysis: Assisted Tree Migration for Urban Climate Adaptation**  
+Field efforts in the US demonstrate assisted migration of tree species to counter climate shifts, with survival rates of 70-85% for relocated oaks and maples in warming zones, informing wildfire interface planning. In Canada, this aligns with Alberta EPEA and Manitoba Environment Act requirements for reforestation in remediation, where practitioners can apply similar techniques to enhance monitored natural attenuation in fire-prone sites; reference CCME soil guidelines for root zone contaminant uptake. For BC CSR projects, incorporate into Protocol 1 risk assessments to mitigate heat island effects, potentially reducing long-term monitoring timelines by 2-3 years through resilient vegetation barriers.  
+Source: https://insideclimatenews.org/news/010320...</description>
+      <guid isPermaLink="false">env-intel-ep004-20260303-142657</guid>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep004_20260303.mp3" length="15408318" type="audio/mpeg" />
+      <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/env-intel-podcast-image.jpg" />
+      <itunes:duration>10:41</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Environmental Intelligence
+**Date:** March 03, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.
+
+**Executive Summary:** Field data from West Antarctica reveals meltwater contributes far less iron to oceans than previously thought, shifting reliance to deep ocean sources and raising questions for CCME climate guidelines and federal IAA assessments incorporating carbon sequestration projections. This impacts risk assessments for coastal projects in BC and Atlantic provinces where sea-level rise models assume higher algal CO2 uptake. Professionals should review IAA submissions this week for alignment with updated ocean iron dynamics.
+
+━━━━━━━━━━━━━━━━━━━━
+### Deep Dive &amp; Practice Intelligence
+
+**Deep Analysis: Antarctic Meltwater Iron Release Findings**  
+New field data from West Antarctica indicates glacial meltwater provides negligible bioavailable iron for algal blooms, with concentrations below 0.1 nmol/L compared to prior estimates of 1-10 nmol/L; instead, up to 90% of iron originates from deep ocean currents and sediments. This challenges CCME environmental quality guidelines for marine systems and federal CEPA climate modeling, as reduced algal CO2 sequestration could accelerate sea-level rise projections by 10-20% in models like those used for BC CSR coastal site assessments. For practitioners, this means recalibrating risk assessments under Ontario EPA O. Reg. 153/04 or Alberta EPEA for sites with marine exposure, potentially requiring enhanced flood risk mapping; cross-reference with Fisheries Act habitat protections where ocean productivity affects species at risk. In Quebec under LQE/RPRT, update contaminant transport models to account for lower iron-driven carbon sinks. Watch for CCME guideline revisions in Q2 2026, as this data may prompt interprovincial harmonization on climate adaptation thresholds.  
+Source: https://www.sciencedaily.com/releases/2026/02/260228082714.htm  
+
+**Deep Analysis: Ocean Warming Impacts on Whale Populations**  
+Research highlights that rising ocean temperatures disrupt whale migration and feeding, with Antarctic krill declines of 20-30% linked to warmer waters, threatening rebounding populations under international protections. For Canadian contexts, this intersects with federal Species at Risk Act (SARA) listings for species like North Atlantic right whales, where habitat assessments under Fisheries Act must now factor in accelerated warming projections; compare to BC EMA protocols for marine mammal risk in contaminated sites near pipelines. Practitioners handling oil sands or Atlantic offshore projects should integrate these findings into IAA environmental impact statements, potentially increasing mitigation costs by 15% for acoustic monitoring or habitat offsets; Saskatchewan EMPA mine tailings assessments may need similar updates for indirect aquatic impacts.  
+Source: https://insideclimatenews.org/news/01032026/icn-sunday-morning-ocean-warming-whales/  
+
+**Deep Analysis: Assisted Tree Migration for Urban Climate Adaptation**  
+Field efforts in the US demonstrate assisted migration of tree species to counter climate shifts, with survival rates of 70-85% for relocated oaks and maples in warming zones, informing wildfire interface planning. In Canada, this aligns with Alberta EPEA and Manitoba Environment Act requirements for reforestation in remediation, where practitioners can apply similar techniques to enhance monitored natural attenuation in fire-prone sites; reference CCME soil guidelines for root zone contaminant uptake. For BC CSR projects, incorporate into Protocol 1 risk assessments to mitigate heat island effects, potentially reducing long-term monitoring timelines by 2-3 years through resilient vegetation barriers.  
+Source: https://insideclimatenews.org/news/010320...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>4</itunes:episode>
+      <itunes:title>Ep 4: New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>
 </rss>
