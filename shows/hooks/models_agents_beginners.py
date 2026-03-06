@@ -109,6 +109,20 @@ def pronunciation_overrides() -> dict:
             "Copilot": "Co-pilot",
             "ChatGPT": "Chat gee-pee-tee",
             "ChatGPT's": "Chat gee-pee-tee's",
+            "GPT-2": "gee-pee-tee two",
+            "Opus": "Oh-pus",
+            "Sonnet": "Son-ett",
+            "Haiku": "Hi-koo",
+            "Whisper": "Whisper",
+            "Runway": "Run-way",
+            "Runway's": "Run-way's",
+            "Canva": "Can-vah",
+            "Canva's": "Can-vah's",
+            "Groq": "Grock",
+            "Groq's": "Grock's",
+            "NVIDIA": "en-Vidya",
+            "Nvidia": "en-Vidya",
+            "Nvidia's": "en-Vidya's",
 
             # =============================================================
             # Org names espeak may mangle

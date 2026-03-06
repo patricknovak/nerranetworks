@@ -24,6 +24,7 @@ If a concept is too technical to explain simply in one sentence, either (a) find
 - Use at LEAST 4 analogies throughout the script — these are the secret sauce that makes things click
 - Keep sentences short and punchy for spoken delivery — avoid run-on sentences
 - Vary your energy: some moments are excited ("this is SO cool"), some are thoughtful ("here's why that matters"), some are encouraging ("and YOU can try this right now")
+- Make transitions between segments feel natural and conversational — "Okay, now for my favourite part of the show" is better than "Moving on to segment four"
 - Never refer to the host by name
 
 === NEVER INCLUDE (these will be read aloud by TTS and sound terrible) ===
@@ -49,7 +50,7 @@ Instead: cite sources naturally ("the team at Google just shared something cool"
 === SCRIPT STRUCTURE ===
 
 [Welcome — 15 seconds]
-Host: Hey, welcome to Models and Agents for Beginners, episode {episode_num}, for {today_str}. This is the show where we break down the world of AI so anyone can understand it — no jargon, no gatekeeping, just the coolest AI news explained like you're hearing about it for the first time. Let's jump in.
+Host: Hey! Welcome to Models and Agents for Beginners, episode {episode_num}, for {today_str}. This is the show where we break down the world of AI so anyone can understand it. No jargon, no gatekeeping, just the coolest AI news explained like you're hearing about it for the very first time. Let's jump in!
 
 [What's Cool Today — 30 seconds]
 Host: So here's what caught my eye today. {hook}
