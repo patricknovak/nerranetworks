@@ -19,13 +19,19 @@
         "https://www.marktechpost.com/2026/03/04/yuanlab-ai-releases-yuan-3-0-ultra-a-flagship-multimodal-moe-foundation-model-built-for-stronger-intelligence-and-unrivaled-efficiency/",
         "https://arxiv.org/abs/2507.15518",
         "https://openai.com/index/reasoning-models-chain-of-thought-controllability",
-        "https://www.technologyreview.com/2026/03/05/1133968/the-download-ai-agent-hit-piece-preventing-lightning/"
+        "https://www.technologyreview.com/2026/03/05/1133968/the-download-ai-agent-hit-piece-preventing-lightning/",
+        "https://the-decoder.com/google-search-quietly-becomes-an-ai-assistant-as-canvas-feature-launches-for-us-users/",
+        "https://the-decoder.com/ai-models-can-barely-control-their-own-reasoning-and-openai-says-thats-a-good-sign/",
+        "https://www.wired.com/story/why-is-amazon-alexa-plus-so-bad/",
+        "https://blog.google/innovation-and-ai/products/google-ai-updates-february-2026/",
+        "https://www.wired.com/story/made-in-china-bytedances-ai-ambitions-are-being-hampered-by-compute-restraints/",
+        "https://github.blog/developer-skills/career-growth/scaling-ai-opportunity-across-the-globe-learnings-from-github-and-andela/"
       ],
       "quote_author": null,
       "sections": {
-        "cool_tools": "### Cool Tools & Models\n**Cursor's Cloud Agents**\nCursor, a popular coding tool like a supercharged version of your text editor, just entered its \"Third Era\" by adding Cloud Agents—these are AI helpers that live in the cloud and automate big parts of software development, making it easier to build apps or games. It's cool because it's like having a team of robot coders that take over boring tasks, perfect for beginners dreaming of creating their own apps without getting stuck. To try it, sign up",
-        "try_this": "### Try This at Home\n- Open ChatGPT (free at chat.openai.com) and ask it to \"explain how AI agents work like a team in a video game\"—you'll get a simple breakdown and can follow up with your own questions to build understanding.\n- Visit Cursor's website (cursor.sh) and try their free AI coding tool by typing \"build a simple tic-tac-toe game\"—watch how the AI suggests code, like having a tutor right there.\n- Head to Hugging Face (huggingface.co) and search for \"multimodal models\" to test free dem",
-        "quick_bits": "### Quick Bits\n**AI in Theater with HAMLET**\nResearchers created HAMLET, an AI system where multiple agents collaborate to make interactive theater stories in real-time, like directing a live play with robot actors. It's interesting because it shows AI getting creative in fun ways, like for school projects or fan fiction, blending tech with storytelling.\nSource: https://arxiv.org/abs/2507.15518\n\n**OpenAI on AI Reasoning Safety**\nOpenAI studied how AI models handle \"chain of thought\" reasoning (s"
+        "cool_tools": "### Cool Tools & Models\n**[AI That Can't Trick Itself (And Why That's Awesome): The Decoder]**  \nOpenAI tested how well their latest AI models, like GPT-5.4, can control their own \"chain of thought\" reasoning—basically, the step-by-step thinking process AIs use to solve problems, similar to how you might talk yourself through a math equation. It's cool because the models mostly failed at manipulating their own thoughts on purpose, which OpenAI sees as a positive sign for keeping AI safe and hone",
+        "try_this": "### Try This at Home\n- Open Google Search on your phone (make sure you're in the US for full access) and type a query like \"plan a video game story\"—look for the Canvas button to build an interactive outline, and see how AI turns your ideas into something shareable; it's like magic for school projects!\n- Head to chat.openai.com (free with a basic account) and ask GPT to \"explain chain of thought reasoning like I'm 14\"—then try giving it a puzzle to solve step-by-step; you'll get why controlling ",
+        "quick_bits": "### Quick Bits\n**[ByteDance's Video AI Hits Speed Bumps]**  \nByteDance's new Seedance 2.0 AI for making videos is super popular but running into issues with too much demand on computers and copyright worries from using others' content—it's like a viral TikTok trend that grew too fast and needs rules. This is interesting because it shows how AI creativity (think fun video edits for social media) faces real-world challenges, reminding us to think about fair use in our own projects.  \nSource: https"
       }
     }
   ]
