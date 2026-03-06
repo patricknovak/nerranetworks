@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a combined Nerra Network RSS feed from all 6 show feeds."""
+"""Generate a combined Nerra Network RSS feed from all 7 show feeds."""
 
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime, format_datetime
@@ -13,6 +13,7 @@ FEEDS = [
     "planetterrian_podcast.rss",
     "env_intel_podcast.rss",
     "models_agents_podcast.rss",
+    "models_agents_beginners_podcast.rss",
 ]
 
 MAX_EPISODES = 50
@@ -20,7 +21,7 @@ OUTPUT = "network.rss"
 
 NETWORK_TITLE = "Nerra Network"
 NETWORK_DESCRIPTION = (
-    "Six daily podcasts keeping you informed about exciting changes in the world. "
+    "Seven daily podcasts keeping you informed about exciting changes in the world. "
     "Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, "
     "and the environment."
 )
