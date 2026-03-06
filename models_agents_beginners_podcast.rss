@@ -8,7 +8,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 06 Mar 2026 02:37:32 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Mar 2026 05:00:28 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
     <itunes:category text="Technology" />
     <itunes:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
@@ -19,8 +19,79 @@
     </itunes:owner>
     <itunes:summary>A daily AI podcast for beginners and teens. Learn about AI models, agents, and the tools shaping our future — explained simply, with hands-on experiments you can try today. Every expert started as a beginner.</itunes:summary>
     <item>
+      <title>Ep 2: Imagine an AI that codes, thinks deeply, and controls your computer like a super-smart sidekick—OpenAI just made it real!</title>
+      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep002_20260306.mp3</link>
+      <description># Models &amp; Agents for Beginners
+**Date:** March 06, 2026
+
+**HOOK:** Imagine an AI that codes, thinks deeply, and controls your computer like a super-smart sidekick—OpenAI just made it real!
+
+**What's Cool Today:** The biggest buzz is OpenAI's new GPT-5.4 model, which combines coding skills, deep thinking, and even operating computers all in one package—think of it as upgrading your phone's assistant to a full-on robot brain. Other stories highlight tools for building AI agents that automate coding and creative tasks, plus insights on keeping AI safe and fun. Pay attention because these developments mean AI is getting easier for beginners to play with, like turning your ideas into games or stories without being a tech whiz.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+OpenAI just released GPT-5.4, their most advanced AI model yet, with special "Thinking" and "Pro" versions that blend coding, reasoning, and even controlling computers into one super tool. Imagine if your video game character could not only solve puzzles but also write its own code and interact with your screen— that's what this model does, making AI feel more like a helpful partner than just a chatbot. This is a big deal because it could change how we learn in school (like AI tutors that code examples on the fly) or create art and games, opening doors for teens interested in tech careers without needing years of experience. Plus, it's efficient, so it runs faster and smarter for professional tasks, but beginners can benefit too. You can try a free version of similar OpenAI tools on their website—head to ChatGPT and ask it to "code a simple game" to see the magic. For the full scoop, check out the announcement details.
+Source: https://the-decoder.com/openai-launches-gpt-5-4-thinking-and-pro-combining-coding-reasoning-and-computer-use-in-one-model/
+
+━━━━━━━━━━━━━━━━━━━━
+### Cool Tools &amp; Models
+**Cursor's Cloud Agents**
+Cursor, a popular coding tool like a supercharged version of your text editor, just entered its "Third Era" by adding Cloud Agents—these are AI helpers that live in the cloud and automate big parts of software development, making it easier to build apps or games. It's cool because it's like having a team of robot coders that take over boring tasks, perfect for beginners dreaming of creating their own apps without getting stuck. To try it, sign up for Cursor's free tier and experiment with their AI features in a simple project.
+Source: https://www.latent.space/p/cursor-third-era
+
+**Cursor's Automations**
+Cursor is launching "Automations," a new system where AI agents automatically kick in based on triggers like a new code change or even a message in Slack, helping you code smarter in real-time. Think of it as setting up AI buddies that jump in to fix bugs or add features, like auto-complete on steroids for your creative projects. Beginners can download Cursor for free and test Automations by starting a basic coding task—it's a fun way to see AI make programming feel like playing a game.
+Source: https://techcrunch.com/2026/03/05/cursor-is-rolling-out-a-new-system-for-agentic-coding/
+
+**Yuan 3.0 Ultra**
+YuanLab AI released Yuan 3.0 Ultra, a massive AI model that's super efficient and handles text, images, and more using a "Mixture-of-Experts" setup—basically, it picks the best "expert" brain for each task to save power and think better. This matters for beginners because it could power free tools for creating art or stories with AI, making complex ideas accessible without a fancy computer. While it's new, watch for open-source demos; for now, explore similar models on sites like Hugging Face to try multimodal AI.
+Source: https://www.marktechpost.com/2026/03/04/yuanlab-ai-releases-yuan-3-0-ultra-a-flagship-multimodal-moe-foundation-model-built-for-stronger-intelligence-and-unrivaled-efficiency/
+
+━━━━━━━━━━━━━━━━━━━━
+### Try This at Home
+- Open ChatGPT (free at chat.openai.com) and ask it to "explain how AI agents work like a team in a video game"—you'll get a...</description>
+      <guid isPermaLink="false">mab-ep002-20260306-050028</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep002_20260306.mp3" length="14588282" type="audio/mpeg" />
+      <pubDate>Fri, 06 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
+      <itunes:duration>10:07</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Models &amp; Agents for Beginners
+**Date:** March 06, 2026
+
+**HOOK:** Imagine an AI that codes, thinks deeply, and controls your computer like a super-smart sidekick—OpenAI just made it real!
+
+**What's Cool Today:** The biggest buzz is OpenAI's new GPT-5.4 model, which combines coding skills, deep thinking, and even operating computers all in one package—think of it as upgrading your phone's assistant to a full-on robot brain. Other stories highlight tools for building AI agents that automate coding and creative tasks, plus insights on keeping AI safe and fun. Pay attention because these developments mean AI is getting easier for beginners to play with, like turning your ideas into games or stories without being a tech whiz.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+OpenAI just released GPT-5.4, their most advanced AI model yet, with special "Thinking" and "Pro" versions that blend coding, reasoning, and even controlling computers into one super tool. Imagine if your video game character could not only solve puzzles but also write its own code and interact with your screen— that's what this model does, making AI feel more like a helpful partner than just a chatbot. This is a big deal because it could change how we learn in school (like AI tutors that code examples on the fly) or create art and games, opening doors for teens interested in tech careers without needing years of experience. Plus, it's efficient, so it runs faster and smarter for professional tasks, but beginners can benefit too. You can try a free version of similar OpenAI tools on their website—head to ChatGPT and ask it to "code a simple game" to see the magic. For the full scoop, check out the announcement details.
+Source: https://the-decoder.com/openai-launches-gpt-5-4-thinking-and-pro-combining-coding-reasoning-and-computer-use-in-one-model/
+
+━━━━━━━━━━━━━━━━━━━━
+### Cool Tools &amp; Models
+**Cursor's Cloud Agents**
+Cursor, a popular coding tool like a supercharged version of your text editor, just entered its "Third Era" by adding Cloud Agents—these are AI helpers that live in the cloud and automate big parts of software development, making it easier to build apps or games. It's cool because it's like having a team of robot coders that take over boring tasks, perfect for beginners dreaming of creating their own apps without getting stuck. To try it, sign up for Cursor's free tier and experiment with their AI features in a simple project.
+Source: https://www.latent.space/p/cursor-third-era
+
+**Cursor's Automations**
+Cursor is launching "Automations," a new system where AI agents automatically kick in based on triggers like a new code change or even a message in Slack, helping you code smarter in real-time. Think of it as setting up AI buddies that jump in to fix bugs or add features, like auto-complete on steroids for your creative projects. Beginners can download Cursor for free and test Automations by starting a basic coding task—it's a fun way to see AI make programming feel like playing a game.
+Source: https://techcrunch.com/2026/03/05/cursor-is-rolling-out-a-new-system-for-agentic-coding/
+
+**Yuan 3.0 Ultra**
+YuanLab AI released Yuan 3.0 Ultra, a massive AI model that's super efficient and handles text, images, and more using a "Mixture-of-Experts" setup—basically, it picks the best "expert" brain for each task to save power and think better. This matters for beginners because it could power free tools for creating art or stories with AI, making complex ideas accessible without a fancy computer. While it's new, watch for open-source demos; for now, explore similar models on sites like Hugging Face to try multimodal AI.
+Source: https://www.marktechpost.com/2026/03/04/yuanlab-ai-releases-yuan-3-0-ultra-a-flagship-multimodal-moe-foundation-model-built-for-stronger-intelligence-and-unrivaled-efficiency/
+
+━━━━━━━━━━━━━━━━━━━━
+### Try This at Home
+- Open ChatGPT (free at chat.openai.com) and ask it to "explain how AI agents work like a team in a video game"—you'll get a...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>2</itunes:episode>
+      <itunes:title>Ep 2: Imagine an AI that codes, thinks deeply, and controls your computer like a super-smart sidekick—OpenAI just made it real!</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep002.json" type="application/json+chapters" /></item>
+    <item>
       <title>Ep 1: OpenAI's new GPT-5.4 can code, reason, and control computers like a super-smart sidekick—game-changer for AI helpers!</title>
-      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260306.mp3</link>
       <description># Models &amp; Agents for Beginners
 **Date:** March 06, 2026
 
@@ -89,6 +160,6 @@ Source: https://techcrunch.com/2026/03/05/exclusive-luma-launches-creative-ai-ag
       <itunes:episode>1</itunes:episode>
       <itunes:title>Ep 1: OpenAI's new GPT-5.4 can code, reason, and control computers like a super-smart sidekick—game-changer for AI helpers!</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep001.json" type="application/json+chapters" /></item>
+    </item>
   </channel>
 </rss>
