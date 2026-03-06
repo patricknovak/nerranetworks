@@ -1,8 +1,10 @@
 """TTS helpers for the podcast generation pipeline.
 
-Supports two providers:
+Supports three providers:
   - **ElevenLabs** (default): cloud API, paid, high quality
   - **Kokoro** (kokoro-onnx): local inference, free, Apache 2.0
+  - **Chatterbox** (chatterbox-tts): local inference, free, MIT license,
+    zero-shot voice cloning from a reference audio sample
 
 ElevenLabs functions:
   - synthesize(): top-level entry point — text in, audio file out
@@ -14,6 +16,10 @@ ElevenLabs functions:
 Kokoro functions:
   - synthesize_kokoro(): top-level Kokoro entry point — text in, audio file out
   - synthesize_kokoro_sections(): section-aware Kokoro synthesis
+
+Chatterbox functions:
+  - synthesize_chatterbox(): top-level Chatterbox entry point — text in, audio file out
+  - synthesize_chatterbox_sections(): section-aware Chatterbox synthesis
 """
 
 import logging
@@ -637,6 +643,240 @@ def synthesize_kokoro_sections(
         section_files.append(section_path)
         logger.info(
             "Kokoro section %d/%d (%d chars): %s",
+            i + 1, len(sections), len(section_text), section_path.name,
+        )
+
+    return section_files
+
+
+# ---------------------------------------------------------------------------
+# Chatterbox TTS (chatterbox-tts) — local, free, MIT license, voice cloning
+# ---------------------------------------------------------------------------
+
+_chatterbox_model = None
+_chatterbox_model_lock = None
+
+
+def _get_chatterbox_model(device: str = "cpu"):
+    """Lazy-load the Chatterbox model (singleton to avoid reloading ~500MB per chunk).
+
+    Downloads model weights from HuggingFace Hub on first use (~1.5 GB).
+    Cached in ``~/.cache/huggingface/hub/`` for subsequent runs.
+    """
+    global _chatterbox_model, _chatterbox_model_lock
+    import threading
+
+    if _chatterbox_model_lock is None:
+        _chatterbox_model_lock = threading.Lock()
+
+    with _chatterbox_model_lock:
+        if _chatterbox_model is not None:
+            return _chatterbox_model
+
+        try:
+            from chatterbox.tts import ChatterboxTTS
+        except ImportError:
+            raise RuntimeError(
+                "chatterbox-tts is not installed. Run: pip install chatterbox-tts"
+            )
+
+        logger.info("Loading Chatterbox model (device=%s) ...", device)
+        _chatterbox_model = ChatterboxTTS.from_pretrained(device=device)
+        logger.info("Chatterbox model loaded successfully")
+        return _chatterbox_model
+
+
+def _chatterbox_synthesize_chunk(
+    text: str,
+    out_path: Path,
+    *,
+    voice_reference: str = "",
+    exaggeration: float = 0.5,
+    cfg_weight: float = 0.5,
+    device: str = "cpu",
+) -> None:
+    """Generate audio for a single text chunk via Chatterbox TTS.
+
+    Parameters
+    ----------
+    voice_reference:
+        Path to a WAV file used as the voice cloning reference.
+        If empty, uses Chatterbox's default voice.
+    exaggeration:
+        Emotional intensity (0.0–1.0). Default 0.5.
+    cfg_weight:
+        Classifier-free guidance weight for prosody/accent control.
+        Default 0.5.
+    """
+    import tempfile
+
+    model = _get_chatterbox_model(device=device)
+
+    generate_kwargs = {"text": text}
+    if voice_reference:
+        ref_path = Path(voice_reference)
+        if not ref_path.exists():
+            raise FileNotFoundError(
+                f"Voice reference file not found: {ref_path}. "
+                "Check tts.voice_reference in your show YAML config."
+            )
+        generate_kwargs["audio_prompt_path"] = str(ref_path)
+
+    generate_kwargs["exaggeration"] = exaggeration
+    generate_kwargs["cfg_weight"] = cfg_weight
+
+    wav = model.generate(**generate_kwargs)
+
+    # Chatterbox outputs a torch tensor at model.sr (24kHz) — save to
+    # temp WAV then convert to MP3 for pipeline compatibility.
+    import torchaudio
+
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
+        tmp_wav = Path(tmp.name)
+
+    try:
+        torchaudio.save(str(tmp_wav), wav, model.sr)
+        subprocess.run(
+            [
+                "ffmpeg", "-y",
+                "-i", str(tmp_wav),
+                "-c:a", "libmp3lame",
+                "-q:a", "2",
+                "-ar", "44100",
+                str(out_path),
+            ],
+            check=True,
+            capture_output=True,
+            timeout=120,
+        )
+    finally:
+        try:
+            tmp_wav.unlink()
+        except Exception:
+            pass
+
+
+def synthesize_chatterbox(
+    text: str,
+    output_path: str | Path,
+    *,
+    voice_reference: str = "",
+    exaggeration: float = 0.5,
+    cfg_weight: float = 0.5,
+    device: str = "cpu",
+    max_chars: int = 4500,
+) -> Path:
+    """Top-level Chatterbox entry point: text in, audio file path out.
+
+    Handles chunking and concatenation internally so callers just pass
+    text and get back a path.  Uses zero-shot voice cloning when
+    *voice_reference* points to a WAV file.
+    """
+    output_path = Path(output_path)
+    chunks = chunk_text(text, max_chars=max_chars)
+
+    synth_kwargs = dict(
+        voice_reference=voice_reference,
+        exaggeration=exaggeration,
+        cfg_weight=cfg_weight,
+        device=device,
+    )
+
+    if len(chunks) == 1:
+        _chatterbox_synthesize_chunk(text, output_path, **synth_kwargs)
+        logger.info("Chatterbox TTS: Generated single chunk (%d chars)", len(text))
+        return output_path
+
+    logger.info("Chatterbox TTS: Splitting into %d chunks", len(chunks))
+    chunk_files: List[Path] = []
+    tmp_dir = output_path.parent
+
+    try:
+        for i, chunk_text_str in enumerate(chunks):
+            chunk_file = tmp_dir / f"chatterbox_chunk_{i:03d}.mp3"
+            _chatterbox_synthesize_chunk(chunk_text_str, chunk_file, **synth_kwargs)
+            chunk_files.append(chunk_file)
+            logger.info(
+                "Chatterbox chunk %d/%d (%d chars)",
+                i + 1, len(chunks), len(chunk_text_str),
+            )
+
+        # Concatenate with ffmpeg (same pattern as ElevenLabs/Kokoro)
+        concat_list = tmp_dir / "chatterbox_concat.txt"
+        with open(concat_list, "w", encoding="utf-8") as f:
+            for cf in chunk_files:
+                f.write(f"file '{cf.absolute()}'\n")
+
+        subprocess.run(
+            [
+                "ffmpeg", "-y",
+                "-f", "concat",
+                "-safe", "0",
+                "-i", str(concat_list),
+                "-c:a", "libmp3lame",
+                "-q:a", "2",
+                str(output_path),
+            ],
+            check=True,
+            capture_output=True,
+            timeout=300,
+        )
+        logger.info("Chatterbox TTS: Concatenated %d chunks", len(chunks))
+
+    finally:
+        for cf in chunk_files:
+            try:
+                if cf.exists():
+                    cf.unlink()
+            except Exception:
+                pass
+        try:
+            concat_list = tmp_dir / "chatterbox_concat.txt"
+            if concat_list.exists():
+                concat_list.unlink()
+        except Exception:
+            pass
+
+    return output_path
+
+
+def synthesize_chatterbox_sections(
+    sections: List[str],
+    output_dir: Path,
+    *,
+    voice_reference: str = "",
+    exaggeration: float = 0.5,
+    cfg_weight: float = 0.5,
+    device: str = "cpu",
+    section_prefix: str = "section",
+    max_chars: int = 4500,
+) -> List[Path]:
+    """Synthesize multiple script sections via Chatterbox into individual audio files.
+
+    Mirrors ``synthesize_sections()`` for section-aware TTS.
+    """
+    output_dir.mkdir(parents=True, exist_ok=True)
+    section_files: List[Path] = []
+
+    for i, section_text in enumerate(sections):
+        section_text = section_text.strip()
+        if not section_text:
+            logger.warning("Skipping empty section %d", i)
+            continue
+
+        section_path = output_dir / f"{section_prefix}_{i:03d}.mp3"
+        synthesize_chatterbox(
+            section_text,
+            section_path,
+            voice_reference=voice_reference,
+            exaggeration=exaggeration,
+            cfg_weight=cfg_weight,
+            device=device,
+            max_chars=max_chars,
+        )
+        section_files.append(section_path)
+        logger.info(
+            "Chatterbox section %d/%d (%d chars): %s",
             i + 1, len(sections), len(section_text), section_path.name,
         )
 

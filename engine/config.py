@@ -41,7 +41,7 @@ class LLMConfig:
 
 @dataclass
 class TTSConfig:
-    provider: str = "elevenlabs"  # "elevenlabs" or "kokoro"
+    provider: str = "elevenlabs"  # "elevenlabs", "kokoro", or "chatterbox"
     voice_id: str = "dTrBzPvD2GpAqkk1MUzA"
     model: str = "eleven_turbo_v2_5"
     stability: float = 0.65
@@ -49,10 +49,15 @@ class TTSConfig:
     style: float = 0.85
     use_speaker_boost: bool = True
     max_chars: int = 5000
-    # Kokoro-specific (ignored when provider=elevenlabs)
+    # Kokoro-specific (ignored when provider != kokoro)
     kokoro_voice: str = "am_adam"
     kokoro_speed: float = 1.0
     kokoro_lang: str = "a"  # "a" = American English, "b" = British English
+    # Chatterbox-specific (ignored when provider != chatterbox)
+    voice_reference: str = ""  # Path to WAV file for zero-shot voice cloning
+    chatterbox_exaggeration: float = 0.5  # Emotional intensity (0.0–1.0)
+    chatterbox_cfg_weight: float = 0.5  # Prosody/accent guidance weight
+    chatterbox_device: str = "cpu"  # "cpu" or "cuda"
 
 
 @dataclass

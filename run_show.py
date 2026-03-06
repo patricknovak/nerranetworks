@@ -387,11 +387,28 @@ def run(args: argparse.Namespace) -> None:
         tts_script_path.write_text(podcast_script, encoding="utf-8")
         logger.info("TTS script saved: %s", tts_script_path)
 
-        # 9. TTS — route based on provider (elevenlabs or kokoro)
+        # 9. TTS — route based on provider (elevenlabs, kokoro, or chatterbox)
         tts_provider = getattr(config.tts, "provider", "elevenlabs")
 
         tts_ready = False
-        if tts_provider == "kokoro":
+        if tts_provider == "chatterbox":
+            try:
+                from engine.tts import synthesize_chatterbox, synthesize_chatterbox_sections
+                # Resolve voice reference path relative to project root
+                voice_ref = ""
+                if config.tts.voice_reference:
+                    voice_ref = str(PROJECT_ROOT / config.tts.voice_reference)
+                tts_ready = True
+                logger.info(
+                    "TTS provider: Chatterbox (device=%s, voice_ref=%s, exag=%.2f, cfg=%.2f)",
+                    config.tts.chatterbox_device,
+                    config.tts.voice_reference or "(default voice)",
+                    config.tts.chatterbox_exaggeration,
+                    config.tts.chatterbox_cfg_weight,
+                )
+            except Exception as e:
+                logger.error("Chatterbox TTS unavailable: %s. Skipping TTS.", e)
+        elif tts_provider == "kokoro":
             try:
                 from engine.tts import synthesize_kokoro, synthesize_kokoro_sections
                 tts_ready = True
@@ -436,7 +453,18 @@ def run(args: argparse.Namespace) -> None:
                     logger.info("Section TTS: synthesizing %d sections separately", len(sections))
                     section_tmp_dir = digests_dir / f"_sections_ep{episode_num:03d}"
 
-                    if tts_provider == "kokoro":
+                    if tts_provider == "chatterbox":
+                        section_files = synthesize_chatterbox_sections(
+                            sections,
+                            section_tmp_dir,
+                            voice_reference=voice_ref,
+                            exaggeration=config.tts.chatterbox_exaggeration,
+                            cfg_weight=config.tts.chatterbox_cfg_weight,
+                            device=config.tts.chatterbox_device,
+                            section_prefix=f"sec_ep{episode_num:03d}",
+                            max_chars=config.tts.max_chars,
+                        )
+                    elif tts_provider == "kokoro":
                         section_files = synthesize_kokoro_sections(
                             sections,
                             section_tmp_dir,
@@ -477,7 +505,16 @@ def run(args: argparse.Namespace) -> None:
                         pass
                 else:
                     # Not enough sections — fall back to single synthesis
-                    if tts_provider == "kokoro":
+                    if tts_provider == "chatterbox":
+                        synthesize_chatterbox(
+                            podcast_script, raw_mp3,
+                            voice_reference=voice_ref,
+                            exaggeration=config.tts.chatterbox_exaggeration,
+                            cfg_weight=config.tts.chatterbox_cfg_weight,
+                            device=config.tts.chatterbox_device,
+                            max_chars=config.tts.max_chars,
+                        )
+                    elif tts_provider == "kokoro":
                         synthesize_kokoro(
                             podcast_script, raw_mp3,
                             voice=config.tts.kokoro_voice,
@@ -494,7 +531,16 @@ def run(args: argparse.Namespace) -> None:
                             style=config.tts.style,
                         )
             else:
-                if tts_provider == "kokoro":
+                if tts_provider == "chatterbox":
+                    synthesize_chatterbox(
+                        podcast_script, raw_mp3,
+                        voice_reference=voice_ref,
+                        exaggeration=config.tts.chatterbox_exaggeration,
+                        cfg_weight=config.tts.chatterbox_cfg_weight,
+                        device=config.tts.chatterbox_device,
+                        max_chars=config.tts.max_chars,
+                    )
+                elif tts_provider == "kokoro":
                     synthesize_kokoro(
                         podcast_script, raw_mp3,
                         voice=config.tts.kokoro_voice,
