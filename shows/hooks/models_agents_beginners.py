@@ -2,11 +2,16 @@
 
 Kokoro uses espeak for phonemization, which handles single-letter
 expansions ("A I", "G P T") poorly — reading them as words instead
-of spelling them out. This hook overrides the shared COMMON_ACRONYMS
-with phonetic spellings that espeak pronounces correctly.
+of spelling them out.  This hook uses **period-separated notation**
+(e.g. "A.I.", "G.P.T.") which espeak reliably interprets as
+abbreviations and spells letter-by-letter.
 
-ElevenLabs handles "A I" fine because its TTS engine is trained on
-letter sequences.  Kokoro/espeak needs "ay eye" style guides.
+ElevenLabs handles space-separated letters ("A I") fine because its
+TTS engine is trained on letter sequences.  Kokoro/espeak needs the
+period notation to trigger its built-in abbreviation handling.
+
+Word-like acronyms (RAG, BERT, CUDA, etc.) keep phonetic spellings
+since they should be pronounced as words, not spelled out.
 """
 
 from __future__ import annotations
@@ -20,61 +25,61 @@ def pronunciation_overrides() -> dict:
     """
     return {
         # Override shared acronyms that use letter-spacing (broken in espeak)
-        # with phonetic word forms that espeak reads naturally.
+        # with period-separated notation that espeak reads as abbreviations.
         "extra_acronyms": {
             # =============================================================
             # AI and ML core terms (override shared COMMON_ACRONYMS)
             # =============================================================
             # Compound forms MUST come before bare "AI" to match first.
-            "AI-powered": "ay-eye-powered",
-            "AI-driven": "ay-eye-driven",
-            "AI-based": "ay-eye-based",
-            "AI-generated": "ay-eye-generated",
-            "AI-first": "ay-eye-first",
-            "AI-native": "ay-eye-native",
-            "AI-enabled": "ay-eye-enabled",
-            "AI-ready": "ay-eye-ready",
-            "AI-augmented": "ay-eye-augmented",
-            "OpenAI's": "Open-ay-eye's",
-            "OpenAI": "Open-ay-eye",
-            "GenAI": "jen-ay-eye",
-            "xAI's": "ex-ay-eye's",
-            "xAI": "ex-ay-eye",
-            "AI": "ay eye",
-            "ML": "em-ell",
-            "LLMs": "ell-ell-ems",
-            "LLM": "ell-ell-em",
-            "GPT-4o": "gee-pee-tee four oh",
-            "GPT-4": "gee-pee-tee four",
-            "GPT-5": "gee-pee-tee five",
-            "GPT": "gee-pee-tee",
-            "AGI": "ay-jee-eye",
-            "NLP": "en-ell-pee",
-            "SFT": "ess-eff-tee",
-            "RLHF": "are-ell-aitch-eff",
-            "DPO": "dee-pee-oh",
+            "AI-powered": "A.I. powered",
+            "AI-driven": "A.I. driven",
+            "AI-based": "A.I. based",
+            "AI-generated": "A.I. generated",
+            "AI-first": "A.I. first",
+            "AI-native": "A.I. native",
+            "AI-enabled": "A.I. enabled",
+            "AI-ready": "A.I. ready",
+            "AI-augmented": "A.I. augmented",
+            "OpenAI's": "Open A.I.'s",
+            "OpenAI": "Open A.I.",
+            "GenAI": "Jen A.I.",
+            "xAI's": "ex A.I.'s",
+            "xAI": "ex A.I.",
+            "AI": "A.I.",
+            "ML": "M.L.",
+            "LLMs": "L.L.M.s",
+            "LLM": "L.L.M.",
+            "GPT-4o": "G.P.T. four oh",
+            "GPT-4": "G.P.T. four",
+            "GPT-5": "G.P.T. five",
+            "GPT": "G.P.T.",
+            "AGI": "A.G.I.",
+            "NLP": "N.L.P.",
+            "SFT": "S.F.T.",
+            "RLHF": "R.L.H.F.",
+            "DPO": "D.P.O.",
             "SOTA": "so-tah",
-            "TPU": "tee-pee-you",
-            "TPUs": "tee-pee-yous",
-            "GPU": "jee-pee-you",
-            "GPUs": "jee-pee-yous",
-            "CPU": "see-pee-you",
-            "CPUs": "see-pee-yous",
-            "MCP": "em-see-pee",
-            "APIs": "ay-pee-eyes",
-            "API": "ay-pee-eye",
-            "SDKs": "ess-dee-kays",
-            "SDK": "ess-dee-kay",
+            "TPU": "T.P.U.",
+            "TPUs": "T.P.U.s",
+            "GPU": "G.P.U.",
+            "GPUs": "G.P.U.s",
+            "CPU": "C.P.U.",
+            "CPUs": "C.P.U.s",
+            "MCP": "M.C.P.",
+            "APIs": "A.P.I.s",
+            "API": "A.P.I.",
+            "SDKs": "S.D.K.s",
+            "SDK": "S.D.K.",
             "RAG": "rag",
             "LoRA": "laura",
             "LoRAs": "lauras",
             "CUDA": "koodah",
             "VRAM": "vee-ram",
             "FLOPS": "flops",
-            "FP16": "eff-pee-sixteen",
-            "FP32": "eff-pee-thirty-two",
-            "INT8": "int-eight",
-            "INT4": "int-four",
+            "FP16": "F.P. sixteen",
+            "FP32": "F.P. thirty-two",
+            "INT8": "int eight",
+            "INT4": "int four",
             "GGUF": "gee-guff",
             "ONNX": "onyx",
             "QLoRA": "cue-laura",
@@ -107,9 +112,11 @@ def pronunciation_overrides() -> dict:
             "Midjourney's": "Mid-journey's",
             "Perplexity": "Per-plexity",
             "Copilot": "Co-pilot",
-            "ChatGPT": "Chat gee-pee-tee",
-            "ChatGPT's": "Chat gee-pee-tee's",
-            "GPT-2": "gee-pee-tee two",
+            "ChatGPT": "Chat G.P.T.",
+            "ChatGPT's": "Chat G.P.T.'s",
+            "GPT-2": "G.P.T. two",
+            "GPT-3": "G.P.T. three",
+            "GPT-3.5": "G.P.T. three point five",
             "Opus": "Oh-pus",
             "Sonnet": "Son-ett",
             "Haiku": "Hi-koo",
@@ -137,10 +144,10 @@ def pronunciation_overrides() -> dict:
             "LangGraph": "Lang Graph",
             "LangGraph's": "Lang Graph's",
             "LlamaIndex": "Lahmah Index",
-            "AutoGPT": "Auto gee-pee-tee",
+            "AutoGPT": "Auto G.P.T.",
             "AutoGen": "Auto-Jen",
-            "CrewAI": "Crew ay-eye",
-            "CrewAI's": "Crew ay-eye's",
+            "CrewAI": "Crew A.I.",
+            "CrewAI's": "Crew A.I.'s",
             "Anthropic": "Ann-thropic",
             "Anthropic's": "Ann-thropic's",
             "Sakana": "Sah-kah-nah",
@@ -157,50 +164,48 @@ def pronunciation_overrides() -> dict:
             # =============================================================
             # Common tech acronyms
             # =============================================================
-            "URLs": "you-are-ells",
-            "URL": "you-are-ell",
-            "CLI": "see-ell-eye",
-            "IDE": "eye-dee-ee",
-            "UI": "you-eye",
-            "UX": "you-ex",
+            "URLs": "U.R.L.s",
+            "URL": "U.R.L.",
+            "CLI": "C.L.I.",
+            "IDE": "I.D.E.",
+            "UI": "U.I.",
+            "UX": "U.X.",
             "SaaS": "sass",
-            "IoT": "eye-oh-tee",
+            "IoT": "I.O.T.",
             "JSON": "jay-son",
             "YAML": "yam-ul",
             "OAuth": "oh-auth",
-            "HTML": "aitch-tee-em-ell",
-            "CSS": "see-ess-ess",
-            "AWS": "ay-double-you-ess",
-            "GCP": "jee-see-pee",
-            "VM": "vee-em",
-            "VMs": "vee-ems",
-            "PR": "pee-are",
+            "HTML": "H.T.M.L.",
+            "CSS": "C.S.S.",
+            "AWS": "A.W.S.",
+            "GCP": "G.C.P.",
+            "VM": "V.M.",
+            "VMs": "V.M.s",
+            "PR": "P.R.",
 
             # =============================================================
             # Benchmark names that sound weird read literally
             # =============================================================
-            "GSM8K": "gee-ess-em eight-kay",
-            "GSM8k": "gee-ess-em eight-kay",
-            "MMLU": "em-em-ell-you",
+            "GSM8K": "G.S.M. eight K.",
+            "GSM8k": "G.S.M. eight K.",
+            "MMLU": "M.M.L.U.",
             "HumanEval": "Human Eval",
             "HellaSwag": "Hella-Swag",
             "ARC-C": "arc see",
             "MATH": "math",
-            "GPQA": "gee-pee-cue-ay",
+            "GPQA": "G.P.Q.A.",
 
             # =============================================================
             # Beginner-show-specific terms the host uses often
             # =============================================================
-            "TTS": "tee-tee-ess",
-            "OCR": "oh-see-are",
+            "TTS": "T.T.S.",
+            "OCR": "O.C.R.",
             "GAN": "gan",
             "GANs": "gans",
-            "VAE": "vee-ay-ee",
-            "CNN": "see-en-en",
-            "RNN": "are-en-en",
+            "VAE": "V.A.E.",
+            "CNN": "C.N.N.",
+            "RNN": "R.N.N.",
             "BERT": "bert",
-            "GPT-3": "gee-pee-tee three",
-            "GPT-3.5": "gee-pee-tee three point five",
             "3D": "three-dee",
             "2D": "two-dee",
             "4K": "four-kay",
