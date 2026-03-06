@@ -192,6 +192,9 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install --upgrade pip
+          # Pre-install numpy: pkuseg (chatterbox-tts dep) needs it at build time
+          # but doesn't declare it as a build dependency
+          pip install numpy
           pip install -r requirements.txt
           # Show-specific extras
           if [ "${{ matrix.show }}" = "fascinating_frontiers" ] && [ -f requirements_fascinating_frontiers.txt ]; then
