@@ -492,6 +492,11 @@ def _kokoro_synthesize_chunk(
     import soundfile as sf
     import tempfile
 
+    # kokoro-onnx >=0.5 uses phonemizer/espeak which requires full language
+    # codes (e.g. "en-us") instead of the old single-letter shorthand.
+    _LANG_MAP = {"a": "en-us", "b": "en-gb"}
+    lang = _LANG_MAP.get(lang, lang)
+
     kokoro = _get_kokoro_model()
     samples, sample_rate = kokoro.create(text, voice=voice, speed=speed, lang=lang)
 
