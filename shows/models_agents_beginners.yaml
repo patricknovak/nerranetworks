@@ -108,10 +108,11 @@ llm:
   max_tokens: 4000
 
 tts:
-  provider: kokoro
-  kokoro_voice: af_heart
-  kokoro_speed: 0.92
-  kokoro_lang: a
+  provider: chatterbox
+  voice_reference: assets/voice_references/tst_voice_reference.wav
+  chatterbox_exaggeration: 0.5
+  chatterbox_cfg_weight: 0.5
+  chatterbox_device: cpu
   max_chars: 5000
 
 audio:
