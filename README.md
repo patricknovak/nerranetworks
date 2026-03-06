@@ -1,6 +1,6 @@
 # Nerra Network — Daily Podcast Network
 
-Automated daily podcast generation system running 6 shows via a unified
+Automated daily podcast generation system running 7 shows via a unified
 `run_show.py` runner + per-show YAML configs. Each show fetches news via RSS
 and xAI/Grok web search, generates a digest and podcast script via xAI/Grok,
 synthesizes audio via ElevenLabs TTS, mixes intro/outro music, and publishes
@@ -20,6 +20,7 @@ All shows are produced independently in Vancouver, Canada.
 | **Planetterrian Daily** | Daily | [Player](https://nerranetwork.com/planetterrian.html) | [RSS](https://nerranetwork.com/planetterrian_podcast.rss) |
 | **Environmental Intelligence** | Weekdays | [Player](https://nerranetwork.com/env-intel.html) | [RSS](https://nerranetwork.com/env_intel_podcast.rss) |
 | **Models & Agents** | Daily | [Player](https://nerranetwork.com/models-agents.html) | [RSS](https://nerranetwork.com/models_agents_podcast.rss) |
+| **Models & Agents for Beginners** | Daily | [Player](https://nerranetwork.com/models-agents-beginners.html) | [RSS](https://nerranetwork.com/models_agents_beginners_podcast.rss) |
 
 ## Apple Podcasts
 
@@ -95,7 +96,7 @@ python generate_html.py --all
 
 ### Available shows
 
-`tesla`, `omni_view`, `fascinating_frontiers`, `planetterrian`, `env_intel`, `models_agents`
+`tesla`, `omni_view`, `fascinating_frontiers`, `planetterrian`, `env_intel`, `models_agents`, `models_agents_beginners`
 
 ## Adding a New Show
 
