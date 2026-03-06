@@ -127,14 +127,14 @@ llm:
   system_prompt_file: shows/prompts/mab_system.txt
   digest_prompt_file: shows/prompts/mab_digest.txt
   podcast_prompt_file: shows/prompts/mab_podcast.txt
-  digest_temperature: 0.5
-  podcast_temperature: 0.8
-  max_tokens: 3500
+  digest_temperature: 0.4
+  podcast_temperature: 0.75
+  max_tokens: 4000
 
 tts:
   provider: kokoro
   kokoro_voice: am_adam
-  kokoro_speed: 0.95
+  kokoro_speed: 0.92
   kokoro_lang: a
   max_chars: 5000
 
