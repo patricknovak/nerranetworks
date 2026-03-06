@@ -5,7 +5,7 @@
     <description>Seven daily podcasts keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, and the environment.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Fri, 06 Mar 2026 14:22:53 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Mar 2026 15:24:41 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/omni-view-podcast-image.jpg</url>
       <title>Nerra Network</title>
@@ -240,6 +240,69 @@ Analysis shows Indigenous-managed lands in Canada sustain 10-20% higher c...</ns
       <ns0:title>Ep 6: Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
       <ns1:chapters url="https://nerranetwork.com/digests/env_intel/chapters_ep006.json" type="application/json+chapters" />
+    </item>
+    <item>
+      <title>Ep 7: Liquid AI launches LFM2-24B-A2B model and LocalCowork app for fully local, privacy-first agent workflows.</title>
+      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep007_20260306.mp3</link>
+      <description># Models &amp; Agents
+**Date:** March 06, 2026
+
+**HOOK:** Liquid AI launches LFM2-24B-A2B model and LocalCowork app for fully local, privacy-first agent workflows.
+
+**What You Need to Know:** Liquid AI dropped a game-changer with LFM2-24B-A2B, a 24B-parameter model optimized for low-latency local tool calling, powering LocalCowork—an open-source desktop agent that runs enterprise workflows without cloud APIs or data leaks. Meanwhile, OpenAI's new report on GPT-5.4 Thinking highlights poor "CoT controllability" as a safety win, and fresh benchmarks like HUMAINE and SalamaBench expose demographic biases and Arabic LM vulnerabilities. Watch for how local agents like this evolve edge deployment, and test mixed-vendor setups to boost reliability in specialized tasks.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Liquid AI has released LFM2-24B-A2B, a specialized 24B-parameter model for low-latency local tool dispatch, alongside LocalCowork, an open-source desktop agent app in their Liquid4All GitHub Cookbook. This setup uses Model Context Protocol (MCP) to enable privacy-first workflows entirely on-device, avoiding API calls and data egress—think enterprise tasks like document analysis or automation without cloud risks. Compared to cloud-dependent agents in LangChain or AutoGen, it slashes latency and enhances security, though it requires decent hardware for the 24B model. Developers building privacy-sensitive apps should care, as this democratizes agentic AI for edge environments like laptops or on-prem servers. Try deploying it for local RAG pipelines; the GitHub repo has serving configs to get started quickly. Keep an eye on community fine-tunes for verticals like healthcare, where data privacy is paramount.
+Source: https://www.marktechpost.com/2026/03/05/liquid-ai-releases-localcowork-powered-by-lfm2-24b-a2b-to-execute-privacy-first-agent-workflows-locally-via-model-context-protocol-mcp/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**AI Models Struggle with Reasoning Control, OpenAI Calls It Safety Progress: The Decoder**  
+OpenAI's GPT-5.4 Thinking introduces "CoT controllability," measuring if models can manipulate their own chain-of-thought reasoning, with a study showing universal failure across models—which they frame as encouraging for safety. This builds on prior alignment work like constitutional AI but quantifies a new metric, outperforming vague safety claims in models like Claude by providing empirical evidence of non-deceptiveness. It matters for practitioners deploying LLMs in high-stakes scenarios, as it reduces risks of unintended reasoning hacks, though real-world safety still lags behind hype.  
+Source: https://the-decoder.com/ai-models-can-barely-control-their-own-reasoning-and-openai-says-thats-a-good-sign/
+
+**Demographic-Aware LLM Evaluation via HUMAINE Framework: cs.CL on arXiv**  
+The HUMAINE framework evaluates 28 LLMs across five dimensions using 23,404 multi-turn conversations from 22 demographic groups, revealing Google/Gemini-2.5-Pro as top performer with 95.6% probability, but exposing age-based preference splits that mask generalization failures. Unlike uniform benchmarks like MMLU, it incorporates Bayesian modeling and post-stratification for nuanced insights, improving on single-metric evals by quantifying heterogeneity. This is crucial for builders creating fair AI systems, highlighting that unrepresentative samples hide biases—though it requires diverse data collection to implement.  
+Source: https://arxiv.org/abs/2603.04409
+
+**SalamaBench for Arabic LM Safety: cs.CL on arXiv**  
+SalamaBench offers a unified safety benchmark with 8,170 prompts across 12 categories for Arabic LMs, testing models like Fanar 2 (strong in robustness) and Jais 2 (vulnerable), under various safeguard setups. It outperforms English-centric benchmarks by focusing on cultural nuances, achieving better harm detection via multi-stage verification. Developers working on multilingual AI should use it to expose category-specific weaknesses, but...</description>
+      <guid isPermaLink="false">models-agents-ep007-20260306-152440</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep007_20260306.mp3" length="18546773" type="audio/mpeg" />
+      <pubDate>Fri, 06 Mar 2026 08:00:00 +0000</pubDate>
+      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
+      <ns0:duration>12:52</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents
+**Date:** March 06, 2026
+
+**HOOK:** Liquid AI launches LFM2-24B-A2B model and LocalCowork app for fully local, privacy-first agent workflows.
+
+**What You Need to Know:** Liquid AI dropped a game-changer with LFM2-24B-A2B, a 24B-parameter model optimized for low-latency local tool calling, powering LocalCowork—an open-source desktop agent that runs enterprise workflows without cloud APIs or data leaks. Meanwhile, OpenAI's new report on GPT-5.4 Thinking highlights poor "CoT controllability" as a safety win, and fresh benchmarks like HUMAINE and SalamaBench expose demographic biases and Arabic LM vulnerabilities. Watch for how local agents like this evolve edge deployment, and test mixed-vendor setups to boost reliability in specialized tasks.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Liquid AI has released LFM2-24B-A2B, a specialized 24B-parameter model for low-latency local tool dispatch, alongside LocalCowork, an open-source desktop agent app in their Liquid4All GitHub Cookbook. This setup uses Model Context Protocol (MCP) to enable privacy-first workflows entirely on-device, avoiding API calls and data egress—think enterprise tasks like document analysis or automation without cloud risks. Compared to cloud-dependent agents in LangChain or AutoGen, it slashes latency and enhances security, though it requires decent hardware for the 24B model. Developers building privacy-sensitive apps should care, as this democratizes agentic AI for edge environments like laptops or on-prem servers. Try deploying it for local RAG pipelines; the GitHub repo has serving configs to get started quickly. Keep an eye on community fine-tunes for verticals like healthcare, where data privacy is paramount.
+Source: https://www.marktechpost.com/2026/03/05/liquid-ai-releases-localcowork-powered-by-lfm2-24b-a2b-to-execute-privacy-first-agent-workflows-locally-via-model-context-protocol-mcp/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**AI Models Struggle with Reasoning Control, OpenAI Calls It Safety Progress: The Decoder**  
+OpenAI's GPT-5.4 Thinking introduces "CoT controllability," measuring if models can manipulate their own chain-of-thought reasoning, with a study showing universal failure across models—which they frame as encouraging for safety. This builds on prior alignment work like constitutional AI but quantifies a new metric, outperforming vague safety claims in models like Claude by providing empirical evidence of non-deceptiveness. It matters for practitioners deploying LLMs in high-stakes scenarios, as it reduces risks of unintended reasoning hacks, though real-world safety still lags behind hype.  
+Source: https://the-decoder.com/ai-models-can-barely-control-their-own-reasoning-and-openai-says-thats-a-good-sign/
+
+**Demographic-Aware LLM Evaluation via HUMAINE Framework: cs.CL on arXiv**  
+The HUMAINE framework evaluates 28 LLMs across five dimensions using 23,404 multi-turn conversations from 22 demographic groups, revealing Google/Gemini-2.5-Pro as top performer with 95.6% probability, but exposing age-based preference splits that mask generalization failures. Unlike uniform benchmarks like MMLU, it incorporates Bayesian modeling and post-stratification for nuanced insights, improving on single-metric evals by quantifying heterogeneity. This is crucial for builders creating fair AI systems, highlighting that unrepresentative samples hide biases—though it requires diverse data collection to implement.  
+Source: https://arxiv.org/abs/2603.04409
+
+**SalamaBench for Arabic LM Safety: cs.CL on arXiv**  
+SalamaBench offers a unified safety benchmark with 8,170 prompts across 12 categories for Arabic LMs, testing models like Fanar 2 (strong in robustness) and Jais 2 (vulnerable), under various safeguard setups. It outperforms English-centric benchmarks by focusing on cultural nuances, achieving better harm detection via multi-stage verification. Developers working on multilingual AI should use it to expose category-specific weaknesses, but...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>7</ns0:episode>
+      <ns0:title>Ep 7: Liquid AI launches LFM2-24B-A2B model and LocalCowork app for fully local, privacy-first agent workflows.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
+      <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep007.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 2: Imagine an AI that codes, thinks deeply, and controls your computer like a super-smart sidekick—OpenAI just made it real!</title>
@@ -636,7 +699,6 @@ Source: https://www.sciencedaily.com/releases/2026/03/260303201755.htm
     </item>
     <item>
       <title>Ep 6: YuanLab AI launches Yuan 3.0 Ultra, a 1T-parameter multimodal MoE model cutting parameters by 33% while boosting efficiency 49%.</title>
-      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep006_20260305.mp3</link>
       <description># Models &amp; Agents
 **Date:** March 05, 2026
 
@@ -695,7 +757,6 @@ A new greedy-based value representation (GVR) method improves multi-agent reinfo
       <ns0:episode>6</ns0:episode>
       <ns0:title>Ep 6: YuanLab AI launches Yuan 3.0 Ultra, a 1T-parameter multimodal MoE model cutting parameters by 33% while boosting efficiency 49%.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
-      <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep006.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 398: Automakers are exiting Tesla's EU carbon credit pool, which could squeeze a key revenue stream worth billions.</title>
@@ -2761,16 +2822,6 @@ This arXiv pape...</ns0:summary>
       <ns0:episode>386</ns0:episode>
       <ns0:title>Tesla Shorts Time Daily - Episode 386 - January 27, 2026 at 03:09 AM PST</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
-    </item>
-    <item>
-      <title>Planetterrian Daily - Episode 19 - January 27, 2026 at 04:19 AM PST</title>
-      <description>Daily science, longevity, and health discoveries for January 27, 2026 at 04:19 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep019-20260127-122245</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep019_20260127_122228.mp3" length="3329271" type="audio/mpeg" />
-      <pubDate>Tue, 27 Jan 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:episode>19</ns0:episode>
     </item>
   </channel>
 </rss>
