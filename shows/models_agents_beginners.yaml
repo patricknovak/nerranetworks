@@ -37,89 +37,65 @@ sources:
   - url: https://www.artificialintelligence-news.com/feed/
     label: AI News
 
-  # Research & Papers
-  - url: https://arxiv.org/rss/cs.AI
-    label: arXiv AI
-  - url: https://arxiv.org/rss/cs.CL
-    label: arXiv NLP
-  - url: https://arxiv.org/rss/cs.MA
-    label: arXiv Multi-Agent Systems
-
-  # Developer & Agent Ecosystem
+  # Beginner-Friendly & Consumer AI
+  - url: https://www.oneusefulthing.org/feed
+    label: One Useful Thing (Ethan Mollick)
+  - url: https://www.tomsguide.com/ai/rss
+    label: Tom's Guide AI
+  - url: https://9to5google.com/guides/google-gemini/feed/
+    label: 9to5Google Gemini
   - url: https://github.blog/feed/
     label: GitHub Blog
-  - url: https://devblogs.microsoft.com/semantic-kernel/feed/
-    label: Microsoft Semantic Kernel
-  - url: https://blog.langchain.dev/rss/
-    label: LangChain Blog
-  - url: https://www.latent.space/feed
-    label: Latent Space
 
 keywords:
+  # Core AI concepts (beginner-accessible)
   - ai model
   - language model
-  - large language model
-  - LLM
+  - ChatGPT
   - GPT
   - Claude
   - Gemini
-  - Llama
-  - Mistral
-  - Grok
-  - foundation model
-  - frontier model
-  - open source model
-  - open weight
-  - fine-tuning
-  - RLHF
-  - reinforcement learning
-  - benchmark
-  - evaluation
-  - inference
-  - token
-  - context window
-  - multimodal
-  - vision model
-  - reasoning model
-  - agent
-  - ai agent
-  - autonomous agent
-  - agent framework
-  - tool use
-  - function calling
-  - agentic
-  - multi-agent
-  - orchestration
-  - MCP
-  - model context protocol
-  - computer use
-  - browser agent
-  - coding agent
-  - OpenClaw
-  - Agent Zero
-  - Perplexity
-  - AutoGPT
-  - CrewAI
-  - LangChain
-  - LangGraph
-  - prompt engineering
-  - RAG
-  - retrieval augmented
-  - embedding
-  - vector
-  - transformer
-  - diffusion
+  - Copilot
+  - ai chatbot
+  - ai assistant
+  - ai image
+  - ai video
+  - ai art
+  - ai music
+  - ai writing
+  - ai tutor
+  - ai homework
   - image generation
   - text to speech
   - speech to text
-  - API
-  - SDK
+  - multimodal
+  - ai agent
+  - ai tool
+  - ai app
+  - ai demo
+  - ai free
+  - prompt engineering
+  - prompt tips
+  - how to use ai
+  - ai for students
+  - ai for beginners
+  - ai tutorial
+  - learn ai
+  - ai safety
+  - ai ethics
+  - deepfake
+  - open source ai
+  - Perplexity
+  - Midjourney
+  - Stable Diffusion
+  - DALL-E
+  - Sora
+  - Runway
   - model release
   - model update
   - model comparison
-  - AI safety
-  - alignment
-  - guardrails
+  - ai news
+  - new ai model
 
 llm:
   provider: xai
@@ -127,14 +103,14 @@ llm:
   system_prompt_file: shows/prompts/mab_system.txt
   digest_prompt_file: shows/prompts/mab_digest.txt
   podcast_prompt_file: shows/prompts/mab_podcast.txt
-  digest_temperature: 0.5
-  podcast_temperature: 0.8
-  max_tokens: 3500
+  digest_temperature: 0.4
+  podcast_temperature: 0.75
+  max_tokens: 4000
 
 tts:
   provider: kokoro
-  kokoro_voice: am_adam
-  kokoro_speed: 0.95
+  kokoro_voice: af_heart
+  kokoro_speed: 0.92
   kokoro_lang: a
   max_chars: 5000
 

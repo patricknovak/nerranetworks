@@ -121,7 +121,7 @@ Tesla-shorts-time/
 - `ELEVENLABS_API_KEY` — ElevenLabs TTS (all shows)
 - `X_*` / `PLANETTERRIAN_X_*` — two separate X accounts
 - Voice IDs: TST/FF/PT/M&A/EI share `dTrBzPvD2GpAqkk1MUzA`, OV uses `ns7MjJ6c8tJKnvw7U6sN`
-- MAB uses Kokoro TTS (local, free) with voice `am_adam` — no API key required
+- MAB uses Kokoro TTS (local, free) with voice `af_heart` — no API key required
 - See `docs/env_var_inventory.md` for the complete inventory
 
 ### RSS Feeds

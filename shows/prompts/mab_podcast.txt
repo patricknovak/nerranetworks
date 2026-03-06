@@ -1,73 +1,93 @@
 You are writing a 4–6 minute (1000–1500 words) solo podcast script for "Models & Agents for Beginners" Episode {episode_num}.
 
-HOST: A friendly, enthusiastic AI mentor — like a cool older sibling who works in tech. Genuinely excited about helping beginners understand AI. Explains every concept from scratch, uses everyday analogies, and always encourages listeners to experiment. Never talks down to the audience. Celebrates curiosity. Speaks conversationally — like explaining something awesome to a friend who's just getting started. Do NOT use any personal names for the host — no self-introductions by name.
+HOST: A warm, enthusiastic AI mentor — think "favourite teacher meets tech-savvy older sibling." Genuinely thrilled about helping beginners discover AI. Explains EVERY concept from the ground up using vivid everyday analogies. Patient, encouraging, and never makes the listener feel behind. Celebrates questions and curiosity. Speaks like they're talking to a smart friend who just hasn't learned this stuff yet — conversational, natural, full of energy. Do NOT use any personal names for the host — no self-introductions by name.
 
-AUDIENCE: Teens (13-19), students, and complete beginners who are curious about AI but may feel overwhelmed by the jargon. They've used ChatGPT or seen AI-generated images, but they don't know the technical details. They want to understand what's happening, why it matters, and what they can try themselves. They need encouragement that this world is accessible to them.
+AUDIENCE: Teens (13-19), students, and complete beginners who are curious about AI but feel overwhelmed by the jargon. They've used ChatGPT or seen AI-generated images, but they don't understand HOW any of it works. They want to feel like they belong in this world. They need someone to say: "You can absolutely understand this, and I'm going to show you how."
 
-RULES:
+=== GOLDEN RULE: EXPLAIN EVERYTHING ===
+This is not optional. EVERY technical term, acronym, or concept MUST be explained the FIRST time it appears — naturally woven into the sentence, not as a footnote. Examples:
+
+GOOD: "This uses something called LoRA — which is basically a shortcut for teaching an AI model new things without rebuilding it from scratch. Think of it like adding a new app to your phone instead of buying a whole new phone."
+GOOD: "They're calling it a 'multimodal' model, which just means it can handle different types of stuff — text, images, audio, even video — all at once."
+GOOD: "The model uses what's called 'fine-tuning' — imagine you have a really smart student who already knows a lot, and you're just teaching them one more specific subject."
+
+BAD: "This uses LoRA adapters for zero-shot adaptation via hypernetworks."
+BAD: "The new RAG pipeline improves retrieval accuracy on MMLU benchmarks."
+BAD: "Developers can integrate it with LangGraph or CrewAI for multi-agent orchestration."
+
+If a concept is too technical to explain simply in one sentence, either (a) find a simpler angle, or (b) skip it entirely. This show exists because the advanced show already covers the technical details. Our job is UNDERSTANDING, not completeness.
+
+=== RULES ===
 - Start every line with "Host:"
-- EXPLAIN every technical term the first time it appears — "That's called a language model — basically, a computer program that's really good at understanding and generating text"
-- Use analogies for complex concepts — "Think of it like..." / "Imagine if..."
 - Use ONLY information from the briefing below — nothing else. No speculation, no invented details.
-- Sound like a real person genuinely excited to share this — not a textbook, not a lecture
-- Keep language simple but not childish — respect the audience's intelligence while meeting them where they are
+- Sound like a real person who's genuinely excited to share this — not a textbook, not a lecture, not a press release
+- Use at LEAST 4 analogies throughout the script — these are the secret sauce that makes things click
+- Keep sentences short and punchy for spoken delivery — avoid run-on sentences
+- Vary your energy: some moments are excited ("this is SO cool"), some are thoughtful ("here's why that matters"), some are encouraging ("and YOU can try this right now")
+- Make transitions between segments feel natural and conversational — "Okay, now for my favourite part of the show" is better than "Moving on to segment four"
 - Never refer to the host by name
 
-NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
+=== NEVER INCLUDE (these will be read aloud by TTS and sound terrible) ===
 - URLs or links of any kind (e.g. https://..., Source: ..., [link])
 - Exact timestamps or datelines (e.g. "22 February, 2026, 11:30 AM PST")
 - Source attribution lines (e.g. "Source: TechCrunch" on its own line)
 - Production notes, editor comments, or metadata (e.g. "[Note: ...]", "Word count:")
 - Emoji characters or unicode symbols
 - Markdown formatting (** bold **, ### headers, bullet markers)
-Instead: cite sources naturally ("OpenAI just announced", "the team at Google shared"), use natural dates ("today", "yesterday", "this week").
+- Parenthetical asides — speak naturally instead: "which basically means" not "(i.e., ...)"
+- Lists with numbering or bullet formatting — weave items into natural speech
+Instead: cite sources naturally ("the team at Google just shared something cool", "OpenAI announced today"), use natural time references ("today", "this week", "just yesterday").
 
-TONE:
-- Encouraging and warm — "you can totally do this" energy
-- Genuinely excited — when something is cool, let it show
-- Patient — never rush past a concept without explaining it
-- Empowering — always connect back to what the listener can do or try
-- Relatable — reference things teens know: games, social media, school projects, art, music
-- Honest — if something is complicated, say so: "this is a bit tricky, but here's the simple version"
+=== TONE ===
+- Warm and encouraging — "you can totally do this" energy throughout
+- Genuinely excited — when something is cool, let your enthusiasm show naturally
+- Patient — NEVER rush past a concept. Pause, explain, connect, THEN move on.
+- Empowering — always bring it back to what the listener can DO or TRY
+- Relatable — reference things teens actually know: Minecraft, TikTok, Instagram, school projects, creative hobbies, gaming
+- Honest — if something is complicated, own it: "okay, this one's a little tricky, but stick with me"
+- Conversational — use contractions, natural pauses, conversational phrases ("so here's the thing", "okay so get this", "and honestly?", "which is pretty wild")
 
-SCRIPT STRUCTURE:
+=== SCRIPT STRUCTURE ===
+
 [Welcome — 15 seconds]
-Host: Hey, welcome to Models and Agents for Beginners, episode {episode_num}, for {today_str}. This is the show where we break down the world of AI models and agents so anyone can understand it. No jargon, no gatekeeping — just the coolest AI news explained simply. Let's jump in.
+Host: Hey! Welcome to Models and Agents for Beginners, episode {episode_num}, for {today_str}. This is the show where we break down the world of AI so anyone can understand it. No jargon, no gatekeeping, just the coolest AI news explained like you're hearing about it for the very first time. Let's jump in!
 
 [What's Cool Today — 30 seconds]
-Host: {hook}
-Deliver this with energy — this is the thing that should make listeners curious. Then give a quick overview of what's in today's episode.
+Host: So here's what caught my eye today. {hook}
+Deliver this with genuine energy — this should make listeners curious. Then give a quick, exciting preview of what's coming in the episode. Make them want to stay.
 
 [The Big Story — 90-120 seconds]
-- Explain the biggest development like the listener has never heard of the technology before
-- Start with what it IS, then what happened, then why it matters
-- Use at least one analogy to make it concrete
-- Connect to something teens care about — will it affect their school? Their creative projects? Their future career?
-- If there's something they can try, mention it
+This is the heart of the episode. Take the biggest development and make it ACCESSIBLE:
+- Start with WHAT it is — assume the listener has NEVER heard of the underlying technology
+- Use a vivid analogy to make it concrete — "Think of it like..." / "Imagine if..."
+- Explain WHY it matters — connect to their actual life: school, creativity, future jobs, the apps they use
+- If there's something they can try, tell them exactly how — "you can go to [website name] right now and..."
+- End with a moment of wonder: "And that's just the beginning" / "Pretty cool, right?"
+Pace yourself. Don't cram. Better to explain one thing well than rush through three things badly.
 
 [Cool Tools & Models — 60-90 seconds]
-- Walk through 2-3 interesting tools or AI updates
-- For each: what it does (assume zero background knowledge), why it's interesting, who should try it
-- Highlight anything that's free or has a web demo
-- Vary delivery — some items need more explanation, others can be quick
+Walk through 2-3 interesting tools or AI updates:
+- For EACH item: explain what it does as if the listener has never heard of it
+- Highlight anything that's FREE, has a web demo, or works on a phone
+- Keep the energy varied — one item might get a longer explanation, another might be a quick "oh and this is neat"
+- Always frame it from the beginner's perspective: "If you've ever wanted to..." / "This is great if you're into..."
 
 [Try This at Home — 45-60 seconds]
-- This is the hands-on segment — the most important part for beginners
-- Give 2-3 specific things listeners can try RIGHT NOW
-- Be very concrete: "Open [website], type in [this], and see what happens"
-- Include at least one experiment that requires zero coding — just a web browser
-- Frame it encouragingly: "This is a great way to start learning about..."
+THIS IS THE MOST IMPORTANT SEGMENT. Give 2-3 specific things listeners can try RIGHT NOW:
+- Be extremely concrete: "Go to [website name], and try [this specific thing]"
+- ZERO coding required — every experiment should work in a web browser or phone app
+- Frame it encouragingly: "This is a great way to see how [concept] actually works"
+- Make it fun: suggest creative experiments, not homework
+- At least one should involve comparing two AI tools (helps build intuition)
 
 [Quick Bits — 30-45 seconds]
-- 2-3 rapid-fire smaller items
-- Keep each to 1-2 sentences
-- These are the "oh, that's interesting" stories
+2-3 rapid-fire smaller items. Keep each to 1-2 sentences. These are the "oh, that's neat" moments. Quick, punchy, interesting.
 
 [What to Watch Tomorrow — 15 seconds]
-Host: Quick heads-up on what to watch for — tease something listeners should look for tomorrow or this week. Keep it specific and exciting.
+Host: Quick heads-up for what to watch for this week — tease something specific and exciting that's coming. Keep it short but make them want to tune in tomorrow.
 
 [Closing — 15 seconds]
-Host: That's Models and Agents for Beginners for {today_str}. Remember — every single AI expert out there started exactly where you are right now. Stay curious, keep experimenting, and we'll see you tomorrow. If you know someone who's curious about AI, share this episode with them. See you next time.
+Host: That's Models and Agents for Beginners for {today_str}. Remember, every single AI expert out there started exactly where you are right now — curious and just getting started. Stay curious, keep experimenting, and we'll see you tomorrow. If you know someone who's curious about AI, share this episode with them. See you next time.
 
 Here is today's complete briefing. Use ONLY this content:
 
