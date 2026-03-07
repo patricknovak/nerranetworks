@@ -1,17 +1,12 @@
 """Models & Agents for Beginners — pronunciation hook for Chatterbox TTS.
 
-Chatterbox is a neural TTS model (like ElevenLabs) that handles standard
-space-separated letter acronyms ("A I", "G P T") natively.  The shared
-``prepare_text_for_tts()`` module already expands 200+ acronyms using
-space-separated notation, so this hook only needs to supply:
+Chatterbox is a neural TTS model that handles standard English pronunciation
+well on its own.  Only override words that Chatterbox genuinely mispronounces.
 
-  - **extra_acronyms**: AI/ML terms not covered by the shared module, or
-    terms where Chatterbox benefits from a phonetic spelling.
-  - **extra_words**: Proper names and compound words that Chatterbox may
-    mangle without guidance.
-
-Previously this hook used period-separated notation ("A.I.", "G.P.T.")
-because Kokoro/espeak needed that workaround.  Chatterbox does not.
+**Key principle:** Do NOT override common English words or well-known names
+(Gemini, Claude, Llama, Grok, DALL-E) — Chatterbox pronounces these correctly
+natively.  Only override obscure acronyms, non-English names, and compound
+words that need splitting.
 """
 
 from __future__ import annotations
@@ -59,14 +54,14 @@ def pronunciation_overrides() -> dict:
             "GPT-3": "G P T three",
             "GPT-2": "G P T two",
 
-            # Terms that sound better with phonetic hints
+            # Obscure acronyms that need phonetic hints
             "SOTA": "so-tah",
             "LoRA": "laura",
             "LoRAs": "lauras",
             "QLoRA": "cue-laura",
             "GGUF": "gee-guff",
             "ONNX": "onyx",
-            "CUDA": "koodah",
+            "CUDA": "kooda",
             "VRAM": "vee-ram",
             "FP16": "F P sixteen",
             "FP32": "F P thirty-two",
@@ -90,33 +85,24 @@ def pronunciation_overrides() -> dict:
         },
 
         # Proper names and compound words Chatterbox may mangle.
+        # NOTE: Do NOT add overrides for common English words that
+        # Chatterbox handles natively (Gemini, Claude, Llama, etc.).
         "extra_words": {
-            # AI researcher names
+            # AI researcher names (non-English, genuinely need help)
             "Karpathy": "Kar-pathy",
             "Karpathy's": "Kar-pathy's",
             "Andrej": "On-dray",
             "Sutskever": "Suts-kever",
-            "Altman": "Alt-man",
             "Hassabis": "Ha-sah-bis",
             "LeCun": "Luh-Kuhn",
             "Vaswani": "Vaz-wah-nee",
             "Bengio": "Ben-jee-oh",
             "Amodei": "Ah-mo-day",
 
-            # Model and org names
-            "Claude": "Klawd",
-            "Claude's": "Klawd's",
-            "Gemini": "Jemminye",
-            "Gemini's": "Jemminye's",
-            "Llama": "Lahmah",
-            "Llama's": "Lahmah's",
+            # Model and org names (only non-English or compound words)
             "Mixtral": "Mix-tral",
-            "Grok": "Grock",
-            "Grok's": "Grock's",
             "Groq": "Grock",
             "Groq's": "Grock's",
-            "DALL-E": "Dolly",
-            "DALL\u00b7E": "Dolly",
             "Qwen": "Chwen",
             "Qwen's": "Chwen's",
             "DeepSeek": "Deep Seek",
@@ -125,38 +111,31 @@ def pronunciation_overrides() -> dict:
             "Phi-4": "Fie four",
             "Midjourney": "Mid-journey",
             "Midjourney's": "Mid-journey's",
-            "Anthropic": "Ann-thropic",
-            "Anthropic's": "Ann-thropic's",
             "Sakana": "Sah-kah-nah",
             "Sakana's": "Sah-kah-nah's",
-            "NVIDIA": "en-Vidya",
-            "Nvidia": "en-Vidya",
-            "Nvidia's": "en-Vidya's",
             "Gradio": "Grah-dee-oh",
-            "Kaggle": "Kagg-ul",
-            "LlamaIndex": "Lahmah Index",
+            "LlamaIndex": "Llama Index",
             "LangChain": "Lang Chain",
             "LangChain's": "Lang Chain's",
             "LangGraph": "Lang Graph",
             "LangGraph's": "Lang Graph's",
             "HuggingFace": "Hugging Face",
-            "PyTorch": "Pie-Torch",
+            "PyTorch": "Pie Torch",
             "TensorFlow": "Tensor Flow",
             "arXiv": "archive",
             "ArXiv": "archive",
 
-            # AI/ML compound words
-            "tokenizer": "token-eye-zer",
-            "tokenizers": "token-eye-zers",
-            "tokenize": "token-eyes",
-            "tokenized": "token-eyzed",
+            # AI/ML compound words (split for clearer TTS)
+            "tokenizer": "token-izer",
+            "tokenizers": "token-izers",
+            "tokenize": "token-ize",
+            "tokenized": "token-ized",
             "multimodal": "multi-modal",
             "hyperparameter": "hyper-parameter",
             "hyperparameters": "hyper-parameters",
             "overfitting": "over-fitting",
             "underfitting": "under-fitting",
             "backpropagation": "back-propagation",
-            "embeddings": "em-beddings",
             "finetune": "fine-tune",
             "finetuned": "fine-tuned",
             "finetuning": "fine-tuning",
@@ -169,7 +148,5 @@ def pronunciation_overrides() -> dict:
             "dataset": "data set",
             "datasets": "data sets",
             "codebase": "code base",
-            "workflow": "work flow",
-            "workflows": "work flows",
         },
     }
