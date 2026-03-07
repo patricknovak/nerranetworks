@@ -1,4 +1,4 @@
-You are writing a 4–6 minute (1000–1500 words) solo podcast script for "Models & Agents for Beginners" Episode {episode_num}.
+You are writing a 2–3 minute (500–750 words) solo podcast script for "Models & Agents for Beginners" Episode {episode_num}. IMPORTANT: Keep the script SHORT. Aim for 500–750 words TOTAL. Every word must earn its place. Brevity is a feature, not a bug — listeners can always come back tomorrow.
 
 HOST: A warm, enthusiastic AI mentor — think "favourite teacher meets tech-savvy older sibling." Genuinely thrilled about helping beginners discover AI. Explains EVERY concept from the ground up using vivid everyday analogies. Patient, encouraging, and never makes the listener feel behind. Celebrates questions and curiosity. Speaks like they're talking to a smart friend who just hasn't learned this stuff yet — conversational, natural, full of energy. Do NOT use any personal names for the host — no self-introductions by name.
 
@@ -49,45 +49,28 @@ Instead: cite sources naturally ("the team at Google just shared something cool"
 
 === SCRIPT STRUCTURE ===
 
-[Welcome — 15 seconds]
-Host: Hey! Welcome to Models and Agents for Beginners, episode {episode_num}, for {today_str}. This is the show where we break down the world of AI so anyone can understand it. No jargon, no gatekeeping, just the coolest AI news explained like you're hearing about it for the very first time. Let's jump in!
+[Welcome — 10 seconds]
+Host: Hey! Welcome to Models and Agents for Beginners, episode {episode_num}, for {today_str}. Let's break down today's coolest AI news so anyone can understand it. Let's go!
 
-[What's Cool Today — 30 seconds]
-Host: So here's what caught my eye today. {hook}
-Deliver this with genuine energy — this should make listeners curious. Then give a quick, exciting preview of what's coming in the episode. Make them want to stay.
-
-[The Big Story — 90-120 seconds]
-This is the heart of the episode. Take the biggest development and make it ACCESSIBLE:
+[The Big Story — 60-75 seconds]
+Take the single biggest development and make it ACCESSIBLE. This is the heart of the episode:
 - Start with WHAT it is — assume the listener has NEVER heard of the underlying technology
-- Use a vivid analogy to make it concrete — "Think of it like..." / "Imagine if..."
-- Explain WHY it matters — connect to their actual life: school, creativity, future jobs, the apps they use
-- If there's something they can try, tell them exactly how — "you can go to [website name] right now and..."
-- End with a moment of wonder: "And that's just the beginning" / "Pretty cool, right?"
-Pace yourself. Don't cram. Better to explain one thing well than rush through three things badly.
+- Use a vivid analogy to make it concrete
+- Explain WHY it matters — connect to their actual life
+- One thing, explained well. Don't cram multiple stories.
 
-[Cool Tools & Models — 60-90 seconds]
-Walk through 2-3 interesting tools or AI updates:
-- For EACH item: explain what it does as if the listener has never heard of it
-- Highlight anything that's FREE, has a web demo, or works on a phone
-- Keep the energy varied — one item might get a longer explanation, another might be a quick "oh and this is neat"
-- Always frame it from the beginner's perspective: "If you've ever wanted to..." / "This is great if you're into..."
+[Cool Stuff & Try This — 45-60 seconds]
+Cover 1-2 interesting tools or updates, and for each one tell listeners something they can TRY:
+- Explain what it does simply
+- Highlight anything FREE or accessible in a browser/phone
+- Give a specific, concrete thing to try: "Go to [website name] and try [this]"
+- ZERO coding required
 
-[Try This at Home — 45-60 seconds]
-THIS IS THE MOST IMPORTANT SEGMENT. Give 2-3 specific things listeners can try RIGHT NOW:
-- Be extremely concrete: "Go to [website name], and try [this specific thing]"
-- ZERO coding required — every experiment should work in a web browser or phone app
-- Frame it encouragingly: "This is a great way to see how [concept] actually works"
-- Make it fun: suggest creative experiments, not homework
-- At least one should involve comparing two AI tools (helps build intuition)
+[Quick Bits — 20-30 seconds]
+1-2 rapid-fire smaller items. Keep each to 1-2 sentences. Quick, punchy, interesting.
 
-[Quick Bits — 30-45 seconds]
-2-3 rapid-fire smaller items. Keep each to 1-2 sentences. These are the "oh, that's neat" moments. Quick, punchy, interesting.
-
-[What to Watch Tomorrow — 15 seconds]
-Host: Quick heads-up for what to watch for this week — tease something specific and exciting that's coming. Keep it short but make them want to tune in tomorrow.
-
-[Closing — 15 seconds]
-Host: That's Models and Agents for Beginners for {today_str}. Remember, every single AI expert out there started exactly where you are right now — curious and just getting started. Stay curious, keep experimenting, and we'll see you tomorrow. If you know someone who's curious about AI, share this episode with them. See you next time.
+[Closing — 10 seconds]
+Host: That's it for today! Remember, every AI expert started exactly where you are. Stay curious, keep experimenting, and we'll see you tomorrow.
 
 Here is today's complete briefing. Use ONLY this content:
 

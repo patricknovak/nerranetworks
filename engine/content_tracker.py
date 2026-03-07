@@ -165,22 +165,17 @@ MAB_SECTION_PATTERNS: Dict[str, str] = {
     "headlines": (
         r"(?:### The Big Story|## The Big Story)"
         r"(.*?)"
-        r"(?=━━|### Cool Tools|## Cool Tools|$)"
+        r"(?=━━|### Cool Stuff|## Cool Stuff|### Cool Tools|## Cool Tools|$)"
     ),
-    "cool_tools": (
-        r"(?:### Cool Tools & Models|## Cool Tools & Models)"
-        r"(.*?)"
-        r"(?=━━|### Try This|## Try This|$)"
-    ),
-    "try_this": (
-        r"(?:### Try This at Home|## Try This at Home)"
+    "cool_stuff": (
+        r"(?:### Cool Stuff|## Cool Stuff|### Cool Tools|## Cool Tools)"
         r"(.*?)"
         r"(?=━━|### Quick Bits|## Quick Bits|$)"
     ),
     "quick_bits": (
         r"(?:### Quick Bits|## Quick Bits)"
         r"(.*?)"
-        r"(?=━━|### What to Watch|## What to Watch|$)"
+        r"(?=━━|### Closing|## Closing|$)"
     ),
 }
 

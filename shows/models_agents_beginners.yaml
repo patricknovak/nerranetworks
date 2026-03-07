@@ -167,19 +167,13 @@ chapters:
   section_markers:
     - pattern: "welcome to Models and Agents for Beginners"
       title: "Welcome"
-    - pattern: "what's cool today|coolest thing"
-      title: "What's Cool Today"
     - pattern: "big story|biggest news"
       title: "The Big Story"
-    - pattern: "cool tools|tools and models"
-      title: "Cool Tools & Models"
-    - pattern: "try this|try it|experiment"
-      title: "Try This at Home"
+    - pattern: "cool stuff|cool tools|tools and models|try this"
+      title: "Cool Stuff & Try This"
     - pattern: "quick bits|rapid fire|quick round"
       title: "Quick Bits"
-    - pattern: "watch tomorrow|watch for|coming up"
-      title: "What to Watch Tomorrow"
-    - pattern: "That's Models and Agents for Beginners|that's it for today"
+    - pattern: "that's it for today|that's models and agents"
       title: "Closing"
 
 newsletter:
