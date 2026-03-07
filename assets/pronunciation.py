@@ -80,6 +80,14 @@ def strip_urls(text: str) -> str:
     text = re.sub(r"^\s*https?://\S+\s*$", "", text, flags=re.MULTILINE)
     # Replace inline URLs with empty string (the surrounding context should suffice)
     text = re.sub(r"https?://\S+", "", text)
+    # Replace bare domain names (no protocol) with spoken form so TTS
+    # doesn't mangle them via acronym expansion (e.g. "chat.openai.com"
+    # would otherwise become "chat.Open A I.com").
+    text = re.sub(
+        r"\b(\w+(?:\.\w+)*\.(?:com|org|net|io|ai|co|dev))\b",
+        lambda m: m.group(0).replace(".", " dot "),
+        text,
+    )
     return text
 
 
