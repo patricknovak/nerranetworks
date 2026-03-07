@@ -16,7 +16,7 @@ Automated daily podcast generation system running 7 shows via a unified
 | Planetterrian Daily | `digests/planetterrian.py` (deprecated) | `shows/planetterrian.yaml` | Daily | `@planetterrian` | ElevenLabs |
 | Env Intel | — | `shows/env_intel.yaml` | Weekdays | `@teslashortstime` | ElevenLabs |
 | Models & Agents | — | `shows/models_agents.yaml` | Daily | — (X disabled) | ElevenLabs |
-| Models & Agents for Beginners | — | `shows/models_agents_beginners.yaml` | Daily | — (X disabled) | Chatterbox |
+| Models & Agents for Beginners | — | `shows/models_agents_beginners.yaml` | Daily | — (X disabled) | Kokoro |
 
 **Science That Changes Everything** (`digests/science_that_changes.py`, ~83 lines)
 is a standalone X-posting script, not a podcast show.
@@ -57,7 +57,7 @@ Tesla-shorts-time/
 │   ├── planetterrian/             # PT output + summaries_planet.json
 │   ├── env_intel/                 # EI output + summaries_env_intel.json
 │   ├── models_agents/             # M&A output + summaries_models_agents.json
-│   ├── models_agents_beginners/   # MAB output (Chatterbox TTS + voice cloning)
+│   ├── models_agents_beginners/   # MAB output (Kokoro TTS)
 │   └── *.mp3, *.md, *.txt        # Legacy TST flat output (historical)
 ├── engine/                        # Shared modules
 │   ├── __init__.py
@@ -104,9 +104,8 @@ Tesla-shorts-time/
   `shows/models_agents.yaml`; no legacy script. X posting disabled.
 - **MAB** (Models & Agents for Beginners) runs via `run_show.py` +
   `shows/models_agents_beginners.yaml`; beginner/teen-focused version of M&A.
-  Uses **Chatterbox TTS** (MIT, free, local) with zero-shot voice cloning
-  from a reference sample (`assets/voice_references/tst_voice_reference.wav`)
-  to match the network's voice. X posting disabled.
+  Uses **Kokoro TTS** (Apache 2.0, free, local, 82M params) with
+  `am_adam` voice. Post-TTS Whisper validation enabled. X posting disabled.
 - All shows delegate X posting to `engine.publisher.post_to_x()`
 - TST/FF/PT delegate voice normalization to `engine.audio.normalize_voice()`
 - All shows use `engine.audio.mix_with_music()` for music mixing (3 modes:
@@ -122,7 +121,7 @@ Tesla-shorts-time/
 - `ELEVENLABS_API_KEY` — ElevenLabs TTS (all shows)
 - `X_*` / `PLANETTERRIAN_X_*` — two separate X accounts
 - Voice IDs: TST/FF/PT/M&A/EI share `dTrBzPvD2GpAqkk1MUzA`, OV uses `ns7MjJ6c8tJKnvw7U6sN`
-- MAB uses Chatterbox TTS (local, free, MIT) with voice cloning — no API key required
+- MAB uses Kokoro TTS (local, free, Apache 2.0) — no API key required
 - See `docs/env_var_inventory.md` for the complete inventory
 
 ### RSS Feeds
@@ -220,12 +219,11 @@ Phase 3 (current):
    and other legacy scripts. Env var overrides still supported.
 10. **Early episodes deleted** — first 20 Tesla, 10 FF, 10 PT, 10 OV episodes
     removed (quality issues). RSS entries removed where applicable.
-11. **Chatterbox TTS re-added for MAB** — Originally removed (ElevenLabs was
-    the only provider until Kokoro was added). Now re-introduced with zero-shot
-    voice cloning from `assets/voice_references/tst_voice_reference.wav`.
-    MAB switched from Kokoro (espeak-based, poor acronym handling) to
-    Chatterbox (MIT, neural TTS, superior pronunciation of AI/ML terms).
-    Pronunciation hook updated to use space-separated notation instead of
-    Kokoro's period-separated espeak workarounds.
+11. **MAB switched back to Kokoro TTS** — Chatterbox TTS produced gibberish
+    on CPU for long-form content (65.9% Whisper match score, "spuzzle spuzzle
+    spuzzle" output, 221 words dropped). Kokoro's original espeak acronym
+    issues are now solved by the massively improved pronunciation pipeline
+    (200+ acronyms pre-expanded to space-separated form, per-show hooks).
+    Post-TTS Whisper validation added to catch quality regressions.
 12. **Summaries JSONs moved** — all summaries live in per-show subdirectories
     (`digests/<show>/summaries_*.json`), not at the `digests/` top level.

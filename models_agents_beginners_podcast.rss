@@ -8,7 +8,6 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Mar 2026 18:47:00 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
     <itunes:category text="Technology" />
     <itunes:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
@@ -18,79 +17,5 @@
       <itunes:email>contact@teslashortstime.com</itunes:email>
     </itunes:owner>
     <itunes:summary>A daily AI podcast for beginners and teens. Learn about AI models, agents, and the tools shaping our future — explained simply, with hands-on experiments you can try today. Every expert started as a beginner.</itunes:summary>
-    <item>
-      <title>Ep 1: Imagine AI booking your haircut and planning your errands – it's like having a super-smart personal assistant in your pocket!</title>
-      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260307.mp3</link>
-      <description># Models &amp; Agents for Beginners
-**Date:** March 07, 2026
-
-**HOOK:** Imagine AI booking your haircut and planning your errands – it's like having a super-smart personal assistant in your pocket!
-
-**What's Cool Today:** AI is getting better at real-life tasks, like ChatGPT organizing your weekend and even scheduling appointments. This means tools that feel like helpful friends, not just chatbots, and we'll break it down simply. Plus, we'll cover AI spotting hidden bugs in apps and detecting when models make stuff up, with ways you can try similar things yourself.
-
-━━━━━━━━━━━━━━━━━━━━
-### The Big Story
-Anthropic's AI model, called Claude, just discovered over 100 hidden bugs in Firefox, the popular web browser, including some that human testers missed for years. Think of Claude like a super-detective that scans code for weak spots, similar to how a spell-checker finds errors in your essay but way more advanced for spotting security risks. This is a big deal because it shows AI can help make the internet safer by finding vulnerabilities – those are flaws that hackers could exploit to steal data or cause crashes. For everyday users like you, it means browsers and apps we rely on for school, gaming, or social media could get more secure faster, reducing risks like viruses on your phone. In the future, this could lead to cooler, safer tech in careers like app development or cybersecurity. And it's exciting for beginners because it proves AI isn't just for chatting – it's tackling real-world problems. While you can't run Claude's bug-hunt yourself yet, try chatting with Claude on the Anthropic website to ask about simple coding concepts, like "Explain how browsers work like I'm 14."
-Source: https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/
-
-━━━━━━━━━━━━━━━━━━━━
-### Cool Stuff &amp; Try This
-**[ChatGPT as Your Weekend Planner: Tom's Guide]**
-ChatGPT, that free AI chatbot you've probably heard of, can now act like an agent – a smart helper that does tasks beyond just answering questions, like planning errands and even booking real appointments. It's cool because it turns overwhelming to-do lists into easy steps, saving time for fun stuff like gaming or hanging out. Teens juggling school and chores should try it – imagine it organizing your homework schedule or suggesting quick study breaks. Go to chat.openai.com (it's free with a basic account), and ask: "Plan my weekend errands: grocery shopping, haircut, and library visit – book the haircut if possible."
-Source: https://www.tomsguide.com/ai/i-asked-chatgpt-agent-to-plan-my-weekend-errands-and-it-even-booked-a-haircut-for-me
-
-**[Claude Cowork: Your AI Office Buddy: Tom's Guide]**
-Anthropic's new tool, Claude Cowork, is a desktop AI that feels like a real coworker – it organizes files, analyzes spreadsheets (like those charts in math class), and automates boring tasks. Why it's exciting: It could help with school projects, like sorting notes or crunching numbers for science reports, making homework less stressful. Students exploring tech careers will love how it shows AI in action for everyday work. Download the Claude app on your laptop or phone from anthropic.com, and try asking it to "Organize my messy homework folder into categories."
-Source: https://www.tomsguide.com/ai/i-tested-claude-cowork-anthropics-new-ai-feels-more-like-a-coworker-than-a-chatbot
-
-━━━━━━━━━━━━━━━━━━━━
-### Quick Bits
-**[AI Spots "Spilled Energy" in Hallucinations]**
-When AI models hallucinate – that's when they make up facts that aren't true – they leave detectable math traces, and researchers found a way to spot them without extra training. This is cool because it could make AI chats more reliable for homework or trivia, like ensuring your answers aren't invented.
-Source: https://the-decoder.com/when-language-models-hallucinate-they-leave-spilled-energy-in-their-own-math/
-
-**[Helios Makes Fast AI Videos]**
-Bytedance's new Helios model generates minute-long videos ...</description>
-      <guid isPermaLink="false">mab-ep001-20260307-184700</guid>
-      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260307.mp3" length="4014333" type="audio/mpeg" />
-      <pubDate>Sat, 07 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
-      <itunes:duration>02:47</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents for Beginners
-**Date:** March 07, 2026
-
-**HOOK:** Imagine AI booking your haircut and planning your errands – it's like having a super-smart personal assistant in your pocket!
-
-**What's Cool Today:** AI is getting better at real-life tasks, like ChatGPT organizing your weekend and even scheduling appointments. This means tools that feel like helpful friends, not just chatbots, and we'll break it down simply. Plus, we'll cover AI spotting hidden bugs in apps and detecting when models make stuff up, with ways you can try similar things yourself.
-
-━━━━━━━━━━━━━━━━━━━━
-### The Big Story
-Anthropic's AI model, called Claude, just discovered over 100 hidden bugs in Firefox, the popular web browser, including some that human testers missed for years. Think of Claude like a super-detective that scans code for weak spots, similar to how a spell-checker finds errors in your essay but way more advanced for spotting security risks. This is a big deal because it shows AI can help make the internet safer by finding vulnerabilities – those are flaws that hackers could exploit to steal data or cause crashes. For everyday users like you, it means browsers and apps we rely on for school, gaming, or social media could get more secure faster, reducing risks like viruses on your phone. In the future, this could lead to cooler, safer tech in careers like app development or cybersecurity. And it's exciting for beginners because it proves AI isn't just for chatting – it's tackling real-world problems. While you can't run Claude's bug-hunt yourself yet, try chatting with Claude on the Anthropic website to ask about simple coding concepts, like "Explain how browsers work like I'm 14."
-Source: https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/
-
-━━━━━━━━━━━━━━━━━━━━
-### Cool Stuff &amp; Try This
-**[ChatGPT as Your Weekend Planner: Tom's Guide]**
-ChatGPT, that free AI chatbot you've probably heard of, can now act like an agent – a smart helper that does tasks beyond just answering questions, like planning errands and even booking real appointments. It's cool because it turns overwhelming to-do lists into easy steps, saving time for fun stuff like gaming or hanging out. Teens juggling school and chores should try it – imagine it organizing your homework schedule or suggesting quick study breaks. Go to chat.openai.com (it's free with a basic account), and ask: "Plan my weekend errands: grocery shopping, haircut, and library visit – book the haircut if possible."
-Source: https://www.tomsguide.com/ai/i-asked-chatgpt-agent-to-plan-my-weekend-errands-and-it-even-booked-a-haircut-for-me
-
-**[Claude Cowork: Your AI Office Buddy: Tom's Guide]**
-Anthropic's new tool, Claude Cowork, is a desktop AI that feels like a real coworker – it organizes files, analyzes spreadsheets (like those charts in math class), and automates boring tasks. Why it's exciting: It could help with school projects, like sorting notes or crunching numbers for science reports, making homework less stressful. Students exploring tech careers will love how it shows AI in action for everyday work. Download the Claude app on your laptop or phone from anthropic.com, and try asking it to "Organize my messy homework folder into categories."
-Source: https://www.tomsguide.com/ai/i-tested-claude-cowork-anthropics-new-ai-feels-more-like-a-coworker-than-a-chatbot
-
-━━━━━━━━━━━━━━━━━━━━
-### Quick Bits
-**[AI Spots "Spilled Energy" in Hallucinations]**
-When AI models hallucinate – that's when they make up facts that aren't true – they leave detectable math traces, and researchers found a way to spot them without extra training. This is cool because it could make AI chats more reliable for homework or trivia, like ensuring your answers aren't invented.
-Source: https://the-decoder.com/when-language-models-hallucinate-they-leave-spilled-energy-in-their-own-math/
-
-**[Helios Makes Fast AI Videos]**
-Bytedance's new Helios model generates minute-long videos ...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>1</itunes:episode>
-      <itunes:title>Ep 1: Imagine AI booking your haircut and planning your errands – it's like having a super-smart personal assistant in your pocket!</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep001.json" type="application/json+chapters" /></item>
   </channel>
 </rss>
