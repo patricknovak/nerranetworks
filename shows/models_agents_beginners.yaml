@@ -114,6 +114,9 @@ tts:
   chatterbox_cfg_weight: 0.5
   chatterbox_device: cpu
   max_chars: 5000
+  validate_transcription: true
+  whisper_model: base
+  whisper_threshold: 0.7
 
 audio:
   music_file: assets/music/tesla_shorts_time.mp3

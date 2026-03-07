@@ -58,6 +58,10 @@ class TTSConfig:
     chatterbox_exaggeration: float = 0.5  # Emotional intensity (0.0–1.0)
     chatterbox_cfg_weight: float = 0.5  # Prosody/accent guidance weight
     chatterbox_device: str = "cpu"  # "cpu" or "cuda"
+    # Post-TTS transcription validation (opt-in, all providers)
+    validate_transcription: bool = False
+    whisper_model: str = "base"  # "tiny", "base", "small", "medium"
+    whisper_threshold: float = 0.7  # Minimum match score (0.0–1.0)
 
 
 @dataclass

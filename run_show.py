@@ -561,6 +561,30 @@ def run(args: argparse.Namespace) -> None:
             from engine.tracking import record_tts_usage
             record_tts_usage(tracker, len(podcast_script))
 
+            # 9a. Post-TTS transcription validation (opt-in)
+            if config.tts.validate_transcription:
+                import json as _json
+                from engine.tts_validation import validate_tts_transcription
+                logger.info("Running post-TTS transcription validation...")
+                tts_val = validate_tts_transcription(
+                    raw_mp3, podcast_script,
+                    model_size=config.tts.whisper_model,
+                    threshold=config.tts.whisper_threshold,
+                )
+                if tts_val["passed"]:
+                    logger.info("TTS validation PASSED (%.1f%% match)", tts_val["match_score"] * 100)
+                else:
+                    logger.warning(
+                        "TTS validation WARNING: %.1f%% match (threshold %.0f%%)",
+                        tts_val["match_score"] * 100,
+                        config.tts.whisper_threshold * 100,
+                    )
+                    for w in tts_val["mismatched_words"][:10]:
+                        logger.warning("  Mismatch: expected '%s' → heard '%s'", w["expected"], w["heard"])
+                val_path = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}_tts_validation.json"
+                val_path.write_text(_json.dumps(tts_val, indent=2))
+                logger.info("TTS validation report saved: %s", val_path.name)
+
             # 10. Audio mixing
             from engine.audio import get_audio_duration, mix_with_music, normalize_voice
 
