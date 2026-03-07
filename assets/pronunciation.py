@@ -297,6 +297,8 @@ COMMON_ACRONYMS: Dict[str, str] = {
     "QHD": "Q H D",
 
     # --- Misc tech ---
+    "GPU": "G P U",
+    "GPUs": "G P U's",
     "USB": "U S B",
     "HDMI": "H D M I",
     "WiFi": "Wi-Fi",

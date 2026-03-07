@@ -182,21 +182,18 @@ jobs:
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
 
-      - name: Cache Chatterbox + Whisper / HuggingFace model files
+      - name: Cache Kokoro + Whisper / HuggingFace model files
         if: matrix.show == 'models_agents_beginners'
         uses: actions/cache@v4
         with:
-          path: ~/.cache/huggingface/hub
-          key: chatterbox-whisper-v1-${{ runner.os }}
+          path: |
+            ~/.cache/huggingface/hub
+            ~/.local/share/kokoro-onnx
+          key: kokoro-whisper-v1-${{ runner.os }}
 
       - name: Install Python dependencies
         run: |
           pip install --upgrade pip
-          # pkuseg (chatterbox-tts dep) imports numpy in setup.py but doesn't
-          # declare it as a build dependency.  Pre-install numpy + Cython,
-          # then build pkuseg without build isolation so it can find them.
-          pip install numpy Cython
-          pip install --no-build-isolation pkuseg==0.0.25
           pip install -r requirements.txt
           # Show-specific extras
           if [ "${{ matrix.show }}" = "fascinating_frontiers" ] && [ -f requirements_fascinating_frontiers.txt ]; then
@@ -255,8 +252,7 @@ jobs:
           R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          # Chatterbox TTS on CPU is slow (~0.5 chars/sec); give MAB more time
-          PIPELINE_TIMEOUT_SECONDS: ${{ matrix.show == 'models_agents_beginners' && '2400' || '900' }}
+          PIPELINE_TIMEOUT_SECONDS: '900'
 
       - name: Validate output
         run: |
