@@ -5,7 +5,7 @@
     <description>Seven daily podcasts keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, and the environment.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Sat, 07 Mar 2026 15:15:56 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Mar 2026 16:36:38 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/omni-view-podcast-image.jpg</url>
       <title>Nerra Network</title>
@@ -266,8 +266,74 @@ A new massive dataset for video reasoning reveals that models like Sora 2 and Ve
       <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep008.json" type="application/json+chapters" />
     </item>
     <item>
+      <title>Ep 2: Imagine AI spotting hidden bugs in your favorite web browser that even experts missed—making the internet safer for everyone!</title>
+      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep002_20260307.mp3</link>
+      <description># Models &amp; Agents for Beginners
+**Date:** March 07, 2026
+
+**HOOK:** Imagine AI spotting hidden bugs in your favorite web browser that even experts missed—making the internet safer for everyone!
+
+**What's Cool Today:** Anthropic's Claude AI just uncovered over 100 security flaws in Firefox, proving how smart tech can help fix software we use every day. This shows AI isn't just for chatting—it's like a super detective for digital safety. Stick around for more on spotting AI mistakes, speedy video creation, and a new model that could help with homework.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Anthropic's AI model named Claude discovered more than 100 bugs in Firefox, the popular web browser from Mozilla, including some serious security vulnerabilities that had gone unnoticed for years. Think of Claude like a tireless detective that scans through massive amounts of code (the instructions that make software work) to find hidden problems, similar to how a spell-checker spots errors in your essay but on a much bigger scale. This is a big deal because Firefox is used by millions for browsing the web, and fixing these bugs means fewer chances for hackers to sneak in and cause trouble. It highlights how AI can team up with human experts to make the tools we rely on—like browsers for school research or gaming—safer and more reliable. For you, this could mean smoother, more secure online experiences, whether you're streaming videos or chatting with friends. In the future, it might inspire careers in AI security, where you help protect the digital world. While you can't run Claude yourself yet, try opening Firefox on your phone or computer and exploring its settings—search for "Firefox bug reports" on Mozilla's site to see how real people report issues and imagine AI speeding that up.
+Source: https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/
+
+━━━━━━━━━━━━━━━━━━━━
+### Cool Stuff &amp; Try This
+**[AI Catches Its Own "Daydreams" Before They Fool You]: The Decoder**  
+Large language models (think of them as super-smart chatbots like ChatGPT) sometimes "hallucinate," which means they make up facts that aren't true, like confidently saying the sky is green. Researchers found these hallucinations leave behind measurable clues in the AI's internal math, like spilled energy from a messy calculation, and they've created a way to detect them without extra training. This is exciting for beginners because it means AI could get better at telling truth from fiction, helping with reliable homework answers or fun facts. Anyone curious about AI reliability should try it—head to ChatGPT (free on chat.openai.com) and ask it a tricky question like "What's the capital of a made-up country called Zog?" then fact-check it yourself to spot potential hallucinations.  
+Source: https://the-decoder.com/when-language-models-hallucinate-they-leave-spilled-energy-in-their-own-math/
+
+**[Super-Fast AI Videos That Feel Like Magic]: The Decoder**  
+Bytedance's new Helios model can create minute-long videos from text descriptions at nearly real-time speed—about 19.5 frames per second—using just one graphics card in a computer. Imagine it like a high-speed artist that turns your story ideas into moving pictures, faster than ever before, with 14 billion parameters (that's like the model's "brain cells" for learning patterns). It's cool for teens into gaming or TikTok because it could lead to easier ways to make custom animations for school projects or fun clips. While the full model requires tech setup, you can try similar video magic right now—go to a free site like Pika Labs (pika.art) and type in a prompt like "a robot dancing in a forest" to generate a short AI video on your phone.  
+Source: https://the-decoder.com/bytedances-open-weight-helios-model-brings-minute-long-ai-video-generation-close-to-real-time/
+
+━━━━━━━━━━━━━━━━━━━━
+### Quick Bits
+**[AI Gets Smarter at Math and Screens]**  
+Microsoft released Phi-4-Reasoning-Vision...</description>
+      <guid isPermaLink="false">mab-ep002-20260307-163636</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep002_20260307.mp3" length="4106493" type="audio/mpeg" />
+      <pubDate>Sat, 07 Mar 2026 08:00:00 +0000</pubDate>
+      <ns0:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
+      <ns0:duration>02:51</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents for Beginners
+**Date:** March 07, 2026
+
+**HOOK:** Imagine AI spotting hidden bugs in your favorite web browser that even experts missed—making the internet safer for everyone!
+
+**What's Cool Today:** Anthropic's Claude AI just uncovered over 100 security flaws in Firefox, proving how smart tech can help fix software we use every day. This shows AI isn't just for chatting—it's like a super detective for digital safety. Stick around for more on spotting AI mistakes, speedy video creation, and a new model that could help with homework.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Anthropic's AI model named Claude discovered more than 100 bugs in Firefox, the popular web browser from Mozilla, including some serious security vulnerabilities that had gone unnoticed for years. Think of Claude like a tireless detective that scans through massive amounts of code (the instructions that make software work) to find hidden problems, similar to how a spell-checker spots errors in your essay but on a much bigger scale. This is a big deal because Firefox is used by millions for browsing the web, and fixing these bugs means fewer chances for hackers to sneak in and cause trouble. It highlights how AI can team up with human experts to make the tools we rely on—like browsers for school research or gaming—safer and more reliable. For you, this could mean smoother, more secure online experiences, whether you're streaming videos or chatting with friends. In the future, it might inspire careers in AI security, where you help protect the digital world. While you can't run Claude yourself yet, try opening Firefox on your phone or computer and exploring its settings—search for "Firefox bug reports" on Mozilla's site to see how real people report issues and imagine AI speeding that up.
+Source: https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/
+
+━━━━━━━━━━━━━━━━━━━━
+### Cool Stuff &amp; Try This
+**[AI Catches Its Own "Daydreams" Before They Fool You]: The Decoder**  
+Large language models (think of them as super-smart chatbots like ChatGPT) sometimes "hallucinate," which means they make up facts that aren't true, like confidently saying the sky is green. Researchers found these hallucinations leave behind measurable clues in the AI's internal math, like spilled energy from a messy calculation, and they've created a way to detect them without extra training. This is exciting for beginners because it means AI could get better at telling truth from fiction, helping with reliable homework answers or fun facts. Anyone curious about AI reliability should try it—head to ChatGPT (free on chat.openai.com) and ask it a tricky question like "What's the capital of a made-up country called Zog?" then fact-check it yourself to spot potential hallucinations.  
+Source: https://the-decoder.com/when-language-models-hallucinate-they-leave-spilled-energy-in-their-own-math/
+
+**[Super-Fast AI Videos That Feel Like Magic]: The Decoder**  
+Bytedance's new Helios model can create minute-long videos from text descriptions at nearly real-time speed—about 19.5 frames per second—using just one graphics card in a computer. Imagine it like a high-speed artist that turns your story ideas into moving pictures, faster than ever before, with 14 billion parameters (that's like the model's "brain cells" for learning patterns). It's cool for teens into gaming or TikTok because it could lead to easier ways to make custom animations for school projects or fun clips. While the full model requires tech setup, you can try similar video magic right now—go to a free site like Pika Labs (pika.art) and type in a prompt like "a robot dancing in a forest" to generate a short AI video on your phone.  
+Source: https://the-decoder.com/bytedances-open-weight-helios-model-brings-minute-long-ai-video-generation-close-to-real-time/
+
+━━━━━━━━━━━━━━━━━━━━
+### Quick Bits
+**[AI Gets Smarter at Math and Screens]**  
+Microsoft released Phi-4-Reasoning-Vision...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>2</ns0:episode>
+      <ns0:title>Ep 2: Imagine AI spotting hidden bugs in your favorite web browser that even experts missed—making the internet safer for everyone!</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
+      <ns1:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep002.json" type="application/json+chapters" />
+    </item>
+    <item>
       <title>Ep 1: Imagine an AI coworker that organizes your messy files and even books your haircut – no more weekend chaos!</title>
-      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260307.mp3</link>
       <description># Models &amp; Agents for Beginners
 **Date:** March 07, 2026
 
@@ -330,7 +396,6 @@ Google's new open-source AI model called SpeciesNet can identify animals in phot
       <ns0:episode>1</ns0:episode>
       <ns0:title>Ep 1: Imagine an AI coworker that organizes your messy files and even books your haircut – no more weekend chaos!</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
-      <ns1:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep001.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 400: Tesla's patent for a one-piece composite seat signals the next-gen Roadster is nearing its debut.</title>
@@ -2953,21 +3018,6 @@ This arXiv pape...</ns0:summary>
       <ns0:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <ns0:explicit>no</ns0:explicit>
       <ns0:episode>20</ns0:episode>
-    </item>
-    <item>
-      <title>Tesla Shorts Time Daily - Episode 387 - January 28, 2026 at 03:09 AM PST</title>
-      <description>Daily Tesla news digest for January 28, 2026 at 03:09 AM PST. TSLA price: $430.90 -1.58 (-0.37%) . 1️⃣ **Tesla Robotaxis Offer Cheaper Rides Than Waymo But With Longer Waits: 27 January, 2026, 07:00 AM PST, The Verge**...</description>
-      <guid isPermaLink="false">tesla-shorts-time-ep387-20260128-111533</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/Tesla_Shorts_Time_Pod_Ep387_20260128_111456.mp3" length="16006417" type="audio/mpeg" />
-      <pubDate>Wed, 28 Jan 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/podcast-image-v3.jpg" />
-      <ns0:duration>11:06</ns0:duration>
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:summary>Daily Tesla news digest for January 28, 2026 at 03:09 AM PST. TSLA price: $430.90 -1.58 (-0.37%) . 1️⃣ **Tesla Robotaxis Offer Cheaper Rides Than Waymo But With Longer Waits: 27 January, 2026, 07:00 AM PST, The Verge**...</ns0:summary>
-      <ns0:season>1</ns0:season>
-      <ns0:episode>387</ns0:episode>
-      <ns0:title>Tesla Shorts Time Daily - Episode 387 - January 28, 2026 at 03:09 AM PST</ns0:title>
-      <ns0:episodeType>full</ns0:episodeType>
     </item>
   </channel>
 </rss>
