@@ -1,8 +1,8 @@
 # Voice Reference Samples
 
 Stable voice reference audio clips extracted from existing podcast episodes.
-These are used by zero-shot voice cloning TTS models (e.g., Chatterbox,
-Qwen3-TTS, Orpheus) to reproduce the show's voice without training.
+These are used by zero-shot voice cloning TTS models (e.g., Fish Audio,
+Chatterbox, Qwen3-TTS, Orpheus) to reproduce the show's voice without training.
 
 ## Files
 

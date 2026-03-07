@@ -4,9 +4,10 @@
 
 Automated daily podcast generation system running 7 shows via a unified
 `run_show.py` runner + per-show YAML configs, plus 4 legacy standalone scripts
-(deprecated — see note below). Shows use **ElevenLabs TTS**, **Chatterbox TTS**
-(with voice cloning), or **Kokoro TTS** (configurable per show via
-`tts.provider` in YAML) and post to X/Twitter via `engine/publisher.post_to_x()`.
+(deprecated — see note below). Shows use **ElevenLabs TTS**, **Fish Audio TTS**
+(with voice cloning), **Kokoro TTS**, or **Chatterbox TTS** (configurable per
+show via `tts.provider` in YAML) and post to X/Twitter via
+`engine/publisher.post_to_x()`.
 
 | Show | Legacy Script | YAML Config | Schedule | X Account | TTS |
 |------|--------------|-------------|----------|-----------|-----|
@@ -16,7 +17,7 @@ Automated daily podcast generation system running 7 shows via a unified
 | Planetterrian Daily | `digests/planetterrian.py` (deprecated) | `shows/planetterrian.yaml` | Daily | `@planetterrian` | ElevenLabs |
 | Env Intel | — | `shows/env_intel.yaml` | Weekdays | `@teslashortstime` | ElevenLabs |
 | Models & Agents | — | `shows/models_agents.yaml` | Daily | — (X disabled) | ElevenLabs |
-| Models & Agents for Beginners | — | `shows/models_agents_beginners.yaml` | Daily | — (X disabled) | Kokoro |
+| Models & Agents for Beginners | — | `shows/models_agents_beginners.yaml` | Daily | — (X disabled) | Fish Audio |
 
 **Science That Changes Everything** (`digests/science_that_changes.py`, ~83 lines)
 is a standalone X-posting script, not a podcast show.
@@ -28,7 +29,7 @@ is a standalone X-posting script, not a podcast show.
 1. **Fetch** news sources (RSS, xAI/Grok web search, yfinance for Tesla)
 2. **Dedup** via ContentTracker (cross-episode) + entity dedup
 3. **Generate** digest text via xAI/Grok API
-4. **Synthesize** podcast audio via ElevenLabs TTS, Chatterbox TTS, or Kokoro TTS (per-show config)
+4. **Synthesize** podcast audio via ElevenLabs, Fish Audio, Kokoro, or Chatterbox TTS (per-show config)
 5. **Mix** intro/outro music with voice (ffmpeg) — all shows (configurable per YAML)
 6. **Post** X thread via `engine/publisher.post_to_x()` + update RSS feed + commit output to git
 
@@ -57,7 +58,7 @@ Tesla-shorts-time/
 │   ├── planetterrian/             # PT output + summaries_planet.json
 │   ├── env_intel/                 # EI output + summaries_env_intel.json
 │   ├── models_agents/             # M&A output + summaries_models_agents.json
-│   ├── models_agents_beginners/   # MAB output (Kokoro TTS)
+│   ├── models_agents_beginners/   # MAB output (Fish Audio TTS)
 │   └── *.mp3, *.md, *.txt        # Legacy TST flat output (historical)
 ├── engine/                        # Shared modules
 │   ├── __init__.py
@@ -104,8 +105,9 @@ Tesla-shorts-time/
   `shows/models_agents.yaml`; no legacy script. X posting disabled.
 - **MAB** (Models & Agents for Beginners) runs via `run_show.py` +
   `shows/models_agents_beginners.yaml`; beginner/teen-focused version of M&A.
-  Uses **Kokoro TTS** (Apache 2.0, free, local, 82M params) with
-  `am_adam` voice. Post-TTS Whisper validation enabled. X posting disabled.
+  Uses **Fish Audio TTS** (cloud API, S1 model, #1 TTS-Arena2, 0.008 WER)
+  with zero-shot voice cloning from TST voice reference sample. Post-TTS
+  Whisper validation enabled. X posting disabled.
 - All shows delegate X posting to `engine.publisher.post_to_x()`
 - TST/FF/PT delegate voice normalization to `engine.audio.normalize_voice()`
 - All shows use `engine.audio.mix_with_music()` for music mixing (3 modes:
@@ -121,7 +123,8 @@ Tesla-shorts-time/
 - `ELEVENLABS_API_KEY` — ElevenLabs TTS (all shows)
 - `X_*` / `PLANETTERRIAN_X_*` — two separate X accounts
 - Voice IDs: TST/FF/PT/M&A/EI share `dTrBzPvD2GpAqkk1MUzA`, OV uses `ns7MjJ6c8tJKnvw7U6sN`
-- MAB uses Kokoro TTS (local, free, Apache 2.0) — no API key required
+- `FISH_AUDIO_API_KEY` — Fish Audio TTS (MAB show)
+- MAB uses Fish Audio TTS (cloud API) with voice cloning from TST reference
 - See `docs/env_var_inventory.md` for the complete inventory
 
 ### RSS Feeds
@@ -219,11 +222,10 @@ Phase 3 (current):
    and other legacy scripts. Env var overrides still supported.
 10. **Early episodes deleted** — first 20 Tesla, 10 FF, 10 PT, 10 OV episodes
     removed (quality issues). RSS entries removed where applicable.
-11. **MAB switched back to Kokoro TTS** — Chatterbox TTS produced gibberish
-    on CPU for long-form content (65.9% Whisper match score, "spuzzle spuzzle
-    spuzzle" output, 221 words dropped). Kokoro's original espeak acronym
-    issues are now solved by the massively improved pronunciation pipeline
-    (200+ acronyms pre-expanded to space-separated form, per-show hooks).
-    Post-TTS Whisper validation added to catch quality regressions.
+11. **MAB switched to Fish Audio TTS** — Chatterbox produced gibberish on CPU
+    (65.9% Whisper match, "spuzzle spuzzle spuzzle"). Kokoro had espeak-quality
+    robotic pronunciation. Fish Audio S1 (#1 TTS-Arena2, 0.008 WER) with
+    zero-shot voice cloning from TST voice reference provides natural speech
+    quality. Post-TTS Whisper validation remains enabled.
 12. **Summaries JSONs moved** — all summaries live in per-show subdirectories
     (`digests/<show>/summaries_*.json`), not at the `digests/` top level.
