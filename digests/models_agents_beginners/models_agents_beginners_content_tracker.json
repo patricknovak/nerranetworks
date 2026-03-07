@@ -1,5 +1,23 @@
 {
   "show": "models_agents_beginners",
-  "last_updated": "",
-  "episodes": []
+  "last_updated": "2026-03-07",
+  "episodes": [
+    {
+      "date": "2026-03-07",
+      "headlines": [],
+      "urls": [
+        "https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/",
+        "https://www.tomsguide.com/ai/i-asked-chatgpt-agent-to-plan-my-weekend-errands-and-it-even-booked-a-haircut-for-me",
+        "https://www.tomsguide.com/ai/i-tested-claude-cowork-anthropics-new-ai-feels-more-like-a-coworker-than-a-chatbot",
+        "https://the-decoder.com/when-language-models-hallucinate-they-leave-spilled-energy-in-their-own-math/",
+        "https://the-decoder.com/bytedances-open-weight-helios-model-brings-minute-long-ai-video-generation-close-to-real-time/",
+        "https://www.marktechpost.com/2026/03/06/microsoft-releases-phi-4-reasoning-vision-15b-a-compact-multimodal-model-for-math-science-and-gui-understanding/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "cool_stuff": "### Cool Stuff & Try This\n**[ChatGPT as Your Weekend Planner: Tom's Guide]**\nChatGPT, that free AI chatbot you've probably heard of, can now act like an agent – a smart helper that does tasks beyond just answering questions, like planning errands and even booking real appointments. It's cool because it turns overwhelming to-do lists into easy steps, saving time for fun stuff like gaming or hanging out. Teens juggling school and chores should try it – imagine it organizing your homework schedule ",
+        "quick_bits": "### Quick Bits\n**[AI Spots \"Spilled Energy\" in Hallucinations]**\nWhen AI models hallucinate – that's when they make up facts that aren't true – they leave detectable math traces, and researchers found a way to spot them without extra training. This is cool because it could make AI chats more reliable for homework or trivia, like ensuring your answers aren't invented.\nSource: https://the-decoder.com/when-language-models-hallucinate-they-leave-spilled-energy-in-their-own-math/\n\n**[Helios Makes Fas"
+      }
+    }
+  ]
 }
