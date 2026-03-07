@@ -192,6 +192,11 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install --upgrade pip
+          # pkuseg (chatterbox-tts dep) imports numpy in setup.py but doesn't
+          # declare it as a build dependency.  Pre-install numpy + Cython,
+          # then build pkuseg without build isolation so it can find them.
+          pip install numpy Cython
+          pip install --no-build-isolation pkuseg==0.0.25
           pip install -r requirements.txt
           # Show-specific extras
           if [ "${{ matrix.show }}" = "fascinating_frontiers" ] && [ -f requirements_fascinating_frontiers.txt ]; then
