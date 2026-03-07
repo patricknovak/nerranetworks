@@ -50,10 +50,13 @@ Use ONLY the pre-fetched articles above. Do NOT hallucinate, invent, or fabricat
 - Dense benchmark comparisons without a relatable "so what?" for beginners
 - Framework-specific developer news (LangGraph updates, CrewAI releases) unless there's a "try it yourself" angle for non-coders
 - Stories that require coding knowledge to understand or act on
-- Fundraising rounds, acquisitions, or business deals unless the product directly impacts consumers
+- Fundraising rounds, acquisitions, or business deals (e.g. "$50M raise", "Series B") unless the product directly impacts consumers who can try it today
 - Anything where the "Try This" angle requires installing developer tools or writing code
 
 **Select 3-5 articles.** Quality and clarity over quantity. Every item must be understandable by someone who has never written a line of code. Fewer stories explained well beats more stories explained poorly.
+
+**CRITICAL: NO DUPLICATE ARTICLES ACROSS SECTIONS.**
+Each article/source may appear in ONLY ONE section. If an article is used for The Big Story, it MUST NOT also appear in Cool Stuff & Try This or Quick Bits. Every section must cover DIFFERENT stories from DIFFERENT sources. If you only have 2-3 good articles, use fewer sections rather than repeating the same article in multiple places.
 
 ### FORMATTING (EXACT — USE MARKDOWN AS SHOWN)
 
