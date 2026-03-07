@@ -5,7 +5,7 @@
     <description>Seven daily podcasts keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, and the environment.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Sat, 07 Mar 2026 18:47:02 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Mar 2026 22:11:12 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/omni-view-podcast-image.jpg</url>
       <title>Nerra Network</title>
@@ -264,6 +264,73 @@ A new massive dataset for video reasoning reveals that models like Sora 2 and Ve
       <ns0:title>Ep 8: Anthropic's Claude AI discovered over 100 Firefox vulnerabilities that human testing missed for decades.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
       <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep008.json" type="application/json+chapters" />
+    </item>
+    <item>
+      <title>Ep 1: Imagine an AI that feels like a real coworker, organizing your messy files and crunching homework spreadsheets for you!</title>
+      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260307.mp3</link>
+      <description># Models &amp; Agents for Beginners
+**Date:** March 07, 2026
+
+**HOOK:** Imagine an AI that feels like a real coworker, organizing your messy files and crunching homework spreadsheets for you!
+
+**What's Cool Today:** Anthropic just launched Claude Cowork, a new AI that acts more like a helpful teammate than a basic chatbot, making tasks like file organization and data analysis way easier for students and beginners. This ties into other exciting news, like AI spotting hidden bugs in popular software and clever ways to catch when AIs make up facts. Stick around for simple explanations and things you can try right now on your phone or laptop.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Anthropic released a new tool called Claude Cowork, which is a desktop AI that can handle everyday work tasks like organizing files, analyzing spreadsheets, and automating boring jobs. Think of it like having a super-smart virtual assistant who's always at your desk, similar to how Siri helps with reminders but way more capable of diving into your computer's files and data. This is a big deal because it turns AI from just chatting into actually doing hands-on work, which could help with school projects like sorting research notes or even exploring creative hobbies like editing videos. For teens and students, it means less time on tedious stuff and more on fun ideas, potentially opening doors to future careers in tech where AI handles the grunt work. Plus, it's designed to feel collaborative, like brainstorming with a friend instead of talking to a robot. How might this affect you? If you're overwhelmed with homework or digital clutter, it could make your life smoother and spark ideas for using AI in gaming or social media content creation. You can try it right now by signing up for the free beta at Claude.ai and testing it on simple tasks like "organize my download folder" – no coding needed, just your laptop!
+Source: https://www.tomsguide.com/ai/i-tested-claude-cowork-anthropics-new-ai-feels-more-like-a-coworker-than-a-chatbot
+
+━━━━━━━━━━━━━━━━━━━━
+### Cool Stuff &amp; Try This
+**[AI Hunts Down Hidden Bugs in Your Browser]: The Decoder**  
+Anthropic's Claude AI (a large language model, which is basically a super-advanced text predictor trained on tons of data) discovered over 100 security vulnerabilities in Firefox, the popular web browser, including ones missed by years of human testing. It's cool because it shows how AI can make the internet safer by spotting weak spots faster than people, which matters for everyday stuff like safe online gaming or social media scrolling. Students curious about tech careers should check this out – it highlights AI's role in cybersecurity. Go to Claude.ai (free to use with an account), paste a simple code snippet from a tutorial site, and ask "Find any bugs in this" to see it analyze like a pro.  
+Source: https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/
+
+**[Catching AI "Hallucinations" with Spilled Energy]: The Decoder**  
+Researchers found that when large language models hallucinate (make up false info because they guess wrong instead of knowing facts), they leave behind measurable "spilled energy" in their internal math calculations, and there's now a simple way to detect it without extra training. This is exciting because it helps make AI more reliable for things like homework help or fact-checking social media claims, reducing those annoying made-up answers. Anyone starting with AI should try this to build trust in tools. Head to ChatGPT (free at chat.openai.com) and ask something tricky like "Tell me about the ancient city of Atlantica" – watch for invented details, then cross-check with Google to spot the hallucination in action.  
+Source: https://the-decoder.com/when-language-models-hallucinate-they-leave-spilled-energy-in-their-own-math/
+
+━━━━━━━━━━━━━━━━━━━━
+### Quick Bits
+**[Super-Fast AI Video Magic]**  
+Bytedance's new Helios model can generate minute-long videos ...</description>
+      <guid isPermaLink="false">mab-ep001-20260307-221111</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260307.mp3" length="6816749" type="audio/mpeg" />
+      <pubDate>Sat, 07 Mar 2026 08:00:00 +0000</pubDate>
+      <ns0:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
+      <ns0:duration>04:44</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents for Beginners
+**Date:** March 07, 2026
+
+**HOOK:** Imagine an AI that feels like a real coworker, organizing your messy files and crunching homework spreadsheets for you!
+
+**What's Cool Today:** Anthropic just launched Claude Cowork, a new AI that acts more like a helpful teammate than a basic chatbot, making tasks like file organization and data analysis way easier for students and beginners. This ties into other exciting news, like AI spotting hidden bugs in popular software and clever ways to catch when AIs make up facts. Stick around for simple explanations and things you can try right now on your phone or laptop.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Anthropic released a new tool called Claude Cowork, which is a desktop AI that can handle everyday work tasks like organizing files, analyzing spreadsheets, and automating boring jobs. Think of it like having a super-smart virtual assistant who's always at your desk, similar to how Siri helps with reminders but way more capable of diving into your computer's files and data. This is a big deal because it turns AI from just chatting into actually doing hands-on work, which could help with school projects like sorting research notes or even exploring creative hobbies like editing videos. For teens and students, it means less time on tedious stuff and more on fun ideas, potentially opening doors to future careers in tech where AI handles the grunt work. Plus, it's designed to feel collaborative, like brainstorming with a friend instead of talking to a robot. How might this affect you? If you're overwhelmed with homework or digital clutter, it could make your life smoother and spark ideas for using AI in gaming or social media content creation. You can try it right now by signing up for the free beta at Claude.ai and testing it on simple tasks like "organize my download folder" – no coding needed, just your laptop!
+Source: https://www.tomsguide.com/ai/i-tested-claude-cowork-anthropics-new-ai-feels-more-like-a-coworker-than-a-chatbot
+
+━━━━━━━━━━━━━━━━━━━━
+### Cool Stuff &amp; Try This
+**[AI Hunts Down Hidden Bugs in Your Browser]: The Decoder**  
+Anthropic's Claude AI (a large language model, which is basically a super-advanced text predictor trained on tons of data) discovered over 100 security vulnerabilities in Firefox, the popular web browser, including ones missed by years of human testing. It's cool because it shows how AI can make the internet safer by spotting weak spots faster than people, which matters for everyday stuff like safe online gaming or social media scrolling. Students curious about tech careers should check this out – it highlights AI's role in cybersecurity. Go to Claude.ai (free to use with an account), paste a simple code snippet from a tutorial site, and ask "Find any bugs in this" to see it analyze like a pro.  
+Source: https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/
+
+**[Catching AI "Hallucinations" with Spilled Energy]: The Decoder**  
+Researchers found that when large language models hallucinate (make up false info because they guess wrong instead of knowing facts), they leave behind measurable "spilled energy" in their internal math calculations, and there's now a simple way to detect it without extra training. This is exciting because it helps make AI more reliable for things like homework help or fact-checking social media claims, reducing those annoying made-up answers. Anyone starting with AI should try this to build trust in tools. Head to ChatGPT (free at chat.openai.com) and ask something tricky like "Tell me about the ancient city of Atlantica" – watch for invented details, then cross-check with Google to spot the hallucination in action.  
+Source: https://the-decoder.com/when-language-models-hallucinate-they-leave-spilled-energy-in-their-own-math/
+
+━━━━━━━━━━━━━━━━━━━━
+### Quick Bits
+**[Super-Fast AI Video Magic]**  
+Bytedance's new Helios model can generate minute-long videos ...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>1</ns0:episode>
+      <ns0:title>Ep 1: Imagine an AI that feels like a real coworker, organizing your messy files and crunching homework spreadsheets for you!</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
+      <ns1:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep001.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 400: Tesla's patent for a one-piece composite seat signals the next-gen Roadster is nearing its debut.</title>

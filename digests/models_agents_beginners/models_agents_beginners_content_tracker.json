@@ -1,5 +1,22 @@
 {
   "show": "models_agents_beginners",
   "last_updated": "2026-03-07",
-  "episodes": []
+  "episodes": [
+    {
+      "date": "2026-03-07",
+      "headlines": [],
+      "urls": [
+        "https://www.tomsguide.com/ai/i-tested-claude-cowork-anthropics-new-ai-feels-more-like-a-coworker-than-a-chatbot",
+        "https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/",
+        "https://the-decoder.com/when-language-models-hallucinate-they-leave-spilled-energy-in-their-own-math/",
+        "https://the-decoder.com/bytedances-open-weight-helios-model-brings-minute-long-ai-video-generation-close-to-real-time/",
+        "https://www.marktechpost.com/2026/03/06/microsoft-releases-phi-4-reasoning-vision-15b-a-compact-multimodal-model-for-math-science-and-gui-understanding/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "cool_stuff": "### Cool Stuff & Try This\n**[AI Hunts Down Hidden Bugs in Your Browser]: The Decoder**  \nAnthropic's Claude AI (a large language model, which is basically a super-advanced text predictor trained on tons of data) discovered over 100 security vulnerabilities in Firefox, the popular web browser, including ones missed by years of human testing. It's cool because it shows how AI can make the internet safer by spotting weak spots faster than people, which matters for everyday stuff like safe online ga",
+        "quick_bits": "### Quick Bits\n**[Super-Fast AI Video Magic]**  \nBytedance's new Helios model can generate minute-long videos at nearly real-time speed (19.5 frames per second) on regular hardware – think of it like upgrading from slow-motion sketches to instant movie clips for fun projects. This is so cool for aspiring creators, as it brings pro-level video AI closer to everyday use in games or TikTok edits!  \nSource: https://the-decoder.com/bytedances-open-weight-helios-model-brings-minute-long-ai-video-gener"
+      }
+    }
+  ]
 }
