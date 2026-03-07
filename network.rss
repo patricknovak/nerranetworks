@@ -5,7 +5,7 @@
     <description>Seven daily podcasts keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, and the environment.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Sat, 07 Mar 2026 12:11:17 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Mar 2026 15:15:56 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/omni-view-podcast-image.jpg</url>
       <title>Nerra Network</title>
@@ -201,6 +201,69 @@
       <ns0:title>Ep 27: Mayo Clinic identified a rare MET gene mutation directly causing fatty liver disease without common risk factors.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
       <ns1:chapters url="https://nerranetwork.com/digests/planetterrian/chapters_ep027.json" type="application/json+chapters" />
+    </item>
+    <item>
+      <title>Ep 8: Anthropic's Claude AI discovered over 100 Firefox vulnerabilities that human testing missed for decades.</title>
+      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep008_20260307.mp3</link>
+      <description># Models &amp; Agents
+**Date:** March 07, 2026
+
+**HOOK:** Anthropic's Claude AI discovered over 100 Firefox vulnerabilities that human testing missed for decades.
+
+**What You Need to Know:** Anthropic's Claude model made headlines by uncovering over 100 security bugs in Firefox, showcasing AI's potential to revolutionize vulnerability detection beyond traditional methods. Other key releases include Microsoft's Phi-4-Reasoning-Vision-15B for multimodal math and GUI tasks, Google's TensorFlow 2.21 with LiteRT for edge inference, and OpenAI's Codex Security for codebase analysis. Pay attention this week to how these tools enhance security scanning, reasoning in video models, and efficient on-device AI deployment—perfect for developers tackling real-world bugs and optimizations.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Anthropic's Claude AI has identified over 100 security vulnerabilities in Firefox, including critical bugs overlooked by decades of manual and automated testing. This demonstration leverages Claude's advanced reasoning to analyze codebases at scale, spotting issues like memory leaks and authentication flaws that tools like static analyzers missed. Compared to previous AI-assisted security tools, Claude's context-aware approach generalizes better across complex projects, though it still requires human validation for false positives. Developers and security teams should care as this enables faster, more thorough audits without massive compute overhead. To try it, integrate Claude via Anthropic's API for your own codebase scans; watch for broader integrations in tools like GitHub Copilot. Expect more case studies on AI-driven security as labs like Anthropic push boundaries in safe, aligned deployments.
+Source: https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Microsoft Releases Phi-4-Reasoning-Vision-15B: MarkTechPost**  
+Microsoft's Phi-4-Reasoning-Vision-15B is a new 15B-parameter multimodal model optimized for math, science, and GUI understanding, balancing efficiency with strong reasoning on image-text tasks. It outperforms larger models like GPT-4V in compact scenarios by using selective reasoning and lower compute needs, though it lags in general creativity compared to behemoths like Claude 3.5 or Gemini 1.5. This matters for developers building educational tools or UI automation, as it enables edge-friendly apps without sacrificing accuracy.  
+Source: https://www.marktechpost.com/2026/03/06/microsoft-releases-phi-4-reasoning-vision-15b-a-compact-multimodal-model-for-math-science-and-gui-understanding/
+
+**Google Launches TensorFlow 2.21 And LiteRT: MarkTechPost**  
+TensorFlow 2.21 introduces LiteRT as the new production-ready on-device inference engine, replacing TensorFlow Lite with faster GPU performance, NPU acceleration, and seamless PyTorch model deployment for edge devices. It improves inference speed by up to 30% over TFLite on mobile hardware, making it a strong alternative to ONNX Runtime for cost-sensitive apps, but requires updating workflows from older TFLite setups. Practitioners in mobile AI will benefit from easier quantization and lower latency in real-time tasks like object detection.  
+Source: https://www.marktechpost.com/2026/03/06/google-launches-tensorflow-2-21-and-litert-faster-gpu-performance-new-npu-acceleration-and-seamless-pytorch-edge-deployment-upgrades/
+
+**Video AI models hit a reasoning ceiling: The Decoder**  
+A new massive dataset for video reasoning reveals that models like Sora 2 and Veo 3.1 lag far behind humans on tasks like maze navigation and object counting, despite scaling training data 1,000x over prior benchmarks. This highlights a fundamental limitation where more data alone doesn't fix reasoning gaps, contrasting with text models like GPT-4 that scale better but still hallucinate. For video AI builders, this underscores the need for architectural innovations beyond raw scaling to enable r...</description>
+      <guid isPermaLink="false">models-agents-ep008-20260307-151555</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep008_20260307.mp3" length="17958078" type="audio/mpeg" />
+      <pubDate>Sat, 07 Mar 2026 08:00:00 +0000</pubDate>
+      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
+      <ns0:duration>12:28</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents
+**Date:** March 07, 2026
+
+**HOOK:** Anthropic's Claude AI discovered over 100 Firefox vulnerabilities that human testing missed for decades.
+
+**What You Need to Know:** Anthropic's Claude model made headlines by uncovering over 100 security bugs in Firefox, showcasing AI's potential to revolutionize vulnerability detection beyond traditional methods. Other key releases include Microsoft's Phi-4-Reasoning-Vision-15B for multimodal math and GUI tasks, Google's TensorFlow 2.21 with LiteRT for edge inference, and OpenAI's Codex Security for codebase analysis. Pay attention this week to how these tools enhance security scanning, reasoning in video models, and efficient on-device AI deployment—perfect for developers tackling real-world bugs and optimizations.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Anthropic's Claude AI has identified over 100 security vulnerabilities in Firefox, including critical bugs overlooked by decades of manual and automated testing. This demonstration leverages Claude's advanced reasoning to analyze codebases at scale, spotting issues like memory leaks and authentication flaws that tools like static analyzers missed. Compared to previous AI-assisted security tools, Claude's context-aware approach generalizes better across complex projects, though it still requires human validation for false positives. Developers and security teams should care as this enables faster, more thorough audits without massive compute overhead. To try it, integrate Claude via Anthropic's API for your own codebase scans; watch for broader integrations in tools like GitHub Copilot. Expect more case studies on AI-driven security as labs like Anthropic push boundaries in safe, aligned deployments.
+Source: https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Microsoft Releases Phi-4-Reasoning-Vision-15B: MarkTechPost**  
+Microsoft's Phi-4-Reasoning-Vision-15B is a new 15B-parameter multimodal model optimized for math, science, and GUI understanding, balancing efficiency with strong reasoning on image-text tasks. It outperforms larger models like GPT-4V in compact scenarios by using selective reasoning and lower compute needs, though it lags in general creativity compared to behemoths like Claude 3.5 or Gemini 1.5. This matters for developers building educational tools or UI automation, as it enables edge-friendly apps without sacrificing accuracy.  
+Source: https://www.marktechpost.com/2026/03/06/microsoft-releases-phi-4-reasoning-vision-15b-a-compact-multimodal-model-for-math-science-and-gui-understanding/
+
+**Google Launches TensorFlow 2.21 And LiteRT: MarkTechPost**  
+TensorFlow 2.21 introduces LiteRT as the new production-ready on-device inference engine, replacing TensorFlow Lite with faster GPU performance, NPU acceleration, and seamless PyTorch model deployment for edge devices. It improves inference speed by up to 30% over TFLite on mobile hardware, making it a strong alternative to ONNX Runtime for cost-sensitive apps, but requires updating workflows from older TFLite setups. Practitioners in mobile AI will benefit from easier quantization and lower latency in real-time tasks like object detection.  
+Source: https://www.marktechpost.com/2026/03/06/google-launches-tensorflow-2-21-and-litert-faster-gpu-performance-new-npu-acceleration-and-seamless-pytorch-edge-deployment-upgrades/
+
+**Video AI models hit a reasoning ceiling: The Decoder**  
+A new massive dataset for video reasoning reveals that models like Sora 2 and Veo 3.1 lag far behind humans on tasks like maze navigation and object counting, despite scaling training data 1,000x over prior benchmarks. This highlights a fundamental limitation where more data alone doesn't fix reasoning gaps, contrasting with text models like GPT-4 that scale better but still hallucinate. For video AI builders, this underscores the need for architectural innovations beyond raw scaling to enable r...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>8</ns0:episode>
+      <ns0:title>Ep 8: Anthropic's Claude AI discovered over 100 Firefox vulnerabilities that human testing missed for decades.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
+      <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep008.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 1: Imagine an AI coworker that organizes your messy files and even books your haircut – no more weekend chaos!</title>
@@ -500,7 +563,6 @@ Analysis shows Indigenous-managed lands in Canada sustain 10-20% higher c...</ns
     </item>
     <item>
       <title>Ep 7: Liquid AI launches LFM2-24B-A2B model and LocalCowork app for fully local, privacy-first agent workflows.</title>
-      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep007_20260306.mp3</link>
       <description># Models &amp; Agents
 **Date:** March 06, 2026
 
@@ -559,7 +621,6 @@ SalamaBench offers a unified safety benchmark with 8,170 prompts across 12 categ
       <ns0:episode>7</ns0:episode>
       <ns0:title>Ep 7: Liquid AI launches LFM2-24B-A2B model and LocalCowork app for fully local, privacy-first agent workflows.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
-      <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep007.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 399: Tesla's Giga Berlin workers elect 'Giga United' majority, signaling a shift away from union influence.</title>
@@ -2907,16 +2968,6 @@ This arXiv pape...</ns0:summary>
       <ns0:episode>387</ns0:episode>
       <ns0:title>Tesla Shorts Time Daily - Episode 387 - January 28, 2026 at 03:09 AM PST</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 30 - January 28, 2026 at 04:13 AM PST</title>
-      <description>Daily space and astronomy news for January 28, 2026 at 04:13 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep030-20260128-121701</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep030_20260128_121617.mp3" length="15828367" type="audio/mpeg" />
-      <pubDate>Wed, 28 Jan 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/Fascinating%20Frontiers-3000x3000.jpg" />
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:episode>30</ns0:episode>
     </item>
   </channel>
 </rss>
