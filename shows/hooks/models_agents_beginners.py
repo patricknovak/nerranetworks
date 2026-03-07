@@ -99,6 +99,17 @@ def pronunciation_overrides() -> dict:
             "Bengio": "Ben-jee-oh",
             "Amodei": "Ah-mo-day",
 
+            # Identity overrides — cancel shared-module WORD_PRONUNCIATIONS
+            # that Chatterbox handles natively (shared module helps ElevenLabs
+            # but hurts Chatterbox by feeding it phonetic strings it reads literally)
+            "Anthropic": "Anthropic",
+            "Anthropic's": "Anthropic's",
+            "Altman": "Altman",
+            "NVIDIA": "NVIDIA",
+            "Nvidia": "Nvidia",
+            "Nvidia's": "Nvidia's",
+            "Mistral": "Mistral",
+
             # Model and org names (only non-English or compound words)
             "Mixtral": "Mix-tral",
             "Groq": "Grock",

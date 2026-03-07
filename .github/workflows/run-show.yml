@@ -182,12 +182,12 @@ jobs:
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
 
-      - name: Cache Chatterbox / HuggingFace model files
+      - name: Cache Chatterbox + Whisper / HuggingFace model files
         if: matrix.show == 'models_agents_beginners'
         uses: actions/cache@v4
         with:
           path: ~/.cache/huggingface/hub
-          key: chatterbox-model-v1-${{ runner.os }}
+          key: chatterbox-whisper-v1-${{ runner.os }}
 
       - name: Install Python dependencies
         run: |
