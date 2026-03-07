@@ -250,11 +250,13 @@ jobs:
 
       - name: Run show pipeline
         run: python run_show.py ${{ matrix.show }} 2>&1
-        timeout-minutes: 30
+        timeout-minutes: 45
         env:
           R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          # Chatterbox TTS on CPU is slow (~0.5 chars/sec); give MAB more time
+          PIPELINE_TIMEOUT_SECONDS: ${{ matrix.show == 'models_agents_beginners' && '2400' || '900' }}
 
       - name: Validate output
         run: |
