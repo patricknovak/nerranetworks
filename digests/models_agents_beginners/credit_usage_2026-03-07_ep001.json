@@ -1,0 +1,34 @@
+{
+  "date": "2026-03-07",
+  "show": "Models & Agents for Beginners",
+  "episode_number": 1,
+  "services": {
+    "grok_api": {
+      "x_thread_generation": {
+        "prompt_tokens": 3948,
+        "completion_tokens": 993,
+        "total_tokens": 4941,
+        "estimated_cost_usd": 0.0
+      },
+      "podcast_script_generation": {
+        "prompt_tokens": 3171,
+        "completion_tokens": 948,
+        "total_tokens": 4119,
+        "estimated_cost_usd": 0.0
+      },
+      "total_tokens": 9060,
+      "total_cost_usd": 0.0
+    },
+    "elevenlabs_api": {
+      "provider": "elevenlabs",
+      "characters": 4706,
+      "estimated_cost_usd": 1.4118000000000002
+    },
+    "x_api": {
+      "search_calls": 0,
+      "post_calls": 0,
+      "total_calls": 0
+    }
+  },
+  "total_estimated_cost_usd": 1.4118000000000002
+}
