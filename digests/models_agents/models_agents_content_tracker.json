@@ -1,6 +1,6 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-07",
+  "last_updated": "2026-03-08",
   "episodes": [
     {
       "date": "2026-02-26",
@@ -162,6 +162,20 @@
         "model_updates": "### Model Updates\n**Microsoft Releases Phi-4-Reasoning-Vision-15B: MarkTechPost**  \nMicrosoft's Phi-4-Reasoning-Vision-15B is a new 15B-parameter multimodal model optimized for math, science, and GUI understanding, balancing efficiency with strong reasoning on image-text tasks. It outperforms larger models like GPT-4V in compact scenarios by using selective reasoning and lower compute needs, though it lags in general creativity compared to behemoths like Claude 3.5 or Gemini 1.5. This matters fo",
         "agent_developments": "### Agent & Tool Developments\n**OpenAI Introduces Codex Security: MarkTechPost**  \nCodex Security is OpenAI's new agent for context-aware vulnerability detection, validation, and patch generation across codebases, available in research preview for ChatGPT Enterprise users. It improves on tools like GitHub's CodeQL by using GPT models for semantic understanding, reducing false positives in large repos, with easy web-based integration. Try it today via the Codex web interface to scan your projects",
         "practical_community": "### Practical & Community\n**When language models hallucinate, they leave \"spilled energy\": The Decoder**  \nResearchers developed a training-free method to detect LLM hallucinations by analyzing computational traces like \"spilled energy\" in math operations, generalizing better than prior entropy-based approaches. This solves reliability issues in models like Llama 3 or Grok, enabling safer RAG pipelines. Get started by implementing the open-source code from Sapienza University for your inference "
+      }
+    },
+    {
+      "date": "2026-03-08",
+      "headlines": [],
+      "urls": [
+        "https://the-decoder.com/llm-text-data-is-drying-up-but-meta-points-to-unlabeled-video-as-the-next-massive-training-frontier/",
+        "https://the-decoder.com/ai-agent-benchmarks-obsess-over-coding-while-ignoring-92-of-the-us-labor-market-study-finds/",
+        "https://www.marktechpost.com/2026/03/07/building-next-gen-agentic-ai-a-complete-framework-for-cognitive-blueprint-driven-runtime-agents-with-memory-tools-and-validation/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**AI Agent Benchmarks Obsess Over Coding While Ignoring 92% of the US Labor Market, Study Finds: The Decoder**  \nA comprehensive study analyzed AI agent benchmarks and found they disproportionately emphasize coding tasks, covering only 8% of the US labor market while neglecting areas like healthcare, education, and retail. This skew limits progress in developing versatile agents, as benchmarks like those in LangGraph or AutoGPT often prioritize code generation over diverse skil",
+        "agent_developments": "### Agent & Tool Developments\n**Building Next-Gen Agentic AI: A Complete Framework for Cognitive Blueprint Driven Runtime Agents with Memory Tools and Validation: MarkTechPost**  \nThis tutorial introduces a full framework for creating runtime agents driven by cognitive blueprints, including structured elements for identity, goals, planning, memory access, tool calling, and output validation, enabling agents to plan, execute, and self-improve systematically. It's an improvement over basic setups "
       }
     }
   ]
