@@ -105,7 +105,8 @@ llm:
   podcast_prompt_file: shows/prompts/mab_podcast.txt
   digest_temperature: 0.4
   podcast_temperature: 0.75
-  max_tokens: 4000
+  max_tokens: 5000
+  podcast_max_tokens: 6000
 
 tts:
   provider: fish
@@ -175,6 +176,8 @@ chapters:
       title: "Welcome"
     - pattern: "big story|biggest news"
       title: "The Big Story"
+    - pattern: "deep dive|how it works|under the hood"
+      title: "Deep Dive: How It Works"
     - pattern: "cool stuff|cool tools|tools and models|try this"
       title: "Cool Stuff & Try This"
     - pattern: "quick bits|rapid fire|quick round"
