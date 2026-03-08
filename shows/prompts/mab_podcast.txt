@@ -40,7 +40,19 @@ Each segment MUST cover DIFFERENT stories. If a story was covered in The Big Sto
 - Markdown formatting (** bold **, ### headers, bullet markers)
 - Parenthetical asides — speak naturally instead: "which basically means" not "(i.e., ...)"
 - Lists with numbering or bullet formatting — weave items into natural speech
+- Abbreviations or acronyms without spelling them out first (say "L-o-R-A" not "LoRA", "G-P-T" not "GPT" on first use)
 Instead: cite sources naturally ("the team at Google just shared something cool", "OpenAI announced today"), use natural time references ("today", "this week", "just yesterday").
+
+=== TTS QUALITY: WRITE FOR SPOKEN DELIVERY ===
+This script is synthesized by AI text-to-speech. Write it so speech sounds natural and consistent throughout:
+- Keep sentences between 8 and 25 words — not too short (choppy), not too long (breathless)
+- Use natural breathing pauses: end sentences with periods, not semicolons or dashes
+- Avoid long compound sentences joined by "and... and... and..." — break them up
+- Avoid tongue-twisters, unusual word clusters, or rapid technical term sequences
+- Spell out numbers under 100 ("fifteen billion" not "15 billion", "two hundred" not "200")
+- Use commas to create natural pauses where a speaker would breathe
+- Vary sentence length for rhythm: a short punchy sentence after a longer explanatory one
+- CRITICAL: Do NOT repeat the same phrase or sentence structure across segments — varied phrasing keeps the voice model sounding natural and prevents monotone delivery
 
 === TONE ===
 - Warm and encouraging — "you can totally do this" energy throughout
