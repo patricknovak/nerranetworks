@@ -910,23 +910,31 @@ def _fish_synthesize_chunk(
     top_p: float = 0.7,
     speed: float = 1.0,
     repetition_penalty: float = 1.2,
-    format: str = "mp3",
+    format: str = "wav",
     mp3_bitrate: int = 128,
 ) -> None:
-    """Synthesize a single text chunk via Fish Audio API."""
+    """Synthesize a single text chunk via Fish Audio API.
+
+    Defaults to WAV output for lossless intermediate processing.
+    When *format* is ``"wav"``, *mp3_bitrate* is ignored by the API.
+    """
     from fishaudio import FishAudio
     from fishaudio.types.tts import TTSConfig as FishTTSConfig
 
     client = FishAudio(api_key=api_key)
 
-    # Build config with generation parameters
-    fish_config = FishTTSConfig(
-        format=format,
-        mp3_bitrate=mp3_bitrate,
-        temperature=temperature,
-        top_p=top_p,
-        repetition_penalty=repetition_penalty,
-    )
+    # Build config — use WAV for lossless intermediate when possible
+    config_kwargs: dict = {
+        "format": format,
+        "temperature": temperature,
+        "top_p": top_p,
+        "repetition_penalty": repetition_penalty,
+    }
+    # Only set mp3_bitrate when actually requesting MP3
+    if format == "mp3":
+        config_kwargs["mp3_bitrate"] = mp3_bitrate
+
+    fish_config = FishTTSConfig(**config_kwargs)
 
     convert_kwargs: dict = {
         "text": text,
@@ -979,10 +987,17 @@ def synthesize_fish(
     Handles chunking and concatenation. Uses zero-shot voice cloning
     when *voice_reference* is provided, or a persistent voice model
     when *reference_id* is set.
+
+    **Audio quality strategy** — all intermediate processing uses lossless
+    WAV (PCM) to avoid cumulative lossy re-encoding.  MP3 encoding happens
+    exactly **once** at the final output step.  This eliminates the 6-pass
+    quality degradation that previously caused audio to worsen over longer
+    episodes.
     """
     output_path = Path(output_path)
     chunks = chunk_text(text, max_chars=max_chars)
 
+    # Always request WAV from Fish Audio API for lossless intermediates
     common = dict(
         api_key=api_key,
         reference_id=reference_id,
@@ -991,69 +1006,64 @@ def synthesize_fish(
         top_p=top_p,
         speed=speed,
         repetition_penalty=repetition_penalty,
-        format=format,
+        format="wav",       # Lossless intermediate — never request MP3 chunks
         mp3_bitrate=mp3_bitrate,
     )
 
     if len(chunks) == 1:
-        _fish_synthesize_chunk(text, output_path, **common)
-        return output_path
-
-    # Multi-chunk: synthesize each, normalize per-chunk, then crossfade-concat
-    chunk_files: List[Path] = []
-    for i, chunk_str in enumerate(chunks):
-        chunk_raw = output_path.parent / f"_fish_chunk_{i:03d}_raw.mp3"
-        chunk_norm = output_path.parent / f"_fish_chunk_{i:03d}.mp3"
-        _fish_synthesize_chunk(chunk_str, chunk_raw, **common)
-
-        # Per-chunk loudness normalization for consistent quality across chunks
+        # Single chunk: synthesize as WAV, encode to MP3 once
+        wav_tmp = output_path.parent / f"_fish_single_tmp.wav"
+        _fish_synthesize_chunk(text, wav_tmp, **common)
         try:
             subprocess.run(
                 [
-                    "ffmpeg", "-y", "-i", str(chunk_raw),
-                    "-af", "loudnorm=I=-18:TP=-1.5:LRA=11:linear=true",
-                    "-ar", "44100", "-ac", "1",
+                    "ffmpeg", "-y", "-i", str(wav_tmp),
+                    "-ar", "44100",
                     "-c:a", "libmp3lame", "-b:a", f"{mp3_bitrate}k",
-                    str(chunk_norm),
+                    str(output_path),
                 ],
                 check=True, capture_output=True, timeout=120,
             )
-            chunk_raw.unlink(missing_ok=True)
-        except (subprocess.CalledProcessError, OSError):
-            # Fallback: use raw chunk without normalization
-            logger.warning("Chunk %d normalization failed, using raw audio", i)
-            if chunk_raw.exists():
-                chunk_raw.rename(chunk_norm)
+        finally:
+            wav_tmp.unlink(missing_ok=True)
+        return output_path
 
-        chunk_files.append(chunk_norm)
+    # Multi-chunk: synthesize each as WAV, crossfade in WAV domain, encode once
+    chunk_files: List[Path] = []
+    for i, chunk_str in enumerate(chunks):
+        chunk_wav = output_path.parent / f"_fish_chunk_{i:03d}.wav"
+        _fish_synthesize_chunk(chunk_str, chunk_wav, **common)
+        chunk_files.append(chunk_wav)
 
-    # Crossfade concatenation: overlap chunks by 50ms to eliminate seam artifacts
+    # Crossfade concatenation in WAV domain (lossless processing)
+    wav_concat = output_path.parent / "_fish_concat_full.wav"
+
     if len(chunk_files) == 2:
-        # Two chunks: single crossfade
+        # Two chunks: single crossfade → WAV
         subprocess.run(
             [
                 "ffmpeg", "-y",
                 "-i", str(chunk_files[0]), "-i", str(chunk_files[1]),
                 "-filter_complex",
-                "[0:a][1:a]acrossfade=d=0.05:c1=tri:c2=tri[out]",
+                "[0:a][1:a]acrossfade=d=0.08:c1=log:c2=log[out]",
                 "-map", "[out]",
-                "-c:a", "libmp3lame", "-b:a", f"{mp3_bitrate}k",
-                str(output_path),
+                "-ar", "44100",
+                "-c:a", "pcm_s16le",
+                str(wav_concat),
             ],
             check=True, capture_output=True, timeout=300,
         )
     else:
-        # 3+ chunks: chain crossfades
+        # 3+ chunks: chain crossfades → WAV
         inputs = []
         for cf in chunk_files:
             inputs.extend(["-i", str(cf)])
-        # Build filter chain: crossfade pairs sequentially
         fc_parts = []
         prev = "[0:a]"
         for j in range(1, len(chunk_files)):
             out_label = f"[cf{j}]" if j < len(chunk_files) - 1 else "[out]"
             fc_parts.append(
-                f"{prev}[{j}:a]acrossfade=d=0.05:c1=tri:c2=tri{out_label}"
+                f"{prev}[{j}:a]acrossfade=d=0.08:c1=log:c2=log{out_label}"
             )
             prev = out_label
         filter_complex = ";".join(fc_parts)
@@ -1061,8 +1071,9 @@ def synthesize_fish(
         cmd = ["ffmpeg", "-y"] + inputs + [
             "-filter_complex", filter_complex,
             "-map", "[out]",
-            "-c:a", "libmp3lame", "-b:a", f"{mp3_bitrate}k",
-            str(output_path),
+            "-ar", "44100",
+            "-c:a", "pcm_s16le",
+            str(wav_concat),
         ]
         try:
             subprocess.run(cmd, check=True, capture_output=True, timeout=300)
@@ -1078,21 +1089,36 @@ def synthesize_fish(
                     "ffmpeg", "-y",
                     "-f", "concat", "-safe", "0",
                     "-i", str(concat_list),
-                    "-c:a", "libmp3lame", "-b:a", f"{mp3_bitrate}k",
-                    str(output_path),
+                    "-c:a", "pcm_s16le", "-ar", "44100",
+                    str(wav_concat),
                 ],
                 check=True, capture_output=True, timeout=300,
             )
             concat_list.unlink(missing_ok=True)
 
-    # Cleanup temp files
+    # Single final MP3 encode from the lossless WAV
+    try:
+        subprocess.run(
+            [
+                "ffmpeg", "-y", "-i", str(wav_concat),
+                "-ar", "44100",
+                "-c:a", "libmp3lame", "-b:a", f"{mp3_bitrate}k",
+                str(output_path),
+            ],
+            check=True, capture_output=True, timeout=300,
+        )
+    finally:
+        wav_concat.unlink(missing_ok=True)
+
+    # Cleanup temp chunk files
     for cf in chunk_files:
         try:
             cf.unlink()
         except OSError:
             pass
 
-    logger.info("Fish Audio: %d chunks (crossfaded) → %s", len(chunks), output_path.name)
+    logger.info("Fish Audio: %d chunks (WAV crossfade → single MP3 encode) → %s",
+                len(chunks), output_path.name)
     return output_path
 
 
@@ -1114,7 +1140,9 @@ def synthesize_fish_sections(
 ) -> List[Path]:
     """Synthesize multiple script sections into individual Fish Audio files.
 
-    Mirrors ``synthesize_sections()`` for section-aware TTS.
+    Mirrors ``synthesize_sections()`` for section-aware TTS.  Each section
+    is synthesized via ``synthesize_fish()`` which uses lossless WAV
+    intermediates internally and produces a single-pass MP3 output.
     """
     output_dir.mkdir(parents=True, exist_ok=True)
     section_files: List[Path] = []
