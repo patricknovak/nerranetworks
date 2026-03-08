@@ -8,12 +8,16 @@
       "urls": [
         "https://the-decoder.com/llm-text-data-is-drying-up-but-meta-points-to-unlabeled-video-as-the-next-massive-training-frontier/",
         "https://www.tomsguide.com/ai/i-ran-7-real-world-prompts-on-gemini-3-and-claude-sonnet-4-6-the-results-surprised-me",
-        "https://the-decoder.com/ai-agent-benchmarks-obsess-over-coding-while-ignoring-92-of-the-us-labor-market-study-finds/"
+        "https://the-decoder.com/ai-agent-benchmarks-obsess-over-coding-while-ignoring-92-of-the-us-labor-market-study-finds/",
+        "https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/",
+        "https://the-decoder.com/when-language-models-hallucinate-they-leave-spilled-energy-in-their-own-math/",
+        "https://www.marktechpost.com/2026/03/06/microsoft-releases-phi-4-reasoning-vision-15b-a-compact-multimodal-model-for-math-science-and-gui-understanding/",
+        "https://github.blog/security/how-to-scan-for-vulnerabilities-with-github-security-labs-open-source-ai-powered-framework/"
       ],
       "quote_author": null,
       "sections": {
-        "cool_stuff": "### Cool Stuff & Try This\n**[Gemini vs. Claude: Which AI Wins at Real Tasks?]: Latest from Tom's Guide**  \nGemini 3 and Claude Sonnet 4.6 are two advanced AI chatbots — think of them as super-smart virtual assistants that can reason, plan, write stories, or spark creative ideas, kind of like having a genius friend in your pocket who answers any question. A tester ran them through seven everyday prompts, like planning a trip or writing a poem, and surprisingly, Claude edged out in creativity whil",
-        "quick_bits": "### Quick Bits\n**[AI Tests Ignore Most Jobs — Time for a Fix?]**  \nA big study found that benchmarks for AI agents — those tests that measure how well these smart systems perform tasks — are obsessed with coding challenges, covering only 8% of US jobs while skipping things like healthcare or retail that dominate the workforce. This is interesting because it means AI development might be missing out on making helpers for everyday work, like an agent that plans your study schedule or helps with ar"
+        "cool_stuff": "### Cool Stuff & Try This\n**[Microsoft's New AI Tutor for Math, Science, and Apps: MarkTechPost]**\nMicrosoft just released Phi-4-Reasoning-Vision-15B, a compact AI model with 15 billion parameters (that's like the brain cells in its digital mind, making it smart but not too huge to run efficiently). This multimodal model can handle both text and images, meaning it understands pictures as well as words — for example, it can look at a screenshot of a phone app and explain how to use it, or analyze",
+        "quick_bits": "### Quick Bits\n**[AI Framework Hunts for Code Weak Spots]**\nGitHub's Security Lab released an open-source tool called Taskflow Agent that uses AI to scan software for big vulnerabilities like unauthorized access or leaked secrets, making it easier to find issues that could let hackers in. This is interesting because it shows AI democratizing security — even if you're not a pro coder, tools like this could inspire safer apps in the future, like for your own game mods or school projects.\nSource: h"
       }
     }
   ]
