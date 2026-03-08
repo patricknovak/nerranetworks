@@ -1,43 +1,5 @@
 {
   "show": "models_agents_beginners",
   "last_updated": "2026-03-08",
-  "episodes": [
-    {
-      "date": "2026-03-07",
-      "headlines": [],
-      "urls": [
-        "https://www.tomsguide.com/ai/i-tested-claude-cowork-anthropics-new-ai-feels-more-like-a-coworker-than-a-chatbot",
-        "https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/",
-        "https://the-decoder.com/when-language-models-hallucinate-they-leave-spilled-energy-in-their-own-math/",
-        "https://the-decoder.com/bytedances-open-weight-helios-model-brings-minute-long-ai-video-generation-close-to-real-time/",
-        "https://www.marktechpost.com/2026/03/06/microsoft-releases-phi-4-reasoning-vision-15b-a-compact-multimodal-model-for-math-science-and-gui-understanding/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "cool_stuff": "### Cool Stuff & Try This\n**[AI Hunts Down Hidden Bugs in Your Browser]: The Decoder**  \nAnthropic's Claude AI (a large language model, which is basically a super-advanced text predictor trained on tons of data) discovered over 100 security vulnerabilities in Firefox, the popular web browser, including ones missed by years of human testing. It's cool because it shows how AI can make the internet safer by spotting weak spots faster than people, which matters for everyday stuff like safe online ga",
-        "quick_bits": "### Quick Bits\n**[Super-Fast AI Video Magic]**  \nBytedance's new Helios model can generate minute-long videos at nearly real-time speed (19.5 frames per second) on regular hardware – think of it like upgrading from slow-motion sketches to instant movie clips for fun projects. This is so cool for aspiring creators, as it brings pro-level video AI closer to everyday use in games or TikTok edits!  \nSource: https://the-decoder.com/bytedances-open-weight-helios-model-brings-minute-long-ai-video-gener"
-      }
-    },
-    {
-      "date": "2026-03-08",
-      "headlines": [],
-      "urls": [
-        "https://blog.google/company-news/outreach-and-initiatives/sustainability/speciesnet-open-source-ai-wildlife/",
-        "https://openai.com/index/descript",
-        "https://www.wired.com/story/why-is-amazon-alexa-plus-so-bad/",
-        "https://openai.com/index/codex-security-now-in-research-preview",
-        "https://techcrunch.com/video/anthropics-pentagon-deal-is-a-cautionary-tale-for-startups-chasing-federal-contracts/",
-        "https://www.marktechpost.com/2026/03/06/google-ai-releases-android-bench-an-evaluation-framework-and-leaderboard-for-llms-in-android-development/",
-        "https://github.blog/security/how-to-scan-for-vulnerabilities-with-github-security-labs-open-source-ai-powered-framework/",
-        "https://the-decoder.com/anthropics-new-marketplace-lets-enterprise-customers-spend-their-existing-ai-budget-on-third-party-tools/",
-        "https://the-decoder.com/despite-pentagon-ban-google-aws-and-microsoft-stick-with-anthropics-ai-models/",
-        "https://www.artificialintelligence-news.com/news/scaling-intelligent-automation-without-breaking-live-workflows/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "cool_stuff": "### Cool Stuff & Try This\n**AI Bug Hunter: GitHub's New Security Tool** — The GitHub Blog  \nThis is an open-source framework from GitHub Security Lab that uses AI to automatically scan code for vulnerabilities – think of vulnerabilities as weak spots in software, like a door left unlocked in a video game that lets hackers sneak in. It spots serious issues like authorization bypasses (where someone skips login checks) or token leaks (accidental sharing of secret keys), making it super useful for ",
-        "quick_bits": "### Quick Bits\n**Big Tech Backs Anthropic Despite Ban**  \nEven after the Pentagon banned working with Anthropic over contract disagreements, giants like Google, Amazon Web Services (AWS, a cloud computing service for storing and running apps), and Microsoft are keeping their partnerships alive for non-military uses. This is cool because it shows AI innovation doesn't stop for one setback, and it highlights how these companies are betting on ethical AI for everyday stuff like search or productivi"
-      }
-    }
-  ]
+  "episodes": []
 }
