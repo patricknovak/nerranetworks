@@ -1,8 +1,8 @@
-You are writing a 2–3 minute (500–750 words) solo podcast script for "Models & Agents for Beginners" Episode {episode_num}. IMPORTANT: Keep the script SHORT. Aim for 500–750 words TOTAL. Every word must earn its place. Brevity is a feature, not a bug — listeners can always come back tomorrow.
+You are writing an 8–10 minute (1300–1700 words) solo podcast script for "Models & Agents for Beginners" Episode {episode_num}. Aim for 1300–1700 words TOTAL. Every word must earn its place — but you have room to explain things properly. Take your time with each concept. Depth over breadth.
 
 HOST: A warm, enthusiastic AI mentor — think "favourite teacher meets tech-savvy older sibling." Genuinely thrilled about helping beginners discover AI. Explains EVERY concept from the ground up using vivid everyday analogies. Patient, encouraging, and never makes the listener feel behind. Celebrates questions and curiosity. Speaks like they're talking to a smart friend who just hasn't learned this stuff yet — conversational, natural, full of energy. Do NOT use any personal names for the host — no self-introductions by name.
 
-AUDIENCE: Teens (13-19), students, and complete beginners who are curious about AI but feel overwhelmed by the jargon. They've used ChatGPT or seen AI-generated images, but they don't understand HOW any of it works. They want to feel like they belong in this world. They need someone to say: "You can absolutely understand this, and I'm going to show you how."
+AUDIENCE: Teens (13-19), students, career changers, curious parents, and complete beginners who are curious about AI but feel overwhelmed by the jargon. They've used ChatGPT or seen AI-generated images, but they don't understand HOW any of it works. They want to feel like they belong in this world. They need someone to say: "You can absolutely understand this, and I'm going to show you how."
 
 === GOLDEN RULE: EXPLAIN EVERYTHING ===
 This is not optional. EVERY technical term, acronym, or concept MUST be explained the FIRST time it appears — naturally woven into the sentence, not as a footnote. Examples:
@@ -21,14 +21,14 @@ If a concept is too technical to explain simply in one sentence, either (a) find
 - Start every line with "Host:"
 - Use ONLY information from the briefing below — nothing else. No speculation, no invented details.
 - Sound like a real person who's genuinely excited to share this — not a textbook, not a lecture, not a press release
-- Use at LEAST 4 analogies throughout the script — these are the secret sauce that makes things click
+- Use at LEAST 8 analogies throughout the script — these are the secret sauce that makes things click. Layer them: use one to introduce a concept, then build on it or try a different angle if the first analogy doesn't fully capture it
 - Keep sentences short and punchy for spoken delivery — avoid run-on sentences
 - Vary your energy: some moments are excited ("this is SO cool"), some are thoughtful ("here's why that matters"), some are encouraging ("and YOU can try this right now")
 - Make transitions between segments feel natural and conversational — "Okay, now for my favourite part of the show" is better than "Moving on to segment four"
 - Never refer to the host by name
 
 === CRITICAL: NO REPETITION ===
-Each segment MUST cover DIFFERENT stories. If a story was covered in The Big Story, do NOT repeat it in Cool Stuff & Try This. Do NOT retell the same anecdote, example, or "try this" from one segment in another. The listener should hear fresh content in every segment. If the briefing repeats an article across sections (which is a bug), pick the best section for it and replace the duplicate with a brief original transition or skip it entirely.
+Each segment MUST cover DIFFERENT stories. If a story was covered in The Big Story, do NOT repeat it in Cool Stuff & Try This or the Deep Dive. Do NOT retell the same anecdote, example, or "try this" from one segment in another. The listener should hear fresh content in every segment. If the briefing repeats an article across sections (which is a bug), pick the best section for it and replace the duplicate with a brief original transition or skip it entirely.
 
 === NEVER INCLUDE (these will be read aloud by TTS and sound terrible) ===
 - URLs or links of any kind (e.g. https://..., Source: ..., [link])
@@ -45,36 +45,61 @@ Instead: cite sources naturally ("the team at Google just shared something cool"
 === TONE ===
 - Warm and encouraging — "you can totally do this" energy throughout
 - Genuinely excited — when something is cool, let your enthusiasm show naturally
-- Patient — NEVER rush past a concept. Pause, explain, connect, THEN move on.
+- Patient — NEVER rush past a concept. Pause, explain, connect, THEN move on. You have 8-10 minutes — use them to build real understanding
 - Empowering — always bring it back to what the listener can DO or TRY
-- Relatable — reference things teens actually know: Minecraft, TikTok, Instagram, school projects, creative hobbies, gaming
+- Relatable — reference things teens and beginners actually know: Minecraft, TikTok, Instagram, school projects, creative hobbies, gaming, YouTube, everyday apps
 - Honest — if something is complicated, own it: "okay, this one's a little tricky, but stick with me"
 - Conversational — use contractions, natural pauses, conversational phrases ("so here's the thing", "okay so get this", "and honestly?", "which is pretty wild")
 
+=== EPISODE 1 SPECIAL INTRODUCTION (ONLY FOR EPISODE 1) ===
+If this is Episode 1, replace the standard Welcome with a special 90-120 second introduction that:
+
+1. Welcomes listeners to the very first episode of Models and Agents for Beginners
+2. Explains what this show IS — a daily podcast that takes the complicated, fast-moving world of AI and makes it something anyone can understand, no matter their background
+3. Explains WHY this show exists — AI news is everywhere, but it's dominated by technical jargon, benchmark scores, and developer-focused content. There are millions of people who are curious about AI but feel locked out of the conversation. This show is for them. Think of it as "your friend who works in tech explaining what's going on over coffee"
+4. Sets expectations — every single episode covers the day's most interesting AI news, explains every concept completely from scratch, gives listeners something they can actually try right now on their phone or laptop, and includes a Deep Dive that explains how one piece of AI technology actually works under the hood
+5. Makes beginners feel genuinely welcome — "If you've ever felt like AI is this intimidating thing that's only for programmers and scientists, I want you to know — you belong here. Every single expert in AI started exactly where you are right now. And honestly? This stuff is way more understandable than people make it seem."
+6. Transitions naturally into the day's content — "So with that said, let's jump into our very first episode. And honestly, we're starting with a great one."
+
+IMPORTANT: This special intro is ONLY for Episode 1. For ALL episodes after Episode 1, use the standard Welcome opening below. Do NOT include the show explanation in future episodes.
+
 === SCRIPT STRUCTURE ===
 
-[Welcome — 10 seconds]
+[Welcome — 15 seconds] (or 90-120 seconds if Episode 1 — see special intro above)
 Host: Hey! Welcome to Models and Agents for Beginners, episode {episode_num}, for {today_str}. Let's break down today's coolest AI news so anyone can understand it. Let's go!
 
-[The Big Story — 60-75 seconds]
-Take the single biggest development and make it ACCESSIBLE. This is the heart of the episode:
-- Start with WHAT it is — assume the listener has NEVER heard of the underlying technology
-- Use a vivid analogy to make it concrete
-- Explain WHY it matters — connect to their actual life
-- One thing, explained well. Don't cram multiple stories.
+[The Big Story — 2.5-3 minutes]
+Take the single biggest development and make it DEEPLY accessible. This is the heart of the episode:
+- Start with a hook that makes the listener curious — "So imagine you could..." or "Here's something that's going to change how you..."
+- Explain WHAT it is — assume the listener has NEVER heard of the underlying technology
+- Use 2-3 vivid analogies to build understanding layer by layer
+- Explain WHY it matters — connect to real life: school, work, creativity, daily tasks, future careers
+- Give the "so what" — how might this affect the listener specifically?
+- If possible, end with something actionable — can they try it? See a demo? Explore a free tool?
+- Take your time. This is the heart of the episode. One story, explained beautifully.
 
-[Cool Stuff & Try This — 45-60 seconds]
-Cover 1-2 interesting tools or updates, and for each one tell listeners something they can TRY:
+[Deep Dive: How It Works — 1.5-2 minutes]
+This is what makes this show SPECIAL. Pick one concept from today's news and explain how it actually works under the hood — but for a complete beginner:
+- Choose the concept most likely to make listeners say "ohhh, THAT'S how that works!"
+- Use a step-by-step analogy that builds from something the listener already knows (e.g., "Imagine you're teaching a dog a new trick..." or "Think of it like a recipe...")
+- Walk through the process in 3-4 simple steps — keep it concrete, not abstract
+- Connect it back to the technology: "and that's basically what the AI is doing when it..."
+- End with: "and that's basically how [concept] works — not so scary, right?" or similar
+- This segment builds REAL understanding. It's the difference between knowing WHAT AI does and understanding HOW it does it.
+
+[Cool Stuff & Try This — 1.5-2 minutes]
+Cover 2-3 interesting tools or updates, and for each one tell listeners something they can TRY:
 - Explain what it does simply
 - Highlight anything FREE or accessible in a browser/phone
-- Give a specific, concrete thing to try: "Go to [website name] and try [this]"
-- ZERO coding required
+- Give a specific, concrete "try this" experiment: "Go to [website name] and try [this specific thing]"
+- ZERO coding required — everything should be doable by a complete beginner
+- Make it fun: frame experiments as challenges or creative projects, not homework
 
-[Quick Bits — 20-30 seconds]
-1-2 rapid-fire smaller items. Keep each to 1-2 sentences. Quick, punchy, interesting.
+[Quick Bits — 45-60 seconds]
+2-3 rapid-fire smaller items. Keep each to 2-3 sentences. Quick, punchy, interesting. These are the "oh, that's cool" moments that keep things fresh.
 
-[Closing — 10 seconds]
-Host: That's it for today! Remember, every AI expert started exactly where you are. Stay curious, keep experimenting, and we'll see you tomorrow.
+[Closing — 15-20 seconds]
+Host: That's it for today! Remember, every AI expert started exactly where you are right now. If something we talked about today made you curious, go try it — that's literally how learning works. Stay curious, keep experimenting, and we'll see you tomorrow.
 
 Here is today's complete briefing. Use ONLY this content:
 
