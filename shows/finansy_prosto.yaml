@@ -1,6 +1,6 @@
 name: "Финансы Просто"
 slug: finansy_prosto
-description: "Ежедневный подкаст о финансах на русском языке для женщин в Канаде. Инвестиции, сбережения, бюджет и финансовая грамотность — просто и понятно."
+description: "Ежедневный подкаст о финансах на русском языке для женщин в Канаде, из Ванкувера. Инвестиции, сбережения, бюджет и финансовая грамотность — просто и понятно."
 
 sources:
   # Canadian Personal Finance
@@ -26,6 +26,14 @@ sources:
     label: BNN Bloomberg Canada
   - url: https://www.cbc.ca/webfeed/rss/rss-business
     label: CBC Business
+
+  # Vancouver / BC Focus
+  - url: https://vancouversun.com/category/business/feed
+    label: Vancouver Sun Business
+  - url: https://www.bcbusiness.ca/feed
+    label: BCBusiness
+  - url: https://biv.com/rss.xml
+    label: Business in Vancouver
 
   # Russian-Language Finance & Immigration Resources
   - url: https://fintolk.pro/feed/
@@ -73,6 +81,24 @@ keywords:
   - EI benefits
   - CPP
   - OAS
+  # Vancouver / BC specific
+  - Vancouver real estate
+  - BC housing
+  - Vancouver rent
+  - BC property tax
+  - Vancouver mortgage
+  - BC speculation tax
+  - foreign buyer tax
+  - BC home flipping tax
+  - TransLink
+  - BC hydro
+  - ICBC
+  - BC minimum wage
+  - Vancouver cost of living
+  - Surrey
+  - Burnaby
+  - Richmond
+  - Coquitlam
   # Russian finance terms
   - инвестиции
   - сбережения
