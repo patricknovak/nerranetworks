@@ -1,0 +1,174 @@
+name: "Финансы Просто"
+slug: finansy_prosto
+description: "Ежедневный подкаст о финансах на русском языке для женщин в Канаде. Инвестиции, сбережения, бюджет и финансовая грамотность — просто и понятно."
+
+sources:
+  # Canadian Personal Finance
+  - url: https://www.moneysense.ca/feed/
+    label: MoneySense
+  - url: https://www.financialpost.com/feed
+    label: Financial Post
+  - url: https://www.theglobeandmail.com/investing/personal-finance/rss/
+    label: Globe and Mail Personal Finance
+  - url: https://www.ratehub.ca/blog/feed/
+    label: RateHub Canada
+  - url: https://www.wealthsimple.com/en-ca/magazine/rss.xml
+    label: Wealthsimple Magazine
+  - url: https://youngandthrifty.ca/feed/
+    label: Young and Thrifty
+  - url: https://maplemoney.com/feed/
+    label: MapleMoney
+  - url: https://boomerandecho.com/feed/
+    label: Boomer & Echo
+
+  # Canadian Business & Economy
+  - url: https://www.bnnbloomberg.ca/rss/
+    label: BNN Bloomberg Canada
+  - url: https://www.cbc.ca/webfeed/rss/rss-business
+    label: CBC Business
+
+  # Russian-Language Finance & Immigration Resources
+  - url: https://fintolk.pro/feed/
+    label: FinTolk (Russian finance)
+  - url: https://journal.tinkoff.ru/feed/
+    label: Tinkoff Journal (Russian finance education)
+
+  # Investing Education
+  - url: https://www.investopedia.com/feedbuilder/feed/getfeed?feedName=rss_articles
+    label: Investopedia
+
+keywords:
+  # Canadian finance (English)
+  - TFSA
+  - RRSP
+  - FHSA
+  - RESP
+  - GIC
+  - ETF
+  - index fund
+  - mutual fund
+  - Wealthsimple
+  - Questrade
+  - dividend
+  - mortgage
+  - interest rate
+  - Bank of Canada
+  - inflation Canada
+  - tax refund
+  - capital gains
+  - OSAP
+  - budgeting
+  - emergency fund
+  - credit score
+  - debt payoff
+  - saving money
+  - investing for beginners
+  - financial literacy
+  - women investing
+  - women finance
+  - family budget
+  - child benefit
+  - CCB
+  - maternity leave
+  - EI benefits
+  - CPP
+  - OAS
+  # Russian finance terms
+  - инвестиции
+  - сбережения
+  - бюджет
+  - финансовая грамотность
+  - вклады
+  - акции
+  - облигации
+  - пенсия
+  - налоги
+  - ипотека
+
+llm:
+  provider: xai
+  model: grok-4
+  system_prompt_file: shows/prompts/fp_system.txt
+  digest_prompt_file: shows/prompts/fp_digest.txt
+  podcast_prompt_file: shows/prompts/fp_podcast.txt
+  digest_temperature: 0.4
+  podcast_temperature: 0.75
+  max_tokens: 5000
+  podcast_max_tokens: 6000
+
+tts:
+  provider: fish
+  fish_voice_reference: assets/voice_references/russian_female_reference.wav
+  fish_temperature: 0.7
+  fish_top_p: 0.7
+  fish_speed: 1.0
+  fish_repetition_penalty: 1.2
+  fish_format: mp3
+  fish_mp3_bitrate: 128
+  max_chars: 4000
+  validate_transcription: false
+
+audio:
+  music_file: assets/music/tesla_shorts_time.mp3
+  voice_intro_delay: 5.0
+  intro_duration: 5.0
+  overlap_duration: 10.0
+  fade_duration: 10.0
+  outro_duration: 30.0
+  outro_crossfade: 20.0
+  intro_volume: 0.6
+  overlap_volume: 0.5
+  fade_volume: 0.4
+  outro_volume: 0.4
+
+storage:
+  provider: r2
+  bucket: podcast-audio
+  endpoint_env: R2_ENDPOINT_URL
+  access_key_env: R2_ACCESS_KEY_ID
+  secret_key_env: R2_SECRET_ACCESS_KEY
+  public_base_url: "https://audio.nerranetwork.com"
+
+publishing:
+  rss_file: finansy_prosto_podcast.rss
+  rss_title: "Финансы Просто"
+  rss_description: "Ежедневный подкаст о финансах на русском языке для женщин в Канаде. Инвестиции, сбережения, бюджет и финансовая грамотность — просто и понятно. Каждый выпуск — практические советы, новости и ресурсы для финансовой независимости."
+  rss_link: https://nerranetwork.com/finansy-prosto.html
+  rss_author: Nerra Network
+  rss_email: contact@teslashortstime.com
+  rss_image: https://nerranetwork.com/finansy-prosto-podcast-image.jpg
+  rss_category: Business
+  guid_prefix: fp
+  base_url: https://nerranetwork.com
+  audio_subdir: digests/finansy_prosto
+  summaries_json: digests/finansy_prosto/summaries_finansy_prosto.json
+  summaries_podcast_name: finansy_prosto
+  player_html: finansy-prosto.html
+  summaries_html: finansy-prosto-summaries.html
+  x_enabled: false
+  x_env_prefix: ""
+
+episode:
+  prefix: FP
+  filename_pattern: "{prefix}_Ep{num:03d}_{date:%Y%m%d}.mp3"
+  output_dir: digests/finansy_prosto
+  mp3_glob: "FP_Ep*.mp3"
+
+chapters:
+  enabled: true
+  section_markers:
+    - pattern: "Финансы Просто|добро пожаловать"
+      title: "Приветствие"
+    - pattern: "главная тема|главная новость|самое важное"
+      title: "Главная тема"
+    - pattern: "как это работает|разбираемся|давайте разберёмся"
+      title: "Как это работает"
+    - pattern: "попробуйте сами|практический совет|на практике"
+      title: "Практические советы"
+    - pattern: "коротко и ясно|быстрые новости"
+      title: "Коротко и ясно"
+    - pattern: "на сегодня всё|до завтра"
+      title: "Завершение"
+
+newsletter:
+  enabled: false

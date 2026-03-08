@@ -9,6 +9,7 @@ Chatterbox, Qwen3-TTS, Orpheus) to reproduce the show's voice without training.
 | File | Source | Duration | Format | Notes |
 |------|--------|----------|--------|-------|
 | `tst_voice_reference.wav` | TST Ep397 (2026-03-03) | 30 s | 24 kHz, mono, PCM 16-bit | Extracted at 35 s offset (after intro music) |
+| `russian_female_reference.wav` | **NEEDED** | 10-30 s | 24 kHz, mono, PCM 16-bit | Russian female voice for Финансы Просто show. See instructions below. |
 
 ## Extraction Method
 
@@ -50,3 +51,25 @@ config for its specific music timing to determine the correct offset:
 | OV   | `shows/omni_view.yaml` | Check config |
 | EI   | `shows/env_intel.yaml` | Check config |
 | M&A  | `shows/models_agents.yaml` | Check config |
+
+## Финансы Просто (Russian Female Voice)
+
+The `russian_female_reference.wav` file is **required before the first episode
+can be generated**. This file should contain 10-30 seconds of natural Russian
+female speech (warm, conversational tone — like explaining something to a friend).
+
+### Options for sourcing:
+
+1. **Record a sample** — Have a native Russian speaker read a short paragraph
+   naturally. Record at 24 kHz mono WAV.
+2. **Public domain audio** — Find a CC0/public domain Russian female speech
+   sample (e.g., from LibriVox Russian audiobooks or Mozilla Common Voice).
+3. **Fish Audio voice gallery** — Use a pre-existing Russian female voice from
+   Fish Audio's public gallery instead of zero-shot cloning. Update
+   `shows/finansy_prosto.yaml` to use a `voice_id` instead of `reference_audio`.
+
+### Format requirements:
+```bash
+# Convert any source audio to the correct format:
+ffmpeg -y -i source_audio.mp3 -ss <offset> -t 30 -ar 24000 -ac 1 russian_female_reference.wav
+```

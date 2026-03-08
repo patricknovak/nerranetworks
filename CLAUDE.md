@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Automated daily podcast generation system running 7 shows via a unified
+Automated daily podcast generation system running 8 shows via a unified
 `run_show.py` runner + per-show YAML configs, plus 4 legacy standalone scripts
 (deprecated — see note below). Shows use **ElevenLabs TTS**, **Fish Audio TTS**
 (with voice cloning), **Kokoro TTS**, or **Chatterbox TTS** (configurable per
@@ -18,6 +18,7 @@ show via `tts.provider` in YAML) and post to X/Twitter via
 | Env Intel | — | `shows/env_intel.yaml` | Weekdays | `@teslashortstime` | ElevenLabs |
 | Models & Agents | — | `shows/models_agents.yaml` | Daily | — (X disabled) | ElevenLabs |
 | Models & Agents for Beginners | — | `shows/models_agents_beginners.yaml` | Daily | — (X disabled) | Fish Audio |
+| Финансы Просто | — | `shows/finansy_prosto.yaml` | Daily | — (X disabled) | Fish Audio |
 
 **Science That Changes Everything** (`digests/science_that_changes.py`, ~83 lines)
 is a standalone X-posting script, not a podcast show.
@@ -44,7 +45,9 @@ Tesla-shorts-time/
 │   ├── fascinating_frontiers.yaml
 │   ├── planetterrian.yaml
 │   ├── env_intel.yaml
-│   └── models_agents.yaml
+│   ├── models_agents.yaml
+│   ├── models_agents_beginners.yaml
+│   └── finansy_prosto.yaml
 ├── digests/                       # Legacy show scripts (deprecated) + ALL generated output
 │   ├── tesla_shorts_time.py       # DEPRECATED — use run_show.py tesla
 │   ├── omni_view.py               # DEPRECATED — use run_show.py omni_view
@@ -59,6 +62,7 @@ Tesla-shorts-time/
 │   ├── env_intel/                 # EI output + summaries_env_intel.json
 │   ├── models_agents/             # M&A output + summaries_models_agents.json
 │   ├── models_agents_beginners/   # MAB output (Fish Audio TTS)
+│   ├── finansy_prosto/            # FP output (Fish Audio TTS, Russian)
 │   └── *.mp3, *.md, *.txt        # Legacy TST flat output (historical)
 ├── engine/                        # Shared modules
 │   ├── __init__.py
@@ -108,6 +112,10 @@ Tesla-shorts-time/
   Uses **Fish Audio TTS** (cloud API, S1 model, #1 TTS-Arena2, 0.008 WER)
   with zero-shot voice cloning from TST voice reference sample. Post-TTS
   Whisper validation enabled. X posting disabled.
+- **FP** (Финансы Просто) runs via `run_show.py` +
+  `shows/finansy_prosto.yaml`; Russian-language financial literacy podcast
+  for women in Canada. Uses **Fish Audio TTS** with Russian female voice
+  cloning. All content generated in Russian. X posting disabled.
 - All shows delegate X posting to `engine.publisher.post_to_x()`
 - TST/FF/PT delegate voice normalization to `engine.audio.normalize_voice()`
 - All shows use `engine.audio.mix_with_music()` for music mixing (3 modes:
