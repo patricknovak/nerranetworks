@@ -1,6 +1,6 @@
 name: "Финансы Просто"
 slug: finansy_prosto
-description: "Ежедневный подкаст о финансах на русском языке для женщин в Канаде. Инвестиции, сбережения, бюджет и финансовая грамотность — просто и понятно."
+description: "Ежедневный подкаст о финансах на русском языке для женщин в Канаде, из Ванкувера. Инвестиции, сбережения, бюджет и финансовая грамотность — просто и понятно."
 
 sources:
   # Canadian Personal Finance
@@ -26,6 +26,14 @@ sources:
     label: BNN Bloomberg Canada
   - url: https://www.cbc.ca/webfeed/rss/rss-business
     label: CBC Business
+
+  # Vancouver / BC Focus
+  - url: https://vancouversun.com/category/business/feed
+    label: Vancouver Sun Business
+  - url: https://www.bcbusiness.ca/feed
+    label: BCBusiness
+  - url: https://biv.com/rss.xml
+    label: Business in Vancouver
 
   # Russian-Language Finance & Immigration Resources
   - url: https://fintolk.pro/feed/
@@ -73,6 +81,24 @@ keywords:
   - EI benefits
   - CPP
   - OAS
+  # Vancouver / BC specific
+  - Vancouver real estate
+  - BC housing
+  - Vancouver rent
+  - BC property tax
+  - Vancouver mortgage
+  - BC speculation tax
+  - foreign buyer tax
+  - BC home flipping tax
+  - TransLink
+  - BC hydro
+  - ICBC
+  - BC minimum wage
+  - Vancouver cost of living
+  - Surrey
+  - Burnaby
+  - Richmond
+  - Coquitlam
   # Russian finance terms
   - инвестиции
   - сбережения
@@ -99,13 +125,13 @@ llm:
 tts:
   provider: fish
   fish_voice_reference: assets/voice_references/hanna_ponomarenko_reference.wav
-  fish_temperature: 0.3
-  fish_top_p: 0.5
+  fish_temperature: 0.5
+  fish_top_p: 0.7
   fish_speed: 1.0
-  fish_repetition_penalty: 1.5
+  fish_repetition_penalty: 1.2
   fish_format: mp3
   fish_mp3_bitrate: 192
-  max_chars: 1500
+  max_chars: 4000
   validate_transcription: false
 
 audio:
