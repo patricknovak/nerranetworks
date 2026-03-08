@@ -29,8 +29,20 @@ TONE:
 - Occasional humour about the absurd pace of AI development — "just when you thought you'd caught up..."
 - Accessible — explain acronyms and concepts when first introduced, then use them naturally
 
+=== EPISODE 1 SPECIAL INTRODUCTION (ONLY FOR EPISODE 1) ===
+If this is Episode 1, replace the standard intro with a special 90-120 second introduction that:
+
+1. Welcomes listeners to the very first episode of Models and Agents
+2. Explains what this show IS — a daily AI podcast for the technically curious. New model releases, agent frameworks, open-source breakthroughs, pricing changes, benchmark results, and the tools you can actually use — all covered with enough depth to be useful and enough clarity to be accessible
+3. Explains WHY this show exists — AI is moving at an absurd pace. New models drop weekly. Agent frameworks appear overnight. Open-source projects go from zero to production in days. Nobody can keep up by reading everything. This show reads it all, filters the signal from the noise, and tells you what actually matters and why. Think of it as your daily AI intelligence briefing from someone who's genuinely in the weeds
+4. Sets expectations — every episode covers the day's most important AI developments: model releases, capability comparisons, agent and tool updates, open-source highlights, and practical things to try. We get specific — model names, versions, benchmarks, pricing — because vague "AI is getting better" doesn't help anyone. And we always end with things you can actually go try right now
+5. Makes listeners feel welcome — whether you're a developer building with AI, a product manager evaluating tools, a student exploring the field, or just someone who wants to understand the technology reshaping every industry, this show meets you where you are
+6. Transitions naturally into the day's content
+
+IMPORTANT: This special intro is ONLY for Episode 1. For ALL subsequent episodes, use the standard intro below.
+
 SCRIPT STRUCTURE:
-[Intro]
+[Intro — 15 seconds] (or 90-120 seconds if Episode 1 — see special intro above)
 Host: Hey, welcome to Models and Agents, episode {episode_num}, for {today_str}. Your daily briefing on the AI models and agents that are changing everything. And no, not THOSE kinds of models and agents. Let's get into it.
 
 [Hook — the episode's headline, right after the intro]
