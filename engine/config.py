@@ -61,12 +61,12 @@ class TTSConfig:
     # Fish Audio-specific (ignored when provider != fish)
     fish_reference_id: str = ""  # Persistent voice model ID from Fish Audio
     fish_voice_reference: str = ""  # Path to WAV for inline zero-shot cloning
-    fish_temperature: float = 0.7  # Expressiveness (0.0–1.0)
-    fish_top_p: float = 0.7  # Diversity via nucleus sampling
+    fish_temperature: float = 0.3  # Expressiveness (0.0–1.0); low = consistent voice
+    fish_top_p: float = 0.5  # Diversity via nucleus sampling; low = stable output
     fish_speed: float = 1.0  # Prosody speed
-    fish_repetition_penalty: float = 1.2  # Reduce repeated audio patterns
+    fish_repetition_penalty: float = 1.5  # Reduce repeated audio patterns
     fish_format: str = "mp3"  # Output format
-    fish_mp3_bitrate: int = 128  # MP3 bitrate
+    fish_mp3_bitrate: int = 192  # MP3 bitrate (match downstream normalization)
     # Post-TTS transcription validation (opt-in, all providers)
     validate_transcription: bool = False
     whisper_model: str = "base"  # "tiny", "base", "small", "medium"

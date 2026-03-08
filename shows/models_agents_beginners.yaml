@@ -111,13 +111,13 @@ llm:
 tts:
   provider: fish
   fish_voice_reference: assets/voice_references/tst_voice_reference.wav
-  fish_temperature: 0.7
-  fish_top_p: 0.7
+  fish_temperature: 0.3
+  fish_top_p: 0.5
   fish_speed: 1.0
-  fish_repetition_penalty: 1.2
+  fish_repetition_penalty: 1.5
   fish_format: mp3
-  fish_mp3_bitrate: 128
-  max_chars: 4000
+  fish_mp3_bitrate: 192
+  max_chars: 1500
   validate_transcription: true
   whisper_model: base
   whisper_threshold: 0.7
