@@ -1,12 +1,14 @@
-"""Models & Agents for Beginners — pronunciation hook for Chatterbox TTS.
+"""Models & Agents for Beginners — pronunciation hook for Fish Audio TTS.
 
-Chatterbox is a neural TTS model that handles standard English pronunciation
-well on its own.  Only override words that Chatterbox genuinely mispronounces.
+Fish Audio S1 is a cloud neural TTS with excellent built-in text normalization
+(0.008 WER, #1 on TTS-Arena2).  The pronunciation pipeline acts as a safety
+net — acronym expansions (AI→"A I", GPU→"G P U") are universal and help all
+providers.  Fish Audio handles standard English, proper names, and most
+technical terms correctly natively.
 
-**Key principle:** Do NOT override common English words or well-known names
-(Gemini, Claude, Llama, Grok, DALL-E) — Chatterbox pronounces these correctly
-natively.  Only override obscure acronyms, non-English names, and compound
-words that need splitting.
+**Key principle:** Keep acronym expansions and non-English name overrides.
+Do NOT add phonetic respellings for common English words — Fish Audio handles
+these natively.
 """
 
 from __future__ import annotations

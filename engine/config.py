@@ -41,7 +41,7 @@ class LLMConfig:
 
 @dataclass
 class TTSConfig:
-    provider: str = "elevenlabs"  # "elevenlabs", "kokoro", or "chatterbox"
+    provider: str = "elevenlabs"  # "elevenlabs", "kokoro", "chatterbox", or "fish"
     voice_id: str = "dTrBzPvD2GpAqkk1MUzA"
     model: str = "eleven_turbo_v2_5"
     stability: float = 0.65
@@ -58,6 +58,15 @@ class TTSConfig:
     chatterbox_exaggeration: float = 0.5  # Emotional intensity (0.0–1.0)
     chatterbox_cfg_weight: float = 0.5  # Prosody/accent guidance weight
     chatterbox_device: str = "cpu"  # "cpu" or "cuda"
+    # Fish Audio-specific (ignored when provider != fish)
+    fish_reference_id: str = ""  # Persistent voice model ID from Fish Audio
+    fish_voice_reference: str = ""  # Path to WAV for inline zero-shot cloning
+    fish_temperature: float = 0.7  # Expressiveness (0.0–1.0)
+    fish_top_p: float = 0.7  # Diversity via nucleus sampling
+    fish_speed: float = 1.0  # Prosody speed
+    fish_repetition_penalty: float = 1.2  # Reduce repeated audio patterns
+    fish_format: str = "mp3"  # Output format
+    fish_mp3_bitrate: int = 128  # MP3 bitrate
     # Post-TTS transcription validation (opt-in, all providers)
     validate_transcription: bool = False
     whisper_model: str = "base"  # "tiny", "base", "small", "medium"

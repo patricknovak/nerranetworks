@@ -387,7 +387,7 @@ def run(args: argparse.Namespace) -> None:
         tts_script_path.write_text(podcast_script, encoding="utf-8")
         logger.info("TTS script saved: %s", tts_script_path)
 
-        # 9. TTS — route based on provider (elevenlabs, kokoro, or chatterbox)
+        # 9. TTS — route based on provider (elevenlabs, kokoro, chatterbox, or fish)
         tts_provider = getattr(config.tts, "provider", "elevenlabs")
 
         tts_ready = False
@@ -416,6 +416,26 @@ def run(args: argparse.Namespace) -> None:
                             config.tts.kokoro_voice, config.tts.kokoro_speed)
             except Exception as e:
                 logger.error("Kokoro TTS unavailable: %s. Skipping TTS.", e)
+        elif tts_provider == "fish":
+            try:
+                from engine.tts import synthesize_fish, synthesize_fish_sections
+                fish_api_key = (os.getenv("FISH_AUDIO_API_KEY") or "").strip()
+                if not fish_api_key:
+                    logger.error("FISH_AUDIO_API_KEY not set. Skipping TTS.")
+                else:
+                    fish_voice_ref = ""
+                    if config.tts.fish_voice_reference:
+                        fish_voice_ref = str(PROJECT_ROOT / config.tts.fish_voice_reference)
+                    tts_ready = True
+                    logger.info(
+                        "TTS provider: Fish Audio (ref_id=%s, voice_ref=%s, temp=%.2f, speed=%.1f)",
+                        config.tts.fish_reference_id or "(none)",
+                        config.tts.fish_voice_reference or "(none)",
+                        config.tts.fish_temperature,
+                        config.tts.fish_speed,
+                    )
+            except Exception as e:
+                logger.error("Fish Audio TTS unavailable: %s. Skipping TTS.", e)
         else:
             api_key = (os.getenv("ELEVENLABS_API_KEY") or "").strip()
             if not api_key:
@@ -474,6 +494,22 @@ def run(args: argparse.Namespace) -> None:
                             section_prefix=f"sec_ep{episode_num:03d}",
                             max_chars=config.tts.max_chars,
                         )
+                    elif tts_provider == "fish":
+                        section_files = synthesize_fish_sections(
+                            sections,
+                            section_tmp_dir,
+                            api_key=fish_api_key,
+                            reference_id=config.tts.fish_reference_id,
+                            voice_reference=fish_voice_ref,
+                            section_prefix=f"sec_ep{episode_num:03d}",
+                            max_chars=config.tts.max_chars,
+                            temperature=config.tts.fish_temperature,
+                            top_p=config.tts.fish_top_p,
+                            speed=config.tts.fish_speed,
+                            repetition_penalty=config.tts.fish_repetition_penalty,
+                            format=config.tts.fish_format,
+                            mp3_bitrate=config.tts.fish_mp3_bitrate,
+                        )
                     else:
                         from engine.tts import synthesize_sections
                         section_files = synthesize_sections(
@@ -522,6 +558,20 @@ def run(args: argparse.Namespace) -> None:
                             lang=config.tts.kokoro_lang,
                             max_chars=config.tts.max_chars,
                         )
+                    elif tts_provider == "fish":
+                        synthesize_fish(
+                            podcast_script, raw_mp3,
+                            api_key=fish_api_key,
+                            reference_id=config.tts.fish_reference_id,
+                            voice_reference=fish_voice_ref,
+                            max_chars=config.tts.max_chars,
+                            temperature=config.tts.fish_temperature,
+                            top_p=config.tts.fish_top_p,
+                            speed=config.tts.fish_speed,
+                            repetition_penalty=config.tts.fish_repetition_penalty,
+                            format=config.tts.fish_format,
+                            mp3_bitrate=config.tts.fish_mp3_bitrate,
+                        )
                     else:
                         synthesize(
                             podcast_script, config.tts.voice_id, raw_mp3,
@@ -547,6 +597,20 @@ def run(args: argparse.Namespace) -> None:
                         speed=config.tts.kokoro_speed,
                         lang=config.tts.kokoro_lang,
                         max_chars=config.tts.max_chars,
+                    )
+                elif tts_provider == "fish":
+                    synthesize_fish(
+                        podcast_script, raw_mp3,
+                        api_key=fish_api_key,
+                        reference_id=config.tts.fish_reference_id,
+                        voice_reference=fish_voice_ref,
+                        max_chars=config.tts.max_chars,
+                        temperature=config.tts.fish_temperature,
+                        top_p=config.tts.fish_top_p,
+                        speed=config.tts.fish_speed,
+                        repetition_penalty=config.tts.fish_repetition_penalty,
+                        format=config.tts.fish_format,
+                        mp3_bitrate=config.tts.fish_mp3_bitrate,
                     )
                 else:
                     synthesize(

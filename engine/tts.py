@@ -1,9 +1,11 @@
 """TTS helpers for the podcast generation pipeline.
 
-Supports three providers:
+Supports four providers:
   - **ElevenLabs** (default): cloud API, paid, high quality
   - **Kokoro** (kokoro-onnx): local inference, free, Apache 2.0
   - **Chatterbox** (chatterbox-tts): local inference, free, MIT license,
+    zero-shot voice cloning from a reference audio sample
+  - **Fish Audio** (fish-audio-sdk): cloud API, paid, #1 TTS-Arena2,
     zero-shot voice cloning from a reference audio sample
 
 ElevenLabs functions:
@@ -20,6 +22,10 @@ Kokoro functions:
 Chatterbox functions:
   - synthesize_chatterbox(): top-level Chatterbox entry point — text in, audio file out
   - synthesize_chatterbox_sections(): section-aware Chatterbox synthesis
+
+Fish Audio functions:
+  - synthesize_fish(): top-level Fish Audio entry point — text in, audio file out
+  - synthesize_fish_sections(): section-aware Fish Audio synthesis
 """
 
 import logging
@@ -877,6 +883,209 @@ def synthesize_chatterbox_sections(
         section_files.append(section_path)
         logger.info(
             "Chatterbox section %d/%d (%d chars): %s",
+            i + 1, len(sections), len(section_text), section_path.name,
+        )
+
+    return section_files
+
+
+# ---------------------------------------------------------------------------
+# Fish Audio TTS (fish-audio-sdk) — cloud API, voice cloning, #1 TTS-Arena2
+# ---------------------------------------------------------------------------
+
+
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=2, max=10),
+    retry=retry_if_exception_type((requests.RequestException, ConnectionError, TimeoutError)),
+)
+def _fish_synthesize_chunk(
+    text: str,
+    output_path: Path,
+    *,
+    api_key: str,
+    reference_id: str = "",
+    voice_reference: str = "",
+    temperature: float = 0.7,
+    top_p: float = 0.7,
+    speed: float = 1.0,
+    repetition_penalty: float = 1.2,
+    format: str = "mp3",
+    mp3_bitrate: int = 128,
+) -> None:
+    """Synthesize a single text chunk via Fish Audio API."""
+    from fishaudio import FishAudio
+    from fishaudio.types.tts import TTSConfig as FishTTSConfig
+
+    client = FishAudio(api_key=api_key)
+
+    # Build config with generation parameters
+    fish_config = FishTTSConfig(
+        format=format,
+        mp3_bitrate=mp3_bitrate,
+        temperature=temperature,
+        top_p=top_p,
+        repetition_penalty=repetition_penalty,
+    )
+
+    convert_kwargs: dict = {
+        "text": text,
+        "config": fish_config,
+    }
+
+    # Speed as a direct parameter on convert()
+    if speed != 1.0:
+        convert_kwargs["speed"] = speed
+
+    # Persistent voice model takes priority over inline cloning
+    if reference_id:
+        convert_kwargs["reference_id"] = reference_id
+    elif voice_reference:
+        from fishaudio.types.tts import ReferenceAudio
+
+        ref_path = Path(voice_reference)
+        if not ref_path.exists():
+            raise FileNotFoundError(f"Voice reference not found: {ref_path}")
+        ref_audio = ref_path.read_bytes()
+        convert_kwargs["references"] = [ReferenceAudio(
+            audio=ref_audio,
+            text="",  # Fish Audio infers from the audio
+        )]
+
+    audio = client.tts.convert(**convert_kwargs)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, "wb") as f:
+        f.write(audio)
+    logger.info("Fish Audio chunk: %d chars → %s", len(text), output_path.name)
+
+
+def synthesize_fish(
+    text: str,
+    output_path: str | Path,
+    *,
+    api_key: str,
+    reference_id: str = "",
+    voice_reference: str = "",
+    max_chars: int = 4000,
+    temperature: float = 0.7,
+    top_p: float = 0.7,
+    speed: float = 1.0,
+    repetition_penalty: float = 1.2,
+    format: str = "mp3",
+    mp3_bitrate: int = 128,
+) -> Path:
+    """Top-level Fish Audio entry point: text in, audio file path out.
+
+    Handles chunking and concatenation. Uses zero-shot voice cloning
+    when *voice_reference* is provided, or a persistent voice model
+    when *reference_id* is set.
+    """
+    output_path = Path(output_path)
+    chunks = chunk_text(text, max_chars=max_chars)
+
+    common = dict(
+        api_key=api_key,
+        reference_id=reference_id,
+        voice_reference=voice_reference,
+        temperature=temperature,
+        top_p=top_p,
+        speed=speed,
+        repetition_penalty=repetition_penalty,
+        format=format,
+        mp3_bitrate=mp3_bitrate,
+    )
+
+    if len(chunks) == 1:
+        _fish_synthesize_chunk(text, output_path, **common)
+        return output_path
+
+    # Multi-chunk: synthesize each, then concatenate with ffmpeg
+    chunk_files: List[Path] = []
+    for i, chunk_str in enumerate(chunks):
+        chunk_path = output_path.parent / f"_fish_chunk_{i:03d}.mp3"
+        _fish_synthesize_chunk(chunk_str, chunk_path, **common)
+        chunk_files.append(chunk_path)
+
+    concat_list = output_path.parent / "_fish_concat.txt"
+    with open(concat_list, "w") as f:
+        for cf in chunk_files:
+            f.write(f"file '{cf.absolute()}'\n")
+
+    subprocess.run(
+        [
+            "ffmpeg", "-y",
+            "-f", "concat", "-safe", "0",
+            "-i", str(concat_list),
+            "-c:a", "libmp3lame", "-q:a", "2",
+            str(output_path),
+        ],
+        check=True,
+        capture_output=True,
+        timeout=300,
+    )
+
+    # Cleanup temp files
+    for cf in chunk_files:
+        try:
+            cf.unlink()
+        except OSError:
+            pass
+    try:
+        concat_list.unlink()
+    except OSError:
+        pass
+
+    logger.info("Fish Audio: %d chunks → %s", len(chunks), output_path.name)
+    return output_path
+
+
+def synthesize_fish_sections(
+    sections: List[str],
+    output_dir: Path,
+    *,
+    api_key: str,
+    reference_id: str = "",
+    voice_reference: str = "",
+    section_prefix: str = "section",
+    max_chars: int = 4000,
+    temperature: float = 0.7,
+    top_p: float = 0.7,
+    speed: float = 1.0,
+    repetition_penalty: float = 1.2,
+    format: str = "mp3",
+    mp3_bitrate: int = 128,
+) -> List[Path]:
+    """Synthesize multiple script sections into individual Fish Audio files.
+
+    Mirrors ``synthesize_sections()`` for section-aware TTS.
+    """
+    output_dir.mkdir(parents=True, exist_ok=True)
+    section_files: List[Path] = []
+
+    for i, section_text in enumerate(sections):
+        section_text = section_text.strip()
+        if not section_text:
+            logger.warning("Skipping empty section %d", i)
+            continue
+
+        section_path = output_dir / f"{section_prefix}_{i:03d}.mp3"
+        synthesize_fish(
+            section_text,
+            section_path,
+            api_key=api_key,
+            reference_id=reference_id,
+            voice_reference=voice_reference,
+            max_chars=max_chars,
+            temperature=temperature,
+            top_p=top_p,
+            speed=speed,
+            repetition_penalty=repetition_penalty,
+            format=format,
+            mp3_bitrate=mp3_bitrate,
+        )
+        section_files.append(section_path)
+        logger.info(
+            "Fish section %d/%d (%d chars): %s",
             i + 1, len(sections), len(section_text), section_path.name,
         )
 
