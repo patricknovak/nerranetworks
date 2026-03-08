@@ -60,15 +60,27 @@ voice — natural Russian female speech (warm, conversational tone). The podcast
 character is named "Olya" but uses Hanna Ponomarenko's voice via Fish Audio
 zero-shot cloning.
 
+### Source: LibriVox (Public Domain)
+
+Hanna Ponomarenko is a solo reader of **"Избранные (Из жизни маленьких людей)"**
+by Sholem Aleichem on LibriVox (~1h42m of warm Russian narration):
+
+- **Internet Archive:** https://archive.org/details/izbrannye_2212_librivox
+- **LibriVox page:** https://librivox.org/izbrannye-by-sholem-aleichem/
+
 ### Setup:
 
-1. **Obtain a voice sample** from Hanna Ponomarenko — 10-30 seconds of clear
-   Russian speech without background noise or music.
-2. **Convert to the correct format:**
-
 ```bash
-ffmpeg -y -i hanna_source.mp3 -ss <offset> -t 30 -ar 24000 -ac 1 \
+# 1. Download Chapter 1 (or any chapter) from the audiobook
+curl -L -o /tmp/hanna_ch01.mp3 \
+  "https://www.archive.org/download/izbrannye_2212_librivox/izbrannye_01_alejhem_128kb.mp3"
+
+# 2. Skip the LibriVox intro (~12s), extract 30s of clean speech
+ffmpeg -y -i /tmp/hanna_ch01.mp3 -ss 15 -t 30 -ar 24000 -ac 1 \
   assets/voice_references/hanna_ponomarenko_reference.wav
+
+# 3. Verify the result (should be ~30s of clean Russian female speech)
+ffprobe assets/voice_references/hanna_ponomarenko_reference.wav
 ```
 
 ### Quality requirements:
