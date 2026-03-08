@@ -16,6 +16,8 @@ on:
     - cron: '0 15 * * *'
     # Models & Agents for Beginners: Daily ~8 AM Pacific (16:00 UTC)
     - cron: '0 16 * * *'
+    # Финансы Просто: Daily ~9 AM Pacific (17:00 UTC)
+    - cron: '0 17 * * *'
 
   workflow_dispatch:
     inputs:
@@ -31,6 +33,7 @@ on:
           - env_intel
           - models_agents
           - models_agents_beginners
+          - finansy_prosto
           - all
 
 permissions:
@@ -58,7 +61,7 @@ jobs:
 
           if event_name == "workflow_dispatch":
               if dispatch_show == "all":
-                  shows = ["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel", "models_agents", "models_agents_beginners"]
+                  shows = ["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel", "models_agents", "models_agents_beginners", "finansy_prosto"]
               else:
                   shows = [dispatch_show]
           else:
@@ -102,6 +105,9 @@ jobs:
               # 16:00 UTC — Models & Agents for Beginners (daily, ~8 AM Pacific)
               elif utc_hour == 16:
                   shows.append("models_agents_beginners")
+              # 17:00 UTC — Финансы Просто (daily, ~9 AM Pacific)
+              elif utc_hour == 17:
+                  shows.append("finansy_prosto")
 
               # Detect known DST no-ops (cron fires but show runs at a different
               # UTC hour depending on EST/EDT).  These are expected empty results.

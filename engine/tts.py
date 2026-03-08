@@ -999,30 +999,91 @@ def synthesize_fish(
         _fish_synthesize_chunk(text, output_path, **common)
         return output_path
 
-    # Multi-chunk: synthesize each, then concatenate with ffmpeg
+    # Multi-chunk: synthesize each, normalize per-chunk, then crossfade-concat
     chunk_files: List[Path] = []
     for i, chunk_str in enumerate(chunks):
-        chunk_path = output_path.parent / f"_fish_chunk_{i:03d}.mp3"
-        _fish_synthesize_chunk(chunk_str, chunk_path, **common)
-        chunk_files.append(chunk_path)
+        chunk_raw = output_path.parent / f"_fish_chunk_{i:03d}_raw.mp3"
+        chunk_norm = output_path.parent / f"_fish_chunk_{i:03d}.mp3"
+        _fish_synthesize_chunk(chunk_str, chunk_raw, **common)
 
-    concat_list = output_path.parent / "_fish_concat.txt"
-    with open(concat_list, "w") as f:
+        # Per-chunk loudness normalization for consistent quality across chunks
+        try:
+            subprocess.run(
+                [
+                    "ffmpeg", "-y", "-i", str(chunk_raw),
+                    "-af", "loudnorm=I=-18:TP=-1.5:LRA=11:linear=true",
+                    "-ar", "44100", "-ac", "1",
+                    "-c:a", "libmp3lame", "-b:a", f"{mp3_bitrate}k",
+                    str(chunk_norm),
+                ],
+                check=True, capture_output=True, timeout=120,
+            )
+            chunk_raw.unlink(missing_ok=True)
+        except (subprocess.CalledProcessError, OSError):
+            # Fallback: use raw chunk without normalization
+            logger.warning("Chunk %d normalization failed, using raw audio", i)
+            if chunk_raw.exists():
+                chunk_raw.rename(chunk_norm)
+
+        chunk_files.append(chunk_norm)
+
+    # Crossfade concatenation: overlap chunks by 50ms to eliminate seam artifacts
+    if len(chunk_files) == 2:
+        # Two chunks: single crossfade
+        subprocess.run(
+            [
+                "ffmpeg", "-y",
+                "-i", str(chunk_files[0]), "-i", str(chunk_files[1]),
+                "-filter_complex",
+                "[0:a][1:a]acrossfade=d=0.05:c1=tri:c2=tri[out]",
+                "-map", "[out]",
+                "-c:a", "libmp3lame", "-b:a", f"{mp3_bitrate}k",
+                str(output_path),
+            ],
+            check=True, capture_output=True, timeout=300,
+        )
+    else:
+        # 3+ chunks: chain crossfades
+        inputs = []
         for cf in chunk_files:
-            f.write(f"file '{cf.absolute()}'\n")
+            inputs.extend(["-i", str(cf)])
+        # Build filter chain: crossfade pairs sequentially
+        fc_parts = []
+        prev = "[0:a]"
+        for j in range(1, len(chunk_files)):
+            out_label = f"[cf{j}]" if j < len(chunk_files) - 1 else "[out]"
+            fc_parts.append(
+                f"{prev}[{j}:a]acrossfade=d=0.05:c1=tri:c2=tri{out_label}"
+            )
+            prev = out_label
+        filter_complex = ";".join(fc_parts)
 
-    subprocess.run(
-        [
-            "ffmpeg", "-y",
-            "-f", "concat", "-safe", "0",
-            "-i", str(concat_list),
-            "-c:a", "libmp3lame", "-q:a", "2",
+        cmd = ["ffmpeg", "-y"] + inputs + [
+            "-filter_complex", filter_complex,
+            "-map", "[out]",
+            "-c:a", "libmp3lame", "-b:a", f"{mp3_bitrate}k",
             str(output_path),
-        ],
-        check=True,
-        capture_output=True,
-        timeout=300,
-    )
+        ]
+        try:
+            subprocess.run(cmd, check=True, capture_output=True, timeout=300)
+        except subprocess.CalledProcessError:
+            # Fallback: simple concat if crossfade fails
+            logger.warning("Crossfade failed, falling back to concat demuxer")
+            concat_list = output_path.parent / "_fish_concat.txt"
+            with open(concat_list, "w") as f:
+                for cf in chunk_files:
+                    f.write(f"file '{cf.absolute()}'\n")
+            subprocess.run(
+                [
+                    "ffmpeg", "-y",
+                    "-f", "concat", "-safe", "0",
+                    "-i", str(concat_list),
+                    "-c:a", "libmp3lame", "-b:a", f"{mp3_bitrate}k",
+                    str(output_path),
+                ],
+                check=True, capture_output=True, timeout=300,
+            )
+            concat_list.unlink(missing_ok=True)
 
     # Cleanup temp files
     for cf in chunk_files:
@@ -1030,12 +1091,8 @@ def synthesize_fish(
             cf.unlink()
         except OSError:
             pass
-    try:
-        concat_list.unlink()
-    except OSError:
-        pass
 
-    logger.info("Fish Audio: %d chunks → %s", len(chunks), output_path.name)
+    logger.info("Fish Audio: %d chunks (crossfaded) → %s", len(chunks), output_path.name)
     return output_path
 
 
