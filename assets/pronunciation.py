@@ -550,9 +550,10 @@ def replace_signed_numbers(text: str) -> str:
     # part of a longer word.  The \d in the negative lookahead prevents
     # backtracking from consuming only part of the number (e.g. matching
     # "+0.2" instead of "+0.27" in "+0.27%").
-    text = re.sub(r"(?<![a-zA-Z])([+\-])(\d+\.\d+)(?!\d|\s*%|[a-zA-Z])", _signed_num, text)
+    # (?<!\d) prevents matching the hyphen in ranges like "10-20" or "0.1-0.5".
+    text = re.sub(r"(?<![a-zA-Z\d])([+\-])(\d+\.\d+)(?!\d|\s*%|[a-zA-Z])", _signed_num, text)
     # Also handle whole signed numbers like "+3" or "-5" when standalone
-    text = re.sub(r"(?<![a-zA-Z$€£])([+\-])(\d+)(?!\d|\.\d|\s*%|[a-zA-Z])", _signed_num, text)
+    text = re.sub(r"(?<![a-zA-Z$€£\d])([+\-])(\d+)(?!\d|\.\d|\s*%|[a-zA-Z])", _signed_num, text)
     return text
 
 
@@ -798,7 +799,24 @@ def replace_currency(text: str) -> str:
 
 
 def replace_percentages(text: str) -> str:
-    """Convert percentages to spoken form: '+3.59%' -> 'plus three point five nine percent'."""
+    """Convert percentages to spoken form: '+3.59%' -> 'plus three point five nine percent'.
+
+    A digit lookbehind prevents misinterpreting the hyphen in ranges like
+    ``0.1-0.5%`` as a negative sign.
+    """
+    # First, handle percentage ranges: "0.1-0.5%" → "zero point one to zero point five percent"
+    def _pct_range(m: re.Match) -> str:
+        low_str, high_str = m.group(1), m.group(2)
+        try:
+            low = number_to_words(float(low_str))
+            high = number_to_words(float(high_str))
+            return f"{low} to {high} percent"
+        except ValueError:
+            return m.group(0)
+
+    text = re.sub(r"(\d+\.?\d*)\s*[-–—]\s*(\d+\.?\d*)\s*%", _pct_range, text)
+
+    # Then handle single percentages (with optional sign)
     def _pct(m: re.Match) -> str:
         sign = m.group(1) or ""
         num_str = m.group(2)
@@ -809,7 +827,9 @@ def replace_percentages(text: str) -> str:
         except ValueError:
             return m.group(0)
 
-    text = re.sub(r"([+\-]?)(\d+\.?\d*)\s*%", _pct, text)
+    # Negative lookbehind (?<!\d) prevents matching the hyphen in
+    # number ranges like "0.1-0.5%" (already handled above).
+    text = re.sub(r"(?<!\d)([+\-]?)(\d+\.?\d*)\s*%", _pct, text)
     return text
 
 
@@ -1062,6 +1082,39 @@ def replace_scientific_designations(text: str) -> str:
     return text
 
 
+def replace_number_ranges(text: str) -> str:
+    """Convert plain number ranges to spoken form.
+
+    Examples:
+        '10-20 dollars'  → 'ten to twenty dollars'
+        '250–300'        → 'two hundred fifty to three hundred'
+        '50-100'         → 'fifty to one hundred'
+
+    Only matches when both sides are plain numbers (no currency symbol,
+    which is handled by ``replace_price_ranges``).
+    """
+    def _num_range(m: re.Match) -> str:
+        low_str, high_str = m.group(1), m.group(2)
+        try:
+            low_val = float(low_str) if "." in low_str else int(low_str)
+            high_val = float(high_str) if "." in high_str else int(high_str)
+            # Only convert ranges where high > low (not subtraction)
+            if high_val > low_val:
+                return f"{number_to_words(low_val)} to {number_to_words(high_val)}"
+        except ValueError:
+            pass
+        return m.group(0)
+
+    # Match digit-hyphen-digit ranges that aren't preceded by a currency
+    # symbol (those are handled by replace_price_ranges).
+    text = re.sub(
+        r"(?<![$€£])(\d+\.?\d*)\s*[-–—]\s*(\d+\.?\d*)(?!\s*%)",
+        _num_range,
+        text,
+    )
+    return text
+
+
 def replace_standalone_large_numbers(text: str) -> str:
     """Convert large standalone numbers to words for natural speech.
 
@@ -1253,6 +1306,9 @@ def prepare_text_for_tts(
     # Price ranges: $350-$400 → "three fifty to four hundred dollars"
     if do_currency:
         text = replace_price_ranges(text)
+    # Plain number ranges: 10-20 → "ten to twenty" (after price ranges,
+    # before signed numbers so hyphens aren't misread as negatives)
+    text = replace_number_ranges(text)
 
     # ── 4. Number/value expansions ──
     # Order matters: currency before percentages, large numbers before units.

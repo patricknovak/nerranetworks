@@ -1012,6 +1012,18 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
     import re
 
     host_prefix = f"{host_name}:"
+    # Common speaker/stage-direction prefixes that LLMs generate.
+    # These must be stripped so TTS doesn't try to voice them.
+    _SPEAKER_PREFIXES = [
+        "Host:",
+        host_prefix,
+        # Russian (Финансы Просто)
+        "Ведущая:",
+        "Ведущий:",
+        # Generic
+        "Narrator:",
+        "Speaker:",
+    ]
     parts: list[str] = []
     for line in script.splitlines():
         line = line.strip()
@@ -1035,11 +1047,13 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
         if re.match(r"(?i)^\s*source\s*:", line):
             continue
         # Strip speaker prefixes
-        if line.startswith("Host:"):
-            parts.append(line[5:].strip())
-        elif line.startswith(host_prefix):
-            parts.append(line[len(host_prefix):].strip())
-        else:
+        stripped = False
+        for prefix in _SPEAKER_PREFIXES:
+            if line.startswith(prefix):
+                parts.append(line[len(prefix):].strip())
+                stripped = True
+                break
+        if not stripped:
             parts.append(line)
 
     return "\n\n".join(parts).strip()
