@@ -334,10 +334,24 @@ jobs:
 
           # Push with retry (handles concurrent pushes from matrix jobs)
           for attempt in 1 2 3 4; do
-            git pull --rebase origin main || true
-            if git push origin main; then
-              echo "Push succeeded on attempt $attempt"
-              exit 0
+            # Try rebase first (cleanest history)
+            if git pull --rebase origin main; then
+              if git push origin main; then
+                echo "Push succeeded on attempt $attempt (rebase)"
+                exit 0
+              fi
+            else
+              # Rebase failed (likely conflict) — abort and try merge
+              git rebase --abort 2>/dev/null || true
+              echo "Rebase failed on attempt $attempt, trying merge..."
+              if git pull --no-rebase origin main -X theirs; then
+                if git push origin main; then
+                  echo "Push succeeded on attempt $attempt (merge)"
+                  exit 0
+                fi
+              else
+                echo "Merge also failed on attempt $attempt"
+              fi
             fi
             echo "Push failed on attempt $attempt, retrying in $((attempt * 5))s..."
             sleep $((attempt * 5))
