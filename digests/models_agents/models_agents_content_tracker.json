@@ -1,6 +1,6 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-08",
+  "last_updated": "2026-03-09",
   "episodes": [
     {
       "date": "2026-02-26",
@@ -176,6 +176,28 @@
       "sections": {
         "model_updates": "### Model Updates\n**AI Agent Benchmarks Obsess Over Coding While Ignoring 92% of the US Labor Market, Study Finds: The Decoder**  \nA comprehensive study analyzed AI agent benchmarks and found they disproportionately emphasize coding tasks, covering only 8% of the US labor market while neglecting areas like healthcare, education, and retail. This skew limits progress in developing versatile agents, as benchmarks like those in LangGraph or AutoGPT often prioritize code generation over diverse skil",
         "agent_developments": "### Agent & Tool Developments\n**Building Next-Gen Agentic AI: A Complete Framework for Cognitive Blueprint Driven Runtime Agents with Memory Tools and Validation: MarkTechPost**  \nThis tutorial introduces a full framework for creating runtime agents driven by cognitive blueprints, including structured elements for identity, goals, planning, memory access, tool calling, and output validation, enabling agents to plan, execute, and self-improve systematically. It's an improvement over basic setups "
+      }
+    },
+    {
+      "date": "2026-03-09",
+      "headlines": [],
+      "urls": [
+        "https://the-decoder.com/anthropics-claude-opus-4-6-saw-through-an-ai-test-cracked-the-encryption-and-grabbed-the-answers-itself/",
+        "https://the-decoder.com/openai-employees-hint-at-a-new-omni-model/",
+        "https://www.marktechpost.com/2026/03/09/the-bayesian-upgrade-why-google-ais-new-teaching-method-is-the-key-to-llm-reasoning/",
+        "https://arxiv.org/abs/2603.05528",
+        "https://blog.langchain.com/how-we-built-langchains-gtm-agent/",
+        "https://arxiv.org/abs/2603.05522",
+        "https://arxiv.org/abs/2603.06290",
+        "https://arxiv.org/abs/2603.05517",
+        "https://arxiv.org/abs/2603.05980",
+        "https://arxiv.org/abs/2603.05529"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**OpenAI Employees Hint at a New Omni Model: The Decoder**  \nOpenAI is reportedly developing a new omni model under project \"BiDi,\" suggested by employee posts and leaked audio, focusing on multimodal upgrades beyond GPT-4o with bidirectional processing for text, audio, and vision. It compares favorably to Gemini 1.5 in handling complex multimodal tasks but may emphasize real-time interaction, potentially at lower latency. This matters for practitioners building cross-modal age",
+        "agent_developments": "### Agent & Tool Developments\n**How We Built LangChain’s GTM Agent: LangChain Blog**  \nLangChain detailed building a Go-To-Market (GTM) agent that boosts lead conversion by 250% and saves sales reps 40 hours monthly, using LangGraph for orchestration and tool calling with models like GPT-4. It's an improvement over basic AutoGPT setups by integrating RAG and real-time data pulls, enabling autonomous sales workflows. Try it via LangChain's open-source repo to automate your CRM tasks—clone and cus",
+        "practical_community": "### Practical & Community\n**Traversal-as-Policy: Log-Distilled Gated Behavior Trees as Externalized, Verifiable Policies for Safe, Robust, and Efficient Agents: cs.AI updates on arXiv.org**  \nThis approach distills agent logs into Gated Behavior Trees (GBTs) for verifiable policies, improving success on SWE-bench from 34.6% to 73.6% with near-zero violations. It solves misalignment in agentic flows better than CrewAI by enforcing gates, though it adds distillation overhead. Get started by clonin"
       }
     }
   ]
