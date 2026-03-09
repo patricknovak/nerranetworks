@@ -8,7 +8,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Mar 2026 03:16:35 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 09 Mar 2026 16:39:37 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
     <itunes:category text="Technology" />
     <itunes:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
@@ -19,8 +19,51 @@
     </itunes:owner>
     <itunes:summary>A daily AI podcast for beginners and teens. Learn about AI models, agents, and the tools shaping our future — explained simply, with hands-on experiments you can try today. Every expert started as a beginner.</itunes:summary>
     <item>
+      <title>Ep 2: Millions are turning to AI chatbots for money advice – but experts say they're not ready to replace human pros yet.</title>
+      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep002_20260309.mp3</link>
+      <description># Models &amp; Agents for Beginners
+**Date:** March 09, 2026
+
+**HOOK:** Millions are turning to AI chatbots for money advice – but experts say they're not ready to replace human pros yet.
+
+**What's Cool Today:** Imagine asking your phone for retirement tips like you'd ask for homework help – millions are already doing it with tools like ChatGPT, but a new report warns about their limits and why you should double-check everything. We'll dive into that as our big story, explore a fresh way AI is learning to think more like a detective with probabilities, and check out hints of OpenAI's next big upgrade. Plus, a study on how juggling too many AI helpers can fry your brain, with tips to avoid it.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Millions of people are now using AI chatbots like ChatGPT to get advice on things like saving for retirement or planning budgets, according to a report from the Financial Times. These tools are becoming popular because they're free, always available, and can give quick answers to tricky money questions. Think of a chatbot as a super-smart calculator mixed with a friendly advisor – it analyzes your questions about finances and pulls from tons of data to suggest plans, like how much to save each month based on your age and goals. But it's not magic; these AIs are trained on huge amounts of text from books, websites, and articles, so they can explain concepts or run simple calculations, but they don't have real-time access to your bank account or the latest market changes unless you tell them. This is a big deal because it makes financial planning feel less intimidating, especially for teens starting to think about part-time jobs or saving for college – imagine using it to figure out if that video game purchase fits your allowance budget. For students or career changers, it could spark interest in finance careers by showing how AI is changing jobs like advising or accounting. And for parents, it's a way to explore family budgeting without paying for a pro right away. But here's the personal angle: while it's exciting to get instant tips, experts warn these AIs can make mistakes, like giving outdated advice or overlooking personal details, so it's like getting suggestions from a knowledgeable friend who sometimes gets facts wrong. This might affect you by making money talks more accessible, but it also raises questions about trusting tech over humans for big decisions. What you can do right now: Head over to chat.openai.com (or the ChatGPT app on your phone) and try asking something simple like "How can a 16-year-old start saving for a car?" – then compare it to advice from a trusted adult or website like Khan Academy to see the differences. Remember to keep it general and never share real account numbers. It's a fun way to test AI's helpfulness without any risk.
+Source: https://the-decoder.com/millions-already-use-ai-chatbots-for-financial-advice-but-experts-warn-of-clear-limits/
+
+━━━━━━━━━━━━━━━━━━━━
+### Explain Like I'm 14
+Let's unpack probabilistic reasoning, which is basically how AI can get better at updating its "beliefs" based on new clues, like a detective piecing together a mystery. Imagine you're playing a game of Clue, where you start with some guesses about who did it, but as you find more cards, you adjust your ideas – that's probabilistic reasoning, weighing odds and changing your mind with evidence. Step one: You begin with a starting guess, like "It was probably Colonel Mustard because he's sneaky," based on what you know so far. Step two: New info comes in, say a card shows Mustard was elsewhere, so you lower the odds for him and raise them for someone else, calculating how much to shift based on how strong the clue is. Step three: You keep updating with every new piece, getting closer to the truth without ignoring what you learned before. Step four: If the clues conflict, you balance them like averaging opinions from friends to decide on a group project idea. And that's basically what thi...</description>
+      <guid isPermaLink="false">mab-ep002-20260309-163937</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep002_20260309.mp3" length="13360109" type="audio/mpeg" />
+      <pubDate>Mon, 09 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
+      <itunes:duration>09:16</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Models &amp; Agents for Beginners
+**Date:** March 09, 2026
+
+**HOOK:** Millions are turning to AI chatbots for money advice – but experts say they're not ready to replace human pros yet.
+
+**What's Cool Today:** Imagine asking your phone for retirement tips like you'd ask for homework help – millions are already doing it with tools like ChatGPT, but a new report warns about their limits and why you should double-check everything. We'll dive into that as our big story, explore a fresh way AI is learning to think more like a detective with probabilities, and check out hints of OpenAI's next big upgrade. Plus, a study on how juggling too many AI helpers can fry your brain, with tips to avoid it.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Millions of people are now using AI chatbots like ChatGPT to get advice on things like saving for retirement or planning budgets, according to a report from the Financial Times. These tools are becoming popular because they're free, always available, and can give quick answers to tricky money questions. Think of a chatbot as a super-smart calculator mixed with a friendly advisor – it analyzes your questions about finances and pulls from tons of data to suggest plans, like how much to save each month based on your age and goals. But it's not magic; these AIs are trained on huge amounts of text from books, websites, and articles, so they can explain concepts or run simple calculations, but they don't have real-time access to your bank account or the latest market changes unless you tell them. This is a big deal because it makes financial planning feel less intimidating, especially for teens starting to think about part-time jobs or saving for college – imagine using it to figure out if that video game purchase fits your allowance budget. For students or career changers, it could spark interest in finance careers by showing how AI is changing jobs like advising or accounting. And for parents, it's a way to explore family budgeting without paying for a pro right away. But here's the personal angle: while it's exciting to get instant tips, experts warn these AIs can make mistakes, like giving outdated advice or overlooking personal details, so it's like getting suggestions from a knowledgeable friend who sometimes gets facts wrong. This might affect you by making money talks more accessible, but it also raises questions about trusting tech over humans for big decisions. What you can do right now: Head over to chat.openai.com (or the ChatGPT app on your phone) and try asking something simple like "How can a 16-year-old start saving for a car?" – then compare it to advice from a trusted adult or website like Khan Academy to see the differences. Remember to keep it general and never share real account numbers. It's a fun way to test AI's helpfulness without any risk.
+Source: https://the-decoder.com/millions-already-use-ai-chatbots-for-financial-advice-but-experts-warn-of-clear-limits/
+
+━━━━━━━━━━━━━━━━━━━━
+### Explain Like I'm 14
+Let's unpack probabilistic reasoning, which is basically how AI can get better at updating its "beliefs" based on new clues, like a detective piecing together a mystery. Imagine you're playing a game of Clue, where you start with some guesses about who did it, but as you find more cards, you adjust your ideas – that's probabilistic reasoning, weighing odds and changing your mind with evidence. Step one: You begin with a starting guess, like "It was probably Colonel Mustard because he's sneaky," based on what you know so far. Step two: New info comes in, say a card shows Mustard was elsewhere, so you lower the odds for him and raise them for someone else, calculating how much to shift based on how strong the clue is. Step three: You keep updating with every new piece, getting closer to the truth without ignoring what you learned before. Step four: If the clues conflict, you balance them like averaging opinions from friends to decide on a group project idea. And that's basically what thi...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>2</itunes:episode>
+      <itunes:title>Ep 2: Millions are turning to AI chatbots for money advice – but experts say they're not ready to replace human pros yet.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep002.json" type="application/json+chapters" /></item>
+    <item>
       <title>Ep 1: Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!</title>
-      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260309.mp3</link>
       <description># Models &amp; Agents for Beginners
 **Date:** March 09, 2026
 
@@ -61,6 +104,6 @@ Let's explain how AI models learn from unlabeled video data, a hot idea from tod
       <itunes:episode>1</itunes:episode>
       <itunes:title>Ep 1: Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep001.json" type="application/json+chapters" /></item>
+    </item>
   </channel>
 </rss>
