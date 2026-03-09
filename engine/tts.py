@@ -897,7 +897,7 @@ def synthesize_chatterbox_sections(
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_exponential(multiplier=1, min=2, max=10),
-    retry=retry_if_exception_type((requests.RequestException, ConnectionError, TimeoutError)),
+    retry=retry_if_exception_type((requests.RequestException, ConnectionError, TimeoutError, RuntimeError)),
 )
 def _fish_synthesize_chunk(
     text: str,
@@ -964,6 +964,29 @@ def _fish_synthesize_chunk(
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "wb") as f:
         f.write(audio)
+
+    # --- Repetition loop detection ---
+    # Estimate expected duration: ~150 words/min for TTS, ~5 chars/word.
+    # A 2000-char chunk is ~400 words → ~2.7 min → ~160s.
+    # If actual duration is >3x expected, the TTS likely entered a loop.
+    expected_seconds = (len(text) / 5.0) / 150.0 * 60.0  # chars → words → minutes → seconds
+    max_allowed = max(expected_seconds * 3.0, 120.0)  # at least 2 minutes
+    try:
+        result = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+             "-of", "default=noprint_wrappers=1:nokey=1", str(output_path)],
+            capture_output=True, text=True, check=True, timeout=30,
+        )
+        actual_duration = float(result.stdout.strip())
+        if actual_duration > max_allowed:
+            raise RuntimeError(
+                f"Fish Audio repetition loop detected: chunk is {actual_duration:.0f}s "
+                f"(expected ~{expected_seconds:.0f}s, max {max_allowed:.0f}s). "
+                f"Text: {text[:80]}..."
+            )
+    except (subprocess.CalledProcessError, ValueError, FileNotFoundError):
+        pass  # ffprobe unavailable — skip check
+
     logger.info("Fish Audio chunk: %d chars → %s", len(text), output_path.name)
 
 
