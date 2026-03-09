@@ -348,19 +348,37 @@ def run(args: argparse.Namespace) -> None:
 
         # Provide default intro_line/closing_block if hook didn't supply them.
         # All intros include the show name, episode number, date, and hook.
+        # Episode 1 gets a special intro — the podcast prompt templates handle
+        # the detailed first-episode introduction based on {episode_num}.
         host = getattr(config.publishing, "host_name", "Patrick")
-        pod_vars.setdefault(
-            "intro_line",
-            f"{host}: Welcome to {config.name}, episode {episode_num}. "
-            f"Today is {today_str}. {effective_hook}",
-        )
-        pod_vars.setdefault(
-            "closing_block",
-            f"{host}: That's {config.name} for today. "
-            f"If you enjoyed this episode, a rating or review on Apple Podcasts or Spotify "
-            f"really helps new listeners find the show. "
-            f"I'm {host} in Vancouver. Thanks for listening, and I'll see you tomorrow.",
-        )
+        if episode_num == 1:
+            pod_vars.setdefault(
+                "intro_line",
+                f"{host}: Welcome to the very first episode of {config.name}! "
+                f"Today is {today_str}. {effective_hook}",
+            )
+            pod_vars.setdefault(
+                "closing_block",
+                f"{host}: That wraps up our very first episode of {config.name}! "
+                f"If you enjoyed this, please subscribe on Apple Podcasts, Spotify, "
+                f"or wherever you listen — and a rating or review really helps new "
+                f"listeners find us. "
+                f"I'm {host} in Vancouver. Thanks for joining me on this journey, "
+                f"and I'll see you tomorrow for episode two.",
+            )
+        else:
+            pod_vars.setdefault(
+                "intro_line",
+                f"{host}: Welcome to {config.name}, episode {episode_num}. "
+                f"Today is {today_str}. {effective_hook}",
+            )
+            pod_vars.setdefault(
+                "closing_block",
+                f"{host}: That's {config.name} for today. "
+                f"If you enjoyed this episode, a rating or review on Apple Podcasts or Spotify "
+                f"really helps new listeners find the show. "
+                f"I'm {host} in Vancouver. Thanks for listening, and I'll see you tomorrow.",
+            )
         pod_vars.setdefault("tone_hint", "natural and conversational")
 
         t0 = time.monotonic()

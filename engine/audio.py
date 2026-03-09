@@ -85,6 +85,18 @@ def format_duration(seconds: float) -> str:
 # Voice normalization
 # ---------------------------------------------------------------------------
 
+def _voice_norm_codec_args(output_path: str) -> list:
+    """Return codec arguments based on the output file extension.
+
+    WAV outputs use lossless PCM; MP3 outputs use libmp3lame at 192 kbps.
+    Using WAV for intermediates avoids lossy re-encoding when the audio
+    will be processed further (e.g. music mixing).
+    """
+    if output_path.endswith(".wav"):
+        return ["-c:a", "pcm_s16le"]
+    return ["-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast"]
+
+
 def _voice_norm_full_cmd(voice_in: str, voice_out: str) -> list:
     """Build the full 5-stage voice normalization ffmpeg command."""
     return [
@@ -95,9 +107,7 @@ def _voice_norm_full_cmd(voice_in: str, voice_out: str) -> list:
         "acompressor=threshold=-20dB:ratio=4:attack=1:release=100:makeup=2,"
         "alimiter=level_in=1:level_out=0.95:limit=0.95",
         "-ar", "44100", "-ac", "1",
-        "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-        voice_out,
-    ]
+    ] + _voice_norm_codec_args(voice_out) + [voice_out]
 
 
 def _voice_norm_fallback_cmd(voice_in: str, voice_out: str) -> list:
@@ -106,9 +116,7 @@ def _voice_norm_fallback_cmd(voice_in: str, voice_out: str) -> list:
         "ffmpeg", "-y", "-threads", "0", "-i", voice_in,
         "-af", "loudnorm=I=-18:TP=-1.5:LRA=11:linear=true",
         "-ar", "44100", "-ac", "1",
-        "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-        voice_out,
-    ]
+    ] + _voice_norm_codec_args(voice_out) + [voice_out]
 
 
 def normalize_voice(input_path: Path, output_path: Path) -> Path:
@@ -117,6 +125,10 @@ def normalize_voice(input_path: Path, output_path: Path) -> Path:
     Tries the full chain (highpass -> lowpass -> loudnorm -> compressor ->
     limiter).  If it fails (e.g. ffmpeg version mismatch), falls back to
     loudnorm only.
+
+    When *output_path* ends in ``.wav``, output is lossless PCM to avoid
+    an unnecessary lossy encoding pass (useful when the result will be
+    mixed with music and encoded to MP3 later).
 
     Returns *output_path* on success.
     """
@@ -389,14 +401,21 @@ def _silence_cmd(duration_seconds: float, silence_out: str) -> list:
 
 
 def _mono_silence_cmd(duration_seconds: float, silence_out: str) -> list:
-    """Generate mono silence matching the normalized voice format."""
+    """Generate mono silence matching the normalized voice format.
+
+    Output codec adapts to the file extension: WAV for lossless
+    intermediates, MP3 for final output.
+    """
+    codec = (
+        ["-c:a", "pcm_s16le"]
+        if silence_out.endswith(".wav")
+        else ["-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast"]
+    )
     return [
         "ffmpeg", "-y", "-threads", "0",
         "-f", "lavfi", "-i", "anullsrc=r=44100:cl=mono",
         "-t", str(duration_seconds),
-        "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
-        silence_out,
-    ]
+    ] + codec + [silence_out]
 
 
 def _music_concat_cmd(concat_list: str, music_full_out: str) -> list:
@@ -488,8 +507,8 @@ def mix_with_music(
     with tempfile.TemporaryDirectory(dir=voice_path.parent) as tmp_str:
         tmp_dir = Path(tmp_str)
 
-        # Normalize voice first
-        voice_mix = tmp_dir / "voice_normalized_mix.mp3"
+        # Normalize voice to lossless WAV — MP3 encoding happens once in final mix
+        voice_mix = tmp_dir / "voice_normalized_mix.wav"
         normalize_voice(voice_path, voice_mix)
 
         # --- Apply voice intro delay if configured ---
@@ -506,13 +525,13 @@ def mix_with_music(
                     voice_intro_delay, intro_duration,
                 )
 
-            voice_silence = tmp_dir / "voice_delay_silence.mp3"
+            voice_silence = tmp_dir / "voice_delay_silence.wav"
             subprocess.run(
                 _mono_silence_cmd(voice_intro_delay, str(voice_silence)),
                 check=True, capture_output=True,
             )
 
-            voice_delayed = tmp_dir / "voice_delayed.mp3"
+            voice_delayed = tmp_dir / "voice_delayed.wav"
             delay_list = tmp_dir / "delay_concat.txt"
             with open(delay_list, "w") as f:
                 f.write(f"file '{voice_silence.absolute()}'\n")
