@@ -5,13 +5,58 @@
     <description>Eight daily podcasts keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, and financial literacy.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Sun, 08 Mar 2026 22:20:20 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 09 Mar 2026 00:44:07 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/omni-view-podcast-image.jpg</url>
       <title>Nerra Network</title>
       <link>https://nerranetwork.com/</link>
     </image>
     <ns0:image href="https://nerranetwork.com/omni-view-podcast-image.jpg" />
+    <item>
+      <title>Ep 2: Imagine an AI detective spotting hidden bugs in your web browser that humans missed for years—game-changer for safer surfing!</title>
+      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep002_20260309.mp3</link>
+      <description># Models &amp; Agents for Beginners
+**Date:** March 09, 2026
+
+**HOOK:** Imagine an AI detective spotting hidden bugs in your web browser that humans missed for years—game-changer for safer surfing!
+
+**What's Cool Today:** Today's biggest buzz is how Anthropic's Claude AI uncovered over 100 security flaws in Firefox, proving AI can supercharge bug-hunting in ways that make our online world safer and more reliable. We'll dive into why this matters for everything from school projects to gaming, plus explore a clever way to spot when AIs make stuff up, a new model that helps with math homework and app interfaces, and an AI tool that's identifying animals to help save wildlife. Stick around for simple ways you can try these ideas yourself, like testing a free AI for science questions or uploading a photo to classify critters.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Anthropic, a company that builds powerful AI models, used their Claude AI to scan the code behind Firefox, a popular web browser like Chrome or Safari, and found over 100 bugs—including some serious security vulnerabilities that had gone unnoticed for decades despite tons of human testing. This happened because Claude can analyze massive amounts of code quickly, spotting patterns and weaknesses that might take people weeks or months to find. Think of Claude like a super-smart code inspector with x-ray vision: it doesn't just read the instructions line by line, but understands how they connect and where things could break, kind of like how a puzzle expert spots missing pieces in a huge jigsaw. Under the hood, Claude is a large language model (an AI trained on vast amounts of text to understand and generate human-like responses), but here it was fine-tuned (adjusted with specific examples) to hunt for code flaws. This is a big deal because it shows AI can make software safer for everyone—imagine fewer crashes in your favorite apps or games, or less risk of hackers stealing info when you're online shopping or chatting with friends. For students, this could mean tools that help debug code in computer science class without pulling your hair out, and for future careers, it opens doors to jobs in cybersecurity where AI does the heavy lifting. If you're a teen gamer, think about how this tech could fix glitches in online multiplayer games faster, keeping things fair and fun. For you specifically, it means the apps and sites you use every day, like social media or homework tools, could get more secure updates quicker, reducing worries about privacy. And here's the exciting part: while you can't run Claude's full bug-hunting setup yourself, you can try a free version of Claude right now to see its smarts in action. Head to anthropic.com/claude, sign up for the free tier, and ask it something like "Explain a common bug in web browsers and how to fix it"—it'll break it down simply, and you can even paste in a snippet of code from a school project to get feedback. This hands-on play lets you feel like an AI-assisted detective, and it's a great way to spark ideas for your own tech experiments.
+Source: https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/
+
+━━━━━━━━━━━━━━━━━━━━
+### Explain Like I'm 14
+Let's unpack "hallucinations" in large language models—these are when an AI like ChatGPT makes up facts that sound real but aren't, like confidently saying the sky is green. Imagine you're playing a game of telephone with a chain of friends: you whisper a story, and by the end, it's twisted because each person adds a little guess or mix-up to fill in what they didn't hear clearly. That's similar to how a language model works—it predicts the next word (or "token," basically a chunk of text like a word or punctuation) based on patterns from tons of training data, but if the patterns are fuzzy or the question is tricky, it might "spill energy" by spreading its guesses too widely instead of focusing on the most likely truth. Step one: the AI breaks you...</description>
+      <guid isPermaLink="false">mab-ep002-20260309-004406</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep002_20260309.mp3" length="13944416" type="audio/mpeg" />
+      <pubDate>Mon, 09 Mar 2026 08:00:00 +0000</pubDate>
+      <ns0:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
+      <ns0:duration>09:40</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents for Beginners
+**Date:** March 09, 2026
+
+**HOOK:** Imagine an AI detective spotting hidden bugs in your web browser that humans missed for years—game-changer for safer surfing!
+
+**What's Cool Today:** Today's biggest buzz is how Anthropic's Claude AI uncovered over 100 security flaws in Firefox, proving AI can supercharge bug-hunting in ways that make our online world safer and more reliable. We'll dive into why this matters for everything from school projects to gaming, plus explore a clever way to spot when AIs make stuff up, a new model that helps with math homework and app interfaces, and an AI tool that's identifying animals to help save wildlife. Stick around for simple ways you can try these ideas yourself, like testing a free AI for science questions or uploading a photo to classify critters.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Anthropic, a company that builds powerful AI models, used their Claude AI to scan the code behind Firefox, a popular web browser like Chrome or Safari, and found over 100 bugs—including some serious security vulnerabilities that had gone unnoticed for decades despite tons of human testing. This happened because Claude can analyze massive amounts of code quickly, spotting patterns and weaknesses that might take people weeks or months to find. Think of Claude like a super-smart code inspector with x-ray vision: it doesn't just read the instructions line by line, but understands how they connect and where things could break, kind of like how a puzzle expert spots missing pieces in a huge jigsaw. Under the hood, Claude is a large language model (an AI trained on vast amounts of text to understand and generate human-like responses), but here it was fine-tuned (adjusted with specific examples) to hunt for code flaws. This is a big deal because it shows AI can make software safer for everyone—imagine fewer crashes in your favorite apps or games, or less risk of hackers stealing info when you're online shopping or chatting with friends. For students, this could mean tools that help debug code in computer science class without pulling your hair out, and for future careers, it opens doors to jobs in cybersecurity where AI does the heavy lifting. If you're a teen gamer, think about how this tech could fix glitches in online multiplayer games faster, keeping things fair and fun. For you specifically, it means the apps and sites you use every day, like social media or homework tools, could get more secure updates quicker, reducing worries about privacy. And here's the exciting part: while you can't run Claude's full bug-hunting setup yourself, you can try a free version of Claude right now to see its smarts in action. Head to anthropic.com/claude, sign up for the free tier, and ask it something like "Explain a common bug in web browsers and how to fix it"—it'll break it down simply, and you can even paste in a snippet of code from a school project to get feedback. This hands-on play lets you feel like an AI-assisted detective, and it's a great way to spark ideas for your own tech experiments.
+Source: https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/
+
+━━━━━━━━━━━━━━━━━━━━
+### Explain Like I'm 14
+Let's unpack "hallucinations" in large language models—these are when an AI like ChatGPT makes up facts that sound real but aren't, like confidently saying the sky is green. Imagine you're playing a game of telephone with a chain of friends: you whisper a story, and by the end, it's twisted because each person adds a little guess or mix-up to fill in what they didn't hear clearly. That's similar to how a language model works—it predicts the next word (or "token," basically a chunk of text like a word or punctuation) based on patterns from tons of training data, but if the patterns are fuzzy or the question is tricky, it might "spill energy" by spreading its guesses too widely instead of focusing on the most likely truth. Step one: the AI breaks you...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>2</ns0:episode>
+      <ns0:title>Ep 2: Imagine an AI detective spotting hidden bugs in your web browser that humans missed for years—game-changer for safer surfing!</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
+      <ns1:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep002.json" type="application/json+chapters" />
+    </item>
     <item>
       <title>Ep 401: Tesla patents breakthrough dry electrode process for cheaper, cleaner battery production.</title>
       <link>https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep401_20260308.mp3</link>
@@ -326,7 +371,6 @@ This tutorial introduces a full framework for creating runtime agents driven by 
     </item>
     <item>
       <title>Ep 1: Imagine AI getting super smart by "watching" billions of videos, just like you binge TikToks to learn new trends.</title>
-      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260308.mp3</link>
       <description># Models &amp; Agents for Beginners
 **Date:** March 08, 2026
 
@@ -367,7 +411,6 @@ Let's dive into how AI agents actually get tested and improved, a concept poppin
       <ns0:episode>1</ns0:episode>
       <ns0:title>Ep 1: Imagine AI getting super smart by "watching" billions of videos, just like you binge TikToks to learn new trends.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
-      <ns1:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep001.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Финансы Просто - Episode 2 - March 08, 2026</title>
@@ -3259,21 +3302,6 @@ This arXiv pape...</ns0:summary>
       <ns0:season>1</ns0:season>
       <ns0:episode>1</ns0:episode>
       <ns0:title>Ep 1: Anthropic acquires Vercept to enhance Claude's screen reading, while Google launches Nano Banana 2 for faster, cheaper image generation.</ns0:title>
-      <ns0:episodeType>full</ns0:episodeType>
-    </item>
-    <item>
-      <title>Tesla Shorts Time Daily - Episode 390 - January 31, 2026 at 03:07 AM PST</title>
-      <description>Daily Tesla news digest for January 31, 2026 at 03:07 AM PST. TSLA price: $430.41 +0.26 (+0.06%) . 1️⃣ **Tesla Throws in the Towel on Car Sales: 30 January, 2026, 08:07 AM PST, The Verge**...</description>
-      <guid isPermaLink="false">tesla-shorts-time-ep390-20260131-111221</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/Tesla_Shorts_Time_Pod_Ep390_20260131_111149.mp3" length="13993944" type="audio/mpeg" />
-      <pubDate>Sat, 31 Jan 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/podcast-image-v3.jpg" />
-      <ns0:duration>09:43</ns0:duration>
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:summary>Daily Tesla news digest for January 31, 2026 at 03:07 AM PST. TSLA price: $430.41 +0.26 (+0.06%) . 1️⃣ **Tesla Throws in the Towel on Car Sales: 30 January, 2026, 08:07 AM PST, The Verge**...</ns0:summary>
-      <ns0:season>1</ns0:season>
-      <ns0:episode>390</ns0:episode>
-      <ns0:title>Tesla Shorts Time Daily - Episode 390 - January 31, 2026 at 03:07 AM PST</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
     </item>
   </channel>
