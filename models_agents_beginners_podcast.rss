@@ -8,7 +8,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 09 Mar 2026 03:16:35 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
     <itunes:category text="Technology" />
     <itunes:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
@@ -18,5 +18,49 @@
       <itunes:email>contact@teslashortstime.com</itunes:email>
     </itunes:owner>
     <itunes:summary>A daily AI podcast for beginners and teens. Learn about AI models, agents, and the tools shaping our future — explained simply, with hands-on experiments you can try today. Every expert started as a beginner.</itunes:summary>
+    <item>
+      <title>Ep 1: Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!</title>
+      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260309.mp3</link>
+      <description># Models &amp; Agents for Beginners
+**Date:** March 09, 2026
+
+**HOOK:** Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!
+
+**What's Cool Today:** Today, we're diving into how AI might soon learn from endless videos instead of running out of text, opening up wild new possibilities for smarter helpers in games and school. We'll also compare two top AI chatbots you can test yourself for homework or creative fun, and uncover why AI tests are missing most real jobs. Stick around for a deep dive on how AI learns from unlabeled data, plus easy ways to try cutting-edge tools right now.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Andrej Karpathy, a famous AI expert who helped build things like Tesla's self-driving tech, just released a simple tool called Autoresearch that lets AI systems run their own machine learning experiments without much human help. It's all in one short Python file, designed to work on a single powerful graphics card like those in gaming computers. Think of Autoresearch like a mini lab where an AI agent (a smart program that can take actions on its own, like a virtual assistant deciding steps to solve a problem) can test ideas in machine learning, which is the process of teaching computers to learn from data. It's based on a stripped-down version of another tool for training language models, but super simplified so it's easier to use and tweak. This is a big deal because it makes advanced AI research more accessible, potentially letting students or hobbyists experiment with how AIs learn without needing huge supercomputers. For example, imagine using it to train an AI to analyze your favorite video games or predict trends in social media posts. It matters to you because as AI gets into everyday stuff like school projects or creative hobbies, tools like this could inspire the next generation of inventors—maybe even a teen building their first AI model for a science fair. Personally, if you're curious about careers in tech, this shows how AI is becoming something you can tinker with at home, not just for big companies. Right now, you can check out the project on GitHub, but since it's code-based, start by reading the simple readme file to understand the basics—search for "Autoresearch Karpathy GitHub" in your browser. If you're not ready for code, watch Karpathy's free YouTube videos on AI basics to get inspired. For a hands-on taste, try chatting with a free AI like ChatGPT about what machine learning experiments you'd run if you had an AI lab.
+Source: https://www.marktechpost.com/2026/03/08/andrej-karpathy-open-sources-autoresearch-a-630-line-python-tool-letting-ai-agents-run-autonomous-ml-experiments-on-single-gpus/
+
+━━━━━━━━━━━━━━━━━━━━
+### Explain Like I'm 14
+Let's explain how AI models learn from unlabeled video data, a hot idea from today's news that's changing how we build smarter AIs. Imagine you're trying to learn a new sport like soccer just by watching hours of pro games on YouTube without any coach explaining the rules—you pick up patterns like how players pass the ball or score goals by noticing what happens over and over. Step one: The AI starts with raw videos, broken into tiny clips, kind of like flipping through a flipbook where each page is a frame. Step two: It looks for connections within those frames, like spotting that a ball moving left often leads to a player running right, building a map of "what usually happens next" without needing labels like "this is a goal." Step three: To make it multimodal (meaning it handles different types of data like text and images together), the AI mixes in text descriptions, linking video patterns to words so it can later answer questions like "describe this soccer play." Step four: Over tons of examples, it refines this map, getting better at predicting and understanding without being told exactly what everything means. And that's basically what new AI training methods are doing when they use unlabeled videos—they...</description>
+      <guid isPermaLink="false">mab-ep001-20260309-031635</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260309.mp3" length="13526875" type="audio/mpeg" />
+      <pubDate>Mon, 09 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
+      <itunes:duration>09:23</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Models &amp; Agents for Beginners
+**Date:** March 09, 2026
+
+**HOOK:** Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!
+
+**What's Cool Today:** Today, we're diving into how AI might soon learn from endless videos instead of running out of text, opening up wild new possibilities for smarter helpers in games and school. We'll also compare two top AI chatbots you can test yourself for homework or creative fun, and uncover why AI tests are missing most real jobs. Stick around for a deep dive on how AI learns from unlabeled data, plus easy ways to try cutting-edge tools right now.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Andrej Karpathy, a famous AI expert who helped build things like Tesla's self-driving tech, just released a simple tool called Autoresearch that lets AI systems run their own machine learning experiments without much human help. It's all in one short Python file, designed to work on a single powerful graphics card like those in gaming computers. Think of Autoresearch like a mini lab where an AI agent (a smart program that can take actions on its own, like a virtual assistant deciding steps to solve a problem) can test ideas in machine learning, which is the process of teaching computers to learn from data. It's based on a stripped-down version of another tool for training language models, but super simplified so it's easier to use and tweak. This is a big deal because it makes advanced AI research more accessible, potentially letting students or hobbyists experiment with how AIs learn without needing huge supercomputers. For example, imagine using it to train an AI to analyze your favorite video games or predict trends in social media posts. It matters to you because as AI gets into everyday stuff like school projects or creative hobbies, tools like this could inspire the next generation of inventors—maybe even a teen building their first AI model for a science fair. Personally, if you're curious about careers in tech, this shows how AI is becoming something you can tinker with at home, not just for big companies. Right now, you can check out the project on GitHub, but since it's code-based, start by reading the simple readme file to understand the basics—search for "Autoresearch Karpathy GitHub" in your browser. If you're not ready for code, watch Karpathy's free YouTube videos on AI basics to get inspired. For a hands-on taste, try chatting with a free AI like ChatGPT about what machine learning experiments you'd run if you had an AI lab.
+Source: https://www.marktechpost.com/2026/03/08/andrej-karpathy-open-sources-autoresearch-a-630-line-python-tool-letting-ai-agents-run-autonomous-ml-experiments-on-single-gpus/
+
+━━━━━━━━━━━━━━━━━━━━
+### Explain Like I'm 14
+Let's explain how AI models learn from unlabeled video data, a hot idea from today's news that's changing how we build smarter AIs. Imagine you're trying to learn a new sport like soccer just by watching hours of pro games on YouTube without any coach explaining the rules—you pick up patterns like how players pass the ball or score goals by noticing what happens over and over. Step one: The AI starts with raw videos, broken into tiny clips, kind of like flipping through a flipbook where each page is a frame. Step two: It looks for connections within those frames, like spotting that a ball moving left often leads to a player running right, building a map of "what usually happens next" without needing labels like "this is a goal." Step three: To make it multimodal (meaning it handles different types of data like text and images together), the AI mixes in text descriptions, linking video patterns to words so it can later answer questions like "describe this soccer play." Step four: Over tons of examples, it refines this map, getting better at predicting and understanding without being told exactly what everything means. And that's basically what new AI training methods are doing when they use unlabeled videos—they...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>1</itunes:episode>
+      <itunes:title>Ep 1: Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep001.json" type="application/json+chapters" /></item>
   </channel>
 </rss>

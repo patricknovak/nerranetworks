@@ -1,5 +1,21 @@
 {
   "show": "models_agents_beginners",
-  "last_updated": "",
-  "episodes": []
+  "last_updated": "2026-03-09",
+  "episodes": [
+    {
+      "date": "2026-03-09",
+      "headlines": [],
+      "urls": [
+        "https://www.marktechpost.com/2026/03/08/andrej-karpathy-open-sources-autoresearch-a-630-line-python-tool-letting-ai-agents-run-autonomous-ml-experiments-on-single-gpus/",
+        "https://www.tomsguide.com/ai/i-ran-7-real-world-prompts-on-gemini-3-and-claude-sonnet-4-6-the-results-surprised-me",
+        "https://the-decoder.com/ai-agent-benchmarks-obsess-over-coding-while-ignoring-92-of-the-us-labor-market-study-finds/",
+        "https://the-decoder.com/llm-text-data-is-drying-up-but-meta-points-to-unlabeled-video-as-the-next-massive-training-frontier/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "cool_stuff": "### Cool Stuff & Try This\n**[Gemini vs. Claude: Which AI Wins at Real-Life Tasks?]: Latest from Tom's Guide**  \nGemini 3 Flash and Claude Sonnet 4.6 are two powerful AI chatbots—think of them as super-smart virtual friends that can reason, plan, write stories, or spark creative ideas based on your prompts (short instructions you give them). The article tested them on everyday challenges like planning a trip or writing a poem, and surprisingly, Claude edged out in creativity while Gemini was fast",
+        "quick_bits": "### Quick Bits\n**[Text Data Running Low? Videos to the Rescue!]**  \nResearchers from Meta and NYU trained an AI from scratch using images and text, discovering that old assumptions about training don't always hold, and unlabeled videos could be the huge new source of data as text runs dry. This is super interesting because it means AIs might soon learn from the endless stream of online videos, making them smarter at understanding real-world stuff like your favorite YouTube clips or social media "
+      }
+    }
+  ]
 }
