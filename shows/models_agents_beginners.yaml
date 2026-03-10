@@ -117,10 +117,10 @@ tts:
   fish_repetition_penalty: 1.5
   fish_format: mp3
   fish_mp3_bitrate: 192
-  max_chars: 2000
+  max_chars: 4000
   validate_transcription: true
   whisper_model: base
-  whisper_threshold: 0.7
+  whisper_threshold: 0.85
 
 audio:
   music_file: assets/music/tesla_shorts_time.mp3

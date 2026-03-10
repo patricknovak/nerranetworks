@@ -175,6 +175,16 @@ def _validate_llm_output(
                     stage, show_name, phrase, count,
                 )
 
+    # Warn if podcast script is too short to fill target duration
+    if stage == "podcast_script":
+        word_count = len(text.split())
+        if word_count < 1500:
+            logger.warning(
+                "Podcast script for '%s' is too short (%d words, target >1500). "
+                "Consider regenerating with more depth.",
+                show_name, word_count,
+            )
+
 
 # ---------------------------------------------------------------------------
 # Public generation functions
