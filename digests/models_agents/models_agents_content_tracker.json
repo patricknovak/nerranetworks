@@ -1,6 +1,6 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-09",
+  "last_updated": "2026-03-10",
   "episodes": [
     {
       "date": "2026-02-26",
@@ -198,6 +198,28 @@
         "model_updates": "### Model Updates\n**OpenAI Employees Hint at a New Omni Model: The Decoder**  \nOpenAI is reportedly developing a new omni model under project \"BiDi,\" suggested by employee posts and leaked audio, focusing on multimodal upgrades beyond GPT-4o with bidirectional processing for text, audio, and vision. It compares favorably to Gemini 1.5 in handling complex multimodal tasks but may emphasize real-time interaction, potentially at lower latency. This matters for practitioners building cross-modal age",
         "agent_developments": "### Agent & Tool Developments\n**How We Built LangChain’s GTM Agent: LangChain Blog**  \nLangChain detailed building a Go-To-Market (GTM) agent that boosts lead conversion by 250% and saves sales reps 40 hours monthly, using LangGraph for orchestration and tool calling with models like GPT-4. It's an improvement over basic AutoGPT setups by integrating RAG and real-time data pulls, enabling autonomous sales workflows. Try it via LangChain's open-source repo to automate your CRM tasks—clone and cus",
         "practical_community": "### Practical & Community\n**Traversal-as-Policy: Log-Distilled Gated Behavior Trees as Externalized, Verifiable Policies for Safe, Robust, and Efficient Agents: cs.AI updates on arXiv.org**  \nThis approach distills agent logs into Gated Behavior Trees (GBTs) for verifiable policies, improving success on SWE-bench from 34.6% to 73.6% with near-zero violations. It solves misalignment in agentic flows better than CrewAI by enforcing gates, though it adds distillation overhead. Get started by clonin"
+      }
+    },
+    {
+      "date": "2026-03-10",
+      "headlines": [],
+      "urls": [
+        "https://www.theverge.com/ai-artificial-intelligence/892178/meta-moltbook-acquisition-ai-agents",
+        "https://www.theverge.com/tech/890996/google-workspace-gemini-ai-docs-sheets-drive",
+        "https://www.theverge.com/tech/891998/adobe-photoshop-web-mobile-ai-assistant-beta-launch",
+        "https://the-decoder.com/claude-code-gets-parallel-ai-agents-that-review-code-for-bugs-and-security-gaps",
+        "https://www.marktechpost.com/2026/03/09/bytedance-releases-deerflow-2-0-an-open-source-superagent-harness-that-orchestrates-sub-agents-memory-and-sandboxes-to-do-complex-tasks",
+        "https://www.artificialintelligence-news.com/news/mastercard-agentic-payments-singapore-dbs-uob/",
+        "https://arxiv.org/abs/2603.06874",
+        "https://www.marktechpost.com/2026/03/09/how-to-build-a-risk-aware-ai-agent-with-internal-critic-self-consistency-reasoning-and-uncertainty-estimation-for-reliable-decision-making/",
+        "https://arxiv.org/abs/2603.06608",
+        "https://arxiv.org/abs/2603.07024"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Google’s Gemini AI Expands in Workspace: The Verge**  \nGoogle is rolling out deeper Gemini integration in Docs, Sheets, and Slides for Workspace and AI plan subscribers, including a new chat window in Docs, AI-generated spreadsheets, and Gemini-powered search in Drive. This builds on Gemini 1.5's long-context capabilities, offering more seamless productivity than Claude's integrations or Microsoft's Copilot, but it's limited to paid users. It matters for developers automating",
+        "agent_developments": "### Agent & Tool Developments\n**ByteDance Releases DeerFlow 2.0: MarkTechPost**  \nDeerFlow 2.0 is an open-source SuperAgent framework from ByteDance that orchestrates sub-agents, memory, and sandboxes for complex tasks like multi-step planning, upgrading from version 1.0 with better execution reliability. It compares favorably to LangGraph for modularity but emphasizes sandboxed safety, enabling agents to handle real-world automation without custom scripting. You can try it today by cloning the ",
+        "practical_community": "### Practical & Community\n**Tutorial on Risk-Aware AI Agents: MarkTechPost**  \nThis guide teaches building a risk-aware AI agent using internal critics, self-consistency reasoning, and uncertainty estimation for reliable decision-making, with code for multi-sample inference and risk-sensitive selection. It solves issues in high-stakes agents by balancing confidence, useful for frameworks like CrewAI, though it requires strong Python skills. Get started by following the tutorial steps to implemen"
       }
     }
   ]
