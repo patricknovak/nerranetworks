@@ -1068,7 +1068,7 @@ def synthesize_fish(
                 "ffmpeg", "-y",
                 "-i", str(chunk_files[0]), "-i", str(chunk_files[1]),
                 "-filter_complex",
-                "[0:a][1:a]acrossfade=d=0.08:c1=log:c2=log[out]",
+                "[0:a][1:a]acrossfade=d=0.25:c1=log:c2=log[out]",
                 "-map", "[out]",
                 "-ar", "44100",
                 "-c:a", "pcm_s16le",
@@ -1086,7 +1086,7 @@ def synthesize_fish(
         for j in range(1, len(chunk_files)):
             out_label = f"[cf{j}]" if j < len(chunk_files) - 1 else "[out]"
             fc_parts.append(
-                f"{prev}[{j}:a]acrossfade=d=0.08:c1=log:c2=log{out_label}"
+                f"{prev}[{j}:a]acrossfade=d=0.25:c1=log:c2=log{out_label}"
             )
             prev = out_label
         filter_complex = ";".join(fc_parts)

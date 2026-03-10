@@ -96,8 +96,9 @@ llm:
   digest_prompt_file: shows/prompts/planetterrian_digest.txt
   podcast_prompt_file: shows/prompts/planetterrian_podcast.txt
   digest_temperature: 0.5
-  podcast_temperature: 0.75
+  podcast_temperature: 0.70
   max_tokens: 3500
+  podcast_max_tokens: 8000
 
 tts:
   voice_id: dTrBzPvD2GpAqkk1MUzA
