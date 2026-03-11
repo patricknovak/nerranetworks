@@ -1,6 +1,6 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-10",
+  "last_updated": "2026-03-11",
   "episodes": [
     {
       "date": "2026-02-26",
@@ -220,6 +220,28 @@
         "model_updates": "### Model Updates\n**Google’s Gemini AI Expands in Workspace: The Verge**  \nGoogle is rolling out deeper Gemini integration in Docs, Sheets, and Slides for Workspace and AI plan subscribers, including a new chat window in Docs, AI-generated spreadsheets, and Gemini-powered search in Drive. This builds on Gemini 1.5's long-context capabilities, offering more seamless productivity than Claude's integrations or Microsoft's Copilot, but it's limited to paid users. It matters for developers automating",
         "agent_developments": "### Agent & Tool Developments\n**ByteDance Releases DeerFlow 2.0: MarkTechPost**  \nDeerFlow 2.0 is an open-source SuperAgent framework from ByteDance that orchestrates sub-agents, memory, and sandboxes for complex tasks like multi-step planning, upgrading from version 1.0 with better execution reliability. It compares favorably to LangGraph for modularity but emphasizes sandboxed safety, enabling agents to handle real-world automation without custom scripting. You can try it today by cloning the ",
         "practical_community": "### Practical & Community\n**Tutorial on Risk-Aware AI Agents: MarkTechPost**  \nThis guide teaches building a risk-aware AI agent using internal critics, self-consistency reasoning, and uncertainty estimation for reliable decision-making, with code for multi-sample inference and risk-sensitive selection. It solves issues in high-stakes agents by balancing confidence, useful for frameworks like CrewAI, though it requires strong Python skills. Get started by following the tutorial steps to implemen"
+      }
+    },
+    {
+      "date": "2026-03-11",
+      "headlines": [],
+      "urls": [
+        "https://www.marktechpost.com/2026/03/11/google-ai-introduces-gemini-embedding-2-a-multimodal-embedding-model-that-lets-your-bring-text-images-video-audio-and-docs-into-the-embedding-space/",
+        "https://www.marktechpost.com/2026/03/11/google-ai-introduces-gemini-embedding-2-a-multimodal-embedding-model-that-lets-your-bring-text-images-video-audio-and-docs-into-the-embedding-space/",
+        "https://arxiv.org/abs/2603.09875",
+        "https://arxiv.org/abs/2603.09086",
+        "https://www.marktechpost.com/2026/03/10/how-to-build-a-self-designing-meta-agent-that-automatically-constructs-instantiates-and-refines-task-specific-ai-agents/",
+        "https://arxiv.org/abs/2603.09290",
+        "https://arxiv.org/abs/2603.08814",
+        "https://arxiv.org/abs/2603.08745",
+        "https://arxiv.org/abs/2603.08852",
+        "https://arxiv.org/abs/2603.09733"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Google AI Introduces Gemini Embedding 2: MarkTechPost**  \nGemini Embedding 2 is a multimodal model that embeds text, images, video, audio, and docs, succeeding the text-focused gemini-embedding-001 with better handling of high-dimensional data for RAG systems. It compares favorably to LlamaIndex's multimodal embeddings by offering unified cross-modal retrieval without custom adapters, though it may require more VRAM for large-scale inference. This matters for developers optim",
+        "agent_developments": "### Agent & Tool Developments\n**How to Build a Self-Designing Meta-Agent: MarkTechPost**  \nThis tutorial outlines building a meta-agent that analyzes tasks, selects tools, configures memory and planners, then instantiates dynamic agents—going beyond static templates in frameworks like LangGraph or CrewAI. The update enables automatic refinement for task-specific agents, improving adaptability without manual coding. Try it by following the step-by-step code in Python to automate agent creation fo",
+        "practical_community": "### Practical & Community\n**ChatNeuroSim: An LLM Agent Framework for Automated Compute-in-Memory Accelerator Deployment and Optimization: cs.MA updates on arXiv.org**  \nChatNeuroSim automates CIM accelerator workflows using LLMs for task scheduling, script generation, and optimization via design space pruning, cutting runtime by up to 0.79x compared to baselines. It solves manual dependency headaches in hardware DSE, ideal for AI infrastructure devs, but assumes familiarity with NeuroSim. Get st"
       }
     }
   ]

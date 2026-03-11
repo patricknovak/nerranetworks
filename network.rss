@@ -5,7 +5,7 @@
     <description>Eight daily podcasts keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, and financial literacy.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Wed, 11 Mar 2026 14:29:14 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Mar 2026 15:29:51 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/omni-view-podcast-image.jpg</url>
       <title>Nerra Network</title>
@@ -351,6 +351,69 @@ Source: https://insideclimatenews.org/news/11032026/epa-greenhouse-gas-reduction
       <ns1:chapters url="https://nerranetwork.com/digests/env_intel/chapters_ep009.json" type="application/json+chapters" />
     </item>
     <item>
+      <title>Ep 12: Google unveils Gemini Embedding 2, a multimodal model embedding text, images, video, audio, and docs for advanced RAG systems.</title>
+      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep012_20260311.mp3</link>
+      <description># Models &amp; Agents
+**Date:** March 11, 2026
+
+**HOOK:** Google unveils Gemini Embedding 2, a multimodal model embedding text, images, video, audio, and docs for advanced RAG systems.
+
+**What You Need to Know:** Google expanded its Gemini family with Embedding 2, a multimodal upgrade over the text-only gemini-embedding-001, tackling high-dimensional storage and cross-modal retrieval for production RAG pipelines. Meanwhile, agent frameworks like ToolRosetta and Scale-Plan are bridging open-source tools with LLMs for automated task execution, while arXiv papers explore stability in multi-agent systems amid rising enterprise deployments like Manulife's core AI workflows. Pay attention to how these tools enhance agent reliability in heterogeneous teams and multimodal tasks this week, as they lower barriers for developers building scalable, real-world agents.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Google has released Gemini Embedding 2, succeeding the text-only gemini-embedding-001 and designed for high-dimensional storage and cross-modal retrieval in production-grade RAG systems. This second-generation model embeds text, images, video, audio, and documents into a shared space, addressing challenges like data compression and unified search that plague multimodal AI developers. Compared to alternatives like OpenAI's text-embedding-ada-002 or Cohere's multilingual embeddings, Gemini Embedding 2 stands out for its native multimodality without needing separate models, potentially reducing latency and integration overhead in hybrid workflows. Practitioners building RAG for enterprise search or content recommendation can now unify disparate data types more efficiently, making it ideal for teams handling diverse media. Keep an eye on integration guides from Google Cloud, as early adopters report smoother cross-modal performance but note higher compute demands during embedding generation. To try it, experiment with the Gemini API for embedding mixed inputs in a simple RAG demo.
+Source: https://www.marktechpost.com/2026/03/11/google-ai-introduces-gemini-embedding-2-a-multimodal-embedding-model-that-lets-your-bring-text-images-video-audio-and-docs-into-the-embedding-space/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Google AI Introduces Gemini Embedding 2: MarkTechPost**  
+Gemini Embedding 2 is a multimodal model that embeds text, images, video, audio, and docs, succeeding the text-focused gemini-embedding-001 with better handling of high-dimensional data for RAG systems. It compares favorably to LlamaIndex's multimodal embeddings by offering unified cross-modal retrieval without custom adapters, though it may require more VRAM for large-scale inference. This matters for developers optimizing RAG pipelines, as it enables more accurate, context-rich retrieval in multimedia apps.  
+Source: https://www.marktechpost.com/2026/03/11/google-ai-introduces-gemini-embedding-2-a-multimodal-embedding-model-that-lets-your-bring-text-images-video-audio-and-docs-into-the-embedding-space/
+
+**The Bureaucracy of Speed: cs.MA updates on arXiv.org**  
+This paper introduces Capability Coherence System (CCS), mapping memory consistency models to multi-agent authorization with a state-mapping that bounds unauthorized operations under bounded-staleness semantics. Unlike traditional TTL-based strategies, it scales independently of agent velocity, reducing unauthorized ops by up to 120x in simulations compared to lease methods. It's crucial for AI infrastructure teams dealing with high-velocity agents, offering safer revocation in distributed systems without O(v·TTL) overhead.  
+Source: https://arxiv.org/abs/2603.09875
+
+**Latent World Models for Automated Driving: cs.MA updates on arXiv.org**  
+The paper proposes a taxonomy for latent world models in driving, covering latent worlds, actions, and generators with priors for geometry and semantics, plus evaluation metrics like closed-loop suites. It synthesizes progress in generative models like those from Wayve or Tesla's VLA ...</description>
+      <guid isPermaLink="false">models-agents-ep012-20260311-152950</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep012_20260311.mp3" length="18157444" type="audio/mpeg" />
+      <pubDate>Wed, 11 Mar 2026 08:00:00 +0000</pubDate>
+      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
+      <ns0:duration>12:36</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents
+**Date:** March 11, 2026
+
+**HOOK:** Google unveils Gemini Embedding 2, a multimodal model embedding text, images, video, audio, and docs for advanced RAG systems.
+
+**What You Need to Know:** Google expanded its Gemini family with Embedding 2, a multimodal upgrade over the text-only gemini-embedding-001, tackling high-dimensional storage and cross-modal retrieval for production RAG pipelines. Meanwhile, agent frameworks like ToolRosetta and Scale-Plan are bridging open-source tools with LLMs for automated task execution, while arXiv papers explore stability in multi-agent systems amid rising enterprise deployments like Manulife's core AI workflows. Pay attention to how these tools enhance agent reliability in heterogeneous teams and multimodal tasks this week, as they lower barriers for developers building scalable, real-world agents.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Google has released Gemini Embedding 2, succeeding the text-only gemini-embedding-001 and designed for high-dimensional storage and cross-modal retrieval in production-grade RAG systems. This second-generation model embeds text, images, video, audio, and documents into a shared space, addressing challenges like data compression and unified search that plague multimodal AI developers. Compared to alternatives like OpenAI's text-embedding-ada-002 or Cohere's multilingual embeddings, Gemini Embedding 2 stands out for its native multimodality without needing separate models, potentially reducing latency and integration overhead in hybrid workflows. Practitioners building RAG for enterprise search or content recommendation can now unify disparate data types more efficiently, making it ideal for teams handling diverse media. Keep an eye on integration guides from Google Cloud, as early adopters report smoother cross-modal performance but note higher compute demands during embedding generation. To try it, experiment with the Gemini API for embedding mixed inputs in a simple RAG demo.
+Source: https://www.marktechpost.com/2026/03/11/google-ai-introduces-gemini-embedding-2-a-multimodal-embedding-model-that-lets-your-bring-text-images-video-audio-and-docs-into-the-embedding-space/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Google AI Introduces Gemini Embedding 2: MarkTechPost**  
+Gemini Embedding 2 is a multimodal model that embeds text, images, video, audio, and docs, succeeding the text-focused gemini-embedding-001 with better handling of high-dimensional data for RAG systems. It compares favorably to LlamaIndex's multimodal embeddings by offering unified cross-modal retrieval without custom adapters, though it may require more VRAM for large-scale inference. This matters for developers optimizing RAG pipelines, as it enables more accurate, context-rich retrieval in multimedia apps.  
+Source: https://www.marktechpost.com/2026/03/11/google-ai-introduces-gemini-embedding-2-a-multimodal-embedding-model-that-lets-your-bring-text-images-video-audio-and-docs-into-the-embedding-space/
+
+**The Bureaucracy of Speed: cs.MA updates on arXiv.org**  
+This paper introduces Capability Coherence System (CCS), mapping memory consistency models to multi-agent authorization with a state-mapping that bounds unauthorized operations under bounded-staleness semantics. Unlike traditional TTL-based strategies, it scales independently of agent velocity, reducing unauthorized ops by up to 120x in simulations compared to lease methods. It's crucial for AI infrastructure teams dealing with high-velocity agents, offering safer revocation in distributed systems without O(v·TTL) overhead.  
+Source: https://arxiv.org/abs/2603.09875
+
+**Latent World Models for Automated Driving: cs.MA updates on arXiv.org**  
+The paper proposes a taxonomy for latent world models in driving, covering latent worlds, actions, and generators with priors for geometry and semantics, plus evaluation metrics like closed-loop suites. It synthesizes progress in generative models like those from Wayve or Tesla's VLA ...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>12</ns0:episode>
+      <ns0:title>Ep 12: Google unveils Gemini Embedding 2, a multimodal model embedding text, images, video, audio, and docs for advanced RAG systems.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
+      <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep012.json" type="application/json+chapters" />
+    </item>
+    <item>
       <title>Ep 403: Tesla loses two long-time executives, including finance VP Sendil Palani after 17 years and OTA director Thomas Dmytryk after 11 years.</title>
       <description># Tesla Shorts Time
 **Date:** March 10, 2026
@@ -654,7 +717,6 @@ US federal withdrawal of $1.5B in tribal clean energy funding under the Inflatio
     </item>
     <item>
       <title>Ep 11: Meta acquires Moltbook, a Reddit-like platform for AI agents to interact and collaborate.</title>
-      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep011_20260310.mp3</link>
       <description># Models &amp; Agents
 **Date:** March 10, 2026
 
@@ -725,7 +787,6 @@ DeerFlow 2.0 is an open-source SuperAgent framework from ByteDance that orchestr
       <ns0:episode>11</ns0:episode>
       <ns0:title>Ep 11: Meta acquires Moltbook, a Reddit-like platform for AI agents to interact and collaborate.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
-      <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep011.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 3: Imagine chatting with an AI sidekick right inside your Google Docs to brainstorm essay ideas or build spreadsheets from scratch—it's here!</title>
@@ -3591,73 +3652,6 @@ CoPaw is an open-source fr...</ns0:summary>
       <ns0:season>1</ns0:season>
       <ns0:episode>4</ns0:episode>
       <ns0:title>Ep 4: Alibaba open-sources CoPaw, a workstation for scaling multi-channel AI agent workflows.</ns0:title>
-      <ns0:episodeType>full</ns0:episodeType>
-    </item>
-    <item>
-      <title>Ep 394: Tesla confirms upgraded black headliner and 16-inch screen for new Model Y orders in Canada, enhancing customer appeal.</title>
-      <description># Tesla Shorts Time
-**Date:** February 28, 2026
-**REAL-TIME TSLA price:** $402.51 ▼ $4.27 (1.0%)
-
-**HOOK:** Tesla confirms upgraded black headliner and 16-inch screen for new Model Y orders in Canada, enhancing customer appeal.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 10 News Items
-1. **Rivian Launches RAD: A New Performance Division to Push Its EVs Even Further: 27 February, 2026, 10:23 AM PST, Drive Tesla**
-   Rivian has officially launched its Rivian Adventure Department (RAD), an in-house team focused on boosting the performance of its electric vehicles through innovative engineering. This move signals Rivian's push to compete more aggressively in the high-performance EV segment, potentially challenging Tesla's dominance in areas like off-road and adventure-focused models. For the industry, it highlights the growing emphasis on specialized divisions to accelerate EV innovation, which could pressure Tesla to continue evolving its Cybertruck and other rugged offerings.
-   Source: https://driveteslacanada.ca/news/rivian-launches-rad-a-new-performance-division-to-push-its-evs-even-further/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=rivian-launches-rad-a-new-performance-division-to-push-its-evs-even-further
-
-2. **High Above the Clouds: How Long-Haul Flights Are Becoming Truly Connected for French Travelers: 27 February, 2026, 10:05 AM PST, WhatsUpTesla**
-   Air France has rolled out free high-speed Wi-Fi on long-haul flights to destinations like Guadeloupe and Martinique, powered by SpaceX's Starlink technology. This development showcases how Starlink is transforming connectivity in aviation, making flights more productive for passengers and crediting Elon Musk's team for the advancement. For Tesla's broader ecosystem, it underscores the synergies between SpaceX and Tesla in advancing tech infrastructure, potentially boosting investor confidence in Musk-led ventures.
-   Source: https://whatsuptesla.com/2026/02/27/high-above-the-clouds-how-long-haul-flights-are-becoming-truly-connected-for-french-travelers/
-
-3. **Tesla confirms black headliner and 16” screen for new Canadian Model Y orders: 27 February, 2026, 7:13 AM PST, Drive Tesla**
-   Tesla has updated its Canadian Model Y configurator to include a black headliner and a larger 16-inch rear screen, features that were previously unavailable in the region. This upgrade improves the interior experience for customers, aligning Canadian options with those in other markets and likely boosting sales amid competitive pressures. From a business perspective, it demonstrates Tesla's responsiveness to regional demands, helping maintain market share in Canada's growing EV sector.
-   Source: https://driveteslacanada.ca/model-y/tesla-confirms-black-headliner-and-16-screen-for-new-canadian-model-y-orders/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=tesla-confirms-black-headliner-and-16-screen-for-new-canadian-model-y-orders
-
-4. **Internal Records Show Government Knew iZEV Was Nearing Empty Before Tesla’s $43M Claims: 27 February, 2026, 6:24 AM PST, Drive Tesla**
-   Internal documents reveal that Transport Canada knew the iZEV rebate program was running low on funds as early as November 2024, yet failed to notify the public before Tesla submitted $43 million in claims. This oversight could affect Tesla's reimbursement and highlights regulatory hurdles in EV incentives, potentially impacting sales strategies in Canada. For the industry, it raises questions about the reliability of government subsidies, pushing companies like Tesla to advocate for more stable support mechanisms.
-   Source: https://driveteslacanada.ca/news/internal-records-show-government-knew-izev-was-nearing-empty-before-teslas-43m-claims/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=internal-records-show-government-knew-izev-was-nearing-empty-before-teslas-43m-claims
-
-━━━━━━━━━━━━━━━━━━━━
-## Tesla X Takeover: What's Hot Right Now
-🎙️ Tesla X Takeover - What's breaking in the Tesla world today! Here are the most interesting, fresh Tesla deve...</description>
-      <guid isPermaLink="false">tesla-shorts-time-ep394-20260228-132548</guid>
-      <enclosure url="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep394_20260228.mp3" length="15239671" type="audio/mpeg" />
-      <pubDate>Sat, 28 Feb 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/podcast-image-v3.jpg" />
-      <ns0:duration>10:34</ns0:duration>
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:summary># Tesla Shorts Time
-**Date:** February 28, 2026
-**REAL-TIME TSLA price:** $402.51 ▼ $4.27 (1.0%)
-
-**HOOK:** Tesla confirms upgraded black headliner and 16-inch screen for new Model Y orders in Canada, enhancing customer appeal.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 10 News Items
-1. **Rivian Launches RAD: A New Performance Division to Push Its EVs Even Further: 27 February, 2026, 10:23 AM PST, Drive Tesla**
-   Rivian has officially launched its Rivian Adventure Department (RAD), an in-house team focused on boosting the performance of its electric vehicles through innovative engineering. This move signals Rivian's push to compete more aggressively in the high-performance EV segment, potentially challenging Tesla's dominance in areas like off-road and adventure-focused models. For the industry, it highlights the growing emphasis on specialized divisions to accelerate EV innovation, which could pressure Tesla to continue evolving its Cybertruck and other rugged offerings.
-   Source: https://driveteslacanada.ca/news/rivian-launches-rad-a-new-performance-division-to-push-its-evs-even-further/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=rivian-launches-rad-a-new-performance-division-to-push-its-evs-even-further
-
-2. **High Above the Clouds: How Long-Haul Flights Are Becoming Truly Connected for French Travelers: 27 February, 2026, 10:05 AM PST, WhatsUpTesla**
-   Air France has rolled out free high-speed Wi-Fi on long-haul flights to destinations like Guadeloupe and Martinique, powered by SpaceX's Starlink technology. This development showcases how Starlink is transforming connectivity in aviation, making flights more productive for passengers and crediting Elon Musk's team for the advancement. For Tesla's broader ecosystem, it underscores the synergies between SpaceX and Tesla in advancing tech infrastructure, potentially boosting investor confidence in Musk-led ventures.
-   Source: https://whatsuptesla.com/2026/02/27/high-above-the-clouds-how-long-haul-flights-are-becoming-truly-connected-for-french-travelers/
-
-3. **Tesla confirms black headliner and 16” screen for new Canadian Model Y orders: 27 February, 2026, 7:13 AM PST, Drive Tesla**
-   Tesla has updated its Canadian Model Y configurator to include a black headliner and a larger 16-inch rear screen, features that were previously unavailable in the region. This upgrade improves the interior experience for customers, aligning Canadian options with those in other markets and likely boosting sales amid competitive pressures. From a business perspective, it demonstrates Tesla's responsiveness to regional demands, helping maintain market share in Canada's growing EV sector.
-   Source: https://driveteslacanada.ca/model-y/tesla-confirms-black-headliner-and-16-screen-for-new-canadian-model-y-orders/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=tesla-confirms-black-headliner-and-16-screen-for-new-canadian-model-y-orders
-
-4. **Internal Records Show Government Knew iZEV Was Nearing Empty Before Tesla’s $43M Claims: 27 February, 2026, 6:24 AM PST, Drive Tesla**
-   Internal documents reveal that Transport Canada knew the iZEV rebate program was running low on funds as early as November 2024, yet failed to notify the public before Tesla submitted $43 million in claims. This oversight could affect Tesla's reimbursement and highlights regulatory hurdles in EV incentives, potentially impacting sales strategies in Canada. For the industry, it raises questions about the reliability of government subsidies, pushing companies like Tesla to advocate for more stable support mechanisms.
-   Source: https://driveteslacanada.ca/news/internal-records-show-government-knew-izev-was-nearing-empty-before-teslas-43m-claims/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=internal-records-show-government-knew-izev-was-nearing-empty-before-teslas-43m-claims
-
-━━━━━━━━━━━━━━━━━━━━
-## Tesla X Takeover: What's Hot Right Now
-🎙️ Tesla X Takeover - What's breaking in the Tesla world today! Here are the most interesting, fresh Tesla deve...</ns0:summary>
-      <ns0:season>1</ns0:season>
-      <ns0:episode>394</ns0:episode>
-      <ns0:title>Ep 394: Tesla confirms upgraded black headliner and 16-inch screen for new Model Y orders in Canada, enhancing customer appeal.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
     </item>
   </channel>
