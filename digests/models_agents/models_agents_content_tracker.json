@@ -1,6 +1,6 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-11",
+  "last_updated": "2026-03-12",
   "episodes": [
     {
       "date": "2026-02-26",
@@ -242,6 +242,28 @@
         "model_updates": "### Model Updates\n**Google AI Introduces Gemini Embedding 2: MarkTechPost**  \nGemini Embedding 2 is a multimodal model that embeds text, images, video, audio, and docs, succeeding the text-focused gemini-embedding-001 with better handling of high-dimensional data for RAG systems. It compares favorably to LlamaIndex's multimodal embeddings by offering unified cross-modal retrieval without custom adapters, though it may require more VRAM for large-scale inference. This matters for developers optim",
         "agent_developments": "### Agent & Tool Developments\n**How to Build a Self-Designing Meta-Agent: MarkTechPost**  \nThis tutorial outlines building a meta-agent that analyzes tasks, selects tools, configures memory and planners, then instantiates dynamic agents—going beyond static templates in frameworks like LangGraph or CrewAI. The update enables automatic refinement for task-specific agents, improving adaptability without manual coding. Try it by following the step-by-step code in Python to automate agent creation fo",
         "practical_community": "### Practical & Community\n**ChatNeuroSim: An LLM Agent Framework for Automated Compute-in-Memory Accelerator Deployment and Optimization: cs.MA updates on arXiv.org**  \nChatNeuroSim automates CIM accelerator workflows using LLMs for task scheduling, script generation, and optimization via design space pruning, cutting runtime by up to 0.79x compared to baselines. It solves manual dependency headaches in hardware DSE, ideal for AI infrastructure devs, but assumes familiarity with NeuroSim. Get st"
+      }
+    },
+    {
+      "date": "2026-03-12",
+      "headlines": [],
+      "urls": [
+        "https://the-decoder.com/nvidia-steps-into-the-open-source-ai-gap-that-openai-meta-and-anthropic-left-behind/",
+        "https://the-decoder.com/metas-jepa-architecture-outperforms-standard-ai-methods-in-cardiac-ultrasound-analysis/",
+        "https://the-decoder.com/meta-unveils-four-generations-of-custom-ai-chips-to-cut-inference-costs-for-billions-of-users/",
+        "https://arxiv.org/abs/2603.09982",
+        "https://techcrunch.com/2026/03/12/gumloop-lands-50m-from-benchmark-to-turn-every-employee-into-an-ai-agent-builder/",
+        "https://www.theverge.com/ai-artificial-intelligence/893536/perplexitys-personal-computer-turns-your-spare-mac-into-an-ai-agent",
+        "https://www.latent.space/p/ainews-replit-agent-4-the-knowledge",
+        "https://arxiv.org/abs/2603.10085",
+        "https://arxiv.org/abs/2603.11025",
+        "https://arxiv.org/abs/2603.11048"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Meta's JEPA Architecture Outperforms in Noisy Medical Imaging: The Decoder**  \nMeta's JEPA (Joint Embedding Predictive Architecture) has been adapted for cardiac ultrasound analysis, outperforming masked autoencoders and contrastive learning in benchmarks on noisy medical imaging data. Unlike standard methods that struggle with incomplete or distorted inputs, JEPA's predictive approach handles variability better, achieving higher accuracy in tasks like echo analysis. This mat",
+        "agent_developments": "### Agent & Tool Developments\n**Gumloop's $50M Funding for Employee AI Agent Building: TechCrunch**  \nGumloop, backed by $50M from Benchmark, enables non-technical employees to build AI agents for enterprise automation, using a no-code interface that integrates with tools like LangChain for custom workflows. This expands beyond specialized frameworks like CrewAI by democratizing agent creation, potentially reducing development time for tasks like data processing. Try it via their platform for bu",
+        "practical_community": "### Practical & Community\n**KernelSkill for GPU Kernel Optimization: cs.MA updates on arXiv.org**  \nKernelSkill is a multi-agent framework using LLMs to optimize GPU kernels, featuring a dual-memory architecture for reusable skills and trajectory awareness, achieving 1.92x to 5.44x speedups over baselines like Torch Eager. It solves optimization inefficiencies in AI infrastructure by replacing opaque heuristics with expert-driven agents. Get started by cloning the GitHub repo and testing on your"
       }
     }
   ]
