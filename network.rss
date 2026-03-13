@@ -5,7 +5,7 @@
     <description>Eight daily podcasts keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, and financial literacy.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Mar 2026 14:29:17 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Mar 2026 15:29:17 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/omni-view-podcast-image.jpg</url>
       <title>Nerra Network</title>
@@ -309,6 +309,69 @@ The International Seabed Authority (ISA) is advancing negotiations on a "mining 
       <ns1:chapters url="https://nerranetwork.com/digests/env_intel/chapters_ep011.json" type="application/json+chapters" />
     </item>
     <item>
+      <title>Ep 14: Perplexity launches "Personal Computer," a $200/month AI agent that automates emails, presentations, and app control 24/7.</title>
+      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep014_20260313.mp3</link>
+      <description># Models &amp; Agents
+**Date:** March 13, 2026
+
+**HOOK:** Perplexity launches "Personal Computer," a $200/month AI agent that automates emails, presentations, and app control 24/7.
+
+**What You Need to Know:** Perplexity AI unveiled its "Personal Computer" subscription, a tireless agent handling complex tasks like email management and app automation, marking a step toward always-on AI assistants that rival enterprise tools but at consumer pricing. Meanwhile, Ukraine is sharing battlefield data for training autonomous drone models, potentially boosting real-world AI agent reliability in high-stakes environments, while Meta delays its Avocado model due to lagging behind leaders like Google and OpenAI. Developers should watch agent framework updates from Microsoft and emerging multi-agent research for scalable coordination tools this week.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Ukraine has opened a platform sharing its battlefield data with allies to train AI models specifically for autonomous drones, focusing on real-time combat scenarios. This dataset includes diverse environmental and tactical information, enabling models to improve navigation, target identification, and decision-making under uncertainty—capabilities that extend beyond military use to civilian applications like search-and-rescue agents. Compared to synthetic datasets used in models like Llama or Gemini, this real-world data could reduce hallucinations in agentic systems by grounding them in verified field conditions. For AI practitioners, this means access to high-fidelity training material that could enhance agent robustness in dynamic environments, though ethical concerns around militarized AI loom large. Builders should explore integrating similar domain-specific data into frameworks like LangGraph for more reliable autonomous agents. Keep an eye on how this influences open-source drone agent projects, with potential API access for non-military R&amp;D forthcoming.
+Source: https://the-decoder.com/ukraine-provides-allies-with-a-platform-with-combat-data-for-ai-training/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Meta Delays Avocado Model: The Decoder**  
+Meta is postponing the release of its next AI model, Avocado, after internal tests showed it underperforms against Google, OpenAI, and Anthropic in key benchmarks like reasoning and multimodal tasks. This delay highlights ongoing challenges in scaling beyond Llama 3, with Avocado aiming for advanced capabilities but falling short on efficiency and accuracy metrics. For developers, this means sticking with alternatives like Gemini 1.5 or Claude 3.5 for now, but it underscores the competitive pressure driving faster iterations in open-source models.  
+Source: https://the-decoder.com/meta-delays-its-next-ai-model-avocado-after-internal-tests-show-it-cant-keep-up-with-google-and-openai/
+
+**Enhancing Value Alignment of LLMs with Multi-Agent System: cs.MA updates on arXiv.org**  
+The Value Alignment System using Combinatorial Fusion Analysis (VAS-CFA) fine-tunes multiple LLMs as moral agents, fusing their outputs to better reflect diverse ethical perspectives, outperforming single-agent RLHF on pluralism metrics. It excels in handling conflicts without a centralized reward, making it a step up from vanilla alignment in models like GPT-4 or Llama, though at higher compute cost. This matters for safety-focused devs building agents that need robust, non-monolithic value handling in real-world deployments.  
+Source: https://arxiv.org/abs/2603.11126
+
+**How Intelligence Emerges: A Minimal Theory: cs.MA updates on arXiv.org**  
+This paper proposes a dynamical theory for adaptive coordination in multi-agent systems, modeling agents and environments as feedback loops that ensure viability without global optimization, differing from equilibrium-based approaches in frameworks like AutoGen. It shows how persistence and dissipation lead to emergent intelligence, with linear specs illustrating stability. Practitioners should note this for d...</description>
+      <guid isPermaLink="false">models-agents-ep014-20260313-152917</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep014_20260313.mp3" length="18227035" type="audio/mpeg" />
+      <pubDate>Fri, 13 Mar 2026 08:00:00 +0000</pubDate>
+      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
+      <ns0:duration>12:39</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents
+**Date:** March 13, 2026
+
+**HOOK:** Perplexity launches "Personal Computer," a $200/month AI agent that automates emails, presentations, and app control 24/7.
+
+**What You Need to Know:** Perplexity AI unveiled its "Personal Computer" subscription, a tireless agent handling complex tasks like email management and app automation, marking a step toward always-on AI assistants that rival enterprise tools but at consumer pricing. Meanwhile, Ukraine is sharing battlefield data for training autonomous drone models, potentially boosting real-world AI agent reliability in high-stakes environments, while Meta delays its Avocado model due to lagging behind leaders like Google and OpenAI. Developers should watch agent framework updates from Microsoft and emerging multi-agent research for scalable coordination tools this week.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Ukraine has opened a platform sharing its battlefield data with allies to train AI models specifically for autonomous drones, focusing on real-time combat scenarios. This dataset includes diverse environmental and tactical information, enabling models to improve navigation, target identification, and decision-making under uncertainty—capabilities that extend beyond military use to civilian applications like search-and-rescue agents. Compared to synthetic datasets used in models like Llama or Gemini, this real-world data could reduce hallucinations in agentic systems by grounding them in verified field conditions. For AI practitioners, this means access to high-fidelity training material that could enhance agent robustness in dynamic environments, though ethical concerns around militarized AI loom large. Builders should explore integrating similar domain-specific data into frameworks like LangGraph for more reliable autonomous agents. Keep an eye on how this influences open-source drone agent projects, with potential API access for non-military R&amp;D forthcoming.
+Source: https://the-decoder.com/ukraine-provides-allies-with-a-platform-with-combat-data-for-ai-training/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Meta Delays Avocado Model: The Decoder**  
+Meta is postponing the release of its next AI model, Avocado, after internal tests showed it underperforms against Google, OpenAI, and Anthropic in key benchmarks like reasoning and multimodal tasks. This delay highlights ongoing challenges in scaling beyond Llama 3, with Avocado aiming for advanced capabilities but falling short on efficiency and accuracy metrics. For developers, this means sticking with alternatives like Gemini 1.5 or Claude 3.5 for now, but it underscores the competitive pressure driving faster iterations in open-source models.  
+Source: https://the-decoder.com/meta-delays-its-next-ai-model-avocado-after-internal-tests-show-it-cant-keep-up-with-google-and-openai/
+
+**Enhancing Value Alignment of LLMs with Multi-Agent System: cs.MA updates on arXiv.org**  
+The Value Alignment System using Combinatorial Fusion Analysis (VAS-CFA) fine-tunes multiple LLMs as moral agents, fusing their outputs to better reflect diverse ethical perspectives, outperforming single-agent RLHF on pluralism metrics. It excels in handling conflicts without a centralized reward, making it a step up from vanilla alignment in models like GPT-4 or Llama, though at higher compute cost. This matters for safety-focused devs building agents that need robust, non-monolithic value handling in real-world deployments.  
+Source: https://arxiv.org/abs/2603.11126
+
+**How Intelligence Emerges: A Minimal Theory: cs.MA updates on arXiv.org**  
+This paper proposes a dynamical theory for adaptive coordination in multi-agent systems, modeling agents and environments as feedback loops that ensure viability without global optimization, differing from equilibrium-based approaches in frameworks like AutoGen. It shows how persistence and dissipation lead to emergent intelligence, with linear specs illustrating stability. Practitioners should note this for d...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>14</ns0:episode>
+      <ns0:title>Ep 14: Perplexity launches "Personal Computer," a $200/month AI agent that automates emails, presentations, and app control 24/7.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
+      <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep014.json" type="application/json+chapters" />
+    </item>
+    <item>
       <title>Ep 405: Tesla is ramping up Cybercab production to hundreds weekly at its Austin factory ahead of launch.</title>
       <description># Tesla Shorts Time
 **Date:** March 12, 2026
@@ -606,7 +669,6 @@ With limited high-priority developments today, this briefing deep-dives into the
     </item>
     <item>
       <title>Ep 13: Nvidia plans $26B investment in open-weight AI models to counter Chinese dominance and lock in developers.</title>
-      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep013_20260312.mp3</link>
       <description># Models &amp; Agents
 **Date:** March 12, 2026
 
@@ -665,7 +727,6 @@ AraModernBERT adapts the ModernBERT encoder for Arabic with transtokenized initi
       <ns0:episode>13</ns0:episode>
       <ns0:title>Ep 13: Nvidia plans $26B investment in open-weight AI models to counter Chinese dominance and lock in developers.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
-      <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep013.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 5: Imagine chatting with an AI that draws charts on the fly to explain your homework — that's Claude's new superpower!</title>
@@ -3397,69 +3458,6 @@ A new greedy-based value representation (GVR) method improves multi-agent reinfo
       <ns0:season>1</ns0:season>
       <ns0:episode>6</ns0:episode>
       <ns0:title>Ep 6: YuanLab AI launches Yuan 3.0 Ultra, a 1T-parameter multimodal MoE model cutting parameters by 33% while boosting efficiency 49%.</ns0:title>
-      <ns0:episodeType>full</ns0:episodeType>
-    </item>
-    <item>
-      <title>Ep 398: Automakers are exiting Tesla's EU carbon credit pool, which could squeeze a key revenue stream worth billions.</title>
-      <description># Tesla Shorts Time
-**Date:** March 04, 2026
-**REAL-TIME TSLA price:** $405.94 ▲ $15.34 (3.9%)
-
-**HOOK:** Automakers are exiting Tesla's EU carbon credit pool, which could squeeze a key revenue stream worth billions.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 10 News Items
-1. **Automakers Drop Out of Carbon Credit Pool with Tesla: 04 March, 2026, 12:50 PM PST, CleanTechnica**
-   Several automakers like Ford, Honda, and Toyota have pulled out of the EU carbon credit pooling arrangement with Tesla, where Tesla helped them meet fleet emission targets in exchange for payments. This shift matters because regulatory credits have been a major revenue source for Tesla, contributing billions and supporting its profitability during EV ramp-ups. For the industry, it signals legacy carmakers gaining confidence in their own EV fleets, potentially reducing Tesla's leverage in Europe. Source: https://cleantechnica.com/2026/03/04/automakers-drop-out-of-carbon-credit-pool-with-tesla/
-
-2. **Tesla Takes Top Spot in Global Supply Chain Sustainability Rankings, Again: 04 March, 2026, 11:49 AM PST, TeslaNorth.com**
-   Tesla topped the "Lead the Charge" leaderboard for supply chain sustainability and human rights, boosting its score by six points and outpacing Ford. This recognition highlights Tesla's efforts in ethical sourcing, which is crucial for its brand as consumers and regulators demand more transparency in EV production. It positions Tesla as a leader in the industry, potentially attracting talent and partnerships while pressuring competitors to step up. Source: https://teslanorth.com/2026/03/04/tesla-takes-top-spot-in-global-supply-chain-sustainability-rankings/
-
-3. **Hight Logistics Highlights New Tesla Semi as It Expands Zero-Emission Fleet: 04 March, 2026, 11:38 AM PST, TeslaNorth.com**
-   Hight Logistics showcased its new Tesla Semi during a delivery at a logistics conference, marking progress in its shift to electric trucking. This matters for Tesla's business as real-world fleet adoptions validate the Semi's viability, helping to build momentum in the heavy-duty EV market. For customers in logistics, it means lower emissions and operating costs, pushing the industry toward sustainable freight solutions. Source: https://teslanorth.com/2026/03/04/hight-logistics-highlights-new-tesla-semi-as-it-expands-zero-emission-fleet/
-
-4. **Tesla Full Self-Driving v14.2.2.5 might be the most confusing release ever: 04 March, 2026, 11:24 AM PST, Teslarati**
-   The latest FSD update shows extreme improvements in some areas but notable regressions in others, making it a mixed bag for users. This reflects the challenges of iterating on complex AI software, which is central to Tesla's tech edge but can frustrate customers expecting consistent progress. It underscores the need for Tesla to smooth out these variances to build trust in autonomous driving. Source: https://www.teslarati.com/tesla-full-self-driving-v14-2-2-5-might-be-most-confusing-release-ever/
-
-5. **Tesla Hiring Senior Engineers in Berlin for ‘Robotaxi’ Autonomous Vehicle Team: 04 March, 2026, 11:18 AM PST, TeslaNorth.com**
-   Tesla is recruiting senior electrical engineers in Berlin to work on circuit boards for its Robotaxi program. This hiring push signals acceleration in Tesla's autonomous vehicle development, key for expanding into ride-hailing services. For the industry, it highlights Tesla's global talent strategy, potentially speeding up Robotaxi deployment in Europe. Source: https://teslanorth.com/2026/03/04/tesla-hiring-senior-engineers-in-berlin-for-robotaxi-autonomous-vehicle-team/
-
-6. **Tesla gets tip of the hat from major Wall Street firm on self-driving prowess: 04 March, 2026, 09:55 AM PST, Teslarati**
-   Bank of America praised Tesla's camera-only autonomous approach as cheaper and more scalable than competitors' multi-sensor systems. This endorsement could boost investor confidence in Tesla's self-driving tech, a core part of its valuation. It means Tesla might gain a profitable edge i...</description>
-      <guid isPermaLink="false">tesla-shorts-time-ep398-20260304-234200</guid>
-      <enclosure url="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep398_20260304.mp3" length="14500511" type="audio/mpeg" />
-      <pubDate>Wed, 04 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/podcast-image-v3.jpg" />
-      <ns0:duration>10:04</ns0:duration>
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:summary># Tesla Shorts Time
-**Date:** March 04, 2026
-**REAL-TIME TSLA price:** $405.94 ▲ $15.34 (3.9%)
-
-**HOOK:** Automakers are exiting Tesla's EU carbon credit pool, which could squeeze a key revenue stream worth billions.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 10 News Items
-1. **Automakers Drop Out of Carbon Credit Pool with Tesla: 04 March, 2026, 12:50 PM PST, CleanTechnica**
-   Several automakers like Ford, Honda, and Toyota have pulled out of the EU carbon credit pooling arrangement with Tesla, where Tesla helped them meet fleet emission targets in exchange for payments. This shift matters because regulatory credits have been a major revenue source for Tesla, contributing billions and supporting its profitability during EV ramp-ups. For the industry, it signals legacy carmakers gaining confidence in their own EV fleets, potentially reducing Tesla's leverage in Europe. Source: https://cleantechnica.com/2026/03/04/automakers-drop-out-of-carbon-credit-pool-with-tesla/
-
-2. **Tesla Takes Top Spot in Global Supply Chain Sustainability Rankings, Again: 04 March, 2026, 11:49 AM PST, TeslaNorth.com**
-   Tesla topped the "Lead the Charge" leaderboard for supply chain sustainability and human rights, boosting its score by six points and outpacing Ford. This recognition highlights Tesla's efforts in ethical sourcing, which is crucial for its brand as consumers and regulators demand more transparency in EV production. It positions Tesla as a leader in the industry, potentially attracting talent and partnerships while pressuring competitors to step up. Source: https://teslanorth.com/2026/03/04/tesla-takes-top-spot-in-global-supply-chain-sustainability-rankings/
-
-3. **Hight Logistics Highlights New Tesla Semi as It Expands Zero-Emission Fleet: 04 March, 2026, 11:38 AM PST, TeslaNorth.com**
-   Hight Logistics showcased its new Tesla Semi during a delivery at a logistics conference, marking progress in its shift to electric trucking. This matters for Tesla's business as real-world fleet adoptions validate the Semi's viability, helping to build momentum in the heavy-duty EV market. For customers in logistics, it means lower emissions and operating costs, pushing the industry toward sustainable freight solutions. Source: https://teslanorth.com/2026/03/04/hight-logistics-highlights-new-tesla-semi-as-it-expands-zero-emission-fleet/
-
-4. **Tesla Full Self-Driving v14.2.2.5 might be the most confusing release ever: 04 March, 2026, 11:24 AM PST, Teslarati**
-   The latest FSD update shows extreme improvements in some areas but notable regressions in others, making it a mixed bag for users. This reflects the challenges of iterating on complex AI software, which is central to Tesla's tech edge but can frustrate customers expecting consistent progress. It underscores the need for Tesla to smooth out these variances to build trust in autonomous driving. Source: https://www.teslarati.com/tesla-full-self-driving-v14-2-2-5-might-be-most-confusing-release-ever/
-
-5. **Tesla Hiring Senior Engineers in Berlin for ‘Robotaxi’ Autonomous Vehicle Team: 04 March, 2026, 11:18 AM PST, TeslaNorth.com**
-   Tesla is recruiting senior electrical engineers in Berlin to work on circuit boards for its Robotaxi program. This hiring push signals acceleration in Tesla's autonomous vehicle development, key for expanding into ride-hailing services. For the industry, it highlights Tesla's global talent strategy, potentially speeding up Robotaxi deployment in Europe. Source: https://teslanorth.com/2026/03/04/tesla-hiring-senior-engineers-in-berlin-for-robotaxi-autonomous-vehicle-team/
-
-6. **Tesla gets tip of the hat from major Wall Street firm on self-driving prowess: 04 March, 2026, 09:55 AM PST, Teslarati**
-   Bank of America praised Tesla's camera-only autonomous approach as cheaper and more scalable than competitors' multi-sensor systems. This endorsement could boost investor confidence in Tesla's self-driving tech, a core part of its valuation. It means Tesla might gain a profitable edge i...</ns0:summary>
-      <ns0:season>1</ns0:season>
-      <ns0:episode>398</ns0:episode>
-      <ns0:title>Ep 398: Automakers are exiting Tesla's EU carbon credit pool, which could squeeze a key revenue stream worth billions.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
     </item>
   </channel>
