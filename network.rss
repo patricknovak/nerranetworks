@@ -5,7 +5,7 @@
     <description>Eight daily podcasts keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, and financial literacy.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Mar 2026 15:29:17 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Mar 2026 16:28:18 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/omni-view-podcast-image.jpg</url>
       <title>Nerra Network</title>
@@ -372,6 +372,51 @@ This paper proposes a dynamical theory for adaptive coordination in multi-agent 
       <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep014.json" type="application/json+chapters" />
     </item>
     <item>
+      <title>Ep 6: Imagine chatting with an AI that turns your data into interactive charts you can poke and explore—right in the conversation!</title>
+      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep006_20260313.mp3</link>
+      <description># Models &amp; Agents for Beginners
+**Date:** March 13, 2026
+
+**HOOK:** Imagine chatting with an AI that turns your data into interactive charts you can poke and explore—right in the conversation!
+
+**What's Cool Today:** The biggest buzz is Anthropic's Claude AI chatbot now creating interactive charts and visuals on the fly, making data fun and easy to play with for school projects or hobbies. We'll dive into why this matters for beginners and how you can try it yourself. Plus, we'll explain prompting like you're 14, check out a new AI "personal computer" that handles tasks 24/7, and share quick bits on delayed models and factory robots.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Anthropic, the company behind the AI chatbot Claude, just added a new beta feature that lets it generate interactive diagrams, charts, and visualizations right inside your chat. This means you can ask Claude to turn numbers or ideas into visual tools that you can click on, zoom into, or even edit during the conversation. Think of it like having a super-smart whiteboard in your pocket that draws itself—imagine describing your science fair data, and poof, there's a customizable graph showing patterns you didn't even notice. Or picture planning a story for English class, and Claude sketches an interactive mind map of characters and plot twists that you can rearrange with a click. This works by Claude analyzing your description or uploaded data, then building visuals using simple code under the hood, but you don't need to know any of that to use it. Why is this a big deal? It turns boring data into something exciting and hands-on, which is perfect for teens doing homework, students visualizing study notes, or anyone curious about turning ideas into pictures without fancy software. For career changers or parents, it shows how AI is making creative tools more accessible, like having a free design assistant for presentations or hobby projects. Specifically for you, this could change how you tackle school assignments—say goodbye to struggling with spreadsheet apps and hello to AI that makes learning visual and interactive. It also highlights AI's growing role in education, where tools like this could help explain complex topics in ways that stick. What can you do right now? Head to Claude.ai (it's free to sign up with an email), start a chat, and try this: Upload a simple CSV file of your favorite video game scores or weekly chores, then say, "Create an interactive bar chart showing my top scores and let me filter by day." Play around with clicking the chart to see changes—it's like magic, and you can do it on your phone in under two minutes.
+Source: https://the-decoder.com/claude-can-now-create-interactive-charts-and-visualizations-directly-in-chat/
+
+━━━━━━━━━━━━━━━━━━━━
+### Explain Like I'm 14
+Let's break down how to write prompts for AI chatbots, those instructions you give to tools like ChatGPT to get better answers. Imagine you're directing a movie: a bad prompt is like yelling "Make a scene!" and getting a mess, but a good one is like giving clear notes on the plot, characters, and setting so the whole thing comes out awesome. First, start with the basics—be specific about what you want, like telling the AI exactly the topic, length, and style instead of something vague. For example, instead of "Tell me about dinosaurs," say "Explain three fun facts about T-Rex to a 14-year-old, using simple words and analogies from video games." Second, add context or roles, like assigning the AI a character: "Act as a history teacher and break down the American Revolution in five easy steps." Third, iterate by following up— if the response isn't perfect, refine it with "Make that shorter and add examples." And fourth, use techniques like chain-of-thought, where you ask the AI to think step-by-step, which helps it reason better, kind of like showing your work in math class. This all works because AI chatbots (large language models trained on tons of text) predict responses ba...</description>
+      <guid isPermaLink="false">mab-ep006-20260313-162817</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep006_20260313.mp3" length="13456657" type="audio/mpeg" />
+      <pubDate>Fri, 13 Mar 2026 08:00:00 +0000</pubDate>
+      <ns0:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
+      <ns0:duration>09:20</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents for Beginners
+**Date:** March 13, 2026
+
+**HOOK:** Imagine chatting with an AI that turns your data into interactive charts you can poke and explore—right in the conversation!
+
+**What's Cool Today:** The biggest buzz is Anthropic's Claude AI chatbot now creating interactive charts and visuals on the fly, making data fun and easy to play with for school projects or hobbies. We'll dive into why this matters for beginners and how you can try it yourself. Plus, we'll explain prompting like you're 14, check out a new AI "personal computer" that handles tasks 24/7, and share quick bits on delayed models and factory robots.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Anthropic, the company behind the AI chatbot Claude, just added a new beta feature that lets it generate interactive diagrams, charts, and visualizations right inside your chat. This means you can ask Claude to turn numbers or ideas into visual tools that you can click on, zoom into, or even edit during the conversation. Think of it like having a super-smart whiteboard in your pocket that draws itself—imagine describing your science fair data, and poof, there's a customizable graph showing patterns you didn't even notice. Or picture planning a story for English class, and Claude sketches an interactive mind map of characters and plot twists that you can rearrange with a click. This works by Claude analyzing your description or uploaded data, then building visuals using simple code under the hood, but you don't need to know any of that to use it. Why is this a big deal? It turns boring data into something exciting and hands-on, which is perfect for teens doing homework, students visualizing study notes, or anyone curious about turning ideas into pictures without fancy software. For career changers or parents, it shows how AI is making creative tools more accessible, like having a free design assistant for presentations or hobby projects. Specifically for you, this could change how you tackle school assignments—say goodbye to struggling with spreadsheet apps and hello to AI that makes learning visual and interactive. It also highlights AI's growing role in education, where tools like this could help explain complex topics in ways that stick. What can you do right now? Head to Claude.ai (it's free to sign up with an email), start a chat, and try this: Upload a simple CSV file of your favorite video game scores or weekly chores, then say, "Create an interactive bar chart showing my top scores and let me filter by day." Play around with clicking the chart to see changes—it's like magic, and you can do it on your phone in under two minutes.
+Source: https://the-decoder.com/claude-can-now-create-interactive-charts-and-visualizations-directly-in-chat/
+
+━━━━━━━━━━━━━━━━━━━━
+### Explain Like I'm 14
+Let's break down how to write prompts for AI chatbots, those instructions you give to tools like ChatGPT to get better answers. Imagine you're directing a movie: a bad prompt is like yelling "Make a scene!" and getting a mess, but a good one is like giving clear notes on the plot, characters, and setting so the whole thing comes out awesome. First, start with the basics—be specific about what you want, like telling the AI exactly the topic, length, and style instead of something vague. For example, instead of "Tell me about dinosaurs," say "Explain three fun facts about T-Rex to a 14-year-old, using simple words and analogies from video games." Second, add context or roles, like assigning the AI a character: "Act as a history teacher and break down the American Revolution in five easy steps." Third, iterate by following up— if the response isn't perfect, refine it with "Make that shorter and add examples." And fourth, use techniques like chain-of-thought, where you ask the AI to think step-by-step, which helps it reason better, kind of like showing your work in math class. This all works because AI chatbots (large language models trained on tons of text) predict responses ba...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>6</ns0:episode>
+      <ns0:title>Ep 6: Imagine chatting with an AI that turns your data into interactive charts you can poke and explore—right in the conversation!</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
+      <ns1:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep006.json" type="application/json+chapters" />
+    </item>
+    <item>
       <title>Ep 405: Tesla is ramping up Cybercab production to hundreds weekly at its Austin factory ahead of launch.</title>
       <description># Tesla Shorts Time
 **Date:** March 12, 2026
@@ -730,7 +775,6 @@ AraModernBERT adapts the ModernBERT encoder for Arabic with transtokenized initi
     </item>
     <item>
       <title>Ep 5: Imagine chatting with an AI that draws charts on the fly to explain your homework — that's Claude's new superpower!</title>
-      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep005_20260312.mp3</link>
       <description># Models &amp; Agents for Beginners
 **Date:** March 12, 2026
 
@@ -771,7 +815,6 @@ Let's break down "embeddings," a key idea behind new AI tools like Google's Gemi
       <ns0:episode>5</ns0:episode>
       <ns0:title>Ep 5: Imagine chatting with an AI that draws charts on the fly to explain your homework — that's Claude's new superpower!</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
-      <ns1:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep005.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Финансы Просто - Episode 5 - March 12, 2026</title>
@@ -2144,49 +2187,6 @@ Omni-C is a Transformer-based encoder that unifies images, audio, and text into 
       <ns0:episodeType>full</ns0:episodeType>
     </item>
     <item>
-      <title>Ep 1: Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!</title>
-      <description># Models &amp; Agents for Beginners
-**Date:** March 09, 2026
-
-**HOOK:** Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!
-
-**What's Cool Today:** Today, we're diving into how AI might soon learn from endless videos instead of running out of text, opening up wild new possibilities for smarter helpers in games and school. We'll also compare two top AI chatbots you can test yourself for homework or creative fun, and uncover why AI tests are missing most real jobs. Stick around for a deep dive on how AI learns from unlabeled data, plus easy ways to try cutting-edge tools right now.
-
-━━━━━━━━━━━━━━━━━━━━
-### The Big Story
-Andrej Karpathy, a famous AI expert who helped build things like Tesla's self-driving tech, just released a simple tool called Autoresearch that lets AI systems run their own machine learning experiments without much human help. It's all in one short Python file, designed to work on a single powerful graphics card like those in gaming computers. Think of Autoresearch like a mini lab where an AI agent (a smart program that can take actions on its own, like a virtual assistant deciding steps to solve a problem) can test ideas in machine learning, which is the process of teaching computers to learn from data. It's based on a stripped-down version of another tool for training language models, but super simplified so it's easier to use and tweak. This is a big deal because it makes advanced AI research more accessible, potentially letting students or hobbyists experiment with how AIs learn without needing huge supercomputers. For example, imagine using it to train an AI to analyze your favorite video games or predict trends in social media posts. It matters to you because as AI gets into everyday stuff like school projects or creative hobbies, tools like this could inspire the next generation of inventors—maybe even a teen building their first AI model for a science fair. Personally, if you're curious about careers in tech, this shows how AI is becoming something you can tinker with at home, not just for big companies. Right now, you can check out the project on GitHub, but since it's code-based, start by reading the simple readme file to understand the basics—search for "Autoresearch Karpathy GitHub" in your browser. If you're not ready for code, watch Karpathy's free YouTube videos on AI basics to get inspired. For a hands-on taste, try chatting with a free AI like ChatGPT about what machine learning experiments you'd run if you had an AI lab.
-Source: https://www.marktechpost.com/2026/03/08/andrej-karpathy-open-sources-autoresearch-a-630-line-python-tool-letting-ai-agents-run-autonomous-ml-experiments-on-single-gpus/
-
-━━━━━━━━━━━━━━━━━━━━
-### Explain Like I'm 14
-Let's explain how AI models learn from unlabeled video data, a hot idea from today's news that's changing how we build smarter AIs. Imagine you're trying to learn a new sport like soccer just by watching hours of pro games on YouTube without any coach explaining the rules—you pick up patterns like how players pass the ball or score goals by noticing what happens over and over. Step one: The AI starts with raw videos, broken into tiny clips, kind of like flipping through a flipbook where each page is a frame. Step two: It looks for connections within those frames, like spotting that a ball moving left often leads to a player running right, building a map of "what usually happens next" without needing labels like "this is a goal." Step three: To make it multimodal (meaning it handles different types of data like text and images together), the AI mixes in text descriptions, linking video patterns to words so it can later answer questions like "describe this soccer play." Step four: Over tons of examples, it refines this map, getting better at predicting and understanding without being told exactly what everything means. And that's basically what new AI training methods are doing when they use unlabeled videos—they...</description>
-      <guid isPermaLink="false">mab-ep001-20260309-031635</guid>
-      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260309.mp3" length="13526875" type="audio/mpeg" />
-      <pubDate>Mon, 09 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
-      <ns0:duration>09:23</ns0:duration>
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:summary># Models &amp; Agents for Beginners
-**Date:** March 09, 2026
-
-**HOOK:** Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!
-
-**What's Cool Today:** Today, we're diving into how AI might soon learn from endless videos instead of running out of text, opening up wild new possibilities for smarter helpers in games and school. We'll also compare two top AI chatbots you can test yourself for homework or creative fun, and uncover why AI tests are missing most real jobs. Stick around for a deep dive on how AI learns from unlabeled data, plus easy ways to try cutting-edge tools right now.
-
-━━━━━━━━━━━━━━━━━━━━
-### The Big Story
-Andrej Karpathy, a famous AI expert who helped build things like Tesla's self-driving tech, just released a simple tool called Autoresearch that lets AI systems run their own machine learning experiments without much human help. It's all in one short Python file, designed to work on a single powerful graphics card like those in gaming computers. Think of Autoresearch like a mini lab where an AI agent (a smart program that can take actions on its own, like a virtual assistant deciding steps to solve a problem) can test ideas in machine learning, which is the process of teaching computers to learn from data. It's based on a stripped-down version of another tool for training language models, but super simplified so it's easier to use and tweak. This is a big deal because it makes advanced AI research more accessible, potentially letting students or hobbyists experiment with how AIs learn without needing huge supercomputers. For example, imagine using it to train an AI to analyze your favorite video games or predict trends in social media posts. It matters to you because as AI gets into everyday stuff like school projects or creative hobbies, tools like this could inspire the next generation of inventors—maybe even a teen building their first AI model for a science fair. Personally, if you're curious about careers in tech, this shows how AI is becoming something you can tinker with at home, not just for big companies. Right now, you can check out the project on GitHub, but since it's code-based, start by reading the simple readme file to understand the basics—search for "Autoresearch Karpathy GitHub" in your browser. If you're not ready for code, watch Karpathy's free YouTube videos on AI basics to get inspired. For a hands-on taste, try chatting with a free AI like ChatGPT about what machine learning experiments you'd run if you had an AI lab.
-Source: https://www.marktechpost.com/2026/03/08/andrej-karpathy-open-sources-autoresearch-a-630-line-python-tool-letting-ai-agents-run-autonomous-ml-experiments-on-single-gpus/
-
-━━━━━━━━━━━━━━━━━━━━
-### Explain Like I'm 14
-Let's explain how AI models learn from unlabeled video data, a hot idea from today's news that's changing how we build smarter AIs. Imagine you're trying to learn a new sport like soccer just by watching hours of pro games on YouTube without any coach explaining the rules—you pick up patterns like how players pass the ball or score goals by noticing what happens over and over. Step one: The AI starts with raw videos, broken into tiny clips, kind of like flipping through a flipbook where each page is a frame. Step two: It looks for connections within those frames, like spotting that a ball moving left often leads to a player running right, building a map of "what usually happens next" without needing labels like "this is a goal." Step three: To make it multimodal (meaning it handles different types of data like text and images together), the AI mixes in text descriptions, linking video patterns to words so it can later answer questions like "describe this soccer play." Step four: Over tons of examples, it refines this map, getting better at predicting and understanding without being told exactly what everything means. And that's basically what new AI training methods are doing when they use unlabeled videos—they...</ns0:summary>
-      <ns0:season>1</ns0:season>
-      <ns0:episode>1</ns0:episode>
-      <ns0:title>Ep 1: Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!</ns0:title>
-      <ns0:episodeType>full</ns0:episodeType>
-    </item>
-    <item>
       <title>Ep 2: Millions are turning to AI chatbots for money advice – but experts say they're not ready to replace human pros yet.</title>
       <description># Models &amp; Agents for Beginners
 **Date:** March 09, 2026
@@ -2227,6 +2227,49 @@ Let's unpack probabilistic reasoning, which is basically how AI can get better a
       <ns0:season>1</ns0:season>
       <ns0:episode>2</ns0:episode>
       <ns0:title>Ep 2: Millions are turning to AI chatbots for money advice – but experts say they're not ready to replace human pros yet.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
+    </item>
+    <item>
+      <title>Ep 1: Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!</title>
+      <description># Models &amp; Agents for Beginners
+**Date:** March 09, 2026
+
+**HOOK:** Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!
+
+**What's Cool Today:** Today, we're diving into how AI might soon learn from endless videos instead of running out of text, opening up wild new possibilities for smarter helpers in games and school. We'll also compare two top AI chatbots you can test yourself for homework or creative fun, and uncover why AI tests are missing most real jobs. Stick around for a deep dive on how AI learns from unlabeled data, plus easy ways to try cutting-edge tools right now.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Andrej Karpathy, a famous AI expert who helped build things like Tesla's self-driving tech, just released a simple tool called Autoresearch that lets AI systems run their own machine learning experiments without much human help. It's all in one short Python file, designed to work on a single powerful graphics card like those in gaming computers. Think of Autoresearch like a mini lab where an AI agent (a smart program that can take actions on its own, like a virtual assistant deciding steps to solve a problem) can test ideas in machine learning, which is the process of teaching computers to learn from data. It's based on a stripped-down version of another tool for training language models, but super simplified so it's easier to use and tweak. This is a big deal because it makes advanced AI research more accessible, potentially letting students or hobbyists experiment with how AIs learn without needing huge supercomputers. For example, imagine using it to train an AI to analyze your favorite video games or predict trends in social media posts. It matters to you because as AI gets into everyday stuff like school projects or creative hobbies, tools like this could inspire the next generation of inventors—maybe even a teen building their first AI model for a science fair. Personally, if you're curious about careers in tech, this shows how AI is becoming something you can tinker with at home, not just for big companies. Right now, you can check out the project on GitHub, but since it's code-based, start by reading the simple readme file to understand the basics—search for "Autoresearch Karpathy GitHub" in your browser. If you're not ready for code, watch Karpathy's free YouTube videos on AI basics to get inspired. For a hands-on taste, try chatting with a free AI like ChatGPT about what machine learning experiments you'd run if you had an AI lab.
+Source: https://www.marktechpost.com/2026/03/08/andrej-karpathy-open-sources-autoresearch-a-630-line-python-tool-letting-ai-agents-run-autonomous-ml-experiments-on-single-gpus/
+
+━━━━━━━━━━━━━━━━━━━━
+### Explain Like I'm 14
+Let's explain how AI models learn from unlabeled video data, a hot idea from today's news that's changing how we build smarter AIs. Imagine you're trying to learn a new sport like soccer just by watching hours of pro games on YouTube without any coach explaining the rules—you pick up patterns like how players pass the ball or score goals by noticing what happens over and over. Step one: The AI starts with raw videos, broken into tiny clips, kind of like flipping through a flipbook where each page is a frame. Step two: It looks for connections within those frames, like spotting that a ball moving left often leads to a player running right, building a map of "what usually happens next" without needing labels like "this is a goal." Step three: To make it multimodal (meaning it handles different types of data like text and images together), the AI mixes in text descriptions, linking video patterns to words so it can later answer questions like "describe this soccer play." Step four: Over tons of examples, it refines this map, getting better at predicting and understanding without being told exactly what everything means. And that's basically what new AI training methods are doing when they use unlabeled videos—they...</description>
+      <guid isPermaLink="false">mab-ep001-20260309-031635</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260309.mp3" length="13526875" type="audio/mpeg" />
+      <pubDate>Mon, 09 Mar 2026 08:00:00 +0000</pubDate>
+      <ns0:image href="https://nerranetwork.com/models-agents-beginners-podcast-image.jpg" />
+      <ns0:duration>09:23</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents for Beginners
+**Date:** March 09, 2026
+
+**HOOK:** Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!
+
+**What's Cool Today:** Today, we're diving into how AI might soon learn from endless videos instead of running out of text, opening up wild new possibilities for smarter helpers in games and school. We'll also compare two top AI chatbots you can test yourself for homework or creative fun, and uncover why AI tests are missing most real jobs. Stick around for a deep dive on how AI learns from unlabeled data, plus easy ways to try cutting-edge tools right now.
+
+━━━━━━━━━━━━━━━━━━━━
+### The Big Story
+Andrej Karpathy, a famous AI expert who helped build things like Tesla's self-driving tech, just released a simple tool called Autoresearch that lets AI systems run their own machine learning experiments without much human help. It's all in one short Python file, designed to work on a single powerful graphics card like those in gaming computers. Think of Autoresearch like a mini lab where an AI agent (a smart program that can take actions on its own, like a virtual assistant deciding steps to solve a problem) can test ideas in machine learning, which is the process of teaching computers to learn from data. It's based on a stripped-down version of another tool for training language models, but super simplified so it's easier to use and tweak. This is a big deal because it makes advanced AI research more accessible, potentially letting students or hobbyists experiment with how AIs learn without needing huge supercomputers. For example, imagine using it to train an AI to analyze your favorite video games or predict trends in social media posts. It matters to you because as AI gets into everyday stuff like school projects or creative hobbies, tools like this could inspire the next generation of inventors—maybe even a teen building their first AI model for a science fair. Personally, if you're curious about careers in tech, this shows how AI is becoming something you can tinker with at home, not just for big companies. Right now, you can check out the project on GitHub, but since it's code-based, start by reading the simple readme file to understand the basics—search for "Autoresearch Karpathy GitHub" in your browser. If you're not ready for code, watch Karpathy's free YouTube videos on AI basics to get inspired. For a hands-on taste, try chatting with a free AI like ChatGPT about what machine learning experiments you'd run if you had an AI lab.
+Source: https://www.marktechpost.com/2026/03/08/andrej-karpathy-open-sources-autoresearch-a-630-line-python-tool-letting-ai-agents-run-autonomous-ml-experiments-on-single-gpus/
+
+━━━━━━━━━━━━━━━━━━━━
+### Explain Like I'm 14
+Let's explain how AI models learn from unlabeled video data, a hot idea from today's news that's changing how we build smarter AIs. Imagine you're trying to learn a new sport like soccer just by watching hours of pro games on YouTube without any coach explaining the rules—you pick up patterns like how players pass the ball or score goals by noticing what happens over and over. Step one: The AI starts with raw videos, broken into tiny clips, kind of like flipping through a flipbook where each page is a frame. Step two: It looks for connections within those frames, like spotting that a ball moving left often leads to a player running right, building a map of "what usually happens next" without needing labels like "this is a goal." Step three: To make it multimodal (meaning it handles different types of data like text and images together), the AI mixes in text descriptions, linking video patterns to words so it can later answer questions like "describe this soccer play." Step four: Over tons of examples, it refines this map, getting better at predicting and understanding without being told exactly what everything means. And that's basically what new AI training methods are doing when they use unlabeled videos—they...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>1</ns0:episode>
+      <ns0:title>Ep 1: Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
     </item>
     <item>
@@ -3397,67 +3440,6 @@ Source: https://www.sciencedaily.com/releases/2026/03/260303201755.htm
       <ns0:season>1</ns0:season>
       <ns0:episode>5</ns0:episode>
       <ns0:title>Ep 5: BC opens consultation on Koksilah Watershed Plan, requiring input by April 30 for water sustainability compliance under Water Sustainability Act.</ns0:title>
-      <ns0:episodeType>full</ns0:episodeType>
-    </item>
-    <item>
-      <title>Ep 6: YuanLab AI launches Yuan 3.0 Ultra, a 1T-parameter multimodal MoE model cutting parameters by 33% while boosting efficiency 49%.</title>
-      <description># Models &amp; Agents
-**Date:** March 05, 2026
-
-**HOOK:** YuanLab AI launches Yuan 3.0 Ultra, a 1T-parameter multimodal MoE model cutting parameters by 33% while boosting efficiency 49%.
-
-**What You Need to Know:** YuanLab AI dropped Yuan 3.0 Ultra, a flagship multimodal Mixture-of-Experts foundation model with 1T total parameters but only 68.8B activated, delivering state-of-the-art enterprise performance at reduced cost—think stronger intelligence with unrivaled efficiency compared to dense models like Llama 3. Meanwhile, a wave of multi-agent research highlights emergent behaviors in large-scale agent populations and new frameworks for tasks like sarcasm detection and scientific exploration, pushing the boundaries of collaborative AI. Pay attention this week to how these agent systems balance autonomy with reliability, especially in high-stakes domains like finance and robotics.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top Story
-YuanLab AI has released Yuan 3.0 Ultra, an open-source Mixture-of-Experts (MoE) large language model featuring 1T total parameters and just 68.8B activated parameters for multimodal tasks. This architecture optimizes performance by reducing total parameters by 33.3% and boosting pre-training efficiency by 49% compared to previous dense models, enabling state-of-the-art results in enterprise scenarios while maintaining strong intelligence across text, vision, and beyond. It stands out from alternatives like Qwen or Llama by emphasizing efficiency in MoE scaling, making it a compelling option for cost-sensitive deployments. Developers building multimodal apps should care, as this enables more accessible fine-tuning for tasks like visual question answering or document analysis without massive compute. What to watch: Community benchmarks will likely compare it head-to-head with Gemini or Claude variants; try integrating it via Hugging Face for efficiency tests. Expect forks and fine-tunes to emerge quickly in the open-source ecosystem.
-Source: https://www.marktechpost.com/2026/03/04/yuanlab-ai-releases-yuan-3-0-ultra-a-flagship-multimodal-moe-foundation-model-built-for-stronger-intelligence-and-unrivaled-efficiency/
-
-━━━━━━━━━━━━━━━━━━━━
-### Model Updates
-**Beyond the Pilot: Dyna.Ai Raises Eight-Figure Series A**
-Dyna.Ai secured an eight-figure Series A to scale agentic AI for financial services, focusing on moving beyond proofs-of-concept to production deployments with AI-as-a-Service tools. Compared to general-purpose models like GPT or Claude, it specializes in breaking the "pilot problem" where AI dashboards impress but stall, offering tailored agents for tasks like fraud detection or compliance. This matters for fintech devs, as it promises more reliable integration of agentic workflows, potentially reducing deployment friction in regulated environments.
-Source: https://www.artificialintelligence-news.com/news/dyna-ai-series-a-agentic-ai-financial-services/
-
-**One Bias After Another: Mechanistic Reward Shaping**
-Researchers introduced mechanistic reward shaping to mitigate biases in language reward models (RMs) used for aligning LLMs like Llama or Mistral, addressing issues like length, sycophancy, and overconfidence via post-hoc interventions with minimal labeled data. It outperforms vanilla RMs by reducing targeted biases without degrading reward quality, and it's extensible to new issues like model-specific styles. For alignment practitioners, this means more robust fine-tuning pipelines, especially in high-stakes preference-tuning where hallucinations could amplify errors.
-Source: https://arxiv.org/abs/2603.03291
-
-**Greedy-based Value Representation for Optimal Coordination**
-A new greedy-based value representation (GVR) method improves multi-agent reinforcement learning by ensuring optimal consistency in value decomposition, outperforming baselines on benchmarks with better handling of relative overgeneralization. It compares favorably to linear or monotonic value decomposition in Dec-POMDPs, using inferior targ...</description>
-      <guid isPermaLink="false">models-agents-ep006-20260305-153043</guid>
-      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep006_20260305.mp3" length="18311671" type="audio/mpeg" />
-      <pubDate>Thu, 05 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
-      <ns0:duration>12:42</ns0:duration>
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:summary># Models &amp; Agents
-**Date:** March 05, 2026
-
-**HOOK:** YuanLab AI launches Yuan 3.0 Ultra, a 1T-parameter multimodal MoE model cutting parameters by 33% while boosting efficiency 49%.
-
-**What You Need to Know:** YuanLab AI dropped Yuan 3.0 Ultra, a flagship multimodal Mixture-of-Experts foundation model with 1T total parameters but only 68.8B activated, delivering state-of-the-art enterprise performance at reduced cost—think stronger intelligence with unrivaled efficiency compared to dense models like Llama 3. Meanwhile, a wave of multi-agent research highlights emergent behaviors in large-scale agent populations and new frameworks for tasks like sarcasm detection and scientific exploration, pushing the boundaries of collaborative AI. Pay attention this week to how these agent systems balance autonomy with reliability, especially in high-stakes domains like finance and robotics.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top Story
-YuanLab AI has released Yuan 3.0 Ultra, an open-source Mixture-of-Experts (MoE) large language model featuring 1T total parameters and just 68.8B activated parameters for multimodal tasks. This architecture optimizes performance by reducing total parameters by 33.3% and boosting pre-training efficiency by 49% compared to previous dense models, enabling state-of-the-art results in enterprise scenarios while maintaining strong intelligence across text, vision, and beyond. It stands out from alternatives like Qwen or Llama by emphasizing efficiency in MoE scaling, making it a compelling option for cost-sensitive deployments. Developers building multimodal apps should care, as this enables more accessible fine-tuning for tasks like visual question answering or document analysis without massive compute. What to watch: Community benchmarks will likely compare it head-to-head with Gemini or Claude variants; try integrating it via Hugging Face for efficiency tests. Expect forks and fine-tunes to emerge quickly in the open-source ecosystem.
-Source: https://www.marktechpost.com/2026/03/04/yuanlab-ai-releases-yuan-3-0-ultra-a-flagship-multimodal-moe-foundation-model-built-for-stronger-intelligence-and-unrivaled-efficiency/
-
-━━━━━━━━━━━━━━━━━━━━
-### Model Updates
-**Beyond the Pilot: Dyna.Ai Raises Eight-Figure Series A**
-Dyna.Ai secured an eight-figure Series A to scale agentic AI for financial services, focusing on moving beyond proofs-of-concept to production deployments with AI-as-a-Service tools. Compared to general-purpose models like GPT or Claude, it specializes in breaking the "pilot problem" where AI dashboards impress but stall, offering tailored agents for tasks like fraud detection or compliance. This matters for fintech devs, as it promises more reliable integration of agentic workflows, potentially reducing deployment friction in regulated environments.
-Source: https://www.artificialintelligence-news.com/news/dyna-ai-series-a-agentic-ai-financial-services/
-
-**One Bias After Another: Mechanistic Reward Shaping**
-Researchers introduced mechanistic reward shaping to mitigate biases in language reward models (RMs) used for aligning LLMs like Llama or Mistral, addressing issues like length, sycophancy, and overconfidence via post-hoc interventions with minimal labeled data. It outperforms vanilla RMs by reducing targeted biases without degrading reward quality, and it's extensible to new issues like model-specific styles. For alignment practitioners, this means more robust fine-tuning pipelines, especially in high-stakes preference-tuning where hallucinations could amplify errors.
-Source: https://arxiv.org/abs/2603.03291
-
-**Greedy-based Value Representation for Optimal Coordination**
-A new greedy-based value representation (GVR) method improves multi-agent reinforcement learning by ensuring optimal consistency in value decomposition, outperforming baselines on benchmarks with better handling of relative overgeneralization. It compares favorably to linear or monotonic value decomposition in Dec-POMDPs, using inferior targ...</ns0:summary>
-      <ns0:season>1</ns0:season>
-      <ns0:episode>6</ns0:episode>
-      <ns0:title>Ep 6: YuanLab AI launches Yuan 3.0 Ultra, a 1T-parameter multimodal MoE model cutting parameters by 33% while boosting efficiency 49%.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
     </item>
   </channel>
