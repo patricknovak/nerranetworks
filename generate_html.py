@@ -904,6 +904,18 @@ def _url_encode_image(image_path):
     return quote(image_path, safe="/")
 
 
+def _path_prefix(html_path):
+    """Return a relative prefix to reach the repo root from *html_path*.
+
+    For root-level files (e.g. ``tesla.html``) this returns ``""``.
+    For files in subdirectories (e.g. ``ru/finansy-prosto.html``) this
+    returns ``"../"``, so that ``{{ path_prefix }}styles/main.css`` resolves
+    correctly regardless of page depth.
+    """
+    depth = html_path.count("/")
+    return "../" * depth
+
+
 def _get_jinja_env():
     """Create a shared Jinja2 environment."""
     return Environment(
@@ -929,8 +941,11 @@ def generate_summaries_page(slug, *, dry_run=False):
         podcast_logo_url = f"{GITHUB_RAW}/{_url_encode_image(cfg['podcast_image'])}"
         og_image_url = podcast_logo_url
 
+    prefix = _path_prefix(cfg["summaries_page"])
+
     context = {
         **cfg,
+        "path_prefix": prefix,
         "show_name": cfg["name"],
         "show_slug": cfg["slug"],
         "page_title": f"{cfg['name']} | Summaries",
@@ -992,8 +1007,11 @@ def generate_show_page(slug, *, dry_run=False):
             "reason": cfg.get("related_reason", ""),
         }
 
+    prefix = _path_prefix(cfg["show_page"])
+
     context = {
         **cfg,
+        "path_prefix": prefix,
         "show_name": cfg["name"],
         "show_slug": cfg["slug"],
         "show_description": cfg.get("about_text", cfg["description"]),
@@ -1039,6 +1057,7 @@ def generate_network_page(*, dry_run=False):
     template = env.get_template("network_page.html.j2")
 
     context = {
+        "path_prefix": "",
         "page_title": "Nerra Network | 9 Daily Shows",
         "meta_description": "Nerra Network — Nine daily podcasts keeping you informed. Tesla, world news, space, science, environment, AI, Russian finance, and language learning. Independent, daily, free.",
         "meta_keywords": "podcast network, daily podcasts, Nerra Network, Tesla, space, science, AI, environment",

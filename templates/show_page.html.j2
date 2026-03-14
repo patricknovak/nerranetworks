@@ -19,7 +19,7 @@
   "name": {{ show_name | tojson }},
   "description": {{ meta_description | tojson }},
   "url": {{ canonical_url | tojson }},
-  "webFeed": "{{ rss_file }}"{% if podcast_image_url %},
+  "webFeed": "{{ path_prefix }}{{ rss_file }}"{% if podcast_image_url %},
   "image": "{{ podcast_image_url }}"{% endif %}{% if apple_podcasts_url %},
   "sameAs": [{{ apple_podcasts_url | tojson }}]{% endif %}
 }
@@ -27,14 +27,14 @@
 {% endblock %}
 
 {% block nav_links %}
-<li><a href="{{ summaries_page }}">Summaries</a></li>
-<li><a href="{{ rss_file }}">RSS</a></li>
+<li><a href="{{ path_prefix }}{{ summaries_page }}">Summaries</a></li>
+<li><a href="{{ path_prefix }}{{ rss_file }}">RSS</a></li>
 {% if x_account %}<li><a href="https://x.com/{{ x_account }}" target="_blank" rel="noopener">@{{ x_account }}</a></li>{% endif %}
 {% endblock %}
 
 {% block mobile_nav_links %}
-<a href="{{ show_page }}" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
-<a href="{{ summaries_page }}" onclick="document.getElementById('mobileMenu').classList.remove('open')">Summaries</a>
+<a href="{{ path_prefix }}{{ show_page }}" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+<a href="{{ path_prefix }}{{ summaries_page }}" onclick="document.getElementById('mobileMenu').classList.remove('open')">Summaries</a>
 <a href="#episodes" onclick="document.getElementById('mobileMenu').classList.remove('open')">Episodes</a>
 <a href="#about" onclick="document.getElementById('mobileMenu').classList.remove('open')">About</a>
 <a href="#resources" onclick="document.getElementById('mobileMenu').classList.remove('open')">Resources</a>
@@ -46,7 +46,7 @@
     <section class="show-hero">
         <div class="show-hero-bg"></div>
         <div class="show-hero-inner">
-            <img src="{{ podcast_image_url }}" alt="{{ show_name }}" class="show-hero-art"
+            <img src="{{ path_prefix }}{{ podcast_image_url }}" alt="{{ show_name }}" class="show-hero-art"
                  onerror="this.style.display='none'">
             <div class="show-hero-info">
                 <h1>{{ show_name }}</h1>
@@ -61,11 +61,11 @@
                 {% endif %}
                 <div class="show-hero-actions">
                     <a href="#episodes" class="nn-btn nn-btn-primary">Listen Now</a>
-                    <a href="{{ summaries_page }}" class="nn-btn">View Summaries</a>
+                    <a href="{{ path_prefix }}{{ summaries_page }}" class="nn-btn">View Summaries</a>
                     {% if apple_podcasts_url %}
                     <a href="{{ apple_podcasts_url }}" class="nn-btn" target="_blank" rel="noopener">Apple Podcasts</a>
                     {% endif %}
-                    <a href="{{ rss_file }}" class="nn-btn">RSS Feed</a>
+                    <a href="{{ path_prefix }}{{ rss_file }}" class="nn-btn">RSS Feed</a>
                     {% if x_account %}
                     <a href="https://x.com/{{ x_account }}" class="nn-btn" target="_blank" rel="noopener">@{{ x_account }}</a>
                     {% endif %}
@@ -102,7 +102,7 @@
             </div>
             <div id="episodes-grid" class="episodes-grid"></div>
             <div style="text-align:center;margin-top:var(--sp-6);">
-                <a href="{{ summaries_page }}" class="nn-btn">View All Episodes</a>
+                <a href="{{ path_prefix }}{{ summaries_page }}" class="nn-btn">View All Episodes</a>
             </div>
         </div>
     </section>
@@ -222,8 +222,8 @@
         <div class="container" style="max-width:700px;">
             <div class="glass-card" style="padding:var(--sp-6);border-color:color-mix(in srgb, var(--show-color) 30%, var(--nn-border));">
                 <div style="font-family:var(--font-ui);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--show-color);margin-bottom:var(--sp-3);">Recommended for you</div>
-                <a href="{{ related_show.show_page }}" style="display:flex;align-items:center;gap:var(--sp-4);text-decoration:none;">
-                    <img src="{{ related_show.podcast_image }}" alt="{{ related_show.name }}" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;" loading="lazy">
+                <a href="{{ path_prefix }}{{ related_show.show_page }}" style="display:flex;align-items:center;gap:var(--sp-4);text-decoration:none;">
+                    <img src="{{ path_prefix }}{{ related_show.podcast_image }}" alt="{{ related_show.name }}" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;" loading="lazy">
                     <div>
                         <div style="font-family:var(--font-heading);font-weight:600;color:var(--nn-white);font-size:1.05rem;margin-bottom:var(--sp-1);">{{ related_show.name }}</div>
                         <div style="font-family:var(--font-ui);font-size:0.88rem;color:var(--nn-text-muted);line-height:1.5;">{{ related_show.reason }}</div>
@@ -244,8 +244,8 @@
             <div class="cross-network-grid">
                 {% for s in all_shows %}
                 {% if s.slug != show_slug %}
-                <a href="{{ s.show_page }}" class="cross-network-card">
-                    <img src="{{ s.podcast_image }}" alt="{{ s.name }}" loading="lazy">
+                <a href="{{ path_prefix }}{{ s.show_page }}" class="cross-network-card">
+                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }}" loading="lazy">
                     <div class="cross-network-card-info">
                         <div class="cross-network-card-name">{{ s.name }}</div>
                         <div class="cross-network-card-tagline">{{ s.tagline }}</div>
@@ -263,9 +263,9 @@
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     {% endif %}
     <script>
-        const JSON_URL = '{{ json_path }}';
+        const JSON_URL = '{{ path_prefix }}{{ json_path }}';
         const JSON_FORMAT = '{{ json_format }}';
-        const RSS_URL = '{{ rss_file }}';
+        const RSS_URL = '{{ path_prefix }}{{ rss_file }}';
         const SHOW_NAME = {{ show_name | tojson }};
 
         // --- Helpers ---
