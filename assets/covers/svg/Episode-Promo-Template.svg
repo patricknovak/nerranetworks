@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F172A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E293B;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:0.6" />
+    </linearGradient>
+    <radialGradient id="glow" cx="20%" cy="30%" r="50%">
+      <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:0.08" />
+      <stop offset="100%" style="stop-color:#60A5FA;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1080" height="1080" fill="url(#bgGrad)"/>
+  <rect width="1080" height="1080" fill="url(#glow)"/>
+
+  <!-- Top accent -->
+  <rect x="0" y="0" width="1080" height="4" fill="url(#accentGrad)"/>
+
+  <!-- NEW EPISODE badge -->
+  <rect x="60" y="50" width="180" height="38" rx="19" fill="rgba(96,165,250,0.15)" stroke="#60A5FA" stroke-width="1.5" stroke-opacity="0.4"/>
+  <text x="150" y="75" text-anchor="middle" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="600" font-size="13" fill="#60A5FA" letter-spacing="3">NEW EPISODE</text>
+
+  <!-- Cover art placeholder — rounded square matching show icon style -->
+  <rect x="60" y="130" width="280" height="280" rx="56" fill="#1E293B" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+  <g transform="translate(200, 270)" opacity="0.25">
+    <circle cx="0" cy="0" r="40" fill="none" stroke="white" stroke-width="2.5"/>
+    <polygon points="-15,-20 25,0 -15,20" fill="white"/>
+  </g>
+  <text x="200" y="330" text-anchor="middle" font-family="'Helvetica Neue',sans-serif" font-weight="400" font-size="13" fill="white" opacity="0.2" letter-spacing="2">[COVER ART]</text>
+
+  <!-- Show color indicator -->
+  <rect x="60" y="130" width="280" height="8" rx="4" fill="#60A5FA" opacity="0.6"/>
+
+  <!-- Show name -->
+  <text x="380" y="175" font-family="'Helvetica Neue',sans-serif" font-weight="600" font-size="22" fill="#60A5FA" letter-spacing="3">[SHOW NAME]</text>
+
+  <!-- Episode title -->
+  <text font-family="'Helvetica Neue',sans-serif" font-weight="700" font-size="38" fill="white">
+    <tspan x="380" y="240">Episode Title Goes</tspan>
+    <tspan x="380" dy="50">Here on Two Lines</tspan>
+  </text>
+
+  <!-- Badges -->
+  <rect x="380" y="330" width="90" height="32" rx="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="425" y="352" text-anchor="middle" font-family="'Helvetica Neue',sans-serif" font-weight="500" font-size="12" fill="white" opacity="0.6" letter-spacing="1">EP. 001</text>
+  <rect x="485" y="330" width="90" height="32" rx="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="530" y="352" text-anchor="middle" font-family="'Helvetica Neue',sans-serif" font-weight="500" font-size="12" fill="white" opacity="0.6" letter-spacing="1">15 MIN</text>
+
+  <!-- Divider -->
+  <line x1="60" y1="470" x2="1020" y2="470" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Key topics -->
+  <text x="60" y="520" font-family="'Helvetica Neue',sans-serif" font-weight="600" font-size="14" fill="white" opacity="0.4" letter-spacing="3">KEY TOPICS</text>
+  <g font-family="'Helvetica Neue',sans-serif" font-weight="400" font-size="22" fill="white" opacity="0.8">
+    <circle cx="80" cy="570" r="4" fill="#60A5FA" opacity="0.7"/>
+    <text x="100" y="578">Topic or talking point number one</text>
+    <circle cx="80" cy="620" r="4" fill="#60A5FA" opacity="0.7"/>
+    <text x="100" y="628">Second key discussion point</text>
+    <circle cx="80" cy="670" r="4" fill="#60A5FA" opacity="0.7"/>
+    <text x="100" y="678">Third topic covered in this episode</text>
+  </g>
+
+  <!-- Pull quote -->
+  <rect x="60" y="730" width="960" height="120" rx="16" fill="rgba(96,165,250,0.06)" stroke="rgba(96,165,250,0.15)" stroke-width="1"/>
+  <text x="90" y="752" font-family="'Helvetica Neue',sans-serif" font-weight="300" font-size="44" fill="#60A5FA" opacity="0.4">"</text>
+  <text x="120" y="790" font-family="'Helvetica Neue',sans-serif" font-weight="400" font-size="18" fill="white" opacity="0.7" font-style="italic">A standout quote from the episode goes here — great for</text>
+  <text x="120" y="818" font-family="'Helvetica Neue',sans-serif" font-weight="400" font-size="18" fill="white" opacity="0.7" font-style="italic">catching attention on social media feeds.</text>
+
+  <!-- Bottom bar -->
+  <rect x="0" y="900" width="1080" height="180" fill="rgba(0,0,0,0.3)"/>
+
+  <!-- Network constellation mini -->
+  <g transform="translate(90, 970)" opacity="0.5">
+    <circle cx="0" cy="0" r="5" fill="white"/>
+    <circle cx="-12" cy="-10" r="3" fill="#E31937"/>
+    <circle cx="12" cy="-8" r="3" fill="#0B6FD6"/>
+    <circle cx="-14" cy="8" r="3" fill="#018DB1"/>
+    <circle cx="14" cy="9" r="3" fill="#8B5CF6"/>
+    <line x1="0" y1="0" x2="-12" y2="-10" stroke="white" stroke-width="1" opacity="0.3"/>
+    <line x1="0" y1="0" x2="12" y2="-8" stroke="white" stroke-width="1" opacity="0.3"/>
+    <line x1="0" y1="0" x2="-14" y2="8" stroke="white" stroke-width="1" opacity="0.3"/>
+    <line x1="0" y1="0" x2="14" y2="9" stroke="white" stroke-width="1" opacity="0.3"/>
+  </g>
+  <text x="120" y="975" font-family="'Helvetica Neue',sans-serif" font-weight="600" font-size="16" fill="white" opacity="0.5" letter-spacing="3">NERRA NETWORK</text>
+
+  <!-- CTA -->
+  <rect x="860" y="952" width="160" height="36" rx="18" fill="rgba(96,165,250,0.2)" stroke="#60A5FA" stroke-width="1.5" stroke-opacity="0.5"/>
+  <text x="940" y="976" text-anchor="middle" font-family="'Helvetica Neue',sans-serif" font-weight="600" font-size="13" fill="#60A5FA" letter-spacing="2">LISTEN NOW</text>
+
+  <!-- URL -->
+  <text x="540" y="1040" text-anchor="middle" font-family="'Helvetica Neue',sans-serif" font-weight="400" font-size="16" fill="white" opacity="0.3" letter-spacing="2">nerranetwork.com</text>
+</svg>

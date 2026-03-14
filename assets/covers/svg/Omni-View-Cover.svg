@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 3000" width="3000" height="3000">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="50%" stop-color="#0B6FD6"/>
+      <stop offset="100%" stop-color="#1E40AF"/>
+    </linearGradient>
+    <radialGradient id="shine" cx="30%" cy="25%" r="65%">
+      <stop offset="0%" stop-color="white" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="ds"><feDropShadow dx="0" dy="24" stdDeviation="50" flood-color="#1E3A5F" flood-opacity="0.5"/></filter>
+    <filter id="ts"><feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#1E3A5F" flood-opacity="0.35"/></filter>
+  </defs>
+  <rect width="3000" height="3000" rx="500" fill="url(#bg)"/>
+  <rect width="3000" height="3000" rx="500" fill="url(#shine)"/>
+
+  <!-- Globe -->
+  <g transform="translate(1500, 1050)" filter="url(#ds)">
+    <!-- Outer circle -->
+    <circle cx="0" cy="0" r="380" fill="none" stroke="white" stroke-width="28" opacity="0.9"/>
+    <!-- Vertical meridians -->
+    <ellipse cx="0" cy="0" rx="190" ry="380" fill="none" stroke="white" stroke-width="18" opacity="0.6"/>
+    <ellipse cx="0" cy="0" rx="330" ry="380" fill="none" stroke="white" stroke-width="14" opacity="0.35"/>
+    <!-- Horizontal parallels -->
+    <ellipse cx="0" cy="0" rx="380" ry="190" fill="none" stroke="white" stroke-width="18" opacity="0.6"/>
+    <line x1="-380" y1="0" x2="380" y2="0" stroke="white" stroke-width="20" opacity="0.7"/>
+    <!-- Latitude lines -->
+    <ellipse cx="0" cy="-200" rx="310" ry="80" fill="none" stroke="white" stroke-width="12" opacity="0.35"/>
+    <ellipse cx="0" cy="200" rx="310" ry="80" fill="none" stroke="white" stroke-width="12" opacity="0.35"/>
+    <!-- Highlight arc -->
+    <path d="M-200,-320 A380,380 0 0,1 280,-250" fill="none" stroke="white" stroke-width="14" opacity="0.25" stroke-linecap="round"/>
+  </g>
+
+  <g filter="url(#ts)">
+    <text x="1500" y="2000" text-anchor="middle" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="800" font-size="280" fill="white">Omni</text>
+    <text x="1500" y="2310" text-anchor="middle" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="800" font-size="280" fill="white">View</text>
+  </g>
+  <text x="1500" y="2520" text-anchor="middle" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="500" font-size="80" fill="white" opacity="0.6" letter-spacing="6">BALANCED NEWS</text>
+</svg>

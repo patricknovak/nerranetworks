@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F172A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E293B;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:0.5" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:0.5" />
+    </linearGradient>
+    <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:0.08" />
+      <stop offset="100%" style="stop-color:#60A5FA;stop-opacity:0" />
+    </radialGradient>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1500" height="500" fill="url(#bgGrad)"/>
+  <line x1="0" y1="4" x2="1500" y2="4" stroke="url(#accentGrad)" stroke-width="4"/>
+  <line x1="0" y1="496" x2="1500" y2="496" stroke="url(#accentGrad)" stroke-width="4"/>
+  <circle cx="250" cy="250" r="300" fill="url(#glow1)"/>
+
+  <!-- Network constellation -->
+  <g transform="translate(140, 250)" filter="url(#softGlow)">
+    <line x1="0" y1="0" x2="-48" y2="-40" stroke="white" stroke-width="1.5" opacity="0.4"/>
+    <line x1="0" y1="0" x2="52" y2="-36" stroke="white" stroke-width="1.5" opacity="0.4"/>
+    <line x1="0" y1="0" x2="-55" y2="30" stroke="white" stroke-width="1.5" opacity="0.4"/>
+    <line x1="0" y1="0" x2="48" y2="40" stroke="white" stroke-width="1.5" opacity="0.4"/>
+    <line x1="0" y1="0" x2="-8" y2="55" stroke="white" stroke-width="1.5" opacity="0.4"/>
+    <line x1="0" y1="0" x2="22" y2="-58" stroke="white" stroke-width="1.5" opacity="0.4"/>
+    <line x1="0" y1="0" x2="-38" y2="-8" stroke="white" stroke-width="1.5" opacity="0.4"/>
+    <line x1="0" y1="0" x2="55" y2="-5" stroke="white" stroke-width="1.5" opacity="0.4"/>
+    <circle cx="-48" cy="-40" r="7" fill="#E31937" opacity="0.85"/>
+    <circle cx="52" cy="-36" r="7" fill="#0B6FD6" opacity="0.85"/>
+    <circle cx="22" cy="-58" r="7" fill="#7C5CFF" opacity="0.85"/>
+    <circle cx="-55" cy="30" r="7" fill="#018DB1" opacity="0.85"/>
+    <circle cx="-8" cy="55" r="7" fill="#1B5E20" opacity="0.85"/>
+    <circle cx="48" cy="40" r="7" fill="#8B5CF6" opacity="0.85"/>
+    <circle cx="-38" cy="-8" r="7" fill="#F59E0B" opacity="0.85"/>
+    <circle cx="55" cy="-5" r="7" fill="#EC4899" opacity="0.85"/>
+    <circle cx="0" cy="0" r="13" fill="#60A5FA"/>
+    <circle cx="0" cy="0" r="5" fill="white" opacity="0.9"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="280" y="230" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="700" font-size="72" fill="white" letter-spacing="6">NERRA</text>
+  <text x="280" y="300" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="200" font-size="72" fill="white" letter-spacing="10" opacity="0.85">NETWORK</text>
+  <text x="285" y="340" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="400" font-size="18" fill="#60A5FA" letter-spacing="5" opacity="0.7">INDEPENDENT PODCAST NETWORK</text>
+
+  <!-- Divider -->
+  <line x1="730" y1="120" x2="730" y2="380" stroke="white" stroke-width="1" opacity="0.15"/>
+
+  <!-- Mini show icons — rounded squares matching actual art style -->
+  <g transform="translate(780, 120)">
+    <!-- Row 1 -->
+    <rect x="0" y="0" width="76" height="76" rx="16" fill="#E31937"/>
+    <text x="38" y="50" text-anchor="middle" font-size="34" fill="white" opacity="0.9">&#x26A1;</text>
+
+    <rect x="92" y="0" width="76" height="76" rx="16" fill="#0B6FD6"/>
+    <text x="130" y="50" text-anchor="middle" font-size="32" fill="white" opacity="0.9">&#x1F310;</text>
+
+    <rect x="184" y="0" width="76" height="76" rx="16" fill="#7C5CFF"/>
+    <text x="222" y="50" text-anchor="middle" font-size="32" fill="white" opacity="0.9">&#x1F680;</text>
+
+    <rect x="276" y="0" width="76" height="76" rx="16" fill="#018DB1"/>
+    <text x="314" y="50" text-anchor="middle" font-size="30" fill="white" opacity="0.9">&#x1F9EC;</text>
+
+    <!-- Row 2 -->
+    <rect x="0" y="92" width="76" height="76" rx="16" fill="#1B5E20"/>
+    <text x="38" y="142" text-anchor="middle" font-size="32" fill="white" opacity="0.9">&#x1F331;</text>
+
+    <rect x="92" y="92" width="76" height="76" rx="16" fill="#8B5CF6"/>
+    <text x="130" y="142" text-anchor="middle" font-size="30" fill="white" opacity="0.9">&#x1F916;</text>
+
+    <rect x="184" y="92" width="76" height="76" rx="16" fill="#F59E0B"/>
+    <text x="222" y="142" text-anchor="middle" font-size="30" fill="white" opacity="0.9">&#x1F4A1;</text>
+
+    <rect x="276" y="92" width="76" height="76" rx="16" fill="#EC4899"/>
+    <text x="314" y="142" text-anchor="middle" font-size="28" fill="white" opacity="0.9">&#x1F4B0;</text>
+
+    <!-- Row 3: empty slots for expansion -->
+    <rect x="0" y="184" width="76" height="76" rx="16" fill="none" stroke="white" stroke-width="1.5" stroke-opacity="0.15" stroke-dasharray="6 4"/>
+    <text x="38" y="230" text-anchor="middle" font-size="22" fill="white" opacity="0.2">+</text>
+
+    <rect x="92" y="184" width="76" height="76" rx="16" fill="none" stroke="white" stroke-width="1.5" stroke-opacity="0.15" stroke-dasharray="6 4"/>
+    <text x="130" y="230" text-anchor="middle" font-size="22" fill="white" opacity="0.2">+</text>
+
+    <rect x="184" y="184" width="76" height="76" rx="16" fill="none" stroke="white" stroke-width="1.5" stroke-opacity="0.15" stroke-dasharray="6 4"/>
+    <text x="222" y="230" text-anchor="middle" font-size="22" fill="white" opacity="0.2">+</text>
+
+    <rect x="276" y="184" width="76" height="76" rx="16" fill="none" stroke="white" stroke-width="1.5" stroke-opacity="0.15" stroke-dasharray="6 4"/>
+    <text x="314" y="230" text-anchor="middle" font-size="22" fill="white" opacity="0.2">+</text>
+  </g>
+
+  <!-- Vancouver -->
+  <text x="1200" y="465" text-anchor="middle" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="300" font-size="14" fill="white" opacity="0.35" letter-spacing="4">VANCOUVER, CANADA</text>
+</svg>
