@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 3000" width="3000" height="3000">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C4B5FD"/>
+      <stop offset="40%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+    <radialGradient id="shine" cx="30%" cy="25%" r="65%">
+      <stop offset="0%" stop-color="white" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="headGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E0E7FF"/>
+      <stop offset="100%" stop-color="#A5B4FC"/>
+    </linearGradient>
+    <filter id="ds"><feDropShadow dx="0" dy="24" stdDeviation="50" flood-color="#3B0764" flood-opacity="0.5"/></filter>
+    <filter id="ts"><feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#3B0764" flood-opacity="0.35"/></filter>
+  </defs>
+  <rect width="3000" height="3000" rx="500" fill="url(#bg)"/>
+  <rect width="3000" height="3000" rx="500" fill="url(#shine)"/>
+
+  <!-- Robot face -->
+  <g transform="translate(1500, 1000)" filter="url(#ds)">
+    <!-- Antenna -->
+    <line x1="0" y1="-400" x2="0" y2="-300" stroke="white" stroke-width="18" stroke-linecap="round" opacity="0.8"/>
+    <circle cx="0" cy="-420" r="36" fill="#FBBF24" stroke="white" stroke-width="10"/>
+    <!-- Antenna glow -->
+    <circle cx="0" cy="-420" r="50" fill="#FBBF24" opacity="0.2"/>
+
+    <!-- Head -->
+    <rect x="-280" y="-280" width="560" height="480" rx="90" fill="url(#headGrad)" stroke="white" stroke-width="14"/>
+    <!-- Highlight -->
+    <rect x="-250" y="-260" width="200" height="60" rx="30" fill="white" opacity="0.2"/>
+
+    <!-- Eyes -->
+    <circle cx="-110" cy="-80" r="72" fill="#8B5CF6" stroke="white" stroke-width="12"/>
+    <circle cx="110" cy="-80" r="72" fill="#8B5CF6" stroke="white" stroke-width="12"/>
+    <!-- Pupils -->
+    <circle cx="-95" cy="-90" r="28" fill="white" opacity="0.9"/>
+    <circle cx="125" cy="-90" r="28" fill="white" opacity="0.9"/>
+    <circle cx="-95" cy="-90" r="12" fill="#3B0764" opacity="0.8"/>
+    <circle cx="125" cy="-90" r="12" fill="#3B0764" opacity="0.8"/>
+
+    <!-- Mouth — friendly smile -->
+    <path d="M-100,80 Q0,180 100,80" fill="none" stroke="#8B5CF6" stroke-width="22" stroke-linecap="round"/>
+
+    <!-- Cheek dots -->
+    <circle cx="-200" cy="40" r="30" fill="#F9A8D4" opacity="0.4"/>
+    <circle cx="200" cy="40" r="30" fill="#F9A8D4" opacity="0.4"/>
+
+    <!-- Ears -->
+    <rect x="-340" y="-140" width="60" height="120" rx="20" fill="url(#headGrad)" stroke="white" stroke-width="10"/>
+    <rect x="280" y="-140" width="60" height="120" rx="20" fill="url(#headGrad)" stroke="white" stroke-width="10"/>
+
+    <!-- Bolts on ears -->
+    <circle cx="-310" cy="-80" r="14" fill="#8B5CF6" opacity="0.7"/>
+    <circle cx="310" cy="-80" r="14" fill="#8B5CF6" opacity="0.7"/>
+  </g>
+
+  <g filter="url(#ts)">
+    <text x="1500" y="2000" text-anchor="middle" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="800" font-size="250" fill="white">Models &amp;</text>
+    <text x="1500" y="2280" text-anchor="middle" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="800" font-size="280" fill="white">Agents</text>
+  </g>
+  <text x="1500" y="2500" text-anchor="middle" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="500" font-size="80" fill="white" opacity="0.6" letter-spacing="6">AI BRIEFING</text>
+</svg>

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 3000" width="3000" height="3000">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F9A8D4"/>
+      <stop offset="50%" stop-color="#EC4899"/>
+      <stop offset="100%" stop-color="#9D174D"/>
+    </linearGradient>
+    <radialGradient id="shine" cx="30%" cy="25%" r="65%">
+      <stop offset="0%" stop-color="white" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="coinFace" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+    <linearGradient id="coinEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D97706"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+    <filter id="ds"><feDropShadow dx="0" dy="24" stdDeviation="50" flood-color="#831843" flood-opacity="0.5"/></filter>
+    <filter id="ts"><feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#831843" flood-opacity="0.35"/></filter>
+  </defs>
+  <rect width="3000" height="3000" rx="500" fill="url(#bg)"/>
+  <rect width="3000" height="3000" rx="500" fill="url(#shine)"/>
+
+  <!-- Coin stack + growth arrow -->
+  <g transform="translate(1500, 1050)" filter="url(#ds)">
+    <!-- Back coin -->
+    <ellipse cx="50" cy="100" rx="240" ry="55" fill="url(#coinEdge)"/>
+    <ellipse cx="50" cy="70" rx="240" ry="55" fill="url(#coinFace)"/>
+    <text x="50" y="90" text-anchor="middle" font-family="'Helvetica Neue',sans-serif" font-weight="800" font-size="55" fill="#B45309" opacity="0.5">$</text>
+    <!-- Middle coin -->
+    <ellipse cx="0" cy="-20" rx="260" ry="60" fill="url(#coinEdge)"/>
+    <ellipse cx="0" cy="-52" rx="260" ry="60" fill="url(#coinFace)"/>
+    <text x="0" y="-30" text-anchor="middle" font-family="'Helvetica Neue',sans-serif" font-weight="800" font-size="60" fill="#B45309" opacity="0.6">$</text>
+    <!-- Front coin -->
+    <ellipse cx="-30" cy="-140" rx="280" ry="65" fill="url(#coinEdge)"/>
+    <ellipse cx="-30" cy="-175" rx="280" ry="65" fill="url(#coinFace)"/>
+    <text x="-30" y="-150" text-anchor="middle" font-family="'Helvetica Neue',sans-serif" font-weight="800" font-size="68" fill="#B45309" opacity="0.7">$</text>
+
+    <!-- Growth arrow -->
+    <path d="M-200,220 Q20,100 140,-60 L220,-210" fill="none" stroke="white" stroke-width="24" stroke-linecap="round" opacity="0.9"/>
+    <polygon points="220,-210 155,-175 185,-250" fill="white" opacity="0.9"/>
+
+    <!-- Sparkles -->
+    <circle cx="260" cy="-280" r="16" fill="white" opacity="0.65"/>
+    <circle cx="300" cy="-240" r="8" fill="white" opacity="0.4"/>
+    <circle cx="-300" cy="-240" r="10" fill="white" opacity="0.35"/>
+
+    <!-- Maple leaf -->
+    <g transform="translate(-330, 200) scale(0.55)" opacity="0.35">
+      <path d="M0,-50 L8,-20 L40,-30 L22,0 L50,20 L20,20 L14,50 L0,30 L-14,50 L-20,20 L-50,20 L-22,0 L-40,-30 L-8,-20 Z" fill="white"/>
+    </g>
+  </g>
+
+  <g filter="url(#ts)">
+    <text x="1500" y="2000" text-anchor="middle" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="800" font-size="270" fill="white">&#x424;&#x438;&#x43D;&#x430;&#x43D;&#x441;&#x44B;</text>
+    <text x="1500" y="2300" text-anchor="middle" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="400" font-size="250" fill="white" opacity="0.9">&#x41F;&#x440;&#x43E;&#x441;&#x442;&#x43E;</text>
+  </g>
+  <text x="1500" y="2530" text-anchor="middle" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="500" font-size="72" fill="white" opacity="0.6" letter-spacing="4">FINANCES MADE SIMPLE</text>
+</svg>
