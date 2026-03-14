@@ -37,6 +37,8 @@
 <a href="{{ summaries_page }}" onclick="document.getElementById('mobileMenu').classList.remove('open')">Summaries</a>
 <a href="#episodes" onclick="document.getElementById('mobileMenu').classList.remove('open')">Episodes</a>
 <a href="#about" onclick="document.getElementById('mobileMenu').classList.remove('open')">About</a>
+<a href="#resources" onclick="document.getElementById('mobileMenu').classList.remove('open')">Resources</a>
+<a href="#faq" onclick="document.getElementById('mobileMenu').classList.remove('open')">FAQ</a>
 {% endblock %}
 
 {% block content %}
@@ -120,12 +122,35 @@
         </div>
     </section>
 
-    <!-- Resources -->
-    {% if resources %}
-    <section class="nn-section" style="padding-top:0;">
+    <!-- Resources (categorized) -->
+    {% if resource_categories %}
+    <section id="resources" class="nn-section" style="padding-top:0;">
         <div class="container">
             <div class="nn-section-header" style="text-align:left;">
-                <h2>Resources & Further Reading</h2>
+                <h2>Resources &amp; Further Reading</h2>
+            </div>
+            {% for cat in resource_categories %}
+            <div class="resource-category">
+                <h3 class="resource-category-title">{{ cat.title }}</h3>
+                <div class="resources-grid">
+                    {% for r in cat.resources %}
+                    <a href="{{ r.url }}" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">{{ r.name }}</div>
+                        <div class="resource-card-desc">{{ r.desc }}</div>
+                        <div class="resource-card-url">{{ r.url | replace('https://', '') | replace('http://', '') }}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% elif resources %}
+    <!-- Fallback: flat resources grid (legacy) -->
+    <section id="resources" class="nn-section" style="padding-top:0;">
+        <div class="container">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Resources &amp; Further Reading</h2>
             </div>
             <div class="resources-grid">
                 {% for r in resources %}
@@ -136,6 +161,43 @@
                 </a>
                 {% endfor %}
             </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Recommended Tools -->
+    {% if tools %}
+    <section class="nn-section" style="padding-top:0;">
+        <div class="container">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Recommended Tools</h2>
+            </div>
+            <div class="tools-grid">
+                {% for t in tools %}
+                <a href="{{ t.url }}" class="tool-card glass-card" target="_blank" rel="noopener">
+                    {% if t.badge %}<span class="tool-badge">{{ t.badge }}</span>{% endif %}
+                    <div class="tool-card-name">{{ t.name }}</div>
+                    <div class="tool-card-desc">{{ t.desc }}</div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Key Concepts / FAQ -->
+    {% if faq %}
+    <section id="faq" class="nn-section" style="padding-top:0;">
+        <div class="container" style="max-width:800px;">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Key Concepts</h2>
+            </div>
+            {% for item in faq %}
+            <details class="faq-item glass-card">
+                <summary class="faq-question">{{ item.q }}</summary>
+                <div class="faq-answer">{{ item.a }}</div>
+            </details>
+            {% endfor %}
         </div>
     </section>
     {% endif %}
@@ -177,7 +239,7 @@
         <div class="container">
             <div class="nn-section-header">
                 <h2>More from Nerra Network</h2>
-                <p>Seven daily shows keeping you informed.</p>
+                <p>Nine daily shows keeping you informed.</p>
             </div>
             <div class="cross-network-grid">
                 {% for s in all_shows %}
