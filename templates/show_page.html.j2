@@ -185,6 +185,58 @@
     </section>
     {% endif %}
 
+    <!-- Referral -->
+    {% if referral %}
+    <section id="referral" class="nn-section" style="padding-top:0;">
+        <div class="container" style="max-width:800px;">
+            <div class="referral-card glass-card" style="padding:var(--sp-8);border-color:color-mix(in srgb, var(--show-color) 35%, var(--nn-border));">
+                <div style="text-align:center;margin-bottom:var(--sp-6);">
+                    <div style="font-size:2.2rem;margin-bottom:var(--sp-2);">&#9889;</div>
+                    <h2 style="font-family:var(--font-heading);font-size:1.5rem;font-weight:700;color:var(--nn-white);margin-bottom:var(--sp-3);">{{ referral.heading }}</h2>
+                    <p style="color:var(--nn-text-muted);font-size:0.95rem;line-height:1.7;max-width:600px;margin:0 auto;">{{ referral.intro }}</p>
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:var(--sp-6);margin-bottom:var(--sp-6);">
+                    <div>
+                        <h3 style="font-family:var(--font-heading);font-size:1rem;font-weight:600;color:var(--show-color);margin-bottom:var(--sp-3);">Vehicle Benefits</h3>
+                        <ul style="list-style:none;padding:0;margin:0;">
+                            {% for b in referral.buyer_benefits %}
+                            <li style="font-family:var(--font-ui);font-size:0.9rem;color:var(--nn-text-muted);line-height:1.6;padding:var(--sp-1) 0;padding-left:1.4em;position:relative;"><span style="position:absolute;left:0;color:var(--show-color);">&#10003;</span>{{ b }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% if referral.energy_benefits %}
+                    <div>
+                        <h3 style="font-family:var(--font-heading);font-size:1rem;font-weight:600;color:var(--show-color);margin-bottom:var(--sp-3);">Energy Products</h3>
+                        <ul style="list-style:none;padding:0;margin:0;">
+                            {% for b in referral.energy_benefits %}
+                            <li style="font-family:var(--font-ui);font-size:0.9rem;color:var(--nn-text-muted);line-height:1.6;padding:var(--sp-1) 0;padding-left:1.4em;position:relative;"><span style="position:absolute;left:0;color:var(--show-color);">&#10003;</span>{{ b }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if referral.how_to_steps %}
+                <div style="background:var(--nn-surface);border-radius:12px;padding:var(--sp-5);margin-bottom:var(--sp-6);">
+                    <h3 style="font-family:var(--font-heading);font-size:1rem;font-weight:600;color:var(--nn-white);margin-bottom:var(--sp-3);">How to Use the Referral Link</h3>
+                    <ol style="padding-left:1.4em;margin:0;">
+                        {% for step in referral.how_to_steps %}
+                        <li style="font-family:var(--font-ui);font-size:0.9rem;color:var(--nn-text-muted);line-height:1.6;padding:var(--sp-1) 0;">{{ step }}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+                {% endif %}
+
+                <div style="text-align:center;">
+                    <a href="{{ referral.url }}" class="nn-btn nn-btn-primary" target="_blank" rel="noopener" style="font-size:1rem;padding:var(--sp-3) var(--sp-8);">Order a Tesla with Free FSD Trial</a>
+                    <div style="margin-top:var(--sp-3);font-family:var(--font-ui);font-size:0.78rem;color:var(--nn-text-muted);max-width:500px;margin-left:auto;margin-right:auto;">{{ referral.fine_print }}</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
     <!-- Key Concepts / FAQ -->
     {% if faq %}
     <section id="faq" class="nn-section" style="padding-top:0;">
