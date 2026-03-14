@@ -1,6 +1,6 @@
 name: "Models & Agents for Beginners"
 slug: models_agents_beginners
-description: "A daily AI podcast for beginners and teens — learn about models, agents, and the AI revolution in plain language. We explain the jargon, encourage experimentation, and help you understand the most exciting technology of our generation."
+description: "An AI podcast for beginners and teens — learn about models, agents, and the AI revolution in plain language. We explain the jargon, encourage experimentation, and help you understand the most exciting technology of our generation."
 
 sources:
   # Major AI Labs & Research
@@ -109,18 +109,13 @@ llm:
   podcast_max_tokens: 6000
 
 tts:
-  provider: fish
-  fish_voice_reference: assets/voice_references/tst_voice_reference.wav
-  fish_temperature: 0.3
-  fish_top_p: 0.7
-  fish_speed: 1.0
-  fish_repetition_penalty: 1.5
-  fish_format: mp3
-  fish_mp3_bitrate: 192
-  max_chars: 4000
-  validate_transcription: true
-  whisper_model: base
-  whisper_threshold: 0.85
+  voice_id: dTrBzPvD2GpAqkk1MUzA
+  model: eleven_turbo_v2_5
+  stability: 0.65
+  similarity_boost: 0.9
+  style: 0.85
+  use_speaker_boost: true
+  max_chars: 5000
 
 audio:
   music_file: assets/music/tesla_shorts_time.mp3
