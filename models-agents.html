@@ -129,6 +129,8 @@
 <a href="models-agents-summaries.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Summaries</a>
 <a href="#episodes" onclick="document.getElementById('mobileMenu').classList.remove('open')">Episodes</a>
 <a href="#about" onclick="document.getElementById('mobileMenu').classList.remove('open')">About</a>
+<a href="#resources" onclick="document.getElementById('mobileMenu').classList.remove('open')">Resources</a>
+<a href="#faq" onclick="document.getElementById('mobileMenu').classList.remove('open')">FAQ</a>
 
         <a href="https://github.com/patricknovak/Tesla-shorts-time" target="_blank" rel="noopener" onclick="document.getElementById('mobileMenu').classList.remove('open')">GitHub</a>
         <div class="nn-mobile-shows">
@@ -253,52 +255,292 @@
         </div>
     </section>
 
-    <!-- Resources -->
+    <!-- Resources (categorized) -->
+    
+    <section id="resources" class="nn-section" style="padding-top:0;">
+        <div class="container">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Resources &amp; Further Reading</h2>
+            </div>
+            
+            <div class="resource-category">
+                <h3 class="resource-category-title">AI Labs & Research</h3>
+                <div class="resources-grid">
+                    
+                    <a href="https://openai.com/research" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">OpenAI</div>
+                        <div class="resource-card-desc">GPT, DALL-E, and Sora — research and blog posts from the makers of ChatGPT</div>
+                        <div class="resource-card-url">openai.com/research</div>
+                    </a>
+                    
+                    <a href="https://www.anthropic.com/research" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Anthropic</div>
+                        <div class="resource-card-desc">Claude model family — constitutional AI, safety research, and responsible scaling</div>
+                        <div class="resource-card-url">www.anthropic.com/research</div>
+                    </a>
+                    
+                    <a href="https://deepmind.google/research/" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Google DeepMind</div>
+                        <div class="resource-card-desc">Gemini, AlphaFold, and fundamental AI research — one of the world's top AI labs</div>
+                        <div class="resource-card-url">deepmind.google/research/</div>
+                    </a>
+                    
+                    <a href="https://ai.meta.com/research/" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Meta AI (FAIR)</div>
+                        <div class="resource-card-desc">Llama open-source models, computer vision, and fundamental research</div>
+                        <div class="resource-card-url">ai.meta.com/research/</div>
+                    </a>
+                    
+                    <a href="https://mistral.ai" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Mistral AI</div>
+                        <div class="resource-card-desc">European AI lab building efficient open-weight models — Mixtral and Mistral Large</div>
+                        <div class="resource-card-url">mistral.ai</div>
+                    </a>
+                    
+                    <a href="https://arxiv.org/list/cs.AI/recent" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">arXiv AI</div>
+                        <div class="resource-card-desc">Latest AI research preprints — papers drop here before journal publication</div>
+                        <div class="resource-card-url">arxiv.org/list/cs.AI/recent</div>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <div class="resource-category">
+                <h3 class="resource-category-title">Developer Tools & Frameworks</h3>
+                <div class="resources-grid">
+                    
+                    <a href="https://huggingface.co" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Hugging Face</div>
+                        <div class="resource-card-desc">The GitHub of ML — 500K+ models, datasets, and Spaces demos. Essential for any AI developer</div>
+                        <div class="resource-card-url">huggingface.co</div>
+                    </a>
+                    
+                    <a href="https://www.langchain.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">LangChain</div>
+                        <div class="resource-card-desc">Framework for building LLM-powered applications — chains, agents, and retrieval pipelines</div>
+                        <div class="resource-card-url">www.langchain.com</div>
+                    </a>
+                    
+                    <a href="https://www.llamaindex.ai" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">LlamaIndex</div>
+                        <div class="resource-card-desc">Data framework for LLM apps — connect your data to language models with RAG pipelines</div>
+                        <div class="resource-card-url">www.llamaindex.ai</div>
+                    </a>
+                    
+                    <a href="https://ollama.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Ollama</div>
+                        <div class="resource-card-desc">Run open-source LLMs locally — Llama, Mistral, Phi, and more on your own hardware</div>
+                        <div class="resource-card-url">ollama.com</div>
+                    </a>
+                    
+                    <a href="https://sdk.vercel.ai" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Vercel AI SDK</div>
+                        <div class="resource-card-desc">TypeScript toolkit for building AI-powered web applications with streaming UI</div>
+                        <div class="resource-card-url">sdk.vercel.ai</div>
+                    </a>
+                    
+                    <a href="https://wandb.ai" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Weights & Biases</div>
+                        <div class="resource-card-desc">ML experiment tracking, model versioning, and dataset management for AI teams</div>
+                        <div class="resource-card-url">wandb.ai</div>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <div class="resource-category">
+                <h3 class="resource-category-title">Benchmarks & Leaderboards</h3>
+                <div class="resources-grid">
+                    
+                    <a href="https://lmarena.ai" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">LM Arena (Chatbot Arena)</div>
+                        <div class="resource-card-desc">Crowdsourced LLM rankings — users vote on which model gives better responses</div>
+                        <div class="resource-card-url">lmarena.ai</div>
+                    </a>
+                    
+                    <a href="https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Open LLM Leaderboard</div>
+                        <div class="resource-card-desc">Hugging Face's benchmark for open-source models — MMLU, ARC, HellaSwag scores</div>
+                        <div class="resource-card-url">huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard</div>
+                    </a>
+                    
+                    <a href="https://paperswithcode.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Papers With Code</div>
+                        <div class="resource-card-desc">ML papers with code implementations and state-of-the-art benchmarks across tasks</div>
+                        <div class="resource-card-url">paperswithcode.com</div>
+                    </a>
+                    
+                    <a href="https://artificialanalysis.ai" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Artificial Analysis</div>
+                        <div class="resource-card-desc">Compare LLM providers on speed, cost, and quality — essential for API selection</div>
+                        <div class="resource-card-url">artificialanalysis.ai</div>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <div class="resource-category">
+                <h3 class="resource-category-title">Newsletters & Analysis</h3>
+                <div class="resources-grid">
+                    
+                    <a href="https://www.latent.space" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Latent Space</div>
+                        <div class="resource-card-desc">AI engineering podcast and newsletter — deep dives with builders and researchers</div>
+                        <div class="resource-card-url">www.latent.space</div>
+                    </a>
+                    
+                    <a href="https://the-decoder.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">The Decoder</div>
+                        <div class="resource-card-desc">Daily AI news focused on practical developments, model releases, and tools</div>
+                        <div class="resource-card-url">the-decoder.com</div>
+                    </a>
+                    
+                    <a href="https://importai.substack.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Import AI</div>
+                        <div class="resource-card-desc">Jack Clark's weekly AI newsletter — policy, research, and industry analysis</div>
+                        <div class="resource-card-url">importai.substack.com</div>
+                    </a>
+                    
+                    <a href="https://www.deeplearning.ai/the-batch/" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">The Batch (deeplearning.ai)</div>
+                        <div class="resource-card-desc">Andrew Ng's weekly AI newsletter — news, insights, and research highlights</div>
+                        <div class="resource-card-url">www.deeplearning.ai/the-batch/</div>
+                    </a>
+                    
+                    <a href="https://simonwillison.net" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Simon Willison's Weblog</div>
+                        <div class="resource-card-desc">Prolific AI practitioner's blog — LLM tools, prompt engineering, and practical AI</div>
+                        <div class="resource-card-url">simonwillison.net</div>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <div class="resource-category">
+                <h3 class="resource-category-title">Open-Source Ecosystem</h3>
+                <div class="resources-grid">
+                    
+                    <a href="https://ollama.com" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Ollama</div>
+                        <div class="resource-card-desc">Run Llama 3, Mistral, Phi, and other open models locally with one command</div>
+                        <div class="resource-card-url">ollama.com</div>
+                    </a>
+                    
+                    <a href="https://lmstudio.ai" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">LM Studio</div>
+                        <div class="resource-card-desc">Desktop app for running local LLMs — GUI for model discovery, download, and chat</div>
+                        <div class="resource-card-url">lmstudio.ai</div>
+                    </a>
+                    
+                    <a href="https://github.com/vllm-project/vllm" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">vLLM</div>
+                        <div class="resource-card-desc">High-throughput LLM serving engine — the standard for production model deployment</div>
+                        <div class="resource-card-url">github.com/vllm-project/vllm</div>
+                    </a>
+                    
+                    <a href="https://github.com/ggerganov/llama.cpp" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">llama.cpp</div>
+                        <div class="resource-card-desc">Run LLMs on CPU/GPU with minimal resources — the engine behind most local AI apps</div>
+                        <div class="resource-card-url">github.com/ggerganov/llama.cpp</div>
+                    </a>
+                    
+                    <a href="https://github.com/open-webui/open-webui" class="resource-card glass-card" target="_blank" rel="noopener">
+                        <div class="resource-card-name">Open WebUI</div>
+                        <div class="resource-card-desc">Self-hosted ChatGPT-like interface for local models — works with Ollama out of the box</div>
+                        <div class="resource-card-url">github.com/open-webui/open-webui</div>
+                    </a>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </section>
+    
+
+    <!-- Recommended Tools -->
     
     <section class="nn-section" style="padding-top:0;">
         <div class="container">
             <div class="nn-section-header" style="text-align:left;">
-                <h2>Resources & Further Reading</h2>
+                <h2>Recommended Tools</h2>
             </div>
-            <div class="resources-grid">
+            <div class="tools-grid">
                 
-                <a href="https://huggingface.co" class="resource-card glass-card" target="_blank" rel="noopener">
-                    <div class="resource-card-name">Hugging Face</div>
-                    <div class="resource-card-desc">Open-source models, datasets, demos, and the model Hub</div>
-                    <div class="resource-card-url">huggingface.co</div>
+                <a href="https://claude.ai" class="tool-card glass-card" target="_blank" rel="noopener">
+                    <span class="tool-badge">Free tier</span>
+                    <div class="tool-card-name">Claude</div>
+                    <div class="tool-card-desc">Anthropic's AI assistant — strong at reasoning, coding, and long-context analysis</div>
                 </a>
                 
-                <a href="https://paperswithcode.com" class="resource-card glass-card" target="_blank" rel="noopener">
-                    <div class="resource-card-name">Papers With Code</div>
-                    <div class="resource-card-desc">ML papers with code, benchmarks, and leaderboards</div>
-                    <div class="resource-card-url">paperswithcode.com</div>
+                <a href="https://chat.openai.com" class="tool-card glass-card" target="_blank" rel="noopener">
+                    <span class="tool-badge">Free tier</span>
+                    <div class="tool-card-name">ChatGPT</div>
+                    <div class="tool-card-desc">OpenAI's conversational AI — GPT-4o with vision, code, and browsing capabilities</div>
                 </a>
                 
-                <a href="https://arxiv.org/list/cs.AI/recent" class="resource-card glass-card" target="_blank" rel="noopener">
-                    <div class="resource-card-name">arXiv AI</div>
-                    <div class="resource-card-desc">Latest AI research preprints from the research community</div>
-                    <div class="resource-card-url">arxiv.org/list/cs.AI/recent</div>
+                <a href="https://cursor.com" class="tool-card glass-card" target="_blank" rel="noopener">
+                    <span class="tool-badge">Free tier</span>
+                    <div class="tool-card-name">Cursor</div>
+                    <div class="tool-card-desc">AI-first code editor — autocomplete, chat, and codebase-aware assistance built on LLMs</div>
                 </a>
                 
-                <a href="https://lmarena.ai" class="resource-card glass-card" target="_blank" rel="noopener">
-                    <div class="resource-card-name">LM Arena</div>
-                    <div class="resource-card-desc">Chatbot Arena — crowdsourced LLM rankings and leaderboard</div>
-                    <div class="resource-card-url">lmarena.ai</div>
+                <a href="https://huggingface.co" class="tool-card glass-card" target="_blank" rel="noopener">
+                    <span class="tool-badge">Free</span>
+                    <div class="tool-card-name">Hugging Face</div>
+                    <div class="tool-card-desc">Try 500K+ models in your browser — text, image, audio, and multimodal demos</div>
                 </a>
                 
-                <a href="https://www.latent.space" class="resource-card glass-card" target="_blank" rel="noopener">
-                    <div class="resource-card-name">Latent Space</div>
-                    <div class="resource-card-desc">AI engineering podcast, newsletter, and community</div>
-                    <div class="resource-card-url">www.latent.space</div>
+                <a href="https://ollama.com" class="tool-card glass-card" target="_blank" rel="noopener">
+                    <span class="tool-badge">Free</span>
+                    <div class="tool-card-name">Ollama</div>
+                    <div class="tool-card-desc">Run open-source LLMs locally — one command to download and chat with Llama, Mistral, Phi</div>
                 </a>
                 
-                <a href="https://the-decoder.com" class="resource-card glass-card" target="_blank" rel="noopener">
-                    <div class="resource-card-name">The Decoder</div>
-                    <div class="resource-card-desc">AI news focused on practical developments and new releases</div>
-                    <div class="resource-card-url">the-decoder.com</div>
+                <a href="https://www.perplexity.ai" class="tool-card glass-card" target="_blank" rel="noopener">
+                    <span class="tool-badge">Free tier</span>
+                    <div class="tool-card-name">Perplexity</div>
+                    <div class="tool-card-desc">AI-powered search engine — asks follow-up questions and cites sources for every answer</div>
                 </a>
                 
             </div>
+        </div>
+    </section>
+    
+
+    <!-- Key Concepts / FAQ -->
+    
+    <section id="faq" class="nn-section" style="padding-top:0;">
+        <div class="container" style="max-width:800px;">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Key Concepts</h2>
+            </div>
+            
+            <details class="faq-item glass-card">
+                <summary class="faq-question">What is an LLM?</summary>
+                <div class="faq-answer">A Large Language Model (LLM) is an AI system trained on vast amounts of text data to understand and generate human language. Models like GPT-4, Claude, Gemini, and Llama are LLMs. They work by predicting the most likely next token (word piece) in a sequence, but this simple mechanism produces remarkably capable systems that can write code, analyze documents, reason through problems, and hold conversations.</div>
+            </details>
+            
+            <details class="faq-item glass-card">
+                <summary class="faq-question">What is an AI agent?</summary>
+                <div class="faq-answer">An AI agent is a system that uses an LLM as its 'brain' to autonomously plan and execute multi-step tasks. Unlike a simple chatbot that responds to one message at a time, an agent can break down complex goals, use tools (web search, code execution, APIs), observe results, and iterate. Examples include coding agents (Cursor, Claude Code), research agents (Perplexity), and browser agents that navigate websites on your behalf.</div>
+            </details>
+            
+            <details class="faq-item glass-card">
+                <summary class="faq-question">What is RAG?</summary>
+                <div class="faq-answer">Retrieval-Augmented Generation (RAG) is a technique that gives LLMs access to external knowledge by retrieving relevant documents before generating a response. Instead of relying solely on training data, a RAG system searches a database (using vector embeddings), finds relevant passages, and includes them in the LLM's context. This reduces hallucinations and lets you build AI that can answer questions about your own documents, codebase, or data.</div>
+            </details>
+            
+            <details class="faq-item glass-card">
+                <summary class="faq-question">What is fine-tuning?</summary>
+                <div class="faq-answer">Fine-tuning is the process of further training a pre-trained LLM on a specific dataset to specialize it for a particular task or domain. For example, you might fine-tune Llama on medical literature to create a healthcare-specific model. It's more expensive than RAG but can teach the model new behaviors, styles, or domain expertise that prompt engineering alone can't achieve. Most developers start with RAG and only fine-tune when necessary.</div>
+            </details>
+            
+            <details class="faq-item glass-card">
+                <summary class="faq-question">What is MCP (Model Context Protocol)?</summary>
+                <div class="faq-answer">MCP is an open protocol (created by Anthropic) that standardizes how AI models connect to external data sources and tools. Think of it as a USB-C port for AI — instead of building custom integrations for every tool, MCP provides a universal interface. An MCP server can expose databases, APIs, file systems, or any tool, and any MCP-compatible AI client can use them. It's rapidly becoming the standard for agent tool connectivity.</div>
+            </details>
+            
         </div>
     </section>
     
@@ -328,7 +570,7 @@
         <div class="container">
             <div class="nn-section-header">
                 <h2>More from Nerra Network</h2>
-                <p>Seven daily shows keeping you informed.</p>
+                <p>Nine daily shows keeping you informed.</p>
             </div>
             <div class="cross-network-grid">
                 

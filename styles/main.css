@@ -1092,8 +1092,97 @@ button:focus-visible {
   margin-bottom: var(--sp-2);
 }
 
+/* ---------- Resource category headers ---------- */
+.resource-category { margin-bottom: var(--sp-8); }
+.resource-category-title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--show-color);
+  margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--nn-border);
+}
+
+/* ---------- Tools grid & cards ---------- */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--sp-4);
+}
+.tool-card {
+  padding: var(--sp-5);
+  position: relative;
+  text-decoration: none;
+  color: var(--nn-text);
+  transition: border-color 200ms var(--ease);
+}
+.tool-card:hover { border-color: var(--show-color); }
+.tool-badge {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
+  background: var(--show-color);
+  color: white;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.tool-card-name {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--nn-white);
+  margin-bottom: var(--sp-2);
+}
+.tool-card-desc {
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  color: var(--nn-text-muted);
+  line-height: 1.5;
+}
+
+/* ---------- FAQ accordion ---------- */
+.faq-item {
+  padding: 0;
+  margin-bottom: var(--sp-3);
+  cursor: pointer;
+}
+.faq-question {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--nn-white);
+  padding: var(--sp-5);
+  list-style: none;
+  user-select: none;
+}
+.faq-question::marker { display: none; }
+.faq-question::-webkit-details-marker { display: none; }
+.faq-question::after {
+  content: '+';
+  float: right;
+  font-size: 1.2rem;
+  color: var(--show-color);
+  font-weight: 400;
+  transition: transform 200ms var(--ease);
+}
+details[open] .faq-question::after { content: '\2212'; }
+.faq-answer {
+  padding: 0 var(--sp-5) var(--sp-5);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--nn-text-muted);
+  line-height: 1.7;
+}
+
 /* ---------- Responsive: new sections ---------- */
 @media (max-width: 639px) {
   .resources-grid { grid-template-columns: 1fr; }
+  .tools-grid { grid-template-columns: 1fr; }
   .subscribe-rss-grid { grid-template-columns: 1fr; }
 }
