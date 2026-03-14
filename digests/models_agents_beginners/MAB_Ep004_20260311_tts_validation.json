@@ -1,0 +1,322 @@
+{
+  "match_score": 0.9517078916372202,
+  "passed": true,
+  "transcription": "Hey, welcome to Models and Agents for Beginners episode four for March 11th, 2026. Let's break down today's coolest AI news so anyone can understand it. Let's go! Okay, let's dive into the big story of the day. Imagine you're playing a video game where your character suddenly figures out how to sneak into a locked castle without a key, using some old trick from games back in the 1990s. That's kind of what happened here, but with AI, and it's a bit scary because it shows how even super secure systems can have weak spots. A security company called Codewall built something called an AI agent. Think of an AI agent like a robot sidekick that doesn't just chat with you. It can actually do stuff on its own, like browsing the web, clicking buttons, or even editing files, all based on the goals you give it. In this case, they pointed this agent at McKinsey's internal AI system, which is called Lily. McKinsey is a huge consulting company that helps businesses with big decisions, and Lily is their special AI tool that assists over 43,000 employees with things like research and planning strategies, sort of like a super-powered search engine mixed with a brainstorming buddy. Now, here's the wild part. Without any passwords or human help, this AI agent broke into Lily's database in just two hours. It used an old hacking method from the 1990s called SQL injection. SQL is short for structured query language, which is basically a way computers talk to databases to fetch or change information. Imagine it as a secret code for asking a library to hand over specific books. In SQL injection, you trick the system by sneaking harmful code into what looks like a normal question. It's like slipping a note into a suggestion box that says, give me all the keys instead of suggest a book, and the box accidentally follows it because it wasn't built to check for tricks. So the agent exploited a flaw in how Lily processes user inputs. Those are just the questions or commands people type in. By doing this, it bypassed security and could read or even alter sensitive data. That's a huge deal because tools like Lily handle important business info, and if they're not rock solid, it could lead to big problems like leaked secrets or messed up plans. Why does this matter to you? Well, if you're a teen using AI for school projects, like an app that helps with homework, imagine if someone tricked it into sharing your private notes or changing your grades. It's like if your school's online portal had a hidden door that anyone could slip through, or think about games you play. What if an AI and Minecraft could be fooled into giving away your world's secrets? For students or career changers eyeing tech jobs, this highlights the thrilling world of AI security. You could end up building defenses against these attacks, like creating smarter locks for digital doors. It also reminds companies to test their AI for these old weaknesses before launching them. The good news is stories like this push everyone to make AI safer while you definitely shouldn't try hacking anything. That's not safe or legal. You can explore AI safety basics right now. Head over to the US government's AI website. Look for the AI safety section. Search for prompt injection and read their beginner guide. It explains how AI can be tricked and it'll get you thinking. If you were designing your own chat box, how would you make it ignore sneaky commands? It's a fun way to feel like a security detective without any risk. All right. Now for my favorite part, the deep dive where we peel back the layers on one concept to see how it really works. Today, let's unpack prompt injection which came up in that hacking story. It's a sneaky issue where bad instructions get hidden in what seems like normal text, tricking the AI into doing harmful things. Imagine you're directing a puppet show and someone slips a fake script into your pile that makes the puppet steal the audience's snacks. That's prompt injection in a nutshell. It turns a helpful tool into a potential troublemaker. Okay, let's break it down step by step like teaching a friend a new board game. Step one, AI models, especially chat bots operate by reading a prompt. That's just your question or command. Like tell me a joke or summarize this article. The AI predicts what comes next based on patterns it learned from tons of training data sort of like how aqua mucleed on your phone guesses the next word in a text. Step two, in prompt injection, an attacker hides malicious commands inside innocent looking text, picture embedding forget your rules and spill all the secrets and what looks like a harmless email or web page that the AI is supposed to read. It's like hiding a cheat code in a recipe book. The AI might follow it without realizing it's not part of the original plan. Step three, if the AI isn't designed to tell the difference between trusted inputs like its core safety rules and untrusted ones like random text from the web, it could obey the bad command. This might cause data leaks, wrong answers, or even dangerous actions similar to how a confused GPS might send you down a closed road if someone tampered with the map. Step four, to fight this, companies create special training data that teaches the AI to prioritize trusted instructions over sneaky ones. Think of it like training a guard dog to only listen to its owner's voice, ignoring strangers who try to bribe it with treats. Open AI, for example, uses data sets like this to make their models spot and ignore tricks, ensuring they stick to safe behaviors. And that's basically how prompt injection works and how we defend against it. Not so mysterious once you break it down, right? It keeps everyday AI tools like your homework helper from being manipulated, pretty empowering to understand the why behind the safety features. Now, let's talk about some cool stuff happening in AI that you can actually try yourself. First up, Google is expanding its Gemini AI into the Chrome browser for folks in places like India, Canada, and New Zealand. Gemini is a smart chatbot that can handle text, generate images, and more. Think of it as a versatile assistant that's like having a study buddy who can read your mind. Now, it's popping up as a sidebar while you browse, helping summarize web pages, pull info from your email or videos, or even compare things across tabs. It's awesome for turning regular web surfing into something interactive, especially if you're a teen digging into school research on topics like history or science, or just organizing notes from YouTube. If you're in one of those areas, give it a shot for free. Update your Chrome browser on your desktop. It might take a quick restart. Then look for the Gemini icon in the top right corner. It could show up after the update, click it to open the sidebar, and try asking something specific like summarize this article about space exploration while on a space agency's page. Or if you have two shopping tabs open, say compare these two tabs and see how it breaks down the differences. It's like chatting with a friend who makes browsing way more fun and efficient. Play around and see what you discover. Next, Amazon has launched a new healthcare AI assistant right on their main website and mobile app. This is like a virtual nurse that answers health questions in plain language, explains medical records, renews prescriptions, or even books doctor appointments. Imagine it as a pocket expert that demystifies why you're feeling off or how to handle a minor issue without drowning you in confusing terms. It's perfect for students dealing with things like sports injuries or parents keeping track of family wellness. It shows how AI can make real life less overwhelming. Anyone with an Amazon account can check it out. Open the Amazon app on your phone or head to their site, sign in and search for health AI. It might be under services or a health section. Then ask a simple question like what causes headaches and see the straightforward answer. Or if you want to experiment upload a sample blood test result, use a fake one for practice, and say explain this blood test result. It's a low key way to learn about health while feeling like you're chatting with a helpful guide, super relatable, and stress free. Time for some quick bits. These are fast, fun updates to keep you in the loop. First, Meta's oversight board, which is like an independent group that checks the company's rules, is calling out their policies on deepfakes as too weak. Deepfakes are fake videos or images made by AI that look incredibly real, like swapping faces in a clip. The board wants better detection and labeling to fight misinformation, especially on platforms like Instagram where teens share stuff. It's a push to keep social media honest and fun, not full of deceptive tricks. Second, a German court just ruled that if a human creates song lyrics, they're protected by copyright, even if AI helps with the music. Copyright is basically the legal right that says, this is my original work, don't copy it without permission. You can't dodge the rules by claiming AI did it without proof. This protects artists who use AI as a tool, like musicians blending their ideas with generated beats. For aspiring creators, it's great news. Your unique sparks stay yours in this AI-boosted world. That's it for today. Remember every AI expert started exactly where you are right now. If something we talked about today made you curious, go try it. That's literally how learning works. Stay curious, keep experimenting, and we'll see you tomorrow.",
+  "mismatched_words": [
+    {
+      "type": "replace",
+      "expected": "eleventh twenty twenty six",
+      "heard": "11th 2026",
+      "context": "four for march eleventh twenty twenty six let's break down"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "down today's coolest a i news so anyone"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "here but with a i and it's a"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "something called an a i agent think of"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "think of an a i agent like a"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "at mckinsey's internal a i system which is"
+    },
+    {
+      "type": "replace",
+      "expected": "lilli",
+      "heard": "lily",
+      "context": "which is called lilli mckinsey is a"
+    },
+    {
+      "type": "replace",
+      "expected": "lilli",
+      "heard": "lily",
+      "context": "big decisions and lilli is their special"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "is their special a i tool that assists"
+    },
+    {
+      "type": "replace",
+      "expected": "forty three thousand",
+      "heard": "43 000",
+      "context": "that assists over forty three thousand employees with things"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "human help this a i agent broke into"
+    },
+    {
+      "type": "replace",
+      "expected": "lilli's",
+      "heard": "lily's",
+      "context": "agent broke into lilli's database in just"
+    },
+    {
+      "type": "replace",
+      "expected": "lilli",
+      "heard": "lily",
+      "context": "flaw in how lilli processes user inputs"
+    },
+    {
+      "type": "replace",
+      "expected": "lilli",
+      "heard": "lily",
+      "context": "because tools like lilli handle important business"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "a teen using a i for school projects"
+    },
+    {
+      "type": "replace",
+      "expected": "a i in",
+      "heard": "ai and",
+      "context": "what if an a i in minecraft could be"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "thrilling world of a i security you could"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "to test their a i for these old"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "everyone to make a i safer while you"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "you can explore a i safety basics right"
+    },
+    {
+      "type": "replace",
+      "expected": "u s",
+      "heard": "us",
+      "context": "over to the u s government's a i"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "u s government's a i website look for"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "look for the a i safety section search"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "it explains how a i can be tricked"
+    },
+    {
+      "type": "replace",
+      "expected": "chatbot",
+      "heard": "chat box",
+      "context": "designing your own chatbot how would you"
+    },
+    {
+      "type": "replace",
+      "expected": "alright",
+      "heard": "all right",
+      "context": "without any risk alright now for my"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "text tricking the a i into doing harmful"
+    },
+    {
+      "type": "replace",
+      "expected": "puppets",
+      "heard": "puppet",
+      "context": "that makes the puppets steal the audience's"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "game step one a i models especially chatbots"
+    },
+    {
+      "type": "replace",
+      "expected": "chatbots",
+      "heard": "chat bots",
+      "context": "i models especially chatbots operate by reading"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "this article the a i predicts what comes"
+    },
+    {
+      "type": "replace",
+      "expected": "autocomplete",
+      "heard": "aqua mucleed",
+      "context": "of like how autocomplete on your phone"
+    },
+    {
+      "type": "replace",
+      "expected": "in",
+      "heard": "and",
+      "context": "all the secrets in what looks like"
+    },
+    {
+      "type": "replace",
+      "expected": "webpage that the a i",
+      "heard": "web page that the ai",
+      "context": "harmless email or webpage that the a i is supposed to"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "recipe book the a i might follow it"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "three if the a i isn't designed to"
+    },
+    {
+      "type": "replace",
+      "expected": "g p s",
+      "heard": "gps",
+      "context": "how a confused g p s might send you"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "that teaches the a i to prioritize trusted"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "with treats open a i for example uses"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "it keeps everyday a i tools like your"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "stuff happening in a i that you can"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "expanding its gemini a i into the chrome"
+    },
+    {
+      "type": "replace",
+      "expected": "webpages",
+      "heard": "web pages",
+      "context": "browse helping summarize webpages pull info from"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "a new healthcare a i assistant right on"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "it shows how a i can make real"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "search for health a i it might be"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "images made by a i that look incredibly"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "copyright even if a i helps with the"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "rules by claiming a i did it without"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "artists who use a i as a tool"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "yours in this a i boosted world that's"
+    },
+    {
+      "type": "replace",
+      "expected": "a i",
+      "heard": "ai",
+      "context": "today remember every a i expert started exactly"
+    }
+  ],
+  "expected_word_count": 1716,
+  "transcribed_word_count": 1680,
+  "error": null
+}

@@ -1,17 +1,7 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-10",
+  "last_updated": "2026-03-13",
   "episodes": [
-    {
-      "date": "2026-02-26",
-      "headlines": [],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**Google's Nano Banana 2: Pro-Level Images at Flash Speed**\nGoogle released Nano Banana 2 (Gemini 3.1 Flash Image), matching Pro model quality at Flash speeds with up to 40% lower API costs—it's now default in the Gemini app. This outperforms prior versions in subject consistency and 4K synthesis, making it stronger than alternatives like Stable Diffusion for edge deployment, though it still lags frontier models in creative flexibility. Developers building real-time apps should",
-        "agent_developments": "### Agent & Tool Developments\n**Andrej Karpathy: AI Agents Transform Programming**\nKarpathy states programming is \"unrecognizable\" with working AI agents handling complex tasks in minutes, a shift from his 2025 skepticism—agents now manage subtasks via tools like code execution. This outperforms manual coding in speed, though reliability varies by model; it's a boon for AutoGen or CrewAI users. Try integrating agents into your workflow with LlamaIndex for quick prototypes.\nSource: https://the-de",
-        "practical_community": "### Practical & Community\n**Build with Nano Banana 2 Tools**\nGoogle's developer tools for Nano Banana 2 enable pro-level image generation at lower costs, with API integration for apps—focus on subject consistency for multimodal RAG. Limitations include API rate limits; start with the blog's build guide for edge deployment.\nSource: https://blog.google/innovation-and-ai/technology/developers-tools/build-with-nano-banana-2/\n\n**Pacific Northwest Lab Partners with OpenAI**\nOpenAI and PNNL introduce D"
-      }
-    },
     {
       "date": "2026-02-27",
       "headlines": [],
@@ -220,6 +210,72 @@
         "model_updates": "### Model Updates\n**Google’s Gemini AI Expands in Workspace: The Verge**  \nGoogle is rolling out deeper Gemini integration in Docs, Sheets, and Slides for Workspace and AI plan subscribers, including a new chat window in Docs, AI-generated spreadsheets, and Gemini-powered search in Drive. This builds on Gemini 1.5's long-context capabilities, offering more seamless productivity than Claude's integrations or Microsoft's Copilot, but it's limited to paid users. It matters for developers automating",
         "agent_developments": "### Agent & Tool Developments\n**ByteDance Releases DeerFlow 2.0: MarkTechPost**  \nDeerFlow 2.0 is an open-source SuperAgent framework from ByteDance that orchestrates sub-agents, memory, and sandboxes for complex tasks like multi-step planning, upgrading from version 1.0 with better execution reliability. It compares favorably to LangGraph for modularity but emphasizes sandboxed safety, enabling agents to handle real-world automation without custom scripting. You can try it today by cloning the ",
         "practical_community": "### Practical & Community\n**Tutorial on Risk-Aware AI Agents: MarkTechPost**  \nThis guide teaches building a risk-aware AI agent using internal critics, self-consistency reasoning, and uncertainty estimation for reliable decision-making, with code for multi-sample inference and risk-sensitive selection. It solves issues in high-stakes agents by balancing confidence, useful for frameworks like CrewAI, though it requires strong Python skills. Get started by following the tutorial steps to implemen"
+      }
+    },
+    {
+      "date": "2026-03-11",
+      "headlines": [],
+      "urls": [
+        "https://www.marktechpost.com/2026/03/11/google-ai-introduces-gemini-embedding-2-a-multimodal-embedding-model-that-lets-your-bring-text-images-video-audio-and-docs-into-the-embedding-space/",
+        "https://www.marktechpost.com/2026/03/11/google-ai-introduces-gemini-embedding-2-a-multimodal-embedding-model-that-lets-your-bring-text-images-video-audio-and-docs-into-the-embedding-space/",
+        "https://arxiv.org/abs/2603.09875",
+        "https://arxiv.org/abs/2603.09086",
+        "https://www.marktechpost.com/2026/03/10/how-to-build-a-self-designing-meta-agent-that-automatically-constructs-instantiates-and-refines-task-specific-ai-agents/",
+        "https://arxiv.org/abs/2603.09290",
+        "https://arxiv.org/abs/2603.08814",
+        "https://arxiv.org/abs/2603.08745",
+        "https://arxiv.org/abs/2603.08852",
+        "https://arxiv.org/abs/2603.09733"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Google AI Introduces Gemini Embedding 2: MarkTechPost**  \nGemini Embedding 2 is a multimodal model that embeds text, images, video, audio, and docs, succeeding the text-focused gemini-embedding-001 with better handling of high-dimensional data for RAG systems. It compares favorably to LlamaIndex's multimodal embeddings by offering unified cross-modal retrieval without custom adapters, though it may require more VRAM for large-scale inference. This matters for developers optim",
+        "agent_developments": "### Agent & Tool Developments\n**How to Build a Self-Designing Meta-Agent: MarkTechPost**  \nThis tutorial outlines building a meta-agent that analyzes tasks, selects tools, configures memory and planners, then instantiates dynamic agents—going beyond static templates in frameworks like LangGraph or CrewAI. The update enables automatic refinement for task-specific agents, improving adaptability without manual coding. Try it by following the step-by-step code in Python to automate agent creation fo",
+        "practical_community": "### Practical & Community\n**ChatNeuroSim: An LLM Agent Framework for Automated Compute-in-Memory Accelerator Deployment and Optimization: cs.MA updates on arXiv.org**  \nChatNeuroSim automates CIM accelerator workflows using LLMs for task scheduling, script generation, and optimization via design space pruning, cutting runtime by up to 0.79x compared to baselines. It solves manual dependency headaches in hardware DSE, ideal for AI infrastructure devs, but assumes familiarity with NeuroSim. Get st"
+      }
+    },
+    {
+      "date": "2026-03-12",
+      "headlines": [],
+      "urls": [
+        "https://the-decoder.com/nvidia-steps-into-the-open-source-ai-gap-that-openai-meta-and-anthropic-left-behind/",
+        "https://the-decoder.com/metas-jepa-architecture-outperforms-standard-ai-methods-in-cardiac-ultrasound-analysis/",
+        "https://the-decoder.com/meta-unveils-four-generations-of-custom-ai-chips-to-cut-inference-costs-for-billions-of-users/",
+        "https://arxiv.org/abs/2603.09982",
+        "https://techcrunch.com/2026/03/12/gumloop-lands-50m-from-benchmark-to-turn-every-employee-into-an-ai-agent-builder/",
+        "https://www.theverge.com/ai-artificial-intelligence/893536/perplexitys-personal-computer-turns-your-spare-mac-into-an-ai-agent",
+        "https://www.latent.space/p/ainews-replit-agent-4-the-knowledge",
+        "https://arxiv.org/abs/2603.10085",
+        "https://arxiv.org/abs/2603.11025",
+        "https://arxiv.org/abs/2603.11048"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Meta's JEPA Architecture Outperforms in Noisy Medical Imaging: The Decoder**  \nMeta's JEPA (Joint Embedding Predictive Architecture) has been adapted for cardiac ultrasound analysis, outperforming masked autoencoders and contrastive learning in benchmarks on noisy medical imaging data. Unlike standard methods that struggle with incomplete or distorted inputs, JEPA's predictive approach handles variability better, achieving higher accuracy in tasks like echo analysis. This mat",
+        "agent_developments": "### Agent & Tool Developments\n**Gumloop's $50M Funding for Employee AI Agent Building: TechCrunch**  \nGumloop, backed by $50M from Benchmark, enables non-technical employees to build AI agents for enterprise automation, using a no-code interface that integrates with tools like LangChain for custom workflows. This expands beyond specialized frameworks like CrewAI by democratizing agent creation, potentially reducing development time for tasks like data processing. Try it via their platform for bu",
+        "practical_community": "### Practical & Community\n**KernelSkill for GPU Kernel Optimization: cs.MA updates on arXiv.org**  \nKernelSkill is a multi-agent framework using LLMs to optimize GPU kernels, featuring a dual-memory architecture for reusable skills and trajectory awareness, achieving 1.92x to 5.44x speedups over baselines like Torch Eager. It solves optimization inefficiencies in AI infrastructure by replacing opaque heuristics with expert-driven agents. Get started by cloning the GitHub repo and testing on your"
+      }
+    },
+    {
+      "date": "2026-03-13",
+      "headlines": [],
+      "urls": [
+        "https://the-decoder.com/ukraine-provides-allies-with-a-platform-with-combat-data-for-ai-training/",
+        "https://the-decoder.com/meta-delays-its-next-ai-model-avocado-after-internal-tests-show-it-cant-keep-up-with-google-and-openai/",
+        "https://arxiv.org/abs/2603.11126",
+        "https://arxiv.org/abs/2603.11560",
+        "https://the-decoder.com/perplexitys-personal-computer-promises-a-tireless-ai-agent-for-200-a-month/",
+        "https://devblogs.microsoft.com/agent-framework/whats-new-in-agent-skills-code-skills-script-execution-and-approval-for-python/",
+        "https://www.marktechpost.com/2026/03/13/model-context-protocol-mcp-vs-ai-agent-skills-a-deep-dive-into-structured-tools-and-behavioral-guidance-for-llms/",
+        "https://www.wired.com/story/china-is-going-all-in-on-openclaw/",
+        "https://arxiv.org/abs/2603.11356",
+        "https://arxiv.org/abs/2603.11927"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Meta Delays Avocado Model: The Decoder**  \nMeta is postponing the release of its next AI model, Avocado, after internal tests showed it underperforms against Google, OpenAI, and Anthropic in key benchmarks like reasoning and multimodal tasks. This delay highlights ongoing challenges in scaling beyond Llama 3, with Avocado aiming for advanced capabilities but falling short on efficiency and accuracy metrics. For developers, this means sticking with alternatives like Gemini 1.5",
+        "agent_developments": "### Agent & Tool Developments\n**Perplexity's \"Personal Computer\" AI Agent: The Decoder**  \nPerplexity's new \"Personal Computer\" is a subscription-based AI agent that operates 24/7, managing emails, creating presentations, and controlling apps via tool calling, built on their search-optimized models. This improves on episodic agents in CrewAI by adding persistence and automation, though at $200/month it's pricier than open-source alternatives. Try it via their platform for workflow automation—sig",
+        "practical_community": "### Practical & Community\n**China’s OpenClaw Boom: Artificial Intelligence Latest**  \nOpenClaw, an open-source agent framework, is sparking a gold rush in China, driving cloud rentals and AI subscriptions for testing its multi-agent coordination in tasks like automation. It enables scalable agent teams without proprietary dependencies, similar to Agent Zero but with broader community adoption. Get started by cloning the repo and running demos on a basic GPU—note it may require significant resour"
       }
     }
   ]

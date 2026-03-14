@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcast="https://podcastindex.org/namespace/1.0" version="2.0">
   <channel>
     <title>Planetterrian Daily</title>
     <link>https://nerranetwork.com/planetterrian.html</link>
@@ -8,10 +8,10 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Mar 2026 12:13:45 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Mar 2026 12:14:41 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
-    <itunes:category text="Science"/>
-    <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+    <itunes:category text="Science" />
+    <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
     <itunes:explicit>no</itunes:explicit>
     <itunes:owner>
       <itunes:name>Patrick</itunes:name>
@@ -19,8 +19,105 @@
     </itunes:owner>
     <itunes:summary>Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion.</itunes:summary>
     <item>
+      <title>Ep 30: Researchers found that combining two colon polyp types raises bowel cancer risk up to fivefold.</title>
+      <link>https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep030_20260313.mp3</link>
+      <description># Planetterrian Daily
+**Date:** March 13, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Researchers found that combining two colon polyp types raises bowel cancer risk up to fivefold.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Two polyp types raise bowel cancer risk fivefold: 13 March 2026 • Science Daily**
+   Researchers analyzed over 8,400 colonoscopies and found that patients with both adenomas and serrated polyps face up to five times higher risk of precancerous changes. This highlights separate cancer pathways occurring together, urging more vigilant screening for those with mixed polyps.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313002938.htm
+
+2. **Severe COVID or flu may increase lung cancer risk: 13 March 2026 • Science Daily**
+   Scientists discovered that serious viral infections like COVID-19 or influenza cause chronic lung inflammation by altering immune cells, potentially promoting tumors years later. Vaccination reduces these changes, offering a preventive strategy especially for hospitalized patients.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313055130.htm
+
+3. **Medieval societies buried leprosy patients in high-status graves: 13 March 2026 • Science Daily**
+   Examination of hundreds of skeletons from medieval Denmark showed that people with leprosy were often interred in prestigious church-adjacent graves, challenging assumptions of exclusion. This suggests communities integrated the sick, reflecting social compassion rather than stigma.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313002645.htm
+
+4. **Quantum error correction advances tackle computing challenges: 13 March 2026 • New Scientist**
+   Recent progress in quantum error correction is addressing the high error rates that limit quantum computers' reliability. These developments could enable more stable systems, paving the way for practical applications in complex simulations and cryptography.
+   Source: https://www.newscientist.com/article/2518974-the-race-to-solve-the-biggest-problem-in-quantum-computing/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
+
+5. **Hardest AI test reveals gaps in expert knowledge: 13 March 2026 • Science Daily**
+   Experts created a 2,500-question exam excluding AI-solvable problems, and early tests show advanced models still fail on specialized topics. This benchmark exposes limitations in current AI, guiding improvements toward human-level expertise.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313002650.htm
+
+6. **Bacteria use new propulsion methods without flagella: 13 March 2026 • Science Daily**
+   Studies revealed E. coli and salmonella spread via sugar fermentation creating fluid currents, while other bacteria employ a molecular gearbox for directional control. These mechanisms expand understanding of bacterial movement, aiding infection control and antibiotic strategies.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313001759.htm
+
+7. **Plant-beetle partnership involves strategic fruit drop: 13 March 2026 • Science Daily**
+   Japanese red elder plants drop beetle-infested fruits, allowing larvae to escape into soil while maintaining pollination benefits. This mutual compromise stabilizes the relationship, offering insights into evolutionary adaptations in ecosystems.
+   Source: https://www.sciencedaily.com/releases/2026/03/260312222355.htm
+
+8. **Trispecific engager boosts macrophage cancer killing: 13 March 2026 • Nature**
+   A new trispecific molecule enhances macrophages' ability to target and destroy solid tumor cells through logic-gated activation. This approach could improve immunotherapy outcomes by amplifying innate immune responses in hard-to-treat cancers.
+   Source: https://www.nature.com/articles/s41587-026-03057-9
+
+9. **Modifiable risks account for 40% of global cancers: 13 March 2026 • Nature**
+   Analysis of data from 185 countries indicates...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep030-20260313-121441</guid>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep030_20260313.mp3" length="14031560" type="audio/mpeg" />
+      <pubDate>Fri, 13 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
+      <itunes:duration>09:44</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Planetterrian Daily
+**Date:** March 13, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Researchers found that combining two colon polyp types raises bowel cancer risk up to fivefold.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Two polyp types raise bowel cancer risk fivefold: 13 March 2026 • Science Daily**
+   Researchers analyzed over 8,400 colonoscopies and found that patients with both adenomas and serrated polyps face up to five times higher risk of precancerous changes. This highlights separate cancer pathways occurring together, urging more vigilant screening for those with mixed polyps.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313002938.htm
+
+2. **Severe COVID or flu may increase lung cancer risk: 13 March 2026 • Science Daily**
+   Scientists discovered that serious viral infections like COVID-19 or influenza cause chronic lung inflammation by altering immune cells, potentially promoting tumors years later. Vaccination reduces these changes, offering a preventive strategy especially for hospitalized patients.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313055130.htm
+
+3. **Medieval societies buried leprosy patients in high-status graves: 13 March 2026 • Science Daily**
+   Examination of hundreds of skeletons from medieval Denmark showed that people with leprosy were often interred in prestigious church-adjacent graves, challenging assumptions of exclusion. This suggests communities integrated the sick, reflecting social compassion rather than stigma.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313002645.htm
+
+4. **Quantum error correction advances tackle computing challenges: 13 March 2026 • New Scientist**
+   Recent progress in quantum error correction is addressing the high error rates that limit quantum computers' reliability. These developments could enable more stable systems, paving the way for practical applications in complex simulations and cryptography.
+   Source: https://www.newscientist.com/article/2518974-the-race-to-solve-the-biggest-problem-in-quantum-computing/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
+
+5. **Hardest AI test reveals gaps in expert knowledge: 13 March 2026 • Science Daily**
+   Experts created a 2,500-question exam excluding AI-solvable problems, and early tests show advanced models still fail on specialized topics. This benchmark exposes limitations in current AI, guiding improvements toward human-level expertise.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313002650.htm
+
+6. **Bacteria use new propulsion methods without flagella: 13 March 2026 • Science Daily**
+   Studies revealed E. coli and salmonella spread via sugar fermentation creating fluid currents, while other bacteria employ a molecular gearbox for directional control. These mechanisms expand understanding of bacterial movement, aiding infection control and antibiotic strategies.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313001759.htm
+
+7. **Plant-beetle partnership involves strategic fruit drop: 13 March 2026 • Science Daily**
+   Japanese red elder plants drop beetle-infested fruits, allowing larvae to escape into soil while maintaining pollination benefits. This mutual compromise stabilizes the relationship, offering insights into evolutionary adaptations in ecosystems.
+   Source: https://www.sciencedaily.com/releases/2026/03/260312222355.htm
+
+8. **Trispecific engager boosts macrophage cancer killing: 13 March 2026 • Nature**
+   A new trispecific molecule enhances macrophages' ability to target and destroy solid tumor cells through logic-gated activation. This approach could improve immunotherapy outcomes by amplifying innate immune responses in hard-to-treat cancers.
+   Source: https://www.nature.com/articles/s41587-026-03057-9
+
+9. **Modifiable risks account for 40% of global cancers: 13 March 2026 • Nature**
+   Analysis of data from 185 countries indicates...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>30</itunes:episode>
+      <itunes:title>Ep 30: Researchers found that combining two colon polyp types raises bowel cancer risk up to fivefold.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/planetterrian/chapters_ep030.json" type="application/json+chapters" /></item>
+    <item>
       <title>Ep 28: Landmark trials confirm fecal microbiota transplantation enhances immunotherapy in advanced solid tumors.</title>
-      <link>https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep028_20260309.mp3</link>
       <description># Planetterrian Daily
 **Date:** March 09, 2026
 🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
@@ -65,9 +162,9 @@
 ### Planetterrian Spotlight
 The microbiome modulation in cancer immunotherapy stands out as a game-changer, with trials showing that transplanting healthy gut bacteria can make tumors more responsive to immune checkpoint inhibitors. This approach could help patients with hard-to-treat cancers like melanoma or lung cancer, especially t...</description>
       <guid isPermaLink="false">planetterrian-daily-ep028-20260309-121345</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep028_20260309.mp3" length="4827472" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep028_20260309.mp3" length="4827472" type="audio/mpeg" />
       <pubDate>Mon, 09 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:duration>03:21</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:summary># Planetterrian Daily
@@ -167,9 +264,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
 10. **Obesity drugs show promise against addiction** : 05 March 2026 • Nature  
    A study of 600,000...</description>
       <guid isPermaLink="false">planetterrian-daily-ep026-20260305-121353</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep026_20260305.mp3" length="5577918" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep026_20260305.mp3" length="5577918" type="audio/mpeg" />
       <pubDate>Thu, 05 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:duration>03:52</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:summary># Planetterrian Daily
@@ -268,9 +365,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
 9. **Milk protein plastic biodegrades in 13 weeks for packaging**: 28 February 2026 • Science Daily  
    A film blending calcium caseinate, starch, and nanoclay mimicked plastic durability but ful...</description>
       <guid isPermaLink="false">planetterrian-daily-ep024-20260301-120932</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep024_20260301.mp3" length="13314969" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep024_20260301.mp3" length="13314969" type="audio/mpeg" />
       <pubDate>Sun, 01 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:duration>09:14</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:summary># Planetterrian Daily
@@ -333,9 +430,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
 1. **Shingles Vaccine Slows Aging: 26 February 2026 • Science Daily**
    A large study of over 3,800 Americans aged 70+ found that the shingles vaccine slows biological aging by reducing chronic inflammation. This could lower risks of heart ...</description>
       <guid isPermaLink="false">planetterrian-daily-ep022-20260226-203549</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep022_20260226.mp3" length="9358986" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep022_20260226.mp3" length="9358986" type="audio/mpeg" />
       <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:duration>06:29</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:summary># Planetterrian Daily
@@ -357,9 +454,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <title>Planetterrian Daily - Episode 20 - January 29, 2026 at 04:16 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 29, 2026 at 04:16 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep020-20260129-122034</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep020_20260129_122011.mp3" length="4589836" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep020_20260129_122011.mp3" length="4589836" type="audio/mpeg" />
       <pubDate>Thu, 29 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:explicit>no</itunes:explicit>
       <itunes:episode>20</itunes:episode>
     </item>
@@ -367,9 +464,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <title>Planetterrian Daily - Episode 18 - January 26, 2026 at 04:16 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 26, 2026 at 04:16 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep018-20260126-121955</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep018_20260126_121937.mp3" length="3588824" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep018_20260126_121937.mp3" length="3588824" type="audio/mpeg" />
       <pubDate>Mon, 26 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:explicit>no</itunes:explicit>
       <itunes:episode>18</itunes:episode>
     </item>
@@ -377,9 +474,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <title>Planetterrian Daily - Episode 16 - January 21, 2026 at 11:58 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 21, 2026 at 11:58 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep016-20260121-200121</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep016_20260121_200105.mp3" length="3284550" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep016_20260121_200105.mp3" length="3284550" type="audio/mpeg" />
       <pubDate>Wed, 21 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:explicit>no</itunes:explicit>
       <itunes:episode>16</itunes:episode>
     </item>
@@ -387,9 +484,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <title>Planetterrian Daily - Episode 14 - December 19, 2025 at 04:11 AM PST</title>
       <description>Daily science, longevity, and health discoveries for December 19, 2025 at 04:11 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep014-20251219-121520</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep014_20251219_121458.mp3" length="4289951" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep014_20251219_121458.mp3" length="4289951" type="audio/mpeg" />
       <pubDate>Fri, 19 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:explicit>no</itunes:explicit>
       <itunes:episode>14</itunes:episode>
     </item>
@@ -397,9 +494,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <title>Planetterrian Daily - Episode 13 - December 17, 2025 at 09:30 AM PST</title>
       <description>Daily science, longevity, and health discoveries for December 17, 2025 at 09:30 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep013-20251217-182941</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep013_20251217_182922.mp3" length="4005947" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep013_20251217_182922.mp3" length="4005947" type="audio/mpeg" />
       <pubDate>Wed, 17 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:explicit>no</itunes:explicit>
       <itunes:episode>13</itunes:episode>
     </item>
@@ -407,9 +504,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <title>Planetterrian Daily - Episode 12 - December 11, 2025 at 04:10 AM PST</title>
       <description>Daily science, longevity, and health discoveries for December 11, 2025 at 04:10 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep012-20251211-121441</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep012_20251211.mp3" length="5332341" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep012_20251211.mp3" length="5332341" type="audio/mpeg" />
       <pubDate>Thu, 11 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:explicit>no</itunes:explicit>
       <itunes:episode>12</itunes:episode>
     </item>
@@ -417,9 +514,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <title>Planetterrian Daily - Episode 11 - December 10, 2025</title>
       <description>Daily science, longevity, and health discoveries for December 10, 2025.</description>
       <guid isPermaLink="false">planetterrian-daily-ep011-20251210-182941</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep011_20251210.mp3" length="5104971" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep011_20251210.mp3" length="5104971" type="audio/mpeg" />
       <pubDate>Wed, 10 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:explicit>no</itunes:explicit>
       <itunes:episode>11</itunes:episode>
     </item>
@@ -427,9 +524,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <title>Planetterrian Daily - Episode 15 - January 08, 2026 at 04:13 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 08, 2026 at 04:13 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep015-20260108-121623</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep015_20260108_121603.mp3" length="3989020" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep015_20260108_121603.mp3" length="3989020" type="audio/mpeg" />
       <pubDate>Thu, 08 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:explicit>no</itunes:explicit>
       <itunes:episode>15</itunes:episode>
     </item>
@@ -437,9 +534,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <title>Planetterrian Daily - Episode 17 - January 25, 2026 at 04:12 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 25, 2026 at 04:12 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep017-20260125-121513</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep017_20260125_121454.mp3" length="3865931" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep017_20260125_121454.mp3" length="3865931" type="audio/mpeg" />
       <pubDate>Sun, 25 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:explicit>no</itunes:explicit>
       <itunes:episode>17</itunes:episode>
     </item>
@@ -447,9 +544,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <title>Planetterrian Daily - Episode 19 - January 27, 2026 at 04:19 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 27, 2026 at 04:19 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep019-20260127-122245</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep019_20260127_122228.mp3" length="3329271" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep019_20260127_122228.mp3" length="3329271" type="audio/mpeg" />
       <pubDate>Tue, 27 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:explicit>no</itunes:explicit>
       <itunes:episode>19</itunes:episode>
     </item>
@@ -457,9 +554,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <title>Planetterrian Daily - Episode 21 - January 31, 2026 at 04:13 AM PST</title>
       <description>Daily science, longevity, and health discoveries for January 31, 2026 at 04:13 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
       <guid isPermaLink="false">planetterrian-daily-ep021-20260131-121545</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep021_20260131_121527.mp3" length="3663221" type="audio/mpeg"/>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep021_20260131_121527.mp3" length="3663221" type="audio/mpeg" />
       <pubDate>Sat, 31 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:explicit>no</itunes:explicit>
       <itunes:episode>21</itunes:episode>
     </item>
@@ -508,9 +605,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
 9. **DNA structured before genome activation**: 27 February 2026 • Science Daily  
    Pico-C imaging revealed fertilized eggs' DNA is pre-organized in 3D before genes activate, setting up future expression. It challeng...</description>
       <guid isPermaLink="false">planetterrian-daily-ep023-20260227-192343</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep023_20260227.mp3" length="14779498" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep023_20260227.mp3" length="14779498" type="audio/mpeg" />
       <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:duration>10:15</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:summary># Planetterrian Daily
@@ -610,9 +707,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
    Researchers developed lab-made insulin cells protected by engineered immune cells to avoid rejection without drugs. This could provide a durable treatment for long-term diabetes patients.
    Source: https://www.sciencedaily.com/releases/2026/03/2603020...</description>
       <guid isPermaLink="false">planetterrian-daily-ep025-20260303-121318</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep025_20260303.mp3" length="13021562" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep025_20260303.mp3" length="13021562" type="audio/mpeg" />
       <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:duration>09:02</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:summary># Planetterrian Daily
@@ -712,9 +809,9 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
 9. **Gut inflammation may drive Alzheimer's risk** : 06 March 2026 • New Scientist  
    Persistent inflammation from gut, lungs, or skin could contribute to Alzheimer's, with lifestyle factors like diet and vaccines h...</description>
       <guid isPermaLink="false">planetterrian-daily-ep027-20260307-121116</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep027_20260307.mp3" length="12262339" type="audio/mpeg"/>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep027_20260307.mp3" length="12262339" type="audio/mpeg" />
       <pubDate>Sat, 07 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg"/>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
       <itunes:duration>08:30</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:summary># Planetterrian Daily
@@ -762,6 +859,119 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <itunes:season>1</itunes:season>
       <itunes:episode>27</itunes:episode>
       <itunes:title>Ep 27: Mayo Clinic identified a rare MET gene mutation directly causing fatty liver disease without common risk factors.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 29: European trial finds sulthiame drug cuts sleep apnea breathing pauses by up to 47%, improving oxygen levels.</title>
+      <description># Planetterrian Daily
+**Date:** March 11, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** European trial finds sulthiame drug cuts sleep apnea breathing pauses by up to 47%, improving oxygen levels.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Pill reduces sleep apnea interruptions** : 11 March 2026 • Science Daily
+   A clinical trial showed sulthiame stabilized brain signals to cut breathing pauses by up to 47% in moderate to severe cases. This could offer a non-invasive alternative to CPAP machines for millions affected by the condition.
+   Source: https://www.sciencedaily.com/releases/2026/03/260311004816.htm
+
+2. **Plant protein boosts photosynthesis efficiency** : 11 March 2026 • Science Daily
+   Researchers identified a hornwort protein that clusters Rubisco enzymes, enhancing CO2 capture when engineered into other plants. The approach might engineer crops for higher yields in a changing climate.
+   Source: https://www.sciencedaily.com/releases/2026/03/260311004716.htm
+
+3. **Warming oceans enhance key microbe adaptability** : 11 March 2026 • Science Daily
+   Nitrosopumilus maritimus microbes adapted to warmer, iron-scarce waters by optimizing iron use for nitrogen cycling. Their resilience could maintain marine nutrient balances and support ocean ecosystems amid climate shifts.
+   Source: https://www.sciencedaily.com/releases/2026/03/260311004708.htm
+
+4. **Ancient asteroid triggered massive North Sea tsunami** : 11 March 2026 • Science Daily
+   Seismic data confirmed a 160-meter asteroid impact 43-46 million years ago created the Silverpit Crater and a 330-foot tsunami. The evidence refines models of past extinctions and planetary defense strategies.
+   Source: https://www.sciencedaily.com/releases/2026/03/260311004836.htm
+
+5. **THC induces false memories in users** : 11 March 2026 • Science Daily
+   Experiments revealed THC disrupts multiple memory systems, leading to fabricated recollections even at moderate doses. Findings highlight risks for decision-making and legal contexts involving cannabis.
+   Source: https://www.sciencedaily.com/releases/2026/03/260311004711.htm
+
+6. **Accelerator enables rapid 3D ant modeling** : 11 March 2026 • Science Daily
+   A synchrotron system scanned 2,000 ants into detailed 3D models, revealing hidden anatomy across 800 species. The Antscan database supports biodiversity research and evolutionary studies.
+   Source: https://www.sciencedaily.com/releases/2026/03/260310223603.htm
+
+7. **Fish oil slashes heart risks in dialysis patients** : 11 March 2026 • Science Daily
+   A trial found four grams of daily omega-3 reduced cardiovascular events by 43% in high-risk dialysis groups. Results suggest a simple intervention for a population with limited effective treatments.
+   Source: https://www.sciencedaily.com/releases/2026/03/260307213236.htm
+
+8. **Quantifying nanoparticle escape for liver delivery** : 11 March 2026 • Nature
+   A lysosomal barcoding method measured endosomal escape of nucleic acids in vivo, optimizing branched lipids for better delivery. This guides designs for more effective gene therapies targeting the liver.
+   Source: https://www.nature.com/articles/s41587-026-03047-x
+
+9. **In vivo assay optimizes lipid nanoparticle escape** : 11 March 2026 • Nature
+   Researchers quantified and enhanced endosomal escape of nanoparticles directly in living systems. The technique improves hepatic delivery efficiency for RNA-based treatments.
+   Source: https://www.nature.com/articles/s41587-026-03022-6
+
+10. **Engineered TnpB for plant and human editing** : 11 March 2026 • Nature
+   Mutational scanning produced improved TnpB nucleases for precise genome editing in plants and cells. These tools expand options for agriculture and therapeutic applications.
+   Source: https://www.nature.com/articles/s41587-026-03059-7
+
+11. **Tau biomarker detects systemic amyloidosis** : 11 March 2026 • Nature
+   Elevated phosphorylated tau in blood signa...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep029-20260311-121519</guid>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep029_20260311.mp3" length="16215815" type="audio/mpeg" />
+      <pubDate>Wed, 11 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
+      <itunes:duration>11:15</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Planetterrian Daily
+**Date:** March 11, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** European trial finds sulthiame drug cuts sleep apnea breathing pauses by up to 47%, improving oxygen levels.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Pill reduces sleep apnea interruptions** : 11 March 2026 • Science Daily
+   A clinical trial showed sulthiame stabilized brain signals to cut breathing pauses by up to 47% in moderate to severe cases. This could offer a non-invasive alternative to CPAP machines for millions affected by the condition.
+   Source: https://www.sciencedaily.com/releases/2026/03/260311004816.htm
+
+2. **Plant protein boosts photosynthesis efficiency** : 11 March 2026 • Science Daily
+   Researchers identified a hornwort protein that clusters Rubisco enzymes, enhancing CO2 capture when engineered into other plants. The approach might engineer crops for higher yields in a changing climate.
+   Source: https://www.sciencedaily.com/releases/2026/03/260311004716.htm
+
+3. **Warming oceans enhance key microbe adaptability** : 11 March 2026 • Science Daily
+   Nitrosopumilus maritimus microbes adapted to warmer, iron-scarce waters by optimizing iron use for nitrogen cycling. Their resilience could maintain marine nutrient balances and support ocean ecosystems amid climate shifts.
+   Source: https://www.sciencedaily.com/releases/2026/03/260311004708.htm
+
+4. **Ancient asteroid triggered massive North Sea tsunami** : 11 March 2026 • Science Daily
+   Seismic data confirmed a 160-meter asteroid impact 43-46 million years ago created the Silverpit Crater and a 330-foot tsunami. The evidence refines models of past extinctions and planetary defense strategies.
+   Source: https://www.sciencedaily.com/releases/2026/03/260311004836.htm
+
+5. **THC induces false memories in users** : 11 March 2026 • Science Daily
+   Experiments revealed THC disrupts multiple memory systems, leading to fabricated recollections even at moderate doses. Findings highlight risks for decision-making and legal contexts involving cannabis.
+   Source: https://www.sciencedaily.com/releases/2026/03/260311004711.htm
+
+6. **Accelerator enables rapid 3D ant modeling** : 11 March 2026 • Science Daily
+   A synchrotron system scanned 2,000 ants into detailed 3D models, revealing hidden anatomy across 800 species. The Antscan database supports biodiversity research and evolutionary studies.
+   Source: https://www.sciencedaily.com/releases/2026/03/260310223603.htm
+
+7. **Fish oil slashes heart risks in dialysis patients** : 11 March 2026 • Science Daily
+   A trial found four grams of daily omega-3 reduced cardiovascular events by 43% in high-risk dialysis groups. Results suggest a simple intervention for a population with limited effective treatments.
+   Source: https://www.sciencedaily.com/releases/2026/03/260307213236.htm
+
+8. **Quantifying nanoparticle escape for liver delivery** : 11 March 2026 • Nature
+   A lysosomal barcoding method measured endosomal escape of nucleic acids in vivo, optimizing branched lipids for better delivery. This guides designs for more effective gene therapies targeting the liver.
+   Source: https://www.nature.com/articles/s41587-026-03047-x
+
+9. **In vivo assay optimizes lipid nanoparticle escape** : 11 March 2026 • Nature
+   Researchers quantified and enhanced endosomal escape of nanoparticles directly in living systems. The technique improves hepatic delivery efficiency for RNA-based treatments.
+   Source: https://www.nature.com/articles/s41587-026-03022-6
+
+10. **Engineered TnpB for plant and human editing** : 11 March 2026 • Nature
+   Mutational scanning produced improved TnpB nucleases for precise genome editing in plants and cells. These tools expand options for agriculture and therapeutic applications.
+   Source: https://www.nature.com/articles/s41587-026-03059-7
+
+11. **Tau biomarker detects systemic amyloidosis** : 11 March 2026 • Nature
+   Elevated phosphorylated tau in blood signa...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>29</itunes:episode>
+      <itunes:title>Ep 29: European trial finds sulthiame drug cuts sleep apnea breathing pauses by up to 47%, improving oxygen levels.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>
