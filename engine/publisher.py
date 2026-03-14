@@ -5,6 +5,7 @@ Provides:
   - get_next_episode_number(): find the highest existing episode and return +1
   - save_summary_to_github_pages(): append episode summary to JSON for GitHub Pages
   - post_to_x(): post a tweet via tweepy (accepts credentials as params)
+  - notify_directories(): ping podcast directories after feed update
   - generate_episode_thumbnail(): simple PIL-based thumbnail overlay
 """
 
@@ -190,6 +191,12 @@ def update_rss_feed(
     fg.link(href=channel_link)
     fg.description(channel_description)
     fg.language(channel_language)
+
+    # WebSub / PubSubHubbub: declare hub and self links so directories can
+    # subscribe to push notifications when the feed is updated.
+    rss_self_url = f"{base_url}/{rss_path.name}"
+    fg.link(href="https://pubsubhubbub.appspot.com/", rel="hub")
+    fg.link(href=rss_self_url, rel="self")
     fg.copyright(f"Copyright {datetime.date.today().year}")
     fg.podcast.itunes_author(channel_author)
     fg.podcast.itunes_summary(channel_description)
@@ -487,6 +494,74 @@ def post_to_x(
     except Exception as exc:
         logger.error("X post failed: %s", exc)
         return None
+
+
+# ---------------------------------------------------------------------------
+# Directory notifications (WebSub / PubSubHubbub, Podcast Index, Ping-O-Matic)
+# ---------------------------------------------------------------------------
+
+def notify_directories(rss_url: str, show_name: str = "Podcast") -> dict:
+    """Notify podcast directories that a feed has been updated.
+
+    Called after a new episode is published and the RSS feed is regenerated.
+    All pings are best-effort — failures are logged but never raise.
+
+    Returns a dict of ``{service_name: success_bool}`` results.
+    """
+    import requests
+
+    results = {}
+
+    # 1. PubSubHubbub / WebSub — used by Google Podcasts, Podcast Index, etc.
+    try:
+        resp = requests.post(
+            "https://pubsubhubbub.appspot.com/",
+            data={"hub.mode": "publish", "hub.url": rss_url},
+            timeout=15,
+        )
+        results["pubsubhubbub"] = resp.status_code == 204
+        if resp.status_code == 204:
+            logger.info("[%s] PubSubHubbub notified successfully", show_name)
+        else:
+            logger.warning("[%s] PubSubHubbub returned %s", show_name, resp.status_code)
+    except Exception as e:
+        logger.warning("[%s] PubSubHubbub notification failed: %s", show_name, e)
+        results["pubsubhubbub"] = False
+
+    # 2. Podcast Index API ping — feeds Pocket Casts, Fountain, Podfriend, etc.
+    try:
+        resp = requests.get(
+            "https://api.podcastindex.org/api/1.0/hub/pubnotify",
+            params={"url": rss_url},
+            timeout=15,
+        )
+        results["podcast_index"] = resp.status_code == 200
+        if resp.status_code == 200:
+            logger.info("[%s] Podcast Index notified successfully", show_name)
+        else:
+            logger.warning("[%s] Podcast Index returned %s", show_name, resp.status_code)
+    except Exception as e:
+        logger.warning("[%s] Podcast Index notification failed: %s", show_name, e)
+        results["podcast_index"] = False
+
+    # 3. Ping-O-Matic — notifies multiple blog/podcast search engines at once
+    try:
+        import xmlrpc.client
+        server = xmlrpc.client.ServerProxy("http://rpc.pingomatic.com/")
+        resp = server.weblogUpdates.ping(show_name, rss_url)
+        results["pingomatic"] = resp.get("flerror", True) is False
+        if results["pingomatic"]:
+            logger.info("[%s] Ping-O-Matic notified successfully", show_name)
+        else:
+            logger.warning("[%s] Ping-O-Matic reported error: %s", show_name, resp)
+    except Exception as e:
+        logger.warning("[%s] Ping-O-Matic notification failed: %s", show_name, e)
+        results["pingomatic"] = False
+
+    successes = sum(1 for v in results.values() if v)
+    logger.info("[%s] Directory notifications: %s/%s succeeded", show_name, successes, len(results))
+
+    return results
 
 
 # ---------------------------------------------------------------------------

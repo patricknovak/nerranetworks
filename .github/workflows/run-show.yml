@@ -325,6 +325,26 @@ jobs:
       - name: Regenerate network RSS
         run: python generate_network_rss.py
 
+      - name: Notify podcast directories
+        if: success()
+        env:
+          RSS_BASE_URL: https://nerranetwork.com
+        run: |
+          python -c "
+          from engine.publisher import notify_directories
+          import yaml, pathlib
+
+          show = '${{ matrix.show }}'
+          cfg_path = pathlib.Path('shows') / f'{show}.yaml'
+          if cfg_path.exists():
+              cfg = yaml.safe_load(cfg_path.read_text())
+              rss_file = cfg.get('publishing', {}).get('rss_file', '')
+              rss_title = cfg.get('publishing', {}).get('rss_title', show)
+              if rss_file:
+                  rss_url = f'${{ env.RSS_BASE_URL }}/{rss_file}'
+                  notify_directories(rss_url, rss_title)
+          "
+
       - name: Commit and push output
         run: |
           git config --local user.email "action@github.com"

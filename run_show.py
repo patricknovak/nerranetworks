@@ -825,6 +825,11 @@ def run(args: argparse.Namespace) -> None:
             chapters_url=chapters_url,
         )
 
+        # 11b. Notify podcast directories (best-effort, non-blocking)
+        from engine.publisher import notify_directories
+        rss_url = f"{config.publishing.base_url}/{config.publishing.rss_file}"
+        notify_directories(rss_url, show_name=config.publishing.rss_title)
+
     # 12. Save GitHub Pages summary
     from engine.publisher import save_summary_to_github_pages
 
