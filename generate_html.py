@@ -122,6 +122,27 @@ NETWORK_SHOWS = {
             {"q": "What is the Tesla Megapack?", "a": "The Megapack is Tesla's utility-scale battery storage product. Each unit stores up to 4 MWh of energy — enough to power about 3,600 homes for one hour. Utilities and grid operators use Megapacks to store renewable energy from solar and wind farms, stabilize the grid, and replace fossil fuel peaker plants."},
             {"q": "What does TSLA's P/E ratio mean?", "a": "The Price-to-Earnings (P/E) ratio shows how much investors pay per dollar of Tesla's earnings. A high P/E (Tesla's is often 50-100+) means investors expect strong future growth. For comparison, traditional automakers trade at P/E ratios of 5-15. Tesla's premium reflects the market pricing in its AI, energy, and robotaxi potential beyond just car sales."},
         ],
+        "referral": {
+            "url": "https://ts.la/patrick84289",
+            "heading": "Buy a Tesla & Get Free Stuff",
+            "intro": "Use our referral link when ordering your new Tesla and you'll receive free benefits at no extra cost. It's Tesla's way of rewarding customers who spread the word.",
+            "buyer_benefits": [
+                "3 months of Full Self-Driving (Supervised) free — a $297 value",
+                "Works on Model 3, Model Y, and Cybertruck orders",
+                "No extra cost — the referral discount is applied automatically",
+            ],
+            "energy_benefits": [
+                "$400 rebate on Solar Panels or Solar Roof installations",
+                "Rebates available on Powerwall 3 installations",
+            ],
+            "how_to_steps": [
+                "Click our referral link below to visit Tesla.com",
+                "Configure your vehicle (Model 3, Model Y, or Cybertruck) or energy product",
+                "Place your order — the referral is applied automatically at checkout",
+                "Enjoy 3 free months of FSD Supervised when you take delivery",
+            ],
+            "fine_print": "Referral benefits are subject to Tesla's current program terms and may change. Must be applied at time of order — cannot be added after purchase. Applies to new vehicle and energy product orders only. See Tesla.com for full details.",
+        },
     },
     "omni_view": {
         "name": "Omni View",

@@ -1607,7 +1607,7 @@ Here is today's complete formatted digest. Use ONLY this content:
             channel_link="https://nerranetwork.com/fascinating_frontiers.html",
             channel_description="Daily space and astronomy news digest. Bringing the wonders of space exploration and astronomy discoveries to everyone.",
             channel_author="Patrick",
-            channel_email="contact@planetterrian.com",
+            channel_email="patrick@planetterrian.com",
             channel_image=f"{base_url}/{quote(_FF_IMAGE)}",
             channel_category="Science",
             guid_prefix="fascinating-frontiers",

@@ -1232,7 +1232,7 @@ def update_omni_view_rss_feed(audio_file, duration):
             "critical analysis."
         ),
         channel_author="Omni View",
-        channel_email="omniview@teslashortstime.com",
+        channel_email="patrick@planetterrian.com",
         channel_image=f"{base_url}/omni-view-podcast-image.jpg",
         channel_category="News",
         guid_prefix="omni-view",
