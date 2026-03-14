@@ -970,7 +970,7 @@ def update_rss_feed(
         channel_link="https://nerranetwork.com/planetterrian.html",
         channel_description="Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion.",
         channel_author="Patrick",
-        channel_email="contact@planetterrian.com",
+        channel_email="patrick@planetterrian.com",
         channel_image=f"{base_url}/planetterrian-podcast-image.jpg",
         channel_category="Science",
         guid_prefix="planetterrian-daily",

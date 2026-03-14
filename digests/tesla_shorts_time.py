@@ -2488,7 +2488,7 @@ def update_rss_feed(
         channel_link="https://nerranetwork.com/",
         channel_description="A daily podcast covering the latest Tesla news, stock prices, and industry insights.",
         channel_author="Patrick",
-        channel_email="contact@teslashortstime.com",
+        channel_email="patrick@planetterrian.com",
         channel_image=f"{base_url}/podcast-image-v3.jpg",
         channel_category="Technology",
         guid_prefix="tesla-shorts-time",
