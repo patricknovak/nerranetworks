@@ -1,29 +1,7 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-13",
+  "last_updated": "2026-03-14",
   "episodes": [
-    {
-      "date": "2026-02-27",
-      "headlines": [],
-      "urls": [
-        "https://www.marktechpost.com/2026/02/27/sakana-ai-introduces-doc-to-lora-and-text-to-lora-hypernetworks-that-instantly-internalize-long-contexts-and-adapt-llms-via-zero-shot-natural-language/",
-        "https://techcrunch.com/2026/02/27/perplexitys-new-computer-is-another-bet-that-users-need-many-ai-models/",
-        "https://openai.com/index/amazon-partnership",
-        "https://arxiv.org/abs/2602.23320",
-        "https://arxiv.org/abs/2602.22942",
-        "https://openai.com/index/introducing-the-stateful-runtime-environment-for-agents-in-amazon-bedrock",
-        "https://arxiv.org/abs/2510.10611",
-        "https://arxiv.org/abs/2602.22302",
-        "https://arxiv.org/abs/2602.14337",
-        "https://arxiv.org/abs/2602.21670"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**Perplexity’s new Computer: AI News & Artificial Intelligence | TechCrunch**  \nPerplexity launched the Perplexity Computer, a unified system integrating multiple AI capabilities like search, reasoning, and generation into a single interface, betting on users needing diverse models for complex tasks. It stands out from siloed tools like ChatGPT or Claude by enabling seamless switching between models such as GPT or Llama variants, with improved context handling and reduced laten",
-        "agent_developments": "### Agent & Tool Developments\n**ClawMobile: Rethinking Smartphone-Native Agentic Systems: cs.MA updates on arXiv.org**  \nClawMobile is a hierarchical framework for LLM-based agents on smartphones, separating high-level reasoning from deterministic controls to handle constrained mobile environments like fragmented interfaces and changing states. It's a step up from cloud-reliant agents like AutoGPT, offering stable execution via open-sourced implementation for browser automation or code gen on de",
-        "practical_community": "### Practical & Community\n**Agent Behavioral Contracts: Formal Specification and Runtime Enforcement for Reliable Autonomous AI Agents: cs.MA updates on arXiv.org**  \nThis introduces Agent Behavioral Contracts (ABC), a framework with preconditions, invariants, and recovery for enforcing reliable behavior in agents, implemented in AgentAssert for runtime checks. It solves drift in agent chains, achieving 88-100% compliance on benchmarks with low overhead, outperforming uncontracted baselines. Get"
-      }
-    },
     {
       "date": "2026-02-28",
       "headlines": [],
@@ -276,6 +254,25 @@
         "model_updates": "### Model Updates\n**Meta Delays Avocado Model: The Decoder**  \nMeta is postponing the release of its next AI model, Avocado, after internal tests showed it underperforms against Google, OpenAI, and Anthropic in key benchmarks like reasoning and multimodal tasks. This delay highlights ongoing challenges in scaling beyond Llama 3, with Avocado aiming for advanced capabilities but falling short on efficiency and accuracy metrics. For developers, this means sticking with alternatives like Gemini 1.5",
         "agent_developments": "### Agent & Tool Developments\n**Perplexity's \"Personal Computer\" AI Agent: The Decoder**  \nPerplexity's new \"Personal Computer\" is a subscription-based AI agent that operates 24/7, managing emails, creating presentations, and controlling apps via tool calling, built on their search-optimized models. This improves on episodic agents in CrewAI by adding persistence and automation, though at $200/month it's pricier than open-source alternatives. Try it via their platform for workflow automation—sig",
         "practical_community": "### Practical & Community\n**China’s OpenClaw Boom: Artificial Intelligence Latest**  \nOpenClaw, an open-source agent framework, is sparking a gold rush in China, driving cloud rentals and AI subscriptions for testing its multi-agent coordination in tasks like automation. It enables scalable agent teams without proprietary dependencies, similar to Agent Zero but with broader community adoption. Get started by cloning the repo and running demos on a basic GPU—note it may require significant resour"
+      }
+    },
+    {
+      "date": "2026-03-14",
+      "headlines": [],
+      "urls": [
+        "https://www.marktechpost.com/2026/03/13/google-deepmind-introduces-aletheia-the-ai-agent-moving-from-math-competitions-to-fully-autonomous-professional-research-discoveries/",
+        "https://the-decoder.com/anthropic-drops-the-surcharge-for-million-token-context-windows-making-opus-4-6-and-sonnet-4-6-far-cheaper/",
+        "https://www.latent.space/p/ainews-context-drought",
+        "https://the-decoder.com/google-explains-the-differences-between-its-three-nano-banana-image-generation-models/",
+        "https://the-decoder.com/china-pushes-openclaw-one-person-companies-with-millions-in-ai-agent-subsidies/",
+        "https://techcrunch.com/2026/03/13/nyne-founded-by-a-father-son-duo-gives-ai-agents-the-human-context-theyre-missing/",
+        "https://huggingface.co/blog/nvidia/nemo-retriever-agentic-retrieval"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Anthropic drops the surcharge for million-token context windows, making Opus 4.6 and Sonnet 4.6 far cheaper: The Decoder**  \nAnthropic eliminated the extra fees for contexts over 200,000 tokens in Claude Opus 4.6 and Sonnet 4.6, potentially halving costs for million-token requests compared to previous pricing. This makes them more competitive with Gemini's 1M windows and OpenAI's offerings, especially for RAG-heavy tasks where long contexts were prohibitively expensive. It ma",
+        "agent_developments": "### Agent & Tool Developments\n**China pushes OpenClaw \"one-person companies\" with millions in AI agent subsidies: The Decoder**  \nChinese governments are funding OpenClaw projects with millions to enable \"one-person companies\" where AI agents act as employees for tasks like operations and decision-making. This builds on frameworks like AutoGPT by emphasizing scalable agent ecosystems, with improvements in tool calling and browser automation for business automation. Try integrating OpenClaw with ",
+        "practical_community": "### Practical & Community\n(none this briefing — insufficient qualifying articles without overlap from above sections)"
       }
     }
   ]

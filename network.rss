@@ -5,7 +5,7 @@
     <description>Eight daily podcasts keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, and financial literacy.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Sat, 14 Mar 2026 12:30:32 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Mar 2026 15:18:20 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/assets/covers/omni-view.jpg</url>
       <title>Nerra Network</title>
@@ -274,6 +274,71 @@
       <ns0:title>Ep 39: NASA confirms readiness for Artemis 2, targeting a crewed lunar orbit no earlier than April 1.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
       <ns1:chapters url="https://nerranetwork.com/digests/fascinating_frontiers/chapters_ep039.json" type="application/json+chapters" />
+    </item>
+    <item>
+      <title>Ep 15: Google DeepMind's Aletheia agent autonomously advances from IMO math to professional research discoveries.</title>
+      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep015_20260314.mp3</link>
+      <description># Models &amp; Agents
+**Date:** March 14, 2026
+
+**HOOK:** Google DeepMind's Aletheia agent autonomously advances from IMO math to professional research discoveries.
+
+**What You Need to Know:** Google DeepMind unveiled Aletheia, an AI agent that iterates on natural language proofs to tackle professional math research, bridging the gap from competition benchmarks to real-world discoveries. Meanwhile, Anthropic slashed costs for million-token contexts in Claude Opus 4.6 and Sonnet 4.6, and China is subsidizing OpenClaw for AI-driven "one-person companies." Pay attention to how these agentic and context upgrades could supercharge your RAG pipelines and autonomous workflows this week.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Google DeepMind introduced Aletheia, a specialized AI agent that moves beyond gold-medal IMO performance to enable fully autonomous professional math research by iteratively generating, verifying, and revising natural language solutions. Building on models that aced the 2025 IMO, Aletheia addresses the challenges of vast literature navigation and long-horizon proofs, outperforming prior agents limited to competition-style problems. It compares favorably to tools like AlphaProof but emphasizes end-to-end autonomy without human intervention. Developers and researchers can now prototype agentic systems for complex domains like theorem proving, while math pros should explore it for accelerating discoveries. Keep an eye on integrations with frameworks like LangGraph for broader applications, and try fine-tuning it on custom datasets via DeepMind's APIs. Upcoming betas may extend Aletheia to fields like physics or biology.
+Source: https://www.marktechpost.com/2026/03/13/google-deepmind-introduces-aletheia-the-ai-agent-moving-from-math-competitions-to-fully-autonomous-professional-research-discoveries/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Anthropic drops the surcharge for million-token context windows, making Opus 4.6 and Sonnet 4.6 far cheaper: The Decoder**  
+Anthropic eliminated the extra fees for contexts over 200,000 tokens in Claude Opus 4.6 and Sonnet 4.6, potentially halving costs for million-token requests compared to previous pricing. This makes them more competitive with Gemini's 1M windows and OpenAI's offerings, especially for RAG-heavy tasks where long contexts were prohibitively expensive. It matters for developers building large-scale knowledge apps, as it lowers barriers to experimenting with massive inputs without breaking the bank.  
+Source: https://the-decoder.com/anthropic-drops-the-surcharge-for-million-token-context-windows-making-opus-4-6-and-sonnet-4-6-far-cheaper/
+
+**[AINews] Context Drought: Latent.Space**  
+Anthropic's general availability of 1M context windows arrives after similar rollouts from Gemini and OpenAI, highlighting a "drought" in further context innovations amid a quiet news day. These windows enable processing entire codebases or books in one go, but Anthropic's lag means it's catching up rather than leading—still, it's a win for consistency across Claude models. Practitioners should note this for cost-effective long-context tasks, though real-world needle-in-haystack retrieval remains a challenge compared to specialized RAG setups.  
+Source: https://www.latent.space/p/ainews-context-drought
+
+**Google explains the differences between its three Nano Banana image generation models: The Decoder**  
+Google detailed its Nano Banana lineup, with Nano Banana 2 offering 95% of the Pro version's capabilities at lower cost, including web search for reference images before generation. Compared to models like DALL-E or Stable Diffusion, the cheaper variant excels in efficiency for edge deployment but may lag in fine-grained control. This guide helps developers pick the right model for tasks like quick prototyping, balancing performance and inference costs in production apps.  
+Source: https://the-decoder.com/google-explains-the-differences-between-its-three-nano-banana-image-generation-models...</description>
+      <guid isPermaLink="false">models-agents-ep015-20260314-151819</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep015_20260314.mp3" length="16766894" type="audio/mpeg" />
+      <pubDate>Sat, 14 Mar 2026 08:00:00 +0000</pubDate>
+      <ns0:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
+      <ns0:duration>11:38</ns0:duration>
+      <ns0:explicit>no</ns0:explicit>
+      <ns0:summary># Models &amp; Agents
+**Date:** March 14, 2026
+
+**HOOK:** Google DeepMind's Aletheia agent autonomously advances from IMO math to professional research discoveries.
+
+**What You Need to Know:** Google DeepMind unveiled Aletheia, an AI agent that iterates on natural language proofs to tackle professional math research, bridging the gap from competition benchmarks to real-world discoveries. Meanwhile, Anthropic slashed costs for million-token contexts in Claude Opus 4.6 and Sonnet 4.6, and China is subsidizing OpenClaw for AI-driven "one-person companies." Pay attention to how these agentic and context upgrades could supercharge your RAG pipelines and autonomous workflows this week.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top Story
+Google DeepMind introduced Aletheia, a specialized AI agent that moves beyond gold-medal IMO performance to enable fully autonomous professional math research by iteratively generating, verifying, and revising natural language solutions. Building on models that aced the 2025 IMO, Aletheia addresses the challenges of vast literature navigation and long-horizon proofs, outperforming prior agents limited to competition-style problems. It compares favorably to tools like AlphaProof but emphasizes end-to-end autonomy without human intervention. Developers and researchers can now prototype agentic systems for complex domains like theorem proving, while math pros should explore it for accelerating discoveries. Keep an eye on integrations with frameworks like LangGraph for broader applications, and try fine-tuning it on custom datasets via DeepMind's APIs. Upcoming betas may extend Aletheia to fields like physics or biology.
+Source: https://www.marktechpost.com/2026/03/13/google-deepmind-introduces-aletheia-the-ai-agent-moving-from-math-competitions-to-fully-autonomous-professional-research-discoveries/
+
+━━━━━━━━━━━━━━━━━━━━
+### Model Updates
+**Anthropic drops the surcharge for million-token context windows, making Opus 4.6 and Sonnet 4.6 far cheaper: The Decoder**  
+Anthropic eliminated the extra fees for contexts over 200,000 tokens in Claude Opus 4.6 and Sonnet 4.6, potentially halving costs for million-token requests compared to previous pricing. This makes them more competitive with Gemini's 1M windows and OpenAI's offerings, especially for RAG-heavy tasks where long contexts were prohibitively expensive. It matters for developers building large-scale knowledge apps, as it lowers barriers to experimenting with massive inputs without breaking the bank.  
+Source: https://the-decoder.com/anthropic-drops-the-surcharge-for-million-token-context-windows-making-opus-4-6-and-sonnet-4-6-far-cheaper/
+
+**[AINews] Context Drought: Latent.Space**  
+Anthropic's general availability of 1M context windows arrives after similar rollouts from Gemini and OpenAI, highlighting a "drought" in further context innovations amid a quiet news day. These windows enable processing entire codebases or books in one go, but Anthropic's lag means it's catching up rather than leading—still, it's a win for consistency across Claude models. Practitioners should note this for cost-effective long-context tasks, though real-world needle-in-haystack retrieval remains a challenge compared to specialized RAG setups.  
+Source: https://www.latent.space/p/ainews-context-drought
+
+**Google explains the differences between its three Nano Banana image generation models: The Decoder**  
+Google detailed its Nano Banana lineup, with Nano Banana 2 offering 95% of the Pro version's capabilities at lower cost, including web search for reference images before generation. Compared to models like DALL-E or Stable Diffusion, the cheaper variant excels in efficiency for edge deployment but may lag in fine-grained control. This guide helps developers pick the right model for tasks like quick prototyping, balancing performance and inference costs in production apps.  
+Source: https://the-decoder.com/google-explains-the-differences-between-its-three-nano-banana-image-generation-models...</ns0:summary>
+      <ns0:season>1</ns0:season>
+      <ns0:episode>15</ns0:episode>
+      <ns0:title>Ep 15: Google DeepMind's Aletheia agent autonomously advances from IMO math to professional research discoveries.</ns0:title>
+      <ns0:episodeType>full</ns0:episodeType>
+      <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep015.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 406: Tesla gains a stake in SpaceX by converting its $2B xAI investment, deepening ties between Musk's companies.</title>
@@ -569,7 +634,6 @@ The International Seabed Authority (ISA) is advancing negotiations on a "mining 
     </item>
     <item>
       <title>Ep 14: Perplexity launches "Personal Computer," a $200/month AI agent that automates emails, presentations, and app control 24/7.</title>
-      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep014_20260313.mp3</link>
       <description># Models &amp; Agents
 **Date:** March 13, 2026
 
@@ -597,7 +661,7 @@ This paper proposes a dynamical theory for adaptive coordination in multi-agent 
       <guid isPermaLink="false">models-agents-ep014-20260313-152917</guid>
       <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep014_20260313.mp3" length="18227035" type="audio/mpeg" />
       <pubDate>Fri, 13 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
+      <ns0:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
       <ns0:duration>12:39</ns0:duration>
       <ns0:explicit>no</ns0:explicit>
       <ns0:summary># Models &amp; Agents
@@ -628,7 +692,6 @@ This paper proposes a dynamical theory for adaptive coordination in multi-agent 
       <ns0:episode>14</ns0:episode>
       <ns0:title>Ep 14: Perplexity launches "Personal Computer," a $200/month AI agent that automates emails, presentations, and app control 24/7.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
-      <ns1:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep014.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 6: Imagine chatting with an AI that turns your data into interactive charts you can poke and explore—right in the conversation!</title>
@@ -1043,7 +1106,7 @@ AraModernBERT adapts the ModernBERT encoder for Arabic with transtokenized initi
       <guid isPermaLink="false">models-agents-ep013-20260312-153454</guid>
       <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep013_20260312.mp3" length="17855887" type="audio/mpeg" />
       <pubDate>Thu, 12 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
+      <ns0:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
       <ns0:duration>12:23</ns0:duration>
       <ns0:explicit>no</ns0:explicit>
       <ns0:summary># Models &amp; Agents
@@ -1526,7 +1589,7 @@ The paper proposes a taxonomy for latent world models in driving, covering laten
       <guid isPermaLink="false">models-agents-ep012-20260311-152950</guid>
       <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep012_20260311.mp3" length="18157444" type="audio/mpeg" />
       <pubDate>Wed, 11 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
+      <ns0:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
       <ns0:duration>12:36</ns0:duration>
       <ns0:explicit>no</ns0:explicit>
       <ns0:summary># Models &amp; Agents
@@ -1979,7 +2042,7 @@ DeerFlow 2.0 is an open-source SuperAgent framework from ByteDance that orchestr
       <guid isPermaLink="false">models-agents-ep011-20260310-153521</guid>
       <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep011_20260310.mp3" length="18158071" type="audio/mpeg" />
       <pubDate>Tue, 10 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
+      <ns0:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
       <ns0:duration>12:36</ns0:duration>
       <ns0:explicit>no</ns0:explicit>
       <ns0:summary># Models &amp; Agents
@@ -2454,7 +2517,7 @@ Omni-C is a Transformer-based encoder that unifies images, audio, and text into 
       <guid isPermaLink="false">models-agents-ep010-20260309-153450</guid>
       <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep010_20260309.mp3" length="19184997" type="audio/mpeg" />
       <pubDate>Mon, 09 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
+      <ns0:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
       <ns0:duration>13:19</ns0:duration>
       <ns0:explicit>no</ns0:explicit>
       <ns0:summary># Models &amp; Agents
@@ -2934,7 +2997,7 @@ This tutorial introduces a full framework for creating runtime agents driven by 
       <guid isPermaLink="false">models-agents-ep009-20260308-151634</guid>
       <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep009_20260308.mp3" length="15953755" type="audio/mpeg" />
       <pubDate>Sun, 08 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
+      <ns0:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
       <ns0:duration>11:04</ns0:duration>
       <ns0:explicit>no</ns0:explicit>
       <ns0:summary># Models &amp; Agents
@@ -3179,7 +3242,7 @@ A new massive dataset for video reasoning reveals that models like Sora 2 and Ve
       <guid isPermaLink="false">models-agents-ep008-20260307-151555</guid>
       <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep008_20260307.mp3" length="17958078" type="audio/mpeg" />
       <pubDate>Sat, 07 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/models-agents-podcast-image.jpg" />
+      <ns0:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
       <ns0:duration>12:28</ns0:duration>
       <ns0:explicit>no</ns0:explicit>
       <ns0:summary># Models &amp; Agents
@@ -3369,69 +3432,6 @@ A new massive dataset for video reasoning reveals that models like Sora 2 and Ve
       <ns0:season>1</ns0:season>
       <ns0:episode>35</ns0:episode>
       <ns0:title>Ep 35: China's new economic plan elevates space as a pillar industry with deep space goals.</ns0:title>
-      <ns0:episodeType>full</ns0:episodeType>
-    </item>
-    <item>
-      <title>Ep 6: Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.</title>
-      <description># Environmental Intelligence
-**Date:** March 06, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.
-
-**Executive Summary:** Nature's analysis highlights how carbon market additionality requirements penalize ongoing Indigenous stewardship in Canada, favoring degraded land recovery over protection and potentially barring projects under BC's EMA or federal CEPA carbon pricing. In BC, Haisla Nation's opposition to a new oil pipeline underscores IAA consultation risks for proponents, while supporting LNG aligns with provincial climate goals. Professionals should review carbon offset portfolios this week for Indigenous land eligibility and monitor federal IAA updates on pipeline assessments.
-
-━━━━━━━━━━━━━━━━━━━━
-### Lead Story
-Nature's peer-reviewed commentary critiques additionality requirements in voluntary and compliance carbon markets, arguing they disadvantage Indigenous-managed lands across Canadian jurisdictions including BC, Alberta, and federal CEPA frameworks by prioritizing emissions reductions from degraded sites over sustained protection. Previously, CCME-aligned guidelines and provincial standards like BC CSR Protocol 13 allowed broad stewardship credits, but evolving federal carbon pricing under CEPA 2024 amendments emphasizes verifiable "additional" actions, often excluding long-term Indigenous practices that maintain biodiversity and carbon stocks without baseline degradation. This shifts risk assessment for carbon offset projects, requiring practitioners to demonstrate degradation baselines via ISO 17025-accredited soil carbon sampling and historical land use data, potentially invalidating credits from undisturbed Indigenous territories. For current projects, this means reassessing eligibility in BC's Forest Carbon Offset Protocol or Alberta's TIER system, where Indigenous exclusion could increase compliance costs by 20-30% through alternative offset sourcing. Watch for CCME guideline revisions in Q2 2026, with federal consultation under CEPA Part 5 closing April 15, 2026, and potential harmonization with US EPA carbon standards influencing cross-border projects. Practitioners should cross-reference with Species at Risk Act overlays to argue for equity-based exemptions in impact assessments.
-Source: https://www.nature.com/articles/s41558-026-02576-2
-
-━━━━━━━━━━━━━━━━━━━━
-### Regulatory &amp; Policy Watch
-**Regulatory Calendar Review: Upcoming Federal and Provincial Milestones**  
-Federal CEPA 2024 amendment consultations on toxic substance listings (including PFAS updates) close March 31, 2026, requiring submissions on analytical methods like EPA Method 537.1 equivalents for PFOA/PFOS thresholds below 0.01 µg/L in groundwater; this affects compliance in Ontario O. Reg. 153/04 site assessments and BC CSR numerical standards. Alberta EPEA Tier 1 guideline revisions for oil sands tailings ponds enter force April 1, 2026, mandating enhanced monitored natural attenuation monitoring. Quebec LQE/RPRT annual reporting deadline for contaminated sites is March 15, 2026, with new requirements for permeable reactive barrier efficacy data.
-
-**Cross-Jurisdictional Watch: US EPA Influence on Canadian Policy**  
-US EPA's proposed PFAS drinking water standards (4 ng/L for PFOA) may prompt CCME harmonization by mid-2026, impacting interprovincial standards like Saskatchewan EMPA groundwater criteria; track for adoption in federal Fisheries Act s.36(3) effluent limits. Recent US carbon market reforms under the Inflation Reduction Act could influence federal IAA additionality criteria for Indigenous projects, potentially aligning with BC EMA offsets.
-
-━━━━━━━━━━━━━━━━━━━━
-### Science &amp; Technical
-**Additionality Requirements of Carbon Markets Could Penalize Indigenous Stewardship: Nature**  
-Analysis shows Indigenous-managed lands in Canada sustain 10-20% higher c...</description>
-      <guid isPermaLink="false">env-intel-ep006-20260306-142253</guid>
-      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep006_20260306.mp3" length="14346284" type="audio/mpeg" />
-      <pubDate>Fri, 06 Mar 2026 08:00:00 +0000</pubDate>
-      <ns0:image href="https://nerranetwork.com/env-intel-podcast-image.jpg" />
-      <ns0:duration>09:57</ns0:duration>
-      <ns0:explicit>no</ns0:explicit>
-      <ns0:summary># Environmental Intelligence
-**Date:** March 06, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.
-
-**Executive Summary:** Nature's analysis highlights how carbon market additionality requirements penalize ongoing Indigenous stewardship in Canada, favoring degraded land recovery over protection and potentially barring projects under BC's EMA or federal CEPA carbon pricing. In BC, Haisla Nation's opposition to a new oil pipeline underscores IAA consultation risks for proponents, while supporting LNG aligns with provincial climate goals. Professionals should review carbon offset portfolios this week for Indigenous land eligibility and monitor federal IAA updates on pipeline assessments.
-
-━━━━━━━━━━━━━━━━━━━━
-### Lead Story
-Nature's peer-reviewed commentary critiques additionality requirements in voluntary and compliance carbon markets, arguing they disadvantage Indigenous-managed lands across Canadian jurisdictions including BC, Alberta, and federal CEPA frameworks by prioritizing emissions reductions from degraded sites over sustained protection. Previously, CCME-aligned guidelines and provincial standards like BC CSR Protocol 13 allowed broad stewardship credits, but evolving federal carbon pricing under CEPA 2024 amendments emphasizes verifiable "additional" actions, often excluding long-term Indigenous practices that maintain biodiversity and carbon stocks without baseline degradation. This shifts risk assessment for carbon offset projects, requiring practitioners to demonstrate degradation baselines via ISO 17025-accredited soil carbon sampling and historical land use data, potentially invalidating credits from undisturbed Indigenous territories. For current projects, this means reassessing eligibility in BC's Forest Carbon Offset Protocol or Alberta's TIER system, where Indigenous exclusion could increase compliance costs by 20-30% through alternative offset sourcing. Watch for CCME guideline revisions in Q2 2026, with federal consultation under CEPA Part 5 closing April 15, 2026, and potential harmonization with US EPA carbon standards influencing cross-border projects. Practitioners should cross-reference with Species at Risk Act overlays to argue for equity-based exemptions in impact assessments.
-Source: https://www.nature.com/articles/s41558-026-02576-2
-
-━━━━━━━━━━━━━━━━━━━━
-### Regulatory &amp; Policy Watch
-**Regulatory Calendar Review: Upcoming Federal and Provincial Milestones**  
-Federal CEPA 2024 amendment consultations on toxic substance listings (including PFAS updates) close March 31, 2026, requiring submissions on analytical methods like EPA Method 537.1 equivalents for PFOA/PFOS thresholds below 0.01 µg/L in groundwater; this affects compliance in Ontario O. Reg. 153/04 site assessments and BC CSR numerical standards. Alberta EPEA Tier 1 guideline revisions for oil sands tailings ponds enter force April 1, 2026, mandating enhanced monitored natural attenuation monitoring. Quebec LQE/RPRT annual reporting deadline for contaminated sites is March 15, 2026, with new requirements for permeable reactive barrier efficacy data.
-
-**Cross-Jurisdictional Watch: US EPA Influence on Canadian Policy**  
-US EPA's proposed PFAS drinking water standards (4 ng/L for PFOA) may prompt CCME harmonization by mid-2026, impacting interprovincial standards like Saskatchewan EMPA groundwater criteria; track for adoption in federal Fisheries Act s.36(3) effluent limits. Recent US carbon market reforms under the Inflation Reduction Act could influence federal IAA additionality criteria for Indigenous projects, potentially aligning with BC EMA offsets.
-
-━━━━━━━━━━━━━━━━━━━━
-### Science &amp; Technical
-**Additionality Requirements of Carbon Markets Could Penalize Indigenous Stewardship: Nature**  
-Analysis shows Indigenous-managed lands in Canada sustain 10-20% higher c...</ns0:summary>
-      <ns0:season>1</ns0:season>
-      <ns0:episode>6</ns0:episode>
-      <ns0:title>Ep 6: Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.</ns0:title>
       <ns0:episodeType>full</ns0:episodeType>
     </item>
   </channel>
