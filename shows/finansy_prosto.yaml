@@ -137,7 +137,7 @@ tts:
   whisper_threshold: 0.85
 
 audio:
-  music_file: assets/music/tesla_shorts_time.mp3
+  music_file: assets/music/tesla_shorts_time.mp3  # TODO: Replace with FP-specific intro music
   voice_intro_delay: 5.0
   intro_duration: 5.0
   overlap_duration: 10.0
