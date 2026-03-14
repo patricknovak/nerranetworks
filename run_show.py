@@ -47,6 +47,23 @@ if hasattr(signal, "SIGALRM"):
     signal.signal(signal.SIGALRM, _timeout_handler)
     signal.alarm(_PIPELINE_TIMEOUT)
 
+
+# ---------------------------------------------------------------------------
+# AI disclosure — appended to every episode's spoken script and RSS metadata
+# ---------------------------------------------------------------------------
+_AI_DISCLOSURE = (
+    "This podcast is curated by Patrick but generated using AI voice synthesis "
+    "of my voice using ElevenLabs. The primary reason to do this is I "
+    "unfortunately don't have the time to be consistent with generating all "
+    "the content and wanted to focus on creating consistent and regular "
+    "episodes for all the themes that I enjoy and I hope others do as well."
+)
+
+_AI_DISCLOSURE_RSS = (
+    "AI Disclosure: This podcast is curated by Patrick but uses AI-generated "
+    "voice synthesis (ElevenLabs) for audio production."
+)
+
 # ---------------------------------------------------------------------------
 # Bootstrap
 # ---------------------------------------------------------------------------
@@ -391,6 +408,9 @@ def run(args: argparse.Namespace) -> None:
 
         # Apply pronunciation fixes
         podcast_script = _apply_pronunciation(podcast_script, args.show)
+
+        # Append AI disclosure at the end of the episode
+        podcast_script = podcast_script.rstrip() + "\n\n" + _AI_DISCLOSURE
 
         # Parse chapter markers from the cleaned script (before TTS)
         from engine.chapters import parse_chapters
@@ -755,6 +775,7 @@ def run(args: argparse.Namespace) -> None:
         else:
             episode_title = f"{config.name} - Episode {episode_num} - {today_str}"
         episode_desc = x_thread[:4000] + "..." if len(x_thread) > 4000 else x_thread
+        episode_desc = episode_desc.rstrip() + "\n\n" + _AI_DISCLOSURE_RSS
 
         # If no R2 URL but analytics is enabled, build URL and prefix it
         feed_audio_url = rss_audio_url
@@ -773,6 +794,11 @@ def run(args: argparse.Namespace) -> None:
                 f"/chapters_ep{episode_num:03d}.json"
             )
 
+        # Append AI disclosure to channel description for RSS metadata
+        channel_desc_with_disclosure = (
+            config.publishing.rss_description.rstrip() + " " + _AI_DISCLOSURE_RSS
+        )
+
         logger.info("Updating RSS feed: %s", config.publishing.rss_file)
         update_rss_feed(
             rss_path=rss_path,
@@ -787,7 +813,7 @@ def run(args: argparse.Namespace) -> None:
             audio_subdir=config.publishing.audio_subdir,
             channel_title=config.publishing.rss_title,
             channel_link=config.publishing.rss_link,
-            channel_description=config.publishing.rss_description,
+            channel_description=channel_desc_with_disclosure,
             channel_language=config.publishing.rss_language,
             channel_author=config.publishing.rss_author,
             channel_email=config.publishing.rss_email,

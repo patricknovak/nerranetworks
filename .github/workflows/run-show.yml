@@ -4,20 +4,24 @@ on:
   schedule:
     # Tesla Shorts Time: Daily ~7 AM Eastern
     - cron: '0 11 * * *'
-    # Omni View: Daily ~6 AM Eastern (EDT trigger)
-    - cron: '0 10 * * *'
+    # Omni View: Odd days ~6 AM Eastern (EDT trigger)
+    - cron: '0 10 1-31/2 * *'
+    # Omni View: Odd days ~6 AM Eastern (EST fallback — runs at 11 UTC)
+    - cron: '0 11 1-31/2 * *'
     # Planetterrian Daily: Odd days ~8 AM Eastern
     - cron: '0 12 1-31/2 * *'
-    # Fascinating Frontiers: Even days ~8:15 AM Eastern (staggered to avoid API competition)
+    # Fascinating Frontiers: Even days ~8:15 AM Eastern
     - cron: '15 12 2-31/2 * *'
-    # Environmental Intelligence: Weekdays ~6 AM Pacific (14:00 UTC)
-    - cron: '0 14 * * 1-5'
-    # Models & Agents: Daily ~7 AM Pacific (15:00 UTC)
-    - cron: '0 15 * * *'
-    # Models & Agents for Beginners: Daily ~8 AM Pacific (16:00 UTC)
-    - cron: '0 16 * * *'
-    # Финансы Просто: Daily ~9 AM Pacific (17:00 UTC)
-    - cron: '0 17 * * *'
+    # Environmental Intelligence: Odd weekdays ~6 AM Pacific (14:00 UTC)
+    - cron: '0 14 1-31/2 * 1-5'
+    # Models & Agents: Odd days ~7 AM Pacific (15:00 UTC)
+    - cron: '0 15 1-31/2 * *'
+    # Models & Agents for Beginners: Even days ~8 AM Pacific (16:00 UTC)
+    - cron: '0 16 2-31/2 * *'
+    # Финансы Просто: Even days ~9 AM Pacific (17:00 UTC)
+    - cron: '0 17 2-31/2 * *'
+    # Привет, Русский!: Even days ~10 AM Pacific (18:00 UTC)
+    - cron: '0 18 2-31/2 * *'
 
   workflow_dispatch:
     inputs:
@@ -34,6 +38,7 @@ on:
           - models_agents
           - models_agents_beginners
           - finansy_prosto
+          - privet_russian
           - all
 
 permissions:
@@ -61,7 +66,7 @@ jobs:
 
           if event_name == "workflow_dispatch":
               if dispatch_show == "all":
-                  shows = ["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel", "models_agents", "models_agents_beginners", "finansy_prosto"]
+                  shows = ["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel", "models_agents", "models_agents_beginners", "finansy_prosto", "privet_russian"]
               else:
                   shows = [dispatch_show]
           else:
@@ -77,37 +82,46 @@ jobs:
               utc_minute = now_utc.minute
               et_hour = now_et.hour
               day = now_et.day
+              is_odd_day = day % 2 == 1
+              is_even_day = day % 2 == 0
 
               shows = []
 
-              # 10:00 UTC — Omni View if ET hour is 6 (EDT)
-              if utc_hour == 10 and et_hour == 6:
+              # 10:00 UTC — Omni View on odd days if ET hour is 6 (EDT)
+              if utc_hour == 10 and et_hour == 6 and is_odd_day:
                   shows.append("omni_view")
-              # 11:00 UTC — Tesla always; Omni View if ET hour is 6 (EST fallback)
+              # 11:00 UTC — Tesla always; Omni View on odd days if ET hour is 6 (EST fallback)
               elif utc_hour == 11:
                   shows.append("tesla")
-                  if et_hour == 6:
+                  if et_hour == 6 and is_odd_day:
                       shows.append("omni_view")
               # 12:00 UTC — odd day = Planetterrian; 12:15 UTC — even day = Fascinating Frontiers
               elif utc_hour == 12:
-                  if utc_minute < 10 and day % 2 == 1:
+                  if utc_minute < 10 and is_odd_day:
                       shows.append("planetterrian")
-                  elif utc_minute >= 10 and day % 2 == 0:
+                  elif utc_minute >= 10 and is_even_day:
                       shows.append("fascinating_frontiers")
-              # 14:00 UTC — Environmental Intelligence (weekdays only, ~6 AM Pacific)
+              # 14:00 UTC — Environmental Intelligence (odd weekdays only)
               elif utc_hour == 14:
                   weekday = now_et.weekday()  # 0=Mon, 6=Sun
-                  if weekday < 5:
+                  if weekday < 5 and is_odd_day:
                       shows.append("env_intel")
-              # 15:00 UTC — Models & Agents (daily, ~7 AM Pacific)
+              # 15:00 UTC — Models & Agents (odd days only)
               elif utc_hour == 15:
-                  shows.append("models_agents")
-              # 16:00 UTC — Models & Agents for Beginners (daily, ~8 AM Pacific)
+                  if is_odd_day:
+                      shows.append("models_agents")
+              # 16:00 UTC — Models & Agents for Beginners (even days only)
               elif utc_hour == 16:
-                  shows.append("models_agents_beginners")
-              # 17:00 UTC — Финансы Просто (daily, ~9 AM Pacific)
+                  if is_even_day:
+                      shows.append("models_agents_beginners")
+              # 17:00 UTC — Финансы Просто (even days only)
               elif utc_hour == 17:
-                  shows.append("finansy_prosto")
+                  if is_even_day:
+                      shows.append("finansy_prosto")
+              # 18:00 UTC — Привет, Русский! (even days only)
+              elif utc_hour == 18:
+                  if is_even_day:
+                      shows.append("privet_russian")
 
               # Detect known DST no-ops (cron fires but show runs at a different
               # UTC hour depending on EST/EDT).  These are expected empty results.
@@ -118,6 +132,13 @@ jobs:
                       known_noop = True
                       print(f"DST no-op: 10:00 UTC Omni View trigger during EST (ET hour={et_hour}). "
                             f"Omni View will run at 11:00 UTC instead.")
+                  # Odd/even day cron triggers on non-matching days are expected no-ops
+                  elif utc_hour in (10, 12, 14, 15) and is_even_day:
+                      known_noop = True
+                      print(f"Even-day no-op: odd-day shows don't run on day {day}.")
+                  elif utc_hour in (16, 17, 18) and is_odd_day:
+                      known_noop = True
+                      print(f"Odd-day no-op: even-day shows don't run on day {day}.")
                   else:
                       msg = f"WARNING: No shows matched for UTC {utc_hour}:{utc_minute:02d}, ET hour {et_hour}, day {day}"
                       print(msg)
@@ -187,13 +208,6 @@ jobs:
 
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
-
-      - name: Cache Whisper / HuggingFace model files
-        if: matrix.show == 'models_agents_beginners'
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/huggingface/hub
-          key: whisper-v1-${{ runner.os }}
 
       - name: Install Python dependencies
         run: |

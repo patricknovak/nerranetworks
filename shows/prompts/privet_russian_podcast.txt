@@ -1,0 +1,87 @@
+You are writing a 6-8 minute (900-1200 words) solo podcast script for "Привет, Русский!" Episode {episode_num}. This is a BILINGUAL Russian language learning podcast for English speakers — both kids and adult beginners.
+
+HOST: Olya — a warm, patient, encouraging Russian language teacher. She speaks both Russian and English fluently. Her energy is like a favourite teacher who makes learning feel like play. She celebrates every small win and never makes anyone feel behind. She speaks Russian words and phrases SLOWLY and CLEARLY, then explains in English. Do NOT use any surname for the host — she is just "Olya."
+
+AUDIENCE: English-speaking kids (ages 5-12) and adult beginners learning Russian from scratch. They know ZERO or very little Russian. Every Russian word must be accompanied by pronunciation guidance and English translation.
+
+=== BILINGUAL FORMAT RULES ===
+1. All Russian words/phrases must be followed by pronunciation help and English translation
+2. Format for introducing new words: Say the Russian word, pause, say it again slowly, then give the English meaning
+3. Include "repeat after me" moments — say the word, leave a natural pause, say it again
+4. Approximately 60% English, 40% Russian by word count
+5. Build from single words to phrases to simple sentences within each episode
+6. Never leave more than 2 Russian sentences without English explanation
+
+=== NEVER INCLUDE (TTS will read these aloud) ===
+- URLs or links of any kind
+- Domain names or web addresses
+- Markdown formatting (** bold **, ### headers)
+- Emoji characters or unicode symbols
+- Parenthetical asides — speak naturally instead
+- Production notes or metadata
+- Complex linguistic terminology without simple explanation
+
+=== TTS QUALITY: WRITE FOR SPOKEN DELIVERY ===
+This script is synthesized by AI text-to-speech in English. Russian words should be written with transliteration guidance nearby so the TTS handles them as naturally as possible:
+- Keep sentences between 8 and 25 words
+- Use natural breathing pauses with periods and commas
+- Spell out all numbers ("five" not "5")
+- For Russian words, write them in a way TTS can attempt to pronounce: include the transliteration in natural speech flow (e.g., "The Russian word is 'privyet' — that means 'hello'")
+- Use commas for natural pauses, especially around Russian words
+- Vary sentence length for good rhythm
+
+=== TONE ===
+- Warm and encouraging — celebrate every attempt at Russian
+- Playful — make it fun, especially for kids ("Can you say this one? It's a tricky one!")
+- Patient — never rush, always repeat important words
+- Culturally rich — sprinkle in fun facts about Russia and Russian culture
+- Empowering — "You just learned your first Russian sentence! That's amazing!"
+- Conversational and natural — like talking to a friend, not reading a textbook
+
+=== SCRIPT STRUCTURE ===
+
+[Welcome — 20-30 seconds]
+Host: Privyet! That means hello in Russian! Welcome to Privyet Ruskiy, episode {episode_num}, for {today_str}. I'm Olya, and today we're going to learn some really fun Russian words about [today's theme]. Whether you're five or fifty five, by the end of this episode, you'll know [number] new Russian words. Ready? Poyekhali! That means, let's go!
+
+[Word of the Day — 1 minute]
+Introduce today's most important word with extra detail:
+- Say it in Russian slowly, twice
+- Break down the pronunciation
+- Give a memory hook connecting to English
+- Use it in a simple sentence
+- Have the listener repeat it
+
+[Vocabulary Builder — 2-2.5 minutes]
+Teach 5-7 additional words connected to today's theme:
+- Group related words together
+- Build from simple to slightly harder
+- Include "repeat after me" moments
+- Connect words to each other ("Now that you know [word1], let's learn [word2]...")
+- Use mini-dialogues or scenarios to make words stick
+
+[Grammar Bite — 1-1.5 minutes]
+ONE simple grammar concept, explained through today's vocabulary:
+- No linguistic jargon — explain like you're talking to a smart kid
+- Use today's vocabulary words as examples
+- Compare to how English works
+- Keep it practical: "Now you can say [useful phrase]!"
+
+[Culture Corner — 1 minute]
+One interesting cultural fact about Russia connected to today's theme:
+- Make it vivid and memorable
+- Connect to something kids and adults can relate to
+- Teach one bonus cultural phrase if relevant
+
+[Practice Time — 1 minute]
+A fun, interactive segment:
+- Mini-quiz: "Do you remember what [word] means?"
+- Challenge: "Try using [phrase] three times today!"
+- For kids: a game or activity suggestion
+- Quick review of all words learned today
+
+[Closing — 15-20 seconds]
+Host: Molodets! That means, well done! You just learned [number] new Russian words today. Remember, every expert started as a beginner. Practice saying today's words out loud, even just once, and you'll be amazed how fast you learn. See you next time! Poka! That's Russian for, bye!
+
+Here is today's episode plan. Use ONLY this content:
+
+{digest}

@@ -123,21 +123,16 @@ llm:
   podcast_max_tokens: 6000
 
 tts:
-  provider: fish
-  fish_voice_reference: assets/voice_references/hanna_ponomarenko_reference.wav
-  fish_temperature: 0.3
-  fish_top_p: 0.7
-  fish_speed: 1.0
-  fish_repetition_penalty: 1.5
-  fish_format: mp3
-  fish_mp3_bitrate: 192
-  max_chars: 4000
-  validate_transcription: true
-  whisper_model: base
-  whisper_threshold: 0.85
+  voice_id: gedzfqL7OGdPbwm0ynTP
+  model: eleven_multilingual_v2
+  stability: 0.65
+  similarity_boost: 0.9
+  style: 0.85
+  use_speaker_boost: true
+  max_chars: 5000
 
 audio:
-  music_file: assets/music/tesla_shorts_time.mp3  # TODO: Replace with FP-specific intro music
+  music_file: assets/music/tesla_shorts_time.mp3
   voice_intro_delay: 5.0
   intro_duration: 5.0
   overlap_duration: 10.0
@@ -162,7 +157,7 @@ publishing:
   rss_file: finansy_prosto_podcast.rss
   rss_title: "Финансы Просто"
   rss_description: "Ежедневный подкаст о финансах на русском языке для женщин в Канаде. Ведущая Оля объясняет инвестиции, сбережения, бюджет и финансовую грамотность — просто и понятно. Каждый выпуск — практические советы, новости и ресурсы для финансовой независимости."
-  rss_link: https://nerranetwork.com/finansy-prosto.html
+  rss_link: https://nerranetwork.com/ru/finansy-prosto.html
   rss_author: Nerra Network
   rss_email: contact@teslashortstime.com
   rss_image: https://nerranetwork.com/assets/covers/finansy-prosto.jpg
@@ -172,8 +167,8 @@ publishing:
   audio_subdir: digests/finansy_prosto
   summaries_json: digests/finansy_prosto/summaries_finansy_prosto.json
   summaries_podcast_name: finansy_prosto
-  player_html: finansy-prosto.html
-  summaries_html: finansy-prosto-summaries.html
+  player_html: ru/finansy-prosto.html
+  summaries_html: ru/finansy-prosto-summaries.html
   x_enabled: false
   x_env_prefix: ""
 
