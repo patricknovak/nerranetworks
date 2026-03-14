@@ -134,6 +134,7 @@ button { font-family: var(--font-ui); cursor: pointer; }
 /* Show dropdown in nav */
 .nn-nav-dropdown {
   position: relative;
+  padding-bottom: var(--sp-2);
 }
 .nn-nav-dropdown-btn {
   display: flex; align-items: center; gap: var(--sp-2);
@@ -141,6 +142,7 @@ button { font-family: var(--font-ui); cursor: pointer; }
   font-size: 0.9rem; font-weight: 500;
   color: var(--nn-text-muted);
   background: none; border: none;
+  cursor: pointer;
   transition: color var(--duration) var(--ease);
 }
 .nn-nav-dropdown-btn:hover { color: var(--nn-white); }
@@ -148,10 +150,11 @@ button { font-family: var(--font-ui); cursor: pointer; }
   width: 12px; height: 12px;
   transition: transform var(--duration) var(--ease);
 }
-.nn-nav-dropdown:hover .nn-nav-dropdown-btn svg { transform: rotate(180deg); }
+.nn-nav-dropdown:hover .nn-nav-dropdown-btn svg,
+.nn-nav-dropdown.open .nn-nav-dropdown-btn svg { transform: rotate(180deg); }
 .nn-nav-dropdown-menu {
   display: none;
-  position: absolute; top: calc(100% + var(--sp-2));
+  position: absolute; top: 100%;
   left: 50%; transform: translateX(-50%);
   min-width: 220px;
   background: rgba(17, 22, 39, 0.98);
@@ -160,8 +163,10 @@ button { font-family: var(--font-ui); cursor: pointer; }
   border-radius: 12px;
   padding: var(--sp-2);
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  z-index: 100;
 }
-.nn-nav-dropdown:hover .nn-nav-dropdown-menu { display: block; }
+.nn-nav-dropdown:hover .nn-nav-dropdown-menu,
+.nn-nav-dropdown.open .nn-nav-dropdown-menu { display: block; }
 .nn-nav-dropdown-menu a {
   display: flex; align-items: center; gap: var(--sp-3);
   padding: var(--sp-3) var(--sp-4);
