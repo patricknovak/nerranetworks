@@ -244,6 +244,7 @@ def generate_digest(
                 "x_thread_generation",
                 meta["usage"].get("prompt_tokens", 0),
                 meta["usage"].get("completion_tokens", 0),
+                model=config.llm.model,
             )
         except Exception as e:
             logger.warning("Failed to record LLM usage: %s", e)
@@ -314,6 +315,7 @@ def generate_podcast_script(
                 "podcast_script_generation",
                 meta["usage"].get("prompt_tokens", 0),
                 meta["usage"].get("completion_tokens", 0),
+                model=config.llm.model,
             )
         except Exception as e:
             logger.warning("Failed to record LLM usage: %s", e)

@@ -401,3 +401,13 @@ jobs:
           echo "Show: ${{ matrix.show }}"
           echo "Run ID: ${{ github.run_id }}"
           echo "Run URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+      - name: Notify on failure (webhook)
+        if: failure() && env.NOTIFICATION_WEBHOOK_URL != ''
+        env:
+          NOTIFICATION_WEBHOOK_URL: ${{ secrets.NOTIFICATION_WEBHOOK_URL }}
+        run: |
+          curl -s -X POST "$NOTIFICATION_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "{\"text\":\"Pipeline FAILED: ${{ matrix.show }} on $(date -u +%Y-%m-%d). Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
+            || echo "Webhook notification failed (non-blocking)"

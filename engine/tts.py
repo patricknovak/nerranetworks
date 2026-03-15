@@ -268,6 +268,7 @@ def speak(
     chunk_files: List[Path] = []
     tmp_dir = Path(filename).parent
 
+    wav_files: List[Path] = []
     try:
         for i, chunk_text_str in enumerate(chunks):
             chunk_file = tmp_dir / f"tts_chunk_{i:03d}.mp3"
@@ -284,43 +285,74 @@ def speak(
                 i + 1, len(chunks), len(chunk_text_str),
             )
 
-        # Concatenate with ffmpeg
-        concat_list = tmp_dir / "elevenlabs_concat.txt"
-        with open(concat_list, "w", encoding="utf-8") as f:
-            for cf in chunk_files:
-                f.write(f"file '{cf.absolute()}'\n")
+        # Decode each MP3 chunk to WAV for lossless concatenation.
+        # This avoids quality loss from re-encoding MP3→MP3 at boundaries.
+        for cf in chunk_files:
+            wav_file = cf.with_suffix(".wav")
+            subprocess.run(
+                ["ffmpeg", "-y", "-i", str(cf), "-ar", "44100", "-ac", "1", str(wav_file)],
+                check=True, capture_output=True, timeout=120,
+            )
+            wav_files.append(wav_file)
 
-        # Re-encode with libmp3lame instead of -c copy to avoid clicks/pops
-        # at chunk boundaries caused by misaligned MP3 frames.
+        # Concatenate WAV files with short crossfade to eliminate boundary artifacts
+        if len(wav_files) == 2:
+            merged_wav = tmp_dir / "tts_merged.wav"
+            subprocess.run(
+                [
+                    "ffmpeg", "-y",
+                    "-i", str(wav_files[0]), "-i", str(wav_files[1]),
+                    "-filter_complex", "acrossfade=d=0.15:c1=tri:c2=tri",
+                    str(merged_wav),
+                ],
+                check=True, capture_output=True, timeout=300,
+            )
+        else:
+            # Chain crossfades for 3+ chunks
+            merged_wav = wav_files[0]
+            for idx in range(1, len(wav_files)):
+                step_out = tmp_dir / f"tts_xfade_{idx:03d}.wav"
+                subprocess.run(
+                    [
+                        "ffmpeg", "-y",
+                        "-i", str(merged_wav), "-i", str(wav_files[idx]),
+                        "-filter_complex", "acrossfade=d=0.15:c1=tri:c2=tri",
+                        str(step_out),
+                    ],
+                    check=True, capture_output=True, timeout=300,
+                )
+                merged_wav = step_out
+
+        # Single final MP3 encode from lossless WAV
         subprocess.run(
             [
                 "ffmpeg", "-y",
-                "-f", "concat",
-                "-safe", "0",
-                "-i", str(concat_list),
-                "-c:a", "libmp3lame",
-                "-q:a", "2",
+                "-i", str(merged_wav),
+                "-c:a", "libmp3lame", "-q:a", "2",
                 str(filename),
             ],
-            check=True,
-            capture_output=True,
-            timeout=300,
+            check=True, capture_output=True, timeout=300,
         )
-        logger.info("ElevenLabs TTS: Concatenated %d chunks (re-encoded for seamless joins)", len(chunks))
+        logger.info("ElevenLabs TTS: Concatenated %d chunks via WAV intermediates (single MP3 encode)", len(chunks))
 
     finally:
-        for cf in chunk_files:
+        for cf in chunk_files + wav_files:
             try:
                 if cf.exists():
                     cf.unlink()
             except Exception:
                 pass
-        try:
-            concat_list = tmp_dir / "elevenlabs_concat.txt"
-            if concat_list.exists():
-                concat_list.unlink()
-        except Exception:
-            pass
+        # Clean up any intermediate crossfade/merged files
+        for tmp_file in tmp_dir.glob("tts_xfade_*.wav"):
+            try:
+                tmp_file.unlink()
+            except Exception:
+                pass
+        for tmp_file in tmp_dir.glob("tts_merged.wav"):
+            try:
+                tmp_file.unlink()
+            except Exception:
+                pass
 
 
 def synthesize(

@@ -220,20 +220,20 @@ def _fetch_single_feed(
 
         return (feed_url, articles, source_name)
 
-    except requests.RequestException:
+    except requests.RequestException as exc:
         with problematic_feeds_lock:
             if feed_url not in problematic_feeds:
                 problematic_feeds.add(feed_url)
-                logger.debug(
-                    "Network error fetching RSS feed (skipping): %s", feed_url
+                logger.warning(
+                    "Network error fetching RSS feed: %s — %s", feed_url, exc
                 )
         return None
     except Exception as exc:
         with problematic_feeds_lock:
             if feed_url not in problematic_feeds:
                 problematic_feeds.add(feed_url)
-                logger.debug(
-                    "RSS feed error (skipping): %s — %s", feed_url, exc
+                logger.warning(
+                    "RSS feed error: %s — %s", feed_url, exc
                 )
         return None
 

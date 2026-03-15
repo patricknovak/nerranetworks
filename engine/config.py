@@ -161,6 +161,18 @@ class ChaptersConfig:
 
 
 @dataclass
+class ContentTrackingConfig:
+    """Cross-episode content tracking configuration.
+
+    If ``section_patterns`` is provided, these regex patterns override the
+    hardcoded ``SHOW_SECTION_PATTERNS`` registry in ``content_tracker.py``.
+    """
+    enabled: bool = True
+    max_days: int = 14
+    section_patterns: dict = field(default_factory=dict)
+
+
+@dataclass
 class ShowConfig:
     name: str = ""
     slug: str = ""
@@ -176,6 +188,7 @@ class ShowConfig:
     analytics: AnalyticsConfig = field(default_factory=AnalyticsConfig)
     newsletter: NewsletterConfig = field(default_factory=NewsletterConfig)
     chapters: ChaptersConfig = field(default_factory=ChaptersConfig)
+    content_tracking: ContentTrackingConfig = field(default_factory=ContentTrackingConfig)
 
 
 # ---------------------------------------------------------------------------
@@ -257,6 +270,7 @@ def load_config(yaml_path: str | Path) -> ShowConfig:
         analytics=_build_nested(AnalyticsConfig, data.get("analytics")),
         newsletter=_build_nested(NewsletterConfig, data.get("newsletter")),
         chapters=_build_chapters(data.get("chapters")),
+        content_tracking=_build_nested(ContentTrackingConfig, data.get("content_tracking")),
     )
     logger.info("Loaded config for '%s' from %s", config.name, path)
     return config

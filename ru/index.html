@@ -13,6 +13,8 @@
     <meta property="og:type" content="website">
 
     <link rel="canonical" href="https://nerranetwork.com/ru/index.html">
+    <link rel="alternate" hreflang="en" href="https://nerranetwork.com/index.html">
+    <link rel="alternate" hreflang="ru" href="https://nerranetwork.com/ru/index.html">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -191,5 +193,6 @@
             </div>
         </div>
     </footer>
+<script>document.querySelectorAll(".nn-nav-dropdown-btn").forEach(function(btn){btn.addEventListener("click",function(e){e.stopPropagation();btn.closest(".nn-nav-dropdown").classList.toggle("open")})});document.addEventListener("click",function(){document.querySelectorAll(".nn-nav-dropdown.open").forEach(function(d){d.classList.remove("open")})});document.addEventListener("keydown",function(e){if(e.key==="Escape"){document.querySelectorAll(".nn-nav-dropdown.open").forEach(function(d){d.classList.remove("open")})}});</script>
 </body>
 </html>

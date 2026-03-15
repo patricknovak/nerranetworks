@@ -15,6 +15,7 @@ import yaml
 from engine.config import (
     AnalyticsConfig,
     AudioConfig,
+    ContentTrackingConfig,
     EpisodeConfig,
     LLMConfig,
     NewsletterConfig,
@@ -238,6 +239,12 @@ class TestDefaultValues:
         assert c.api_key_env == "BUTTONDOWN_API_KEY"
         assert c.status == "about_to_send"
 
+    def test_content_tracking_defaults(self):
+        c = ContentTrackingConfig()
+        assert c.enabled is True
+        assert c.max_days == 14
+        assert c.section_patterns == {}
+
     def test_show_config_defaults(self):
         c = ShowConfig()
         assert c.name == ""
@@ -253,6 +260,7 @@ class TestDefaultValues:
         assert isinstance(c.storage, StorageConfig)
         assert isinstance(c.analytics, AnalyticsConfig)
         assert isinstance(c.newsletter, NewsletterConfig)
+        assert isinstance(c.content_tracking, ContentTrackingConfig)
 
 
 # =========================================================================

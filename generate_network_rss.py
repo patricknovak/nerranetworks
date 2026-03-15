@@ -28,7 +28,7 @@ NETWORK_DESCRIPTION = (
     "the environment, financial literacy, and Russian language learning."
 )
 NETWORK_LINK = "https://nerranetwork.com/"
-NETWORK_IMAGE = "https://nerranetwork.com/assets/covers/omni-view.jpg"
+NETWORK_IMAGE = "https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg"
 
 
 def parse_pub_date(text: str) -> datetime:

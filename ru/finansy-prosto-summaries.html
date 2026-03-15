@@ -321,7 +321,7 @@
             <div class="nn-footer-grid">
                 <div>
                     <div class="nn-footer-brand"><span class="gradient-text">Nerra</span> Network</div>
-                    <p class="nn-footer-desc">Seven daily shows. Zero fluff. Independent podcast network produced in Vancouver, Canada.</p>
+                    <p class="nn-footer-desc">Nine daily shows. Zero fluff. Independent podcast network produced in Vancouver, Canada.</p>
                 </div>
                 <div class="nn-footer-col">
                     <h4>Shows</h4>
@@ -694,5 +694,6 @@
         }
     </script>
 
+<script>document.querySelectorAll(".nn-nav-dropdown-btn").forEach(function(btn){btn.addEventListener("click",function(e){e.stopPropagation();btn.closest(".nn-nav-dropdown").classList.toggle("open")})});document.addEventListener("click",function(){document.querySelectorAll(".nn-nav-dropdown.open").forEach(function(d){d.classList.remove("open")})});document.addEventListener("keydown",function(e){if(e.key==="Escape"){document.querySelectorAll(".nn-nav-dropdown.open").forEach(function(d){d.classList.remove("open")})}});</script>
 </body>
 </html>
