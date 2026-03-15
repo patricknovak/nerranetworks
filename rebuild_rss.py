@@ -35,7 +35,7 @@ def rebuild_rss():
 
     # Set channel metadata
     fg.title("Tesla Shorts Time Daily")
-    fg.link(href="https://github.com/patricknovak/Tesla-shorts-time")
+    fg.link(href="https://github.com/patricknovak/nerranetworks")
     fg.description("Daily Tesla news digest and podcast hosted by Patrick in Vancouver. Covering the latest Tesla developments, stock updates, and short squeeze celebrations.")
     fg.language('en-us')
     fg.copyright("Copyright 2025")

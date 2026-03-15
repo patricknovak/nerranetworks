@@ -15,11 +15,11 @@ Before submitting, ensure:
 
 | Show | RSS Feed URL |
 |------|-------------|
-| Tesla Shorts Time | `https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/tesla_shorts_time_podcast.rss` |
-| Omni View | `https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/omni_view_podcast.rss` |
-| Fascinating Frontiers | `https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/fascinating_frontiers_podcast.rss` |
-| Planetterrian Daily | `https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/planetterrian_podcast.rss` |
-| Environmental Intelligence | `https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/env_intel_podcast.rss` |
+| Tesla Shorts Time | `https://raw.githubusercontent.com/patricknovak/nerranetworks/main/tesla_shorts_time_podcast.rss` |
+| Omni View | `https://raw.githubusercontent.com/patricknovak/nerranetworks/main/omni_view_podcast.rss` |
+| Fascinating Frontiers | `https://raw.githubusercontent.com/patricknovak/nerranetworks/main/fascinating_frontiers_podcast.rss` |
+| Planetterrian Daily | `https://raw.githubusercontent.com/patricknovak/nerranetworks/main/planetterrian_podcast.rss` |
+| Environmental Intelligence | `https://raw.githubusercontent.com/patricknovak/nerranetworks/main/env_intel_podcast.rss` |
 
 ## Directory Submission Steps
 

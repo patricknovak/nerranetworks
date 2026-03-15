@@ -37,7 +37,7 @@ is a standalone X-posting script, not a podcast show.
 ### Key Directories
 
 ```
-Tesla-shorts-time/
+nerranetworks/
 ├── run_show.py                    # Unified show runner (~716 lines)
 ├── shows/                         # Per-show YAML configs
 │   ├── tesla.yaml

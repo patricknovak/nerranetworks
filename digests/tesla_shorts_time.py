@@ -1314,7 +1314,7 @@ def generate_raw_data_html(raw_data, output_dir):
         
         <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666;">
             <p>Generated automatically by Tesla Shorts Time Daily</p>
-            <p><a href="https://github.com/patricknovak/Tesla-shorts-time" style="color: #e31937;">View on GitHub</a></p>
+            <p><a href="https://github.com/patricknovak/nerranetworks" style="color: #e31937;">View on GitHub</a></p>
         </div>
     </div>
 </body>
