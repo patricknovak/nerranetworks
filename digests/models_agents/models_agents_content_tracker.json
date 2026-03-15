@@ -1,30 +1,7 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-14",
+  "last_updated": "2026-03-15",
   "episodes": [
-    {
-      "date": "2026-02-28",
-      "headlines": [],
-      "urls": [
-        "https://the-decoder.com/perplexity-open-sources-embedding-models-that-match-google-and-alibaba-at-a-fraction-of-the-memory-cost/",
-        "https://the-decoder.com/current-language-model-training-leaves-large-parts-of-the-internet-on-the-table/",
-        "https://arxiv.org/abs/2602.22351",
-        "https://arxiv.org/abs/2602.22543",
-        "https://arxiv.org/abs/2602.22661",
-        "https://the-decoder.com/a-new-benchmark-pits-five-ai-models-against-each-other-as-autonomous-social-media-agents-on-x/",
-        "https://arxiv.org/abs/2602.22675",
-        "https://arxiv.org/abs/2602.22453",
-        "https://arxiv.org/abs/2602.22391",
-        "https://arxiv.org/abs/2602.22404",
-        "https://arxiv.org/abs/2602.22424"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**Current language model training leaves large parts of the internet on the table: The Decoder**  \nResearchers from Apple, Stanford, and UW revealed how different HTML extractors lead to vastly different training data for LLMs, with tools like Trafilatura capturing more diverse content than BeautifulSoup. This highlights a key limitation in current foundation model training, where extractor choice can exclude up to 50% of web data, affecting model robustness compared to more in",
-        "agent_developments": "### Agent & Tool Developments\n**A new benchmark pits five AI models against each other as autonomous social media agents on X: The Decoder**  \nArcada Labs' benchmark tests leading LLMs like GPT-4o and Claude as autonomous agents on X, evaluating social engagement and task completion in real-time scenarios. It's a step up from static benchmarks, revealing strengths in models like Grok for dynamic interactions, but highlights latency issues in agent frameworks like AutoGen. Try it by running the o",
-        "practical_community": "### Practical & Community\n**Detecting Hate and Inflammatory Content in Bengali Memes: A New Multimodal Dataset and Co-Attention Framework: cs.CL updates on arXiv.org**  \nBn-HIB is a new dataset of 3,247 annotated Bengali memes for multilabel hate detection, paired with the MCFM model that fuses visual and textual features via co-attention, outperforming baselines on low-resource tasks. It solves multimodal challenges in non-English contexts, but requires multimodal LLMs like Claude for full use."
-      }
-    },
     {
       "date": "2026-03-01",
       "headlines": [],
@@ -273,6 +250,21 @@
         "model_updates": "### Model Updates\n**Anthropic drops the surcharge for million-token context windows, making Opus 4.6 and Sonnet 4.6 far cheaper: The Decoder**  \nAnthropic eliminated the extra fees for contexts over 200,000 tokens in Claude Opus 4.6 and Sonnet 4.6, potentially halving costs for million-token requests compared to previous pricing. This makes them more competitive with Gemini's 1M windows and OpenAI's offerings, especially for RAG-heavy tasks where long contexts were prohibitively expensive. It ma",
         "agent_developments": "### Agent & Tool Developments\n**China pushes OpenClaw \"one-person companies\" with millions in AI agent subsidies: The Decoder**  \nChinese governments are funding OpenClaw projects with millions to enable \"one-person companies\" where AI agents act as employees for tasks like operations and decision-making. This builds on frameworks like AutoGPT by emphasizing scalable agent ecosystems, with improvements in tool calling and browser automation for business automation. Try integrating OpenClaw with ",
         "practical_community": "### Practical & Community\n(none this briefing — insufficient qualifying articles without overlap from above sections)"
+      }
+    },
+    {
+      "date": "2026-03-15",
+      "headlines": [],
+      "urls": [
+        "https://the-decoder.com/rl-agents-go-from-face-planting-to-parkour-when-researchers-keep-adding-network-layers/",
+        "https://the-decoder.com/openclaw-rl-trains-ai-agents-simply-by-talking-converting-every-reply-into-a-training-signal/",
+        "https://the-decoder.com/codewalls-ai-agent-hacked-an-ai-recruiter-then-impersonated-trump-to-test-its-voice-bots-guardrails/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**No major model releases today:** With the focus on agent advancements, we're light on foundation model updates—check back for potential drops from labs like OpenAI or Anthropic.",
+        "agent_developments": "### Agent & Tool Developments\n**OpenClaw-RL trains AI agents \"simply by talking,\" converting every reply into a training signal: The Decoder**  \nPrinceton's new OpenClaw-RL framework captures feedback from everyday interactions—like chats, terminal commands, or GUI actions—and turns them into continuous training signals for AI agents, requiring just a few dozen interactions for noticeable improvements. This improves on traditional agent frameworks like LangChain or AutoGPT by not discarding valu",
+        "practical_community": "### Practical & Community\n**No standout community projects today:** The articles emphasize research and demos—look for GitHub repos tied to these for hands-on tinkering."
       }
     }
   ]
