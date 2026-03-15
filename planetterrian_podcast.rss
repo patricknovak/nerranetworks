@@ -1,866 +1,128 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcast="https://podcastindex.org/namespace/1.0" version="2.0">
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:ns0="http://www.w3.org/2005/Atom" xmlns:podcast="https://podcastindex.org/namespace/1.0" version="2.0">
   <channel>
     <title>Planetterrian Daily</title>
-    <link>https://nerranetwork.com/planetterrian.html</link>
-    <description>Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion.</description>
+    <link>https://nerranetwork.com/planetterrian_podcast.rss</link>
+    <description>Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion. AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+    <ns0:link href="https://nerranetwork.com/planetterrian_podcast.rss" rel="self" />
     <copyright>Copyright 2026</copyright>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 13 Mar 2026 12:14:41 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 15 Mar 2026 12:11:29 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
     <itunes:category text="Science" />
-    <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
+    <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
     <itunes:explicit>no</itunes:explicit>
     <itunes:owner>
       <itunes:name>Patrick</itunes:name>
       <itunes:email>patrick@planetterrian.com</itunes:email>
     </itunes:owner>
-    <itunes:summary>Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion.</itunes:summary>
+    <itunes:summary>Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion. AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
     <item>
-      <title>Ep 30: Researchers found that combining two colon polyp types raises bowel cancer risk up to fivefold.</title>
-      <link>https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep030_20260313.mp3</link>
+      <title>Ep 31: Scientists uncovered evidence of ancient underground water on Mars that may have sustained microbial life longer than expected.</title>
+      <link>https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep031_20260315.mp3</link>
       <description># Planetterrian Daily
-**Date:** March 13, 2026
+**Date:** March 15, 2026
 🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
 
-**HOOK:** Researchers found that combining two colon polyp types raises bowel cancer risk up to fivefold.
+**HOOK:** Scientists uncovered evidence of ancient underground water on Mars that may have sustained microbial life longer than expected.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Science &amp; Health Discoveries
-1. **Two polyp types raise bowel cancer risk fivefold: 13 March 2026 • Science Daily**
-   Researchers analyzed over 8,400 colonoscopies and found that patients with both adenomas and serrated polyps face up to five times higher risk of precancerous changes. This highlights separate cancer pathways occurring together, urging more vigilant screening for those with mixed polyps.
-   Source: https://www.sciencedaily.com/releases/2026/03/260313002938.htm
+1. **Melatonin use in kids sparks safety concerns: 15 March 2026 • Science Daily**  
+   A review highlighted melatonin's benefits for children with autism or ADHD but limited evidence for general insomnia, plus risks from mislabeled doses and accidental ingestions. This underscores the need for cautious use combined with behavioral strategies to ensure safe sleep support.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260315004407.htm
 
-2. **Severe COVID or flu may increase lung cancer risk: 13 March 2026 • Science Daily**
-   Scientists discovered that serious viral infections like COVID-19 or influenza cause chronic lung inflammation by altering immune cells, potentially promoting tumors years later. Vaccination reduces these changes, offering a preventive strategy especially for hospitalized patients.
-   Source: https://www.sciencedaily.com/releases/2026/03/260313055130.htm
+2. **Hidden water on Mars hints at prolonged habitability: 15 March 2026 • Science Daily**  
+   Analysis of Gale Crater sand dunes revealed minerals formed by subsurface water billions of years ago, suggesting protected environments for microbes after surface water vanished. These findings guide future missions targeting potential signs of past life in Martian underground habitats.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260315004340.htm
 
-3. **Medieval societies buried leprosy patients in high-status graves: 13 March 2026 • Science Daily**
-   Examination of hundreds of skeletons from medieval Denmark showed that people with leprosy were often interred in prestigious church-adjacent graves, challenging assumptions of exclusion. This suggests communities integrated the sick, reflecting social compassion rather than stigma.
-   Source: https://www.sciencedaily.com/releases/2026/03/260313002645.htm
+3. **Vitamin D trial reveals long COVID insight: 15 March 2026 • Science Daily**  
+   High-dose vitamin D3 failed to lessen COVID-19 severity but showed a potential link between consistent supplementation and reduced long COVID risk. This clue could inform strategies to mitigate lingering symptoms in recovering patients.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260315001845.htm
 
-4. **Quantum error correction advances tackle computing challenges: 13 March 2026 • New Scientist**
-   Recent progress in quantum error correction is addressing the high error rates that limit quantum computers' reliability. These developments could enable more stable systems, paving the way for practical applications in complex simulations and cryptography.
-   Source: https://www.newscientist.com/article/2518974-the-race-to-solve-the-biggest-problem-in-quantum-computing/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
+4. **Financial crisis tied to child growth impacts: 15 March 2026 • Science Daily**  
+   Indonesia's 1990s rice price surge led to stunted growth and later obesity in exposed children due to nutrient-poor diets during hardship. The research highlights how economic shocks create long-term health vulnerabilities, urging protective nutrition policies in crises.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260314030521.htm
 
-5. **Hardest AI test reveals gaps in expert knowledge: 13 March 2026 • Science Daily**
-   Experts created a 2,500-question exam excluding AI-solvable problems, and early tests show advanced models still fail on specialized topics. This benchmark exposes limitations in current AI, guiding improvements toward human-level expertise.
-   Source: https://www.sciencedaily.com/releases/2026/03/260313002650.htm
+5. **Wastewater-irrigated crops absorb pharmaceuticals: 15 March 2026 • Science Daily**  
+   Experiments showed tomatoes, carrots, and lettuce taking up drugs like antidepressants into leaves, with lower levels in edible parts. Understanding this process supports safer wastewater reuse for agriculture amid growing water scarcity.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260315001841.htm
 
-6. **Bacteria use new propulsion methods without flagella: 13 March 2026 • Science Daily**
-   Studies revealed E. coli and salmonella spread via sugar fermentation creating fluid currents, while other bacteria employ a molecular gearbox for directional control. These mechanisms expand understanding of bacterial movement, aiding infection control and antibiotic strategies.
-   Source: https://www.sciencedaily.com/releases/2026/03/260313001759.htm
+6. **Paternal nicotine exposure alters offspring metabolism: 15 March 2026 • Science Daily**  
+   Male mice given nicotine produced offspring with impaired sugar handling, insulin changes, and liver function issues, raising diabetes risks. These epigenetic effects suggest paternal habits could influence children's metabolic health across generations.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260315001844.htm
 
-7. **Plant-beetle partnership involves strategic fruit drop: 13 March 2026 • Science Daily**
-   Japanese red elder plants drop beetle-infested fruits, allowing larvae to escape into soil while maintaining pollination benefits. This mutual compromise stabilizes the relationship, offering insights into evolutionary adaptations in ecosystems.
-   Source: https://www.sciencedaily.com/releases/2026/03/260312222355.htm
+7. **Deep-sea proteins enhance disease diagnostics: 15 March 2026 • Science Daily**  
+   Extremophile DNA-binding proteins from volcanic and deep-sea sources improved LAMP tests by boosting speed and sensitivity under harsh conditions. This advance enables more reliable tools for detecting infections in diverse settings.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260314030502.htm
 
-8. **Trispecific engager boosts macrophage cancer killing: 13 March 2026 • Nature**
-   A new trispecific molecule enhances macrophages' ability to target and destroy solid tumor cells through logic-gated activation. This approach could improve immunotherapy outcomes by amplifying innate immune responses in hard-to-treat cancers.
-   Source: https://www.nature.com/articles/s41587-026-03057-9
-
-9. **Modifiable risks account for 40% of global cancers: 13 March 2026 • Nature**
-   Analysis of data from 185 countries indicates...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep030-20260313-121441</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep030_20260313.mp3" length="14031560" type="audio/mpeg" />
-      <pubDate>Fri, 13 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:duration>09:44</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Planetterrian Daily
-**Date:** March 13, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** Researchers found that combining two colon polyp types raises bowel cancer risk up to fivefold.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Two polyp types raise bowel cancer risk fivefold: 13 March 2026 • Science Daily**
-   Researchers analyzed over 8,400 colonoscopies and found that patients with both adenomas and serrated polyps face up to five times higher risk of precancerous changes. This highlights separate cancer pathways occurring together, urging more vigilant screening for those with mixed polyps.
-   Source: https://www.sciencedaily.com/releases/2026/03/260313002938.htm
-
-2. **Severe COVID or flu may increase lung cancer risk: 13 March 2026 • Science Daily**
-   Scientists discovered that serious viral infections like COVID-19 or influenza cause chronic lung inflammation by altering immune cells, potentially promoting tumors years later. Vaccination reduces these changes, offering a preventive strategy especially for hospitalized patients.
-   Source: https://www.sciencedaily.com/releases/2026/03/260313055130.htm
-
-3. **Medieval societies buried leprosy patients in high-status graves: 13 March 2026 • Science Daily**
-   Examination of hundreds of skeletons from medieval Denmark showed that people with leprosy were often interred in prestigious church-adjacent graves, challenging assumptions of exclusion. This suggests communities integrated the sick, reflecting social compassion rather than stigma.
-   Source: https://www.sciencedaily.com/releases/2026/03/260313002645.htm
-
-4. **Quantum error correction advances tackle computing challenges: 13 March 2026 • New Scientist**
-   Recent progress in quantum error correction is addressing the high error rates that limit quantum computers' reliability. These developments could enable more stable systems, paving the way for practical applications in complex simulations and cryptography.
-   Source: https://www.newscientist.com/article/2518974-the-race-to-solve-the-biggest-problem-in-quantum-computing/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
-
-5. **Hardest AI test reveals gaps in expert knowledge: 13 March 2026 • Science Daily**
-   Experts created a 2,500-question exam excluding AI-solvable problems, and early tests show advanced models still fail on specialized topics. This benchmark exposes limitations in current AI, guiding improvements toward human-level expertise.
-   Source: https://www.sciencedaily.com/releases/2026/03/260313002650.htm
-
-6. **Bacteria use new propulsion methods without flagella: 13 March 2026 • Science Daily**
-   Studies revealed E. coli and salmonella spread via sugar fermentation creating fluid currents, while other bacteria employ a molecular gearbox for directional control. These mechanisms expand understanding of bacterial movement, aiding infection control and antibiotic strategies.
-   Source: https://www.sciencedaily.com/releases/2026/03/260313001759.htm
-
-7. **Plant-beetle partnership involves strategic fruit drop: 13 March 2026 • Science Daily**
-   Japanese red elder plants drop beetle-infested fruits, allowing larvae to escape into soil while maintaining pollination benefits. This mutual compromise stabilizes the relationship, offering insights into evolutionary adaptations in ecosystems.
-   Source: https://www.sciencedaily.com/releases/2026/03/260312222355.htm
-
-8. **Trispecific engager boosts macrophage cancer killing: 13 March 2026 • Nature**
-   A new trispecific molecule enhances macrophages' ability to target and destroy solid tumor cells through logic-gated activation. This approach could improve immunotherapy outcomes by amplifying innate immune responses in hard-to-treat cancers.
-   Source: https://www.nature.com/articles/s41587-026-03057-9
-
-9. **Modifiable risks account for 40% of global cancers: 13 March 2026 • Nature**
-   Analysis of data from 185 countries indicates...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>30</itunes:episode>
-      <itunes:title>Ep 30: Researchers found that combining two colon polyp types raises bowel cancer risk up to fivefold.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/planetterrian/chapters_ep030.json" type="application/json+chapters" /></item>
-    <item>
-      <title>Ep 28: Landmark trials confirm fecal microbiota transplantation enhances immunotherapy in advanced solid tumors.</title>
-      <description># Planetterrian Daily
-**Date:** March 09, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** Landmark trials confirm fecal microbiota transplantation enhances immunotherapy in advanced solid tumors.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Particles may deviate from Einstein’s geodesics** : 09 March 2026 • Science Daily  
-   Researchers at TU Wien developed a quantum version of geodesic paths, showing particles in quantum spacetime might not follow classical relativity predictions. This advances efforts to unify quantum mechanics and gravity, potentially reshaping our understanding of particle behavior in the universe.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260308201613.htm
-
-2. **Magnets engineered to mimic graphene’s properties** : 09 March 2026 • Science Daily  
-   Engineers created a magnetic film with hexagonal holes, enabling spin waves to behave like electrons in graphene. This connection between electronic and magnetic systems opens new ways to study and design complex magnetic materials for technology.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260307213230.htm
-
-3. **Parental stress linked to childhood obesity** : 09 March 2026 • Science Daily  
-   A Yale study showed that mindfulness and stress management for parents led to healthier eating and less weight gain in children compared to diet-focused interventions. Reducing parental stress could be a key strategy in preventing early obesity and promoting family-wide health benefits.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260307213228.htm
-
-4. **Microbiome modulation boosts cancer immunotherapy** : 09 March 2026 • Nature  
-   Three trials demonstrated that fecal microbiota transplantation improves immunotherapy outcomes in advanced solid tumors, offering insights for microbiome-based therapies. This could expand effective treatments for resistant cancers and guide future drug development.  
-   Source: https://www.nature.com/articles/s41591-026-04285-x
-
-5. **Vaccines advance against mosquito-borne viruses** : 09 March 2026 • Nature  
-   New vaccines and tools target diseases like chikungunya, dengue, yellow fever, and Zika amid rising threats from urbanization and climate change. These innovations aim to curb outbreaks and protect vulnerable populations globally.  
-   Source: https://www.nature.com/articles/d41591-026-00014-6
-
-6. **Ketamine reshapes brain activity for depression relief** : 08 March 2026 • Science Daily  
-   Brain scans revealed ketamine alters a key receptor in mood-related regions, correlating with rapid symptom improvement in treatment-resistant depression. This could refine predictions of patient response and inspire targeted therapies.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260307213234.htm
-
-7. **Risperidone raises stroke risk in dementia patients** : 08 March 2026 • Science Daily  
-   A UK study of 165,000 patients found risperidone increases stroke risk even in those without prior heart issues, questioning its safety for agitation management. Clinicians may need to explore alternatives for dementia care.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260307213244.htm
-
-8. **Increasing fiber intake transforms gut health** : 08 March 2026 • Science Daily  
-   Researchers highlighted how dietary fiber supports digestion, gut microbes, blood sugar control, and reduces risks of obesity, diabetes, and cancers. Adopting higher fiber habits could lead to widespread preventive health gains.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260307213252.htm
+8. **Protein structure key to bacterial division: 15 March 2026 • Science Daily**  
+   Cryo-electron microscopy captured the MraZ protein bending and breaking to activate cell division genes in bacteria. Insights into this widespread mechanism could reveal new ways to target microbial growth in infections.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260314030457.htm
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Planetterrian Spotlight
-The microbiome modulation in cancer immunotherapy stands out as a game-changer, with trials showing that transplanting healthy gut bacteria can make tumors more responsive to immune checkpoint inhibitors. This approach could help patients with hard-to-treat cancers like melanoma or lung cancer, especially t...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep028-20260309-121345</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep028_20260309.mp3" length="4827472" type="audio/mpeg" />
-      <pubDate>Mon, 09 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:duration>03:21</itunes:duration>
+The vitamin D trial's unexpected hint at lower long COVID risk opens doors to exploring affordable supplements as a preventive tool for those recovering from infections. It could particularly help vulnerable groups like the elderly or immunocompromised by pot...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">planetterrian-daily-ep031-20260315-121129</guid>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep031_20260315.mp3" length="10271809" type="audio/mpeg" />
+      <pubDate>Sun, 15 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:duration>07:07</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:summary># Planetterrian Daily
-**Date:** March 09, 2026
+**Date:** March 15, 2026
 🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
 
-**HOOK:** Landmark trials confirm fecal microbiota transplantation enhances immunotherapy in advanced solid tumors.
+**HOOK:** Scientists uncovered evidence of ancient underground water on Mars that may have sustained microbial life longer than expected.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Science &amp; Health Discoveries
-1. **Particles may deviate from Einstein’s geodesics** : 09 March 2026 • Science Daily  
-   Researchers at TU Wien developed a quantum version of geodesic paths, showing particles in quantum spacetime might not follow classical relativity predictions. This advances efforts to unify quantum mechanics and gravity, potentially reshaping our understanding of particle behavior in the universe.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260308201613.htm
+1. **Melatonin use in kids sparks safety concerns: 15 March 2026 • Science Daily**  
+   A review highlighted melatonin's benefits for children with autism or ADHD but limited evidence for general insomnia, plus risks from mislabeled doses and accidental ingestions. This underscores the need for cautious use combined with behavioral strategies to ensure safe sleep support.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260315004407.htm
 
-2. **Magnets engineered to mimic graphene’s properties** : 09 March 2026 • Science Daily  
-   Engineers created a magnetic film with hexagonal holes, enabling spin waves to behave like electrons in graphene. This connection between electronic and magnetic systems opens new ways to study and design complex magnetic materials for technology.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260307213230.htm
+2. **Hidden water on Mars hints at prolonged habitability: 15 March 2026 • Science Daily**  
+   Analysis of Gale Crater sand dunes revealed minerals formed by subsurface water billions of years ago, suggesting protected environments for microbes after surface water vanished. These findings guide future missions targeting potential signs of past life in Martian underground habitats.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260315004340.htm
 
-3. **Parental stress linked to childhood obesity** : 09 March 2026 • Science Daily  
-   A Yale study showed that mindfulness and stress management for parents led to healthier eating and less weight gain in children compared to diet-focused interventions. Reducing parental stress could be a key strategy in preventing early obesity and promoting family-wide health benefits.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260307213228.htm
+3. **Vitamin D trial reveals long COVID insight: 15 March 2026 • Science Daily**  
+   High-dose vitamin D3 failed to lessen COVID-19 severity but showed a potential link between consistent supplementation and reduced long COVID risk. This clue could inform strategies to mitigate lingering symptoms in recovering patients.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260315001845.htm
 
-4. **Microbiome modulation boosts cancer immunotherapy** : 09 March 2026 • Nature  
-   Three trials demonstrated that fecal microbiota transplantation improves immunotherapy outcomes in advanced solid tumors, offering insights for microbiome-based therapies. This could expand effective treatments for resistant cancers and guide future drug development.  
-   Source: https://www.nature.com/articles/s41591-026-04285-x
+4. **Financial crisis tied to child growth impacts: 15 March 2026 • Science Daily**  
+   Indonesia's 1990s rice price surge led to stunted growth and later obesity in exposed children due to nutrient-poor diets during hardship. The research highlights how economic shocks create long-term health vulnerabilities, urging protective nutrition policies in crises.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260314030521.htm
 
-5. **Vaccines advance against mosquito-borne viruses** : 09 March 2026 • Nature  
-   New vaccines and tools target diseases like chikungunya, dengue, yellow fever, and Zika amid rising threats from urbanization and climate change. These innovations aim to curb outbreaks and protect vulnerable populations globally.  
-   Source: https://www.nature.com/articles/d41591-026-00014-6
+5. **Wastewater-irrigated crops absorb pharmaceuticals: 15 March 2026 • Science Daily**  
+   Experiments showed tomatoes, carrots, and lettuce taking up drugs like antidepressants into leaves, with lower levels in edible parts. Understanding this process supports safer wastewater reuse for agriculture amid growing water scarcity.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260315001841.htm
 
-6. **Ketamine reshapes brain activity for depression relief** : 08 March 2026 • Science Daily  
-   Brain scans revealed ketamine alters a key receptor in mood-related regions, correlating with rapid symptom improvement in treatment-resistant depression. This could refine predictions of patient response and inspire targeted therapies.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260307213234.htm
+6. **Paternal nicotine exposure alters offspring metabolism: 15 March 2026 • Science Daily**  
+   Male mice given nicotine produced offspring with impaired sugar handling, insulin changes, and liver function issues, raising diabetes risks. These epigenetic effects suggest paternal habits could influence children's metabolic health across generations.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260315001844.htm
 
-7. **Risperidone raises stroke risk in dementia patients** : 08 March 2026 • Science Daily  
-   A UK study of 165,000 patients found risperidone increases stroke risk even in those without prior heart issues, questioning its safety for agitation management. Clinicians may need to explore alternatives for dementia care.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260307213244.htm
+7. **Deep-sea proteins enhance disease diagnostics: 15 March 2026 • Science Daily**  
+   Extremophile DNA-binding proteins from volcanic and deep-sea sources improved LAMP tests by boosting speed and sensitivity under harsh conditions. This advance enables more reliable tools for detecting infections in diverse settings.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260314030502.htm
 
-8. **Increasing fiber intake transforms gut health** : 08 March 2026 • Science Daily  
-   Researchers highlighted how dietary fiber supports digestion, gut microbes, blood sugar control, and reduces risks of obesity, diabetes, and cancers. Adopting higher fiber habits could lead to widespread preventive health gains.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260307213252.htm
+8. **Protein structure key to bacterial division: 15 March 2026 • Science Daily**  
+   Cryo-electron microscopy captured the MraZ protein bending and breaking to activate cell division genes in bacteria. Insights into this widespread mechanism could reveal new ways to target microbial growth in infections.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260314030457.htm
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Planetterrian Spotlight
-The microbiome modulation in cancer immunotherapy stands out as a game-changer, with trials showing that transplanting healthy gut bacteria can make tumors more responsive to immune checkpoint inhibitors. This approach could help patients with hard-to-treat cancers like melanoma or lung cancer, especially t...</itunes:summary>
+The vitamin D trial's unexpected hint at lower long COVID risk opens doors to exploring affordable supplements as a preventive tool for those recovering from infections. It could particularly help vulnerable groups like the elderly or immunocompromised by pot...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
       <itunes:season>1</itunes:season>
-      <itunes:episode>28</itunes:episode>
-      <itunes:title>Ep 28: Landmark trials confirm fecal microbiota transplantation enhances immunotherapy in advanced solid tumors.</itunes:title>
+      <itunes:episode>31</itunes:episode>
+      <itunes:title>Ep 31: Scientists uncovered evidence of ancient underground water on Mars that may have sustained microbial life longer than expected.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 26: New drug cuts seizures by up to 91% in children with rare epilepsy, boosting quality of life.</title>
-      <description># Planetterrian Daily
-**Date:** March 05, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** New drug cuts seizures by up to 91% in children with rare epilepsy, boosting quality of life.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Darwin’s jars analyzed via laser without opening** : 05 March 2026 • Science Daily  
-   Scientists used laser techniques to examine the chemical makeup of preservation fluids in Charles Darwin’s 200-year-old Galápagos specimen jars without opening them. This method could safeguard millions of museum specimens by revealing historical preservation details non-invasively.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260303145720.htm
-
-2. **Amazon insects vulnerable to heat stress** : 05 March 2026 • Science Daily  
-   A study of over 2,000 insect species showed many in tropical lowlands lack heat tolerance flexibility, risking ecosystem disruption from rising temperatures. This highlights potential biodiversity losses in high-diversity areas, affecting pollination and decomposition.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260304184224.htm
-
-3. **Key protein found essential for malaria parasites** : 05 March 2026 • Science Daily  
-   Researchers identified Aurora-related kinase 1 (ARK1) as vital for malaria parasite cell division, with its deactivation halting replication in humans and mosquitoes. This discovery points to targeted treatments that could interrupt the parasite's life cycle and reduce disease spread.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260304184221.htm
-
-4. **Fastest photodetector senses full light spectrum** : 05 March 2026 • Science Daily  
-   Duke University engineers created an ultrathin photodetector that detects light across the electromagnetic spectrum in 125 picoseconds. It enables advanced multispectral cameras for applications in medicine, agriculture, and space exploration.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260304184218.htm
-
-5. **Drug slashes seizures in rare childhood epilepsy** : 05 March 2026 • Science Daily  
-   Zorevunersen reduced seizures by up to 91% in Dravet syndrome trials by enhancing a key gene for nerve signaling. A Phase 3 trial is underway, offering hope for better management of this severe genetic condition.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260304184215.htm
-
-6. **GLP-1 drugs aid heart recovery post-attack** : 05 March 2026 • Science Daily  
-   Medications like Ozempic and Wegovy improved blood flow in small vessels after heart attacks in new research. Beyond weight loss, they may protect cardiac health by restoring microvascular function.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260304184223.htm
-
-7. **Reassessing genome editing regulations for plants** : 05 March 2026 • Nature  
-   Experts argue that classifying site-directed nucleases overlooks modern genome editing diversity, advocating for outcome-based regulations in plant breeding. This shift could accelerate climate-resilient crop development amid evolving environmental challenges.  
-   Source: https://www.nature.com/articles/s41587-026-03028-0
-
-8. **Synchrotron creates vast 3D ant image library** : 05 March 2026 • Nature  
-   High-throughput X-ray microtomography produced thousands of 3D images capturing ant diversity. This scalable resource advances invertebrate digitization for ecological and evolutionary studies.  
-   Source: https://www.nature.com/articles/s41592-026-03004-1
-
-9. **TREM2 antibody tested in early Alzheimer’s trial** : 05 March 2026 • Nature  
-   The AL002 antibody engaged targets but failed to improve Clinical Dementia Rating scores in a phase 2 trial for early Alzheimer’s. Further analysis may refine approaches to modulating brain immune responses.  
-   Source: https://www.nature.com/articles/s41591-026-04273-1
-
-10. **Obesity drugs show promise against addiction** : 05 March 2026 • Nature  
-   A study of 600,000...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep026-20260305-121353</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep026_20260305.mp3" length="5577918" type="audio/mpeg" />
-      <pubDate>Thu, 05 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:duration>03:52</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Planetterrian Daily
-**Date:** March 05, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** New drug cuts seizures by up to 91% in children with rare epilepsy, boosting quality of life.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Darwin’s jars analyzed via laser without opening** : 05 March 2026 • Science Daily  
-   Scientists used laser techniques to examine the chemical makeup of preservation fluids in Charles Darwin’s 200-year-old Galápagos specimen jars without opening them. This method could safeguard millions of museum specimens by revealing historical preservation details non-invasively.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260303145720.htm
-
-2. **Amazon insects vulnerable to heat stress** : 05 March 2026 • Science Daily  
-   A study of over 2,000 insect species showed many in tropical lowlands lack heat tolerance flexibility, risking ecosystem disruption from rising temperatures. This highlights potential biodiversity losses in high-diversity areas, affecting pollination and decomposition.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260304184224.htm
-
-3. **Key protein found essential for malaria parasites** : 05 March 2026 • Science Daily  
-   Researchers identified Aurora-related kinase 1 (ARK1) as vital for malaria parasite cell division, with its deactivation halting replication in humans and mosquitoes. This discovery points to targeted treatments that could interrupt the parasite's life cycle and reduce disease spread.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260304184221.htm
-
-4. **Fastest photodetector senses full light spectrum** : 05 March 2026 • Science Daily  
-   Duke University engineers created an ultrathin photodetector that detects light across the electromagnetic spectrum in 125 picoseconds. It enables advanced multispectral cameras for applications in medicine, agriculture, and space exploration.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260304184218.htm
-
-5. **Drug slashes seizures in rare childhood epilepsy** : 05 March 2026 • Science Daily  
-   Zorevunersen reduced seizures by up to 91% in Dravet syndrome trials by enhancing a key gene for nerve signaling. A Phase 3 trial is underway, offering hope for better management of this severe genetic condition.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260304184215.htm
-
-6. **GLP-1 drugs aid heart recovery post-attack** : 05 March 2026 • Science Daily  
-   Medications like Ozempic and Wegovy improved blood flow in small vessels after heart attacks in new research. Beyond weight loss, they may protect cardiac health by restoring microvascular function.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260304184223.htm
-
-7. **Reassessing genome editing regulations for plants** : 05 March 2026 • Nature  
-   Experts argue that classifying site-directed nucleases overlooks modern genome editing diversity, advocating for outcome-based regulations in plant breeding. This shift could accelerate climate-resilient crop development amid evolving environmental challenges.  
-   Source: https://www.nature.com/articles/s41587-026-03028-0
-
-8. **Synchrotron creates vast 3D ant image library** : 05 March 2026 • Nature  
-   High-throughput X-ray microtomography produced thousands of 3D images capturing ant diversity. This scalable resource advances invertebrate digitization for ecological and evolutionary studies.  
-   Source: https://www.nature.com/articles/s41592-026-03004-1
-
-9. **TREM2 antibody tested in early Alzheimer’s trial** : 05 March 2026 • Nature  
-   The AL002 antibody engaged targets but failed to improve Clinical Dementia Rating scores in a phase 2 trial for early Alzheimer’s. Further analysis may refine approaches to modulating brain immune responses.  
-   Source: https://www.nature.com/articles/s41591-026-04273-1
-
-10. **Obesity drugs show promise against addiction** : 05 March 2026 • Nature  
-   A study of 600,000...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>26</itunes:episode>
-      <itunes:title>Ep 26: New drug cuts seizures by up to 91% in children with rare epilepsy, boosting quality of life.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 24: A massive cellular atlas of 7 million cells shows aging begins earlier and coordinates across 21 organs.</title>
-      <description># Planetterrian Daily
-**Date:** March 01, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** A massive cellular atlas of 7 million cells shows aging begins earlier and coordinates across 21 organs.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Insomnia and sleep apnea together raise heart disease risk**: 01 March 2026 • Science Daily  
-   A study of nearly a million veterans revealed that combining insomnia with sleep apnea significantly increases hypertension and heart disease risks through interactive heart strain. Early sleep interventions could prevent cardiovascular issues by addressing these linked conditions.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260228093440.htm
-
-2. **Hidden ingredient in Ozempic tablets prompts gut health questions**: 01 March 2026 • Science Daily  
-   An animal study linked SNAC in pill forms of Wegovy and Ozempic to gut bacteria changes, inflammation, and brain protein alterations. This prompts further investigation into long-term effects of daily exposure without confirming human harm yet.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260228093435.htm
-
-3. **Cellular atlas maps aging across 21 organs in 7 million cells**: 28 February 2026 • Science Daily  
-   Researchers analyzed nearly 7 million cells to show aging starts earlier, coordinates body-wide, and varies by sex with shifts in cell types and genetic hotspots. These insights could guide targeted anti-aging therapies by highlighting shared mechanisms.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260228082717.htm
-
-4. **Antarctic meltwater provides less iron than expected for climate**: 28 February 2026 • Science Daily  
-   Field data from West Antarctica indicated melting glaciers release minimal iron for ocean algae blooms, with most coming from deep water and sediments. This challenges theories on Antarctica's role in carbon dioxide absorption amid climate change.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260228082714.htm
-
-5. **Earliest sponges lacked skeletons, reshaping animal evolution story**: 28 February 2026 • Science Daily  
-   Gene analysis and evolutionary modeling showed the first sponges were soft and skeleton-free, with mineralized structures evolving separately in lineages. This explains missing early fossils and redefines origins of reef-building and possibly all animals.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071924.htm
-
-6. **New cell division mechanism challenges textbook models**: 28 February 2026 • Science Daily  
-   In zebrafish embryos, giant cells divide using a mechanical ratchet system instead of the traditional closed contractile ring. This finding updates understanding of embryonic development and could influence studies on cell mechanics in growth.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071928.htm
-
-7. **Bacterial kill switch discovery targets superbug resistance**: 28 February 2026 • Science Daily  
-   Viruses were found to disable the bacterial protein MurJ, halting cell wall construction and causing death, as shown in high-resolution imaging. This could inspire new antibiotics by exploiting similar mechanisms against drug-resistant bacteria.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260228082723.htm
-
-8. **Caffeine combined with CRISPR enables programmable gene editing**: 28 February 2026 • Science Daily  
-   Researchers developed a chemogenetic system where caffeine activates pre-programmed CRISPR in cells, including cancer-fighting T cells, from sources like coffee. This allows precise on-off control for therapies, potentially simplifying targeted treatments.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071940.htm
-
-9. **Milk protein plastic biodegrades in 13 weeks for packaging**: 28 February 2026 • Science Daily  
-   A film blending calcium caseinate, starch, and nanoclay mimicked plastic durability but ful...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep024-20260301-120932</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep024_20260301.mp3" length="13314969" type="audio/mpeg" />
-      <pubDate>Sun, 01 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:duration>09:14</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Planetterrian Daily
-**Date:** March 01, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** A massive cellular atlas of 7 million cells shows aging begins earlier and coordinates across 21 organs.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Insomnia and sleep apnea together raise heart disease risk**: 01 March 2026 • Science Daily  
-   A study of nearly a million veterans revealed that combining insomnia with sleep apnea significantly increases hypertension and heart disease risks through interactive heart strain. Early sleep interventions could prevent cardiovascular issues by addressing these linked conditions.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260228093440.htm
-
-2. **Hidden ingredient in Ozempic tablets prompts gut health questions**: 01 March 2026 • Science Daily  
-   An animal study linked SNAC in pill forms of Wegovy and Ozempic to gut bacteria changes, inflammation, and brain protein alterations. This prompts further investigation into long-term effects of daily exposure without confirming human harm yet.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260228093435.htm
-
-3. **Cellular atlas maps aging across 21 organs in 7 million cells**: 28 February 2026 • Science Daily  
-   Researchers analyzed nearly 7 million cells to show aging starts earlier, coordinates body-wide, and varies by sex with shifts in cell types and genetic hotspots. These insights could guide targeted anti-aging therapies by highlighting shared mechanisms.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260228082717.htm
-
-4. **Antarctic meltwater provides less iron than expected for climate**: 28 February 2026 • Science Daily  
-   Field data from West Antarctica indicated melting glaciers release minimal iron for ocean algae blooms, with most coming from deep water and sediments. This challenges theories on Antarctica's role in carbon dioxide absorption amid climate change.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260228082714.htm
-
-5. **Earliest sponges lacked skeletons, reshaping animal evolution story**: 28 February 2026 • Science Daily  
-   Gene analysis and evolutionary modeling showed the first sponges were soft and skeleton-free, with mineralized structures evolving separately in lineages. This explains missing early fossils and redefines origins of reef-building and possibly all animals.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071924.htm
-
-6. **New cell division mechanism challenges textbook models**: 28 February 2026 • Science Daily  
-   In zebrafish embryos, giant cells divide using a mechanical ratchet system instead of the traditional closed contractile ring. This finding updates understanding of embryonic development and could influence studies on cell mechanics in growth.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071928.htm
-
-7. **Bacterial kill switch discovery targets superbug resistance**: 28 February 2026 • Science Daily  
-   Viruses were found to disable the bacterial protein MurJ, halting cell wall construction and causing death, as shown in high-resolution imaging. This could inspire new antibiotics by exploiting similar mechanisms against drug-resistant bacteria.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260228082723.htm
-
-8. **Caffeine combined with CRISPR enables programmable gene editing**: 28 February 2026 • Science Daily  
-   Researchers developed a chemogenetic system where caffeine activates pre-programmed CRISPR in cells, including cancer-fighting T cells, from sources like coffee. This allows precise on-off control for therapies, potentially simplifying targeted treatments.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071940.htm
-
-9. **Milk protein plastic biodegrades in 13 weeks for packaging**: 28 February 2026 • Science Daily  
-   A film blending calcium caseinate, starch, and nanoclay mimicked plastic durability but ful...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>24</itunes:episode>
-      <itunes:title>Ep 24: A massive cellular atlas of 7 million cells shows aging begins earlier and coordinates across 21 organs.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 22: Shingles vaccine may slow biological aging and reduce inflammation.</title>
-      <description># Planetterrian Daily
-**Date:** February 26, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** Shingles vaccine may slow biological aging and reduce inflammation.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Shingles Vaccine Slows Aging: 26 February 2026 • Science Daily**
-   A large study of over 3,800 Americans aged 70+ found that the shingles vaccine slows biological aging by reducing chronic inflammation. This could lower risks of heart ...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep022-20260226-203549</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep022_20260226.mp3" length="9358986" type="audio/mpeg" />
-      <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:duration>06:29</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Planetterrian Daily
-**Date:** February 26, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** Shingles vaccine may slow biological aging and reduce inflammation.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Shingles Vaccine Slows Aging: 26 February 2026 • Science Daily**
-   A large study of over 3,800 Americans aged 70+ found that the shingles vaccine slows biological aging by reducing chronic inflammation. This could lower risks of heart ...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>22</itunes:episode>
-      <itunes:title>Ep 22: Shingles vaccine may slow biological aging and reduce inflammation.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Planetterrian Daily - Episode 20 - January 29, 2026 at 04:16 AM PST</title>
-      <description>Daily science, longevity, and health discoveries for January 29, 2026 at 04:16 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep020-20260129-122034</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep020_20260129_122011.mp3" length="4589836" type="audio/mpeg" />
-      <pubDate>Thu, 29 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>20</itunes:episode>
-    </item>
-    <item>
-      <title>Planetterrian Daily - Episode 18 - January 26, 2026 at 04:16 AM PST</title>
-      <description>Daily science, longevity, and health discoveries for January 26, 2026 at 04:16 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep018-20260126-121955</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep018_20260126_121937.mp3" length="3588824" type="audio/mpeg" />
-      <pubDate>Mon, 26 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>18</itunes:episode>
-    </item>
-    <item>
-      <title>Planetterrian Daily - Episode 16 - January 21, 2026 at 11:58 AM PST</title>
-      <description>Daily science, longevity, and health discoveries for January 21, 2026 at 11:58 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep016-20260121-200121</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep016_20260121_200105.mp3" length="3284550" type="audio/mpeg" />
-      <pubDate>Wed, 21 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>16</itunes:episode>
-    </item>
-    <item>
-      <title>Planetterrian Daily - Episode 14 - December 19, 2025 at 04:11 AM PST</title>
-      <description>Daily science, longevity, and health discoveries for December 19, 2025 at 04:11 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep014-20251219-121520</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep014_20251219_121458.mp3" length="4289951" type="audio/mpeg" />
-      <pubDate>Fri, 19 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>14</itunes:episode>
-    </item>
-    <item>
-      <title>Planetterrian Daily - Episode 13 - December 17, 2025 at 09:30 AM PST</title>
-      <description>Daily science, longevity, and health discoveries for December 17, 2025 at 09:30 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep013-20251217-182941</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep013_20251217_182922.mp3" length="4005947" type="audio/mpeg" />
-      <pubDate>Wed, 17 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>13</itunes:episode>
-    </item>
-    <item>
-      <title>Planetterrian Daily - Episode 12 - December 11, 2025 at 04:10 AM PST</title>
-      <description>Daily science, longevity, and health discoveries for December 11, 2025 at 04:10 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep012-20251211-121441</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep012_20251211.mp3" length="5332341" type="audio/mpeg" />
-      <pubDate>Thu, 11 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>12</itunes:episode>
-    </item>
-    <item>
-      <title>Planetterrian Daily - Episode 11 - December 10, 2025</title>
-      <description>Daily science, longevity, and health discoveries for December 10, 2025.</description>
-      <guid isPermaLink="false">planetterrian-daily-ep011-20251210-182941</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep011_20251210.mp3" length="5104971" type="audio/mpeg" />
-      <pubDate>Wed, 10 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>11</itunes:episode>
-    </item>
-    <item>
-      <title>Planetterrian Daily - Episode 15 - January 08, 2026 at 04:13 AM PST</title>
-      <description>Daily science, longevity, and health discoveries for January 08, 2026 at 04:13 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep015-20260108-121623</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep015_20260108_121603.mp3" length="3989020" type="audio/mpeg" />
-      <pubDate>Thu, 08 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>15</itunes:episode>
-    </item>
-    <item>
-      <title>Planetterrian Daily - Episode 17 - January 25, 2026 at 04:12 AM PST</title>
-      <description>Daily science, longevity, and health discoveries for January 25, 2026 at 04:12 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep017-20260125-121513</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep017_20260125_121454.mp3" length="3865931" type="audio/mpeg" />
-      <pubDate>Sun, 25 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>17</itunes:episode>
-    </item>
-    <item>
-      <title>Planetterrian Daily - Episode 19 - January 27, 2026 at 04:19 AM PST</title>
-      <description>Daily science, longevity, and health discoveries for January 27, 2026 at 04:19 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep019-20260127-122245</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep019_20260127_122228.mp3" length="3329271" type="audio/mpeg" />
-      <pubDate>Tue, 27 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>19</itunes:episode>
-    </item>
-    <item>
-      <title>Planetterrian Daily - Episode 21 - January 31, 2026 at 04:13 AM PST</title>
-      <description>Daily science, longevity, and health discoveries for January 31, 2026 at 04:13 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep021-20260131-121545</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep021_20260131_121527.mp3" length="3663221" type="audio/mpeg" />
-      <pubDate>Sat, 31 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>21</itunes:episode>
-    </item>
-    <item>
-      <title>Ep 23: Infusing stem cells from young donors reduced frailty in older people, boosting their strength and mobility.</title>
-      <description># Planetterrian Daily
-**Date:** February 27, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** Infusing stem cells from young donors reduced frailty in older people, boosting their strength and mobility.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Diet cuts amino acids to boost fat burning**: 27 February 2026 • Science Daily  
-   Researchers discovered that restricting methionine and cysteine in mice diets increased energy burn through beige fat heat production, mimicking cold exposure effects. This points to dietary tweaks potentially activating metabolism without exercise, opening paths for obesity treatments.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071914.htm
-
-2. **Iron catalyst advances efficient photocatalysis**: 27 February 2026 • Science Daily  
-   Nagoya University team developed an iron-based photocatalyst that uses fewer chiral ligands to control molecular structures precisely. It reduces reliance on rare metals, making chemical synthesis more affordable and sustainable for industries like pharmaceuticals.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227061821.htm
-
-3. **Brain scans reveal math disability clues**: 27 February 2026 • Science News  
-   MRI studies showed kids with math learning disabilities process number symbols differently from dot quantities in brain regions. These insights could guide targeted interventions to improve math education and support for affected children.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227061821.htm
-
-4. **Methane transformed into medicines via catalyst**: 27 February 2026 • Science Daily  
-   Scientists created an LED-powered iron catalyst to convert methane into complex compounds, including the drug dimestrol. This breakthrough repurposes natural gas waste into valuable chemicals, potentially revolutionizing sustainable drug production.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071916.htm
-
-5. **Stem cells from youth ease frailty**: 27 February 2026 • New Scientist  
-   Infusing mesenchymal stem cells from young donors improved mobility and reduced frailty markers in older adults. It addresses underlying causes beyond lifestyle changes, suggesting new therapies for age-related decline.  
-   Source: https://www.newscientist.com/article/2517139-frailty-can-be-eased-with-an-infusion-of-stem-cells-from-young-people/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
-
-6. **Brain cells on chip play Doom**: 27 February 2026 • New Scientist  
-   Human neurons integrated into chips learned to navigate and play the game Doom within a week through programming. This advances biological computing, paving the way for energy-efficient AI and neural interface applications.  
-   Source: https://www.newscientist.com/article/2517389-human-brain-cells-on-a-chip-learned-to-play-doom-in-a-week/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
-
-7. **Sea sponges as Earth's first animals**: 27 February 2026 • Science Daily  
-   MIT researchers identified molecular fingerprints in 541-million-year-old rocks matching modern sponge compounds, confirming sponges as early animals. The finding refines evolutionary timelines and highlights sponges' role in ancient ocean ecosystems.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071918.htm
-
-8. **Lost moon collision formed Titan**: 27 February 2026 • Science Daily  
-   Simulations suggest two ancient moons collided to create Titan, reshaping Saturn's system and possibly sparking its rings. This explains Titan's orbit and surface, informing models of planetary formation.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071945.htm
-
-9. **DNA structured before genome activation**: 27 February 2026 • Science Daily  
-   Pico-C imaging revealed fertilized eggs' DNA is pre-organized in 3D before genes activate, setting up future expression. It challeng...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep023-20260227-192343</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep023_20260227.mp3" length="14779498" type="audio/mpeg" />
-      <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:duration>10:15</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Planetterrian Daily
-**Date:** February 27, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** Infusing stem cells from young donors reduced frailty in older people, boosting their strength and mobility.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Diet cuts amino acids to boost fat burning**: 27 February 2026 • Science Daily  
-   Researchers discovered that restricting methionine and cysteine in mice diets increased energy burn through beige fat heat production, mimicking cold exposure effects. This points to dietary tweaks potentially activating metabolism without exercise, opening paths for obesity treatments.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071914.htm
-
-2. **Iron catalyst advances efficient photocatalysis**: 27 February 2026 • Science Daily  
-   Nagoya University team developed an iron-based photocatalyst that uses fewer chiral ligands to control molecular structures precisely. It reduces reliance on rare metals, making chemical synthesis more affordable and sustainable for industries like pharmaceuticals.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227061821.htm
-
-3. **Brain scans reveal math disability clues**: 27 February 2026 • Science News  
-   MRI studies showed kids with math learning disabilities process number symbols differently from dot quantities in brain regions. These insights could guide targeted interventions to improve math education and support for affected children.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227061821.htm
-
-4. **Methane transformed into medicines via catalyst**: 27 February 2026 • Science Daily  
-   Scientists created an LED-powered iron catalyst to convert methane into complex compounds, including the drug dimestrol. This breakthrough repurposes natural gas waste into valuable chemicals, potentially revolutionizing sustainable drug production.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071916.htm
-
-5. **Stem cells from youth ease frailty**: 27 February 2026 • New Scientist  
-   Infusing mesenchymal stem cells from young donors improved mobility and reduced frailty markers in older adults. It addresses underlying causes beyond lifestyle changes, suggesting new therapies for age-related decline.  
-   Source: https://www.newscientist.com/article/2517139-frailty-can-be-eased-with-an-infusion-of-stem-cells-from-young-people/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
-
-6. **Brain cells on chip play Doom**: 27 February 2026 • New Scientist  
-   Human neurons integrated into chips learned to navigate and play the game Doom within a week through programming. This advances biological computing, paving the way for energy-efficient AI and neural interface applications.  
-   Source: https://www.newscientist.com/article/2517389-human-brain-cells-on-a-chip-learned-to-play-doom-in-a-week/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
-
-7. **Sea sponges as Earth's first animals**: 27 February 2026 • Science Daily  
-   MIT researchers identified molecular fingerprints in 541-million-year-old rocks matching modern sponge compounds, confirming sponges as early animals. The finding refines evolutionary timelines and highlights sponges' role in ancient ocean ecosystems.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071918.htm
-
-8. **Lost moon collision formed Titan**: 27 February 2026 • Science Daily  
-   Simulations suggest two ancient moons collided to create Titan, reshaping Saturn's system and possibly sparking its rings. This explains Titan's orbit and surface, informing models of planetary formation.  
-   Source: https://www.sciencedaily.com/releases/2026/02/260227071945.htm
-
-9. **DNA structured before genome activation**: 27 February 2026 • Science Daily  
-   Pico-C imaging revealed fertilized eggs' DNA is pre-organized in 3D before genes activate, setting up future expression. It challeng...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>23</itunes:episode>
-      <itunes:title>Ep 23: Infusing stem cells from young donors reduced frailty in older people, boosting their strength and mobility.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 25: Phase 1 trial uses base editing to safely lower LDL cholesterol in familial hypercholesterolemia patients.</title>
-      <description># Planetterrian Daily
-**Date:** March 03, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** Phase 1 trial uses base editing to safely lower LDL cholesterol in familial hypercholesterolemia patients.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Base editing advances for familial hypercholesterolemia** : 03 March 2026 • Nature
-   A phase 1 study showed liver-targeted PCSK9 base editing as proof-of-concept for treating familial hypercholesterolemia. Optimization of efficiency, safety, and trial design is needed to make it transformative.
-   Source: https://www.nature.com/articles/s41591-026-04220-0
-
-2. **US federal funding shifts in fetal tissue research** : 03 March 2026 • Nature
-   An analysis traces the rise and decline of US federally funded human fetal tissue research. This highlights policy impacts on scientific progress in medical fields.
-   Source: https://www.nature.com/articles/s41591-026-04268-y
-
-3. **Gene therapy trial for high cholesterol condition** : 03 March 2026 • Nature
-   Six patients with heterozygous familial hypercholesterolemia received lipid nanoparticles for PCSK9 base editing, reducing LDL levels without serious adverse events. It provides early evidence for in vivo gene editing as a potential one-time treatment.
-   Source: https://www.nature.com/articles/s41591-026-04254-4
-
-4. **Global antimicrobial resistance governance evaluation** : 03 March 2026 • Nature
-   A review of 193 countries found strong multisectoral governance and surveillance linked to sustained reductions in antimicrobial resistance. This informs updates to the 2026 Global Action Plan for better worldwide strategies.
-   Source: https://www.nature.com/articles/s41591-026-04257-1
-
-5. **LLM review in clinical medicine studies** : 03 March 2026 • Nature
-   An LLM-assisted systematic review of over 1,000 studies showed most lack real-world clinical data despite growth in medical AI research. It underscores the need for more applied testing to validate LLMs in healthcare.
-   Source: https://www.nature.com/articles/s41591-026-04229-5
-
-6. **Equitable distribution in global climate research** : 03 March 2026 • Nature
-   An opinion piece argues for sharing risks and responsibilities in climate research alongside its global nature. This could lead to fairer collaboration and broader impact on environmental challenges.
-   Source: https://www.nature.com/articles/d41586-026-00680-z
-
-7. **Digital gut simulations predict probiotic success** : 02 March 2026 • Science News
-   A digital model of the gut forecasted which probiotics and fiber diets would establish in microbiomes for better health outcomes. It offers a tool for personalized nutrition to enhance gut health.
-   Source: https://www.sciencenews.org/article/probiotics-gut-simulations-microbiome
-
-8. **Accelerated aging in young cancer survivors** : 02 March 2026 • Science Daily
-   Young cancer survivors exhibit faster biological aging, especially from chemotherapy, leading to cognitive issues like memory problems. Lifestyle interventions such as exercise may mitigate these effects on long-term well-being.
-   Source: https://www.sciencedaily.com/releases/2026/03/260302030652.htm
-
-9. **February 2026 rejuvenation research highlights** : 02 March 2026 • Lifespan.io
-   The roundup covers key advancements in rejuvenation research, including interviews with researchers on recent work. It points to ongoing progress in extending healthy lifespans through targeted therapies.
-   Source: https://lifespan.io/news/rejuvenation-roundup-february-2026/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=rejuvenation-roundup-february-2026
-
-10. **New therapy approach for type 1 diabetes** : 02 March 2026 • Science Daily
-   Researchers developed lab-made insulin cells protected by engineered immune cells to avoid rejection without drugs. This could provide a durable treatment for long-term diabetes patients.
-   Source: https://www.sciencedaily.com/releases/2026/03/2603020...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep025-20260303-121318</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep025_20260303.mp3" length="13021562" type="audio/mpeg" />
-      <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:duration>09:02</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Planetterrian Daily
-**Date:** March 03, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** Phase 1 trial uses base editing to safely lower LDL cholesterol in familial hypercholesterolemia patients.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Base editing advances for familial hypercholesterolemia** : 03 March 2026 • Nature
-   A phase 1 study showed liver-targeted PCSK9 base editing as proof-of-concept for treating familial hypercholesterolemia. Optimization of efficiency, safety, and trial design is needed to make it transformative.
-   Source: https://www.nature.com/articles/s41591-026-04220-0
-
-2. **US federal funding shifts in fetal tissue research** : 03 March 2026 • Nature
-   An analysis traces the rise and decline of US federally funded human fetal tissue research. This highlights policy impacts on scientific progress in medical fields.
-   Source: https://www.nature.com/articles/s41591-026-04268-y
-
-3. **Gene therapy trial for high cholesterol condition** : 03 March 2026 • Nature
-   Six patients with heterozygous familial hypercholesterolemia received lipid nanoparticles for PCSK9 base editing, reducing LDL levels without serious adverse events. It provides early evidence for in vivo gene editing as a potential one-time treatment.
-   Source: https://www.nature.com/articles/s41591-026-04254-4
-
-4. **Global antimicrobial resistance governance evaluation** : 03 March 2026 • Nature
-   A review of 193 countries found strong multisectoral governance and surveillance linked to sustained reductions in antimicrobial resistance. This informs updates to the 2026 Global Action Plan for better worldwide strategies.
-   Source: https://www.nature.com/articles/s41591-026-04257-1
-
-5. **LLM review in clinical medicine studies** : 03 March 2026 • Nature
-   An LLM-assisted systematic review of over 1,000 studies showed most lack real-world clinical data despite growth in medical AI research. It underscores the need for more applied testing to validate LLMs in healthcare.
-   Source: https://www.nature.com/articles/s41591-026-04229-5
-
-6. **Equitable distribution in global climate research** : 03 March 2026 • Nature
-   An opinion piece argues for sharing risks and responsibilities in climate research alongside its global nature. This could lead to fairer collaboration and broader impact on environmental challenges.
-   Source: https://www.nature.com/articles/d41586-026-00680-z
-
-7. **Digital gut simulations predict probiotic success** : 02 March 2026 • Science News
-   A digital model of the gut forecasted which probiotics and fiber diets would establish in microbiomes for better health outcomes. It offers a tool for personalized nutrition to enhance gut health.
-   Source: https://www.sciencenews.org/article/probiotics-gut-simulations-microbiome
-
-8. **Accelerated aging in young cancer survivors** : 02 March 2026 • Science Daily
-   Young cancer survivors exhibit faster biological aging, especially from chemotherapy, leading to cognitive issues like memory problems. Lifestyle interventions such as exercise may mitigate these effects on long-term well-being.
-   Source: https://www.sciencedaily.com/releases/2026/03/260302030652.htm
-
-9. **February 2026 rejuvenation research highlights** : 02 March 2026 • Lifespan.io
-   The roundup covers key advancements in rejuvenation research, including interviews with researchers on recent work. It points to ongoing progress in extending healthy lifespans through targeted therapies.
-   Source: https://lifespan.io/news/rejuvenation-roundup-february-2026/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=rejuvenation-roundup-february-2026
-
-10. **New therapy approach for type 1 diabetes** : 02 March 2026 • Science Daily
-   Researchers developed lab-made insulin cells protected by engineered immune cells to avoid rejection without drugs. This could provide a durable treatment for long-term diabetes patients.
-   Source: https://www.sciencedaily.com/releases/2026/03/2603020...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>25</itunes:episode>
-      <itunes:title>Ep 25: Phase 1 trial uses base editing to safely lower LDL cholesterol in familial hypercholesterolemia patients.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 27: Mayo Clinic identified a rare MET gene mutation directly causing fatty liver disease without common risk factors.</title>
-      <description># Planetterrian Daily
-**Date:** March 07, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** Mayo Clinic identified a rare MET gene mutation directly causing fatty liver disease without common risk factors.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Mayo Clinic finds rare gene mutation causing fatty liver** : 07 March 2026 • Science Daily  
-   Researchers identified a MET gene mutation that disrupts fat processing in the liver, leading to inflammation and potential cirrhosis in a father-daughter pair lacking typical risks. This suggests similar variants may underlie the disease in broader populations, opening doors to targeted genetic screening and therapies.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306224238.htm
-
-2. **Swedish team engineers scaffold for bone regrowth** : 07 March 2026 • Science Daily  
-   Scientists created a cell-free cartilage scaffold that preserves structure and growth signals to guide the body's natural bone repair in damaged areas. Animal studies showed effective regeneration without immune issues, with human trials planned next to scale up for clinical use.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260305223231.htm
-
-3. **Protein discovery may prevent diabetic blindness** : 07 March 2026 • Science Daily  
-   Researchers found LRG1 protein constricts retinal blood vessels in diabetic retinopathy, cutting oxygen and causing early damage. Blocking it in mice halted progression, pointing to early interventions that could preserve vision before symptoms appear.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306224225.htm
-
-4. **Ancient sheep DNA reveals early plague secrets** : 07 March 2026 • Science Daily  
-   Scientists detected Yersinia pestis in a 4,000-year-old sheep from the Bronze Age, marking the first non-human host evidence for this pre-Black Death strain. Lacking flea transmission, the find helps explain its wide Eurasian spread through other means like direct contact.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306224232.htm
-
-5. **Antarctica's gravity hole linked to deep Earth movements** : 07 March 2026 • Science Daily  
-   Using earthquake data, researchers mapped slow rock flows over millions of years that created a weaker gravity zone in Antarctica, peaking 50-30 million years ago. This reconstruction enhances understanding of Earth's interior dynamics and their surface impacts.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306224213.htm
-
-6. **Boosting brain protein shows promise for Rett syndrome** : 07 March 2026 • Science Daily  
-   A new method increased a damaged protein in Rett syndrome models, restoring normal function in mouse and patient cells. This could lead to therapies for the rare disorder affecting thousands of children, with further studies needed to confirm safety.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306145621.htm
-
-7. **Koala DNA rebounding after population crash** : 07 March 2026 • Science Daily  
-   Genomic analysis revealed that rising koala numbers are recombining DNA to restore lost genetic diversity post-decline. These findings indicate rapid recoveries can rebuild evolutionary potential in endangered species facing similar threats.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306145610.htm
-
-8. **Cannabis compounds CBD, CBG combat fatty liver** : 06 March 2026 • Science Daily  
-   CBD and CBG improved liver energy, cellular cleanup, blood sugar, and reduced harmful lipids in fatty liver models. This highlights potential plant-based treatments for metabolic liver disorders, warranting human trials.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306145616.htm
-
-9. **Gut inflammation may drive Alzheimer's risk** : 06 March 2026 • New Scientist  
-   Persistent inflammation from gut, lungs, or skin could contribute to Alzheimer's, with lifestyle factors like diet and vaccines h...</description>
-      <guid isPermaLink="false">planetterrian-daily-ep027-20260307-121116</guid>
-      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep027_20260307.mp3" length="12262339" type="audio/mpeg" />
-      <pubDate>Sat, 07 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
-      <itunes:duration>08:30</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Planetterrian Daily
-**Date:** March 07, 2026
-🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
-
-**HOOK:** Mayo Clinic identified a rare MET gene mutation directly causing fatty liver disease without common risk factors.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Science &amp; Health Discoveries
-1. **Mayo Clinic finds rare gene mutation causing fatty liver** : 07 March 2026 • Science Daily  
-   Researchers identified a MET gene mutation that disrupts fat processing in the liver, leading to inflammation and potential cirrhosis in a father-daughter pair lacking typical risks. This suggests similar variants may underlie the disease in broader populations, opening doors to targeted genetic screening and therapies.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306224238.htm
-
-2. **Swedish team engineers scaffold for bone regrowth** : 07 March 2026 • Science Daily  
-   Scientists created a cell-free cartilage scaffold that preserves structure and growth signals to guide the body's natural bone repair in damaged areas. Animal studies showed effective regeneration without immune issues, with human trials planned next to scale up for clinical use.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260305223231.htm
-
-3. **Protein discovery may prevent diabetic blindness** : 07 March 2026 • Science Daily  
-   Researchers found LRG1 protein constricts retinal blood vessels in diabetic retinopathy, cutting oxygen and causing early damage. Blocking it in mice halted progression, pointing to early interventions that could preserve vision before symptoms appear.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306224225.htm
-
-4. **Ancient sheep DNA reveals early plague secrets** : 07 March 2026 • Science Daily  
-   Scientists detected Yersinia pestis in a 4,000-year-old sheep from the Bronze Age, marking the first non-human host evidence for this pre-Black Death strain. Lacking flea transmission, the find helps explain its wide Eurasian spread through other means like direct contact.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306224232.htm
-
-5. **Antarctica's gravity hole linked to deep Earth movements** : 07 March 2026 • Science Daily  
-   Using earthquake data, researchers mapped slow rock flows over millions of years that created a weaker gravity zone in Antarctica, peaking 50-30 million years ago. This reconstruction enhances understanding of Earth's interior dynamics and their surface impacts.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306224213.htm
-
-6. **Boosting brain protein shows promise for Rett syndrome** : 07 March 2026 • Science Daily  
-   A new method increased a damaged protein in Rett syndrome models, restoring normal function in mouse and patient cells. This could lead to therapies for the rare disorder affecting thousands of children, with further studies needed to confirm safety.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306145621.htm
-
-7. **Koala DNA rebounding after population crash** : 07 March 2026 • Science Daily  
-   Genomic analysis revealed that rising koala numbers are recombining DNA to restore lost genetic diversity post-decline. These findings indicate rapid recoveries can rebuild evolutionary potential in endangered species facing similar threats.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306145610.htm
-
-8. **Cannabis compounds CBD, CBG combat fatty liver** : 06 March 2026 • Science Daily  
-   CBD and CBG improved liver energy, cellular cleanup, blood sugar, and reduced harmful lipids in fatty liver models. This highlights potential plant-based treatments for metabolic liver disorders, warranting human trials.  
-   Source: https://www.sciencedaily.com/releases/2026/03/260306145616.htm
-
-9. **Gut inflammation may drive Alzheimer's risk** : 06 March 2026 • New Scientist  
-   Persistent inflammation from gut, lungs, or skin could contribute to Alzheimer's, with lifestyle factors like diet and vaccines h...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>27</itunes:episode>
-      <itunes:title>Ep 27: Mayo Clinic identified a rare MET gene mutation directly causing fatty liver disease without common risk factors.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
+    <podcast:chapters url="https://nerranetwork.com/digests/planetterrian/chapters_ep031.json" type="application/json+chapters" /></item>
     <item>
       <title>Ep 29: European trial finds sulthiame drug cuts sleep apnea breathing pauses by up to 47%, improving oxygen levels.</title>
       <description># Planetterrian Daily
@@ -916,7 +178,7 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <guid isPermaLink="false">planetterrian-daily-ep029-20260311-121519</guid>
       <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep029_20260311.mp3" length="16215815" type="audio/mpeg" />
       <pubDate>Wed, 11 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/planetterrian-podcast-image.jpg" />
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
       <itunes:duration>11:15</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:summary># Planetterrian Daily
@@ -972,6 +234,848 @@ The microbiome modulation in cancer immunotherapy stands out as a game-changer, 
       <itunes:season>1</itunes:season>
       <itunes:episode>29</itunes:episode>
       <itunes:title>Ep 29: European trial finds sulthiame drug cuts sleep apnea breathing pauses by up to 47%, improving oxygen levels.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 27: Mayo Clinic identified a rare MET gene mutation directly causing fatty liver disease without common risk factors.</title>
+      <description># Planetterrian Daily
+**Date:** March 07, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Mayo Clinic identified a rare MET gene mutation directly causing fatty liver disease without common risk factors.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Mayo Clinic finds rare gene mutation causing fatty liver** : 07 March 2026 • Science Daily  
+   Researchers identified a MET gene mutation that disrupts fat processing in the liver, leading to inflammation and potential cirrhosis in a father-daughter pair lacking typical risks. This suggests similar variants may underlie the disease in broader populations, opening doors to targeted genetic screening and therapies.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306224238.htm
+
+2. **Swedish team engineers scaffold for bone regrowth** : 07 March 2026 • Science Daily  
+   Scientists created a cell-free cartilage scaffold that preserves structure and growth signals to guide the body's natural bone repair in damaged areas. Animal studies showed effective regeneration without immune issues, with human trials planned next to scale up for clinical use.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260305223231.htm
+
+3. **Protein discovery may prevent diabetic blindness** : 07 March 2026 • Science Daily  
+   Researchers found LRG1 protein constricts retinal blood vessels in diabetic retinopathy, cutting oxygen and causing early damage. Blocking it in mice halted progression, pointing to early interventions that could preserve vision before symptoms appear.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306224225.htm
+
+4. **Ancient sheep DNA reveals early plague secrets** : 07 March 2026 • Science Daily  
+   Scientists detected Yersinia pestis in a 4,000-year-old sheep from the Bronze Age, marking the first non-human host evidence for this pre-Black Death strain. Lacking flea transmission, the find helps explain its wide Eurasian spread through other means like direct contact.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306224232.htm
+
+5. **Antarctica's gravity hole linked to deep Earth movements** : 07 March 2026 • Science Daily  
+   Using earthquake data, researchers mapped slow rock flows over millions of years that created a weaker gravity zone in Antarctica, peaking 50-30 million years ago. This reconstruction enhances understanding of Earth's interior dynamics and their surface impacts.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306224213.htm
+
+6. **Boosting brain protein shows promise for Rett syndrome** : 07 March 2026 • Science Daily  
+   A new method increased a damaged protein in Rett syndrome models, restoring normal function in mouse and patient cells. This could lead to therapies for the rare disorder affecting thousands of children, with further studies needed to confirm safety.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306145621.htm
+
+7. **Koala DNA rebounding after population crash** : 07 March 2026 • Science Daily  
+   Genomic analysis revealed that rising koala numbers are recombining DNA to restore lost genetic diversity post-decline. These findings indicate rapid recoveries can rebuild evolutionary potential in endangered species facing similar threats.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306145610.htm
+
+8. **Cannabis compounds CBD, CBG combat fatty liver** : 06 March 2026 • Science Daily  
+   CBD and CBG improved liver energy, cellular cleanup, blood sugar, and reduced harmful lipids in fatty liver models. This highlights potential plant-based treatments for metabolic liver disorders, warranting human trials.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306145616.htm
+
+9. **Gut inflammation may drive Alzheimer's risk** : 06 March 2026 • New Scientist  
+   Persistent inflammation from gut, lungs, or skin could contribute to Alzheimer's, with lifestyle factors like diet and vaccines h...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep027-20260307-121116</guid>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep027_20260307.mp3" length="12262339" type="audio/mpeg" />
+      <pubDate>Sat, 07 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:duration>08:30</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Planetterrian Daily
+**Date:** March 07, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Mayo Clinic identified a rare MET gene mutation directly causing fatty liver disease without common risk factors.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Mayo Clinic finds rare gene mutation causing fatty liver** : 07 March 2026 • Science Daily  
+   Researchers identified a MET gene mutation that disrupts fat processing in the liver, leading to inflammation and potential cirrhosis in a father-daughter pair lacking typical risks. This suggests similar variants may underlie the disease in broader populations, opening doors to targeted genetic screening and therapies.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306224238.htm
+
+2. **Swedish team engineers scaffold for bone regrowth** : 07 March 2026 • Science Daily  
+   Scientists created a cell-free cartilage scaffold that preserves structure and growth signals to guide the body's natural bone repair in damaged areas. Animal studies showed effective regeneration without immune issues, with human trials planned next to scale up for clinical use.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260305223231.htm
+
+3. **Protein discovery may prevent diabetic blindness** : 07 March 2026 • Science Daily  
+   Researchers found LRG1 protein constricts retinal blood vessels in diabetic retinopathy, cutting oxygen and causing early damage. Blocking it in mice halted progression, pointing to early interventions that could preserve vision before symptoms appear.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306224225.htm
+
+4. **Ancient sheep DNA reveals early plague secrets** : 07 March 2026 • Science Daily  
+   Scientists detected Yersinia pestis in a 4,000-year-old sheep from the Bronze Age, marking the first non-human host evidence for this pre-Black Death strain. Lacking flea transmission, the find helps explain its wide Eurasian spread through other means like direct contact.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306224232.htm
+
+5. **Antarctica's gravity hole linked to deep Earth movements** : 07 March 2026 • Science Daily  
+   Using earthquake data, researchers mapped slow rock flows over millions of years that created a weaker gravity zone in Antarctica, peaking 50-30 million years ago. This reconstruction enhances understanding of Earth's interior dynamics and their surface impacts.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306224213.htm
+
+6. **Boosting brain protein shows promise for Rett syndrome** : 07 March 2026 • Science Daily  
+   A new method increased a damaged protein in Rett syndrome models, restoring normal function in mouse and patient cells. This could lead to therapies for the rare disorder affecting thousands of children, with further studies needed to confirm safety.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306145621.htm
+
+7. **Koala DNA rebounding after population crash** : 07 March 2026 • Science Daily  
+   Genomic analysis revealed that rising koala numbers are recombining DNA to restore lost genetic diversity post-decline. These findings indicate rapid recoveries can rebuild evolutionary potential in endangered species facing similar threats.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306145610.htm
+
+8. **Cannabis compounds CBD, CBG combat fatty liver** : 06 March 2026 • Science Daily  
+   CBD and CBG improved liver energy, cellular cleanup, blood sugar, and reduced harmful lipids in fatty liver models. This highlights potential plant-based treatments for metabolic liver disorders, warranting human trials.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260306145616.htm
+
+9. **Gut inflammation may drive Alzheimer's risk** : 06 March 2026 • New Scientist  
+   Persistent inflammation from gut, lungs, or skin could contribute to Alzheimer's, with lifestyle factors like diet and vaccines h...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>27</itunes:episode>
+      <itunes:title>Ep 27: Mayo Clinic identified a rare MET gene mutation directly causing fatty liver disease without common risk factors.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 25: Phase 1 trial uses base editing to safely lower LDL cholesterol in familial hypercholesterolemia patients.</title>
+      <description># Planetterrian Daily
+**Date:** March 03, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Phase 1 trial uses base editing to safely lower LDL cholesterol in familial hypercholesterolemia patients.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Base editing advances for familial hypercholesterolemia** : 03 March 2026 • Nature
+   A phase 1 study showed liver-targeted PCSK9 base editing as proof-of-concept for treating familial hypercholesterolemia. Optimization of efficiency, safety, and trial design is needed to make it transformative.
+   Source: https://www.nature.com/articles/s41591-026-04220-0
+
+2. **US federal funding shifts in fetal tissue research** : 03 March 2026 • Nature
+   An analysis traces the rise and decline of US federally funded human fetal tissue research. This highlights policy impacts on scientific progress in medical fields.
+   Source: https://www.nature.com/articles/s41591-026-04268-y
+
+3. **Gene therapy trial for high cholesterol condition** : 03 March 2026 • Nature
+   Six patients with heterozygous familial hypercholesterolemia received lipid nanoparticles for PCSK9 base editing, reducing LDL levels without serious adverse events. It provides early evidence for in vivo gene editing as a potential one-time treatment.
+   Source: https://www.nature.com/articles/s41591-026-04254-4
+
+4. **Global antimicrobial resistance governance evaluation** : 03 March 2026 • Nature
+   A review of 193 countries found strong multisectoral governance and surveillance linked to sustained reductions in antimicrobial resistance. This informs updates to the 2026 Global Action Plan for better worldwide strategies.
+   Source: https://www.nature.com/articles/s41591-026-04257-1
+
+5. **LLM review in clinical medicine studies** : 03 March 2026 • Nature
+   An LLM-assisted systematic review of over 1,000 studies showed most lack real-world clinical data despite growth in medical AI research. It underscores the need for more applied testing to validate LLMs in healthcare.
+   Source: https://www.nature.com/articles/s41591-026-04229-5
+
+6. **Equitable distribution in global climate research** : 03 March 2026 • Nature
+   An opinion piece argues for sharing risks and responsibilities in climate research alongside its global nature. This could lead to fairer collaboration and broader impact on environmental challenges.
+   Source: https://www.nature.com/articles/d41586-026-00680-z
+
+7. **Digital gut simulations predict probiotic success** : 02 March 2026 • Science News
+   A digital model of the gut forecasted which probiotics and fiber diets would establish in microbiomes for better health outcomes. It offers a tool for personalized nutrition to enhance gut health.
+   Source: https://www.sciencenews.org/article/probiotics-gut-simulations-microbiome
+
+8. **Accelerated aging in young cancer survivors** : 02 March 2026 • Science Daily
+   Young cancer survivors exhibit faster biological aging, especially from chemotherapy, leading to cognitive issues like memory problems. Lifestyle interventions such as exercise may mitigate these effects on long-term well-being.
+   Source: https://www.sciencedaily.com/releases/2026/03/260302030652.htm
+
+9. **February 2026 rejuvenation research highlights** : 02 March 2026 • Lifespan.io
+   The roundup covers key advancements in rejuvenation research, including interviews with researchers on recent work. It points to ongoing progress in extending healthy lifespans through targeted therapies.
+   Source: https://lifespan.io/news/rejuvenation-roundup-february-2026/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=rejuvenation-roundup-february-2026
+
+10. **New therapy approach for type 1 diabetes** : 02 March 2026 • Science Daily
+   Researchers developed lab-made insulin cells protected by engineered immune cells to avoid rejection without drugs. This could provide a durable treatment for long-term diabetes patients.
+   Source: https://www.sciencedaily.com/releases/2026/03/2603020...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep025-20260303-121318</guid>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep025_20260303.mp3" length="13021562" type="audio/mpeg" />
+      <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:duration>09:02</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Planetterrian Daily
+**Date:** March 03, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Phase 1 trial uses base editing to safely lower LDL cholesterol in familial hypercholesterolemia patients.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Base editing advances for familial hypercholesterolemia** : 03 March 2026 • Nature
+   A phase 1 study showed liver-targeted PCSK9 base editing as proof-of-concept for treating familial hypercholesterolemia. Optimization of efficiency, safety, and trial design is needed to make it transformative.
+   Source: https://www.nature.com/articles/s41591-026-04220-0
+
+2. **US federal funding shifts in fetal tissue research** : 03 March 2026 • Nature
+   An analysis traces the rise and decline of US federally funded human fetal tissue research. This highlights policy impacts on scientific progress in medical fields.
+   Source: https://www.nature.com/articles/s41591-026-04268-y
+
+3. **Gene therapy trial for high cholesterol condition** : 03 March 2026 • Nature
+   Six patients with heterozygous familial hypercholesterolemia received lipid nanoparticles for PCSK9 base editing, reducing LDL levels without serious adverse events. It provides early evidence for in vivo gene editing as a potential one-time treatment.
+   Source: https://www.nature.com/articles/s41591-026-04254-4
+
+4. **Global antimicrobial resistance governance evaluation** : 03 March 2026 • Nature
+   A review of 193 countries found strong multisectoral governance and surveillance linked to sustained reductions in antimicrobial resistance. This informs updates to the 2026 Global Action Plan for better worldwide strategies.
+   Source: https://www.nature.com/articles/s41591-026-04257-1
+
+5. **LLM review in clinical medicine studies** : 03 March 2026 • Nature
+   An LLM-assisted systematic review of over 1,000 studies showed most lack real-world clinical data despite growth in medical AI research. It underscores the need for more applied testing to validate LLMs in healthcare.
+   Source: https://www.nature.com/articles/s41591-026-04229-5
+
+6. **Equitable distribution in global climate research** : 03 March 2026 • Nature
+   An opinion piece argues for sharing risks and responsibilities in climate research alongside its global nature. This could lead to fairer collaboration and broader impact on environmental challenges.
+   Source: https://www.nature.com/articles/d41586-026-00680-z
+
+7. **Digital gut simulations predict probiotic success** : 02 March 2026 • Science News
+   A digital model of the gut forecasted which probiotics and fiber diets would establish in microbiomes for better health outcomes. It offers a tool for personalized nutrition to enhance gut health.
+   Source: https://www.sciencenews.org/article/probiotics-gut-simulations-microbiome
+
+8. **Accelerated aging in young cancer survivors** : 02 March 2026 • Science Daily
+   Young cancer survivors exhibit faster biological aging, especially from chemotherapy, leading to cognitive issues like memory problems. Lifestyle interventions such as exercise may mitigate these effects on long-term well-being.
+   Source: https://www.sciencedaily.com/releases/2026/03/260302030652.htm
+
+9. **February 2026 rejuvenation research highlights** : 02 March 2026 • Lifespan.io
+   The roundup covers key advancements in rejuvenation research, including interviews with researchers on recent work. It points to ongoing progress in extending healthy lifespans through targeted therapies.
+   Source: https://lifespan.io/news/rejuvenation-roundup-february-2026/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=rejuvenation-roundup-february-2026
+
+10. **New therapy approach for type 1 diabetes** : 02 March 2026 • Science Daily
+   Researchers developed lab-made insulin cells protected by engineered immune cells to avoid rejection without drugs. This could provide a durable treatment for long-term diabetes patients.
+   Source: https://www.sciencedaily.com/releases/2026/03/2603020...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>25</itunes:episode>
+      <itunes:title>Ep 25: Phase 1 trial uses base editing to safely lower LDL cholesterol in familial hypercholesterolemia patients.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 23: Infusing stem cells from young donors reduced frailty in older people, boosting their strength and mobility.</title>
+      <description># Planetterrian Daily
+**Date:** February 27, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Infusing stem cells from young donors reduced frailty in older people, boosting their strength and mobility.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Diet cuts amino acids to boost fat burning**: 27 February 2026 • Science Daily  
+   Researchers discovered that restricting methionine and cysteine in mice diets increased energy burn through beige fat heat production, mimicking cold exposure effects. This points to dietary tweaks potentially activating metabolism without exercise, opening paths for obesity treatments.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071914.htm
+
+2. **Iron catalyst advances efficient photocatalysis**: 27 February 2026 • Science Daily  
+   Nagoya University team developed an iron-based photocatalyst that uses fewer chiral ligands to control molecular structures precisely. It reduces reliance on rare metals, making chemical synthesis more affordable and sustainable for industries like pharmaceuticals.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227061821.htm
+
+3. **Brain scans reveal math disability clues**: 27 February 2026 • Science News  
+   MRI studies showed kids with math learning disabilities process number symbols differently from dot quantities in brain regions. These insights could guide targeted interventions to improve math education and support for affected children.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227061821.htm
+
+4. **Methane transformed into medicines via catalyst**: 27 February 2026 • Science Daily  
+   Scientists created an LED-powered iron catalyst to convert methane into complex compounds, including the drug dimestrol. This breakthrough repurposes natural gas waste into valuable chemicals, potentially revolutionizing sustainable drug production.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071916.htm
+
+5. **Stem cells from youth ease frailty**: 27 February 2026 • New Scientist  
+   Infusing mesenchymal stem cells from young donors improved mobility and reduced frailty markers in older adults. It addresses underlying causes beyond lifestyle changes, suggesting new therapies for age-related decline.  
+   Source: https://www.newscientist.com/article/2517139-frailty-can-be-eased-with-an-infusion-of-stem-cells-from-young-people/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
+
+6. **Brain cells on chip play Doom**: 27 February 2026 • New Scientist  
+   Human neurons integrated into chips learned to navigate and play the game Doom within a week through programming. This advances biological computing, paving the way for energy-efficient AI and neural interface applications.  
+   Source: https://www.newscientist.com/article/2517389-human-brain-cells-on-a-chip-learned-to-play-doom-in-a-week/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
+
+7. **Sea sponges as Earth's first animals**: 27 February 2026 • Science Daily  
+   MIT researchers identified molecular fingerprints in 541-million-year-old rocks matching modern sponge compounds, confirming sponges as early animals. The finding refines evolutionary timelines and highlights sponges' role in ancient ocean ecosystems.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071918.htm
+
+8. **Lost moon collision formed Titan**: 27 February 2026 • Science Daily  
+   Simulations suggest two ancient moons collided to create Titan, reshaping Saturn's system and possibly sparking its rings. This explains Titan's orbit and surface, informing models of planetary formation.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071945.htm
+
+9. **DNA structured before genome activation**: 27 February 2026 • Science Daily  
+   Pico-C imaging revealed fertilized eggs' DNA is pre-organized in 3D before genes activate, setting up future expression. It challeng...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep023-20260227-192343</guid>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep023_20260227.mp3" length="14779498" type="audio/mpeg" />
+      <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:duration>10:15</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Planetterrian Daily
+**Date:** February 27, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Infusing stem cells from young donors reduced frailty in older people, boosting their strength and mobility.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Diet cuts amino acids to boost fat burning**: 27 February 2026 • Science Daily  
+   Researchers discovered that restricting methionine and cysteine in mice diets increased energy burn through beige fat heat production, mimicking cold exposure effects. This points to dietary tweaks potentially activating metabolism without exercise, opening paths for obesity treatments.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071914.htm
+
+2. **Iron catalyst advances efficient photocatalysis**: 27 February 2026 • Science Daily  
+   Nagoya University team developed an iron-based photocatalyst that uses fewer chiral ligands to control molecular structures precisely. It reduces reliance on rare metals, making chemical synthesis more affordable and sustainable for industries like pharmaceuticals.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227061821.htm
+
+3. **Brain scans reveal math disability clues**: 27 February 2026 • Science News  
+   MRI studies showed kids with math learning disabilities process number symbols differently from dot quantities in brain regions. These insights could guide targeted interventions to improve math education and support for affected children.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227061821.htm
+
+4. **Methane transformed into medicines via catalyst**: 27 February 2026 • Science Daily  
+   Scientists created an LED-powered iron catalyst to convert methane into complex compounds, including the drug dimestrol. This breakthrough repurposes natural gas waste into valuable chemicals, potentially revolutionizing sustainable drug production.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071916.htm
+
+5. **Stem cells from youth ease frailty**: 27 February 2026 • New Scientist  
+   Infusing mesenchymal stem cells from young donors improved mobility and reduced frailty markers in older adults. It addresses underlying causes beyond lifestyle changes, suggesting new therapies for age-related decline.  
+   Source: https://www.newscientist.com/article/2517139-frailty-can-be-eased-with-an-infusion-of-stem-cells-from-young-people/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
+
+6. **Brain cells on chip play Doom**: 27 February 2026 • New Scientist  
+   Human neurons integrated into chips learned to navigate and play the game Doom within a week through programming. This advances biological computing, paving the way for energy-efficient AI and neural interface applications.  
+   Source: https://www.newscientist.com/article/2517389-human-brain-cells-on-a-chip-learned-to-play-doom-in-a-week/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
+
+7. **Sea sponges as Earth's first animals**: 27 February 2026 • Science Daily  
+   MIT researchers identified molecular fingerprints in 541-million-year-old rocks matching modern sponge compounds, confirming sponges as early animals. The finding refines evolutionary timelines and highlights sponges' role in ancient ocean ecosystems.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071918.htm
+
+8. **Lost moon collision formed Titan**: 27 February 2026 • Science Daily  
+   Simulations suggest two ancient moons collided to create Titan, reshaping Saturn's system and possibly sparking its rings. This explains Titan's orbit and surface, informing models of planetary formation.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071945.htm
+
+9. **DNA structured before genome activation**: 27 February 2026 • Science Daily  
+   Pico-C imaging revealed fertilized eggs' DNA is pre-organized in 3D before genes activate, setting up future expression. It challeng...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>23</itunes:episode>
+      <itunes:title>Ep 23: Infusing stem cells from young donors reduced frailty in older people, boosting their strength and mobility.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Planetterrian Daily - Episode 21 - January 31, 2026 at 04:13 AM PST</title>
+      <description>Daily science, longevity, and health discoveries for January 31, 2026 at 04:13 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep021-20260131-121545</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep021_20260131_121527.mp3" length="3663221" type="audio/mpeg" />
+      <pubDate>Sat, 31 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>21</itunes:episode>
+    </item>
+    <item>
+      <title>Planetterrian Daily - Episode 19 - January 27, 2026 at 04:19 AM PST</title>
+      <description>Daily science, longevity, and health discoveries for January 27, 2026 at 04:19 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep019-20260127-122245</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep019_20260127_122228.mp3" length="3329271" type="audio/mpeg" />
+      <pubDate>Tue, 27 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>19</itunes:episode>
+    </item>
+    <item>
+      <title>Planetterrian Daily - Episode 17 - January 25, 2026 at 04:12 AM PST</title>
+      <description>Daily science, longevity, and health discoveries for January 25, 2026 at 04:12 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep017-20260125-121513</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep017_20260125_121454.mp3" length="3865931" type="audio/mpeg" />
+      <pubDate>Sun, 25 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>17</itunes:episode>
+    </item>
+    <item>
+      <title>Planetterrian Daily - Episode 15 - January 08, 2026 at 04:13 AM PST</title>
+      <description>Daily science, longevity, and health discoveries for January 08, 2026 at 04:13 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep015-20260108-121623</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep015_20260108_121603.mp3" length="3989020" type="audio/mpeg" />
+      <pubDate>Thu, 08 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>15</itunes:episode>
+    </item>
+    <item>
+      <title>Planetterrian Daily - Episode 11 - December 10, 2025</title>
+      <description>Daily science, longevity, and health discoveries for December 10, 2025.</description>
+      <guid isPermaLink="false">planetterrian-daily-ep011-20251210-182941</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep011_20251210.mp3" length="5104971" type="audio/mpeg" />
+      <pubDate>Wed, 10 Dec 2025 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>11</itunes:episode>
+    </item>
+    <item>
+      <title>Planetterrian Daily - Episode 12 - December 11, 2025 at 04:10 AM PST</title>
+      <description>Daily science, longevity, and health discoveries for December 11, 2025 at 04:10 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep012-20251211-121441</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep012_20251211.mp3" length="5332341" type="audio/mpeg" />
+      <pubDate>Thu, 11 Dec 2025 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>12</itunes:episode>
+    </item>
+    <item>
+      <title>Planetterrian Daily - Episode 13 - December 17, 2025 at 09:30 AM PST</title>
+      <description>Daily science, longevity, and health discoveries for December 17, 2025 at 09:30 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep013-20251217-182941</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep013_20251217_182922.mp3" length="4005947" type="audio/mpeg" />
+      <pubDate>Wed, 17 Dec 2025 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>13</itunes:episode>
+    </item>
+    <item>
+      <title>Planetterrian Daily - Episode 14 - December 19, 2025 at 04:11 AM PST</title>
+      <description>Daily science, longevity, and health discoveries for December 19, 2025 at 04:11 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep014-20251219-121520</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep014_20251219_121458.mp3" length="4289951" type="audio/mpeg" />
+      <pubDate>Fri, 19 Dec 2025 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>14</itunes:episode>
+    </item>
+    <item>
+      <title>Planetterrian Daily - Episode 16 - January 21, 2026 at 11:58 AM PST</title>
+      <description>Daily science, longevity, and health discoveries for January 21, 2026 at 11:58 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep016-20260121-200121</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep016_20260121_200105.mp3" length="3284550" type="audio/mpeg" />
+      <pubDate>Wed, 21 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>16</itunes:episode>
+    </item>
+    <item>
+      <title>Planetterrian Daily - Episode 18 - January 26, 2026 at 04:16 AM PST</title>
+      <description>Daily science, longevity, and health discoveries for January 26, 2026 at 04:16 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep018-20260126-121955</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep018_20260126_121937.mp3" length="3588824" type="audio/mpeg" />
+      <pubDate>Mon, 26 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>18</itunes:episode>
+    </item>
+    <item>
+      <title>Planetterrian Daily - Episode 20 - January 29, 2026 at 04:16 AM PST</title>
+      <description>Daily science, longevity, and health discoveries for January 29, 2026 at 04:16 AM PST.🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep020-20260129-122034</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main/digests/planetterrian/Planetterrian_Daily_Ep020_20260129_122011.mp3" length="4589836" type="audio/mpeg" />
+      <pubDate>Thu, 29 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>20</itunes:episode>
+    </item>
+    <item>
+      <title>Ep 22: Shingles vaccine may slow biological aging and reduce inflammation.</title>
+      <description># Planetterrian Daily
+**Date:** February 26, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Shingles vaccine may slow biological aging and reduce inflammation.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Shingles Vaccine Slows Aging: 26 February 2026 • Science Daily**
+   A large study of over 3,800 Americans aged 70+ found that the shingles vaccine slows biological aging by reducing chronic inflammation. This could lower risks of heart ...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep022-20260226-203549</guid>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep022_20260226.mp3" length="9358986" type="audio/mpeg" />
+      <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:duration>06:29</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Planetterrian Daily
+**Date:** February 26, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Shingles vaccine may slow biological aging and reduce inflammation.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Shingles Vaccine Slows Aging: 26 February 2026 • Science Daily**
+   A large study of over 3,800 Americans aged 70+ found that the shingles vaccine slows biological aging by reducing chronic inflammation. This could lower risks of heart ...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>22</itunes:episode>
+      <itunes:title>Ep 22: Shingles vaccine may slow biological aging and reduce inflammation.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 24: A massive cellular atlas of 7 million cells shows aging begins earlier and coordinates across 21 organs.</title>
+      <description># Planetterrian Daily
+**Date:** March 01, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** A massive cellular atlas of 7 million cells shows aging begins earlier and coordinates across 21 organs.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Insomnia and sleep apnea together raise heart disease risk**: 01 March 2026 • Science Daily  
+   A study of nearly a million veterans revealed that combining insomnia with sleep apnea significantly increases hypertension and heart disease risks through interactive heart strain. Early sleep interventions could prevent cardiovascular issues by addressing these linked conditions.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260228093440.htm
+
+2. **Hidden ingredient in Ozempic tablets prompts gut health questions**: 01 March 2026 • Science Daily  
+   An animal study linked SNAC in pill forms of Wegovy and Ozempic to gut bacteria changes, inflammation, and brain protein alterations. This prompts further investigation into long-term effects of daily exposure without confirming human harm yet.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260228093435.htm
+
+3. **Cellular atlas maps aging across 21 organs in 7 million cells**: 28 February 2026 • Science Daily  
+   Researchers analyzed nearly 7 million cells to show aging starts earlier, coordinates body-wide, and varies by sex with shifts in cell types and genetic hotspots. These insights could guide targeted anti-aging therapies by highlighting shared mechanisms.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260228082717.htm
+
+4. **Antarctic meltwater provides less iron than expected for climate**: 28 February 2026 • Science Daily  
+   Field data from West Antarctica indicated melting glaciers release minimal iron for ocean algae blooms, with most coming from deep water and sediments. This challenges theories on Antarctica's role in carbon dioxide absorption amid climate change.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260228082714.htm
+
+5. **Earliest sponges lacked skeletons, reshaping animal evolution story**: 28 February 2026 • Science Daily  
+   Gene analysis and evolutionary modeling showed the first sponges were soft and skeleton-free, with mineralized structures evolving separately in lineages. This explains missing early fossils and redefines origins of reef-building and possibly all animals.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071924.htm
+
+6. **New cell division mechanism challenges textbook models**: 28 February 2026 • Science Daily  
+   In zebrafish embryos, giant cells divide using a mechanical ratchet system instead of the traditional closed contractile ring. This finding updates understanding of embryonic development and could influence studies on cell mechanics in growth.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071928.htm
+
+7. **Bacterial kill switch discovery targets superbug resistance**: 28 February 2026 • Science Daily  
+   Viruses were found to disable the bacterial protein MurJ, halting cell wall construction and causing death, as shown in high-resolution imaging. This could inspire new antibiotics by exploiting similar mechanisms against drug-resistant bacteria.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260228082723.htm
+
+8. **Caffeine combined with CRISPR enables programmable gene editing**: 28 February 2026 • Science Daily  
+   Researchers developed a chemogenetic system where caffeine activates pre-programmed CRISPR in cells, including cancer-fighting T cells, from sources like coffee. This allows precise on-off control for therapies, potentially simplifying targeted treatments.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071940.htm
+
+9. **Milk protein plastic biodegrades in 13 weeks for packaging**: 28 February 2026 • Science Daily  
+   A film blending calcium caseinate, starch, and nanoclay mimicked plastic durability but ful...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep024-20260301-120932</guid>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep024_20260301.mp3" length="13314969" type="audio/mpeg" />
+      <pubDate>Sun, 01 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:duration>09:14</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Planetterrian Daily
+**Date:** March 01, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** A massive cellular atlas of 7 million cells shows aging begins earlier and coordinates across 21 organs.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Insomnia and sleep apnea together raise heart disease risk**: 01 March 2026 • Science Daily  
+   A study of nearly a million veterans revealed that combining insomnia with sleep apnea significantly increases hypertension and heart disease risks through interactive heart strain. Early sleep interventions could prevent cardiovascular issues by addressing these linked conditions.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260228093440.htm
+
+2. **Hidden ingredient in Ozempic tablets prompts gut health questions**: 01 March 2026 • Science Daily  
+   An animal study linked SNAC in pill forms of Wegovy and Ozempic to gut bacteria changes, inflammation, and brain protein alterations. This prompts further investigation into long-term effects of daily exposure without confirming human harm yet.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260228093435.htm
+
+3. **Cellular atlas maps aging across 21 organs in 7 million cells**: 28 February 2026 • Science Daily  
+   Researchers analyzed nearly 7 million cells to show aging starts earlier, coordinates body-wide, and varies by sex with shifts in cell types and genetic hotspots. These insights could guide targeted anti-aging therapies by highlighting shared mechanisms.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260228082717.htm
+
+4. **Antarctic meltwater provides less iron than expected for climate**: 28 February 2026 • Science Daily  
+   Field data from West Antarctica indicated melting glaciers release minimal iron for ocean algae blooms, with most coming from deep water and sediments. This challenges theories on Antarctica's role in carbon dioxide absorption amid climate change.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260228082714.htm
+
+5. **Earliest sponges lacked skeletons, reshaping animal evolution story**: 28 February 2026 • Science Daily  
+   Gene analysis and evolutionary modeling showed the first sponges were soft and skeleton-free, with mineralized structures evolving separately in lineages. This explains missing early fossils and redefines origins of reef-building and possibly all animals.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071924.htm
+
+6. **New cell division mechanism challenges textbook models**: 28 February 2026 • Science Daily  
+   In zebrafish embryos, giant cells divide using a mechanical ratchet system instead of the traditional closed contractile ring. This finding updates understanding of embryonic development and could influence studies on cell mechanics in growth.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071928.htm
+
+7. **Bacterial kill switch discovery targets superbug resistance**: 28 February 2026 • Science Daily  
+   Viruses were found to disable the bacterial protein MurJ, halting cell wall construction and causing death, as shown in high-resolution imaging. This could inspire new antibiotics by exploiting similar mechanisms against drug-resistant bacteria.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260228082723.htm
+
+8. **Caffeine combined with CRISPR enables programmable gene editing**: 28 February 2026 • Science Daily  
+   Researchers developed a chemogenetic system where caffeine activates pre-programmed CRISPR in cells, including cancer-fighting T cells, from sources like coffee. This allows precise on-off control for therapies, potentially simplifying targeted treatments.  
+   Source: https://www.sciencedaily.com/releases/2026/02/260227071940.htm
+
+9. **Milk protein plastic biodegrades in 13 weeks for packaging**: 28 February 2026 • Science Daily  
+   A film blending calcium caseinate, starch, and nanoclay mimicked plastic durability but ful...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>24</itunes:episode>
+      <itunes:title>Ep 24: A massive cellular atlas of 7 million cells shows aging begins earlier and coordinates across 21 organs.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 26: New drug cuts seizures by up to 91% in children with rare epilepsy, boosting quality of life.</title>
+      <description># Planetterrian Daily
+**Date:** March 05, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** New drug cuts seizures by up to 91% in children with rare epilepsy, boosting quality of life.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Darwin’s jars analyzed via laser without opening** : 05 March 2026 • Science Daily  
+   Scientists used laser techniques to examine the chemical makeup of preservation fluids in Charles Darwin’s 200-year-old Galápagos specimen jars without opening them. This method could safeguard millions of museum specimens by revealing historical preservation details non-invasively.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260303145720.htm
+
+2. **Amazon insects vulnerable to heat stress** : 05 March 2026 • Science Daily  
+   A study of over 2,000 insect species showed many in tropical lowlands lack heat tolerance flexibility, risking ecosystem disruption from rising temperatures. This highlights potential biodiversity losses in high-diversity areas, affecting pollination and decomposition.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260304184224.htm
+
+3. **Key protein found essential for malaria parasites** : 05 March 2026 • Science Daily  
+   Researchers identified Aurora-related kinase 1 (ARK1) as vital for malaria parasite cell division, with its deactivation halting replication in humans and mosquitoes. This discovery points to targeted treatments that could interrupt the parasite's life cycle and reduce disease spread.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260304184221.htm
+
+4. **Fastest photodetector senses full light spectrum** : 05 March 2026 • Science Daily  
+   Duke University engineers created an ultrathin photodetector that detects light across the electromagnetic spectrum in 125 picoseconds. It enables advanced multispectral cameras for applications in medicine, agriculture, and space exploration.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260304184218.htm
+
+5. **Drug slashes seizures in rare childhood epilepsy** : 05 March 2026 • Science Daily  
+   Zorevunersen reduced seizures by up to 91% in Dravet syndrome trials by enhancing a key gene for nerve signaling. A Phase 3 trial is underway, offering hope for better management of this severe genetic condition.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260304184215.htm
+
+6. **GLP-1 drugs aid heart recovery post-attack** : 05 March 2026 • Science Daily  
+   Medications like Ozempic and Wegovy improved blood flow in small vessels after heart attacks in new research. Beyond weight loss, they may protect cardiac health by restoring microvascular function.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260304184223.htm
+
+7. **Reassessing genome editing regulations for plants** : 05 March 2026 • Nature  
+   Experts argue that classifying site-directed nucleases overlooks modern genome editing diversity, advocating for outcome-based regulations in plant breeding. This shift could accelerate climate-resilient crop development amid evolving environmental challenges.  
+   Source: https://www.nature.com/articles/s41587-026-03028-0
+
+8. **Synchrotron creates vast 3D ant image library** : 05 March 2026 • Nature  
+   High-throughput X-ray microtomography produced thousands of 3D images capturing ant diversity. This scalable resource advances invertebrate digitization for ecological and evolutionary studies.  
+   Source: https://www.nature.com/articles/s41592-026-03004-1
+
+9. **TREM2 antibody tested in early Alzheimer’s trial** : 05 March 2026 • Nature  
+   The AL002 antibody engaged targets but failed to improve Clinical Dementia Rating scores in a phase 2 trial for early Alzheimer’s. Further analysis may refine approaches to modulating brain immune responses.  
+   Source: https://www.nature.com/articles/s41591-026-04273-1
+
+10. **Obesity drugs show promise against addiction** : 05 March 2026 • Nature  
+   A study of 600,000...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep026-20260305-121353</guid>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep026_20260305.mp3" length="5577918" type="audio/mpeg" />
+      <pubDate>Thu, 05 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:duration>03:52</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Planetterrian Daily
+**Date:** March 05, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** New drug cuts seizures by up to 91% in children with rare epilepsy, boosting quality of life.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Darwin’s jars analyzed via laser without opening** : 05 March 2026 • Science Daily  
+   Scientists used laser techniques to examine the chemical makeup of preservation fluids in Charles Darwin’s 200-year-old Galápagos specimen jars without opening them. This method could safeguard millions of museum specimens by revealing historical preservation details non-invasively.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260303145720.htm
+
+2. **Amazon insects vulnerable to heat stress** : 05 March 2026 • Science Daily  
+   A study of over 2,000 insect species showed many in tropical lowlands lack heat tolerance flexibility, risking ecosystem disruption from rising temperatures. This highlights potential biodiversity losses in high-diversity areas, affecting pollination and decomposition.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260304184224.htm
+
+3. **Key protein found essential for malaria parasites** : 05 March 2026 • Science Daily  
+   Researchers identified Aurora-related kinase 1 (ARK1) as vital for malaria parasite cell division, with its deactivation halting replication in humans and mosquitoes. This discovery points to targeted treatments that could interrupt the parasite's life cycle and reduce disease spread.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260304184221.htm
+
+4. **Fastest photodetector senses full light spectrum** : 05 March 2026 • Science Daily  
+   Duke University engineers created an ultrathin photodetector that detects light across the electromagnetic spectrum in 125 picoseconds. It enables advanced multispectral cameras for applications in medicine, agriculture, and space exploration.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260304184218.htm
+
+5. **Drug slashes seizures in rare childhood epilepsy** : 05 March 2026 • Science Daily  
+   Zorevunersen reduced seizures by up to 91% in Dravet syndrome trials by enhancing a key gene for nerve signaling. A Phase 3 trial is underway, offering hope for better management of this severe genetic condition.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260304184215.htm
+
+6. **GLP-1 drugs aid heart recovery post-attack** : 05 March 2026 • Science Daily  
+   Medications like Ozempic and Wegovy improved blood flow in small vessels after heart attacks in new research. Beyond weight loss, they may protect cardiac health by restoring microvascular function.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260304184223.htm
+
+7. **Reassessing genome editing regulations for plants** : 05 March 2026 • Nature  
+   Experts argue that classifying site-directed nucleases overlooks modern genome editing diversity, advocating for outcome-based regulations in plant breeding. This shift could accelerate climate-resilient crop development amid evolving environmental challenges.  
+   Source: https://www.nature.com/articles/s41587-026-03028-0
+
+8. **Synchrotron creates vast 3D ant image library** : 05 March 2026 • Nature  
+   High-throughput X-ray microtomography produced thousands of 3D images capturing ant diversity. This scalable resource advances invertebrate digitization for ecological and evolutionary studies.  
+   Source: https://www.nature.com/articles/s41592-026-03004-1
+
+9. **TREM2 antibody tested in early Alzheimer’s trial** : 05 March 2026 • Nature  
+   The AL002 antibody engaged targets but failed to improve Clinical Dementia Rating scores in a phase 2 trial for early Alzheimer’s. Further analysis may refine approaches to modulating brain immune responses.  
+   Source: https://www.nature.com/articles/s41591-026-04273-1
+
+10. **Obesity drugs show promise against addiction** : 05 March 2026 • Nature  
+   A study of 600,000...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>26</itunes:episode>
+      <itunes:title>Ep 26: New drug cuts seizures by up to 91% in children with rare epilepsy, boosting quality of life.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 28: Landmark trials confirm fecal microbiota transplantation enhances immunotherapy in advanced solid tumors.</title>
+      <description># Planetterrian Daily
+**Date:** March 09, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Landmark trials confirm fecal microbiota transplantation enhances immunotherapy in advanced solid tumors.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Particles may deviate from Einstein’s geodesics** : 09 March 2026 • Science Daily  
+   Researchers at TU Wien developed a quantum version of geodesic paths, showing particles in quantum spacetime might not follow classical relativity predictions. This advances efforts to unify quantum mechanics and gravity, potentially reshaping our understanding of particle behavior in the universe.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260308201613.htm
+
+2. **Magnets engineered to mimic graphene’s properties** : 09 March 2026 • Science Daily  
+   Engineers created a magnetic film with hexagonal holes, enabling spin waves to behave like electrons in graphene. This connection between electronic and magnetic systems opens new ways to study and design complex magnetic materials for technology.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260307213230.htm
+
+3. **Parental stress linked to childhood obesity** : 09 March 2026 • Science Daily  
+   A Yale study showed that mindfulness and stress management for parents led to healthier eating and less weight gain in children compared to diet-focused interventions. Reducing parental stress could be a key strategy in preventing early obesity and promoting family-wide health benefits.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260307213228.htm
+
+4. **Microbiome modulation boosts cancer immunotherapy** : 09 March 2026 • Nature  
+   Three trials demonstrated that fecal microbiota transplantation improves immunotherapy outcomes in advanced solid tumors, offering insights for microbiome-based therapies. This could expand effective treatments for resistant cancers and guide future drug development.  
+   Source: https://www.nature.com/articles/s41591-026-04285-x
+
+5. **Vaccines advance against mosquito-borne viruses** : 09 March 2026 • Nature  
+   New vaccines and tools target diseases like chikungunya, dengue, yellow fever, and Zika amid rising threats from urbanization and climate change. These innovations aim to curb outbreaks and protect vulnerable populations globally.  
+   Source: https://www.nature.com/articles/d41591-026-00014-6
+
+6. **Ketamine reshapes brain activity for depression relief** : 08 March 2026 • Science Daily  
+   Brain scans revealed ketamine alters a key receptor in mood-related regions, correlating with rapid symptom improvement in treatment-resistant depression. This could refine predictions of patient response and inspire targeted therapies.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260307213234.htm
+
+7. **Risperidone raises stroke risk in dementia patients** : 08 March 2026 • Science Daily  
+   A UK study of 165,000 patients found risperidone increases stroke risk even in those without prior heart issues, questioning its safety for agitation management. Clinicians may need to explore alternatives for dementia care.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260307213244.htm
+
+8. **Increasing fiber intake transforms gut health** : 08 March 2026 • Science Daily  
+   Researchers highlighted how dietary fiber supports digestion, gut microbes, blood sugar control, and reduces risks of obesity, diabetes, and cancers. Adopting higher fiber habits could lead to widespread preventive health gains.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260307213252.htm
+
+━━━━━━━━━━━━━━━━━━━━
+### Planetterrian Spotlight
+The microbiome modulation in cancer immunotherapy stands out as a game-changer, with trials showing that transplanting healthy gut bacteria can make tumors more responsive to immune checkpoint inhibitors. This approach could help patients with hard-to-treat cancers like melanoma or lung cancer, especially t...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep028-20260309-121345</guid>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep028_20260309.mp3" length="4827472" type="audio/mpeg" />
+      <pubDate>Mon, 09 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:duration>03:21</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Planetterrian Daily
+**Date:** March 09, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Landmark trials confirm fecal microbiota transplantation enhances immunotherapy in advanced solid tumors.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Particles may deviate from Einstein’s geodesics** : 09 March 2026 • Science Daily  
+   Researchers at TU Wien developed a quantum version of geodesic paths, showing particles in quantum spacetime might not follow classical relativity predictions. This advances efforts to unify quantum mechanics and gravity, potentially reshaping our understanding of particle behavior in the universe.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260308201613.htm
+
+2. **Magnets engineered to mimic graphene’s properties** : 09 March 2026 • Science Daily  
+   Engineers created a magnetic film with hexagonal holes, enabling spin waves to behave like electrons in graphene. This connection between electronic and magnetic systems opens new ways to study and design complex magnetic materials for technology.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260307213230.htm
+
+3. **Parental stress linked to childhood obesity** : 09 March 2026 • Science Daily  
+   A Yale study showed that mindfulness and stress management for parents led to healthier eating and less weight gain in children compared to diet-focused interventions. Reducing parental stress could be a key strategy in preventing early obesity and promoting family-wide health benefits.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260307213228.htm
+
+4. **Microbiome modulation boosts cancer immunotherapy** : 09 March 2026 • Nature  
+   Three trials demonstrated that fecal microbiota transplantation improves immunotherapy outcomes in advanced solid tumors, offering insights for microbiome-based therapies. This could expand effective treatments for resistant cancers and guide future drug development.  
+   Source: https://www.nature.com/articles/s41591-026-04285-x
+
+5. **Vaccines advance against mosquito-borne viruses** : 09 March 2026 • Nature  
+   New vaccines and tools target diseases like chikungunya, dengue, yellow fever, and Zika amid rising threats from urbanization and climate change. These innovations aim to curb outbreaks and protect vulnerable populations globally.  
+   Source: https://www.nature.com/articles/d41591-026-00014-6
+
+6. **Ketamine reshapes brain activity for depression relief** : 08 March 2026 • Science Daily  
+   Brain scans revealed ketamine alters a key receptor in mood-related regions, correlating with rapid symptom improvement in treatment-resistant depression. This could refine predictions of patient response and inspire targeted therapies.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260307213234.htm
+
+7. **Risperidone raises stroke risk in dementia patients** : 08 March 2026 • Science Daily  
+   A UK study of 165,000 patients found risperidone increases stroke risk even in those without prior heart issues, questioning its safety for agitation management. Clinicians may need to explore alternatives for dementia care.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260307213244.htm
+
+8. **Increasing fiber intake transforms gut health** : 08 March 2026 • Science Daily  
+   Researchers highlighted how dietary fiber supports digestion, gut microbes, blood sugar control, and reduces risks of obesity, diabetes, and cancers. Adopting higher fiber habits could lead to widespread preventive health gains.  
+   Source: https://www.sciencedaily.com/releases/2026/03/260307213252.htm
+
+━━━━━━━━━━━━━━━━━━━━
+### Planetterrian Spotlight
+The microbiome modulation in cancer immunotherapy stands out as a game-changer, with trials showing that transplanting healthy gut bacteria can make tumors more responsive to immune checkpoint inhibitors. This approach could help patients with hard-to-treat cancers like melanoma or lung cancer, especially t...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>28</itunes:episode>
+      <itunes:title>Ep 28: Landmark trials confirm fecal microbiota transplantation enhances immunotherapy in advanced solid tumors.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 30: Researchers found that combining two colon polyp types raises bowel cancer risk up to fivefold.</title>
+      <description># Planetterrian Daily
+**Date:** March 13, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Researchers found that combining two colon polyp types raises bowel cancer risk up to fivefold.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Two polyp types raise bowel cancer risk fivefold: 13 March 2026 • Science Daily**
+   Researchers analyzed over 8,400 colonoscopies and found that patients with both adenomas and serrated polyps face up to five times higher risk of precancerous changes. This highlights separate cancer pathways occurring together, urging more vigilant screening for those with mixed polyps.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313002938.htm
+
+2. **Severe COVID or flu may increase lung cancer risk: 13 March 2026 • Science Daily**
+   Scientists discovered that serious viral infections like COVID-19 or influenza cause chronic lung inflammation by altering immune cells, potentially promoting tumors years later. Vaccination reduces these changes, offering a preventive strategy especially for hospitalized patients.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313055130.htm
+
+3. **Medieval societies buried leprosy patients in high-status graves: 13 March 2026 • Science Daily**
+   Examination of hundreds of skeletons from medieval Denmark showed that people with leprosy were often interred in prestigious church-adjacent graves, challenging assumptions of exclusion. This suggests communities integrated the sick, reflecting social compassion rather than stigma.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313002645.htm
+
+4. **Quantum error correction advances tackle computing challenges: 13 March 2026 • New Scientist**
+   Recent progress in quantum error correction is addressing the high error rates that limit quantum computers' reliability. These developments could enable more stable systems, paving the way for practical applications in complex simulations and cryptography.
+   Source: https://www.newscientist.com/article/2518974-the-race-to-solve-the-biggest-problem-in-quantum-computing/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
+
+5. **Hardest AI test reveals gaps in expert knowledge: 13 March 2026 • Science Daily**
+   Experts created a 2,500-question exam excluding AI-solvable problems, and early tests show advanced models still fail on specialized topics. This benchmark exposes limitations in current AI, guiding improvements toward human-level expertise.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313002650.htm
+
+6. **Bacteria use new propulsion methods without flagella: 13 March 2026 • Science Daily**
+   Studies revealed E. coli and salmonella spread via sugar fermentation creating fluid currents, while other bacteria employ a molecular gearbox for directional control. These mechanisms expand understanding of bacterial movement, aiding infection control and antibiotic strategies.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313001759.htm
+
+7. **Plant-beetle partnership involves strategic fruit drop: 13 March 2026 • Science Daily**
+   Japanese red elder plants drop beetle-infested fruits, allowing larvae to escape into soil while maintaining pollination benefits. This mutual compromise stabilizes the relationship, offering insights into evolutionary adaptations in ecosystems.
+   Source: https://www.sciencedaily.com/releases/2026/03/260312222355.htm
+
+8. **Trispecific engager boosts macrophage cancer killing: 13 March 2026 • Nature**
+   A new trispecific molecule enhances macrophages' ability to target and destroy solid tumor cells through logic-gated activation. This approach could improve immunotherapy outcomes by amplifying innate immune responses in hard-to-treat cancers.
+   Source: https://www.nature.com/articles/s41587-026-03057-9
+
+9. **Modifiable risks account for 40% of global cancers: 13 March 2026 • Nature**
+   Analysis of data from 185 countries indicates...</description>
+      <guid isPermaLink="false">planetterrian-daily-ep030-20260313-121441</guid>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep030_20260313.mp3" length="14031560" type="audio/mpeg" />
+      <pubDate>Fri, 13 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:duration>09:44</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Planetterrian Daily
+**Date:** March 13, 2026
+🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
+
+**HOOK:** Researchers found that combining two colon polyp types raises bowel cancer risk up to fivefold.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Two polyp types raise bowel cancer risk fivefold: 13 March 2026 • Science Daily**
+   Researchers analyzed over 8,400 colonoscopies and found that patients with both adenomas and serrated polyps face up to five times higher risk of precancerous changes. This highlights separate cancer pathways occurring together, urging more vigilant screening for those with mixed polyps.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313002938.htm
+
+2. **Severe COVID or flu may increase lung cancer risk: 13 March 2026 • Science Daily**
+   Scientists discovered that serious viral infections like COVID-19 or influenza cause chronic lung inflammation by altering immune cells, potentially promoting tumors years later. Vaccination reduces these changes, offering a preventive strategy especially for hospitalized patients.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313055130.htm
+
+3. **Medieval societies buried leprosy patients in high-status graves: 13 March 2026 • Science Daily**
+   Examination of hundreds of skeletons from medieval Denmark showed that people with leprosy were often interred in prestigious church-adjacent graves, challenging assumptions of exclusion. This suggests communities integrated the sick, reflecting social compassion rather than stigma.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313002645.htm
+
+4. **Quantum error correction advances tackle computing challenges: 13 March 2026 • New Scientist**
+   Recent progress in quantum error correction is addressing the high error rates that limit quantum computers' reliability. These developments could enable more stable systems, paving the way for practical applications in complex simulations and cryptography.
+   Source: https://www.newscientist.com/article/2518974-the-race-to-solve-the-biggest-problem-in-quantum-computing/?utm_campaign=RSS%7CNSNS&amp;utm_source=NSNS&amp;utm_medium=RSS&amp;utm_content=home
+
+5. **Hardest AI test reveals gaps in expert knowledge: 13 March 2026 • Science Daily**
+   Experts created a 2,500-question exam excluding AI-solvable problems, and early tests show advanced models still fail on specialized topics. This benchmark exposes limitations in current AI, guiding improvements toward human-level expertise.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313002650.htm
+
+6. **Bacteria use new propulsion methods without flagella: 13 March 2026 • Science Daily**
+   Studies revealed E. coli and salmonella spread via sugar fermentation creating fluid currents, while other bacteria employ a molecular gearbox for directional control. These mechanisms expand understanding of bacterial movement, aiding infection control and antibiotic strategies.
+   Source: https://www.sciencedaily.com/releases/2026/03/260313001759.htm
+
+7. **Plant-beetle partnership involves strategic fruit drop: 13 March 2026 • Science Daily**
+   Japanese red elder plants drop beetle-infested fruits, allowing larvae to escape into soil while maintaining pollination benefits. This mutual compromise stabilizes the relationship, offering insights into evolutionary adaptations in ecosystems.
+   Source: https://www.sciencedaily.com/releases/2026/03/260312222355.htm
+
+8. **Trispecific engager boosts macrophage cancer killing: 13 March 2026 • Nature**
+   A new trispecific molecule enhances macrophages' ability to target and destroy solid tumor cells through logic-gated activation. This approach could improve immunotherapy outcomes by amplifying innate immune responses in hard-to-treat cancers.
+   Source: https://www.nature.com/articles/s41587-026-03057-9
+
+9. **Modifiable risks account for 40% of global cancers: 13 March 2026 • Nature**
+   Analysis of data from 185 countries indicates...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>30</itunes:episode>
+      <itunes:title>Ep 30: Researchers found that combining two colon polyp types raises bowel cancer risk up to fivefold.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>
