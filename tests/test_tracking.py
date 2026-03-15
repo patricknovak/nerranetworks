@@ -3,8 +3,8 @@ Tests for engine/tracking.py — cost and usage tracking for the podcast pipelin
 
 Covers:
   - create_tracker(): structure, defaults, field types
-  - record_llm_usage(): token accumulation, known and custom steps
-  - record_tts_usage(): character accumulation
+  - record_llm_usage(): token accumulation, known and custom steps, auto-cost
+  - record_tts_usage(): character accumulation, multi-provider support
   - record_x_post(): post counter increment
   - save_usage(): cost calculations, JSON output, file naming
 """
@@ -17,6 +17,8 @@ import pytest
 
 from engine.tracking import (
     ELEVENLABS_COST_PER_1K_CHARS,
+    FISH_AUDIO_COST_PER_1K_CHARS,
+    GROK_PRICING,
     create_tracker,
     record_llm_usage,
     record_tts_usage,
@@ -51,7 +53,7 @@ class TestCreateTracker:
         tracker = create_tracker("Test", 1)
         assert "services" in tracker
         assert "grok_api" in tracker["services"]
-        assert "elevenlabs_api" in tracker["services"]
+        assert "tts_api" in tracker["services"]
         assert "x_api" in tracker["services"]
 
     def test_grok_api_structure(self):
@@ -71,12 +73,12 @@ class TestCreateTracker:
             assert s["total_tokens"] == 0
             assert s["estimated_cost_usd"] == 0.0
 
-    def test_elevenlabs_defaults(self):
+    def test_tts_defaults(self):
         tracker = create_tracker("Test", 1)
-        el = tracker["services"]["elevenlabs_api"]
-        assert el["provider"] == "elevenlabs"
-        assert el["characters"] == 0
-        assert el["estimated_cost_usd"] == 0.0
+        tts = tracker["services"]["tts_api"]
+        assert tts["provider"] == "elevenlabs"
+        assert tts["characters"] == 0
+        assert tts["estimated_cost_usd"] == 0.0
 
     def test_x_api_defaults(self):
         tracker = create_tracker("Test", 1)
@@ -136,6 +138,26 @@ class TestRecordLlmUsage:
         step = tracker["services"]["grok_api"]["x_thread_generation"]
         assert step["estimated_cost_usd"] == 0.0
 
+    def test_auto_cost_with_model(self):
+        """When model is provided and cost is 0, cost is auto-estimated."""
+        tracker = create_tracker("Test", 1)
+        record_llm_usage(tracker, "x_thread_generation", 1_000_000, 500_000, model="grok-3")
+        step = tracker["services"]["grok_api"]["x_thread_generation"]
+        pricing = GROK_PRICING["grok-3"]
+        expected = (1_000_000 / 1e6) * pricing["input_per_1m"] + (500_000 / 1e6) * pricing["output_per_1m"]
+        assert step["estimated_cost_usd"] == pytest.approx(expected)
+
+    def test_model_recorded(self):
+        tracker = create_tracker("Test", 1)
+        record_llm_usage(tracker, "x_thread_generation", 100, 50, model="grok-4")
+        assert tracker["services"]["grok_api"]["model"] == "grok-4"
+
+    def test_unknown_model_zero_cost(self):
+        tracker = create_tracker("Test", 1)
+        record_llm_usage(tracker, "x_thread_generation", 100, 50, model="unknown-model")
+        step = tracker["services"]["grok_api"]["x_thread_generation"]
+        assert step["estimated_cost_usd"] == 0.0
+
 
 # ===================================================================
 # TEST: record_tts_usage
@@ -146,18 +168,29 @@ class TestRecordTtsUsage:
     def test_records_characters(self):
         tracker = create_tracker("Test", 1)
         record_tts_usage(tracker, 5000)
-        assert tracker["services"]["elevenlabs_api"]["characters"] == 5000
+        assert tracker["services"]["tts_api"]["characters"] == 5000
 
     def test_accumulates_characters(self):
         tracker = create_tracker("Test", 1)
         record_tts_usage(tracker, 3000)
         record_tts_usage(tracker, 2000)
-        assert tracker["services"]["elevenlabs_api"]["characters"] == 5000
+        assert tracker["services"]["tts_api"]["characters"] == 5000
 
     def test_zero_characters(self):
         tracker = create_tracker("Test", 1)
         record_tts_usage(tracker, 0)
-        assert tracker["services"]["elevenlabs_api"]["characters"] == 0
+        assert tracker["services"]["tts_api"]["characters"] == 0
+
+    def test_fish_provider(self):
+        tracker = create_tracker("Test", 1)
+        record_tts_usage(tracker, 5000, provider="fish")
+        assert tracker["services"]["tts_api"]["provider"] == "fish"
+        assert tracker["services"]["tts_api"]["characters"] == 5000
+
+    def test_elevenlabs_provider_default(self):
+        tracker = create_tracker("Test", 1)
+        record_tts_usage(tracker, 5000)
+        assert tracker["services"]["tts_api"]["provider"] == "elevenlabs"
 
 
 # ===================================================================
@@ -221,11 +254,19 @@ class TestSaveUsage:
 
     def test_calculates_elevenlabs_cost(self, tmp_path):
         tracker = create_tracker("Test", 1)
-        record_tts_usage(tracker, 10000)
+        record_tts_usage(tracker, 10000, provider="elevenlabs")
         save_usage(tracker, tmp_path)
-        el = tracker["services"]["elevenlabs_api"]
+        tts = tracker["services"]["tts_api"]
         expected_cost = (10000 / 1000) * ELEVENLABS_COST_PER_1K_CHARS
-        assert el["estimated_cost_usd"] == pytest.approx(expected_cost)
+        assert tts["estimated_cost_usd"] == pytest.approx(expected_cost)
+
+    def test_calculates_fish_audio_cost(self, tmp_path):
+        tracker = create_tracker("Test", 1)
+        record_tts_usage(tracker, 10000, provider="fish")
+        save_usage(tracker, tmp_path)
+        tts = tracker["services"]["tts_api"]
+        expected_cost = (10000 / 1000) * FISH_AUDIO_COST_PER_1K_CHARS
+        assert tts["estimated_cost_usd"] == pytest.approx(expected_cost)
 
     def test_calculates_x_api_totals(self, tmp_path):
         tracker = create_tracker("Test", 1)
@@ -265,11 +306,30 @@ class TestSaveUsage:
         """Verify the pricing constant matches the documented rate."""
         assert ELEVENLABS_COST_PER_1K_CHARS == 0.30
 
+    def test_fish_audio_cost_per_1k_constant(self):
+        """Verify the Fish Audio pricing constant."""
+        assert FISH_AUDIO_COST_PER_1K_CHARS == 0.015
+
     def test_cost_precision(self, tmp_path):
         """Costs should not have floating point drift issues."""
         tracker = create_tracker("Test", 1)
         record_tts_usage(tracker, 3333)
         save_usage(tracker, tmp_path)
-        el = tracker["services"]["elevenlabs_api"]
+        tts = tracker["services"]["tts_api"]
         expected = (3333 / 1000) * 0.30
-        assert abs(el["estimated_cost_usd"] - expected) < 1e-10
+        assert abs(tts["estimated_cost_usd"] - expected) < 1e-10
+
+
+# ===================================================================
+# TEST: Grok pricing
+# ===================================================================
+
+class TestGrokPricing:
+
+    def test_grok3_pricing_exists(self):
+        assert "grok-3" in GROK_PRICING
+        assert "input_per_1m" in GROK_PRICING["grok-3"]
+        assert "output_per_1m" in GROK_PRICING["grok-3"]
+
+    def test_grok4_pricing_exists(self):
+        assert "grok-4" in GROK_PRICING

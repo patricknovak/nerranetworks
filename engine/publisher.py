@@ -12,6 +12,7 @@ Provides:
 import datetime
 import fcntl
 import json
+import os
 import logging
 import re
 import xml.etree.ElementTree as ET
@@ -296,14 +297,79 @@ def update_rss_feed(
         entry.podcast.itunes_image(channel_image)
 
     fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
-    fg.rss_file(str(rss_path), pretty=True)
 
-    # Post-process: add Podcasting 2.0 <podcast:chapters> to the new episode
-    if chapters_url:
-        _inject_chapters_tag(rss_path, new_guid, chapters_url)
+    # Atomic write: write to temp file, then rename to prevent corruption
+    # from concurrent CI matrix jobs or pipeline crashes mid-write.
+    import tempfile
+    tmp_fd, tmp_path = tempfile.mkstemp(
+        suffix=".rss", dir=str(rss_path.parent),
+    )
+    os.close(tmp_fd)
+    try:
+        fg.rss_file(tmp_path, pretty=True)
+
+        # Post-process: add Podcasting 2.0 <podcast:chapters> to the new episode
+        if chapters_url:
+            _inject_chapters_tag(Path(tmp_path), new_guid, chapters_url)
+
+        # Add <podcast:locked> to prevent unauthorized feed imports
+        _inject_podcast_locked_tag(
+            Path(tmp_path),
+            channel_email or "patrick@planetterrian.com",
+        )
+
+        os.replace(tmp_path, str(rss_path))
+    except Exception:
+        # Clean up temp file on failure
+        try:
+            os.unlink(tmp_path)
+        except OSError:
+            pass
+        raise
 
     logger.info("RSS feed updated: %s", rss_path)
     return rss_path
+
+
+def _inject_podcast_locked_tag(rss_path: Path, owner_email: str) -> None:
+    """Add ``<podcast:locked>`` to the RSS channel element.
+
+    Prevents unauthorized feed imports on supporting platforms.
+    Idempotent — skips if the tag already exists.
+    """
+    PODCAST_NS = "https://podcastindex.org/namespace/1.0"
+
+    try:
+        ET.register_namespace("podcast", PODCAST_NS)
+        ET.register_namespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
+
+        tree = ET.parse(str(rss_path))
+        root = tree.getroot()
+
+        for attr in list(root.attrib):
+            if attr == "xmlns:podcast" or (
+                attr.startswith("xmlns:") and root.attrib[attr] == PODCAST_NS
+            ):
+                del root.attrib[attr]
+
+        channel = root.find("channel")
+        if channel is None:
+            return
+
+        # Skip if already present
+        existing = channel.find(f"{{{PODCAST_NS}}}locked")
+        if existing is not None:
+            return
+
+        locked_el = ET.SubElement(channel, f"{{{PODCAST_NS}}}locked")
+        locked_el.set("owner", owner_email)
+        locked_el.text = "yes"
+
+        tree.write(str(rss_path), xml_declaration=True, encoding="UTF-8")
+        logger.info("Injected <podcast:locked> tag")
+
+    except Exception as exc:
+        logger.warning("Failed to inject <podcast:locked> tag: %s", exc)
 
 
 def _inject_chapters_tag(rss_path: Path, guid: str, chapters_url: str) -> None:

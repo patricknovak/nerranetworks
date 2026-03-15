@@ -15,8 +15,17 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-# ElevenLabs pricing: $0.30 per 1000 characters
+# TTS pricing per 1000 characters
 ELEVENLABS_COST_PER_1K_CHARS = 0.30
+FISH_AUDIO_COST_PER_1K_CHARS = 0.015  # Fish Audio S1: ~$0.015/1K chars
+
+# xAI Grok pricing per 1M tokens (input/output)
+GROK_PRICING = {
+    "grok-3": {"input_per_1m": 3.00, "output_per_1m": 15.00},
+    "grok-3-mini": {"input_per_1m": 0.30, "output_per_1m": 0.50},
+    "grok-4": {"input_per_1m": 3.00, "output_per_1m": 15.00},
+    "grok-2": {"input_per_1m": 2.00, "output_per_1m": 10.00},
+}
 
 
 def create_tracker(show_name: str, episode_num: int) -> dict:
@@ -27,6 +36,7 @@ def create_tracker(show_name: str, episode_num: int) -> dict:
         "episode_number": episode_num,
         "services": {
             "grok_api": {
+                "model": "",
                 "x_thread_generation": {
                     "prompt_tokens": 0,
                     "completion_tokens": 0,
@@ -42,7 +52,7 @@ def create_tracker(show_name: str, episode_num: int) -> dict:
                 "total_tokens": 0,
                 "total_cost_usd": 0.0,
             },
-            "elevenlabs_api": {
+            "tts_api": {
                 "provider": "elevenlabs",
                 "characters": 0,
                 "estimated_cost_usd": 0.0,
@@ -57,19 +67,37 @@ def create_tracker(show_name: str, episode_num: int) -> dict:
     }
 
 
+def _estimate_grok_cost(
+    model: str, prompt_tokens: int, completion_tokens: int
+) -> float:
+    """Estimate cost for a Grok API call based on model pricing."""
+    pricing = GROK_PRICING.get(model)
+    if not pricing:
+        return 0.0
+    input_cost = (prompt_tokens / 1_000_000) * pricing["input_per_1m"]
+    output_cost = (completion_tokens / 1_000_000) * pricing["output_per_1m"]
+    return input_cost + output_cost
+
+
 def record_llm_usage(
     tracker: dict,
     step: str,
     prompt_tokens: int,
     completion_tokens: int,
     estimated_cost_usd: float = 0.0,
+    model: str = "",
 ) -> None:
     """Record LLM token usage for a generation step.
 
     *step* should be ``"x_thread_generation"`` or
     ``"podcast_script_generation"``.
+
+    If *estimated_cost_usd* is 0 and *model* is provided, cost is
+    estimated from the Grok pricing table.
     """
     grok = tracker["services"]["grok_api"]
+    if model:
+        grok["model"] = model
     if step not in grok:
         grok[step] = {
             "prompt_tokens": 0,
@@ -80,12 +108,22 @@ def record_llm_usage(
     grok[step]["prompt_tokens"] += prompt_tokens
     grok[step]["completion_tokens"] += completion_tokens
     grok[step]["total_tokens"] += prompt_tokens + completion_tokens
-    grok[step]["estimated_cost_usd"] += estimated_cost_usd
+
+    if estimated_cost_usd > 0:
+        grok[step]["estimated_cost_usd"] += estimated_cost_usd
+    elif model:
+        grok[step]["estimated_cost_usd"] += _estimate_grok_cost(
+            model, prompt_tokens, completion_tokens
+        )
 
 
-def record_tts_usage(tracker: dict, characters: int) -> None:
+def record_tts_usage(
+    tracker: dict, characters: int, provider: str = "elevenlabs"
+) -> None:
     """Record TTS character usage."""
-    tracker["services"]["elevenlabs_api"]["characters"] += characters
+    tts = tracker["services"]["tts_api"]
+    tts["provider"] = provider
+    tts["characters"] += characters
 
 
 def record_x_post(tracker: dict) -> None:
@@ -113,12 +151,24 @@ def save_usage(tracker: dict, output_dir: Path) -> Path | None:
         x_api = tracker["services"]["x_api"]
         x_api["total_calls"] = x_api["search_calls"] + x_api["post_calls"]
 
-        # ElevenLabs cost
-        el = tracker["services"]["elevenlabs_api"]
-        el["estimated_cost_usd"] = (el["characters"] / 1000) * ELEVENLABS_COST_PER_1K_CHARS
+        # TTS cost (provider-aware)
+        tts = tracker["services"]["tts_api"]
+        provider = tts.get("provider", "elevenlabs")
+        if provider == "fish":
+            tts["estimated_cost_usd"] = (
+                tts["characters"] / 1000
+            ) * FISH_AUDIO_COST_PER_1K_CHARS
+        else:
+            tts["estimated_cost_usd"] = (
+                tts["characters"] / 1000
+            ) * ELEVENLABS_COST_PER_1K_CHARS
+
+        # Also keep legacy key for backward compatibility
+        if "elevenlabs_api" not in tracker["services"]:
+            tracker["services"]["elevenlabs_api"] = tts
 
         tracker["total_estimated_cost_usd"] = (
-            grok["total_cost_usd"] + el["estimated_cost_usd"]
+            grok["total_cost_usd"] + tts["estimated_cost_usd"]
         )
 
         # Write file
@@ -132,19 +182,22 @@ def save_usage(tracker: dict, output_dir: Path) -> Path | None:
         logger.info("CREDIT USAGE SUMMARY")
         logger.info("=" * 60)
         logger.info(
-            "Grok API (X Thread): %d tokens ($%.4f)",
+            "Grok API [%s] (X Thread): %d tokens ($%.4f)",
+            grok.get("model", "unknown"),
             grok["x_thread_generation"]["total_tokens"],
             grok["x_thread_generation"]["estimated_cost_usd"],
         )
         logger.info(
-            "Grok API (Podcast): %d tokens ($%.4f)",
+            "Grok API [%s] (Podcast): %d tokens ($%.4f)",
+            grok.get("model", "unknown"),
             grok["podcast_script_generation"]["total_tokens"],
             grok["podcast_script_generation"]["estimated_cost_usd"],
         )
         logger.info(
-            "TTS (ElevenLabs): %d chars ($%.4f)",
-            el["characters"],
-            el["estimated_cost_usd"],
+            "TTS (%s): %d chars ($%.4f)",
+            provider,
+            tts["characters"],
+            tts["estimated_cost_usd"],
         )
         logger.info(
             "X API: %d calls (search: %d, post: %d)",

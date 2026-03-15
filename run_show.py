@@ -177,6 +177,70 @@ def _apply_pronunciation(text: str, show_slug: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Pre-flight validation
+# ---------------------------------------------------------------------------
+
+def _preflight_checks(config, *, dry_run: bool = False) -> None:
+    """Validate config before any API calls to fail fast on misconfigs.
+
+    In dry-run mode, only checks config structure (not files or env vars).
+    """
+    if dry_run:
+        logger.info("Pre-flight checks skipped (dry-run mode)")
+        return
+
+    issues = []
+
+    # Check prompt files exist
+    for attr in ("digest_prompt_file", "podcast_prompt_file", "system_prompt_file"):
+        path_str = getattr(config.llm, attr, "")
+        if path_str and not (PROJECT_ROOT / path_str).exists():
+            issues.append(f"Prompt file not found: {path_str}")
+
+    # Check music files exist
+    for attr in ("music_file", "background_music_file", "transition_sting"):
+        path_str = getattr(config.audio, attr, None)
+        if path_str and not (PROJECT_ROOT / path_str).exists():
+            issues.append(f"Audio file not found: {path_str}")
+
+    # Check voice reference exists (Chatterbox/Fish Audio)
+    if config.tts.provider in ("chatterbox", "fish"):
+        ref = config.tts.voice_reference or config.tts.fish_voice_reference
+        if ref and not (PROJECT_ROOT / ref).exists():
+            issues.append(f"Voice reference not found: {ref}")
+
+    # Validate TTS provider name
+    valid_providers = {"elevenlabs", "kokoro", "chatterbox", "fish"}
+    if config.tts.provider not in valid_providers:
+        issues.append(f"Unknown TTS provider: {config.tts.provider!r} (expected one of {valid_providers})")
+
+    # Check critical API key env vars are populated
+        if config.tts.provider == "elevenlabs":
+            if not os.environ.get("ELEVENLABS_API_KEY"):
+                issues.append("ELEVENLABS_API_KEY env var is empty or missing")
+        elif config.tts.provider == "fish":
+            if not os.environ.get("FISH_AUDIO_API_KEY"):
+                issues.append("FISH_AUDIO_API_KEY env var is empty or missing")
+
+        if not os.environ.get("GROK_API_KEY"):
+            issues.append("GROK_API_KEY env var is empty or missing")
+
+        # Check R2 storage credentials if R2 is configured
+        if getattr(config, "storage", None) and config.storage.provider == "r2":
+            for env_attr in ("endpoint_env", "access_key_env", "secret_key_env"):
+                env_name = getattr(config.storage, env_attr, "")
+                if env_name and not os.environ.get(env_name):
+                    logger.warning("R2 env var %s (%s) is empty — upload may fail", env_name, env_attr)
+
+    if issues:
+        for issue in issues:
+            logger.error("Pre-flight check FAILED: %s", issue)
+        raise SystemExit(f"Pre-flight validation failed with {len(issues)} issue(s)")
+
+    logger.info("Pre-flight checks passed")
+
+
+# ---------------------------------------------------------------------------
 # Pipeline
 # ---------------------------------------------------------------------------
 
@@ -187,6 +251,9 @@ def run(args: argparse.Namespace) -> None:
     config_path = PROJECT_ROOT / "shows" / f"{args.show}.yaml"
     config = load_config(config_path)
     logger.info("=== %s ===", config.name)
+
+    # 1b. Pre-flight validation — catch misconfigs before expensive API calls
+    _preflight_checks(config, dry_run=args.dry_run)
 
     if args.dry_run:
         logger.info("[DRY RUN] Would run full pipeline for '%s'", config.name)
@@ -210,6 +277,18 @@ def run(args: argparse.Namespace) -> None:
         rss_path, digests_dir, mp3_glob_pattern=config.episode.mp3_glob,
     )
     logger.info("Episode number: %d", episode_num)
+
+    # 2b. Checkpoint: skip if today's MP3 already exists (avoids re-running
+    # the full pipeline on retries after partial failures in later steps).
+    expected_mp3 = digests_dir / config.episode.filename_pattern.format(
+        prefix=config.episode.prefix, num=episode_num, date=today,
+    )
+    if expected_mp3.exists() and not args.test:
+        logger.info(
+            "Checkpoint: %s already exists (%d bytes). Skipping pipeline.",
+            expected_mp3.name, expected_mp3.stat().st_size,
+        )
+        return
 
     # 3. Tracker
     from engine.tracking import create_tracker, save_usage
@@ -239,7 +318,12 @@ def run(args: argparse.Namespace) -> None:
     from engine.content_tracker import ContentTracker, SHOW_SECTION_PATTERNS
     from engine.utils import deduplicate_by_entity
 
-    section_patterns = SHOW_SECTION_PATTERNS.get(config.slug, {})
+    # Prefer YAML-provided section patterns; fall back to hardcoded registry
+    section_patterns = (
+        config.content_tracking.section_patterns
+        if config.content_tracking.section_patterns
+        else SHOW_SECTION_PATTERNS.get(config.slug, {})
+    )
     content_tracker = ContentTracker(config.slug, digests_dir)
     content_tracker.load()
 
@@ -661,7 +745,7 @@ def run(args: argparse.Namespace) -> None:
 
             logger.info("TTS synthesis took %.1fs", time.monotonic() - t0)
             from engine.tracking import record_tts_usage
-            record_tts_usage(tracker, len(podcast_script))
+            record_tts_usage(tracker, len(podcast_script), provider=config.tts.provider)
 
             # 9a. Post-TTS transcription validation (opt-in)
             if config.tts.validate_transcription:
@@ -774,7 +858,14 @@ def run(args: argparse.Namespace) -> None:
             episode_title = f"Ep {episode_num}: {hook}"
         else:
             episode_title = f"{config.name} - Episode {episode_num} - {today_str}"
-        episode_desc = x_thread[:4000] + "..." if len(x_thread) > 4000 else x_thread
+        # Use a short summary for the RSS description (first ~500 chars at sentence boundary)
+        # to avoid overwhelming podcast app UIs with the full digest.
+        _desc_limit = 500
+        if len(x_thread) > _desc_limit:
+            _cut = x_thread[:_desc_limit].rfind(". ")
+            episode_desc = x_thread[:_cut + 1] + " ..." if _cut > 100 else x_thread[:_desc_limit] + "..."
+        else:
+            episode_desc = x_thread
         episode_desc = episode_desc.rstrip() + "\n\n" + _AI_DISCLOSURE_RSS
 
         # If no R2 URL but analytics is enabled, build URL and prefix it

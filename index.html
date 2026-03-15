@@ -31,6 +31,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
 
+    <!-- Schema.org Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Nerra Network",
+      "url": "https://nerranetwork.com",
+      "logo": "https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg",
+      "description": "Independent podcast network of nine daily shows. Tesla, world news, space, science, environment, AI, financial literacy, and language learning.",
+      "sameAs": [
+        "https://x.com/teslashortstime",
+        "https://x.com/omniviewnews",
+        "https://x.com/planetterrian"
+      ]
+    }
+    </script>
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
@@ -177,7 +194,9 @@
     <section class="network-hero">
         <div class="network-hero-bg">
             <div class="network-hero-nodes">
-                <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Decorative network constellation graphic">
+                    <title>Network constellation</title>
+                    <desc>An abstract network graph with connected nodes representing the Nerra Network podcast shows.</desc>
                     <!-- Network graph lines -->
                     <line x1="200" y1="200" x2="600" y2="400" stroke="#7C5CFF" stroke-width="1" opacity="0.3"/>
                     <line x1="1000" y1="200" x2="600" y2="400" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
@@ -383,7 +402,7 @@
         <div class="container">
             <div class="nn-section-header">
                 <h2>Latest Across the Network</h2>
-                <p>The most recent episodes from all seven shows.</p>
+                <p>The most recent episodes from all nine shows.</p>
             </div>
         </div>
         <div class="latest-scroll-row" id="latestEpisodes">
@@ -647,6 +666,6 @@
         loadLatestEpisodes().finally(() => clearTimeout(_skeletonTimeout));
     </script>
 
-<script>document.querySelectorAll(".nn-nav-dropdown-btn").forEach(function(btn){btn.addEventListener("click",function(e){e.stopPropagation();btn.closest(".nn-nav-dropdown").classList.toggle("open")})});document.addEventListener("click",function(){document.querySelectorAll(".nn-nav-dropdown.open").forEach(function(d){d.classList.remove("open")})});</script>
+<script>document.querySelectorAll(".nn-nav-dropdown-btn").forEach(function(btn){btn.addEventListener("click",function(e){e.stopPropagation();btn.closest(".nn-nav-dropdown").classList.toggle("open")})});document.addEventListener("click",function(){document.querySelectorAll(".nn-nav-dropdown.open").forEach(function(d){d.classList.remove("open")})});document.addEventListener("keydown",function(e){if(e.key==="Escape"){document.querySelectorAll(".nn-nav-dropdown.open").forEach(function(d){d.classList.remove("open")})}});</script>
 </body>
 </html>
