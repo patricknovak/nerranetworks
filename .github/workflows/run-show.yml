@@ -6,8 +6,8 @@ on:
     # Pipeline takes up to 45 min, so all triggers fire by 9:00 UTC.
     # Staggered by 30 min to spread GitHub Actions load.
     #
-    # Tesla Shorts Time: Daily at 5:00 UTC (~1 AM EDT / 12 AM EST)
-    - cron: '0 5 * * *'
+    # Привет, Русский!: Even days at 5:00 UTC
+    - cron: '0 5 2-31/2 * *'
     # Omni View: Odd days at 5:30 UTC
     - cron: '30 5 1-31/2 * *'
     # Planetterrian Daily: Odd days at 6:00 UTC
@@ -22,8 +22,8 @@ on:
     - cron: '0 8 2-31/2 * *'
     # Финансы Просто: Even days at 8:30 UTC
     - cron: '30 8 2-31/2 * *'
-    # Привет, Русский!: Even days at 9:00 UTC
-    - cron: '0 9 2-31/2 * *'
+    # Tesla Shorts Time: Daily at 9:00 UTC — last to get freshest news
+    - cron: '0 9 * * *'
 
   workflow_dispatch:
     inputs:
@@ -85,9 +85,10 @@ jobs:
 
               shows = []
 
-              # 5:00 UTC — Tesla Shorts Time (daily)
+              # 5:00 UTC — Привет, Русский! (even days)
               if utc_hour == 5 and utc_minute < 15:
-                  shows.append("tesla")
+                  if is_even_day:
+                      shows.append("privet_russian")
               # 5:30 UTC — Omni View (odd days)
               elif utc_hour == 5 and utc_minute >= 15:
                   if is_odd_day:
@@ -116,10 +117,9 @@ jobs:
               elif utc_hour == 8 and utc_minute >= 15:
                   if is_even_day:
                       shows.append("finansy_prosto")
-              # 9:00 UTC — Привет, Русский! (even days)
+              # 9:00 UTC — Tesla Shorts Time (daily)
               elif utc_hour == 9:
-                  if is_even_day:
-                      shows.append("privet_russian")
+                  shows.append("tesla")
 
               # Detect known no-ops.  GitHub Actions cron uses OR logic between
               # day-of-month and day-of-week fields, so "1-31/2 * 1-5" fires on
@@ -128,7 +128,7 @@ jobs:
               # empty results.
               #
               # Cron → gate mapping:
-              #   5:00  daily      → tesla (always matches, never a noop)
+              #   5:00  even days  → privet_russian   | noop on odd days
               #   5:30  odd days   → omni_view       | noop on even days
               #   6:00  odd days   → planetterrian    | noop on even days
               #   6:30  even days  → fasc. frontiers  | noop on odd days
@@ -136,7 +136,7 @@ jobs:
               #   7:30  odd days   → models_agents    | noop on even days
               #   8:00  even days  → mab              | noop on odd days
               #   8:30  even days  → finansy_prosto   | noop on odd days
-              #   9:00  even days  → privet_russian   | noop on odd days
+              #   9:00  daily      → tesla (always matches, never a noop)
               if not shows:
                   # Encode each cron trigger as (hour, half) where half=0 is :00, half=1 is :30
                   half = 1 if utc_minute >= 15 else 0
@@ -144,8 +144,8 @@ jobs:
 
                   # Odd-day crons: 5:30, 6:00, 7:00, 7:30
                   odd_day_triggers = {(5, 1), (6, 0), (7, 0), (7, 1)}
-                  # Even-day crons: 6:30, 8:00, 8:30, 9:00
-                  even_day_triggers = {(6, 1), (8, 0), (8, 1), (9, 0)}
+                  # Even-day crons: 5:00, 6:30, 8:00, 8:30
+                  even_day_triggers = {(5, 0), (6, 1), (8, 0), (8, 1)}
 
                   if trigger in odd_day_triggers and is_even_day:
                       known_noop = True
