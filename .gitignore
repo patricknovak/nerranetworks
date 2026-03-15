@@ -33,5 +33,10 @@ digests/*.mp3
 # Keep music stings tracked
 !assets/music/*.mp3
 
+# Content Lake (regenerated via backfill)
+data/content_lake.db
 
+# Keep data/ and outputs/ directories tracked
+!data/.gitkeep
+!outputs/.gitkeep
 
