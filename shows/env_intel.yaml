@@ -139,7 +139,7 @@ llm:
 tts:
   voice_id: dTrBzPvD2GpAqkk1MUzA
   model: eleven_turbo_v2_5
-  stability: 0.78
+  stability: 0.65
   similarity_boost: 0.9
   style: 0.55
   use_speaker_boost: true
