@@ -2,26 +2,28 @@ name: Run Podcast Show
 
 on:
   schedule:
-    # Tesla Shorts Time: Daily ~7 AM Eastern
-    - cron: '0 11 * * *'
-    # Omni View: Odd days ~6 AM Eastern (EDT trigger)
-    - cron: '0 10 1-31/2 * *'
-    # Omni View: Odd days ~6 AM Eastern (EST fallback — runs at 11 UTC)
-    - cron: '0 11 1-31/2 * *'
-    # Planetterrian Daily: Odd days ~8 AM Eastern
-    - cron: '0 12 1-31/2 * *'
-    # Fascinating Frontiers: Even days ~8:15 AM Eastern
-    - cron: '15 12 2-31/2 * *'
-    # Environmental Intelligence: Odd weekdays ~6 AM Pacific (14:00 UTC)
-    - cron: '0 14 1-31/2 * 1-5'
-    # Models & Agents: Odd days ~7 AM Pacific (15:00 UTC)
-    - cron: '0 15 1-31/2 * *'
-    # Models & Agents for Beginners: Even days ~8 AM Pacific (16:00 UTC)
-    - cron: '0 16 2-31/2 * *'
-    # Финансы Просто: Even days ~9 AM Pacific (17:00 UTC)
-    - cron: '0 17 2-31/2 * *'
-    # Привет, Русский!: Even days ~10 AM Pacific (18:00 UTC)
-    - cron: '0 18 2-31/2 * *'
+    # All shows scheduled to finish before 7 AM Eastern (~11 UTC EDT / 12 UTC EST).
+    # Pipeline takes up to 45 min, so all triggers fire by 9:00 UTC.
+    # Staggered by 30 min to spread GitHub Actions load.
+    #
+    # Tesla Shorts Time: Daily at 5:00 UTC (~1 AM EDT / 12 AM EST)
+    - cron: '0 5 * * *'
+    # Omni View: Odd days at 5:30 UTC
+    - cron: '30 5 1-31/2 * *'
+    # Planetterrian Daily: Odd days at 6:00 UTC
+    - cron: '0 6 1-31/2 * *'
+    # Fascinating Frontiers: Even days at 6:30 UTC
+    - cron: '30 6 2-31/2 * *'
+    # Environmental Intelligence: Odd weekdays at 7:00 UTC
+    - cron: '0 7 1-31/2 * 1-5'
+    # Models & Agents: Odd days at 7:30 UTC
+    - cron: '30 7 1-31/2 * *'
+    # Models & Agents for Beginners: Even days at 8:00 UTC
+    - cron: '0 8 2-31/2 * *'
+    # Финансы Просто: Even days at 8:30 UTC
+    - cron: '30 8 2-31/2 * *'
+    # Привет, Русский!: Even days at 9:00 UTC
+    - cron: '0 9 2-31/2 * *'
 
   workflow_dispatch:
     inputs:
@@ -70,97 +72,93 @@ jobs:
               else:
                   shows = [dispatch_show]
           else:
-              # Scheduled: determine from UTC hour + Eastern time
-              try:
-                  from zoneinfo import ZoneInfo
-              except ImportError:
-                  from backports.zoneinfo import ZoneInfo
-
+              # Scheduled: determine show from UTC time.
+              # All shows fire before 9:00 UTC so episodes are ready by
+              # ~7 AM Eastern at the latest.  No DST-dependent logic needed.
               now_utc = datetime.datetime.now(datetime.timezone.utc)
-              now_et = now_utc.astimezone(ZoneInfo("America/New_York"))
               utc_hour = now_utc.hour
               utc_minute = now_utc.minute
-              et_hour = now_et.hour
-              day = now_et.day
+              day = now_utc.day
+              weekday = now_utc.weekday()  # 0=Mon .. 6=Sun
               is_odd_day = day % 2 == 1
               is_even_day = day % 2 == 0
 
               shows = []
 
-              # 10:00 UTC — Omni View on odd days if ET hour is 6 (EDT)
-              if utc_hour == 10 and et_hour == 6 and is_odd_day:
-                  shows.append("omni_view")
-              # 11:00 UTC — Tesla always; Omni View on odd days if ET hour is 6 (EST fallback)
-              elif utc_hour == 11:
+              # 5:00 UTC — Tesla Shorts Time (daily)
+              if utc_hour == 5 and utc_minute < 15:
                   shows.append("tesla")
-                  if et_hour == 6 and is_odd_day:
+              # 5:30 UTC — Omni View (odd days)
+              elif utc_hour == 5 and utc_minute >= 15:
+                  if is_odd_day:
                       shows.append("omni_view")
-              # 12:00 UTC — odd day = Planetterrian; 12:15 UTC — even day = Fascinating Frontiers
-              elif utc_hour == 12:
-                  if utc_minute < 10 and is_odd_day:
+              # 6:00 UTC — Planetterrian Daily (odd days)
+              elif utc_hour == 6 and utc_minute < 15:
+                  if is_odd_day:
                       shows.append("planetterrian")
-                  elif utc_minute >= 10 and is_even_day:
+              # 6:30 UTC — Fascinating Frontiers (even days)
+              elif utc_hour == 6 and utc_minute >= 15:
+                  if is_even_day:
                       shows.append("fascinating_frontiers")
-              # 14:00 UTC — Environmental Intelligence (odd weekdays only)
-              elif utc_hour == 14:
-                  weekday = now_et.weekday()  # 0=Mon, 6=Sun
+              # 7:00 UTC — Environmental Intelligence (odd weekdays)
+              elif utc_hour == 7 and utc_minute < 15:
                   if weekday < 5 and is_odd_day:
                       shows.append("env_intel")
-              # 15:00 UTC — Models & Agents (odd days only)
-              elif utc_hour == 15:
+              # 7:30 UTC — Models & Agents (odd days)
+              elif utc_hour == 7 and utc_minute >= 15:
                   if is_odd_day:
                       shows.append("models_agents")
-              # 16:00 UTC — Models & Agents for Beginners (even days only)
-              elif utc_hour == 16:
+              # 8:00 UTC — Models & Agents for Beginners (even days)
+              elif utc_hour == 8 and utc_minute < 15:
                   if is_even_day:
                       shows.append("models_agents_beginners")
-              # 17:00 UTC — Финансы Просто (even days only)
-              elif utc_hour == 17:
+              # 8:30 UTC — Финансы Просто (even days)
+              elif utc_hour == 8 and utc_minute >= 15:
                   if is_even_day:
                       shows.append("finansy_prosto")
-              # 18:00 UTC — Привет, Русский! (even days only)
-              elif utc_hour == 18:
+              # 9:00 UTC — Привет, Русский! (even days)
+              elif utc_hour == 9:
                   if is_even_day:
                       shows.append("privet_russian")
 
               # Detect known no-ops.  GitHub Actions cron uses OR logic between
-              # day-of-month and day-of-week fields, so e.g. "1-31/2 * 1-5"
-              # fires on (odd days) OR (weekdays) — nearly every day.  The gate
-              # logic above correctly filters, but we need to suppress the
-              # alert-skip error for these expected empty results.
+              # day-of-month and day-of-week fields, so "1-31/2 * 1-5" fires on
+              # (odd days) OR (weekdays) — nearly every day.  The gate logic
+              # above correctly filters, but we suppress the alert for expected
+              # empty results.
+              #
+              # Cron → gate mapping:
+              #   5:00  daily      → tesla (always matches, never a noop)
+              #   5:30  odd days   → omni_view       | noop on even days
+              #   6:00  odd days   → planetterrian    | noop on even days
+              #   6:30  even days  → fasc. frontiers  | noop on odd days
+              #   7:00  odd∨wkday  → env_intel        | noop on even wkday, weekend
+              #   7:30  odd days   → models_agents    | noop on even days
+              #   8:00  even days  → mab              | noop on odd days
+              #   8:30  even days  → finansy_prosto   | noop on odd days
+              #   9:00  even days  → privet_russian   | noop on odd days
               if not shows:
-                  weekday = now_et.weekday()  # 0=Mon .. 6=Sun
+                  # Encode each cron trigger as (hour, half) where half=0 is :00, half=1 is :30
+                  half = 1 if utc_minute >= 15 else 0
+                  trigger = (utc_hour, half)
 
-                  # 10:00 UTC is the EDT-only Omni View trigger.
-                  # During EST, Omni View runs at 11:00 UTC instead.
-                  if utc_hour == 10 and et_hour != 6:
-                      known_noop = True
-                      print(f"DST no-op: 10:00 UTC Omni View trigger during EST (ET hour={et_hour}). "
-                            f"Omni View will run at 11:00 UTC instead.")
-                  # Odd-day cron triggers on even days are expected no-ops
-                  elif utc_hour in (10, 12, 14, 15) and is_even_day:
+                  # Odd-day crons: 5:30, 6:00, 7:00, 7:30
+                  odd_day_triggers = {(5, 1), (6, 0), (7, 0), (7, 1)}
+                  # Even-day crons: 6:30, 8:00, 8:30, 9:00
+                  even_day_triggers = {(6, 1), (8, 0), (8, 1), (9, 0)}
+
+                  if trigger in odd_day_triggers and is_even_day:
                       known_noop = True
                       print(f"Even-day no-op: odd-day shows don't run on day {day}.")
-                  # Even-day cron triggers on odd days are expected no-ops
-                  elif utc_hour in (16, 17, 18) and is_odd_day:
+                  elif trigger in even_day_triggers and is_odd_day:
                       known_noop = True
                       print(f"Odd-day no-op: even-day shows don't run on day {day}.")
-                  # 14:00 UTC env_intel cron fires on weekends due to OR logic
-                  # (cron "1-31/2 * 1-5" = odd days OR weekdays). Env Intel
-                  # is weekday-only, so weekend triggers are expected no-ops.
-                  elif utc_hour == 14 and weekday >= 5:
+                  # 7:00 env_intel: also restricted to weekdays
+                  elif trigger == (7, 0) and weekday >= 5:
                       known_noop = True
-                      print(f"Weekend no-op: env_intel only runs on weekdays (today is {'Sat' if weekday == 5 else 'Sun'}).")
-                  # 12:00 UTC fires on all odd/even days via cron; on odd days
-                  # at :15+ there's no show (FF is even-day :15, PT is odd-day :00).
-                  elif utc_hour == 12 and utc_minute >= 10 and is_odd_day:
-                      known_noop = True
-                      print(f"Odd-day no-op at 12:{utc_minute:02d}: FF runs on even days only.")
-                  elif utc_hour == 12 and utc_minute < 10 and is_even_day:
-                      known_noop = True
-                      print(f"Even-day no-op at 12:{utc_minute:02d}: PT runs on odd days only.")
+                      print(f"Weekend no-op: env_intel only runs on weekdays.")
                   else:
-                      msg = f"WARNING: No shows matched for UTC {utc_hour}:{utc_minute:02d}, ET hour {et_hour}, day {day}, weekday {weekday}"
+                      msg = f"WARNING: No shows matched for UTC {utc_hour}:{utc_minute:02d}, day {day}, weekday {weekday}"
                       print(msg)
                       print(f"::warning::{msg}")
 
