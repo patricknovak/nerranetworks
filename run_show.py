@@ -448,10 +448,12 @@ def run(args: argparse.Namespace) -> None:
         pod_vars.update(extra_context)
 
         # Provide default intro_line/closing_block if hook didn't supply them.
-        # All intros include the show name, episode number, date, and hook.
+        # Uses engine.intros for day-varying, show-specific intros so
+        # listeners don't hear the exact same opening every day.
         # Episode 1 gets a special intro — the podcast prompt templates handle
         # the detailed first-episode introduction based on {episode_num}.
-        host = getattr(config.publishing, "host_name", "Patrick")
+        from engine.intros import build_intro_line, build_closing_block, get_show_host
+        host = getattr(config.publishing, "host_name", None) or get_show_host(args.show)
         if episode_num == 1:
             pod_vars.setdefault(
                 "intro_line",
@@ -470,15 +472,23 @@ def run(args: argparse.Namespace) -> None:
         else:
             pod_vars.setdefault(
                 "intro_line",
-                f"{host}: Welcome to {config.name}, episode {episode_num}. "
-                f"Today is {today_str}. {effective_hook}",
+                build_intro_line(
+                    args.show,
+                    episode_num=episode_num,
+                    today_str=today_str,
+                    date=today,
+                    extra_context=extra_context,
+                ),
             )
             pod_vars.setdefault(
                 "closing_block",
-                f"{host}: That's {config.name} for today. "
-                f"If you enjoyed this episode, a rating or review on Apple Podcasts or Spotify "
-                f"really helps new listeners find the show. "
-                f"I'm {host} in Vancouver. Thanks for listening, and I'll see you tomorrow.",
+                build_closing_block(
+                    args.show,
+                    episode_num=episode_num,
+                    today_str=today_str,
+                    date=today,
+                    extra_context=extra_context,
+                ),
             )
         pod_vars.setdefault("tone_hint", "natural and conversational")
 

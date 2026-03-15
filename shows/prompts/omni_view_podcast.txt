@@ -49,7 +49,8 @@ IMPORTANT: This special intro is ONLY for Episode 1. For ALL subsequent episodes
 SCRIPT STRUCTURE:
 
 [Intro — 15 seconds] (or 90-120 seconds if Episode 1 — see special intro above)
-Host: Good morning. This is Omni View, episode {episode_num} — balanced news perspectives. Today is {today_str}. We'll cover what happened, how different viewpoints frame it — so you can decide for yourself.
+Use this exact intro (do not rewrite it):
+{intro_line}
 
 [Hook — one sentence, right after the intro]
 Host: {hook}
@@ -66,7 +67,8 @@ For each story:
 Host: Before we go — briefly tease a developing story listeners should watch for tomorrow. Keep it specific: "Tomorrow, watch for..." This builds habitual listening.
 
 [Closing]
-Host: That's Omni View. For full source links and more context, check out today's written briefing on the Omni View summaries page. As always — compare outlets, look for primary documents, and separate what's known from what's assumed. If balanced perspectives are valuable to you, share this with a friend and subscribe wherever you listen. See you tomorrow.
+Use this exact closing (do not rewrite it):
+{closing_block}
 
 Here is today's complete briefing. Use ONLY this content:
 
