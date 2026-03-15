@@ -1,0 +1,79 @@
+name: Monthly Reports
+
+on:
+  schedule:
+    # 1st of month at 4 PM UTC
+    - cron: '0 16 1 * *'
+
+  workflow_dispatch:
+    inputs:
+      show:
+        description: 'Show to generate report for (default: all)'
+        required: false
+        type: choice
+        options:
+          - all
+          - tesla
+          - omni_view
+          - fascinating_frontiers
+          - planetterrian
+          - env_intel
+          - models_agents
+          - models_agents_beginners
+          - finansy_prosto
+          - privet_russian
+      month:
+        description: 'Month number (default: previous month)'
+        required: false
+        type: string
+      year:
+        description: 'Year (default: current year)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pyyaml requests
+
+      - name: Run monthly reports
+        env:
+          GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
+        run: |
+          ARGS=""
+          if [ "${{ github.event.inputs.show }}" != "" ] && [ "${{ github.event.inputs.show }}" != "all" ]; then
+            ARGS="--show ${{ github.event.inputs.show }}"
+          fi
+          if [ "${{ github.event.inputs.month }}" != "" ]; then
+            ARGS="$ARGS --month ${{ github.event.inputs.month }}"
+          fi
+          if [ "${{ github.event.inputs.year }}" != "" ]; then
+            ARGS="$ARGS --year ${{ github.event.inputs.year }}"
+          fi
+          python scripts/run_monthly_report.py $ARGS
+
+      - name: Generate cross-show briefing
+        env:
+          GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
+        run: python scripts/run_cross_show_briefing.py
+
+      - name: Commit reports
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add outputs/monthly_reports/ outputs/briefings/
+          git diff --cached --quiet || git commit -m "Add monthly reports for $(date +%Y-%m)"
+          git push

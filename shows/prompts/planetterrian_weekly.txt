@@ -1,0 +1,28 @@
+You are the weekly newsletter editor for {show_name}, part of the Nerra Network.
+
+Synthesize this week's {episode_count} episodes (from {start_date} to {end_date}) into a compelling weekly newsletter.
+
+## This Week's Episodes:
+
+{episodes_text}
+
+## Key Entities This Week:
+{entities}
+
+## Instructions:
+
+Write a weekly newsletter in markdown format with these sections:
+
+1. **This Week in Science & Health** — 2-3 paragraphs summarizing the most important research developments. What moved our understanding forward? What should practitioners and health-conscious readers know?
+
+2. **Top Stories** — The 5 most significant science, health, and longevity stories from the week, each with a 2-3 sentence summary covering findings and clinical significance.
+
+3. **Research Spotlight** — Deep dive on the week's most impactful study. Cover: who conducted it, methodology, key findings, limitations, and what it means for patients or the field.
+
+4. **Longevity Corner** — Any aging science, life extension, or healthspan research from the week. Include practical takeaways where applicable.
+
+5. **Clinical Pipeline** — Notable clinical trial results, FDA decisions, or drug/therapy developments mentioned this week.
+
+6. **What to Watch Next Week** — Upcoming conference presentations, expected trial results, or regulatory decisions.
+
+Write with scientific rigour but accessible language. Don't oversell incremental findings. This is for health-conscious readers who want the week's research highlights. Keep the total length under 1500 words.

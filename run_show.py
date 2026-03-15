@@ -409,6 +409,34 @@ def run(args: argparse.Namespace) -> None:
     digest_md.write_text(x_thread, encoding="utf-8")
     logger.info("Digest saved: %s", digest_md)
 
+    # Write episode to Content Lake (non-fatal — must never block pipeline)
+    _lake_record = None
+    try:
+        from engine.content_lake import store_episode, EpisodeRecord, extract_entities_and_topics
+
+        _et = extract_entities_and_topics(x_thread, args.show)
+        _lang = "ru" if args.show in ("finansy_prosto", "privet_russian") else "en"
+        _lake_record = EpisodeRecord(
+            show_slug=args.show,
+            episode_num=episode_num,
+            date=today.isoformat(),
+            title=hook or f"Episode {episode_num}",
+            hook=hook or "",
+            digest_md=x_thread,
+            podcast_script="",  # Updated after script generation
+            summary=x_thread[:500] if x_thread else "",
+            headlines=[],
+            source_urls=[],
+            entities=_et["entities"],
+            topics=_et["topics"],
+            word_count=len(x_thread.split()) if x_thread else 0,
+            show_name=config.name,
+            language=_lang,
+        )
+        store_episode(_lake_record)
+    except Exception as exc:
+        logger.warning("Content lake write failed (non-fatal): %s", exc)
+
     if args.test:
         logger.info("[TEST MODE] Digest generated successfully. Stopping here.")
         print("\n" + "=" * 60)
@@ -496,6 +524,15 @@ def run(args: argparse.Namespace) -> None:
         logger.info("Generating podcast script ...")
         podcast_script = generate_podcast_script(pod_vars, config, tracker=tracker)
         logger.info("Podcast script generation took %.1fs", time.monotonic() - t0)
+
+        # Update Content Lake with podcast script (non-fatal)
+        if _lake_record is not None:
+            try:
+                from engine.content_lake import store_episode as _store_ep
+                _lake_record.podcast_script = podcast_script
+                _store_ep(_lake_record)
+            except Exception as exc:
+                logger.warning("Content lake script update failed (non-fatal): %s", exc)
 
         # Clean podcast script: strip speaker prefixes and stage directions
         podcast_script = _clean_podcast_script(podcast_script, host_name=host)
