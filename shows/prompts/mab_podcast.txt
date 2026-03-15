@@ -78,7 +78,8 @@ IMPORTANT: This special intro is ONLY for Episode 1. For ALL episodes after Epis
 === SCRIPT STRUCTURE ===
 
 [Welcome — 15 seconds] (or 90-120 seconds if Episode 1 — see special intro above)
-Host: Hey! Welcome to Models and Agents for Beginners, episode {episode_num}, for {today_str}. Let's break down today's coolest AI news so anyone can understand it. Let's go!
+Use this exact intro (do not rewrite it):
+{intro_line}
 
 [The Big Story — 2.5-3 minutes]
 Take the single biggest development and make it DEEPLY accessible. This is the heart of the episode:
@@ -111,7 +112,8 @@ Cover 2-3 interesting tools or updates, and for each one tell listeners somethin
 2-3 rapid-fire smaller items. Keep each to 2-3 sentences. Quick, punchy, interesting. These are the "oh, that's cool" moments that keep things fresh.
 
 [Closing — 15-20 seconds]
-Host: That's it for today! Remember, every AI expert started exactly where you are right now. If something we talked about today made you curious, go try it — that's literally how learning works. Stay curious, keep experimenting, and we'll see you tomorrow.
+Use this exact closing (do not rewrite it):
+{closing_block}
 
 Here is today's complete briefing. Use ONLY this content:
 

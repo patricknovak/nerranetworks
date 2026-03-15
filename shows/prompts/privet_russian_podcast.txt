@@ -41,7 +41,8 @@ This script is synthesized by AI text-to-speech in English. Russian words should
 === SCRIPT STRUCTURE ===
 
 [Welcome — 20-30 seconds]
-Host: Privyet! That means hello in Russian! Welcome to Privyet Ruskiy, episode {episode_num}, for {today_str}. I'm Olya, and today we're going to learn some really fun Russian words about [today's theme]. Whether you're five or fifty five, by the end of this episode, you'll know [number] new Russian words. Ready? Poyekhali! That means, let's go!
+Use this exact intro (do not rewrite it):
+{intro_line}
 
 [Word of the Day — 1 minute]
 Introduce today's most important word with extra detail:
@@ -80,7 +81,8 @@ A fun, interactive segment:
 - Quick review of all words learned today
 
 [Closing — 15-20 seconds]
-Host: Molodets! That means, well done! You just learned [number] new Russian words today. Remember, every expert started as a beginner. Practice saying today's words out loud, even just once, and you'll be amazed how fast you learn. See you next time! Poka! That's Russian for, bye!
+Use this exact closing (do not rewrite it):
+{closing_block}
 
 Here is today's episode plan. Use ONLY this content:
 

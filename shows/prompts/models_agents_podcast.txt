@@ -43,7 +43,8 @@ IMPORTANT: This special intro is ONLY for Episode 1. For ALL subsequent episodes
 
 SCRIPT STRUCTURE:
 [Intro — 15 seconds] (or 90-120 seconds if Episode 1 — see special intro above)
-Host: Hey, welcome to Models and Agents, episode {episode_num}, for {today_str}. Your daily briefing on the AI models and agents that are changing everything. And no, not THOSE kinds of models and agents. Let's get into it.
+Use this exact intro (do not rewrite it):
+{intro_line}
 
 [Hook — the episode's headline, right after the intro]
 Host: {hook}
@@ -93,7 +94,8 @@ Deliver this with energy — it's the thing that should make listeners lean in. 
 Host: Before we go — briefly tease something listeners should watch for tomorrow based on developing stories. Keep it specific: "Tomorrow, keep an eye on..." or "We'll have more on..." This builds habitual listening and anticipation.
 
 [Closing — 15 seconds]
-Host: That's Models and Agents for {today_str}. If you found this useful, share it with someone who's trying to keep up with all these changes, and subscribe so you don't miss tomorrow's update. The AI world moves fast. We'll help you keep up. See you tomorrow.
+Use this exact closing (do not rewrite it):
+{closing_block}
 
 Here is today's complete briefing. Use ONLY this content:
 

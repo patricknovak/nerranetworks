@@ -50,7 +50,8 @@ def pre_fetch(config, *, episode_num: int | None = None, today_str: str | None =
 
     # Podcast-specific vars
     context["tone_hint"] = _tone_from_change(change_str)
-    context["intro_line"] = _pick_intro(context, episode_num=episode_num, today_str=today_str)
+    # Intro/closing are now handled by engine.intros (day-varying, dynamic).
+    # Tesla hook only provides stock-specific closing with price data.
     context["closing_block"] = _pick_closing(context)
 
     return context

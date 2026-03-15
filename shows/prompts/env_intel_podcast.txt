@@ -43,7 +43,8 @@ IMPORTANT: This special intro is ONLY for Episode 1. For ALL subsequent episodes
 
 SCRIPT STRUCTURE:
 [Intro — 15 seconds] (or 60-90 seconds if Episode 1 — see special intro above)
-Host: Good morning. This is Environmental Intelligence, episode {episode_num}, for {today_str}. Your daily briefing on environmental regulatory, science, and compliance developments that matter for Canadian professionals.
+Use this exact intro (do not rewrite it):
+{intro_line}
 
 [Hook — the episode's headline, right after the intro]
 Host: {hook}
@@ -91,7 +92,8 @@ Deliver this with authority — it's the reason professionals should keep listen
 Host: Before we wrap — briefly tease a developing story or upcoming deadline listeners should watch for tomorrow. Keep it specific: "Tomorrow, watch for..." or "We'll have more on..." This builds habitual listening.
 
 [Closing — 15 seconds]
-Host: That's Environmental Intelligence for {today_str}. If this briefing is useful to your practice, share it with a colleague and subscribe wherever you get your podcasts. We're back tomorrow. Have a productive day.
+Use this exact closing (do not rewrite it):
+{closing_block}
 
 Here is today's complete briefing. Use ONLY this content:
 
