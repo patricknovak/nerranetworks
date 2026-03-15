@@ -123,24 +123,44 @@ jobs:
                   if is_even_day:
                       shows.append("privet_russian")
 
-              # Detect known DST no-ops (cron fires but show runs at a different
-              # UTC hour depending on EST/EDT).  These are expected empty results.
+              # Detect known no-ops.  GitHub Actions cron uses OR logic between
+              # day-of-month and day-of-week fields, so e.g. "1-31/2 * 1-5"
+              # fires on (odd days) OR (weekdays) — nearly every day.  The gate
+              # logic above correctly filters, but we need to suppress the
+              # alert-skip error for these expected empty results.
               if not shows:
+                  weekday = now_et.weekday()  # 0=Mon .. 6=Sun
+
                   # 10:00 UTC is the EDT-only Omni View trigger.
                   # During EST, Omni View runs at 11:00 UTC instead.
                   if utc_hour == 10 and et_hour != 6:
                       known_noop = True
                       print(f"DST no-op: 10:00 UTC Omni View trigger during EST (ET hour={et_hour}). "
                             f"Omni View will run at 11:00 UTC instead.")
-                  # Odd/even day cron triggers on non-matching days are expected no-ops
+                  # Odd-day cron triggers on even days are expected no-ops
                   elif utc_hour in (10, 12, 14, 15) and is_even_day:
                       known_noop = True
                       print(f"Even-day no-op: odd-day shows don't run on day {day}.")
+                  # Even-day cron triggers on odd days are expected no-ops
                   elif utc_hour in (16, 17, 18) and is_odd_day:
                       known_noop = True
                       print(f"Odd-day no-op: even-day shows don't run on day {day}.")
+                  # 14:00 UTC env_intel cron fires on weekends due to OR logic
+                  # (cron "1-31/2 * 1-5" = odd days OR weekdays). Env Intel
+                  # is weekday-only, so weekend triggers are expected no-ops.
+                  elif utc_hour == 14 and weekday >= 5:
+                      known_noop = True
+                      print(f"Weekend no-op: env_intel only runs on weekdays (today is {'Sat' if weekday == 5 else 'Sun'}).")
+                  # 12:00 UTC fires on all odd/even days via cron; on odd days
+                  # at :15+ there's no show (FF is even-day :15, PT is odd-day :00).
+                  elif utc_hour == 12 and utc_minute >= 10 and is_odd_day:
+                      known_noop = True
+                      print(f"Odd-day no-op at 12:{utc_minute:02d}: FF runs on even days only.")
+                  elif utc_hour == 12 and utc_minute < 10 and is_even_day:
+                      known_noop = True
+                      print(f"Even-day no-op at 12:{utc_minute:02d}: PT runs on odd days only.")
                   else:
-                      msg = f"WARNING: No shows matched for UTC {utc_hour}:{utc_minute:02d}, ET hour {et_hour}, day {day}"
+                      msg = f"WARNING: No shows matched for UTC {utc_hour}:{utc_minute:02d}, ET hour {et_hour}, day {day}, weekday {weekday}"
                       print(msg)
                       print(f"::warning::{msg}")
 
