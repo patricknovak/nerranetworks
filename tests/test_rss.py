@@ -218,7 +218,7 @@ class TestChannelMetadata:
 # TEST: Item / Episode structure
 # ===================================================================
 
-BASE_URL = "https://raw.githubusercontent.com/patricknovak/Tesla-shorts-time/main"
+BASE_URL = "https://raw.githubusercontent.com/patricknovak/nerranetworks/main"
 R2_BASE_URL = "https://audio.nerranetwork.com"
 
 ENCLOSURE_URL_PATTERNS = {
