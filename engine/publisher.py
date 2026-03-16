@@ -342,6 +342,7 @@ def _inject_podcast_locked_tag(rss_path: Path, owner_email: str) -> None:
     try:
         ET.register_namespace("podcast", PODCAST_NS)
         ET.register_namespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
+        ET.register_namespace("atom", "http://www.w3.org/2005/Atom")
 
         tree = ET.parse(str(rss_path))
         root = tree.getroot()
@@ -385,6 +386,7 @@ def _inject_chapters_tag(rss_path: Path, guid: str, chapters_url: str) -> None:
         # clean prefixes and declares xmlns automatically.
         ET.register_namespace("podcast", PODCAST_NS)
         ET.register_namespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
+        ET.register_namespace("atom", "http://www.w3.org/2005/Atom")
 
         tree = ET.parse(str(rss_path))
         root = tree.getroot()

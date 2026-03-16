@@ -43,6 +43,7 @@ def main() -> None:
     # Register namespaces BEFORE parsing so they serialize with proper prefixes
     ET.register_namespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
     ET.register_namespace("podcast", "https://podcastindex.org/namespace/1.0")
+    ET.register_namespace("atom", "http://www.w3.org/2005/Atom")
 
     project_root = Path(__file__).resolve().parent
     episodes = []
