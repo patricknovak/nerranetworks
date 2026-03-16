@@ -15,11 +15,14 @@ Before submitting, ensure:
 
 | Show | RSS Feed URL |
 |------|-------------|
-| Tesla Shorts Time | `https://raw.githubusercontent.com/patricknovak/nerranetworks/main/tesla_shorts_time_podcast.rss` |
-| Omni View | `https://raw.githubusercontent.com/patricknovak/nerranetworks/main/omni_view_podcast.rss` |
-| Fascinating Frontiers | `https://raw.githubusercontent.com/patricknovak/nerranetworks/main/fascinating_frontiers_podcast.rss` |
-| Planetterrian Daily | `https://raw.githubusercontent.com/patricknovak/nerranetworks/main/planetterrian_podcast.rss` |
-| Environmental Intelligence | `https://raw.githubusercontent.com/patricknovak/nerranetworks/main/env_intel_podcast.rss` |
+| Tesla Shorts Time | `https://nerranetwork.com/tesla_shorts_time_podcast.rss` |
+| Omni View | `https://nerranetwork.com/omni_view_podcast.rss` |
+| Fascinating Frontiers | `https://nerranetwork.com/fascinating_frontiers_podcast.rss` |
+| Planetterrian Daily | `https://nerranetwork.com/planetterrian_podcast.rss` |
+| Environmental Intelligence | `https://nerranetwork.com/env_intel_podcast.rss` |
+| Models & Agents | `https://nerranetwork.com/models_agents_podcast.rss` |
+| Models & Agents for Beginners | `https://nerranetwork.com/models_agents_beginners_podcast.rss` |
+| Finansy Prosto | `https://nerranetwork.com/finansy_prosto_podcast.rss` |
 
 ## Directory Submission Steps
 
@@ -99,8 +102,24 @@ RSS URL. Being in Apple Podcasts is sufficient for Overcast discoverability.
 | Amazon Music | 1400x1400 | 3000x3000 | JPEG or PNG | 1:1 |
 | General | 3000x3000 recommended | — | JPEG or PNG | 1:1 |
 
+## Submission Status Tracker
+
+| Show | Apple | Spotify | YouTube Music | Amazon | Podcast Index | Pocket Casts | iHeart |
+|------|-------|---------|---------------|--------|---------------|--------------|--------|
+| Tesla Shorts Time | -- | -- | -- | -- | -- | -- | -- |
+| Omni View | -- | -- | -- | -- | -- | -- | -- |
+| Fascinating Frontiers | -- | -- | -- | -- | -- | -- | -- |
+| Planetterrian Daily | -- | -- | -- | -- | -- | -- | -- |
+| Environmental Intelligence | -- | -- | -- | -- | -- | -- | -- |
+| Models & Agents | -- | -- | -- | -- | -- | -- | -- |
+| Models & Agents for Beginners | -- | -- | -- | -- | -- | -- | -- |
+| Finansy Prosto | -- | -- | -- | -- | -- | -- | -- |
+
+Legend: -- = not submitted, PENDING = submitted awaiting review, LIVE = live and verified
+
 ## Post-Submission Checklist
 
+For each show, verify:
 - [ ] Apple Podcasts: submitted and approved
 - [ ] Spotify: submitted and live
 - [ ] YouTube Music: RSS synced

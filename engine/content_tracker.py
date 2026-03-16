@@ -179,6 +179,32 @@ MAB_SECTION_PATTERNS: Dict[str, str] = {
     ),
 }
 
+FP_SECTION_PATTERNS: Dict[str, str] = {
+    "headlines": (
+        r"(?:### Главная тема|## Главная тема|главная новость)"
+        r"(.*?)"
+        r"(?=━━|### Как это работает|## Как это работает|### Коротко|## Коротко|$)"
+    ),
+    "practical_tips": (
+        r"(?:### Практические советы|## Практические советы|попробуйте сами)"
+        r"(.*?)"
+        r"(?=━━|### Коротко|## Коротко|### Завершение|## Завершение|$)"
+    ),
+    "quick_news": (
+        r"(?:### Коротко и ясно|## Коротко и ясно|быстрые новости)"
+        r"(.*?)"
+        r"(?=━━|### Завершение|## Завершение|на сегодня всё|$)"
+    ),
+}
+
+PR_SECTION_PATTERNS: Dict[str, str] = {
+    "headlines": (
+        r"(?:### Main Topic|## Main Topic|### Главная тема)"
+        r"(.*?)"
+        r"(?=━━|### Practice|## Practice|### Практика|$)"
+    ),
+}
+
 # Registry mapping show slugs to their section patterns.
 # New shows should be added here to enable cross-episode content tracking.
 SHOW_SECTION_PATTERNS: Dict[str, Dict[str, str]] = {
@@ -190,6 +216,8 @@ SHOW_SECTION_PATTERNS: Dict[str, Dict[str, str]] = {
     "env_intel": EI_SECTION_PATTERNS,
     "models_agents": MA_SECTION_PATTERNS,
     "models_agents_beginners": MAB_SECTION_PATTERNS,
+    "finansy_prosto": FP_SECTION_PATTERNS,
+    "privet_russian": PR_SECTION_PATTERNS,
 }
 
 

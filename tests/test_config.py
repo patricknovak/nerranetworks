@@ -457,7 +457,7 @@ class TestLoadConfigRealFiles:
         assert cfg.llm.model == "grok-4"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
-        assert cfg.tts.stability == 0.78
+        assert cfg.tts.stability == 0.65  # Normalized to network standard
         assert cfg.tts.style == 0.55
         assert cfg.tts.max_chars == 4500
         assert cfg.audio.music_file == "assets/music/tesla_shorts_time.mp3"

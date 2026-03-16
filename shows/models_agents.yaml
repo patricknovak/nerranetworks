@@ -55,6 +55,20 @@ sources:
   - url: https://www.latent.space/feed
     label: Latent Space
 
+  # MLOps & Production AI
+  - url: https://neptune.ai/blog/feed
+    label: Neptune AI Blog
+  - url: https://www.deeplearning.ai/the-batch/feed/
+    label: The Batch (DeepLearning.AI)
+  - url: https://simonwillison.net/atom/everything/
+    label: Simon Willison
+  - url: https://lilianweng.github.io/index.xml
+    label: Lilian Weng (OpenAI)
+  - url: https://www.bentoml.com/blog/rss.xml
+    label: BentoML Blog
+  - url: https://towardsdatascience.com/feed
+    label: Towards Data Science
+
 keywords:
   - ai model
   - language model

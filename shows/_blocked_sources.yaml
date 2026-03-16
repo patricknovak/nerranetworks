@@ -1,0 +1,94 @@
+# Blocked RSS Sources
+# -------------------
+# Sources listed here have been tried and rejected for quality reasons.
+# check_sources.py will flag any show config that references a blocked URL.
+# This prevents bad sources from being accidentally re-added.
+#
+# Format:
+#   - url: <feed URL or domain fragment>
+#     reason: <why it was blocked>
+#     date_blocked: <YYYY-MM-DD>
+
+blocked:
+  - url: finance.yahoo.com
+    reason: Low-quality aggregated headlines, clickbait, unreliable article quality
+    date_blocked: "2026-03-16"
+
+  - url: seekingalpha.com
+    reason: Paywalled content, speculative opinion pieces, inconsistent quality
+    date_blocked: "2026-03-16"
+
+  - url: electrek.co
+    reason: Sensationalized headlines, inconsistent editorial standards
+    date_blocked: "2026-03-16"
+
+  # -------------------------------------------------------------------
+  # Russia-based sources — sensitivity policy
+  # -------------------------------------------------------------------
+  # Olya (host of Russian shows) is a Ukrainian Russian speaker.
+  # We avoid Russia-based platforms that could be perceived as
+  # supporting Russian state interests or normalizing Russian
+  # state-controlled financial/tech infrastructure.
+  # Independent exile media (Meduza, Moscow Times) are acceptable
+  # as they operate outside Russia and are explicitly anti-Kremlin.
+  # -------------------------------------------------------------------
+
+  - url: journal.tinkoff.ru
+    reason: "Russia-based financial institution (Tinkoff/T-Bank); sensitivity policy"
+    date_blocked: "2026-03-16"
+
+  - url: fintolk.pro
+    reason: "Russia-based finance platform; sensitivity policy"
+    date_blocked: "2026-03-16"
+
+  - url: vc.ru
+    reason: "Russia-based tech/business platform; sensitivity policy"
+    date_blocked: "2026-03-16"
+
+  - url: banki.ru
+    reason: "Russia-based banking portal; sensitivity policy"
+    date_blocked: "2026-03-16"
+
+  - url: habr.com
+    reason: "Russia-based tech platform; sensitivity policy"
+    date_blocked: "2026-03-16"
+
+  - url: rt.com
+    reason: "Russian state propaganda outlet"
+    date_blocked: "2026-03-16"
+
+  - url: tass.com
+    reason: "Russian state news agency"
+    date_blocked: "2026-03-16"
+
+  - url: ria.ru
+    reason: "Russian state news agency (RIA Novosti)"
+    date_blocked: "2026-03-16"
+
+  - url: sputniknews.com
+    reason: "Russian state propaganda outlet"
+    date_blocked: "2026-03-16"
+
+  - url: lenta.ru
+    reason: "Russia-based, state-aligned after 2014 editorial purge"
+    date_blocked: "2026-03-16"
+
+  - url: rbc.ru
+    reason: "Russia-based business media; sensitivity policy"
+    date_blocked: "2026-03-16"
+
+  - url: kommersant.ru
+    reason: "Russia-based, owned by Alisher Usmanov; sensitivity policy"
+    date_blocked: "2026-03-16"
+
+  - url: gazeta.ru
+    reason: "Russia-based media; sensitivity policy"
+    date_blocked: "2026-03-16"
+
+  - url: iz.ru
+    reason: "Russian state media (Izvestia)"
+    date_blocked: "2026-03-16"
+
+  - url: pravda.ru
+    reason: "Russian state-aligned media"
+    date_blocked: "2026-03-16"
