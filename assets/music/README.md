@@ -13,6 +13,7 @@ assets/music/
 ├── fascinatingfrontiers_bg.mp3    # FF — longer ambient space background/outro
 ├── oilers-pride.mp3               # PT — science/discovery theme
 ├── LubechangeOilers.mp3           # OV — balanced news theme
+├── modern_investing.mp3           # MIT — financial/market intelligence theme (TODO: generate)
 └── README.md                      # This file
 ```
 
@@ -83,6 +84,7 @@ continues through the outro.
 | Science/Health (PT) | Curious, optimistic | 90–110 BPM | Acoustic + electronic, warm pads | 30–60 s |
 | Balanced News (OV) | Authoritative, neutral | 100–120 BPM | Piano, strings, clean percussion | 30–60 s |
 | Professional/Regulatory (EI) | Professional, serious | 80–100 BPM | Clean piano, minimal strings | 20–40 s |
+| Financial/Investing (MIT) | Confident, precise | 110–120 BPM | Piano, subtle electronics, clean beat | 30–45 s |
 
 ### Prompt Templates for AI Music Tools
 
@@ -110,6 +112,12 @@ continues through the outro.
 > Professional environmental briefing theme. Clean, serious, and focused.
 > Minimal piano with subtle ambient texture. Conveys expertise and regulatory
 > authority. Short and purposeful. 20–30 seconds.
+
+**MIT (Modern Investing Techniques):**
+> Confident financial podcast intro. Clean, modern production with subtle
+> electronic beats and piano. Conveys intelligence, precision, and controlled
+> energy — think Bloomberg terminal meets algorithmic trading. Professional but
+> not corporate. Emerald green energy. 110–120 BPM. 30–45 seconds, clean ending.
 
 ### Audio Specifications
 

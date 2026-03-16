@@ -1016,6 +1016,7 @@ def run(args: argparse.Namespace) -> None:
             channel_email=config.publishing.rss_email,
             channel_image=config.publishing.rss_image,
             channel_category=config.publishing.rss_category,
+            channel_subcategory=getattr(config.publishing, "rss_subcategory", ""),
             guid_prefix=config.publishing.guid_prefix,
             format_duration_func=format_duration,
             audio_url=feed_audio_url,  # Use R2/OP3-prefixed URL if available

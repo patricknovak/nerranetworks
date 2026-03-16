@@ -70,6 +70,7 @@ def update_rss_feed(
     channel_email: str = "contact@example.com",
     channel_image: str = "",
     channel_category: str = "Technology",
+    channel_subcategory: str = "",
     guid_prefix: str = "podcast",
     format_duration_func=None,
     chapters_url: Optional[str] = None,
@@ -204,7 +205,10 @@ def update_rss_feed(
     fg.podcast.itunes_owner(name=channel_author, email=channel_email)
     if channel_image:
         fg.podcast.itunes_image(channel_image)
-    fg.podcast.itunes_category(channel_category)
+    if channel_subcategory:
+        fg.podcast.itunes_category({"cat": channel_category, "sub": channel_subcategory})
+    else:
+        fg.podcast.itunes_category(channel_category)
     fg.podcast.itunes_explicit("no")
 
     # --- Re-add existing episodes (skip the one being replaced) -----------
