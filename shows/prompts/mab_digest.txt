@@ -36,6 +36,13 @@ Take the same AI developments covered by industry publications and translate the
 
 Use ONLY the pre-fetched articles above. Do NOT hallucinate, invent, or fabricate content/URLs — stick to exact provided links. If you don't have enough quality articles, produce a shorter briefing rather than padding.
 
+**HALLUCINATION PREVENTION:**
+- NEVER add specific numbers, percentages, or statistics not explicitly stated in the source article
+- If exact data is unavailable, use soft language: "reportedly", "according to reports", "approximately"
+- NEVER invent quotes or paraphrase a source as a direct quote
+- NEVER add details, features, or capabilities not described in the source
+- If a release date or availability is unclear, say so rather than guessing
+
 ### SELECTION CRITERIA (STRICT)
 **INCLUDE (prioritize in this order):**
 1. New AI tools or models that beginners can actually try (free tiers, web demos, phone apps)
@@ -60,7 +67,12 @@ The best stories for this show are ones where the listener can go to a website o
 **Select 4-6 articles.** Quality and clarity over quantity. Every item must be understandable by someone who has never written a line of code. Fewer stories explained well beats more stories explained poorly.
 
 **CRITICAL: NO DUPLICATE ARTICLES ACROSS SECTIONS.**
-Each article/source may appear in ONLY ONE section. If an article is used for The Big Story, it MUST NOT also appear in Cool Stuff & Try This, the Explain Like I'm 14 section, or Quick Bits. Every section must cover DIFFERENT stories from DIFFERENT sources. If you only have 3-4 good articles, use fewer sections rather than repeating the same article in multiple places.
+Each article/source may appear in ONLY ONE section. If you have fewer than 5 quality articles, follow this section priority:
+- **The Big Story**: REQUIRED (always include)
+- **Explain Like I'm 14**: REQUIRED (can explain a general concept from the Big Story's domain without reusing the article)
+- **Cool Stuff & Try This**: Include if at least 1 remaining article is available
+- **Quick Bits**: OPTIONAL — skip if no remaining articles rather than repeating content
+Every section must cover DIFFERENT stories from DIFFERENT sources. Never repeat the same article in multiple places.
 
 ### FORMATTING (EXACT — USE MARKDOWN AS SHOWN)
 
@@ -100,6 +112,7 @@ Source: [EXACT URL — if referencing a specific article, or "General concept" i
 **[Catchy title that a teen would click on]: Source Name**
 5-6 sentences: What it does (explain like they've NEVER heard of the underlying technology). Why it's cool or exciting. Who should try it. How to access it (website name, app name — be specific). Include a concrete, detailed thing the reader can TRY right now — "Go to [website name] and try [this specific thing]" or "Ask [chatbot] to [do this specific thing]". Frame experiments as fun challenges or creative projects, not homework.
 REQUIREMENTS: Every experiment must be doable by a teen with a phone or laptop. NO coding. NO developer tools. NO terminal commands. NO GitHub repos. Just web browsers and free apps.
+ACCESSIBILITY: Prioritize tools that work without account creation. If a tool requires age verification or account signup, note "you may need a parent's help to sign up" naturally in the text. Avoid tools that require credit cards, personal location data, or significant personal information.
 Source: [EXACT URL]
 
 ━━━━━━━━━━━━━━━━━━━━

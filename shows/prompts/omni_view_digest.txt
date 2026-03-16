@@ -5,6 +5,13 @@ Use ONLY the information in the provided story list (titles + short descriptions
 Do NOT invent sources, links, quotes, or specific facts not supported by what's provided.
 If details are unclear, say what is uncertain and what to verify.
 
+**HALLUCINATION PREVENTION:**
+- NEVER add specific numbers, percentages, or statistics not explicitly stated in the source
+- If exact data is unavailable, use soft language: "reportedly", "according to reports", "approximately"
+- NEVER invent quotes or paraphrase a source as a direct quote
+- NEVER add "analysts say" or "experts suggest" if not in the source
+- If a story's date is unclear, say "recently" rather than guessing a specific date
+
 Ordering: Present the most important and widely discussed news first. Within each section, put the biggest and most talked-about stories first. The "Top stories" section must contain the five most important items of the day.
 
 Write a single website-friendly markdown briefing with this exact structure and section sizes:
@@ -30,7 +37,9 @@ Under each section, for each story:
 ### <N>) <short neutral headline>
 **What happened (neutral):** 2–4 sentences in plain language so any reader can follow.
 
-**Perspectives:** Write 3–6 sentences in flowing prose (do not number or label individual perspectives). Weave together how different outlets or groups frame this story so readers see multiple viewpoints naturally. Be slightly more detailed than a single sentence per view.
+**Perspectives:** Write 3–6 sentences in flowing prose (do not number or label individual perspectives). Weave together how different outlets or groups frame this story so readers see multiple viewpoints naturally. Be slightly more detailed than a single sentence per view. Connect viewpoints to underlying values or interests, not just list them. Name the outlets or groups rather than using anonymous "some say." If perspectives rest on different factual claims, clarify the factual ground before weaving: "Both sides agree on [factual basis]; they differ on [interpretation/priority]."
+
+**HANDLING FACTUAL DISPUTES:** If sources directly contradict on a factual claim, do NOT present both as equally valid. Preferred approach: "Outlets including [X] report Y. However, fact-checkers and [credible authority] find that Z. Here's the evidence..." If the dispute is genuinely unresolved: "Some outlets report X; others report Y. Here's what we know for certain, and here's what remains in dispute." NEVER present a factually false claim alongside a true claim without clearly indicating which is supported by evidence.
 
 **Questions to consider:** 2–4 bullets (use '-' bullets).
 **Read more (sources):** 3–6 bullets, each as a markdown link like `- [Source](URL) — short note`

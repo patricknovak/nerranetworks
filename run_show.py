@@ -215,22 +215,22 @@ def _preflight_checks(config, *, dry_run: bool = False) -> None:
         issues.append(f"Unknown TTS provider: {config.tts.provider!r} (expected one of {valid_providers})")
 
     # Check critical API key env vars are populated
-        if config.tts.provider == "elevenlabs":
-            if not os.environ.get("ELEVENLABS_API_KEY"):
-                issues.append("ELEVENLABS_API_KEY env var is empty or missing")
-        elif config.tts.provider == "fish":
-            if not os.environ.get("FISH_AUDIO_API_KEY"):
-                issues.append("FISH_AUDIO_API_KEY env var is empty or missing")
+    if config.tts.provider == "elevenlabs":
+        if not os.environ.get("ELEVENLABS_API_KEY"):
+            issues.append("ELEVENLABS_API_KEY env var is empty or missing")
+    elif config.tts.provider == "fish":
+        if not os.environ.get("FISH_AUDIO_API_KEY"):
+            issues.append("FISH_AUDIO_API_KEY env var is empty or missing")
 
-        if not os.environ.get("GROK_API_KEY"):
-            issues.append("GROK_API_KEY env var is empty or missing")
+    if not os.environ.get("GROK_API_KEY"):
+        issues.append("GROK_API_KEY env var is empty or missing")
 
-        # Check R2 storage credentials if R2 is configured
-        if getattr(config, "storage", None) and config.storage.provider == "r2":
-            for env_attr in ("endpoint_env", "access_key_env", "secret_key_env"):
-                env_name = getattr(config.storage, env_attr, "")
-                if env_name and not os.environ.get(env_name):
-                    logger.warning("R2 env var %s (%s) is empty — upload may fail", env_name, env_attr)
+    # Check R2 storage credentials if R2 is configured
+    if getattr(config, "storage", None) and config.storage.provider == "r2":
+        for env_attr in ("endpoint_env", "access_key_env", "secret_key_env"):
+            env_name = getattr(config.storage, env_attr, "")
+            if env_name and not os.environ.get(env_name):
+                logger.warning("R2 env var %s (%s) is empty — upload may fail", env_name, env_attr)
 
     if issues:
         for issue in issues:
