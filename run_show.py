@@ -197,8 +197,8 @@ def _preflight_checks(config, *, dry_run: bool = False) -> None:
         if path_str and not (PROJECT_ROOT / path_str).exists():
             issues.append(f"Prompt file not found: {path_str}")
 
-    # Check music files exist
-    for attr in ("music_file", "background_music_file", "transition_sting"):
+    # Check music files exist (skip transition_sting — it's auto-generated at runtime)
+    for attr in ("music_file", "background_music_file"):
         path_str = getattr(config.audio, attr, None)
         if path_str and not (PROJECT_ROOT / path_str).exists():
             issues.append(f"Audio file not found: {path_str}")
