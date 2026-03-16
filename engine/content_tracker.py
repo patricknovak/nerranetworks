@@ -207,14 +207,29 @@ PR_SECTION_PATTERNS: Dict[str, str] = {
 
 MI_SECTION_PATTERNS: Dict[str, str] = {
     "headlines": (
-        r"(?:### Strategy Spotlight|## Strategy Spotlight|### Market Pulse)"
+        r"(?:### Strategy Spotlight|## Strategy Spotlight)"
         r"(.*?)"
-        r"(?=━━|### Practice Investment|## Practice Investment|### Tools|$)"
+        r"(?=━━|### Practice Investment|## Practice Investment|$)"
+    ),
+    "market_pulse": (
+        r"(?:\*\*Market Pulse:\*\*|### Market Pulse)"
+        r"(.*?)"
+        r"(?=━━|### Strategy|## Strategy|$)"
     ),
     "practice_investment": (
         r"(?:### Practice Investment|## Practice Investment)"
         r"(.*?)"
         r"(?=━━|### Yesterday|## Yesterday|### Tools|$)"
+    ),
+    "tools_techniques": (
+        r"(?:### Tools & Techniques|## Tools & Techniques)"
+        r"(.*?)"
+        r"(?=━━|### Quick Hits|## Quick Hits|$)"
+    ),
+    "quick_hits": (
+        r"(?:### Quick Hits|## Quick Hits)"
+        r"(.*?)"
+        r"(?=━━|### Portfolio|## Portfolio|### TONE|$)"
     ),
 }
 

@@ -462,6 +462,56 @@ def mab_validation_config() -> ValidationConfig:
     )
 
 
+def mi_validation_config() -> ValidationConfig:
+    """Validation config for Modern Investing Techniques."""
+    return ValidationConfig(
+        section_pairs=[],
+        sections=[
+            SectionRule(
+                name="Strategy Spotlight",
+                pattern=(
+                    r"(?:### Strategy Spotlight|## Strategy Spotlight)"
+                    r"(.*?)"
+                    r"(?=━━|### Practice Investment|## Practice Investment|$)"
+                ),
+                min_items=1,
+            ),
+            SectionRule(
+                name="Practice Investment",
+                pattern=(
+                    r"(?:### Practice Investment|## Practice Investment)"
+                    r"(.*?)"
+                    r"(?=━━|### Yesterday|## Yesterday|### Tools|$)"
+                ),
+                min_items=1,
+            ),
+            SectionRule(
+                name="Tools & Techniques",
+                pattern=(
+                    r"(?:### Tools & Techniques|## Tools & Techniques)"
+                    r"(.*?)"
+                    r"(?=━━|### Quick Hits|## Quick Hits|$)"
+                ),
+                min_items=1,
+                optional=True,
+            ),
+            SectionRule(
+                name="Quick Hits",
+                pattern=(
+                    r"(?:### Quick Hits|## Quick Hits)"
+                    r"(.*?)"
+                    r"(?=━━|### Portfolio|## Portfolio|$)"
+                ),
+                min_items=2,
+                optional=True,
+            ),
+        ],
+        forbidden_patterns=[
+            r"https?://\S+",  # URLs should not leak into podcast script
+        ],
+    )
+
+
 def fp_validation_config() -> ValidationConfig:
     """Validation config for Финансы Просто."""
     return ValidationConfig(
@@ -494,4 +544,5 @@ SHOW_VALIDATION_CONFIGS = {
     "models_agents": ma_validation_config,
     "models_agents_beginners": mab_validation_config,
     "finansy_prosto": fp_validation_config,
+    "modern_investing": mi_validation_config,
 }

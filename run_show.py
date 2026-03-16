@@ -449,6 +449,13 @@ def run(args: argparse.Namespace) -> None:
     digest_md.write_text(x_thread, encoding="utf-8")
     logger.info("Digest saved: %s", digest_md)
 
+    # Post-generation hook (e.g. extract trade picks for Modern Investing tracker)
+    if hook_module and hasattr(hook_module, "post_generate"):
+        try:
+            hook_module.post_generate(config, digest_text=x_thread, episode_num=episode_num)
+        except Exception as exc:
+            logger.warning("Post-generate hook failed for %s: %s", args.show, exc)
+
     # Write episode to Content Lake (non-fatal — must never block pipeline)
     _lake_record = None
     try:

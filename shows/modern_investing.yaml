@@ -93,7 +93,7 @@ llm:
   digest_prompt_file: shows/prompts/modern_investing_digest.txt
   podcast_prompt_file: shows/prompts/modern_investing_podcast.txt
   digest_temperature: 0.5
-  podcast_temperature: 0.7
+  podcast_temperature: 0.85
   max_tokens: 4000
   podcast_max_tokens: 8000
 
@@ -102,13 +102,12 @@ tts:
   model: eleven_turbo_v2_5
   stability: 0.65
   similarity_boost: 0.9
-  style: 0.65
+  style: 0.85
   use_speaker_boost: true
   max_chars: 5000
 
 audio:
   music_file: assets/music/tesla_shorts_time.mp3
-  transition_sting: assets/music/transition_sting.mp3
   voice_intro_delay: 5.0
   intro_duration: 5.0
   overlap_duration: 10.0
@@ -167,9 +166,11 @@ chapters:
       title: "Practice Investment of the Day"
     - pattern: "yesterday's trade|trade review|how did .* pick"
       title: "Trade Review & Lessons"
-    - pattern: "tool|technique|platform|modern tool"
+    - pattern: "tools and techniques|tools & techniques|recommended tools"
       title: "Tools & Techniques"
-    - pattern: "portfolio tracker|running total|performance"
+    - pattern: "quick hits|rapid fire|shorter items"
+      title: "Quick Hits"
+    - pattern: "portfolio tracker|running total|portfolio performance"
       title: "Portfolio Performance"
     - pattern: "That's Modern Investing|wraps up"
       title: "Closing"
