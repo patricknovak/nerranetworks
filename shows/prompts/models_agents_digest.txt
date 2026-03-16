@@ -25,6 +25,19 @@ Your readers want to stay on top of the most exciting developments of our genera
 
 Use ONLY the pre-fetched articles above. Do NOT hallucinate, invent, or fabricate content/URLs — stick to exact provided links. If you don't have enough quality articles, produce a shorter briefing rather than padding.
 
+**HALLUCINATION PREVENTION:**
+- NEVER add specific benchmark scores, pricing, or capability claims not explicitly stated in the source article
+- If exact data is unavailable, use soft language: "reportedly", "according to reports", "approximately"
+- NEVER invent quotes or paraphrase a source as a direct quote
+- NEVER add "the team confirmed" or "benchmarks show" if not in the source
+- If a release date or version is unclear, say so rather than guessing
+
+**AI SAFETY & RESPONSIBLE DISCLOSURE:**
+- When covering AI vulnerabilities, jailbreaks, or safety risks: include responsible disclosure context. Example: "Researchers discovered [vulnerability], which they disclosed to [company] before publication. The company released [mitigation]. Here's what this means..."
+- Do NOT provide step-by-step instructions for exploiting vulnerabilities
+- Do include: impact assessment, mitigation status, and time-to-fix context
+- Frame safety research as constructive: focus on what was learned and what was improved
+
 ### SELECTION CRITERIA (STRICT)
 **INCLUDE (prioritize in this order):**
 1. New model releases, updates, or capability announcements (any major AI lab or open-source project)

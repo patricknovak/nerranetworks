@@ -29,6 +29,13 @@ These professionals bill $150-400/hour and many work across multiple provinces. 
 
 Use ONLY the pre-fetched articles above. Do NOT hallucinate, invent, or fabricate content/URLs — stick to exact provided links. If you don't have enough quality articles, produce a shorter briefing rather than padding.
 
+**HALLUCINATION PREVENTION:**
+- NEVER add specific regulation numbers, threshold values, or deadlines not explicitly stated in the source article
+- If exact data is unavailable, use soft language: "reportedly", "according to reports", "approximately"
+- NEVER invent quotes or paraphrase a source as a direct quote
+- NEVER add "regulators confirmed" or "the ministry indicated" if not in the source
+- If a development's date or jurisdiction is unclear, say so rather than guessing
+
 ### SELECTION CRITERIA (STRICT)
 **INCLUDE (prioritize in this order):**
 1. Provincial regulatory changes, proposed amendments, ministerial orders, policy updates (any Canadian province or territory)
@@ -58,6 +65,38 @@ If fewer than 3 articles meet the strict INCLUDE criteria above, shift to a **De
 3. **Practice Spotlight** — pick one technical topic relevant to current season/quarter (e.g., spring groundwater monitoring prep, annual compliance reporting deadlines, PFAS analytical method updates, field season planning) and provide 3-4 sentences of expert guidance.
 4. **Cross-Jurisdictional Watch** — note any US EPA or international developments that Canadian practitioners should track for upcoming domestic harmonization or policy influence.
 This ensures every episode delivers actionable intelligence even on quiet news days. NEVER produce an empty or thin briefing.
+
+**EXAMPLE: Deep Dive & Practice Intelligence Format (for low-news days)**
+
+# Environmental Intelligence
+**Date:** March 16, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** Alberta proposes new PFAS monitoring requirements for contaminated sites under EPEA amendments.
+
+**Executive Summary:** Alberta's proposed EPEA amendments would require PFAS monitoring at all contaminated sites with known or suspected AFFF use. Meanwhile, CCME's draft soil vapour guidelines enter their final 30-day comment period. Practitioners across western provinces should review both documents this week.
+
+━━━━━━━━━━━━━━━━━━━━
+### Deep Dive: Alberta EPEA PFAS Monitoring Proposal
+[Detailed analysis: regulatory context, what was the previous requirement, what specifically changes, cross-jurisdictional comparison with BC CSR and Ontario O. Reg. 153/04, technical specifics on analytical methods and reporting thresholds — 400-600 words]
+Source: [EXACT URL]
+
+━━━━━━━━━━━━━━━━━━━━
+### Regulatory Calendar — Next 30 Days
+- March 22: CCME draft soil vapour guidelines — comment period closes
+- March 31: BC CSR annual compliance reporting deadline for Schedule 2 sites
+- April 1: Federal carbon pricing adjustment effective date
+[3-5 items with concrete dates and jurisdictions]
+
+━━━━━━━━━━━━━━━━━━━━
+### Practice Spotlight: Spring Groundwater Monitoring Preparation
+[3-5 sentences of expert guidance: equipment calibration deadlines, low-flow sampling protocol updates, QA/QC considerations for first-quarter sampling events, relevant method references]
+
+━━━━━━━━━━━━━━━━━━━━
+### Cross-Jurisdictional Watch
+- US EPA proposed PFAS MCLs may influence CCME guideline revisions expected Q3 2026
+- EU REACH PFAS restriction dossier outcomes could affect Canadian import regulations under CEPA
+[2-3 bullets citing specific agencies and expected timelines]
 
 ### FORMATTING (EXACT — USE MARKDOWN AS SHOWN)
 # Environmental Intelligence
@@ -112,7 +151,7 @@ Source: [EXACT URL]
 
 ### TONE & STYLE
 - Authoritative, precise, concise — like a senior partner's morning briefing memo
-- Use proper regulatory terminology without explaining basics (your readers know what CSR, EMA, CEPA, EPEA mean)
+- Use proper regulatory terminology. Standard abbreviations (CSR, EMA, CEPA, EPEA) need no explanation. If a regulation or acronym is NEWLY INTRODUCED or RECENTLY CHANGED, briefly define it (e.g., "CEPA 2024 amendments to Part 5")
 - Every sentence must answer "so what" — no filler, no padding, no general statements
 - Cite specific regulation sections, threshold values, deadlines, and jurisdictions when available
 - If a story has weak substance, skip it entirely rather than writing vague filler about it

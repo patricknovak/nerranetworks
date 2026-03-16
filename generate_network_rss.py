@@ -40,6 +40,10 @@ def parse_pub_date(text: str) -> datetime:
 
 
 def main() -> None:
+    # Register namespaces BEFORE parsing so they serialize with proper prefixes
+    ET.register_namespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
+    ET.register_namespace("podcast", "https://podcastindex.org/namespace/1.0")
+
     project_root = Path(__file__).resolve().parent
     episodes = []
 
@@ -67,10 +71,9 @@ def main() -> None:
 
     print(f"Merged {len(episodes)} episodes from {len(FEEDS)} feeds")
 
-    # Build the combined RSS
+    # Build the combined RSS — namespace declarations are handled by
+    # ET.register_namespace above; no need for manual xmlns:* attributes.
     rss = ET.Element("rss", version="2.0")
-    rss.set("xmlns:itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
-    rss.set("xmlns:podcast", "https://podcastindex.org/namespace/1.0")
 
     channel = ET.SubElement(rss, "channel")
     ET.SubElement(channel, "title").text = NETWORK_TITLE

@@ -19,7 +19,7 @@ from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
-DB_PATH = Path("data/content_lake.db")
+DB_PATH = Path(__file__).resolve().parent.parent / "data" / "content_lake.db"
 
 
 # ---------------------------------------------------------------------------
