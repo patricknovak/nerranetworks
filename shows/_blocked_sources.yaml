@@ -1,0 +1,23 @@
+# Blocked RSS Sources
+# -------------------
+# Sources listed here have been tried and rejected for quality reasons.
+# check_sources.py will flag any show config that references a blocked URL.
+# This prevents bad sources from being accidentally re-added.
+#
+# Format:
+#   - url: <feed URL or domain fragment>
+#     reason: <why it was blocked>
+#     date_blocked: <YYYY-MM-DD>
+
+blocked:
+  - url: finance.yahoo.com
+    reason: Low-quality aggregated headlines, clickbait, unreliable article quality
+    date_blocked: "2026-03-16"
+
+  - url: seekingalpha.com
+    reason: Paywalled content, speculative opinion pieces, inconsistent quality
+    date_blocked: "2026-03-16"
+
+  - url: electrek.co
+    reason: Sensationalized headlines, inconsistent editorial standards
+    date_blocked: "2026-03-16"
