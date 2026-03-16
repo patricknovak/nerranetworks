@@ -377,3 +377,121 @@ def ov_validation_config() -> ValidationConfig:
             ),
         ],
     )
+
+
+def ei_validation_config() -> ValidationConfig:
+    """Validation config for Environmental Intelligence."""
+    return ValidationConfig(
+        section_pairs=[],
+        sections=[
+            SectionRule(
+                name="Lead Story",
+                pattern=(
+                    r"(?:### Lead Story|## Lead Story)"
+                    r"(.*?)"
+                    r"(?=━━|### Regulatory|## Regulatory|$)"
+                ),
+                min_items=1,
+            ),
+            SectionRule(
+                name="Regulatory & Policy Watch",
+                pattern=(
+                    r"(?:### Regulatory & Policy Watch|## Regulatory & Policy Watch)"
+                    r"(.*?)"
+                    r"(?=━━|### Science|## Science|$)"
+                ),
+                min_items=1,
+                optional=True,
+            ),
+        ],
+        forbidden_patterns=[
+            r"https?://\S+",  # URLs should not leak into podcast script
+        ],
+    )
+
+
+def ma_validation_config() -> ValidationConfig:
+    """Validation config for Models & Agents."""
+    return ValidationConfig(
+        section_pairs=[],
+        sections=[
+            SectionRule(
+                name="Top Story",
+                pattern=(
+                    r"(?:### Top Story|## Top Story)"
+                    r"(.*?)"
+                    r"(?=━━|### Model Updates|## Model Updates|$)"
+                ),
+                min_items=1,
+            ),
+            SectionRule(
+                name="Model Updates",
+                pattern=(
+                    r"(?:### Model Updates|## Model Updates)"
+                    r"(.*?)"
+                    r"(?=━━|### Agent|## Agent|$)"
+                ),
+                min_items=1,
+                optional=True,
+            ),
+        ],
+        forbidden_patterns=[
+            r"https?://\S+",
+        ],
+    )
+
+
+def mab_validation_config() -> ValidationConfig:
+    """Validation config for Models & Agents for Beginners."""
+    return ValidationConfig(
+        section_pairs=[],
+        sections=[
+            SectionRule(
+                name="The Big Story",
+                pattern=(
+                    r"(?:### The Big Story|## The Big Story)"
+                    r"(.*?)"
+                    r"(?=━━|### Cool Stuff|## Cool Stuff|### Cool Tools|## Cool Tools|$)"
+                ),
+                min_items=1,
+            ),
+        ],
+        forbidden_patterns=[
+            r"https?://\S+",
+        ],
+    )
+
+
+def fp_validation_config() -> ValidationConfig:
+    """Validation config for Финансы Просто."""
+    return ValidationConfig(
+        section_pairs=[],
+        sections=[
+            SectionRule(
+                name="Главная тема",
+                pattern=(
+                    r"(?:### Главная тема|## Главная тема|главная новость)"
+                    r"(.*?)"
+                    r"(?=━━|### Как это работает|## Как это работает|### Коротко|## Коротко|$)"
+                ),
+                min_items=1,
+            ),
+        ],
+        forbidden_patterns=[
+            r"https?://\S+",
+        ],
+    )
+
+
+# Registry mapping show slugs to their validation config factory.
+SHOW_VALIDATION_CONFIGS = {
+    "tesla": tst_validation_config,
+    "tesla_shorts_time": tst_validation_config,
+    "fascinating_frontiers": ff_validation_config,
+    "planetterrian": pt_validation_config,
+    "omni_view": ov_validation_config,
+    "env_intel": ei_validation_config,
+    "models_agents": ma_validation_config,
+    "models_agents_beginners": mab_validation_config,
+    "finansy_prosto": fp_validation_config,
+}

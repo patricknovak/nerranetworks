@@ -235,8 +235,33 @@ def _build_nested(cls, raw: dict):
     return cls(**{k: v for k, v in raw.items() if k in known})
 
 
+def _deep_merge(base: dict, override: dict) -> dict:
+    """Deep-merge *override* into *base* (one level of nesting).
+
+    Top-level keys from *override* replace *base*.  For dict-valued keys,
+    the inner dicts are merged so that the show can override individual
+    fields without losing sibling defaults.
+    """
+    merged = dict(base)
+    for key, value in override.items():
+        if (
+            key in merged
+            and isinstance(merged[key], dict)
+            and isinstance(value, dict)
+        ):
+            merged[key] = {**merged[key], **value}
+        else:
+            merged[key] = value
+    return merged
+
+
 def load_config(yaml_path: str | Path) -> ShowConfig:
     """Load a show configuration from a YAML file.
+
+    If ``shows/_defaults.yaml`` exists alongside the show config, it is
+    loaded first and the show-specific values are deep-merged on top.
+    This allows network-wide defaults (storage, TTS tuning, analytics)
+    to be defined once instead of repeated in every show YAML.
 
     Parameters
     ----------
@@ -252,8 +277,17 @@ def load_config(yaml_path: str | Path) -> ShowConfig:
     if not path.exists():
         raise FileNotFoundError(f"Config file not found: {path}")
 
+    # Load network defaults if available
+    defaults_path = path.parent / "_defaults.yaml"
+    defaults: dict = {}
+    if defaults_path.exists():
+        with open(defaults_path, "r", encoding="utf-8") as f:
+            defaults = yaml.safe_load(f) or {}
+
     with open(path, "r", encoding="utf-8") as f:
-        data = yaml.safe_load(f) or {}
+        show_data = yaml.safe_load(f) or {}
+
+    data = _deep_merge(defaults, show_data)
 
     config = ShowConfig(
         name=data.get("name", ""),

@@ -270,6 +270,10 @@ def run(args: argparse.Namespace) -> None:
     today_str = today.strftime("%B %d, %Y")
     digests_dir = PROJECT_ROOT / config.episode.output_dir
 
+    # Initialize pipeline metrics
+    from engine.metrics import PipelineMetrics
+    metrics = PipelineMetrics(show_slug=config.slug, episode_num=0)  # Updated after ep num known
+
     # 2. Episode number
     from engine.publisher import get_next_episode_number
     rss_path = PROJECT_ROOT / config.publishing.rss_file
@@ -277,6 +281,7 @@ def run(args: argparse.Namespace) -> None:
         rss_path, digests_dir, mp3_glob_pattern=config.episode.mp3_glob,
     )
     logger.info("Episode number: %d", episode_num)
+    metrics.episode_num = episode_num
 
     # 2b. Checkpoint: skip if today's MP3 already exists (avoids re-running
     # the full pipeline on retries after partial failures in later steps).
@@ -294,27 +299,10 @@ def run(args: argparse.Namespace) -> None:
     from engine.tracking import create_tracker, save_usage
     tracker = create_tracker(config.name, episode_num)
 
-    # 4. Pre-fetch hook (Tesla: stock price + X posts; others: no-op)
+    # 4 & 5. Pre-fetch hook + RSS fetch in parallel (concurrent.futures)
     hook_module = _load_hook(args.show)
     extra_context: dict = {}
-    if hook_module and hasattr(hook_module, "pre_fetch"):
-        logger.info("Running pre-fetch hook for %s ...", args.show)
-        try:
-            extra_context = hook_module.pre_fetch(
-                config, episode_num=episode_num, today_str=today_str,
-            ) or {}
-        except Exception as exc:
-            logger.warning(
-                "Pre-fetch hook failed for %s: %s — continuing without hook data",
-                args.show, exc,
-            )
-            extra_context = {}
 
-    # 5. Fetch news (with progressive search expansion on slow news days)
-    from engine.fetcher import fetch_rss_articles
-    feed_dicts = [{"url": s.url, "label": s.label} for s in config.sources]
-
-    # 5b. Cross-episode content tracking & dedup
     from engine.content_tracker import ContentTracker, SHOW_SECTION_PATTERNS
     from engine.utils import deduplicate_by_entity
 
@@ -327,11 +315,45 @@ def run(args: argparse.Namespace) -> None:
     content_tracker = ContentTracker(config.slug, digests_dir)
     content_tracker.load()
 
-    min_articles = 3
-    articles = _fetch_with_expansion(
-        feed_dicts, config.keywords, content_tracker, min_articles,
-    )
+    feed_dicts = [{"url": s.url, "label": s.label} for s in config.sources]
+
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    def _run_hook():
+        if hook_module and hasattr(hook_module, "pre_fetch"):
+            logger.info("Running pre-fetch hook for %s ...", args.show)
+            return hook_module.pre_fetch(
+                config, episode_num=episode_num, today_str=today_str,
+            ) or {}
+        return {}
+
+    def _run_fetch():
+        return _fetch_with_expansion(
+            feed_dicts, config.keywords, content_tracker, 3,
+        )
+
+    articles = []
+    with metrics.stage("fetch_and_dedup"):
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            hook_future = executor.submit(_run_hook)
+            fetch_future = executor.submit(_run_fetch)
+
+            try:
+                extra_context = hook_future.result(timeout=60)
+            except Exception as exc:
+                logger.warning(
+                    "Pre-fetch hook failed for %s: %s — continuing without hook data",
+                    args.show, exc,
+                )
+                extra_context = {}
+
+            try:
+                articles = fetch_future.result(timeout=120)
+            except Exception as exc:
+                logger.error("RSS fetch failed: %s", exc)
+                articles = []
     logger.info("After fetch + dedup: %d articles", len(articles))
+    metrics.record("article_count", len(articles))
 
     if not articles:
         logger.warning("No articles found even after expanded search. Skipping episode to avoid publishing empty content.")
@@ -388,14 +410,32 @@ def run(args: argparse.Namespace) -> None:
     # 7. Generate digest
     from engine.generator import generate_digest
     logger.info("Generating digest ...")
-    t0 = time.monotonic()
-    x_thread = generate_digest(template_vars, config, tracker=tracker)
-    logger.info("Digest generation took %.1fs", time.monotonic() - t0)
+    with metrics.stage("generate_digest"):
+        x_thread = generate_digest(template_vars, config, tracker=tracker)
 
     # Record episode content in the cross-episode tracker
     if section_patterns:
         content_tracker.record_episode(x_thread, section_patterns)
         content_tracker.save()
+
+    # 7b. Post-generation digest validation — catch structure issues before TTS
+    from engine.validation import validate_digest as _validate_digest, SHOW_VALIDATION_CONFIGS
+    _val_factory = SHOW_VALIDATION_CONFIGS.get(config.slug)
+    if _val_factory:
+        _val_config = _val_factory()
+        _recent = content_tracker.get_recent_headlines(days=7)
+        _val_passed, _val_issues = _validate_digest(
+            x_thread, _val_config,
+            section_patterns=section_patterns,
+            recent_headlines=_recent,
+        )
+        if not _val_passed:
+            logger.warning(
+                "Digest validation found %d issue(s) — continuing (non-blocking)",
+                len(_val_issues),
+            )
+    else:
+        logger.debug("No validation config for show '%s' — skipping digest validation", config.slug)
 
     # Extract the daily hook (headline) from the digest
     hook = _extract_hook(x_thread)
@@ -818,6 +858,18 @@ def run(args: argparse.Namespace) -> None:
                 val_path.write_text(_json.dumps(tts_val, indent=2))
                 logger.info("TTS validation report saved: %s", val_path.name)
 
+            # 9b. Generate transcript from raw TTS audio (non-fatal)
+            try:
+                from engine.transcripts import generate_transcript
+                _lang = "ru" if args.show in ("finansy_prosto", "privet_russian") else "en"
+                _ep_prefix = f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}"
+                generate_transcript(
+                    raw_mp3, digests_dir, _ep_prefix,
+                    model_size="base", language=_lang,
+                )
+            except Exception as exc:
+                logger.warning("Transcript generation failed (non-fatal): %s", exc)
+
             # 10. Audio mixing
             from engine.audio import get_audio_duration, mix_with_music, normalize_voice
 
@@ -1045,8 +1097,15 @@ def run(args: argparse.Namespace) -> None:
             raw_mp3_cleanup.unlink(missing_ok=True)
             logger.info("Cleaned up raw audio: %s", raw_mp3_cleanup.name)
 
-    # 15. Save tracking
+    # 15. Save tracking & metrics
     save_usage(tracker, digests_dir)
+    try:
+        metrics.record("digest_chars", len(x_thread) if x_thread else 0)
+        metrics.record("audio_duration_s", audio_duration)
+        metrics.save(digests_dir)
+        logger.info("Pipeline summary: %s", metrics.summary())
+    except Exception as exc:
+        logger.warning("Metrics save failed (non-fatal): %s", exc)
     logger.info("=== %s complete ===", config.name)
 
 

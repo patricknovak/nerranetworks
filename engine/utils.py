@@ -101,8 +101,17 @@ def number_to_words(num: float) -> str:
     is_negative = num < 0
     num = abs(num)
 
+    # Use string-based decimal extraction to avoid floating-point precision
+    # artifacts (e.g. 1.43 → 1.4299999999... → "four two nine nine...").
+    _num_str = f"{num:.10f}".rstrip("0").rstrip(".")
     integer_part = int(num)
-    decimal_part = num - integer_part
+    if "." in _num_str:
+        _dec_str = _num_str.split(".")[1]
+        # Limit to 2 significant decimal digits for speech clarity
+        _dec_str = _dec_str[:2].rstrip("0")
+        decimal_part = float(f"0.{_dec_str}") if _dec_str else 0.0
+    else:
+        decimal_part = 0.0
 
     # Integer portion
     if integer_part == 0:
