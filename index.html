@@ -12,41 +12,14 @@
     <meta property="og:title" content="Nerra Network | 9 Daily Shows">
     <meta property="og:description" content="Nerra Network — Nine daily podcasts keeping you informed. Tesla, world news, space, science, environment, AI, Russian finance, and language learning. Independent, daily, free.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://nerranetwork.com/">
-    <meta property="og:image" content="https://nerranetwork.com/assets/covers/svg/Nerra-Network-Social-Banner.svg">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@teslashortstime">
-    <meta name="twitter:creator" content="@teslashortstime">
+    
 
     <link rel="canonical" href="https://nerranetwork.com/index.html">
-
-    <!-- Language alternates -->
-    <link rel="alternate" hreflang="en" href="https://nerranetwork.com/index.html">
-    <link rel="alternate" hreflang="ru" href="https://nerranetwork.com/ru/index.html">
 
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
-
-    <!-- Schema.org Organization -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Nerra Network",
-      "url": "https://nerranetwork.com",
-      "logo": "https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg",
-      "description": "Independent podcast network of nine daily shows. Tesla, world news, space, science, environment, AI, financial literacy, and language learning.",
-      "sameAs": [
-        "https://x.com/teslashortstime",
-        "https://x.com/omniviewnews",
-        "https://x.com/planetterrian"
-      ]
-    }
-    </script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
@@ -119,12 +92,18 @@
                             Привет, Русский!
                         </a>
                         
+                        <a href="modern-investing.html">
+                            <img src="assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                            Modern Investing Techniques
+                        </a>
+                        
                     </div>
                 </li>
                 
 <li><a href="#shows">Shows</a></li>
 <li><a href="#subscribe">Subscribe</a></li>
 
+                <li><a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a></li>
             </ul>
 
             <button class="nn-hamburger" aria-label="Toggle menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">&#9776;</button>
@@ -138,6 +117,7 @@
 <a href="#latest" onclick="document.getElementById('mobileMenu').classList.remove('open')">Latest</a>
 <a href="#subscribe" onclick="document.getElementById('mobileMenu').classList.remove('open')">Subscribe</a>
 
+        <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener" onclick="document.getElementById('mobileMenu').classList.remove('open')">GitHub</a>
         <div class="nn-mobile-shows">
             <div class="nn-mobile-shows-title">All Shows</div>
             
@@ -186,6 +166,11 @@
                 Привет, Русский!
             </a>
             
+            <a href="modern-investing.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                Modern Investing Techniques
+            </a>
+            
         </div>
     </div>
 
@@ -194,9 +179,7 @@
     <section class="network-hero">
         <div class="network-hero-bg">
             <div class="network-hero-nodes">
-                <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Decorative network constellation graphic">
-                    <title>Network constellation</title>
-                    <desc>An abstract network graph with connected nodes representing the Nerra Network podcast shows.</desc>
+                <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
                     <!-- Network graph lines -->
                     <line x1="200" y1="200" x2="600" y2="400" stroke="#7C5CFF" stroke-width="1" opacity="0.3"/>
                     <line x1="1000" y1="200" x2="600" y2="400" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
@@ -221,9 +204,8 @@
             </div>
         </div>
         <div class="network-hero-content">
-            <img src="assets/covers/svg/Nerra-Network-Logo.svg" alt="Nerra Network" style="max-width:400px;width:90%;margin:0 auto var(--sp-4) auto;display:block;">
             <h1><span class="gradient-text">Nerra</span> Network</h1>
-            <p class="network-hero-tagline">Ten daily shows. Zero fluff.</p>
+            <p class="network-hero-tagline">Seven daily shows. Zero fluff.</p>
             <div style="display:flex;gap:var(--sp-3);justify-content:center;flex-wrap:wrap;">
                 <a href="#shows" class="nn-btn nn-btn-primary" style="--show-color:#7C5CFF;">Explore Shows</a>
                 <a href="#subscribe" class="nn-btn">Subscribe</a>
@@ -384,32 +366,32 @@
                         <span class="show-card-badge">~10 min</span>
                     </div>
                     <div class="show-card-tagline">A bilingual Russian language learning podcast for English speakers — kids and adult beginners. Vocabulary, phrases, grammar, and culture in fun themed episodes.</div>
-
+                    
                     <div class="show-card-sources">Sources: BBC News, NPR, National Geographic, Moscow Times</div>
-
+                    
                     <div class="show-card-listen">
                         Listen
                         <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
                 </a>
-
-                <a href="modern-investing.html" class="show-card glass-card" style="--show-color:#1565C0;">
+                
+                <a href="modern-investing.html" class="show-card glass-card" style="--show-color:#059669;">
                     <img src="assets/covers/modern-investing.jpg" alt="Modern Investing Techniques" class="show-card-image" loading="lazy">
                     <div class="show-card-name">Modern Investing Techniques</div>
                     <div class="show-card-badges">
                         <span class="show-card-badge">Weekdays</span>
                         <span class="show-card-badge">~12 min</span>
                     </div>
-                    <div class="show-card-tagline">AI-powered daily market intelligence with simulated trades, strategy breakdowns, and tools for Canadian and US investors who want to outperform index funds.</div>
-
-                    <div class="show-card-sources">Sources: Financial Post, BNN Bloomberg, Globe and Mail, Seeking Alpha, Barron's</div>
-
+                    <div class="show-card-tagline">Daily investing podcast using AI-driven analysis and modern tools to identify market opportunities, track simulated trades, and teach strategies that aim to outperform index funds. Covering Canadian and US markets with actionable picks, performance tracking, and lessons learned.</div>
+                    
+                    <div class="show-card-sources">Sources: Financial Post, BNN Bloomberg, Globe and Mail, Seeking Alpha</div>
+                    
                     <div class="show-card-listen">
                         Listen
                         <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
                 </a>
-
+                
             </div>
         </div>
     </section>
@@ -419,7 +401,7 @@
         <div class="container">
             <div class="nn-section-header">
                 <h2>Latest Across the Network</h2>
-                <p>The most recent episodes from all ten shows.</p>
+                <p>The most recent episodes from all seven shows.</p>
             </div>
         </div>
         <div class="latest-scroll-row" id="latestEpisodes">
@@ -441,7 +423,7 @@
             </div>
             <div class="about-section-text">
                 <p><strong>Independent. Daily. Free.</strong></p>
-                <p>Nerra Network is a podcast network of nine daily shows covering Tesla, balanced world news, space and astronomy, science and longevity, environmental intelligence, AI developments, financial literacy, and language learning. All produced independently in Vancouver, Canada by Patrick.</p>
+                <p>Nerra Network is a podcast network of seven daily shows covering Tesla, balanced world news, space and astronomy, science and longevity, environmental intelligence, and AI developments. All produced independently in Vancouver, Canada by Patrick.</p>
                 <p>Our mission: stimulating conversation, supporting positive developments that benefit all, and providing unbiased coverage with varying perspectives.</p>
             </div>
         </div>
@@ -456,13 +438,7 @@
             </div>
             <div class="subscribe-badges">
                 <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" class="subscribe-badge" target="_blank" rel="noopener">
-                    Apple Podcasts
-                </a>
-                <a href="https://open.spotify.com/show/7I1DIaUaSlVsYliigOe6sS" class="subscribe-badge" target="_blank" rel="noopener">
-                    Spotify
-                </a>
-                <a href="https://music.amazon.com/podcasts/2daddc7a-64ac-403c-9dce-413c6c3b24fc/tesla-shorts-time-daily" class="subscribe-badge" target="_blank" rel="noopener">
-                    Amazon Music
+                    Apple Podcasts (Tesla Shorts Time)
                 </a>
                 <a href="network.rss" class="subscribe-badge">
                     Network RSS (All Shows)
@@ -524,6 +500,12 @@
                     <span class="subscribe-rss-label">RSS</span>
                 </a>
                 
+                <a href="modern_investing_podcast.rss" class="subscribe-rss-item">
+                    <img src="assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                    <span>Modern Investing Techniques</span>
+                    <span class="subscribe-rss-label">RSS</span>
+                </a>
+                
             </div>
             <p style="text-align:center;color:var(--nn-text-muted);font-family:var(--font-ui);font-size:0.88rem;margin-top:var(--sp-6);">Copy any RSS link into your podcast app of choice — Apple Podcasts, Spotify, Pocket Casts, Overcast, or any RSS reader.</p>
         </div>
@@ -536,7 +518,7 @@
             <div class="nn-footer-grid">
                 <div>
                     <div class="nn-footer-brand"><span class="gradient-text">Nerra</span> Network</div>
-                    <p class="nn-footer-desc">Ten daily shows. Zero fluff. Independent podcast network produced in Vancouver, Canada.</p>
+                    <p class="nn-footer-desc">Seven daily shows. Zero fluff. Independent podcast network produced in Vancouver, Canada.</p>
                 </div>
                 <div class="nn-footer-col">
                     <h4>Shows</h4>
@@ -559,14 +541,14 @@
                     
                     <a href="ru/privet-russian.html">Привет, Русский!</a>
                     
+                    <a href="modern-investing.html">Modern Investing Techniques</a>
+                    
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
-                    <a href="https://open.spotify.com/show/7I1DIaUaSlVsYliigOe6sS" target="_blank" rel="noopener">Spotify</a>
-                    <a href="https://music.amazon.com/podcasts/2daddc7a-64ac-403c-9dce-413c6c3b24fc/tesla-shorts-time-daily" target="_blank" rel="noopener">Amazon Music</a>
                     <a href="network.rss">Network RSS</a>
-
+                    
                     <a href="podcast.rss">Tesla Shorts Time RSS</a>
                     
                     <a href="omni_view_podcast.rss">Omni View RSS</a>
@@ -585,12 +567,15 @@
                     
                     <a href="privet_russian_podcast.rss">Привет, Русский! RSS</a>
                     
+                    <a href="modern_investing_podcast.rss">Modern Investing Techniques RSS</a>
+                    
                 </div>
                 <div class="nn-footer-col">
                     <h4>Connect</h4>
                     <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
                     <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
+                    <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a>
                 </div>
             </div>
             <div class="nn-footer-bottom">
@@ -621,7 +606,9 @@
             
             { name: "\u0424\u0438\u043d\u0430\u043d\u0441\u044b \u041f\u0440\u043e\u0441\u0442\u043e", rss: "finansy_prosto_podcast.rss", page: "ru/finansy-prosto.html", color: "#EC4899" },
             
-            { name: "\u041f\u0440\u0438\u0432\u0435\u0442, \u0420\u0443\u0441\u0441\u043a\u0438\u0439!", rss: "privet_russian_podcast.rss", page: "ru/privet-russian.html", color: "#6366F1" }
+            { name: "\u041f\u0440\u0438\u0432\u0435\u0442, \u0420\u0443\u0441\u0441\u043a\u0438\u0439!", rss: "privet_russian_podcast.rss", page: "ru/privet-russian.html", color: "#6366F1" },
+            
+            { name: "Modern Investing Techniques", rss: "modern_investing_podcast.rss", page: "modern-investing.html", color: "#059669" }
             
         ];
 
@@ -691,6 +678,5 @@
         loadLatestEpisodes().finally(() => clearTimeout(_skeletonTimeout));
     </script>
 
-<script>document.querySelectorAll(".nn-nav-dropdown-btn").forEach(function(btn){btn.addEventListener("click",function(e){e.stopPropagation();btn.closest(".nn-nav-dropdown").classList.toggle("open")})});document.addEventListener("click",function(){document.querySelectorAll(".nn-nav-dropdown.open").forEach(function(d){d.classList.remove("open")})});document.addEventListener("keydown",function(e){if(e.key==="Escape"){document.querySelectorAll(".nn-nav-dropdown.open").forEach(function(d){d.classList.remove("open")})}});</script>
 </body>
 </html>

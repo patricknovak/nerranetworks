@@ -94,6 +94,11 @@
                             Привет, Русский!
                         </a>
                         
+                        <a href="modern-investing.html">
+                            <img src="assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                            Modern Investing Techniques
+                        </a>
+                        
                     </div>
                 </li>
                 
@@ -102,6 +107,7 @@
 <li><a href="planetterrian_podcast.rss">RSS</a></li>
 <li><a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a></li>
 
+                <li><a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a></li>
             </ul>
 
             <button class="nn-hamburger" aria-label="Toggle menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">&#9776;</button>
@@ -118,6 +124,7 @@
 <a href="https://x.com/planetterrian" target="_blank" rel="noopener" onclick="document.getElementById('mobileMenu').classList.remove('open')">@planetterrian</a>
 
 
+        <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener" onclick="document.getElementById('mobileMenu').classList.remove('open')">GitHub</a>
         <div class="nn-mobile-shows">
             <div class="nn-mobile-shows-title">All Shows</div>
             
@@ -166,6 +173,11 @@
                 Привет, Русский!
             </a>
             
+            <a href="modern-investing.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                Modern Investing Techniques
+            </a>
+            
         </div>
     </div>
 
@@ -203,6 +215,16 @@
             <p id="heroEpisodeCount" style="color:var(--nn-text-muted);font-family:var(--font-ui);font-size:0.88rem;margin-top:var(--sp-2);opacity:0;transition:opacity 0.3s;"></p>
         </div>
     </section>
+
+    <!-- Subscribe Buttons -->
+    <div class="nn-subscribe-bar">
+        
+        
+        <a href="planetterrian_podcast.rss" target="_blank" rel="noopener" class="nn-subscribe-btn nn-subscribe-rss" aria-label="Subscribe via RSS">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"/></svg>
+            RSS Feed
+        </a>
+    </div>
 
     <!-- Search & Filter Controls -->
     <div class="nn-controls">
@@ -312,6 +334,16 @@
                 </a>
                 
                 
+                
+                <a href="modern-investing-summaries.html" class="cross-network-card">
+                    <img src="assets/covers/modern-investing.jpg" alt="Modern Investing Techniques" loading="lazy">
+                    <div class="cross-network-card-info">
+                        <div class="cross-network-card-name">Modern Investing Techniques</div>
+                        <div class="cross-network-card-tagline">AI-Powered Market Intelligence</div>
+                    </div>
+                </a>
+                
+                
             </div>
         </div>
     </section>
@@ -323,7 +355,7 @@
             <div class="nn-footer-grid">
                 <div>
                     <div class="nn-footer-brand"><span class="gradient-text">Nerra</span> Network</div>
-                    <p class="nn-footer-desc">Ten daily shows. Zero fluff. Independent podcast network produced in Vancouver, Canada.</p>
+                    <p class="nn-footer-desc">Seven daily shows. Zero fluff. Independent podcast network produced in Vancouver, Canada.</p>
                 </div>
                 <div class="nn-footer-col">
                     <h4>Shows</h4>
@@ -346,12 +378,12 @@
                     
                     <a href="ru/privet-russian.html">Привет, Русский!</a>
                     
+                    <a href="modern-investing.html">Modern Investing Techniques</a>
+                    
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
-                    <a href="https://open.spotify.com/show/7I1DIaUaSlVsYliigOe6sS" target="_blank" rel="noopener">Spotify</a>
-                    <a href="https://music.amazon.com/podcasts/2daddc7a-64ac-403c-9dce-413c6c3b24fc/tesla-shorts-time-daily" target="_blank" rel="noopener">Amazon Music</a>
                     <a href="network.rss">Network RSS</a>
                     
                     <a href="podcast.rss">Tesla Shorts Time RSS</a>
@@ -372,12 +404,15 @@
                     
                     <a href="privet_russian_podcast.rss">Привет, Русский! RSS</a>
                     
+                    <a href="modern_investing_podcast.rss">Modern Investing Techniques RSS</a>
+                    
                 </div>
                 <div class="nn-footer-col">
                     <h4>Connect</h4>
                     <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
                     <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
+                    <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a>
                 </div>
             </div>
             <div class="nn-footer-bottom">
@@ -698,6 +733,5 @@
         }
     </script>
 
-<script>document.querySelectorAll(".nn-nav-dropdown-btn").forEach(function(btn){btn.addEventListener("click",function(e){e.stopPropagation();btn.closest(".nn-nav-dropdown").classList.toggle("open")})});document.addEventListener("click",function(){document.querySelectorAll(".nn-nav-dropdown.open").forEach(function(d){d.classList.remove("open")})});document.addEventListener("keydown",function(e){if(e.key==="Escape"){document.querySelectorAll(".nn-nav-dropdown.open").forEach(function(d){d.classList.remove("open")})}});</script>
 </body>
 </html>
