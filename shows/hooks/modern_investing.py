@@ -47,10 +47,74 @@ def pre_fetch(config, *, episode_num: int | None = None, today_str: str | None =
     # Fetch market indices
     context["market_indices"] = _fetch_market_indices()
 
-    # Podcast-specific vars
-    context["tone_hint"] = "analytical and educational — focused on strategy and data"
+    # Recent strategies for freshness enforcement
+    closed_trades = [t for t in tracker["trades"] if t.get("status") == "closed"]
+    recent = closed_trades[-5:] if closed_trades else []
+    if recent:
+        lines = [f"- Ep{t.get('episode_num', '?')}: {t.get('symbol', '?')} ({t.get('strategy', 'unknown')})" for t in recent]
+        context["recent_strategies"] = "\n".join(lines)
+    else:
+        context["recent_strategies"] = "No previous trades yet — this may be the first episode."
+
+    # Dynamic tone based on portfolio performance
+    context["tone_hint"] = _tone_from_portfolio(tracker)
 
     return context
+
+
+def _tone_from_portfolio(tracker: dict) -> str:
+    """Return a tone hint based on recent portfolio performance."""
+    summary = tracker.get("summary", {})
+    streak = summary.get("current_streak", 0)
+    cum_pnl = summary.get("cumulative_pnl", 0)
+    total = summary.get("total_trades", 0)
+
+    if total == 0:
+        return "enthusiastic and welcoming — this is early days, set the foundation"
+    if streak >= 3:
+        return "momentum is building — confident and energetic, but stay disciplined"
+    if streak <= -2:
+        return "learning week — reflective and analytical, focus on what the losses teach"
+    if cum_pnl > 50:
+        return "portfolio doing well — upbeat but measured, credit the process not luck"
+    if cum_pnl < -30:
+        return "drawdown mode — humble and educational, remind listeners this is learning"
+    return "steady progress — balanced and conversational"
+
+
+def pronunciation_overrides() -> dict:
+    """Return financial-term pronunciation fixes for ElevenLabs TTS."""
+    return {
+        "extra_acronyms": {
+            "ETF": "E T F",
+            "TFSA": "T F S A",
+            "RRSP": "R R S P",
+            "FHSA": "F H S A",
+            "RESP": "R E S P",
+            "RSI": "R S I",
+            "MACD": "mac dee",
+            "P/E": "P E",
+            "EPS": "E P S",
+            "IPO": "I P O",
+            "NYSE": "N Y S E",
+            "TSX": "T S X",
+            "SPY": "S P Y",
+            "QQQ": "Q Q Q",
+            "VFV": "V F V",
+            "VOO": "V O O",
+            "CAD": "C A D",
+            "USD": "U S D",
+            "ACB": "A C B",
+            "DRIP": "D R I P",
+            "GIC": "G I C",
+            "VGRO": "V G R O",
+            "XEQT": "X E Q T",
+        },
+        "extra_words": {
+            "robo-advisor": "robo advisor",
+            "fintech": "fin tech",
+        },
+    }
 
 
 def post_generate(config, *, digest_text: str = "", episode_num: int | None = None) -> None:

@@ -433,17 +433,22 @@ _SHOW_PERSONALITIES: dict[str, dict[str, Any]] = {
             "Good morning and welcome to",
             "Welcome back to",
             "Thanks for tuning in to",
+            "It's a new trading day. Welcome to",
+            "Glad you're here. Welcome to",
         ],
         "openers": [
             "episode {ep}. I'm Patrick in Vancouver. Today is {date}.",
             "episode {ep}, for {date}. I'm Patrick, coming to you from Vancouver.",
             "episode {ep}. It's {date} and I'm Patrick in Vancouver.",
+            "episode {ep}. Today is {date}, I'm Patrick broadcasting from Vancouver.",
         ],
         "framings": [
             "Let's look at what the markets are telling us today and find some opportunities.",
             "Time to break down today's market setup and find our edge.",
             "Here's your daily market intelligence and today's practice trade.",
             "Let's get into the numbers, the strategy, and today's AI-selected trade.",
+            "Let's find the signal in today's noise and put your portfolio to work.",
+            "Today's markets have some interesting setups. Let's break them down.",
         ],
         "day_colors": {
             0: {
@@ -455,6 +460,15 @@ _SHOW_PERSONALITIES: dict[str, dict[str, Any]] = {
                 "framings": [
                     "New week — let's see what opportunities the markets are presenting.",
                     "Monday means fresh setups. Let's break down the week ahead and find our edge.",
+                ],
+            },
+            2: {
+                "greetings": [
+                    "Midweek check-in. Welcome to",
+                    "Wednesday, halfway through the trading week. Welcome to",
+                ],
+                "framings": [
+                    "Midweek — let's reassess this week's positions and look for fresh setups.",
                 ],
             },
             4: {
@@ -485,6 +499,11 @@ _SHOW_PERSONALITIES: dict[str, dict[str, Any]] = {
                 "That's it for today's Modern Investing Techniques. The resources page has "
                 "links to everything we discussed. Subscribe and share with someone who "
                 "wants to go beyond index funds. See you tomorrow."
+            ),
+            (
+                "That's your Modern Investing Techniques for today. Every episode makes you "
+                "a sharper investor. Subscribe, leave a review, and we'll be back tomorrow "
+                "with more market intelligence."
             ),
         ],
     },
