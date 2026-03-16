@@ -39,6 +39,12 @@ sources:
   - url: https://www.wonderopolis.org/feed
     label: Wonderopolis (kids curiosity)
 
+  # Canadian multiculturalism & diaspora life
+  - url: https://www.cbc.ca/webfeed/rss/rss-canada
+    label: CBC Canada
+  - url: https://www.ukrinform.net/rss/block-lastnews
+    label: Ukrinform (Ukrainian perspectives)
+
 keywords:
   # Topics that generate good vocabulary themes
   - animals

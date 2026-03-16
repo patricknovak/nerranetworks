@@ -96,12 +96,26 @@ def _load_blocked_sources() -> list[dict]:
         return []
 
 
+def _extract_domain(url: str) -> str:
+    """Extract the registrable domain from a URL or pattern."""
+    clean = url.lower().replace("https://", "").replace("http://", "")
+    domain = clean.split("/")[0].replace("www.", "")
+    return domain
+
+
 def _is_blocked(url: str, blocked: list[dict]) -> tuple[bool, str]:
-    """Check if a URL matches any blocked source."""
-    url_lower = url.lower()
+    """Check if a URL matches any blocked source using domain-level matching.
+
+    Matches on domain boundaries to avoid false positives like
+    'rt.com' matching inside 'breitbart.com'.
+    """
+    url_domain = _extract_domain(url)
     for entry in blocked:
-        pattern = entry.get("url", "").lower()
-        if pattern and pattern in url_lower:
+        pattern = entry.get("url", "").lower().replace("www.", "")
+        if not pattern:
+            continue
+        # Domain-level match: pattern must match the domain or a parent domain
+        if url_domain == pattern or url_domain.endswith("." + pattern):
             return True, entry.get("reason", "blocked")
     return False, ""
 

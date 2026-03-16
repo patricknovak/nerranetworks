@@ -1,0 +1,110 @@
+name: Monthly Source Discovery
+
+on:
+  schedule:
+    # 15th of each month at 2 PM UTC
+    - cron: '0 14 15 * *'
+
+  workflow_dispatch:
+    inputs:
+      show:
+        description: 'Show to discover for (default: all)'
+        required: false
+        type: choice
+        options:
+          - all
+          - tesla
+          - omni_view
+          - fascinating_frontiers
+          - planetterrian
+          - env_intel
+          - models_agents
+          - models_agents_beginners
+          - finansy_prosto
+          - privet_russian
+      min_score:
+        description: 'Minimum quality score (default: 70)'
+        required: false
+        type: string
+        default: '70'
+      auto_apply:
+        description: 'Auto-add approved sources to configs'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pyyaml requests feedparser
+
+      - name: Audit existing sources
+        run: python check_sources.py --check-blocked
+
+      - name: Discover new sources
+        run: |
+          ARGS="--report"
+          if [ "${{ github.event.inputs.show }}" != "" ] && [ "${{ github.event.inputs.show }}" != "all" ]; then
+            ARGS="$ARGS ${{ github.event.inputs.show }}"
+          fi
+          if [ "${{ github.event.inputs.min_score }}" != "" ]; then
+            ARGS="$ARGS --min-score ${{ github.event.inputs.min_score }}"
+          fi
+          if [ "${{ github.event.inputs.auto_apply }}" == "true" ]; then
+            ARGS="$ARGS --apply"
+          fi
+          python discover_sources.py $ARGS
+
+      - name: Commit discovery report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/source_discovery_*.md
+          git diff --cached --quiet || git commit -m "Monthly source discovery report $(date +%Y-%m)"
+          git push
+
+      - name: Create PR if sources were auto-applied
+        if: ${{ github.event.inputs.auto_apply == 'true' }}
+        run: |
+          git add shows/*.yaml
+          if ! git diff --cached --quiet; then
+            BRANCH="source-discovery/$(date +%Y-%m)"
+            git checkout -b "$BRANCH"
+            git commit -m "Add discovered high-quality RSS sources $(date +%Y-%m)"
+            git push -u origin "$BRANCH"
+            gh pr create \
+              --title "Monthly Source Discovery: $(date +%B %Y)" \
+              --body "$(cat <<'EOF'
+          ## Monthly Source Discovery
+
+          Automated discovery found new high-quality RSS sources for the network.
+          Each source has been audited for:
+          - Reachability and response time
+          - Content freshness (articles within 7 days)
+          - Volume (articles per week)
+          - Content quality (title/description richness)
+          - Blocked source list compliance
+
+          All sources score grade B (70+) or higher.
+
+          See the discovery report in `reports/` for full details.
+          EOF
+          )" \
+              --base main
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
