@@ -16,6 +16,7 @@ FEEDS = [
     "models_agents_beginners_podcast.rss",
     "finansy_prosto_podcast.rss",
     "privet_russian_podcast.rss",
+    "modern_investing_podcast.rss",
 ]
 
 MAX_EPISODES = 50
@@ -23,9 +24,9 @@ OUTPUT = "network.rss"
 
 NETWORK_TITLE = "Nerra Network"
 NETWORK_DESCRIPTION = (
-    "Nine podcasts in two languages keeping you informed about exciting changes in the world. "
+    "Ten podcasts in two languages keeping you informed about exciting changes in the world. "
     "Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, "
-    "the environment, financial literacy, and Russian language learning."
+    "the environment, modern investing, financial literacy, and Russian language learning."
 )
 NETWORK_LINK = "https://nerranetwork.com/"
 NETWORK_IMAGE = "https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg"

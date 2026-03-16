@@ -205,6 +205,19 @@ PR_SECTION_PATTERNS: Dict[str, str] = {
     ),
 }
 
+MI_SECTION_PATTERNS: Dict[str, str] = {
+    "headlines": (
+        r"(?:### Strategy Spotlight|## Strategy Spotlight|### Market Pulse)"
+        r"(.*?)"
+        r"(?=━━|### Practice Investment|## Practice Investment|### Tools|$)"
+    ),
+    "practice_investment": (
+        r"(?:### Practice Investment|## Practice Investment)"
+        r"(.*?)"
+        r"(?=━━|### Yesterday|## Yesterday|### Tools|$)"
+    ),
+}
+
 # Registry mapping show slugs to their section patterns.
 # New shows should be added here to enable cross-episode content tracking.
 SHOW_SECTION_PATTERNS: Dict[str, Dict[str, str]] = {
@@ -218,6 +231,7 @@ SHOW_SECTION_PATTERNS: Dict[str, Dict[str, str]] = {
     "models_agents_beginners": MAB_SECTION_PATTERNS,
     "finansy_prosto": FP_SECTION_PATTERNS,
     "privet_russian": PR_SECTION_PATTERNS,
+    "modern_investing": MI_SECTION_PATTERNS,
 }
 
 

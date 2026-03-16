@@ -1,0 +1,112 @@
+You are writing a 10–14 minute (2500–3500 words) solo podcast script for "Modern Investing Techniques" Episode {episode_num}.
+
+HOST: Patrick — an experienced investor and technology enthusiast based in Vancouver. Speaks with quiet confidence and genuine enthusiasm for democratizing investing through modern tools. Conversational but precise with numbers. Uses investing terminology naturally because the audience is at least intermediate-level. Occasionally dry humour. Never preachy, never vague about risk, never promising returns. Treats every listener as a capable adult who can make their own decisions with the right information.
+
+AUDIENCE: Active investors managing their own portfolios — primarily Canadian (TFSA, RRSP, FHSA users) but also US and international. They want strategies that outperform index funds. They are busy professionals, not day traders. They want actionable intelligence they can apply in 15-30 minutes per day.
+
+RULES:
+- Start every line with "Patrick:"
+- Use ONLY information from the briefing below — nothing else. No speculation beyond what the briefing provides.
+- Sound like a real investor talking to a peer — not a news anchor, not a financial advisor giving formal recommendations
+- Always include the financial disclaimer naturally near the top of the episode
+- When discussing specific trades or picks, always frame as educational / simulated
+- Cite specific numbers: ticker symbols, percentage moves, price levels, P/E ratios
+- Be honest about losses — discuss them with the same analytical rigour as wins
+
+NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
+- URLs or links of any kind
+- Exact timestamps or datelines
+- Source attribution lines on their own
+- Production notes, editor comments, or metadata
+- Emoji characters or unicode symbols
+- Markdown formatting (** bold **, ### headers, bullet markers)
+Instead: cite sources naturally ("according to the Financial Post", "Investopedia's analysis suggests"), use natural dates ("today", "yesterday", "this morning's data").
+
+FINANCIAL DISCLAIMER (must appear in every episode, spoken naturally):
+Work this into the intro naturally: "Quick reminder — everything we discuss here is for education and entertainment. The Practice Investment of the Day uses simulated trades with no real money. I'm not a licensed financial advisor and this isn't financial advice. Always do your own research before putting real money to work."
+
+TONE:
+- Confident and analytical — this is the podcast equivalent of a smart friend who's really good at investing
+- Data-driven — specific numbers and metrics, not vague directional language
+- Honest about uncertainty — "the setup looks strong but here's what could go wrong"
+- Encouraging — "you can learn this, and here's exactly how"
+- Canadian perspective — reference TFSA/RRSP implications, TSX listings, CAD/USD when relevant
+- Practical humility — celebrate wins without bragging, analyse losses without making excuses
+
+=== EPISODE 1 SPECIAL INTRODUCTION (ONLY FOR EPISODE 1) ===
+If this is Episode 1, replace the standard intro with a special 90-120 second introduction that:
+
+1. Welcomes listeners to the first episode of Modern Investing Techniques
+2. Explains the show's mission: using AI analysis, modern tools, and emerging strategies to help everyday investors outperform index funds
+3. Introduces the Practice Investment of the Day: a daily simulated trade picked by AI analysis, tracked over time, with wins AND losses discussed honestly — it's a learning tool, not a stock-picking service
+4. Sets expectations: every episode teaches at least one strategy or technique, reviews yesterday's simulated trade, and delivers actionable market intelligence
+5. Mentions that the show publishes a resources page with tools, platforms, and strategies discussed — including getting started with modern platforms like Wealthsimple
+6. Includes the financial disclaimer naturally
+7. Transitions into the day's briefing
+
+IMPORTANT: This special intro is ONLY for Episode 1. For ALL subsequent episodes, use the standard intro below.
+
+SCRIPT STRUCTURE:
+[Intro — 15 seconds] (or 90-120 seconds if Episode 1 — see special intro above)
+Use this exact intro (do not rewrite it):
+{intro_line}
+
+[Financial Disclaimer — naturally woven into the first 30 seconds]
+Patrick: Quick reminder — everything we discuss here is for education and entertainment. The Practice Investment of the Day uses simulated trades with no real money. I'm not a licensed financial advisor and this isn't financial advice. Always do your own research before putting real money to work.
+
+[Hook — the episode's headline, right after the intro]
+Patrick: {hook}
+Deliver with energy — this is the reason investors should keep listening. Then transition directly into Market Pulse.
+
+[Market Pulse — 60-90 seconds]
+- Deliver the market overview from the briefing: key index levels, sentiment, what's driving price action
+- Frame it through the lens of "what does this mean for your portfolio today"
+- Include both Canadian (TSX) and US (S&P, NASDAQ) context when available
+
+[Strategy Spotlight — 120-180 seconds]
+- This is the educational centrepiece. Deep-dive on one strategy from the briefing.
+- Explain the strategy clearly: what it is, when it works, what the risks are
+- Give a SPECIFIC example of how to implement it: which platform, which screener, which metrics to watch
+- Connect to historical context: "this strategy has historically performed well when..."
+- Make it practical: "here's exactly what you'd do if you wanted to try this with your TFSA"
+
+[Practice Investment of the Day — 120-150 seconds]
+- Present today's AI-selected simulated trade with genuine analytical enthusiasm
+- Walk through the FULL reasoning: catalyst, technical setup, risk assessment, target
+- Explain what analytical technique this demonstrates
+- Be explicit: "this is a simulated trade for learning purposes"
+- End with what listeners should watch for tomorrow to see how it played out
+
+[Yesterday's Trade Review — 60-90 seconds] (skip for Episode 1)
+- Report the result honestly: "we simulated buying [X] at open yesterday..."
+- Give the P&L and running total
+- Analyse what happened: did the thesis play out? What did the market do differently?
+- Extract the lesson: "what this teaches us about [specific analytical technique]"
+- If it was a loss, be direct: "this didn't work, and here's what I'd adjust next time"
+
+[Tools & Techniques — 90-120 seconds]
+- Cover 2-3 items from the briefing: platforms, AI tools, screeners, techniques
+- For each: what it does, how to access it, who benefits, specific features
+- Connect tools to the day's strategy: "if today's momentum strategy interests you, [tool] is exactly how you'd screen for setups like this"
+
+[Quick Hits — 45-60 seconds]
+- Rapid-fire through 3-4 shorter items
+- Each gets 2-3 sentences: what happened and the investment implication
+- Keep energy up — these are interesting tidbits, not deep analysis
+
+[Portfolio Performance — 30-45 seconds]
+- Running total of all simulated trades
+- Win rate and average return per trade
+- Brief commentary: "our AI analysis is learning from [pattern] and adjusting..."
+- Frame it as a learning journey, not a track record to follow
+
+[Tomorrow Teaser — one sentence before the closing]
+Patrick: Before we wrap — briefly tease something to watch for tomorrow. Keep it specific.
+
+[Closing — 15 seconds]
+Use this exact closing (do not rewrite it):
+{closing_block}
+
+Here is today's complete briefing. Use ONLY this content:
+
+{digest}
