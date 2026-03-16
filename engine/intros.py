@@ -424,6 +424,70 @@ _SHOW_PERSONALITIES: dict[str, dict[str, Any]] = {
             ),
         ],
     },
+    "modern_investing": {
+        "host": "Patrick",
+        "show_name": "Modern Investing Techniques",
+        "greetings": [
+            "Welcome to",
+            "Hey, welcome to",
+            "Good morning and welcome to",
+            "Welcome back to",
+            "Thanks for tuning in to",
+        ],
+        "openers": [
+            "episode {ep}. I'm Patrick in Vancouver. Today is {date}.",
+            "episode {ep}, for {date}. I'm Patrick, coming to you from Vancouver.",
+            "episode {ep}. It's {date} and I'm Patrick in Vancouver.",
+        ],
+        "framings": [
+            "Let's look at what the markets are telling us today and find some opportunities.",
+            "Time to break down today's market setup and find our edge.",
+            "Here's your daily market intelligence and today's practice trade.",
+            "Let's get into the numbers, the strategy, and today's AI-selected trade.",
+        ],
+        "day_colors": {
+            0: {
+                "greetings": [
+                    "Happy Monday, welcome to",
+                    "New week, new opportunities. Welcome to",
+                    "Monday morning, markets are open. Welcome to",
+                ],
+                "framings": [
+                    "New week — let's see what opportunities the markets are presenting.",
+                    "Monday means fresh setups. Let's break down the week ahead and find our edge.",
+                ],
+            },
+            4: {
+                "greetings": [
+                    "Happy Friday, welcome to",
+                    "It's Friday, welcome to",
+                    "End of the trading week. Welcome to",
+                ],
+                "framings": [
+                    "Last trading day of the week. Let's review the week and set up for next Monday.",
+                    "Friday wrap-up — let's see how the week played out and what to watch next.",
+                ],
+            },
+        },
+        "closings": [
+            (
+                "That's Modern Investing Techniques for today. If you found this useful, "
+                "share it with a fellow investor and subscribe wherever you listen. "
+                "Check the resources page for tools and platforms we discussed. "
+                "We're back tomorrow. Keep learning, keep investing."
+            ),
+            (
+                "That wraps up today's Modern Investing Techniques. Remember, every trade is "
+                "a learning opportunity, win or lose. Subscribe, share with a friend who wants "
+                "to invest smarter, and we'll see you tomorrow."
+            ),
+            (
+                "That's it for today's Modern Investing Techniques. The resources page has "
+                "links to everything we discussed. Subscribe and share with someone who "
+                "wants to go beyond index funds. See you tomorrow."
+            ),
+        ],
+    },
 }
 
 
