@@ -75,23 +75,76 @@ def pronunciation_overrides() -> dict:
 # ---------------------------------------------------------------------------
 
 def _fetch_tsla_price() -> tuple[float, str]:
-    """Get current TSLA price and change string via yfinance."""
-    try:
-        import yfinance as yf
+    """Get current TSLA price and change string via yfinance.
 
-        ticker = yf.Ticker("TSLA")
-        info = ticker.fast_info
-        price = info.last_price
-        prev_close = info.previous_close
-        change = price - prev_close
-        pct = (change / prev_close) * 100 if prev_close else 0
-        direction = "▲" if change >= 0 else "▼"
-        change_str = f"{direction} ${abs(change):.2f} ({abs(pct):.1f}%)"
-        logger.info("TSLA: $%.2f %s", price, change_str)
-        return price, change_str
-    except Exception as exc:
-        logger.warning("yfinance lookup failed: %s — using placeholder", exc)
-        return 0.0, "(price unavailable)"
+    Uses multiple fallback strategies with retries to ensure accurate
+    stock data:
+      1. fast_info (lightweight, real-time)
+      2. history fallback (2-day OHLC data)
+      3. Retries up to 3 times with exponential backoff
+    """
+    import time as _time
+
+    price = None
+    prev_close = None
+    market_status = ""
+
+    for attempt in range(3):
+        try:
+            import yfinance as yf
+            ticker = yf.Ticker("TSLA")
+
+            # Strategy 1: fast_info (lightweight real-time data)
+            try:
+                info = ticker.fast_info
+                price = (
+                    getattr(info, "last_price", None)
+                    or getattr(info, "regularMarketPrice", None)
+                    or getattr(info, "postMarketPrice", None)
+                )
+                prev_close = getattr(info, "previous_close", None)
+                market_state = str(
+                    getattr(info, "market_state", "")
+                    or getattr(info, "marketState", "")
+                )
+                if market_state.upper() == "POST":
+                    market_status = " (After-hours)"
+                elif market_state.upper() == "PRE":
+                    market_status = " (Pre-market)"
+            except Exception as e:
+                logger.warning("fast_info failed (attempt %d): %s", attempt + 1, e)
+
+            # Strategy 2: history fallback if fast_info didn't return data
+            if price is None or prev_close is None:
+                try:
+                    hist = ticker.history(period="5d", interval="1d")
+                    if not hist.empty:
+                        price = price or float(hist["Close"].iloc[-1])
+                        if len(hist) > 1 and prev_close is None:
+                            prev_close = float(hist["Close"].iloc[-2])
+                except Exception as e:
+                    logger.warning("History fallback failed (attempt %d): %s", attempt + 1, e)
+
+            if price is not None:
+                if prev_close is None:
+                    prev_close = price  # No change data available
+                change = price - prev_close
+                pct = (change / prev_close) * 100 if prev_close else 0
+                direction = "▲" if change >= 0 else "▼"
+                change_str = f"{direction} ${abs(change):.2f} ({abs(pct):.1f}%){market_status}"
+                logger.info("TSLA: $%.2f %s (attempt %d)", price, change_str, attempt + 1)
+                return price, change_str
+
+        except Exception as exc:
+            logger.warning("yfinance attempt %d failed: %s", attempt + 1, exc)
+
+        if attempt < 2:
+            backoff = 2 ** (attempt + 1)  # 2s, 4s
+            logger.info("Retrying TSLA price in %ds...", backoff)
+            _time.sleep(backoff)
+
+    logger.error("All TSLA price fetch attempts failed — using placeholder")
+    return 0.0, "(price unavailable)"
 
 
 def _format_price_for_speech(price_str: str) -> str:

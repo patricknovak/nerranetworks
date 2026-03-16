@@ -439,34 +439,73 @@
         async function loadStock() {
             function displayPrice(price, prev) {
                 const p = parseFloat(price), pc = parseFloat(prev);
+                // Validate: TSLA price should be in a reasonable range
+                if (isNaN(p) || isNaN(pc) || p <= 0 || pc <= 0 || p > 99999 || pc > 99999) {
+                    showStockError('Invalid price data');
+                    return;
+                }
                 const ch = (p - pc).toFixed(2);
                 const pct = ((p - pc) / pc * 100).toFixed(2);
-                const isUp = ch >= 0;
+                const isUp = parseFloat(ch) >= 0;
                 document.getElementById('stock-price').textContent = '$' + p.toFixed(2);
                 const changeEl = document.getElementById('stock-change');
                 changeEl.textContent = (isUp ? '+' : '') + ch + ' (' + (isUp ? '+' : '') + pct + '%)';
                 changeEl.className = 'change ' + (isUp ? 'up' : 'down');
             }
-            const yahooUrl = 'https://query2.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=2d';
+            function showStockError(msg) {
+                const priceEl = document.getElementById('stock-price');
+                const changeEl = document.getElementById('stock-change');
+                if (priceEl) priceEl.textContent = 'TSLA';
+                if (changeEl) changeEl.textContent = msg || 'Market data unavailable';
+            }
+
+            // Yahoo Finance v8 chart API — returns real-time + previous close
+            const yahooUrl = 'https://query2.finance.yahoo.com/v8/finance/chart/TSLA?interval=1d&range=5d';
+            // Yahoo Finance v6 quote API — alternative endpoint
+            const yahooQuoteUrl = 'https://query1.finance.yahoo.com/v6/finance/quote?symbols=TSLA';
             const proxies = [
                 url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
                 url => 'https://corsproxy.io/?' + encodeURIComponent(url),
                 url => url
             ];
+
+            // Try chart API first (most reliable for price + previous close)
             for (const makeUrl of proxies) {
                 try {
-                    const resp = await fetch(makeUrl(yahooUrl));
+                    const resp = await fetch(makeUrl(yahooUrl), { signal: AbortSignal.timeout(8000) });
                     if (!resp.ok) continue;
                     const data = await resp.json();
-                    const meta = data.chart.result[0].meta;
-                    displayPrice(meta.regularMarketPrice, meta.chartPreviousClose || meta.previousClose);
-                    return;
-                } catch {}
+                    const result = data?.chart?.result?.[0];
+                    if (!result?.meta) continue;
+                    const meta = result.meta;
+                    const price = meta.regularMarketPrice;
+                    const prev = meta.chartPreviousClose || meta.previousClose;
+                    if (price && prev) {
+                        displayPrice(price, prev);
+                        return;
+                    }
+                } catch { /* try next proxy */ }
             }
-            document.getElementById('stock-price').textContent = 'TSLA';
-            document.getElementById('stock-change').textContent = 'Market data unavailable';
+
+            // Fallback: try quote API
+            for (const makeUrl of proxies) {
+                try {
+                    const resp = await fetch(makeUrl(yahooQuoteUrl), { signal: AbortSignal.timeout(8000) });
+                    if (!resp.ok) continue;
+                    const data = await resp.json();
+                    const quote = data?.quoteResponse?.result?.[0];
+                    if (quote?.regularMarketPrice && quote?.regularMarketPreviousClose) {
+                        displayPrice(quote.regularMarketPrice, quote.regularMarketPreviousClose);
+                        return;
+                    }
+                } catch { /* try next proxy */ }
+            }
+
+            showStockError('Market data unavailable');
         }
         loadStock();
+        // Refresh stock price every 5 minutes during page session
+        setInterval(loadStock, 300000);
         {% endif %}
 
         loadEpisodes();

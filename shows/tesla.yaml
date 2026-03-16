@@ -36,6 +36,14 @@ sources:
   - url: https://www.torquenews.com/rss/tesla
     label: Torque News
 
+  # Financial / Market Analysis
+  - url: https://finance.yahoo.com/rss/headline?s=TSLA
+    label: Yahoo Finance TSLA
+  - url: https://seekingalpha.com/api/sa/combined/TSLA.xml
+    label: Seeking Alpha TSLA
+  - url: https://electrek.co/feed/
+    label: Electrek
+
 keywords:
   - tesla
   - tsla

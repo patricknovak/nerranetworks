@@ -44,6 +44,22 @@ sources:
   # Investing Education
   - url: https://www.investopedia.com/feedbuilder/feed/getfeed?feedName=rss_articles
     label: Investopedia
+  - url: https://www.morningstar.ca/ca/collection/2107/news.aspx
+    label: Morningstar Canada
+
+  # Russian-Language Finance & Economy
+  - url: https://vc.ru/finance/rss
+    label: VC.ru Finance (Russian)
+  - url: https://habr.com/ru/rss/hub/personal_finance/
+    label: Habr Personal Finance (Russian)
+  - url: https://banki.ru/xml/news.rss
+    label: Banki.ru News (Russian)
+
+  # Canadian Immigration & Newcomer Finance
+  - url: https://www.cicnews.com/feed
+    label: CIC News (Canadian Immigration)
+  - url: https://www.canada.ca/en/immigration-refugees-citizenship.atom.xml
+    label: IRCC Canada
 
 keywords:
   # Canadian finance (English)
