@@ -31,6 +31,19 @@ Use ONLY the pre-fetched articles above. Do NOT hallucinate, invent, or fabricat
 **MARKET CONTEXT (live data):**
 {market_indices}
 
+**RECENTLY COVERED CONTENT (avoid repetition):**
+{recent_content_summary}
+
+**RECENT PRACTICE INVESTMENT STRATEGIES (do NOT repeat the same approach):**
+{recent_strategies}
+
+**FRESHNESS RULES:**
+- Strategy Spotlight MUST cover a DIFFERENT strategy type than the last 5 episodes
+- Practice Investment MUST use a DIFFERENT analytical approach (don't pick momentum 3 days in a row)
+- Practice Investment MUST pick a DIFFERENT sector/stock than recent episodes
+- Tools & Techniques MUST feature at least one tool NOT mentioned in the last 7 episodes
+- Quick Hits MUST be entirely new stories — zero overlap with recent episodes
+
 ### SELECTION CRITERIA (STRICT)
 **INCLUDE (prioritize in this order):**
 1. Market-moving news with clear investment implications (earnings surprises, policy changes, sector shifts)
