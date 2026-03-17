@@ -32,6 +32,7 @@ NETWORK_SHOWS = {
     "tesla": {
         "name": "Tesla Shorts Time",
         "slug": "tesla",
+        "display_order": 7,
         "description": "Daily Tesla news digest and podcast.",
         "show_page": "tesla.html",
         "summaries_page": "tesla-summaries.html",
@@ -148,6 +149,7 @@ NETWORK_SHOWS = {
     "omni_view": {
         "name": "Omni View",
         "slug": "omni_view",
+        "display_order": 3,
         "description": "Daily balanced news summaries from diverse sources.",
         "show_page": "omni-view.html",
         "summaries_page": "omni-view-summaries.html",
@@ -249,6 +251,7 @@ NETWORK_SHOWS = {
     "fascinating_frontiers": {
         "name": "Fascinating Frontiers",
         "slug": "fascinating_frontiers",
+        "display_order": 4,
         "description": "Daily space and astronomy news digest.",
         "show_page": "fascinating_frontiers.html",
         "summaries_page": "fascinating-frontiers-summaries.html",
@@ -344,6 +347,7 @@ NETWORK_SHOWS = {
     "planetterrian": {
         "name": "Planetterrian Daily",
         "slug": "planetterrian",
+        "display_order": 1,
         "description": "Daily science, longevity, and health discoveries.",
         "show_page": "planetterrian.html",
         "summaries_page": "planetterrian-summaries.html",
@@ -437,6 +441,7 @@ NETWORK_SHOWS = {
     "env_intel": {
         "name": "Environmental Intelligence",
         "slug": "env_intel",
+        "display_order": 8,
         "description": "Daily environmental regulatory and compliance briefing.",
         "show_page": "env-intel.html",
         "summaries_page": "env-intel-summaries.html",
@@ -530,6 +535,7 @@ NETWORK_SHOWS = {
     "models_agents": {
         "name": "Models & Agents",
         "slug": "models_agents",
+        "display_order": 2,
         "description": "Daily AI briefing on models, agent frameworks, and practical AI.",
         "show_page": "models-agents.html",
         "summaries_page": "models-agents-summaries.html",
@@ -627,6 +633,7 @@ NETWORK_SHOWS = {
     "models_agents_beginners": {
         "name": "Models & Agents for Beginners",
         "slug": "models_agents_beginners",
+        "display_order": 5,
         "description": "Daily AI podcast for beginners and teens — AI explained simply.",
         "show_page": "models-agents-beginners.html",
         "summaries_page": "models-agents-beginners-summaries.html",
@@ -719,6 +726,7 @@ NETWORK_SHOWS = {
     "finansy_prosto": {
         "name": "Финансы Просто",
         "slug": "finansy_prosto",
+        "display_order": 9,
         "description": "Ежедневный подкаст о финансах на русском языке для женщин в Канаде.",
         "show_page": "ru/finansy-prosto.html",
         "summaries_page": "ru/finansy-prosto-summaries.html",
@@ -810,6 +818,7 @@ NETWORK_SHOWS = {
     "privet_russian": {
         "name": "Привет, Русский!",
         "slug": "privet_russian",
+        "display_order": 10,
         "description": "Bilingual Russian language learning podcast for English speakers.",
         "show_page": "ru/privet-russian.html",
         "summaries_page": "ru/privet-russian-summaries.html",
@@ -900,6 +909,7 @@ NETWORK_SHOWS = {
     "modern_investing": {
         "name": "Modern Investing Techniques",
         "slug": "modern_investing",
+        "display_order": 6,
         "description": "AI-driven analysis of investing strategies, market trends, and financial techniques for the modern investor.",
         "show_page": "modern-investing.html",
         "summaries_page": "modern-investing-summaries.html",
@@ -1003,7 +1013,7 @@ NETWORK_SHOWS = {
 
 def _build_all_shows_list():
     """Build a list of all shows with metadata needed by templates."""
-    return [
+    shows = [
         {
             "name": cfg["name"],
             "slug": cfg["slug"],
@@ -1017,9 +1027,12 @@ def _build_all_shows_list():
             "episode_length": cfg.get("episode_length", ""),
             "description_long": cfg.get("description_long", cfg["description"]),
             "source_highlights": cfg.get("source_highlights", []),
+            "_order": cfg.get("display_order", 99),
         }
         for cfg in NETWORK_SHOWS.values()
     ]
+    shows.sort(key=lambda s: s["_order"])
+    return shows
 
 
 def _url_encode_image(image_path):
