@@ -229,7 +229,7 @@
                 {% endif %}
 
                 <div style="text-align:center;">
-                    <a href="{{ referral.url }}" class="nn-btn nn-btn-primary" target="_blank" rel="noopener" style="font-size:1rem;padding:var(--sp-3) var(--sp-8);">Order a Tesla with Free FSD Trial</a>
+                    <a href="{{ referral.url }}" class="nn-btn nn-btn-primary" target="_blank" rel="noopener" style="font-size:1rem;padding:var(--sp-3) var(--sp-8);">{{ referral.cta | default('Get Started') }}</a>
                     <div style="margin-top:var(--sp-3);font-family:var(--font-ui);font-size:0.78rem;color:var(--nn-text-muted);max-width:500px;margin-left:auto;margin-right:auto;">{{ referral.fine_print }}</div>
                 </div>
             </div>
