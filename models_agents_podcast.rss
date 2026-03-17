@@ -9,7 +9,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 15 Mar 2026 15:12:04 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Mar 2026 07:56:13 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
     <itunes:category text="Technology" />
     <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
@@ -20,8 +20,37 @@
     </itunes:owner>
     <itunes:summary>Daily AI briefing covering new model releases, agent frameworks, and the latest developments in AI. Not the models and agents you are thinking about! Stay on top of the most exciting developments of our generation. AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
     <item>
+      <title>Ep 18: New A4VL framework uses multi-agent alliances to slash inference latency in long-video reasoning by up to 25%.</title>
+      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep018_20260317.mp3</link>
+      <description># Models &amp; Agents
+**Date:** March 17, 2026
+
+**HOOK:** New A4VL framework uses multi-agent alliances to slash inference latency in long-video reasoning by up to 25%.
+
+**What You Need to Know:** Today's arXiv updates spotlight a wave of multi-agent system innovations, from safety frameworks like TrinityGuard to efficient coordination tools like R3R for collision avoidance. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">models-agents-ep018-20260317-075613</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep018_20260317.mp3" length="16239639" type="audio/mpeg" />
+      <pubDate>Tue, 17 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
+      <itunes:duration>11:16</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Models &amp; Agents
+**Date:** March 17, 2026
+
+**HOOK:** New A4VL framework uses multi-agent alliances to slash inference latency in long-video reasoning by up to 25%.
+
+**What You Need to Know:** Today's arXiv updates spotlight a wave of multi-agent system innovations, from safety frameworks like TrinityGuard to efficient coordination tools like R3R for collision avoidance. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>18</itunes:episode>
+      <itunes:title>Ep 18: New A4VL framework uses multi-agent alliances to slash inference latency in long-video reasoning by up to 25%.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep018.json" type="application/json+chapters" /></item>
+    <item>
       <title>Ep 16: RL agents scaled to 1,024 layers unlock emergent parkour skills from basic failures.</title>
-      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep016_20260315.mp3</link>
       <description># Models &amp; Agents
 **Date:** March 15, 2026
 
@@ -94,7 +123,7 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>16</itunes:episode>
       <itunes:title>Ep 16: RL agents scaled to 1,024 layers unlock emergent parkour skills from basic failures.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep016.json" type="application/json+chapters" /></item>
+    </item>
     <item>
       <title>Ep 14: Perplexity launches "Personal Computer," a $200/month AI agent that automates emails, presentations, and app control 24/7.</title>
       <description># Models &amp; Agents
@@ -996,5 +1025,34 @@ Source: https://the-decoder.com/google-explains-the-differences-between-its-thre
       <itunes:title>Ep 15: Google DeepMind's Aletheia agent autonomously advances from IMO math to professional research discoveries.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
-  </channel>
+    <item>
+      <title>Ep 17: Picsart launches AI agent marketplace, starting with four agents and adding more weekly for creators.</title>
+      <description># Models &amp; Agents
+**Date:** March 17, 2026
+
+**HOOK:** Picsart launches AI agent marketplace, starting with four agents and adding more weekly for creators.
+
+**What You Need to Know:** Picsart's new AI agent marketplace lets creators "hire" specialized AI assistants via an integrated platform, launching with four agents and expanding weekly, which could democratize access to agentic tools for design workflows. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">models-agents-ep017-20260317-073122</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep017_20260317.mp3" length="18094751" type="audio/mpeg" />
+      <pubDate>Tue, 17 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
+      <itunes:duration>12:33</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Models &amp; Agents
+**Date:** March 17, 2026
+
+**HOOK:** Picsart launches AI agent marketplace, starting with four agents and adding more weekly for creators.
+
+**What You Need to Know:** Picsart's new AI agent marketplace lets creators "hire" specialized AI assistants via an integrated platform, launching with four agents and expanding weekly, which could democratize access to agentic tools for design workflows. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>17</itunes:episode>
+      <itunes:title>Ep 17: Picsart launches AI agent marketplace, starting with four agents and adding more weekly for creators.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+  <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked></channel>
 </rss>

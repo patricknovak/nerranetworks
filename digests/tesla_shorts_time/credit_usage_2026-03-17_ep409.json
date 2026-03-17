@@ -1,0 +1,40 @@
+{
+  "date": "2026-03-17",
+  "show": "Tesla Shorts Time",
+  "episode_number": 409,
+  "services": {
+    "grok_api": {
+      "model": "grok-4",
+      "x_thread_generation": {
+        "prompt_tokens": 5396,
+        "completion_tokens": 2294,
+        "total_tokens": 7690,
+        "estimated_cost_usd": 0.050598000000000004
+      },
+      "podcast_script_generation": {
+        "prompt_tokens": 3909,
+        "completion_tokens": 1702,
+        "total_tokens": 5611,
+        "estimated_cost_usd": 0.037257
+      },
+      "total_tokens": 13301,
+      "total_cost_usd": 0.087855
+    },
+    "tts_api": {
+      "provider": "elevenlabs",
+      "characters": 9557,
+      "estimated_cost_usd": 2.8671
+    },
+    "x_api": {
+      "search_calls": 0,
+      "post_calls": 1,
+      "total_calls": 1
+    },
+    "elevenlabs_api": {
+      "provider": "elevenlabs",
+      "characters": 9557,
+      "estimated_cost_usd": 2.8671
+    }
+  },
+  "total_estimated_cost_usd": 2.954955
+}
