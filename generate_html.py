@@ -251,7 +251,7 @@ NETWORK_SHOWS = {
     "fascinating_frontiers": {
         "name": "Fascinating Frontiers",
         "slug": "fascinating_frontiers",
-        "display_order": 4,
+        "display_order": 5,
         "description": "Daily space and astronomy news digest.",
         "show_page": "fascinating_frontiers.html",
         "summaries_page": "fascinating-frontiers-summaries.html",
@@ -347,7 +347,7 @@ NETWORK_SHOWS = {
     "planetterrian": {
         "name": "Planetterrian Daily",
         "slug": "planetterrian",
-        "display_order": 1,
+        "display_order": 2,
         "description": "Daily science, longevity, and health discoveries.",
         "show_page": "planetterrian.html",
         "summaries_page": "planetterrian-summaries.html",
@@ -535,7 +535,7 @@ NETWORK_SHOWS = {
     "models_agents": {
         "name": "Models & Agents",
         "slug": "models_agents",
-        "display_order": 2,
+        "display_order": 1,
         "description": "Daily AI briefing on models, agent frameworks, and practical AI.",
         "show_page": "models-agents.html",
         "summaries_page": "models-agents-summaries.html",
@@ -633,7 +633,7 @@ NETWORK_SHOWS = {
     "models_agents_beginners": {
         "name": "Models & Agents for Beginners",
         "slug": "models_agents_beginners",
-        "display_order": 5,
+        "display_order": 4,
         "description": "Daily AI podcast for beginners and teens — AI explained simply.",
         "show_page": "models-agents-beginners.html",
         "summaries_page": "models-agents-beginners-summaries.html",
