@@ -240,13 +240,23 @@
         "https://arxiv.org/abs/2603.15341",
         "https://arxiv.org/abs/2603.14066",
         "https://arxiv.org/abs/2603.14625",
-        "https://arxiv.org/abs/2603.14265"
+        "https://arxiv.org/abs/2603.14265",
+        "https://arxiv.org/abs/2603.14052",
+        "https://arxiv.org/abs/2504.12961",
+        "https://arxiv.org/abs/2510.05174",
+        "https://arxiv.org/abs/2603.14867",
+        "https://arxiv.org/abs/2603.15408",
+        "https://arxiv.org/abs/2510.06436",
+        "https://arxiv.org/abs/2603.14975",
+        "https://arxiv.org/abs/2603.15351",
+        "https://arxiv.org/abs/2603.14312",
+        "https://arxiv.org/abs/2505.08195"
       ],
       "quote_author": null,
       "sections": {
-        "model_updates": "### Model Updates\n**Auditing Cascading Risks in Multi-Agent Systems via Semantic-Geometric Co-evolution: cs.MA updates on arXiv.org**  \nThis paper introduces a framework for detecting cascading risks in LLM-based multi-agent systems using Ollivier-Ricci Curvature to monitor graph dynamics and flag early instabilities. It improves on traditional semantic auditing by being proactive and interpretable, potentially enhancing safety in systems like those built with Microsoft AutoGen. For AI practitio",
-        "agent_developments": "### Agent & Tool Developments\n**ClimateAgents: A Multi-Agent Research Assistant for Social-Climate Dynamics Analysis: cs.MA updates on arXiv.org**  \nClimateAgents is a multi-agent system for analyzing socio-environmental dynamics by integrating multimodal data, statistical modeling, and reasoning across agents. It's a step up from traditional predictive tools, enabling adaptive exploration without large training datasets, though it assumes access to sources like UN data. Try it today by implemen",
-        "practical_community": "### Practical & Community\n**A Benchmark for Multi-Party Negotiation Games from Real Negotiation Data: cs.MA updates on arXiv.org**  \nThis benchmark generates configurable negotiation games from real data like the Harvard Negotiation Challenge, testing value-function approximations for long-horizon planning. It solves gaps in evaluating decentralized agents under binding commitments. Get started by using it to benchmark your multi-agent RL models on negotiation tasks.  \nSource: https://arxiv.org/"
+        "model_updates": "### Model Updates\n**QLLM: Credit Assignment Without Mixing Networks**\nQLLM proposes using LLMs to build training-free credit assignment functions in multi-agent RL, avoiding traditional mixing networks for better interpretability and fewer parameters. It outperforms baselines on MARL benchmarks with faster convergence, generalizing across value decomposition algorithms. This could streamline your RL workflows if you're dealing with cooperative agents, though it assumes access to capable LLMs for",
+        "agent_developments": "### Agent & Tool Developments\n**TrinityGuard: Safeguarding Multi-Agent Systems**\nTrinityGuard is a unified framework for safety evaluation and monitoring in LLM-based MAS, featuring a three-tier risk taxonomy, attack probes, and runtime monitors coordinated by an LLM judge. It covers vulnerabilities from single agents to system-level hazards and works across MAS structures. Developers can try it for vulnerability reports on platforms like AutoGen—code's not linked, but it's designed for scalabil",
+        "practical_community": "### Practical & Community\n**PMAx: AI-Driven Process Mining**\nPMAx is an agentic framework acting as a virtual analyst for process mining, using multi-agents to run local scripts on event logs and interpret results without sending data externally. It ensures privacy and accuracy by separating computation from LLM interpretation. Get started by querying business processes via natural language; limitations include reliance on established mining algorithms, so it's best for users with event-log data"
       }
     }
   ]
