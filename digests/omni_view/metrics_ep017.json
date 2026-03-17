@@ -1,0 +1,22 @@
+{
+  "show_slug": "omni_view",
+  "episode_num": 17,
+  "total_duration_s": 154.94,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 45.13,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 109.81,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 257,
+    "digest_chars": 20299,
+    "audio_duration_s": 473.286531
+  }
+}
