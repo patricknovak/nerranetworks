@@ -47,14 +47,16 @@ Source: https://example.com/article
 ### Practice Investment of the Day
 **Disclaimer:** This is a SIMULATED trade for educational purposes only.
 
+**Trade Type:** Weekly Hold
 **Today's Pick:** AAPL — Apple Inc.
 **Market:** NASDAQ
 **Strategy:** Momentum play on earnings beat with AI spending catalyst
+**Hold Period:** Monday-Friday
 **AI Analysis:**
 - **Catalyst:** Q1 earnings beat by 12%, driven by AI services revenue
 - **Technical Setup:** RSI at 42 (neutral), price above 50-day MA at $198, volume 20% above average
 - **Risk Assessment:** Support at $195, stop-loss at $193 (2.5% downside)
-- **Target:** +1.5% to +2.5% same-day move
+- **Target:** +3% to +5% weekly move
 - **Confidence Level:** High — earnings beat + technical setup + sector momentum aligned
 
 **Why This Teaches:** This demonstrates momentum investing after an earnings surprise.
@@ -69,6 +71,29 @@ Source: https://example.com/tools
 ━━━━━━━━━━━━━━━━━━━━
 ### Quick Hits
 **NVIDIA acquires startup** — AI chip demand continues to surge.
+Source: https://example.com/nvda
+"""
+
+SAMPLE_FLASH_DIGEST = """# Modern Investing Techniques
+**Date:** Wednesday, March 19, 2026
+
+━━━━━━━━━━━━━━━━━━━━
+### Practice Investment of the Day
+**Disclaimer:** This is a SIMULATED trade for educational purposes only.
+
+**Trade Type:** Flash Trade
+**Today's Pick:** NVDA — NVIDIA Corporation
+**Market:** NASDAQ
+**Strategy:** Catalyst-driven intraday play on surprise acquisition announcement
+**Hold Period:** Same-day
+**AI Analysis:**
+- **Catalyst:** Surprise $2B acquisition of AI chip startup announced pre-market
+- **Technical Setup:** Gap up 3% pre-market, RSI at 55
+- **Risk Assessment:** Stop-loss at gap fill level, 1.5% downside
+- **Target:** +1.5% to +3% same-day move
+- **Confidence Level:** Medium — strong catalyst but gap plays carry reversal risk
+
+**Why This Teaches:** Flash trades demonstrate catalyst-driven execution.
 Source: https://example.com/nvda
 """
 
@@ -97,7 +122,7 @@ class TestExtractTradeFromDigest:
 
     def test_extracts_target(self):
         trade = _extract_trade_from_digest(SAMPLE_DIGEST, episode_num=5)
-        assert "1.5%" in trade["target_range"] or "+1.5" in trade["target_range"]
+        assert "3%" in trade["target_range"] or "+3" in trade["target_range"]
 
     def test_trade_is_open(self):
         trade = _extract_trade_from_digest(SAMPLE_DIGEST, episode_num=5)
@@ -118,6 +143,21 @@ class TestExtractTradeFromDigest:
 
     def test_returns_none_for_no_pick(self):
         assert _extract_trade_from_digest("Just some random text", episode_num=1) is None
+
+    def test_extracts_trade_type_weekly(self):
+        trade = _extract_trade_from_digest(SAMPLE_DIGEST, episode_num=5)
+        assert trade["trade_type"] == "weekly"
+
+    def test_extracts_trade_type_flash(self):
+        trade = _extract_trade_from_digest(SAMPLE_FLASH_DIGEST, episode_num=8)
+        assert trade is not None
+        assert trade["trade_type"] == "flash"
+        assert trade["symbol"] == "NVDA"
+
+    def test_midweek_update_returns_none(self):
+        midweek = SAMPLE_DIGEST.replace("**Trade Type:** Weekly Hold", "**Trade Type:** Mid-Week Update")
+        trade = _extract_trade_from_digest(midweek, episode_num=6)
+        assert trade is None
 
     def test_extracts_tsx_market(self):
         tsx_digest = SAMPLE_DIGEST.replace("NASDAQ", "TSX").replace("AAPL", "RY")
@@ -239,13 +279,14 @@ class TestBuildTradeReview:
         }
         assert _build_trade_review(tracker, episode_num=5) == ""
 
-    def test_with_closed_trade(self):
+    def test_with_closed_weekly_hold(self):
         tracker = {
             "trades": [
                 {
                     "status": "closed",
                     "symbol": "AAPL",
                     "strategy": "Momentum play",
+                    "trade_type": "weekly",
                     "entry_price": 200.0,
                     "exit_price": 204.0,
                     "pnl_pct": 2.0,
@@ -262,10 +303,37 @@ class TestBuildTradeReview:
         }
         review = _build_trade_review(tracker, episode_num=2)
         assert "AAPL" in review
+        assert "Weekly Hold" in review
         assert "gained" in review
         assert "2.00%" in review
         assert "$200.00" in review
         assert "100%" in review
+
+    def test_with_closed_flash_trade(self):
+        tracker = {
+            "trades": [
+                {
+                    "status": "closed",
+                    "symbol": "NVDA",
+                    "strategy": "Catalyst play",
+                    "trade_type": "flash",
+                    "entry_price": 150.0,
+                    "exit_price": 153.0,
+                    "pnl_pct": 2.0,
+                    "pnl_dollars": 20.0,
+                },
+            ],
+            "summary": {
+                "cumulative_pnl": 20.0,
+                "wins": 1,
+                "total_trades": 1,
+                "win_rate_pct": 100.0,
+                "current_streak": 1,
+            },
+        }
+        review = _build_trade_review(tracker, episode_num=5)
+        assert "Flash Trade" in review
+        assert "NVDA" in review
 
 
 class TestBuildPortfolioSummary:

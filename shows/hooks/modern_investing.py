@@ -109,10 +109,26 @@ def pronunciation_overrides() -> dict:
             "GIC": "G I C",
             "VGRO": "V G R O",
             "XEQT": "X E Q T",
+            # Common tickers discussed frequently
+            "NVDA": "N V D A",
+            "ARKK": "A R K K",
+            "SCHD": "S C H D",
+            # Canadian tickers
+            "BCE": "B C E",
+            "ENB": "E N B",
+            "CNR": "C N R",
+            # Financial terms
+            "YTD": "year to date",
+            "MoM": "month over month",
+            "QoQ": "quarter over quarter",
+            "BoC": "Bank of Canada",
+            "FOMC": "F O M C",
+            "AUM": "A U M",
         },
         "extra_words": {
             "robo-advisor": "robo advisor",
             "fintech": "fin tech",
+            "bps": "basis points",
         },
     }
 
@@ -186,18 +202,54 @@ def _save_tracker(tracker: dict, tracker_path: Path) -> None:
 # ---------------------------------------------------------------------------
 
 def _evaluate_open_trade(tracker: dict, tracker_path: Path) -> None:
-    """Find the most recent open trade and close it with real market data."""
+    """Evaluate open trades using the hybrid model.
+
+    - **Weekly holds** are only closed on Fridays (weekday 4).
+    - **Flash trades** (trade_type == "flash") are closed the next trading day.
+    - On non-Friday weekdays, weekly holds get a mid-week price snapshot
+      (stored as ``current_price``) but remain open.
+    """
     open_trades = [t for t in tracker["trades"] if t.get("status") == "open"]
     if not open_trades:
         return
 
-    trade = open_trades[-1]  # Most recent open trade
-    symbol = trade.get("symbol", "")
-    if not symbol:
-        logger.warning("Open trade has no symbol — skipping evaluation")
-        return
+    today = datetime.date.today()
+    is_friday = today.weekday() == 4  # Monday=0, Friday=4
 
-    entry_price, exit_price = _fetch_trade_prices(symbol)
+    for trade in open_trades:
+        symbol = trade.get("symbol", "")
+        if not symbol:
+            logger.warning("Open trade has no symbol — skipping evaluation")
+            continue
+
+        trade_type = trade.get("trade_type", "weekly")
+
+        # Flash trades close the next day; weekly holds close on Friday only
+        should_close = (trade_type == "flash") or is_friday
+
+        if should_close:
+            _close_trade(trade, tracker)
+        else:
+            # Mid-week snapshot for weekly holds
+            _snapshot_trade(trade, symbol)
+
+    # Recompute summary stats and save
+    _recompute_summary(tracker)
+    _save_tracker(tracker, tracker_path)
+
+
+def _close_trade(trade: dict, tracker: dict) -> None:
+    """Close a trade with real market data."""
+    symbol = trade.get("symbol", "")
+    trade_type = trade.get("trade_type", "weekly")
+
+    if trade_type == "flash":
+        # Flash trade: entry = trade date's open, exit = trade date's close
+        entry_price, exit_price = _fetch_trade_prices(symbol)
+    else:
+        # Weekly hold: entry = Monday open, exit = Friday close
+        entry_price, exit_price = _fetch_weekly_prices(symbol)
+
     if entry_price is None or exit_price is None:
         logger.warning("Could not fetch prices for %s — marking as data_unavailable", symbol)
         trade["status"] = "closed"
@@ -218,13 +270,22 @@ def _evaluate_open_trade(tracker: dict, tracker_path: Path) -> None:
         trade["pnl_dollars"] = round(pnl_dollars, 2)
 
         logger.info(
-            "Evaluated %s: entry=$%.2f exit=$%.2f pnl=%.2f%%",
-            symbol, entry_price, exit_price, pnl_pct,
+            "Evaluated %s (%s): entry=$%.2f exit=$%.2f pnl=%.2f%%",
+            symbol, trade_type, entry_price, exit_price, pnl_pct,
         )
 
-    # Recompute summary stats
-    _recompute_summary(tracker)
-    _save_tracker(tracker, tracker_path)
+
+def _snapshot_trade(trade: dict, symbol: str) -> None:
+    """Take a mid-week price snapshot for a weekly hold (does not close it)."""
+    try:
+        import yfinance as yf
+        ticker = yf.Ticker(symbol)
+        hist = ticker.history(period="1d", interval="1d")
+        if not hist.empty:
+            trade["current_price"] = round(float(hist["Close"].iloc[-1]), 2)
+            logger.info("Mid-week snapshot %s: $%.2f", symbol, trade["current_price"])
+    except Exception as exc:
+        logger.warning("Mid-week snapshot failed for %s: %s", symbol, exc)
 
 
 def _fetch_trade_prices(symbol: str) -> tuple[float | None, float | None]:
@@ -247,6 +308,37 @@ def _fetch_trade_prices(symbol: str) -> tuple[float | None, float | None]:
                 last_row = hist.iloc[-1]
                 entry = float(last_row["Open"])
                 exit_ = float(last_row["Close"])
+                return entry, exit_
+        except Exception as exc:
+            logger.warning("yfinance attempt %d for %s failed: %s", attempt + 1, symbol, exc)
+
+        if attempt < 2:
+            backoff = 2 ** (attempt + 1)
+            logger.info("Retrying %s price in %ds...", symbol, backoff)
+            _time.sleep(backoff)
+
+    return None, None
+
+
+def _fetch_weekly_prices(symbol: str) -> tuple[float | None, float | None]:
+    """Fetch Monday's open and Friday's close for weekly hold evaluation.
+
+    Returns (entry_price, exit_price) or (None, None) on failure.
+    Uses 5 trading days of history to find the week's open and close.
+    """
+    import time as _time
+
+    for attempt in range(3):
+        try:
+            import yfinance as yf
+            ticker = yf.Ticker(symbol)
+            hist = ticker.history(period="5d", interval="1d")
+            if hist.empty or len(hist) < 1:
+                logger.warning("No history for %s (attempt %d)", symbol, attempt + 1)
+            else:
+                # Monday open = first row's Open, Friday close = last row's Close
+                entry = float(hist.iloc[0]["Open"])
+                exit_ = float(hist.iloc[-1]["Close"])
                 return entry, exit_
         except Exception as exc:
             logger.warning("yfinance attempt %d for %s failed: %s", attempt + 1, symbol, exc)
@@ -348,26 +440,48 @@ def _fetch_market_indices() -> str:
 # ---------------------------------------------------------------------------
 
 def _build_trade_review(tracker: dict, episode_num: int | None = None) -> str:
-    """Build the Yesterday's Trade Review text block for the digest prompt."""
+    """Build the Trade Review text block for the digest prompt.
+
+    Handles both weekly holds and flash trades, with appropriate framing for each.
+    """
     if episode_num and episode_num <= 1:
         return ""  # No review for Episode 1
 
     closed = [t for t in tracker["trades"] if t.get("status") == "closed"]
     if not closed:
+        # Check for open weekly hold — provide mid-week update
+        open_trades = [t for t in tracker["trades"] if t.get("status") == "open"]
+        if open_trades:
+            hold = open_trades[-1]
+            current = hold.get("current_price")
+            if current and hold.get("entry_price"):
+                unrealized = ((current - hold["entry_price"]) / hold["entry_price"]) * 100
+                direction = "up" if unrealized >= 0 else "down"
+                return (
+                    f"**Current Weekly Hold:** {hold.get('symbol', '???')} — {hold.get('strategy', '')}\n"
+                    f"**Entry:** ${hold['entry_price']:.2f} (Monday open)\n"
+                    f"**Current:** ${current:.2f} ({direction} {abs(unrealized):.2f}%)\n"
+                    f"**Status:** Holding until Friday evaluation\n"
+                )
         return ""
 
     last = closed[-1]
     symbol = last.get("symbol", "???")
     strategy = last.get("strategy", "")
+    trade_type = last.get("trade_type", "weekly")
     entry = last.get("entry_price")
     exit_ = last.get("exit_price")
     pnl_pct = last.get("pnl_pct", 0)
     pnl_dollars = last.get("pnl_dollars", 0)
     summary = tracker.get("summary", {})
 
+    type_label = "Flash Trade" if trade_type == "flash" else "Weekly Hold"
+    entry_label = "market open" if trade_type == "flash" else "Monday open"
+    exit_label = "market close" if trade_type == "flash" else "Friday close"
+
     if entry is None or exit_ is None:
         return (
-            f"**Yesterday's Pick:** {symbol}\n"
+            f"**Last {type_label}:** {symbol}\n"
             f"**Result:** Market data was unavailable for evaluation.\n"
             f"**Running Total:** ${summary.get('cumulative_pnl', 0):.2f}\n"
             f"**Win Rate:** {summary.get('wins', 0)} wins / "
@@ -377,8 +491,8 @@ def _build_trade_review(tracker: dict, episode_num: int | None = None) -> str:
 
     direction = "gained" if pnl_pct >= 0 else "lost"
     return (
-        f"**Yesterday's Pick:** {symbol} — {strategy}\n"
-        f"**Entry:** ${entry:.2f} (market open) → **Exit:** ${exit_:.2f} (market close)\n"
+        f"**Last {type_label}:** {symbol} — {strategy}\n"
+        f"**Entry:** ${entry:.2f} ({entry_label}) → **Exit:** ${exit_:.2f} ({exit_label})\n"
         f"**Result:** {direction} {abs(pnl_pct):.2f}% (${pnl_dollars:+.2f} on $1,000 position)\n"
         f"**Running Total:** ${summary.get('cumulative_pnl', 0):.2f} across "
         f"{summary.get('total_trades', 0)} trades\n"
@@ -475,6 +589,23 @@ def _extract_trade_from_digest(digest_text: str, episode_num: int | None = None)
     )
     target = target_match.group(1).strip() if target_match else ""
 
+    # Extract trade type (hybrid model: weekly hold vs flash trade)
+    trade_type_match = re.search(
+        r"\*\*Trade Type:\*\*\s*(Weekly Hold|Flash Trade|Mid-Week Update)",
+        digest_text, re.IGNORECASE,
+    )
+    if trade_type_match:
+        raw_type = trade_type_match.group(1).strip().lower()
+        trade_type = "flash" if "flash" in raw_type else "weekly"
+    else:
+        # Default: Monday = weekly, other days = flash (if it's a new pick)
+        trade_type = "weekly" if datetime.date.today().weekday() == 0 else "flash"
+
+    # Mid-week updates don't create new trades
+    if trade_type_match and "update" in trade_type_match.group(1).lower():
+        logger.info("Mid-week update detected — no new trade to record")
+        return None
+
     return {
         "episode_num": episode_num or 0,
         "date": datetime.date.today().isoformat(),
@@ -483,6 +614,7 @@ def _extract_trade_from_digest(digest_text: str, episode_num: int | None = None)
         "strategy": strategy,
         "confidence": confidence,
         "target_range": target,
+        "trade_type": trade_type,
         "status": "open",
         "entry_price": None,
         "exit_price": None,
