@@ -1,48 +1,7 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-15",
+  "last_updated": "2026-03-17",
   "episodes": [
-    {
-      "date": "2026-03-01",
-      "headlines": [],
-      "urls": [
-        "https://www.marktechpost.com/2026/03/01/alibaba-team-open-sources-copaw-a-high-performance-personal-agent-workstation-for-developers-to-scale-multi-channel-ai-workflows-and-memory/",
-        "https://the-decoder.com/elevenlabs-and-google-dominate-artificial-analysis-updated-speech-to-text-benchmark/",
-        "https://the-decoder.com/moltbooks-alleged-ai-civilization-is-just-a-massive-void-of-bloated-bot-traffic/",
-        "https://www.marktechpost.com/2026/03/01/alibaba-team-open-sources-copaw-a-high-performance-personal-agent-workstation-for-developers-to-scale-multi-channel-ai-workflows-and-memory/",
-        "https://the-decoder.com/ai-can-link-fake-online-names-to-real-identities-in-minutes-for-just-a-few-dollars/",
-        "https://www.marktechpost.com/2026/03/01/a-complete-end-to-end-coding-guide-to-mlflow-experiment-tracking-hyperparameter-optimization-model-evaluation-and-live-model-deployment/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**ElevenLabs and Google dominate Artificial Analysis' updated speech-to-text benchmark: The Decoder**  \nElevenLabs and Google are tied for top spots in Artificial Analysis' latest speech-to-text benchmark, with ElevenLabs edging out on accents and noise robustness while Google excels in speed for large datasets. This update compares them to alternatives like OpenAI's Whisper, showing ElevenLabs' model achieving up to 95% accuracy in challenging conditions versus Whisper's 90% i",
-        "agent_developments": "### Agent & Tool Developments\n**Moltbook's alleged AI civilization is just a massive void of bloated bot traffic: The Decoder**  \nMoltbook runs over 2.6 million AI agents in a simulated social network, where they post, comment, and vote autonomously, but a new study reveals no real learning, shared memory, or social structures—just hollow interactions. This exposes limitations in current agent frameworks like AutoGPT or CrewAI, where bots generate traffic without mutual influence, unlike more ad",
-        "practical_community": "### Practical & Community\n**AI can link fake online names to real identities in minutes for just a few dollars: The Decoder**  \nResearchers from ETH Zurich and Anthropic show how commercial models like Claude or GPT can de-anonymize pseudonymous users by cross-referencing online data, costing just dollars per person and challenging assumptions about privacy in agent-driven systems. It solves (or exposes) issues in AI safety for tasks like red-teaming anonymous interactions but highlights risks i"
-      }
-    },
-    {
-      "date": "2026-03-02",
-      "headlines": [],
-      "urls": [
-        "https://www.marktechpost.com/2026/03/01/fireredteam-releases-firered-ocr-2b-utilizing-grpo-to-solve-structural-hallucinations-in-tables-and-latex-for-software-developers/",
-        "https://www.marktechpost.com/2026/03/01/fireredteam-releases-firered-ocr-2b-utilizing-grpo-to-solve-structural-hallucinations-in-tables-and-latex-for-software-developers/",
-        "https://arxiv.org/abs/2510.24038",
-        "https://arxiv.org/abs/2602.23370",
-        "https://arxiv.org/abs/2602.24068",
-        "https://arxiv.org/abs/2602.23556",
-        "https://arxiv.org/abs/2602.19326",
-        "https://arxiv.org/abs/2602.15909",
-        "https://arxiv.org/abs/2507.19364",
-        "https://arxiv.org/abs/2508.05535",
-        "https://arxiv.org/abs/2602.23452"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**FireRed-OCR-2B: MarkTechPost**\nFireRed-OCR-2B is a new 2B-parameter flagship model from FireRedTeam that uses GRPO to unify document digitization, fixing structural hallucinations in LVLMs for tables and LaTeX without multi-stage processing. It outperforms traditional methods on benchmarks by preserving order and syntax, comparing favorably to smaller models like MiniCPM-V but with specialized focus on developer tools. This matters for your work if you're building apps that p",
-        "agent_developments": "### Agent & Tool Developments\n**Hierarchical Multi-Agent System for Payments: cs.MA updates on arXiv.org**\nThis introduces HMASP, a hierarchical LLM-based system with agents like CPA and Supervisor for end-to-end payment workflows, using MCP for secure data access and modular execution. It's a first for agentic payments, improving over static LLMs by handling multi-level coordination, and works with open or proprietary models like those from OpenAI or Claude. Try it today via the open-source cod",
-        "practical_community": "### Practical & Community\n**Integrating LLMs in Social Simulation: cs.MA updates on arXiv.org**\nThis position paper proposes Hybrid Constitutional Architectures for agent-based simulations, combining ABMs like GAMA/NetLogo with SLMs and LLMs to balance flexibility and transparency. It solves issues in benchmarks like Smallville by addressing biases and scalability, ideal for researchers in multi-agent systems. Get started by experimenting with the outlined integrations in NetLogo; limitations in"
-      }
-    },
     {
       "date": "2026-03-05",
       "headlines": [],
@@ -265,6 +224,29 @@
         "model_updates": "### Model Updates\n**No major model releases today:** With the focus on agent advancements, we're light on foundation model updates—check back for potential drops from labs like OpenAI or Anthropic.",
         "agent_developments": "### Agent & Tool Developments\n**OpenClaw-RL trains AI agents \"simply by talking,\" converting every reply into a training signal: The Decoder**  \nPrinceton's new OpenClaw-RL framework captures feedback from everyday interactions—like chats, terminal commands, or GUI actions—and turns them into continuous training signals for AI agents, requiring just a few dozen interactions for noticeable improvements. This improves on traditional agent frameworks like LangChain or AutoGPT by not discarding valu",
         "practical_community": "### Practical & Community\n**No standout community projects today:** The articles emphasize research and demos—look for GitHub repos tied to these for hands-on tinkering."
+      }
+    },
+    {
+      "date": "2026-03-17",
+      "headlines": [],
+      "urls": [
+        "https://techcrunch.com/2026/03/16/picsart-now-allows-creators-to-hire-ai-assistants-through-agent-marketplace/",
+        "https://arxiv.org/abs/2603.13325",
+        "https://arxiv.org/abs/2603.13890",
+        "https://arxiv.org/abs/2603.15255",
+        "https://arxiv.org/abs/2603.13840",
+        "https://arxiv.org/abs/2603.13256",
+        "https://arxiv.org/abs/2603.13625",
+        "https://arxiv.org/abs/2603.15341",
+        "https://arxiv.org/abs/2603.14066",
+        "https://arxiv.org/abs/2603.14625",
+        "https://arxiv.org/abs/2603.14265"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Auditing Cascading Risks in Multi-Agent Systems via Semantic-Geometric Co-evolution: cs.MA updates on arXiv.org**  \nThis paper introduces a framework for detecting cascading risks in LLM-based multi-agent systems using Ollivier-Ricci Curvature to monitor graph dynamics and flag early instabilities. It improves on traditional semantic auditing by being proactive and interpretable, potentially enhancing safety in systems like those built with Microsoft AutoGen. For AI practitio",
+        "agent_developments": "### Agent & Tool Developments\n**ClimateAgents: A Multi-Agent Research Assistant for Social-Climate Dynamics Analysis: cs.MA updates on arXiv.org**  \nClimateAgents is a multi-agent system for analyzing socio-environmental dynamics by integrating multimodal data, statistical modeling, and reasoning across agents. It's a step up from traditional predictive tools, enabling adaptive exploration without large training datasets, though it assumes access to sources like UN data. Try it today by implemen",
+        "practical_community": "### Practical & Community\n**A Benchmark for Multi-Party Negotiation Games from Real Negotiation Data: cs.MA updates on arXiv.org**  \nThis benchmark generates configurable negotiation games from real data like the Harvard Negotiation Challenge, testing value-function approximations for long-horizon planning. It solves gaps in evaluating decentralized agents under binding commitments. Get started by using it to benchmark your multi-agent RL models on negotiation tasks.  \nSource: https://arxiv.org/"
       }
     }
   ]
