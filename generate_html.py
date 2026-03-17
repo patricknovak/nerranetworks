@@ -125,6 +125,7 @@ NETWORK_SHOWS = {
         "referral": {
             "url": "https://ts.la/patrick84289",
             "heading": "Buy a Tesla & Get Free Stuff",
+            "cta": "Order a Tesla with Free FSD Trial",
             "intro": "Use our referral link when ordering your new Tesla and you'll receive free benefits at no extra cost. It's Tesla's way of rewarding customers who spread the word.",
             "buyer_benefits": [
                 "3 months of Full Self-Driving (Supervised) free — a $297 value",
@@ -903,7 +904,7 @@ NETWORK_SHOWS = {
         "show_page": "modern-investing.html",
         "summaries_page": "modern-investing-summaries.html",
         "json_path": "digests/modern_investing/summaries_modern_investing.json",
-        "json_format": "wrapped",
+        "json_format": "array",
         "rss_file": "modern_investing_podcast.rss",
         "podcast_image": "assets/covers/modern-investing.jpg",
         "x_account": None,
@@ -970,6 +971,25 @@ NETWORK_SHOWS = {
             {"name": "Seeking Alpha", "url": "https://seekingalpha.com", "desc": "Deep stock analysis, quant ratings, earnings transcripts, and dividend data", "badge": "Free tier"},
             {"name": "Portfolio Visualizer", "url": "https://www.portfoliovisualizer.com", "desc": "Backtest portfolios, optimize asset allocation, and analyze historical factor returns", "badge": "Free tier"},
         ],
+        "referral": {
+            "url": "https://wealthsimple.com/invite/U5JROW",
+            "heading": "Start Investing with Wealthsimple",
+            "cta": "Get Started with Wealthsimple",
+            "intro": "New to investing? Wealthsimple is Canada's most popular investing platform with commission-free trading, automatic contributions, and tax-advantaged accounts. Sign up with our referral link and start building your portfolio today.",
+            "buyer_benefits": [
+                "Commission-free trading on stocks, ETFs, and crypto",
+                "Tax-advantaged accounts — TFSA, RRSP, and FHSA supported",
+                "Fractional shares — start investing with as little as $1",
+                "Automatic contributions and smart savings features",
+            ],
+            "how_to_steps": [
+                "Click our referral link below to visit Wealthsimple",
+                "Create your free account in minutes",
+                "Open a TFSA, RRSP, or personal investing account",
+                "Fund your account and start investing commission-free",
+            ],
+            "fine_print": "Wealthsimple referral benefits are subject to Wealthsimple's current terms and may change. This podcast is not financial advice — always do your own research before investing.",
+        },
         "faq": [
             {"q": "Are the trades real?", "a": "No — all Practice Investment picks are simulated. We track them as if we invested $1,000 per trade using real market open/close prices, but no actual money is involved. This is purely educational. The podcast is not financial advice. Always do your own research before investing real money."},
             {"q": "What is a TFSA?", "a": "A Tax-Free Savings Account is a Canadian registered account where all investment gains — dividends, interest, and capital gains — are completely tax-free. In 2026, the annual contribution limit is $7,000, with cumulative room of $102,000 if you've been eligible since 2009. It's the most powerful wealth-building tool for most Canadians because you never pay tax on withdrawals."},
@@ -1161,8 +1181,8 @@ def generate_network_page(*, dry_run=False):
 
     context = {
         "path_prefix": "",
-        "page_title": "Nerra Network | 9 Daily Shows",
-        "meta_description": "Nerra Network — Nine daily podcasts keeping you informed. Tesla, world news, space, science, environment, AI, Russian finance, and language learning. Independent, daily, free.",
+        "page_title": "Nerra Network | 10 Daily Shows",
+        "meta_description": "Nerra Network — Ten daily podcasts keeping you informed. Tesla, world news, space, science, environment, AI, modern investing, Russian finance, and language learning. Independent, daily, free.",
         "meta_keywords": "podcast network, daily podcasts, Nerra Network, Tesla, space, science, AI, environment",
         "theme_color": "#7C5CFF",
         "og_image": None,  # No single show image represents the network
