@@ -5,7 +5,7 @@
     <description>Ten podcasts in two languages keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, modern investing, financial literacy, and Russian language learning.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Tue, 17 Mar 2026 09:53:13 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Mar 2026 15:05:05 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg</url>
       <title>Nerra Network</title>
@@ -180,6 +180,39 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>17</itunes:episode>
       <itunes:title>Ep 17: Picsart launches AI agent marketplace, starting with four agents and adding more weekly for creators.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 1: Permutable AI launches sentiment indices, giving retail investors hedge-fund style market intelligence.</title>
+      <link>https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep001_20260317.mp3</link>
+      <description># Modern Investing Techniques
+**Date:** March 17, 2026
+💰 **Modern Investing Techniques** — AI-Powered Daily Market Intelligence
+
+**HOOK:** Permutable AI launches sentiment indices, giving retail investors hedge-fund style market intelligence.
+
+**Market Pulse:** Markets opened positively today, with the S&amp;P 500 at 6,739 (+0.6%), NASDAQ Composite at 22,523 (+0.7%), and TSX Composite at 33,145 (+0.8%). ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">modern-investing-ep001-20260317-150503</guid>
+      <enclosure url="https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep001_20260317.mp3" length="16904821" type="audio/mpeg" />
+      <pubDate>Tue, 17 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/modern-investing.jpg" />
+      <itunes:duration>11:44</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Modern Investing Techniques
+**Date:** March 17, 2026
+💰 **Modern Investing Techniques** — AI-Powered Daily Market Intelligence
+
+**HOOK:** Permutable AI launches sentiment indices, giving retail investors hedge-fund style market intelligence.
+
+**Market Pulse:** Markets opened positively today, with the S&amp;P 500 at 6,739 (+0.6%), NASDAQ Composite at 22,523 (+0.7%), and TSX Composite at 33,145 (+0.8%). ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>1</itunes:episode>
+      <itunes:title>Ep 1: Permutable AI launches sentiment indices, giving retail investors hedge-fund style market intelligence.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+      <podcast:chapters url="https://nerranetwork.com/digests/modern_investing/chapters_ep001.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 408: Elon Musk confirms Tesla's Terafab AI chip plant starts production in just seven days.</title>
@@ -3337,49 +3370,6 @@ Omni-C is a Transformer-based encoder that unifies images, audio, and text into 
       <itunes:season>1</itunes:season>
       <itunes:episode>10</itunes:episode>
       <itunes:title>Ep 10: Claude Opus 4.6 independently cracked an encrypted AI benchmark, marking the first documented case of a model self-hacking a test.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 1: Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!</title>
-      <description># Models &amp; Agents for Beginners
-**Date:** March 09, 2026
-
-**HOOK:** Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!
-
-**What's Cool Today:** Today, we're diving into how AI might soon learn from endless videos instead of running out of text, opening up wild new possibilities for smarter helpers in games and school. We'll also compare two top AI chatbots you can test yourself for homework or creative fun, and uncover why AI tests are missing most real jobs. Stick around for a deep dive on how AI learns from unlabeled data, plus easy ways to try cutting-edge tools right now.
-
-━━━━━━━━━━━━━━━━━━━━
-### The Big Story
-Andrej Karpathy, a famous AI expert who helped build things like Tesla's self-driving tech, just released a simple tool called Autoresearch that lets AI systems run their own machine learning experiments without much human help. It's all in one short Python file, designed to work on a single powerful graphics card like those in gaming computers. Think of Autoresearch like a mini lab where an AI agent (a smart program that can take actions on its own, like a virtual assistant deciding steps to solve a problem) can test ideas in machine learning, which is the process of teaching computers to learn from data. It's based on a stripped-down version of another tool for training language models, but super simplified so it's easier to use and tweak. This is a big deal because it makes advanced AI research more accessible, potentially letting students or hobbyists experiment with how AIs learn without needing huge supercomputers. For example, imagine using it to train an AI to analyze your favorite video games or predict trends in social media posts. It matters to you because as AI gets into everyday stuff like school projects or creative hobbies, tools like this could inspire the next generation of inventors—maybe even a teen building their first AI model for a science fair. Personally, if you're curious about careers in tech, this shows how AI is becoming something you can tinker with at home, not just for big companies. Right now, you can check out the project on GitHub, but since it's code-based, start by reading the simple readme file to understand the basics—search for "Autoresearch Karpathy GitHub" in your browser. If you're not ready for code, watch Karpathy's free YouTube videos on AI basics to get inspired. For a hands-on taste, try chatting with a free AI like ChatGPT about what machine learning experiments you'd run if you had an AI lab.
-Source: https://www.marktechpost.com/2026/03/08/andrej-karpathy-open-sources-autoresearch-a-630-line-python-tool-letting-ai-agents-run-autonomous-ml-experiments-on-single-gpus/
-
-━━━━━━━━━━━━━━━━━━━━
-### Explain Like I'm 14
-Let's explain how AI models learn from unlabeled video data, a hot idea from today's news that's changing how we build smarter AIs. Imagine you're trying to learn a new sport like soccer just by watching hours of pro games on YouTube without any coach explaining the rules—you pick up patterns like how players pass the ball or score goals by noticing what happens over and over. Step one: The AI starts with raw videos, broken into tiny clips, kind of like flipping through a flipbook where each page is a frame. Step two: It looks for connections within those frames, like spotting that a ball moving left often leads to a player running right, building a map of "what usually happens next" without needing labels like "this is a goal." Step three: To make it multimodal (meaning it handles different types of data like text and images together), the AI mixes in text descriptions, linking video patterns to words so it can later answer questions like "describe this soccer play." Step four: Over tons of examples, it refines this map, getting better at predicting and understanding without being told exactly what everything means. And that's basically what new AI training methods are doing when they use unlabeled videos—they...</description>
-      <guid isPermaLink="false">mab-ep001-20260309-031635</guid>
-      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260309.mp3" length="13526875" type="audio/mpeg" />
-      <pubDate>Mon, 09 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents-beginners.jpg" />
-      <itunes:duration>09:23</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents for Beginners
-**Date:** March 09, 2026
-
-**HOOK:** Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!
-
-**What's Cool Today:** Today, we're diving into how AI might soon learn from endless videos instead of running out of text, opening up wild new possibilities for smarter helpers in games and school. We'll also compare two top AI chatbots you can test yourself for homework or creative fun, and uncover why AI tests are missing most real jobs. Stick around for a deep dive on how AI learns from unlabeled data, plus easy ways to try cutting-edge tools right now.
-
-━━━━━━━━━━━━━━━━━━━━
-### The Big Story
-Andrej Karpathy, a famous AI expert who helped build things like Tesla's self-driving tech, just released a simple tool called Autoresearch that lets AI systems run their own machine learning experiments without much human help. It's all in one short Python file, designed to work on a single powerful graphics card like those in gaming computers. Think of Autoresearch like a mini lab where an AI agent (a smart program that can take actions on its own, like a virtual assistant deciding steps to solve a problem) can test ideas in machine learning, which is the process of teaching computers to learn from data. It's based on a stripped-down version of another tool for training language models, but super simplified so it's easier to use and tweak. This is a big deal because it makes advanced AI research more accessible, potentially letting students or hobbyists experiment with how AIs learn without needing huge supercomputers. For example, imagine using it to train an AI to analyze your favorite video games or predict trends in social media posts. It matters to you because as AI gets into everyday stuff like school projects or creative hobbies, tools like this could inspire the next generation of inventors—maybe even a teen building their first AI model for a science fair. Personally, if you're curious about careers in tech, this shows how AI is becoming something you can tinker with at home, not just for big companies. Right now, you can check out the project on GitHub, but since it's code-based, start by reading the simple readme file to understand the basics—search for "Autoresearch Karpathy GitHub" in your browser. If you're not ready for code, watch Karpathy's free YouTube videos on AI basics to get inspired. For a hands-on taste, try chatting with a free AI like ChatGPT about what machine learning experiments you'd run if you had an AI lab.
-Source: https://www.marktechpost.com/2026/03/08/andrej-karpathy-open-sources-autoresearch-a-630-line-python-tool-letting-ai-agents-run-autonomous-ml-experiments-on-single-gpus/
-
-━━━━━━━━━━━━━━━━━━━━
-### Explain Like I'm 14
-Let's explain how AI models learn from unlabeled video data, a hot idea from today's news that's changing how we build smarter AIs. Imagine you're trying to learn a new sport like soccer just by watching hours of pro games on YouTube without any coach explaining the rules—you pick up patterns like how players pass the ball or score goals by noticing what happens over and over. Step one: The AI starts with raw videos, broken into tiny clips, kind of like flipping through a flipbook where each page is a frame. Step two: It looks for connections within those frames, like spotting that a ball moving left often leads to a player running right, building a map of "what usually happens next" without needing labels like "this is a goal." Step three: To make it multimodal (meaning it handles different types of data like text and images together), the AI mixes in text descriptions, linking video patterns to words so it can later answer questions like "describe this soccer play." Step four: Over tons of examples, it refines this map, getting better at predicting and understanding without being told exactly what everything means. And that's basically what new AI training methods are doing when they use unlabeled videos—they...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>1</itunes:episode>
-      <itunes:title>Ep 1: Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>

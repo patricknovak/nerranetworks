@@ -1,26 +1,55 @@
-<?xml version='1.0' encoding='utf-8'?>
-<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcast="https://podcastindex.org/namespace/1.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version='1.0' encoding='UTF-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcast="https://podcastindex.org/namespace/1.0" version="2.0">
   <channel>
     <title>Modern Investing Techniques</title>
-    <link>https://nerranetwork.com/modern-investing.html</link>
-    <description>Daily investing podcast using AI-driven analysis and modern tools to identify market opportunities, track simulated trades, and teach strategies that aim to outperform index funds. Covering Canadian and US markets with actionable picks, performance tracking, and lessons learned.</description>
+    <link>https://nerranetwork.com/modern_investing_podcast.rss</link>
+    <description>Daily investing podcast using AI-driven analysis and modern tools to identify market opportunities, track simulated trades, and teach strategies that aim to outperform index funds. Covering Canadian and US markets with actionable picks, performance tracking, and lessons learned. AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+    <atom:link href="https://nerranetwork.com/modern_investing_podcast.rss" rel="self" />
+    <copyright>Copyright 2026</copyright>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+    <generator>python-feedgen</generator>
     <language>en-us</language>
-    <atom:link href="https://nerranetwork.com/modern_investing_podcast.rss" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 17 Mar 2026 15:05:03 +0000</lastBuildDate>
     <itunes:author>Modern Investing Techniques</itunes:author>
+    <itunes:category text="Business" />
+    <itunes:image href="https://nerranetwork.com/assets/covers/modern-investing.jpg" />
+    <itunes:explicit>no</itunes:explicit>
     <itunes:owner>
       <itunes:name>Modern Investing Techniques</itunes:name>
       <itunes:email>patrick@planetterrian.com</itunes:email>
     </itunes:owner>
-    <itunes:image href="https://nerranetwork.com/assets/covers/modern-investing.jpg" />
-    <itunes:category text="Business">
-      <itunes:category text="Investing" />
-    </itunes:category>
-    <itunes:explicit>false</itunes:explicit>
-    <image>
-      <url>https://nerranetwork.com/assets/covers/modern-investing.jpg</url>
-      <title>Modern Investing Techniques</title>
-      <link>https://nerranetwork.com/modern-investing.html</link>
-    </image>
-    <podcast:locked>yes</podcast:locked>
-  </channel>
+    <itunes:summary>Daily investing podcast using AI-driven analysis and modern tools to identify market opportunities, track simulated trades, and teach strategies that aim to outperform index funds. Covering Canadian and US markets with actionable picks, performance tracking, and lessons learned. AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+    <item>
+      <title>Ep 1: Permutable AI launches sentiment indices, giving retail investors hedge-fund style market intelligence.</title>
+      <link>https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep001_20260317.mp3</link>
+      <description># Modern Investing Techniques
+**Date:** March 17, 2026
+💰 **Modern Investing Techniques** — AI-Powered Daily Market Intelligence
+
+**HOOK:** Permutable AI launches sentiment indices, giving retail investors hedge-fund style market intelligence.
+
+**Market Pulse:** Markets opened positively today, with the S&amp;P 500 at 6,739 (+0.6%), NASDAQ Composite at 22,523 (+0.7%), and TSX Composite at 33,145 (+0.8%). ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">modern-investing-ep001-20260317-150503</guid>
+      <enclosure url="https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep001_20260317.mp3" length="16904821" type="audio/mpeg" />
+      <pubDate>Tue, 17 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/modern-investing.jpg" />
+      <itunes:duration>11:44</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Modern Investing Techniques
+**Date:** March 17, 2026
+💰 **Modern Investing Techniques** — AI-Powered Daily Market Intelligence
+
+**HOOK:** Permutable AI launches sentiment indices, giving retail investors hedge-fund style market intelligence.
+
+**Market Pulse:** Markets opened positively today, with the S&amp;P 500 at 6,739 (+0.6%), NASDAQ Composite at 22,523 (+0.7%), and TSX Composite at 33,145 (+0.8%). ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>1</itunes:episode>
+      <itunes:title>Ep 1: Permutable AI launches sentiment indices, giving retail investors hedge-fund style market intelligence.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/modern_investing/chapters_ep001.json" type="application/json+chapters" /></item>
+  <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked></channel>
 </rss>
