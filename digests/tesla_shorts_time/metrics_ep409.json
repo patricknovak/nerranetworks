@@ -1,0 +1,22 @@
+{
+  "show_slug": "tesla",
+  "episode_num": 409,
+  "total_duration_s": 228.87,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 2.15,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 226.72,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 12,
+    "digest_chars": 10440,
+    "audio_duration_s": 172.355918
+  }
+}
