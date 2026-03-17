@@ -59,7 +59,6 @@
                 {% block nav_links %}
                 <li><a href="{{ path_prefix }}index.html">Home</a></li>
                 {% endblock %}
-                <li><a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a></li>
             </ul>
 
             <button class="nn-hamburger" aria-label="Toggle menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">&#9776;</button>
@@ -71,7 +70,6 @@
         {% block mobile_nav_links %}
         <a href="{{ path_prefix }}index.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
         {% endblock %}
-        <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener" onclick="document.getElementById('mobileMenu').classList.remove('open')">GitHub</a>
         <div class="nn-mobile-shows">
             <div class="nn-mobile-shows-title">All Shows</div>
             {% for s in all_shows %}
