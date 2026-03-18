@@ -1,0 +1,40 @@
+{
+  "date": "2026-03-18",
+  "show": "Fascinating Frontiers",
+  "episode_number": 40,
+  "services": {
+    "grok_api": {
+      "model": "grok-4.20-beta-0309-non-reasoning",
+      "x_thread_generation": {
+        "prompt_tokens": 4926,
+        "completion_tokens": 1620,
+        "total_tokens": 6546,
+        "estimated_cost_usd": 0.019572
+      },
+      "podcast_script_generation": {
+        "prompt_tokens": 2466,
+        "completion_tokens": 1206,
+        "total_tokens": 3672,
+        "estimated_cost_usd": 0.012168
+      },
+      "total_tokens": 10218,
+      "total_cost_usd": 0.03174
+    },
+    "tts_api": {
+      "provider": "elevenlabs",
+      "characters": 6199,
+      "estimated_cost_usd": 1.8597
+    },
+    "x_api": {
+      "search_calls": 0,
+      "post_calls": 1,
+      "total_calls": 1
+    },
+    "elevenlabs_api": {
+      "provider": "elevenlabs",
+      "characters": 6199,
+      "estimated_cost_usd": 1.8597
+    }
+  },
+  "total_estimated_cost_usd": 1.89144
+}
