@@ -773,7 +773,7 @@ Here are the sections, stories, and allowed sources (JSON). Again: ONLY use thes
 
     # Grok call (mirrors Tesla script patterns)
     resp = client.chat.completions.create(
-        model=os.getenv("GROK_MODEL", "grok-4"),
+        model=os.getenv("GROK_MODEL", "grok-4.20-beta-0309-non-reasoning"),
         messages=[{"role": "user", "content": prompt}],
         temperature=0.5,
         max_tokens=3200,

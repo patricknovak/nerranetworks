@@ -62,7 +62,7 @@ keywords:
 # ---------------------------------------------------------------------------
 llm:
   provider: xai
-  model: grok-4                    # grok-4 for highest quality; grok-3 for cost savings
+  model: grok-4.20-beta-0309-non-reasoning  # grok-4.20 for highest quality; grok-4 for cost savings
   digest_prompt_file: shows/prompts/{slug}_digest.txt
   podcast_prompt_file: shows/prompts/{slug}_podcast.txt
   digest_temperature: 0.5          # Lower = more factual/consistent. 0.4-0.6 for news.
