@@ -46,6 +46,11 @@ logger = logging.getLogger(__name__)
 ELEVENLABS_API_BASE = "https://api.elevenlabs.io/v1"
 
 
+def _ffmpeg_escape(path: Path) -> str:
+    """Escape a path for use inside an ffmpeg concat list file."""
+    return str(path.absolute()).replace("'", "'\\''")
+
+
 def validate_elevenlabs_auth(api_key: str) -> None:
     """Fail fast with a clear message when the ElevenLabs key is rejected."""
     resp = requests.get(
@@ -611,7 +616,7 @@ def synthesize_kokoro(
         concat_list = tmp_dir / "kokoro_concat.txt"
         with open(concat_list, "w", encoding="utf-8") as f:
             for cf in chunk_files:
-                f.write(f"file '{cf.absolute()}'\n")
+                f.write(f"file '{_ffmpeg_escape(cf)}'\n")
 
         subprocess.run(
             [
@@ -843,7 +848,7 @@ def synthesize_chatterbox(
         concat_list = tmp_dir / "chatterbox_concat.txt"
         with open(concat_list, "w", encoding="utf-8") as f:
             for cf in chunk_files:
-                f.write(f"file '{cf.absolute()}'\n")
+                f.write(f"file '{_ffmpeg_escape(cf)}'\n")
 
         subprocess.run(
             [
@@ -1138,7 +1143,7 @@ def synthesize_fish(
             concat_list = output_path.parent / "_fish_concat.txt"
             with open(concat_list, "w") as f:
                 for cf in chunk_files:
-                    f.write(f"file '{cf.absolute()}'\n")
+                    f.write(f"file '{_ffmpeg_escape(cf)}'\n")
             subprocess.run(
                 [
                     "ffmpeg", "-y",

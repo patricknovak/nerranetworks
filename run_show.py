@@ -225,6 +225,20 @@ def _preflight_checks(config, *, dry_run: bool = False) -> None:
     if not os.environ.get("GROK_API_KEY"):
         issues.append("GROK_API_KEY env var is empty or missing")
 
+    # Validate numeric config bounds
+    for attr in ("stability", "similarity_boost", "style"):
+        val = getattr(config.tts, attr, None)
+        if val is not None and not (0.0 <= val <= 1.0):
+            issues.append(f"tts.{attr}={val} is out of range [0.0, 1.0]")
+    if config.tts.max_chars is not None and config.tts.max_chars <= 0:
+        issues.append(f"tts.max_chars={config.tts.max_chars} must be > 0")
+    for attr in ("voice_intro_delay", "intro_duration", "overlap_duration",
+                 "fade_duration", "outro_duration", "outro_crossfade",
+                 "intro_volume", "overlap_volume", "fade_volume", "outro_volume"):
+        val = getattr(config.audio, attr, None)
+        if val is not None and val < 0:
+            issues.append(f"audio.{attr}={val} must be >= 0")
+
     # Check R2 storage credentials if R2 is configured
     if getattr(config, "storage", None) and config.storage.provider == "r2":
         for env_attr in ("endpoint_env", "access_key_env", "secret_key_env"):

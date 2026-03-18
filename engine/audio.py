@@ -24,6 +24,16 @@ from typing import Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
+
+def _ffmpeg_escape(path: Path) -> str:
+    """Escape a path for use inside an ffmpeg concat list file.
+
+    ffmpeg concat list entries use ``file 'path'`` syntax where single quotes
+    inside the path must be escaped as ``'\\''``.
+    """
+    return str(path.absolute()).replace("'", "'\\''")
+
+
 _audio_duration_cache: Dict[Path, float] = {}
 
 # ---------------------------------------------------------------------------
@@ -163,7 +173,7 @@ def concatenate_audio(file_list: List[Path], output_path: Path) -> Path:
     try:
         with open(concat_list, "w", encoding="utf-8") as f:
             for fp in file_list:
-                f.write(f"file '{fp.absolute()}'\n")
+                f.write(f"file '{_ffmpeg_escape(fp)}'\n")
 
         cmd = [
             "ffmpeg", "-y", "-threads", "0",
@@ -313,7 +323,7 @@ def concatenate_with_stings(
         concat_list = tmp_dir / "sting_concat.txt"
         with open(concat_list, "w", encoding="utf-8") as f:
             for fp in interleaved:
-                f.write(f"file '{fp.absolute()}'\n")
+                f.write(f"file '{_ffmpeg_escape(fp)}'\n")
 
         cmd = [
             "ffmpeg", "-y", "-threads", "0",
@@ -627,7 +637,7 @@ def mix_with_music(
         music_concat_list = tmp_dir / "music_concat.txt"
         with open(music_concat_list, "w") as f:
             for fp in concat_files:
-                f.write(f"file '{fp.absolute()}'\n")
+                f.write(f"file '{_ffmpeg_escape(fp)}'\n")
 
         cmd = _music_concat_cmd(str(music_concat_list), str(music_full))
         subprocess.run(cmd, check=True, capture_output=True)

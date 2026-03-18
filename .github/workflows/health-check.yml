@@ -28,6 +28,7 @@ jobs:
               "models_agents_beginners_podcast.rss": ("Models & Agents for Beginners", 72),
               "finansy_prosto_podcast.rss": ("Finansy Prosto", 72),
               "privet_russian_podcast.rss": ("Privet Russian", 72),
+              "modern_investing_podcast.rss": ("Modern Investing", 72),
           }
 
           now = datetime.now(timezone.utc)
