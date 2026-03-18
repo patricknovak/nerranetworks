@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Koko88 Club — Where Style Meets Soul</title>
+  <meta name="description" content="Koko88 Club is a lifestyle brand by Olya — empowering women through fashion, family values, fitness, AI, love, and community. From Odessa to Vancouver.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Koko88 Club — Where Style Meets Soul">
+  <meta property="og:description" content="A lifestyle brand by Olya — empowering women through fashion, family values, fitness, AI, love, and community.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Language alternates -->
+  <link rel="alternate" hreflang="en" href="https://koko88.club/">
+  <link rel="alternate" hreflang="ru" href="https://koko88.club/ru/">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles/koko88.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+  <!-- ========== Navigation ========== -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__brand">Koko<span>88</span> Club</a>
+      <ul class="nav__links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#pillars">Explore</a></li>
+        <li><a href="#podcast">Podcast</a></li>
+        <li><a href="#founding">Founding Members</a></li>
+        <li><a href="ru/" class="nav__lang">RU</a></li>
+      </ul>
+      <button class="nav__hamburger" onclick="document.querySelector('.nav__mobile').classList.toggle('is-open')" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav -->
+  <div class="nav__mobile">
+    <a href="#about" onclick="document.querySelector('.nav__mobile').classList.remove('is-open')">About Olya</a>
+    <a href="#pillars" onclick="document.querySelector('.nav__mobile').classList.remove('is-open')">Explore</a>
+    <a href="#podcast" onclick="document.querySelector('.nav__mobile').classList.remove('is-open')">Podcast</a>
+    <a href="#founding" onclick="document.querySelector('.nav__mobile').classList.remove('is-open')">Founding Members</a>
+    <a href="ru/">Switch to Russian</a>
+  </div>
+
+  <!-- ========== Hero ========== -->
+  <section class="hero">
+    <div class="container hero__content">
+      <div class="hero__badge">A Lifestyle Brand by Olya</div>
+      <h1 class="hero__title">Where Style<br>Meets <em>Soul</em></h1>
+      <p class="hero__desc">
+        Empowering women to live beautifully, love fiercely, and grow together.
+        Fashion. Family. Fitness. AI. Community.
+      </p>
+      <a href="#founding" class="hero__cta">
+        Become a Founding Member
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== About ========== -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="about__grid fade-in">
+        <div class="about__image">
+          <!-- Placeholder for Olya's photo -->
+          <span aria-hidden="true">&#10024;</span>
+        </div>
+        <div class="about__text">
+          <div class="section__label">Meet Olya</div>
+          <h2>From Odessa With Love, Building Community in Vancouver</h2>
+          <p>
+            I'm Olya — born in Odessa, Ukraine, now raising my family in beautiful Vancouver, Canada.
+            I believe that every woman has the power to create the life she dreams of, and that we're
+            stronger when we support each other.
+          </p>
+          <p>
+            Koko88 Club is my way of bringing together the things I'm most passionate about:
+            timeless style, strong family values, wellness, the incredible possibilities of AI,
+            and most importantly — genuine human connection.
+          </p>
+          <p>
+            Whether you're navigating a new country, building a career, raising a family, or
+            simply looking for your tribe — you belong here.
+          </p>
+          <div class="about__values">
+            <span class="about__value">Authenticity</span>
+            <span class="about__value">Family</span>
+            <span class="about__value">Style</span>
+            <span class="about__value">Growth</span>
+            <span class="about__value">Love</span>
+            <span class="about__value">Community</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Brand Pillars ========== -->
+  <section id="pillars" class="section section--alt">
+    <div class="container">
+      <div class="text-center fade-in">
+        <div class="section__label">What We're About</div>
+        <h2 class="section__title">Six Pillars of Koko88</h2>
+        <p class="section__subtitle mx-auto">The things that matter most — curated with love, shared with joy.</p>
+      </div>
+
+      <div class="pillars__grid">
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#128087;</div>
+          <h3 class="pillar-card__title">Fashion & Style</h3>
+          <p class="pillar-card__desc">
+            Curated style for the modern woman. Accessible luxury, seasonal inspiration,
+            and the art of personal expression — because how you show up matters.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#128150;</div>
+          <h3 class="pillar-card__title">Family Values</h3>
+          <p class="pillar-card__desc">
+            Strengthening the bonds that matter most. Traditions worth keeping,
+            parenting wisdom, and creating meaningful moments every day.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#127793;</div>
+          <h3 class="pillar-card__title">Fitness & Wellness</h3>
+          <p class="pillar-card__desc">
+            Mind and body in balance. Practical routines, self-care rituals, and
+            the energy you need to show up for everything you love.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#9889;</div>
+          <h3 class="pillar-card__title">AI & Innovation</h3>
+          <p class="pillar-card__desc">
+            Technology that works for you. AI tools that save time, amplify creativity,
+            and help you build the life and business of your dreams.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#128151;</div>
+          <h3 class="pillar-card__title">Matchmaking & Love</h3>
+          <p class="pillar-card__desc">
+            Building meaningful connections. Finding love, nurturing relationships,
+            and creating the community bonds that make life beautiful.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#127775;</div>
+          <h3 class="pillar-card__title">Community & Good Vibes</h3>
+          <p class="pillar-card__desc">
+            Women supporting women. Shared growth, positive energy, and the magic
+            that happens when we lift each other up.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Podcast ========== -->
+  <section id="podcast" class="section">
+    <div class="container">
+      <div class="text-center fade-in">
+        <div class="section__label">Listen</div>
+        <h2 class="section__title">Olya's Podcast</h2>
+        <p class="section__subtitle mx-auto">Real talk about money, life, and everything in between.</p>
+      </div>
+
+      <div class="podcast__card fade-in">
+        <div class="podcast__cover" aria-hidden="true">&#127911;</div>
+        <div class="podcast__info">
+          <h3>&#1060;&#1080;&#1085;&#1072;&#1085;&#1089;&#1099; &#1055;&#1088;&#1086;&#1089;&#1090;&#1086;</h3>
+          <p>
+            A Russian-language podcast about personal finance for women in Canada.
+            Investments, savings, budgeting, and financial literacy — explained simply and clearly.
+            New episodes every other day.
+          </p>
+          <div class="podcast__player">
+            <audio controls preload="none" id="podcast-player">
+              <source src="" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+          <p id="podcast-episode-title" style="font-size: 0.875rem; color: var(--k88-text-light); margin-top: var(--sp-2);"></p>
+          <a href="https://nerranetwork.com/ru/finansy-prosto.html" class="podcast__link" target="_blank" rel="noopener">
+            All episodes on Nerra Network
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="podcast__coming-soon fade-in">
+        More podcasts coming soon — stay tuned for new shows from Olya
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Founding Members ========== -->
+  <section id="founding" class="section founding">
+    <div class="container founding__content">
+      <div class="fade-in">
+        <div class="founding__badge">Exclusive Access</div>
+        <h2 class="founding__title">Become a <em>Founding Member</em></h2>
+        <p class="founding__desc">
+          Be among the first to join Koko88 Club. Founding members get exclusive perks,
+          locked-in pricing forever, and a front-row seat to everything we're building.
+        </p>
+      </div>
+
+      <div class="founding__benefits fade-in">
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#128272;</div>
+          <div class="benefit-card__title">Private Community</div>
+          <p class="benefit-card__desc">Access to our exclusive members-only group. Connect with like-minded women, share experiences, and grow together.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#127873;</div>
+          <div class="benefit-card__title">Early Access</div>
+          <p class="benefit-card__desc">Be the first to see new products, collections, and features before anyone else. Your feedback shapes what we build.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#129302;</div>
+          <div class="benefit-card__title">AI-Powered Style</div>
+          <p class="benefit-card__desc">Personalized style recommendations powered by AI. Curated looks that match your taste, budget, and lifestyle.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#128149;</div>
+          <div class="benefit-card__title">Matchmaking Community</div>
+          <p class="benefit-card__desc">Exclusive access to our matchmaking features. Building genuine connections in a safe, values-driven space.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#127909;</div>
+          <div class="benefit-card__title">Live Sessions</div>
+          <p class="benefit-card__desc">Monthly live conversations with Olya. Q&A, style tips, wellness advice, and real talk — just for members.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#128176;</div>
+          <div class="benefit-card__title">Founding Price Forever</div>
+          <p class="benefit-card__desc">Lock in your founding member rate for life. As the club grows and adds more features, your price never changes.</p>
+        </div>
+      </div>
+
+      <div class="founding__cta-wrap fade-in">
+        <span class="founding__cta" style="cursor: default;">
+          Launching Soon
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </span>
+        <p class="founding__note">We're putting the finishing touches on something special. Check back soon.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Footer ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <div class="footer__brand">Koko<span>88</span> Club</div>
+          <p class="footer__tagline">Where style meets soul. A lifestyle brand by Olya — empowering women to live beautifully and love fiercely.</p>
+        </div>
+
+        <div class="footer__links">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#about">About Olya</a></li>
+            <li><a href="#pillars">Our Pillars</a></li>
+            <li><a href="#podcast">Podcast</a></li>
+            <li><a href="#founding">Founding Members</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__links">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="ru/">&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081; / Russian</a></li>
+            <li><a href="https://nerranetwork.com/ru/finansy-prosto.html" target="_blank" rel="noopener">&#1060;&#1080;&#1085;&#1072;&#1085;&#1089;&#1099; &#1055;&#1088;&#1086;&#1089;&#1090;&#1086;</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>&copy; 2026 Koko88 Club. All rights reserved.</span>
+        <span>Made with love in Vancouver, Canada</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== Scripts ========== -->
+  <script>
+    // Scroll-triggered fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Load latest podcast episode from RSS
+    async function loadLatestEpisode() {
+      try {
+        const res = await fetch('https://nerranetwork.com/finansy_prosto_podcast.rss');
+        const text = await res.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(text, 'text/xml');
+        const item = xml.querySelector('item');
+        if (!item) return;
+        const enclosure = item.querySelector('enclosure');
+        const title = item.querySelector('title');
+        if (enclosure) {
+          document.getElementById('podcast-player').querySelector('source').src = enclosure.getAttribute('url');
+          document.getElementById('podcast-player').load();
+        }
+        if (title) {
+          document.getElementById('podcast-episode-title').textContent = 'Latest: ' + title.textContent;
+        }
+      } catch (e) {
+        console.log('Could not load podcast feed:', e);
+      }
+    }
+    loadLatestEpisode();
+  </script>
+
+</body>
+</html>
