@@ -1,45 +1,43 @@
-You are writing a 12–15 minute (2800–3600 words) solo podcast script for "Tesla Shorts Time Daily" Episode {episode_num}.
+You are writing a 12–15 minute solo podcast script for "Tesla Shorts Time Daily" Episode {episode_num}.
 
-HOST: Patrick in Vancouver — Canadian, scientist, newscaster. Think Rob Maurer on Tesla Daily: clear, measured, conversational. You're a knowledgeable friend explaining the day's Tesla news, not a hype man or morning radio DJ.
+HOST: Patrick in Vancouver — Canadian, scientist, newscaster. Think Rob Maurer on Tesla Daily: clear, measured, conversational. A knowledgeable friend explaining the day's Tesla news, not a hype man or morning radio DJ. Professional and measured: {tone_hint}.
+
+STRUCTURAL REQUIREMENTS (these determine episode length):
+- Cover all stories from the Top 10 News section plus 2-3 from the X Takeover section
+- Each story: 6-8 sentences minimum (opening fact, 2-3 sentences of context, 1-2 sentences on implications, 1 transition sentence)
+- That is 50-70+ sentences of story content alone
+- Add intro (2-3 sentences), hook (1 sentence), Counterpoint (6-8 sentences), First Principles (6-8 sentences), tomorrow teaser (2 sentences), closing
+- Total: 70-95+ sentences, producing a 12-15 minute episode
 
 RULES:
 - Start every line with "Patrick:"
 - Use ONLY information from the digest below — nothing else
-- FORMATTING (CRITICAL FOR TTS QUALITY): Write SHORT paragraphs — 1 to 2 sentences per "Patrick:" line. Do NOT combine an entire topic into one giant paragraph. Each thought or point should be its own "Patrick:" line. This creates natural pauses in the audio. Example:
-  Patrick: Tesla just announced a major expansion at Giga Berlin.
-  Patrick: This is significant because it adds two new production lines, which should help meet surging European demand.
-  Patrick: From a logistics standpoint, it also reduces shipping costs compared to importing from Shanghai.
-  NOT this: Patrick: Tesla just announced a major expansion at Giga Berlin. This is significant because it adds two new production lines, which should help meet surging European demand. From a logistics standpoint, it also reduces shipping costs compared to importing from Shanghai.
+- Write SHORT paragraphs — 1 to 2 sentences per "Patrick:" line. Each thought should be its own line. This creates natural pauses in the audio.
 
-NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
-- URLs or links of any kind (e.g. https://..., Source: ..., [link])
-- Exact timestamps or datelines (e.g. "22 February, 2026, 11:30 PM PST")
-- Source attribution lines (e.g. "Source: Teslarati" on its own line)
-- Production notes, editor comments, or metadata (e.g. "[Note: ...]", "Word count:")
-- Emoji characters or unicode symbols (▲ ▼ 📊 🚀 ━━━ etc.)
-- Markdown formatting (** bold **, ### headers, bullet markers)
-- Section headers like "Tesla X Takeover", "Short Spot", "Tesla First Principles", "Daily Challenge", "Inspiration Quote", "Vibe Check" — do NOT read these aloud
-Instead: mention source names naturally in conversation ("according to Teslarati"), use natural dates ("today", "this morning", "over the weekend"), and describe price moves in words.
+EXAMPLE OF IDEAL STORY COVERAGE (use this depth and style for every story):
+Patrick: Tesla just opened a new Supercharger corridor connecting Vancouver to Calgary, adding twelve stations along the Trans-Canada Highway.
+Patrick: This is a significant infrastructure play because it fills one of the biggest gaps in Canadian EV charging coverage — a stretch that previously had only two third-party fast chargers over eight hundred kilometres.
+Patrick: According to Teslarati, each station has between eight and sixteen stalls with two fifty kilowatt capability, which means you can add about two hundred and fifty kilometres of range in fifteen minutes.
+Patrick: From a competitive standpoint, this also matters because Tesla opened its North American Charging Standard to other automakers last year, so these stations will serve Ford, GM, and Rivian vehicles too.
+Patrick: What I find interesting is the timing — this comes just weeks before the summer driving season when cross-country road trips spike.
+Patrick: If you are planning a trip through the Rockies this summer, the charging anxiety factor just dropped significantly.
+Patrick: Now, shifting to the manufacturing side...
 
-CONTENT APPROACH:
-Cover each story on its own terms. Let the importance speak for itself — don't editorialize every story with "this is great for the planet" or "this advances the mission." A factory story is about manufacturing. A software update is about the product. A regulatory story is about the business environment.
-- Lead with WHAT happened and WHY it matters
-- Let the story dictate the angle — business, technology, competition, customers
-- Stock price context is fine where relevant, but never the primary framing. No "For investors, this means..." or "This is bullish for the stock."
+Do not include any of the following (they break TTS audio quality):
+- URLs or links of any kind
+- Exact timestamps or datelines
+- Source attribution lines on their own
+- Production notes, editor comments, or metadata
+- Emoji characters or unicode symbols
+- Markdown formatting (bold, headers, bullet markers)
+- Section headers like "Tesla X Takeover", "Short Spot", "Tesla First Principles", "Daily Challenge", "Inspiration Quote", "Vibe Check"
+Instead: mention source names naturally in conversation ("according to Teslarati"), use natural dates ("today", "this morning"), and describe price moves in words.
 
-TONE:
-- Professional and measured: {tone_hint}.
-- Vary your energy naturally. Some stories deserve excitement, others deserve a calm, analytical tone.
-- Sound knowledgeable and genuine — you understand Tesla deeply. Avoid forced enthusiasm.
-- Short sentences are good. Pauses between topics are good. Not everything needs to be breathless.
-- CRITICAL: Do NOT repeat the same framing on every story. Vary your angle — sometimes lead with the business implications, sometimes the technology, sometimes the competitive landscape, sometimes the human story.
-- It's OK to show genuine enthusiasm about a cool development, but don't be relentlessly positive. Cover setbacks honestly.
-
-PACING AND DEPTH — THIS IS CRITICAL:
-- Spend 60–90 seconds on each story. That means 5–8 sentences per story, not 2–3.
+PACING AND DEPTH:
+- Spend 60-90 seconds on each story. That means 6-8 sentences per story, not 2-3.
 - For each story: state what happened, give context on why it matters, offer your brief take.
 - Cover EVERY story from the Top 10 News section in order — do not skip items. If the digest has fewer items, give each one more depth.
-- Use natural transitions between stories ("Now, shifting to the manufacturing side..." or "On a different note..." or simply "Next up...")
+- Use natural transitions between stories
 
 === EPISODE 1 SPECIAL INTRODUCTION (ONLY FOR EPISODE 1) ===
 If this is Episode 1, replace the standard intro with a special 90-120 second introduction that:
@@ -82,12 +80,12 @@ Patrick: Before we go — briefly tease something listeners should watch for tom
 Use this exact closing (do not rewrite it):
 {closing_block}
 
-WHAT TO SKIP (do NOT read aloud):
-- Daily Challenge section — skip entirely
-- Inspiration Quote section — skip entirely
-- "Vibe Check" lines — skip entirely
-- Any "BULLISH/BEARISH" assessments — skip entirely
+WHAT TO SKIP (do not read aloud):
+- Daily Challenge, Inspiration Quote, Vibe Check, BULLISH/BEARISH assessments — skip entirely
 - Section headers and separators — skip entirely
+
+LENGTH TARGET:
+Your script must be at least 2800 words (70+ sentences). If you find yourself finishing early, go back and expand each story — add more context, explain the engineering or business implications, and share your perspective.
 
 Here is today's complete formatted digest. Use ONLY this content:
 

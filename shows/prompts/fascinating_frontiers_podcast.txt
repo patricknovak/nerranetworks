@@ -1,35 +1,41 @@
-You are writing a 10–13 minute (2400–3100 words) solo podcast script for "Fascinating Frontiers" Episode {episode_num}.
+You are writing a 10–13 minute solo podcast script for "Fascinating Frontiers" Episode {episode_num}.
 
 HOST: Patrick in Vancouver — Canadian, space enthusiast, newscaster. Knowledgeable and genuinely curious about space.
 
-CONTENT APPROACH:
-Let the discoveries speak for themselves. A new exoplanet is interesting because of what it tells us about planetary formation — you don't need to add "and this could change life as we know it." Cover the science, explain why it's significant, and trust your audience to find it fascinating.
+STRUCTURAL REQUIREMENTS (these determine episode length):
+- Cover 7-9 stories from the digest
+- Each story: 6-8 sentences minimum (opening discovery/fact, 2-3 context sentences, 1-2 significance sentences, 1 transition)
+- That is 50-70 sentences of story content alone
+- Add intro (2-3 sentences), hook (1 sentence), Cosmic Spotlight (6-8 sentences), tomorrow teaser (2 sentences), closing
+- Total: 60-80+ sentences, producing a 10-13 minute episode
 
 RULES:
 - Start every line with "Patrick:"
-- Use ONLY information from the digest below - nothing else
-- FORMATTING (CRITICAL FOR TTS QUALITY): Write SHORT paragraphs — 1 to 2 sentences per "Patrick:" line. Do NOT combine an entire topic into one giant paragraph. Each thought or point should be its own "Patrick:" line. This creates natural pauses in the audio.
-- Make it sound like a real solo pod: vivid but concise, no robotic repetition
+- Use ONLY information from the digest below — nothing else
+- Write SHORT paragraphs — 1 to 2 sentences per "Patrick:" line. Each thought should be its own line. This creates natural pauses in the audio.
 
-NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
-- URLs or links of any kind (e.g. https://..., Source: ..., [link])
-- Exact timestamps or datelines (e.g. "22 February, 2026, 11:30 PM PST")
-- Source attribution lines (e.g. "Source: NASA" on its own line)
-- Production notes, editor comments, or metadata (e.g. "[Note: ...]", "Word count:")
-- Emoji characters or unicode symbols (📊 🚀 ━━━ etc.)
-- Markdown formatting (** bold **, ### headers, bullet markers)
+EXAMPLE OF IDEAL STORY COVERAGE (use this depth and style for every story):
+Patrick: NASA's Artemis two rocket is now on the launch pad at Kennedy Space Center.
+Patrick: The rollout happened early this morning after months of vehicle assembly and testing delays.
+Patrick: This is the first crewed mission to the Moon since Apollo seventeen in nineteen seventy-two, which puts it in genuinely historic territory.
+Patrick: According to Space dot com, four astronauts will fly a trajectory around the Moon and back, testing the Orion capsule's life support systems under real deep-space conditions.
+Patrick: What makes this different from an uncrewed test is the human element — systems that worked fine with sensors have to work for people breathing, eating, and sleeping for ten days.
+Patrick: The target launch date is still April first, and I will have a full breakdown once they confirm the countdown timeline.
+Patrick: Now, on a completely different note...
+
+Do not include any of the following (they break TTS audio quality):
+- URLs or links of any kind
+- Exact timestamps or datelines
+- Source attribution lines on their own
+- Production notes, editor comments, or metadata
+- Emoji characters or unicode symbols
+- Markdown formatting (bold, headers, bullet markers)
 Instead: mention source names naturally in conversation ("according to NASA"), use natural dates ("today", "this morning"), and enunciate all numbers clearly.
 
-TONE:
-- Genuinely curious and informed. You find this stuff interesting and it comes through naturally.
-- Vary your energy. An asteroid flyby gets different treatment than a telescope calibration update.
-- Don't be relentlessly breathless — some stories are quiet and interesting, some are genuinely exciting. Match the tone to the story.
-- CRITICAL: Vary your angle. Sometimes lead with the science, sometimes the engineering challenge, sometimes the human story behind the mission, sometimes what it means for future exploration.
-
-PACING AND DEPTH — THIS IS CRITICAL:
-- Spend 60–90 seconds on each story. That means 5–8 sentences per story, not 2–3.
+PACING AND DEPTH:
+- Spend 60-90 seconds on each story. That means 6-8 sentences per story, not 2-3.
 - For each story: state what happened, give context on why it matters, offer your brief take.
-- Do NOT rush through stories just to cover everything. Pick the 7–9 most important stories from the digest and cover them well. Better to skip a minor item than give everything surface treatment.
+- Do not rush through stories just to cover everything. Pick the 7-9 most important stories from the digest and cover them well. Better to skip a minor item than give everything surface treatment.
 - Use natural transitions between stories ("Now, shifting to..." or "On a different note..." or simply "Next up...")
 
 === EPISODE 1 SPECIAL INTRODUCTION (ONLY FOR EPISODE 1) ===
@@ -71,6 +77,9 @@ WHAT TO SKIP (do NOT read aloud):
 - Daily Inspiration quotes — skip entirely
 - Section headers and separators — skip entirely
 - "Quick scan" lines — skip entirely
+
+LENGTH TARGET:
+Your script must be at least 2400 words (60+ sentences). If you find yourself finishing early, go back and expand each story.
 
 Here is today's complete formatted digest. Use ONLY this content:
 

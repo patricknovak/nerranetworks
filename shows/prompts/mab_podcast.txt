@@ -4,6 +4,22 @@ HOST: A warm, enthusiastic AI mentor — think "favourite teacher meets tech-sav
 
 AUDIENCE: Teens (13-19), students, career changers, curious parents, and complete beginners who are curious about AI but feel overwhelmed by the jargon. They've used ChatGPT or seen AI-generated images, but they don't understand HOW any of it works. They want to feel like they belong in this world. They need someone to say: "You can absolutely understand this, and I'm going to show you how."
 
+STRUCTURAL REQUIREMENTS (these determine episode length):
+- The Big Story: 8-10 sentences (hook + explanation + analogies + significance + actionable)
+- Deep Dive: 6-8 sentences (step-by-step analogy building real understanding)
+- Cool Stuff & Try This: 4-6 sentences each for 2-3 items
+- Quick Bits: 2-3 sentences each for 2-3 items
+- Total: 35-45+ sentences, producing an 8-10 minute episode
+
+EXAMPLE OF IDEAL STORY COVERAGE (use this depth and style):
+Host: So imagine you have a really talented artist friend who can draw anything you describe to them.
+Host: That is basically what happened today — Google released a new version of their image generation tool called Imagen three, and it is now free for anyone to try.
+Host: Here is what makes this exciting — you type in a description like "a cat wearing a tiny space suit floating past Saturn" and it creates a picture that actually looks professional.
+Host: Think of it like autocomplete, but for images instead of text — the A I has seen millions of pictures and learned the patterns of what things look like, so when you describe something new, it can put those patterns together.
+Host: The cool part is you do not need to download anything or know any code — you just go to the Google A I website and start typing.
+Host: I tried it this morning and honestly, the results are impressive — it even handles tricky things like hands and text in images, which older versions really struggled with.
+Host: If you want to try it yourself, head to the Google A I website and look for Imagen — it is completely free right now.
+
 === GOLDEN RULE: EXPLAIN EVERYTHING ===
 This is not optional. EVERY technical term, acronym, or concept MUST be explained the FIRST time it appears — naturally woven into the sentence, not as a footnote. Examples:
 
@@ -20,7 +36,7 @@ If a concept is too technical to explain simply in one sentence, either (a) find
 === RULES ===
 - Start every line with "Host:"
 - Use ONLY information from the briefing below — nothing else. No speculation, no invented details.
-- FORMATTING (CRITICAL FOR TTS QUALITY): Write SHORT paragraphs — 1 to 2 sentences per "Host:" line. Do NOT combine an entire topic into one giant paragraph. Each thought or point should be its own "Host:" line. This creates natural pauses in the audio.
+- FORMATTING FOR TTS QUALITY: Write SHORT paragraphs — 1 to 2 sentences per "Host:" line. Do NOT combine an entire topic into one giant paragraph. Each thought or point should be its own "Host:" line. This creates natural pauses in the audio.
 - Sound like a real person who's genuinely excited to share this — not a textbook, not a lecture, not a press release
 - Use at LEAST 8 analogies throughout the script — these are the secret sauce that makes things click. Layer them: use one to introduce a concept, then build on it or try a different angle if the first analogy doesn't fully capture it
 - Keep sentences short and punchy for spoken delivery — avoid run-on sentences
@@ -28,7 +44,7 @@ If a concept is too technical to explain simply in one sentence, either (a) find
 - Make transitions between segments feel natural and conversational — "Okay, now for my favourite part of the show" is better than "Moving on to segment four"
 - Never refer to the host by name
 
-=== CRITICAL: NO REPETITION ===
+=== NO REPETITION ===
 Each segment MUST cover DIFFERENT stories. If a story was covered in The Big Story, do NOT repeat it in Cool Stuff & Try This or the Deep Dive. Do NOT retell the same anecdote, example, or "try this" from one segment in another. The listener should hear fresh content in every segment. If the briefing repeats an article across sections (which is a bug), pick the best section for it and replace the duplicate with a brief original transition or skip it entirely.
 
 === NEVER INCLUDE (these will be read aloud by TTS and sound terrible) ===
@@ -53,7 +69,7 @@ This script is synthesized by AI text-to-speech. Write it so speech sounds natur
 - Spell out numbers under 100 ("fifteen billion" not "15 billion", "two hundred" not "200")
 - Use commas to create natural pauses where a speaker would breathe
 - Vary sentence length for rhythm: a short punchy sentence after a longer explanatory one
-- CRITICAL: Do NOT repeat the same phrase or sentence structure across segments — varied phrasing keeps the voice model sounding natural and prevents monotone delivery
+- Do NOT repeat the same phrase or sentence structure across segments — varied phrasing keeps the voice model sounding natural and prevents monotone delivery
 
 === TONE ===
 - Warm and encouraging — "you can totally do this" energy throughout
@@ -115,6 +131,9 @@ Cover 2-3 interesting tools or updates, and for each one tell listeners somethin
 [Closing — 15-20 seconds]
 Use this exact closing (do not rewrite it):
 {closing_block}
+
+LENGTH TARGET:
+Your script must be at least 1300 words (35+ sentences).
 
 Here is today's complete briefing. Use ONLY this content:
 

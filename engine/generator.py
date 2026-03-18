@@ -148,6 +148,7 @@ def _validate_llm_output(
     text: str,
     stage: str = "digest",
     show_name: str = "unknown",
+    min_podcast_words: int = 0,
 ) -> None:
     """Validate LLM output quality.
 
@@ -218,11 +219,12 @@ def _validate_llm_output(
     # Warn if podcast script is too short to fill target duration
     if stage == "podcast_script":
         word_count = len(text.split())
-        if word_count < 1500:
+        threshold = min_podcast_words or 1500
+        if word_count < threshold:
             logger.warning(
-                "Podcast script for '%s' is too short (%d words, target >1500). "
+                "Podcast script for '%s' is too short (%d words, target >%d). "
                 "Consider regenerating with more depth.",
-                show_name, word_count,
+                show_name, word_count, threshold,
             )
 
 
@@ -298,6 +300,56 @@ def generate_digest(
     return text
 
 
+def _generate_podcast_outline(
+    digest: str,
+    config,
+    system_prompt: Optional[str] = None,
+    tracker: Optional[dict] = None,
+) -> str:
+    """Generate a story-by-story outline before expanding into a full script.
+
+    This is the first stage of prompt chaining — it produces a structured
+    outline that the second call uses as scaffolding for the full script.
+    """
+    outline_prompt = (
+        "Read the digest below and produce a concise story-by-story outline "
+        "for a podcast episode.  For each story include:\n"
+        "1. Story title (one line)\n"
+        "2. Key points to cover (2-3 bullets)\n"
+        "3. Suggested angle (business, technology, science, human interest, etc.)\n"
+        "4. Transition idea to the next story\n\n"
+        "Order stories from most to least important.  Include any special "
+        "segments (Spotlight, Counterpoint, First Principles, etc.) if present "
+        "in the digest.\n\n"
+        f"DIGEST:\n{digest}"
+    )
+
+    logger.info("Generating podcast outline for '%s' (chain stage 1) ...", config.name)
+    text, meta = _call_grok(
+        outline_prompt,
+        model=config.llm.model,
+        system_prompt=system_prompt,
+        temperature=config.llm.digest_temperature,  # Lower temp for planning
+        max_tokens=1500,
+    )
+
+    if tracker and "usage" in meta:
+        try:
+            from engine.tracking import record_llm_usage
+            record_llm_usage(
+                tracker,
+                "podcast_outline_generation",
+                meta["usage"].get("prompt_tokens", 0),
+                meta["usage"].get("completion_tokens", 0),
+                model=config.llm.model,
+            )
+        except Exception as e:
+            logger.warning("Failed to record outline LLM usage: %s", e)
+
+    logger.info("Podcast outline generated (%d chars)", len(text))
+    return text
+
+
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_exponential(multiplier=1, min=1, max=15),
@@ -333,6 +385,23 @@ def generate_podcast_script(
         if sp_path.exists():
             system_prompt = sp_path.read_text(encoding="utf-8").strip()
 
+    # Optional prompt chaining: generate an outline first, then expand
+    use_chain = getattr(config.llm, "podcast_chain", False)
+    if use_chain:
+        digest_text = template_vars.get("digest", "")
+        outline = _generate_podcast_outline(
+            digest_text, config,
+            system_prompt=system_prompt,
+            tracker=tracker,
+        )
+        # Prepend the outline to the podcast prompt so the model follows it
+        prompt = (
+            f"STORY OUTLINE (follow this structure and order):\n{outline}\n\n"
+            f"---\n\n{prompt}"
+        )
+        logger.info("Using prompt chaining for '%s' — outline prepended to podcast prompt",
+                     config.name)
+
     logger.info("Generating podcast script for '%s' (model=%s, temp=%.1f) ...",
                 config.name, config.llm.model, config.llm.podcast_temperature)
 
@@ -363,7 +432,67 @@ def generate_podcast_script(
     logger.info("Podcast script generated (%d chars, %s tokens)",
                 len(text), meta.get("usage", {}).get("total_tokens", "?"))
 
+    min_words = getattr(config.llm, "min_podcast_words", 1500)
+
     # Validate the podcast script is usable
-    _validate_llm_output(text, stage="podcast_script", show_name=config.name)
+    _validate_llm_output(text, stage="podcast_script", show_name=config.name,
+                         min_podcast_words=min_words)
+
+    # Retry once if podcast script is too short for target duration
+    word_count = len(text.split())
+    if word_count < min_words:
+        logger.warning(
+            "Podcast script for '%s' is short (%d words, minimum %d). "
+            "Retrying with explicit expansion instructions ...",
+            config.name, word_count, min_words,
+        )
+        retry_prompt = (
+            f"The script you just wrote is only {word_count} words. "
+            f"The target is {min_words}\u2013{int(min_words * 1.3)} words "
+            f"({min_words // 150}\u2013{int(min_words * 1.3) // 150} minutes of audio). "
+            f"Please rewrite it with significantly more depth:\n"
+            f"- Expand each story to 6\u20138 sentences (not 3\u20134)\n"
+            f"- Add more context, background, and your take on each story\n"
+            f"- Include natural transitions between stories\n"
+            f"- Do NOT add new stories \u2014 just deepen the existing ones\n\n"
+            f"Here is your short script to expand:\n\n{text}"
+        )
+        text2, meta2 = _call_grok(
+            retry_prompt,
+            model=config.llm.model,
+            system_prompt=system_prompt,
+            temperature=config.llm.podcast_temperature,
+            max_tokens=podcast_tokens,
+        )
+
+        if tracker and "usage" in meta2:
+            try:
+                from engine.tracking import record_llm_usage
+                record_llm_usage(
+                    tracker,
+                    "podcast_script_retry",
+                    meta2["usage"].get("prompt_tokens", 0),
+                    meta2["usage"].get("completion_tokens", 0),
+                    model=config.llm.model,
+                )
+            except Exception as e:
+                logger.warning("Failed to record retry LLM usage: %s", e)
+
+        word_count2 = len(text2.split())
+        if word_count2 > word_count:
+            logger.info(
+                "Retry produced longer script for '%s' (%d \u2192 %d words)",
+                config.name, word_count, word_count2,
+            )
+            text = text2
+            _validate_llm_output(text, stage="podcast_script",
+                                 show_name=config.name,
+                                 min_podcast_words=min_words)
+        else:
+            logger.warning(
+                "Retry did not improve script length for '%s' (%d \u2192 %d words), "
+                "keeping original",
+                config.name, word_count, word_count2,
+            )
 
     return text
