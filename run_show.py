@@ -225,6 +225,20 @@ def _preflight_checks(config, *, dry_run: bool = False) -> None:
     if not os.environ.get("GROK_API_KEY"):
         issues.append("GROK_API_KEY env var is empty or missing")
 
+    # Validate numeric config bounds
+    for attr in ("stability", "similarity_boost", "style"):
+        val = getattr(config.tts, attr, None)
+        if val is not None and not (0.0 <= val <= 1.0):
+            issues.append(f"tts.{attr}={val} is out of range [0.0, 1.0]")
+    if config.tts.max_chars is not None and config.tts.max_chars <= 0:
+        issues.append(f"tts.max_chars={config.tts.max_chars} must be > 0")
+    for attr in ("voice_intro_delay", "intro_duration", "overlap_duration",
+                 "fade_duration", "outro_duration", "outro_crossfade",
+                 "intro_volume", "overlap_volume", "fade_volume", "outro_volume"):
+        val = getattr(config.audio, attr, None)
+        if val is not None and val < 0:
+            issues.append(f"audio.{attr}={val} must be >= 0")
+
     # Check R2 storage credentials if R2 is configured
     if getattr(config, "storage", None) and config.storage.provider == "r2":
         for env_attr in ("endpoint_env", "access_key_env", "secret_key_env"):
@@ -408,10 +422,20 @@ def run(args: argparse.Namespace) -> None:
     template_vars.update(extra_context)
 
     # 7. Generate digest
-    from engine.generator import generate_digest
+    from engine.generator import generate_digest, LLMRefusalError
     logger.info("Generating digest ...")
-    with metrics.stage("generate_digest"):
-        x_thread = generate_digest(template_vars, config, tracker=tracker)
+    try:
+        with metrics.stage("generate_digest"):
+            x_thread = generate_digest(template_vars, config, tracker=tracker)
+    except LLMRefusalError as e:
+        logger.error("PIPELINE ABORTED: %s", e)
+        logger.error(
+            "The LLM refused to generate content. This typically means the news "
+            "sources had insufficient relevant content. Check source feeds and "
+            "consider re-running later."
+        )
+        save_usage(tracker, digests_dir)
+        sys.exit(1)
 
     # Record episode content in the cross-episode tracker
     if section_patterns:
@@ -569,7 +593,12 @@ def run(args: argparse.Namespace) -> None:
 
         t0 = time.monotonic()
         logger.info("Generating podcast script ...")
-        podcast_script = generate_podcast_script(pod_vars, config, tracker=tracker)
+        try:
+            podcast_script = generate_podcast_script(pod_vars, config, tracker=tracker)
+        except LLMRefusalError as e:
+            logger.error("PIPELINE ABORTED at podcast script stage: %s", e)
+            save_usage(tracker, digests_dir)
+            sys.exit(1)
         logger.info("Podcast script generation took %.1fs", time.monotonic() - t0)
 
         # Update Content Lake with podcast script (non-fatal)

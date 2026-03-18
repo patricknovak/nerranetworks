@@ -492,16 +492,6 @@ def save_summary_to_github_pages(
     Returns the path to the JSON file on success, ``None`` on error.
     """
     try:
-        if summaries_json_path.exists():
-            with open(summaries_json_path, "r", encoding="utf-8") as f:
-                fcntl.flock(f.fileno(), fcntl.LOCK_SH)
-                try:
-                    data = json.load(f)
-                finally:
-                    fcntl.flock(f.fileno(), fcntl.LOCK_UN)
-        else:
-            data = {"podcast": podcast_name, "summaries": []}
-
         now = datetime.datetime.now()
         entry = {
             "date": now.strftime("%Y-%m-%d"),
@@ -513,15 +503,29 @@ def save_summary_to_github_pages(
             "rss_url": rss_url,
         }
 
-        data["summaries"].insert(0, entry)
-        data["summaries"] = data["summaries"][:max_summaries]
-
-        with open(summaries_json_path, "w", encoding="utf-8") as f:
-            fcntl.flock(f.fileno(), fcntl.LOCK_EX)
-            try:
-                json.dump(data, f, indent=2, ensure_ascii=False)
-            finally:
-                fcntl.flock(f.fileno(), fcntl.LOCK_UN)
+        if summaries_json_path.exists():
+            # Atomic read-modify-write under a single exclusive lock to
+            # prevent data loss if another process writes concurrently.
+            with open(summaries_json_path, "r+", encoding="utf-8") as f:
+                fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+                try:
+                    data = json.load(f)
+                    data["summaries"].insert(0, entry)
+                    data["summaries"] = data["summaries"][:max_summaries]
+                    f.seek(0)
+                    f.truncate()
+                    json.dump(data, f, indent=2, ensure_ascii=False)
+                finally:
+                    fcntl.flock(f.fileno(), fcntl.LOCK_UN)
+        else:
+            data = {"podcast": podcast_name, "summaries": [entry]}
+            data["summaries"] = data["summaries"][:max_summaries]
+            with open(summaries_json_path, "w", encoding="utf-8") as f:
+                fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+                try:
+                    json.dump(data, f, indent=2, ensure_ascii=False)
+                finally:
+                    fcntl.flock(f.fileno(), fcntl.LOCK_UN)
 
         logger.info("Summary saved to GitHub Pages JSON: %s", summaries_json_path)
         return summaries_json_path

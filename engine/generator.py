@@ -26,6 +26,15 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
+class LLMRefusalError(RuntimeError):
+    """Raised when the LLM refuses to generate content.
+
+    Unlike quality warnings (short text, repetition), a refusal means the LLM
+    explicitly declined to produce content.  Continuing the pipeline would waste
+    TTS credits synthesising the refusal message into audio.
+    """
+
+
 # ---------------------------------------------------------------------------
 # Prompt template loading
 # ---------------------------------------------------------------------------
@@ -119,17 +128,33 @@ _INSTRUCTION_LEAK_PATTERNS = [
 
 _MIN_CHARS = {"digest": 200, "podcast_script": 500}
 
+# Patterns that indicate the LLM refused to generate content.
+# A refusal is NOT imperfect content — it is explicitly NOT content.
+# Continuing would waste TTS credits on garbage audio.
+_REFUSAL_PATTERNS = [
+    # English — common LLM refusal phrasings
+    r"(?i)\bI\s+(?:cannot|can't|am unable to|'m unable to)\s+(?:create|generate|produce|write)\s+(?:this|the|an?)\s+(?:episode|podcast|digest|script|content)",
+    r"(?i)\bI\s+(?:apologize|'m sorry),?\s+but\s+I\s+(?:cannot|can't|am unable)",
+    r"(?i)\bI\s+(?:cannot|can't)\s+(?:fulfill|complete|comply with)\s+(?:this|your)\s+request",
+    # Russian — from actual Finansy Prosto ep008/ep009 refusals (2026-03-18)
+    r"Я\s+не\s+могу\s+(?:создать|подготовить|написать|сгенерировать)",
+    r"не\s+предоставляю\s+контент",
+    r"Хочешь,?\s+я\s+(?:подожду|покажу)",
+    r"(?:пришли|пришлите)\s+(?:их|новый\s+список|другой\s+список|реальные)",
+]
+
 
 def _validate_llm_output(
     text: str,
     stage: str = "digest",
     show_name: str = "unknown",
 ) -> None:
-    """Warn if LLM output appears empty, too short, or contains leaked instructions.
+    """Validate LLM output quality.
 
-    Does not raise — it logs warnings so the pipeline can still proceed
-    (an imperfect episode is better than no episode), but operators are
-    alerted to quality issues.
+    Logs warnings for quality issues (short text, repetition, leaked
+    instructions) so the pipeline can still proceed.  However, raises
+    ``LLMRefusalError`` for outright refusals — a refusal is worse than
+    no episode because it wastes TTS credits on garbage audio.
     """
     import re
 
@@ -139,6 +164,21 @@ def _validate_llm_output(
             stage, show_name,
         )
         return
+
+    # Check for LLM refusals — must come before length checks because
+    # refusal messages can be 500-2000 chars (passing min-length thresholds)
+    for pattern in _REFUSAL_PATTERNS:
+        match = re.search(pattern, text, re.MULTILINE)
+        if match:
+            logger.error(
+                "LLM REFUSED to generate %s for '%s' — matched refusal pattern: %s "
+                "(matched text: '%s'). Halting pipeline to prevent TTS credit waste.",
+                stage, show_name, pattern, match.group(0)[:100],
+            )
+            raise LLMRefusalError(
+                f"LLM refused to generate {stage} for '{show_name}': "
+                f"'{match.group(0)[:200]}'"
+            )
 
     char_count = len(text.strip())
     min_chars = _MIN_CHARS.get(stage, 200)

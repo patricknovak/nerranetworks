@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Automated daily podcast generation system running 8 shows via a unified
+Automated daily podcast generation system running 10 shows via a unified
 `run_show.py` runner + per-show YAML configs, plus 4 legacy standalone scripts
 (deprecated — see note below). Shows use **ElevenLabs TTS**, **Fish Audio TTS**
 (with voice cloning), **Kokoro TTS**, or **Chatterbox TTS** (configurable per
@@ -17,8 +17,10 @@ show via `tts.provider` in YAML) and post to X/Twitter via
 | Planetterrian Daily | `digests/planetterrian.py` (deprecated) | `shows/planetterrian.yaml` | Daily | `@planetterrian` | ElevenLabs |
 | Env Intel | — | `shows/env_intel.yaml` | Weekdays | `@teslashortstime` | ElevenLabs |
 | Models & Agents | — | `shows/models_agents.yaml` | Daily | — (X disabled) | ElevenLabs |
-| Models & Agents for Beginners | — | `shows/models_agents_beginners.yaml` | Daily | — (X disabled) | Fish Audio |
-| Финансы Просто | — | `shows/finansy_prosto.yaml` | Daily | — (X disabled) | Fish Audio |
+| Models & Agents for Beginners | — | `shows/models_agents_beginners.yaml` | Daily | — (X disabled) | ElevenLabs |
+| Финансы Просто | — | `shows/finansy_prosto.yaml` | Daily | — (X disabled) | ElevenLabs |
+| Modern Investing Techniques | — | `shows/modern_investing.yaml` | Weekdays | — (X disabled) | ElevenLabs |
+| Привет, Русский! | — | `shows/privet_russian.yaml` | Even days | — (X disabled) | ElevenLabs |
 
 **Science That Changes Everything** (`digests/science_that_changes.py`, ~83 lines)
 is a standalone X-posting script, not a podcast show.
@@ -47,7 +49,9 @@ nerranetworks/
 │   ├── env_intel.yaml
 │   ├── models_agents.yaml
 │   ├── models_agents_beginners.yaml
-│   └── finansy_prosto.yaml
+│   ├── finansy_prosto.yaml
+│   ├── modern_investing.yaml
+│   └── privet_russian.yaml
 ├── digests/                       # Legacy show scripts (deprecated) + ALL generated output
 │   ├── tesla_shorts_time.py       # DEPRECATED — use run_show.py tesla
 │   ├── omni_view.py               # DEPRECATED — use run_show.py omni_view
@@ -61,8 +65,10 @@ nerranetworks/
 │   ├── planetterrian/             # PT output + summaries_planet.json
 │   ├── env_intel/                 # EI output + summaries_env_intel.json
 │   ├── models_agents/             # M&A output + summaries_models_agents.json
-│   ├── models_agents_beginners/   # MAB output (Fish Audio TTS)
-│   ├── finansy_prosto/            # FP output (Fish Audio TTS, Russian)
+│   ├── models_agents_beginners/   # MAB output
+│   ├── finansy_prosto/            # FP output (Russian)
+│   ├── modern_investing/          # MIT output
+│   ├── privet_russian/            # PR output (bilingual Russian)
 │   └── *.mp3, *.md, *.txt        # Legacy TST flat output (historical)
 ├── engine/                        # Shared modules
 │   ├── __init__.py
@@ -109,13 +115,18 @@ nerranetworks/
   `shows/models_agents.yaml`; no legacy script. X posting disabled.
 - **MAB** (Models & Agents for Beginners) runs via `run_show.py` +
   `shows/models_agents_beginners.yaml`; beginner/teen-focused version of M&A.
-  Uses **Fish Audio TTS** (cloud API, S1 model, #1 TTS-Arena2, 0.008 WER)
-  with zero-shot voice cloning from TST voice reference sample. Post-TTS
-  Whisper validation enabled. X posting disabled.
+  Uses **ElevenLabs TTS**. X posting disabled.
 - **FP** (Финансы Просто) runs via `run_show.py` +
   `shows/finansy_prosto.yaml`; Russian-language financial literacy podcast
-  for women in Canada. Uses **Fish Audio TTS** with Russian female voice
-  cloning. All content generated in Russian. X posting disabled.
+  for women in Canada. Uses **ElevenLabs TTS** (`eleven_multilingual_v2`
+  for Russian support). All content generated in Russian. X posting disabled.
+- **MIT** (Modern Investing Techniques) runs via `run_show.py` +
+  `shows/modern_investing.yaml`; daily investing podcast focused on Canadian
+  and US markets. Weekdays only. X posting disabled.
+- **PR** (Привет, Русский!) runs via `run_show.py` +
+  `shows/privet_russian.yaml`; bilingual Russian language learning podcast
+  for English speakers. Even days only. Uses **ElevenLabs TTS**
+  (`eleven_multilingual_v2`). X posting disabled.
 - All shows delegate X posting to `engine.publisher.post_to_x()`
 - TST/FF/PT delegate voice normalization to `engine.audio.normalize_voice()`
 - All shows use `engine.audio.mix_with_music()` for music mixing (3 modes:
@@ -131,15 +142,14 @@ nerranetworks/
 - `ELEVENLABS_API_KEY` — ElevenLabs TTS (all shows)
 - `X_*` / `PLANETTERRIAN_X_*` — two separate X accounts
 - Voice IDs: TST/FF/PT/M&A/EI share `dTrBzPvD2GpAqkk1MUzA`, OV uses `ns7MjJ6c8tJKnvw7U6sN`
-- `FISH_AUDIO_API_KEY` — Fish Audio TTS (MAB show)
-- MAB uses Fish Audio TTS (cloud API) with voice cloning from TST reference
+- `FISH_AUDIO_API_KEY` — Fish Audio TTS (available but not currently used by active shows)
 - See `docs/env_var_inventory.md` for the complete inventory
 
 ### RSS Feeds
 
-All RSS `<enclosure>` URLs use `raw.githubusercontent.com` pointing to files in
-`digests/`. **Moving MP3 files breaks podcast subscribers.** See
-`docs/audio_storage_plan.md` for migration strategy.
+All RSS `<enclosure>` URLs now use `audio.nerranetwork.com` (Cloudflare R2).
+MP3 files are uploaded to R2 during the pipeline and excluded from git commits.
+**Do NOT change R2 bucket paths — this breaks podcast subscribers.**
 
 ### Testing
 
@@ -187,7 +197,7 @@ Phase 2 (complete):
   `record_tts_usage`, `record_x_post`, `save_usage`
 
 Phase 3 (current):
-- All 7 shows now run via `run_show.py` + YAML configs in production (CI/CD).
+- All 10 shows now run via `run_show.py` + YAML configs in production (CI/CD).
 - Legacy scripts (`digests/{tesla_shorts_time,omni_view,fascinating_frontiers,
   planetterrian}.py`) are **deprecated** — retained for reference only.
 - `run_show.py` is the canonical entry point; legacy scripts are not called
@@ -230,10 +240,9 @@ Phase 3 (current):
    and other legacy scripts. Env var overrides still supported.
 10. **Early episodes deleted** — first 20 Tesla, 10 FF, 10 PT, 10 OV episodes
     removed (quality issues). RSS entries removed where applicable.
-11. **MAB switched to Fish Audio TTS** — Chatterbox produced gibberish on CPU
-    (65.9% Whisper match, "spuzzle spuzzle spuzzle"). Kokoro had espeak-quality
-    robotic pronunciation. Fish Audio S1 (#1 TTS-Arena2, 0.008 WER) with
-    zero-shot voice cloning from TST voice reference provides natural speech
-    quality. Post-TTS Whisper validation remains enabled.
+11. **MAB TTS settled on ElevenLabs** — Chatterbox produced gibberish on CPU,
+    Kokoro had robotic pronunciation, Fish Audio was trialled briefly. MAB and
+    FP now use ElevenLabs (`eleven_turbo_v2_5` and `eleven_multilingual_v2`
+    respectively) for reliable quality.
 12. **Summaries JSONs moved** — all summaries live in per-show subdirectories
     (`digests/<show>/summaries_*.json`), not at the `digests/` top level.
