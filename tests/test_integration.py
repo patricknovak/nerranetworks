@@ -715,6 +715,49 @@ class TestLLMOutputValidation:
             _validate_llm_output(text, stage="digest", show_name="test")
         assert "leaked prompt" in caplog.text
 
+    def test_refusal_english_raises(self):
+        """English LLM refusal raises LLMRefusalError."""
+        from engine.generator import _validate_llm_output, LLMRefusalError
+
+        text = "I cannot create this episode because the sources are insufficient."
+        with pytest.raises(LLMRefusalError, match="refused"):
+            _validate_llm_output(text, stage="digest", show_name="test")
+
+    def test_refusal_russian_raises(self):
+        """Russian LLM refusal (as seen in FP ep008) raises LLMRefusalError."""
+        from engine.generator import _validate_llm_output, LLMRefusalError
+
+        text = (
+            "Я не могу создать этот выпуск. Причина: почти все финансовые "
+            "новости связаны с военными конфликтами."
+        )
+        with pytest.raises(LLMRefusalError, match="refused"):
+            _validate_llm_output(text, stage="podcast_script", show_name="finansy_prosto")
+
+    def test_refusal_russian_ne_predostavlyayu(self):
+        """Russian 'не предоставляю контент' refusal is detected."""
+        from engine.generator import _validate_llm_output, LLMRefusalError
+
+        text = (
+            "Согласно моим правилам, я не предоставляю контент, который "
+            "использует военные конфликты как основу."
+        )
+        with pytest.raises(LLMRefusalError):
+            _validate_llm_output(text, stage="digest", show_name="finansy_prosto")
+
+    def test_normal_russian_content_no_refusal(self):
+        """Normal Russian podcast content does not trigger refusal detection."""
+        from engine.generator import _validate_llm_output
+
+        text = (
+            "# Финансы Просто\n**Дата:** March 18, 2026\n\n"
+            "**ЗАГОЛОВОК:** Bank of Canada снизил ставку\n\n"
+            "Сегодня Bank of Canada объявил о снижении ключевой ставки. "
+            "Это означает, что ваши платежи по ипотеке могут уменьшиться. "
+        ) * 5  # Repeat to pass length check
+        # Should not raise
+        _validate_llm_output(text, stage="digest", show_name="finansy_prosto")
+
 
 # ---------------------------------------------------------------------------
 # TTS chunking tests

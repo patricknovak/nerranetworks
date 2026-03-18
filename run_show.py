@@ -408,10 +408,20 @@ def run(args: argparse.Namespace) -> None:
     template_vars.update(extra_context)
 
     # 7. Generate digest
-    from engine.generator import generate_digest
+    from engine.generator import generate_digest, LLMRefusalError
     logger.info("Generating digest ...")
-    with metrics.stage("generate_digest"):
-        x_thread = generate_digest(template_vars, config, tracker=tracker)
+    try:
+        with metrics.stage("generate_digest"):
+            x_thread = generate_digest(template_vars, config, tracker=tracker)
+    except LLMRefusalError as e:
+        logger.error("PIPELINE ABORTED: %s", e)
+        logger.error(
+            "The LLM refused to generate content. This typically means the news "
+            "sources had insufficient relevant content. Check source feeds and "
+            "consider re-running later."
+        )
+        save_usage(tracker, digests_dir)
+        sys.exit(1)
 
     # Record episode content in the cross-episode tracker
     if section_patterns:
@@ -569,7 +579,12 @@ def run(args: argparse.Namespace) -> None:
 
         t0 = time.monotonic()
         logger.info("Generating podcast script ...")
-        podcast_script = generate_podcast_script(pod_vars, config, tracker=tracker)
+        try:
+            podcast_script = generate_podcast_script(pod_vars, config, tracker=tracker)
+        except LLMRefusalError as e:
+            logger.error("PIPELINE ABORTED at podcast script stage: %s", e)
+            save_usage(tracker, digests_dir)
+            sys.exit(1)
         logger.info("Podcast script generation took %.1fs", time.monotonic() - t0)
 
         # Update Content Lake with podcast script (non-fatal)
