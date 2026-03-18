@@ -124,6 +124,21 @@ def pronunciation_overrides() -> dict:
             "BoC": "Bank of Canada",
             "FOMC": "F O M C",
             "AUM": "A U M",
+            "DCA": "D C A",
+            "MER": "M E R",
+            "CRA": "C R A",
+            "HELOC": "H E L O C",
+            "ROI": "R O I",
+            "PE": "P E",
+            "NAV": "N A V",
+            "ATH": "all time high",
+            # Canadian ETFs/tickers
+            "BTCC": "B T C C",
+            "XGRO": "X G R O",
+            "VEQT": "V E Q T",
+            "XIU": "X I U",
+            "ZSP": "Z S P",
+            "HXT": "H X T",
         },
         "extra_words": {
             "robo-advisor": "robo advisor",
@@ -321,25 +336,42 @@ def _fetch_trade_prices(symbol: str) -> tuple[float | None, float | None]:
 
 
 def _fetch_weekly_prices(symbol: str) -> tuple[float | None, float | None]:
-    """Fetch Monday's open and Friday's close for weekly hold evaluation.
+    """Fetch the week's first trading day open and last trading day close.
 
     Returns (entry_price, exit_price) or (None, None) on failure.
-    Uses 5 trading days of history to find the week's open and close.
+    Uses 10 calendar days of history to handle shortened weeks (holidays),
+    then filters to only this week's trading days.
     """
     import time as _time
+
+    today = datetime.date.today()
+    # Find this week's Monday (weekday 0)
+    monday = today - datetime.timedelta(days=today.weekday())
 
     for attempt in range(3):
         try:
             import yfinance as yf
             ticker = yf.Ticker(symbol)
-            hist = ticker.history(period="5d", interval="1d")
+            # Fetch 10 days to cover holidays and weekends
+            hist = ticker.history(period="10d", interval="1d")
             if hist.empty or len(hist) < 1:
                 logger.warning("No history for %s (attempt %d)", symbol, attempt + 1)
             else:
-                # Monday open = first row's Open, Friday close = last row's Close
-                entry = float(hist.iloc[0]["Open"])
-                exit_ = float(hist.iloc[-1]["Close"])
-                return entry, exit_
+                # Filter to only this week's trading days (Monday through today)
+                week_data = hist[hist.index.date >= monday]
+                if week_data.empty:
+                    logger.warning("No trading days this week for %s", symbol)
+                else:
+                    # First trading day's open, last trading day's close
+                    entry = float(week_data.iloc[0]["Open"])
+                    exit_ = float(week_data.iloc[-1]["Close"])
+                    logger.info(
+                        "Weekly prices for %s: %d trading days this week (entry=%s, exit=%s)",
+                        symbol, len(week_data),
+                        week_data.index[0].strftime("%a"),
+                        week_data.index[-1].strftime("%a"),
+                    )
+                    return entry, exit_
         except Exception as exc:
             logger.warning("yfinance attempt %d for %s failed: %s", attempt + 1, symbol, exc)
 

@@ -49,6 +49,16 @@ sources:
   - url: https://cointelegraph.com/rss
     label: CoinTelegraph
 
+  # Additional Sources for diversity
+  - url: https://seekingalpha.com/feed.xml
+    label: Seeking Alpha
+  - url: https://www.morningstar.com/feeds/rss
+    label: Morningstar
+  - url: https://www.reuters.com/finance/markets/rss
+    label: Reuters Markets
+
+min_articles: 6
+
 keywords:
   - AI investing
   - algorithmic trading
@@ -71,6 +81,13 @@ keywords:
   - risk management
   - modern portfolio theory
   - Bank of Canada rate
+  - dividend growth
+  - stock screener
+  - portfolio rebalancing
+  - covered call
+  - earnings report
+  - interest rate decision
+  - dollar cost averaging
 
 llm:
   provider: xai
@@ -147,23 +164,23 @@ episode:
 chapters:
   enabled: true
   section_markers:
-    - pattern: "Welcome to Modern Investing"
+    - pattern: "Welcome to.*Modern Investing|first episode of Modern Investing|Good morning.*Modern Investing|This is Modern Investing"
       title: "Introduction"
-    - pattern: "market pulse|market overview|here's where markets"
+    - pattern: "market pulse|market overview|here's where markets|let's check the pulse|check.*pulse"
       title: "Market Pulse"
-    - pattern: "strategy spotlight|strategy of the day|today's strategy"
+    - pattern: "strategy spotlight|strategy of the day|today's strategy|educational centrepiece"
       title: "Strategy Spotlight"
-    - pattern: "practice investment|AI pick|today's pick|trade of the day"
+    - pattern: "practice investment|AI pick|today's pick|trade of the day|simulated trade"
       title: "Practice Investment of the Day"
-    - pattern: "yesterday's trade|trade review|how did .* pick|weekly hold|last week's hold"
+    - pattern: "yesterday's trade|trade review|how did .* pick|weekly hold|last week's hold|mid-week update"
       title: "Trade Review & Lessons"
-    - pattern: "tools and techniques|tools & techniques|recommended tools"
+    - pattern: "tools and techniques|tools & techniques|recommended tools|let's talk tools"
       title: "Tools & Techniques"
-    - pattern: "quick hits|rapid fire|shorter items"
+    - pattern: "quick hits|rapid fire|shorter items|rapid-fire"
       title: "Quick Hits"
-    - pattern: "portfolio tracker|running total|portfolio performance"
+    - pattern: "portfolio tracker|running total|portfolio performance|simulated track record"
       title: "Portfolio Performance"
-    - pattern: "That's Modern Investing|wraps up"
+    - pattern: "That's Modern Investing|wraps up|wraps up.*episode"
       title: "Closing"
 
 newsletter:
