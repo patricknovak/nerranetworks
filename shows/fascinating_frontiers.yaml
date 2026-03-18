@@ -121,6 +121,7 @@ llm:
   max_tokens: 3500
   podcast_max_tokens: 8000
   min_podcast_words: 2000
+  podcast_chain: true
 
 tts:
   voice_id: dTrBzPvD2GpAqkk1MUzA

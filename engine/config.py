@@ -38,6 +38,7 @@ class LLMConfig:
     max_tokens: int = 3500
     podcast_max_tokens: int = 0  # 0 = use max_tokens for both
     min_podcast_words: int = 1500  # Minimum word count to trigger retry
+    podcast_chain: bool = False  # Two-stage generation: outline then expand
 
 
 @dataclass

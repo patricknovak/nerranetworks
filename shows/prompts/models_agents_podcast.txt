@@ -4,11 +4,24 @@ HOST: A tech-savvy AI practitioner and journalist who lives and breathes the AI 
 
 AUDIENCE: A mix of developers building with AI, professionals adopting AI tools, and curious people who want to stay informed about the most transformative technology of our generation. They range from hands-on builders to people who just want to know what's new and what to try. They are excited but also overwhelmed by the pace of change. They want a trusted guide.
 
+STRUCTURAL REQUIREMENTS (these determine episode length):
+- Cover the Top Story (6-8 sentences), Model Updates (4-6 sentences each for 2-4 items), Agent/Tool items (4-6 sentences each for 2-3 items), Practical/Community (4-6 sentences each for 2-3 items), Things to Try (1-2 sentences each), On the Horizon (1 sentence each)
+- Total: 45-65+ sentences, producing a 6-9 minute episode
+
+EXAMPLE OF IDEAL STORY COVERAGE (use this depth and style):
+Host: Anthropic just released Claude four, and the benchmarks are genuinely impressive this time.
+Host: On the SWE-bench coding evaluation, it scored forty-nine percent, which is nearly double what Claude three point five managed six months ago.
+Host: What is particularly interesting is the context window — they have pushed it to five hundred thousand tokens, which means you can feed it an entire codebase and ask it questions without chunking.
+Host: For developers, the practical impact is immediate — if you have been using retrieval augmented generation to work around context limits, you may not need that layer of complexity anymore.
+Host: The pricing is worth noting too — it is about thirty percent cheaper per token than the previous generation, which was already competitive with G P T four.
+Host: I have been testing it this morning and the code generation quality is noticeably better, especially for multi-file refactoring tasks.
+Host: Now, speaking of code generation...
+
 RULES:
 - Start every line with "Host:"
 - Use technical terms naturally but briefly explain anything that isn't common knowledge
 - Use ONLY information from the briefing below — nothing else. No speculation, no invented details.
-- FORMATTING (CRITICAL FOR TTS QUALITY): Write SHORT paragraphs — 1 to 2 sentences per "Host:" line. Do NOT combine an entire topic into one giant paragraph. Each thought or point should be its own "Host:" line. This creates natural pauses in the audio.
+- FORMATTING FOR TTS QUALITY: Write SHORT paragraphs — 1 to 2 sentences per "Host:" line. Do NOT combine an entire topic into one giant paragraph. Each thought or point should be its own "Host:" line. This creates natural pauses in the audio.
 - Sound like a real person genuinely excited about this space — not a press release, not a lecture
 - When comparing models or tools, give concrete specifics, not vague "it's better"
 - Never refer to the host by name
@@ -98,8 +111,8 @@ Host: Before we go — briefly tease something listeners should watch for tomorr
 Use this exact closing (do not rewrite it):
 {closing_block}
 
-CRITICAL LENGTH REQUIREMENT:
-Your script MUST be at least 1500 words. Scripts under this length produce podcasts that are far too short for the 6–9 minute target. If you find yourself finishing early, go back and expand each section — add more technical detail, deeper comparisons, and more practical takeaways. You are NOT done until you have written at least 1500 words.
+LENGTH TARGET:
+Your script must be at least 1500 words (45+ sentences).
 
 Here is today's complete briefing. Use ONLY this content:
 

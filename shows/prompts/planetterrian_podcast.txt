@@ -1,36 +1,41 @@
-You are writing a 10–13 minute (2400–3100 words) solo podcast script for "Planetterrian Daily" Episode {episode_num}.
+You are writing a 10–13 minute solo podcast script for "Planetterrian Daily" Episode {episode_num}.
 
 HOST: Patrick in Vancouver — Canadian, scientist, newscaster. Knowledgeable about science, health, and longevity research.
 
-CONTENT APPROACH:
-Let the research speak for itself. Don't stretch every finding into "this will change lives" or "this is great for the planet." A gene therapy trial is interesting because of the science. A longevity study matters because of what it found. Cover it on its own terms, and trust the audience to see why it's important.
+STRUCTURAL REQUIREMENTS (these determine episode length):
+- Cover 7-9 stories from the digest
+- Each story: 6-8 sentences minimum (opening finding/fact, 2-3 context sentences, 1-2 implication sentences, 1 transition)
+- That is 50-70 sentences of story content alone
+- Add intro (2-3 sentences), hook (1 sentence), Spotlight (6-8 sentences), tomorrow teaser (2 sentences), closing
+- Total: 60-80+ sentences, producing a 10-13 minute episode
 
 RULES:
 - Start every line with "Patrick:"
-- Use ONLY information from the digest below - nothing else
-- FORMATTING (CRITICAL FOR TTS QUALITY): Write SHORT paragraphs — 1 to 2 sentences per "Patrick:" line. Do NOT combine an entire topic into one giant paragraph. Each thought or point should be its own "Patrick:" line. This creates natural pauses in the audio.
-- Make it sound like a real solo pod: vivid but concise, no robotic repetition
+- Use ONLY information from the digest below — nothing else
+- Write SHORT paragraphs — 1 to 2 sentences per "Patrick:" line. Each thought should be its own line. This creates natural pauses in the audio.
 
-NEVER INCLUDE (these will be read aloud by TTS and sound terrible):
-- URLs or links of any kind (e.g. https://..., Source: ..., [link])
-- Exact timestamps or datelines (e.g. "22 February, 2026, 11:30 PM PST")
-- Source attribution lines (e.g. "Source: Nature" on its own line)
-- Production notes, editor comments, or metadata (e.g. "[Note: ...]", "Word count:")
-- Emoji characters or unicode symbols (📊 🔬 ━━━ etc.)
-- Markdown formatting (** bold **, ### headers, bullet markers)
+EXAMPLE OF IDEAL STORY COVERAGE (use this depth and style for every story):
+Patrick: Researchers at Johns Hopkins have published results from a Phase three trial showing a new gene therapy can reverse age-related muscle loss in older adults.
+Patrick: The study followed four hundred participants over eighteen months, and those who received the therapy saw an average twelve percent increase in muscle mass.
+Patrick: What is significant here is that this targets the sarcopenia pathway directly, rather than just treating symptoms with exercise programs or protein supplements.
+Patrick: According to Nature Medicine, the therapy works by reactivating a gene called myostatin that naturally declines after age forty.
+Patrick: The practical implications are substantial — age-related muscle loss is one of the biggest predictors of falls and loss of independence in seniors.
+Patrick: This is still in trial phase, so it will be a few years before it reaches clinics, but the results are genuinely encouraging.
+Patrick: Now, shifting to a very different area of research...
+
+Do not include any of the following (they break TTS audio quality):
+- URLs or links of any kind
+- Exact timestamps or datelines
+- Source attribution lines on their own
+- Production notes, editor comments, or metadata
+- Emoji characters or unicode symbols
+- Markdown formatting (bold, headers, bullet markers)
 Instead: mention source names naturally in conversation ("according to Nature"), use natural dates ("today", "this morning"), and enunciate all numbers clearly.
 
-TONE:
-- Informed and genuinely interested. You find this research fascinating and it shows.
-- Don't treat every study as a revolution. Some findings are incremental and that's fine — explain what they add to what we already knew.
-- Vary your energy. A breakthrough cancer therapy gets different treatment than a dietary study replication.
-- CRITICAL: Vary your angle. Sometimes lead with the clinical implications, sometimes the mechanism, sometimes the population it affects, sometimes what it means for future research.
-- It's OK to be enthusiastic about genuinely exciting findings, but don't be relentlessly breathless.
-
-PACING AND DEPTH — THIS IS CRITICAL:
-- Spend 60–90 seconds on each story. That means 5–8 sentences per story, not 2–3.
+PACING AND DEPTH:
+- Spend 60-90 seconds on each story. That means 6-8 sentences per story, not 2-3.
 - For each story: state what happened, give context on why it matters, offer your brief take.
-- Do NOT rush through stories just to cover everything. Pick the 7–9 most important stories from the digest and cover them well. Better to skip a minor item than give everything surface treatment.
+- Do not rush through stories just to cover everything. Pick the 7-9 most important stories from the digest and cover them well. Better to skip a minor item than give everything surface treatment.
 - Use natural transitions between stories ("Now, shifting to..." or "On a different note..." or simply "Next up...")
 
 === EPISODE 1 SPECIAL INTRODUCTION (ONLY FOR EPISODE 1) ===
@@ -73,8 +78,8 @@ WHAT TO SKIP (do NOT read aloud):
 - Section headers and separators — skip entirely
 - "Quick scan" lines — skip entirely
 
-CRITICAL LENGTH REQUIREMENT:
-Your script MUST be at least 2400 words. Scripts under this length produce podcasts that are far too short for the 10–13 minute target. If you find yourself finishing early, go back and expand each story — add more context, explain the science in more depth, and share your perspective. You are NOT done until you have written at least 2400 words.
+LENGTH TARGET:
+Your script must be at least 2400 words (60+ sentences). If you find yourself finishing early, go back and expand each story.
 
 Here is today's complete formatted digest. Use ONLY this content:
 

@@ -300,6 +300,56 @@ def generate_digest(
     return text
 
 
+def _generate_podcast_outline(
+    digest: str,
+    config,
+    system_prompt: Optional[str] = None,
+    tracker: Optional[dict] = None,
+) -> str:
+    """Generate a story-by-story outline before expanding into a full script.
+
+    This is the first stage of prompt chaining — it produces a structured
+    outline that the second call uses as scaffolding for the full script.
+    """
+    outline_prompt = (
+        "Read the digest below and produce a concise story-by-story outline "
+        "for a podcast episode.  For each story include:\n"
+        "1. Story title (one line)\n"
+        "2. Key points to cover (2-3 bullets)\n"
+        "3. Suggested angle (business, technology, science, human interest, etc.)\n"
+        "4. Transition idea to the next story\n\n"
+        "Order stories from most to least important.  Include any special "
+        "segments (Spotlight, Counterpoint, First Principles, etc.) if present "
+        "in the digest.\n\n"
+        f"DIGEST:\n{digest}"
+    )
+
+    logger.info("Generating podcast outline for '%s' (chain stage 1) ...", config.name)
+    text, meta = _call_grok(
+        outline_prompt,
+        model=config.llm.model,
+        system_prompt=system_prompt,
+        temperature=config.llm.digest_temperature,  # Lower temp for planning
+        max_tokens=1500,
+    )
+
+    if tracker and "usage" in meta:
+        try:
+            from engine.tracking import record_llm_usage
+            record_llm_usage(
+                tracker,
+                "podcast_outline_generation",
+                meta["usage"].get("prompt_tokens", 0),
+                meta["usage"].get("completion_tokens", 0),
+                model=config.llm.model,
+            )
+        except Exception as e:
+            logger.warning("Failed to record outline LLM usage: %s", e)
+
+    logger.info("Podcast outline generated (%d chars)", len(text))
+    return text
+
+
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_exponential(multiplier=1, min=1, max=15),
@@ -334,6 +384,23 @@ def generate_podcast_script(
         sp_path = Path(config.llm.system_prompt_file)
         if sp_path.exists():
             system_prompt = sp_path.read_text(encoding="utf-8").strip()
+
+    # Optional prompt chaining: generate an outline first, then expand
+    use_chain = getattr(config.llm, "podcast_chain", False)
+    if use_chain:
+        digest_text = template_vars.get("digest", "")
+        outline = _generate_podcast_outline(
+            digest_text, config,
+            system_prompt=system_prompt,
+            tracker=tracker,
+        )
+        # Prepend the outline to the podcast prompt so the model follows it
+        prompt = (
+            f"STORY OUTLINE (follow this structure and order):\n{outline}\n\n"
+            f"---\n\n{prompt}"
+        )
+        logger.info("Using prompt chaining for '%s' — outline prepended to podcast prompt",
+                     config.name)
 
     logger.info("Generating podcast script for '%s' (model=%s, temp=%.1f) ...",
                 config.name, config.llm.model, config.llm.podcast_temperature)
