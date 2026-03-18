@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Koko88 Club — Где стиль встречает душу</title>
+  <meta name="description" content="Koko88 Club — лайфстайл бренд Оли. Мода, семейные ценности, фитнес, ИИ, любовь и сообщество. Из Одессы в Ванкувер — вместе мы сильнее.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Koko88 Club — Где стиль встречает душу">
+  <meta property="og:description" content="Лайфстайл бренд Оли — мода, семейные ценности, фитнес, ИИ, любовь и сообщество для женщин.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+
+  <!-- Language alternates -->
+  <link rel="alternate" hreflang="en" href="https://koko88.club/">
+  <link rel="alternate" hreflang="ru" href="https://koko88.club/ru/">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../styles/koko88.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+  <!-- ========== Navigation ========== -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__brand">Koko<span>88</span> Club</a>
+      <ul class="nav__links">
+        <li><a href="#about">Об Оле</a></li>
+        <li><a href="#pillars">Направления</a></li>
+        <li><a href="#podcast">Подкаст</a></li>
+        <li><a href="#founding">Основатели</a></li>
+        <li><a href="../" class="nav__lang">EN</a></li>
+      </ul>
+      <button class="nav__hamburger" onclick="document.querySelector('.nav__mobile').classList.toggle('is-open')" aria-label="Меню">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav -->
+  <div class="nav__mobile">
+    <a href="#about" onclick="document.querySelector('.nav__mobile').classList.remove('is-open')">Об Оле</a>
+    <a href="#pillars" onclick="document.querySelector('.nav__mobile').classList.remove('is-open')">Направления</a>
+    <a href="#podcast" onclick="document.querySelector('.nav__mobile').classList.remove('is-open')">Подкаст</a>
+    <a href="#founding" onclick="document.querySelector('.nav__mobile').classList.remove('is-open')">Основатели</a>
+    <a href="../">English Version</a>
+  </div>
+
+  <!-- ========== Hero ========== -->
+  <section class="hero">
+    <div class="container hero__content">
+      <div class="hero__badge">Лайфстайл бренд Оли</div>
+      <h1 class="hero__title">Где стиль<br>встречает <em>душу</em></h1>
+      <p class="hero__desc">
+        Вдохновляем женщин жить красиво, любить сильно и расти вместе.
+        Мода. Семья. Фитнес. ИИ. Сообщество.
+      </p>
+      <a href="#founding" class="hero__cta">
+        Стать основателем клуба
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== About ========== -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="about__grid fade-in">
+        <div class="about__image">
+          <!-- Место для фото Оли -->
+          <span aria-hidden="true">&#10024;</span>
+        </div>
+        <div class="about__text">
+          <div class="section__label">Знакомьтесь — Оля</div>
+          <h2>Из Одессы с любовью, строю сообщество в Ванкувере</h2>
+          <p>
+            Я Оля — родилась в Одессе, Украина, сейчас живу с семьёй в прекрасном Ванкувере, Канада.
+            Я верю, что каждая женщина может создать жизнь своей мечты, и что вместе мы сильнее.
+          </p>
+          <p>
+            Koko88 Club — это мой способ объединить то, что мне дорого больше всего:
+            стиль, крепкие семейные ценности, здоровый образ жизни, невероятные возможности ИИ,
+            и самое главное — настоящая человеческая связь.
+          </p>
+          <p>
+            Будь ты в новой стране, строишь карьеру, растишь семью или просто ищешь
+            своих людей — тебе здесь рады.
+          </p>
+          <div class="about__values">
+            <span class="about__value">Искренность</span>
+            <span class="about__value">Семья</span>
+            <span class="about__value">Стиль</span>
+            <span class="about__value">Рост</span>
+            <span class="about__value">Любовь</span>
+            <span class="about__value">Сообщество</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Brand Pillars ========== -->
+  <section id="pillars" class="section section--alt">
+    <div class="container">
+      <div class="text-center fade-in">
+        <div class="section__label">О чём мы</div>
+        <h2 class="section__title">Шесть основ Koko88</h2>
+        <p class="section__subtitle mx-auto">То, что важнее всего — с любовью подобрано, с радостью разделено.</p>
+      </div>
+
+      <div class="pillars__grid">
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#128087;</div>
+          <h3 class="pillar-card__title">Мода и стиль</h3>
+          <p class="pillar-card__desc">
+            Стиль для современной женщины. Доступная роскошь, сезонное вдохновение
+            и искусство самовыражения — потому что то, как ты выглядишь, имеет значение.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#128150;</div>
+          <h3 class="pillar-card__title">Семейные ценности</h3>
+          <p class="pillar-card__desc">
+            Укрепляем самые важные связи. Традиции, которые стоит хранить,
+            родительская мудрость и создание значимых моментов каждый день.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#127793;</div>
+          <h3 class="pillar-card__title">Фитнес и здоровье</h3>
+          <p class="pillar-card__desc">
+            Гармония тела и души. Практичные тренировки, ритуалы заботы о себе и
+            энергия, которая нужна для всего, что ты любишь.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#9889;</div>
+          <h3 class="pillar-card__title">ИИ и инновации</h3>
+          <p class="pillar-card__desc">
+            Технологии, которые работают на тебя. ИИ-инструменты, которые экономят время,
+            усиливают творчество и помогают строить жизнь и бизнес мечты.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#128151;</div>
+          <h3 class="pillar-card__title">Знакомства и любовь</h3>
+          <p class="pillar-card__desc">
+            Создаём настоящие связи. Найти любовь, укрепить отношения
+            и построить сообщество, которое делает жизнь прекрасной.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#127775;</div>
+          <h3 class="pillar-card__title">Сообщество и позитив</h3>
+          <p class="pillar-card__desc">
+            Женщины поддерживают женщин. Совместный рост, позитивная энергия и
+            волшебство, которое происходит, когда мы поднимаем друг друга.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Podcast ========== -->
+  <section id="podcast" class="section">
+    <div class="container">
+      <div class="text-center fade-in">
+        <div class="section__label">Слушай</div>
+        <h2 class="section__title">Подкаст Оли</h2>
+        <p class="section__subtitle mx-auto">Честный разговор о деньгах, жизни и обо всём, что между ними.</p>
+      </div>
+
+      <div class="podcast__card fade-in">
+        <div class="podcast__cover" aria-hidden="true">&#127911;</div>
+        <div class="podcast__info">
+          <h3>Финансы Просто</h3>
+          <p>
+            Подкаст на русском языке о личных финансах для женщин в Канаде.
+            Инвестиции, сбережения, бюджет и финансовая грамотность — просто и понятно.
+            Новые выпуски через день.
+          </p>
+          <div class="podcast__player">
+            <audio controls preload="none" id="podcast-player">
+              <source src="" type="audio/mpeg">
+              Ваш браузер не поддерживает аудио.
+            </audio>
+          </div>
+          <p id="podcast-episode-title" style="font-size: 0.875rem; color: var(--k88-text-light); margin-top: var(--sp-2);"></p>
+          <a href="https://nerranetwork.com/ru/finansy-prosto.html" class="podcast__link" target="_blank" rel="noopener">
+            Все выпуски на Nerra Network
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="podcast__coming-soon fade-in">
+        Скоро новые подкасты — следите за обновлениями от Оли
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Founding Members ========== -->
+  <section id="founding" class="section founding">
+    <div class="container founding__content">
+      <div class="fade-in">
+        <div class="founding__badge">Эксклюзивный доступ</div>
+        <h2 class="founding__title">Стань <em>основателем клуба</em></h2>
+        <p class="founding__desc">
+          Будь среди первых в Koko88 Club. Основатели получают эксклюзивные привилегии,
+          фиксированную цену навсегда и место в первом ряду всего, что мы создаём.
+        </p>
+      </div>
+
+      <div class="founding__benefits fade-in">
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#128272;</div>
+          <div class="benefit-card__title">Закрытое сообщество</div>
+          <p class="benefit-card__desc">Доступ в эксклюзивную группу только для участников. Общайся с единомышленницами, делись опытом и расти вместе.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#127873;</div>
+          <div class="benefit-card__title">Ранний доступ</div>
+          <p class="benefit-card__desc">Первой увидишь новые продукты, коллекции и функции. Твоя обратная связь определяет то, что мы создаём.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#129302;</div>
+          <div class="benefit-card__title">ИИ-стиль</div>
+          <p class="benefit-card__desc">Персональные рекомендации стиля на основе ИИ. Подобранные образы, которые подходят твоему вкусу, бюджету и образу жизни.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#128149;</div>
+          <div class="benefit-card__title">Сообщество знакомств</div>
+          <p class="benefit-card__desc">Эксклюзивный доступ к функциям знакомств. Настоящие связи в безопасном пространстве, основанном на ценностях.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#127909;</div>
+          <div class="benefit-card__title">Живые эфиры</div>
+          <p class="benefit-card__desc">Ежемесячные живые разговоры с Олей. Вопросы и ответы, советы по стилю, здоровью и откровенные беседы — только для участников.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#128176;</div>
+          <div class="benefit-card__title">Цена основателя навсегда</div>
+          <p class="benefit-card__desc">Зафиксируй цену основателя на всю жизнь. Клуб растёт, добавляются новые функции, а твоя цена не меняется.</p>
+        </div>
+      </div>
+
+      <div class="founding__cta-wrap fade-in">
+        <span class="founding__cta" style="cursor: default;">
+          Скоро открытие
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </span>
+        <p class="founding__note">Мы готовим для вас кое-что особенное. Возвращайтесь скоро.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Footer ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <div class="footer__brand">Koko<span>88</span> Club</div>
+          <p class="footer__tagline">Где стиль встречает душу. Лайфстайл бренд Оли — вдохновляем женщин жить красиво и любить сильно.</p>
+        </div>
+
+        <div class="footer__links">
+          <h4>Разделы</h4>
+          <ul>
+            <li><a href="#about">Об Оле</a></li>
+            <li><a href="#pillars">Направления</a></li>
+            <li><a href="#podcast">Подкаст</a></li>
+            <li><a href="#founding">Основатели</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__links">
+          <h4>Связь</h4>
+          <ul>
+            <li><a href="../">English / Английский</a></li>
+            <li><a href="https://nerranetwork.com/ru/finansy-prosto.html" target="_blank" rel="noopener">Финансы Просто</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>&copy; 2026 Koko88 Club. Все права защищены.</span>
+        <span>Сделано с любовью в Ванкувере, Канада</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== Scripts ========== -->
+  <script>
+    // Анимации при прокрутке
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Загрузка последнего выпуска подкаста из RSS
+    async function loadLatestEpisode() {
+      try {
+        const res = await fetch('https://nerranetwork.com/finansy_prosto_podcast.rss');
+        const text = await res.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(text, 'text/xml');
+        const item = xml.querySelector('item');
+        if (!item) return;
+        const enclosure = item.querySelector('enclosure');
+        const title = item.querySelector('title');
+        if (enclosure) {
+          document.getElementById('podcast-player').querySelector('source').src = enclosure.getAttribute('url');
+          document.getElementById('podcast-player').load();
+        }
+        if (title) {
+          document.getElementById('podcast-episode-title').textContent = 'Последний выпуск: ' + title.textContent;
+        }
+      } catch (e) {
+        console.log('Не удалось загрузить ленту подкаста:', e);
+      }
+    }
+    loadLatestEpisode();
+  </script>
+
+</body>
+</html>
