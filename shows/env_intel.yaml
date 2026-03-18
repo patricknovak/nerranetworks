@@ -13,11 +13,8 @@ sources:
   - url: https://news.gov.bc.ca/ministries/emergency-management-and-climate-readiness/feed
     label: BC Emergency Management
 
-  # Alberta
-  - url: https://www.alberta.ca/news.rss
-    label: Alberta Government News
-  - url: https://www.aer.ca/providing-information/news-and-resources/news-and-announcements/rss-feeds
-    label: Alberta Energy Regulator
+  # Alberta — note: alberta.ca and aer.ca no longer offer standard RSS feeds.
+  # Coverage sourced via Canadian Geographic, The Narwhal, and CBC Canada feeds.
 
   # Ontario
   - url: https://news.ontario.ca/en/rss
@@ -127,7 +124,7 @@ keywords:
 
 llm:
   provider: xai
-  model: grok-4
+  model: grok-4.20-beta-0309-non-reasoning
   system_prompt_file: shows/prompts/env_intel_system.txt
   digest_prompt_file: shows/prompts/env_intel_digest.txt
   podcast_prompt_file: shows/prompts/env_intel_podcast.txt

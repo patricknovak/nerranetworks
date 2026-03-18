@@ -1548,7 +1548,7 @@ def generate_digest_with_grok():
     ]
     tools = [{"type": "web_search"}] if enable_web_search else None
     return _xai_responses_create(
-        model="grok-4",
+        model="grok-4.20-beta-0309-non-reasoning",
         input_payload=input_payload,
         tools=tools,
         temperature=0.7,
@@ -1940,7 +1940,7 @@ Here is today's complete formatted digest. Use ONLY this content:
             {"role": "user", "content": [{"type": "input_text", "text": f"{POD_PROMPT}\n\n{_pod_digest}"}]},
         ]
         return _xai_responses_create(
-            model="grok-4",
+            model="grok-4.20-beta-0309-non-reasoning",
             input_payload=input_payload,
             tools=None,
             temperature=0.9,  # higher = more natural energy

@@ -24,6 +24,9 @@ GROK_PRICING = {
     "grok-3": {"input_per_1m": 3.00, "output_per_1m": 15.00},
     "grok-3-mini": {"input_per_1m": 0.30, "output_per_1m": 0.50},
     "grok-4": {"input_per_1m": 3.00, "output_per_1m": 15.00},
+    "grok-4.20-beta-0309-non-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
+    "grok-4.20-beta-0309-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
+    "grok-4.20-multi-agent-beta-0309": {"input_per_1m": 2.00, "output_per_1m": 6.00},
     "grok-2": {"input_per_1m": 2.00, "output_per_1m": 10.00},
 }
 

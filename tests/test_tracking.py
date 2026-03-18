@@ -149,8 +149,8 @@ class TestRecordLlmUsage:
 
     def test_model_recorded(self):
         tracker = create_tracker("Test", 1)
-        record_llm_usage(tracker, "x_thread_generation", 100, 50, model="grok-4")
-        assert tracker["services"]["grok_api"]["model"] == "grok-4"
+        record_llm_usage(tracker, "x_thread_generation", 100, 50, model="grok-4.20-beta-0309-non-reasoning")
+        assert tracker["services"]["grok_api"]["model"] == "grok-4.20-beta-0309-non-reasoning"
 
     def test_unknown_model_zero_cost(self):
         tracker = create_tracker("Test", 1)
@@ -333,3 +333,6 @@ class TestGrokPricing:
 
     def test_grok4_pricing_exists(self):
         assert "grok-4" in GROK_PRICING
+
+    def test_grok420_pricing_exists(self):
+        assert "grok-4.20-beta-0309-non-reasoning" in GROK_PRICING

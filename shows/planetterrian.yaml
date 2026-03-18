@@ -31,24 +31,18 @@ sources:
     label: Quanta Magazine
   - url: https://www.technologyreview.com/feed/
     label: MIT Tech Review
-  - url: https://www.the-scientist.com/rss
-    label: The Scientist
-  - url: https://feeds.feedburner.com/longevity-technology
+  - url: https://www.statnews.com/feed/
+    label: STAT News
+  - url: https://www.longevity.technology/feed/
     label: Longevity Technology
   - url: https://www.lifespan.io/feed/
     label: Lifespan.io
-  - url: https://www.longevity.technology/feed/
-    label: Longevity Tech
+  - url: https://longevity.stanford.edu/feed/
+    label: Stanford Longevity
   - url: https://www.harvard.edu/feed/
     label: Harvard
   - url: https://news.mit.edu/rss/topic/health
     label: MIT Health
-  - url: https://www.stanford.edu/news/rss/
-    label: Stanford
-  - url: https://www.mayo.edu/research/rss
-    label: Mayo Clinic
-  - url: https://www.clevelandclinic.org/health/rss
-    label: Cleveland Clinic
 
 keywords:
   - longevity
@@ -91,7 +85,7 @@ keywords:
 
 llm:
   provider: xai
-  model: grok-4
+  model: grok-4.20-beta-0309-non-reasoning
   system_prompt_file: shows/prompts/planetterrian_system.txt
   digest_prompt_file: shows/prompts/planetterrian_digest.txt
   podcast_prompt_file: shows/prompts/planetterrian_podcast.txt

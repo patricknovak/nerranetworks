@@ -49,7 +49,7 @@ The future is here today. Let’s build it. ⚡️🧬🔭🧠"""
             f"System: MANDATORY: Minimum 6 real science breakthroughs from {yesterday} onward. "
             f"Every link must be complete and real. Actionable, positive tone.\n\n{prompt}"
         ),
-        model="grok-4",
+        model="grok-4.20-beta-0309-non-reasoning",
         temperature=0.9,
         max_tokens=3800,
         timeout_seconds=3600.0,

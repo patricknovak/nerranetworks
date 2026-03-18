@@ -22,7 +22,7 @@ def _get_xai_api_key() -> str:
 def grok_generate_text(
     *,
     prompt: str,
-    model: str = "grok-4",
+    model: str = "grok-4.20-beta-0309-non-reasoning",
     temperature: float = 0.7,
     max_tokens: int = 3500,
     timeout_seconds: float = 3600.0,
@@ -65,7 +65,7 @@ def grok_generate_text(
                 tools.append(x_search())
 
             # Tool calling works best with the agentic model.
-            tools_model = "grok-4-1-fast"
+            tools_model = "grok-4.20-multi-agent-beta-0309"
             kwargs: Dict[str, Any] = {}
             if max_turns is not None:
                 kwargs["max_turns"] = max_turns

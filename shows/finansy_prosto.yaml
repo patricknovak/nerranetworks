@@ -127,7 +127,7 @@ keywords:
 
 llm:
   provider: xai
-  model: grok-4
+  model: grok-4.20-beta-0309-non-reasoning
   system_prompt_file: shows/prompts/fp_system.txt
   digest_prompt_file: shows/prompts/fp_digest.txt
   podcast_prompt_file: shows/prompts/fp_podcast.txt

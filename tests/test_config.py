@@ -388,7 +388,7 @@ class TestLoadConfigRealFiles:
         assert len(cfg.sources) == 16
         assert cfg.sources[0].label == "Teslarati"
         assert "tsla" in cfg.keywords
-        assert cfg.llm.model == "grok-4"
+        assert cfg.llm.model == "grok-4.20-beta-0309-non-reasoning"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.llm.podcast_temperature == 0.9
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
@@ -405,7 +405,7 @@ class TestLoadConfigRealFiles:
         assert len(cfg.sources) == 28
         assert cfg.sources[0].label == "NASA Breaking"
         assert "space" in cfg.keywords
-        assert cfg.llm.model == "grok-4"
+        assert cfg.llm.model == "grok-4.20-beta-0309-non-reasoning"
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
         assert cfg.audio.music_file == "assets/music/fascinatingfrontiers.mp3"
         assert cfg.audio.background_music_file == "assets/music/fascinatingfrontiers_bg.mp3"
@@ -418,7 +418,7 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "planetterrian.yaml")
         assert cfg.name == "Planetterrian Daily"
         assert cfg.slug == "planetterrian"
-        assert len(cfg.sources) == 23
+        assert len(cfg.sources) == 20
         assert cfg.sources[0].label == "Nature"
         assert "longevity" in cfg.keywords
         assert cfg.audio.music_file == "assets/music/oilers-pride.mp3"
@@ -434,7 +434,7 @@ class TestLoadConfigRealFiles:
         assert len(cfg.sources) == 23
         assert cfg.sources[0].label == "NPR"
         assert "election" in cfg.keywords
-        assert cfg.llm.model == "grok-4"
+        assert cfg.llm.model == "grok-4.20-beta-0309-non-reasoning"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.llm.max_tokens == 4000
         assert cfg.tts.stability == 0.65
@@ -450,11 +450,11 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "env_intel.yaml")
         assert cfg.name == "Environmental Intelligence"
         assert cfg.slug == "env_intel"
-        assert len(cfg.sources) == 24
+        assert len(cfg.sources) == 22
         assert cfg.sources[0].label == "BC Ministry of Environment"
         assert "contaminated sites" in cfg.keywords
         assert "CCME" in cfg.keywords
-        assert cfg.llm.model == "grok-4"
+        assert cfg.llm.model == "grok-4.20-beta-0309-non-reasoning"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
         assert cfg.tts.stability == 0.65  # Normalized to network standard

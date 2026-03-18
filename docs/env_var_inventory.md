@@ -14,7 +14,7 @@
 | `GROK_API_KEY` | Tesla, Planetterrian, Fascinating Frontiers, Omni View, `xai_grok.py` | Primary xAI/Grok API key for content generation | **Yes** (all shows) | — | All 4 workflows |
 | `XAI_API_KEY` | Tesla (`_get_xai_api_key`), `xai_grok.py` | Fallback alias for `GROK_API_KEY` | No (fallback only) | — | **Not set in any workflow** |
 | `XAI_API_BASE_URL` | Tesla only | Override xAI API base URL | No | `https://api.x.ai/v1` | Not set |
-| `GROK_MODEL` | Omni View only | Override Grok model name | No | `grok-4` | Not set |
+| `GROK_MODEL` | Omni View only | Override Grok model name | No | `grok-4.20-beta-0309-non-reasoning` | Not set |
 | `GROK_WEB_SEARCH` | Tesla only | Enable/disable web search for Tesla X Takeover section | No | `1` (enabled) | Not set |
 
 ### 1b. ElevenLabs TTS
@@ -128,7 +128,7 @@ These are the distinct `secrets.*` references across all workflows:
 | `ELEVENLABS_STABILITY` | Omni View | `omni-view-daily.yml` (relies on code default) |
 | `ELEVENLABS_SIMILARITY_BOOST` | Omni View | `omni-view-daily.yml` (relies on code default) |
 | `ELEVENLABS_STYLE` | Omni View | `omni-view-daily.yml` (relies on code default) |
-| `GROK_MODEL` | Omni View | `omni-view-daily.yml` (relies on code default `grok-4`) |
+| `GROK_MODEL` | Omni View | `omni-view-daily.yml` (relies on code default `grok-4.20-beta-0309-non-reasoning`) |
 | `GROK_WEB_SEARCH` | Tesla | `daily-podcast.yml` (relies on code default `1`) |
 
 ### 3d. Omni View Feature Flags Are Env-Overridable; Others Are Not

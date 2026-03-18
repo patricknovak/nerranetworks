@@ -70,7 +70,7 @@ keywords:
 
 llm:
   provider: xai
-  model: grok-4
+  model: grok-4.20-beta-0309-non-reasoning
   system_prompt_file: shows/prompts/tesla_system.txt
   digest_prompt_file: shows/prompts/tesla_digest.txt
   podcast_prompt_file: shows/prompts/tesla_podcast.txt

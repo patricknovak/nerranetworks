@@ -63,7 +63,7 @@ def _get_api_key() -> str:
 def _call_grok(
     prompt: str,
     *,
-    model: str = "grok-4",
+    model: str = "grok-4.20-beta-0309-non-reasoning",
     system_prompt: Optional[str] = None,
     temperature: float = 0.7,
     max_tokens: int = 3500,
