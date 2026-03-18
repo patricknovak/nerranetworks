@@ -1283,16 +1283,66 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
         if re.match(r"(?i)^\s*source\s*:", line):
             continue
         # Strip speaker prefixes
-        stripped = False
+        text = line
         for prefix in _SPEAKER_PREFIXES:
             if line.startswith(prefix):
-                parts.append(line[len(prefix):].strip())
-                stripped = True
+                text = line[len(prefix):].strip()
                 break
-        if not stripped:
-            parts.append(line)
+        if text:
+            parts.append(text)
 
-    return "\n\n".join(parts).strip()
+    joined = "\n\n".join(parts).strip()
+
+    # Defense-in-depth: break wall-of-text paragraphs at sentence boundaries.
+    # Grok-4 intermittently produces single mega-paragraphs (500+ chars) per
+    # topic instead of natural 1-2 sentence paragraphs.  TTS reads these
+    # without pauses, which sounds unnatural.  Split long paragraphs into
+    # ~2 sentence chunks so TTS inserts natural breathing pauses.
+    joined = _break_long_paragraphs(joined)
+
+    return joined
+
+
+# Sentence-end pattern: period/!/?  followed by two+ spaces or a space before
+# a capital letter (catches "sentence. Next sentence" even with single space).
+_SENTENCE_SPLIT_RE = None
+
+
+def _break_long_paragraphs(text: str, max_chars: int = 400) -> str:
+    """Split paragraphs longer than *max_chars* at sentence boundaries.
+
+    Keeps paragraphs at roughly 1-3 sentences so TTS produces natural pauses.
+    """
+    import re
+
+    global _SENTENCE_SPLIT_RE
+    if _SENTENCE_SPLIT_RE is None:
+        # Split after sentence-ending punctuation followed by a space and
+        # uppercase letter (the start of the next sentence).
+        _SENTENCE_SPLIT_RE = re.compile(
+            r'(?<=[.!?])\s+(?=[A-Z\u0400-\u04FF])'
+        )
+
+    out_paragraphs: list[str] = []
+    for para in text.split("\n\n"):
+        if len(para) <= max_chars:
+            out_paragraphs.append(para)
+            continue
+        # Split into individual sentences
+        sentences = _SENTENCE_SPLIT_RE.split(para)
+        chunk: list[str] = []
+        chunk_len = 0
+        for sent in sentences:
+            if chunk and chunk_len + len(sent) > max_chars:
+                out_paragraphs.append(" ".join(chunk))
+                chunk = []
+                chunk_len = 0
+            chunk.append(sent)
+            chunk_len += len(sent) + 1  # +1 for joining space
+        if chunk:
+            out_paragraphs.append(" ".join(chunk))
+
+    return "\n\n".join(out_paragraphs)
 
 
 def _build_teaser(config, episode_num: int, today_str: str, extra_context: dict) -> str:
