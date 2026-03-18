@@ -82,6 +82,7 @@ llm:
   podcast_temperature: 0.85
   max_tokens: 4000
   podcast_max_tokens: 8000
+  min_podcast_words: 2000
 
 tts:
   voice_id: dTrBzPvD2GpAqkk1MUzA
