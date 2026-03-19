@@ -1,0 +1,52 @@
+{
+  "date": "2026-03-19",
+  "show": "Modern Investing Techniques",
+  "episode_number": 2,
+  "services": {
+    "grok_api": {
+      "model": "grok-4.20-beta-0309-non-reasoning",
+      "x_thread_generation": {
+        "prompt_tokens": 9995,
+        "completion_tokens": 538,
+        "total_tokens": 10533,
+        "estimated_cost_usd": 0.023218000000000003
+      },
+      "podcast_script_generation": {
+        "prompt_tokens": 4361,
+        "completion_tokens": 171,
+        "total_tokens": 4532,
+        "estimated_cost_usd": 0.009748
+      },
+      "total_tokens": 15065,
+      "total_cost_usd": 0.032966,
+      "podcast_outline_generation": {
+        "prompt_tokens": 1732,
+        "completion_tokens": 145,
+        "total_tokens": 1877,
+        "estimated_cost_usd": 0.004334
+      },
+      "podcast_script_retry": {
+        "prompt_tokens": 1619,
+        "completion_tokens": 226,
+        "total_tokens": 1845,
+        "estimated_cost_usd": 0.004594
+      }
+    },
+    "tts_api": {
+      "provider": "elevenlabs",
+      "characters": 1670,
+      "estimated_cost_usd": 0.501
+    },
+    "x_api": {
+      "search_calls": 0,
+      "post_calls": 0,
+      "total_calls": 0
+    },
+    "elevenlabs_api": {
+      "provider": "elevenlabs",
+      "characters": 1670,
+      "estimated_cost_usd": 0.501
+    }
+  },
+  "total_estimated_cost_usd": 0.533966
+}
