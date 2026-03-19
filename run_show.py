@@ -443,7 +443,9 @@ def run(args: argparse.Namespace) -> None:
         content_tracker.record_episode(x_thread, section_patterns)
         content_tracker.save()
 
-    # 7b. Post-generation digest validation — catch structure issues before TTS
+    # 7b. Post-generation digest validation — catch structure issues before TTS.
+    #      If critical sections are missing, retry digest generation once with an
+    #      explicit instruction to include them.
     from engine.validation import validate_digest as _validate_digest, SHOW_VALIDATION_CONFIGS
     _val_factory = SHOW_VALIDATION_CONFIGS.get(config.slug)
     if _val_factory:
@@ -455,10 +457,59 @@ def run(args: argparse.Namespace) -> None:
             recent_headlines=_recent,
         )
         if not _val_passed:
-            logger.warning(
-                "Digest validation found %d issue(s) — continuing (non-blocking)",
-                len(_val_issues),
-            )
+            # Check for critical missing sections (non-optional)
+            _missing = [
+                i for i in _val_issues
+                if "missing from digest" in i.lower()
+            ]
+            if _missing:
+                logger.warning(
+                    "Digest missing %d critical section(s): %s — retrying once ...",
+                    len(_missing), "; ".join(_missing),
+                )
+                _section_names = [
+                    m.split("'")[1] for m in _missing if "'" in m
+                ]
+                _section_list = ", ".join(_section_names)
+                _retry_suffix = (
+                    f"\n\nCRITICAL: Your previous attempt was rejected because "
+                    f"it was missing these required sections: {_section_list}. "
+                    f"You MUST include ALL sections from the formatting template "
+                    f"above. If source material is limited, use the available "
+                    f"articles to write those sections with extra depth rather "
+                    f"than omitting them. Do NOT skip any section."
+                )
+                try:
+                    with metrics.stage("generate_digest_retry"):
+                        x_thread_retry = generate_digest(
+                            template_vars, config, tracker=tracker,
+                            prompt_suffix=_retry_suffix,
+                        )
+                    # Re-validate
+                    _val2_passed, _val2_issues = _validate_digest(
+                        x_thread_retry, _val_config,
+                        section_patterns=section_patterns,
+                        recent_headlines=_recent,
+                    )
+                    _missing2 = [
+                        i for i in _val2_issues
+                        if "missing from digest" in i.lower()
+                    ]
+                    if len(_missing2) < len(_missing):
+                        logger.info(
+                            "Digest retry improved: %d → %d missing sections",
+                            len(_missing), len(_missing2),
+                        )
+                        x_thread = x_thread_retry
+                    else:
+                        logger.warning("Digest retry did not improve — keeping original")
+                except Exception as exc:
+                    logger.warning("Digest retry failed: %s — keeping original", exc)
+            else:
+                logger.warning(
+                    "Digest validation found %d issue(s) — continuing (non-blocking)",
+                    len(_val_issues),
+                )
     else:
         logger.debug("No validation config for show '%s' — skipping digest validation", config.slug)
 

@@ -241,6 +241,7 @@ def generate_digest(
     template_vars: Dict[str, Any],
     config,
     tracker: Optional[dict] = None,
+    prompt_suffix: str = "",
 ) -> str:
     """Generate the news digest text using the show's digest prompt.
 
@@ -253,6 +254,9 @@ def generate_digest(
         A ``ShowConfig`` instance.
     tracker:
         Optional cost-tracking dict (from ``engine.tracking``).
+    prompt_suffix:
+        Optional text appended to the prompt (e.g. retry instructions
+        when a previous attempt was missing required sections).
 
     Returns
     -------
@@ -260,6 +264,8 @@ def generate_digest(
         The generated digest text.
     """
     prompt = load_prompt(config.llm.digest_prompt_file, template_vars)
+    if prompt_suffix:
+        prompt += prompt_suffix
 
     system_prompt = None
     if config.llm.system_prompt_file:
