@@ -69,16 +69,27 @@ TST_SECTION_PATTERNS: Dict[str, str] = {
         r"(?:✨ \*\*Inspiration Quote:\*\*|\*\*Inspiration Quote:\*\*|Inspiration Quote:)"
         r"\s*\"([^\"]+)\"\s*[–-]\s*([^,\n]+)"
     ),
+    # Deep dive tracking (alias for first_principles)
+    "deep_dive": (
+        r"(?:### Tesla First Principles|🧠 Tesla First Principles)"
+        r"(.*?)"
+        r"(?=━━|### Daily Challenge|💪|## Tesla Market Movers|$)"
+    ),
 }
 
 FF_SECTION_PATTERNS: Dict[str, str] = {
     "headlines": (
         r"(?:### Top 15 Space|### Top \d+ Space)"
         r"(.*?)"
-        r"(?=━━|### Cosmic Spotlight|$)"
+        r"(?=━━|### Cosmic Spotlight|### Cosmic Deep Dive|$)"
     ),
     "cosmic_spotlight": (
         r"(?:### Cosmic Spotlight)"
+        r"(.*?)"
+        r"(?=━━|### Cosmic Deep Dive|### Daily Inspiration|$)"
+    ),
+    "deep_dive": (
+        r"(?:### Cosmic Deep Dive)"
         r"(.*?)"
         r"(?=━━|### Daily Inspiration|$)"
     ),
@@ -93,10 +104,15 @@ PT_SECTION_PATTERNS: Dict[str, str] = {
     "headlines": (
         r"(?:### Top 15 Science|### Top \d+ Science)"
         r"(.*?)"
-        r"(?=━━|### Planetterrian Spotlight|$)"
+        r"(?=━━|### Planetterrian Spotlight|### Science Deep Dive|$)"
     ),
     "planetterrian_spotlight": (
         r"(?:### Planetterrian Spotlight)"
+        r"(.*?)"
+        r"(?=━━|### Science Deep Dive|### Daily Inspiration|$)"
+    ),
+    "deep_dive": (
+        r"(?:### Science Deep Dive)"
         r"(.*?)"
         r"(?=━━|### Daily Inspiration|$)"
     ),
@@ -111,7 +127,12 @@ OV_SECTION_PATTERNS: Dict[str, str] = {
     "headlines": (
         r"(?:### Top \d+|### Today's Top)"
         r"(.*?)"
-        r"(?=━━|### (?:Deep Dive|Closing)|$)"
+        r"(?=━━|### (?:Deep Dive|Understanding the Issue|Closing)|$)"
+    ),
+    "deep_dive": (
+        r"(?:### Understanding the Issue|## Understanding the Issue)"
+        r"(.*?)"
+        r"(?=━━|## Media-literacy note|$)"
     ),
 }
 
@@ -133,6 +154,11 @@ EI_SECTION_PATTERNS: Dict[str, str] = {
     ),
     "industry_practice": (
         r"(?:### Industry & Practice|## Industry & Practice)"
+        r"(.*?)"
+        r"(?=━━|### Practitioner|## Practitioner|### Action Items|## Action Items|$)"
+    ),
+    "deep_dive": (
+        r"(?:### Practitioner Deep Dive|## Practitioner Deep Dive)"
         r"(.*?)"
         r"(?=━━|### Action Items|## Action Items|$)"
     ),
@@ -157,6 +183,11 @@ MA_SECTION_PATTERNS: Dict[str, str] = {
     "practical_community": (
         r"(?:### Practical & Community|## Practical & Community)"
         r"(.*?)"
+        r"(?=━━|### Under the Hood|## Under the Hood|### Things to Try|## Things to Try|$)"
+    ),
+    "deep_dive": (
+        r"(?:### Under the Hood|## Under the Hood)"
+        r"(.*?)"
         r"(?=━━|### Things to Try|## Things to Try|$)"
     ),
 }
@@ -164,6 +195,11 @@ MA_SECTION_PATTERNS: Dict[str, str] = {
 MAB_SECTION_PATTERNS: Dict[str, str] = {
     "headlines": (
         r"(?:### The Big Story|## The Big Story)"
+        r"(.*?)"
+        r"(?=━━|### Explain Like|## Explain Like|$)"
+    ),
+    "explain_like_14": (
+        r"(?:### Explain Like I'm 14|## Explain Like I'm 14)"
         r"(.*?)"
         r"(?=━━|### Cool Stuff|## Cool Stuff|### Cool Tools|## Cool Tools|$)"
     ),
@@ -177,13 +213,24 @@ MAB_SECTION_PATTERNS: Dict[str, str] = {
         r"(.*?)"
         r"(?=━━|### Closing|## Closing|$)"
     ),
+    # Deep dive tracking (alias for explain_like_14)
+    "deep_dive": (
+        r"(?:### Explain Like I'm 14|## Explain Like I'm 14)"
+        r"(.*?)"
+        r"(?=━━|### Cool Stuff|## Cool Stuff|### Cool Tools|## Cool Tools|$)"
+    ),
 }
 
 FP_SECTION_PATTERNS: Dict[str, str] = {
     "headlines": (
         r"(?:### Главная тема|## Главная тема|главная новость)"
         r"(.*?)"
-        r"(?=━━|### Как это работает|## Как это работает|### Коротко|## Коротко|$)"
+        r"(?=━━|### Объясни как подруге|## Объясни как подруге|### Как это работает|## Как это работает|### Коротко|## Коротко|$)"
+    ),
+    "deep_dive": (
+        r"(?:### Объясни как подруге|## Объясни как подруге)"
+        r"(.*?)"
+        r"(?=━━|### Практические советы|## Практические советы|### Коротко|## Коротко|$)"
     ),
     "practical_tips": (
         r"(?:### Практические советы|## Практические советы|попробуйте сами)"
@@ -203,6 +250,11 @@ PR_SECTION_PATTERNS: Dict[str, str] = {
         r"(.*?)"
         r"(?=━━|### Practice|## Practice|### Практика|$)"
     ),
+    "deep_dive": (
+        r"(?:### Word Origins|## Word Origins|### Происхождение слов)"
+        r"(.*?)"
+        r"(?=━━|### Cultural Corner|## Cultural Corner|### Practice|## Practice|$)"
+    ),
 }
 
 MI_SECTION_PATTERNS: Dict[str, str] = {
@@ -210,6 +262,12 @@ MI_SECTION_PATTERNS: Dict[str, str] = {
         r"(?:### Strategy Spotlight|## Strategy Spotlight)"
         r"(.*?)"
         r"(?=━━|### Practice Investment|## Practice Investment|$)"
+    ),
+    # Deep dive tracking (alias for strategy_spotlight / investor_education)
+    "deep_dive": (
+        r"(?:### Investor Education|## Investor Education|### Strategy Spotlight|## Strategy Spotlight)"
+        r"(.*?)"
+        r"(?=━━|### Practice Investment|## Practice Investment|### Tools|$)"
     ),
     "market_pulse": (
         r"(?:\*\*Market Pulse:\*\*|### Market Pulse)"
@@ -308,6 +366,43 @@ def _normalize_url_for_dedup(url: str) -> str:
 
     p = urlparse(url.strip().lower())
     return (p.netloc + p.path).rstrip("/")
+
+
+def _extract_deep_dive_topic(text: str) -> Optional[str]:
+    """Extract the topic from a deep-dive section for cross-episode dedup.
+
+    Looks for common patterns like:
+    - "### Deep Dive: Topic Name"
+    - "### Explain Like I'm 14: How X Works"
+    - "**The Fundamental Question:** ..."
+    - First meaningful header or bold text after the section marker
+    """
+    # Pattern 1: "### Section Title: Topic" or "## Section Title: Topic"
+    m = re.search(
+        r"#{2,4}\s+[^:\n]+:\s*(.{10,120})",
+        text,
+    )
+    if m:
+        topic = m.group(1).strip().rstrip(".")
+        # Strip trailing source references
+        topic = re.sub(r"\s*Source:.*$", "", topic, flags=re.IGNORECASE)
+        if len(topic) > 10:
+            return topic
+
+    # Pattern 2: "**The Fundamental Question:**" (TST First Principles style)
+    m = re.search(r"\*\*(?:The )?Fundamental Question:\*\*\s*(.{10,200})", text)
+    if m:
+        return m.group(1).strip().rstrip("?").strip()[:120]
+
+    # Pattern 3: First bold text in the section (likely the topic name)
+    m = re.search(r"\*\*([^*]{10,100})\*\*", text)
+    if m:
+        candidate = m.group(1).strip()
+        # Skip generic labels
+        if not re.match(r"(?:HOOK|Date|Source|What|Why|How)\b", candidate, re.IGNORECASE):
+            return candidate[:120]
+
+    return None
 
 
 def _extract_quote_author(text: str) -> Optional[str]:
@@ -453,6 +548,21 @@ class ContentTracker:
                 break
         return items
 
+    def get_recent_deep_dive_topics(self, max_items: int = 14) -> List[str]:
+        """Return deep dive topics from recent episodes for freshness enforcement.
+
+        Looks for a ``deep_dive_topic`` field on each episode record (set by
+        ``record_episode`` when a deep-dive section pattern matches).
+        """
+        topics: List[str] = []
+        for ep in reversed(self.data["episodes"]):
+            topic = ep.get("deep_dive_topic")
+            if topic:
+                topics.append(topic)
+            if len(topics) >= max_items:
+                break
+        return topics
+
     def get_summary_for_prompt(self, limits: Optional[Dict[str, int]] = None) -> str:
         """Generate a 'RECENTLY USED...' block for inclusion in the Grok prompt.
 
@@ -490,6 +600,7 @@ class ContentTracker:
             "regulatory_watch": "REGULATORY & POLICY WATCH TOPICS",
             "science_technical": "SCIENCE & TECHNICAL TOPICS",
             "industry_practice": "INDUSTRY & PRACTICE TOPICS",
+            "explain_like_14": "EXPLAIN LIKE I'M 14 TOPICS",
         }
         for key, label in section_labels.items():
             items = self.get_recent_section_content(key, max_items=limits.get(key, 7))
@@ -498,6 +609,14 @@ class ContentTracker:
                 parts.append(
                     f"RECENTLY USED {label} (DO NOT REPEAT — create something COMPLETELY DIFFERENT):\n{items_text}"
                 )
+
+        # Deep dive topic tracking (applies to all shows with a deep dive section)
+        deep_dive_topics = self.get_recent_deep_dive_topics(max_items=14)
+        if deep_dive_topics:
+            topics_text = "\n".join(f"- {t}" for t in deep_dive_topics)
+            parts.append(
+                f"RECENTLY USED DEEP DIVE TOPICS (DO NOT REPEAT — choose a COMPLETELY DIFFERENT topic):\n{topics_text}"
+            )
 
         if parts:
             return (
@@ -632,6 +751,12 @@ class ContentTracker:
                     author = _extract_quote_author(m.group(0))
                     if author:
                         episode_record["quote_author"] = author
+
+                # Extract deep dive topic from deep-dive-style sections
+                if "deep_dive" in key or "first_principles" in key or "explain_like" in key:
+                    topic = _extract_deep_dive_topic(m.group(0))
+                    if topic:
+                        episode_record["deep_dive_topic"] = topic
 
         # Merge with existing same-date entry instead of replacing it.
         # This ensures multiple same-day runs accumulate headlines for

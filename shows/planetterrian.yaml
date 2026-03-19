@@ -7,22 +7,20 @@ sources:
     label: Nature
   - url: https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science
     label: Science Magazine
-  - url: https://www.cell.com/cell/current.rss
-    label: Cell
-  - url: https://www.cell.com/cell-metabolism/current.rss
-    label: Cell Metabolism
-  - url: https://www.cell.com/cell-stem-cell/current.rss
-    label: Cell Stem Cell
+  - url: https://www.biorxiv.org/rss/current.xml
+    label: bioRxiv Preprints
+  - url: https://www.medrxiv.org/rss/current.xml
+    label: medRxiv Preprints
   - url: https://www.nature.com/nbt.rss
     label: Nature Biotech
   - url: https://www.nature.com/nm.rss
     label: Nature Medicine
   - url: https://www.nature.com/nmeth.rss
     label: Nature Methods
-  - url: https://www.newscientist.com/feed/home/
-    label: New Scientist
-  - url: https://www.scientificamerican.com/rss/
-    label: Scientific American
+  - url: https://phys.org/rss-feed/
+    label: Phys.org
+  - url: https://arstechnica.com/science/feed/
+    label: Ars Technica Science
   - url: https://www.sciencedaily.com/rss/all.xml
     label: ScienceDaily
   - url: https://www.sciencenews.org/feed
@@ -33,16 +31,17 @@ sources:
     label: MIT Tech Review
   - url: https://www.statnews.com/feed/
     label: STAT News
-  - url: https://www.longevity.technology/feed/
-    label: Longevity Technology
+  # longevity.technology/feed/ returns empty — removed
   - url: https://www.lifespan.io/feed/
     label: Lifespan.io
   - url: https://longevity.stanford.edu/feed/
     label: Stanford Longevity
-  - url: https://www.harvard.edu/feed/
-    label: Harvard
+  - url: https://news.harvard.edu/gazette/feed/
+    label: Harvard Gazette
   - url: https://news.mit.edu/rss/topic/health
     label: MIT Health
+
+min_articles_skip: 2
 
 keywords:
   - longevity
@@ -158,6 +157,8 @@ chapters:
       title: "Introduction"
     - pattern: "Planetterrian Spotlight|Spotlight"
       title: "Planetterrian Spotlight"
+    - pattern: "science deep dive|deep dive|under the microscope"
+      title: "Science Deep Dive"
     - pattern: "Before we go|Next time"
       title: "Tomorrow Teaser"
     - pattern: "That's Planetterrian"

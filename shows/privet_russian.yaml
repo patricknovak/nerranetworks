@@ -12,10 +12,10 @@ sources:
     label: The Verge
 
   # Science & Nature (great for vocabulary themes)
-  - url: https://www.newscientist.com/section/news/feed/
-    label: New Scientist
-  - url: https://www.nationalgeographic.com/feed
-    label: National Geographic
+  - url: https://www.sciencedaily.com/rss/top/science.xml
+    label: ScienceDaily
+  - url: https://phys.org/rss-feed/
+    label: Phys.org
 
   # Russian culture & language resources
   - url: https://www.themoscowtimes.com/rss/news
@@ -24,26 +24,35 @@ sources:
     label: Meduza English
 
   # Language learning & education
-  - url: https://blogs.transparent.com/russian/feed/
-    label: Transparent Language Russian
-  - url: https://www.russianpod101.com/feed/
-    label: RussianPod101
-  - url: https://www.fluentu.com/blog/russian/feed/
-    label: FluentU Russian
   - url: https://russianwithmax.com/feed/
     label: Russian with Max
+  # Removed: transparent.com/russian (dead since 2022), russianpod101 (503),
+  # fluentu.com/russian (stale since 2024)
 
   # Kids & family vocabulary inspiration
   - url: https://www.sciencenewsforstudents.org/feed
     label: Science News for Students
-  - url: https://www.wonderopolis.org/feed
-    label: Wonderopolis (kids curiosity)
+  - url: https://www.atlasobscura.com/feeds/latest
+    label: Atlas Obscura
+  - url: https://www.smithsonianmag.com/rss/latest_articles/
+    label: Smithsonian Magazine
+  # Removed: wonderopolis.org (503 error)
 
   # Canadian multiculturalism & diaspora life
   - url: https://www.cbc.ca/webfeed/rss/rss-canada
     label: CBC Canada
   - url: https://www.ukrinform.net/rss/block-lastnews
     label: Ukrinform (Ukrainian perspectives)
+
+  # High-volume general news (vocabulary themes can come from any topic)
+  - url: https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
+    label: New York Times
+  - url: https://www.theguardian.com/world/rss
+    label: The Guardian World
+  - url: https://feeds.washingtonpost.com/rss/world
+    label: Washington Post World
+
+min_articles_skip: 1
 
 keywords:
   # Topics that generate good vocabulary themes
@@ -152,6 +161,8 @@ chapters:
       title: "Vocabulary Builder"
     - pattern: "grammar bite|grammar time|how Russian works"
       title: "Grammar Bite"
+    - pattern: "word origins|where.*come from|etymology|history of"
+      title: "Word Origins Deep Dive"
     - pattern: "culture corner|fun fact|did you know"
       title: "Culture Corner"
     - pattern: "practice time|quiz|remember what"

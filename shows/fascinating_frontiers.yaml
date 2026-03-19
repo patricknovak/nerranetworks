@@ -186,6 +186,8 @@ chapters:
       title: "Introduction"
     - pattern: "Cosmic Spotlight"
       title: "Cosmic Spotlight"
+    - pattern: "cosmic deep dive|deep dive|under the hood"
+      title: "Cosmic Deep Dive"
     - pattern: "Before we go|Next time"
       title: "Tomorrow Teaser"
     - pattern: "That's Fascinating Frontiers"

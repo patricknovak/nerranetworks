@@ -371,16 +371,17 @@ def run(args: argparse.Namespace) -> None:
     metrics.record("article_count", len(articles))
 
     if not articles:
-        logger.warning("No articles found even after expanded search. Skipping episode to avoid publishing empty content.")
-        return
+        logger.warning("No articles found even after expanded search. Skipping episode.")
+        sys.exit(2)
 
-    # Skip episode if digest would be too thin (< 3 articles is not enough for quality)
-    if len(articles) < 3:
+    # Skip episode if digest would be too thin
+    skip_threshold = getattr(config, "min_articles_skip", 3) or 3
+    if len(articles) < skip_threshold:
         logger.warning(
-            "Only %d article(s) found — below minimum threshold for a quality episode. Skipping.",
-            len(articles),
+            "Only %d article(s) found — below minimum threshold (%d) for a quality episode. Skipping.",
+            len(articles), skip_threshold,
         )
-        return
+        sys.exit(2)
 
     # 5c. Cap article count to prevent prompt bloat and quality degradation
     MAX_ARTICLES_FOR_LLM = 25
@@ -411,6 +412,14 @@ def run(args: argparse.Namespace) -> None:
     if content_tracker_summary:
         logger.info("Injecting content tracker summary into LLM prompt (%d chars)", len(content_tracker_summary))
 
+    # Get recent deep dive topics for freshness enforcement
+    recent_deep_dives = content_tracker.get_recent_deep_dive_topics(max_items=14)
+    if recent_deep_dives:
+        deep_dive_topics_text = "\n".join(f"- {t}" for t in recent_deep_dives)
+        logger.info("Injecting %d recent deep dive topics into prompt", len(recent_deep_dives))
+    else:
+        deep_dive_topics_text = "(No previous deep dives — you have full freedom to choose any topic.)"
+
     template_vars = {
         "today_str": today_str,
         "date_human": today_str,  # alias used by Omni View prompts
@@ -418,6 +427,7 @@ def run(args: argparse.Namespace) -> None:
         "sections_json": news_section,  # alias used by Omni View digest prompt
         "episode_num": episode_num,
         "recent_content_summary": content_tracker_summary,
+        "recent_deep_dive_topics": deep_dive_topics_text,
     }
     # Merge extra context from hooks (e.g. price, change_str, x_posts_section)
     template_vars.update(extra_context)
@@ -1237,8 +1247,12 @@ def _fetch_with_expansion(
         )
 
         articles = deduplicate_by_entity(articles, max_per_entity=2)
+        # Reduce dedup lookback for young shows (< 10 episodes) to avoid
+        # over-filtering when the content tracker has very few episodes.
+        ep_count = len(content_tracker.data.get("episodes", []))
+        lookback_days = 1 if ep_count < 10 else 3
         articles = content_tracker.filter_recent_articles(
-            articles, similarity_threshold=sim_threshold, days=3,
+            articles, similarity_threshold=sim_threshold, days=lookback_days,
         )
         logger.info(
             "After dedup (sim=%.2f): %d articles remain",

@@ -89,6 +89,21 @@ Source: [EXACT URL]
 Source: [EXACT URL]
 
 ━━━━━━━━━━━━━━━━━━━━
+### Under the Hood: [Topic Title]
+An engineering teardown of ONE AI concept, architecture, or technique. This section uses YOUR OWN knowledge of ML systems, distributed computing, and AI engineering — not just today's articles — to reveal how something ACTUALLY works beneath the marketing.
+
+**TOPIC SELECTION:** Choose the technology where the gap between public perception and engineering reality is WIDEST. Prioritize: (1) techniques that sound like magic but have elegant engineering explanations, (2) concepts where the press release hides important tradeoffs, (3) architectural decisions that seem obvious but have counterintuitive reasons.
+
+**TOPIC FRESHNESS — MUST choose a DIFFERENT topic than recent episodes:**
+{recent_deep_dive_topics}
+
+Write 6-8 sentences following this "Engineering Teardown" framework:
+- **Open by naming the gap** between perception and reality. ("Everyone talks about [technique] as if it's a single switch you flip. In practice, it's a series of engineering tradeoffs that look like this...")
+- **Build up from simple to complex** like explaining at a whiteboard — each sentence should build on the last. Start with the core insight, then layer on the engineering details.
+- **Include specific performance tradeoffs** with real numbers where possible. ("This adds ~200ms latency per request but cuts memory usage by 4x." / "The quality gain disappears above 70B parameters — here's why.")
+- **Close with practical engineering guidance** — "When to use this vs. the alternative" or "The gotcha that bites most teams is..." Give the reader a decision framework, not just knowledge.
+
+━━━━━━━━━━━━━━━━━━━━
 ### Things to Try This Week
 3-5 bullets. Each bullet should be a concrete action readers can take to benefit from this week's developments:
 - "Try [specific tool/model/API] for [specific use case] — [one sentence on why it's worth exploring]"
