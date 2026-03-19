@@ -342,8 +342,9 @@ def run(args: argparse.Namespace) -> None:
         return {}
 
     def _run_fetch():
+        min_articles = getattr(config, "min_articles", None) or 3
         return _fetch_with_expansion(
-            feed_dicts, config.keywords, content_tracker, 3,
+            feed_dicts, config.keywords, content_tracker, min_articles,
         )
 
     articles = []
