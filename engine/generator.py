@@ -228,6 +228,32 @@ def _validate_llm_output(
             )
 
 
+def _sanitize_podcast_script(text: str) -> str:
+    """Strip known LLM artifacts that break TTS quality.
+
+    Defense-in-depth: even when prompts forbid these patterns, LLMs
+    occasionally include them anyway.  Stripping here prevents them
+    from reaching TTS.
+    """
+    import re
+
+    lines = text.split("\n")
+    cleaned = []
+    for line in lines:
+        stripped = line.strip()
+        # Remove standalone word/character count metadata lines
+        if re.match(r"(?i)^\(?\s*(word\s*count|total\s*words|character\s*count)\s*[:：]", stripped):
+            logger.info("Stripped metadata line from podcast script: %s", stripped[:80])
+            continue
+        # Russian equivalents
+        if re.match(r"(?i)^\(?\s*количество\s*слов\s*[:：]", stripped):
+            logger.info("Stripped metadata line from podcast script: %s", stripped[:80])
+            continue
+        cleaned.append(line)
+
+    return "\n".join(cleaned)
+
+
 # ---------------------------------------------------------------------------
 # Public generation functions
 # ---------------------------------------------------------------------------
@@ -501,4 +527,5 @@ def generate_podcast_script(
                 config.name, word_count, word_count2,
             )
 
+    text = _sanitize_podcast_script(text)
     return text
