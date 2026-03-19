@@ -102,6 +102,7 @@
 <li><a href="modern-investing.html">Home</a></li>
 <li><a href="modern-investing.html#episodes">Episodes</a></li>
 <li><a href="modern-investing-summaries.html">Summaries</a></li>
+<li><a href="#retirement-calculator">Calculator</a></li>
 
             </ul>
 
@@ -115,6 +116,7 @@
 <a href="modern-investing.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
 <a href="modern-investing.html#episodes" onclick="document.getElementById('mobileMenu').classList.remove('open')">Episodes</a>
 <a href="modern-investing-summaries.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Summaries</a>
+<a href="#retirement-calculator" onclick="document.getElementById('mobileMenu').classList.remove('open')">Calculator</a>
 <a href="#get-started" onclick="document.getElementById('mobileMenu').classList.remove('open')">Get Started</a>
 <a href="#resources" onclick="document.getElementById('mobileMenu').classList.remove('open')">Resources</a>
 <a href="#faq" onclick="document.getElementById('mobileMenu').classList.remove('open')">Key Concepts</a>
@@ -199,6 +201,383 @@
             </div>
         </div>
     </section>
+
+    <!-- Retirement Calculator -->
+    <section id="retirement-calculator" class="nn-section" style="padding-top:0;">
+        <div class="container" style="max-width:800px;">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Retirement Calculator</h2>
+                <p style="font-family:var(--font-ui);font-size:0.95rem;color:var(--nn-text-muted);margin-top:var(--sp-2);">Estimate how your investments could grow and when you can retire. All calculations run locally in your browser — no data is sent anywhere.</p>
+            </div>
+
+            <div class="glass-card" id="calcCard" style="padding:var(--sp-6);">
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-5) var(--sp-6);">
+
+                    <!-- Current Age -->
+                    <div class="calc-field">
+                        <label class="calc-label" for="currentAge">Current Age</label>
+                        <div class="calc-input-row">
+                            <input type="range" id="currentAge" min="18" max="70" value="30" class="calc-slider" oninput="calcUpdate()">
+                            <span class="calc-value" id="currentAgeVal">30</span>
+                        </div>
+                    </div>
+
+                    <!-- Retirement Age -->
+                    <div class="calc-field">
+                        <label class="calc-label" for="retireAge">Retirement Age</label>
+                        <div class="calc-input-row">
+                            <input type="range" id="retireAge" min="40" max="80" value="65" class="calc-slider" oninput="calcUpdate()">
+                            <span class="calc-value" id="retireAgeVal">65</span>
+                        </div>
+                    </div>
+
+                    <!-- Current Savings -->
+                    <div class="calc-field">
+                        <label class="calc-label" for="currentSavings">Current Savings</label>
+                        <div class="calc-input-row">
+                            <span class="calc-currency">$</span>
+                            <input type="number" id="currentSavings" value="25000" min="0" max="10000000" step="1000" class="calc-number" oninput="calcUpdate()">
+                        </div>
+                    </div>
+
+                    <!-- Monthly Contribution -->
+                    <div class="calc-field">
+                        <label class="calc-label" for="monthlyContrib">Monthly Contribution</label>
+                        <div class="calc-input-row">
+                            <span class="calc-currency">$</span>
+                            <input type="number" id="monthlyContrib" value="500" min="0" max="50000" step="50" class="calc-number" oninput="calcUpdate()">
+                        </div>
+                    </div>
+
+                    <!-- Expected Return -->
+                    <div class="calc-field">
+                        <label class="calc-label" for="annualReturn">Expected Annual Return</label>
+                        <div class="calc-input-row">
+                            <input type="range" id="annualReturn" min="1" max="15" value="7" step="0.5" class="calc-slider" oninput="calcUpdate()">
+                            <span class="calc-value" id="annualReturnVal">7.0%</span>
+                        </div>
+                        <div class="calc-hint">Index funds: ~7%. Active strategies: 10-12%.</div>
+                    </div>
+
+                    <!-- Inflation -->
+                    <div class="calc-field">
+                        <label class="calc-label" for="inflation">Inflation Rate</label>
+                        <div class="calc-input-row">
+                            <input type="range" id="inflation" min="0" max="8" value="2.5" step="0.5" class="calc-slider" oninput="calcUpdate()">
+                            <span class="calc-value" id="inflationVal">2.5%</span>
+                        </div>
+                        <div class="calc-hint">Bank of Canada target: 2%.</div>
+                    </div>
+
+                    <!-- Desired Annual Income -->
+                    <div class="calc-field" style="grid-column:1/-1;">
+                        <label class="calc-label" for="desiredIncome">Desired Annual Retirement Income (today's dollars)</label>
+                        <div class="calc-input-row">
+                            <span class="calc-currency">$</span>
+                            <input type="number" id="desiredIncome" value="50000" min="10000" max="500000" step="5000" class="calc-number" oninput="calcUpdate()">
+                        </div>
+                        <div class="calc-hint">How much per year you want to spend in retirement, in today's purchasing power.</div>
+                    </div>
+
+                </div>
+
+                <!-- Results -->
+                <div id="calcResults" style="margin-top:var(--sp-6);padding-top:var(--sp-5);border-top:1px solid var(--nn-border);">
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-4);margin-bottom:var(--sp-5);">
+                        <div class="calc-result-card">
+                            <div class="calc-result-label">Portfolio at Retirement</div>
+                            <div class="calc-result-value" id="resultPortfolio">$0</div>
+                            <div class="calc-result-sub" id="resultPortfolioReal">$0 in today's dollars</div>
+                        </div>
+                        <div class="calc-result-card">
+                            <div class="calc-result-label">Total Contributed</div>
+                            <div class="calc-result-value" id="resultContributed">$0</div>
+                            <div class="calc-result-sub" id="resultGrowth">$0 investment growth</div>
+                        </div>
+                        <div class="calc-result-card">
+                            <div class="calc-result-label">Years of Retirement Income</div>
+                            <div class="calc-result-value" id="resultYears">0</div>
+                            <div class="calc-result-sub" id="resultWithdrawal">at $0/yr (4% rule)</div>
+                        </div>
+                    </div>
+
+                    <!-- Chart -->
+                    <div style="position:relative;height:280px;margin-bottom:var(--sp-4);" id="chartContainer">
+                        <canvas id="calcChart" style="width:100%;height:100%;"></canvas>
+                    </div>
+
+                    <!-- Milestone badges -->
+                    <div id="milestones" style="display:flex;flex-wrap:wrap;gap:var(--sp-2);"></div>
+                </div>
+
+                <p style="font-family:var(--font-ui);font-size:0.78rem;color:var(--nn-text-muted);margin-top:var(--sp-4);margin-bottom:0;line-height:1.5;">This calculator is for illustrative purposes only. Actual returns vary and are not guaranteed. Does not account for taxes, fees, CPP, OAS, or employer matching. Not financial advice.</p>
+
+            </div>
+        </div>
+    </section>
+
+    <style>
+    .calc-field { display:flex; flex-direction:column; gap:4px; }
+    .calc-label { font-family:var(--font-ui); font-size:0.85rem; font-weight:600; color:var(--nn-text-secondary, #C0C4D8); }
+    .calc-input-row { display:flex; align-items:center; gap:var(--sp-2); }
+    .calc-slider { flex:1; accent-color:var(--show-color); height:6px; cursor:pointer; }
+    .calc-value { font-family:var(--font-ui); font-size:0.9rem; font-weight:600; color:var(--nn-white); min-width:48px; text-align:right; }
+    .calc-currency { font-family:var(--font-ui); font-size:0.9rem; color:var(--nn-text-muted); }
+    .calc-number {
+        flex:1; background:var(--nn-bg); border:1px solid var(--nn-border); border-radius:8px;
+        padding:var(--sp-2) var(--sp-3); font-family:var(--font-ui); font-size:0.9rem;
+        color:var(--nn-white); outline:none; -moz-appearance:textfield;
+    }
+    .calc-number::-webkit-inner-spin-button,
+    .calc-number::-webkit-outer-spin-button { -webkit-appearance:none; margin:0; }
+    .calc-number:focus { border-color:var(--show-color); }
+    .calc-hint { font-family:var(--font-ui); font-size:0.75rem; color:var(--nn-text-muted); }
+    .calc-result-card {
+        background:var(--nn-bg); border:1px solid var(--nn-border); border-radius:12px;
+        padding:var(--sp-4); text-align:center;
+    }
+    .calc-result-label { font-family:var(--font-ui); font-size:0.78rem; color:var(--nn-text-muted); margin-bottom:var(--sp-1); }
+    .calc-result-value { font-family:var(--font-heading); font-size:1.4rem; font-weight:700; color:var(--nn-white); }
+    .calc-result-sub { font-family:var(--font-ui); font-size:0.75rem; color:var(--nn-text-muted); margin-top:2px; }
+    .milestone-badge {
+        display:inline-flex; align-items:center; gap:4px; padding:4px 10px;
+        background:color-mix(in srgb, var(--show-color) 15%, transparent);
+        border:1px solid color-mix(in srgb, var(--show-color) 30%, transparent);
+        border-radius:20px; font-family:var(--font-ui); font-size:0.75rem; color:var(--show-color);
+    }
+    @media(max-width:640px){
+        #calcCard > div:first-child { grid-template-columns:1fr; }
+        #calcResults > div:first-child { grid-template-columns:1fr; }
+        .calc-result-value { font-size:1.2rem; }
+    }
+    </style>
+
+    <script>
+    // Retirement Calculator — runs entirely in browser, no external dependencies
+    function calcUpdate(){
+        var age = +document.getElementById('currentAge').value;
+        var retire = +document.getElementById('retireAge').value;
+        var savings = +document.getElementById('currentSavings').value;
+        var monthly = +document.getElementById('monthlyContrib').value;
+        var ret = +document.getElementById('annualReturn').value;
+        var inf = +document.getElementById('inflation').value;
+        var income = +document.getElementById('desiredIncome').value;
+
+        // Clamp retirement age
+        if(retire <= age) retire = age + 1;
+
+        // Update display values
+        document.getElementById('currentAgeVal').textContent = age;
+        document.getElementById('retireAgeVal').textContent = retire;
+        document.getElementById('annualReturnVal').textContent = ret.toFixed(1) + '%';
+        document.getElementById('inflationVal').textContent = inf.toFixed(1) + '%';
+
+        var years = retire - age;
+        var monthlyRate = ret / 100 / 12;
+        var months = years * 12;
+
+        // Year-by-year projection
+        var balances = [savings];
+        var contributions = [savings];
+        var balance = savings;
+        var totalContrib = savings;
+
+        for(var y = 1; y <= years; y++){
+            for(var m = 0; m < 12; m++){
+                balance = balance * (1 + monthlyRate) + monthly;
+            }
+            totalContrib += monthly * 12;
+            balances.push(Math.round(balance));
+            contributions.push(Math.round(totalContrib));
+        }
+
+        var portfolio = balance;
+        var growth = portfolio - totalContrib;
+
+        // Real value (inflation-adjusted)
+        var realPortfolio = portfolio / Math.pow(1 + inf/100, years);
+
+        // 4% safe withdrawal rate
+        var annualWithdrawal = portfolio * 0.04;
+        var realWithdrawal = realPortfolio * 0.04;
+
+        // Years of income (inflation-adjusted withdrawal from real portfolio)
+        var realReturn = (ret - inf) / 100;
+        var retirementYears;
+        if(realReturn <= 0){
+            retirementYears = realPortfolio / income;
+        } else {
+            // PMT formula inverted: how many years can you withdraw $income/yr
+            // at realReturn growth rate from realPortfolio
+            if(income >= realPortfolio * realReturn){
+                var n = -Math.log(1 - (realPortfolio * realReturn / income)) / Math.log(1 + realReturn);
+                retirementYears = isFinite(n) && n > 0 ? n : 99;
+            } else {
+                retirementYears = 99; // perpetual
+            }
+        }
+        if(retirementYears > 99) retirementYears = 99;
+
+        // Update results
+        document.getElementById('resultPortfolio').textContent = fmt(portfolio);
+        document.getElementById('resultPortfolioReal').textContent = fmt(realPortfolio) + ' in today\'s dollars';
+        document.getElementById('resultContributed').textContent = fmt(totalContrib);
+        document.getElementById('resultGrowth').textContent = fmt(growth) + ' investment growth';
+        document.getElementById('resultYears').textContent = retirementYears >= 99 ? 'Perpetual' : Math.round(retirementYears) + ' years';
+        document.getElementById('resultWithdrawal').textContent = 'at ' + fmt(annualWithdrawal) + '/yr (4% rule)';
+
+        // Milestones
+        var mHtml = '';
+        var milestones = [100000, 250000, 500000, 1000000, 2000000, 5000000];
+        var mLabels = ['$100K', '$250K', '$500K', '$1M', '$2M', '$5M'];
+        for(var i = 0; i < milestones.length; i++){
+            if(portfolio >= milestones[i]){
+                // Find year where milestone was reached
+                var mYear = 0;
+                for(var j = 0; j < balances.length; j++){
+                    if(balances[j] >= milestones[i]){ mYear = j; break; }
+                }
+                mHtml += '<span class="milestone-badge">' + mLabels[i] + ' at age ' + (age + mYear) + '</span>';
+            }
+        }
+        document.getElementById('milestones').innerHTML = mHtml;
+
+        // Draw chart
+        drawChart(balances, contributions, age);
+    }
+
+    function fmt(n){
+        if(n >= 1e6) return '$' + (n/1e6).toFixed(1) + 'M';
+        return '$' + Math.round(n).toLocaleString('en-US');
+    }
+
+    function drawChart(balances, contributions, startAge){
+        var canvas = document.getElementById('calcChart');
+        var ctx = canvas.getContext('2d');
+        var dpr = window.devicePixelRatio || 1;
+        var rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        canvas.style.width = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+        ctx.scale(dpr, dpr);
+
+        var W = rect.width, H = rect.height;
+        var padL = 65, padR = 20, padT = 20, padB = 35;
+        var cW = W - padL - padR, cH = H - padT - padB;
+
+        ctx.clearRect(0, 0, W, H);
+
+        var maxVal = Math.max.apply(null, balances) * 1.1 || 1;
+        var n = balances.length;
+
+        // Grid lines
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+        ctx.lineWidth = 1;
+        var gridLines = 5;
+        ctx.font = '11px DM Sans, sans-serif';
+        ctx.fillStyle = '#8B8FAE';
+        ctx.textAlign = 'right';
+        for(var g = 0; g <= gridLines; g++){
+            var gy = padT + cH - (g / gridLines) * cH;
+            ctx.beginPath(); ctx.moveTo(padL, gy); ctx.lineTo(padL + cW, gy); ctx.stroke();
+            var gv = (g / gridLines) * maxVal;
+            ctx.fillText(fmt(gv), padL - 8, gy + 4);
+        }
+
+        // X-axis labels
+        ctx.textAlign = 'center';
+        var step = Math.max(1, Math.floor(n / 7));
+        for(var i = 0; i < n; i += step){
+            var lx = padL + (i / (n - 1)) * cW;
+            ctx.fillText(startAge + i, lx, H - 8);
+        }
+        // Always show last age
+        if((n - 1) % step !== 0){
+            ctx.fillText(startAge + n - 1, padL + cW, H - 8);
+        }
+
+        // Contributions area (darker)
+        ctx.beginPath();
+        ctx.moveTo(padL, padT + cH);
+        for(var i = 0; i < n; i++){
+            var x = padL + (i / (n - 1)) * cW;
+            var y = padT + cH - (contributions[i] / maxVal) * cH;
+            ctx.lineTo(x, y);
+        }
+        ctx.lineTo(padL + cW, padT + cH);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(21, 101, 192, 0.2)';
+        ctx.fill();
+
+        // Portfolio area (brighter)
+        ctx.beginPath();
+        ctx.moveTo(padL, padT + cH);
+        for(var i = 0; i < n; i++){
+            var x = padL + (i / (n - 1)) * cW;
+            var y = padT + cH - (balances[i] / maxVal) * cH;
+            ctx.lineTo(x, y);
+        }
+        ctx.lineTo(padL + cW, padT + cH);
+        ctx.closePath();
+        var grad = ctx.createLinearGradient(0, padT, 0, padT + cH);
+        grad.addColorStop(0, 'rgba(21, 101, 192, 0.45)');
+        grad.addColorStop(1, 'rgba(21, 101, 192, 0.05)');
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // Contribution line
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(21, 101, 192, 0.5)';
+        ctx.lineWidth = 2;
+        for(var i = 0; i < n; i++){
+            var x = padL + (i / (n - 1)) * cW;
+            var y = padT + cH - (contributions[i] / maxVal) * cH;
+            if(i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Portfolio line
+        ctx.beginPath();
+        ctx.strokeStyle = '#1565C0';
+        ctx.lineWidth = 2.5;
+        for(var i = 0; i < n; i++){
+            var x = padL + (i / (n - 1)) * cW;
+            var y = padT + cH - (balances[i] / maxVal) * cH;
+            if(i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // End dot
+        var lastX = padL + cW;
+        var lastY = padT + cH - (balances[n-1] / maxVal) * cH;
+        ctx.beginPath();
+        ctx.arc(lastX, lastY, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#1565C0';
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Legend
+        ctx.font = '11px DM Sans, sans-serif';
+        ctx.fillStyle = '#1565C0';
+        ctx.fillRect(padL + 10, padT + 6, 14, 3);
+        ctx.fillStyle = '#8B8FAE';
+        ctx.textAlign = 'left';
+        ctx.fillText('Total portfolio', padL + 28, padT + 12);
+
+        ctx.fillStyle = 'rgba(21, 101, 192, 0.5)';
+        ctx.fillRect(padL + 120, padT + 6, 14, 3);
+        ctx.fillStyle = '#8B8FAE';
+        ctx.fillText('Contributions', padL + 138, padT + 12);
+    }
+
+    // Init
+    calcUpdate();
+    window.addEventListener('resize', calcUpdate);
+    </script>
 
     <!-- Resource Categories -->
     <section id="resources" class="nn-section" style="padding-top:0;">
