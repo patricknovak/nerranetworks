@@ -24,20 +24,19 @@ sources:
     label: Meduza English
 
   # Language learning & education
-  - url: https://blogs.transparent.com/russian/feed/
-    label: Transparent Language Russian
-  - url: https://www.russianpod101.com/feed/
-    label: RussianPod101
-  - url: https://www.fluentu.com/blog/russian/feed/
-    label: FluentU Russian
   - url: https://russianwithmax.com/feed/
     label: Russian with Max
+  # Removed: transparent.com/russian (dead since 2022), russianpod101 (503),
+  # fluentu.com/russian (stale since 2024)
 
   # Kids & family vocabulary inspiration
   - url: https://www.sciencenewsforstudents.org/feed
     label: Science News for Students
-  - url: https://www.wonderopolis.org/feed
-    label: Wonderopolis (kids curiosity)
+  - url: https://www.atlasobscura.com/feeds/latest
+    label: Atlas Obscura
+  - url: https://www.smithsonianmag.com/rss/latest_articles/
+    label: Smithsonian Magazine
+  # Removed: wonderopolis.org (503 error)
 
   # Canadian multiculturalism & diaspora life
   - url: https://www.cbc.ca/webfeed/rss/rss-canada

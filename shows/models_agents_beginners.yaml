@@ -8,22 +8,16 @@ sources:
     label: OpenAI Blog
   - url: https://blog.google/technology/ai/rss/
     label: Google AI Blog
-  - url: https://ai.meta.com/blog/rss/
-    label: Meta AI Blog
-  - url: https://www.anthropic.com/rss.xml
-    label: Anthropic Blog
   - url: https://huggingface.co/blog/feed.xml
     label: Hugging Face Blog
-  - url: https://mistral.ai/feed.xml
-    label: Mistral AI Blog
+  # Removed: ai.meta.com/blog/rss/ (404), anthropic.com/rss.xml (404),
+  # mistral.ai/feed.xml (404) — lab blogs removed or moved
 
   # AI News & Analysis
   - url: https://www.technologyreview.com/feed/
     label: MIT Tech Review
   - url: https://techcrunch.com/category/artificial-intelligence/feed/
     label: TechCrunch AI
-  - url: https://venturebeat.com/category/ai/feed/
-    label: VentureBeat AI
   - url: https://www.theverge.com/rss/ai-artificial-intelligence/index.xml
     label: The Verge AI
   - url: https://arstechnica.com/ai/feed/
@@ -34,16 +28,18 @@ sources:
     label: MarkTechPost
   - url: https://the-decoder.com/feed/
     label: The Decoder
-  - url: https://www.artificialintelligence-news.com/feed/
-    label: AI News
+  # Removed: artificialintelligence-news.com (captcha wall),
+  # venturebeat.com (stale since Jan 2026)
 
   # Beginner-Friendly & Consumer AI
   - url: https://www.oneusefulthing.org/feed
     label: One Useful Thing (Ethan Mollick)
-  - url: https://www.tomsguide.com/ai/rss
-    label: Tom's Guide AI
-  - url: https://9to5google.com/guides/google-gemini/feed/
-    label: 9to5Google Gemini
+  - url: https://www.engadget.com/rss.xml
+    label: Engadget
+  - url: https://www.livescience.com/feeds/all
+    label: Live Science
+  - url: https://theconversation.com/us/articles.atom
+    label: The Conversation
   - url: https://github.blog/feed/
     label: GitHub Blog
 
