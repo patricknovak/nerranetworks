@@ -412,6 +412,14 @@ def run(args: argparse.Namespace) -> None:
     if content_tracker_summary:
         logger.info("Injecting content tracker summary into LLM prompt (%d chars)", len(content_tracker_summary))
 
+    # Get recent deep dive topics for freshness enforcement
+    recent_deep_dives = content_tracker.get_recent_deep_dive_topics(max_items=14)
+    if recent_deep_dives:
+        deep_dive_topics_text = "\n".join(f"- {t}" for t in recent_deep_dives)
+        logger.info("Injecting %d recent deep dive topics into prompt", len(recent_deep_dives))
+    else:
+        deep_dive_topics_text = "(No previous deep dives — you have full freedom to choose any topic.)"
+
     template_vars = {
         "today_str": today_str,
         "date_human": today_str,  # alias used by Omni View prompts
@@ -419,6 +427,7 @@ def run(args: argparse.Namespace) -> None:
         "sections_json": news_section,  # alias used by Omni View digest prompt
         "episode_num": episode_num,
         "recent_content_summary": content_tracker_summary,
+        "recent_deep_dive_topics": deep_dive_topics_text,
     }
     # Merge extra context from hooks (e.g. price, change_str, x_posts_section)
     template_vars.update(extra_context)

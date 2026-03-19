@@ -89,6 +89,21 @@ Source: [EXACT URL]
 Source: [EXACT URL]
 
 ━━━━━━━━━━━━━━━━━━━━
+### Under the Hood: [Topic Title]
+A technical deep dive into ONE AI concept, architecture, or technique related to today's news. This section uses the LLM's own knowledge — not just the articles — to explain HOW something works at a technical level. 6-8 sentences. Aimed at practitioners who want to understand the engineering, not just the press release.
+
+Pick a concept inspired by today's stories but go deeper into the mechanism. Examples: "How does Mixture of Experts actually route tokens?", "What makes RLHF different from DPO for alignment?", "How do vector databases enable fast similarity search?", "Why does quantization sometimes improve model quality?", "How does MCP differ from traditional function calling?"
+
+Structure:
+- Sentence 1-2: Connect to today's news — what development triggered this deep dive
+- Sentence 3-5: Technical explanation — walk through the mechanism with specific details (architecture choices, tradeoffs, performance characteristics)
+- Sentence 6-7: Practical implications — when should you use this, what are the gotchas
+- Sentence 8: What's next — emerging research or expected improvements
+
+**TOPIC FRESHNESS — MUST choose a DIFFERENT topic than recent episodes:**
+{recent_deep_dive_topics}
+
+━━━━━━━━━━━━━━━━━━━━
 ### Things to Try This Week
 3-5 bullets. Each bullet should be a concrete action readers can take to benefit from this week's developments:
 - "Try [specific tool/model/API] for [specific use case] — [one sentence on why it's worth exploring]"

@@ -164,6 +164,8 @@ chapters:
       title: "Market Pulse"
     - pattern: "strategy spotlight|strategy of the day|today's strategy|educational centrepiece"
       title: "Strategy Spotlight"
+    - pattern: "investor education|deep dive|how.*works"
+      title: "Investor Education"
     - pattern: "practice investment|AI pick|today's pick|trade of the day|simulated trade"
       title: "Practice Investment of the Day"
     - pattern: "yesterday's trade|trade review|how did .* pick|weekly hold|last week's hold|mid-week update"

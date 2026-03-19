@@ -212,6 +212,8 @@ chapters:
       title: "Science & Technical"
     - pattern: "industry|practice"
       title: "Industry & Practice"
+    - pattern: "practitioner deep dive|deep dive|under the hood"
+      title: "Practitioner Deep Dive"
     - pattern: "action items|if you're working on"
       title: "Action Items"
     - pattern: "week ahead|mark your calendar"

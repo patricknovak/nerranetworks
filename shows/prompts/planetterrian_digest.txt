@@ -36,6 +36,21 @@ If fewer than 5 quality articles are available today:
 Pick ONE item from the Top 15 and go deeper (3–5 sentences). What it unlocks, who it could help, and what to watch next. End with ONE question to invite replies.
 
 ━━━━━━━━━━━━━━━━━━━━
+### Science Deep Dive: [Topic Title]
+An educational deep dive into a science, health, or longevity concept related to (but going beyond) today's news. This section uses the LLM's own knowledge — not just the articles — to explain HOW something works in the body, in nature, or in the lab. 6-8 sentences.
+
+Pick a concept inspired by today's stories but explain the underlying mechanism. Examples: "How does CRISPR actually edit genes?", "Why does caloric restriction extend lifespan in lab animals?", "How do mRNA vaccines teach your immune system?", "What happens in your brain during sleep?", "How do scientists measure telomere length?"
+
+Structure:
+- Sentence 1-2: Hook — connect to today's news, then zoom out to the bigger concept
+- Sentence 3-5: Explanation — walk through the mechanism step by step, using analogies and real data
+- Sentence 6-7: Practical significance — what this means for health, medicine, or longevity
+- Sentence 8: Open question — what's still unknown or being researched
+
+**TOPIC FRESHNESS — MUST choose a DIFFERENT topic than recent episodes:**
+{recent_deep_dive_topics}
+
+━━━━━━━━━━━━━━━━━━━━
 [1-2 sentence sign-off on today's science news. Keep it punchy.]
 
 ### TONE & STYLE
