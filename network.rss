@@ -5,7 +5,7 @@
     <description>Ten podcasts in two languages keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, modern investing, financial literacy, and Russian language learning.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Thu, 19 Mar 2026 06:14:28 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Mar 2026 07:27:20 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg</url>
       <title>Nerra Network</title>
@@ -48,6 +48,37 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:title>Ep 18: Escalating Iran conflict disrupts global energy supplies, sending oil prices higher and threatening European economies and household bills worldwide.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
       <podcast:chapters url="https://nerranetwork.com/digests/omni_view/chapters_ep018.json" type="application/json+chapters" />
+    </item>
+    <item>
+      <title>Ep 19: Mamba-3 introduces 2x smaller states and enhanced MIMO decoding, pushing state-space models closer to practical deployment against Transformers.</title>
+      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep019_20260319.mp3</link>
+      <description>**# Models &amp; Agents**
+**Date:** March 19, 2026
+
+**HOOK:** Mamba-3 introduces 2x smaller states and enhanced MIMO decoding, pushing state-space models closer to practical deployment against Transformers.
+
+**What You Need to Know:** Today brings a wave of new agentic research, with Carnegie Mellon and Princeton researchers unveiling Mamba-3 as a promising architecture for inference efficiency, while over a dozen arXiv papers explore everything from emergent trust in agents and governed memory syst...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">models-agents-ep019-20260319-072718</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep019_20260319.mp3" length="17503547" type="audio/mpeg" />
+      <pubDate>Thu, 19 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
+      <itunes:duration>12:09</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**# Models &amp; Agents**
+**Date:** March 19, 2026
+
+**HOOK:** Mamba-3 introduces 2x smaller states and enhanced MIMO decoding, pushing state-space models closer to practical deployment against Transformers.
+
+**What You Need to Know:** Today brings a wave of new agentic research, with Carnegie Mellon and Princeton researchers unveiling Mamba-3 as a promising architecture for inference efficiency, while over a dozen arXiv papers explore everything from emergent trust in agents and governed memory syst...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>19</itunes:episode>
+      <itunes:title>Ep 19: Mamba-3 introduces 2x smaller states and enhanced MIMO decoding, pushing state-space models closer to practical deployment against Transformers.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+      <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep019.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 411: Canada is investing $200 million in its own Spaceport Nova Scotia to cut reliance on SpaceX for future launches.</title>
@@ -120,37 +151,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
-      <title>Ep 18: New A4VL framework uses multi-agent alliances to slash inference latency in long-video reasoning by up to 25%.</title>
-      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep018_20260317.mp3</link>
-      <description># Models &amp; Agents
-**Date:** March 17, 2026
-
-**HOOK:** New A4VL framework uses multi-agent alliances to slash inference latency in long-video reasoning by up to 25%.
-
-**What You Need to Know:** Today's arXiv updates spotlight a wave of multi-agent system innovations, from safety frameworks like TrinityGuard to efficient coordination tools like R3R for collision avoidance. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
-      <guid isPermaLink="false">models-agents-ep018-20260317-075613</guid>
-      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep018_20260317.mp3" length="16239639" type="audio/mpeg" />
-      <pubDate>Tue, 17 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
-      <itunes:duration>11:16</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents
-**Date:** March 17, 2026
-
-**HOOK:** New A4VL framework uses multi-agent alliances to slash inference latency in long-video reasoning by up to 25%.
-
-**What You Need to Know:** Today's arXiv updates spotlight a wave of multi-agent system innovations, from safety frameworks like TrinityGuard to efficient coordination tools like R3R for collision avoidance. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>18</itunes:episode>
-      <itunes:title>Ep 18: New A4VL framework uses multi-agent alliances to slash inference latency in long-video reasoning by up to 25%.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-      <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep018.json" type="application/json+chapters" />
-    </item>
-    <item>
       <title>Ep 17: Picsart launches AI agent marketplace, starting with four agents and adding more weekly for creators.</title>
       <description># Models &amp; Agents
 **Date:** March 17, 2026
@@ -177,6 +177,35 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:season>1</itunes:season>
       <itunes:episode>17</itunes:episode>
       <itunes:title>Ep 17: Picsart launches AI agent marketplace, starting with four agents and adding more weekly for creators.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 18: New A4VL framework uses multi-agent alliances to slash inference latency in long-video reasoning by up to 25%.</title>
+      <description># Models &amp; Agents
+**Date:** March 17, 2026
+
+**HOOK:** New A4VL framework uses multi-agent alliances to slash inference latency in long-video reasoning by up to 25%.
+
+**What You Need to Know:** Today's arXiv updates spotlight a wave of multi-agent system innovations, from safety frameworks like TrinityGuard to efficient coordination tools like R3R for collision avoidance. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">models-agents-ep018-20260317-075613</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep018_20260317.mp3" length="16239639" type="audio/mpeg" />
+      <pubDate>Tue, 17 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
+      <itunes:duration>11:16</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Models &amp; Agents
+**Date:** March 17, 2026
+
+**HOOK:** New A4VL framework uses multi-agent alliances to slash inference latency in long-video reasoning by up to 25%.
+
+**What You Need to Know:** Today's arXiv updates spotlight a wave of multi-agent system innovations, from safety frameworks like TrinityGuard to efficient coordination tools like R3R for collision avoidance. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>18</itunes:episode>
+      <itunes:title>Ep 18: New A4VL framework uses multi-agent alliances to slash inference latency in long-video reasoning by up to 25%.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
@@ -3265,49 +3294,6 @@ Omni-C is a Transformer-based encoder that unifies images, audio, and text into 
       <itunes:season>1</itunes:season>
       <itunes:episode>10</itunes:episode>
       <itunes:title>Ep 10: Claude Opus 4.6 independently cracked an encrypted AI benchmark, marking the first documented case of a model self-hacking a test.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 1: Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!</title>
-      <description># Models &amp; Agents for Beginners
-**Date:** March 09, 2026
-
-**HOOK:** Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!
-
-**What's Cool Today:** Today, we're diving into how AI might soon learn from endless videos instead of running out of text, opening up wild new possibilities for smarter helpers in games and school. We'll also compare two top AI chatbots you can test yourself for homework or creative fun, and uncover why AI tests are missing most real jobs. Stick around for a deep dive on how AI learns from unlabeled data, plus easy ways to try cutting-edge tools right now.
-
-━━━━━━━━━━━━━━━━━━━━
-### The Big Story
-Andrej Karpathy, a famous AI expert who helped build things like Tesla's self-driving tech, just released a simple tool called Autoresearch that lets AI systems run their own machine learning experiments without much human help. It's all in one short Python file, designed to work on a single powerful graphics card like those in gaming computers. Think of Autoresearch like a mini lab where an AI agent (a smart program that can take actions on its own, like a virtual assistant deciding steps to solve a problem) can test ideas in machine learning, which is the process of teaching computers to learn from data. It's based on a stripped-down version of another tool for training language models, but super simplified so it's easier to use and tweak. This is a big deal because it makes advanced AI research more accessible, potentially letting students or hobbyists experiment with how AIs learn without needing huge supercomputers. For example, imagine using it to train an AI to analyze your favorite video games or predict trends in social media posts. It matters to you because as AI gets into everyday stuff like school projects or creative hobbies, tools like this could inspire the next generation of inventors—maybe even a teen building their first AI model for a science fair. Personally, if you're curious about careers in tech, this shows how AI is becoming something you can tinker with at home, not just for big companies. Right now, you can check out the project on GitHub, but since it's code-based, start by reading the simple readme file to understand the basics—search for "Autoresearch Karpathy GitHub" in your browser. If you're not ready for code, watch Karpathy's free YouTube videos on AI basics to get inspired. For a hands-on taste, try chatting with a free AI like ChatGPT about what machine learning experiments you'd run if you had an AI lab.
-Source: https://www.marktechpost.com/2026/03/08/andrej-karpathy-open-sources-autoresearch-a-630-line-python-tool-letting-ai-agents-run-autonomous-ml-experiments-on-single-gpus/
-
-━━━━━━━━━━━━━━━━━━━━
-### Explain Like I'm 14
-Let's explain how AI models learn from unlabeled video data, a hot idea from today's news that's changing how we build smarter AIs. Imagine you're trying to learn a new sport like soccer just by watching hours of pro games on YouTube without any coach explaining the rules—you pick up patterns like how players pass the ball or score goals by noticing what happens over and over. Step one: The AI starts with raw videos, broken into tiny clips, kind of like flipping through a flipbook where each page is a frame. Step two: It looks for connections within those frames, like spotting that a ball moving left often leads to a player running right, building a map of "what usually happens next" without needing labels like "this is a goal." Step three: To make it multimodal (meaning it handles different types of data like text and images together), the AI mixes in text descriptions, linking video patterns to words so it can later answer questions like "describe this soccer play." Step four: Over tons of examples, it refines this map, getting better at predicting and understanding without being told exactly what everything means. And that's basically what new AI training methods are doing when they use unlabeled videos—they...</description>
-      <guid isPermaLink="false">mab-ep001-20260309-031635</guid>
-      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep001_20260309.mp3" length="13526875" type="audio/mpeg" />
-      <pubDate>Mon, 09 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents-beginners.jpg" />
-      <itunes:duration>09:23</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents for Beginners
-**Date:** March 09, 2026
-
-**HOOK:** Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!
-
-**What's Cool Today:** Today, we're diving into how AI might soon learn from endless videos instead of running out of text, opening up wild new possibilities for smarter helpers in games and school. We'll also compare two top AI chatbots you can test yourself for homework or creative fun, and uncover why AI tests are missing most real jobs. Stick around for a deep dive on how AI learns from unlabeled data, plus easy ways to try cutting-edge tools right now.
-
-━━━━━━━━━━━━━━━━━━━━
-### The Big Story
-Andrej Karpathy, a famous AI expert who helped build things like Tesla's self-driving tech, just released a simple tool called Autoresearch that lets AI systems run their own machine learning experiments without much human help. It's all in one short Python file, designed to work on a single powerful graphics card like those in gaming computers. Think of Autoresearch like a mini lab where an AI agent (a smart program that can take actions on its own, like a virtual assistant deciding steps to solve a problem) can test ideas in machine learning, which is the process of teaching computers to learn from data. It's based on a stripped-down version of another tool for training language models, but super simplified so it's easier to use and tweak. This is a big deal because it makes advanced AI research more accessible, potentially letting students or hobbyists experiment with how AIs learn without needing huge supercomputers. For example, imagine using it to train an AI to analyze your favorite video games or predict trends in social media posts. It matters to you because as AI gets into everyday stuff like school projects or creative hobbies, tools like this could inspire the next generation of inventors—maybe even a teen building their first AI model for a science fair. Personally, if you're curious about careers in tech, this shows how AI is becoming something you can tinker with at home, not just for big companies. Right now, you can check out the project on GitHub, but since it's code-based, start by reading the simple readme file to understand the basics—search for "Autoresearch Karpathy GitHub" in your browser. If you're not ready for code, watch Karpathy's free YouTube videos on AI basics to get inspired. For a hands-on taste, try chatting with a free AI like ChatGPT about what machine learning experiments you'd run if you had an AI lab.
-Source: https://www.marktechpost.com/2026/03/08/andrej-karpathy-open-sources-autoresearch-a-630-line-python-tool-letting-ai-agents-run-autonomous-ml-experiments-on-single-gpus/
-
-━━━━━━━━━━━━━━━━━━━━
-### Explain Like I'm 14
-Let's explain how AI models learn from unlabeled video data, a hot idea from today's news that's changing how we build smarter AIs. Imagine you're trying to learn a new sport like soccer just by watching hours of pro games on YouTube without any coach explaining the rules—you pick up patterns like how players pass the ball or score goals by noticing what happens over and over. Step one: The AI starts with raw videos, broken into tiny clips, kind of like flipping through a flipbook where each page is a frame. Step two: It looks for connections within those frames, like spotting that a ball moving left often leads to a player running right, building a map of "what usually happens next" without needing labels like "this is a goal." Step three: To make it multimodal (meaning it handles different types of data like text and images together), the AI mixes in text descriptions, linking video patterns to words so it can later answer questions like "describe this soccer play." Step four: Over tons of examples, it refines this map, getting better at predicting and understanding without being told exactly what everything means. And that's basically what new AI training methods are doing when they use unlabeled videos—they...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>1</itunes:episode>
-      <itunes:title>Ep 1: Imagine AI getting smarter by binge-watching videos like you do on TikTok—Meta says that's the future!</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>

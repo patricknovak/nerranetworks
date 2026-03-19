@@ -1,6 +1,6 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-17",
+  "last_updated": "2026-03-19",
   "episodes": [
     {
       "date": "2026-03-05",
@@ -257,6 +257,27 @@
         "model_updates": "### Model Updates\n**QLLM: Credit Assignment Without Mixing Networks**\nQLLM proposes using LLMs to build training-free credit assignment functions in multi-agent RL, avoiding traditional mixing networks for better interpretability and fewer parameters. It outperforms baselines on MARL benchmarks with faster convergence, generalizing across value decomposition algorithms. This could streamline your RL workflows if you're dealing with cooperative agents, though it assumes access to capable LLMs for",
         "agent_developments": "### Agent & Tool Developments\n**TrinityGuard: Safeguarding Multi-Agent Systems**\nTrinityGuard is a unified framework for safety evaluation and monitoring in LLM-based MAS, featuring a three-tier risk taxonomy, attack probes, and runtime monitors coordinated by an LLM judge. It covers vulnerabilities from single agents to system-level hazards and works across MAS structures. Developers can try it for vulnerability reports on platforms like AutoGen—code's not linked, but it's designed for scalabil",
         "practical_community": "### Practical & Community\n**PMAx: AI-Driven Process Mining**\nPMAx is an agentic framework acting as a virtual analyst for process mining, using multi-agents to run local scripts on event logs and interpret results without sending data externally. It ensures privacy and accuracy by separating computation from LLM interpretation. Get started by querying business processes via natural language; limitations include reliance on established mining algorithms, so it's best for users with event-log data"
+      }
+    },
+    {
+      "date": "2026-03-19",
+      "headlines": [],
+      "urls": [
+        "https://www.marktechpost.com/2026/03/18/meet-mamba-3-a-new-state-space-model-frontier-with-2x-smaller-states-and-enhanced-mimo-decoding-hardware-efficiency/",
+        "https://arxiv.org/abs/2603.15726",
+        "https://arxiv.org/abs/2603.15677",
+        "https://arxiv.org/abs/2603.15653",
+        "https://arxiv.org/abs/2603.17787",
+        "https://arxiv.org/abs/2603.16910",
+        "https://arxiv.org/abs/2603.17564",
+        "https://arxiv.org/abs/2603.17417",
+        "https://arxiv.org/abs/2603.17392"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**MiroThinker-1.7 & H1: Towards Heavy-Duty Research Agents via Verification — arXiv**\nMiroThinker-1.7 adds an agentic mid-training stage focused on structured planning, contextual reasoning, and tool interaction, while MiroThinker-H1 incorporates local and global verification directly into the reasoning process. The models target complex long-horizon tasks across open-web research, scientific reasoning, and financial analysis, with open-source releases of MiroThinker-1.7 and th",
+        "agent_developments": "### Agent & Tool Developments\n**Governed Memory: A Production Architecture for Multi-Agent Workflows — arXiv**\nGoverned Memory introduces a shared memory and governance layer addressing memory silos, governance fragmentation, and unstructured memories in enterprise multi-agent systems. It uses a dual memory model (atomic facts + schema-enforced properties), tiered governance routing, reflection-bounded retrieval, and closed-loop schema lifecycle. Already in production at Personize.ai, it achieve",
+        "practical_community": "### Practical & Community\n**Is Your LLM-as-a-Recommender Agent Trustable? — arXiv**\nBiasRecBench reveals that current LLMs (including Gemini-2.5/3-pro, GPT-4o, DeepSeek-R1) are easily hacked by contextual biases in high-stakes recommendation tasks like paper review, e-commerce, and job recruitment. Despite being able to identify ground truth, agents frequently succumb to injected logical biases. The work calls for specialized alignment strategies for the growing \"LLM-as-a-Recommender\" paradigm.\n"
       }
     }
   ]

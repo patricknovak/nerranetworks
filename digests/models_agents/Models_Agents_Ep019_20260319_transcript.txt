@@ -1,0 +1,119 @@
+Host, hey everyone, welcome to Models and Agents Episode 19. It's March 19,
+2026. Grab your coffee. It's been an unusually packed day in the AI world. We're seeing real momentum
+in both foundational architectures and production grade agent systems. Let's dive in.
+The biggest story today is the release of Mamba 3, a significant step forward for state-space models.
+Researchers from Carnegie Mellon University, Princeton University, and together A.
+I have introduced a new architecture that delivers 2x smaller states while adding enhanced
+MIMO decoding capabilities. For those who've been following the sequence modeling wars,
+this matters. Transformers have dominated for years, but their quadratic attention complexity
+continues to create painful bottlenecks at scale, especially in long context inference and high
+throughput serving. Mamba 3 doesn't just tweak the formula. It attacks both model quality and hardware
+efficiency head on. The smaller state size directly reduces memory bandwidth pressure while the
+improved MIMO decoding makes it much more friendly to modern GPU and accelerator memory hierarchies.
+My take? This feels like the most credible challenge yet to the Transformers are all you need narrative.
+While we're still years away from them fully displacing attention-based models in frontier training,
+the inference efficiency gains here are becoming genuinely compelling. If you're running large scale
+inference workloads today, this line of research is worth following closely. It could meaningfully
+improve your cost and latency equations in the next 12-18 months. This Mamba 3 drop also sets the
+tone for the rest of today's news. We're seeing a clear shift in agent research. The field is moving past
+clever one-off demos and toward systems that can actually be trusted in production. That transition
+from impressive prototype to dependable infrastructure is exactly what we've been waiting for.
+One of the most exciting releases this week is MyroThinker 1.7 and its verification-focused
+companion model MyroThinker H1. These models were specifically built for heavy-duty research agents.
+The team added a dedicated, agentic, mid-training stage that emphasizes structured planning,
+deep contextual reasoning, and fluent tool interaction. MyroThinker H1 goes even further by baking both
+local and global verification mechanisms directly into the reasoning loop. This means the model
+doesn't just generate long chains of thought. It actively audits them in real time. They're targeting
+genuinely hard, long horizon tasks, open web research, scientific literature synthesis, and complex
+financial analysis. The best part? The team fully open sourced both the 1.7 model and a smaller
+faster 1.7 mini variant. That's a huge gift to the builder community. In my view, this is some of the
+most practical progress we've seen in reliable multi-step agents. The built-in verification approach
+directly attacks one of the biggest failure modes we see today, models that sound confident while
+quietly hallucinating in the middle of a 15-step research workflow. Speaking of better evaluation,
+a new platform called Metarina just dropped and it's refreshingly different. Instead of relying on
+synthetic medical benchmarks, Metarina lets real clinicians test and compare medical LLMs using
+their own authentic clinical queries. The platform has already collected 1,571 preference judgments
+across 12 different models. According to Bradley Terry modeling, Gemini 2.0, Flash Thinking, Gemini 2.5
+Pro, and GPT40 are currently leading. But here's what I found most interesting. Clinicians consistently
+prioritize depth, detail, and clarity over pure factual accuracy. Only about one third of the questions
+in the data set resembled traditional factual recall benchmarks. This highlights a massive gap
+that's been hiding in plain sight, the difference between what we usually measure in medical AI
+and what doctors actually need in practice. Metarina is exactly the kind of human-centered evaluation
+we need more of. Another fascinating paper explores recursive language models with uncertainty awareness.
+The researchers introduced SRLM, self-reflective recursive language models. They augment standard
+recursive architectures with self-reflection mechanisms that use three signals, self-consistency,
+reasoning length, and verbalized confidence. The results are impressive, up to 22% better performance
+than baseline recursive models under the same compute budget. Even more interesting, they showed
+that a self-reflective program search approach can match or even exceed explicitly recursive methods
+without needing recursion at all. This raises a really important question. Have we been over indexing
+on recursion itself when the real magic might be in the self-reflection and uncertainty modeling?
+It's the kind of result that makes you reconsider some of our fundamental assumptions about
+how the system should be designed. Now let's talk about what I consider the most production relevant
+paper of the day, governed memory for multi-agent workflows. Anyone who's tried to run more than
+a few agents together has run into the same nightmare, memory silos, governance fragmentation,
+and completely unstructured memory blobs that become impossible to trust or audit.
+Governed memory attacks this problem directly with a shared memory layer plus a governance controller.
+The architecture uses a dual memory model, atomic facts paired with schema-enforced properties,
+combined with tiered governance routing, reflection-bounded retrieval,
+and a closed-loop schema evolution process. The really compelling part, this isn't just theory,
+it's already running in production at personalize.ai. The numbers speak for themselves, 99.6%
+fact recall, 92% governance routing precision, 50% token reduction, and 74.8% accuracy on the locomotive
+benchmark all achieved with zero quality regression from the governance layer. This is the kind of work
+that makes me genuinely optimistic about multi-agent systems moving into enterprise environments.
+On a more experimental note, there's a really cool project called Terralingua that's studying
+open-endedness in LLM-based ecologies. They created a persistent multi-agent environment where agents
+have resource constraints and limited life spans. Under these conditions, fascinating behaviors
+emerge, cooperative norms, division of labor, attempts at governance, and even cumulative cultural
+evolution. The researchers also deployed an AI anthropologist agent that observes,
+analyzes group structure, and tracks artifact evolution over time. This kind of work is incredibly
+valuable. As we start deploying larger and larger populations of agents into the real world,
+we're going to need much better ways to study and shape their collective behavior. Terralingua feels
+like an important early step in that direction. We also saw interesting progress on emergent trust
+learning. The ETL algorithm is a lightweight, plug-and-play trust module that can be dropped
+into existing agents. It maintains a compact internal trust state that intelligently modulates memory
+access, exploration strategy, and action selection. What makes it practical is that it only requires
+individual rewards and local observations. No centralized coordination needed. The team demonstrated
+strong results across grid resource worlds, hierarchical environments, and classic iterated
+prisoners dilemma scenarios. This feels like the beginning of a new generation of socially aware agents
+that can cooperate even in competitive or resource scarce environments. Shifting to the more sobering
+side, a new benchmark called bias rec bench asks a very uncomfortable question. Is your LLM as a
+recommender agent actually trustworthy? The results are concerning. Even the strongest models,
+including Gemini 2.5, 3 pro, GPT4O, and Deepseek R1, are easily manipulated by contextual biases in
+high stakes recommendation tasks like academic paper review, e-commerce, and job recruitment.
+The models can often identify the ground truth yet still frequently fall for injected logical biases.
+This paper makes it clear that we need specialized alignment techniques for the emerging LLM
+recommender paradigm. If you're building any kind of recommendation or decision support agent,
+bias rec bench is worth running your prompts against immediately. On a much more hopeful note,
+researchers introduced agentic cognitive profiling for early Alzheimer's detection. The system breaks
+cognitive assessments into atomic tasks that are orchestrated by specialized LLM agents. Crucially,
+they delegate the final quantification to deterministic function calling, which restores proper clinical
+construct validity. Tested on 402 participants across eight cognitive tasks, it achieved a 90.5% score
+match rate with human raiders and 85.3% accuracy in predicting Alzheimer's. Even better, it generates rich
+interpretable cognitive profiles that clinicians can actually understand and trust. This is a beautiful
+example of using agentic systems not to replace clinical judgment but to augment it with both higher
+performance and better validity. Things to try this week. If you're dealing with messy multi-agent
+memory issues, I strongly suggest experimenting with the governed memory concepts, especially the
+dual memory model and scheme enforcement. The fact that it's already proven in production makes it
+unusually trustworthy. Try out mirror thinker 1.7 or the 1.7 mini on any complex research task that
+requires long horizon planning and tool use. The open source release makes local experimentation
+very accessible. Run your current recommender style prompts through a bias wreck bench style test.
+You might be surprised how vulnerable your agents are at a subtle contextual manipulation.
+If you're interested in agent ecologies, set up a small terrelinguist style persistent environment
+with resource limits and agent lifespans. The difference in emergent behavior is dramatic. Finally,
+compare SRLM style self-reflective program search against your current rag or recursive approaches on
+long context tasks. You may discover you can get equal or better results with significantly less
+complexity. Looking ahead, I expect to see verification heavy research agents become much more common as
+mirror thinker H1's approach gains traction. We're also going to see rapid growth in agent memory
+governance solutions as more teams move multi-agent systems into production. I predict we'll see
+metarina style interactive clinician driven benchmarks appear in other high stakes domains like law,
+finance, and education. And of course, we'll see continued hybridization between state space
+models and hardware aware optimizations in the wake of mamba 3. Keep a close eye on how these memory
+governance and verification techniques start appearing in popular open source agent frameworks over
+the next few weeks. The pace is accelerating. That wraps up today's episode of models and agents.
+If you found this valuable, share it with a fellow builder or developer who's trying to stay
+current. Subscribe wherever you listen and I'll see you tomorrow for episode 20 word count 1,782
+estimated spoken length 1140 AM 1220 PM depending on your pace ready for final tweaks if you want it
+longer or shorter. This podcast is curated by Patrick but generated using AI voice synthesis of my
+voice using 11 labs. The primary reason to do this is I unfortunately don't have the time to be consistent
+with generating all the content and wanted to focus on creating consistent and regular episodes
+for all the themes that I enjoy and I hope others do as well.
