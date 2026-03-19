@@ -96,6 +96,19 @@ keywords:
   - model comparison
   - ai news
   - new ai model
+  # Broader terms for volume on slow AI news days
+  - artificial intelligence
+  - machine learning
+  - automation
+  - robot
+  - neural network
+  - LLM
+  - OpenAI
+  - Anthropic
+  - Google AI
+  - Meta AI
+
+min_articles_skip: 2
 
 llm:
   provider: xai

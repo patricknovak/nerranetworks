@@ -12,10 +12,10 @@ sources:
     label: The Verge
 
   # Science & Nature (great for vocabulary themes)
-  - url: https://www.newscientist.com/section/news/feed/
-    label: New Scientist
-  - url: https://www.nationalgeographic.com/feed
-    label: National Geographic
+  - url: https://www.sciencedaily.com/rss/top/science.xml
+    label: ScienceDaily
+  - url: https://phys.org/rss-feed/
+    label: Phys.org
 
   # Russian culture & language resources
   - url: https://www.themoscowtimes.com/rss/news
@@ -44,6 +44,16 @@ sources:
     label: CBC Canada
   - url: https://www.ukrinform.net/rss/block-lastnews
     label: Ukrinform (Ukrainian perspectives)
+
+  # High-volume general news (vocabulary themes can come from any topic)
+  - url: https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
+    label: New York Times
+  - url: https://www.theguardian.com/world/rss
+    label: The Guardian World
+  - url: https://feeds.washingtonpost.com/rss/world
+    label: Washington Post World
+
+min_articles_skip: 1
 
 keywords:
   # Topics that generate good vocabulary themes

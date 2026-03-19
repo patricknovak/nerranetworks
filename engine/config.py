@@ -182,6 +182,7 @@ class ShowConfig:
     sources: List[SourceConfig] = field(default_factory=list)
     keywords: List[str] = field(default_factory=list)
     min_articles: int = 3  # Minimum articles before expanding search
+    min_articles_skip: int = 3  # Hard cutoff — skip episode if fewer articles
     llm: LLMConfig = field(default_factory=LLMConfig)
     tts: TTSConfig = field(default_factory=TTSConfig)
     audio: AudioConfig = field(default_factory=AudioConfig)
@@ -299,6 +300,7 @@ def load_config(yaml_path: str | Path) -> ShowConfig:
         sources=_build_sources(data.get("sources")),
         keywords=data.get("keywords", []),
         min_articles=data.get("min_articles", 3),
+        min_articles_skip=data.get("min_articles_skip", 3),
         llm=_build_nested(LLMConfig, data.get("llm")),
         tts=_build_nested(TTSConfig, data.get("tts")),
         audio=_build_nested(AudioConfig, data.get("audio")),

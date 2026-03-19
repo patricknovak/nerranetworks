@@ -418,7 +418,7 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "planetterrian.yaml")
         assert cfg.name == "Planetterrian Daily"
         assert cfg.slug == "planetterrian"
-        assert len(cfg.sources) == 20
+        assert len(cfg.sources) == 18
         assert cfg.sources[0].label == "Nature"
         assert "longevity" in cfg.keywords
         assert cfg.audio.music_file == "assets/music/oilers-pride.mp3"
@@ -450,7 +450,7 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "env_intel.yaml")
         assert cfg.name == "Environmental Intelligence"
         assert cfg.slug == "env_intel"
-        assert len(cfg.sources) == 22
+        assert len(cfg.sources) == 20
         assert cfg.sources[0].label == "BC Ministry of Environment"
         assert "contaminated sites" in cfg.keywords
         assert "CCME" in cfg.keywords

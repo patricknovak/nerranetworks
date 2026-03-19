@@ -16,21 +16,14 @@ sources:
   # Alberta — note: alberta.ca and aer.ca no longer offer standard RSS feeds.
   # Coverage sourced via Canadian Geographic, The Narwhal, and CBC Canada feeds.
 
-  # Ontario
-  - url: https://news.ontario.ca/en/rss
-    label: Ontario Government News
+  # Ontario — note: news.ontario.ca/en/rss returns HTML/JS, not RSS.
+  # Coverage sourced via CBC Canada, National Observer, and general feeds.
 
   # Federal Canada
   - url: https://www.gazette.gc.ca/rss/p1-eng.xml
     label: Canada Gazette Part I
   - url: https://www.gazette.gc.ca/rss/p2-eng.xml
     label: Canada Gazette Part II
-  - url: https://www.canada.ca/en/environment-climate-change/news.atom
-    label: Environment and Climate Change Canada
-  - url: https://www.canada.ca/en/impact-assessment-agency/news.atom
-    label: Impact Assessment Agency of Canada
-  - url: https://ecojustice.ca/feed/
-    label: Ecojustice
 
   # US EPA (cross-border relevance)
   - url: https://www.epa.gov/newsreleases/search/rss
@@ -53,10 +46,13 @@ sources:
     label: CBC Canada
   - url: https://www.desmog.com/feed/
     label: DeSmog
-  - url: https://www.canadiangeographic.ca/rss
-    label: Canadian Geographic
-
   # General Environmental / Climate
+  - url: https://www.nationalobserver.com/feed
+    label: National Observer
+  - url: https://www.carbonbrief.org/feed/
+    label: Carbon Brief
+  - url: https://yaleclimateconnections.org/feed/
+    label: Yale Climate Connections
   - url: https://grist.org/feed/
     label: Grist
   - url: https://insideclimatenews.org/feed/
@@ -121,6 +117,18 @@ keywords:
   - mining environmental
   - fisheries act
   - species at risk
+  # Broader terms for volume on slow news days
+  - environment
+  - environmental
+  - pollution
+  - sustainability
+  - conservation
+  - biodiversity
+  - clean energy
+  - renewable
+
+min_articles: 5
+min_articles_skip: 2
 
 llm:
   provider: xai

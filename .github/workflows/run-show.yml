@@ -295,7 +295,17 @@ jobs:
           "
 
       - name: Run show pipeline
-        run: python run_show.py ${{ matrix.show }} 2>&1
+        id: pipeline
+        run: |
+          set +e
+          python run_show.py ${{ matrix.show }} 2>&1
+          EXIT_CODE=$?
+          if [ $EXIT_CODE -eq 2 ]; then
+            echo "::warning::Show ${{ matrix.show }} skipped — insufficient articles for a quality episode"
+            echo "skipped=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          exit $EXIT_CODE
         timeout-minutes: 45
         env:
           R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
@@ -304,6 +314,7 @@ jobs:
           PIPELINE_TIMEOUT_SECONDS: '900'
 
       - name: Validate output
+        if: steps.pipeline.outputs.skipped != 'true'
         run: |
           SHOW="${{ matrix.show }}"
           echo "Validating output for $SHOW..."
@@ -353,10 +364,11 @@ jobs:
           echo "Output validation passed"
 
       - name: Regenerate network RSS
+        if: steps.pipeline.outputs.skipped != 'true'
         run: python generate_network_rss.py
 
       - name: Notify podcast directories
-        if: success()
+        if: success() && steps.pipeline.outputs.skipped != 'true'
         env:
           RSS_BASE_URL: https://nerranetwork.com
         run: |
@@ -376,6 +388,7 @@ jobs:
           "
 
       - name: Commit and push output
+        if: steps.pipeline.outputs.skipped != 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
