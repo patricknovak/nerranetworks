@@ -689,6 +689,17 @@ def run(args: argparse.Namespace) -> None:
             show_name=config.name,
         ) if config.chapters.enabled and config.chapters.section_markers else []
 
+        # Final defense-in-depth: strip any speaker prefixes that survived
+        # all prior cleaning passes.  This catches edge cases where the LLM
+        # output format, retry expansion, or paragraph breaking unexpectedly
+        # places a prefix at a line/sentence start.
+        import re as _re
+        for _pfx in ("Host:", f"{host}:", "Patrick:", "Ведущая:", "Ведущий:", "Narrator:", "Speaker:"):
+            _esc = _re.escape(_pfx)
+            podcast_script = _re.sub(r"^" + _esc + r"\s*", "", podcast_script, flags=_re.MULTILINE)
+            podcast_script = _re.sub(r"(?<=[.!?])\s+" + _esc + r"\s*", " ", podcast_script)
+        podcast_script = _re.sub(r"\n{3,}", "\n\n", podcast_script).strip()
+
         # Save TTS-ready script for debugging pronunciation/intro issues
         tts_script_path = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}_tts.txt"
         tts_script_path.write_text(podcast_script, encoding="utf-8")
@@ -1374,6 +1385,9 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
             continue
         if re.match(r"(?i)^(Use this exact|Deliver this hook|Narrate EVERY|Here is today)", line):
             continue
+        # Drop LLM preambles from retry/expansion responses
+        if re.match(r"(?i)^(here(?:\s*'?s?|\s+is)\s+(your|the|my)\s+(expanded|rewritten|revised|updated)|I'?ve\s+(expanded|rewritten))", line):
+            continue
         # Drop source attribution lines that survived earlier cleaning
         if re.match(r"(?i)^\s*source\s*:", line):
             continue
@@ -1394,6 +1408,18 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
     # without pauses, which sounds unnatural.  Split long paragraphs into
     # ~2 sentence chunks so TTS inserts natural breathing pauses.
     joined = _break_long_paragraphs(joined)
+
+    # Second pass: strip any speaker prefixes — both at line/paragraph starts
+    # (exposed by _break_long_paragraphs) and mid-sentence (when the LLM puts
+    # multiple Host: segments on a single line).
+    for prefix in _SPEAKER_PREFIXES:
+        escaped = re.escape(prefix)
+        # At line/paragraph starts
+        joined = re.sub(r"^" + escaped + r"\s*", "", joined, flags=re.MULTILINE)
+        # Mid-sentence: "sentence. Host: Next" → "sentence. Next"
+        joined = re.sub(r"(?<=[.!?])\s+" + escaped + r"\s*", " ", joined)
+    # Collapse blank lines that prefix removal may have created
+    joined = re.sub(r"\n{3,}", "\n\n", joined).strip()
 
     return joined
 
