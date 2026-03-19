@@ -12,22 +12,20 @@ sources:
     label: Globe and Mail ROB
   - url: https://www.moneysense.ca/feed/
     label: MoneySense
-  - url: https://www.wealthsimple.com/en-ca/magazine/feed
-    label: Wealthsimple Magazine
-  - url: https://youngandthrifty.ca/feed/
-    label: Young and Thrifty
+  - url: https://www.fool.ca/feed/
+    label: Motley Fool Canada
 
   # US Markets & Finance
   - url: https://finance.yahoo.com/news/rssindex
     label: Yahoo Finance
-  - url: https://www.investopedia.com/feedbuilder/feed/getfeed?feedName=rss_headline
-    label: Investopedia
   - url: https://www.fool.com/feeds/index.aspx
     label: Motley Fool
   - url: https://www.cnbc.com/id/100003114/device/rss/rss.html
     label: CNBC Investing
-  - url: https://www.marketwatch.com/rss/topstories
-    label: MarketWatch
+  - url: https://www.cnbc.com/id/10001147/device/rss/rss.html
+    label: CNBC Top Stories
+  - url: https://feeds.bloomberg.com/markets/news.rss
+    label: Bloomberg Markets
 
   # Central Banks & Policy
   - url: https://www.bankofcanada.ca/feed/
@@ -42,20 +40,16 @@ sources:
   # ETF & Index Tracking
   - url: https://etfdb.com/feed/
     label: ETF Database
-  - url: https://www.etf.com/feeds/etf_channel.xml
-    label: ETF.com
 
-  # Crypto & Emerging Assets (relevant to modern investing)
+  # Crypto & Emerging Assets
   - url: https://cointelegraph.com/rss
     label: CoinTelegraph
 
-  # Additional Sources for diversity
+  # Research & Analysis
   - url: https://seekingalpha.com/feed.xml
     label: Seeking Alpha
-  - url: https://www.morningstar.com/feeds/rss
-    label: Morningstar
-  - url: https://www.reuters.com/finance/markets/rss
-    label: Reuters Markets
+  - url: https://www.investing.com/rss/news.rss
+    label: Investing.com
 
 min_articles: 6
 
