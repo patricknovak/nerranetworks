@@ -271,13 +271,23 @@
         "https://arxiv.org/abs/2603.16910",
         "https://arxiv.org/abs/2603.17564",
         "https://arxiv.org/abs/2603.17417",
-        "https://arxiv.org/abs/2603.17392"
+        "https://arxiv.org/abs/2603.17392",
+        "https://arxiv.org/abs/2603.17179",
+        "https://arxiv.org/abs/2603.15953",
+        "https://arxiv.org/abs/2603.15773",
+        "https://arxiv.org/abs/2603.15965",
+        "https://arxiv.org/abs/2603.16899",
+        "https://arxiv.org/abs/2510.19995",
+        "https://arxiv.org/abs/2505.08448",
+        "https://arxiv.org/abs/2603.16916",
+        "https://arxiv.org/abs/2512.18561",
+        "https://arxiv.org/abs/2508.11401"
       ],
       "quote_author": null,
       "sections": {
-        "model_updates": "### Model Updates\n**MiroThinker-1.7 & H1: Towards Heavy-Duty Research Agents via Verification — arXiv**\nMiroThinker-1.7 adds an agentic mid-training stage focused on structured planning, contextual reasoning, and tool interaction, while MiroThinker-H1 incorporates local and global verification directly into the reasoning process. The models target complex long-horizon tasks across open-web research, scientific reasoning, and financial analysis, with open-source releases of MiroThinker-1.7 and th",
-        "agent_developments": "### Agent & Tool Developments\n**Governed Memory: A Production Architecture for Multi-Agent Workflows — arXiv**\nGoverned Memory introduces a shared memory and governance layer addressing memory silos, governance fragmentation, and unstructured memories in enterprise multi-agent systems. It uses a dual memory model (atomic facts + schema-enforced properties), tiered governance routing, reflection-bounded retrieval, and closed-loop schema lifecycle. Already in production at Personize.ai, it achieve",
-        "practical_community": "### Practical & Community\n**Is Your LLM-as-a-Recommender Agent Trustable? — arXiv**\nBiasRecBench reveals that current LLMs (including Gemini-2.5/3-pro, GPT-4o, DeepSeek-R1) are easily hacked by contextual biases in high-stakes recommendation tasks like paper review, e-commerce, and job recruitment. Despite being able to identify ground truth, agents frequently succumb to injected logical biases. The work calls for specialized alignment strategies for the growing \"LLM-as-a-Recommender\" paradigm.\n"
+        "model_updates": "### Model Updates\n**A Family of LLMs Liberated from Static Vocabularies**\nResearchers released a family of hierarchical autoregressive transformer (HAT) models, including conversions of Llama 3.1 8B and 70B into byte-level HAT architectures (Llama-3.1-8B-TFree-HAT and Llama-3.1-70B-TFree-HAT) plus a 7B model trained from scratch on nearly 4 trillion words. The HAT design uses an encoder to aggregate bytes into word embeddings for the backbone transformer, improving text compression and robustnes",
+        "agent_developments": "### Agent & Tool Developments\n**Capability-Priced Micro-Markets: A Micro-Economic Framework for the Agentic Web over HTTP 402**\nThis paper presents Capability-Priced Micro-Markets (CPMM), integrating MIT's Project NANDA for capability-based security, HTTP 402 micropayments, and the Agent Capability Negotiation and Binding Protocol. The framework formalizes agent interactions as repeated bilateral games with incomplete information and introduces \"privacy elasticity of demand\" to quantify informat",
+        "practical_community": "### Practical & Community\n**Noncooperative Human-AI Agent Dynamics**\nA new study models humans with Prospect Theory preferences (reference dependence and loss aversion) while AI agents use standard expected utility, testing them in matrix games and specialized scenarios. The accompanying code repository enables extensive simulations across AI, aware humans, and learning Prospect agents. The work surfaces patterns ranging from near-identical behavior to Prospect Theory anomalies and unexpected su"
       }
     }
   ]
