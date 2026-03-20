@@ -1,0 +1,22 @@
+{
+  "show_slug": "models_agents_beginners",
+  "episode_num": 9,
+  "total_duration_s": 15.36,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 3.07,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 12.29,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 14,
+    "digest_chars": 8273,
+    "audio_duration_s": 408.633469
+  }
+}
