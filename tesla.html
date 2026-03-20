@@ -880,7 +880,7 @@
         }
 
         function renderEpisodes(episodes) {
-            if (!episodes || !episodes.length) { showNoEpisodes(); return; }
+            if (!episodes || !episodes.length) { loadFromRSS(); return; }
             episodes.sort((a, b) => new Date(b.date) - new Date(a.date));
             const latest = episodes[0];
             document.getElementById('latest-title').textContent = latest.episode_title || 'Latest Episode';

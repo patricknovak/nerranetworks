@@ -510,6 +510,10 @@ def save_summary_to_github_pages(
                 fcntl.flock(f.fileno(), fcntl.LOCK_EX)
                 try:
                     data = json.load(f)
+                    # Handle malformed files (e.g. bare array instead of wrapped object)
+                    if not isinstance(data, dict) or "summaries" not in data:
+                        existing = data if isinstance(data, list) else []
+                        data = {"podcast": podcast_name, "summaries": existing}
                     data["summaries"].insert(0, entry)
                     data["summaries"] = data["summaries"][:max_summaries]
                     f.seek(0)
