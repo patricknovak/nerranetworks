@@ -70,7 +70,8 @@ def chunk_text(text: str, max_chars: int = 5000) -> List[str]:
     """Split text into chunks for ElevenLabs API.
 
     Split priority (best → worst for natural audio):
-      1. Sentence boundaries (., !, ?) — cleanest break
+      0. Paragraph boundaries (\\n\\n) — least audible prosody reset
+      1. Sentence boundaries (., !, ?) — cleanest within-paragraph break
       2. Clause boundaries (semicolons, colons, em dashes) — natural pause
       3. Conjunctions after commas (", and", ", but", ", so") — clause-level
       4. Any comma — last resort within-sentence split
@@ -87,17 +88,28 @@ def chunk_text(text: str, max_chars: int = 5000) -> List[str]:
 
         best_split = -1
 
-        # 1. Prefer the rightmost sentence ending
-        sentence_endings: List[int] = []
-        for i, char in enumerate(chunk_candidate):
-            if char in ".!?":
-                # Avoid splitting on abbreviations (e.g., "U.S.") or decimals
-                # by requiring whitespace or end-of-text after the punctuation
-                if i + 1 >= len(chunk_candidate) or chunk_candidate[i + 1] in " \n\t":
-                    sentence_endings.append(i + 1)
+        # 0. Prefer the rightmost paragraph boundary (double newline).
+        #    Paragraph breaks are natural pause points where a prosody
+        #    reset between TTS chunks is least audible.  Only use if the
+        #    split point is in the back 40% of the chunk to avoid very
+        #    uneven chunks.
+        min_para_pos = int(max_chars * 0.6)
+        para_idx = chunk_candidate.rfind("\n\n", min_para_pos)
+        if para_idx != -1:
+            best_split = para_idx + 2  # include the double newline in chunk 1
 
-        if sentence_endings:
-            best_split = sentence_endings[-1]
+        # 1. Fallback: rightmost sentence ending
+        if best_split == -1:
+            sentence_endings: List[int] = []
+            for i, char in enumerate(chunk_candidate):
+                if char in ".!?":
+                    # Avoid splitting on abbreviations (e.g., "U.S.") or decimals
+                    # by requiring whitespace or end-of-text after the punctuation
+                    if i + 1 >= len(chunk_candidate) or chunk_candidate[i + 1] in " \n\t":
+                        sentence_endings.append(i + 1)
+
+            if sentence_endings:
+                best_split = sentence_endings[-1]
 
         # 2. Fallback: clause boundaries (semicolons, colons, em dashes)
         if best_split == -1:
@@ -177,8 +189,15 @@ def speak_chunk(
     use_speaker_boost: bool = True,
     stream: bool = True,
     timeout: int = 120,
+    previous_text: str = "",
+    next_text: str = "",
 ) -> None:
-    """Generate audio for a single text chunk via the ElevenLabs API."""
+    """Generate audio for a single text chunk via the ElevenLabs API.
+
+    Parameters *previous_text* and *next_text* provide surrounding context
+    so ElevenLabs can maintain natural prosody across chunk boundaries
+    (the text is not spoken, only used for conditioning).
+    """
     endpoint = "stream" if stream else ""
     url_parts = [ELEVENLABS_API_BASE, "text-to-speech", voice_id]
     if endpoint:
@@ -200,6 +219,12 @@ def speak_chunk(
             "use_speaker_boost": use_speaker_boost,
         },
     }
+    # ElevenLabs uses previous/next_text to condition prosody at chunk
+    # boundaries, reducing audible transitions between chunks.
+    if previous_text:
+        payload["previous_text"] = previous_text
+    if next_text:
+        payload["next_text"] = next_text
 
     if stream:
         with requests.post(url, json=payload, headers=headers, stream=True, timeout=timeout) as r:
@@ -273,6 +298,10 @@ def speak(
     chunk_files: List[Path] = []
     tmp_dir = Path(filename).parent
 
+    # Context window for previous_text / next_text conditioning.
+    # ElevenLabs recommends ~1000 chars of context for prosody continuity.
+    _CONTEXT_CHARS = 1000
+
     wav_files: List[Path] = []
     try:
         for i, chunk_text_str in enumerate(chunks):
@@ -283,7 +312,16 @@ def speak(
                 else:
                     chunk_text_str = chunk_text_str + "!"
 
-            speak_chunk(chunk_text_str, voice_id, chunk_file, **tts_kwargs)
+            # Provide surrounding text so ElevenLabs maintains prosody
+            prev_ctx = chunks[i - 1][-_CONTEXT_CHARS:] if i > 0 else ""
+            next_ctx = chunks[i + 1][:_CONTEXT_CHARS] if i < len(chunks) - 1 else ""
+
+            speak_chunk(
+                chunk_text_str, voice_id, chunk_file,
+                **tts_kwargs,
+                previous_text=prev_ctx,
+                next_text=next_ctx,
+            )
             chunk_files.append(chunk_file)
             logger.info(
                 "Generated chunk %d/%d (%d chars)",
@@ -307,7 +345,7 @@ def speak(
                 [
                     "ffmpeg", "-y",
                     "-i", str(wav_files[0]), "-i", str(wav_files[1]),
-                    "-filter_complex", "acrossfade=d=0.15:c1=tri:c2=tri",
+                    "-filter_complex", "acrossfade=d=0.3:c1=tri:c2=tri",
                     str(merged_wav),
                 ],
                 check=True, capture_output=True, timeout=300,
@@ -321,7 +359,7 @@ def speak(
                     [
                         "ffmpeg", "-y",
                         "-i", str(merged_wav), "-i", str(wav_files[idx]),
-                        "-filter_complex", "acrossfade=d=0.15:c1=tri:c2=tri",
+                        "-filter_complex", "acrossfade=d=0.3:c1=tri:c2=tri",
                         str(step_out),
                     ],
                     check=True, capture_output=True, timeout=300,
