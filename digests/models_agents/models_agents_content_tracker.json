@@ -279,14 +279,24 @@
         "https://blog.langchain.com/introducing-langsmith-fleet/",
         "https://github.blog/ai-and-ml/github-copilot/how-squad-runs-coordinated-ai-agents-inside-your-repository/",
         "https://simonwillison.net/2026/Mar/19/openai-acquiring-astral/#atom-everything",
-        "https://towardsdatascience.com/beyond-prompt-caching-5-more-things-you-should-cache-in-rag-pipelines/"
+        "https://towardsdatascience.com/beyond-prompt-caching-5-more-things-you-should-cache-in-rag-pipelines/",
+        "https://www.marktechpost.com/2026/03/19/llamaindex-releases-liteparse-a-cli-and-typescript-native-library-for-spatial-pdf-parsing-in-ai-agent-workflows/",
+        "https://arxiv.org/abs/2603.18007",
+        "https://arxiv.org/abs/2603.18363",
+        "https://arxiv.org/abs/2603.18014",
+        "https://arxiv.org/abs/2603.18012",
+        "https://the-decoder.com/google-gives-ai-shopping-agents-cart-catalog-and-loyalty-features/",
+        "https://arxiv.org/abs/2603.18010",
+        "https://arxiv.org/abs/2603.18011",
+        "https://arxiv.org/abs/2603.18009",
+        "https://arxiv.org/abs/2603.18008"
       ],
       "quote_author": null,
       "sections": {
-        "model_updates": "### Model Updates\n**Cursor releases Composer 2 coding model: The Decoder**  \nCursor launched Composer 2, a code-only model built to compete with leading coding models from Anthropic and OpenAI while running at a fraction of the cost. The model focuses exclusively on software development tasks and aims to match or approach the performance of Claude Code and Codex on coding benchmarks. This matters because it gives developers a high-performance specialized option that can meaningfully lower infere",
-        "agent_developments": "### Agent & Tool Developments\n**Google Colab MCP Server: MarkTechPost**  \nThe new open-source Colab MCP Server enables any local AI agent to interact directly with Colab’s GPU-backed Jupyter environments through the Model Context Protocol. Agents can now programmatically create notebooks, execute code, and manage long-running compute sessions in the cloud. This is immediately useful for anyone building agents that need occasional heavy compute without managing Kubernetes clusters or paying for a",
-        "practical_community": "### Practical & Community\n**Simon Willison on OpenAI acquiring Astral: Simon Willison's Weblog**  \nOpenAI is acquiring Astral, the company behind the critical Python tools uv, ruff, and ty, with the team joining the Codex group. uv has become the dominant modern Python package and environment manager (126 million downloads last month), while ruff and ty provide fast linting and type checking that pair naturally with coding agents. The acquisition raises interesting questions about the future of ",
-        "deep_dive": "### Under the Hood: Agent Misalignment Monitoring via Chain-of-Thought\nEveryone talks about “monitoring agents” as if you simply add some logging and you’re safe. In practice, detecting misalignment in coding agents requires treating the chain-of-thought itself as the primary signal rather than just the final output.\n\nThe core insight is that coding agents generate long internal reasoning traces before taking actions. These traces contain early indicators of goal divergence, factual errors, or u"
+        "model_updates": "### Model Updates\n**Theory of Mind in LLMs: GPT-4o stands out**  \nA new arXiv paper tested five LLMs against humans using the Strange Stories paradigm. Earlier and smaller models were heavily affected by the number of inferential cues and vulnerable to distracting information, while GPT-4o achieved high accuracy and strong robustness, performing comparably to human controls even in the hardest conditions. This is one of the clearest demonstrations yet of genuine capability differences at scale. ",
+        "agent_developments": "### Agent & Tool Developments\n**DynaRAG: Bridging static and dynamic knowledge**  \nDynaRAG selectively calls external APIs when retrieved documents are insufficient, using an LLM reranker, sufficiency classifier, and Gorilla v2 for tool invocation. It shows strong gains on dynamic questions in the CRAG benchmark while reducing hallucinations.  \nSource: https://arxiv.org/abs/2603.18012\n\n**Google expands Universal Commerce Protocol for shopping agents**  \nGoogle added shopping cart, catalog, and i",
+        "practical_community": "### Practical & Community\n**Controllable Evidence Selection via Deterministic Utility Gating**  \nNew framework introduces Meaning-Utility Estimation (MUE) and Diversity-Utility Estimation (DUE) to make evidence selection deterministic and auditable before answer generation. It only accepts sentences that explicitly satisfy the required fact or condition, dramatically improving transparency in RAG.  \nSource: https://arxiv.org/abs/2603.18011\n\n**UCPOF: Uncertainty-calibrated prompt optimization**  ",
+        "deep_dive": "### Under the Hood: Agentic RAG Failure Modes\nEveryone talks about agentic RAG like the main challenge is just making the LLM smarter. In practice, the real killers are silent failure modes that don't crash but quietly destroy performance and inflate costs: Retrieval Thrash, Tool Storms, and Context Bloat.\n\nThe core insight is that once you give an agent a loop and multiple tools, its behavior becomes a search process rather than a single forward pass. Retrieval Thrash happens when the agent kee"
       },
       "deep_dive_topic": "Agent Misalignment Monitoring via Chain-of-Thought"
     }
