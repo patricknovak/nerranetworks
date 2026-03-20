@@ -8,56 +8,42 @@ sources:
     label: MoneySense
   - url: https://www.financialpost.com/feed
     label: Financial Post
-  - url: https://www.theglobeandmail.com/investing/personal-finance/rss/
-    label: Globe and Mail Personal Finance
   - url: https://www.ratehub.ca/blog/feed/
     label: RateHub Canada
-  - url: https://www.wealthsimple.com/en-ca/magazine/rss.xml
-    label: Wealthsimple Magazine
-  - url: https://youngandthrifty.ca/feed/
-    label: Young and Thrifty
-  - url: https://maplemoney.com/feed/
-    label: MapleMoney
-  - url: https://boomerandecho.com/feed/
-    label: Boomer & Echo
+  - url: https://canadianmortgagetrends.com/feed/
+    label: Canadian Mortgage Trends
+  - url: https://canadiancouchpotato.com/feed/
+    label: Canadian Couch Potato (investing education)
+  - url: https://www.getsmarteraboutmoney.ca/feed/
+    label: GetSmarterAboutMoney (Ontario Securities Commission)
 
   # Canadian Business & Economy
-  - url: https://www.bnnbloomberg.ca/rss/
+  - url: https://www.bnnbloomberg.ca/arc/outboundfeeds/rss/
     label: BNN Bloomberg Canada
   - url: https://www.cbc.ca/webfeed/rss/rss-business
     label: CBC Business
+  - url: https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/business/
+    label: Globe and Mail Business
+  - url: https://nationalpost.com/category/news/economy/feed
+    label: National Post Economy
+  - url: https://www.bankofcanada.ca/feed/
+    label: Bank of Canada (press releases)
 
   # Vancouver / BC Focus
   - url: https://vancouversun.com/category/business/feed
     label: Vancouver Sun Business
-  - url: https://www.bcbusiness.ca/feed
-    label: BCBusiness
-  - url: https://biv.com/rss.xml
-    label: Business in Vancouver
 
   # Russian-Speaking Diaspora & Independent Media
   - url: https://meduza.io/rss/en/all
     label: Meduza English (independent, Latvia-based)
   - url: https://www.themoscowtimes.com/rss/news
     label: Moscow Times (independent, Netherlands-based)
-
-  # Investing Education
-  - url: https://www.investopedia.com/feedbuilder/feed/getfeed?feedName=rss_articles
-    label: Investopedia
-  - url: https://www.morningstar.ca/ca/collection/2107/news.aspx
-    label: Morningstar Canada
-
-  # Ukrainian & Diaspora Perspectives
-  - url: https://www.ukrinform.net/rss/block-economy-news
-    label: Ukrinform Economy (Ukrainian state news agency)
-  - url: https://www.kyivindependent.com/feed/
-    label: Kyiv Independent (business/economy)
+  - url: https://www.ukrinform.net/rss/block-lastnews
+    label: Ukrinform (Ukrainian state news agency)
 
   # Canadian Immigration & Newcomer Finance
   - url: https://www.cicnews.com/feed
     label: CIC News (Canadian Immigration)
-  - url: https://www.canada.ca/en/immigration-refugees-citizenship.atom.xml
-    label: IRCC Canada
 
 keywords:
   # Canadian finance (English)
