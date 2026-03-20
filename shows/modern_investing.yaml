@@ -8,8 +8,8 @@ sources:
     label: Financial Post
   - url: https://www.bnnbloomberg.ca/arc/outboundfeeds/rss/?outputType=xml
     label: BNN Bloomberg
-  - url: https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/report-on-business/
-    label: Globe and Mail ROB
+  - url: https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/investing/
+    label: Globe and Mail Investing
   - url: https://www.moneysense.ca/feed/
     label: MoneySense
   - url: https://www.fool.ca/feed/
@@ -34,8 +34,8 @@ sources:
   # AI & Fintech
   - url: https://www.benzinga.com/feed
     label: Benzinga
-  - url: https://www.finextra.com/rss/headlines.aspx
-    label: Finextra
+  - url: https://www.marketwatch.com/rss/topstories
+    label: MarketWatch
 
   # ETF & Index Tracking
   - url: https://etfdb.com/feed/
