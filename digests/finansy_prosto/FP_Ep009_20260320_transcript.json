@@ -1,0 +1,7316 @@
+{
+  "language": "ru",
+  "language_probability": 1,
+  "duration": 551.36,
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 1.16,
+      "text": "Привет, мои дорогие!",
+      "words": [
+        {
+          "word": "Привет,",
+          "start": 0.0,
+          "end": 0.32,
+          "probability": 0.921
+        },
+        {
+          "word": "мои",
+          "start": 0.5,
+          "end": 0.62,
+          "probability": 0.975
+        },
+        {
+          "word": "дорогие!",
+          "start": 0.62,
+          "end": 1.16,
+          "probability": 0.98
+        }
+      ]
+    },
+    {
+      "start": 1.9,
+      "end": 5.8,
+      "text": "Добро пожаловать в финансы просто, выпус к девятой.",
+      "words": [
+        {
+          "word": "Добро",
+          "start": 1.9,
+          "end": 2.18,
+          "probability": 0.975
+        },
+        {
+          "word": "пожаловать",
+          "start": 2.18,
+          "end": 2.76,
+          "probability": 0.993
+        },
+        {
+          "word": "в",
+          "start": 2.76,
+          "end": 2.98,
+          "probability": 0.944
+        },
+        {
+          "word": "финансы",
+          "start": 2.98,
+          "end": 3.68,
+          "probability": 0.934
+        },
+        {
+          "word": "просто,",
+          "start": 3.68,
+          "end": 4.12,
+          "probability": 0.74
+        },
+        {
+          "word": "выпус",
+          "start": 4.8,
+          "end": 5.2,
+          "probability": 0.45
+        },
+        {
+          "word": "к",
+          "start": 5.2,
+          "end": 5.32,
+          "probability": 0.949
+        },
+        {
+          "word": "девятой.",
+          "start": 5.32,
+          "end": 5.8,
+          "probability": 0.746
+        }
+      ]
+    },
+    {
+      "start": 6.22,
+      "end": 12.46,
+      "text": "Сегодня у нас 20 марта, 2026 года, и на календаре прекрасная пятница.",
+      "words": [
+        {
+          "word": "Сегодня",
+          "start": 6.22,
+          "end": 6.62,
+          "probability": 0.985
+        },
+        {
+          "word": "у",
+          "start": 6.62,
+          "end": 6.8,
+          "probability": 0.987
+        },
+        {
+          "word": "нас",
+          "start": 6.8,
+          "end": 6.92,
+          "probability": 0.996
+        },
+        {
+          "word": "20",
+          "start": 6.92,
+          "end": 7.44,
+          "probability": 0.683
+        },
+        {
+          "word": "марта,",
+          "start": 7.44,
+          "end": 8.04,
+          "probability": 0.987
+        },
+        {
+          "word": "2026",
+          "start": 8.14,
+          "end": 9.18,
+          "probability": 0.748
+        },
+        {
+          "word": "года,",
+          "start": 9.18,
+          "end": 9.74,
+          "probability": 0.845
+        },
+        {
+          "word": "и",
+          "start": 10.32,
+          "end": 10.38,
+          "probability": 0.984
+        },
+        {
+          "word": "на",
+          "start": 10.38,
+          "end": 10.5,
+          "probability": 0.967
+        },
+        {
+          "word": "календаре",
+          "start": 10.5,
+          "end": 11.08,
+          "probability": 0.759
+        },
+        {
+          "word": "прекрасная",
+          "start": 11.08,
+          "end": 11.84,
+          "probability": 0.91
+        },
+        {
+          "word": "пятница.",
+          "start": 11.84,
+          "end": 12.46,
+          "probability": 0.985
+        }
+      ]
+    },
+    {
+      "start": 12.68,
+      "end": 18.58,
+      "text": "А это значит, время спокойно подвести итоги все финансовые недели и разобраться,",
+      "words": [
+        {
+          "word": "А",
+          "start": 12.68,
+          "end": 12.76,
+          "probability": 0.912
+        },
+        {
+          "word": "это",
+          "start": 12.76,
+          "end": 12.92,
+          "probability": 0.99
+        },
+        {
+          "word": "значит,",
+          "start": 12.92,
+          "end": 13.34,
+          "probability": 0.982
+        },
+        {
+          "word": "время",
+          "start": 13.86,
+          "end": 14.18,
+          "probability": 0.949
+        },
+        {
+          "word": "спокойно",
+          "start": 14.18,
+          "end": 14.92,
+          "probability": 0.989
+        },
+        {
+          "word": "подвести",
+          "start": 14.92,
+          "end": 15.68,
+          "probability": 0.954
+        },
+        {
+          "word": "итоги",
+          "start": 15.68,
+          "end": 16.12,
+          "probability": 0.976
+        },
+        {
+          "word": "все",
+          "start": 16.12,
+          "end": 16.32,
+          "probability": 0.677
+        },
+        {
+          "word": "финансовые",
+          "start": 16.32,
+          "end": 16.88,
+          "probability": 0.98
+        },
+        {
+          "word": "недели",
+          "start": 16.88,
+          "end": 17.42,
+          "probability": 0.996
+        },
+        {
+          "word": "и",
+          "start": 17.42,
+          "end": 17.88,
+          "probability": 0.944
+        },
+        {
+          "word": "разобраться,",
+          "start": 17.88,
+          "end": 18.58,
+          "probability": 0.991
+        }
+      ]
+    },
+    {
+      "start": 18.9,
+      "end": 21.08,
+      "text": "что все это значит именно для нас с вами.",
+      "words": [
+        {
+          "word": "что",
+          "start": 18.9,
+          "end": 19.12,
+          "probability": 0.993
+        },
+        {
+          "word": "все",
+          "start": 19.12,
+          "end": 19.32,
+          "probability": 0.784
+        },
+        {
+          "word": "это",
+          "start": 19.32,
+          "end": 19.5,
+          "probability": 0.994
+        },
+        {
+          "word": "значит",
+          "start": 19.5,
+          "end": 19.76,
+          "probability": 0.971
+        },
+        {
+          "word": "именно",
+          "start": 19.76,
+          "end": 20.24,
+          "probability": 0.614
+        },
+        {
+          "word": "для",
+          "start": 20.24,
+          "end": 20.42,
+          "probability": 0.987
+        },
+        {
+          "word": "нас",
+          "start": 20.42,
+          "end": 20.64,
+          "probability": 0.996
+        },
+        {
+          "word": "с",
+          "start": 20.64,
+          "end": 20.86,
+          "probability": 0.985
+        },
+        {
+          "word": "вами.",
+          "start": 20.86,
+          "end": 21.08,
+          "probability": 0.984
+        }
+      ]
+    },
+    {
+      "start": 21.5,
+      "end": 25.76,
+      "text": "Я очень рада, что вы сегодня со мной завариваете себе кофе или чай,",
+      "words": [
+        {
+          "word": "Я",
+          "start": 21.5,
+          "end": 21.6,
+          "probability": 0.987
+        },
+        {
+          "word": "очень",
+          "start": 21.6,
+          "end": 21.94,
+          "probability": 0.998
+        },
+        {
+          "word": "рада,",
+          "start": 21.94,
+          "end": 22.26,
+          "probability": 0.986
+        },
+        {
+          "word": "что",
+          "start": 22.34,
+          "end": 22.42,
+          "probability": 0.98
+        },
+        {
+          "word": "вы",
+          "start": 22.42,
+          "end": 22.52,
+          "probability": 0.989
+        },
+        {
+          "word": "сегодня",
+          "start": 22.52,
+          "end": 22.9,
+          "probability": 0.984
+        },
+        {
+          "word": "со",
+          "start": 22.9,
+          "end": 23.08,
+          "probability": 0.983
+        },
+        {
+          "word": "мной",
+          "start": 23.08,
+          "end": 23.32,
+          "probability": 0.999
+        },
+        {
+          "word": "завариваете",
+          "start": 23.32,
+          "end": 24.46,
+          "probability": 0.694
+        },
+        {
+          "word": "себе",
+          "start": 24.46,
+          "end": 24.72,
+          "probability": 0.962
+        },
+        {
+          "word": "кофе",
+          "start": 24.72,
+          "end": 25.18,
+          "probability": 0.957
+        },
+        {
+          "word": "или",
+          "start": 25.18,
+          "end": 25.42,
+          "probability": 0.875
+        },
+        {
+          "word": "чай,",
+          "start": 25.42,
+          "end": 25.76,
+          "probability": 0.99
+        }
+      ]
+    },
+    {
+      "start": 25.76,
+      "end": 29.98,
+      "text": "устраивайтесь поудобнее и давайте поговорим под душем, как по-друге.",
+      "words": [
+        {
+          "word": "устраивайтесь",
+          "start": 25.76,
+          "end": 26.62,
+          "probability": 0.683
+        },
+        {
+          "word": "поудобнее",
+          "start": 26.62,
+          "end": 27.42,
+          "probability": 0.901
+        },
+        {
+          "word": "и",
+          "start": 27.42,
+          "end": 27.92,
+          "probability": 0.75
+        },
+        {
+          "word": "давайте",
+          "start": 27.92,
+          "end": 28.22,
+          "probability": 0.988
+        },
+        {
+          "word": "поговорим",
+          "start": 28.22,
+          "end": 28.74,
+          "probability": 0.997
+        },
+        {
+          "word": "под",
+          "start": 28.74,
+          "end": 28.94,
+          "probability": 0.569
+        },
+        {
+          "word": "душем,",
+          "start": 28.94,
+          "end": 29.28,
+          "probability": 0.455
+        },
+        {
+          "word": "как",
+          "start": 29.4,
+          "end": 29.4,
+          "probability": 0.885
+        },
+        {
+          "word": "по",
+          "start": 29.4,
+          "end": 29.6,
+          "probability": 0.555
+        },
+        {
+          "word": "-друге.",
+          "start": 29.6,
+          "end": 29.98,
+          "probability": 0.822
+        }
+      ]
+    },
+    {
+      "start": 30.4,
+      "end": 30.92,
+      "text": "Поехали.",
+      "words": [
+        {
+          "word": "Поехали.",
+          "start": 30.4,
+          "end": 30.92,
+          "probability": 0.988
+        }
+      ]
+    },
+    {
+      "start": 31.78,
+      "end": 34.84,
+      "text": "Главное, овост этой недели.",
+      "words": [
+        {
+          "word": "Главное,",
+          "start": 31.78,
+          "end": 32.46,
+          "probability": 0.946
+        },
+        {
+          "word": "овост",
+          "start": 32.7,
+          "end": 34.12,
+          "probability": 0.562
+        },
+        {
+          "word": "этой",
+          "start": 34.12,
+          "end": 34.34,
+          "probability": 0.834
+        },
+        {
+          "word": "недели.",
+          "start": 34.34,
+          "end": 34.84,
+          "probability": 0.706
+        }
+      ]
+    },
+    {
+      "start": 35.22,
+      "end": 39.78,
+      "text": "Решение банка канады, которое было объявлено вчера 18 марта,",
+      "words": [
+        {
+          "word": "Решение",
+          "start": 35.22,
+          "end": 35.66,
+          "probability": 0.945
+        },
+        {
+          "word": "банка",
+          "start": 35.66,
+          "end": 36.02,
+          "probability": 0.735
+        },
+        {
+          "word": "канады,",
+          "start": 36.02,
+          "end": 36.56,
+          "probability": 0.759
+        },
+        {
+          "word": "которое",
+          "start": 36.64,
+          "end": 36.88,
+          "probability": 0.68
+        },
+        {
+          "word": "было",
+          "start": 36.88,
+          "end": 37.24,
+          "probability": 0.562
+        },
+        {
+          "word": "объявлено",
+          "start": 37.24,
+          "end": 37.78,
+          "probability": 0.969
+        },
+        {
+          "word": "вчера",
+          "start": 37.78,
+          "end": 38.3,
+          "probability": 0.974
+        },
+        {
+          "word": "18",
+          "start": 38.3,
+          "end": 38.98,
+          "probability": 0.446
+        },
+        {
+          "word": "марта,",
+          "start": 38.98,
+          "end": 39.78,
+          "probability": 0.986
+        }
+      ]
+    },
+    {
+      "start": 40.16,
+      "end": 41.9,
+      "text": "2026 года.",
+      "words": [
+        {
+          "word": "2026",
+          "start": 40.16,
+          "end": 41.38,
+          "probability": 0.676
+        },
+        {
+          "word": "года.",
+          "start": 41.38,
+          "end": 41.9,
+          "probability": 0.971
+        }
+      ]
+    },
+    {
+      "start": 42.36,
+      "end": 46.26,
+      "text": "Банк решил оставить свою ключевую процентную ставку без изменений,",
+      "words": [
+        {
+          "word": "Банк",
+          "start": 42.36,
+          "end": 42.82,
+          "probability": 0.752
+        },
+        {
+          "word": "решил",
+          "start": 42.82,
+          "end": 43.12,
+          "probability": 0.576
+        },
+        {
+          "word": "оставить",
+          "start": 43.12,
+          "end": 43.58,
+          "probability": 0.987
+        },
+        {
+          "word": "свою",
+          "start": 43.58,
+          "end": 43.74,
+          "probability": 0.992
+        },
+        {
+          "word": "ключевую",
+          "start": 43.74,
+          "end": 44.3,
+          "probability": 0.983
+        },
+        {
+          "word": "процентную",
+          "start": 44.3,
+          "end": 44.96,
+          "probability": 0.996
+        },
+        {
+          "word": "ставку",
+          "start": 44.96,
+          "end": 45.44,
+          "probability": 0.983
+        },
+        {
+          "word": "без",
+          "start": 45.44,
+          "end": 45.64,
+          "probability": 0.938
+        },
+        {
+          "word": "изменений,",
+          "start": 45.64,
+          "end": 46.26,
+          "probability": 0.977
+        }
+      ]
+    },
+    {
+      "start": 46.74,
+      "end": 50.2,
+      "text": "на уровне твапки у 25%.",
+      "words": [
+        {
+          "word": "на",
+          "start": 46.74,
+          "end": 46.82,
+          "probability": 0.987
+        },
+        {
+          "word": "уровне",
+          "start": 46.82,
+          "end": 47.22,
+          "probability": 0.984
+        },
+        {
+          "word": "твапки",
+          "start": 47.22,
+          "end": 48.06,
+          "probability": 0.649
+        },
+        {
+          "word": "у",
+          "start": 48.06,
+          "end": 48.18,
+          "probability": 0.778
+        },
+        {
+          "word": "25%.",
+          "start": 48.18,
+          "end": 50.2,
+          "probability": 0.881
+        }
+      ]
+    },
+    {
+      "start": 50.2,
+      "end": 53.48,
+      "text": "Для многих это может прозвучать как, ну и что?",
+      "words": [
+        {
+          "word": "Для",
+          "start": 50.2,
+          "end": 50.9,
+          "probability": 0.961
+        },
+        {
+          "word": "многих",
+          "start": 50.9,
+          "end": 51.34,
+          "probability": 1.0
+        },
+        {
+          "word": "это",
+          "start": 51.34,
+          "end": 51.5,
+          "probability": 0.941
+        },
+        {
+          "word": "может",
+          "start": 51.5,
+          "end": 51.72,
+          "probability": 0.995
+        },
+        {
+          "word": "прозвучать",
+          "start": 51.72,
+          "end": 52.28,
+          "probability": 0.87
+        },
+        {
+          "word": "как,",
+          "start": 52.28,
+          "end": 52.48,
+          "probability": 0.834
+        },
+        {
+          "word": "ну",
+          "start": 52.88,
+          "end": 53.04,
+          "probability": 0.987
+        },
+        {
+          "word": "и",
+          "start": 53.04,
+          "end": 53.16,
+          "probability": 0.782
+        },
+        {
+          "word": "что?",
+          "start": 53.16,
+          "end": 53.48,
+          "probability": 0.994
+        }
+      ]
+    },
+    {
+      "start": 53.48,
+      "end": 56.32,
+      "text": "Но на самом деле это очень важный сигнал.",
+      "words": [
+        {
+          "word": "Но",
+          "start": 53.48,
+          "end": 54.32,
+          "probability": 0.271
+        },
+        {
+          "word": "на",
+          "start": 54.32,
+          "end": 54.46,
+          "probability": 0.815
+        },
+        {
+          "word": "самом",
+          "start": 54.46,
+          "end": 54.72,
+          "probability": 0.997
+        },
+        {
+          "word": "деле",
+          "start": 54.72,
+          "end": 54.96,
+          "probability": 1.0
+        },
+        {
+          "word": "это",
+          "start": 54.96,
+          "end": 55.24,
+          "probability": 0.95
+        },
+        {
+          "word": "очень",
+          "start": 55.24,
+          "end": 55.5,
+          "probability": 0.984
+        },
+        {
+          "word": "важный",
+          "start": 55.5,
+          "end": 55.94,
+          "probability": 0.961
+        },
+        {
+          "word": "сигнал.",
+          "start": 55.94,
+          "end": 56.32,
+          "probability": 0.989
+        }
+      ]
+    },
+    {
+      "start": 56.44,
+      "end": 61.4,
+      "text": "Для всех, кто живет в британской Колумбии, особенно здесь в ловер Mainland.",
+      "words": [
+        {
+          "word": "Для",
+          "start": 56.44,
+          "end": 56.52,
+          "probability": 0.964
+        },
+        {
+          "word": "всех,",
+          "start": 56.52,
+          "end": 56.8,
+          "probability": 0.973
+        },
+        {
+          "word": "кто",
+          "start": 56.92,
+          "end": 57.1,
+          "probability": 0.986
+        },
+        {
+          "word": "живет",
+          "start": 57.1,
+          "end": 57.48,
+          "probability": 0.872
+        },
+        {
+          "word": "в",
+          "start": 57.48,
+          "end": 57.6,
+          "probability": 0.989
+        },
+        {
+          "word": "британской",
+          "start": 57.6,
+          "end": 58.08,
+          "probability": 0.847
+        },
+        {
+          "word": "Колумбии,",
+          "start": 58.08,
+          "end": 58.7,
+          "probability": 0.893
+        },
+        {
+          "word": "особенно",
+          "start": 58.92,
+          "end": 59.18,
+          "probability": 0.973
+        },
+        {
+          "word": "здесь",
+          "start": 59.18,
+          "end": 59.64,
+          "probability": 0.992
+        },
+        {
+          "word": "в",
+          "start": 59.64,
+          "end": 59.98,
+          "probability": 0.497
+        },
+        {
+          "word": "ловер",
+          "start": 59.98,
+          "end": 60.32,
+          "probability": 0.607
+        },
+        {
+          "word": "Mainland.",
+          "start": 60.32,
+          "end": 61.4,
+          "probability": 0.698
+        }
+      ]
+    },
+    {
+      "start": 61.88,
+      "end": 66.14,
+      "text": "Представьте, что ключевая ставка – это термостат в большом доме.",
+      "words": [
+        {
+          "word": "Представьте,",
+          "start": 61.88,
+          "end": 62.68,
+          "probability": 0.986
+        },
+        {
+          "word": "что",
+          "start": 62.82,
+          "end": 62.9,
+          "probability": 0.989
+        },
+        {
+          "word": "ключевая",
+          "start": 62.9,
+          "end": 63.4,
+          "probability": 0.98
+        },
+        {
+          "word": "ставка",
+          "start": 63.4,
+          "end": 63.9,
+          "probability": 0.993
+        },
+        {
+          "word": "–",
+          "start": 63.9,
+          "end": 64.12,
+          "probability": 0.276
+        },
+        {
+          "word": "это",
+          "start": 64.12,
+          "end": 64.28,
+          "probability": 0.926
+        },
+        {
+          "word": "термостат",
+          "start": 64.28,
+          "end": 65.2,
+          "probability": 0.916
+        },
+        {
+          "word": "в",
+          "start": 65.2,
+          "end": 65.4,
+          "probability": 0.988
+        },
+        {
+          "word": "большом",
+          "start": 65.4,
+          "end": 65.72,
+          "probability": 0.84
+        },
+        {
+          "word": "доме.",
+          "start": 65.72,
+          "end": 66.14,
+          "probability": 0.992
+        }
+      ]
+    },
+    {
+      "start": 66.46,
+      "end": 70.38,
+      "text": "Когда вы выставляете определенную температуру и не трогаете его,",
+      "words": [
+        {
+          "word": "Когда",
+          "start": 66.46,
+          "end": 66.66,
+          "probability": 0.992
+        },
+        {
+          "word": "вы",
+          "start": 66.66,
+          "end": 66.84,
+          "probability": 0.996
+        },
+        {
+          "word": "выставляете",
+          "start": 66.84,
+          "end": 67.56,
+          "probability": 0.975
+        },
+        {
+          "word": "определенную",
+          "start": 67.56,
+          "end": 68.22,
+          "probability": 0.855
+        },
+        {
+          "word": "температуру",
+          "start": 68.22,
+          "end": 68.96,
+          "probability": 0.994
+        },
+        {
+          "word": "и",
+          "start": 68.96,
+          "end": 69.2,
+          "probability": 0.855
+        },
+        {
+          "word": "не",
+          "start": 69.2,
+          "end": 69.3,
+          "probability": 0.927
+        },
+        {
+          "word": "трогаете",
+          "start": 69.3,
+          "end": 69.86,
+          "probability": 0.863
+        },
+        {
+          "word": "его,",
+          "start": 69.86,
+          "end": 70.38,
+          "probability": 0.991
+        }
+      ]
+    },
+    {
+      "start": 71.16,
+      "end": 74.0,
+      "text": "в комнатах сохраняется стабильный климат.",
+      "words": [
+        {
+          "word": "в",
+          "start": 71.16,
+          "end": 71.3,
+          "probability": 0.989
+        },
+        {
+          "word": "комнатах",
+          "start": 71.3,
+          "end": 71.86,
+          "probability": 0.972
+        },
+        {
+          "word": "сохраняется",
+          "start": 71.86,
+          "end": 72.76,
+          "probability": 0.984
+        },
+        {
+          "word": "стабильный",
+          "start": 72.76,
+          "end": 73.58,
+          "probability": 0.991
+        },
+        {
+          "word": "климат.",
+          "start": 73.58,
+          "end": 74.0,
+          "probability": 0.948
+        }
+      ]
+    },
+    {
+      "start": 74.46,
+      "end": 80.82,
+      "text": "Точно также сейчас банк канады решил сохранить финансовую температуру в стране стабильной.",
+      "words": [
+        {
+          "word": "Точно",
+          "start": 74.46,
+          "end": 74.7,
+          "probability": 0.948
+        },
+        {
+          "word": "также",
+          "start": 74.7,
+          "end": 75.1,
+          "probability": 0.639
+        },
+        {
+          "word": "сейчас",
+          "start": 75.1,
+          "end": 75.5,
+          "probability": 0.981
+        },
+        {
+          "word": "банк",
+          "start": 75.5,
+          "end": 75.98,
+          "probability": 0.664
+        },
+        {
+          "word": "канады",
+          "start": 75.98,
+          "end": 76.38,
+          "probability": 0.469
+        },
+        {
+          "word": "решил",
+          "start": 76.38,
+          "end": 76.68,
+          "probability": 0.89
+        },
+        {
+          "word": "сохранить",
+          "start": 76.68,
+          "end": 77.36,
+          "probability": 0.995
+        },
+        {
+          "word": "финансовую",
+          "start": 77.36,
+          "end": 78.48,
+          "probability": 0.99
+        },
+        {
+          "word": "температуру",
+          "start": 78.48,
+          "end": 79.18,
+          "probability": 0.998
+        },
+        {
+          "word": "в",
+          "start": 79.18,
+          "end": 79.62,
+          "probability": 0.987
+        },
+        {
+          "word": "стране",
+          "start": 79.62,
+          "end": 80.08,
+          "probability": 0.946
+        },
+        {
+          "word": "стабильной.",
+          "start": 80.08,
+          "end": 80.82,
+          "probability": 0.919
+        }
+      ]
+    },
+    {
+      "start": 80.82,
+      "end": 87.1,
+      "text": "Это значит, что в ближайшие месяцы владельцем и по текст переменной ставкой,",
+      "words": [
+        {
+          "word": "Это",
+          "start": 80.82,
+          "end": 81.42,
+          "probability": 0.285
+        },
+        {
+          "word": "значит,",
+          "start": 81.42,
+          "end": 81.86,
+          "probability": 0.973
+        },
+        {
+          "word": "что",
+          "start": 82.06,
+          "end": 82.16,
+          "probability": 0.982
+        },
+        {
+          "word": "в",
+          "start": 82.16,
+          "end": 82.24,
+          "probability": 0.966
+        },
+        {
+          "word": "ближайшие",
+          "start": 82.24,
+          "end": 82.78,
+          "probability": 0.985
+        },
+        {
+          "word": "месяцы",
+          "start": 82.78,
+          "end": 83.3,
+          "probability": 0.961
+        },
+        {
+          "word": "владельцем",
+          "start": 83.3,
+          "end": 84.18,
+          "probability": 0.82
+        },
+        {
+          "word": "и",
+          "start": 84.18,
+          "end": 84.74,
+          "probability": 0.808
+        },
+        {
+          "word": "по",
+          "start": 84.74,
+          "end": 84.88,
+          "probability": 0.517
+        },
+        {
+          "word": "текст",
+          "start": 84.88,
+          "end": 85.24,
+          "probability": 0.819
+        },
+        {
+          "word": "переменной",
+          "start": 85.24,
+          "end": 86.5,
+          "probability": 0.814
+        },
+        {
+          "word": "ставкой,",
+          "start": 86.5,
+          "end": 87.1,
+          "probability": 0.976
+        }
+      ]
+    },
+    {
+      "start": 87.24,
+      "end": 91.88,
+      "text": "скорее всего, не стоит ждать резкого роста или падения ежемесячных платежей.",
+      "words": [
+        {
+          "word": "скорее",
+          "start": 87.24,
+          "end": 87.42,
+          "probability": 0.969
+        },
+        {
+          "word": "всего,",
+          "start": 87.42,
+          "end": 87.76,
+          "probability": 1.0
+        },
+        {
+          "word": "не",
+          "start": 87.9,
+          "end": 87.92,
+          "probability": 0.955
+        },
+        {
+          "word": "стоит",
+          "start": 87.92,
+          "end": 88.2,
+          "probability": 0.973
+        },
+        {
+          "word": "ждать",
+          "start": 88.2,
+          "end": 88.58,
+          "probability": 0.996
+        },
+        {
+          "word": "резкого",
+          "start": 88.58,
+          "end": 89.08,
+          "probability": 0.959
+        },
+        {
+          "word": "роста",
+          "start": 89.08,
+          "end": 89.44,
+          "probability": 0.977
+        },
+        {
+          "word": "или",
+          "start": 89.44,
+          "end": 89.58,
+          "probability": 0.38
+        },
+        {
+          "word": "падения",
+          "start": 89.58,
+          "end": 90.1,
+          "probability": 0.909
+        },
+        {
+          "word": "ежемесячных",
+          "start": 90.1,
+          "end": 91.26,
+          "probability": 0.958
+        },
+        {
+          "word": "платежей.",
+          "start": 91.26,
+          "end": 91.88,
+          "probability": 0.972
+        }
+      ]
+    },
+    {
+      "start": 92.2,
+      "end": 98.64,
+      "text": "А для нас женщин в Ванковере, Бернобе, Сарри, Ричманд и Коккетлам –",
+      "words": [
+        {
+          "word": "А",
+          "start": 92.2,
+          "end": 92.28,
+          "probability": 0.919
+        },
+        {
+          "word": "для",
+          "start": 92.28,
+          "end": 92.38,
+          "probability": 0.997
+        },
+        {
+          "word": "нас",
+          "start": 92.38,
+          "end": 92.7,
+          "probability": 0.998
+        },
+        {
+          "word": "женщин",
+          "start": 92.7,
+          "end": 93.7,
+          "probability": 0.451
+        },
+        {
+          "word": "в",
+          "start": 93.7,
+          "end": 94.08,
+          "probability": 0.951
+        },
+        {
+          "word": "Ванковере,",
+          "start": 94.08,
+          "end": 94.62,
+          "probability": 0.622
+        },
+        {
+          "word": "Бернобе,",
+          "start": 95.24,
+          "end": 95.72,
+          "probability": 0.691
+        },
+        {
+          "word": "Сарри,",
+          "start": 96.28,
+          "end": 96.56,
+          "probability": 0.523
+        },
+        {
+          "word": "Ричманд",
+          "start": 97.12,
+          "end": 97.74,
+          "probability": 0.668
+        },
+        {
+          "word": "и",
+          "start": 97.74,
+          "end": 97.92,
+          "probability": 0.721
+        },
+        {
+          "word": "Коккетлам",
+          "start": 97.92,
+          "end": 98.4,
+          "probability": 0.678
+        },
+        {
+          "word": "–",
+          "start": 98.4,
+          "end": 98.64,
+          "probability": 0.325
+        }
+      ]
+    },
+    {
+      "start": 98.64,
+      "end": 100.46,
+      "text": "это действительно приятная новость.",
+      "words": [
+        {
+          "word": "это",
+          "start": 98.64,
+          "end": 98.86,
+          "probability": 0.992
+        },
+        {
+          "word": "действительно",
+          "start": 98.86,
+          "end": 99.22,
+          "probability": 0.99
+        },
+        {
+          "word": "приятная",
+          "start": 99.22,
+          "end": 99.94,
+          "probability": 0.985
+        },
+        {
+          "word": "новость.",
+          "start": 99.94,
+          "end": 100.46,
+          "probability": 0.99
+        }
+      ]
+    },
+    {
+      "start": 100.6,
+      "end": 105.78,
+      "text": "Потому что жизнь здесь и так дорогая – аренда, продукты, беси-хадро,",
+      "words": [
+        {
+          "word": "Потому",
+          "start": 100.6,
+          "end": 100.76,
+          "probability": 0.937
+        },
+        {
+          "word": "что",
+          "start": 100.76,
+          "end": 101.06,
+          "probability": 0.961
+        },
+        {
+          "word": "жизнь",
+          "start": 101.06,
+          "end": 101.34,
+          "probability": 0.963
+        },
+        {
+          "word": "здесь",
+          "start": 101.34,
+          "end": 101.64,
+          "probability": 0.964
+        },
+        {
+          "word": "и",
+          "start": 101.64,
+          "end": 101.86,
+          "probability": 0.915
+        },
+        {
+          "word": "так",
+          "start": 101.86,
+          "end": 102.02,
+          "probability": 0.954
+        },
+        {
+          "word": "дорогая",
+          "start": 102.02,
+          "end": 102.6,
+          "probability": 0.898
+        },
+        {
+          "word": "–",
+          "start": 102.6,
+          "end": 103.08,
+          "probability": 0.189
+        },
+        {
+          "word": "аренда,",
+          "start": 103.08,
+          "end": 103.56,
+          "probability": 0.815
+        },
+        {
+          "word": "продукты,",
+          "start": 103.78,
+          "end": 104.28,
+          "probability": 0.995
+        },
+        {
+          "word": "беси",
+          "start": 105.0,
+          "end": 105.26,
+          "probability": 0.344
+        },
+        {
+          "word": "-хадро,",
+          "start": 105.26,
+          "end": 105.78,
+          "probability": 0.632
+        }
+      ]
+    },
+    {
+      "start": 105.78,
+      "end": 111.46,
+      "text": "ICBC, детские кружки – все это уже сильно давит на семейный бюджет.",
+      "words": [
+        {
+          "word": "ICBC,",
+          "start": 105.78,
+          "end": 106.84,
+          "probability": 0.47
+        },
+        {
+          "word": "детские",
+          "start": 107.4,
+          "end": 107.78,
+          "probability": 0.826
+        },
+        {
+          "word": "кружки",
+          "start": 107.78,
+          "end": 108.36,
+          "probability": 0.778
+        },
+        {
+          "word": "–",
+          "start": 108.36,
+          "end": 108.8,
+          "probability": 0.052
+        },
+        {
+          "word": "все",
+          "start": 108.8,
+          "end": 109.14,
+          "probability": 0.489
+        },
+        {
+          "word": "это",
+          "start": 109.14,
+          "end": 109.38,
+          "probability": 0.985
+        },
+        {
+          "word": "уже",
+          "start": 109.38,
+          "end": 109.58,
+          "probability": 0.892
+        },
+        {
+          "word": "сильно",
+          "start": 109.58,
+          "end": 109.94,
+          "probability": 0.985
+        },
+        {
+          "word": "давит",
+          "start": 109.94,
+          "end": 110.36,
+          "probability": 0.951
+        },
+        {
+          "word": "на",
+          "start": 110.36,
+          "end": 110.48,
+          "probability": 0.958
+        },
+        {
+          "word": "семейный",
+          "start": 110.48,
+          "end": 110.92,
+          "probability": 0.97
+        },
+        {
+          "word": "бюджет.",
+          "start": 110.92,
+          "end": 111.46,
+          "probability": 0.988
+        }
+      ]
+    },
+    {
+      "start": 112.0,
+      "end": 116.7,
+      "text": "Многие из вас писали мне, что каждый раз, когда банк канады принимает решение,",
+      "words": [
+        {
+          "word": "Многие",
+          "start": 112.0,
+          "end": 112.44,
+          "probability": 0.945
+        },
+        {
+          "word": "из",
+          "start": 112.44,
+          "end": 112.6,
+          "probability": 0.998
+        },
+        {
+          "word": "вас",
+          "start": 112.6,
+          "end": 112.76,
+          "probability": 0.973
+        },
+        {
+          "word": "писали",
+          "start": 112.76,
+          "end": 113.32,
+          "probability": 0.973
+        },
+        {
+          "word": "мне,",
+          "start": 113.32,
+          "end": 113.56,
+          "probability": 0.996
+        },
+        {
+          "word": "что",
+          "start": 113.8,
+          "end": 113.88,
+          "probability": 0.993
+        },
+        {
+          "word": "каждый",
+          "start": 113.88,
+          "end": 114.2,
+          "probability": 0.992
+        },
+        {
+          "word": "раз,",
+          "start": 114.2,
+          "end": 114.52,
+          "probability": 0.999
+        },
+        {
+          "word": "когда",
+          "start": 114.6,
+          "end": 114.8,
+          "probability": 0.997
+        },
+        {
+          "word": "банк",
+          "start": 114.8,
+          "end": 115.18,
+          "probability": 0.842
+        },
+        {
+          "word": "канады",
+          "start": 115.18,
+          "end": 115.58,
+          "probability": 0.706
+        },
+        {
+          "word": "принимает",
+          "start": 115.58,
+          "end": 116.12,
+          "probability": 0.963
+        },
+        {
+          "word": "решение,",
+          "start": 116.12,
+          "end": 116.7,
+          "probability": 0.868
+        }
+      ]
+    },
+    {
+      "start": 117.22,
+      "end": 123.88,
+      "text": "у вас внутри все сжимается от тревоги, особенно если у вас и потека или большой кредит.",
+      "words": [
+        {
+          "word": "у",
+          "start": 117.22,
+          "end": 117.28,
+          "probability": 0.988
+        },
+        {
+          "word": "вас",
+          "start": 117.28,
+          "end": 117.4,
+          "probability": 0.985
+        },
+        {
+          "word": "внутри",
+          "start": 117.4,
+          "end": 117.84,
+          "probability": 0.976
+        },
+        {
+          "word": "все",
+          "start": 117.84,
+          "end": 118.22,
+          "probability": 0.788
+        },
+        {
+          "word": "сжимается",
+          "start": 118.22,
+          "end": 118.88,
+          "probability": 0.861
+        },
+        {
+          "word": "от",
+          "start": 118.88,
+          "end": 119.1,
+          "probability": 0.996
+        },
+        {
+          "word": "тревоги,",
+          "start": 119.1,
+          "end": 119.72,
+          "probability": 0.968
+        },
+        {
+          "word": "особенно",
+          "start": 120.14,
+          "end": 120.56,
+          "probability": 0.979
+        },
+        {
+          "word": "если",
+          "start": 120.56,
+          "end": 120.94,
+          "probability": 0.956
+        },
+        {
+          "word": "у",
+          "start": 120.94,
+          "end": 121.12,
+          "probability": 0.998
+        },
+        {
+          "word": "вас",
+          "start": 121.12,
+          "end": 121.32,
+          "probability": 0.991
+        },
+        {
+          "word": "и",
+          "start": 121.32,
+          "end": 121.78,
+          "probability": 0.83
+        },
+        {
+          "word": "потека",
+          "start": 121.78,
+          "end": 122.34,
+          "probability": 0.786
+        },
+        {
+          "word": "или",
+          "start": 122.34,
+          "end": 122.8,
+          "probability": 0.744
+        },
+        {
+          "word": "большой",
+          "start": 122.8,
+          "end": 123.32,
+          "probability": 0.946
+        },
+        {
+          "word": "кредит.",
+          "start": 123.32,
+          "end": 123.88,
+          "probability": 0.964
+        }
+      ]
+    },
+    {
+      "start": 124.24,
+      "end": 126.78,
+      "text": "Поэтому сегодня я хочу не просто сообщить новость,",
+      "words": [
+        {
+          "word": "Поэтому",
+          "start": 124.24,
+          "end": 124.6,
+          "probability": 0.967
+        },
+        {
+          "word": "сегодня",
+          "start": 124.6,
+          "end": 125.22,
+          "probability": 0.962
+        },
+        {
+          "word": "я",
+          "start": 125.22,
+          "end": 125.36,
+          "probability": 0.974
+        },
+        {
+          "word": "хочу",
+          "start": 125.36,
+          "end": 125.58,
+          "probability": 0.995
+        },
+        {
+          "word": "не",
+          "start": 125.58,
+          "end": 125.7,
+          "probability": 0.983
+        },
+        {
+          "word": "просто",
+          "start": 125.7,
+          "end": 126.08,
+          "probability": 0.997
+        },
+        {
+          "word": "сообщить",
+          "start": 126.08,
+          "end": 126.74,
+          "probability": 0.992
+        },
+        {
+          "word": "новость,",
+          "start": 126.74,
+          "end": 127.12,
+          "probability": 0.987
+        }
+      ]
+    },
+    {
+      "start": 127.7,
+      "end": 134.42,
+      "text": "а по-настоящему разобрать, что стоит за этими цифрами и как это влияет именно на вашу жизнь.",
+      "words": [
+        {
+          "word": "а",
+          "start": 127.7,
+          "end": 127.76,
+          "probability": 0.875
+        },
+        {
+          "word": "по",
+          "start": 127.76,
+          "end": 127.88,
+          "probability": 0.952
+        },
+        {
+          "word": "-настоящему",
+          "start": 127.88,
+          "end": 128.68,
+          "probability": 0.909
+        },
+        {
+          "word": "разобрать,",
+          "start": 128.68,
+          "end": 129.32,
+          "probability": 0.986
+        },
+        {
+          "word": "что",
+          "start": 129.66,
+          "end": 129.88,
+          "probability": 0.996
+        },
+        {
+          "word": "стоит",
+          "start": 129.88,
+          "end": 130.38,
+          "probability": 0.997
+        },
+        {
+          "word": "за",
+          "start": 130.38,
+          "end": 130.62,
+          "probability": 0.994
+        },
+        {
+          "word": "этими",
+          "start": 130.62,
+          "end": 131.0,
+          "probability": 0.972
+        },
+        {
+          "word": "цифрами",
+          "start": 131.0,
+          "end": 131.7,
+          "probability": 0.895
+        },
+        {
+          "word": "и",
+          "start": 131.7,
+          "end": 132.18,
+          "probability": 0.399
+        },
+        {
+          "word": "как",
+          "start": 132.18,
+          "end": 132.34,
+          "probability": 0.964
+        },
+        {
+          "word": "это",
+          "start": 132.34,
+          "end": 132.64,
+          "probability": 0.986
+        },
+        {
+          "word": "влияет",
+          "start": 132.64,
+          "end": 133.12,
+          "probability": 0.99
+        },
+        {
+          "word": "именно",
+          "start": 133.12,
+          "end": 133.46,
+          "probability": 0.98
+        },
+        {
+          "word": "на",
+          "start": 133.46,
+          "end": 133.68,
+          "probability": 0.974
+        },
+        {
+          "word": "вашу",
+          "start": 133.68,
+          "end": 134.08,
+          "probability": 0.958
+        },
+        {
+          "word": "жизнь.",
+          "start": 134.08,
+          "end": 134.42,
+          "probability": 0.951
+        }
+      ]
+    },
+    {
+      "start": 134.42,
+      "end": 135.98,
+      "text": "А теперь давайте.",
+      "words": [
+        {
+          "word": "А",
+          "start": 134.42,
+          "end": 135.0,
+          "probability": 0.37
+        },
+        {
+          "word": "теперь",
+          "start": 135.0,
+          "end": 135.28,
+          "probability": 0.93
+        },
+        {
+          "word": "давайте.",
+          "start": 135.28,
+          "end": 135.98,
+          "probability": 0.973
+        }
+      ]
+    },
+    {
+      "start": 137.0,
+      "end": 141.26,
+      "text": "Как я люблю? Разберемся, как это работает под капотом.",
+      "words": [
+        {
+          "word": "Как",
+          "start": 137.0,
+          "end": 137.1,
+          "probability": 0.807
+        },
+        {
+          "word": "я",
+          "start": 137.1,
+          "end": 137.34,
+          "probability": 0.982
+        },
+        {
+          "word": "люблю?",
+          "start": 137.34,
+          "end": 137.68,
+          "probability": 0.99
+        },
+        {
+          "word": "Разберемся,",
+          "start": 138.38,
+          "end": 139.02,
+          "probability": 0.895
+        },
+        {
+          "word": "как",
+          "start": 139.16,
+          "end": 139.28,
+          "probability": 0.983
+        },
+        {
+          "word": "это",
+          "start": 139.28,
+          "end": 139.54,
+          "probability": 0.98
+        },
+        {
+          "word": "работает",
+          "start": 139.54,
+          "end": 140.04,
+          "probability": 0.999
+        },
+        {
+          "word": "под",
+          "start": 140.04,
+          "end": 140.52,
+          "probability": 0.616
+        },
+        {
+          "word": "капотом.",
+          "start": 140.52,
+          "end": 141.26,
+          "probability": 0.902
+        }
+      ]
+    },
+    {
+      "start": 141.96,
+      "end": 147.46,
+      "text": "Ключевая ставка, о которой все говорят – это так называемая Overnight Rate.",
+      "words": [
+        {
+          "word": "Ключевая",
+          "start": 141.96,
+          "end": 142.58,
+          "probability": 0.956
+        },
+        {
+          "word": "ставка,",
+          "start": 142.58,
+          "end": 143.12,
+          "probability": 0.994
+        },
+        {
+          "word": "о",
+          "start": 143.14,
+          "end": 143.28,
+          "probability": 0.9
+        },
+        {
+          "word": "которой",
+          "start": 143.28,
+          "end": 143.52,
+          "probability": 0.972
+        },
+        {
+          "word": "все",
+          "start": 143.52,
+          "end": 143.84,
+          "probability": 0.966
+        },
+        {
+          "word": "говорят",
+          "start": 143.84,
+          "end": 144.2,
+          "probability": 0.999
+        },
+        {
+          "word": "–",
+          "start": 144.2,
+          "end": 144.7,
+          "probability": 0.136
+        },
+        {
+          "word": "это",
+          "start": 144.7,
+          "end": 144.88,
+          "probability": 0.981
+        },
+        {
+          "word": "так",
+          "start": 144.88,
+          "end": 145.1,
+          "probability": 0.924
+        },
+        {
+          "word": "называемая",
+          "start": 145.1,
+          "end": 145.82,
+          "probability": 0.925
+        },
+        {
+          "word": "Overnight",
+          "start": 145.82,
+          "end": 146.58,
+          "probability": 0.247
+        },
+        {
+          "word": "Rate.",
+          "start": 146.58,
+          "end": 147.46,
+          "probability": 0.571
+        }
+      ]
+    },
+    {
+      "start": 148.44,
+      "end": 151.92,
+      "text": "Представьте, что все банки канады – это большие магазины,",
+      "words": [
+        {
+          "word": "Представьте,",
+          "start": 148.44,
+          "end": 149.16,
+          "probability": 0.992
+        },
+        {
+          "word": "что",
+          "start": 149.28,
+          "end": 149.36,
+          "probability": 0.992
+        },
+        {
+          "word": "все",
+          "start": 149.36,
+          "end": 149.6,
+          "probability": 0.988
+        },
+        {
+          "word": "банки",
+          "start": 149.6,
+          "end": 149.96,
+          "probability": 0.926
+        },
+        {
+          "word": "канады",
+          "start": 149.96,
+          "end": 150.5,
+          "probability": 0.861
+        },
+        {
+          "word": "–",
+          "start": 150.5,
+          "end": 150.66,
+          "probability": 0.78
+        },
+        {
+          "word": "это",
+          "start": 150.66,
+          "end": 150.84,
+          "probability": 0.936
+        },
+        {
+          "word": "большие",
+          "start": 150.84,
+          "end": 151.36,
+          "probability": 0.995
+        },
+        {
+          "word": "магазины,",
+          "start": 151.36,
+          "end": 151.92,
+          "probability": 0.992
+        }
+      ]
+    },
+    {
+      "start": 152.0,
+      "end": 155.38,
+      "text": "которые мы иногда срочно нужно занять другу друга немного денег",
+      "words": [
+        {
+          "word": "которые",
+          "start": 152.0,
+          "end": 152.22,
+          "probability": 0.906
+        },
+        {
+          "word": "мы",
+          "start": 152.22,
+          "end": 152.44,
+          "probability": 0.777
+        },
+        {
+          "word": "иногда",
+          "start": 152.44,
+          "end": 152.66,
+          "probability": 0.628
+        },
+        {
+          "word": "срочно",
+          "start": 152.66,
+          "end": 153.18,
+          "probability": 0.991
+        },
+        {
+          "word": "нужно",
+          "start": 153.18,
+          "end": 153.5,
+          "probability": 0.986
+        },
+        {
+          "word": "занять",
+          "start": 153.5,
+          "end": 153.94,
+          "probability": 0.977
+        },
+        {
+          "word": "другу",
+          "start": 153.94,
+          "end": 154.3,
+          "probability": 0.757
+        },
+        {
+          "word": "друга",
+          "start": 154.3,
+          "end": 154.6,
+          "probability": 0.632
+        },
+        {
+          "word": "немного",
+          "start": 154.6,
+          "end": 154.9,
+          "probability": 0.757
+        },
+        {
+          "word": "денег",
+          "start": 154.9,
+          "end": 155.38,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 155.38,
+      "end": 160.1,
+      "text": "и делают они это буквально на одну ночь, отсюда и название Overnight.",
+      "words": [
+        {
+          "word": "и",
+          "start": 155.38,
+          "end": 155.92,
+          "probability": 0.255
+        },
+        {
+          "word": "делают",
+          "start": 155.92,
+          "end": 156.26,
+          "probability": 0.941
+        },
+        {
+          "word": "они",
+          "start": 156.26,
+          "end": 156.58,
+          "probability": 0.765
+        },
+        {
+          "word": "это",
+          "start": 156.58,
+          "end": 156.8,
+          "probability": 0.946
+        },
+        {
+          "word": "буквально",
+          "start": 156.8,
+          "end": 157.2,
+          "probability": 0.995
+        },
+        {
+          "word": "на",
+          "start": 157.2,
+          "end": 157.42,
+          "probability": 0.98
+        },
+        {
+          "word": "одну",
+          "start": 157.42,
+          "end": 157.64,
+          "probability": 0.987
+        },
+        {
+          "word": "ночь,",
+          "start": 157.64,
+          "end": 158.08,
+          "probability": 0.991
+        },
+        {
+          "word": "отсюда",
+          "start": 158.28,
+          "end": 158.68,
+          "probability": 0.867
+        },
+        {
+          "word": "и",
+          "start": 158.68,
+          "end": 158.94,
+          "probability": 0.88
+        },
+        {
+          "word": "название",
+          "start": 158.94,
+          "end": 159.42,
+          "probability": 0.95
+        },
+        {
+          "word": "Overnight.",
+          "start": 159.42,
+          "end": 160.1,
+          "probability": 0.805
+        }
+      ]
+    },
+    {
+      "start": 160.1,
+      "end": 167.4,
+      "text": "Банк канады не решает, по какой цене эти банки могут одолживать друг другу деньги на ночь.",
+      "words": [
+        {
+          "word": "Банк",
+          "start": 160.1,
+          "end": 161.28,
+          "probability": 0.496
+        },
+        {
+          "word": "канады",
+          "start": 161.28,
+          "end": 161.92,
+          "probability": 0.7
+        },
+        {
+          "word": "не",
+          "start": 161.92,
+          "end": 162.38,
+          "probability": 0.933
+        },
+        {
+          "word": "решает,",
+          "start": 162.38,
+          "end": 163.0,
+          "probability": 0.968
+        },
+        {
+          "word": "по",
+          "start": 163.18,
+          "end": 163.44,
+          "probability": 0.929
+        },
+        {
+          "word": "какой",
+          "start": 163.44,
+          "end": 163.74,
+          "probability": 0.988
+        },
+        {
+          "word": "цене",
+          "start": 163.74,
+          "end": 164.2,
+          "probability": 0.954
+        },
+        {
+          "word": "эти",
+          "start": 164.2,
+          "end": 164.46,
+          "probability": 0.975
+        },
+        {
+          "word": "банки",
+          "start": 164.46,
+          "end": 164.9,
+          "probability": 0.836
+        },
+        {
+          "word": "могут",
+          "start": 164.9,
+          "end": 165.2,
+          "probability": 0.98
+        },
+        {
+          "word": "одолживать",
+          "start": 165.2,
+          "end": 165.88,
+          "probability": 0.826
+        },
+        {
+          "word": "друг",
+          "start": 165.88,
+          "end": 166.04,
+          "probability": 0.998
+        },
+        {
+          "word": "другу",
+          "start": 166.04,
+          "end": 166.42,
+          "probability": 0.734
+        },
+        {
+          "word": "деньги",
+          "start": 166.42,
+          "end": 166.64,
+          "probability": 0.904
+        },
+        {
+          "word": "на",
+          "start": 166.64,
+          "end": 167.1,
+          "probability": 0.939
+        },
+        {
+          "word": "ночь.",
+          "start": 167.1,
+          "end": 167.4,
+          "probability": 0.973
+        }
+      ]
+    },
+    {
+      "start": 167.62,
+      "end": 171.62,
+      "text": "Сейчас эта цена – 225%.",
+      "words": [
+        {
+          "word": "Сейчас",
+          "start": 167.62,
+          "end": 167.88,
+          "probability": 0.94
+        },
+        {
+          "word": "эта",
+          "start": 167.88,
+          "end": 168.22,
+          "probability": 0.75
+        },
+        {
+          "word": "цена",
+          "start": 168.22,
+          "end": 168.58,
+          "probability": 0.946
+        },
+        {
+          "word": "–",
+          "start": 168.58,
+          "end": 169.22,
+          "probability": 0.072
+        },
+        {
+          "word": "225%.",
+          "start": 169.22,
+          "end": 171.62,
+          "probability": 0.597
+        }
+      ]
+    },
+    {
+      "start": 171.62,
+      "end": 177.8,
+      "text": "Когда банки занимают по этой ставке, они потом добавляют свою небольшую наценку",
+      "words": [
+        {
+          "word": "Когда",
+          "start": 171.62,
+          "end": 172.36,
+          "probability": 0.987
+        },
+        {
+          "word": "банки",
+          "start": 172.36,
+          "end": 172.78,
+          "probability": 0.97
+        },
+        {
+          "word": "занимают",
+          "start": 172.78,
+          "end": 173.3,
+          "probability": 0.986
+        },
+        {
+          "word": "по",
+          "start": 173.3,
+          "end": 173.46,
+          "probability": 0.947
+        },
+        {
+          "word": "этой",
+          "start": 173.46,
+          "end": 173.64,
+          "probability": 0.999
+        },
+        {
+          "word": "ставке,",
+          "start": 173.64,
+          "end": 174.16,
+          "probability": 0.934
+        },
+        {
+          "word": "они",
+          "start": 174.64,
+          "end": 174.76,
+          "probability": 0.985
+        },
+        {
+          "word": "потом",
+          "start": 174.76,
+          "end": 175.02,
+          "probability": 0.993
+        },
+        {
+          "word": "добавляют",
+          "start": 175.02,
+          "end": 175.74,
+          "probability": 0.992
+        },
+        {
+          "word": "свою",
+          "start": 175.74,
+          "end": 176.4,
+          "probability": 0.991
+        },
+        {
+          "word": "небольшую",
+          "start": 176.4,
+          "end": 177.14,
+          "probability": 0.983
+        },
+        {
+          "word": "наценку",
+          "start": 177.14,
+          "end": 177.8,
+          "probability": 0.831
+        }
+      ]
+    },
+    {
+      "start": 177.8,
+      "end": 184.9,
+      "text": "и уже по этой новой цене дают деньги нам с вами в виде и потеки или не кредита или сберегательного счета.",
+      "words": [
+        {
+          "word": "и",
+          "start": 177.8,
+          "end": 178.06,
+          "probability": 0.486
+        },
+        {
+          "word": "уже",
+          "start": 178.06,
+          "end": 178.32,
+          "probability": 0.984
+        },
+        {
+          "word": "по",
+          "start": 178.32,
+          "end": 178.52,
+          "probability": 0.981
+        },
+        {
+          "word": "этой",
+          "start": 178.52,
+          "end": 178.72,
+          "probability": 0.998
+        },
+        {
+          "word": "новой",
+          "start": 178.72,
+          "end": 179.1,
+          "probability": 0.892
+        },
+        {
+          "word": "цене",
+          "start": 179.1,
+          "end": 179.46,
+          "probability": 0.994
+        },
+        {
+          "word": "дают",
+          "start": 179.46,
+          "end": 179.84,
+          "probability": 0.952
+        },
+        {
+          "word": "деньги",
+          "start": 179.84,
+          "end": 180.12,
+          "probability": 0.978
+        },
+        {
+          "word": "нам",
+          "start": 180.12,
+          "end": 180.48,
+          "probability": 0.729
+        },
+        {
+          "word": "с",
+          "start": 180.48,
+          "end": 180.6,
+          "probability": 0.985
+        },
+        {
+          "word": "вами",
+          "start": 180.6,
+          "end": 180.82,
+          "probability": 0.984
+        },
+        {
+          "word": "в",
+          "start": 180.82,
+          "end": 181.5,
+          "probability": 0.714
+        },
+        {
+          "word": "виде",
+          "start": 181.5,
+          "end": 181.64,
+          "probability": 0.974
+        },
+        {
+          "word": "и",
+          "start": 181.64,
+          "end": 181.94,
+          "probability": 0.652
+        },
+        {
+          "word": "потеки",
+          "start": 181.94,
+          "end": 182.5,
+          "probability": 0.857
+        },
+        {
+          "word": "или",
+          "start": 182.5,
+          "end": 182.64,
+          "probability": 0.419
+        },
+        {
+          "word": "не",
+          "start": 182.64,
+          "end": 182.78,
+          "probability": 0.653
+        },
+        {
+          "word": "кредита",
+          "start": 182.78,
+          "end": 183.28,
+          "probability": 0.971
+        },
+        {
+          "word": "или",
+          "start": 183.28,
+          "end": 183.68,
+          "probability": 0.839
+        },
+        {
+          "word": "сберегательного",
+          "start": 183.68,
+          "end": 184.5,
+          "probability": 0.953
+        },
+        {
+          "word": "счета.",
+          "start": 184.5,
+          "end": 184.9,
+          "probability": 0.896
+        }
+      ]
+    },
+    {
+      "start": 184.9,
+      "end": 192.2,
+      "text": "Поэтому, когда банк канады держит Overnight Rate стабильный, вся цепочка остается спокойной.",
+      "words": [
+        {
+          "word": "Поэтому,",
+          "start": 184.9,
+          "end": 185.96,
+          "probability": 0.079
+        },
+        {
+          "word": "когда",
+          "start": 186.5,
+          "end": 186.74,
+          "probability": 0.972
+        },
+        {
+          "word": "банк",
+          "start": 186.74,
+          "end": 187.22,
+          "probability": 0.631
+        },
+        {
+          "word": "канады",
+          "start": 187.22,
+          "end": 187.64,
+          "probability": 0.617
+        },
+        {
+          "word": "держит",
+          "start": 187.64,
+          "end": 188.1,
+          "probability": 0.975
+        },
+        {
+          "word": "Overnight",
+          "start": 188.1,
+          "end": 188.58,
+          "probability": 0.141
+        },
+        {
+          "word": "Rate",
+          "start": 188.58,
+          "end": 188.88,
+          "probability": 0.543
+        },
+        {
+          "word": "стабильный,",
+          "start": 188.88,
+          "end": 189.82,
+          "probability": 0.789
+        },
+        {
+          "word": "вся",
+          "start": 190.2,
+          "end": 190.42,
+          "probability": 0.935
+        },
+        {
+          "word": "цепочка",
+          "start": 190.42,
+          "end": 190.86,
+          "probability": 0.975
+        },
+        {
+          "word": "остается",
+          "start": 190.86,
+          "end": 191.28,
+          "probability": 0.965
+        },
+        {
+          "word": "спокойной.",
+          "start": 191.28,
+          "end": 192.2,
+          "probability": 0.923
+        }
+      ]
+    },
+    {
+      "start": 192.6,
+      "end": 196.04,
+      "text": "Ваша и потека не начинает внезапно тянуть сильнее,",
+      "words": [
+        {
+          "word": "Ваша",
+          "start": 192.6,
+          "end": 192.96,
+          "probability": 0.739
+        },
+        {
+          "word": "и",
+          "start": 192.96,
+          "end": 193.1,
+          "probability": 0.732
+        },
+        {
+          "word": "потека",
+          "start": 193.1,
+          "end": 193.48,
+          "probability": 0.346
+        },
+        {
+          "word": "не",
+          "start": 193.48,
+          "end": 193.68,
+          "probability": 0.915
+        },
+        {
+          "word": "начинает",
+          "start": 193.68,
+          "end": 194.2,
+          "probability": 0.91
+        },
+        {
+          "word": "внезапно",
+          "start": 194.2,
+          "end": 194.66,
+          "probability": 0.958
+        },
+        {
+          "word": "тянуть",
+          "start": 194.66,
+          "end": 195.2,
+          "probability": 0.899
+        },
+        {
+          "word": "сильнее,",
+          "start": 195.2,
+          "end": 196.04,
+          "probability": 0.989
+        }
+      ]
+    },
+    {
+      "start": 196.52,
+      "end": 199.38,
+      "text": "а проценты по накоплениям тоже не падают резко вниз.",
+      "words": [
+        {
+          "word": "а",
+          "start": 196.52,
+          "end": 196.58,
+          "probability": 0.99
+        },
+        {
+          "word": "проценты",
+          "start": 196.58,
+          "end": 197.0,
+          "probability": 0.931
+        },
+        {
+          "word": "по",
+          "start": 197.0,
+          "end": 197.22,
+          "probability": 0.851
+        },
+        {
+          "word": "накоплениям",
+          "start": 197.22,
+          "end": 197.88,
+          "probability": 0.786
+        },
+        {
+          "word": "тоже",
+          "start": 197.88,
+          "end": 198.08,
+          "probability": 0.992
+        },
+        {
+          "word": "не",
+          "start": 198.08,
+          "end": 198.22,
+          "probability": 0.986
+        },
+        {
+          "word": "падают",
+          "start": 198.22,
+          "end": 198.68,
+          "probability": 0.993
+        },
+        {
+          "word": "резко",
+          "start": 198.68,
+          "end": 199.16,
+          "probability": 0.973
+        },
+        {
+          "word": "вниз.",
+          "start": 199.16,
+          "end": 199.38,
+          "probability": 0.979
+        }
+      ]
+    },
+    {
+      "start": 199.94,
+      "end": 203.34,
+      "text": "Это как центральный термостат для всей финансовой системы страны.",
+      "words": [
+        {
+          "word": "Это",
+          "start": 199.94,
+          "end": 200.12,
+          "probability": 0.974
+        },
+        {
+          "word": "как",
+          "start": 200.12,
+          "end": 200.26,
+          "probability": 0.974
+        },
+        {
+          "word": "центральный",
+          "start": 200.26,
+          "end": 200.82,
+          "probability": 0.944
+        },
+        {
+          "word": "термостат",
+          "start": 200.82,
+          "end": 201.38,
+          "probability": 0.936
+        },
+        {
+          "word": "для",
+          "start": 201.38,
+          "end": 201.58,
+          "probability": 0.982
+        },
+        {
+          "word": "всей",
+          "start": 201.58,
+          "end": 201.88,
+          "probability": 0.859
+        },
+        {
+          "word": "финансовой",
+          "start": 201.88,
+          "end": 202.42,
+          "probability": 0.989
+        },
+        {
+          "word": "системы",
+          "start": 202.42,
+          "end": 202.9,
+          "probability": 0.923
+        },
+        {
+          "word": "страны.",
+          "start": 202.9,
+          "end": 203.34,
+          "probability": 0.983
+        }
+      ]
+    },
+    {
+      "start": 203.78,
+      "end": 207.9,
+      "text": "Честно говоря, когда мне впервые объяснили эту систему, я тоже немного растерялась.",
+      "words": [
+        {
+          "word": "Честно",
+          "start": 203.78,
+          "end": 203.98,
+          "probability": 0.917
+        },
+        {
+          "word": "говоря,",
+          "start": 203.98,
+          "end": 204.38,
+          "probability": 1.0
+        },
+        {
+          "word": "когда",
+          "start": 204.84,
+          "end": 205.02,
+          "probability": 0.991
+        },
+        {
+          "word": "мне",
+          "start": 205.02,
+          "end": 205.16,
+          "probability": 0.96
+        },
+        {
+          "word": "впервые",
+          "start": 205.16,
+          "end": 205.62,
+          "probability": 0.983
+        },
+        {
+          "word": "объяснили",
+          "start": 205.62,
+          "end": 206.22,
+          "probability": 0.993
+        },
+        {
+          "word": "эту",
+          "start": 206.22,
+          "end": 206.38,
+          "probability": 0.997
+        },
+        {
+          "word": "систему,",
+          "start": 206.38,
+          "end": 206.9,
+          "probability": 0.997
+        },
+        {
+          "word": "я",
+          "start": 207.0,
+          "end": 207.08,
+          "probability": 0.978
+        },
+        {
+          "word": "тоже",
+          "start": 207.08,
+          "end": 207.38,
+          "probability": 0.997
+        },
+        {
+          "word": "немного",
+          "start": 207.38,
+          "end": 207.72,
+          "probability": 0.984
+        },
+        {
+          "word": "растерялась.",
+          "start": 207.72,
+          "end": 208.14,
+          "probability": 0.96
+        }
+      ]
+    },
+    {
+      "start": 208.14,
+      "end": 220.6,
+      "text": "Но как только понимаешь логику, одна ночь, цена, наценка, твоя и потека, все становится гораздо понятнее и уже не так страшно.",
+      "words": [
+        {
+          "word": "Но",
+          "start": 208.14,
+          "end": 209.12,
+          "probability": 0.174
+        },
+        {
+          "word": "как",
+          "start": 209.12,
+          "end": 209.26,
+          "probability": 0.625
+        },
+        {
+          "word": "только",
+          "start": 209.26,
+          "end": 209.46,
+          "probability": 0.984
+        },
+        {
+          "word": "понимаешь",
+          "start": 209.46,
+          "end": 210.14,
+          "probability": 0.969
+        },
+        {
+          "word": "логику,",
+          "start": 210.14,
+          "end": 210.66,
+          "probability": 0.967
+        },
+        {
+          "word": "одна",
+          "start": 211.06,
+          "end": 211.36,
+          "probability": 0.655
+        },
+        {
+          "word": "ночь,",
+          "start": 211.36,
+          "end": 211.82,
+          "probability": 0.989
+        },
+        {
+          "word": "цена,",
+          "start": 212.5,
+          "end": 213.0,
+          "probability": 0.967
+        },
+        {
+          "word": "наценка,",
+          "start": 213.54,
+          "end": 214.38,
+          "probability": 0.899
+        },
+        {
+          "word": "твоя",
+          "start": 214.68,
+          "end": 214.94,
+          "probability": 0.986
+        },
+        {
+          "word": "и",
+          "start": 214.94,
+          "end": 215.12,
+          "probability": 0.948
+        },
+        {
+          "word": "потека,",
+          "start": 215.12,
+          "end": 215.62,
+          "probability": 0.701
+        },
+        {
+          "word": "все",
+          "start": 216.3,
+          "end": 216.82,
+          "probability": 0.557
+        },
+        {
+          "word": "становится",
+          "start": 216.82,
+          "end": 217.44,
+          "probability": 0.983
+        },
+        {
+          "word": "гораздо",
+          "start": 217.44,
+          "end": 217.86,
+          "probability": 0.991
+        },
+        {
+          "word": "понятнее",
+          "start": 217.86,
+          "end": 218.76,
+          "probability": 0.916
+        },
+        {
+          "word": "и",
+          "start": 218.76,
+          "end": 219.1,
+          "probability": 0.752
+        },
+        {
+          "word": "уже",
+          "start": 219.1,
+          "end": 219.3,
+          "probability": 0.967
+        },
+        {
+          "word": "не",
+          "start": 219.3,
+          "end": 219.48,
+          "probability": 0.978
+        },
+        {
+          "word": "так",
+          "start": 219.48,
+          "end": 219.74,
+          "probability": 0.996
+        },
+        {
+          "word": "страшно.",
+          "start": 219.74,
+          "end": 220.6,
+          "probability": 0.981
+        }
+      ]
+    },
+    {
+      "start": 220.78,
+      "end": 226.96,
+      "text": "Теперь давайте поговорим о том, что вы можете сделать уже на этой неделе, чтобы почувствовать себя уверение.",
+      "words": [
+        {
+          "word": "Теперь",
+          "start": 220.78,
+          "end": 221.06,
+          "probability": 0.986
+        },
+        {
+          "word": "давайте",
+          "start": 221.06,
+          "end": 221.48,
+          "probability": 0.983
+        },
+        {
+          "word": "поговорим",
+          "start": 221.48,
+          "end": 222.06,
+          "probability": 0.998
+        },
+        {
+          "word": "о",
+          "start": 222.06,
+          "end": 222.16,
+          "probability": 0.995
+        },
+        {
+          "word": "том,",
+          "start": 222.16,
+          "end": 222.4,
+          "probability": 0.999
+        },
+        {
+          "word": "что",
+          "start": 222.52,
+          "end": 222.62,
+          "probability": 0.979
+        },
+        {
+          "word": "вы",
+          "start": 222.62,
+          "end": 222.74,
+          "probability": 0.96
+        },
+        {
+          "word": "можете",
+          "start": 222.74,
+          "end": 223.02,
+          "probability": 0.996
+        },
+        {
+          "word": "сделать",
+          "start": 223.02,
+          "end": 223.36,
+          "probability": 0.982
+        },
+        {
+          "word": "уже",
+          "start": 223.36,
+          "end": 223.72,
+          "probability": 0.925
+        },
+        {
+          "word": "на",
+          "start": 223.72,
+          "end": 223.86,
+          "probability": 0.994
+        },
+        {
+          "word": "этой",
+          "start": 223.86,
+          "end": 224.06,
+          "probability": 0.97
+        },
+        {
+          "word": "неделе,",
+          "start": 224.06,
+          "end": 224.58,
+          "probability": 0.992
+        },
+        {
+          "word": "чтобы",
+          "start": 224.86,
+          "end": 225.22,
+          "probability": 0.986
+        },
+        {
+          "word": "почувствовать",
+          "start": 225.22,
+          "end": 225.88,
+          "probability": 0.991
+        },
+        {
+          "word": "себя",
+          "start": 225.88,
+          "end": 226.18,
+          "probability": 0.997
+        },
+        {
+          "word": "уверение.",
+          "start": 226.18,
+          "end": 226.96,
+          "probability": 0.701
+        }
+      ]
+    },
+    {
+      "start": 227.76,
+      "end": 237.64,
+      "text": "Первый практический совет, который мы не особенно близок, начните использовать искусственный интеллект как своего личного финансового наставника.",
+      "words": [
+        {
+          "word": "Первый",
+          "start": 227.76,
+          "end": 228.12,
+          "probability": 0.985
+        },
+        {
+          "word": "практический",
+          "start": 228.12,
+          "end": 228.82,
+          "probability": 0.809
+        },
+        {
+          "word": "совет,",
+          "start": 228.82,
+          "end": 229.16,
+          "probability": 0.992
+        },
+        {
+          "word": "который",
+          "start": 229.16,
+          "end": 229.6,
+          "probability": 0.969
+        },
+        {
+          "word": "мы",
+          "start": 229.6,
+          "end": 230.04,
+          "probability": 0.797
+        },
+        {
+          "word": "не",
+          "start": 230.04,
+          "end": 230.98,
+          "probability": 0.814
+        },
+        {
+          "word": "особенно",
+          "start": 230.98,
+          "end": 231.54,
+          "probability": 0.578
+        },
+        {
+          "word": "близок,",
+          "start": 231.54,
+          "end": 232.18,
+          "probability": 0.982
+        },
+        {
+          "word": "начните",
+          "start": 232.74,
+          "end": 233.2,
+          "probability": 0.842
+        },
+        {
+          "word": "использовать",
+          "start": 233.2,
+          "end": 233.86,
+          "probability": 0.96
+        },
+        {
+          "word": "искусственный",
+          "start": 233.86,
+          "end": 234.54,
+          "probability": 0.967
+        },
+        {
+          "word": "интеллект",
+          "start": 234.54,
+          "end": 234.98,
+          "probability": 0.988
+        },
+        {
+          "word": "как",
+          "start": 234.98,
+          "end": 235.22,
+          "probability": 0.407
+        },
+        {
+          "word": "своего",
+          "start": 235.22,
+          "end": 235.58,
+          "probability": 0.989
+        },
+        {
+          "word": "личного",
+          "start": 235.58,
+          "end": 236.14,
+          "probability": 0.992
+        },
+        {
+          "word": "финансового",
+          "start": 236.14,
+          "end": 236.88,
+          "probability": 0.99
+        },
+        {
+          "word": "наставника.",
+          "start": 236.88,
+          "end": 237.64,
+          "probability": 0.951
+        }
+      ]
+    },
+    {
+      "start": 237.64,
+      "end": 242.26,
+      "text": "Да, звучит неожиданно, но это действительно работает.",
+      "words": [
+        {
+          "word": "Да,",
+          "start": 237.64,
+          "end": 238.68,
+          "probability": 0.463
+        },
+        {
+          "word": "звучит",
+          "start": 239.02,
+          "end": 239.52,
+          "probability": 0.945
+        },
+        {
+          "word": "неожиданно,",
+          "start": 239.52,
+          "end": 240.26,
+          "probability": 0.973
+        },
+        {
+          "word": "но",
+          "start": 240.66,
+          "end": 240.88,
+          "probability": 0.99
+        },
+        {
+          "word": "это",
+          "start": 240.88,
+          "end": 241.12,
+          "probability": 0.97
+        },
+        {
+          "word": "действительно",
+          "start": 241.12,
+          "end": 241.58,
+          "probability": 0.973
+        },
+        {
+          "word": "работает.",
+          "start": 241.58,
+          "end": 242.26,
+          "probability": 0.989
+        }
+      ]
+    },
+    {
+      "start": 242.62,
+      "end": 248.12,
+      "text": "Особенно если вы относительно недавно в Канаде у вас маленькие дети,",
+      "words": [
+        {
+          "word": "Особенно",
+          "start": 242.62,
+          "end": 243.2,
+          "probability": 0.988
+        },
+        {
+          "word": "если",
+          "start": 243.2,
+          "end": 243.52,
+          "probability": 0.782
+        },
+        {
+          "word": "вы",
+          "start": 243.52,
+          "end": 243.82,
+          "probability": 0.978
+        },
+        {
+          "word": "относительно",
+          "start": 243.82,
+          "end": 245.46,
+          "probability": 0.957
+        },
+        {
+          "word": "недавно",
+          "start": 245.46,
+          "end": 246.26,
+          "probability": 0.987
+        },
+        {
+          "word": "в",
+          "start": 246.26,
+          "end": 246.48,
+          "probability": 0.989
+        },
+        {
+          "word": "Канаде",
+          "start": 246.48,
+          "end": 246.92,
+          "probability": 0.81
+        },
+        {
+          "word": "у",
+          "start": 246.92,
+          "end": 247.06,
+          "probability": 0.738
+        },
+        {
+          "word": "вас",
+          "start": 247.06,
+          "end": 247.16,
+          "probability": 0.95
+        },
+        {
+          "word": "маленькие",
+          "start": 247.16,
+          "end": 247.76,
+          "probability": 0.982
+        },
+        {
+          "word": "дети,",
+          "start": 247.76,
+          "end": 248.12,
+          "probability": 0.985
+        }
+      ]
+    },
+    {
+      "start": 248.8,
+      "end": 252.46,
+      "text": "или вы только начинаете самостоятельно вести семейные финансы,",
+      "words": [
+        {
+          "word": "или",
+          "start": 248.8,
+          "end": 248.9,
+          "probability": 0.875
+        },
+        {
+          "word": "вы",
+          "start": 248.9,
+          "end": 249.08,
+          "probability": 0.972
+        },
+        {
+          "word": "только",
+          "start": 249.08,
+          "end": 249.6,
+          "probability": 0.961
+        },
+        {
+          "word": "начинаете",
+          "start": 249.6,
+          "end": 250.2,
+          "probability": 0.855
+        },
+        {
+          "word": "самостоятельно",
+          "start": 250.2,
+          "end": 251.0,
+          "probability": 0.99
+        },
+        {
+          "word": "вести",
+          "start": 251.0,
+          "end": 251.32,
+          "probability": 0.886
+        },
+        {
+          "word": "семейные",
+          "start": 251.32,
+          "end": 251.84,
+          "probability": 0.948
+        },
+        {
+          "word": "финансы,",
+          "start": 251.84,
+          "end": 252.46,
+          "probability": 0.975
+        }
+      ]
+    },
+    {
+      "start": 252.96,
+      "end": 256.4,
+      "text": "и может стать очень терпеливым и доступным учителем.",
+      "words": [
+        {
+          "word": "и",
+          "start": 252.96,
+          "end": 253.1,
+          "probability": 0.978
+        },
+        {
+          "word": "может",
+          "start": 253.1,
+          "end": 253.6,
+          "probability": 0.955
+        },
+        {
+          "word": "стать",
+          "start": 253.6,
+          "end": 253.98,
+          "probability": 0.997
+        },
+        {
+          "word": "очень",
+          "start": 253.98,
+          "end": 254.6,
+          "probability": 0.984
+        },
+        {
+          "word": "терпеливым",
+          "start": 254.6,
+          "end": 255.26,
+          "probability": 0.904
+        },
+        {
+          "word": "и",
+          "start": 255.26,
+          "end": 255.38,
+          "probability": 0.991
+        },
+        {
+          "word": "доступным",
+          "start": 255.38,
+          "end": 255.78,
+          "probability": 0.998
+        },
+        {
+          "word": "учителем.",
+          "start": 255.78,
+          "end": 256.4,
+          "probability": 0.908
+        }
+      ]
+    },
+    {
+      "start": 256.9,
+      "end": 265.62,
+      "text": "Как это делать правильно? Откройте chatGPT, Cloud или Gemini и напишите максимально честные подробно о своей ситуации.",
+      "words": [
+        {
+          "word": "Как",
+          "start": 256.9,
+          "end": 257.14,
+          "probability": 0.969
+        },
+        {
+          "word": "это",
+          "start": 257.14,
+          "end": 257.42,
+          "probability": 0.997
+        },
+        {
+          "word": "делать",
+          "start": 257.42,
+          "end": 257.68,
+          "probability": 0.984
+        },
+        {
+          "word": "правильно?",
+          "start": 257.68,
+          "end": 258.24,
+          "probability": 0.991
+        },
+        {
+          "word": "Откройте",
+          "start": 258.68,
+          "end": 259.2,
+          "probability": 0.916
+        },
+        {
+          "word": "chatGPT,",
+          "start": 259.2,
+          "end": 260.0,
+          "probability": 0.488
+        },
+        {
+          "word": "Cloud",
+          "start": 260.58,
+          "end": 260.68,
+          "probability": 0.33
+        },
+        {
+          "word": "или",
+          "start": 260.68,
+          "end": 261.28,
+          "probability": 0.849
+        },
+        {
+          "word": "Gemini",
+          "start": 261.28,
+          "end": 261.82,
+          "probability": 0.641
+        },
+        {
+          "word": "и",
+          "start": 261.82,
+          "end": 262.16,
+          "probability": 0.912
+        },
+        {
+          "word": "напишите",
+          "start": 262.16,
+          "end": 262.64,
+          "probability": 0.975
+        },
+        {
+          "word": "максимально",
+          "start": 262.64,
+          "end": 263.26,
+          "probability": 0.994
+        },
+        {
+          "word": "честные",
+          "start": 263.26,
+          "end": 263.8,
+          "probability": 0.793
+        },
+        {
+          "word": "подробно",
+          "start": 263.8,
+          "end": 264.4,
+          "probability": 0.827
+        },
+        {
+          "word": "о",
+          "start": 264.4,
+          "end": 264.68,
+          "probability": 0.971
+        },
+        {
+          "word": "своей",
+          "start": 264.68,
+          "end": 264.98,
+          "probability": 0.994
+        },
+        {
+          "word": "ситуации.",
+          "start": 264.98,
+          "end": 265.62,
+          "probability": 0.993
+        }
+      ]
+    },
+    {
+      "start": 266.62,
+      "end": 278.6,
+      "text": "Мне 34 года, я живу в серый, работаю парт-тайм, муж зарабатывает х, у нас двое детей, аренда 2600 долларов, каждый месяц остается мало.",
+      "words": [
+        {
+          "word": "Мне",
+          "start": 266.36,
+          "end": 266.8,
+          "probability": 0.231
+        },
+        {
+          "word": "34",
+          "start": 266.8,
+          "end": 267.26,
+          "probability": 0.829
+        },
+        {
+          "word": "года,",
+          "start": 267.26,
+          "end": 267.92,
+          "probability": 0.974
+        },
+        {
+          "word": "я",
+          "start": 268.08,
+          "end": 268.34,
+          "probability": 0.918
+        },
+        {
+          "word": "живу",
+          "start": 268.34,
+          "end": 268.96,
+          "probability": 0.955
+        },
+        {
+          "word": "в",
+          "start": 268.96,
+          "end": 269.5,
+          "probability": 0.613
+        },
+        {
+          "word": "серый,",
+          "start": 269.5,
+          "end": 269.92,
+          "probability": 0.524
+        },
+        {
+          "word": "работаю",
+          "start": 270.26,
+          "end": 270.82,
+          "probability": 0.965
+        },
+        {
+          "word": "парт",
+          "start": 270.82,
+          "end": 271.26,
+          "probability": 0.639
+        },
+        {
+          "word": "-тайм,",
+          "start": 271.26,
+          "end": 271.54,
+          "probability": 0.638
+        },
+        {
+          "word": "муж",
+          "start": 272.1,
+          "end": 272.1,
+          "probability": 0.913
+        },
+        {
+          "word": "зарабатывает",
+          "start": 272.1,
+          "end": 272.9,
+          "probability": 0.987
+        },
+        {
+          "word": "х,",
+          "start": 272.9,
+          "end": 273.22,
+          "probability": 0.435
+        },
+        {
+          "word": "у",
+          "start": 273.6,
+          "end": 273.68,
+          "probability": 0.995
+        },
+        {
+          "word": "нас",
+          "start": 273.68,
+          "end": 273.82,
+          "probability": 0.994
+        },
+        {
+          "word": "двое",
+          "start": 273.82,
+          "end": 274.06,
+          "probability": 0.673
+        },
+        {
+          "word": "детей,",
+          "start": 274.06,
+          "end": 274.44,
+          "probability": 0.995
+        },
+        {
+          "word": "аренда",
+          "start": 274.98,
+          "end": 275.44,
+          "probability": 0.85
+        },
+        {
+          "word": "2600",
+          "start": 275.44,
+          "end": 276.52,
+          "probability": 0.579
+        },
+        {
+          "word": "долларов,",
+          "start": 276.52,
+          "end": 276.88,
+          "probability": 0.908
+        },
+        {
+          "word": "каждый",
+          "start": 277.14,
+          "end": 277.36,
+          "probability": 0.901
+        },
+        {
+          "word": "месяц",
+          "start": 277.36,
+          "end": 277.86,
+          "probability": 0.974
+        },
+        {
+          "word": "остается",
+          "start": 277.86,
+          "end": 278.18,
+          "probability": 0.935
+        },
+        {
+          "word": "мало.",
+          "start": 278.18,
+          "end": 278.6,
+          "probability": 0.995
+        }
+      ]
+    },
+    {
+      "start": 279.04,
+      "end": 282.68,
+      "text": "Объясним мне простыми словами, с чего мне начать управлять деньгами.",
+      "words": [
+        {
+          "word": "Объясним",
+          "start": 279.04,
+          "end": 279.4,
+          "probability": 0.708
+        },
+        {
+          "word": "мне",
+          "start": 279.4,
+          "end": 279.58,
+          "probability": 0.646
+        },
+        {
+          "word": "простыми",
+          "start": 279.58,
+          "end": 280.02,
+          "probability": 0.9
+        },
+        {
+          "word": "словами,",
+          "start": 280.02,
+          "end": 280.52,
+          "probability": 0.998
+        },
+        {
+          "word": "с",
+          "start": 280.9,
+          "end": 281.0,
+          "probability": 0.997
+        },
+        {
+          "word": "чего",
+          "start": 281.0,
+          "end": 281.14,
+          "probability": 0.922
+        },
+        {
+          "word": "мне",
+          "start": 281.14,
+          "end": 281.38,
+          "probability": 0.997
+        },
+        {
+          "word": "начать",
+          "start": 281.38,
+          "end": 281.76,
+          "probability": 0.967
+        },
+        {
+          "word": "управлять",
+          "start": 281.76,
+          "end": 282.22,
+          "probability": 0.985
+        },
+        {
+          "word": "деньгами.",
+          "start": 282.22,
+          "end": 282.68,
+          "probability": 0.975
+        }
+      ]
+    },
+    {
+      "start": 283.38,
+      "end": 289.3,
+      "text": "Просите объяснять, как для 15-летней девочки это очень хороший прием.",
+      "words": [
+        {
+          "word": "Просите",
+          "start": 283.38,
+          "end": 283.8,
+          "probability": 0.922
+        },
+        {
+          "word": "объяснять,",
+          "start": 283.8,
+          "end": 284.32,
+          "probability": 0.956
+        },
+        {
+          "word": "как",
+          "start": 284.48,
+          "end": 284.56,
+          "probability": 0.992
+        },
+        {
+          "word": "для",
+          "start": 284.56,
+          "end": 284.8,
+          "probability": 0.963
+        },
+        {
+          "word": "15",
+          "start": 284.8,
+          "end": 285.9,
+          "probability": 0.277
+        },
+        {
+          "word": "-летней",
+          "start": 285.9,
+          "end": 286.42,
+          "probability": 0.665
+        },
+        {
+          "word": "девочки",
+          "start": 286.42,
+          "end": 286.92,
+          "probability": 0.941
+        },
+        {
+          "word": "это",
+          "start": 286.92,
+          "end": 287.92,
+          "probability": 0.362
+        },
+        {
+          "word": "очень",
+          "start": 287.92,
+          "end": 288.38,
+          "probability": 0.989
+        },
+        {
+          "word": "хороший",
+          "start": 288.38,
+          "end": 288.86,
+          "probability": 0.904
+        },
+        {
+          "word": "прием.",
+          "start": 288.86,
+          "end": 289.3,
+          "probability": 0.873
+        }
+      ]
+    },
+    {
+      "start": 290.3,
+      "end": 294.32,
+      "text": "Многие молодые мамы в ловер-мейн-ленд уже используют этот подход",
+      "words": [
+        {
+          "word": "Многие",
+          "start": 290.18,
+          "end": 290.6,
+          "probability": 0.726
+        },
+        {
+          "word": "молодые",
+          "start": 290.6,
+          "end": 291.0,
+          "probability": 0.968
+        },
+        {
+          "word": "мамы",
+          "start": 291.0,
+          "end": 291.44,
+          "probability": 0.946
+        },
+        {
+          "word": "в",
+          "start": 291.44,
+          "end": 291.56,
+          "probability": 0.896
+        },
+        {
+          "word": "ловер",
+          "start": 291.56,
+          "end": 291.88,
+          "probability": 0.567
+        },
+        {
+          "word": "-мейн",
+          "start": 291.88,
+          "end": 292.14,
+          "probability": 0.737
+        },
+        {
+          "word": "-ленд",
+          "start": 292.14,
+          "end": 292.4,
+          "probability": 0.658
+        },
+        {
+          "word": "уже",
+          "start": 292.4,
+          "end": 293.04,
+          "probability": 0.978
+        },
+        {
+          "word": "используют",
+          "start": 293.04,
+          "end": 293.66,
+          "probability": 0.976
+        },
+        {
+          "word": "этот",
+          "start": 293.66,
+          "end": 293.92,
+          "probability": 0.978
+        },
+        {
+          "word": "подход",
+          "start": 293.92,
+          "end": 294.32,
+          "probability": 0.996
+        }
+      ]
+    },
+    {
+      "start": 294.32,
+      "end": 302.12,
+      "text": "и говорят, что впервые начали по-настоящему понимать, куда уходят деньги и как можно постепенно выстроить систему.",
+      "words": [
+        {
+          "word": "и",
+          "start": 294.32,
+          "end": 294.62,
+          "probability": 0.882
+        },
+        {
+          "word": "говорят,",
+          "start": 294.62,
+          "end": 294.88,
+          "probability": 0.997
+        },
+        {
+          "word": "что",
+          "start": 295.16,
+          "end": 295.26,
+          "probability": 0.995
+        },
+        {
+          "word": "впервые",
+          "start": 295.26,
+          "end": 295.76,
+          "probability": 0.963
+        },
+        {
+          "word": "начали",
+          "start": 295.76,
+          "end": 296.22,
+          "probability": 0.967
+        },
+        {
+          "word": "по",
+          "start": 296.22,
+          "end": 296.38,
+          "probability": 0.946
+        },
+        {
+          "word": "-настоящему",
+          "start": 296.38,
+          "end": 297.02,
+          "probability": 0.916
+        },
+        {
+          "word": "понимать,",
+          "start": 297.02,
+          "end": 297.6,
+          "probability": 0.994
+        },
+        {
+          "word": "куда",
+          "start": 297.9,
+          "end": 298.22,
+          "probability": 0.991
+        },
+        {
+          "word": "уходят",
+          "start": 298.22,
+          "end": 298.72,
+          "probability": 0.887
+        },
+        {
+          "word": "деньги",
+          "start": 298.72,
+          "end": 299.14,
+          "probability": 0.997
+        },
+        {
+          "word": "и",
+          "start": 299.14,
+          "end": 299.72,
+          "probability": 0.499
+        },
+        {
+          "word": "как",
+          "start": 299.72,
+          "end": 299.92,
+          "probability": 0.975
+        },
+        {
+          "word": "можно",
+          "start": 299.92,
+          "end": 300.3,
+          "probability": 0.992
+        },
+        {
+          "word": "постепенно",
+          "start": 300.3,
+          "end": 300.94,
+          "probability": 0.991
+        },
+        {
+          "word": "выстроить",
+          "start": 300.94,
+          "end": 301.52,
+          "probability": 0.954
+        },
+        {
+          "word": "систему.",
+          "start": 301.52,
+          "end": 302.12,
+          "probability": 0.989
+        }
+      ]
+    },
+    {
+      "start": 302.48,
+      "end": 310.88,
+      "text": "Второй совет – проведите финансовую ревизию своего бюджета, даже если налоговую декларацию вы уже подали.",
+      "words": [
+        {
+          "word": "Второй",
+          "start": 302.48,
+          "end": 302.88,
+          "probability": 0.952
+        },
+        {
+          "word": "совет",
+          "start": 302.88,
+          "end": 303.18,
+          "probability": 0.85
+        },
+        {
+          "word": "–",
+          "start": 303.18,
+          "end": 303.62,
+          "probability": 0.186
+        },
+        {
+          "word": "проведите",
+          "start": 303.62,
+          "end": 304.6,
+          "probability": 0.899
+        },
+        {
+          "word": "финансовую",
+          "start": 304.6,
+          "end": 305.5,
+          "probability": 0.978
+        },
+        {
+          "word": "ревизию",
+          "start": 305.5,
+          "end": 305.98,
+          "probability": 0.95
+        },
+        {
+          "word": "своего",
+          "start": 305.98,
+          "end": 306.36,
+          "probability": 0.997
+        },
+        {
+          "word": "бюджета,",
+          "start": 306.36,
+          "end": 307.02,
+          "probability": 0.979
+        },
+        {
+          "word": "даже",
+          "start": 307.56,
+          "end": 307.82,
+          "probability": 0.984
+        },
+        {
+          "word": "если",
+          "start": 307.82,
+          "end": 308.24,
+          "probability": 0.988
+        },
+        {
+          "word": "налоговую",
+          "start": 308.24,
+          "end": 308.92,
+          "probability": 0.92
+        },
+        {
+          "word": "декларацию",
+          "start": 308.92,
+          "end": 309.56,
+          "probability": 0.96
+        },
+        {
+          "word": "вы",
+          "start": 309.56,
+          "end": 309.84,
+          "probability": 0.866
+        },
+        {
+          "word": "уже",
+          "start": 309.84,
+          "end": 310.18,
+          "probability": 0.997
+        },
+        {
+          "word": "подали.",
+          "start": 310.18,
+          "end": 310.88,
+          "probability": 0.948
+        }
+      ]
+    },
+    {
+      "start": 311.24,
+      "end": 313.24,
+      "text": "Сейчас очень хорошая время.",
+      "words": [
+        {
+          "word": "Сейчас",
+          "start": 311.24,
+          "end": 311.76,
+          "probability": 0.967
+        },
+        {
+          "word": "очень",
+          "start": 311.76,
+          "end": 312.36,
+          "probability": 0.954
+        },
+        {
+          "word": "хорошая",
+          "start": 312.36,
+          "end": 312.9,
+          "probability": 0.665
+        },
+        {
+          "word": "время.",
+          "start": 312.9,
+          "end": 313.24,
+          "probability": 0.97
+        }
+      ]
+    },
+    {
+      "start": 313.24,
+      "end": 323.64,
+      "text": "Возьмите выписки из банкой кредитной карты за последние три месяца, распечатайте их или откройте на компьютере и просто сядьте с цветными маркерами или в таблице.",
+      "words": [
+        {
+          "word": "Возьмите",
+          "start": 313.24,
+          "end": 314.2,
+          "probability": 0.782
+        },
+        {
+          "word": "выписки",
+          "start": 314.2,
+          "end": 314.76,
+          "probability": 0.729
+        },
+        {
+          "word": "из",
+          "start": 314.76,
+          "end": 314.9,
+          "probability": 0.859
+        },
+        {
+          "word": "банкой",
+          "start": 314.9,
+          "end": 315.32,
+          "probability": 0.765
+        },
+        {
+          "word": "кредитной",
+          "start": 315.32,
+          "end": 315.88,
+          "probability": 0.892
+        },
+        {
+          "word": "карты",
+          "start": 315.88,
+          "end": 316.32,
+          "probability": 0.978
+        },
+        {
+          "word": "за",
+          "start": 316.32,
+          "end": 316.48,
+          "probability": 0.983
+        },
+        {
+          "word": "последние",
+          "start": 316.48,
+          "end": 317.02,
+          "probability": 0.995
+        },
+        {
+          "word": "три",
+          "start": 317.02,
+          "end": 317.3,
+          "probability": 0.786
+        },
+        {
+          "word": "месяца,",
+          "start": 317.3,
+          "end": 317.92,
+          "probability": 0.98
+        },
+        {
+          "word": "распечатайте",
+          "start": 318.36,
+          "end": 319.0,
+          "probability": 0.962
+        },
+        {
+          "word": "их",
+          "start": 319.0,
+          "end": 319.38,
+          "probability": 0.993
+        },
+        {
+          "word": "или",
+          "start": 319.38,
+          "end": 319.56,
+          "probability": 0.951
+        },
+        {
+          "word": "откройте",
+          "start": 319.56,
+          "end": 320.02,
+          "probability": 0.946
+        },
+        {
+          "word": "на",
+          "start": 320.02,
+          "end": 320.1,
+          "probability": 0.99
+        },
+        {
+          "word": "компьютере",
+          "start": 320.1,
+          "end": 320.64,
+          "probability": 0.983
+        },
+        {
+          "word": "и",
+          "start": 320.64,
+          "end": 320.8,
+          "probability": 0.634
+        },
+        {
+          "word": "просто",
+          "start": 320.8,
+          "end": 321.06,
+          "probability": 0.976
+        },
+        {
+          "word": "сядьте",
+          "start": 321.06,
+          "end": 321.5,
+          "probability": 0.81
+        },
+        {
+          "word": "с",
+          "start": 321.5,
+          "end": 321.62,
+          "probability": 0.951
+        },
+        {
+          "word": "цветными",
+          "start": 321.62,
+          "end": 321.94,
+          "probability": 0.944
+        },
+        {
+          "word": "маркерами",
+          "start": 321.94,
+          "end": 322.54,
+          "probability": 0.953
+        },
+        {
+          "word": "или",
+          "start": 322.54,
+          "end": 323.02,
+          "probability": 0.863
+        },
+        {
+          "word": "в",
+          "start": 323.02,
+          "end": 323.16,
+          "probability": 0.958
+        },
+        {
+          "word": "таблице.",
+          "start": 323.16,
+          "end": 323.64,
+          "probability": 0.907
+        }
+      ]
+    },
+    {
+      "start": 324.22,
+      "end": 341.28,
+      "text": "Разделите все траты на категории, жилье, продукты, транспорт, транслинг и бензин, бести хайдра и коммуналка, ICBC и страховки, дети, еда, одежда, садик, кружки, кофе и мелкие радости и разные.",
+      "words": [
+        {
+          "word": "Разделите",
+          "start": 324.22,
+          "end": 324.78,
+          "probability": 0.89
+        },
+        {
+          "word": "все",
+          "start": 324.78,
+          "end": 325.1,
+          "probability": 0.991
+        },
+        {
+          "word": "траты",
+          "start": 325.1,
+          "end": 325.44,
+          "probability": 0.907
+        },
+        {
+          "word": "на",
+          "start": 325.44,
+          "end": 325.62,
+          "probability": 0.994
+        },
+        {
+          "word": "категории,",
+          "start": 325.62,
+          "end": 326.24,
+          "probability": 0.98
+        },
+        {
+          "word": "жилье,",
+          "start": 326.58,
+          "end": 326.92,
+          "probability": 0.884
+        },
+        {
+          "word": "продукты,",
+          "start": 327.42,
+          "end": 327.84,
+          "probability": 0.996
+        },
+        {
+          "word": "транспорт,",
+          "start": 328.22,
+          "end": 328.7,
+          "probability": 0.985
+        },
+        {
+          "word": "транслинг",
+          "start": 329.12,
+          "end": 329.66,
+          "probability": 0.859
+        },
+        {
+          "word": "и",
+          "start": 329.66,
+          "end": 329.88,
+          "probability": 0.894
+        },
+        {
+          "word": "бензин,",
+          "start": 329.88,
+          "end": 330.28,
+          "probability": 0.957
+        },
+        {
+          "word": "бести",
+          "start": 330.94,
+          "end": 331.14,
+          "probability": 0.412
+        },
+        {
+          "word": "хайдра",
+          "start": 331.14,
+          "end": 331.68,
+          "probability": 0.782
+        },
+        {
+          "word": "и",
+          "start": 331.68,
+          "end": 331.96,
+          "probability": 0.988
+        },
+        {
+          "word": "коммуналка,",
+          "start": 331.96,
+          "end": 332.6,
+          "probability": 0.903
+        },
+        {
+          "word": "ICBC",
+          "start": 333.06,
+          "end": 333.6,
+          "probability": 0.631
+        },
+        {
+          "word": "и",
+          "start": 333.6,
+          "end": 334.02,
+          "probability": 0.866
+        },
+        {
+          "word": "страховки,",
+          "start": 334.02,
+          "end": 334.66,
+          "probability": 0.932
+        },
+        {
+          "word": "дети,",
+          "start": 334.92,
+          "end": 335.04,
+          "probability": 0.762
+        },
+        {
+          "word": "еда,",
+          "start": 335.46,
+          "end": 335.6,
+          "probability": 0.903
+        },
+        {
+          "word": "одежда,",
+          "start": 336.16,
+          "end": 336.5,
+          "probability": 0.965
+        },
+        {
+          "word": "садик,",
+          "start": 337.06,
+          "end": 337.48,
+          "probability": 0.846
+        },
+        {
+          "word": "кружки,",
+          "start": 338.0,
+          "end": 338.46,
+          "probability": 0.855
+        },
+        {
+          "word": "кофе",
+          "start": 339.24,
+          "end": 339.62,
+          "probability": 0.957
+        },
+        {
+          "word": "и",
+          "start": 339.62,
+          "end": 339.82,
+          "probability": 0.87
+        },
+        {
+          "word": "мелкие",
+          "start": 339.82,
+          "end": 340.16,
+          "probability": 0.99
+        },
+        {
+          "word": "радости",
+          "start": 340.16,
+          "end": 340.6,
+          "probability": 0.99
+        },
+        {
+          "word": "и",
+          "start": 340.6,
+          "end": 340.92,
+          "probability": 0.944
+        },
+        {
+          "word": "разные.",
+          "start": 340.92,
+          "end": 341.28,
+          "probability": 0.903
+        }
+      ]
+    },
+    {
+      "start": 341.28,
+      "end": 349.7,
+      "text": "Я обещаю почти каждая женщина, которая это делает в какой-то момент удивленный говорит. Неужели я столько потратила на это?",
+      "words": [
+        {
+          "word": "Я",
+          "start": 341.28,
+          "end": 342.34,
+          "probability": 0.238
+        },
+        {
+          "word": "обещаю",
+          "start": 342.34,
+          "end": 342.92,
+          "probability": 0.985
+        },
+        {
+          "word": "почти",
+          "start": 342.92,
+          "end": 343.3,
+          "probability": 0.494
+        },
+        {
+          "word": "каждая",
+          "start": 343.3,
+          "end": 343.76,
+          "probability": 0.807
+        },
+        {
+          "word": "женщина,",
+          "start": 343.76,
+          "end": 344.2,
+          "probability": 0.987
+        },
+        {
+          "word": "которая",
+          "start": 344.36,
+          "end": 344.48,
+          "probability": 0.879
+        },
+        {
+          "word": "это",
+          "start": 344.48,
+          "end": 344.76,
+          "probability": 0.891
+        },
+        {
+          "word": "делает",
+          "start": 344.76,
+          "end": 345.12,
+          "probability": 0.982
+        },
+        {
+          "word": "в",
+          "start": 345.12,
+          "end": 345.7,
+          "probability": 0.444
+        },
+        {
+          "word": "какой",
+          "start": 345.7,
+          "end": 345.9,
+          "probability": 0.938
+        },
+        {
+          "word": "-то",
+          "start": 345.9,
+          "end": 346.02,
+          "probability": 0.977
+        },
+        {
+          "word": "момент",
+          "start": 346.02,
+          "end": 346.26,
+          "probability": 0.999
+        },
+        {
+          "word": "удивленный",
+          "start": 346.26,
+          "end": 346.9,
+          "probability": 0.776
+        },
+        {
+          "word": "говорит.",
+          "start": 346.9,
+          "end": 347.24,
+          "probability": 0.795
+        },
+        {
+          "word": "Неужели",
+          "start": 347.7,
+          "end": 348.26,
+          "probability": 0.982
+        },
+        {
+          "word": "я",
+          "start": 348.26,
+          "end": 348.38,
+          "probability": 0.988
+        },
+        {
+          "word": "столько",
+          "start": 348.38,
+          "end": 348.64,
+          "probability": 0.981
+        },
+        {
+          "word": "потратила",
+          "start": 348.64,
+          "end": 349.26,
+          "probability": 0.852
+        },
+        {
+          "word": "на",
+          "start": 349.26,
+          "end": 349.44,
+          "probability": 0.991
+        },
+        {
+          "word": "это?",
+          "start": 349.44,
+          "end": 349.7,
+          "probability": 0.96
+        }
+      ]
+    },
+    {
+      "start": 351.16,
+      "end": 357.3,
+      "text": "Это совершенно нормальная реакция. Главное – не ругать себя, а просто увидеть реальную картину.",
+      "words": [
+        {
+          "word": "Это",
+          "start": 351.16,
+          "end": 351.42,
+          "probability": 0.918
+        },
+        {
+          "word": "совершенно",
+          "start": 351.42,
+          "end": 351.86,
+          "probability": 0.988
+        },
+        {
+          "word": "нормальная",
+          "start": 351.86,
+          "end": 352.48,
+          "probability": 0.958
+        },
+        {
+          "word": "реакция.",
+          "start": 352.48,
+          "end": 352.98,
+          "probability": 0.99
+        },
+        {
+          "word": "Главное",
+          "start": 353.4,
+          "end": 353.84,
+          "probability": 0.974
+        },
+        {
+          "word": "–",
+          "start": 353.84,
+          "end": 354.1,
+          "probability": 0.119
+        },
+        {
+          "word": "не",
+          "start": 354.1,
+          "end": 354.16,
+          "probability": 0.928
+        },
+        {
+          "word": "ругать",
+          "start": 354.16,
+          "end": 354.44,
+          "probability": 0.976
+        },
+        {
+          "word": "себя,",
+          "start": 354.44,
+          "end": 354.8,
+          "probability": 0.985
+        },
+        {
+          "word": "а",
+          "start": 355.06,
+          "end": 355.06,
+          "probability": 0.986
+        },
+        {
+          "word": "просто",
+          "start": 355.06,
+          "end": 355.38,
+          "probability": 0.993
+        },
+        {
+          "word": "увидеть",
+          "start": 355.38,
+          "end": 355.74,
+          "probability": 0.994
+        },
+        {
+          "word": "реальную",
+          "start": 355.74,
+          "end": 356.66,
+          "probability": 0.974
+        },
+        {
+          "word": "картину.",
+          "start": 356.66,
+          "end": 357.3,
+          "probability": 0.956
+        }
+      ]
+    },
+    {
+      "start": 357.72,
+      "end": 363.76,
+      "text": "Когда мы видим цифры, они ощущения, принимать решения становится гораздо легче.",
+      "words": [
+        {
+          "word": "Когда",
+          "start": 357.72,
+          "end": 357.94,
+          "probability": 0.995
+        },
+        {
+          "word": "мы",
+          "start": 357.94,
+          "end": 358.1,
+          "probability": 0.998
+        },
+        {
+          "word": "видим",
+          "start": 358.1,
+          "end": 358.38,
+          "probability": 0.997
+        },
+        {
+          "word": "цифры,",
+          "start": 358.38,
+          "end": 358.92,
+          "probability": 0.99
+        },
+        {
+          "word": "они",
+          "start": 359.1,
+          "end": 359.32,
+          "probability": 0.799
+        },
+        {
+          "word": "ощущения,",
+          "start": 359.32,
+          "end": 360.02,
+          "probability": 0.89
+        },
+        {
+          "word": "принимать",
+          "start": 360.54,
+          "end": 360.94,
+          "probability": 0.902
+        },
+        {
+          "word": "решения",
+          "start": 360.94,
+          "end": 361.52,
+          "probability": 0.842
+        },
+        {
+          "word": "становится",
+          "start": 361.52,
+          "end": 362.28,
+          "probability": 0.806
+        },
+        {
+          "word": "гораздо",
+          "start": 362.28,
+          "end": 362.8,
+          "probability": 0.984
+        },
+        {
+          "word": "легче.",
+          "start": 362.8,
+          "end": 363.76,
+          "probability": 0.958
+        }
+      ]
+    },
+    {
+      "start": 363.76,
+      "end": 370.58,
+      "text": "Давайте коротко пройдемся по другим важным новостям этой недели, чтобы у вас была полная картина.",
+      "words": [
+        {
+          "word": "Давайте",
+          "start": 363.76,
+          "end": 364.68,
+          "probability": 0.576
+        },
+        {
+          "word": "коротко",
+          "start": 364.68,
+          "end": 365.34,
+          "probability": 0.87
+        },
+        {
+          "word": "пройдемся",
+          "start": 365.34,
+          "end": 365.86,
+          "probability": 0.826
+        },
+        {
+          "word": "по",
+          "start": 365.86,
+          "end": 366.06,
+          "probability": 0.83
+        },
+        {
+          "word": "другим",
+          "start": 366.06,
+          "end": 366.44,
+          "probability": 0.967
+        },
+        {
+          "word": "важным",
+          "start": 366.44,
+          "end": 366.82,
+          "probability": 0.96
+        },
+        {
+          "word": "новостям",
+          "start": 366.82,
+          "end": 367.3,
+          "probability": 0.975
+        },
+        {
+          "word": "этой",
+          "start": 367.3,
+          "end": 367.6,
+          "probability": 0.986
+        },
+        {
+          "word": "недели,",
+          "start": 367.6,
+          "end": 368.1,
+          "probability": 0.888
+        },
+        {
+          "word": "чтобы",
+          "start": 368.52,
+          "end": 368.76,
+          "probability": 0.968
+        },
+        {
+          "word": "у",
+          "start": 368.76,
+          "end": 368.98,
+          "probability": 0.988
+        },
+        {
+          "word": "вас",
+          "start": 368.98,
+          "end": 369.14,
+          "probability": 0.974
+        },
+        {
+          "word": "была",
+          "start": 369.14,
+          "end": 369.46,
+          "probability": 0.841
+        },
+        {
+          "word": "полная",
+          "start": 369.46,
+          "end": 370.0,
+          "probability": 0.995
+        },
+        {
+          "word": "картина.",
+          "start": 370.0,
+          "end": 370.58,
+          "probability": 0.937
+        }
+      ]
+    },
+    {
+      "start": 371.0,
+      "end": 381.12,
+      "text": "Банк Англии тоже решил не менять свою ключевую ставку. Она осталась на уровне 375%.",
+      "words": [
+        {
+          "word": "Банк",
+          "start": 371.0,
+          "end": 371.28,
+          "probability": 0.786
+        },
+        {
+          "word": "Англии",
+          "start": 371.28,
+          "end": 371.7,
+          "probability": 0.778
+        },
+        {
+          "word": "тоже",
+          "start": 371.7,
+          "end": 372.04,
+          "probability": 0.984
+        },
+        {
+          "word": "решил",
+          "start": 372.04,
+          "end": 372.38,
+          "probability": 0.988
+        },
+        {
+          "word": "не",
+          "start": 372.38,
+          "end": 372.68,
+          "probability": 0.975
+        },
+        {
+          "word": "менять",
+          "start": 372.68,
+          "end": 373.5,
+          "probability": 0.995
+        },
+        {
+          "word": "свою",
+          "start": 373.5,
+          "end": 374.24,
+          "probability": 0.99
+        },
+        {
+          "word": "ключевую",
+          "start": 374.24,
+          "end": 375.06,
+          "probability": 0.974
+        },
+        {
+          "word": "ставку.",
+          "start": 375.06,
+          "end": 375.62,
+          "probability": 0.989
+        },
+        {
+          "word": "Она",
+          "start": 376.08,
+          "end": 376.28,
+          "probability": 0.931
+        },
+        {
+          "word": "осталась",
+          "start": 376.28,
+          "end": 376.76,
+          "probability": 0.985
+        },
+        {
+          "word": "на",
+          "start": 376.76,
+          "end": 377.0,
+          "probability": 0.994
+        },
+        {
+          "word": "уровне",
+          "start": 377.0,
+          "end": 377.5,
+          "probability": 0.993
+        },
+        {
+          "word": "375%.",
+          "start": 377.5,
+          "end": 381.12,
+          "probability": 0.748
+        }
+      ]
+    },
+    {
+      "start": 381.12,
+      "end": 388.0,
+      "text": "Главное причина, продолжающийся рост ценной энергоносителей из-за сложной международной ситуации.",
+      "words": [
+        {
+          "word": "Главное",
+          "start": 381.12,
+          "end": 382.08,
+          "probability": 0.644
+        },
+        {
+          "word": "причина,",
+          "start": 382.08,
+          "end": 382.62,
+          "probability": 0.712
+        },
+        {
+          "word": "продолжающийся",
+          "start": 382.86,
+          "end": 383.7,
+          "probability": 0.816
+        },
+        {
+          "word": "рост",
+          "start": 383.7,
+          "end": 383.9,
+          "probability": 0.895
+        },
+        {
+          "word": "ценной",
+          "start": 383.9,
+          "end": 384.38,
+          "probability": 0.722
+        },
+        {
+          "word": "энергоносителей",
+          "start": 384.38,
+          "end": 385.22,
+          "probability": 0.847
+        },
+        {
+          "word": "из",
+          "start": 385.22,
+          "end": 385.72,
+          "probability": 0.901
+        },
+        {
+          "word": "-за",
+          "start": 385.72,
+          "end": 385.86,
+          "probability": 0.998
+        },
+        {
+          "word": "сложной",
+          "start": 385.86,
+          "end": 386.58,
+          "probability": 0.986
+        },
+        {
+          "word": "международной",
+          "start": 386.58,
+          "end": 387.28,
+          "probability": 0.981
+        },
+        {
+          "word": "ситуации.",
+          "start": 387.28,
+          "end": 388.0,
+          "probability": 0.929
+        }
+      ]
+    },
+    {
+      "start": 388.42,
+      "end": 394.5,
+      "text": "Это показывает, что сейчас многие центральные банки мира выбрали стратегию, лучше не спешить.",
+      "words": [
+        {
+          "word": "Это",
+          "start": 388.42,
+          "end": 388.6,
+          "probability": 0.923
+        },
+        {
+          "word": "показывает,",
+          "start": 388.6,
+          "end": 389.36,
+          "probability": 0.994
+        },
+        {
+          "word": "что",
+          "start": 389.46,
+          "end": 389.58,
+          "probability": 0.996
+        },
+        {
+          "word": "сейчас",
+          "start": 389.58,
+          "end": 389.98,
+          "probability": 0.978
+        },
+        {
+          "word": "многие",
+          "start": 389.98,
+          "end": 390.52,
+          "probability": 0.991
+        },
+        {
+          "word": "центральные",
+          "start": 390.52,
+          "end": 391.08,
+          "probability": 0.919
+        },
+        {
+          "word": "банки",
+          "start": 391.08,
+          "end": 391.46,
+          "probability": 0.955
+        },
+        {
+          "word": "мира",
+          "start": 391.46,
+          "end": 391.76,
+          "probability": 0.995
+        },
+        {
+          "word": "выбрали",
+          "start": 391.76,
+          "end": 392.22,
+          "probability": 0.975
+        },
+        {
+          "word": "стратегию,",
+          "start": 392.22,
+          "end": 392.9,
+          "probability": 0.972
+        },
+        {
+          "word": "лучше",
+          "start": 393.42,
+          "end": 393.72,
+          "probability": 0.957
+        },
+        {
+          "word": "не",
+          "start": 393.72,
+          "end": 393.92,
+          "probability": 0.994
+        },
+        {
+          "word": "спешить.",
+          "start": 393.92,
+          "end": 394.5,
+          "probability": 0.979
+        }
+      ]
+    },
+    {
+      "start": 395.06,
+      "end": 403.1,
+      "text": "Американский банк Морган Стенлии отложил свой прогноз по снижению ставки в США, США, США и Союнии на сентябре.",
+      "words": [
+        {
+          "word": "Американский",
+          "start": 395.06,
+          "end": 395.7,
+          "probability": 0.923
+        },
+        {
+          "word": "банк",
+          "start": 395.7,
+          "end": 396.04,
+          "probability": 0.987
+        },
+        {
+          "word": "Морган",
+          "start": 396.04,
+          "end": 396.4,
+          "probability": 0.814
+        },
+        {
+          "word": "Стенлии",
+          "start": 396.4,
+          "end": 397.46,
+          "probability": 0.557
+        },
+        {
+          "word": "отложил",
+          "start": 397.46,
+          "end": 398.02,
+          "probability": 0.976
+        },
+        {
+          "word": "свой",
+          "start": 398.02,
+          "end": 398.98,
+          "probability": 0.951
+        },
+        {
+          "word": "прогноз",
+          "start": 398.98,
+          "end": 399.4,
+          "probability": 0.984
+        },
+        {
+          "word": "по",
+          "start": 399.4,
+          "end": 399.64,
+          "probability": 0.929
+        },
+        {
+          "word": "снижению",
+          "start": 399.64,
+          "end": 400.1,
+          "probability": 0.966
+        },
+        {
+          "word": "ставки",
+          "start": 400.1,
+          "end": 400.6,
+          "probability": 0.981
+        },
+        {
+          "word": "в",
+          "start": 400.6,
+          "end": 400.7,
+          "probability": 0.974
+        },
+        {
+          "word": "США,",
+          "start": 400.7,
+          "end": 400.82,
+          "probability": 0.747
+        },
+        {
+          "word": "США,",
+          "start": 401.02,
+          "end": 401.28,
+          "probability": 0.066
+        },
+        {
+          "word": "США",
+          "start": 401.58,
+          "end": 401.58,
+          "probability": 0.374
+        },
+        {
+          "word": "и",
+          "start": 401.58,
+          "end": 401.96,
+          "probability": 0.402
+        },
+        {
+          "word": "Союнии",
+          "start": 401.96,
+          "end": 402.38,
+          "probability": 0.621
+        },
+        {
+          "word": "на",
+          "start": 402.38,
+          "end": 402.44,
+          "probability": 0.773
+        },
+        {
+          "word": "сентябре.",
+          "start": 402.44,
+          "end": 403.1,
+          "probability": 0.854
+        }
+      ]
+    },
+    {
+      "start": 403.1,
+      "end": 408.44,
+      "text": "Они опасаются, что инфляция может оказаться более устойчивой, чем ожидалось.",
+      "words": [
+        {
+          "word": "Они",
+          "start": 403.1,
+          "end": 403.76,
+          "probability": 0.051
+        },
+        {
+          "word": "опасаются,",
+          "start": 403.76,
+          "end": 404.58,
+          "probability": 0.979
+        },
+        {
+          "word": "что",
+          "start": 405.04,
+          "end": 405.2,
+          "probability": 0.988
+        },
+        {
+          "word": "инфляция",
+          "start": 405.2,
+          "end": 405.8,
+          "probability": 0.754
+        },
+        {
+          "word": "может",
+          "start": 405.8,
+          "end": 406.06,
+          "probability": 0.984
+        },
+        {
+          "word": "оказаться",
+          "start": 406.06,
+          "end": 406.6,
+          "probability": 0.98
+        },
+        {
+          "word": "более",
+          "start": 406.6,
+          "end": 406.94,
+          "probability": 0.993
+        },
+        {
+          "word": "устойчивой,",
+          "start": 406.94,
+          "end": 407.64,
+          "probability": 0.983
+        },
+        {
+          "word": "чем",
+          "start": 407.72,
+          "end": 407.8,
+          "probability": 0.977
+        },
+        {
+          "word": "ожидалось.",
+          "start": 407.8,
+          "end": 408.44,
+          "probability": 0.922
+        }
+      ]
+    },
+    {
+      "start": 408.8,
+      "end": 415.36,
+      "text": "Хотя это происходит в США. Такие решения часто создают косвенное давление и на канадскую экономику.",
+      "words": [
+        {
+          "word": "Хотя",
+          "start": 408.8,
+          "end": 409.14,
+          "probability": 0.982
+        },
+        {
+          "word": "это",
+          "start": 409.14,
+          "end": 409.36,
+          "probability": 0.958
+        },
+        {
+          "word": "происходит",
+          "start": 409.36,
+          "end": 409.8,
+          "probability": 0.994
+        },
+        {
+          "word": "в",
+          "start": 409.8,
+          "end": 410.04,
+          "probability": 0.998
+        },
+        {
+          "word": "США.",
+          "start": 410.04,
+          "end": 410.28,
+          "probability": 0.988
+        },
+        {
+          "word": "Такие",
+          "start": 410.8,
+          "end": 411.08,
+          "probability": 0.956
+        },
+        {
+          "word": "решения",
+          "start": 411.08,
+          "end": 411.58,
+          "probability": 0.988
+        },
+        {
+          "word": "часто",
+          "start": 411.58,
+          "end": 412.0,
+          "probability": 0.994
+        },
+        {
+          "word": "создают",
+          "start": 412.0,
+          "end": 412.66,
+          "probability": 0.973
+        },
+        {
+          "word": "косвенное",
+          "start": 412.66,
+          "end": 413.2,
+          "probability": 0.795
+        },
+        {
+          "word": "давление",
+          "start": 413.2,
+          "end": 413.74,
+          "probability": 0.993
+        },
+        {
+          "word": "и",
+          "start": 413.74,
+          "end": 414.06,
+          "probability": 0.557
+        },
+        {
+          "word": "на",
+          "start": 414.06,
+          "end": 414.18,
+          "probability": 0.483
+        },
+        {
+          "word": "канадскую",
+          "start": 414.18,
+          "end": 414.72,
+          "probability": 0.955
+        },
+        {
+          "word": "экономику.",
+          "start": 414.72,
+          "end": 415.36,
+          "probability": 0.988
+        }
+      ]
+    },
+    {
+      "start": 415.94,
+      "end": 425.04,
+      "text": "И последняя новость – канадская компания «Ферстон» приобретает часть бизнеса «Лауренчен» Банк.",
+      "words": [
+        {
+          "word": "И",
+          "start": 415.94,
+          "end": 416.02,
+          "probability": 0.906
+        },
+        {
+          "word": "последняя",
+          "start": 416.02,
+          "end": 416.62,
+          "probability": 0.987
+        },
+        {
+          "word": "новость",
+          "start": 416.62,
+          "end": 417.18,
+          "probability": 0.994
+        },
+        {
+          "word": "–",
+          "start": 417.18,
+          "end": 418.28,
+          "probability": 0.118
+        },
+        {
+          "word": "канадская",
+          "start": 418.28,
+          "end": 418.84,
+          "probability": 0.977
+        },
+        {
+          "word": "компания",
+          "start": 418.84,
+          "end": 419.42,
+          "probability": 0.856
+        },
+        {
+          "word": "«Ферстон»",
+          "start": 419.42,
+          "end": 421.08,
+          "probability": 0.599
+        },
+        {
+          "word": "приобретает",
+          "start": 421.08,
+          "end": 421.68,
+          "probability": 0.937
+        },
+        {
+          "word": "часть",
+          "start": 421.68,
+          "end": 421.96,
+          "probability": 0.995
+        },
+        {
+          "word": "бизнеса",
+          "start": 421.96,
+          "end": 422.86,
+          "probability": 0.942
+        },
+        {
+          "word": "«Лауренчен»",
+          "start": 422.86,
+          "end": 424.66,
+          "probability": 0.617
+        },
+        {
+          "word": "Банк.",
+          "start": 424.66,
+          "end": 425.04,
+          "probability": 0.453
+        }
+      ]
+    },
+    {
+      "start": 425.62,
+      "end": 432.34,
+      "text": "По оценке рейтингового агентства ДБРС это приобретение может укрепить общекредитный профиль новой структуры.",
+      "words": [
+        {
+          "word": "По",
+          "start": 425.62,
+          "end": 426.0,
+          "probability": 0.974
+        },
+        {
+          "word": "оценке",
+          "start": 426.0,
+          "end": 426.44,
+          "probability": 0.96
+        },
+        {
+          "word": "рейтингового",
+          "start": 426.44,
+          "end": 427.04,
+          "probability": 0.97
+        },
+        {
+          "word": "агентства",
+          "start": 427.04,
+          "end": 427.46,
+          "probability": 0.832
+        },
+        {
+          "word": "ДБРС",
+          "start": 427.46,
+          "end": 428.14,
+          "probability": 0.739
+        },
+        {
+          "word": "это",
+          "start": 428.14,
+          "end": 428.38,
+          "probability": 0.664
+        },
+        {
+          "word": "приобретение",
+          "start": 428.38,
+          "end": 429.14,
+          "probability": 0.993
+        },
+        {
+          "word": "может",
+          "start": 429.14,
+          "end": 429.44,
+          "probability": 0.947
+        },
+        {
+          "word": "укрепить",
+          "start": 429.44,
+          "end": 429.96,
+          "probability": 0.984
+        },
+        {
+          "word": "общекредитный",
+          "start": 429.96,
+          "end": 430.92,
+          "probability": 0.767
+        },
+        {
+          "word": "профиль",
+          "start": 430.92,
+          "end": 431.42,
+          "probability": 0.994
+        },
+        {
+          "word": "новой",
+          "start": 431.42,
+          "end": 431.74,
+          "probability": 0.879
+        },
+        {
+          "word": "структуры.",
+          "start": 431.74,
+          "end": 432.34,
+          "probability": 0.986
+        }
+      ]
+    },
+    {
+      "start": 432.34,
+      "end": 436.56,
+      "text": "Хотя и создаст определенное давление на прибыльность.",
+      "words": [
+        {
+          "word": "Хотя",
+          "start": 432.34,
+          "end": 432.98,
+          "probability": 0.041
+        },
+        {
+          "word": "и",
+          "start": 432.98,
+          "end": 433.22,
+          "probability": 0.87
+        },
+        {
+          "word": "создаст",
+          "start": 433.22,
+          "end": 433.66,
+          "probability": 0.71
+        },
+        {
+          "word": "определенное",
+          "start": 433.66,
+          "end": 434.4,
+          "probability": 0.873
+        },
+        {
+          "word": "давление",
+          "start": 434.4,
+          "end": 435.02,
+          "probability": 0.994
+        },
+        {
+          "word": "на",
+          "start": 435.02,
+          "end": 435.56,
+          "probability": 0.964
+        },
+        {
+          "word": "прибыльность.",
+          "start": 435.56,
+          "end": 436.56,
+          "probability": 0.834
+        }
+      ]
+    },
+    {
+      "start": 437.08,
+      "end": 442.96,
+      "text": "Для обычных клиентов банков на данном этапе это изменение почти ничего не меняет,",
+      "words": [
+        {
+          "word": "Для",
+          "start": 437.08,
+          "end": 437.52,
+          "probability": 0.91
+        },
+        {
+          "word": "обычных",
+          "start": 437.52,
+          "end": 438.04,
+          "probability": 0.995
+        },
+        {
+          "word": "клиентов",
+          "start": 438.04,
+          "end": 438.52,
+          "probability": 0.989
+        },
+        {
+          "word": "банков",
+          "start": 438.52,
+          "end": 439.04,
+          "probability": 0.96
+        },
+        {
+          "word": "на",
+          "start": 439.04,
+          "end": 439.22,
+          "probability": 0.961
+        },
+        {
+          "word": "данном",
+          "start": 439.22,
+          "end": 439.56,
+          "probability": 0.989
+        },
+        {
+          "word": "этапе",
+          "start": 439.56,
+          "end": 440.04,
+          "probability": 0.995
+        },
+        {
+          "word": "это",
+          "start": 440.04,
+          "end": 440.5,
+          "probability": 0.597
+        },
+        {
+          "word": "изменение",
+          "start": 440.5,
+          "end": 441.32,
+          "probability": 0.946
+        },
+        {
+          "word": "почти",
+          "start": 441.32,
+          "end": 441.72,
+          "probability": 0.933
+        },
+        {
+          "word": "ничего",
+          "start": 441.72,
+          "end": 442.2,
+          "probability": 0.928
+        },
+        {
+          "word": "не",
+          "start": 442.2,
+          "end": 442.42,
+          "probability": 0.996
+        },
+        {
+          "word": "меняет,",
+          "start": 442.42,
+          "end": 442.96,
+          "probability": 0.99
+        }
+      ]
+    },
+    {
+      "start": 443.36,
+      "end": 446.34,
+      "text": "но за такими новостями всегда интересно наблюдать.",
+      "words": [
+        {
+          "word": "но",
+          "start": 443.36,
+          "end": 443.6,
+          "probability": 0.991
+        },
+        {
+          "word": "за",
+          "start": 443.6,
+          "end": 443.94,
+          "probability": 0.96
+        },
+        {
+          "word": "такими",
+          "start": 443.94,
+          "end": 444.42,
+          "probability": 0.982
+        },
+        {
+          "word": "новостями",
+          "start": 444.42,
+          "end": 445.16,
+          "probability": 0.982
+        },
+        {
+          "word": "всегда",
+          "start": 445.16,
+          "end": 445.64,
+          "probability": 0.992
+        },
+        {
+          "word": "интересно",
+          "start": 445.64,
+          "end": 446.24,
+          "probability": 0.888
+        },
+        {
+          "word": "наблюдать.",
+          "start": 446.24,
+          "end": 446.7,
+          "probability": 0.966
+        }
+      ]
+    },
+    {
+      "start": 447.32,
+      "end": 451.32,
+      "text": "Дорогие мои, я хочу чтобы вы запомнили одну важную вещь.",
+      "words": [
+        {
+          "word": "Дорогие",
+          "start": 447.32,
+          "end": 447.86,
+          "probability": 0.947
+        },
+        {
+          "word": "мои,",
+          "start": 447.86,
+          "end": 448.1,
+          "probability": 0.992
+        },
+        {
+          "word": "я",
+          "start": 448.54,
+          "end": 448.7,
+          "probability": 0.984
+        },
+        {
+          "word": "хочу",
+          "start": 448.7,
+          "end": 449.04,
+          "probability": 0.999
+        },
+        {
+          "word": "чтобы",
+          "start": 449.04,
+          "end": 449.34,
+          "probability": 0.65
+        },
+        {
+          "word": "вы",
+          "start": 449.34,
+          "end": 449.48,
+          "probability": 0.934
+        },
+        {
+          "word": "запомнили",
+          "start": 449.48,
+          "end": 450.08,
+          "probability": 0.992
+        },
+        {
+          "word": "одну",
+          "start": 450.08,
+          "end": 450.42,
+          "probability": 0.994
+        },
+        {
+          "word": "важную",
+          "start": 450.42,
+          "end": 450.88,
+          "probability": 0.99
+        },
+        {
+          "word": "вещь.",
+          "start": 450.88,
+          "end": 451.32,
+          "probability": 0.989
+        }
+      ]
+    },
+    {
+      "start": 451.7,
+      "end": 457.34,
+      "text": "Даже когда новости звучат довольно спокойно и ничего не изменилось,",
+      "words": [
+        {
+          "word": "Даже",
+          "start": 451.7,
+          "end": 451.98,
+          "probability": 0.986
+        },
+        {
+          "word": "когда",
+          "start": 451.98,
+          "end": 452.36,
+          "probability": 0.938
+        },
+        {
+          "word": "новости",
+          "start": 452.36,
+          "end": 453.28,
+          "probability": 0.956
+        },
+        {
+          "word": "звучат",
+          "start": 453.28,
+          "end": 454.32,
+          "probability": 0.998
+        },
+        {
+          "word": "довольно",
+          "start": 454.32,
+          "end": 454.84,
+          "probability": 0.949
+        },
+        {
+          "word": "спокойно",
+          "start": 454.84,
+          "end": 455.76,
+          "probability": 0.992
+        },
+        {
+          "word": "и",
+          "start": 455.76,
+          "end": 456.1,
+          "probability": 0.663
+        },
+        {
+          "word": "ничего",
+          "start": 456.1,
+          "end": 456.92,
+          "probability": 0.972
+        },
+        {
+          "word": "не",
+          "start": 456.92,
+          "end": 457.28,
+          "probability": 0.999
+        },
+        {
+          "word": "изменилось,",
+          "start": 457.28,
+          "end": 457.74,
+          "probability": 0.958
+        }
+      ]
+    },
+    {
+      "start": 457.74,
+      "end": 464.76,
+      "text": "это самое лучшее время, чтобы спокойно без паники и спешки разобраться в своих финансах.",
+      "words": [
+        {
+          "word": "это",
+          "start": 457.74,
+          "end": 458.32,
+          "probability": 0.031
+        },
+        {
+          "word": "самое",
+          "start": 458.32,
+          "end": 459.02,
+          "probability": 0.806
+        },
+        {
+          "word": "лучшее",
+          "start": 459.02,
+          "end": 459.56,
+          "probability": 0.961
+        },
+        {
+          "word": "время,",
+          "start": 459.56,
+          "end": 459.94,
+          "probability": 0.992
+        },
+        {
+          "word": "чтобы",
+          "start": 460.1,
+          "end": 460.38,
+          "probability": 0.967
+        },
+        {
+          "word": "спокойно",
+          "start": 460.38,
+          "end": 461.4,
+          "probability": 0.945
+        },
+        {
+          "word": "без",
+          "start": 461.4,
+          "end": 461.94,
+          "probability": 0.322
+        },
+        {
+          "word": "паники",
+          "start": 461.94,
+          "end": 462.54,
+          "probability": 0.856
+        },
+        {
+          "word": "и",
+          "start": 462.54,
+          "end": 462.7,
+          "probability": 0.889
+        },
+        {
+          "word": "спешки",
+          "start": 462.7,
+          "end": 463.12,
+          "probability": 0.976
+        },
+        {
+          "word": "разобраться",
+          "start": 463.12,
+          "end": 463.7,
+          "probability": 0.981
+        },
+        {
+          "word": "в",
+          "start": 463.7,
+          "end": 463.84,
+          "probability": 0.981
+        },
+        {
+          "word": "своих",
+          "start": 463.84,
+          "end": 464.04,
+          "probability": 0.967
+        },
+        {
+          "word": "финансах.",
+          "start": 464.04,
+          "end": 464.76,
+          "probability": 0.984
+        }
+      ]
+    },
+    {
+      "start": 465.14,
+      "end": 469.2,
+      "text": "Когда ставки прыгают вверх вниз, мы часто действуем из страха.",
+      "words": [
+        {
+          "word": "Когда",
+          "start": 465.14,
+          "end": 465.42,
+          "probability": 0.956
+        },
+        {
+          "word": "ставки",
+          "start": 465.42,
+          "end": 465.92,
+          "probability": 0.971
+        },
+        {
+          "word": "прыгают",
+          "start": 465.92,
+          "end": 466.34,
+          "probability": 0.993
+        },
+        {
+          "word": "вверх",
+          "start": 466.34,
+          "end": 466.7,
+          "probability": 0.632
+        },
+        {
+          "word": "вниз,",
+          "start": 466.7,
+          "end": 467.0,
+          "probability": 0.908
+        },
+        {
+          "word": "мы",
+          "start": 467.48,
+          "end": 467.6,
+          "probability": 0.953
+        },
+        {
+          "word": "часто",
+          "start": 467.6,
+          "end": 467.86,
+          "probability": 0.994
+        },
+        {
+          "word": "действуем",
+          "start": 467.86,
+          "end": 468.52,
+          "probability": 0.976
+        },
+        {
+          "word": "из",
+          "start": 468.52,
+          "end": 468.64,
+          "probability": 0.459
+        },
+        {
+          "word": "страха.",
+          "start": 468.64,
+          "end": 469.2,
+          "probability": 0.991
+        }
+      ]
+    },
+    {
+      "start": 469.84,
+      "end": 474.78,
+      "text": "А в такие тихие периоды у нас есть пространство, чтобы учиться и выстраивать систему.",
+      "words": [
+        {
+          "word": "А",
+          "start": 469.84,
+          "end": 469.92,
+          "probability": 0.789
+        },
+        {
+          "word": "в",
+          "start": 469.92,
+          "end": 469.98,
+          "probability": 0.965
+        },
+        {
+          "word": "такие",
+          "start": 469.98,
+          "end": 470.22,
+          "probability": 0.939
+        },
+        {
+          "word": "тихие",
+          "start": 470.22,
+          "end": 470.6,
+          "probability": 0.897
+        },
+        {
+          "word": "периоды",
+          "start": 470.6,
+          "end": 471.1,
+          "probability": 0.933
+        },
+        {
+          "word": "у",
+          "start": 471.1,
+          "end": 471.22,
+          "probability": 0.957
+        },
+        {
+          "word": "нас",
+          "start": 471.22,
+          "end": 471.34,
+          "probability": 0.982
+        },
+        {
+          "word": "есть",
+          "start": 471.34,
+          "end": 471.62,
+          "probability": 0.996
+        },
+        {
+          "word": "пространство,",
+          "start": 471.62,
+          "end": 472.4,
+          "probability": 0.981
+        },
+        {
+          "word": "чтобы",
+          "start": 472.52,
+          "end": 472.76,
+          "probability": 0.967
+        },
+        {
+          "word": "учиться",
+          "start": 472.76,
+          "end": 473.28,
+          "probability": 0.881
+        },
+        {
+          "word": "и",
+          "start": 473.28,
+          "end": 473.58,
+          "probability": 0.992
+        },
+        {
+          "word": "выстраивать",
+          "start": 473.58,
+          "end": 474.12,
+          "probability": 0.981
+        },
+        {
+          "word": "систему.",
+          "start": 474.12,
+          "end": 474.78,
+          "probability": 0.994
+        }
+      ]
+    },
+    {
+      "start": 475.38,
+      "end": 480.86,
+      "text": "Вы – умный, сильный и женщины. Вам не нужно финансовое образование в университете.",
+      "words": [
+        {
+          "word": "Вы",
+          "start": 475.38,
+          "end": 475.5,
+          "probability": 0.57
+        },
+        {
+          "word": "–",
+          "start": 475.5,
+          "end": 475.82,
+          "probability": 0.167
+        },
+        {
+          "word": "умный,",
+          "start": 475.82,
+          "end": 476.34,
+          "probability": 0.843
+        },
+        {
+          "word": "сильный",
+          "start": 476.56,
+          "end": 476.9,
+          "probability": 0.985
+        },
+        {
+          "word": "и",
+          "start": 476.9,
+          "end": 477.08,
+          "probability": 0.448
+        },
+        {
+          "word": "женщины.",
+          "start": 477.08,
+          "end": 477.5,
+          "probability": 0.808
+        },
+        {
+          "word": "Вам",
+          "start": 478.16,
+          "end": 478.26,
+          "probability": 0.968
+        },
+        {
+          "word": "не",
+          "start": 478.26,
+          "end": 478.48,
+          "probability": 0.973
+        },
+        {
+          "word": "нужно",
+          "start": 478.48,
+          "end": 478.8,
+          "probability": 0.97
+        },
+        {
+          "word": "финансовое",
+          "start": 478.8,
+          "end": 479.52,
+          "probability": 0.94
+        },
+        {
+          "word": "образование",
+          "start": 479.52,
+          "end": 480.06,
+          "probability": 0.997
+        },
+        {
+          "word": "в",
+          "start": 480.06,
+          "end": 480.26,
+          "probability": 0.979
+        },
+        {
+          "word": "университете.",
+          "start": 480.26,
+          "end": 480.86,
+          "probability": 0.957
+        }
+      ]
+    },
+    {
+      "start": 480.86,
+      "end": 486.9,
+      "text": "Вам нужны понятные объяснения человеческим языком и маленькие, но регулярные шаги.",
+      "words": [
+        {
+          "word": "Вам",
+          "start": 480.86,
+          "end": 481.78,
+          "probability": 0.353
+        },
+        {
+          "word": "нужны",
+          "start": 481.78,
+          "end": 482.64,
+          "probability": 0.988
+        },
+        {
+          "word": "понятные",
+          "start": 482.64,
+          "end": 483.26,
+          "probability": 0.937
+        },
+        {
+          "word": "объяснения",
+          "start": 483.26,
+          "end": 483.66,
+          "probability": 0.982
+        },
+        {
+          "word": "человеческим",
+          "start": 483.66,
+          "end": 484.48,
+          "probability": 0.897
+        },
+        {
+          "word": "языком",
+          "start": 484.48,
+          "end": 484.94,
+          "probability": 0.992
+        },
+        {
+          "word": "и",
+          "start": 484.94,
+          "end": 485.14,
+          "probability": 0.989
+        },
+        {
+          "word": "маленькие,",
+          "start": 485.14,
+          "end": 485.7,
+          "probability": 0.779
+        },
+        {
+          "word": "но",
+          "start": 485.86,
+          "end": 485.88,
+          "probability": 0.987
+        },
+        {
+          "word": "регулярные",
+          "start": 485.88,
+          "end": 486.52,
+          "probability": 0.984
+        },
+        {
+          "word": "шаги.",
+          "start": 486.52,
+          "end": 486.9,
+          "probability": 0.989
+        }
+      ]
+    },
+    {
+      "start": 487.14,
+      "end": 491.42,
+      "text": "И я всегда здесь, чтобы давать вам и то и другое.",
+      "words": [
+        {
+          "word": "И",
+          "start": 487.14,
+          "end": 487.22,
+          "probability": 0.916
+        },
+        {
+          "word": "я",
+          "start": 487.22,
+          "end": 487.4,
+          "probability": 0.982
+        },
+        {
+          "word": "всегда",
+          "start": 487.4,
+          "end": 487.86,
+          "probability": 0.976
+        },
+        {
+          "word": "здесь,",
+          "start": 487.86,
+          "end": 488.66,
+          "probability": 0.756
+        },
+        {
+          "word": "чтобы",
+          "start": 488.8,
+          "end": 489.04,
+          "probability": 0.981
+        },
+        {
+          "word": "давать",
+          "start": 489.04,
+          "end": 489.52,
+          "probability": 0.98
+        },
+        {
+          "word": "вам",
+          "start": 489.52,
+          "end": 489.7,
+          "probability": 0.868
+        },
+        {
+          "word": "и",
+          "start": 489.7,
+          "end": 490.22,
+          "probability": 0.822
+        },
+        {
+          "word": "то",
+          "start": 490.22,
+          "end": 490.42,
+          "probability": 0.989
+        },
+        {
+          "word": "и",
+          "start": 490.42,
+          "end": 490.94,
+          "probability": 0.881
+        },
+        {
+          "word": "другое.",
+          "start": 490.94,
+          "end": 491.42,
+          "probability": 0.967
+        }
+      ]
+    },
+    {
+      "start": 491.72,
+      "end": 494.28,
+      "text": "Спасибо, что провели эта утра вместе со мной.",
+      "words": [
+        {
+          "word": "Спасибо,",
+          "start": 491.72,
+          "end": 492.0,
+          "probability": 0.984
+        },
+        {
+          "word": "что",
+          "start": 492.26,
+          "end": 492.4,
+          "probability": 0.985
+        },
+        {
+          "word": "провели",
+          "start": 492.4,
+          "end": 492.84,
+          "probability": 0.962
+        },
+        {
+          "word": "эта",
+          "start": 492.84,
+          "end": 493.12,
+          "probability": 0.373
+        },
+        {
+          "word": "утра",
+          "start": 493.12,
+          "end": 493.46,
+          "probability": 0.878
+        },
+        {
+          "word": "вместе",
+          "start": 493.46,
+          "end": 493.72,
+          "probability": 0.992
+        },
+        {
+          "word": "со",
+          "start": 493.72,
+          "end": 494.0,
+          "probability": 0.974
+        },
+        {
+          "word": "мной.",
+          "start": 494.0,
+          "end": 494.28,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 494.96,
+      "end": 500.12,
+      "text": "Если сегодняшний выпуск был вам полезен, сделайте доброе дело.",
+      "words": [
+        {
+          "word": "Если",
+          "start": 494.96,
+          "end": 495.3,
+          "probability": 0.978
+        },
+        {
+          "word": "сегодняшний",
+          "start": 495.3,
+          "end": 496.1,
+          "probability": 0.98
+        },
+        {
+          "word": "выпуск",
+          "start": 496.1,
+          "end": 496.4,
+          "probability": 0.994
+        },
+        {
+          "word": "был",
+          "start": 496.4,
+          "end": 496.68,
+          "probability": 0.957
+        },
+        {
+          "word": "вам",
+          "start": 496.68,
+          "end": 496.88,
+          "probability": 0.939
+        },
+        {
+          "word": "полезен,",
+          "start": 496.88,
+          "end": 497.42,
+          "probability": 0.992
+        },
+        {
+          "word": "сделайте",
+          "start": 497.88,
+          "end": 498.36,
+          "probability": 0.974
+        },
+        {
+          "word": "доброе",
+          "start": 498.36,
+          "end": 499.74,
+          "probability": 0.693
+        },
+        {
+          "word": "дело.",
+          "start": 499.74,
+          "end": 500.12,
+          "probability": 0.996
+        }
+      ]
+    },
+    {
+      "start": 500.46,
+      "end": 502.98,
+      "text": "Перешлите его своей подруги или сестре.",
+      "words": [
+        {
+          "word": "Перешлите",
+          "start": 500.46,
+          "end": 501.02,
+          "probability": 0.827
+        },
+        {
+          "word": "его",
+          "start": 501.02,
+          "end": 501.16,
+          "probability": 0.99
+        },
+        {
+          "word": "своей",
+          "start": 501.16,
+          "end": 501.48,
+          "probability": 0.704
+        },
+        {
+          "word": "подруги",
+          "start": 501.48,
+          "end": 502.12,
+          "probability": 0.939
+        },
+        {
+          "word": "или",
+          "start": 502.12,
+          "end": 502.4,
+          "probability": 0.976
+        },
+        {
+          "word": "сестре.",
+          "start": 502.4,
+          "end": 502.98,
+          "probability": 0.956
+        }
+      ]
+    },
+    {
+      "start": 503.34,
+      "end": 509.34,
+      "text": "Вместе нам гораздо проще и веселее разбираться в этой новой канадской финансовой жизни.",
+      "words": [
+        {
+          "word": "Вместе",
+          "start": 503.34,
+          "end": 503.76,
+          "probability": 0.973
+        },
+        {
+          "word": "нам",
+          "start": 503.76,
+          "end": 503.98,
+          "probability": 0.978
+        },
+        {
+          "word": "гораздо",
+          "start": 503.98,
+          "end": 504.32,
+          "probability": 0.995
+        },
+        {
+          "word": "проще",
+          "start": 504.32,
+          "end": 504.92,
+          "probability": 0.974
+        },
+        {
+          "word": "и",
+          "start": 504.92,
+          "end": 505.06,
+          "probability": 0.973
+        },
+        {
+          "word": "веселее",
+          "start": 505.06,
+          "end": 505.56,
+          "probability": 0.896
+        },
+        {
+          "word": "разбираться",
+          "start": 505.56,
+          "end": 506.6,
+          "probability": 0.963
+        },
+        {
+          "word": "в",
+          "start": 506.6,
+          "end": 507.16,
+          "probability": 0.951
+        },
+        {
+          "word": "этой",
+          "start": 507.16,
+          "end": 507.36,
+          "probability": 0.99
+        },
+        {
+          "word": "новой",
+          "start": 507.36,
+          "end": 507.74,
+          "probability": 0.672
+        },
+        {
+          "word": "канадской",
+          "start": 507.74,
+          "end": 508.28,
+          "probability": 0.928
+        },
+        {
+          "word": "финансовой",
+          "start": 508.28,
+          "end": 508.92,
+          "probability": 0.984
+        },
+        {
+          "word": "жизни.",
+          "start": 508.92,
+          "end": 509.34,
+          "probability": 0.997
+        }
+      ]
+    },
+    {
+      "start": 509.34,
+      "end": 512.38,
+      "text": "Берегите себя, обнимаю вас крепко-крепко.",
+      "words": [
+        {
+          "word": "Берегите",
+          "start": 509.34,
+          "end": 510.18,
+          "probability": 0.746
+        },
+        {
+          "word": "себя,",
+          "start": 510.18,
+          "end": 510.54,
+          "probability": 0.985
+        },
+        {
+          "word": "обнимаю",
+          "start": 510.94,
+          "end": 511.32,
+          "probability": 0.962
+        },
+        {
+          "word": "вас",
+          "start": 511.32,
+          "end": 511.5,
+          "probability": 0.96
+        },
+        {
+          "word": "крепко",
+          "start": 511.5,
+          "end": 511.9,
+          "probability": 0.981
+        },
+        {
+          "word": "-крепко.",
+          "start": 511.9,
+          "end": 512.38,
+          "probability": 0.846
+        }
+      ]
+    },
+    {
+      "start": 512.72,
+      "end": 515.82,
+      "text": "До встречи в следующем выпуске уже завтра. Пока-пока.",
+      "words": [
+        {
+          "word": "До",
+          "start": 512.72,
+          "end": 512.9,
+          "probability": 0.841
+        },
+        {
+          "word": "встречи",
+          "start": 512.9,
+          "end": 513.3,
+          "probability": 0.998
+        },
+        {
+          "word": "в",
+          "start": 513.3,
+          "end": 513.36,
+          "probability": 0.99
+        },
+        {
+          "word": "следующем",
+          "start": 513.36,
+          "end": 513.8,
+          "probability": 0.991
+        },
+        {
+          "word": "выпуске",
+          "start": 513.8,
+          "end": 514.2,
+          "probability": 0.995
+        },
+        {
+          "word": "уже",
+          "start": 514.2,
+          "end": 514.34,
+          "probability": 0.6
+        },
+        {
+          "word": "завтра.",
+          "start": 514.34,
+          "end": 514.74,
+          "probability": 0.993
+        },
+        {
+          "word": "Пока",
+          "start": 515.16,
+          "end": 515.36,
+          "probability": 0.969
+        },
+        {
+          "word": "-пока.",
+          "start": 515.36,
+          "end": 515.82,
+          "probability": 0.91
+        }
+      ]
+    },
+    {
+      "start": 516.6,
+      "end": 520.4,
+      "text": "Общий подсчет слов. Примерно 1300 слов.",
+      "words": [
+        {
+          "word": "Общий",
+          "start": 516.6,
+          "end": 517.34,
+          "probability": 0.617
+        },
+        {
+          "word": "подсчет",
+          "start": 517.34,
+          "end": 517.7,
+          "probability": 0.738
+        },
+        {
+          "word": "слов.",
+          "start": 517.7,
+          "end": 517.96,
+          "probability": 0.985
+        },
+        {
+          "word": "Примерно",
+          "start": 518.46,
+          "end": 518.86,
+          "probability": 0.919
+        },
+        {
+          "word": "1300",
+          "start": 518.86,
+          "end": 519.28,
+          "probability": 0.122
+        },
+        {
+          "word": "слов.",
+          "start": 519.28,
+          "end": 520.4,
+          "probability": 0.996
+        }
+      ]
+    },
+    {
+      "start": 520.96,
+      "end": 527.72,
+      "text": "Комфортно укладывается в 5-9 минут спокойного теплого повествования.",
+      "words": [
+        {
+          "word": "Комфортно",
+          "start": 520.96,
+          "end": 521.72,
+          "probability": 0.922
+        },
+        {
+          "word": "укладывается",
+          "start": 521.72,
+          "end": 522.52,
+          "probability": 0.977
+        },
+        {
+          "word": "в",
+          "start": 522.52,
+          "end": 523.18,
+          "probability": 0.594
+        },
+        {
+          "word": "5",
+          "start": 523.18,
+          "end": 523.5,
+          "probability": 0.024
+        },
+        {
+          "word": "-9",
+          "start": 523.5,
+          "end": 524.68,
+          "probability": 0.787
+        },
+        {
+          "word": "минут",
+          "start": 524.68,
+          "end": 525.4,
+          "probability": 0.94
+        },
+        {
+          "word": "спокойного",
+          "start": 525.4,
+          "end": 526.44,
+          "probability": 0.78
+        },
+        {
+          "word": "теплого",
+          "start": 526.44,
+          "end": 527.04,
+          "probability": 0.836
+        },
+        {
+          "word": "повествования.",
+          "start": 527.04,
+          "end": 527.72,
+          "probability": 0.798
+        }
+      ]
+    },
+    {
+      "start": 528.3,
+      "end": 535.34,
+      "text": "This podcast is curated by Patrick, but generated using AI voice synthesis of my voice using 11 labs.",
+      "words": [
+        {
+          "word": "This",
+          "start": 528.3,
+          "end": 528.58,
+          "probability": 0.214
+        },
+        {
+          "word": "podcast",
+          "start": 528.58,
+          "end": 529.0,
+          "probability": 0.973
+        },
+        {
+          "word": "is",
+          "start": 529.0,
+          "end": 529.3,
+          "probability": 0.99
+        },
+        {
+          "word": "curated",
+          "start": 529.3,
+          "end": 529.68,
+          "probability": 0.991
+        },
+        {
+          "word": "by",
+          "start": 529.68,
+          "end": 529.96,
+          "probability": 0.998
+        },
+        {
+          "word": "Patrick,",
+          "start": 529.96,
+          "end": 530.42,
+          "probability": 0.977
+        },
+        {
+          "word": "but",
+          "start": 530.64,
+          "end": 530.68,
+          "probability": 0.979
+        },
+        {
+          "word": "generated",
+          "start": 530.68,
+          "end": 531.2,
+          "probability": 0.993
+        },
+        {
+          "word": "using",
+          "start": 531.2,
+          "end": 531.74,
+          "probability": 0.967
+        },
+        {
+          "word": "AI",
+          "start": 531.74,
+          "end": 532.1,
+          "probability": 0.863
+        },
+        {
+          "word": "voice",
+          "start": 532.1,
+          "end": 532.48,
+          "probability": 0.697
+        },
+        {
+          "word": "synthesis",
+          "start": 532.48,
+          "end": 532.94,
+          "probability": 0.995
+        },
+        {
+          "word": "of",
+          "start": 532.94,
+          "end": 533.36,
+          "probability": 0.976
+        },
+        {
+          "word": "my",
+          "start": 533.36,
+          "end": 533.56,
+          "probability": 0.993
+        },
+        {
+          "word": "voice",
+          "start": 533.56,
+          "end": 534.0,
+          "probability": 0.992
+        },
+        {
+          "word": "using",
+          "start": 534.0,
+          "end": 534.52,
+          "probability": 0.963
+        },
+        {
+          "word": "11",
+          "start": 534.52,
+          "end": 535.0,
+          "probability": 0.848
+        },
+        {
+          "word": "labs.",
+          "start": 535.0,
+          "end": 535.34,
+          "probability": 0.95
+        }
+      ]
+    },
+    {
+      "start": 535.34,
+      "end": 542.24,
+      "text": "The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content",
+      "words": [
+        {
+          "word": "The",
+          "start": 535.34,
+          "end": 536.1,
+          "probability": 0.01
+        },
+        {
+          "word": "primary",
+          "start": 536.1,
+          "end": 536.46,
+          "probability": 0.942
+        },
+        {
+          "word": "reason",
+          "start": 536.46,
+          "end": 536.88,
+          "probability": 0.99
+        },
+        {
+          "word": "to",
+          "start": 536.88,
+          "end": 537.06,
+          "probability": 0.988
+        },
+        {
+          "word": "do",
+          "start": 537.06,
+          "end": 537.22,
+          "probability": 0.996
+        },
+        {
+          "word": "this",
+          "start": 537.22,
+          "end": 537.5,
+          "probability": 0.994
+        },
+        {
+          "word": "is",
+          "start": 537.5,
+          "end": 537.74,
+          "probability": 0.963
+        },
+        {
+          "word": "I",
+          "start": 537.74,
+          "end": 537.9,
+          "probability": 0.568
+        },
+        {
+          "word": "unfortunately",
+          "start": 537.9,
+          "end": 538.42,
+          "probability": 0.955
+        },
+        {
+          "word": "don't",
+          "start": 538.42,
+          "end": 538.98,
+          "probability": 0.984
+        },
+        {
+          "word": "have",
+          "start": 538.98,
+          "end": 539.1,
+          "probability": 0.998
+        },
+        {
+          "word": "the",
+          "start": 539.1,
+          "end": 539.28,
+          "probability": 0.967
+        },
+        {
+          "word": "time",
+          "start": 539.28,
+          "end": 539.58,
+          "probability": 0.997
+        },
+        {
+          "word": "to",
+          "start": 539.58,
+          "end": 539.82,
+          "probability": 0.995
+        },
+        {
+          "word": "be",
+          "start": 539.82,
+          "end": 539.94,
+          "probability": 0.999
+        },
+        {
+          "word": "consistent",
+          "start": 539.94,
+          "end": 540.52,
+          "probability": 0.996
+        },
+        {
+          "word": "with",
+          "start": 540.52,
+          "end": 540.78,
+          "probability": 0.995
+        },
+        {
+          "word": "generating",
+          "start": 540.78,
+          "end": 541.28,
+          "probability": 0.992
+        },
+        {
+          "word": "all",
+          "start": 541.28,
+          "end": 541.7,
+          "probability": 0.998
+        },
+        {
+          "word": "the",
+          "start": 541.7,
+          "end": 541.84,
+          "probability": 0.984
+        },
+        {
+          "word": "content",
+          "start": 541.84,
+          "end": 542.24,
+          "probability": 0.997
+        }
+      ]
+    },
+    {
+      "start": 542.24,
+      "end": 548.14,
+      "text": "and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy",
+      "words": [
+        {
+          "word": "and",
+          "start": 542.24,
+          "end": 542.64,
+          "probability": 0.912
+        },
+        {
+          "word": "wanted",
+          "start": 542.64,
+          "end": 542.92,
+          "probability": 0.969
+        },
+        {
+          "word": "to",
+          "start": 542.92,
+          "end": 543.12,
+          "probability": 0.999
+        },
+        {
+          "word": "focus",
+          "start": 543.12,
+          "end": 543.42,
+          "probability": 0.998
+        },
+        {
+          "word": "on",
+          "start": 543.42,
+          "end": 543.64,
+          "probability": 0.999
+        },
+        {
+          "word": "creating",
+          "start": 543.64,
+          "end": 543.98,
+          "probability": 0.993
+        },
+        {
+          "word": "consistent",
+          "start": 543.98,
+          "end": 544.74,
+          "probability": 0.997
+        },
+        {
+          "word": "and",
+          "start": 544.74,
+          "end": 545.08,
+          "probability": 0.987
+        },
+        {
+          "word": "regular",
+          "start": 545.08,
+          "end": 545.48,
+          "probability": 0.996
+        },
+        {
+          "word": "episodes",
+          "start": 545.48,
+          "end": 545.98,
+          "probability": 0.995
+        },
+        {
+          "word": "for",
+          "start": 545.98,
+          "end": 546.7,
+          "probability": 0.908
+        },
+        {
+          "word": "all",
+          "start": 546.7,
+          "end": 546.9,
+          "probability": 0.997
+        },
+        {
+          "word": "the",
+          "start": 546.9,
+          "end": 547.02,
+          "probability": 0.996
+        },
+        {
+          "word": "themes",
+          "start": 547.02,
+          "end": 547.36,
+          "probability": 0.993
+        },
+        {
+          "word": "that",
+          "start": 547.36,
+          "end": 547.56,
+          "probability": 0.979
+        },
+        {
+          "word": "I",
+          "start": 547.56,
+          "end": 547.72,
+          "probability": 0.995
+        },
+        {
+          "word": "enjoy",
+          "start": 547.72,
+          "end": 548.14,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 548.14,
+      "end": 550.88,
+      "text": "and I hope others do as well.",
+      "words": [
+        {
+          "word": "and",
+          "start": 548.14,
+          "end": 548.82,
+          "probability": 0.604
+        },
+        {
+          "word": "I",
+          "start": 548.82,
+          "end": 548.94,
+          "probability": 0.993
+        },
+        {
+          "word": "hope",
+          "start": 548.94,
+          "end": 549.24,
+          "probability": 0.997
+        },
+        {
+          "word": "others",
+          "start": 549.24,
+          "end": 549.66,
+          "probability": 0.988
+        },
+        {
+          "word": "do",
+          "start": 549.66,
+          "end": 550.06,
+          "probability": 0.992
+        },
+        {
+          "word": "as",
+          "start": 550.06,
+          "end": 550.64,
+          "probability": 0.965
+        },
+        {
+          "word": "well.",
+          "start": 550.64,
+          "end": 550.88,
+          "probability": 0.997
+        }
+      ]
+    }
+  ]
+}
