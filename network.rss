@@ -5,7 +5,7 @@
     <description>Ten podcasts in two languages keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, modern investing, financial literacy, and Russian language learning.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Fri, 20 Mar 2026 08:53:45 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 20 Mar 2026 12:23:16 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg</url>
       <title>Nerra Network</title>
@@ -126,8 +126,37 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
+      <title>Ep 33: South African raptors have declined sharply over 16 years, with half the studied species dropping more than 50%.</title>
+      <link>https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep033_20260320.mp3</link>
+      <description>**HOOK:** South African raptors have declined sharply over 16 years, with half the studied species dropping more than 50%.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Raptors in steep decline across South Africa: 2009-2025 • Phys.org**  
+   Long-term road surveys in central South Africa found that half of 26 monitored raptor and large terrestrial bird species experienced significant population declines between 2009 and 2025, many exceeding 50%. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">planetterrian-daily-ep033-20260320-122314</guid>
+      <enclosure url="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep033_20260320.mp3" length="19904096" type="audio/mpeg" />
+      <pubDate>Fri, 20 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/planetterrian-daily.jpg" />
+      <itunes:duration>13:49</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**HOOK:** South African raptors have declined sharply over 16 years, with half the studied species dropping more than 50%.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Science &amp; Health Discoveries
+1. **Raptors in steep decline across South Africa: 2009-2025 • Phys.org**  
+   Long-term road surveys in central South Africa found that half of 26 monitored raptor and large terrestrial bird species experienced significant population declines between 2009 and 2025, many exceeding 50%. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>33</itunes:episode>
+      <itunes:title>Ep 33: South African raptors have declined sharply over 16 years, with half the studied species dropping more than 50%.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
       <title>Ep 32: Ravens in Yellowstone navigate directly to likely wolf kill sites using memorized landscape patterns rather than following the predators.</title>
-      <link>https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep032_20260320.mp3</link>
       <description># Planetterrian Daily
 **Date:** March 20, 2026
 🌍 **Planetterrian Daily** - Science, Longevity &amp; Health Discoveries
@@ -3052,79 +3081,6 @@ US federal withdrawal of $1.5B in tribal clean energy funding under the Inflatio
       <itunes:season>1</itunes:season>
       <itunes:episode>8</itunes:episode>
       <itunes:title>Ep 8: BC's proposed FOI amendments could restrict access to EMA and CSR records, requiring immediate advocacy before legislative passage.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 11: Meta acquires Moltbook, a Reddit-like platform for AI agents to interact and collaborate.</title>
-      <description># Models &amp; Agents
-**Date:** March 10, 2026
-
-**HOOK:** Meta acquires Moltbook, a Reddit-like platform for AI agents to interact and collaborate.
-
-**What You Need to Know:** Meta's acquisition of Moltbook signals a push toward social networks for AI agents, potentially enabling new collaborative workflows in Meta's Superintelligence Labs. Elsewhere, ByteDance open-sourced DeerFlow 2.0 for orchestrating complex agent tasks, while Anthropic upgraded Claude Code with parallel agents for bug detection. Pay attention this week to how these agent-focused releases could streamline your automation pipelines, especially if you're building multi-agent systems.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top Story
-Meta has acquired Moltbook, a Reddit-style platform built specifically for AI agents to create posts, comment, and interact in a community-like environment. This move integrates the Moltbook team into Meta's Superintelligence Labs, aiming to explore new ways for agents to work together on behalf of users, building on Meta's existing AI ecosystem like Llama models. Compared to isolated agent frameworks like AutoGPT, Moltbook introduces a social layer that could foster emergent behaviors in multi-agent setups, though it's early days without public APIs yet. Developers and agent builders should care as this could enable more dynamic, collaborative AI systems for tasks like research or content generation. Keep an eye on how Meta open-sources or exposes Moltbook features, potentially integrating with Llama 3 or later for agentic social simulations. Try prompting your agents to simulate forum discussions as a precursor.
-Source: https://www.theverge.com/ai-artificial-intelligence/892178/meta-moltbook-acquisition-ai-agents
-
-━━━━━━━━━━━━━━━━━━━━
-### Model Updates
-**Google’s Gemini AI Expands in Workspace: The Verge**  
-Google is rolling out deeper Gemini integration in Docs, Sheets, and Slides for Workspace and AI plan subscribers, including a new chat window in Docs, AI-generated spreadsheets, and Gemini-powered search in Drive. This builds on Gemini 1.5's long-context capabilities, offering more seamless productivity than Claude's integrations or Microsoft's Copilot, but it's limited to paid users. It matters for developers automating office tasks, as it lowers barriers to embedding AI in workflows without custom fine-tuning.  
-Source: https://www.theverge.com/tech/890996/google-workspace-gemini-ai-docs-sheets-drive
-
-**Photoshop Gets Agentic AI Assistant: The Verge**  
-Adobe launched a public beta AI assistant in Photoshop for web and mobile that edits images via natural language descriptions, with similar features coming to Acrobat and Express. This extends Firefly's generative capabilities into interactive agents, outperforming open-source tools like Stable Diffusion for user-friendly edits, though it requires Creative Cloud access. It's a big deal for creative pros, enabling faster iterations without deep technical skills, but watch for generation biases in complex edits.  
-Source: https://www.theverge.com/tech/891998/adobe-photoshop-web-mobile-ai-assistant-beta-launch
-
-**Claude Code Adds Parallel Agents: The Decoder**  
-Anthropic released a code review feature for Claude Code using parallel AI agents to automatically check changes for bugs and security gaps before merging. This leverages Claude 3.5's strengths in code generation, providing more thorough analysis than GitHub Copilot's single-pass reviews, with sub-agents handling specific aspects like error detection. Coders should note this for safer deployments, as it reduces manual oversight in CI/CD pipelines, though it's still in research preview.  
-Source: https://the-decoder.com/claude-code-gets-parallel-ai-agents-that-review-code-for-bugs-and-security-gaps
-
-━━━━━━━━━━━━━━━━━━━━
-### Agent &amp; Tool Developments
-**ByteDance Releases DeerFlow 2.0: MarkTechPost**  
-DeerFlow 2.0 is an open-source SuperAgent framework from ByteDance that orchestrates sub-agents, memory, and sandboxes for complex tasks ...</description>
-      <guid isPermaLink="false">models-agents-ep011-20260310-153521</guid>
-      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep011_20260310.mp3" length="18158071" type="audio/mpeg" />
-      <pubDate>Tue, 10 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
-      <itunes:duration>12:36</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents
-**Date:** March 10, 2026
-
-**HOOK:** Meta acquires Moltbook, a Reddit-like platform for AI agents to interact and collaborate.
-
-**What You Need to Know:** Meta's acquisition of Moltbook signals a push toward social networks for AI agents, potentially enabling new collaborative workflows in Meta's Superintelligence Labs. Elsewhere, ByteDance open-sourced DeerFlow 2.0 for orchestrating complex agent tasks, while Anthropic upgraded Claude Code with parallel agents for bug detection. Pay attention this week to how these agent-focused releases could streamline your automation pipelines, especially if you're building multi-agent systems.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top Story
-Meta has acquired Moltbook, a Reddit-style platform built specifically for AI agents to create posts, comment, and interact in a community-like environment. This move integrates the Moltbook team into Meta's Superintelligence Labs, aiming to explore new ways for agents to work together on behalf of users, building on Meta's existing AI ecosystem like Llama models. Compared to isolated agent frameworks like AutoGPT, Moltbook introduces a social layer that could foster emergent behaviors in multi-agent setups, though it's early days without public APIs yet. Developers and agent builders should care as this could enable more dynamic, collaborative AI systems for tasks like research or content generation. Keep an eye on how Meta open-sources or exposes Moltbook features, potentially integrating with Llama 3 or later for agentic social simulations. Try prompting your agents to simulate forum discussions as a precursor.
-Source: https://www.theverge.com/ai-artificial-intelligence/892178/meta-moltbook-acquisition-ai-agents
-
-━━━━━━━━━━━━━━━━━━━━
-### Model Updates
-**Google’s Gemini AI Expands in Workspace: The Verge**  
-Google is rolling out deeper Gemini integration in Docs, Sheets, and Slides for Workspace and AI plan subscribers, including a new chat window in Docs, AI-generated spreadsheets, and Gemini-powered search in Drive. This builds on Gemini 1.5's long-context capabilities, offering more seamless productivity than Claude's integrations or Microsoft's Copilot, but it's limited to paid users. It matters for developers automating office tasks, as it lowers barriers to embedding AI in workflows without custom fine-tuning.  
-Source: https://www.theverge.com/tech/890996/google-workspace-gemini-ai-docs-sheets-drive
-
-**Photoshop Gets Agentic AI Assistant: The Verge**  
-Adobe launched a public beta AI assistant in Photoshop for web and mobile that edits images via natural language descriptions, with similar features coming to Acrobat and Express. This extends Firefly's generative capabilities into interactive agents, outperforming open-source tools like Stable Diffusion for user-friendly edits, though it requires Creative Cloud access. It's a big deal for creative pros, enabling faster iterations without deep technical skills, but watch for generation biases in complex edits.  
-Source: https://www.theverge.com/tech/891998/adobe-photoshop-web-mobile-ai-assistant-beta-launch
-
-**Claude Code Adds Parallel Agents: The Decoder**  
-Anthropic released a code review feature for Claude Code using parallel AI agents to automatically check changes for bugs and security gaps before merging. This leverages Claude 3.5's strengths in code generation, providing more thorough analysis than GitHub Copilot's single-pass reviews, with sub-agents handling specific aspects like error detection. Coders should note this for safer deployments, as it reduces manual oversight in CI/CD pipelines, though it's still in research preview.  
-Source: https://the-decoder.com/claude-code-gets-parallel-ai-agents-that-review-code-for-bugs-and-security-gaps
-
-━━━━━━━━━━━━━━━━━━━━
-### Agent &amp; Tool Developments
-**ByteDance Releases DeerFlow 2.0: MarkTechPost**  
-DeerFlow 2.0 is an open-source SuperAgent framework from ByteDance that orchestrates sub-agents, memory, and sandboxes for complex tasks ...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>11</itunes:episode>
-      <itunes:title>Ep 11: Meta acquires Moltbook, a Reddit-like platform for AI agents to interact and collaborate.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>
