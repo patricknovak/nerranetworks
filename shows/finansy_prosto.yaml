@@ -6,8 +6,8 @@ sources:
   # Canadian Personal Finance
   - url: https://www.moneysense.ca/feed/
     label: MoneySense
-  - url: https://www.financialpost.com/feed
-    label: Financial Post
+  - url: https://financialpost.com/category/personal-finance/feed/
+    label: Financial Post Personal Finance
   - url: https://www.ratehub.ca/blog/feed/
     label: RateHub Canada
   - url: https://canadianmortgagetrends.com/feed/
@@ -16,14 +16,16 @@ sources:
     label: Canadian Couch Potato (investing education)
   - url: https://www.getsmarteraboutmoney.ca/feed/
     label: GetSmarterAboutMoney (Ontario Securities Commission)
+  - url: https://feeds.feedburner.com/BoomerEcho
+    label: Boomer & Echo (Canadian personal finance)
+  - url: https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/investing/personal-finance/
+    label: Globe and Mail Personal Finance
 
   # Canadian Business & Economy
   - url: https://www.bnnbloomberg.ca/arc/outboundfeeds/rss/
     label: BNN Bloomberg Canada
   - url: https://www.cbc.ca/webfeed/rss/rss-business
     label: CBC Business
-  - url: https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/business/
-    label: Globe and Mail Business
   - url: https://nationalpost.com/category/news/economy/feed
     label: National Post Economy
   - url: https://www.bankofcanada.ca/feed/
@@ -32,14 +34,16 @@ sources:
   # Vancouver / BC Focus
   - url: https://vancouversun.com/category/business/feed
     label: Vancouver Sun Business
+  - url: https://www.biv.com/rss
+    label: Business in Vancouver
 
   # Russian-Speaking Diaspora & Independent Media
   - url: https://meduza.io/rss/en/all
     label: Meduza English (independent, Latvia-based)
   - url: https://www.themoscowtimes.com/rss/news
     label: Moscow Times (independent, Netherlands-based)
-  - url: https://www.ukrinform.net/rss/block-lastnews
-    label: Ukrinform (Ukrainian state news agency)
+  - url: https://www.ukrinform.net/rss/rubric-economy
+    label: Ukrinform Economy (Ukrainian state news agency)
 
   # Canadian Immigration & Newcomer Finance
   - url: https://www.cicnews.com/feed
