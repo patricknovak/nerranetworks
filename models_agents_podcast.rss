@@ -20,30 +20,6 @@
     </itunes:owner>
     <itunes:summary>Daily AI briefing covering new model releases, agent frameworks, and the latest developments in AI. Not the models and agents you are thinking about! Stay on top of the most exciting developments of our generation. AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
     <item>
-      <title>Ep 20: Agentic systems with RAG dramatically outperform plain LLMs in fairness auditing for clinical AI, according to new ablation studies.</title>
-      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep020_20260319.mp3</link>
-      <description>**HOOK:** Agentic systems with RAG dramatically outperform plain LLMs in fairness auditing for clinical AI, according to new ablation studies.
-
-**What You Need to Know:** Today's arXiv drop is dominated by multi-agent systems and agentic architectures tackling real-world coordination problems. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
-      <guid isPermaLink="false">models-agents-ep020-20260319-075202</guid>
-      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep020_20260319.mp3" length="18423893" type="audio/mpeg" />
-      <pubDate>Thu, 19 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
-      <itunes:duration>12:47</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary>**HOOK:** Agentic systems with RAG dramatically outperform plain LLMs in fairness auditing for clinical AI, according to new ablation studies.
-
-**What You Need to Know:** Today's arXiv drop is dominated by multi-agent systems and agentic architectures tackling real-world coordination problems. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>20</itunes:episode>
-      <itunes:title>Ep 20: Agentic systems with RAG dramatically outperform plain LLMs in fairness auditing for clinical AI, according to new ablation studies.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep020.json" type="application/json+chapters" /></item>
-    <item>
       <title>Ep 18: New A4VL framework uses multi-agent alliances to slash inference latency in long-video reasoning by up to 25%.</title>
       <description># Models &amp; Agents
 **Date:** March 17, 2026
@@ -1075,35 +1051,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:season>1</itunes:season>
       <itunes:episode>17</itunes:episode>
       <itunes:title>Ep 17: Picsart launches AI agent marketplace, starting with four agents and adding more weekly for creators.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 19: Mamba-3 introduces 2x smaller states and enhanced MIMO decoding, pushing state-space models closer to practical deployment against Transformers.</title>
-      <description>**# Models &amp; Agents**
-**Date:** March 19, 2026
-
-**HOOK:** Mamba-3 introduces 2x smaller states and enhanced MIMO decoding, pushing state-space models closer to practical deployment against Transformers.
-
-**What You Need to Know:** Today brings a wave of new agentic research, with Carnegie Mellon and Princeton researchers unveiling Mamba-3 as a promising architecture for inference efficiency, while over a dozen arXiv papers explore everything from emergent trust in agents and governed memory syst...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
-      <guid isPermaLink="false">models-agents-ep019-20260319-072718</guid>
-      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep019_20260319.mp3" length="17503547" type="audio/mpeg" />
-      <pubDate>Thu, 19 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
-      <itunes:duration>12:09</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary>**# Models &amp; Agents**
-**Date:** March 19, 2026
-
-**HOOK:** Mamba-3 introduces 2x smaller states and enhanced MIMO decoding, pushing state-space models closer to practical deployment against Transformers.
-
-**What You Need to Know:** Today brings a wave of new agentic research, with Carnegie Mellon and Princeton researchers unveiling Mamba-3 as a promising architecture for inference efficiency, while over a dozen arXiv papers explore everything from emergent trust in agents and governed memory syst...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>19</itunes:episode>
-      <itunes:title>Ep 19: Mamba-3 introduces 2x smaller states and enhanced MIMO decoding, pushing state-space models closer to practical deployment against Transformers.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked></channel>
