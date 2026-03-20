@@ -678,6 +678,11 @@ def run(args: argparse.Namespace) -> None:
         # Apply pronunciation fixes
         podcast_script = _apply_pronunciation(podcast_script, args.show)
 
+        # Post-pronunciation cleanup: strip metadata that survived in word form
+        # (e.g. "(Word count: two thousand four hundred seventy-eight)" after
+        # number-to-words conversion made it invisible to earlier regex passes)
+        podcast_script = _strip_post_pronunciation_artifacts(podcast_script)
+
         # Append AI disclosure at the end of the episode
         podcast_script = podcast_script.rstrip() + "\n\n" + _AI_DISCLOSURE
 
@@ -1372,11 +1377,28 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
         # Skip stage directions, blank lines, and bracketed notes
         if not line or line.startswith("["):
             continue
-        # Skip footer/debug metadata Grok sometimes appends
+        # Skip footer/debug metadata Grok sometimes appends (numeric or word form)
         if re.match(r"(?i)^\(?\s*(word\s*count|total\s*words|character\s*count)\b", line):
+            continue
+        if re.match(r"(?i)^\(?\s*(approximately\s+)?\d[\d,]*\s+words?\s*\)?$", line):
             continue
         if re.match(r"(?i)^content\s*:\s*$", line):
             break
+        # Skip title/episode header lines the LLM occasionally generates
+        # before the actual script (e.g. "Tesla Shorts Time Daily – Episode 412 – March 19, 2026"
+        # or with word-form numbers after pronunciation: "Episode four hundred twelve")
+        if re.match(
+            r"(?i)^.{3,50}\s*[-–—,]\s*episode\s+.{1,40}\s*[-–—,]\s*"
+            r"(?:January|February|March|April|May|June|July|August|September|October|November|December)\b",
+            line,
+        ):
+            continue
+        # Also catch simpler variants: "Show Name, Episode N" at end of line
+        if re.match(
+            r"(?i)^.{3,50},?\s+episode\s+[\w\s]+[,.]?\s*$",
+            line,
+        ):
+            continue
         # Drop markdown artifacts
         if line in {"**", "*", "__", "—", "–"}:
             continue
@@ -1422,6 +1444,26 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
     joined = re.sub(r"\n{3,}", "\n\n", joined).strip()
 
     return joined
+
+
+def _strip_post_pronunciation_artifacts(text: str) -> str:
+    """Strip metadata lines that survived pronunciation conversion.
+
+    After ``_apply_pronunciation`` converts numbers to words, lines like
+    ``(Word count: 2,478)`` become ``(Word count: two thousand four hundred
+    seventy-eight)`` which earlier regex passes couldn't match.  This final
+    pass catches them in word form.
+    """
+    import re
+    lines = text.split("\n")
+    cleaned = []
+    for line in lines:
+        stripped = line.strip()
+        # Word count in any form (numeric or word)
+        if re.match(r"(?i)^\(?\s*(word\s*count|total\s*words|character\s*count)\b", stripped):
+            continue
+        cleaned.append(line)
+    return "\n".join(cleaned)
 
 
 # Sentence-end pattern: period/!/?  followed by two+ spaces or a space before
