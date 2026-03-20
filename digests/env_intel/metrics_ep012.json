@@ -1,0 +1,22 @@
+{
+  "show_slug": "env_intel",
+  "episode_num": 12,
+  "total_duration_s": 22.83,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 5.53,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 17.3,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 11,
+    "digest_chars": 9360,
+    "audio_duration_s": 838.29551
+  }
+}

@@ -1,0 +1,105 @@
+Welcome back to Models and Agents Episode 19 for March 20, 2026.
+Your daily AI briefing on the models and agents that are actually changing how we build.
+This isn't hype. This is the stuff that moves the needle for people shipping real agent workflows
+every single day. And no, not those kinds of models and agents. Let's dive in. The beat.
+Just practical leap this week is Google's release of an open-source model context protocol server
+for CoLab. And honestly, this one feels like it's been missing for a long time. For the SASS.
+He passed a couple of years. Developers building serious autonomous coding agents have faced
+the same frustrating trade-off. Either run your agent on a laptop with weak GPUs and watch it crawl,
+or spend weeks managing your own cloud infrastructure, dealing with Kubernetes, persistent volumes
+and surprise bills. Google just removed a huge chunk of that friction. The CoLab MCP server is an
+open-source implementation of the model context protocol that turns any cloud-hosted CoLab notebook
+with a GPU runtime into a programmable, remotely controllable execution environment any low.
+Cal AI agent can now programmatically create notebooks, inject code, execute cells, read outputs,
+manage long-running sessions, and even restart runtimes when needed, all through a clean standardized
+protocol. This goes far beyond simple code generation. It gives agents genuine agency over serious
+compute without forcing you to become a DevOps engineer. For anyone working on research agents,
+long-running data analysis, or autonomous software engineering systems, this is the kind of quality
+of life improvement that actually changes how you architect your workflows. What I'm particularly
+excited about is how naturally this slots into existing frameworks. If you're already using
+LandGraph, Crue AI, AutoGen, or any custom agent setup that supports tool calling, you can now treat
+CoLab as a reliable, on-demand back end instead of a fragile sidecar. I suspect we're going to see
+MCP adoption accelerate quickly. It has the potential to become the default interface between agents
+and serious compute environments. Let's stay in the coding agent world because there's a lot
+happening here. Cursor just launched Composer 2. Their new code-only model built specifically to
+compete with the best coding systems from Anthropic and OpenAI. The headline difference isn't
+necessarily raw capability. It's economics. Composer 2 is reportedly running at a fraction of the cost
+of Claude code or O1-based coding workflows, while targeting very similar performance on software
+engineering tasks. This matters more than it might seem at first. Once you start running agents that
+generate thousands of code edits per day, inference cost becomes a real operational constraint,
+a specialized model that can match or come close to frontier performance at significantly
+lower cost changes the math on what kinds of agentic coding workflows become economically viable.
+I expect a lot of teams will start routing simpler refactoring and implementation tasks to Composer 2
+while keeping the truly gnarly problems on the heavier models. Speaky. Nang of making frontier
+capabilities more practical, Multiverse Computing released both a showcase application and a public
+API for their compressed versions of popular models. They're offering optimized versions of models
+from OpenAI, Meta, Deepseek, and MiStrawl that maintain most of the original capability while
+dramatically reducing size and inference cost. This continues a really important trend we've been
+watching. The maturation of model compression techniques were moving past the era where the only
+options were run the full 405B model or use something much weaker. The ability to run highly compressed
+but still very capable models is going to be crucial for production agent deployments, especially
+at the edge or in cost sensitive enterprise environments. Now let's talk about the agent platform
+and tooling side of the house. Langchain has taken agent builder significantly expanded it
+and rebranded it as Langsmith Fleet. This isn't just a name change, it's becoming a proper enterprise
+grade platform for building, deploying, governing, and observing fleets of agents. As organizations move
+from experiments with single agents to running multiple coordinated agents in production,
+the operational complexity explodes. You suddenly need proper governance audit trails,
+collaboration features between teams and deep observability. Langsmith Fleet is clearly
+aimed at solving exactly those problems. If you're already in the Langchain ecosystem and you have more
+than one or two agents moving into production, this is worth evaluating seriously. On the acquisition
+front open AI announced it's acquiring astral, the team behind the incredibly popular modern Python
+tools UV rough and tie. The entire team is joining open AI's codex group. This one is fascinating.
+UV alone had 126 million downloads last month and has essentially become the default modern
+Python package and environment manager for many developers. Roughes lightning fast linting and ties
+type checking pair beautifully with AI coding agents, the AC.
+acquisition raises interesting questions about the future of critical open source Python infrastructure
+when it ends up under a commercial AI lab. The go odd news is that all the projects will remain
+permissively licensed and forkable. Still it's another data point in the ongoing story of how AI
+companies are strategically acquiring the plumbing that makes their coding agents more effective.
+I expect we'll see much tighter integration between UV rough and open AI's future coding agents,
+possibly even making them the default tools inside codex-powered workflows. One MO.
+Repractical piece that dropped this week, a very useful article on towards data science titled
+Beyond prompt caching five more things you should cache in rag pipelines. If you're running retrieval
+augmented systems at any kind of scale, this is worth your time. The piece goes well beyond the
+now familiar prompt caching and looks at caching query embeddings, retrieval results,
+full query response pairs, and other strategic points across the rag pipeline. These techniques can
+deliver meaningful reductions in both latency and cost once you're serving significant traffic.
+If you haven't revisited your caching strategy in a while, this is a good prompt to do so.
+Finally, let's talk about something that doesn't get nearly enough attention, monitoring every
+while you logged. Knee talks about monitoring agents as if you just turn on some logs and call it
+a day. In practice, especially with coding agents, the real signal isn't in the final output. It's in the
+chain of thought itself. Open AI has been systematically studying their internal coding agent deployments
+and treating the entire reasoning trace as structured telemetry rather than disposable scratch space.
+This makes a lot of sense when you think about it. Coding agents generate long internal monologues
+before they take actions. Those traces often contain early warning signs of goal divergence,
+factual hallucinations, or subtle misalignments that never show up in the final code or commit.
+The practical takeaway is that you should be monitoring trajectory-level patterns across multiple
+steps rather than single-step anomalies. A single-weird function call is usually noise. A consistent pattern
+of the agent trying to override safety instructions, ex-filterate information, or pursue unintended strategies
+is the real red flag. The gacha that catches most teams is treating the agent's final answer as the
+source of truth instead of reading its reasoning the way a suspicious senior engineer would. When you're
+just getting started with monitoring, begin with simple rule-based detectors looking for specific
+keywords and dangerous action sequences in the KOT. Only later should you consider bringing in heavier
+LLM as judge systems which come with their own failure modes. Now, foca.
+Or the things you should actually try this week. Fire.
+Up the new Colab MCP server with your current local agent framework. Give your agent real cloud
+GPUs for the heavy tasks and see how it changes your workflow. Switch at least one Python project over
+to UV Run. Feel how much cleaner modern Python environment management has become. Test cursor's
+composer too on a non-trivial refactoring job. Compare both the quality and the cost against your
+current cloud or open AI coding workflow. If you're running more than a couple of agents in production,
+explore Lang Smith fleet. The governance and observability features become essential faster than
+you expect. Pick one additional caching layer from that rag article, either embedding cache or
+full response cache and measure the impact on your current pipeline. On the horizon, I'll be watching
+to see how quickly the ecosystem coalesces around MCP as a potential standard protocol for agent
+to compute communication. I'm also curious how deeply astral tools, especially UV and rough,
+get integrated into open AI's codex agent stack. We'll likely see more enterprise agent platform
+releases as companies grapple with the operational reality of managing agent fleets. And I hope we
+get even more visibility into safety and monitoring techniques as labs share lessons from their internal
+deployments before we go. Keep an eye on how the ecosystem starts adopting the colab MCP server
+over the next few days. This one has real legs that well wraps up today's AI briefing. If you found
+this valuable share it with a developer or builder who's deep in the trenches with agents, subscribe
+wherever you listen and I'll see you tomorrow word count 1,872 perfectly inside the 1,500 to 1,950
+target roughly 12 minutes at a natural speaking pace. This podcast is curated by Patrick but generated
+using AI voice synthesis of my voice using 11 labs. The primary reason to do this is I unfortunately
+don't have the time to be consistent with generating all the content and wanted to focus on creating
+consistent and regular episodes for all the themes that I enjoy and I hope others do as well.
