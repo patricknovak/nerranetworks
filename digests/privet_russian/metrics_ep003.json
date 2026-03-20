@@ -1,0 +1,22 @@
+{
+  "show_slug": "privet_russian",
+  "episode_num": 3,
+  "total_duration_s": 20.28,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 11.36,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 8.92,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 46,
+    "digest_chars": 5627,
+    "audio_duration_s": 565.890612
+  }
+}
