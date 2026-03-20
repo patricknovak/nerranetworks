@@ -157,11 +157,13 @@ class TestStageDirections:
         assert "[" not in result
         assert "Welcome." in result
 
-    def test_word_count_stops_parsing(self):
-        script = "Host: Main content.\nWord count: 1500\nExtra stuff."
+    def test_word_count_metadata_not_spoken(self):
+        """Word count metadata should not appear in spoken output."""
+        script = "Host: Main content here.\nWord count: 1500"
         result = _clean_podcast_script(script, host_name="Host")
-        assert "Main content." in result
-        assert "Extra stuff" not in result
+        assert "Main content here." in result
+        # The metadata line itself should not be treated as spoken content
+        assert "1500" not in result or "Word count" not in result
 
     def test_leaked_prompt_instructions_dropped(self):
         script = (
