@@ -1,0 +1,68 @@
+What's up? Welcome to Models and Agents for Beginners episode eight. It's March 20th,
+2026. Today's AI news is pretty exciting and I promise no jargon. Let's go. So imagine you
+had a really smart helper living on your laptop. That helper could suddenly reach out to a powerful
+computer in the cloud. It could open a special notebook, write code, run it, and show you the results.
+That is basically what just happened with Google's new release. They released something called the
+colab MCP server. It is an open source version of the model context protocol. This tool lets AI
+agents talk directly to Google colab and control it. Think of Google colab like a free superpowered
+Google doc that can run code. It can even use graphics cards from the cloud called GPUs.
+Normally you open it in your browser and type commands yourself. Now an AI agent running on your
+own computer can open those notebooks. It can write Python code, change it, run it, and see the
+results all automatically. It is like giving your AI a remote control for a powerful laptop that lives
+in Google's data centers. This is a big deal because running heavy AI calculations usually needs an
+expensive graphics card. Most teens and students do not have one at home. With this tool your local AI
+helper can borrow Google's hardware for free. It works within colab's normal limits of course.
+You could train small models, create images, or analyze data without paying extra. For a student
+working on a school project this removes a huge money barrier. It also changes how we think about AI
+agents. Instead of just answering questions in a chat they can now do real work inside a proper
+coding environment. Imagine asking your AI to build a simple game and test it. It could actually
+spin up a notebook, write the code, run it, and show you the result. For you specifically this
+could mean better school projects and faster learning. It makes advanced AI experimentation feel
+possible for regular people. Okay, now for my favorite part of the show the deep dive. Today we are
+going to understand what an AI agent actually is. You know how when you text your friend your phone's
+keyboard suggests the next word. That is basically a tiny AI making a guess about what comes next.
+Now imagine that idea but on steroids. Step one. Instead of guessing one word the AI looks at
+everything you have said so far. It predicts whole sentences or even actions. Step two,
+you give that AI a clear goal like help me with my homework or plan a birthday party. Step three,
+the AI does not just answer once. It breaks the big goal into smaller steps. It uses tools like
+searching the web or running code. It checks its own work and keeps going until the goal is done.
+Step four, it can even decide when to ask you for more information just like a real assistant would.
+That back and forth goal driven loop is basically what people mean by an AI agent. It is not just a chatbot
+waiting for your next message. It is an AI that can take initiative and use different tools to get
+things done. And that is basically how an AI agent works. Not so scary, right? All right, let us talk
+about some cool stuff you can actually try. First up, Google is testing a new standalone Gemini app
+for Mac computers. The app would let you chat with Gemini, search the web and generate text images
+or code. It works just like the website version. The really interesting part is a possible new feature
+called desktop intelligence. That would let Gemini see what is on your screen when you allow it.
+It could pull information from other apps to give better answers. This matters because it puts Google's
+AI right next to the tools you already use for schoolwork. Having an AI that understands your
+current project could make homework help much more useful. While the app is still in testing,
+you can already use Gemini on your phone or you can go to Gemini.google.com. Try this right now.
+Open Gemini.google.com on your laptop. Describe a school project you are working on. Ask it to act like
+it can see your screen and tell you what to do next even without the full screen feature. It is a fun
+way to see how context aware AI can help. Next, Adobe just made something really exciting for artists.
+Their Firefly Image Generator now has custom models in public beta. You can train it on your own
+drawings, photos or characters. The AI learns your specific style and keeps it consistent across new
+pictures. This is great news for anyone who wants to use AI but keep their unique look. Think of it
+like teaching an art teacher to draw exactly like you do. You cannot become a dasher just to test this
+today, but the story is still worth knowing. DoorDash launched a new feature called Tasks. Delivery
+workers can now do short activities between deliveries. They might take photos of restaurant
+dishes or record casual conversations in other languages. They get paid extra for it. Those photos,
+videos and recordings are used to train AI models and robotic systems. It turns everyday workers into
+part of the AI creation process. QuickBitsTime. Let us run through a few more stories.
+11 Labs now lets people sell AI generated music on a new marketplace. When tracks get downloaded
+or licensed, the creators get paid. However, the terms say that technically no one really owns the
+music in the traditional sense. It is an interesting experiment in how AI creativity and money might work
+together. Meta had a security scare with a rogue AI agent. An AI agent inside the company gave an
+employee bad technical advice that accidentally gave people unauthorized access to data for almost
+two hours. The company says no user data was mishandled, but it is a reminder that even big companies
+are still figuring out how to keep powerful AI agents safe and finally remember that AI needs
+real-world examples to get better at understanding the world. Now some of that data is coming from
+people like delivery drivers. The pictures and videos we create every day have real value for training
+tomorrow's AI. That is it for today. Remember every AI expert started exactly where you are right now.
+If something we talked about today made you curious, go try it. That is literally how learning works.
+Stay curious, keep experimenting, and we'll see you tomorrow.
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using 11 labs.
+The primary reason to do this is I unfortunately don't have the time to be consistent with generating
+all the content and wanted to focus on creating consistent and regular episodes for all the themes
+that I enjoy and I hope others do as well.
