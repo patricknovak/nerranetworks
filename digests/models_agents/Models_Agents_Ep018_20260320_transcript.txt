@@ -1,0 +1,112 @@
+Welcome back to Models & Agents Episode 18 for March 20th, 2026. Your daily AI briefing on the
+models and agents that are actually changing how we build intelligent systems. And no, not those
+kinds of models and agents. Let's get into it. Let's start with what I think is the most immediately
+useful release this week. Lama Index has dropped LightParse, a spatial PDF parser specifically built for
+a Genetic Rag workflows. If you're building agents that need to read contracts, research papers,
+financial reports, earnings, transcripts, or technical manuals, this one is going to save you a
+surprising amount of pain. Here's the deeper context. Even though frontier models have gotten
+dramatically cheaper and faster, the data ingestion layer has remained one of the biggest bottlenecks
+and sources of error in production agent systems. Most existing PDF parsers flatten documents into
+linear text streams, completely destroying layout information, table structures, reading order,
+and spatial relationships. That loss of structure forces the LLM to guess what belongs with what,
+which leads to brittle reasoning downstream. LightParse takes a different approach. It's designed
+from the ground up to preserve spatial and hierarchical relationships in complex documents.
+Instead of treating a PDF as a wall of text, it gives your agents a much richer layout-aware
+representation. The library ships both as an easy-to-use CLI that you can start playing with today,
+and as a TypeScript native library that drops cleanly into existing LLM index agent flows.
+My take? This is the kind of focused, high-leverage infrastructure work the ecosystem desperately needs.
+I expect we'll see rapid community extensions, things like better table understanding,
+figure caption linking, and even native support for scanned documents. If you're doing any serious
+document-heavy agent work, go try the CLI on your worst PDFs this week. You'll probably see an
+immediate jump in reasoning quality. Now while we're on the topic of improving rag reliability,
+several strong research papers dropped this week that tackled different failure modes in
+agentic and retrieval systems. One particularly interesting paper evaluated five different LLMs
+against human performance using the strange story's paradigm. A well-established test from
+developmental psychology designed to measure theory of mind. Earlier and smaller models were heavily
+thrown off by the number of inferential steps required and were extremely vulnerable to
+distracting or misleading information in the prompt. In contrast, GPT-40 showed high accuracy and
+remarkable robustness. It performed comparably to human controls even on the most difficult conditions.
+This isn't just another benchmark. It's one of the cleaner demonstrations we've seen that scale
+actually produces qualitatively different cognitive capabilities, not just incremental improvements.
+The gap between smaller models and frontier models on this task is larger than most people in the
+industry expect, worth testing yourself if you're evaluating models for tasks that require social
+reasoning or nuanced understanding of intent. Another notable paper introduced Powerflow,
+which reframes unsupervised fine-tuning as a distribution matching problem using G-flow nets.
+The researchers developed a length-aware trajectory balance objective that lets you explicitly
+control the shape of the output distribution, want stronger, more rigorous reasoning,
+increase alpha above one, want more creative exploratory outputs, dial alpha below one.
+What's impressive is that Powerflow consistently outperforms existing RLIF style methods
+and in some cases even beats supervised GRPO. This feels like a meaningful step toward more
+controllable post-training techniques that don't require massive preference data sets.
+On the trustworthiness and safety side, researchers released Construct, a new method for scoring the
+trustworthiness of LLM structured outputs, down to the individual field level. The really nice part,
+it works without needing access to log probs, without any training data, and without custom model
+deployment. It handles complex nested JSON schemas gracefully and outperformed other scoring
+approaches on a new public benchmark that includes both Gemini 3 and GPT-5.
+Let's move over to agent and tool use developments. One of the more elegant papers this week is
+Dinerag. It offers a smart, lightweight way to bridge static retrieval and dynamic knowledge.
+The system uses an LLM re-ranker and a sufficiency classifier to decide whether the retrieved
+documents are good enough. If they're not, it intelligently calls external APIs using Gorilla V2
+for tool invocation. The results on the crag benchmark for dynamic questions are strong, and it
+also meaningfully reduces hallucinations. If you're building agents that need to stay current on
+fast-changing information, pricing, inventory, regulations, news, the Dinerag pattern is worth
+experimenting with. Google also made a quietly significant move this week by expanding its universal
+commerce protocol, UCP. They've now added shopping cart functionality, richer catalog capabilities,
+and identity plus loyalty features. This gives AI shopping agents persistent state across sessions
+and much more powerful commerce primitives to work with. This matters. Most current shopping agents
+are still quite brittle because they lack proper state management and standardized ways to interact
+with retail systems. Google's expansion of UCP feels like a meaningful step toward truly autonomous
+retail agents that can actually complete complex purchases end to end. We'll see how quickly
+other major retailers adopt or respond to this protocol. On the practical rag engineering side,
+two techniques stood out. The first is a new framework for controllable evidence selection using
+deterministic utility gating. Instead of letting the model decide what evidence to use during
+generation, this approach uses two estimators, meaning utility estimation and diversity utility
+estimation, to make evidence selection deterministic and auditable before answer generation even begins.
+It only accepts sentences that explicitly satisfy required facts or conditions. The transparency
+win here is huge. If you care about building rag systems that auditors or regulators can actually
+trust, this direction is very promising. The second is UCP OF, uncertainty calibrated prompt
+optimization. It combines a log scale focal uncertainty metric with first token uncertainty estimation.
+The practical results are excellent, roughly 6% higher accuracy over few shot baselines,
+while beating full rag systems and cutting retrieval calls by over 50%. That's the kind of
+efficiency gain that actually moves the needle in production. Finally, for those working on clinical
+or mental health applications, therapy gym introduces a serious evaluation framework for therapy chat
+bots. It measures adherence to proper CBT techniques using the cognitive therapy rating scale while
+also assessing safety risks. Models trained with CTRS and safety rewards jumped dramatically from
+0.1 to 0.60 on expert ratings. The benchmark also includes therapy judge bench for better calibration
+against human clinicians. This is the kind of domain-specific evaluation work we need a lot more of.
+Before we finish, I want to spend a few minutes on something that rarely gets discussed openly,
+but quietly kills most agentech rag projects. Everyone talks about agentech rag like the main
+challenge is just making the LLM smarter. In practice, the real killers are silent failure modes that
+don't cause obvious crashes, but destroy both performance and cost efficiency. The three big ones are
+retrieval thrash, tool storms, and context bloat. Once you give an agent a loop and multiple tools,
+its behavior stops being a single forward pass and becomes an actual search process.
+Retrieval. Thrash happens when the agent keeps pulling overlapping or low-value document chunks
+because its stopping criteria are too weak. Tools storms occur when the agent starts calling 15-plus
+tools in a row without making meaningful progress, often because each tool call slightly shifts the
+context and resets its sense of direction. Context bloat is the inevitable result. Your prompt
+storms are insidious because they're invisible and simple end-to-end accuracy metrics.
+You can have an 85% success rate while burning seven times more inference budget than necessary.
+The engineering reality is that you need explicit monitoring for these three failure signatures from day
+one, repeated retrieval of similar documents, tool call chains longer than six or seven steps,
+and dangerous context growth rate. The biggest gotcha IC is teams treating these as model problems
+instead of system problems. Better models help at the margin, but the real wins come from adding
+early detection, hard-step budgets, utility-based retrieval gating, and explicit anti-thrash mechanisms
+in the agent loop. When you're building a genetic rag, instrument these three metrics first,
+everything else is secondary. Here are the things you should actually try this week. Run.
+Light parse on your worst, most layout heavy PDFs, especially contracts or research papers.
+You'll likely see an immediate improvement in agent reasoning quality.
+If you work with time sensitive or rapidly changing information, prototype a dinarag style pattern.
+Add a simple first token uncertainty check about 50 lines of code to your rag pipeline inspired by
+UCP OF. Many teams are cutting retrieval costs in half with this. Run your structured output pipeline
+through a construct style trustworthiness score to see where human review effort is best spent.
+Test GP-T40 versus smaller models on theory of mind tasks using the strange stories data set.
+The gap is bigger than most builders realize. On the horizon, I expect to see more production-focused
+agent monitoring tools emerge as research on retrieval thrash and tool storms gets turned into
+actual open source libraries. We'll also see continued rapid iteration on document intelligence and
+PDF parsing following light parse plus growing adoption of uncertainty aware and deterministic rag
+techniques that simultaneously reduce cost and increase reliability. That wraps up today's briefing.
+If you found this useful, share it with a developer or builder who's deep in the trenches with you.
+Subscribe wherever you listen and I'll see you tomorrow. This podcast is curated by Patrick but
+generated using AI voice synthesis of my voice using 11 labs. The primary reason to do this is I
+unfortunately don't have the time to be consistent with generating all the content and wanted to focus
+on creating consistent and regular episodes for all the themes that I enjoy and I hope others do
