@@ -326,8 +326,50 @@ def generate_digest(
     logger.info("Digest generated (%d chars, %s tokens)",
                 len(text), meta.get("usage", {}).get("total_tokens", "?"))
 
-    # Validate the digest is usable
-    _validate_llm_output(text, stage="digest", show_name=config.name)
+    # Validate the digest is usable — if the LLM refused, retry once with
+    # a forceful anti-refusal override before giving up.
+    try:
+        _validate_llm_output(text, stage="digest", show_name=config.name)
+    except LLMRefusalError:
+        logger.warning(
+            "LLM refused to generate digest for '%s' — retrying with "
+            "anti-refusal override ...", config.name,
+        )
+        anti_refusal_suffix = (
+            "\n\n---\n"
+            "CRITICAL OVERRIDE: You MUST produce a complete digest in the "
+            "format specified above. Do NOT refuse. Do NOT say you cannot. "
+            "If the provided articles lack sufficient relevant content, "
+            "switch to EDUCATIONAL mode: pick 2-3 financial concepts "
+            "relevant to the show's audience and explain them in depth, "
+            "following the exact same output format. An educational episode "
+            "is always better than no episode. Generate the digest NOW."
+        )
+        retry_prompt = prompt + anti_refusal_suffix
+        text, meta2 = _call_grok(
+            retry_prompt,
+            model=config.llm.model,
+            system_prompt=system_prompt,
+            temperature=config.llm.digest_temperature,
+            max_tokens=config.llm.max_tokens,
+        )
+        if tracker and "usage" in meta2:
+            try:
+                from engine.tracking import record_llm_usage
+                record_llm_usage(
+                    tracker,
+                    "x_thread_generation_retry",
+                    meta2["usage"].get("prompt_tokens", 0),
+                    meta2["usage"].get("completion_tokens", 0),
+                    model=config.llm.model,
+                )
+            except Exception as e:
+                logger.warning("Failed to record retry LLM usage: %s", e)
+
+        logger.info("Retry digest generated (%d chars, %s tokens)",
+                    len(text), meta2.get("usage", {}).get("total_tokens", "?"))
+        # Validate again — if it still refuses, let the error propagate
+        _validate_llm_output(text, stage="digest", show_name=config.name)
 
     return text
 
