@@ -1372,9 +1372,9 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
         # Skip stage directions, blank lines, and bracketed notes
         if not line or line.startswith("["):
             continue
-        # Stop at footer/debug metadata Grok sometimes appends
-        if re.match(r"(?i)^(word\s*count|total\s*words|character\s*count)\b", line):
-            break
+        # Skip footer/debug metadata Grok sometimes appends
+        if re.match(r"(?i)^\(?\s*(word\s*count|total\s*words|character\s*count)\b", line):
+            continue
         if re.match(r"(?i)^content\s*:\s*$", line):
             break
         # Drop markdown artifacts

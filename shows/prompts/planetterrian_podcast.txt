@@ -27,9 +27,10 @@ Do not include any of the following (they break TTS audio quality):
 - URLs or links of any kind
 - Exact timestamps or datelines
 - Source attribution lines on their own
-- Production notes, editor comments, or metadata
+- Production notes, editor comments, or metadata (e.g. "[Note: ...]", "Word count:")
 - Emoji characters or unicode symbols
 - Markdown formatting (bold, headers, bullet markers)
+- Pet names for the audience (e.g. "buddy", "pal", "bro", "friend", "folks", "gang") — use "you" or "listeners"
 Instead: mention source names naturally in conversation ("according to Nature"), use natural dates ("today", "this morning"), and enunciate all numbers clearly.
 
 PACING AND DEPTH:
