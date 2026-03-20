@@ -1,14 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcast="https://podcastindex.org/namespace/1.0" version="2.0">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcast="https://podcastindex.org/namespace/1.0" version="2.0">
   <channel>
     <title>Привет, Русский!</title>
-    <link>https://nerranetwork.com/ru/privet-russian.html</link>
+    <link>https://nerranetwork.com/privet_russian_podcast.rss</link>
     <description>Learn Russian with Olya! A bilingual podcast for English speakers — kids and adult beginners. Each episode teaches vocabulary, phrases, and culture through fun, themed lessons. Привет means hello. Let's learn together! AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+    <atom:link href="https://nerranetwork.com/privet_russian_podcast.rss" rel="self" />
     <copyright>Copyright 2026</copyright>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Mar 2026 22:20:06 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 20 Mar 2026 02:14:06 +0000</lastBuildDate>
     <itunes:author>Nerra Network</itunes:author>
     <itunes:category text="Education" />
     <itunes:image href="https://nerranetwork.com/assets/covers/privet-russian.jpg" />
@@ -19,8 +20,47 @@
     </itunes:owner>
     <itunes:summary>Learn Russian with Olya! A bilingual podcast for English speakers — kids and adult beginners. Each episode teaches vocabulary, phrases, and culture through fun, themed lessons. Привет means hello. Let's learn together! AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
     <item>
+      <title>Привет, Русский! - Episode 2 - March 20, 2026</title>
+      <link>https://audio.nerranetwork.com/privet_russian/PR_Ep002_20260320.mp3</link>
+      <description>**Привет, Русский! — Episode Plan**  
+**Date:** March 20, 2026  
+**Theme:** Animals (Животные)
+
+**Vocabulary List (10 words/phrases):**
+
+- **Russian (Cyrillic):** ворона  
+  **Transliteration:** va-RO-na  
+  **English:** raven / crow  
+  **Example sentence:** Ворона очень умная птица.  
+  **Example translation:** A raven is a very smart bird. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">pr-ep002-20260320-021406</guid>
+      <enclosure url="https://audio.nerranetwork.com/privet_russian/PR_Ep002_20260320.mp3" length="10380896" type="audio/mpeg" />
+      <pubDate>Fri, 20 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/privet-russian.jpg" />
+      <itunes:duration>07:12</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**Привет, Русский! — Episode Plan**  
+**Date:** March 20, 2026  
+**Theme:** Animals (Животные)
+
+**Vocabulary List (10 words/phrases):**
+
+- **Russian (Cyrillic):** ворона  
+  **Transliteration:** va-RO-na  
+  **English:** raven / crow  
+  **Example sentence:** Ворона очень умная птица.  
+  **Example translation:** A raven is a very smart bird. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>2</itunes:episode>
+      <itunes:title>Привет, Русский! - Episode 2 - March 20, 2026</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/privet_russian/chapters_ep002.json" type="application/json+chapters" /></item>
+    <item>
       <title>Привет, Русский! - Episode 1 - March 14, 2026</title>
-      <link>https://audio.nerranetwork.com/privet_russian/PR_Ep001_20260314.mp3</link>
       <description># Привет, Русский! — Episode Plan
 **Date:** March 14, 2026
 **Theme:** Winter Sports
@@ -201,6 +241,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>1</itunes:episode>
       <itunes:title>Привет, Русский! - Episode 1 - March 14, 2026</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/privet_russian/chapters_ep001.json" type="application/json+chapters" /></item>
-  </channel>
+    </item>
+  <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked></channel>
 </rss>
