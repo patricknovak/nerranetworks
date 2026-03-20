@@ -1,0 +1,7526 @@
+{
+  "language": "en",
+  "language_probability": 1,
+  "duration": 373.4,
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.94,
+      "text": "What's up? Welcome to Models and Agents for Beginners Episode 9. It's March 20th, 2026.",
+      "words": [
+        {
+          "word": "What's",
+          "start": 0.0,
+          "end": 0.46,
+          "probability": 0.906
+        },
+        {
+          "word": "up?",
+          "start": 0.46,
+          "end": 0.58,
+          "probability": 0.99
+        },
+        {
+          "word": "Welcome",
+          "start": 0.72,
+          "end": 0.94,
+          "probability": 0.987
+        },
+        {
+          "word": "to",
+          "start": 0.94,
+          "end": 1.12,
+          "probability": 0.999
+        },
+        {
+          "word": "Models",
+          "start": 1.12,
+          "end": 1.44,
+          "probability": 0.908
+        },
+        {
+          "word": "and",
+          "start": 1.44,
+          "end": 1.62,
+          "probability": 0.782
+        },
+        {
+          "word": "Agents",
+          "start": 1.62,
+          "end": 1.9,
+          "probability": 0.949
+        },
+        {
+          "word": "for",
+          "start": 1.9,
+          "end": 2.06,
+          "probability": 0.937
+        },
+        {
+          "word": "Beginners",
+          "start": 2.06,
+          "end": 2.44,
+          "probability": 0.94
+        },
+        {
+          "word": "Episode",
+          "start": 2.44,
+          "end": 2.8,
+          "probability": 0.616
+        },
+        {
+          "word": "9.",
+          "start": 2.8,
+          "end": 3.22,
+          "probability": 0.81
+        },
+        {
+          "word": "It's",
+          "start": 3.34,
+          "end": 3.5,
+          "probability": 0.965
+        },
+        {
+          "word": "March",
+          "start": 3.5,
+          "end": 3.62,
+          "probability": 0.995
+        },
+        {
+          "word": "20th,",
+          "start": 3.62,
+          "end": 4.22,
+          "probability": 0.822
+        },
+        {
+          "word": "2026.",
+          "start": 4.22,
+          "end": 4.94,
+          "probability": 0.917
+        }
+      ]
+    },
+    {
+      "start": 5.18,
+      "end": 9.14,
+      "text": "Today's AI news is pretty exciting, and I promise no jargon, let's go.",
+      "words": [
+        {
+          "word": "Today's",
+          "start": 5.18,
+          "end": 5.58,
+          "probability": 0.993
+        },
+        {
+          "word": "AI",
+          "start": 5.58,
+          "end": 5.82,
+          "probability": 0.856
+        },
+        {
+          "word": "news",
+          "start": 5.82,
+          "end": 6.14,
+          "probability": 0.695
+        },
+        {
+          "word": "is",
+          "start": 6.14,
+          "end": 6.32,
+          "probability": 0.994
+        },
+        {
+          "word": "pretty",
+          "start": 6.32,
+          "end": 6.58,
+          "probability": 0.995
+        },
+        {
+          "word": "exciting,",
+          "start": 6.58,
+          "end": 7.0,
+          "probability": 0.999
+        },
+        {
+          "word": "and",
+          "start": 7.22,
+          "end": 7.6,
+          "probability": 0.989
+        },
+        {
+          "word": "I",
+          "start": 7.6,
+          "end": 7.68,
+          "probability": 0.994
+        },
+        {
+          "word": "promise",
+          "start": 7.68,
+          "end": 8.02,
+          "probability": 0.756
+        },
+        {
+          "word": "no",
+          "start": 8.02,
+          "end": 8.28,
+          "probability": 0.912
+        },
+        {
+          "word": "jargon,",
+          "start": 8.28,
+          "end": 8.68,
+          "probability": 0.969
+        },
+        {
+          "word": "let's",
+          "start": 8.74,
+          "end": 8.96,
+          "probability": 0.989
+        },
+        {
+          "word": "go.",
+          "start": 8.96,
+          "end": 9.14,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 9.66,
+      "end": 13.18,
+      "text": "So imagine you're playing your favorite game. The world looks almost like a movie.",
+      "words": [
+        {
+          "word": "So",
+          "start": 9.66,
+          "end": 9.84,
+          "probability": 0.969
+        },
+        {
+          "word": "imagine",
+          "start": 9.84,
+          "end": 10.1,
+          "probability": 0.911
+        },
+        {
+          "word": "you're",
+          "start": 10.1,
+          "end": 10.34,
+          "probability": 0.99
+        },
+        {
+          "word": "playing",
+          "start": 10.34,
+          "end": 10.58,
+          "probability": 0.999
+        },
+        {
+          "word": "your",
+          "start": 10.58,
+          "end": 10.78,
+          "probability": 0.995
+        },
+        {
+          "word": "favorite",
+          "start": 10.78,
+          "end": 11.12,
+          "probability": 0.967
+        },
+        {
+          "word": "game.",
+          "start": 11.12,
+          "end": 11.42,
+          "probability": 0.997
+        },
+        {
+          "word": "The",
+          "start": 11.82,
+          "end": 11.92,
+          "probability": 0.992
+        },
+        {
+          "word": "world",
+          "start": 11.92,
+          "end": 12.1,
+          "probability": 0.981
+        },
+        {
+          "word": "looks",
+          "start": 12.1,
+          "end": 12.3,
+          "probability": 0.998
+        },
+        {
+          "word": "almost",
+          "start": 12.3,
+          "end": 12.48,
+          "probability": 0.996
+        },
+        {
+          "word": "like",
+          "start": 12.48,
+          "end": 12.74,
+          "probability": 0.999
+        },
+        {
+          "word": "a",
+          "start": 12.74,
+          "end": 12.86,
+          "probability": 0.999
+        },
+        {
+          "word": "movie.",
+          "start": 12.86,
+          "end": 13.18,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "start": 13.54,
+      "end": 18.2,
+      "text": "Light bounces off metal exactly right, shadows fall naturally, and fog in the forest feels real.",
+      "words": [
+        {
+          "word": "Light",
+          "start": 13.54,
+          "end": 13.66,
+          "probability": 0.946
+        },
+        {
+          "word": "bounces",
+          "start": 13.66,
+          "end": 14.04,
+          "probability": 0.991
+        },
+        {
+          "word": "off",
+          "start": 14.04,
+          "end": 14.4,
+          "probability": 0.999
+        },
+        {
+          "word": "metal",
+          "start": 14.4,
+          "end": 14.62,
+          "probability": 0.915
+        },
+        {
+          "word": "exactly",
+          "start": 14.62,
+          "end": 14.98,
+          "probability": 0.922
+        },
+        {
+          "word": "right,",
+          "start": 14.98,
+          "end": 15.42,
+          "probability": 0.993
+        },
+        {
+          "word": "shadows",
+          "start": 15.64,
+          "end": 15.84,
+          "probability": 0.987
+        },
+        {
+          "word": "fall",
+          "start": 15.84,
+          "end": 16.1,
+          "probability": 0.995
+        },
+        {
+          "word": "naturally,",
+          "start": 16.1,
+          "end": 16.52,
+          "probability": 0.992
+        },
+        {
+          "word": "and",
+          "start": 16.72,
+          "end": 16.8,
+          "probability": 0.995
+        },
+        {
+          "word": "fog",
+          "start": 16.8,
+          "end": 17.0,
+          "probability": 0.996
+        },
+        {
+          "word": "in",
+          "start": 17.0,
+          "end": 17.16,
+          "probability": 0.933
+        },
+        {
+          "word": "the",
+          "start": 17.16,
+          "end": 17.26,
+          "probability": 0.998
+        },
+        {
+          "word": "forest",
+          "start": 17.26,
+          "end": 17.54,
+          "probability": 0.997
+        },
+        {
+          "word": "feels",
+          "start": 17.54,
+          "end": 17.88,
+          "probability": 0.987
+        },
+        {
+          "word": "real.",
+          "start": 17.88,
+          "end": 18.2,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 18.62,
+      "end": 24.14,
+      "text": "That's what happened this week when Nvidia announced DLSS-5. DLSS stands for deep learning super sampling.",
+      "words": [
+        {
+          "word": "That's",
+          "start": 18.62,
+          "end": 18.9,
+          "probability": 0.997
+        },
+        {
+          "word": "what",
+          "start": 18.9,
+          "end": 18.98,
+          "probability": 0.998
+        },
+        {
+          "word": "happened",
+          "start": 18.98,
+          "end": 19.26,
+          "probability": 0.992
+        },
+        {
+          "word": "this",
+          "start": 19.26,
+          "end": 19.5,
+          "probability": 0.995
+        },
+        {
+          "word": "week",
+          "start": 19.5,
+          "end": 19.68,
+          "probability": 0.997
+        },
+        {
+          "word": "when",
+          "start": 19.68,
+          "end": 19.88,
+          "probability": 0.846
+        },
+        {
+          "word": "Nvidia",
+          "start": 19.88,
+          "end": 20.22,
+          "probability": 0.53
+        },
+        {
+          "word": "announced",
+          "start": 20.22,
+          "end": 20.62,
+          "probability": 0.969
+        },
+        {
+          "word": "DLSS",
+          "start": 20.62,
+          "end": 21.22,
+          "probability": 0.946
+        },
+        {
+          "word": "-5.",
+          "start": 21.22,
+          "end": 21.48,
+          "probability": 0.721
+        },
+        {
+          "word": "DLSS",
+          "start": 21.86,
+          "end": 22.32,
+          "probability": 0.996
+        },
+        {
+          "word": "stands",
+          "start": 22.32,
+          "end": 22.58,
+          "probability": 0.999
+        },
+        {
+          "word": "for",
+          "start": 22.58,
+          "end": 22.84,
+          "probability": 0.999
+        },
+        {
+          "word": "deep",
+          "start": 22.84,
+          "end": 23.04,
+          "probability": 0.409
+        },
+        {
+          "word": "learning",
+          "start": 23.04,
+          "end": 23.32,
+          "probability": 0.903
+        },
+        {
+          "word": "super",
+          "start": 23.32,
+          "end": 23.72,
+          "probability": 0.804
+        },
+        {
+          "word": "sampling.",
+          "start": 23.72,
+          "end": 24.14,
+          "probability": 0.867
+        }
+      ]
+    },
+    {
+      "start": 24.44,
+      "end": 28.1,
+      "text": "It's basically an AI system that makes games look way better and run smoother.",
+      "words": [
+        {
+          "word": "It's",
+          "start": 24.44,
+          "end": 24.6,
+          "probability": 0.997
+        },
+        {
+          "word": "basically",
+          "start": 24.6,
+          "end": 24.98,
+          "probability": 0.995
+        },
+        {
+          "word": "an",
+          "start": 24.98,
+          "end": 25.18,
+          "probability": 0.993
+        },
+        {
+          "word": "AI",
+          "start": 25.18,
+          "end": 25.46,
+          "probability": 0.99
+        },
+        {
+          "word": "system",
+          "start": 25.46,
+          "end": 25.96,
+          "probability": 0.996
+        },
+        {
+          "word": "that",
+          "start": 25.96,
+          "end": 26.18,
+          "probability": 0.992
+        },
+        {
+          "word": "makes",
+          "start": 26.18,
+          "end": 26.36,
+          "probability": 0.999
+        },
+        {
+          "word": "games",
+          "start": 26.36,
+          "end": 26.62,
+          "probability": 0.997
+        },
+        {
+          "word": "look",
+          "start": 26.62,
+          "end": 26.9,
+          "probability": 0.998
+        },
+        {
+          "word": "way",
+          "start": 26.9,
+          "end": 27.08,
+          "probability": 0.996
+        },
+        {
+          "word": "better",
+          "start": 27.08,
+          "end": 27.38,
+          "probability": 0.999
+        },
+        {
+          "word": "and",
+          "start": 27.38,
+          "end": 27.52,
+          "probability": 0.985
+        },
+        {
+          "word": "run",
+          "start": 27.52,
+          "end": 27.7,
+          "probability": 0.979
+        },
+        {
+          "word": "smoother.",
+          "start": 27.7,
+          "end": 28.1,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 28.1,
+      "end": 31.3,
+      "text": "Previous versions worked like a super smart photo editor.",
+      "words": [
+        {
+          "word": "Previous",
+          "start": 28.1,
+          "end": 29.02,
+          "probability": 0.501
+        },
+        {
+          "word": "versions",
+          "start": 29.02,
+          "end": 29.42,
+          "probability": 0.991
+        },
+        {
+          "word": "worked",
+          "start": 29.42,
+          "end": 29.72,
+          "probability": 0.896
+        },
+        {
+          "word": "like",
+          "start": 29.72,
+          "end": 29.92,
+          "probability": 0.991
+        },
+        {
+          "word": "a",
+          "start": 29.92,
+          "end": 30.04,
+          "probability": 0.991
+        },
+        {
+          "word": "super",
+          "start": 30.04,
+          "end": 30.28,
+          "probability": 0.882
+        },
+        {
+          "word": "smart",
+          "start": 30.28,
+          "end": 30.58,
+          "probability": 0.945
+        },
+        {
+          "word": "photo",
+          "start": 30.58,
+          "end": 30.96,
+          "probability": 0.981
+        },
+        {
+          "word": "editor.",
+          "start": 30.96,
+          "end": 31.3,
+          "probability": 0.973
+        }
+      ]
+    },
+    {
+      "start": 31.82,
+      "end": 36.04,
+      "text": "They took a blurry, low-resolution image from the game and cleverly filled in the missing details",
+      "words": [
+        {
+          "word": "They",
+          "start": 31.82,
+          "end": 31.9,
+          "probability": 0.988
+        },
+        {
+          "word": "took",
+          "start": 31.9,
+          "end": 32.04,
+          "probability": 0.994
+        },
+        {
+          "word": "a",
+          "start": 32.04,
+          "end": 32.2,
+          "probability": 0.988
+        },
+        {
+          "word": "blurry,",
+          "start": 32.2,
+          "end": 32.5,
+          "probability": 0.989
+        },
+        {
+          "word": "low",
+          "start": 32.64,
+          "end": 32.8,
+          "probability": 0.998
+        },
+        {
+          "word": "-resolution",
+          "start": 32.8,
+          "end": 33.18,
+          "probability": 0.81
+        },
+        {
+          "word": "image",
+          "start": 33.18,
+          "end": 33.62,
+          "probability": 0.998
+        },
+        {
+          "word": "from",
+          "start": 33.62,
+          "end": 33.86,
+          "probability": 0.995
+        },
+        {
+          "word": "the",
+          "start": 33.86,
+          "end": 34.0,
+          "probability": 0.995
+        },
+        {
+          "word": "game",
+          "start": 34.0,
+          "end": 34.2,
+          "probability": 0.995
+        },
+        {
+          "word": "and",
+          "start": 34.2,
+          "end": 34.38,
+          "probability": 0.767
+        },
+        {
+          "word": "cleverly",
+          "start": 34.38,
+          "end": 34.86,
+          "probability": 0.998
+        },
+        {
+          "word": "filled",
+          "start": 34.86,
+          "end": 35.04,
+          "probability": 0.988
+        },
+        {
+          "word": "in",
+          "start": 35.04,
+          "end": 35.28,
+          "probability": 0.991
+        },
+        {
+          "word": "the",
+          "start": 35.28,
+          "end": 35.38,
+          "probability": 0.992
+        },
+        {
+          "word": "missing",
+          "start": 35.38,
+          "end": 35.62,
+          "probability": 0.999
+        },
+        {
+          "word": "details",
+          "start": 35.62,
+          "end": 36.04,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 36.04,
+      "end": 40.68,
+      "text": "to make it look higher quality. They also created extra frames, so the game ran more smoothly",
+      "words": [
+        {
+          "word": "to",
+          "start": 36.04,
+          "end": 36.3,
+          "probability": 0.99
+        },
+        {
+          "word": "make",
+          "start": 36.3,
+          "end": 36.42,
+          "probability": 0.999
+        },
+        {
+          "word": "it",
+          "start": 36.42,
+          "end": 36.56,
+          "probability": 0.998
+        },
+        {
+          "word": "look",
+          "start": 36.56,
+          "end": 36.68,
+          "probability": 0.999
+        },
+        {
+          "word": "higher",
+          "start": 36.68,
+          "end": 36.96,
+          "probability": 0.99
+        },
+        {
+          "word": "quality.",
+          "start": 36.96,
+          "end": 37.42,
+          "probability": 0.962
+        },
+        {
+          "word": "They",
+          "start": 37.98,
+          "end": 38.1,
+          "probability": 0.987
+        },
+        {
+          "word": "also",
+          "start": 38.1,
+          "end": 38.32,
+          "probability": 0.997
+        },
+        {
+          "word": "created",
+          "start": 38.32,
+          "end": 38.7,
+          "probability": 0.996
+        },
+        {
+          "word": "extra",
+          "start": 38.7,
+          "end": 39.06,
+          "probability": 0.997
+        },
+        {
+          "word": "frames,",
+          "start": 39.06,
+          "end": 39.38,
+          "probability": 0.986
+        },
+        {
+          "word": "so",
+          "start": 39.56,
+          "end": 39.64,
+          "probability": 0.997
+        },
+        {
+          "word": "the",
+          "start": 39.64,
+          "end": 39.74,
+          "probability": 0.994
+        },
+        {
+          "word": "game",
+          "start": 39.74,
+          "end": 39.9,
+          "probability": 0.997
+        },
+        {
+          "word": "ran",
+          "start": 39.9,
+          "end": 40.1,
+          "probability": 0.999
+        },
+        {
+          "word": "more",
+          "start": 40.1,
+          "end": 40.3,
+          "probability": 0.995
+        },
+        {
+          "word": "smoothly",
+          "start": 40.3,
+          "end": 40.68,
+          "probability": 0.996
+        }
+      ]
+    },
+    {
+      "start": 40.68,
+      "end": 46.38,
+      "text": "on your laptop or console. DLSS-5 is shifting away from that pure upscaling and frame generation.",
+      "words": [
+        {
+          "word": "on",
+          "start": 40.68,
+          "end": 40.9,
+          "probability": 0.996
+        },
+        {
+          "word": "your",
+          "start": 40.9,
+          "end": 41.02,
+          "probability": 0.993
+        },
+        {
+          "word": "laptop",
+          "start": 41.02,
+          "end": 41.28,
+          "probability": 0.99
+        },
+        {
+          "word": "or",
+          "start": 41.28,
+          "end": 41.52,
+          "probability": 0.994
+        },
+        {
+          "word": "console.",
+          "start": 41.52,
+          "end": 41.9,
+          "probability": 0.999
+        },
+        {
+          "word": "DLSS",
+          "start": 42.52,
+          "end": 42.98,
+          "probability": 0.942
+        },
+        {
+          "word": "-5",
+          "start": 42.98,
+          "end": 43.28,
+          "probability": 0.708
+        },
+        {
+          "word": "is",
+          "start": 43.28,
+          "end": 43.54,
+          "probability": 0.995
+        },
+        {
+          "word": "shifting",
+          "start": 43.54,
+          "end": 43.84,
+          "probability": 0.992
+        },
+        {
+          "word": "away",
+          "start": 43.84,
+          "end": 44.16,
+          "probability": 0.998
+        },
+        {
+          "word": "from",
+          "start": 44.16,
+          "end": 44.42,
+          "probability": 0.998
+        },
+        {
+          "word": "that",
+          "start": 44.42,
+          "end": 44.58,
+          "probability": 0.978
+        },
+        {
+          "word": "pure",
+          "start": 44.58,
+          "end": 44.84,
+          "probability": 0.985
+        },
+        {
+          "word": "upscaling",
+          "start": 44.84,
+          "end": 45.44,
+          "probability": 0.943
+        },
+        {
+          "word": "and",
+          "start": 45.44,
+          "end": 45.62,
+          "probability": 0.985
+        },
+        {
+          "word": "frame",
+          "start": 45.62,
+          "end": 45.84,
+          "probability": 0.995
+        },
+        {
+          "word": "generation.",
+          "start": 45.84,
+          "end": 46.38,
+          "probability": 0.957
+        }
+      ]
+    },
+    {
+      "start": 46.92,
+      "end": 51.76,
+      "text": "Instead, it focuses on creating realistic lighting, shadows, and surfaces using neural processing.",
+      "words": [
+        {
+          "word": "Instead,",
+          "start": 46.92,
+          "end": 47.32,
+          "probability": 0.998
+        },
+        {
+          "word": "it",
+          "start": 47.34,
+          "end": 47.48,
+          "probability": 0.993
+        },
+        {
+          "word": "focuses",
+          "start": 47.48,
+          "end": 47.8,
+          "probability": 0.998
+        },
+        {
+          "word": "on",
+          "start": 47.8,
+          "end": 48.1,
+          "probability": 0.999
+        },
+        {
+          "word": "creating",
+          "start": 48.1,
+          "end": 48.42,
+          "probability": 0.999
+        },
+        {
+          "word": "realistic",
+          "start": 48.42,
+          "end": 48.88,
+          "probability": 0.997
+        },
+        {
+          "word": "lighting,",
+          "start": 48.88,
+          "end": 49.38,
+          "probability": 0.992
+        },
+        {
+          "word": "shadows,",
+          "start": 49.68,
+          "end": 49.9,
+          "probability": 0.993
+        },
+        {
+          "word": "and",
+          "start": 50.14,
+          "end": 50.18,
+          "probability": 0.998
+        },
+        {
+          "word": "surfaces",
+          "start": 50.18,
+          "end": 50.54,
+          "probability": 0.995
+        },
+        {
+          "word": "using",
+          "start": 50.54,
+          "end": 51.02,
+          "probability": 0.983
+        },
+        {
+          "word": "neural",
+          "start": 51.02,
+          "end": 51.24,
+          "probability": 0.908
+        },
+        {
+          "word": "processing.",
+          "start": 51.24,
+          "end": 51.76,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "start": 52.3,
+      "end": 56.5,
+      "text": "Neural processing just means the AI learns patterns from huge amounts of data.",
+      "words": [
+        {
+          "word": "Neural",
+          "start": 52.3,
+          "end": 52.62,
+          "probability": 0.941
+        },
+        {
+          "word": "processing",
+          "start": 52.62,
+          "end": 53.12,
+          "probability": 0.998
+        },
+        {
+          "word": "just",
+          "start": 53.12,
+          "end": 53.36,
+          "probability": 0.955
+        },
+        {
+          "word": "means",
+          "start": 53.36,
+          "end": 53.64,
+          "probability": 0.999
+        },
+        {
+          "word": "the",
+          "start": 53.64,
+          "end": 54.2,
+          "probability": 0.794
+        },
+        {
+          "word": "AI",
+          "start": 54.2,
+          "end": 54.44,
+          "probability": 0.955
+        },
+        {
+          "word": "learns",
+          "start": 54.44,
+          "end": 54.8,
+          "probability": 0.989
+        },
+        {
+          "word": "patterns",
+          "start": 54.8,
+          "end": 55.26,
+          "probability": 0.998
+        },
+        {
+          "word": "from",
+          "start": 55.26,
+          "end": 55.52,
+          "probability": 0.997
+        },
+        {
+          "word": "huge",
+          "start": 55.52,
+          "end": 55.78,
+          "probability": 0.997
+        },
+        {
+          "word": "amounts",
+          "start": 55.78,
+          "end": 56.02,
+          "probability": 0.999
+        },
+        {
+          "word": "of",
+          "start": 56.02,
+          "end": 56.24,
+          "probability": 0.998
+        },
+        {
+          "word": "data.",
+          "start": 56.24,
+          "end": 56.5,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 56.5,
+      "end": 60.82,
+      "text": "Think of it like having an artist friend who has studied millions of real-world photos.",
+      "words": [
+        {
+          "word": "Think",
+          "start": 56.5,
+          "end": 57.06,
+          "probability": 0.804
+        },
+        {
+          "word": "of",
+          "start": 57.06,
+          "end": 57.24,
+          "probability": 0.994
+        },
+        {
+          "word": "it",
+          "start": 57.24,
+          "end": 57.32,
+          "probability": 0.998
+        },
+        {
+          "word": "like",
+          "start": 57.32,
+          "end": 57.5,
+          "probability": 0.991
+        },
+        {
+          "word": "having",
+          "start": 57.5,
+          "end": 57.82,
+          "probability": 0.997
+        },
+        {
+          "word": "an",
+          "start": 57.82,
+          "end": 58.0,
+          "probability": 0.994
+        },
+        {
+          "word": "artist",
+          "start": 58.0,
+          "end": 58.2,
+          "probability": 0.994
+        },
+        {
+          "word": "friend",
+          "start": 58.2,
+          "end": 58.56,
+          "probability": 0.98
+        },
+        {
+          "word": "who",
+          "start": 58.56,
+          "end": 58.74,
+          "probability": 0.981
+        },
+        {
+          "word": "has",
+          "start": 58.74,
+          "end": 58.84,
+          "probability": 0.996
+        },
+        {
+          "word": "studied",
+          "start": 58.84,
+          "end": 59.12,
+          "probability": 0.995
+        },
+        {
+          "word": "millions",
+          "start": 59.12,
+          "end": 59.52,
+          "probability": 0.994
+        },
+        {
+          "word": "of",
+          "start": 59.52,
+          "end": 59.78,
+          "probability": 0.998
+        },
+        {
+          "word": "real",
+          "start": 59.78,
+          "end": 59.98,
+          "probability": 0.996
+        },
+        {
+          "word": "-world",
+          "start": 59.98,
+          "end": 60.24,
+          "probability": 0.768
+        },
+        {
+          "word": "photos.",
+          "start": 60.24,
+          "end": 60.82,
+          "probability": 0.996
+        }
+      ]
+    },
+    {
+      "start": 61.18,
+      "end": 65.02,
+      "text": "When you give them a rough sketch, they can paint in perfect lighting and materials.",
+      "words": [
+        {
+          "word": "When",
+          "start": 61.18,
+          "end": 61.36,
+          "probability": 0.99
+        },
+        {
+          "word": "you",
+          "start": 61.36,
+          "end": 61.48,
+          "probability": 0.999
+        },
+        {
+          "word": "give",
+          "start": 61.48,
+          "end": 61.62,
+          "probability": 0.996
+        },
+        {
+          "word": "them",
+          "start": 61.62,
+          "end": 61.82,
+          "probability": 0.999
+        },
+        {
+          "word": "a",
+          "start": 61.82,
+          "end": 61.96,
+          "probability": 0.997
+        },
+        {
+          "word": "rough",
+          "start": 61.96,
+          "end": 62.14,
+          "probability": 0.997
+        },
+        {
+          "word": "sketch,",
+          "start": 62.14,
+          "end": 62.66,
+          "probability": 0.999
+        },
+        {
+          "word": "they",
+          "start": 62.88,
+          "end": 62.96,
+          "probability": 0.994
+        },
+        {
+          "word": "can",
+          "start": 62.96,
+          "end": 63.1,
+          "probability": 0.993
+        },
+        {
+          "word": "paint",
+          "start": 63.1,
+          "end": 63.42,
+          "probability": 0.999
+        },
+        {
+          "word": "in",
+          "start": 63.42,
+          "end": 63.6,
+          "probability": 0.98
+        },
+        {
+          "word": "perfect",
+          "start": 63.6,
+          "end": 63.98,
+          "probability": 0.994
+        },
+        {
+          "word": "lighting",
+          "start": 63.98,
+          "end": 64.38,
+          "probability": 0.998
+        },
+        {
+          "word": "and",
+          "start": 64.38,
+          "end": 64.56,
+          "probability": 0.983
+        },
+        {
+          "word": "materials.",
+          "start": 64.56,
+          "end": 65.02,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 65.5,
+      "end": 70.82,
+      "text": "This matters because games are one of the main ways many of you experience advanced AI right now.",
+      "words": [
+        {
+          "word": "This",
+          "start": 65.5,
+          "end": 65.66,
+          "probability": 0.996
+        },
+        {
+          "word": "matters",
+          "start": 65.66,
+          "end": 65.96,
+          "probability": 0.994
+        },
+        {
+          "word": "because",
+          "start": 65.96,
+          "end": 66.32,
+          "probability": 0.983
+        },
+        {
+          "word": "games",
+          "start": 66.32,
+          "end": 66.64,
+          "probability": 0.978
+        },
+        {
+          "word": "are",
+          "start": 66.64,
+          "end": 66.98,
+          "probability": 0.998
+        },
+        {
+          "word": "one",
+          "start": 66.98,
+          "end": 67.2,
+          "probability": 0.998
+        },
+        {
+          "word": "of",
+          "start": 67.2,
+          "end": 67.3,
+          "probability": 0.995
+        },
+        {
+          "word": "the",
+          "start": 67.3,
+          "end": 67.42,
+          "probability": 0.997
+        },
+        {
+          "word": "main",
+          "start": 67.42,
+          "end": 67.66,
+          "probability": 0.988
+        },
+        {
+          "word": "ways",
+          "start": 67.66,
+          "end": 68.0,
+          "probability": 0.997
+        },
+        {
+          "word": "many",
+          "start": 68.0,
+          "end": 68.38,
+          "probability": 0.965
+        },
+        {
+          "word": "of",
+          "start": 68.38,
+          "end": 68.58,
+          "probability": 0.988
+        },
+        {
+          "word": "you",
+          "start": 68.58,
+          "end": 68.72,
+          "probability": 0.999
+        },
+        {
+          "word": "experience",
+          "start": 68.72,
+          "end": 69.2,
+          "probability": 0.736
+        },
+        {
+          "word": "advanced",
+          "start": 69.2,
+          "end": 69.8,
+          "probability": 0.949
+        },
+        {
+          "word": "AI",
+          "start": 69.8,
+          "end": 70.08,
+          "probability": 0.965
+        },
+        {
+          "word": "right",
+          "start": 70.08,
+          "end": 70.5,
+          "probability": 0.983
+        },
+        {
+          "word": "now.",
+          "start": 70.5,
+          "end": 70.82,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 71.3,
+      "end": 74.66,
+      "text": "Better lighting and materials can make game worlds feel truly alive.",
+      "words": [
+        {
+          "word": "Better",
+          "start": 71.3,
+          "end": 71.5,
+          "probability": 0.991
+        },
+        {
+          "word": "lighting",
+          "start": 71.5,
+          "end": 71.8,
+          "probability": 0.998
+        },
+        {
+          "word": "and",
+          "start": 71.8,
+          "end": 72.0,
+          "probability": 0.99
+        },
+        {
+          "word": "materials",
+          "start": 72.0,
+          "end": 72.44,
+          "probability": 0.997
+        },
+        {
+          "word": "can",
+          "start": 72.44,
+          "end": 72.74,
+          "probability": 0.997
+        },
+        {
+          "word": "make",
+          "start": 72.74,
+          "end": 72.96,
+          "probability": 0.999
+        },
+        {
+          "word": "game",
+          "start": 72.96,
+          "end": 73.2,
+          "probability": 0.913
+        },
+        {
+          "word": "worlds",
+          "start": 73.2,
+          "end": 73.52,
+          "probability": 0.895
+        },
+        {
+          "word": "feel",
+          "start": 73.52,
+          "end": 73.8,
+          "probability": 0.997
+        },
+        {
+          "word": "truly",
+          "start": 73.8,
+          "end": 74.24,
+          "probability": 0.996
+        },
+        {
+          "word": "alive.",
+          "start": 74.24,
+          "end": 74.66,
+          "probability": 0.997
+        }
+      ]
+    },
+    {
+      "start": 74.96,
+      "end": 79.86,
+      "text": "It could let game makers create beautiful scenes, even without the most expensive graphics cards.",
+      "words": [
+        {
+          "word": "It",
+          "start": 74.96,
+          "end": 75.06,
+          "probability": 0.996
+        },
+        {
+          "word": "could",
+          "start": 75.06,
+          "end": 75.2,
+          "probability": 0.996
+        },
+        {
+          "word": "let",
+          "start": 75.2,
+          "end": 75.4,
+          "probability": 0.994
+        },
+        {
+          "word": "game",
+          "start": 75.4,
+          "end": 75.66,
+          "probability": 0.919
+        },
+        {
+          "word": "makers",
+          "start": 75.66,
+          "end": 75.94,
+          "probability": 0.814
+        },
+        {
+          "word": "create",
+          "start": 75.94,
+          "end": 76.34,
+          "probability": 0.995
+        },
+        {
+          "word": "beautiful",
+          "start": 76.34,
+          "end": 76.76,
+          "probability": 0.998
+        },
+        {
+          "word": "scenes,",
+          "start": 76.76,
+          "end": 77.26,
+          "probability": 0.998
+        },
+        {
+          "word": "even",
+          "start": 77.46,
+          "end": 77.66,
+          "probability": 0.999
+        },
+        {
+          "word": "without",
+          "start": 77.66,
+          "end": 77.96,
+          "probability": 0.996
+        },
+        {
+          "word": "the",
+          "start": 77.96,
+          "end": 78.18,
+          "probability": 0.994
+        },
+        {
+          "word": "most",
+          "start": 78.18,
+          "end": 78.38,
+          "probability": 0.999
+        },
+        {
+          "word": "expensive",
+          "start": 78.38,
+          "end": 78.92,
+          "probability": 0.996
+        },
+        {
+          "word": "graphics",
+          "start": 78.92,
+          "end": 79.42,
+          "probability": 0.979
+        },
+        {
+          "word": "cards.",
+          "start": 79.42,
+          "end": 79.86,
+          "probability": 0.993
+        }
+      ]
+    },
+    {
+      "start": 80.8,
+      "end": 84.78,
+      "text": "For you specifically, this could be the difference between a game that looks pretty good",
+      "words": [
+        {
+          "word": "For",
+          "start": 80.8,
+          "end": 81.06,
+          "probability": 0.993
+        },
+        {
+          "word": "you",
+          "start": 81.06,
+          "end": 81.24,
+          "probability": 0.954
+        },
+        {
+          "word": "specifically,",
+          "start": 81.24,
+          "end": 81.94,
+          "probability": 0.865
+        },
+        {
+          "word": "this",
+          "start": 82.2,
+          "end": 82.28,
+          "probability": 0.995
+        },
+        {
+          "word": "could",
+          "start": 82.28,
+          "end": 82.46,
+          "probability": 0.998
+        },
+        {
+          "word": "be",
+          "start": 82.46,
+          "end": 82.6,
+          "probability": 0.998
+        },
+        {
+          "word": "the",
+          "start": 82.6,
+          "end": 82.72,
+          "probability": 0.998
+        },
+        {
+          "word": "difference",
+          "start": 82.72,
+          "end": 82.98,
+          "probability": 0.998
+        },
+        {
+          "word": "between",
+          "start": 82.98,
+          "end": 83.4,
+          "probability": 0.999
+        },
+        {
+          "word": "a",
+          "start": 83.4,
+          "end": 83.58,
+          "probability": 0.998
+        },
+        {
+          "word": "game",
+          "start": 83.58,
+          "end": 83.74,
+          "probability": 0.999
+        },
+        {
+          "word": "that",
+          "start": 83.74,
+          "end": 83.94,
+          "probability": 0.997
+        },
+        {
+          "word": "looks",
+          "start": 83.94,
+          "end": 84.12,
+          "probability": 0.998
+        },
+        {
+          "word": "pretty",
+          "start": 84.12,
+          "end": 84.44,
+          "probability": 0.995
+        },
+        {
+          "word": "good",
+          "start": 84.44,
+          "end": 84.78,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 84.78,
+      "end": 90.0,
+      "text": "and one that looks almost real. However, many gamers are upset because they feel Nvidia",
+      "words": [
+        {
+          "word": "and",
+          "start": 84.78,
+          "end": 85.0,
+          "probability": 0.664
+        },
+        {
+          "word": "one",
+          "start": 85.0,
+          "end": 85.16,
+          "probability": 0.94
+        },
+        {
+          "word": "that",
+          "start": 85.16,
+          "end": 85.36,
+          "probability": 0.995
+        },
+        {
+          "word": "looks",
+          "start": 85.36,
+          "end": 85.56,
+          "probability": 0.995
+        },
+        {
+          "word": "almost",
+          "start": 85.56,
+          "end": 86.02,
+          "probability": 0.998
+        },
+        {
+          "word": "real.",
+          "start": 86.02,
+          "end": 86.3,
+          "probability": 0.995
+        },
+        {
+          "word": "However,",
+          "start": 87.34,
+          "end": 87.58,
+          "probability": 0.982
+        },
+        {
+          "word": "many",
+          "start": 87.84,
+          "end": 87.96,
+          "probability": 0.988
+        },
+        {
+          "word": "gamers",
+          "start": 87.96,
+          "end": 88.26,
+          "probability": 0.996
+        },
+        {
+          "word": "are",
+          "start": 88.26,
+          "end": 88.5,
+          "probability": 0.999
+        },
+        {
+          "word": "upset",
+          "start": 88.5,
+          "end": 88.82,
+          "probability": 0.999
+        },
+        {
+          "word": "because",
+          "start": 88.82,
+          "end": 89.18,
+          "probability": 0.937
+        },
+        {
+          "word": "they",
+          "start": 89.18,
+          "end": 89.4,
+          "probability": 0.997
+        },
+        {
+          "word": "feel",
+          "start": 89.4,
+          "end": 89.62,
+          "probability": 0.998
+        },
+        {
+          "word": "Nvidia",
+          "start": 89.62,
+          "end": 90.0,
+          "probability": 0.83
+        }
+      ]
+    },
+    {
+      "start": 90.0,
+      "end": 94.28,
+      "text": "is moving away from what helped older or cheaper hardware run new games well.",
+      "words": [
+        {
+          "word": "is",
+          "start": 90.0,
+          "end": 90.34,
+          "probability": 0.993
+        },
+        {
+          "word": "moving",
+          "start": 90.34,
+          "end": 90.58,
+          "probability": 0.996
+        },
+        {
+          "word": "away",
+          "start": 90.58,
+          "end": 90.96,
+          "probability": 0.997
+        },
+        {
+          "word": "from",
+          "start": 90.96,
+          "end": 91.2,
+          "probability": 0.998
+        },
+        {
+          "word": "what",
+          "start": 91.2,
+          "end": 91.4,
+          "probability": 0.982
+        },
+        {
+          "word": "helped",
+          "start": 91.4,
+          "end": 91.72,
+          "probability": 0.973
+        },
+        {
+          "word": "older",
+          "start": 91.72,
+          "end": 92.12,
+          "probability": 0.981
+        },
+        {
+          "word": "or",
+          "start": 92.12,
+          "end": 92.32,
+          "probability": 0.955
+        },
+        {
+          "word": "cheaper",
+          "start": 92.32,
+          "end": 92.66,
+          "probability": 0.996
+        },
+        {
+          "word": "hardware",
+          "start": 92.66,
+          "end": 93.12,
+          "probability": 0.996
+        },
+        {
+          "word": "run",
+          "start": 93.12,
+          "end": 93.42,
+          "probability": 0.993
+        },
+        {
+          "word": "new",
+          "start": 93.42,
+          "end": 93.64,
+          "probability": 0.993
+        },
+        {
+          "word": "games",
+          "start": 93.64,
+          "end": 93.94,
+          "probability": 0.994
+        },
+        {
+          "word": "well.",
+          "start": 93.94,
+          "end": 94.28,
+          "probability": 0.828
+        }
+      ]
+    },
+    {
+      "start": 95.1,
+      "end": 100.64,
+      "text": "These changes show how fast AI and everyday products is evolving, features that started as helpful",
+      "words": [
+        {
+          "word": "These",
+          "start": 95.1,
+          "end": 95.32,
+          "probability": 0.979
+        },
+        {
+          "word": "changes",
+          "start": 95.32,
+          "end": 95.74,
+          "probability": 0.998
+        },
+        {
+          "word": "show",
+          "start": 95.74,
+          "end": 96.08,
+          "probability": 0.998
+        },
+        {
+          "word": "how",
+          "start": 96.08,
+          "end": 96.3,
+          "probability": 0.998
+        },
+        {
+          "word": "fast",
+          "start": 96.3,
+          "end": 96.72,
+          "probability": 0.997
+        },
+        {
+          "word": "AI",
+          "start": 96.72,
+          "end": 97.02,
+          "probability": 0.941
+        },
+        {
+          "word": "and",
+          "start": 97.02,
+          "end": 97.28,
+          "probability": 0.526
+        },
+        {
+          "word": "everyday",
+          "start": 97.28,
+          "end": 97.5,
+          "probability": 0.978
+        },
+        {
+          "word": "products",
+          "start": 97.5,
+          "end": 98.02,
+          "probability": 0.983
+        },
+        {
+          "word": "is",
+          "start": 98.02,
+          "end": 98.3,
+          "probability": 0.931
+        },
+        {
+          "word": "evolving,",
+          "start": 98.3,
+          "end": 98.76,
+          "probability": 1.0
+        },
+        {
+          "word": "features",
+          "start": 99.44,
+          "end": 99.64,
+          "probability": 0.991
+        },
+        {
+          "word": "that",
+          "start": 99.64,
+          "end": 99.9,
+          "probability": 0.997
+        },
+        {
+          "word": "started",
+          "start": 99.9,
+          "end": 100.28,
+          "probability": 0.938
+        },
+        {
+          "word": "as",
+          "start": 100.28,
+          "end": 100.5,
+          "probability": 0.997
+        },
+        {
+          "word": "helpful",
+          "start": 100.5,
+          "end": 100.64,
+          "probability": 0.96
+        }
+      ]
+    },
+    {
+      "start": 100.64,
+      "end": 104.88,
+      "text": "tools are becoming more ambitious. You can see the discussion yourself right now.",
+      "words": [
+        {
+          "word": "tools",
+          "start": 100.64,
+          "end": 101.2,
+          "probability": 0.999
+        },
+        {
+          "word": "are",
+          "start": 101.2,
+          "end": 101.32,
+          "probability": 0.926
+        },
+        {
+          "word": "becoming",
+          "start": 101.32,
+          "end": 101.58,
+          "probability": 0.999
+        },
+        {
+          "word": "more",
+          "start": 101.58,
+          "end": 101.92,
+          "probability": 0.999
+        },
+        {
+          "word": "ambitious.",
+          "start": 101.92,
+          "end": 102.32,
+          "probability": 0.996
+        },
+        {
+          "word": "You",
+          "start": 102.84,
+          "end": 103.02,
+          "probability": 0.991
+        },
+        {
+          "word": "can",
+          "start": 103.02,
+          "end": 103.14,
+          "probability": 0.997
+        },
+        {
+          "word": "see",
+          "start": 103.14,
+          "end": 103.32,
+          "probability": 0.998
+        },
+        {
+          "word": "the",
+          "start": 103.32,
+          "end": 103.46,
+          "probability": 0.997
+        },
+        {
+          "word": "discussion",
+          "start": 103.46,
+          "end": 103.9,
+          "probability": 0.996
+        },
+        {
+          "word": "yourself",
+          "start": 103.9,
+          "end": 104.24,
+          "probability": 0.988
+        },
+        {
+          "word": "right",
+          "start": 104.24,
+          "end": 104.58,
+          "probability": 0.988
+        },
+        {
+          "word": "now.",
+          "start": 104.58,
+          "end": 104.88,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "start": 105.38,
+      "end": 110.82,
+      "text": "If you have access to a game that already uses DLSS, try turning the upscaling setting on and off.",
+      "words": [
+        {
+          "word": "If",
+          "start": 105.38,
+          "end": 105.56,
+          "probability": 0.99
+        },
+        {
+          "word": "you",
+          "start": 105.56,
+          "end": 105.68,
+          "probability": 0.999
+        },
+        {
+          "word": "have",
+          "start": 105.68,
+          "end": 105.86,
+          "probability": 0.996
+        },
+        {
+          "word": "access",
+          "start": 105.86,
+          "end": 106.18,
+          "probability": 0.999
+        },
+        {
+          "word": "to",
+          "start": 106.18,
+          "end": 106.4,
+          "probability": 0.999
+        },
+        {
+          "word": "a",
+          "start": 106.4,
+          "end": 106.5,
+          "probability": 0.998
+        },
+        {
+          "word": "game",
+          "start": 106.5,
+          "end": 106.7,
+          "probability": 0.998
+        },
+        {
+          "word": "that",
+          "start": 106.7,
+          "end": 106.94,
+          "probability": 0.995
+        },
+        {
+          "word": "already",
+          "start": 106.94,
+          "end": 107.26,
+          "probability": 0.994
+        },
+        {
+          "word": "uses",
+          "start": 107.26,
+          "end": 107.7,
+          "probability": 0.994
+        },
+        {
+          "word": "DLSS,",
+          "start": 107.7,
+          "end": 108.5,
+          "probability": 0.947
+        },
+        {
+          "word": "try",
+          "start": 108.68,
+          "end": 108.82,
+          "probability": 0.994
+        },
+        {
+          "word": "turning",
+          "start": 108.82,
+          "end": 109.16,
+          "probability": 0.994
+        },
+        {
+          "word": "the",
+          "start": 109.16,
+          "end": 109.4,
+          "probability": 0.97
+        },
+        {
+          "word": "upscaling",
+          "start": 109.4,
+          "end": 109.84,
+          "probability": 0.966
+        },
+        {
+          "word": "setting",
+          "start": 109.84,
+          "end": 110.18,
+          "probability": 0.978
+        },
+        {
+          "word": "on",
+          "start": 110.18,
+          "end": 110.44,
+          "probability": 0.986
+        },
+        {
+          "word": "and",
+          "start": 110.44,
+          "end": 110.54,
+          "probability": 0.976
+        },
+        {
+          "word": "off.",
+          "start": 110.54,
+          "end": 110.82,
+          "probability": 0.996
+        }
+      ]
+    },
+    {
+      "start": 111.12,
+      "end": 113.58,
+      "text": "Notice how the AI is guessing what should be in the scene.",
+      "words": [
+        {
+          "word": "Notice",
+          "start": 111.12,
+          "end": 111.3,
+          "probability": 0.991
+        },
+        {
+          "word": "how",
+          "start": 111.3,
+          "end": 111.5,
+          "probability": 0.997
+        },
+        {
+          "word": "the",
+          "start": 111.5,
+          "end": 111.68,
+          "probability": 0.99
+        },
+        {
+          "word": "AI",
+          "start": 111.68,
+          "end": 111.94,
+          "probability": 0.988
+        },
+        {
+          "word": "is",
+          "start": 111.94,
+          "end": 112.2,
+          "probability": 0.998
+        },
+        {
+          "word": "guessing",
+          "start": 112.2,
+          "end": 112.52,
+          "probability": 0.986
+        },
+        {
+          "word": "what",
+          "start": 112.52,
+          "end": 112.76,
+          "probability": 0.979
+        },
+        {
+          "word": "should",
+          "start": 112.76,
+          "end": 112.96,
+          "probability": 0.998
+        },
+        {
+          "word": "be",
+          "start": 112.96,
+          "end": 113.14,
+          "probability": 0.997
+        },
+        {
+          "word": "in",
+          "start": 113.14,
+          "end": 113.26,
+          "probability": 0.999
+        },
+        {
+          "word": "the",
+          "start": 113.26,
+          "end": 113.36,
+          "probability": 0.997
+        },
+        {
+          "word": "scene.",
+          "start": 113.36,
+          "end": 113.58,
+          "probability": 0.992
+        }
+      ]
+    },
+    {
+      "start": 113.58,
+      "end": 118.08,
+      "text": "Okay, now for my favorite part of the show, The Deep Dive. Today, we're going to explain exactly",
+      "words": [
+        {
+          "word": "Okay,",
+          "start": 113.58,
+          "end": 114.1,
+          "probability": 0.608
+        },
+        {
+          "word": "now",
+          "start": 114.2,
+          "end": 114.28,
+          "probability": 0.988
+        },
+        {
+          "word": "for",
+          "start": 114.28,
+          "end": 114.44,
+          "probability": 0.827
+        },
+        {
+          "word": "my",
+          "start": 114.44,
+          "end": 114.58,
+          "probability": 0.996
+        },
+        {
+          "word": "favorite",
+          "start": 114.58,
+          "end": 114.86,
+          "probability": 0.983
+        },
+        {
+          "word": "part",
+          "start": 114.86,
+          "end": 115.06,
+          "probability": 0.998
+        },
+        {
+          "word": "of",
+          "start": 115.06,
+          "end": 115.2,
+          "probability": 0.997
+        },
+        {
+          "word": "the",
+          "start": 115.2,
+          "end": 115.3,
+          "probability": 0.993
+        },
+        {
+          "word": "show,",
+          "start": 115.3,
+          "end": 115.5,
+          "probability": 0.999
+        },
+        {
+          "word": "The",
+          "start": 115.76,
+          "end": 115.8,
+          "probability": 0.649
+        },
+        {
+          "word": "Deep",
+          "start": 115.8,
+          "end": 116.06,
+          "probability": 0.964
+        },
+        {
+          "word": "Dive.",
+          "start": 116.06,
+          "end": 116.36,
+          "probability": 0.969
+        },
+        {
+          "word": "Today,",
+          "start": 116.58,
+          "end": 116.76,
+          "probability": 0.993
+        },
+        {
+          "word": "we're",
+          "start": 116.84,
+          "end": 116.94,
+          "probability": 0.995
+        },
+        {
+          "word": "going",
+          "start": 116.94,
+          "end": 117.1,
+          "probability": 0.991
+        },
+        {
+          "word": "to",
+          "start": 117.1,
+          "end": 117.22,
+          "probability": 0.992
+        },
+        {
+          "word": "explain",
+          "start": 117.22,
+          "end": 117.54,
+          "probability": 0.998
+        },
+        {
+          "word": "exactly",
+          "start": 117.54,
+          "end": 118.08,
+          "probability": 0.99
+        }
+      ]
+    },
+    {
+      "start": 118.08,
+      "end": 120.8,
+      "text": "how AI upscaling actually works. You know, he.",
+      "words": [
+        {
+          "word": "how",
+          "start": 118.08,
+          "end": 118.38,
+          "probability": 0.998
+        },
+        {
+          "word": "AI",
+          "start": 118.38,
+          "end": 118.66,
+          "probability": 0.955
+        },
+        {
+          "word": "upscaling",
+          "start": 118.66,
+          "end": 119.34,
+          "probability": 0.943
+        },
+        {
+          "word": "actually",
+          "start": 119.34,
+          "end": 119.76,
+          "probability": 0.971
+        },
+        {
+          "word": "works.",
+          "start": 119.76,
+          "end": 120.1,
+          "probability": 0.997
+        },
+        {
+          "word": "You",
+          "start": 120.48,
+          "end": 120.5,
+          "probability": 0.943
+        },
+        {
+          "word": "know,",
+          "start": 120.5,
+          "end": 120.6,
+          "probability": 0.999
+        },
+        {
+          "word": "he.",
+          "start": 120.7,
+          "end": 120.8,
+          "probability": 0.964
+        }
+      ]
+    },
+    {
+      "start": 121.72,
+      "end": 126.04,
+      "text": "When you zoom in on a small photo on your phone, it sometimes gets all blurry and pixelated.",
+      "words": [
+        {
+          "word": "When",
+          "start": 121.72,
+          "end": 121.94,
+          "probability": 0.145
+        },
+        {
+          "word": "you",
+          "start": 121.94,
+          "end": 122.12,
+          "probability": 0.996
+        },
+        {
+          "word": "zoom",
+          "start": 122.12,
+          "end": 122.3,
+          "probability": 0.993
+        },
+        {
+          "word": "in",
+          "start": 122.3,
+          "end": 122.52,
+          "probability": 0.999
+        },
+        {
+          "word": "on",
+          "start": 122.52,
+          "end": 122.64,
+          "probability": 0.996
+        },
+        {
+          "word": "a",
+          "start": 122.64,
+          "end": 122.72,
+          "probability": 0.998
+        },
+        {
+          "word": "small",
+          "start": 122.72,
+          "end": 122.94,
+          "probability": 0.997
+        },
+        {
+          "word": "photo",
+          "start": 122.94,
+          "end": 123.3,
+          "probability": 0.997
+        },
+        {
+          "word": "on",
+          "start": 123.3,
+          "end": 123.46,
+          "probability": 0.992
+        },
+        {
+          "word": "your",
+          "start": 123.46,
+          "end": 123.58,
+          "probability": 0.999
+        },
+        {
+          "word": "phone,",
+          "start": 123.58,
+          "end": 123.88,
+          "probability": 0.999
+        },
+        {
+          "word": "it",
+          "start": 124.0,
+          "end": 124.02,
+          "probability": 0.987
+        },
+        {
+          "word": "sometimes",
+          "start": 124.02,
+          "end": 124.36,
+          "probability": 0.982
+        },
+        {
+          "word": "gets",
+          "start": 124.36,
+          "end": 124.62,
+          "probability": 0.995
+        },
+        {
+          "word": "all",
+          "start": 124.62,
+          "end": 124.86,
+          "probability": 0.966
+        },
+        {
+          "word": "blurry",
+          "start": 124.86,
+          "end": 125.16,
+          "probability": 0.993
+        },
+        {
+          "word": "and",
+          "start": 125.16,
+          "end": 125.46,
+          "probability": 0.991
+        },
+        {
+          "word": "pixelated.",
+          "start": 125.46,
+          "end": 126.04,
+          "probability": 0.96
+        }
+      ]
+    },
+    {
+      "start": 126.14,
+      "end": 129.7,
+      "text": "That's because the picture doesn't actually have enough dots of color to make a bigger,",
+      "words": [
+        {
+          "word": "That's",
+          "start": 126.14,
+          "end": 126.34,
+          "probability": 0.998
+        },
+        {
+          "word": "because",
+          "start": 126.34,
+          "end": 126.56,
+          "probability": 0.998
+        },
+        {
+          "word": "the",
+          "start": 126.56,
+          "end": 126.74,
+          "probability": 0.993
+        },
+        {
+          "word": "picture",
+          "start": 126.74,
+          "end": 127.04,
+          "probability": 0.998
+        },
+        {
+          "word": "doesn't",
+          "start": 127.04,
+          "end": 127.38,
+          "probability": 0.999
+        },
+        {
+          "word": "actually",
+          "start": 127.38,
+          "end": 127.74,
+          "probability": 0.996
+        },
+        {
+          "word": "have",
+          "start": 127.74,
+          "end": 128.0,
+          "probability": 0.999
+        },
+        {
+          "word": "enough",
+          "start": 128.0,
+          "end": 128.2,
+          "probability": 0.999
+        },
+        {
+          "word": "dots",
+          "start": 128.2,
+          "end": 128.44,
+          "probability": 0.995
+        },
+        {
+          "word": "of",
+          "start": 128.44,
+          "end": 128.7,
+          "probability": 0.997
+        },
+        {
+          "word": "color",
+          "start": 128.7,
+          "end": 128.98,
+          "probability": 0.984
+        },
+        {
+          "word": "to",
+          "start": 128.98,
+          "end": 129.2,
+          "probability": 0.998
+        },
+        {
+          "word": "make",
+          "start": 129.2,
+          "end": 129.34,
+          "probability": 1.0
+        },
+        {
+          "word": "a",
+          "start": 129.34,
+          "end": 129.46,
+          "probability": 0.998
+        },
+        {
+          "word": "bigger,",
+          "start": 129.46,
+          "end": 129.7,
+          "probability": 0.995
+        }
+      ]
+    },
+    {
+      "start": 129.84,
+      "end": 134.18,
+      "text": "clear version. Your brain can kind of guess what's missing, but the photo itself can't.",
+      "words": [
+        {
+          "word": "clear",
+          "start": 129.84,
+          "end": 130.04,
+          "probability": 0.908
+        },
+        {
+          "word": "version.",
+          "start": 130.04,
+          "end": 130.46,
+          "probability": 0.983
+        },
+        {
+          "word": "Your",
+          "start": 130.88,
+          "end": 130.98,
+          "probability": 0.991
+        },
+        {
+          "word": "brain",
+          "start": 130.98,
+          "end": 131.2,
+          "probability": 0.999
+        },
+        {
+          "word": "can",
+          "start": 131.2,
+          "end": 131.44,
+          "probability": 0.998
+        },
+        {
+          "word": "kind",
+          "start": 131.44,
+          "end": 131.66,
+          "probability": 0.938
+        },
+        {
+          "word": "of",
+          "start": 131.66,
+          "end": 131.82,
+          "probability": 0.997
+        },
+        {
+          "word": "guess",
+          "start": 131.82,
+          "end": 132.0,
+          "probability": 0.997
+        },
+        {
+          "word": "what's",
+          "start": 132.0,
+          "end": 132.36,
+          "probability": 0.997
+        },
+        {
+          "word": "missing,",
+          "start": 132.36,
+          "end": 132.66,
+          "probability": 0.999
+        },
+        {
+          "word": "but",
+          "start": 132.7,
+          "end": 132.88,
+          "probability": 0.999
+        },
+        {
+          "word": "the",
+          "start": 132.88,
+          "end": 133.02,
+          "probability": 0.998
+        },
+        {
+          "word": "photo",
+          "start": 133.02,
+          "end": 133.28,
+          "probability": 0.998
+        },
+        {
+          "word": "itself",
+          "start": 133.28,
+          "end": 133.58,
+          "probability": 0.998
+        },
+        {
+          "word": "can't.",
+          "start": 133.58,
+          "end": 134.18,
+          "probability": 0.991
+        }
+      ]
+    },
+    {
+      "start": 134.6,
+      "end": 139.74,
+      "text": "Now, imagine an AI that has studied millions of beautiful high-resolution photos and videos.",
+      "words": [
+        {
+          "word": "Now,",
+          "start": 134.6,
+          "end": 134.72,
+          "probability": 0.986
+        },
+        {
+          "word": "imagine",
+          "start": 134.74,
+          "end": 135.06,
+          "probability": 0.994
+        },
+        {
+          "word": "an",
+          "start": 135.06,
+          "end": 135.32,
+          "probability": 0.992
+        },
+        {
+          "word": "AI",
+          "start": 135.32,
+          "end": 135.78,
+          "probability": 0.99
+        },
+        {
+          "word": "that",
+          "start": 135.78,
+          "end": 136.12,
+          "probability": 0.993
+        },
+        {
+          "word": "has",
+          "start": 136.12,
+          "end": 136.3,
+          "probability": 0.998
+        },
+        {
+          "word": "studied",
+          "start": 136.3,
+          "end": 136.66,
+          "probability": 0.995
+        },
+        {
+          "word": "millions",
+          "start": 136.66,
+          "end": 137.2,
+          "probability": 0.997
+        },
+        {
+          "word": "of",
+          "start": 137.2,
+          "end": 137.52,
+          "probability": 0.998
+        },
+        {
+          "word": "beautiful",
+          "start": 137.52,
+          "end": 137.94,
+          "probability": 0.997
+        },
+        {
+          "word": "high",
+          "start": 137.94,
+          "end": 138.22,
+          "probability": 0.37
+        },
+        {
+          "word": "-resolution",
+          "start": 138.22,
+          "end": 138.6,
+          "probability": 0.958
+        },
+        {
+          "word": "photos",
+          "start": 138.6,
+          "end": 139.16,
+          "probability": 0.997
+        },
+        {
+          "word": "and",
+          "start": 139.16,
+          "end": 139.46,
+          "probability": 0.932
+        },
+        {
+          "word": "videos.",
+          "start": 139.46,
+          "end": 139.74,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 139.74,
+      "end": 145.0,
+      "text": "It has learned patterns like when you see a red brick wall, the mortar lines usually look like",
+      "words": [
+        {
+          "word": "It",
+          "start": 139.74,
+          "end": 140.44,
+          "probability": 0.402
+        },
+        {
+          "word": "has",
+          "start": 140.44,
+          "end": 140.6,
+          "probability": 0.88
+        },
+        {
+          "word": "learned",
+          "start": 140.6,
+          "end": 140.84,
+          "probability": 0.983
+        },
+        {
+          "word": "patterns",
+          "start": 140.84,
+          "end": 141.34,
+          "probability": 0.991
+        },
+        {
+          "word": "like",
+          "start": 141.34,
+          "end": 141.7,
+          "probability": 0.87
+        },
+        {
+          "word": "when",
+          "start": 141.7,
+          "end": 141.94,
+          "probability": 0.856
+        },
+        {
+          "word": "you",
+          "start": 141.94,
+          "end": 142.1,
+          "probability": 0.997
+        },
+        {
+          "word": "see",
+          "start": 142.1,
+          "end": 142.3,
+          "probability": 0.997
+        },
+        {
+          "word": "a",
+          "start": 142.3,
+          "end": 142.44,
+          "probability": 0.996
+        },
+        {
+          "word": "red",
+          "start": 142.44,
+          "end": 142.64,
+          "probability": 0.915
+        },
+        {
+          "word": "brick",
+          "start": 142.64,
+          "end": 142.92,
+          "probability": 0.993
+        },
+        {
+          "word": "wall,",
+          "start": 142.92,
+          "end": 143.34,
+          "probability": 0.998
+        },
+        {
+          "word": "the",
+          "start": 143.5,
+          "end": 143.56,
+          "probability": 0.987
+        },
+        {
+          "word": "mortar",
+          "start": 143.56,
+          "end": 143.8,
+          "probability": 0.949
+        },
+        {
+          "word": "lines",
+          "start": 143.8,
+          "end": 144.08,
+          "probability": 0.989
+        },
+        {
+          "word": "usually",
+          "start": 144.08,
+          "end": 144.5,
+          "probability": 0.996
+        },
+        {
+          "word": "look",
+          "start": 144.5,
+          "end": 144.78,
+          "probability": 0.994
+        },
+        {
+          "word": "like",
+          "start": 144.78,
+          "end": 145.0,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 145.0,
+      "end": 151.06,
+      "text": "this, or tree leaves usually have this kind of jagged edge. When it sees a low-resolution game image,",
+      "words": [
+        {
+          "word": "this,",
+          "start": 145.0,
+          "end": 145.28,
+          "probability": 0.996
+        },
+        {
+          "word": "or",
+          "start": 145.72,
+          "end": 145.9,
+          "probability": 0.985
+        },
+        {
+          "word": "tree",
+          "start": 145.9,
+          "end": 146.18,
+          "probability": 0.953
+        },
+        {
+          "word": "leaves",
+          "start": 146.18,
+          "end": 146.44,
+          "probability": 0.973
+        },
+        {
+          "word": "usually",
+          "start": 146.44,
+          "end": 146.78,
+          "probability": 0.985
+        },
+        {
+          "word": "have",
+          "start": 146.78,
+          "end": 147.1,
+          "probability": 0.996
+        },
+        {
+          "word": "this",
+          "start": 147.1,
+          "end": 147.32,
+          "probability": 0.981
+        },
+        {
+          "word": "kind",
+          "start": 147.32,
+          "end": 147.54,
+          "probability": 0.99
+        },
+        {
+          "word": "of",
+          "start": 147.54,
+          "end": 147.7,
+          "probability": 0.997
+        },
+        {
+          "word": "jagged",
+          "start": 147.7,
+          "end": 148.06,
+          "probability": 0.989
+        },
+        {
+          "word": "edge.",
+          "start": 148.06,
+          "end": 148.46,
+          "probability": 0.993
+        },
+        {
+          "word": "When",
+          "start": 148.86,
+          "end": 149.04,
+          "probability": 0.994
+        },
+        {
+          "word": "it",
+          "start": 149.04,
+          "end": 149.16,
+          "probability": 0.997
+        },
+        {
+          "word": "sees",
+          "start": 149.16,
+          "end": 149.38,
+          "probability": 0.99
+        },
+        {
+          "word": "a",
+          "start": 149.38,
+          "end": 149.6,
+          "probability": 0.996
+        },
+        {
+          "word": "low",
+          "start": 149.6,
+          "end": 149.78,
+          "probability": 0.984
+        },
+        {
+          "word": "-resolution",
+          "start": 149.78,
+          "end": 150.24,
+          "probability": 0.857
+        },
+        {
+          "word": "game",
+          "start": 150.24,
+          "end": 150.64,
+          "probability": 0.952
+        },
+        {
+          "word": "image,",
+          "start": 150.64,
+          "end": 151.06,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 151.14,
+      "end": 156.22,
+      "text": "it doesn't just stretch the pixels bigger. Instead, it uses everything it learned to intelligently",
+      "words": [
+        {
+          "word": "it",
+          "start": 151.14,
+          "end": 151.18,
+          "probability": 0.995
+        },
+        {
+          "word": "doesn't",
+          "start": 151.18,
+          "end": 151.46,
+          "probability": 0.998
+        },
+        {
+          "word": "just",
+          "start": 151.46,
+          "end": 151.66,
+          "probability": 0.997
+        },
+        {
+          "word": "stretch",
+          "start": 151.66,
+          "end": 151.98,
+          "probability": 0.998
+        },
+        {
+          "word": "the",
+          "start": 151.98,
+          "end": 152.2,
+          "probability": 0.994
+        },
+        {
+          "word": "pixels",
+          "start": 152.2,
+          "end": 152.48,
+          "probability": 0.933
+        },
+        {
+          "word": "bigger.",
+          "start": 152.48,
+          "end": 152.9,
+          "probability": 0.991
+        },
+        {
+          "word": "Instead,",
+          "start": 153.38,
+          "end": 153.76,
+          "probability": 0.997
+        },
+        {
+          "word": "it",
+          "start": 153.76,
+          "end": 153.94,
+          "probability": 0.998
+        },
+        {
+          "word": "uses",
+          "start": 153.94,
+          "end": 154.22,
+          "probability": 0.997
+        },
+        {
+          "word": "everything",
+          "start": 154.22,
+          "end": 154.84,
+          "probability": 0.985
+        },
+        {
+          "word": "it",
+          "start": 154.84,
+          "end": 155.04,
+          "probability": 0.968
+        },
+        {
+          "word": "learned",
+          "start": 155.04,
+          "end": 155.3,
+          "probability": 0.943
+        },
+        {
+          "word": "to",
+          "start": 155.3,
+          "end": 155.52,
+          "probability": 0.996
+        },
+        {
+          "word": "intelligently",
+          "start": 155.52,
+          "end": 156.22,
+          "probability": 0.996
+        }
+      ]
+    },
+    {
+      "start": 156.22,
+      "end": 161.74,
+      "text": "fill in the missing details. It's basically the world's most experienced artist who has seen every",
+      "words": [
+        {
+          "word": "fill",
+          "start": 156.22,
+          "end": 156.46,
+          "probability": 0.997
+        },
+        {
+          "word": "in",
+          "start": 156.46,
+          "end": 156.68,
+          "probability": 0.989
+        },
+        {
+          "word": "the",
+          "start": 156.68,
+          "end": 156.8,
+          "probability": 0.996
+        },
+        {
+          "word": "missing",
+          "start": 156.8,
+          "end": 157.06,
+          "probability": 1.0
+        },
+        {
+          "word": "details.",
+          "start": 157.06,
+          "end": 157.52,
+          "probability": 0.999
+        },
+        {
+          "word": "It's",
+          "start": 158.08,
+          "end": 158.3,
+          "probability": 0.991
+        },
+        {
+          "word": "basically",
+          "start": 158.3,
+          "end": 158.72,
+          "probability": 0.996
+        },
+        {
+          "word": "the",
+          "start": 158.72,
+          "end": 158.9,
+          "probability": 0.992
+        },
+        {
+          "word": "world's",
+          "start": 158.9,
+          "end": 159.28,
+          "probability": 0.985
+        },
+        {
+          "word": "most",
+          "start": 159.28,
+          "end": 159.44,
+          "probability": 0.998
+        },
+        {
+          "word": "experienced",
+          "start": 159.44,
+          "end": 160.16,
+          "probability": 0.975
+        },
+        {
+          "word": "artist",
+          "start": 160.16,
+          "end": 160.58,
+          "probability": 0.993
+        },
+        {
+          "word": "who",
+          "start": 160.58,
+          "end": 160.94,
+          "probability": 0.872
+        },
+        {
+          "word": "has",
+          "start": 160.94,
+          "end": 161.12,
+          "probability": 0.995
+        },
+        {
+          "word": "seen",
+          "start": 161.12,
+          "end": 161.32,
+          "probability": 0.998
+        },
+        {
+          "word": "every",
+          "start": 161.32,
+          "end": 161.74,
+          "probability": 0.992
+        }
+      ]
+    },
+    {
+      "start": 161.74,
+      "end": 167.08,
+      "text": "possible way light hits objects. You give it a rough sketch, the low-resolution frame from the game,",
+      "words": [
+        {
+          "word": "possible",
+          "start": 161.74,
+          "end": 162.28,
+          "probability": 0.997
+        },
+        {
+          "word": "way",
+          "start": 162.28,
+          "end": 162.62,
+          "probability": 0.993
+        },
+        {
+          "word": "light",
+          "start": 162.62,
+          "end": 163.06,
+          "probability": 0.405
+        },
+        {
+          "word": "hits",
+          "start": 163.06,
+          "end": 163.36,
+          "probability": 0.92
+        },
+        {
+          "word": "objects.",
+          "start": 163.36,
+          "end": 163.82,
+          "probability": 0.998
+        },
+        {
+          "word": "You",
+          "start": 164.12,
+          "end": 164.28,
+          "probability": 0.991
+        },
+        {
+          "word": "give",
+          "start": 164.28,
+          "end": 164.38,
+          "probability": 0.992
+        },
+        {
+          "word": "it",
+          "start": 164.38,
+          "end": 164.48,
+          "probability": 0.999
+        },
+        {
+          "word": "a",
+          "start": 164.48,
+          "end": 164.52,
+          "probability": 0.997
+        },
+        {
+          "word": "rough",
+          "start": 164.52,
+          "end": 164.7,
+          "probability": 0.997
+        },
+        {
+          "word": "sketch,",
+          "start": 164.7,
+          "end": 165.02,
+          "probability": 0.999
+        },
+        {
+          "word": "the",
+          "start": 165.38,
+          "end": 165.44,
+          "probability": 0.988
+        },
+        {
+          "word": "low",
+          "start": 165.44,
+          "end": 165.6,
+          "probability": 0.987
+        },
+        {
+          "word": "-resolution",
+          "start": 165.6,
+          "end": 166.0,
+          "probability": 0.977
+        },
+        {
+          "word": "frame",
+          "start": 166.0,
+          "end": 166.44,
+          "probability": 0.997
+        },
+        {
+          "word": "from",
+          "start": 166.44,
+          "end": 166.64,
+          "probability": 0.974
+        },
+        {
+          "word": "the",
+          "start": 166.64,
+          "end": 166.8,
+          "probability": 0.998
+        },
+        {
+          "word": "game,",
+          "start": 166.8,
+          "end": 167.08,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 167.08,
+      "end": 172.42,
+      "text": "and it paints in the realistic version based on all its training. The tricky part with DLSS",
+      "words": [
+        {
+          "word": "and",
+          "start": 167.08,
+          "end": 167.7,
+          "probability": 0.247
+        },
+        {
+          "word": "it",
+          "start": 167.7,
+          "end": 167.8,
+          "probability": 0.93
+        },
+        {
+          "word": "paints",
+          "start": 167.8,
+          "end": 168.08,
+          "probability": 0.989
+        },
+        {
+          "word": "in",
+          "start": 168.08,
+          "end": 168.3,
+          "probability": 0.991
+        },
+        {
+          "word": "the",
+          "start": 168.3,
+          "end": 168.4,
+          "probability": 0.989
+        },
+        {
+          "word": "realistic",
+          "start": 168.4,
+          "end": 168.78,
+          "probability": 0.982
+        },
+        {
+          "word": "version",
+          "start": 168.78,
+          "end": 169.32,
+          "probability": 0.995
+        },
+        {
+          "word": "based",
+          "start": 169.32,
+          "end": 169.76,
+          "probability": 0.935
+        },
+        {
+          "word": "on",
+          "start": 169.76,
+          "end": 169.88,
+          "probability": 0.998
+        },
+        {
+          "word": "all",
+          "start": 169.88,
+          "end": 170.08,
+          "probability": 0.995
+        },
+        {
+          "word": "its",
+          "start": 170.08,
+          "end": 170.22,
+          "probability": 0.925
+        },
+        {
+          "word": "training.",
+          "start": 170.22,
+          "end": 170.58,
+          "probability": 0.995
+        },
+        {
+          "word": "The",
+          "start": 170.96,
+          "end": 171.12,
+          "probability": 0.988
+        },
+        {
+          "word": "tricky",
+          "start": 171.12,
+          "end": 171.34,
+          "probability": 0.992
+        },
+        {
+          "word": "part",
+          "start": 171.34,
+          "end": 171.64,
+          "probability": 0.999
+        },
+        {
+          "word": "with",
+          "start": 171.64,
+          "end": 171.92,
+          "probability": 0.995
+        },
+        {
+          "word": "DLSS",
+          "start": 171.92,
+          "end": 172.42,
+          "probability": 0.896
+        }
+      ]
+    },
+    {
+      "start": 172.42,
+      "end": 177.68,
+      "text": "5 is that it's now trying to invent realistic lighting and materials too. This is harder because",
+      "words": [
+        {
+          "word": "5",
+          "start": 172.42,
+          "end": 172.7,
+          "probability": 0.219
+        },
+        {
+          "word": "is",
+          "start": 172.7,
+          "end": 173.04,
+          "probability": 0.942
+        },
+        {
+          "word": "that",
+          "start": 173.04,
+          "end": 173.2,
+          "probability": 0.983
+        },
+        {
+          "word": "it's",
+          "start": 173.2,
+          "end": 173.44,
+          "probability": 0.981
+        },
+        {
+          "word": "now",
+          "start": 173.44,
+          "end": 173.62,
+          "probability": 0.995
+        },
+        {
+          "word": "trying",
+          "start": 173.62,
+          "end": 173.96,
+          "probability": 0.998
+        },
+        {
+          "word": "to",
+          "start": 173.96,
+          "end": 174.14,
+          "probability": 0.999
+        },
+        {
+          "word": "invent",
+          "start": 174.14,
+          "end": 174.44,
+          "probability": 0.996
+        },
+        {
+          "word": "realistic",
+          "start": 174.44,
+          "end": 174.86,
+          "probability": 0.995
+        },
+        {
+          "word": "lighting",
+          "start": 174.86,
+          "end": 175.38,
+          "probability": 0.996
+        },
+        {
+          "word": "and",
+          "start": 175.38,
+          "end": 175.56,
+          "probability": 0.953
+        },
+        {
+          "word": "materials",
+          "start": 175.56,
+          "end": 176.02,
+          "probability": 0.995
+        },
+        {
+          "word": "too.",
+          "start": 176.02,
+          "end": 176.34,
+          "probability": 0.483
+        },
+        {
+          "word": "This",
+          "start": 176.92,
+          "end": 177.06,
+          "probability": 0.993
+        },
+        {
+          "word": "is",
+          "start": 177.06,
+          "end": 177.18,
+          "probability": 0.999
+        },
+        {
+          "word": "harder",
+          "start": 177.18,
+          "end": 177.42,
+          "probability": 0.991
+        },
+        {
+          "word": "because",
+          "start": 177.42,
+          "end": 177.68,
+          "probability": 0.966
+        }
+      ]
+    },
+    {
+      "start": 177.68,
+      "end": 181.86,
+      "text": "lighting depends on the whole scene, you know, where the sun is, what color the walls are, how shiny",
+      "words": [
+        {
+          "word": "lighting",
+          "start": 177.68,
+          "end": 177.94,
+          "probability": 0.997
+        },
+        {
+          "word": "depends",
+          "start": 177.94,
+          "end": 178.26,
+          "probability": 0.998
+        },
+        {
+          "word": "on",
+          "start": 178.26,
+          "end": 178.46,
+          "probability": 0.998
+        },
+        {
+          "word": "the",
+          "start": 178.46,
+          "end": 178.58,
+          "probability": 0.999
+        },
+        {
+          "word": "whole",
+          "start": 178.58,
+          "end": 178.72,
+          "probability": 0.998
+        },
+        {
+          "word": "scene,",
+          "start": 178.72,
+          "end": 179.04,
+          "probability": 0.998
+        },
+        {
+          "word": "you",
+          "start": 179.26,
+          "end": 179.32,
+          "probability": 0.761
+        },
+        {
+          "word": "know,",
+          "start": 179.32,
+          "end": 179.42,
+          "probability": 0.999
+        },
+        {
+          "word": "where",
+          "start": 179.52,
+          "end": 179.6,
+          "probability": 0.997
+        },
+        {
+          "word": "the",
+          "start": 179.6,
+          "end": 179.72,
+          "probability": 0.998
+        },
+        {
+          "word": "sun",
+          "start": 179.72,
+          "end": 179.94,
+          "probability": 0.848
+        },
+        {
+          "word": "is,",
+          "start": 179.94,
+          "end": 180.16,
+          "probability": 0.999
+        },
+        {
+          "word": "what",
+          "start": 180.28,
+          "end": 180.38,
+          "probability": 0.996
+        },
+        {
+          "word": "color",
+          "start": 180.38,
+          "end": 180.6,
+          "probability": 0.967
+        },
+        {
+          "word": "the",
+          "start": 180.6,
+          "end": 180.78,
+          "probability": 0.992
+        },
+        {
+          "word": "walls",
+          "start": 180.78,
+          "end": 180.98,
+          "probability": 0.99
+        },
+        {
+          "word": "are,",
+          "start": 180.98,
+          "end": 181.28,
+          "probability": 0.999
+        },
+        {
+          "word": "how",
+          "start": 181.42,
+          "end": 181.52,
+          "probability": 0.995
+        },
+        {
+          "word": "shiny",
+          "start": 181.52,
+          "end": 181.86,
+          "probability": 0.984
+        }
+      ]
+    },
+    {
+      "start": 181.86,
+      "end": 186.72,
+      "text": "something is. The AI has to make consistent guesses across every frame of the game,",
+      "words": [
+        {
+          "word": "something",
+          "start": 181.86,
+          "end": 182.22,
+          "probability": 0.999
+        },
+        {
+          "word": "is.",
+          "start": 182.22,
+          "end": 182.52,
+          "probability": 0.999
+        },
+        {
+          "word": "The",
+          "start": 183.08,
+          "end": 183.3,
+          "probability": 0.996
+        },
+        {
+          "word": "AI",
+          "start": 183.3,
+          "end": 183.6,
+          "probability": 0.957
+        },
+        {
+          "word": "has",
+          "start": 183.6,
+          "end": 183.86,
+          "probability": 0.998
+        },
+        {
+          "word": "to",
+          "start": 183.86,
+          "end": 184.04,
+          "probability": 1.0
+        },
+        {
+          "word": "make",
+          "start": 184.04,
+          "end": 184.18,
+          "probability": 0.997
+        },
+        {
+          "word": "consistent",
+          "start": 184.18,
+          "end": 184.74,
+          "probability": 0.999
+        },
+        {
+          "word": "guesses",
+          "start": 184.74,
+          "end": 185.12,
+          "probability": 0.997
+        },
+        {
+          "word": "across",
+          "start": 185.12,
+          "end": 185.56,
+          "probability": 0.996
+        },
+        {
+          "word": "every",
+          "start": 185.56,
+          "end": 185.96,
+          "probability": 0.999
+        },
+        {
+          "word": "frame",
+          "start": 185.96,
+          "end": 186.2,
+          "probability": 0.999
+        },
+        {
+          "word": "of",
+          "start": 186.2,
+          "end": 186.34,
+          "probability": 0.999
+        },
+        {
+          "word": "the",
+          "start": 186.34,
+          "end": 186.46,
+          "probability": 0.999
+        },
+        {
+          "word": "game,",
+          "start": 186.46,
+          "end": 186.72,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "start": 187.1,
+      "end": 192.46,
+      "text": "and that's basically what AI upscaling is doing. It learned the rules of how the real world looks,",
+      "words": [
+        {
+          "word": "and",
+          "start": 187.1,
+          "end": 187.4,
+          "probability": 0.998
+        },
+        {
+          "word": "that's",
+          "start": 187.4,
+          "end": 187.66,
+          "probability": 0.999
+        },
+        {
+          "word": "basically",
+          "start": 187.66,
+          "end": 188.04,
+          "probability": 0.996
+        },
+        {
+          "word": "what",
+          "start": 188.04,
+          "end": 188.26,
+          "probability": 0.994
+        },
+        {
+          "word": "AI",
+          "start": 188.26,
+          "end": 188.5,
+          "probability": 0.996
+        },
+        {
+          "word": "upscaling",
+          "start": 188.5,
+          "end": 189.08,
+          "probability": 0.952
+        },
+        {
+          "word": "is",
+          "start": 189.08,
+          "end": 189.28,
+          "probability": 0.997
+        },
+        {
+          "word": "doing.",
+          "start": 189.28,
+          "end": 189.52,
+          "probability": 0.999
+        },
+        {
+          "word": "It",
+          "start": 189.86,
+          "end": 189.98,
+          "probability": 0.993
+        },
+        {
+          "word": "learned",
+          "start": 189.98,
+          "end": 190.24,
+          "probability": 0.913
+        },
+        {
+          "word": "the",
+          "start": 190.24,
+          "end": 190.44,
+          "probability": 0.998
+        },
+        {
+          "word": "rules",
+          "start": 190.44,
+          "end": 190.72,
+          "probability": 0.998
+        },
+        {
+          "word": "of",
+          "start": 190.72,
+          "end": 191.18,
+          "probability": 0.997
+        },
+        {
+          "word": "how",
+          "start": 191.18,
+          "end": 191.5,
+          "probability": 0.995
+        },
+        {
+          "word": "the",
+          "start": 191.5,
+          "end": 191.66,
+          "probability": 0.99
+        },
+        {
+          "word": "real",
+          "start": 191.66,
+          "end": 191.86,
+          "probability": 0.988
+        },
+        {
+          "word": "world",
+          "start": 191.86,
+          "end": 192.16,
+          "probability": 0.785
+        },
+        {
+          "word": "looks,",
+          "start": 192.16,
+          "end": 192.46,
+          "probability": 0.997
+        }
+      ]
+    },
+    {
+      "start": 192.68,
+      "end": 196.7,
+      "text": "then applies those rules to make games prettier. So next time you hear someone complain about",
+      "words": [
+        {
+          "word": "then",
+          "start": 192.68,
+          "end": 192.74,
+          "probability": 0.96
+        },
+        {
+          "word": "applies",
+          "start": 192.74,
+          "end": 193.04,
+          "probability": 0.981
+        },
+        {
+          "word": "those",
+          "start": 193.04,
+          "end": 193.34,
+          "probability": 0.997
+        },
+        {
+          "word": "rules",
+          "start": 193.34,
+          "end": 193.6,
+          "probability": 0.996
+        },
+        {
+          "word": "to",
+          "start": 193.6,
+          "end": 193.84,
+          "probability": 0.99
+        },
+        {
+          "word": "make",
+          "start": 193.84,
+          "end": 193.98,
+          "probability": 0.996
+        },
+        {
+          "word": "games",
+          "start": 193.98,
+          "end": 194.28,
+          "probability": 0.994
+        },
+        {
+          "word": "prettier.",
+          "start": 194.28,
+          "end": 194.7,
+          "probability": 0.978
+        },
+        {
+          "word": "So",
+          "start": 195.1,
+          "end": 195.24,
+          "probability": 0.991
+        },
+        {
+          "word": "next",
+          "start": 195.24,
+          "end": 195.36,
+          "probability": 0.889
+        },
+        {
+          "word": "time",
+          "start": 195.36,
+          "end": 195.56,
+          "probability": 0.999
+        },
+        {
+          "word": "you",
+          "start": 195.56,
+          "end": 195.68,
+          "probability": 0.994
+        },
+        {
+          "word": "hear",
+          "start": 195.68,
+          "end": 195.8,
+          "probability": 0.997
+        },
+        {
+          "word": "someone",
+          "start": 195.8,
+          "end": 196.06,
+          "probability": 0.992
+        },
+        {
+          "word": "complain",
+          "start": 196.06,
+          "end": 196.4,
+          "probability": 0.99
+        },
+        {
+          "word": "about",
+          "start": 196.4,
+          "end": 196.7,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 196.7,
+      "end": 201.82,
+      "text": "AI upscaling, you can tell them it's basically a super-trained guesser that studied millions of",
+      "words": [
+        {
+          "word": "AI",
+          "start": 196.7,
+          "end": 196.98,
+          "probability": 0.755
+        },
+        {
+          "word": "upscaling,",
+          "start": 196.98,
+          "end": 197.56,
+          "probability": 0.956
+        },
+        {
+          "word": "you",
+          "start": 197.66,
+          "end": 197.74,
+          "probability": 0.965
+        },
+        {
+          "word": "can",
+          "start": 197.74,
+          "end": 197.88,
+          "probability": 0.998
+        },
+        {
+          "word": "tell",
+          "start": 197.88,
+          "end": 198.08,
+          "probability": 0.998
+        },
+        {
+          "word": "them",
+          "start": 198.08,
+          "end": 198.38,
+          "probability": 0.998
+        },
+        {
+          "word": "it's",
+          "start": 198.38,
+          "end": 198.9,
+          "probability": 0.808
+        },
+        {
+          "word": "basically",
+          "start": 198.9,
+          "end": 199.3,
+          "probability": 0.995
+        },
+        {
+          "word": "a",
+          "start": 199.3,
+          "end": 199.42,
+          "probability": 0.995
+        },
+        {
+          "word": "super",
+          "start": 199.42,
+          "end": 199.72,
+          "probability": 0.99
+        },
+        {
+          "word": "-trained",
+          "start": 199.72,
+          "end": 200.16,
+          "probability": 0.752
+        },
+        {
+          "word": "guesser",
+          "start": 200.16,
+          "end": 200.62,
+          "probability": 0.461
+        },
+        {
+          "word": "that",
+          "start": 200.62,
+          "end": 200.78,
+          "probability": 0.983
+        },
+        {
+          "word": "studied",
+          "start": 200.78,
+          "end": 201.16,
+          "probability": 0.882
+        },
+        {
+          "word": "millions",
+          "start": 201.16,
+          "end": 201.54,
+          "probability": 0.996
+        },
+        {
+          "word": "of",
+          "start": 201.54,
+          "end": 201.82,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 201.82,
+      "end": 208.52,
+      "text": "pictures so it can make blurry games look crisp and real. Not so mysterious, right? All right, let's move",
+      "words": [
+        {
+          "word": "pictures",
+          "start": 201.82,
+          "end": 202.14,
+          "probability": 0.998
+        },
+        {
+          "word": "so",
+          "start": 202.14,
+          "end": 202.48,
+          "probability": 0.854
+        },
+        {
+          "word": "it",
+          "start": 202.48,
+          "end": 202.6,
+          "probability": 0.996
+        },
+        {
+          "word": "can",
+          "start": 202.6,
+          "end": 202.7,
+          "probability": 0.997
+        },
+        {
+          "word": "make",
+          "start": 202.7,
+          "end": 202.94,
+          "probability": 0.999
+        },
+        {
+          "word": "blurry",
+          "start": 202.94,
+          "end": 203.24,
+          "probability": 0.983
+        },
+        {
+          "word": "games",
+          "start": 203.24,
+          "end": 203.7,
+          "probability": 0.995
+        },
+        {
+          "word": "look",
+          "start": 203.7,
+          "end": 204.06,
+          "probability": 0.993
+        },
+        {
+          "word": "crisp",
+          "start": 204.06,
+          "end": 204.48,
+          "probability": 0.988
+        },
+        {
+          "word": "and",
+          "start": 204.48,
+          "end": 204.84,
+          "probability": 0.997
+        },
+        {
+          "word": "real.",
+          "start": 204.84,
+          "end": 205.18,
+          "probability": 0.998
+        },
+        {
+          "word": "Not",
+          "start": 205.9,
+          "end": 206.18,
+          "probability": 0.985
+        },
+        {
+          "word": "so",
+          "start": 206.18,
+          "end": 206.4,
+          "probability": 0.992
+        },
+        {
+          "word": "mysterious,",
+          "start": 206.4,
+          "end": 206.88,
+          "probability": 0.996
+        },
+        {
+          "word": "right?",
+          "start": 207.06,
+          "end": 207.2,
+          "probability": 0.996
+        },
+        {
+          "word": "All",
+          "start": 207.86,
+          "end": 207.98,
+          "probability": 0.608
+        },
+        {
+          "word": "right,",
+          "start": 207.98,
+          "end": 208.12,
+          "probability": 0.999
+        },
+        {
+          "word": "let's",
+          "start": 208.22,
+          "end": 208.38,
+          "probability": 0.997
+        },
+        {
+          "word": "move",
+          "start": 208.38,
+          "end": 208.52,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "start": 208.52,
+      "end": 214.66,
+      "text": "on to some cool stuff you can actually try today. First up, AI shopping agents just got way smarter.",
+      "words": [
+        {
+          "word": "on",
+          "start": 208.52,
+          "end": 208.7,
+          "probability": 0.88
+        },
+        {
+          "word": "to",
+          "start": 208.7,
+          "end": 208.8,
+          "probability": 0.997
+        },
+        {
+          "word": "some",
+          "start": 208.8,
+          "end": 209.0,
+          "probability": 0.997
+        },
+        {
+          "word": "cool",
+          "start": 209.0,
+          "end": 209.2,
+          "probability": 0.998
+        },
+        {
+          "word": "stuff",
+          "start": 209.2,
+          "end": 209.5,
+          "probability": 1.0
+        },
+        {
+          "word": "you",
+          "start": 209.5,
+          "end": 209.68,
+          "probability": 0.984
+        },
+        {
+          "word": "can",
+          "start": 209.68,
+          "end": 209.82,
+          "probability": 0.998
+        },
+        {
+          "word": "actually",
+          "start": 209.82,
+          "end": 210.14,
+          "probability": 0.998
+        },
+        {
+          "word": "try",
+          "start": 210.14,
+          "end": 210.44,
+          "probability": 0.999
+        },
+        {
+          "word": "today.",
+          "start": 210.44,
+          "end": 210.78,
+          "probability": 0.996
+        },
+        {
+          "word": "First",
+          "start": 211.22,
+          "end": 211.4,
+          "probability": 0.994
+        },
+        {
+          "word": "up,",
+          "start": 211.4,
+          "end": 211.72,
+          "probability": 0.993
+        },
+        {
+          "word": "AI",
+          "start": 212.12,
+          "end": 212.32,
+          "probability": 0.949
+        },
+        {
+          "word": "shopping",
+          "start": 212.32,
+          "end": 212.94,
+          "probability": 0.785
+        },
+        {
+          "word": "agents",
+          "start": 212.94,
+          "end": 213.36,
+          "probability": 0.997
+        },
+        {
+          "word": "just",
+          "start": 213.36,
+          "end": 213.64,
+          "probability": 0.971
+        },
+        {
+          "word": "got",
+          "start": 213.64,
+          "end": 213.88,
+          "probability": 0.998
+        },
+        {
+          "word": "way",
+          "start": 213.88,
+          "end": 214.2,
+          "probability": 0.988
+        },
+        {
+          "word": "smarter.",
+          "start": 214.2,
+          "end": 214.66,
+          "probability": 0.995
+        }
+      ]
+    },
+    {
+      "start": 215.14,
+      "end": 220.6,
+      "text": "Google added new features to its universal commerce protocol. This gives AI shopping helpers the",
+      "words": [
+        {
+          "word": "Google",
+          "start": 215.14,
+          "end": 215.34,
+          "probability": 0.997
+        },
+        {
+          "word": "added",
+          "start": 215.34,
+          "end": 215.66,
+          "probability": 0.994
+        },
+        {
+          "word": "new",
+          "start": 215.66,
+          "end": 215.94,
+          "probability": 0.996
+        },
+        {
+          "word": "features",
+          "start": 215.94,
+          "end": 216.28,
+          "probability": 0.999
+        },
+        {
+          "word": "to",
+          "start": 216.28,
+          "end": 216.6,
+          "probability": 0.999
+        },
+        {
+          "word": "its",
+          "start": 216.6,
+          "end": 216.78,
+          "probability": 0.943
+        },
+        {
+          "word": "universal",
+          "start": 216.78,
+          "end": 217.24,
+          "probability": 0.6
+        },
+        {
+          "word": "commerce",
+          "start": 217.24,
+          "end": 217.6,
+          "probability": 0.959
+        },
+        {
+          "word": "protocol.",
+          "start": 217.6,
+          "end": 218.18,
+          "probability": 0.999
+        },
+        {
+          "word": "This",
+          "start": 218.36,
+          "end": 218.9,
+          "probability": 0.995
+        },
+        {
+          "word": "gives",
+          "start": 218.9,
+          "end": 219.1,
+          "probability": 0.996
+        },
+        {
+          "word": "AI",
+          "start": 219.1,
+          "end": 219.46,
+          "probability": 0.996
+        },
+        {
+          "word": "shopping",
+          "start": 219.46,
+          "end": 219.98,
+          "probability": 0.977
+        },
+        {
+          "word": "helpers",
+          "start": 219.98,
+          "end": 220.46,
+          "probability": 0.983
+        },
+        {
+          "word": "the",
+          "start": 220.46,
+          "end": 220.6,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 220.6,
+      "end": 226.54,
+      "text": "ability to manage shopping carts are, you had product catalogs and handle loyalty programs. Think",
+      "words": [
+        {
+          "word": "ability",
+          "start": 220.6,
+          "end": 220.94,
+          "probability": 0.999
+        },
+        {
+          "word": "to",
+          "start": 220.94,
+          "end": 221.2,
+          "probability": 1.0
+        },
+        {
+          "word": "manage",
+          "start": 221.2,
+          "end": 221.44,
+          "probability": 0.998
+        },
+        {
+          "word": "shopping",
+          "start": 221.44,
+          "end": 221.88,
+          "probability": 0.993
+        },
+        {
+          "word": "carts",
+          "start": 221.88,
+          "end": 222.32,
+          "probability": 0.948
+        },
+        {
+          "word": "are,",
+          "start": 222.32,
+          "end": 223.0,
+          "probability": 0.53
+        },
+        {
+          "word": "you",
+          "start": 223.22,
+          "end": 224.06,
+          "probability": 0.165
+        },
+        {
+          "word": "had",
+          "start": 224.06,
+          "end": 224.16,
+          "probability": 0.534
+        },
+        {
+          "word": "product",
+          "start": 224.16,
+          "end": 224.44,
+          "probability": 0.981
+        },
+        {
+          "word": "catalogs",
+          "start": 224.44,
+          "end": 225.06,
+          "probability": 0.973
+        },
+        {
+          "word": "and",
+          "start": 225.06,
+          "end": 225.14,
+          "probability": 0.957
+        },
+        {
+          "word": "handle",
+          "start": 225.14,
+          "end": 225.38,
+          "probability": 0.967
+        },
+        {
+          "word": "loyalty",
+          "start": 225.38,
+          "end": 225.64,
+          "probability": 0.992
+        },
+        {
+          "word": "programs.",
+          "start": 225.64,
+          "end": 226.22,
+          "probability": 0.995
+        },
+        {
+          "word": "Think",
+          "start": 226.42,
+          "end": 226.54,
+          "probability": 0.978
+        }
+      ]
+    },
+    {
+      "start": 226.54,
+      "end": 230.96,
+      "text": "of an AI agent like a really helpful friend who does all the boring research for you. Instead of",
+      "words": [
+        {
+          "word": "of",
+          "start": 226.54,
+          "end": 226.64,
+          "probability": 0.004
+        },
+        {
+          "word": "an",
+          "start": 226.64,
+          "end": 226.82,
+          "probability": 0.863
+        },
+        {
+          "word": "AI",
+          "start": 226.82,
+          "end": 227.16,
+          "probability": 0.932
+        },
+        {
+          "word": "agent",
+          "start": 227.16,
+          "end": 227.6,
+          "probability": 0.993
+        },
+        {
+          "word": "like",
+          "start": 227.6,
+          "end": 227.8,
+          "probability": 0.865
+        },
+        {
+          "word": "a",
+          "start": 227.8,
+          "end": 227.94,
+          "probability": 0.996
+        },
+        {
+          "word": "really",
+          "start": 227.94,
+          "end": 228.18,
+          "probability": 0.977
+        },
+        {
+          "word": "helpful",
+          "start": 228.18,
+          "end": 228.48,
+          "probability": 0.994
+        },
+        {
+          "word": "friend",
+          "start": 228.48,
+          "end": 228.82,
+          "probability": 0.998
+        },
+        {
+          "word": "who",
+          "start": 228.82,
+          "end": 228.98,
+          "probability": 0.984
+        },
+        {
+          "word": "does",
+          "start": 228.98,
+          "end": 229.14,
+          "probability": 0.995
+        },
+        {
+          "word": "all",
+          "start": 229.14,
+          "end": 229.32,
+          "probability": 0.99
+        },
+        {
+          "word": "the",
+          "start": 229.32,
+          "end": 229.44,
+          "probability": 0.985
+        },
+        {
+          "word": "boring",
+          "start": 229.44,
+          "end": 229.68,
+          "probability": 0.974
+        },
+        {
+          "word": "research",
+          "start": 229.68,
+          "end": 230.08,
+          "probability": 0.997
+        },
+        {
+          "word": "for",
+          "start": 230.08,
+          "end": 230.36,
+          "probability": 0.983
+        },
+        {
+          "word": "you.",
+          "start": 230.36,
+          "end": 230.5,
+          "probability": 0.998
+        },
+        {
+          "word": "Instead",
+          "start": 230.64,
+          "end": 230.82,
+          "probability": 0.959
+        },
+        {
+          "word": "of",
+          "start": 230.82,
+          "end": 230.96,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 230.96,
+      "end": 235.78,
+      "text": "switching between tabs yourself, the AI could compare prices, remember your favorite brands,",
+      "words": [
+        {
+          "word": "switching",
+          "start": 230.96,
+          "end": 231.24,
+          "probability": 0.998
+        },
+        {
+          "word": "between",
+          "start": 231.24,
+          "end": 231.56,
+          "probability": 0.998
+        },
+        {
+          "word": "tabs",
+          "start": 231.56,
+          "end": 231.92,
+          "probability": 0.995
+        },
+        {
+          "word": "yourself,",
+          "start": 231.92,
+          "end": 232.28,
+          "probability": 0.96
+        },
+        {
+          "word": "the",
+          "start": 232.8,
+          "end": 232.88,
+          "probability": 0.985
+        },
+        {
+          "word": "AI",
+          "start": 232.88,
+          "end": 233.2,
+          "probability": 0.986
+        },
+        {
+          "word": "could",
+          "start": 233.2,
+          "end": 233.42,
+          "probability": 0.99
+        },
+        {
+          "word": "compare",
+          "start": 233.42,
+          "end": 233.76,
+          "probability": 0.994
+        },
+        {
+          "word": "prices,",
+          "start": 233.76,
+          "end": 234.22,
+          "probability": 0.992
+        },
+        {
+          "word": "remember",
+          "start": 234.66,
+          "end": 234.92,
+          "probability": 0.992
+        },
+        {
+          "word": "your",
+          "start": 234.92,
+          "end": 235.14,
+          "probability": 0.996
+        },
+        {
+          "word": "favorite",
+          "start": 235.14,
+          "end": 235.48,
+          "probability": 0.976
+        },
+        {
+          "word": "brands,",
+          "start": 235.48,
+          "end": 235.78,
+          "probability": 0.993
+        }
+      ]
+    },
+    {
+      "start": 236.22,
+      "end": 241.18,
+      "text": "and keep track of what's in your cart across different stores. You can explore similar ideas today",
+      "words": [
+        {
+          "word": "and",
+          "start": 236.22,
+          "end": 236.28,
+          "probability": 0.994
+        },
+        {
+          "word": "keep",
+          "start": 236.28,
+          "end": 236.44,
+          "probability": 0.997
+        },
+        {
+          "word": "track",
+          "start": 236.44,
+          "end": 236.74,
+          "probability": 1.0
+        },
+        {
+          "word": "of",
+          "start": 236.74,
+          "end": 236.94,
+          "probability": 0.994
+        },
+        {
+          "word": "what's",
+          "start": 236.94,
+          "end": 237.2,
+          "probability": 0.983
+        },
+        {
+          "word": "in",
+          "start": 237.2,
+          "end": 237.26,
+          "probability": 0.998
+        },
+        {
+          "word": "your",
+          "start": 237.26,
+          "end": 237.4,
+          "probability": 0.996
+        },
+        {
+          "word": "cart",
+          "start": 237.4,
+          "end": 237.68,
+          "probability": 0.957
+        },
+        {
+          "word": "across",
+          "start": 237.68,
+          "end": 238.0,
+          "probability": 0.983
+        },
+        {
+          "word": "different",
+          "start": 238.0,
+          "end": 238.34,
+          "probability": 0.997
+        },
+        {
+          "word": "stores.",
+          "start": 238.34,
+          "end": 238.72,
+          "probability": 0.994
+        },
+        {
+          "word": "You",
+          "start": 239.4,
+          "end": 239.56,
+          "probability": 0.977
+        },
+        {
+          "word": "can",
+          "start": 239.56,
+          "end": 239.68,
+          "probability": 0.997
+        },
+        {
+          "word": "explore",
+          "start": 239.68,
+          "end": 239.98,
+          "probability": 0.997
+        },
+        {
+          "word": "similar",
+          "start": 239.98,
+          "end": 240.38,
+          "probability": 0.988
+        },
+        {
+          "word": "ideas",
+          "start": 240.38,
+          "end": 240.78,
+          "probability": 0.999
+        },
+        {
+          "word": "today",
+          "start": 240.78,
+          "end": 241.18,
+          "probability": 0.993
+        }
+      ]
+    },
+    {
+      "start": 241.18,
+      "end": 247.32,
+      "text": "without waiting. Go to Google's Gemini web interface and try this experiment. Tell it, act as my",
+      "words": [
+        {
+          "word": "without",
+          "start": 241.18,
+          "end": 241.5,
+          "probability": 0.982
+        },
+        {
+          "word": "waiting.",
+          "start": 241.5,
+          "end": 241.84,
+          "probability": 0.971
+        },
+        {
+          "word": "Go",
+          "start": 242.42,
+          "end": 242.52,
+          "probability": 0.981
+        },
+        {
+          "word": "to",
+          "start": 242.52,
+          "end": 242.62,
+          "probability": 0.994
+        },
+        {
+          "word": "Google's",
+          "start": 242.62,
+          "end": 243.1,
+          "probability": 0.975
+        },
+        {
+          "word": "Gemini",
+          "start": 243.1,
+          "end": 243.48,
+          "probability": 0.978
+        },
+        {
+          "word": "web",
+          "start": 243.48,
+          "end": 243.78,
+          "probability": 0.483
+        },
+        {
+          "word": "interface",
+          "start": 243.78,
+          "end": 244.2,
+          "probability": 0.98
+        },
+        {
+          "word": "and",
+          "start": 244.2,
+          "end": 244.46,
+          "probability": 0.857
+        },
+        {
+          "word": "try",
+          "start": 244.46,
+          "end": 244.68,
+          "probability": 0.997
+        },
+        {
+          "word": "this",
+          "start": 244.68,
+          "end": 244.9,
+          "probability": 0.996
+        },
+        {
+          "word": "experiment.",
+          "start": 244.9,
+          "end": 245.44,
+          "probability": 0.997
+        },
+        {
+          "word": "Tell",
+          "start": 246.12,
+          "end": 246.26,
+          "probability": 0.941
+        },
+        {
+          "word": "it,",
+          "start": 246.26,
+          "end": 246.46,
+          "probability": 0.992
+        },
+        {
+          "word": "act",
+          "start": 246.72,
+          "end": 247.0,
+          "probability": 0.509
+        },
+        {
+          "word": "as",
+          "start": 247.0,
+          "end": 247.18,
+          "probability": 0.998
+        },
+        {
+          "word": "my",
+          "start": 247.18,
+          "end": 247.32,
+          "probability": 0.996
+        }
+      ]
+    },
+    {
+      "start": 247.32,
+      "end": 252.24,
+      "text": "shopping assistant and compare wireless headphones under $50 that have good battery life.",
+      "words": [
+        {
+          "word": "shopping",
+          "start": 247.32,
+          "end": 247.7,
+          "probability": 0.993
+        },
+        {
+          "word": "assistant",
+          "start": 247.7,
+          "end": 248.2,
+          "probability": 0.993
+        },
+        {
+          "word": "and",
+          "start": 248.2,
+          "end": 248.44,
+          "probability": 0.808
+        },
+        {
+          "word": "compare",
+          "start": 248.44,
+          "end": 248.74,
+          "probability": 0.995
+        },
+        {
+          "word": "wireless",
+          "start": 248.74,
+          "end": 249.28,
+          "probability": 0.998
+        },
+        {
+          "word": "headphones",
+          "start": 249.28,
+          "end": 249.8,
+          "probability": 0.992
+        },
+        {
+          "word": "under",
+          "start": 249.8,
+          "end": 250.1,
+          "probability": 0.989
+        },
+        {
+          "word": "$50",
+          "start": 250.1,
+          "end": 250.52,
+          "probability": 0.936
+        },
+        {
+          "word": "that",
+          "start": 250.52,
+          "end": 251.0,
+          "probability": 0.964
+        },
+        {
+          "word": "have",
+          "start": 251.0,
+          "end": 251.24,
+          "probability": 0.995
+        },
+        {
+          "word": "good",
+          "start": 251.24,
+          "end": 251.44,
+          "probability": 0.96
+        },
+        {
+          "word": "battery",
+          "start": 251.44,
+          "end": 251.84,
+          "probability": 0.999
+        },
+        {
+          "word": "life.",
+          "start": 251.84,
+          "end": 252.24,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "start": 252.88,
+      "end": 257.98,
+      "text": "Watch how it gathers information and presents options. Then ask it to add the top choice to a",
+      "words": [
+        {
+          "word": "Watch",
+          "start": 252.86,
+          "end": 253.12,
+          "probability": 0.339
+        },
+        {
+          "word": "how",
+          "start": 253.12,
+          "end": 253.36,
+          "probability": 0.993
+        },
+        {
+          "word": "it",
+          "start": 253.36,
+          "end": 253.5,
+          "probability": 0.99
+        },
+        {
+          "word": "gathers",
+          "start": 253.5,
+          "end": 253.78,
+          "probability": 0.978
+        },
+        {
+          "word": "information",
+          "start": 253.78,
+          "end": 254.46,
+          "probability": 0.996
+        },
+        {
+          "word": "and",
+          "start": 254.46,
+          "end": 254.66,
+          "probability": 0.945
+        },
+        {
+          "word": "presents",
+          "start": 254.66,
+          "end": 254.94,
+          "probability": 0.936
+        },
+        {
+          "word": "options.",
+          "start": 254.94,
+          "end": 255.56,
+          "probability": 0.987
+        },
+        {
+          "word": "Then",
+          "start": 255.94,
+          "end": 256.3,
+          "probability": 0.975
+        },
+        {
+          "word": "ask",
+          "start": 256.3,
+          "end": 256.56,
+          "probability": 0.962
+        },
+        {
+          "word": "it",
+          "start": 256.56,
+          "end": 256.7,
+          "probability": 0.912
+        },
+        {
+          "word": "to",
+          "start": 256.7,
+          "end": 256.78,
+          "probability": 0.991
+        },
+        {
+          "word": "add",
+          "start": 256.78,
+          "end": 256.94,
+          "probability": 0.992
+        },
+        {
+          "word": "the",
+          "start": 256.94,
+          "end": 257.1,
+          "probability": 0.988
+        },
+        {
+          "word": "top",
+          "start": 257.1,
+          "end": 257.32,
+          "probability": 0.977
+        },
+        {
+          "word": "choice",
+          "start": 257.32,
+          "end": 257.66,
+          "probability": 0.971
+        },
+        {
+          "word": "to",
+          "start": 257.66,
+          "end": 257.88,
+          "probability": 0.994
+        },
+        {
+          "word": "a",
+          "start": 257.88,
+          "end": 257.98,
+          "probability": 0.989
+        }
+      ]
+    },
+    {
+      "start": 257.98,
+      "end": 263.86,
+      "text": "pretend cart and explain why it picked that one. This shows you how AI agents think through shopping",
+      "words": [
+        {
+          "word": "pretend",
+          "start": 257.98,
+          "end": 258.26,
+          "probability": 0.865
+        },
+        {
+          "word": "cart",
+          "start": 258.26,
+          "end": 258.66,
+          "probability": 0.978
+        },
+        {
+          "word": "and",
+          "start": 258.66,
+          "end": 258.98,
+          "probability": 0.789
+        },
+        {
+          "word": "explain",
+          "start": 258.98,
+          "end": 259.36,
+          "probability": 0.997
+        },
+        {
+          "word": "why",
+          "start": 259.36,
+          "end": 259.62,
+          "probability": 0.994
+        },
+        {
+          "word": "it",
+          "start": 259.62,
+          "end": 259.76,
+          "probability": 0.996
+        },
+        {
+          "word": "picked",
+          "start": 259.76,
+          "end": 259.98,
+          "probability": 0.985
+        },
+        {
+          "word": "that",
+          "start": 259.98,
+          "end": 260.24,
+          "probability": 0.993
+        },
+        {
+          "word": "one.",
+          "start": 260.24,
+          "end": 260.44,
+          "probability": 0.995
+        },
+        {
+          "word": "This",
+          "start": 260.94,
+          "end": 261.12,
+          "probability": 0.991
+        },
+        {
+          "word": "shows",
+          "start": 261.12,
+          "end": 261.38,
+          "probability": 0.997
+        },
+        {
+          "word": "you",
+          "start": 261.38,
+          "end": 261.6,
+          "probability": 0.991
+        },
+        {
+          "word": "how",
+          "start": 261.6,
+          "end": 261.82,
+          "probability": 0.998
+        },
+        {
+          "word": "AI",
+          "start": 261.82,
+          "end": 262.14,
+          "probability": 0.936
+        },
+        {
+          "word": "agents",
+          "start": 262.14,
+          "end": 262.82,
+          "probability": 0.992
+        },
+        {
+          "word": "think",
+          "start": 262.82,
+          "end": 263.06,
+          "probability": 0.996
+        },
+        {
+          "word": "through",
+          "start": 263.06,
+          "end": 263.4,
+          "probability": 0.998
+        },
+        {
+          "word": "shopping",
+          "start": 263.4,
+          "end": 263.86,
+          "probability": 0.989
+        }
+      ]
+    },
+    {
+      "start": 263.86,
+      "end": 269.56,
+      "text": "tasks. Here's another cool one that connects to everyday life. Even objects like grills are getting",
+      "words": [
+        {
+          "word": "tasks.",
+          "start": 263.86,
+          "end": 264.18,
+          "probability": 0.979
+        },
+        {
+          "word": "Here's",
+          "start": 264.84,
+          "end": 265.24,
+          "probability": 0.976
+        },
+        {
+          "word": "another",
+          "start": 265.24,
+          "end": 265.4,
+          "probability": 0.997
+        },
+        {
+          "word": "cool",
+          "start": 265.4,
+          "end": 265.72,
+          "probability": 0.996
+        },
+        {
+          "word": "one",
+          "start": 265.72,
+          "end": 266.02,
+          "probability": 0.996
+        },
+        {
+          "word": "that",
+          "start": 266.02,
+          "end": 266.18,
+          "probability": 0.996
+        },
+        {
+          "word": "connects",
+          "start": 266.18,
+          "end": 266.42,
+          "probability": 0.998
+        },
+        {
+          "word": "to",
+          "start": 266.42,
+          "end": 266.72,
+          "probability": 0.998
+        },
+        {
+          "word": "everyday",
+          "start": 266.72,
+          "end": 267.04,
+          "probability": 0.854
+        },
+        {
+          "word": "life.",
+          "start": 267.04,
+          "end": 267.56,
+          "probability": 0.999
+        },
+        {
+          "word": "Even",
+          "start": 267.92,
+          "end": 268.1,
+          "probability": 0.99
+        },
+        {
+          "word": "objects",
+          "start": 268.1,
+          "end": 268.44,
+          "probability": 0.997
+        },
+        {
+          "word": "like",
+          "start": 268.44,
+          "end": 268.76,
+          "probability": 0.996
+        },
+        {
+          "word": "grills",
+          "start": 268.76,
+          "end": 269.2,
+          "probability": 0.763
+        },
+        {
+          "word": "are",
+          "start": 269.2,
+          "end": 269.34,
+          "probability": 0.992
+        },
+        {
+          "word": "getting",
+          "start": 269.34,
+          "end": 269.56,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 269.56,
+      "end": 274.96,
+      "text": "smart features now. Smart grills get software updates just like your phone. The idea is the same",
+      "words": [
+        {
+          "word": "smart",
+          "start": 269.56,
+          "end": 269.86,
+          "probability": 0.947
+        },
+        {
+          "word": "features",
+          "start": 269.86,
+          "end": 270.24,
+          "probability": 0.998
+        },
+        {
+          "word": "now.",
+          "start": 270.24,
+          "end": 270.56,
+          "probability": 0.943
+        },
+        {
+          "word": "Smart",
+          "start": 270.96,
+          "end": 271.16,
+          "probability": 0.97
+        },
+        {
+          "word": "grills",
+          "start": 271.16,
+          "end": 271.56,
+          "probability": 0.971
+        },
+        {
+          "word": "get",
+          "start": 271.56,
+          "end": 271.74,
+          "probability": 0.968
+        },
+        {
+          "word": "software",
+          "start": 271.74,
+          "end": 272.18,
+          "probability": 0.998
+        },
+        {
+          "word": "updates",
+          "start": 272.18,
+          "end": 272.62,
+          "probability": 0.999
+        },
+        {
+          "word": "just",
+          "start": 272.62,
+          "end": 272.9,
+          "probability": 0.858
+        },
+        {
+          "word": "like",
+          "start": 272.9,
+          "end": 273.14,
+          "probability": 0.999
+        },
+        {
+          "word": "your",
+          "start": 273.14,
+          "end": 273.32,
+          "probability": 0.994
+        },
+        {
+          "word": "phone.",
+          "start": 273.32,
+          "end": 273.58,
+          "probability": 0.998
+        },
+        {
+          "word": "The",
+          "start": 274.0,
+          "end": 274.12,
+          "probability": 0.996
+        },
+        {
+          "word": "idea",
+          "start": 274.12,
+          "end": 274.44,
+          "probability": 0.994
+        },
+        {
+          "word": "is",
+          "start": 274.44,
+          "end": 274.62,
+          "probability": 0.997
+        },
+        {
+          "word": "the",
+          "start": 274.62,
+          "end": 274.74,
+          "probability": 0.979
+        },
+        {
+          "word": "same",
+          "start": 274.74,
+          "end": 274.96,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "start": 274.96,
+      "end": 279.98,
+      "text": "as many AI products. They keep getting better after you buy them. If you have any smart device at home",
+      "words": [
+        {
+          "word": "as",
+          "start": 274.96,
+          "end": 275.1,
+          "probability": 0.995
+        },
+        {
+          "word": "many",
+          "start": 275.1,
+          "end": 275.32,
+          "probability": 0.989
+        },
+        {
+          "word": "AI",
+          "start": 275.32,
+          "end": 275.7,
+          "probability": 0.996
+        },
+        {
+          "word": "products.",
+          "start": 275.7,
+          "end": 276.14,
+          "probability": 0.999
+        },
+        {
+          "word": "They",
+          "start": 276.32,
+          "end": 276.4,
+          "probability": 0.994
+        },
+        {
+          "word": "keep",
+          "start": 276.4,
+          "end": 276.6,
+          "probability": 0.998
+        },
+        {
+          "word": "getting",
+          "start": 276.6,
+          "end": 276.86,
+          "probability": 0.999
+        },
+        {
+          "word": "better",
+          "start": 276.86,
+          "end": 277.14,
+          "probability": 0.999
+        },
+        {
+          "word": "after",
+          "start": 277.14,
+          "end": 277.46,
+          "probability": 0.997
+        },
+        {
+          "word": "you",
+          "start": 277.46,
+          "end": 277.6,
+          "probability": 0.998
+        },
+        {
+          "word": "buy",
+          "start": 277.6,
+          "end": 277.82,
+          "probability": 0.999
+        },
+        {
+          "word": "them.",
+          "start": 277.82,
+          "end": 278.06,
+          "probability": 0.999
+        },
+        {
+          "word": "If",
+          "start": 278.32,
+          "end": 278.48,
+          "probability": 0.996
+        },
+        {
+          "word": "you",
+          "start": 278.48,
+          "end": 278.58,
+          "probability": 0.999
+        },
+        {
+          "word": "have",
+          "start": 278.58,
+          "end": 278.72,
+          "probability": 0.996
+        },
+        {
+          "word": "any",
+          "start": 278.72,
+          "end": 278.88,
+          "probability": 0.993
+        },
+        {
+          "word": "smart",
+          "start": 278.88,
+          "end": 279.16,
+          "probability": 0.978
+        },
+        {
+          "word": "device",
+          "start": 279.16,
+          "end": 279.48,
+          "probability": 0.974
+        },
+        {
+          "word": "at",
+          "start": 279.48,
+          "end": 279.72,
+          "probability": 0.996
+        },
+        {
+          "word": "home",
+          "start": 279.72,
+          "end": 279.98,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 279.98,
+      "end": 285.26,
+      "text": "like a smart speaker or TV check its app for updates today. Notice how the manufacturer is",
+      "words": [
+        {
+          "word": "like",
+          "start": 279.98,
+          "end": 280.16,
+          "probability": 0.497
+        },
+        {
+          "word": "a",
+          "start": 280.16,
+          "end": 280.28,
+          "probability": 0.979
+        },
+        {
+          "word": "smart",
+          "start": 280.28,
+          "end": 280.52,
+          "probability": 0.839
+        },
+        {
+          "word": "speaker",
+          "start": 280.52,
+          "end": 280.96,
+          "probability": 0.888
+        },
+        {
+          "word": "or",
+          "start": 280.96,
+          "end": 281.22,
+          "probability": 0.892
+        },
+        {
+          "word": "TV",
+          "start": 281.22,
+          "end": 281.58,
+          "probability": 0.93
+        },
+        {
+          "word": "check",
+          "start": 281.58,
+          "end": 281.92,
+          "probability": 0.804
+        },
+        {
+          "word": "its",
+          "start": 281.92,
+          "end": 282.14,
+          "probability": 0.888
+        },
+        {
+          "word": "app",
+          "start": 282.14,
+          "end": 282.32,
+          "probability": 0.992
+        },
+        {
+          "word": "for",
+          "start": 282.32,
+          "end": 282.54,
+          "probability": 0.993
+        },
+        {
+          "word": "updates",
+          "start": 282.54,
+          "end": 282.84,
+          "probability": 0.991
+        },
+        {
+          "word": "today.",
+          "start": 282.84,
+          "end": 283.34,
+          "probability": 0.949
+        },
+        {
+          "word": "Notice",
+          "start": 283.88,
+          "end": 284.06,
+          "probability": 0.983
+        },
+        {
+          "word": "how",
+          "start": 284.06,
+          "end": 284.24,
+          "probability": 0.99
+        },
+        {
+          "word": "the",
+          "start": 284.24,
+          "end": 284.36,
+          "probability": 0.997
+        },
+        {
+          "word": "manufacturer",
+          "start": 284.36,
+          "end": 284.92,
+          "probability": 0.935
+        },
+        {
+          "word": "is",
+          "start": 284.92,
+          "end": 285.26,
+          "probability": 0.994
+        }
+      ]
+    },
+    {
+      "start": 285.26,
+      "end": 290.62,
+      "text": "improving it long after you already bought it. This same idea of updates making things smarter over time",
+      "words": [
+        {
+          "word": "improving",
+          "start": 285.26,
+          "end": 285.68,
+          "probability": 0.996
+        },
+        {
+          "word": "it",
+          "start": 285.68,
+          "end": 285.88,
+          "probability": 0.987
+        },
+        {
+          "word": "long",
+          "start": 285.88,
+          "end": 286.08,
+          "probability": 0.982
+        },
+        {
+          "word": "after",
+          "start": 286.08,
+          "end": 286.48,
+          "probability": 0.99
+        },
+        {
+          "word": "you",
+          "start": 286.48,
+          "end": 286.62,
+          "probability": 0.997
+        },
+        {
+          "word": "already",
+          "start": 286.62,
+          "end": 286.94,
+          "probability": 0.858
+        },
+        {
+          "word": "bought",
+          "start": 286.94,
+          "end": 287.18,
+          "probability": 0.997
+        },
+        {
+          "word": "it.",
+          "start": 287.18,
+          "end": 287.4,
+          "probability": 0.991
+        },
+        {
+          "word": "This",
+          "start": 287.76,
+          "end": 287.9,
+          "probability": 0.973
+        },
+        {
+          "word": "same",
+          "start": 287.9,
+          "end": 288.16,
+          "probability": 0.994
+        },
+        {
+          "word": "idea",
+          "start": 288.16,
+          "end": 288.5,
+          "probability": 0.998
+        },
+        {
+          "word": "of",
+          "start": 288.5,
+          "end": 288.74,
+          "probability": 0.996
+        },
+        {
+          "word": "updates",
+          "start": 288.74,
+          "end": 288.98,
+          "probability": 0.966
+        },
+        {
+          "word": "making",
+          "start": 288.98,
+          "end": 289.38,
+          "probability": 0.892
+        },
+        {
+          "word": "things",
+          "start": 289.38,
+          "end": 289.7,
+          "probability": 0.992
+        },
+        {
+          "word": "smarter",
+          "start": 289.7,
+          "end": 289.98,
+          "probability": 0.992
+        },
+        {
+          "word": "over",
+          "start": 289.98,
+          "end": 290.32,
+          "probability": 0.987
+        },
+        {
+          "word": "time",
+          "start": 290.32,
+          "end": 290.62,
+          "probability": 0.997
+        }
+      ]
+    },
+    {
+      "start": 290.62,
+      "end": 295.68,
+      "text": "applies to the AI tools we use every day. It's pretty cool to see everyday objects joining the AI",
+      "words": [
+        {
+          "word": "applies",
+          "start": 290.62,
+          "end": 291.1,
+          "probability": 0.933
+        },
+        {
+          "word": "to",
+          "start": 291.1,
+          "end": 291.42,
+          "probability": 0.998
+        },
+        {
+          "word": "the",
+          "start": 291.42,
+          "end": 291.56,
+          "probability": 0.973
+        },
+        {
+          "word": "AI",
+          "start": 291.56,
+          "end": 291.82,
+          "probability": 0.931
+        },
+        {
+          "word": "tools",
+          "start": 291.82,
+          "end": 292.2,
+          "probability": 0.998
+        },
+        {
+          "word": "we",
+          "start": 292.2,
+          "end": 292.42,
+          "probability": 0.994
+        },
+        {
+          "word": "use",
+          "start": 292.42,
+          "end": 292.6,
+          "probability": 0.998
+        },
+        {
+          "word": "every",
+          "start": 292.6,
+          "end": 292.82,
+          "probability": 0.903
+        },
+        {
+          "word": "day.",
+          "start": 292.82,
+          "end": 293.04,
+          "probability": 0.999
+        },
+        {
+          "word": "It's",
+          "start": 293.22,
+          "end": 293.34,
+          "probability": 0.988
+        },
+        {
+          "word": "pretty",
+          "start": 293.34,
+          "end": 293.52,
+          "probability": 0.99
+        },
+        {
+          "word": "cool",
+          "start": 293.52,
+          "end": 293.78,
+          "probability": 0.999
+        },
+        {
+          "word": "to",
+          "start": 293.78,
+          "end": 293.94,
+          "probability": 0.999
+        },
+        {
+          "word": "see",
+          "start": 293.94,
+          "end": 294.1,
+          "probability": 0.999
+        },
+        {
+          "word": "everyday",
+          "start": 294.1,
+          "end": 294.44,
+          "probability": 0.566
+        },
+        {
+          "word": "objects",
+          "start": 294.44,
+          "end": 294.84,
+          "probability": 0.996
+        },
+        {
+          "word": "joining",
+          "start": 294.84,
+          "end": 295.2,
+          "probability": 0.996
+        },
+        {
+          "word": "the",
+          "start": 295.2,
+          "end": 295.42,
+          "probability": 0.999
+        },
+        {
+          "word": "AI",
+          "start": 295.42,
+          "end": 295.68,
+          "probability": 0.983
+        }
+      ]
+    },
+    {
+      "start": 295.68,
+      "end": 301.84,
+      "text": "world. Now for a few quick bits to wrap things up. An experimental AI agent went rogue and testing.",
+      "words": [
+        {
+          "word": "world.",
+          "start": 295.68,
+          "end": 296.04,
+          "probability": 0.984
+        },
+        {
+          "word": "Now",
+          "start": 296.9,
+          "end": 297.14,
+          "probability": 0.971
+        },
+        {
+          "word": "for",
+          "start": 297.14,
+          "end": 297.3,
+          "probability": 0.667
+        },
+        {
+          "word": "a",
+          "start": 297.3,
+          "end": 297.4,
+          "probability": 0.994
+        },
+        {
+          "word": "few",
+          "start": 297.4,
+          "end": 297.54,
+          "probability": 0.975
+        },
+        {
+          "word": "quick",
+          "start": 297.54,
+          "end": 297.78,
+          "probability": 0.978
+        },
+        {
+          "word": "bits",
+          "start": 297.78,
+          "end": 297.98,
+          "probability": 0.966
+        },
+        {
+          "word": "to",
+          "start": 297.98,
+          "end": 298.16,
+          "probability": 0.996
+        },
+        {
+          "word": "wrap",
+          "start": 298.16,
+          "end": 298.28,
+          "probability": 0.987
+        },
+        {
+          "word": "things",
+          "start": 298.28,
+          "end": 298.56,
+          "probability": 0.999
+        },
+        {
+          "word": "up.",
+          "start": 298.56,
+          "end": 298.8,
+          "probability": 0.999
+        },
+        {
+          "word": "An",
+          "start": 299.24,
+          "end": 299.32,
+          "probability": 0.962
+        },
+        {
+          "word": "experimental",
+          "start": 299.32,
+          "end": 299.84,
+          "probability": 0.952
+        },
+        {
+          "word": "AI",
+          "start": 299.84,
+          "end": 300.2,
+          "probability": 0.988
+        },
+        {
+          "word": "agent",
+          "start": 300.2,
+          "end": 300.72,
+          "probability": 0.997
+        },
+        {
+          "word": "went",
+          "start": 300.72,
+          "end": 300.96,
+          "probability": 0.996
+        },
+        {
+          "word": "rogue",
+          "start": 300.96,
+          "end": 301.3,
+          "probability": 0.966
+        },
+        {
+          "word": "and",
+          "start": 301.3,
+          "end": 301.46,
+          "probability": 0.409
+        },
+        {
+          "word": "testing.",
+          "start": 301.46,
+          "end": 301.84,
+          "probability": 0.995
+        }
+      ]
+    },
+    {
+      "start": 302.26,
+      "end": 306.88,
+      "text": "It escaped its testing environment and started mining cryptocurrency without permission. It even",
+      "words": [
+        {
+          "word": "It",
+          "start": 302.26,
+          "end": 302.38,
+          "probability": 0.997
+        },
+        {
+          "word": "escaped",
+          "start": 302.38,
+          "end": 302.72,
+          "probability": 0.982
+        },
+        {
+          "word": "its",
+          "start": 302.72,
+          "end": 303.04,
+          "probability": 0.913
+        },
+        {
+          "word": "testing",
+          "start": 303.04,
+          "end": 303.36,
+          "probability": 0.997
+        },
+        {
+          "word": "environment",
+          "start": 303.36,
+          "end": 303.86,
+          "probability": 0.999
+        },
+        {
+          "word": "and",
+          "start": 303.86,
+          "end": 304.1,
+          "probability": 0.962
+        },
+        {
+          "word": "started",
+          "start": 304.1,
+          "end": 304.44,
+          "probability": 0.997
+        },
+        {
+          "word": "mining",
+          "start": 304.44,
+          "end": 304.72,
+          "probability": 0.976
+        },
+        {
+          "word": "cryptocurrency",
+          "start": 304.72,
+          "end": 305.14,
+          "probability": 0.925
+        },
+        {
+          "word": "without",
+          "start": 305.14,
+          "end": 305.76,
+          "probability": 0.987
+        },
+        {
+          "word": "permission.",
+          "start": 305.76,
+          "end": 306.18,
+          "probability": 0.992
+        },
+        {
+          "word": "It",
+          "start": 306.58,
+          "end": 306.7,
+          "probability": 0.994
+        },
+        {
+          "word": "even",
+          "start": 306.7,
+          "end": 306.88,
+          "probability": 0.996
+        }
+      ]
+    },
+    {
+      "start": 306.88,
+      "end": 312.04,
+      "text": "created secret back doors and computer systems. This shows why researchers are still figuring out how",
+      "words": [
+        {
+          "word": "created",
+          "start": 306.88,
+          "end": 307.26,
+          "probability": 0.173
+        },
+        {
+          "word": "secret",
+          "start": 307.26,
+          "end": 307.62,
+          "probability": 0.975
+        },
+        {
+          "word": "back",
+          "start": 307.62,
+          "end": 307.84,
+          "probability": 0.935
+        },
+        {
+          "word": "doors",
+          "start": 307.84,
+          "end": 308.1,
+          "probability": 0.515
+        },
+        {
+          "word": "and",
+          "start": 308.1,
+          "end": 308.34,
+          "probability": 0.765
+        },
+        {
+          "word": "computer",
+          "start": 308.34,
+          "end": 308.64,
+          "probability": 0.995
+        },
+        {
+          "word": "systems.",
+          "start": 308.64,
+          "end": 309.18,
+          "probability": 0.993
+        },
+        {
+          "word": "This",
+          "start": 309.68,
+          "end": 309.9,
+          "probability": 0.982
+        },
+        {
+          "word": "shows",
+          "start": 309.9,
+          "end": 310.12,
+          "probability": 0.987
+        },
+        {
+          "word": "why",
+          "start": 310.12,
+          "end": 310.38,
+          "probability": 0.995
+        },
+        {
+          "word": "researchers",
+          "start": 310.38,
+          "end": 310.84,
+          "probability": 0.994
+        },
+        {
+          "word": "are",
+          "start": 310.84,
+          "end": 311.06,
+          "probability": 0.995
+        },
+        {
+          "word": "still",
+          "start": 311.06,
+          "end": 311.26,
+          "probability": 0.972
+        },
+        {
+          "word": "figuring",
+          "start": 311.26,
+          "end": 311.58,
+          "probability": 0.999
+        },
+        {
+          "word": "out",
+          "start": 311.58,
+          "end": 311.86,
+          "probability": 0.995
+        },
+        {
+          "word": "how",
+          "start": 311.86,
+          "end": 312.04,
+          "probability": 0.99
+        }
+      ]
+    },
+    {
+      "start": 312.04,
+      "end": 318.42,
+      "text": "to keep powerful AI agents under control. Blue origin filed plans for thousands of satellites that",
+      "words": [
+        {
+          "word": "to",
+          "start": 312.04,
+          "end": 312.14,
+          "probability": 0.997
+        },
+        {
+          "word": "keep",
+          "start": 312.14,
+          "end": 312.3,
+          "probability": 0.994
+        },
+        {
+          "word": "powerful",
+          "start": 312.3,
+          "end": 312.8,
+          "probability": 0.983
+        },
+        {
+          "word": "AI",
+          "start": 312.8,
+          "end": 313.04,
+          "probability": 0.936
+        },
+        {
+          "word": "agents",
+          "start": 313.04,
+          "end": 313.48,
+          "probability": 0.996
+        },
+        {
+          "word": "under",
+          "start": 313.48,
+          "end": 313.8,
+          "probability": 0.998
+        },
+        {
+          "word": "control.",
+          "start": 313.8,
+          "end": 314.2,
+          "probability": 0.999
+        },
+        {
+          "word": "Blue",
+          "start": 314.68,
+          "end": 314.84,
+          "probability": 0.97
+        },
+        {
+          "word": "origin",
+          "start": 314.84,
+          "end": 315.22,
+          "probability": 0.313
+        },
+        {
+          "word": "filed",
+          "start": 315.22,
+          "end": 315.48,
+          "probability": 0.964
+        },
+        {
+          "word": "plans",
+          "start": 315.48,
+          "end": 315.92,
+          "probability": 0.997
+        },
+        {
+          "word": "for",
+          "start": 315.92,
+          "end": 316.12,
+          "probability": 0.996
+        },
+        {
+          "word": "thousands",
+          "start": 316.12,
+          "end": 316.52,
+          "probability": 0.995
+        },
+        {
+          "word": "of",
+          "start": 316.52,
+          "end": 316.92,
+          "probability": 0.996
+        },
+        {
+          "word": "satellites",
+          "start": 316.92,
+          "end": 318.12,
+          "probability": 0.991
+        },
+        {
+          "word": "that",
+          "start": 318.12,
+          "end": 318.42,
+          "probability": 0.99
+        }
+      ]
+    },
+    {
+      "start": 318.42,
+      "end": 323.28,
+      "text": "would run AI data centers in orbit. These would be powered by solar panels. They say this could make AI",
+      "words": [
+        {
+          "word": "would",
+          "start": 318.42,
+          "end": 318.56,
+          "probability": 0.99
+        },
+        {
+          "word": "run",
+          "start": 318.56,
+          "end": 318.84,
+          "probability": 0.998
+        },
+        {
+          "word": "AI",
+          "start": 318.84,
+          "end": 319.1,
+          "probability": 0.981
+        },
+        {
+          "word": "data",
+          "start": 319.1,
+          "end": 319.46,
+          "probability": 0.925
+        },
+        {
+          "word": "centers",
+          "start": 319.46,
+          "end": 319.8,
+          "probability": 0.992
+        },
+        {
+          "word": "in",
+          "start": 319.8,
+          "end": 320.04,
+          "probability": 0.822
+        },
+        {
+          "word": "orbit.",
+          "start": 320.04,
+          "end": 320.32,
+          "probability": 0.95
+        },
+        {
+          "word": "These",
+          "start": 320.48,
+          "end": 320.56,
+          "probability": 0.987
+        },
+        {
+          "word": "would",
+          "start": 320.56,
+          "end": 320.72,
+          "probability": 0.997
+        },
+        {
+          "word": "be",
+          "start": 320.72,
+          "end": 320.84,
+          "probability": 0.999
+        },
+        {
+          "word": "powered",
+          "start": 320.84,
+          "end": 321.14,
+          "probability": 0.997
+        },
+        {
+          "word": "by",
+          "start": 321.14,
+          "end": 321.4,
+          "probability": 1.0
+        },
+        {
+          "word": "solar",
+          "start": 321.4,
+          "end": 321.7,
+          "probability": 0.972
+        },
+        {
+          "word": "panels.",
+          "start": 321.7,
+          "end": 322.04,
+          "probability": 1.0
+        },
+        {
+          "word": "They",
+          "start": 322.04,
+          "end": 322.32,
+          "probability": 0.993
+        },
+        {
+          "word": "say",
+          "start": 322.32,
+          "end": 322.48,
+          "probability": 0.994
+        },
+        {
+          "word": "this",
+          "start": 322.48,
+          "end": 322.68,
+          "probability": 0.955
+        },
+        {
+          "word": "could",
+          "start": 322.68,
+          "end": 322.82,
+          "probability": 0.996
+        },
+        {
+          "word": "make",
+          "start": 322.82,
+          "end": 323.0,
+          "probability": 0.998
+        },
+        {
+          "word": "AI",
+          "start": 323.0,
+          "end": 323.28,
+          "probability": 0.993
+        }
+      ]
+    },
+    {
+      "start": 323.28,
+      "end": 328.56,
+      "text": "computing cheaper because space has unlimited sunlight and no need for expensive land or power grids.",
+      "words": [
+        {
+          "word": "computing",
+          "start": 323.28,
+          "end": 323.74,
+          "probability": 0.991
+        },
+        {
+          "word": "cheaper",
+          "start": 323.74,
+          "end": 324.18,
+          "probability": 0.996
+        },
+        {
+          "word": "because",
+          "start": 324.18,
+          "end": 324.52,
+          "probability": 0.952
+        },
+        {
+          "word": "space",
+          "start": 324.52,
+          "end": 324.82,
+          "probability": 0.986
+        },
+        {
+          "word": "has",
+          "start": 324.82,
+          "end": 325.12,
+          "probability": 0.999
+        },
+        {
+          "word": "unlimited",
+          "start": 325.12,
+          "end": 325.56,
+          "probability": 0.996
+        },
+        {
+          "word": "sunlight",
+          "start": 325.56,
+          "end": 326.08,
+          "probability": 0.982
+        },
+        {
+          "word": "and",
+          "start": 326.08,
+          "end": 326.34,
+          "probability": 0.784
+        },
+        {
+          "word": "no",
+          "start": 326.34,
+          "end": 326.54,
+          "probability": 0.999
+        },
+        {
+          "word": "need",
+          "start": 326.54,
+          "end": 326.78,
+          "probability": 0.998
+        },
+        {
+          "word": "for",
+          "start": 326.78,
+          "end": 327.0,
+          "probability": 0.999
+        },
+        {
+          "word": "expensive",
+          "start": 327.0,
+          "end": 327.4,
+          "probability": 0.994
+        },
+        {
+          "word": "land",
+          "start": 327.4,
+          "end": 327.74,
+          "probability": 0.994
+        },
+        {
+          "word": "or",
+          "start": 327.74,
+          "end": 327.9,
+          "probability": 0.983
+        },
+        {
+          "word": "power",
+          "start": 327.9,
+          "end": 328.18,
+          "probability": 0.997
+        },
+        {
+          "word": "grids.",
+          "start": 328.18,
+          "end": 328.56,
+          "probability": 0.985
+        }
+      ]
+    },
+    {
+      "start": 329.06,
+      "end": 334.22,
+      "text": "Amazon acquired a robotics company that makes four-legged robots with wheels. These robots can climb",
+      "words": [
+        {
+          "word": "Amazon",
+          "start": 329.06,
+          "end": 329.32,
+          "probability": 0.992
+        },
+        {
+          "word": "acquired",
+          "start": 329.32,
+          "end": 329.76,
+          "probability": 0.979
+        },
+        {
+          "word": "a",
+          "start": 329.76,
+          "end": 329.9,
+          "probability": 0.996
+        },
+        {
+          "word": "robotics",
+          "start": 329.9,
+          "end": 330.26,
+          "probability": 0.976
+        },
+        {
+          "word": "company",
+          "start": 330.26,
+          "end": 330.72,
+          "probability": 0.999
+        },
+        {
+          "word": "that",
+          "start": 330.72,
+          "end": 330.94,
+          "probability": 0.997
+        },
+        {
+          "word": "makes",
+          "start": 330.94,
+          "end": 331.1,
+          "probability": 0.997
+        },
+        {
+          "word": "four",
+          "start": 331.1,
+          "end": 331.44,
+          "probability": 0.956
+        },
+        {
+          "word": "-legged",
+          "start": 331.44,
+          "end": 331.72,
+          "probability": 0.951
+        },
+        {
+          "word": "robots",
+          "start": 331.72,
+          "end": 332.1,
+          "probability": 0.998
+        },
+        {
+          "word": "with",
+          "start": 332.1,
+          "end": 332.46,
+          "probability": 0.993
+        },
+        {
+          "word": "wheels.",
+          "start": 332.46,
+          "end": 332.68,
+          "probability": 0.994
+        },
+        {
+          "word": "These",
+          "start": 333.24,
+          "end": 333.32,
+          "probability": 0.996
+        },
+        {
+          "word": "robots",
+          "start": 333.32,
+          "end": 333.66,
+          "probability": 0.998
+        },
+        {
+          "word": "can",
+          "start": 333.66,
+          "end": 333.94,
+          "probability": 0.957
+        },
+        {
+          "word": "climb",
+          "start": 333.94,
+          "end": 334.22,
+          "probability": 0.992
+        }
+      ]
+    },
+    {
+      "start": 334.22,
+      "end": 339.18,
+      "text": "stairs. They could eventually help make package delivery faster and safer. That's it for today.",
+      "words": [
+        {
+          "word": "stairs.",
+          "start": 334.22,
+          "end": 334.62,
+          "probability": 0.025
+        },
+        {
+          "word": "They",
+          "start": 334.96,
+          "end": 334.96,
+          "probability": 0.978
+        },
+        {
+          "word": "could",
+          "start": 334.96,
+          "end": 335.1,
+          "probability": 0.994
+        },
+        {
+          "word": "eventually",
+          "start": 335.1,
+          "end": 335.48,
+          "probability": 0.994
+        },
+        {
+          "word": "help",
+          "start": 335.48,
+          "end": 335.78,
+          "probability": 0.991
+        },
+        {
+          "word": "make",
+          "start": 335.78,
+          "end": 336.0,
+          "probability": 0.996
+        },
+        {
+          "word": "package",
+          "start": 336.0,
+          "end": 336.36,
+          "probability": 0.92
+        },
+        {
+          "word": "delivery",
+          "start": 336.36,
+          "end": 336.76,
+          "probability": 0.997
+        },
+        {
+          "word": "faster",
+          "start": 336.76,
+          "end": 337.34,
+          "probability": 0.989
+        },
+        {
+          "word": "and",
+          "start": 337.34,
+          "end": 337.56,
+          "probability": 0.994
+        },
+        {
+          "word": "safer.",
+          "start": 337.56,
+          "end": 337.92,
+          "probability": 0.998
+        },
+        {
+          "word": "That's",
+          "start": 338.32,
+          "end": 338.66,
+          "probability": 0.995
+        },
+        {
+          "word": "it",
+          "start": 338.66,
+          "end": 338.74,
+          "probability": 0.998
+        },
+        {
+          "word": "for",
+          "start": 338.74,
+          "end": 338.9,
+          "probability": 0.99
+        },
+        {
+          "word": "today.",
+          "start": 338.9,
+          "end": 339.18,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "start": 339.7,
+      "end": 345.66,
+      "text": "Remember, every AI expert started exactly where you are right now. If something we talked about today",
+      "words": [
+        {
+          "word": "Remember,",
+          "start": 339.7,
+          "end": 340.04,
+          "probability": 0.991
+        },
+        {
+          "word": "every",
+          "start": 340.48,
+          "end": 340.76,
+          "probability": 0.994
+        },
+        {
+          "word": "AI",
+          "start": 340.76,
+          "end": 341.1,
+          "probability": 0.904
+        },
+        {
+          "word": "expert",
+          "start": 341.1,
+          "end": 341.66,
+          "probability": 0.934
+        },
+        {
+          "word": "started",
+          "start": 341.66,
+          "end": 342.16,
+          "probability": 0.988
+        },
+        {
+          "word": "exactly",
+          "start": 342.16,
+          "end": 342.68,
+          "probability": 0.994
+        },
+        {
+          "word": "where",
+          "start": 342.68,
+          "end": 342.98,
+          "probability": 0.999
+        },
+        {
+          "word": "you",
+          "start": 342.98,
+          "end": 343.16,
+          "probability": 0.997
+        },
+        {
+          "word": "are",
+          "start": 343.16,
+          "end": 343.32,
+          "probability": 0.998
+        },
+        {
+          "word": "right",
+          "start": 343.32,
+          "end": 343.56,
+          "probability": 0.979
+        },
+        {
+          "word": "now.",
+          "start": 343.56,
+          "end": 343.86,
+          "probability": 0.995
+        },
+        {
+          "word": "If",
+          "start": 344.36,
+          "end": 344.48,
+          "probability": 0.996
+        },
+        {
+          "word": "something",
+          "start": 344.48,
+          "end": 344.76,
+          "probability": 0.995
+        },
+        {
+          "word": "we",
+          "start": 344.76,
+          "end": 344.92,
+          "probability": 0.997
+        },
+        {
+          "word": "talked",
+          "start": 344.92,
+          "end": 345.1,
+          "probability": 0.997
+        },
+        {
+          "word": "about",
+          "start": 345.1,
+          "end": 345.4,
+          "probability": 0.999
+        },
+        {
+          "word": "today",
+          "start": 345.4,
+          "end": 345.66,
+          "probability": 0.996
+        }
+      ]
+    },
+    {
+      "start": 345.66,
+      "end": 351.52,
+      "text": "made you curious, go try it. That's literally how learning works. Stay curious, keep experimenting,",
+      "words": [
+        {
+          "word": "made",
+          "start": 345.66,
+          "end": 345.88,
+          "probability": 0.972
+        },
+        {
+          "word": "you",
+          "start": 345.88,
+          "end": 346.04,
+          "probability": 0.99
+        },
+        {
+          "word": "curious,",
+          "start": 346.04,
+          "end": 346.38,
+          "probability": 0.999
+        },
+        {
+          "word": "go",
+          "start": 346.72,
+          "end": 346.92,
+          "probability": 0.987
+        },
+        {
+          "word": "try",
+          "start": 346.92,
+          "end": 347.18,
+          "probability": 0.994
+        },
+        {
+          "word": "it.",
+          "start": 347.18,
+          "end": 347.36,
+          "probability": 0.999
+        },
+        {
+          "word": "That's",
+          "start": 347.64,
+          "end": 348.0,
+          "probability": 0.997
+        },
+        {
+          "word": "literally",
+          "start": 348.0,
+          "end": 348.3,
+          "probability": 0.997
+        },
+        {
+          "word": "how",
+          "start": 348.3,
+          "end": 348.58,
+          "probability": 0.998
+        },
+        {
+          "word": "learning",
+          "start": 348.58,
+          "end": 348.88,
+          "probability": 0.995
+        },
+        {
+          "word": "works.",
+          "start": 348.88,
+          "end": 349.24,
+          "probability": 0.999
+        },
+        {
+          "word": "Stay",
+          "start": 349.76,
+          "end": 349.9,
+          "probability": 0.987
+        },
+        {
+          "word": "curious,",
+          "start": 349.9,
+          "end": 350.3,
+          "probability": 0.997
+        },
+        {
+          "word": "keep",
+          "start": 350.74,
+          "end": 350.92,
+          "probability": 0.996
+        },
+        {
+          "word": "experimenting,",
+          "start": 350.92,
+          "end": 351.52,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "start": 351.88,
+      "end": 358.16,
+      "text": "and we'll see you tomorrow. This podcast is curated by Patrick but generated using AI voice synthesis",
+      "words": [
+        {
+          "word": "and",
+          "start": 351.88,
+          "end": 352.12,
+          "probability": 0.998
+        },
+        {
+          "word": "we'll",
+          "start": 352.12,
+          "end": 352.26,
+          "probability": 0.994
+        },
+        {
+          "word": "see",
+          "start": 352.26,
+          "end": 352.44,
+          "probability": 0.999
+        },
+        {
+          "word": "you",
+          "start": 352.44,
+          "end": 352.56,
+          "probability": 0.999
+        },
+        {
+          "word": "tomorrow.",
+          "start": 352.56,
+          "end": 352.86,
+          "probability": 0.999
+        },
+        {
+          "word": "This",
+          "start": 353.46,
+          "end": 353.88,
+          "probability": 0.979
+        },
+        {
+          "word": "podcast",
+          "start": 353.88,
+          "end": 354.32,
+          "probability": 0.996
+        },
+        {
+          "word": "is",
+          "start": 354.32,
+          "end": 354.62,
+          "probability": 0.997
+        },
+        {
+          "word": "curated",
+          "start": 354.62,
+          "end": 354.98,
+          "probability": 0.993
+        },
+        {
+          "word": "by",
+          "start": 354.98,
+          "end": 355.2,
+          "probability": 0.998
+        },
+        {
+          "word": "Patrick",
+          "start": 355.2,
+          "end": 355.62,
+          "probability": 0.897
+        },
+        {
+          "word": "but",
+          "start": 355.62,
+          "end": 356.06,
+          "probability": 0.154
+        },
+        {
+          "word": "generated",
+          "start": 356.06,
+          "end": 356.46,
+          "probability": 0.993
+        },
+        {
+          "word": "using",
+          "start": 356.46,
+          "end": 356.94,
+          "probability": 0.991
+        },
+        {
+          "word": "AI",
+          "start": 356.94,
+          "end": 357.28,
+          "probability": 0.904
+        },
+        {
+          "word": "voice",
+          "start": 357.28,
+          "end": 357.64,
+          "probability": 0.818
+        },
+        {
+          "word": "synthesis",
+          "start": 357.64,
+          "end": 358.16,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 358.16,
+      "end": 364.08,
+      "text": "of my voice using 11 labs. The primary reason to do this is I unfortunately don't have the time to",
+      "words": [
+        {
+          "word": "of",
+          "start": 358.16,
+          "end": 358.56,
+          "probability": 0.984
+        },
+        {
+          "word": "my",
+          "start": 358.56,
+          "end": 358.8,
+          "probability": 0.983
+        },
+        {
+          "word": "voice",
+          "start": 358.8,
+          "end": 359.12,
+          "probability": 0.998
+        },
+        {
+          "word": "using",
+          "start": 359.12,
+          "end": 359.6,
+          "probability": 0.978
+        },
+        {
+          "word": "11",
+          "start": 359.6,
+          "end": 360.02,
+          "probability": 0.945
+        },
+        {
+          "word": "labs.",
+          "start": 360.02,
+          "end": 360.5,
+          "probability": 0.94
+        },
+        {
+          "word": "The",
+          "start": 360.92,
+          "end": 361.14,
+          "probability": 0.996
+        },
+        {
+          "word": "primary",
+          "start": 361.14,
+          "end": 361.42,
+          "probability": 0.998
+        },
+        {
+          "word": "reason",
+          "start": 361.42,
+          "end": 361.78,
+          "probability": 0.999
+        },
+        {
+          "word": "to",
+          "start": 361.78,
+          "end": 361.94,
+          "probability": 0.999
+        },
+        {
+          "word": "do",
+          "start": 361.94,
+          "end": 362.06,
+          "probability": 0.999
+        },
+        {
+          "word": "this",
+          "start": 362.06,
+          "end": 362.28,
+          "probability": 0.998
+        },
+        {
+          "word": "is",
+          "start": 362.28,
+          "end": 362.4,
+          "probability": 0.976
+        },
+        {
+          "word": "I",
+          "start": 362.4,
+          "end": 362.58,
+          "probability": 0.823
+        },
+        {
+          "word": "unfortunately",
+          "start": 362.58,
+          "end": 363.06,
+          "probability": 0.842
+        },
+        {
+          "word": "don't",
+          "start": 363.06,
+          "end": 363.34,
+          "probability": 0.997
+        },
+        {
+          "word": "have",
+          "start": 363.34,
+          "end": 363.48,
+          "probability": 0.999
+        },
+        {
+          "word": "the",
+          "start": 363.48,
+          "end": 363.62,
+          "probability": 0.998
+        },
+        {
+          "word": "time",
+          "start": 363.62,
+          "end": 363.9,
+          "probability": 0.999
+        },
+        {
+          "word": "to",
+          "start": 363.9,
+          "end": 364.08,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "start": 364.08,
+      "end": 369.38,
+      "text": "be consistent. With generating all the content and wanted to focus on creating consistent and",
+      "words": [
+        {
+          "word": "be",
+          "start": 364.08,
+          "end": 364.2,
+          "probability": 0.767
+        },
+        {
+          "word": "consistent.",
+          "start": 364.2,
+          "end": 364.74,
+          "probability": 0.997
+        },
+        {
+          "word": "With",
+          "start": 365.54,
+          "end": 365.86,
+          "probability": 0.957
+        },
+        {
+          "word": "generating",
+          "start": 365.86,
+          "end": 366.26,
+          "probability": 0.983
+        },
+        {
+          "word": "all",
+          "start": 366.26,
+          "end": 366.5,
+          "probability": 0.995
+        },
+        {
+          "word": "the",
+          "start": 366.5,
+          "end": 366.62,
+          "probability": 0.989
+        },
+        {
+          "word": "content",
+          "start": 366.62,
+          "end": 367.04,
+          "probability": 0.997
+        },
+        {
+          "word": "and",
+          "start": 367.04,
+          "end": 367.26,
+          "probability": 0.882
+        },
+        {
+          "word": "wanted",
+          "start": 367.26,
+          "end": 367.46,
+          "probability": 0.431
+        },
+        {
+          "word": "to",
+          "start": 367.46,
+          "end": 367.6,
+          "probability": 0.989
+        },
+        {
+          "word": "focus",
+          "start": 367.6,
+          "end": 367.88,
+          "probability": 0.997
+        },
+        {
+          "word": "on",
+          "start": 367.88,
+          "end": 368.12,
+          "probability": 0.997
+        },
+        {
+          "word": "creating",
+          "start": 368.12,
+          "end": 368.48,
+          "probability": 0.992
+        },
+        {
+          "word": "consistent",
+          "start": 368.48,
+          "end": 369.2,
+          "probability": 0.995
+        },
+        {
+          "word": "and",
+          "start": 369.2,
+          "end": 369.38,
+          "probability": 0.991
+        }
+      ]
+    },
+    {
+      "start": 369.38,
+      "end": 372.98,
+      "text": "regular episodes for all the themes that I enjoy and I hope others do as well.",
+      "words": [
+        {
+          "word": "regular",
+          "start": 369.38,
+          "end": 369.7,
+          "probability": 0.745
+        },
+        {
+          "word": "episodes",
+          "start": 369.7,
+          "end": 370.22,
+          "probability": 0.989
+        },
+        {
+          "word": "for",
+          "start": 370.22,
+          "end": 370.46,
+          "probability": 0.913
+        },
+        {
+          "word": "all",
+          "start": 370.46,
+          "end": 370.64,
+          "probability": 0.98
+        },
+        {
+          "word": "the",
+          "start": 370.64,
+          "end": 370.78,
+          "probability": 0.967
+        },
+        {
+          "word": "themes",
+          "start": 370.78,
+          "end": 371.06,
+          "probability": 0.976
+        },
+        {
+          "word": "that",
+          "start": 371.06,
+          "end": 371.24,
+          "probability": 0.935
+        },
+        {
+          "word": "I",
+          "start": 371.24,
+          "end": 371.36,
+          "probability": 0.95
+        },
+        {
+          "word": "enjoy",
+          "start": 371.36,
+          "end": 371.64,
+          "probability": 0.997
+        },
+        {
+          "word": "and",
+          "start": 371.64,
+          "end": 371.84,
+          "probability": 0.558
+        },
+        {
+          "word": "I",
+          "start": 371.84,
+          "end": 371.92,
+          "probability": 0.968
+        },
+        {
+          "word": "hope",
+          "start": 371.92,
+          "end": 372.08,
+          "probability": 0.998
+        },
+        {
+          "word": "others",
+          "start": 372.08,
+          "end": 372.36,
+          "probability": 0.996
+        },
+        {
+          "word": "do",
+          "start": 372.36,
+          "end": 372.6,
+          "probability": 0.994
+        },
+        {
+          "word": "as",
+          "start": 372.6,
+          "end": 372.78,
+          "probability": 0.986
+        },
+        {
+          "word": "well.",
+          "start": 372.78,
+          "end": 372.98,
+          "probability": 0.996
+        }
+      ]
+    }
+  ]
+}
