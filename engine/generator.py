@@ -258,6 +258,95 @@ def _sanitize_podcast_script(text: str) -> str:
 # Public generation functions
 # ---------------------------------------------------------------------------
 
+def _build_educational_fallback_prompt(
+    config,
+    template_vars: Dict[str, Any],
+) -> str:
+    """Build a self-contained educational episode prompt that doesn't need articles.
+
+    When the LLM refuses twice because the news articles aren't relevant enough,
+    this prompt asks it to generate a purely educational episode — teaching a
+    financial concept from scratch.  This ensures the pipeline always produces
+    an episode rather than failing.
+    """
+    today_str = template_vars.get("today_str", "сегодня")
+    # Grab recent deep-dive topics to avoid repetition
+    recent_topics = template_vars.get("recent_deep_dive_topics", "")
+
+    # Detect language from config name / description
+    is_russian = any(
+        c in (config.name or "")
+        for c in "абвгдежзиклмнопрстуфхцчшщъыьэюя"
+    )
+
+    if is_russian:
+        return (
+            f"# Финансы Просто — Образовательный выпуск\n"
+            f"**Дата:** {today_str}\n\n"
+            f"Сегодня — специальный образовательный выпуск. Вместо обзора новостей "
+            f"ты проведёшь глубокий мастер-класс по одному важному финансовому понятию "
+            f"для русскоговорящих женщин в Канаде (Ванкувер / BC).\n\n"
+            f"**ТЕМЫ, КОТОРЫЕ УЖЕ БЫЛИ (выбери ДРУГУЮ):**\n{recent_topics}\n\n"
+            f"**ВЫБЕРИ ОДНУ ТЕМУ из этого списка:**\n"
+            f"- Как открыть и использовать TFSA — пошагово, от нуля\n"
+            f"- RRSP vs TFSA — что выбрать и когда\n"
+            f"- FHSA — новый счёт для покупки первого жилья в Канаде\n"
+            f"- Как работает ипотека в Канаде — фиксированная vs плавающая ставка\n"
+            f"- GIC — гарантированные инвестиции, когда они имеют смысл\n"
+            f"- ETF для начинающих — что это и как купить первый\n"
+            f"- Как подать налоговую декларацию в Канаде — пошаговое руководство\n"
+            f"- Кредитный рейтинг в Канаде — как проверить и улучшить\n"
+            f"- Canada Child Benefit (CCB) — как получить максимум\n"
+            f"- Как составить семейный бюджет — метод конвертов и приложения\n"
+            f"- CPP и OAS — как работает пенсия в Канаде\n"
+            f"- Страхование в BC — ICBC, медицинское, страхование жизни\n"
+            f"- Как экономить на продуктах в Ванкувере — практические лайфхаки\n"
+            f"- RESP — как копить на образование детей\n"
+            f"- Что такое инфляция и как защитить сбережения\n\n"
+            f"**ФОРМАТ — точно такой же, как обычный выпуск:**\n\n"
+            f"# Финансы Просто\n"
+            f"**Дата:** {today_str}\n\n"
+            f"**ЗАГОЛОВОК:** [Захватывающее название образовательного выпуска. Под 120 символов.]\n\n"
+            f"**Что сегодня важного:** 3-4 предложения. Объясни, чему научимся сегодня.\n\n"
+            f"━━━━━━━━━━━━━━━━━━━━\n"
+            f"### Главная тема\n"
+            f"Глубокое объяснение выбранного понятия. 10-14 предложений:\n"
+            f"- Что это такое — простым языком, с аналогией из жизни\n"
+            f"- Как это работает — пошагово\n"
+            f"- Почему это важно для вашей семьи\n"
+            f"- Конкретные цифры для Ванкувера / BC\n"
+            f"- Что можно сделать прямо сейчас\n"
+            f"Source: Общее понятие\n\n"
+            f"━━━━━━━━━━━━━━━━━━━━\n"
+            f"### Объясни как подруге\n"
+            f"Связанное понятие — 6-8 предложений по методу «подруга спросила».\n"
+            f"Source: Общее понятие\n\n"
+            f"━━━━━━━━━━━━━━━━━━━━\n"
+            f"### Практические советы\n"
+            f"2-3 конкретных шага, которые можно сделать прямо сейчас.\n"
+            f"Source: Общее понятие\n\n"
+            f"━━━━━━━━━━━━━━━━━━━━\n"
+            f"### Коротко и ясно\n"
+            f"2-3 интересных финансовых факта, связанных с темой выпуска.\n"
+            f"Source: Общее понятие\n\n"
+            f"ВЕСЬ текст на РУССКОМ ЯЗЫКЕ. Объём: 800-1200 слов.\n"
+            f"Создай выпуск ПРЯМО СЕЙЧАС."
+        )
+    else:
+        # Generic English educational fallback
+        show_name = config.name or "the show"
+        return (
+            f"Today is {today_str}. There were not enough relevant news articles "
+            f"for a standard episode of {show_name}.\n\n"
+            f"Instead, create a SPECIAL EDUCATIONAL EPISODE. Pick one topic that "
+            f"is highly relevant to the show's audience and explain it in depth, "
+            f"following the exact same output format as a normal episode.\n\n"
+            f"Topics already covered recently (pick a DIFFERENT one):\n"
+            f"{recent_topics}\n\n"
+            f"Generate the educational episode NOW, in the standard format."
+        )
+
+
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_exponential(multiplier=1, min=1, max=15),
@@ -326,24 +415,33 @@ def generate_digest(
     logger.info("Digest generated (%d chars, %s tokens)",
                 len(text), meta.get("usage", {}).get("total_tokens", "?"))
 
-    # Validate the digest is usable — if the LLM refused, retry once with
-    # a forceful anti-refusal override before giving up.
+    # Validate the digest is usable — if the LLM refused, retry up to 2 times
+    # with increasingly aggressive overrides before giving up.
     try:
         _validate_llm_output(text, stage="digest", show_name=config.name)
     except LLMRefusalError:
+        # --- Retry 1: same prompt + bilingual anti-refusal suffix ---
         logger.warning(
             "LLM refused to generate digest for '%s' — retrying with "
-            "anti-refusal override ...", config.name,
+            "anti-refusal override (attempt 1/2) ...", config.name,
         )
         anti_refusal_suffix = (
             "\n\n---\n"
-            "CRITICAL OVERRIDE: You MUST produce a complete digest in the "
-            "format specified above. Do NOT refuse. Do NOT say you cannot. "
+            "CRITICAL OVERRIDE / КРИТИЧЕСКОЕ УКАЗАНИЕ:\n"
+            "You MUST produce a complete digest in the format specified above. "
+            "Do NOT refuse. Do NOT say you cannot.\n"
+            "Ты ОБЯЗАНА создать полный выпуск в указанном формате. "
+            "НЕ ОТКАЗЫВАЙСЯ. НЕ говори, что не можешь.\n\n"
             "If the provided articles lack sufficient relevant content, "
             "switch to EDUCATIONAL mode: pick 2-3 financial concepts "
             "relevant to the show's audience and explain them in depth, "
             "following the exact same output format. An educational episode "
-            "is always better than no episode. Generate the digest NOW."
+            "is always better than no episode.\n"
+            "Если статьи недостаточно релевантны — переключись на "
+            "ОБРАЗОВАТЕЛЬНЫЙ режим: выбери 2-3 финансовых понятия, важных "
+            "для аудитории, и объясни их подробно в том же формате. "
+            "Образовательный выпуск ВСЕГДА лучше, чем отказ.\n\n"
+            "Generate the digest NOW. Создай обзор ПРЯМО СЕЙЧАС."
         )
         retry_prompt = prompt + anti_refusal_suffix
         text, meta2 = _call_grok(
@@ -366,10 +464,44 @@ def generate_digest(
             except Exception as e:
                 logger.warning("Failed to record retry LLM usage: %s", e)
 
-        logger.info("Retry digest generated (%d chars, %s tokens)",
+        logger.info("Retry 1 digest generated (%d chars, %s tokens)",
                     len(text), meta2.get("usage", {}).get("total_tokens", "?"))
-        # Validate again — if it still refuses, let the error propagate
-        _validate_llm_output(text, stage="digest", show_name=config.name)
+
+        try:
+            _validate_llm_output(text, stage="digest", show_name=config.name)
+        except LLMRefusalError:
+            # --- Retry 2: pure educational episode (no articles needed) ---
+            logger.warning(
+                "LLM refused again for '%s' — retrying with pure educational "
+                "prompt (attempt 2/2) ...", config.name,
+            )
+            edu_prompt = _build_educational_fallback_prompt(
+                config, template_vars,
+            )
+            text, meta3 = _call_grok(
+                edu_prompt,
+                model=config.llm.model,
+                system_prompt=system_prompt,
+                temperature=config.llm.podcast_temperature,  # slightly more creative
+                max_tokens=config.llm.max_tokens,
+            )
+            if tracker and "usage" in meta3:
+                try:
+                    from engine.tracking import record_llm_usage
+                    record_llm_usage(
+                        tracker,
+                        "x_thread_generation_retry_edu",
+                        meta3["usage"].get("prompt_tokens", 0),
+                        meta3["usage"].get("completion_tokens", 0),
+                        model=config.llm.model,
+                    )
+                except Exception as e:
+                    logger.warning("Failed to record edu retry LLM usage: %s", e)
+
+            logger.info("Retry 2 (educational) digest generated (%d chars, %s tokens)",
+                        len(text), meta3.get("usage", {}).get("total_tokens", "?"))
+            # Validate — if even the educational fallback refuses, let it propagate
+            _validate_llm_output(text, stage="digest", show_name=config.name)
 
     return text
 
