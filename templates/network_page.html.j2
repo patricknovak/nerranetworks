@@ -1,6 +1,7 @@
 {% extends "base.html.j2" %}
 
 {% block nav_links %}
+<li><a href="#latest">Latest</a></li>
 <li><a href="#subscribe">Subscribe</a></li>
 {% endblock %}
 
@@ -26,20 +27,44 @@
             <h1><span class="gradient-text">Nerra</span> Network</h1>
             <p class="network-hero-tagline">Feed your curiosity. Not your anxiety.</p>
             <p class="hero-subtitle">{{ all_shows | length }} ad-free shows covering Tesla, world news, space, science, AI, investing, and more. Produced daily in Vancouver.</p>
+            <div class="hero-show-orbit">
+                {% for s in all_shows %}
+                <div class="orbit-card" style="--i: {{ loop.index0 }};">
+                    <img src="{{ s.podcast_image }}" alt="{{ s.name }}" loading="eager" />
+                </div>
+                {% endfor %}
+            </div>
             <div class="hero-cta-row">
                 <a href="#shows" class="nn-btn nn-btn-primary nn-btn-lg" style="--show-color:#7C5CFF;">Explore Shows</a>
                 <a href="#subscribe" class="nn-btn nn-btn-lg">Subscribe Free</a>
             </div>
         </div>
-        <!-- Floating show art -->
-        <div class="hero-show-orbit">
-            {% for s in all_shows %}
-            <div class="hero-orbit-item" style="--orbit-i:{{ loop.index0 }};--orbit-total:{{ all_shows | length }};">
-                <img src="{{ s.podcast_image }}" alt="{{ s.name }}" loading="eager">
-            </div>
-            {% endfor %}
-        </div>
     </section>
+
+    <div class="topic-ticker">
+        <div class="ticker-track">
+            <span>🔋 Tesla & EV Markets</span>
+            <span>📈 Modern Investing</span>
+            <span>🤖 AI Models & Agents</span>
+            <span>🚀 Space & Astronomy</span>
+            <span>🧬 Longevity & Biotech</span>
+            <span>🌍 Environmental Policy</span>
+            <span>📰 Balanced Global News</span>
+            <span>🇷🇺 Learn Russian</span>
+            <span>💰 Finance (RU)</span>
+            <span>💡 AI for Beginners</span>
+            <span>🔋 Tesla & EV Markets</span>
+            <span>📈 Modern Investing</span>
+            <span>🤖 AI Models & Agents</span>
+            <span>🚀 Space & Astronomy</span>
+            <span>🧬 Longevity & Biotech</span>
+            <span>🌍 Environmental Policy</span>
+            <span>📰 Balanced Global News</span>
+            <span>🇷🇺 Learn Russian</span>
+            <span>💰 Finance (RU)</span>
+            <span>💡 AI for Beginners</span>
+        </div>
+    </div>
 
     <!-- Stats Bar -->
     <section class="stats-bar">

@@ -157,6 +157,6 @@ chapters:
 newsletter:
   enabled: true
   platform: buttondown
-  api_key_env: TESLA_SHORTS_TIME_NEWSLETTER_API_KEY
+  api_key_env: TESLA_NEWSLETTER_API_KEY
   status: about_to_send
 
