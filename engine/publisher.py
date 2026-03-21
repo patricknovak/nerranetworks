@@ -74,6 +74,7 @@ def update_rss_feed(
     guid_prefix: str = "podcast",
     format_duration_func=None,
     chapters_url: Optional[str] = None,
+    transcript_url: Optional[str] = None,
 ) -> Path:
     """Create or update an RSS feed with a new episode.
 
@@ -316,6 +317,10 @@ def update_rss_feed(
         if chapters_url:
             _inject_chapters_tag(Path(tmp_path), new_guid, chapters_url)
 
+        # Add <podcast:transcript> for Podcasting 2.0 support
+        if transcript_url:
+            _inject_transcript_tag(Path(tmp_path), new_guid, transcript_url)
+
         # Add <podcast:locked> to prevent unauthorized feed imports
         _inject_podcast_locked_tag(
             Path(tmp_path),
@@ -421,6 +426,46 @@ def _inject_chapters_tag(rss_path: Path, guid: str, chapters_url: str) -> None:
 
     except Exception as exc:
         logger.warning("Failed to inject <podcast:chapters> tag: %s", exc)
+
+
+def _inject_transcript_tag(rss_path: Path, guid: str, transcript_url: str) -> None:
+    """Add a Podcasting 2.0 ``<podcast:transcript>`` tag to an RSS episode."""
+    PODCAST_NS = "https://podcastindex.org/namespace/1.0"
+
+    try:
+        ET.register_namespace("podcast", PODCAST_NS)
+        ET.register_namespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
+        ET.register_namespace("atom", "http://www.w3.org/2005/Atom")
+
+        tree = ET.parse(str(rss_path))
+        root = tree.getroot()
+
+        for attr in list(root.attrib):
+            if attr == "xmlns:podcast" or (
+                attr.startswith("xmlns:") and root.attrib[attr] == PODCAST_NS
+            ):
+                del root.attrib[attr]
+
+        channel = root.find("channel")
+        if channel is None:
+            return
+
+        for item in channel.findall("item"):
+            guid_el = item.find("guid")
+            if guid_el is not None and guid_el.text and guid_el.text.strip() == guid:
+                transcript_el = ET.SubElement(item, f"{{{PODCAST_NS}}}transcript")
+                transcript_el.set("url", transcript_url)
+                if transcript_url.endswith(".json"):
+                    transcript_el.set("type", "application/json")
+                else:
+                    transcript_el.set("type", "text/plain")
+                break
+
+        tree.write(str(rss_path), xml_declaration=True, encoding="UTF-8")
+        logger.info("Injected <podcast:transcript> for %s", guid)
+
+    except Exception as exc:
+        logger.warning("Failed to inject <podcast:transcript> tag: %s", exc)
 
 
 # ---------------------------------------------------------------------------

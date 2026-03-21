@@ -549,6 +549,8 @@ def run(args: argparse.Namespace) -> None:
 
         _et = extract_entities_and_topics(x_thread, args.show)
         _lang = "ru" if args.show in ("finansy_prosto", "privet_russian") else "en"
+        _headlines = [a.get("title", "") for a in articles if a.get("title")]
+        _source_urls = [a.get("url", "") for a in articles if a.get("url")]
         _lake_record = EpisodeRecord(
             show_slug=args.show,
             episode_num=episode_num,
@@ -558,8 +560,8 @@ def run(args: argparse.Namespace) -> None:
             digest_md=x_thread,
             podcast_script="",  # Updated after script generation
             summary=x_thread[:500] if x_thread else "",
-            headlines=[],
-            source_urls=[],
+            headlines=_headlines,
+            source_urls=_source_urls,
             entities=_et["entities"],
             topics=_et["topics"],
             word_count=len(x_thread.split()) if x_thread else 0,
@@ -944,7 +946,9 @@ def run(args: argparse.Namespace) -> None:
                         style=config.tts.style,
                     )
 
-            logger.info("TTS synthesis took %.1fs", time.monotonic() - t0)
+            _tts_duration = time.monotonic() - t0
+            logger.info("TTS synthesis took %.1fs", _tts_duration)
+            metrics.record("tts_duration_s", round(_tts_duration, 2))
             from engine.tracking import record_tts_usage
             record_tts_usage(tracker, len(podcast_script), provider=config.tts.provider)
 
@@ -1020,7 +1024,9 @@ def run(args: argparse.Namespace) -> None:
             else:
                 normalize_voice(raw_mp3, final_mp3)
 
-            logger.info("Audio mixing took %.1fs", time.monotonic() - t0)
+            _mix_duration = time.monotonic() - t0
+            logger.info("Audio mixing took %.1fs", _mix_duration)
+            metrics.record("audio_mix_duration_s", round(_mix_duration, 2))
             audio_duration = get_audio_duration(final_mp3)
             logger.info("Final audio: %s (%.0fs)", final_mp3.name, audio_duration)
 
@@ -1063,6 +1069,7 @@ def run(args: argparse.Namespace) -> None:
         logger.info("OP3 prefixed URL: %s", rss_audio_url)
 
     # 11. Update RSS feed
+    _t_rss = time.monotonic()
     if final_mp3 and final_mp3.exists():
         from engine.publisher import update_rss_feed
         from engine.audio import format_duration
@@ -1098,6 +1105,16 @@ def run(args: argparse.Namespace) -> None:
                 f"/chapters_ep{episode_num:03d}.json"
             )
 
+        # Build transcript URL for RSS if transcript JSON was written
+        transcript_url = None
+        _ep_prefix = f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}"
+        transcript_json = digests_dir / f"{_ep_prefix}_transcript.json"
+        if transcript_json.exists():
+            transcript_url = (
+                f"{config.publishing.base_url}/{config.publishing.audio_subdir}"
+                f"/{_ep_prefix}_transcript.json"
+            )
+
         # Append AI disclosure to channel description for RSS metadata
         channel_desc_with_disclosure = (
             config.publishing.rss_description.rstrip() + " " + _AI_DISCLOSURE_RSS
@@ -1128,7 +1145,10 @@ def run(args: argparse.Namespace) -> None:
             format_duration_func=format_duration,
             audio_url=feed_audio_url,  # Use R2/OP3-prefixed URL if available
             chapters_url=chapters_url,
+            transcript_url=transcript_url,
         )
+
+        metrics.record("rss_update_duration_s", round(time.monotonic() - _t_rss, 2))
 
         # 11b. Notify podcast directories (best-effort, non-blocking)
         from engine.publisher import notify_directories
@@ -1166,6 +1186,7 @@ def run(args: argparse.Namespace) -> None:
             logger.info("Newsletter skipped or failed.")
 
     # 13. Post to X
+    _t_x = time.monotonic()
     if config.publishing.x_enabled and not args.skip_x:
         from engine.publisher import post_to_x
         from engine.tracking import record_x_post
@@ -1190,6 +1211,9 @@ def run(args: argparse.Namespace) -> None:
                 logger.info("Posted to X: %s", tweet_url)
         else:
             logger.warning("X credentials missing (prefix=%s). Skipping X post.", prefix)
+
+    if config.publishing.x_enabled:
+        metrics.record("x_post_duration_s", round(time.monotonic() - _t_x, 2))
 
     # 14. Post-run validation
     from engine.post_run_validation import run_post_validation

@@ -21,6 +21,7 @@ on:
           - models_agents
           - models_agents_beginners
           - finansy_prosto
+          - modern_investing
           - privet_russian
       month:
         description: 'Month number (default: previous month)'
