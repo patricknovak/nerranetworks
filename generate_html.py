@@ -914,7 +914,7 @@ NETWORK_SHOWS = {
         "show_page": "modern-investing.html",
         "summaries_page": "modern-investing-summaries.html",
         "json_path": "digests/modern_investing/summaries_modern_investing.json",
-        "json_format": "array",
+        "json_format": "wrapped",
         "rss_file": "modern_investing_podcast.rss",
         "podcast_image": "assets/covers/modern-investing.jpg",
         "x_account": None,
