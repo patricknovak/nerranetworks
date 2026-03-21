@@ -1014,7 +1014,7 @@ class TestLegacyDeprecation:
         workflow = PROJECT_ROOT / ".github" / "workflows" / "run-show.yml"
         content = workflow.read_text()
         for var in ["OMNI_VIEW_NEWSLETTER_API_KEY",
-                     "ENV_INTEL_NEWSLETTER_API_KEY",
+                     "ENVIRONMENTAL_INTELLIGENCE_NEWSLETTER_API_KEY",
                      "MODELS_AGENTS_NEWSLETTER_API_KEY"]:
             assert var in content, (
                 f"Workflow .env should include {var} for newsletter delivery"

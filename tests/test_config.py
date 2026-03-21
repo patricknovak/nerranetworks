@@ -465,7 +465,7 @@ class TestLoadConfigRealFiles:
         assert cfg.episode.prefix == "Env_Intel"
         assert cfg.episode.output_dir == "digests/env_intel"
         assert cfg.newsletter.enabled is True
-        assert cfg.newsletter.api_key_env == "ENV_INTEL_NEWSLETTER_API_KEY"
+        assert cfg.newsletter.api_key_env == "ENVIRONMENTAL_INTELLIGENCE_NEWSLETTER_API_KEY"
 
 
 # =========================================================================
