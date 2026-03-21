@@ -164,3 +164,9 @@ chapters:
     - pattern: "That's Planetterrian"
       title: "Closing"
 
+newsletter:
+  enabled: true
+  platform: buttondown
+  api_key_env: PLANETTERRIAN_NEWSLETTER_API_KEY
+  status: about_to_send
+

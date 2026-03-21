@@ -193,3 +193,9 @@ chapters:
     - pattern: "That's Fascinating Frontiers"
       title: "Closing"
 
+newsletter:
+  enabled: true
+  platform: buttondown
+  api_key_env: FASCINATING_FRONTIERS_NEWSLETTER_API_KEY
+  status: about_to_send
+

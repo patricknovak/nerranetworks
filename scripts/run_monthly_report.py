@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 SHOWS = [
     "tesla", "omni_view", "fascinating_frontiers", "planetterrian",
     "env_intel", "models_agents", "models_agents_beginners",
-    "finansy_prosto", "privet_russian",
+    "finansy_prosto", "modern_investing", "privet_russian",
 ]
 
 

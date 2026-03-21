@@ -21,6 +21,7 @@ on:
           - models_agents
           - models_agents_beginners
           - finansy_prosto
+          - modern_investing
           - privet_russian
       dry_run:
         description: 'Generate but do not send'

@@ -201,4 +201,7 @@ chapters:
       title: "Завершение"
 
 newsletter:
-  enabled: false
+  enabled: true
+  platform: buttondown
+  api_key_env: FINANSY_PROSTO_NEWSLETTER_API_KEY
+  status: about_to_send

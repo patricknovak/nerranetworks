@@ -191,4 +191,7 @@ chapters:
       title: "Closing"
 
 newsletter:
-  enabled: false
+  enabled: true
+  platform: buttondown
+  api_key_env: MODELS_AGENTS_BEGINNERS_NEWSLETTER_API_KEY
+  status: about_to_send
