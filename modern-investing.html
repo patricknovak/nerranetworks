@@ -745,7 +745,7 @@
     
     <script>
         const JSON_URL = 'digests/modern_investing/summaries_modern_investing.json';
-        const JSON_FORMAT = 'array';
+        const JSON_FORMAT = 'wrapped';
         const RSS_URL = 'modern_investing_podcast.rss';
         const SHOW_NAME = "Modern Investing Techniques";
 
@@ -789,7 +789,7 @@
         }
 
         function renderEpisodes(episodes) {
-            if (!episodes || !episodes.length) { showNoEpisodes(); return; }
+            if (!episodes || !episodes.length) { loadFromRSS(); return; }
             episodes.sort((a, b) => new Date(b.date) - new Date(a.date));
             const latest = episodes[0];
             document.getElementById('latest-title').textContent = latest.episode_title || 'Latest Episode';
