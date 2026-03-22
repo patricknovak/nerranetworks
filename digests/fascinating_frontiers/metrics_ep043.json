@@ -1,0 +1,26 @@
+{
+  "show_slug": "fascinating_frontiers",
+  "episode_num": 43,
+  "total_duration_s": 17.97,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 2.99,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 14.98,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 9,
+    "tts_duration_s": 27.2,
+    "audio_mix_duration_s": 32.15,
+    "rss_update_duration_s": 0.02,
+    "x_post_duration_s": 0.25,
+    "digest_chars": 6598,
+    "audio_duration_s": 758.230204
+  }
+}
