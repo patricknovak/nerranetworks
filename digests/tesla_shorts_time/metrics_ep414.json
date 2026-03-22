@@ -1,0 +1,26 @@
+{
+  "show_slug": "tesla",
+  "episode_num": 414,
+  "total_duration_s": 31.67,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 4.17,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 27.5,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 16,
+    "tts_duration_s": 28.15,
+    "audio_mix_duration_s": 35.21,
+    "rss_update_duration_s": 0.02,
+    "x_post_duration_s": 0.32,
+    "digest_chars": 12992,
+    "audio_duration_s": 813.583673
+  }
+}
