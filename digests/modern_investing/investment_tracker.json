@@ -6,7 +6,7 @@
     "position_size": 1000,
     "currency": "USD",
     "created": "2026-03-16",
-    "last_updated": "2026-03-16"
+    "last_updated": "2026-03-23"
   },
   "summary": {
     "total_trades": 0,
@@ -22,5 +22,22 @@
     "longest_win_streak": 0,
     "longest_loss_streak": 0
   },
-  "trades": []
+  "trades": [
+    {
+      "episode_num": 2,
+      "date": "2026-03-23",
+      "symbol": "LGD",
+      "market": "TSX",
+      "strategy": "Asset monetization play following non-core project sale to fund flagship development.",
+      "confidence": "Medium",
+      "target_range": "+4% to +9% by Friday close.",
+      "trade_type": "weekly",
+      "status": "open",
+      "entry_price": null,
+      "exit_price": null,
+      "pnl_pct": null,
+      "pnl_dollars": null,
+      "lesson": ""
+    }
+  ]
 }
