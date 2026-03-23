@@ -249,12 +249,19 @@ def _sanitize_podcast_script(text: str) -> str:
     cleaned = []
     for line in lines:
         stripped = line.strip()
+        # Strip leading markdown formatting (* _ **) for matching purposes
+        stripped_md = re.sub(r'^[\s*_`]+', '', stripped)
         # Remove standalone word/character count metadata lines
-        if re.match(r"(?i)^\(?\s*(word\s*count|total\s*words|character\s*count)\s*[:：]", stripped):
+        if re.match(r"(?i)^\(?\s*(word\s*count|total\s*words|character\s*count)\s*[:：]", stripped_md):
             logger.info("Stripped metadata line from podcast script: %s", stripped[:80])
             continue
         # Russian equivalents
-        if re.match(r"(?i)^\(?\s*количество\s*слов\s*[:：]", stripped):
+        if re.match(r"(?i)^\(?\s*количество\s*слов\s*[:：]", stripped_md):
+            logger.info("Stripped metadata line from podcast script: %s", stripped[:80])
+            continue
+        # Catch word count/length metadata anywhere in the line (defense-in-depth
+        # for spelled-out numbers like "two thousand three hundred eighty-seven")
+        if re.search(r"(?i)\b(word\s*count|total\s*words|character\s*count)\s*[:：]", stripped):
             logger.info("Stripped metadata line from podcast script: %s", stripped[:80])
             continue
         cleaned.append(line)

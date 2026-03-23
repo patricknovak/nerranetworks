@@ -75,104 +75,72 @@ jobs:
               else:
                   shows = [dispatch_show]
           else:
-              # Scheduled: determine show from UTC time.
-              # All shows fire before 9:00 UTC so episodes are ready by
-              # ~7 AM Eastern at the latest.  No DST-dependent logic needed.
+              # Scheduled: use github.event.schedule to deterministically identify
+              # which cron expression triggered this run.  This is immune to GitHub
+              # Actions cron delays (which previously caused shows to miss their
+              # wall-clock time window).
+              event_schedule = "${{ github.event.schedule }}" or ""
               now_utc = datetime.datetime.now(datetime.timezone.utc)
-              utc_hour = now_utc.hour
-              utc_minute = now_utc.minute
               day = now_utc.day
               weekday = now_utc.weekday()  # 0=Mon .. 6=Sun
               is_odd_day = day % 2 == 1
               is_even_day = day % 2 == 0
 
+              # Map each cron expression to (show_slug, day_filter).
+              # day_filter: "even" = even days only, "odd" = odd days only,
+              #             "odd_weekday" = odd days AND weekdays,
+              #             "weekday" = weekdays only, None = always run.
+              # GitHub Actions cron uses OR logic for day-of-month + day-of-week,
+              # so some crons fire more often than intended.  The day_filter
+              # applies the intended restriction.
+              CRON_MAP = {
+                  "0 5 2-31/2 * *":   ("privet_russian",          "even"),
+                  "30 5 1-31/2 * *":  ("omni_view",               "odd"),
+                  "0 6 1-31/2 * *":   ("planetterrian",           "odd"),
+                  "30 6 2-31/2 * *":  ("fascinating_frontiers",   "even"),
+                  "0 7 1-31/2 * 1-5": ("env_intel",               "odd_weekday"),
+                  "30 7 1-31/2 * *":  ("models_agents",           "odd"),
+                  "0 8 2-31/2 * *":   ("models_agents_beginners", "even"),
+                  "30 8 2-31/2 * *":  ("finansy_prosto",          "even"),
+                  "0 9 * * 1-5":      ("modern_investing",        "weekday"),
+                  "30 9 * * *":       ("tesla",                    None),
+              }
+
               shows = []
+              entry = CRON_MAP.get(event_schedule)
 
-              # 5:00 UTC — Привет, Русский! (even days)
-              if utc_hour == 5 and utc_minute < 15:
-                  if is_even_day:
-                      shows.append("privet_russian")
-              # 5:30 UTC — Omni View (odd days)
-              elif utc_hour == 5 and utc_minute >= 15:
-                  if is_odd_day:
-                      shows.append("omni_view")
-              # 6:00 UTC — Planetterrian Daily (odd days)
-              elif utc_hour == 6 and utc_minute < 15:
-                  if is_odd_day:
-                      shows.append("planetterrian")
-              # 6:30 UTC — Fascinating Frontiers (even days)
-              elif utc_hour == 6 and utc_minute >= 15:
-                  if is_even_day:
-                      shows.append("fascinating_frontiers")
-              # 7:00 UTC — Environmental Intelligence (odd weekdays)
-              elif utc_hour == 7 and utc_minute < 15:
-                  if weekday < 5 and is_odd_day:
-                      shows.append("env_intel")
-              # 7:30 UTC — Models & Agents (odd days)
-              elif utc_hour == 7 and utc_minute >= 15:
-                  if is_odd_day:
-                      shows.append("models_agents")
-              # 8:00 UTC — Models & Agents for Beginners (even days)
-              elif utc_hour == 8 and utc_minute < 15:
-                  if is_even_day:
-                      shows.append("models_agents_beginners")
-              # 8:30 UTC — Финансы Просто (even days)
-              elif utc_hour == 8 and utc_minute >= 15:
-                  if is_even_day:
-                      shows.append("finansy_prosto")
-              # 9:00 UTC — Modern Investing Techniques (weekdays)
-              elif utc_hour == 9 and utc_minute < 15:
-                  if weekday < 5:
-                      shows.append("modern_investing")
-              # 9:30 UTC — Tesla Shorts Time (daily)
-              elif utc_hour == 9 and utc_minute >= 15:
-                  shows.append("tesla")
+              if entry:
+                  show_slug, day_filter = entry
+                  run_today = True
 
-              # Detect known no-ops.  GitHub Actions cron uses OR logic between
-              # day-of-month and day-of-week fields, so "1-31/2 * 1-5" fires on
-              # (odd days) OR (weekdays) — nearly every day.  The gate logic
-              # above correctly filters, but we suppress the alert for expected
-              # empty results.
-              #
-              # Cron → gate mapping:
-              #   5:00  even days  → privet_russian   | noop on odd days
-              #   5:30  odd days   → omni_view       | noop on even days
-              #   6:00  odd days   → planetterrian    | noop on even days
-              #   6:30  even days  → fasc. frontiers  | noop on odd days
-              #   7:00  odd∨wkday  → env_intel        | noop on even wkday, weekend
-              #   7:30  odd days   → models_agents    | noop on even days
-              #   8:00  even days  → mab              | noop on odd days
-              #   8:30  even days  → finansy_prosto   | noop on odd days
-              #   9:00  weekdays   → modern_investing | noop on weekends
-              #   9:30  daily      → tesla (always matches, never a noop)
-              if not shows:
-                  # Encode each cron trigger as (hour, half) where half=0 is :00, half=1 is :30
-                  half = 1 if utc_minute >= 15 else 0
-                  trigger = (utc_hour, half)
+                  if day_filter == "even" and not is_even_day:
+                      run_today = False
+                      known_noop = True
+                      print(f"Even-day no-op: {show_slug} doesn't run on odd day {day}.")
+                  elif day_filter == "odd" and not is_odd_day:
+                      run_today = False
+                      known_noop = True
+                      print(f"Odd-day no-op: {show_slug} doesn't run on even day {day}.")
+                  elif day_filter == "odd_weekday":
+                      if not is_odd_day:
+                          run_today = False
+                          known_noop = True
+                          print(f"Odd-day no-op: {show_slug} doesn't run on even day {day}.")
+                      elif weekday >= 5:
+                          run_today = False
+                          known_noop = True
+                          print(f"Weekend no-op: {show_slug} only runs on weekdays.")
+                  elif day_filter == "weekday" and weekday >= 5:
+                      run_today = False
+                      known_noop = True
+                      print(f"Weekend no-op: {show_slug} only runs on weekdays.")
 
-                  # Odd-day crons: 5:30, 6:00, 7:00, 7:30
-                  odd_day_triggers = {(5, 1), (6, 0), (7, 0), (7, 1)}
-                  # Even-day crons: 5:00, 6:30, 8:00, 8:30
-                  even_day_triggers = {(5, 0), (6, 1), (8, 0), (8, 1)}
-
-                  if trigger in odd_day_triggers and is_even_day:
-                      known_noop = True
-                      print(f"Even-day no-op: odd-day shows don't run on day {day}.")
-                  elif trigger in even_day_triggers and is_odd_day:
-                      known_noop = True
-                      print(f"Odd-day no-op: even-day shows don't run on day {day}.")
-                  # 7:00 env_intel: also restricted to weekdays
-                  elif trigger == (7, 0) and weekday >= 5:
-                      known_noop = True
-                      print(f"Weekend no-op: env_intel only runs on weekdays.")
-                  # 9:00 modern_investing: also restricted to weekdays
-                  elif trigger == (9, 0) and weekday >= 5:
-                      known_noop = True
-                      print(f"Weekend no-op: modern_investing only runs on weekdays.")
-                  else:
-                      msg = f"WARNING: No shows matched for UTC {utc_hour}:{utc_minute:02d}, day {day}, weekday {weekday}"
-                      print(msg)
-                      print(f"::warning::{msg}")
+                  if run_today:
+                      shows.append(show_slug)
+              else:
+                  msg = f"WARNING: Unknown cron expression '{event_schedule}' — no show matched"
+                  print(msg)
+                  print(f"::warning::{msg}")
 
           matrix = json.dumps(shows)
           print(f"Shows to run: {matrix}")
