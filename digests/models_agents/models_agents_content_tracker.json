@@ -253,14 +253,23 @@
         "https://arxiv.org/abs/2603.19677",
         "https://arxiv.org/abs/2603.15727",
         "https://arxiv.org/abs/2603.19308",
-        "https://arxiv.org/abs/2603.20182"
+        "https://arxiv.org/abs/2603.20182",
+        "https://arxiv.org/abs/2603.19641",
+        "https://arxiv.org/abs/2603.19247",
+        "https://arxiv.org/abs/2603.19253",
+        "https://arxiv.org/abs/2603.19252",
+        "https://arxiv.org/abs/2603.19858",
+        "https://arxiv.org/abs/2603.13748",
+        "https://arxiv.org/abs/2603.14052",
+        "https://arxiv.org/abs/2603.19249",
+        "https://arxiv.org/abs/2603.19251"
       ],
       "quote_author": null,
       "sections": {
-        "model_updates": "### Model Updates\n**Helix: Dual-Helix Co-Evolutionary Multi-Agent System for Prompt Optimization**  \nHelix jointly optimizes question reformulation and prompt instructions through a three-stage co-evolutionary framework with planner-guided decomposition, dual-track agent critique, and strategy-driven question generation. It delivers up to 3.95% performance improvements across 12 benchmarks against 6 strong baselines while maintaining favorable optimization efficiency. This directly addresses the",
-        "agent_developments": "### Agent & Tool Developments\n**GoAgent: Group-of-Agents Communication Topology Generation**  \nGoAgent treats collaborative groups as atomic units, using an LLM to enumerate task-relevant candidate groups then autoregressively selecting and connecting them, augmented by a conditional information bottleneck to compress inter-group communication. It reaches 93.84% average accuracy across six benchmarks while reducing token consumption by ~17%. This explicit group modeling outperforms node-centric ",
-        "practical_community": "### Practical & Community\n**GT-Space: Heterogeneous Collaborative Perception with Ground Truth Feature Space**  \nGT-Space creates a common feature space from ground-truth labels so heterogeneous agents (different sensors or architectures) only need a single adapter module instead of pairwise interpreters. A contrastive-loss fusion network handles diverse modality combinations. It outperforms baselines on OPV2V, V2XSet, and real-world RCooper datasets. Code is promised at https://github.com/KingS",
-        "deep_dive": "### Under the Hood: Reputation Vectors vs Scalar Trust\nEveryone talks about “trust” in multi-agent systems as if it’s a single number you can PageRank. In practice, scalar reputation collapses critical context and makes topical expertise impossible to query directly. TrustFlow replaces the scalar with a vector in the same embedding space as user queries, so reputation becomes a dot-product lookup—elegant and computationally cheap at inference time. The key engineering insight is topic-gated tran"
+        "model_updates": "### Model Updates\n**When Prompt Optimization Becomes Jailbreaking: Adaptive Red-Teaming of Large Language Models**  \nResearchers repurposed black-box prompt optimization techniques (via DSPy) to iteratively refine harmful prompts from HarmfulQA and JailbreakBench, optimizing against a continuous danger score from GPT-5.1. Results show substantial degradation of safety: Qwen 3 8B's average danger score jumped from 0.09 to 0.79 post-optimization, with especially pronounced effects on open-source s",
+        "agent_developments": "### Agent & Tool Developments\n**Beyond detection: cooperative multi-agent reasoning for rapid onboard EO crisis response**  \nA hierarchical multi-agent architecture coordinates vision-language models, remote sensing tools, and role-specialized agents for onboard Earth Observation under strict compute and bandwidth limits. An Early Warning agent generates fast hypotheses and selectively activates domain experts, while a Decision agent consolidates evidence. The system was tested on an actual orbi",
+        "practical_community": "### Practical & Community\n**Spelling Correction in Healthcare Query-Answer Systems: Methods, Retrieval Impact, and Empirical Evaluation**  \nA controlled study on real consumer medical queries (61.5% contain spelling errors) shows that query-side correction using edit distance or context-aware methods improves BM25/TF-IDF retrieval by +9.2% MRR and +8.3% NDCG@10 on MedQuAD. Correcting only the corpus yields almost no gain. The paper includes a detailed error census and practical recommendations f",
+        "deep_dive": "### Under the Hood: Belief Revision in Iterative LLM Reasoning\nEveryone talks about chain-of-thought, self-reflection, and multi-agent debate as if models are performing clean Bayesian updates. In practice, these iterative reasoning loops follow a surprisingly consistent multiplicative scaling law governed by a belief revision exponent α that blends prior beliefs with new verification evidence.\n\nThe core insight is that instruction-tuned models don't treat each revision step as fully independent"
       },
       "deep_dive_topic": "Reputation Vectors vs Scalar Trust"
     }

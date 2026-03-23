@@ -5,7 +5,7 @@
     <description>Ten podcasts in two languages keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, modern investing, financial literacy, and Russian language learning.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Mon, 23 Mar 2026 07:35:34 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 23 Mar 2026 07:57:04 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg</url>
       <title>Nerra Network</title>
@@ -51,8 +51,39 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <podcast:transcript url="https://nerranetwork.com/digests/omni_view/Omni_View_Ep021_20260323_transcript.json" type="application/json" />
     </item>
     <item>
+      <title>Ep 20: Fair zero-determinant strategies break in the periodic prisoner's dilemma, unlike the classic repeated version.</title>
+      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep020_20260323.mp3</link>
+      <description>**Models &amp; Agents**
+**Date:** March 23, 2026
+
+**HOOK:** Fair zero-determinant strategies break in the periodic prisoner's dilemma, unlike the classic repeated version.
+
+**What You Need to Know:** Today's arXiv drop reveals that core assumptions from repeated games don't cleanly transfer to stochastic environments, with fair ZD strategies and even Tit-for-Tat losing their guarantees in the periodic prisoner's dilemma. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">models-agents-ep020-20260323-075702</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep020_20260323.mp3" length="16398254" type="audio/mpeg" />
+      <pubDate>Mon, 23 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
+      <itunes:duration>11:23</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**Models &amp; Agents**
+**Date:** March 23, 2026
+
+**HOOK:** Fair zero-determinant strategies break in the periodic prisoner's dilemma, unlike the classic repeated version.
+
+**What You Need to Know:** Today's arXiv drop reveals that core assumptions from repeated games don't cleanly transfer to stochastic environments, with fair ZD strategies and even Tit-for-Tat losing their guarantees in the periodic prisoner's dilemma. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>20</itunes:episode>
+      <itunes:title>Ep 20: Fair zero-determinant strategies break in the periodic prisoner's dilemma, unlike the classic repeated version.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+      <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep020.json" type="application/json+chapters" />
+      <podcast:transcript url="https://nerranetwork.com/digests/models_agents/Models_Agents_Ep020_20260323_transcript.json" type="application/json" />
+    </item>
+    <item>
       <title>Ep 19: TrustFlow introduces topic-aware vector reputation for multi-agent systems, replacing scalar scores with queryable multi-dimensional vectors.</title>
-      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep019_20260323.mp3</link>
       <description>**HOOK:** TrustFlow introduces topic-aware vector reputation for multi-agent systems, replacing scalar scores with queryable multi-dimensional vectors.
 
 **What You Need to Know:** Today’s arXiv drop is dominated by multi-agent research, with new frameworks for reputation propagation, co-evolutionary prompt optimization, group-based communication topologies, and long-horizon agent training. ...
@@ -73,8 +104,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>19</itunes:episode>
       <itunes:title>Ep 19: TrustFlow introduces topic-aware vector reputation for multi-agent systems, replacing scalar scores with queryable multi-dimensional vectors.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-      <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep019.json" type="application/json+chapters" />
-      <podcast:transcript url="https://nerranetwork.com/digests/models_agents/Models_Agents_Ep019_20260323_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Ep 414: NHTSA has escalated its investigation into Tesla's Full Self-Driving software to the engineering analysis phase.</title>
@@ -2379,49 +2408,6 @@ Let's break down how to write prompts for AI chatbots, those instructions you gi
       <itunes:season>1</itunes:season>
       <itunes:episode>6</itunes:episode>
       <itunes:title>Ep 6: Imagine chatting with an AI that turns your data into interactive charts you can poke and explore—right in the conversation!</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Финансы Просто - Episode 6 - March 13, 2026</title>
-      <description># Финансы Просто
-**Дата:** March 13, 2026
-
-**ЗАГОЛОВОК:** Экономисты ожидают снижения ставки Bank of Canada после слабого отчёта о рынке труда — это может облегчить платежи по ипотеке в Ванкувере.
-
-**Что сегодня важного:** Главная новость дня — отчёт о рынке труда в Канаде оказался хуже ожиданий, и теперь экономисты прогнозируют, что Bank of Canada скорее снизит ключевую ставку, чем повысит её, несмотря на рост цен на нефть. Это важно для вас, если вы платите ипотеку или копите на сберегательном счёте в Ванкувере, где средняя цена дома в Greater Vancouver превышает 1,2 миллиона долларов, а ежемесячные платежи часто съедают значительную часть бюджета. В выпуске мы разберём, как это влияет на вашу повседневную жизнь, объясним, как работает ключевая ставка, поделимся практическими советами по экономии и кратко коснёмся других новостей, включая прогнозы по ставке в России для тех, кто следит за родными финансами.
-
-━━━━━━━━━━━━━━━━━━━━
-### Главная тема
-Сегодняшняя ключевая новость из Financial Post касается Bank of Canada — центрального банка Канады, который регулирует экономику страны, в том числе устанавливая ключевую ставку, то есть процент, под который банки одалживают деньги друг другу. Экономисты говорят, что после "жестокого" отчёта о рынке труда, где занятость выросла меньше ожидаемого, банк скорее снизит ставку, чем повысит её, хотя рынки всё ещё закладывают хотя бы одно повышение из-за скачка цен на нефть. Представьте, что ключевая ставка — это как термостат в вашем доме в Ванкувере: если экономика "перегревается" от инфляции, банк повышает ставку, чтобы охладить её, делая кредиты дороже; если же рынок труда слабый, как сейчас, ставку могут снизить, чтобы стимулировать рост. Для вас это значит, что если ставка снизится, ваши платежи по ипотеке или автокредиту (например, через ICBC в Британской Колумбии) могут уменьшиться — скажем, на 0,25% снижение ставки для средней ипотеки в 800 тысяч долларов в Lower Mainland может сэкономить вам 100-150 долларов в месяц, что особенно актуально с учётом высоких цен на жильё в Burnaby или Surrey, где средняя аренда однокомнатной квартиры сейчас около 2,200 долларов. Это важно для мам в Ванкувере, которые планируют бюджет на детские пособия вроде Canada Child Benefit (CCB) или накопления на образование через RESP (Registered Education Savings Plan — зарегистрированный план сбережений на образование, где правительство добавляет гранты). С другой стороны, если ставка вырастет из-за нефти, ваши сбережения в GIC (Guaranteed Investment Certificate — гарантированный инвестиционный сертификат, как депозит с фиксированной доходностью) могут принести больше, но кредиты станут дороже. Что можно сделать прямо сейчас: проверьте свою ипотеку на сайте вашего банка, например, RBC или TD, и посчитайте с помощью онлайн-калькулятора, как изменение ставки на 0,25% повлияет на ваш ежемесячный платёж — это займёт 5 минут и поможет спланировать бюджет. Помните, это не персональный совет, а общая информация; обсудите детали с вашим финансовым советником.
-Source: https://financialpost.com/news/economy/bank-of-canada-likely-cut-rates-jobs
-
-━━━━━━━━━━━━━━━━━━━━
-### Объясни как подруге
-Давайте разберём, как Bank of Canada решает, какой будет ключевая ставка — это как если бы вы управляли большим семейным бюджетом, где нужно балансировать расходы и доходы, чтобы всем хватило. Шаг 1: Банк смотрит на экономику целиком, как вы проверяете холодильник перед покупками — оценивает инфляцию (рост цен на продукты и жильё в Ванкувере), рынок труда (сколько людей работает, как в недавнем отчёте) и внешние факторы, вроде цен на нефть, которые влияют на бензин и BC Hydro счета. Шаг 2: Если инфляция высокая, как сейчас из-за нефти, банк может поднять ставку, чтобы сделать кредиты дороже — представьте, что вы повышаете цену на карманные деньги детям, чтобы они меньше тратили и цены не росли. Шаг 3: Если экономика слабеет, как с "жестоким" отчётом о занятости, ставку снижают, чтобы стимулировать траты — это как скидка в магазине, ...</description>
-      <guid isPermaLink="false">fp-ep006-20260313-172534</guid>
-      <enclosure url="https://audio.nerranetwork.com/finansy_prosto/FP_Ep006_20260313.mp3" length="19193147" type="audio/mpeg" />
-      <pubDate>Fri, 13 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/finansy-prosto.jpg" />
-      <itunes:duration>13:19</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Финансы Просто
-**Дата:** March 13, 2026
-
-**ЗАГОЛОВОК:** Экономисты ожидают снижения ставки Bank of Canada после слабого отчёта о рынке труда — это может облегчить платежи по ипотеке в Ванкувере.
-
-**Что сегодня важного:** Главная новость дня — отчёт о рынке труда в Канаде оказался хуже ожиданий, и теперь экономисты прогнозируют, что Bank of Canada скорее снизит ключевую ставку, чем повысит её, несмотря на рост цен на нефть. Это важно для вас, если вы платите ипотеку или копите на сберегательном счёте в Ванкувере, где средняя цена дома в Greater Vancouver превышает 1,2 миллиона долларов, а ежемесячные платежи часто съедают значительную часть бюджета. В выпуске мы разберём, как это влияет на вашу повседневную жизнь, объясним, как работает ключевая ставка, поделимся практическими советами по экономии и кратко коснёмся других новостей, включая прогнозы по ставке в России для тех, кто следит за родными финансами.
-
-━━━━━━━━━━━━━━━━━━━━
-### Главная тема
-Сегодняшняя ключевая новость из Financial Post касается Bank of Canada — центрального банка Канады, который регулирует экономику страны, в том числе устанавливая ключевую ставку, то есть процент, под который банки одалживают деньги друг другу. Экономисты говорят, что после "жестокого" отчёта о рынке труда, где занятость выросла меньше ожидаемого, банк скорее снизит ставку, чем повысит её, хотя рынки всё ещё закладывают хотя бы одно повышение из-за скачка цен на нефть. Представьте, что ключевая ставка — это как термостат в вашем доме в Ванкувере: если экономика "перегревается" от инфляции, банк повышает ставку, чтобы охладить её, делая кредиты дороже; если же рынок труда слабый, как сейчас, ставку могут снизить, чтобы стимулировать рост. Для вас это значит, что если ставка снизится, ваши платежи по ипотеке или автокредиту (например, через ICBC в Британской Колумбии) могут уменьшиться — скажем, на 0,25% снижение ставки для средней ипотеки в 800 тысяч долларов в Lower Mainland может сэкономить вам 100-150 долларов в месяц, что особенно актуально с учётом высоких цен на жильё в Burnaby или Surrey, где средняя аренда однокомнатной квартиры сейчас около 2,200 долларов. Это важно для мам в Ванкувере, которые планируют бюджет на детские пособия вроде Canada Child Benefit (CCB) или накопления на образование через RESP (Registered Education Savings Plan — зарегистрированный план сбережений на образование, где правительство добавляет гранты). С другой стороны, если ставка вырастет из-за нефти, ваши сбережения в GIC (Guaranteed Investment Certificate — гарантированный инвестиционный сертификат, как депозит с фиксированной доходностью) могут принести больше, но кредиты станут дороже. Что можно сделать прямо сейчас: проверьте свою ипотеку на сайте вашего банка, например, RBC или TD, и посчитайте с помощью онлайн-калькулятора, как изменение ставки на 0,25% повлияет на ваш ежемесячный платёж — это займёт 5 минут и поможет спланировать бюджет. Помните, это не персональный совет, а общая информация; обсудите детали с вашим финансовым советником.
-Source: https://financialpost.com/news/economy/bank-of-canada-likely-cut-rates-jobs
-
-━━━━━━━━━━━━━━━━━━━━
-### Объясни как подруге
-Давайте разберём, как Bank of Canada решает, какой будет ключевая ставка — это как если бы вы управляли большим семейным бюджетом, где нужно балансировать расходы и доходы, чтобы всем хватило. Шаг 1: Банк смотрит на экономику целиком, как вы проверяете холодильник перед покупками — оценивает инфляцию (рост цен на продукты и жильё в Ванкувере), рынок труда (сколько людей работает, как в недавнем отчёте) и внешние факторы, вроде цен на нефть, которые влияют на бензин и BC Hydro счета. Шаг 2: Если инфляция высокая, как сейчас из-за нефти, банк может поднять ставку, чтобы сделать кредиты дороже — представьте, что вы повышаете цену на карманные деньги детям, чтобы они меньше тратили и цены не росли. Шаг 3: Если экономика слабеет, как с "жестоким" отчётом о занятости, ставку снижают, чтобы стимулировать траты — это как скидка в магазине, ...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>6</itunes:episode>
-      <itunes:title>Финансы Просто - Episode 6 - March 13, 2026</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>

@@ -1,0 +1,25 @@
+{
+  "show_slug": "models_agents",
+  "episode_num": 20,
+  "total_duration_s": 39.66,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 18.56,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 21.1,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 85,
+    "tts_duration_s": 24.96,
+    "audio_mix_duration_s": 29.08,
+    "rss_update_duration_s": 0.02,
+    "digest_chars": 10449,
+    "audio_duration_s": 683.232653
+  }
+}
