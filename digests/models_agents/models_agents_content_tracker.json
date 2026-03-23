@@ -1,65 +1,7 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-20",
+  "last_updated": "2026-03-23",
   "episodes": [
-    {
-      "date": "2026-03-06",
-      "headlines": [],
-      "urls": [
-        "https://www.marktechpost.com/2026/03/05/liquid-ai-releases-localcowork-powered-by-lfm2-24b-a2b-to-execute-privacy-first-agent-workflows-locally-via-model-context-protocol-mcp/",
-        "https://the-decoder.com/ai-models-can-barely-control-their-own-reasoning-and-openai-says-thats-a-good-sign/",
-        "https://arxiv.org/abs/2603.04409",
-        "https://arxiv.org/abs/2603.04410",
-        "https://arxiv.org/abs/2603.04411",
-        "https://arxiv.org/abs/2603.04421",
-        "https://arxiv.org/abs/2603.04597",
-        "https://arxiv.org/abs/2603.04592",
-        "https://arxiv.org/abs/2603.04417",
-        "https://arxiv.org/abs/2603.04407"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**AI Models Struggle with Reasoning Control, OpenAI Calls It Safety Progress: The Decoder**  \nOpenAI's GPT-5.4 Thinking introduces \"CoT controllability,\" measuring if models can manipulate their own chain-of-thought reasoning, with a study showing universal failure across models—which they frame as encouraging for safety. This builds on prior alignment work like constitutional AI but quantifies a new metric, outperforming vague safety claims in models like Claude by providing e",
-        "agent_developments": "### Agent & Tool Developments\n**Mixed-Vendor Agents Boost Clinical Diagnosis: cs.CL on arXiv**  \nA study shows mixed-vendor multi-agent LLMs (e.g., GPT-4o-mini, Gemini-2.5-Pro, Claude-4.5-Sonnet) outperform single-vendor teams on RareBench and DiagnosisArena, pooling biases for better recall via complementary reasoning. This advances agent frameworks like AutoGen by emphasizing diversity over homogeneity, reducing correlated failures. Try it in custom agents for specialized tasks—code your own w",
-        "practical_community": "### Practical & Community\n**LLM Judge Inconsistency Study: cs.CL on arXiv**  \nThis multi-model study on GPT-4o, Gemini-2.5-Flash, and others reveals scoring variability across runs and temperatures, with completeness fluctuating most and lower temps stabilizing some but not all. It exposes limitations in LLM-as-judge for production, worse than human evals in consistency. For RAG pipelines, test with their enterprise QA pairs via APIs, but hybrid human-LLM setups are recommended to mitigate.  \nSo"
-      }
-    },
-    {
-      "date": "2026-03-07",
-      "headlines": [],
-      "urls": [
-        "https://the-decoder.com/anthropics-claude-ai-uncovers-over-100-security-vulnerabilities-in-firefox/",
-        "https://www.marktechpost.com/2026/03/06/microsoft-releases-phi-4-reasoning-vision-15b-a-compact-multimodal-model-for-math-science-and-gui-understanding/",
-        "https://www.marktechpost.com/2026/03/06/google-launches-tensorflow-2-21-and-litert-faster-gpu-performance-new-npu-acceleration-and-seamless-pytorch-edge-deployment-upgrades/",
-        "https://the-decoder.com/video-ai-models-hit-a-reasoning-ceiling-that-more-training-data-alone-wont-fix-researchers-say/",
-        "https://blog.google/company-news/outreach-and-initiatives/sustainability/speciesnet-open-source-ai-wildlife/",
-        "https://www.marktechpost.com/2026/03/06/openai-introduces-codex-security-in-research-preview-for-context-aware-vulnerability-detection-validation-and-patch-generation-across-codebases/",
-        "https://github.blog/security/how-to-scan-for-vulnerabilities-with-github-security-labs-open-source-ai-powered-framework/",
-        "https://the-decoder.com/anthropics-new-marketplace-lets-enterprise-customers-spend-their-existing-ai-budget-on-third-party-tools/",
-        "https://the-decoder.com/when-language-models-hallucinate-they-leave-spilled-energy-in-their-own-math/",
-        "https://www.marktechpost.com/2026/03/06/google-ai-releases-android-bench-an-evaluation-framework-and-leaderboard-for-llms-in-android-development/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**Microsoft Releases Phi-4-Reasoning-Vision-15B: MarkTechPost**  \nMicrosoft's Phi-4-Reasoning-Vision-15B is a new 15B-parameter multimodal model optimized for math, science, and GUI understanding, balancing efficiency with strong reasoning on image-text tasks. It outperforms larger models like GPT-4V in compact scenarios by using selective reasoning and lower compute needs, though it lags in general creativity compared to behemoths like Claude 3.5 or Gemini 1.5. This matters fo",
-        "agent_developments": "### Agent & Tool Developments\n**OpenAI Introduces Codex Security: MarkTechPost**  \nCodex Security is OpenAI's new agent for context-aware vulnerability detection, validation, and patch generation across codebases, available in research preview for ChatGPT Enterprise users. It improves on tools like GitHub's CodeQL by using GPT models for semantic understanding, reducing false positives in large repos, with easy web-based integration. Try it today via the Codex web interface to scan your projects",
-        "practical_community": "### Practical & Community\n**When language models hallucinate, they leave \"spilled energy\": The Decoder**  \nResearchers developed a training-free method to detect LLM hallucinations by analyzing computational traces like \"spilled energy\" in math operations, generalizing better than prior entropy-based approaches. This solves reliability issues in models like Llama 3 or Grok, enabling safer RAG pipelines. Get started by implementing the open-source code from Sapienza University for your inference "
-      }
-    },
-    {
-      "date": "2026-03-08",
-      "headlines": [],
-      "urls": [
-        "https://the-decoder.com/llm-text-data-is-drying-up-but-meta-points-to-unlabeled-video-as-the-next-massive-training-frontier/",
-        "https://the-decoder.com/ai-agent-benchmarks-obsess-over-coding-while-ignoring-92-of-the-us-labor-market-study-finds/",
-        "https://www.marktechpost.com/2026/03/07/building-next-gen-agentic-ai-a-complete-framework-for-cognitive-blueprint-driven-runtime-agents-with-memory-tools-and-validation/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**AI Agent Benchmarks Obsess Over Coding While Ignoring 92% of the US Labor Market, Study Finds: The Decoder**  \nA comprehensive study analyzed AI agent benchmarks and found they disproportionately emphasize coding tasks, covering only 8% of the US labor market while neglecting areas like healthcare, education, and retail. This skew limits progress in developing versatile agents, as benchmarks like those in LangGraph or AutoGPT often prioritize code generation over diverse skil",
-        "agent_developments": "### Agent & Tool Developments\n**Building Next-Gen Agentic AI: A Complete Framework for Cognitive Blueprint Driven Runtime Agents with Memory Tools and Validation: MarkTechPost**  \nThis tutorial introduces a full framework for creating runtime agents driven by cognitive blueprints, including structured elements for identity, goals, planning, memory access, tool calling, and output validation, enabling agents to plan, execute, and self-improve systematically. It's an improvement over basic setups "
-      }
-    },
     {
       "date": "2026-03-09",
       "headlines": [],
@@ -299,6 +241,28 @@
         "deep_dive": "### Under the Hood: Agentic RAG Failure Modes\nEveryone talks about agentic RAG like the main challenge is just making the LLM smarter. In practice, the real killers are silent failure modes that don't crash but quietly destroy performance and inflate costs: Retrieval Thrash, Tool Storms, and Context Bloat.\n\nThe core insight is that once you give an agent a loop and multiple tools, its behavior becomes a search process rather than a single forward pass. Retrieval Thrash happens when the agent kee"
       },
       "deep_dive_topic": "Agent Misalignment Monitoring via Chain-of-Thought"
+    },
+    {
+      "date": "2026-03-23",
+      "headlines": [],
+      "urls": [
+        "https://arxiv.org/abs/2603.19452",
+        "https://arxiv.org/abs/2603.19732",
+        "https://arxiv.org/abs/2603.19685",
+        "https://arxiv.org/abs/2603.17417",
+        "https://arxiv.org/abs/2603.19677",
+        "https://arxiv.org/abs/2603.15727",
+        "https://arxiv.org/abs/2603.19308",
+        "https://arxiv.org/abs/2603.20182"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Helix: Dual-Helix Co-Evolutionary Multi-Agent System for Prompt Optimization**  \nHelix jointly optimizes question reformulation and prompt instructions through a three-stage co-evolutionary framework with planner-guided decomposition, dual-track agent critique, and strategy-driven question generation. It delivers up to 3.95% performance improvements across 12 benchmarks against 6 strong baselines while maintaining favorable optimization efficiency. This directly addresses the",
+        "agent_developments": "### Agent & Tool Developments\n**GoAgent: Group-of-Agents Communication Topology Generation**  \nGoAgent treats collaborative groups as atomic units, using an LLM to enumerate task-relevant candidate groups then autoregressively selecting and connecting them, augmented by a conditional information bottleneck to compress inter-group communication. It reaches 93.84% average accuracy across six benchmarks while reducing token consumption by ~17%. This explicit group modeling outperforms node-centric ",
+        "practical_community": "### Practical & Community\n**GT-Space: Heterogeneous Collaborative Perception with Ground Truth Feature Space**  \nGT-Space creates a common feature space from ground-truth labels so heterogeneous agents (different sensors or architectures) only need a single adapter module instead of pairwise interpreters. A contrastive-loss fusion network handles diverse modality combinations. It outperforms baselines on OPV2V, V2XSet, and real-world RCooper datasets. Code is promised at https://github.com/KingS",
+        "deep_dive": "### Under the Hood: Reputation Vectors vs Scalar Trust\nEveryone talks about “trust” in multi-agent systems as if it’s a single number you can PageRank. In practice, scalar reputation collapses critical context and makes topical expertise impossible to query directly. TrustFlow replaces the scalar with a vector in the same embedding space as user queries, so reputation becomes a dot-product lookup—elegant and computationally cheap at inference time. The key engineering insight is topic-gated tran"
+      },
+      "deep_dive_topic": "Reputation Vectors vs Scalar Trust"
     }
   ]
 }

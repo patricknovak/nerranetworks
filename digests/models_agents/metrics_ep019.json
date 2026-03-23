@@ -1,22 +1,25 @@
 {
   "show_slug": "models_agents",
   "episode_num": 19,
-  "total_duration_s": 45.07,
+  "total_duration_s": 45.28,
   "stages": [
     {
       "name": "fetch_and_dedup",
-      "duration_s": 29.08,
+      "duration_s": 26.15,
       "success": true
     },
     {
       "name": "generate_digest",
-      "duration_s": 15.99,
+      "duration_s": 19.13,
       "success": true
     }
   ],
   "counters": {
-    "article_count": 116,
-    "digest_chars": 9416,
-    "audio_duration_s": 631.222857
+    "article_count": 90,
+    "tts_duration_s": 25.8,
+    "audio_mix_duration_s": 28.72,
+    "rss_update_duration_s": 0.02,
+    "digest_chars": 9187,
+    "audio_duration_s": 679.105306
   }
 }

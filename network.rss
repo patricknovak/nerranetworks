@@ -5,7 +5,7 @@
     <description>Ten podcasts in two languages keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, modern investing, financial literacy, and Russian language learning.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Mon, 23 Mar 2026 06:07:32 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 23 Mar 2026 07:35:34 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg</url>
       <title>Nerra Network</title>
@@ -49,6 +49,32 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episodeType>full</itunes:episodeType>
       <podcast:chapters url="https://nerranetwork.com/digests/omni_view/chapters_ep021.json" type="application/json+chapters" />
       <podcast:transcript url="https://nerranetwork.com/digests/omni_view/Omni_View_Ep021_20260323_transcript.json" type="application/json" />
+    </item>
+    <item>
+      <title>Ep 19: TrustFlow introduces topic-aware vector reputation for multi-agent systems, replacing scalar scores with queryable multi-dimensional vectors.</title>
+      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep019_20260323.mp3</link>
+      <description>**HOOK:** TrustFlow introduces topic-aware vector reputation for multi-agent systems, replacing scalar scores with queryable multi-dimensional vectors.
+
+**What You Need to Know:** Today’s arXiv drop is dominated by multi-agent research, with new frameworks for reputation propagation, co-evolutionary prompt optimization, group-based communication topologies, and long-horizon agent training. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">models-agents-ep019-20260323-073532</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep019_20260323.mp3" length="16299198" type="audio/mpeg" />
+      <pubDate>Mon, 23 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
+      <itunes:duration>11:19</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**HOOK:** TrustFlow introduces topic-aware vector reputation for multi-agent systems, replacing scalar scores with queryable multi-dimensional vectors.
+
+**What You Need to Know:** Today’s arXiv drop is dominated by multi-agent research, with new frameworks for reputation propagation, co-evolutionary prompt optimization, group-based communication topologies, and long-horizon agent training. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>19</itunes:episode>
+      <itunes:title>Ep 19: TrustFlow introduces topic-aware vector reputation for multi-agent systems, replacing scalar scores with queryable multi-dimensional vectors.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+      <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep019.json" type="application/json+chapters" />
+      <podcast:transcript url="https://nerranetwork.com/digests/models_agents/Models_Agents_Ep019_20260323_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Ep 414: NHTSA has escalated its investigation into Tesla's Full Self-Driving software to the engineering analysis phase.</title>
@@ -615,7 +641,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Ep 18: LlamaIndex drops LiteParse, a spatial PDF parser built specifically for agentic RAG workflows.</title>
-      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep018_20260320.mp3</link>
       <description>**HOOK:** LlamaIndex drops LiteParse, a spatial PDF parser built specifically for agentic RAG workflows.
 
 **What You Need to Know:** Today's biggest practical release is LlamaIndex's new LiteParse library, which tackles the persistent data ingestion bottleneck in agentic systems. Multiple arXiv papers also surfaced strong advances in uncertainty-calibrated RAG, deterministic evidence selection, and dynamic knowledge integration via DynaRAG. ...
@@ -636,7 +661,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>18</itunes:episode>
       <itunes:title>Ep 18: LlamaIndex drops LiteParse, a spatial PDF parser built specifically for agentic RAG workflows.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-      <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep018.json" type="application/json+chapters" />
     </item>
     <item>
       <title>Ep 8: Google just opened its powerful Colab computers so any AI agent can use them with free GPUs.</title>
@@ -2398,79 +2422,6 @@ Source: https://financialpost.com/news/economy/bank-of-canada-likely-cut-rates-j
       <itunes:season>1</itunes:season>
       <itunes:episode>6</itunes:episode>
       <itunes:title>Финансы Просто - Episode 6 - March 13, 2026</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 405: Tesla is ramping up Cybercab production to hundreds weekly at its Austin factory ahead of launch.</title>
-      <description># Tesla Shorts Time
-**Date:** March 12, 2026
-**REAL-TIME TSLA price:** $407.82 ▲ $3.01 (0.7%)
-
-**HOOK:** Tesla is ramping up Cybercab production to hundreds weekly at its Austin factory ahead of launch.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 10 News Items
-1. **Tesla Cybercab production line is targeting hundreds of vehicles weekly: report (Teslarati)** — 12 March, 2026, 3:09 AM PST, Teslarati
-   Tesla is hiring more staff and installing new equipment at Giga Texas to produce hundreds of Cybercabs per week, signaling a major push toward robotaxi deployment. This ramp-up matters for Tesla's autonomous vehicle ambitions, potentially accelerating revenue from ride-hailing services while addressing production bottlenecks in the EV industry. For customers, it means faster access to affordable, self-driving transport options.
-   Source: https://www.teslarati.com/tesla-cybercab-line-targeting-hundreds-weekly-report/
-
-2. **Elon Musk Reveals Tesla-xAI Project “Macrohard” Aimed at Disrupting Software Companies (Drive Tesla)** — 11 March, 2026, 3:21 PM PST, Drive Tesla
-   Elon Musk announced Macrohard, a joint Tesla-xAI project to revolutionize software through AI that automates complex tasks. This collaboration highlights Tesla's expansion into AI beyond vehicles, potentially disrupting traditional software firms and enhancing Tesla's tech ecosystem. It means stronger integration of AI in Tesla products, benefiting the industry by pushing boundaries in automation efficiency.
-   Source: https://driveteslacanada.ca/news/elon-musk-reveals-tesla-xai-project-macrohard-aimed-at-disrupting-software-companies/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=elon-musk-reveals-tesla-xai-project-macrohard-aimed-at-disrupting-software-companies
-
-3. **Tesla Cybercab Appears at USDOT in Washington as Volume Launch Nears (TeslaNorth.com)** — 11 March, 2026, 3:07 PM PST, TeslaNorth.com
-   Tesla showcased its production Cybercab at the U.S. Department of Transportation during a federal autonomous vehicle safety forum. This regulatory engagement is crucial for gaining approvals needed for widespread robotaxi operations, impacting Tesla's business by smoothing the path to market entry. For the industry, it sets precedents in safety standards for autonomous tech.
-   Source: https://teslanorth.com/2026/03/11/tesla-cybercab-appears-at-usdot-in-washington-as-volume-launch-nears/
-
-4. **Tesla VP explains latest updates in trade secret theft case (Teslarati)** — 11 March, 2026, 1:07 PM PST, Teslarati
-   A Tesla VP detailed how former supplier Matthews allegedly stole and sold proprietary tech to competitors, leading to a $1 billion lawsuit. This case underscores risks in Tesla's supply chain, affecting business by emphasizing the need for stronger IP protection in the competitive EV sector. It highlights broader industry challenges with technology theft amid rapid innovation.
-   Source: https://www.teslarati.com/tesla-vp-explains-latest-updates-trade-secret-theft-case/
-
-5. **Tesla Posts Strong February in China with 58,599 Vehicles Sold (Drive Tesla)** — 11 March, 2026, 10:06 AM PST, Drive Tesla
-   Tesla sold nearly double the vehicles in China last February compared to the prior year, driven by Gigafactory Shanghai's output. This growth bolsters Tesla's position in the world's largest EV market, supporting business resilience against global slowdowns. For customers, it means better availability and potential price stability in a key region.
-   Source: https://driveteslacanada.ca/news/tesla-posts-strong-february-in-china-with-58599-vehicles-sold/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=tesla-posts-strong-february-in-china-with-58599-vehicles-sold
-
-6. **Tesla Imports Surge in South Korea as EV Demand Grows (Drive Tesla)** — 11 March, 2026, 9:04 AM PST, Drive Tesla
-   Tesla's vehicle registrations in South Korea have skyrocketed early in 2026, fueled by rising EV adoption. This surge strengthens Tesla's international sales footprint, contributing to revenue diversification be...</description>
-      <guid isPermaLink="false">tesla-shorts-time-ep405-20260312-112102</guid>
-      <enclosure url="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep405_20260312.mp3" length="15392017" type="audio/mpeg" />
-      <pubDate>Thu, 12 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/tesla-shorts-time.jpg" />
-      <itunes:duration>10:41</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Tesla Shorts Time
-**Date:** March 12, 2026
-**REAL-TIME TSLA price:** $407.82 ▲ $3.01 (0.7%)
-
-**HOOK:** Tesla is ramping up Cybercab production to hundreds weekly at its Austin factory ahead of launch.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 10 News Items
-1. **Tesla Cybercab production line is targeting hundreds of vehicles weekly: report (Teslarati)** — 12 March, 2026, 3:09 AM PST, Teslarati
-   Tesla is hiring more staff and installing new equipment at Giga Texas to produce hundreds of Cybercabs per week, signaling a major push toward robotaxi deployment. This ramp-up matters for Tesla's autonomous vehicle ambitions, potentially accelerating revenue from ride-hailing services while addressing production bottlenecks in the EV industry. For customers, it means faster access to affordable, self-driving transport options.
-   Source: https://www.teslarati.com/tesla-cybercab-line-targeting-hundreds-weekly-report/
-
-2. **Elon Musk Reveals Tesla-xAI Project “Macrohard” Aimed at Disrupting Software Companies (Drive Tesla)** — 11 March, 2026, 3:21 PM PST, Drive Tesla
-   Elon Musk announced Macrohard, a joint Tesla-xAI project to revolutionize software through AI that automates complex tasks. This collaboration highlights Tesla's expansion into AI beyond vehicles, potentially disrupting traditional software firms and enhancing Tesla's tech ecosystem. It means stronger integration of AI in Tesla products, benefiting the industry by pushing boundaries in automation efficiency.
-   Source: https://driveteslacanada.ca/news/elon-musk-reveals-tesla-xai-project-macrohard-aimed-at-disrupting-software-companies/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=elon-musk-reveals-tesla-xai-project-macrohard-aimed-at-disrupting-software-companies
-
-3. **Tesla Cybercab Appears at USDOT in Washington as Volume Launch Nears (TeslaNorth.com)** — 11 March, 2026, 3:07 PM PST, TeslaNorth.com
-   Tesla showcased its production Cybercab at the U.S. Department of Transportation during a federal autonomous vehicle safety forum. This regulatory engagement is crucial for gaining approvals needed for widespread robotaxi operations, impacting Tesla's business by smoothing the path to market entry. For the industry, it sets precedents in safety standards for autonomous tech.
-   Source: https://teslanorth.com/2026/03/11/tesla-cybercab-appears-at-usdot-in-washington-as-volume-launch-nears/
-
-4. **Tesla VP explains latest updates in trade secret theft case (Teslarati)** — 11 March, 2026, 1:07 PM PST, Teslarati
-   A Tesla VP detailed how former supplier Matthews allegedly stole and sold proprietary tech to competitors, leading to a $1 billion lawsuit. This case underscores risks in Tesla's supply chain, affecting business by emphasizing the need for stronger IP protection in the competitive EV sector. It highlights broader industry challenges with technology theft amid rapid innovation.
-   Source: https://www.teslarati.com/tesla-vp-explains-latest-updates-trade-secret-theft-case/
-
-5. **Tesla Posts Strong February in China with 58,599 Vehicles Sold (Drive Tesla)** — 11 March, 2026, 10:06 AM PST, Drive Tesla
-   Tesla sold nearly double the vehicles in China last February compared to the prior year, driven by Gigafactory Shanghai's output. This growth bolsters Tesla's position in the world's largest EV market, supporting business resilience against global slowdowns. For customers, it means better availability and potential price stability in a key region.
-   Source: https://driveteslacanada.ca/news/tesla-posts-strong-february-in-china-with-58599-vehicles-sold/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=tesla-posts-strong-february-in-china-with-58599-vehicles-sold
-
-6. **Tesla Imports Surge in South Korea as EV Demand Grows (Drive Tesla)** — 11 March, 2026, 9:04 AM PST, Drive Tesla
-   Tesla's vehicle registrations in South Korea have skyrocketed early in 2026, fueled by rising EV adoption. This surge strengthens Tesla's international sales footprint, contributing to revenue diversification be...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>405</itunes:episode>
-      <itunes:title>Ep 405: Tesla is ramping up Cybercab production to hundreds weekly at its Austin factory ahead of launch.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>

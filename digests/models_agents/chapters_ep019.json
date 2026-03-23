@@ -2,80 +2,80 @@
   "version": "1.2.0",
   "chapters": [
     {
-      "startTime": 14.1,
-      "title": "Agent & Tool Developments",
-      "endTime": 38.3
+      "startTime": 10.0,
+      "title": "Introduction",
+      "endTime": 24.3
     },
     {
-      "startTime": 38.3,
+      "startTime": 24.3,
+      "title": "Agent & Tool Developments",
+      "endTime": 63.0
+    },
+    {
+      "startTime": 63.0,
+      "title": "Top Story",
+      "endTime": 65.7
+    },
+    {
+      "startTime": 65.7,
+      "title": "Agent & Tool Developments",
+      "endTime": 153.0
+    },
+    {
+      "startTime": 153.0,
+      "title": "Model Updates",
+      "endTime": 157.8
+    },
+    {
+      "startTime": 157.8,
+      "title": "Agent & Tool Developments",
+      "endTime": 227.4
+    },
+    {
+      "startTime": 227.4,
       "title": "Practical & Community",
-      "endTime": 49.9
+      "endTime": 255.2
     },
     {
-      "startTime": 49.9,
+      "startTime": 255.2,
       "title": "Agent & Tool Developments",
-      "endTime": 72.2
+      "endTime": 386.9
     },
     {
-      "startTime": 72.2,
+      "startTime": 386.9,
       "title": "Practical & Community",
-      "endTime": 85.0
+      "endTime": 395.2
     },
     {
-      "startTime": 85.0,
+      "startTime": 395.2,
       "title": "Agent & Tool Developments",
-      "endTime": 203.6
+      "endTime": 549.1
     },
     {
-      "startTime": 203.6,
-      "title": "Practical & Community",
-      "endTime": 230.0
-    },
-    {
-      "startTime": 230.0,
-      "title": "Agent & Tool Developments",
-      "endTime": 320.8
-    },
-    {
-      "startTime": 320.8,
-      "title": "Practical & Community",
-      "endTime": 329.5
-    },
-    {
-      "startTime": 329.5,
-      "title": "Agent & Tool Developments",
-      "endTime": 355.1
-    },
-    {
-      "startTime": 355.1,
-      "title": "Practical & Community",
-      "endTime": 399.5
-    },
-    {
-      "startTime": 399.5,
-      "title": "Agent & Tool Developments",
-      "endTime": 485.8
-    },
-    {
-      "startTime": 485.8,
+      "startTime": 549.1,
       "title": "Things to Try",
-      "endTime": 489.6
+      "endTime": 553.0
     },
     {
-      "startTime": 489.6,
+      "startTime": 553.0,
       "title": "Agent & Tool Developments",
-      "endTime": 572.8
+      "endTime": 592.6
     },
     {
-      "startTime": 572.8,
-      "title": "Tomorrow Teaser",
-      "endTime": 583.8
+      "startTime": 592.6,
+      "title": "Practical & Community",
+      "endTime": 604.3
     },
     {
-      "startTime": 583.8,
+      "startTime": 604.3,
       "title": "Agent & Tool Developments",
-      "endTime": 631.2
+      "endTime": 631.3
+    },
+    {
+      "startTime": 631.3,
+      "title": "Practical & Community",
+      "endTime": 679.1
     }
   ],
-  "title": "Ep 19: Google open-sourced an MCP server for Colab, letting any local AI agent directly use cloud GPUs and Jupyter runtimes."
+  "title": "Ep 19: TrustFlow introduces topic-aware vector reputation for multi-agent systems, replacing scalar scores with queryable multi-dimensional vectors."
 }
