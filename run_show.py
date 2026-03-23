@@ -516,6 +516,19 @@ def run(args: argparse.Namespace) -> None:
                 except Exception as exc:
                     logger.warning("Digest retry failed: %s — keeping original", exc)
             else:
+                # Check for item-count shortfalls (e.g. "Top News has 3 items, minimum is 5")
+                _item_count_issues = [
+                    i for i in _val_issues
+                    if "has only" in i.lower() or "below minimum" in i.lower()
+                       or ("item" in i.lower() and "minimum" in i.lower())
+                ]
+                if _item_count_issues:
+                    logger.error(
+                        "Digest has %d item-count shortfall(s) — episode too thin to publish: %s",
+                        len(_item_count_issues),
+                        "; ".join(_item_count_issues),
+                    )
+                    sys.exit(2)
                 logger.warning(
                     "Digest validation found %d issue(s) — continuing (non-blocking)",
                     len(_val_issues),
@@ -1029,6 +1042,16 @@ def run(args: argparse.Namespace) -> None:
             metrics.record("audio_mix_duration_s", round(_mix_duration, 2))
             audio_duration = get_audio_duration(final_mp3)
             logger.info("Final audio: %s (%.0fs)", final_mp3.name, audio_duration)
+
+            # 10-gate. Skip episode if audio is too short to be a quality episode.
+            _min_audio = config.min_audio_duration
+            if _min_audio and audio_duration < _min_audio:
+                logger.error(
+                    "Audio too short (%.0fs < %ds minimum) — skipping episode.",
+                    audio_duration, _min_audio,
+                )
+                final_mp3.unlink(missing_ok=True)
+                sys.exit(2)
 
             # 10a. Generate chapter data (timestamps + JSON)
             if episode_chapters and audio_duration > 0:

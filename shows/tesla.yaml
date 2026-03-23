@@ -36,6 +36,10 @@ sources:
   - url: https://www.torquenews.com/rss/tesla
     label: Torque News
 
+min_articles: 6
+min_articles_skip: 5
+min_audio_duration: 300
+
 keywords:
   - tesla
   - tsla

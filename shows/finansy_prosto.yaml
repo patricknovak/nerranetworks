@@ -49,6 +49,8 @@ sources:
   - url: https://www.cicnews.com/feed
     label: CIC News (Canadian Immigration)
 
+min_articles_skip: 4
+
 keywords:
   # Canadian finance (English)
   - TFSA
