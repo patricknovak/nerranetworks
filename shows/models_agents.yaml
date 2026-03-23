@@ -69,6 +69,8 @@ sources:
   - url: https://towardsdatascience.com/feed
     label: Towards Data Science
 
+min_articles_skip: 4
+
 keywords:
   - ai model
   - language model

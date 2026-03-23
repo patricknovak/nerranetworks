@@ -60,6 +60,8 @@ sources:
   - url: https://www.space.com/launches/feed
     label: Space.com Launches
 
+min_articles_skip: 4
+
 keywords:
   - space
   - astronomy

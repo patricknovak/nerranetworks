@@ -50,6 +50,8 @@ sources:
   - url: https://arstechnica.com/rss.xml
     label: Ars Technica
 
+min_articles_skip: 4
+
 keywords:
   - election
   - president
