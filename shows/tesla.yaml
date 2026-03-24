@@ -25,6 +25,12 @@ sources:
     label: Drive Tesla Canada
   - url: https://carbuzz.com/feed
     label: CarBuzz
+  - url: https://insideevs.com/rss/articles/all/
+    label: InsideEVs
+  - url: https://www.tesery.com/blogs/news.atom
+    label: Tesery
+  - url: https://www.torquenews.com/rss.xml
+    label: Torque News
 
 min_articles: 6
 min_articles_skip: 5
