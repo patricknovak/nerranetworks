@@ -347,11 +347,19 @@ def run(args: argparse.Namespace) -> None:
             feed_dicts, config.keywords, content_tracker, min_articles,
         )
 
+    def _run_x_fetch():
+        if not config.x_accounts:
+            return []
+        from engine.fetcher import fetch_x_posts
+        return fetch_x_posts(config.x_accounts, keywords=config.keywords)
+
     articles = []
+    x_posts = []
     with metrics.stage("fetch_and_dedup"):
-        with ThreadPoolExecutor(max_workers=2) as executor:
+        with ThreadPoolExecutor(max_workers=3) as executor:
             hook_future = executor.submit(_run_hook)
             fetch_future = executor.submit(_run_fetch)
+            x_fetch_future = executor.submit(_run_x_fetch)
 
             try:
                 extra_context = hook_future.result(timeout=60)
@@ -367,7 +375,19 @@ def run(args: argparse.Namespace) -> None:
             except Exception as exc:
                 logger.error("RSS fetch failed: %s", exc)
                 articles = []
-    logger.info("After fetch + dedup: %d articles", len(articles))
+
+            try:
+                x_posts = x_fetch_future.result(timeout=120)
+            except Exception as exc:
+                logger.warning("X account fetch failed: %s — continuing with RSS only", exc)
+                x_posts = []
+
+    # Merge X posts into articles
+    if x_posts:
+        logger.info("Merging %d X posts from %d account(s) into %d RSS articles",
+                     len(x_posts), len(config.x_accounts), len(articles))
+        articles.extend(x_posts)
+    logger.info("After fetch + dedup: %d articles (incl. %d X posts)", len(articles), len(x_posts))
     metrics.record("article_count", len(articles))
 
     if not articles:

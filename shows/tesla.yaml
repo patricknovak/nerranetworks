@@ -30,6 +30,14 @@ sources:
   - url: https://www.torquenews.com/rss.xml
     label: Torque News
 
+x_accounts:
+  - handle: sawyermerrit
+    label: Sawyer Merritt
+    max_posts: 5
+  - handle: tslaming
+    label: TSLAming
+    max_posts: 5
+
 min_articles: 6
 min_articles_skip: 5
 min_audio_duration: 300
