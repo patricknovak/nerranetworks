@@ -184,7 +184,7 @@ episode:
 chapters:
   enabled: true
   section_markers:
-    - pattern: "Welcome to Fascinating Frontiers"
+    - pattern: "Welcome.*Fascinating Frontiers|Fascinating Frontiers.*episode"
       title: "Introduction"
     - pattern: "Cosmic Spotlight"
       title: "Cosmic Spotlight"
@@ -192,7 +192,7 @@ chapters:
       title: "Cosmic Deep Dive"
     - pattern: "Before we go|Next time"
       title: "Tomorrow Teaser"
-    - pattern: "That's Fascinating Frontiers"
+    - pattern: "That's Fascinating Frontiers|that.?s.*for today|until next time"
       title: "Closing"
 
 newsletter:

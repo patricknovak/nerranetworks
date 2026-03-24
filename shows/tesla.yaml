@@ -145,19 +145,19 @@ episode:
 chapters:
   enabled: true
   section_markers:
-    - pattern: "Welcome to Tesla Shorts Time"
+    - pattern: "Welcome.*Tesla Shorts Time"
       title: "Introduction"
-    - pattern: "Top \\d+ News"
+    - pattern: "Top \\d+|biggest.*stories|let.?s.*get into"
       title: "Top Stories"
-    - pattern: "X Takeover"
+    - pattern: "X Takeover|takeover"
       title: "Tesla X Takeover"
-    - pattern: "one thing worth watching|challenge worth discussing|Short Spot"
+    - pattern: "one thing worth watching|challenge worth discussing|Short Spot|short.?seller"
       title: "The Counterpoint"
     - pattern: "First Principles"
       title: "First Principles"
-    - pattern: "Before we go"
+    - pattern: "Before we go|before we wrap|before I go"
       title: "Tomorrow Teaser"
-    - pattern: "That's Tesla Shorts Time"
+    - pattern: "That's Tesla Shorts Time|that.?s.*for today|until next time"
       title: "Closing"
 
 newsletter:

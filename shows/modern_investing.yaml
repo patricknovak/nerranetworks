@@ -158,7 +158,7 @@ episode:
 chapters:
   enabled: true
   section_markers:
-    - pattern: "Welcome to.*Modern Investing|first episode of Modern Investing|Good morning.*Modern Investing|This is Modern Investing"
+    - pattern: "Welcome.*Modern Investing|first episode of Modern Investing|Good morning.*Modern Investing|This is Modern Investing|Modern Investing Techniques.*episode"
       title: "Introduction"
     - pattern: "market pulse|market overview|here's where markets|let's check the pulse|check.*pulse"
       title: "Market Pulse"

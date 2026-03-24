@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='utf-8'?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcast="https://podcastindex.org/namespace/1.0" version="2.0">
   <channel>
     <title>Environmental Intelligence</title>
@@ -19,7 +19,7 @@
       <itunes:email>patrick@planetterrian.com</itunes:email>
     </itunes:owner>
     <itunes:summary>Daily environmental regulatory, science, and compliance briefing for Canadian environmental professionals. Covering contaminated sites, remediation, environmental law, and climate policy across all provinces, territories, and federal jurisdictions. AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
-    <item>
+    <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked><item>
       <title>Ep 13: No qualifying Canadian regulatory, enforcement, or contaminated-sites developments in today's feeds; focus shifts to practice intelligence and cross-border methane monitoring signals.</title>
       <link>https://audio.nerranetwork.com/env_intel/Env_Intel_Ep013_20260320.mp3</link>
       <description>**HOOK:** No qualifying Canadian regulatory, enforcement, or contaminated-sites developments in today's feeds; focus shifts to practice intelligence and cross-border methane monitoring signals.
@@ -44,6 +44,35 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episodeType>full</itunes:episodeType>
     <podcast:chapters url="https://nerranetwork.com/digests/env_intel/chapters_ep013.json" type="application/json+chapters" /></item>
     <item>
+      <title>Ep 12: Aamjiwnaang First Nation demands full spill details and remediation plan from Suncor following discharge to St. Clair River.</title>
+      <description>**Date:** March 20, 2026  
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** Aamjiwnaang First Nation demands full spill details and remediation plan from Suncor following discharge to St. Clair River.
+
+**Executive Summary:** Ontario sees renewed scrutiny of industrial spill response and Indigenous notification protocols after a Suncor refinery release into the St. Clair River. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">env-intel-ep012-20260320-021440</guid>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep012_20260320.mp3" length="20119763" type="audio/mpeg" />
+      <pubDate>Fri, 20 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/environmental-intelligence.jpg" />
+      <itunes:duration>13:58</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**Date:** March 20, 2026  
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** Aamjiwnaang First Nation demands full spill details and remediation plan from Suncor following discharge to St. Clair River.
+
+**Executive Summary:** Ontario sees renewed scrutiny of industrial spill response and Indigenous notification protocols after a Suncor refinery release into the St. Clair River. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>12</itunes:episode>
+      <itunes:title>Ep 12: Aamjiwnaang First Nation demands full spill details and remediation plan from Suncor following discharge to St. Clair River.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+  <item>
       <title>Ep 11: NS enforcement order mandates removal of two unauthorized building storeys, setting precedent for permit compliance in development projects.</title>
       <description># Environmental Intelligence
 **Date:** March 13, 2026
@@ -90,6 +119,49 @@ The International Seabed Authority (ISA) is advancing negotiations on a "mining 
       <itunes:season>1</itunes:season>
       <itunes:episode>11</itunes:episode>
       <itunes:title>Ep 11: NS enforcement order mandates removal of two unauthorized building storeys, setting precedent for permit compliance in development projects.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 10: Ontario's fast-tracking of Great Bear mine permits under the Mining Act faces Grassy Narrows lawsuit, signaling risks for mining assessments in the province.</title>
+      <description># Environmental Intelligence
+**Date:** March 12, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** Ontario's fast-tracking of Great Bear mine permits under the Mining Act faces Grassy Narrows lawsuit, signaling risks for mining assessments in the province.
+
+**Executive Summary:** Ontario's advancement of the Great Bear gold mine despite pending litigation over the Mining Act and water permits under the Environmental Protection Act creates immediate uncertainty for mining proponents conducting environmental assessments, requiring reviews of Indigenous consultation obligations. A California water board rule on dairy nitrate pollution may influence CCME guidelines or provincial water quality standards in agricultural regions like Alberta and Ontario. Professionals should monitor federal Canada Gazette notices this week for any related consultations on mining or water regulations.
+
+━━━━━━━━━━━━━━━━━━━━
+### Deep Dive Analysis
+With limited high-priority developments today, this briefing deep-dives into the two qualifying articles, extracting regulatory implications, cross-jurisdictional comparisons, and action items. The Ontario mining story highlights enforcement risks under provincial frameworks, while the California dairy rule offers insights for potential harmonization with Canadian water pollution controls.
+
+**Ontario Mining Act Challenge and Permit Fast-Tracking:** Grassy Narrows First Nation's lawsuit targets Ontario's Mining Act (R.S.O. 1990, c. M.14) and a water permit for the Great Bear gold mine under O. Reg. 387/04 (Water Taking and Transfer), alleging inadequate Indigenous consultation and environmental protections. This builds on prior challenges, contrasting with BC's EMA requirements for First Nations engagement in mining approvals via Protocol 13 risk assessments; in Alberta, similar issues arise under EPEA Part 2 for mine site remediation planning. The fast-tracking by the Doug Ford government ushers forward a third project, potentially shortening typical 18-24 month assessment timelines but increasing litigation risks that could delay site development or trigger compliance orders. For practitioners, this means auditing current mining ESAs in Ontario for alignment with Fisheries Act s.35(1) protections against habitat disruption, and comparing to Quebec's LQE where mining permits require explicit contaminant transport modeling. Action: Update risk registers for Ontario mining clients to factor in potential court-imposed stays, and cross-reference with federal IAA triggers for projects exceeding 5,000 t/d ore production. What to watch: The lawsuit's progression could set precedents for interprovincial harmonization, with possible appeals to the Supreme Court influencing SARA compliance across jurisdictions.
+
+**California Dairy Pollution Rule and Cross-Border Implications:** The California State Water Resources Control Board is set to release a new rule limiting nitrate pollution from dairies, targeting excess nitrogen in groundwater with thresholds potentially below 10 mg/L nitrate-N, addressing seepage into waterways; this contrasts with CCME's Canadian Water Quality Guidelines (e.g., 45 mg/L nitrate for aquatic life protection) and Ontario's O. Reg. 169/03 standards under the EPA, where agricultural runoff controls are less prescriptive. In Alberta, EPEA's Tier 1 guidelines for nitrate in soil (e.g., 200 mg/kg for commercial sites) could see influence if federal CEPA amendments incorporate US-style nutrient management plans, especially for prairie dairy operations. Practically, this may prompt updates to remediation designs in Canada using permeable reactive barriers for nitrate attenuation, with efficacy rates of 70-90% per USEPA data, and require labs to validate ISO 17025 methods for lower detection limits (e.g., 0.05 mg/L via ion chromatography). Action: Assess current groundwater monitoring programs in agricultural contaminated sites for nitrate thresholds, and pr...</description>
+      <guid isPermaLink="false">env-intel-ep010-20260312-143035</guid>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep010_20260312.mp3" length="15491701" type="audio/mpeg" />
+      <pubDate>Thu, 12 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/environmental-intelligence.jpg" />
+      <itunes:duration>10:45</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Environmental Intelligence
+**Date:** March 12, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** Ontario's fast-tracking of Great Bear mine permits under the Mining Act faces Grassy Narrows lawsuit, signaling risks for mining assessments in the province.
+
+**Executive Summary:** Ontario's advancement of the Great Bear gold mine despite pending litigation over the Mining Act and water permits under the Environmental Protection Act creates immediate uncertainty for mining proponents conducting environmental assessments, requiring reviews of Indigenous consultation obligations. A California water board rule on dairy nitrate pollution may influence CCME guidelines or provincial water quality standards in agricultural regions like Alberta and Ontario. Professionals should monitor federal Canada Gazette notices this week for any related consultations on mining or water regulations.
+
+━━━━━━━━━━━━━━━━━━━━
+### Deep Dive Analysis
+With limited high-priority developments today, this briefing deep-dives into the two qualifying articles, extracting regulatory implications, cross-jurisdictional comparisons, and action items. The Ontario mining story highlights enforcement risks under provincial frameworks, while the California dairy rule offers insights for potential harmonization with Canadian water pollution controls.
+
+**Ontario Mining Act Challenge and Permit Fast-Tracking:** Grassy Narrows First Nation's lawsuit targets Ontario's Mining Act (R.S.O. 1990, c. M.14) and a water permit for the Great Bear gold mine under O. Reg. 387/04 (Water Taking and Transfer), alleging inadequate Indigenous consultation and environmental protections. This builds on prior challenges, contrasting with BC's EMA requirements for First Nations engagement in mining approvals via Protocol 13 risk assessments; in Alberta, similar issues arise under EPEA Part 2 for mine site remediation planning. The fast-tracking by the Doug Ford government ushers forward a third project, potentially shortening typical 18-24 month assessment timelines but increasing litigation risks that could delay site development or trigger compliance orders. For practitioners, this means auditing current mining ESAs in Ontario for alignment with Fisheries Act s.35(1) protections against habitat disruption, and comparing to Quebec's LQE where mining permits require explicit contaminant transport modeling. Action: Update risk registers for Ontario mining clients to factor in potential court-imposed stays, and cross-reference with federal IAA triggers for projects exceeding 5,000 t/d ore production. What to watch: The lawsuit's progression could set precedents for interprovincial harmonization, with possible appeals to the Supreme Court influencing SARA compliance across jurisdictions.
+
+**California Dairy Pollution Rule and Cross-Border Implications:** The California State Water Resources Control Board is set to release a new rule limiting nitrate pollution from dairies, targeting excess nitrogen in groundwater with thresholds potentially below 10 mg/L nitrate-N, addressing seepage into waterways; this contrasts with CCME's Canadian Water Quality Guidelines (e.g., 45 mg/L nitrate for aquatic life protection) and Ontario's O. Reg. 169/03 standards under the EPA, where agricultural runoff controls are less prescriptive. In Alberta, EPEA's Tier 1 guidelines for nitrate in soil (e.g., 200 mg/kg for commercial sites) could see influence if federal CEPA amendments incorporate US-style nutrient management plans, especially for prairie dairy operations. Practically, this may prompt updates to remediation designs in Canada using permeable reactive barriers for nitrate attenuation, with efficacy rates of 70-90% per USEPA data, and require labs to validate ISO 17025 methods for lower detection limits (e.g., 0.05 mg/L via ion chromatography). Action: Assess current groundwater monitoring programs in agricultural contaminated sites for nitrate thresholds, and pr...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>10</itunes:episode>
+      <itunes:title>Ep 10: Ontario's fast-tracking of Great Bear mine permits under the Mining Act faces Grassy Narrows lawsuit, signaling risks for mining assessments in the province.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
@@ -166,6 +238,69 @@ Source: https://insideclimatenews.org/news/11032026/epa-greenhouse-gas-reduction
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
+      <title>Ep 8: BC's proposed FOI amendments could restrict access to EMA and CSR records, requiring immediate advocacy before legislative passage.</title>
+      <description># Environmental Intelligence
+**Date:** March 10, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** BC's proposed FOI amendments could restrict access to EMA and CSR records, requiring immediate advocacy before legislative passage.
+
+**Executive Summary:** British Columbia's new bill introduces potential barriers to freedom of information requests, directly affecting access to contaminated sites data under EMA and CSR for multi-jurisdictional consultants. US proposals to weaken vessel speed limits for North Atlantic right whales may pressure harmonization with Canada's Fisheries Act and SARA protections in Atlantic provinces. Professionals should monitor BC legislative debates this week and review cross-border species risk assessments for offshore projects.
+
+━━━━━━━━━━━━━━━━━━━━
+### Lead Story
+British Columbia's government faces accusations of undermining freedom of information through a new bill that expands exemptions and fees for public records access, including environmental compliance documents under the Environmental Management Act (EMA) and Contaminated Sites Regulation (CSR). Previously, FOI requests under BC's Freedom of Information and Protection of Privacy Act allowed efficient retrieval of site registry data, spill reports, and remediation certificates without prohibitive costs; the amendments introduce broader "cabinet confidence" exemptions and higher processing fees, potentially delaying or denying access to critical records. This change targets records often used in Phase I ESAs and risk assessments, complicating due diligence for contaminated sites across BC and interprovincial projects. For practitioners, this means increased timelines and costs for obtaining EMA Section 49 certificates or CSR Protocol 1 risk assessment inputs, especially in oil sands-adjacent areas with Alberta EPEA overlaps. Watch for opposition amendments during second reading this month, with potential effective date by Q2 2026; submit feedback to BC's Office of the Information and Privacy Commissioner by March 31. Cross-jurisdictional teams should compare with Ontario's more open EPA record access to mitigate impacts.
+Source: https://thetyee.ca/News/2026/03/10/BC-Government-Stealth-Attack-Freedom-Information/
+
+━━━━━━━━━━━━━━━━━━━━
+### Regulatory &amp; Policy Watch
+**Ontario Green Burial Barriers: The Narwhal**
+Ontario's Cemetery, Crematorium and Funeral Services Act, administered under the Bereavement Authority of Ontario, imposes barriers to natural burials including soil quality assessments potentially triggering EPA O. Reg. 153/04 site investigations for contaminants. This means consultants may need to conduct Phase I/II ESAs for proposed burial sites to ensure compliance with CCME soil guidelines, increasing project costs and timelines. Action required: Review site-specific risk assessments for any Ontario land use changes involving burials, with municipal approvals often needing completion within 90 days of application.
+Source: https://thenarwhal.ca/green-burial-barriers-ontario/
+
+**US Ocean Speed Limits for Right Whales: Grist**
+Proposed US weakening of vessel speed limits under the Endangered Species Act for North Atlantic right whales could influence Canadian regulations in the Gulf of St. Lawrence under the Fisheries Act Section 7 and SARA critical habitat protections, where 10-knot limits apply seasonally. This affects offshore energy and shipping projects in Atlantic provinces, potentially requiring updated impact assessments under the federal Impact Assessment Act (IAA) to align with cross-border species recovery. Monitor NOAA consultations closing April 15, 2026, for implications on harmonized thresholds.
+Source: https://grist.org/oceans/ocean-speed-limits-protect-endangered-right-whales-trump-wants-to-weaken-them/
+
+**US Tribal Clean Energy Funding Cuts: Grist**
+US federal withdrawal of $1.5B in tribal clean energy funding under the Inflation Reduction Act parallels Canadian Indigenous...</description>
+      <guid isPermaLink="false">env-intel-ep008-20260310-143149</guid>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep008_20260310.mp3" length="15701725" type="audio/mpeg" />
+      <pubDate>Tue, 10 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/environmental-intelligence.jpg" />
+      <itunes:duration>10:54</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Environmental Intelligence
+**Date:** March 10, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** BC's proposed FOI amendments could restrict access to EMA and CSR records, requiring immediate advocacy before legislative passage.
+
+**Executive Summary:** British Columbia's new bill introduces potential barriers to freedom of information requests, directly affecting access to contaminated sites data under EMA and CSR for multi-jurisdictional consultants. US proposals to weaken vessel speed limits for North Atlantic right whales may pressure harmonization with Canada's Fisheries Act and SARA protections in Atlantic provinces. Professionals should monitor BC legislative debates this week and review cross-border species risk assessments for offshore projects.
+
+━━━━━━━━━━━━━━━━━━━━
+### Lead Story
+British Columbia's government faces accusations of undermining freedom of information through a new bill that expands exemptions and fees for public records access, including environmental compliance documents under the Environmental Management Act (EMA) and Contaminated Sites Regulation (CSR). Previously, FOI requests under BC's Freedom of Information and Protection of Privacy Act allowed efficient retrieval of site registry data, spill reports, and remediation certificates without prohibitive costs; the amendments introduce broader "cabinet confidence" exemptions and higher processing fees, potentially delaying or denying access to critical records. This change targets records often used in Phase I ESAs and risk assessments, complicating due diligence for contaminated sites across BC and interprovincial projects. For practitioners, this means increased timelines and costs for obtaining EMA Section 49 certificates or CSR Protocol 1 risk assessment inputs, especially in oil sands-adjacent areas with Alberta EPEA overlaps. Watch for opposition amendments during second reading this month, with potential effective date by Q2 2026; submit feedback to BC's Office of the Information and Privacy Commissioner by March 31. Cross-jurisdictional teams should compare with Ontario's more open EPA record access to mitigate impacts.
+Source: https://thetyee.ca/News/2026/03/10/BC-Government-Stealth-Attack-Freedom-Information/
+
+━━━━━━━━━━━━━━━━━━━━
+### Regulatory &amp; Policy Watch
+**Ontario Green Burial Barriers: The Narwhal**
+Ontario's Cemetery, Crematorium and Funeral Services Act, administered under the Bereavement Authority of Ontario, imposes barriers to natural burials including soil quality assessments potentially triggering EPA O. Reg. 153/04 site investigations for contaminants. This means consultants may need to conduct Phase I/II ESAs for proposed burial sites to ensure compliance with CCME soil guidelines, increasing project costs and timelines. Action required: Review site-specific risk assessments for any Ontario land use changes involving burials, with municipal approvals often needing completion within 90 days of application.
+Source: https://thenarwhal.ca/green-burial-barriers-ontario/
+
+**US Ocean Speed Limits for Right Whales: Grist**
+Proposed US weakening of vessel speed limits under the Endangered Species Act for North Atlantic right whales could influence Canadian regulations in the Gulf of St. Lawrence under the Fisheries Act Section 7 and SARA critical habitat protections, where 10-knot limits apply seasonally. This affects offshore energy and shipping projects in Atlantic provinces, potentially requiring updated impact assessments under the federal Impact Assessment Act (IAA) to align with cross-border species recovery. Monitor NOAA consultations closing April 15, 2026, for implications on harmonized thresholds.
+Source: https://grist.org/oceans/ocean-speed-limits-protect-endangered-right-whales-trump-wants-to-weaken-them/
+
+**US Tribal Clean Energy Funding Cuts: Grist**
+US federal withdrawal of $1.5B in tribal clean energy funding under the Inflation Reduction Act parallels Canadian Indigenous...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>8</itunes:episode>
+      <itunes:title>Ep 8: BC's proposed FOI amendments could restrict access to EMA and CSR records, requiring immediate advocacy before legislative passage.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
       <title>Ep 7: New Brunswick's delayed response to Vanier Highway chemical spill highlights gaps in provincial spill protocols under the Clean Environment Act.</title>
       <description># Environmental Intelligence
 **Date:** March 09, 2026
@@ -232,6 +367,69 @@ Source: https://insideclimatenews.org/news/06032026/florida-alligator-alcatraz-d
       <itunes:season>1</itunes:season>
       <itunes:episode>7</itunes:episode>
       <itunes:title>Ep 7: New Brunswick's delayed response to Vanier Highway chemical spill highlights gaps in provincial spill protocols under the Clean Environment Act.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 6: Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.</title>
+      <description># Environmental Intelligence
+**Date:** March 06, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.
+
+**Executive Summary:** Nature's analysis highlights how carbon market additionality requirements penalize ongoing Indigenous stewardship in Canada, favoring degraded land recovery over protection and potentially barring projects under BC's EMA or federal CEPA carbon pricing. In BC, Haisla Nation's opposition to a new oil pipeline underscores IAA consultation risks for proponents, while supporting LNG aligns with provincial climate goals. Professionals should review carbon offset portfolios this week for Indigenous land eligibility and monitor federal IAA updates on pipeline assessments.
+
+━━━━━━━━━━━━━━━━━━━━
+### Lead Story
+Nature's peer-reviewed commentary critiques additionality requirements in voluntary and compliance carbon markets, arguing they disadvantage Indigenous-managed lands across Canadian jurisdictions including BC, Alberta, and federal CEPA frameworks by prioritizing emissions reductions from degraded sites over sustained protection. Previously, CCME-aligned guidelines and provincial standards like BC CSR Protocol 13 allowed broad stewardship credits, but evolving federal carbon pricing under CEPA 2024 amendments emphasizes verifiable "additional" actions, often excluding long-term Indigenous practices that maintain biodiversity and carbon stocks without baseline degradation. This shifts risk assessment for carbon offset projects, requiring practitioners to demonstrate degradation baselines via ISO 17025-accredited soil carbon sampling and historical land use data, potentially invalidating credits from undisturbed Indigenous territories. For current projects, this means reassessing eligibility in BC's Forest Carbon Offset Protocol or Alberta's TIER system, where Indigenous exclusion could increase compliance costs by 20-30% through alternative offset sourcing. Watch for CCME guideline revisions in Q2 2026, with federal consultation under CEPA Part 5 closing April 15, 2026, and potential harmonization with US EPA carbon standards influencing cross-border projects. Practitioners should cross-reference with Species at Risk Act overlays to argue for equity-based exemptions in impact assessments.
+Source: https://www.nature.com/articles/s41558-026-02576-2
+
+━━━━━━━━━━━━━━━━━━━━
+### Regulatory &amp; Policy Watch
+**Regulatory Calendar Review: Upcoming Federal and Provincial Milestones**  
+Federal CEPA 2024 amendment consultations on toxic substance listings (including PFAS updates) close March 31, 2026, requiring submissions on analytical methods like EPA Method 537.1 equivalents for PFOA/PFOS thresholds below 0.01 µg/L in groundwater; this affects compliance in Ontario O. Reg. 153/04 site assessments and BC CSR numerical standards. Alberta EPEA Tier 1 guideline revisions for oil sands tailings ponds enter force April 1, 2026, mandating enhanced monitored natural attenuation monitoring. Quebec LQE/RPRT annual reporting deadline for contaminated sites is March 15, 2026, with new requirements for permeable reactive barrier efficacy data.
+
+**Cross-Jurisdictional Watch: US EPA Influence on Canadian Policy**  
+US EPA's proposed PFAS drinking water standards (4 ng/L for PFOA) may prompt CCME harmonization by mid-2026, impacting interprovincial standards like Saskatchewan EMPA groundwater criteria; track for adoption in federal Fisheries Act s.36(3) effluent limits. Recent US carbon market reforms under the Inflation Reduction Act could influence federal IAA additionality criteria for Indigenous projects, potentially aligning with BC EMA offsets.
+
+━━━━━━━━━━━━━━━━━━━━
+### Science &amp; Technical
+**Additionality Requirements of Carbon Markets Could Penalize Indigenous Stewardship: Nature**  
+Analysis shows Indigenous-managed lands in Canada sustain 10-20% higher c...</description>
+      <guid isPermaLink="false">env-intel-ep006-20260306-142253</guid>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep006_20260306.mp3" length="14346284" type="audio/mpeg" />
+      <pubDate>Fri, 06 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/environmental-intelligence.jpg" />
+      <itunes:duration>09:57</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Environmental Intelligence
+**Date:** March 06, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.
+
+**Executive Summary:** Nature's analysis highlights how carbon market additionality requirements penalize ongoing Indigenous stewardship in Canada, favoring degraded land recovery over protection and potentially barring projects under BC's EMA or federal CEPA carbon pricing. In BC, Haisla Nation's opposition to a new oil pipeline underscores IAA consultation risks for proponents, while supporting LNG aligns with provincial climate goals. Professionals should review carbon offset portfolios this week for Indigenous land eligibility and monitor federal IAA updates on pipeline assessments.
+
+━━━━━━━━━━━━━━━━━━━━
+### Lead Story
+Nature's peer-reviewed commentary critiques additionality requirements in voluntary and compliance carbon markets, arguing they disadvantage Indigenous-managed lands across Canadian jurisdictions including BC, Alberta, and federal CEPA frameworks by prioritizing emissions reductions from degraded sites over sustained protection. Previously, CCME-aligned guidelines and provincial standards like BC CSR Protocol 13 allowed broad stewardship credits, but evolving federal carbon pricing under CEPA 2024 amendments emphasizes verifiable "additional" actions, often excluding long-term Indigenous practices that maintain biodiversity and carbon stocks without baseline degradation. This shifts risk assessment for carbon offset projects, requiring practitioners to demonstrate degradation baselines via ISO 17025-accredited soil carbon sampling and historical land use data, potentially invalidating credits from undisturbed Indigenous territories. For current projects, this means reassessing eligibility in BC's Forest Carbon Offset Protocol or Alberta's TIER system, where Indigenous exclusion could increase compliance costs by 20-30% through alternative offset sourcing. Watch for CCME guideline revisions in Q2 2026, with federal consultation under CEPA Part 5 closing April 15, 2026, and potential harmonization with US EPA carbon standards influencing cross-border projects. Practitioners should cross-reference with Species at Risk Act overlays to argue for equity-based exemptions in impact assessments.
+Source: https://www.nature.com/articles/s41558-026-02576-2
+
+━━━━━━━━━━━━━━━━━━━━
+### Regulatory &amp; Policy Watch
+**Regulatory Calendar Review: Upcoming Federal and Provincial Milestones**  
+Federal CEPA 2024 amendment consultations on toxic substance listings (including PFAS updates) close March 31, 2026, requiring submissions on analytical methods like EPA Method 537.1 equivalents for PFOA/PFOS thresholds below 0.01 µg/L in groundwater; this affects compliance in Ontario O. Reg. 153/04 site assessments and BC CSR numerical standards. Alberta EPEA Tier 1 guideline revisions for oil sands tailings ponds enter force April 1, 2026, mandating enhanced monitored natural attenuation monitoring. Quebec LQE/RPRT annual reporting deadline for contaminated sites is March 15, 2026, with new requirements for permeable reactive barrier efficacy data.
+
+**Cross-Jurisdictional Watch: US EPA Influence on Canadian Policy**  
+US EPA's proposed PFAS drinking water standards (4 ng/L for PFOA) may prompt CCME harmonization by mid-2026, impacting interprovincial standards like Saskatchewan EMPA groundwater criteria; track for adoption in federal Fisheries Act s.36(3) effluent limits. Recent US carbon market reforms under the Inflation Reduction Act could influence federal IAA additionality criteria for Indigenous projects, potentially aligning with BC EMA offsets.
+
+━━━━━━━━━━━━━━━━━━━━
+### Science &amp; Technical
+**Additionality Requirements of Carbon Markets Could Penalize Indigenous Stewardship: Nature**  
+Analysis shows Indigenous-managed lands in Canada sustain 10-20% higher c...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>6</itunes:episode>
+      <itunes:title>Ep 6: Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
@@ -312,6 +510,63 @@ Source: https://www.sciencedaily.com/releases/2026/03/260303201755.htm
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
+      <title>Ep 4: New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.</title>
+      <description># Environmental Intelligence
+**Date:** March 03, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.
+
+**Executive Summary:** Field data from West Antarctica reveals meltwater contributes far less iron to oceans than previously thought, shifting reliance to deep ocean sources and raising questions for CCME climate guidelines and federal IAA assessments incorporating carbon sequestration projections. This impacts risk assessments for coastal projects in BC and Atlantic provinces where sea-level rise models assume higher algal CO2 uptake. Professionals should review IAA submissions this week for alignment with updated ocean iron dynamics.
+
+━━━━━━━━━━━━━━━━━━━━
+### Deep Dive &amp; Practice Intelligence
+
+**Deep Analysis: Antarctic Meltwater Iron Release Findings**  
+New field data from West Antarctica indicates glacial meltwater provides negligible bioavailable iron for algal blooms, with concentrations below 0.1 nmol/L compared to prior estimates of 1-10 nmol/L; instead, up to 90% of iron originates from deep ocean currents and sediments. This challenges CCME environmental quality guidelines for marine systems and federal CEPA climate modeling, as reduced algal CO2 sequestration could accelerate sea-level rise projections by 10-20% in models like those used for BC CSR coastal site assessments. For practitioners, this means recalibrating risk assessments under Ontario EPA O. Reg. 153/04 or Alberta EPEA for sites with marine exposure, potentially requiring enhanced flood risk mapping; cross-reference with Fisheries Act habitat protections where ocean productivity affects species at risk. In Quebec under LQE/RPRT, update contaminant transport models to account for lower iron-driven carbon sinks. Watch for CCME guideline revisions in Q2 2026, as this data may prompt interprovincial harmonization on climate adaptation thresholds.  
+Source: https://www.sciencedaily.com/releases/2026/02/260228082714.htm  
+
+**Deep Analysis: Ocean Warming Impacts on Whale Populations**  
+Research highlights that rising ocean temperatures disrupt whale migration and feeding, with Antarctic krill declines of 20-30% linked to warmer waters, threatening rebounding populations under international protections. For Canadian contexts, this intersects with federal Species at Risk Act (SARA) listings for species like North Atlantic right whales, where habitat assessments under Fisheries Act must now factor in accelerated warming projections; compare to BC EMA protocols for marine mammal risk in contaminated sites near pipelines. Practitioners handling oil sands or Atlantic offshore projects should integrate these findings into IAA environmental impact statements, potentially increasing mitigation costs by 15% for acoustic monitoring or habitat offsets; Saskatchewan EMPA mine tailings assessments may need similar updates for indirect aquatic impacts.  
+Source: https://insideclimatenews.org/news/01032026/icn-sunday-morning-ocean-warming-whales/  
+
+**Deep Analysis: Assisted Tree Migration for Urban Climate Adaptation**  
+Field efforts in the US demonstrate assisted migration of tree species to counter climate shifts, with survival rates of 70-85% for relocated oaks and maples in warming zones, informing wildfire interface planning. In Canada, this aligns with Alberta EPEA and Manitoba Environment Act requirements for reforestation in remediation, where practitioners can apply similar techniques to enhance monitored natural attenuation in fire-prone sites; reference CCME soil guidelines for root zone contaminant uptake. For BC CSR projects, incorporate into Protocol 1 risk assessments to mitigate heat island effects, potentially reducing long-term monitoring timelines by 2-3 years through resilient vegetation barriers.  
+Source: https://insideclimatenews.org/news/010320...</description>
+      <guid isPermaLink="false">env-intel-ep004-20260303-142657</guid>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep004_20260303.mp3" length="15408318" type="audio/mpeg" />
+      <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/environmental-intelligence.jpg" />
+      <itunes:duration>10:41</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Environmental Intelligence
+**Date:** March 03, 2026
+🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
+
+**HOOK:** New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.
+
+**Executive Summary:** Field data from West Antarctica reveals meltwater contributes far less iron to oceans than previously thought, shifting reliance to deep ocean sources and raising questions for CCME climate guidelines and federal IAA assessments incorporating carbon sequestration projections. This impacts risk assessments for coastal projects in BC and Atlantic provinces where sea-level rise models assume higher algal CO2 uptake. Professionals should review IAA submissions this week for alignment with updated ocean iron dynamics.
+
+━━━━━━━━━━━━━━━━━━━━
+### Deep Dive &amp; Practice Intelligence
+
+**Deep Analysis: Antarctic Meltwater Iron Release Findings**  
+New field data from West Antarctica indicates glacial meltwater provides negligible bioavailable iron for algal blooms, with concentrations below 0.1 nmol/L compared to prior estimates of 1-10 nmol/L; instead, up to 90% of iron originates from deep ocean currents and sediments. This challenges CCME environmental quality guidelines for marine systems and federal CEPA climate modeling, as reduced algal CO2 sequestration could accelerate sea-level rise projections by 10-20% in models like those used for BC CSR coastal site assessments. For practitioners, this means recalibrating risk assessments under Ontario EPA O. Reg. 153/04 or Alberta EPEA for sites with marine exposure, potentially requiring enhanced flood risk mapping; cross-reference with Fisheries Act habitat protections where ocean productivity affects species at risk. In Quebec under LQE/RPRT, update contaminant transport models to account for lower iron-driven carbon sinks. Watch for CCME guideline revisions in Q2 2026, as this data may prompt interprovincial harmonization on climate adaptation thresholds.  
+Source: https://www.sciencedaily.com/releases/2026/02/260228082714.htm  
+
+**Deep Analysis: Ocean Warming Impacts on Whale Populations**  
+Research highlights that rising ocean temperatures disrupt whale migration and feeding, with Antarctic krill declines of 20-30% linked to warmer waters, threatening rebounding populations under international protections. For Canadian contexts, this intersects with federal Species at Risk Act (SARA) listings for species like North Atlantic right whales, where habitat assessments under Fisheries Act must now factor in accelerated warming projections; compare to BC EMA protocols for marine mammal risk in contaminated sites near pipelines. Practitioners handling oil sands or Atlantic offshore projects should integrate these findings into IAA environmental impact statements, potentially increasing mitigation costs by 15% for acoustic monitoring or habitat offsets; Saskatchewan EMPA mine tailings assessments may need similar updates for indirect aquatic impacts.  
+Source: https://insideclimatenews.org/news/01032026/icn-sunday-morning-ocean-warming-whales/  
+
+**Deep Analysis: Assisted Tree Migration for Urban Climate Adaptation**  
+Field efforts in the US demonstrate assisted migration of tree species to counter climate shifts, with survival rates of 70-85% for relocated oaks and maples in warming zones, informing wildfire interface planning. In Canada, this aligns with Alberta EPEA and Manitoba Environment Act requirements for reforestation in remediation, where practitioners can apply similar techniques to enhance monitored natural attenuation in fire-prone sites; reference CCME soil guidelines for root zone contaminant uptake. For BC CSR projects, incorporate into Protocol 1 risk assessments to mitigate heat island effects, potentially reducing long-term monitoring timelines by 2-3 years through resilient vegetation barriers.  
+Source: https://insideclimatenews.org/news/010320...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>4</itunes:episode>
+      <itunes:title>Ep 4: New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
       <title>Ep 3: Road salt accumulation in Ontario's Lake Simcoe watershed exceeds CCME chloride guidelines, triggering site assessments under O. Reg. 153/04.</title>
       <description># Environmental Intelligence
 **Date:** March 02, 2026
@@ -387,33 +642,6 @@ Source: https://www.nature.com/articles/s41558-026-02579-z
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
-      <title>Ep 1: No qualifying environmental regulatory or technical developments reported today.</title>
-      <description># Environmental Intelligence
-**Date:** February 26, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** No qualifying environmental regulatory or technical developments reported today.
-
-**Executive Summary:** The available source does not meet criteria for inclusion, providing no updates on Canadian environmental regulations, enforcement, or science. No specific changes to thresholds, deadlines, or compliance obligations in any province, territory, or ...</description>
-      <guid isPermaLink="false">env-intel-ep001-20260226-203635</guid>
-      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep001_20260226.mp3" length="12021595" type="audio/mpeg" />
-      <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/environmental-intelligence.jpg" />
-      <itunes:duration>08:20</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Environmental Intelligence
-**Date:** February 26, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** No qualifying environmental regulatory or technical developments reported today.
-
-**Executive Summary:** The available source does not meet criteria for inclusion, providing no updates on Canadian environmental regulations, enforcement, or science. No specific changes to thresholds, deadlines, or compliance obligations in any province, territory, or ...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>1</itunes:episode>
-      <itunes:title>Ep 1: No qualifying environmental regulatory or technical developments reported today.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
       <title>Ep 2: Port of Churchill expansion push triggers federal IAA assessments for Manitoba Arctic infrastructure, with oil spill risks under Fisheries Act.</title>
       <description># Environmental Intelligence
 **Date:** February 27, 2026
@@ -481,259 +709,31 @@ Nature Climate Change maps reveal basal melt rates in Antarctic ice shelves up t
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
-      <title>Ep 4: New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.</title>
+      <title>Ep 1: No qualifying environmental regulatory or technical developments reported today.</title>
       <description># Environmental Intelligence
-**Date:** March 03, 2026
+**Date:** February 26, 2026
 🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
 
-**HOOK:** New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.
+**HOOK:** No qualifying environmental regulatory or technical developments reported today.
 
-**Executive Summary:** Field data from West Antarctica reveals meltwater contributes far less iron to oceans than previously thought, shifting reliance to deep ocean sources and raising questions for CCME climate guidelines and federal IAA assessments incorporating carbon sequestration projections. This impacts risk assessments for coastal projects in BC and Atlantic provinces where sea-level rise models assume higher algal CO2 uptake. Professionals should review IAA submissions this week for alignment with updated ocean iron dynamics.
-
-━━━━━━━━━━━━━━━━━━━━
-### Deep Dive &amp; Practice Intelligence
-
-**Deep Analysis: Antarctic Meltwater Iron Release Findings**  
-New field data from West Antarctica indicates glacial meltwater provides negligible bioavailable iron for algal blooms, with concentrations below 0.1 nmol/L compared to prior estimates of 1-10 nmol/L; instead, up to 90% of iron originates from deep ocean currents and sediments. This challenges CCME environmental quality guidelines for marine systems and federal CEPA climate modeling, as reduced algal CO2 sequestration could accelerate sea-level rise projections by 10-20% in models like those used for BC CSR coastal site assessments. For practitioners, this means recalibrating risk assessments under Ontario EPA O. Reg. 153/04 or Alberta EPEA for sites with marine exposure, potentially requiring enhanced flood risk mapping; cross-reference with Fisheries Act habitat protections where ocean productivity affects species at risk. In Quebec under LQE/RPRT, update contaminant transport models to account for lower iron-driven carbon sinks. Watch for CCME guideline revisions in Q2 2026, as this data may prompt interprovincial harmonization on climate adaptation thresholds.  
-Source: https://www.sciencedaily.com/releases/2026/02/260228082714.htm  
-
-**Deep Analysis: Ocean Warming Impacts on Whale Populations**  
-Research highlights that rising ocean temperatures disrupt whale migration and feeding, with Antarctic krill declines of 20-30% linked to warmer waters, threatening rebounding populations under international protections. For Canadian contexts, this intersects with federal Species at Risk Act (SARA) listings for species like North Atlantic right whales, where habitat assessments under Fisheries Act must now factor in accelerated warming projections; compare to BC EMA protocols for marine mammal risk in contaminated sites near pipelines. Practitioners handling oil sands or Atlantic offshore projects should integrate these findings into IAA environmental impact statements, potentially increasing mitigation costs by 15% for acoustic monitoring or habitat offsets; Saskatchewan EMPA mine tailings assessments may need similar updates for indirect aquatic impacts.  
-Source: https://insideclimatenews.org/news/01032026/icn-sunday-morning-ocean-warming-whales/  
-
-**Deep Analysis: Assisted Tree Migration for Urban Climate Adaptation**  
-Field efforts in the US demonstrate assisted migration of tree species to counter climate shifts, with survival rates of 70-85% for relocated oaks and maples in warming zones, informing wildfire interface planning. In Canada, this aligns with Alberta EPEA and Manitoba Environment Act requirements for reforestation in remediation, where practitioners can apply similar techniques to enhance monitored natural attenuation in fire-prone sites; reference CCME soil guidelines for root zone contaminant uptake. For BC CSR projects, incorporate into Protocol 1 risk assessments to mitigate heat island effects, potentially reducing long-term monitoring timelines by 2-3 years through resilient vegetation barriers.  
-Source: https://insideclimatenews.org/news/010320...</description>
-      <guid isPermaLink="false">env-intel-ep004-20260303-142657</guid>
-      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep004_20260303.mp3" length="15408318" type="audio/mpeg" />
-      <pubDate>Tue, 03 Mar 2026 08:00:00 +0000</pubDate>
+**Executive Summary:** The available source does not meet criteria for inclusion, providing no updates on Canadian environmental regulations, enforcement, or science. No specific changes to thresholds, deadlines, or compliance obligations in any province, territory, or ...</description>
+      <guid isPermaLink="false">env-intel-ep001-20260226-203635</guid>
+      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep001_20260226.mp3" length="12021595" type="audio/mpeg" />
+      <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
       <itunes:image href="https://nerranetwork.com/assets/covers/environmental-intelligence.jpg" />
-      <itunes:duration>10:41</itunes:duration>
+      <itunes:duration>08:20</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:summary># Environmental Intelligence
-**Date:** March 03, 2026
+**Date:** February 26, 2026
 🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
 
-**HOOK:** New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.
+**HOOK:** No qualifying environmental regulatory or technical developments reported today.
 
-**Executive Summary:** Field data from West Antarctica reveals meltwater contributes far less iron to oceans than previously thought, shifting reliance to deep ocean sources and raising questions for CCME climate guidelines and federal IAA assessments incorporating carbon sequestration projections. This impacts risk assessments for coastal projects in BC and Atlantic provinces where sea-level rise models assume higher algal CO2 uptake. Professionals should review IAA submissions this week for alignment with updated ocean iron dynamics.
-
-━━━━━━━━━━━━━━━━━━━━
-### Deep Dive &amp; Practice Intelligence
-
-**Deep Analysis: Antarctic Meltwater Iron Release Findings**  
-New field data from West Antarctica indicates glacial meltwater provides negligible bioavailable iron for algal blooms, with concentrations below 0.1 nmol/L compared to prior estimates of 1-10 nmol/L; instead, up to 90% of iron originates from deep ocean currents and sediments. This challenges CCME environmental quality guidelines for marine systems and federal CEPA climate modeling, as reduced algal CO2 sequestration could accelerate sea-level rise projections by 10-20% in models like those used for BC CSR coastal site assessments. For practitioners, this means recalibrating risk assessments under Ontario EPA O. Reg. 153/04 or Alberta EPEA for sites with marine exposure, potentially requiring enhanced flood risk mapping; cross-reference with Fisheries Act habitat protections where ocean productivity affects species at risk. In Quebec under LQE/RPRT, update contaminant transport models to account for lower iron-driven carbon sinks. Watch for CCME guideline revisions in Q2 2026, as this data may prompt interprovincial harmonization on climate adaptation thresholds.  
-Source: https://www.sciencedaily.com/releases/2026/02/260228082714.htm  
-
-**Deep Analysis: Ocean Warming Impacts on Whale Populations**  
-Research highlights that rising ocean temperatures disrupt whale migration and feeding, with Antarctic krill declines of 20-30% linked to warmer waters, threatening rebounding populations under international protections. For Canadian contexts, this intersects with federal Species at Risk Act (SARA) listings for species like North Atlantic right whales, where habitat assessments under Fisheries Act must now factor in accelerated warming projections; compare to BC EMA protocols for marine mammal risk in contaminated sites near pipelines. Practitioners handling oil sands or Atlantic offshore projects should integrate these findings into IAA environmental impact statements, potentially increasing mitigation costs by 15% for acoustic monitoring or habitat offsets; Saskatchewan EMPA mine tailings assessments may need similar updates for indirect aquatic impacts.  
-Source: https://insideclimatenews.org/news/01032026/icn-sunday-morning-ocean-warming-whales/  
-
-**Deep Analysis: Assisted Tree Migration for Urban Climate Adaptation**  
-Field efforts in the US demonstrate assisted migration of tree species to counter climate shifts, with survival rates of 70-85% for relocated oaks and maples in warming zones, informing wildfire interface planning. In Canada, this aligns with Alberta EPEA and Manitoba Environment Act requirements for reforestation in remediation, where practitioners can apply similar techniques to enhance monitored natural attenuation in fire-prone sites; reference CCME soil guidelines for root zone contaminant uptake. For BC CSR projects, incorporate into Protocol 1 risk assessments to mitigate heat island effects, potentially reducing long-term monitoring timelines by 2-3 years through resilient vegetation barriers.  
-Source: https://insideclimatenews.org/news/010320...</itunes:summary>
+**Executive Summary:** The available source does not meet criteria for inclusion, providing no updates on Canadian environmental regulations, enforcement, or science. No specific changes to thresholds, deadlines, or compliance obligations in any province, territory, or ...</itunes:summary>
       <itunes:season>1</itunes:season>
-      <itunes:episode>4</itunes:episode>
-      <itunes:title>Ep 4: New Antarctic meltwater data shows minimal iron release, undermining algae bloom assumptions in global carbon models used for Canadian climate adaptation planning.</itunes:title>
+      <itunes:episode>1</itunes:episode>
+      <itunes:title>Ep 1: No qualifying environmental regulatory or technical developments reported today.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
-    <item>
-      <title>Ep 6: Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.</title>
-      <description># Environmental Intelligence
-**Date:** March 06, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.
-
-**Executive Summary:** Nature's analysis highlights how carbon market additionality requirements penalize ongoing Indigenous stewardship in Canada, favoring degraded land recovery over protection and potentially barring projects under BC's EMA or federal CEPA carbon pricing. In BC, Haisla Nation's opposition to a new oil pipeline underscores IAA consultation risks for proponents, while supporting LNG aligns with provincial climate goals. Professionals should review carbon offset portfolios this week for Indigenous land eligibility and monitor federal IAA updates on pipeline assessments.
-
-━━━━━━━━━━━━━━━━━━━━
-### Lead Story
-Nature's peer-reviewed commentary critiques additionality requirements in voluntary and compliance carbon markets, arguing they disadvantage Indigenous-managed lands across Canadian jurisdictions including BC, Alberta, and federal CEPA frameworks by prioritizing emissions reductions from degraded sites over sustained protection. Previously, CCME-aligned guidelines and provincial standards like BC CSR Protocol 13 allowed broad stewardship credits, but evolving federal carbon pricing under CEPA 2024 amendments emphasizes verifiable "additional" actions, often excluding long-term Indigenous practices that maintain biodiversity and carbon stocks without baseline degradation. This shifts risk assessment for carbon offset projects, requiring practitioners to demonstrate degradation baselines via ISO 17025-accredited soil carbon sampling and historical land use data, potentially invalidating credits from undisturbed Indigenous territories. For current projects, this means reassessing eligibility in BC's Forest Carbon Offset Protocol or Alberta's TIER system, where Indigenous exclusion could increase compliance costs by 20-30% through alternative offset sourcing. Watch for CCME guideline revisions in Q2 2026, with federal consultation under CEPA Part 5 closing April 15, 2026, and potential harmonization with US EPA carbon standards influencing cross-border projects. Practitioners should cross-reference with Species at Risk Act overlays to argue for equity-based exemptions in impact assessments.
-Source: https://www.nature.com/articles/s41558-026-02576-2
-
-━━━━━━━━━━━━━━━━━━━━
-### Regulatory &amp; Policy Watch
-**Regulatory Calendar Review: Upcoming Federal and Provincial Milestones**  
-Federal CEPA 2024 amendment consultations on toxic substance listings (including PFAS updates) close March 31, 2026, requiring submissions on analytical methods like EPA Method 537.1 equivalents for PFOA/PFOS thresholds below 0.01 µg/L in groundwater; this affects compliance in Ontario O. Reg. 153/04 site assessments and BC CSR numerical standards. Alberta EPEA Tier 1 guideline revisions for oil sands tailings ponds enter force April 1, 2026, mandating enhanced monitored natural attenuation monitoring. Quebec LQE/RPRT annual reporting deadline for contaminated sites is March 15, 2026, with new requirements for permeable reactive barrier efficacy data.
-
-**Cross-Jurisdictional Watch: US EPA Influence on Canadian Policy**  
-US EPA's proposed PFAS drinking water standards (4 ng/L for PFOA) may prompt CCME harmonization by mid-2026, impacting interprovincial standards like Saskatchewan EMPA groundwater criteria; track for adoption in federal Fisheries Act s.36(3) effluent limits. Recent US carbon market reforms under the Inflation Reduction Act could influence federal IAA additionality criteria for Indigenous projects, potentially aligning with BC EMA offsets.
-
-━━━━━━━━━━━━━━━━━━━━
-### Science &amp; Technical
-**Additionality Requirements of Carbon Markets Could Penalize Indigenous Stewardship: Nature**  
-Analysis shows Indigenous-managed lands in Canada sustain 10-20% higher c...</description>
-      <guid isPermaLink="false">env-intel-ep006-20260306-142253</guid>
-      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep006_20260306.mp3" length="14346284" type="audio/mpeg" />
-      <pubDate>Fri, 06 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/environmental-intelligence.jpg" />
-      <itunes:duration>09:57</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Environmental Intelligence
-**Date:** March 06, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.
-
-**Executive Summary:** Nature's analysis highlights how carbon market additionality requirements penalize ongoing Indigenous stewardship in Canada, favoring degraded land recovery over protection and potentially barring projects under BC's EMA or federal CEPA carbon pricing. In BC, Haisla Nation's opposition to a new oil pipeline underscores IAA consultation risks for proponents, while supporting LNG aligns with provincial climate goals. Professionals should review carbon offset portfolios this week for Indigenous land eligibility and monitor federal IAA updates on pipeline assessments.
-
-━━━━━━━━━━━━━━━━━━━━
-### Lead Story
-Nature's peer-reviewed commentary critiques additionality requirements in voluntary and compliance carbon markets, arguing they disadvantage Indigenous-managed lands across Canadian jurisdictions including BC, Alberta, and federal CEPA frameworks by prioritizing emissions reductions from degraded sites over sustained protection. Previously, CCME-aligned guidelines and provincial standards like BC CSR Protocol 13 allowed broad stewardship credits, but evolving federal carbon pricing under CEPA 2024 amendments emphasizes verifiable "additional" actions, often excluding long-term Indigenous practices that maintain biodiversity and carbon stocks without baseline degradation. This shifts risk assessment for carbon offset projects, requiring practitioners to demonstrate degradation baselines via ISO 17025-accredited soil carbon sampling and historical land use data, potentially invalidating credits from undisturbed Indigenous territories. For current projects, this means reassessing eligibility in BC's Forest Carbon Offset Protocol or Alberta's TIER system, where Indigenous exclusion could increase compliance costs by 20-30% through alternative offset sourcing. Watch for CCME guideline revisions in Q2 2026, with federal consultation under CEPA Part 5 closing April 15, 2026, and potential harmonization with US EPA carbon standards influencing cross-border projects. Practitioners should cross-reference with Species at Risk Act overlays to argue for equity-based exemptions in impact assessments.
-Source: https://www.nature.com/articles/s41558-026-02576-2
-
-━━━━━━━━━━━━━━━━━━━━
-### Regulatory &amp; Policy Watch
-**Regulatory Calendar Review: Upcoming Federal and Provincial Milestones**  
-Federal CEPA 2024 amendment consultations on toxic substance listings (including PFAS updates) close March 31, 2026, requiring submissions on analytical methods like EPA Method 537.1 equivalents for PFOA/PFOS thresholds below 0.01 µg/L in groundwater; this affects compliance in Ontario O. Reg. 153/04 site assessments and BC CSR numerical standards. Alberta EPEA Tier 1 guideline revisions for oil sands tailings ponds enter force April 1, 2026, mandating enhanced monitored natural attenuation monitoring. Quebec LQE/RPRT annual reporting deadline for contaminated sites is March 15, 2026, with new requirements for permeable reactive barrier efficacy data.
-
-**Cross-Jurisdictional Watch: US EPA Influence on Canadian Policy**  
-US EPA's proposed PFAS drinking water standards (4 ng/L for PFOA) may prompt CCME harmonization by mid-2026, impacting interprovincial standards like Saskatchewan EMPA groundwater criteria; track for adoption in federal Fisheries Act s.36(3) effluent limits. Recent US carbon market reforms under the Inflation Reduction Act could influence federal IAA additionality criteria for Indigenous projects, potentially aligning with BC EMA offsets.
-
-━━━━━━━━━━━━━━━━━━━━
-### Science &amp; Technical
-**Additionality Requirements of Carbon Markets Could Penalize Indigenous Stewardship: Nature**  
-Analysis shows Indigenous-managed lands in Canada sustain 10-20% higher c...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>6</itunes:episode>
-      <itunes:title>Ep 6: Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 8: BC's proposed FOI amendments could restrict access to EMA and CSR records, requiring immediate advocacy before legislative passage.</title>
-      <description># Environmental Intelligence
-**Date:** March 10, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** BC's proposed FOI amendments could restrict access to EMA and CSR records, requiring immediate advocacy before legislative passage.
-
-**Executive Summary:** British Columbia's new bill introduces potential barriers to freedom of information requests, directly affecting access to contaminated sites data under EMA and CSR for multi-jurisdictional consultants. US proposals to weaken vessel speed limits for North Atlantic right whales may pressure harmonization with Canada's Fisheries Act and SARA protections in Atlantic provinces. Professionals should monitor BC legislative debates this week and review cross-border species risk assessments for offshore projects.
-
-━━━━━━━━━━━━━━━━━━━━
-### Lead Story
-British Columbia's government faces accusations of undermining freedom of information through a new bill that expands exemptions and fees for public records access, including environmental compliance documents under the Environmental Management Act (EMA) and Contaminated Sites Regulation (CSR). Previously, FOI requests under BC's Freedom of Information and Protection of Privacy Act allowed efficient retrieval of site registry data, spill reports, and remediation certificates without prohibitive costs; the amendments introduce broader "cabinet confidence" exemptions and higher processing fees, potentially delaying or denying access to critical records. This change targets records often used in Phase I ESAs and risk assessments, complicating due diligence for contaminated sites across BC and interprovincial projects. For practitioners, this means increased timelines and costs for obtaining EMA Section 49 certificates or CSR Protocol 1 risk assessment inputs, especially in oil sands-adjacent areas with Alberta EPEA overlaps. Watch for opposition amendments during second reading this month, with potential effective date by Q2 2026; submit feedback to BC's Office of the Information and Privacy Commissioner by March 31. Cross-jurisdictional teams should compare with Ontario's more open EPA record access to mitigate impacts.
-Source: https://thetyee.ca/News/2026/03/10/BC-Government-Stealth-Attack-Freedom-Information/
-
-━━━━━━━━━━━━━━━━━━━━
-### Regulatory &amp; Policy Watch
-**Ontario Green Burial Barriers: The Narwhal**
-Ontario's Cemetery, Crematorium and Funeral Services Act, administered under the Bereavement Authority of Ontario, imposes barriers to natural burials including soil quality assessments potentially triggering EPA O. Reg. 153/04 site investigations for contaminants. This means consultants may need to conduct Phase I/II ESAs for proposed burial sites to ensure compliance with CCME soil guidelines, increasing project costs and timelines. Action required: Review site-specific risk assessments for any Ontario land use changes involving burials, with municipal approvals often needing completion within 90 days of application.
-Source: https://thenarwhal.ca/green-burial-barriers-ontario/
-
-**US Ocean Speed Limits for Right Whales: Grist**
-Proposed US weakening of vessel speed limits under the Endangered Species Act for North Atlantic right whales could influence Canadian regulations in the Gulf of St. Lawrence under the Fisheries Act Section 7 and SARA critical habitat protections, where 10-knot limits apply seasonally. This affects offshore energy and shipping projects in Atlantic provinces, potentially requiring updated impact assessments under the federal Impact Assessment Act (IAA) to align with cross-border species recovery. Monitor NOAA consultations closing April 15, 2026, for implications on harmonized thresholds.
-Source: https://grist.org/oceans/ocean-speed-limits-protect-endangered-right-whales-trump-wants-to-weaken-them/
-
-**US Tribal Clean Energy Funding Cuts: Grist**
-US federal withdrawal of $1.5B in tribal clean energy funding under the Inflation Reduction Act parallels Canadian Indigenous...</description>
-      <guid isPermaLink="false">env-intel-ep008-20260310-143149</guid>
-      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep008_20260310.mp3" length="15701725" type="audio/mpeg" />
-      <pubDate>Tue, 10 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/environmental-intelligence.jpg" />
-      <itunes:duration>10:54</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Environmental Intelligence
-**Date:** March 10, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** BC's proposed FOI amendments could restrict access to EMA and CSR records, requiring immediate advocacy before legislative passage.
-
-**Executive Summary:** British Columbia's new bill introduces potential barriers to freedom of information requests, directly affecting access to contaminated sites data under EMA and CSR for multi-jurisdictional consultants. US proposals to weaken vessel speed limits for North Atlantic right whales may pressure harmonization with Canada's Fisheries Act and SARA protections in Atlantic provinces. Professionals should monitor BC legislative debates this week and review cross-border species risk assessments for offshore projects.
-
-━━━━━━━━━━━━━━━━━━━━
-### Lead Story
-British Columbia's government faces accusations of undermining freedom of information through a new bill that expands exemptions and fees for public records access, including environmental compliance documents under the Environmental Management Act (EMA) and Contaminated Sites Regulation (CSR). Previously, FOI requests under BC's Freedom of Information and Protection of Privacy Act allowed efficient retrieval of site registry data, spill reports, and remediation certificates without prohibitive costs; the amendments introduce broader "cabinet confidence" exemptions and higher processing fees, potentially delaying or denying access to critical records. This change targets records often used in Phase I ESAs and risk assessments, complicating due diligence for contaminated sites across BC and interprovincial projects. For practitioners, this means increased timelines and costs for obtaining EMA Section 49 certificates or CSR Protocol 1 risk assessment inputs, especially in oil sands-adjacent areas with Alberta EPEA overlaps. Watch for opposition amendments during second reading this month, with potential effective date by Q2 2026; submit feedback to BC's Office of the Information and Privacy Commissioner by March 31. Cross-jurisdictional teams should compare with Ontario's more open EPA record access to mitigate impacts.
-Source: https://thetyee.ca/News/2026/03/10/BC-Government-Stealth-Attack-Freedom-Information/
-
-━━━━━━━━━━━━━━━━━━━━
-### Regulatory &amp; Policy Watch
-**Ontario Green Burial Barriers: The Narwhal**
-Ontario's Cemetery, Crematorium and Funeral Services Act, administered under the Bereavement Authority of Ontario, imposes barriers to natural burials including soil quality assessments potentially triggering EPA O. Reg. 153/04 site investigations for contaminants. This means consultants may need to conduct Phase I/II ESAs for proposed burial sites to ensure compliance with CCME soil guidelines, increasing project costs and timelines. Action required: Review site-specific risk assessments for any Ontario land use changes involving burials, with municipal approvals often needing completion within 90 days of application.
-Source: https://thenarwhal.ca/green-burial-barriers-ontario/
-
-**US Ocean Speed Limits for Right Whales: Grist**
-Proposed US weakening of vessel speed limits under the Endangered Species Act for North Atlantic right whales could influence Canadian regulations in the Gulf of St. Lawrence under the Fisheries Act Section 7 and SARA critical habitat protections, where 10-knot limits apply seasonally. This affects offshore energy and shipping projects in Atlantic provinces, potentially requiring updated impact assessments under the federal Impact Assessment Act (IAA) to align with cross-border species recovery. Monitor NOAA consultations closing April 15, 2026, for implications on harmonized thresholds.
-Source: https://grist.org/oceans/ocean-speed-limits-protect-endangered-right-whales-trump-wants-to-weaken-them/
-
-**US Tribal Clean Energy Funding Cuts: Grist**
-US federal withdrawal of $1.5B in tribal clean energy funding under the Inflation Reduction Act parallels Canadian Indigenous...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>8</itunes:episode>
-      <itunes:title>Ep 8: BC's proposed FOI amendments could restrict access to EMA and CSR records, requiring immediate advocacy before legislative passage.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 10: Ontario's fast-tracking of Great Bear mine permits under the Mining Act faces Grassy Narrows lawsuit, signaling risks for mining assessments in the province.</title>
-      <description># Environmental Intelligence
-**Date:** March 12, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** Ontario's fast-tracking of Great Bear mine permits under the Mining Act faces Grassy Narrows lawsuit, signaling risks for mining assessments in the province.
-
-**Executive Summary:** Ontario's advancement of the Great Bear gold mine despite pending litigation over the Mining Act and water permits under the Environmental Protection Act creates immediate uncertainty for mining proponents conducting environmental assessments, requiring reviews of Indigenous consultation obligations. A California water board rule on dairy nitrate pollution may influence CCME guidelines or provincial water quality standards in agricultural regions like Alberta and Ontario. Professionals should monitor federal Canada Gazette notices this week for any related consultations on mining or water regulations.
-
-━━━━━━━━━━━━━━━━━━━━
-### Deep Dive Analysis
-With limited high-priority developments today, this briefing deep-dives into the two qualifying articles, extracting regulatory implications, cross-jurisdictional comparisons, and action items. The Ontario mining story highlights enforcement risks under provincial frameworks, while the California dairy rule offers insights for potential harmonization with Canadian water pollution controls.
-
-**Ontario Mining Act Challenge and Permit Fast-Tracking:** Grassy Narrows First Nation's lawsuit targets Ontario's Mining Act (R.S.O. 1990, c. M.14) and a water permit for the Great Bear gold mine under O. Reg. 387/04 (Water Taking and Transfer), alleging inadequate Indigenous consultation and environmental protections. This builds on prior challenges, contrasting with BC's EMA requirements for First Nations engagement in mining approvals via Protocol 13 risk assessments; in Alberta, similar issues arise under EPEA Part 2 for mine site remediation planning. The fast-tracking by the Doug Ford government ushers forward a third project, potentially shortening typical 18-24 month assessment timelines but increasing litigation risks that could delay site development or trigger compliance orders. For practitioners, this means auditing current mining ESAs in Ontario for alignment with Fisheries Act s.35(1) protections against habitat disruption, and comparing to Quebec's LQE where mining permits require explicit contaminant transport modeling. Action: Update risk registers for Ontario mining clients to factor in potential court-imposed stays, and cross-reference with federal IAA triggers for projects exceeding 5,000 t/d ore production. What to watch: The lawsuit's progression could set precedents for interprovincial harmonization, with possible appeals to the Supreme Court influencing SARA compliance across jurisdictions.
-
-**California Dairy Pollution Rule and Cross-Border Implications:** The California State Water Resources Control Board is set to release a new rule limiting nitrate pollution from dairies, targeting excess nitrogen in groundwater with thresholds potentially below 10 mg/L nitrate-N, addressing seepage into waterways; this contrasts with CCME's Canadian Water Quality Guidelines (e.g., 45 mg/L nitrate for aquatic life protection) and Ontario's O. Reg. 169/03 standards under the EPA, where agricultural runoff controls are less prescriptive. In Alberta, EPEA's Tier 1 guidelines for nitrate in soil (e.g., 200 mg/kg for commercial sites) could see influence if federal CEPA amendments incorporate US-style nutrient management plans, especially for prairie dairy operations. Practically, this may prompt updates to remediation designs in Canada using permeable reactive barriers for nitrate attenuation, with efficacy rates of 70-90% per USEPA data, and require labs to validate ISO 17025 methods for lower detection limits (e.g., 0.05 mg/L via ion chromatography). Action: Assess current groundwater monitoring programs in agricultural contaminated sites for nitrate thresholds, and pr...</description>
-      <guid isPermaLink="false">env-intel-ep010-20260312-143035</guid>
-      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep010_20260312.mp3" length="15491701" type="audio/mpeg" />
-      <pubDate>Thu, 12 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/environmental-intelligence.jpg" />
-      <itunes:duration>10:45</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Environmental Intelligence
-**Date:** March 12, 2026
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** Ontario's fast-tracking of Great Bear mine permits under the Mining Act faces Grassy Narrows lawsuit, signaling risks for mining assessments in the province.
-
-**Executive Summary:** Ontario's advancement of the Great Bear gold mine despite pending litigation over the Mining Act and water permits under the Environmental Protection Act creates immediate uncertainty for mining proponents conducting environmental assessments, requiring reviews of Indigenous consultation obligations. A California water board rule on dairy nitrate pollution may influence CCME guidelines or provincial water quality standards in agricultural regions like Alberta and Ontario. Professionals should monitor federal Canada Gazette notices this week for any related consultations on mining or water regulations.
-
-━━━━━━━━━━━━━━━━━━━━
-### Deep Dive Analysis
-With limited high-priority developments today, this briefing deep-dives into the two qualifying articles, extracting regulatory implications, cross-jurisdictional comparisons, and action items. The Ontario mining story highlights enforcement risks under provincial frameworks, while the California dairy rule offers insights for potential harmonization with Canadian water pollution controls.
-
-**Ontario Mining Act Challenge and Permit Fast-Tracking:** Grassy Narrows First Nation's lawsuit targets Ontario's Mining Act (R.S.O. 1990, c. M.14) and a water permit for the Great Bear gold mine under O. Reg. 387/04 (Water Taking and Transfer), alleging inadequate Indigenous consultation and environmental protections. This builds on prior challenges, contrasting with BC's EMA requirements for First Nations engagement in mining approvals via Protocol 13 risk assessments; in Alberta, similar issues arise under EPEA Part 2 for mine site remediation planning. The fast-tracking by the Doug Ford government ushers forward a third project, potentially shortening typical 18-24 month assessment timelines but increasing litigation risks that could delay site development or trigger compliance orders. For practitioners, this means auditing current mining ESAs in Ontario for alignment with Fisheries Act s.35(1) protections against habitat disruption, and comparing to Quebec's LQE where mining permits require explicit contaminant transport modeling. Action: Update risk registers for Ontario mining clients to factor in potential court-imposed stays, and cross-reference with federal IAA triggers for projects exceeding 5,000 t/d ore production. What to watch: The lawsuit's progression could set precedents for interprovincial harmonization, with possible appeals to the Supreme Court influencing SARA compliance across jurisdictions.
-
-**California Dairy Pollution Rule and Cross-Border Implications:** The California State Water Resources Control Board is set to release a new rule limiting nitrate pollution from dairies, targeting excess nitrogen in groundwater with thresholds potentially below 10 mg/L nitrate-N, addressing seepage into waterways; this contrasts with CCME's Canadian Water Quality Guidelines (e.g., 45 mg/L nitrate for aquatic life protection) and Ontario's O. Reg. 169/03 standards under the EPA, where agricultural runoff controls are less prescriptive. In Alberta, EPEA's Tier 1 guidelines for nitrate in soil (e.g., 200 mg/kg for commercial sites) could see influence if federal CEPA amendments incorporate US-style nutrient management plans, especially for prairie dairy operations. Practically, this may prompt updates to remediation designs in Canada using permeable reactive barriers for nitrate attenuation, with efficacy rates of 70-90% per USEPA data, and require labs to validate ISO 17025 methods for lower detection limits (e.g., 0.05 mg/L via ion chromatography). Action: Assess current groundwater monitoring programs in agricultural contaminated sites for nitrate thresholds, and pr...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>10</itunes:episode>
-      <itunes:title>Ep 10: Ontario's fast-tracking of Great Bear mine permits under the Mining Act faces Grassy Narrows lawsuit, signaling risks for mining assessments in the province.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 12: Aamjiwnaang First Nation demands full spill details and remediation plan from Suncor following discharge to St. Clair River.</title>
-      <description>**Date:** March 20, 2026  
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** Aamjiwnaang First Nation demands full spill details and remediation plan from Suncor following discharge to St. Clair River.
-
-**Executive Summary:** Ontario sees renewed scrutiny of industrial spill response and Indigenous notification protocols after a Suncor refinery release into the St. Clair River. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
-      <guid isPermaLink="false">env-intel-ep012-20260320-021440</guid>
-      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep012_20260320.mp3" length="20119763" type="audio/mpeg" />
-      <pubDate>Fri, 20 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/environmental-intelligence.jpg" />
-      <itunes:duration>13:58</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary>**Date:** March 20, 2026  
-🔬 **Environmental Intelligence** — Canadian Environmental Professional Briefing
-
-**HOOK:** Aamjiwnaang First Nation demands full spill details and remediation plan from Suncor following discharge to St. Clair River.
-
-**Executive Summary:** Ontario sees renewed scrutiny of industrial spill response and Indigenous notification protocols after a Suncor refinery release into the St. Clair River. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>12</itunes:episode>
-      <itunes:title>Ep 12: Aamjiwnaang First Nation demands full spill details and remediation plan from Suncor following discharge to St. Clair River.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-  <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked></channel>
+    </channel>
 </rss>

@@ -207,7 +207,7 @@ episode:
 chapters:
   enabled: true
   section_markers:
-    - pattern: "welcome to Models and Agents"
+    - pattern: "welcome.*Models and Agents|Models and Agents.*episode"
       title: "Introduction"
     - pattern: "what you need to know|key summary"
       title: "What You Need to Know"
@@ -225,9 +225,9 @@ chapters:
       title: "Things to Try"
     - pattern: "on the horizon|coming up|what's coming"
       title: "On the Horizon"
-    - pattern: "Before we go"
+    - pattern: "Before we go|before we wrap"
       title: "Tomorrow Teaser"
-    - pattern: "That's Models and Agents"
+    - pattern: "That's Models and Agents|that.?s.*for today|until next time"
       title: "Closing"
 
 newsletter:

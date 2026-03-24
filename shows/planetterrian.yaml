@@ -153,15 +153,15 @@ episode:
 chapters:
   enabled: true
   section_markers:
-    - pattern: "Welcome to Planetterrian"
+    - pattern: "Welcome.*Planet|Planet-terry-an.*episode"
       title: "Introduction"
-    - pattern: "Planetterrian Spotlight|Spotlight"
+    - pattern: "Planetterrian Spotlight|Planet-terry-an Spotlight|Spotlight"
       title: "Planetterrian Spotlight"
     - pattern: "science deep dive|deep dive|under the microscope"
       title: "Science Deep Dive"
-    - pattern: "Before we go|Next time"
+    - pattern: "Before we go|Next time|before we wrap"
       title: "Tomorrow Teaser"
-    - pattern: "That's Planetterrian"
+    - pattern: "That's Planet|that.?s.*for today|until next time"
       title: "Closing"
 
 newsletter:
