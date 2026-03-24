@@ -363,3 +363,163 @@ def fetch_rss_articles(
 
     logger.info("Returning %d unique articles", len(articles))
     return articles
+
+
+# ---------------------------------------------------------------------------
+# X / Twitter account fetcher (via xAI Grok x_search)
+# ---------------------------------------------------------------------------
+
+def fetch_x_posts(
+    x_accounts: list,
+    keywords: Optional[List[str]] = None,
+) -> List[Dict]:
+    """Fetch recent posts from X accounts using xAI's Grok API.
+
+    Uses xAI's x_search tool to find recent posts from specified accounts.
+    Returns articles in the same format as ``fetch_rss_articles()`` so they
+    can be merged seamlessly into the pipeline.
+
+    Parameters
+    ----------
+    x_accounts:
+        List of ``XAccountConfig`` objects (handle, label, max_posts).
+    keywords:
+        Optional keyword filter — if provided, only posts whose text
+        contains at least one keyword are kept.
+
+    Returns
+    -------
+    list[dict]
+        Articles with keys: ``title``, ``description``, ``url``,
+        ``source_name``, ``published_date``, ``relevance_score``, ``author``.
+    """
+    import datetime as _dt
+    import os
+    import re
+
+    if not x_accounts:
+        return []
+
+    api_key = (os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY") or "").strip()
+    if not api_key:
+        logger.warning("No GROK_API_KEY — skipping X account fetch")
+        return []
+
+    all_posts: List[Dict] = []
+
+    for account in x_accounts:
+        handle = account.handle.lstrip("@")
+        label = account.label or f"@{handle}"
+        max_posts = getattr(account, "max_posts", 5) or 5
+
+        # Build a search query for the account's recent posts
+        query = f"from:@{handle} recent posts last 24 hours"
+        if keywords:
+            # Add top keywords to help focus the search
+            top_kw = keywords[:5]
+            query += f" about {', '.join(top_kw)}"
+
+        logger.info("Fetching X posts from @%s via Grok x_search ...", handle)
+
+        try:
+            from digests.xai_grok import grok_generate_text
+
+            extraction_prompt = (
+                f"Search X/Twitter for the most recent posts from @{handle} "
+                f"in the last 24 hours.\n\n"
+                f"Return ONLY a structured list of their posts, formatted exactly like this "
+                f"(one block per post, separated by blank lines):\n\n"
+                f"POST_TITLE: [A short headline summarizing the post content, max 100 chars]\n"
+                f"POST_TEXT: [The full text of the post]\n"
+                f"POST_URL: [The URL to the post, e.g. https://x.com/{handle}/status/...]\n\n"
+                f"Rules:\n"
+                f"- Include up to {max_posts} posts maximum\n"
+                f"- Only include posts from the last 24 hours\n"
+                f"- Skip retweets of other people's content — only include original posts and quote tweets\n"
+                f"- If @{handle} has no recent posts, return exactly: NO_RECENT_POSTS\n"
+                f"- Do NOT add any commentary, analysis, or extra text — just the structured list\n"
+            )
+
+            text, meta = grok_generate_text(
+                prompt=extraction_prompt,
+                enable_x_search=True,
+                max_turns=3,
+            )
+
+            if not text or "NO_RECENT_POSTS" in text:
+                logger.info("No recent posts found from @%s", handle)
+                continue
+
+            # Parse the structured response into article dicts
+            now_iso = _dt.datetime.now(_dt.timezone.utc).isoformat()
+            posts = _parse_x_posts(text, handle, label, now_iso)
+
+            if keywords:
+                before_filter = len(posts)
+                kw_lower = [k.lower() for k in keywords]
+                posts = [
+                    p for p in posts
+                    if any(
+                        kw in (p.get("title", "") + " " + p.get("description", "")).lower()
+                        for kw in kw_lower
+                    )
+                ]
+                if before_filter != len(posts):
+                    logger.info(
+                        "Keyword filter: %d → %d posts from @%s",
+                        before_filter, len(posts), handle,
+                    )
+
+            # Cap to max_posts
+            posts = posts[:max_posts]
+            logger.info("Fetched %d posts from @%s", len(posts), handle)
+            all_posts.extend(posts)
+
+        except Exception as exc:
+            logger.warning("Failed to fetch X posts from @%s: %s", handle, exc)
+            continue
+
+    logger.info("Total X posts fetched: %d from %d account(s)", len(all_posts), len(x_accounts))
+    return all_posts
+
+
+def _parse_x_posts(
+    text: str,
+    handle: str,
+    label: str,
+    now_iso: str,
+) -> List[Dict]:
+    """Parse structured POST_TITLE/POST_TEXT/POST_URL blocks from Grok output."""
+    import re
+
+    posts: List[Dict] = []
+    # Split on POST_TITLE to find individual post blocks
+    blocks = re.split(r"(?=POST_TITLE\s*:)", text.strip())
+
+    for block in blocks:
+        block = block.strip()
+        if not block.startswith("POST_TITLE"):
+            continue
+
+        title_m = re.search(r"POST_TITLE\s*:\s*(.+?)(?:\n|$)", block)
+        text_m = re.search(r"POST_TEXT\s*:\s*(.+?)(?=POST_URL|\Z)", block, re.DOTALL)
+        url_m = re.search(r"POST_URL\s*:\s*(https?://\S+)", block)
+
+        title = title_m.group(1).strip() if title_m else ""
+        desc = text_m.group(1).strip() if text_m else ""
+        url = url_m.group(1).strip() if url_m else f"https://x.com/{handle}"
+
+        if not title and not desc:
+            continue
+
+        posts.append({
+            "title": title or desc[:100],
+            "description": desc,
+            "url": url,
+            "source_name": f"{label} (X)",
+            "published_date": now_iso,
+            "relevance_score": 0.0,
+            "author": f"@{handle}",
+        })
+
+    return posts

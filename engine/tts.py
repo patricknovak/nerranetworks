@@ -187,22 +187,20 @@ def speak_chunk(
     similarity_boost: float = 0.9,
     style: float = 0.85,
     use_speaker_boost: bool = True,
-    stream: bool = True,
     timeout: int = 120,
     previous_text: str = "",
     next_text: str = "",
 ) -> None:
-    """Generate audio for a single text chunk via the ElevenLabs API.
+    """Generate audio for a single text chunk via the ElevenLabs streaming API.
+
+    Always uses the ``/stream`` endpoint so audio is written to disk in
+    chunks rather than buffered entirely in memory.
 
     Parameters *previous_text* and *next_text* provide surrounding context
     so ElevenLabs can maintain natural prosody across chunk boundaries
     (the text is not spoken, only used for conditioning).
     """
-    endpoint = "stream" if stream else ""
-    url_parts = [ELEVENLABS_API_BASE, "text-to-speech", voice_id]
-    if endpoint:
-        url_parts.append(endpoint)
-    url = "/".join(url_parts)
+    url = "/".join([ELEVENLABS_API_BASE, "text-to-speech", voice_id, "stream"])
 
     headers = {
         "xi-api-key": api_key,
@@ -226,28 +224,17 @@ def speak_chunk(
     if next_text:
         payload["next_text"] = next_text
 
-    if stream:
-        with requests.post(url, json=payload, headers=headers, stream=True, timeout=timeout) as r:
-            if r.status_code == 401:
-                raise requests.HTTPError(
-                    "ElevenLabs returned 401 Unauthorized. "
-                    "Verify ELEVENLABS_API_KEY and that the voice ID is accessible.",
-                    response=r,
-                )
-            r.raise_for_status()
-            with open(out_path, "wb") as f:
-                for data in r.iter_content(chunk_size=8192):
-                    f.write(data)
-    else:
-        resp = requests.post(url, json=payload, headers=headers, timeout=timeout)
-        if resp.status_code == 401:
+    with requests.post(url, json=payload, headers=headers, stream=True, timeout=timeout) as r:
+        if r.status_code == 401:
             raise requests.HTTPError(
                 "ElevenLabs returned 401 Unauthorized. "
                 "Verify ELEVENLABS_API_KEY and that the voice ID is accessible.",
-                response=resp,
+                response=r,
             )
-        resp.raise_for_status()
-        out_path.write_bytes(resp.content)
+        r.raise_for_status()
+        with open(out_path, "wb") as f:
+            for data in r.iter_content(chunk_size=8192):
+                f.write(data)
 
 
 def speak(
@@ -262,7 +249,6 @@ def speak(
     similarity_boost: float = 0.9,
     style: float = 0.85,
     use_speaker_boost: bool = True,
-    stream: bool = True,
     timeout: int = 120,
     append_exclamation: bool = False,
 ) -> None:
@@ -270,7 +256,8 @@ def speak(
 
     For texts within *max_chars*, a single API call is made.  Longer texts
     are split at sentence boundaries, synthesised as separate chunks, and
-    concatenated with ``ffmpeg -f concat``.
+    concatenated with ``ffmpeg -f concat``.  Always uses the ElevenLabs
+    streaming endpoint.
     """
     tts_kwargs = dict(
         api_key=api_key,
@@ -279,7 +266,6 @@ def speak(
         similarity_boost=similarity_boost,
         style=style,
         use_speaker_boost=use_speaker_boost,
-        stream=stream,
         timeout=timeout,
     )
 
@@ -409,15 +395,13 @@ def synthesize(
     stability: float = 0.65,
     similarity_boost: float = 0.9,
     style: float = 0.85,
-    stream: bool = True,
     timeout: int = 120,
     append_exclamation: bool = False,
 ) -> Path:
     """Top-level entry point: text in, audio file path out.
 
     Handles chunking and concatenation internally so callers just pass
-    text and get back a path.  Default voice settings match Omni View's
-    env-var-driven approach; callers can override per show.
+    text and get back a path.  Always uses the ElevenLabs streaming endpoint.
     """
     output_path = Path(output_path)
     speak(
@@ -430,7 +414,6 @@ def synthesize(
         stability=stability,
         similarity_boost=similarity_boost,
         style=style,
-        stream=stream,
         timeout=timeout,
         append_exclamation=append_exclamation,
     )
@@ -449,14 +432,14 @@ def synthesize_sections(
     stability: float = 0.65,
     similarity_boost: float = 0.9,
     style: float = 0.85,
-    stream: bool = True,
     timeout: int = 120,
 ) -> List[Path]:
     """Synthesize multiple script sections into individual audio files.
 
     Each section is synthesized via ``speak()`` (which handles chunking
     internally for sections exceeding *max_chars*).  Returns an ordered
-    list of MP3 paths — one per section.
+    list of MP3 paths — one per section.  Always uses the ElevenLabs
+    streaming endpoint.
 
     Parameters
     ----------
@@ -498,7 +481,6 @@ def synthesize_sections(
             stability=stability,
             similarity_boost=similarity_boost,
             style=style,
-            stream=stream,
             timeout=timeout,
         )
         section_files.append(section_path)

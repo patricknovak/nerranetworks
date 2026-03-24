@@ -27,6 +27,14 @@ class SourceConfig:
 
 
 @dataclass
+class XAccountConfig:
+    """An X/Twitter account to pull recent posts from via xAI search."""
+    handle: str  # e.g. "sawyermerrit" (no @ prefix)
+    label: str = ""  # Human-readable name for attribution
+    max_posts: int = 5  # Max posts to fetch per run
+
+
+@dataclass
 class LLMConfig:
     provider: str = "xai"
     model: str = "grok-3"
@@ -180,6 +188,7 @@ class ShowConfig:
     slug: str = ""
     description: str = ""
     sources: List[SourceConfig] = field(default_factory=list)
+    x_accounts: List[XAccountConfig] = field(default_factory=list)
     keywords: List[str] = field(default_factory=list)
     min_articles: int = 3  # Minimum articles before expanding search
     min_articles_skip: int = 3  # Hard cutoff — skip episode if fewer articles
@@ -209,6 +218,21 @@ def _build_sources(raw: list) -> List[SourceConfig]:
         elif isinstance(item, dict):
             sources.append(SourceConfig(url=item.get("url", ""), label=item.get("label", "")))
     return sources
+
+
+def _build_x_accounts(raw: list) -> List[XAccountConfig]:
+    """Convert a list of dicts into XAccountConfig objects."""
+    accounts = []
+    for item in raw or []:
+        if isinstance(item, dict):
+            handle = item.get("handle", "").lstrip("@")
+            if handle:
+                accounts.append(XAccountConfig(
+                    handle=handle,
+                    label=item.get("label", f"@{handle}"),
+                    max_posts=item.get("max_posts", 5),
+                ))
+    return accounts
 
 
 def _build_section_markers(raw: list) -> List[SectionMarker]:
@@ -299,6 +323,7 @@ def load_config(yaml_path: str | Path) -> ShowConfig:
         slug=data.get("slug", ""),
         description=data.get("description", ""),
         sources=_build_sources(data.get("sources")),
+        x_accounts=_build_x_accounts(data.get("x_accounts")),
         keywords=data.get("keywords", []),
         min_articles=data.get("min_articles", 3),
         min_articles_skip=data.get("min_articles_skip", 3),

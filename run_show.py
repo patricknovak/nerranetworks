@@ -347,11 +347,19 @@ def run(args: argparse.Namespace) -> None:
             feed_dicts, config.keywords, content_tracker, min_articles,
         )
 
+    def _run_x_fetch():
+        if not config.x_accounts:
+            return []
+        from engine.fetcher import fetch_x_posts
+        return fetch_x_posts(config.x_accounts, keywords=config.keywords)
+
     articles = []
+    x_posts = []
     with metrics.stage("fetch_and_dedup"):
-        with ThreadPoolExecutor(max_workers=2) as executor:
+        with ThreadPoolExecutor(max_workers=3) as executor:
             hook_future = executor.submit(_run_hook)
             fetch_future = executor.submit(_run_fetch)
+            x_fetch_future = executor.submit(_run_x_fetch)
 
             try:
                 extra_context = hook_future.result(timeout=60)
@@ -367,7 +375,19 @@ def run(args: argparse.Namespace) -> None:
             except Exception as exc:
                 logger.error("RSS fetch failed: %s", exc)
                 articles = []
-    logger.info("After fetch + dedup: %d articles", len(articles))
+
+            try:
+                x_posts = x_fetch_future.result(timeout=120)
+            except Exception as exc:
+                logger.warning("X account fetch failed: %s — continuing with RSS only", exc)
+                x_posts = []
+
+    # Merge X posts into articles
+    if x_posts:
+        logger.info("Merging %d X posts from %d account(s) into %d RSS articles",
+                     len(x_posts), len(config.x_accounts), len(articles))
+        articles.extend(x_posts)
+    logger.info("After fetch + dedup: %d articles (incl. %d X posts)", len(articles), len(x_posts))
     metrics.record("article_count", len(articles))
 
     if not articles:
@@ -536,6 +556,18 @@ def run(args: argparse.Namespace) -> None:
     else:
         logger.debug("No validation config for show '%s' — skipping digest validation", config.slug)
 
+    # 7c. Minimum digest length gate — catch LLM garbage (e.g. 44-char responses)
+    #     before the pipeline spends TTS credits and publishes a bad episode.
+    _MIN_DIGEST_CHARS = 200
+    if len(x_thread.strip()) < _MIN_DIGEST_CHARS:
+        logger.error(
+            "Digest is too short (%d chars, minimum %d) — LLM likely returned "
+            "garbage. Aborting episode.",
+            len(x_thread.strip()), _MIN_DIGEST_CHARS,
+        )
+        save_usage(tracker, digests_dir)
+        sys.exit(2)
+
     # Extract the daily hook (headline) from the digest
     hook = _extract_hook(x_thread)
     if hook:
@@ -677,6 +709,19 @@ def run(args: argparse.Namespace) -> None:
             save_usage(tracker, digests_dir)
             sys.exit(1)
         logger.info("Podcast script generation took %.1fs", time.monotonic() - t0)
+
+        # 8b. Minimum podcast script length gate — catch LLM garbage before
+        #     spending TTS credits on a worthless episode.
+        _MIN_SCRIPT_WORDS = 100
+        _script_word_count = len(podcast_script.split())
+        if _script_word_count < _MIN_SCRIPT_WORDS:
+            logger.error(
+                "Podcast script is too short (%d words, minimum %d) — LLM "
+                "likely returned garbage. Aborting episode.",
+                _script_word_count, _MIN_SCRIPT_WORDS,
+            )
+            save_usage(tracker, digests_dir)
+            sys.exit(2)
 
         # Update Content Lake with podcast script (non-fatal)
         if _lake_record is not None:

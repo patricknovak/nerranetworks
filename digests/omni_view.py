@@ -1192,7 +1192,6 @@ def create_omni_view_podcast(script_text: str) -> tuple[Path, float]:
         stability=float(os.getenv("ELEVENLABS_STABILITY", "0.65")),
         similarity_boost=float(os.getenv("ELEVENLABS_SIMILARITY_BOOST", "0.9")),
         style=float(os.getenv("ELEVENLABS_STYLE", "0.85")),
-        stream=False,
         append_exclamation=False,
     )
 
