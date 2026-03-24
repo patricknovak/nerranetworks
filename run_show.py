@@ -852,6 +852,18 @@ def run(args: argparse.Namespace) -> None:
                 sections = split_script_at_chapters(podcast_script, episode_chapters)
                 sections = [s for s in sections if s.strip()]
 
+                # Safety: if sections capture < 80% of the script, something
+                # went wrong with splitting — fall back to single synthesis.
+                sections_total = sum(len(s) for s in sections)
+                if sections_total < len(podcast_script) * 0.8:
+                    logger.warning(
+                        "Section TTS: sections only contain %d/%d chars (%.0f%%) — "
+                        "falling back to single synthesis to avoid truncation",
+                        sections_total, len(podcast_script),
+                        100 * sections_total / len(podcast_script) if podcast_script else 0,
+                    )
+                    sections = []  # Force fallback to single synthesis below
+
                 if len(sections) >= 2:
                     logger.info("Section TTS: synthesizing %d sections separately", len(sections))
                     section_tmp_dir = digests_dir / f"_sections_ep{episode_num:03d}"

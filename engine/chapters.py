@@ -163,6 +163,15 @@ def split_script_at_chapters(
         return [script] if script.strip() else []
 
     sections: list[str] = []
+
+    # Include any text before the first chapter as a leading section.
+    # Without this, content before the first matched marker is lost.
+    first_start = chapters[0].char_start
+    if first_start > 0:
+        preamble = script[:first_start].strip()
+        if preamble:
+            sections.append(preamble)
+
     for ch in chapters:
         section = script[ch.char_start:ch.char_end].strip()
         sections.append(section)
