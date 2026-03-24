@@ -9,8 +9,8 @@ sources:
     label: The Verge
   - url: https://www.findmyelectric.com/feed/
     label: Find My Electric
-  - url: https://insideevs.com/rss/
-    label: InsideEVs
+  - url: https://electrek.co/feed/
+    label: Electrek
   - url: https://cleantechnica.com/tag/tesla/feed/
     label: CleanTechnica
   - url: https://www.thedrive.com/category/tesla-news/feed
@@ -23,18 +23,8 @@ sources:
     label: Tesmanian
   - url: https://driveteslacanada.ca/feed/
     label: Drive Tesla Canada
-  - url: https://www.tesery.com/en-in/blogs/news.atom
-    label: Tesery
-  - url: https://www.webpronews.com/search/tesla/feed/rss2/
-    label: WebProNews
-  - url: https://www.autoblog.com/rss.xml
-    label: Autoblog
-  - url: https://www.greencarreports.com/rss.xml
-    label: Green Car Reports
-  - url: http://feeds.feedburner.com/teslanorth
-    label: Tesla North
-  - url: https://www.torquenews.com/rss/tesla
-    label: Torque News
+  - url: https://carbuzz.com/feed
+    label: CarBuzz
 
 min_articles: 6
 min_articles_skip: 5

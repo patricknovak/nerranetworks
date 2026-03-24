@@ -536,6 +536,18 @@ def run(args: argparse.Namespace) -> None:
     else:
         logger.debug("No validation config for show '%s' — skipping digest validation", config.slug)
 
+    # 7c. Minimum digest length gate — catch LLM garbage (e.g. 44-char responses)
+    #     before the pipeline spends TTS credits and publishes a bad episode.
+    _MIN_DIGEST_CHARS = 200
+    if len(x_thread.strip()) < _MIN_DIGEST_CHARS:
+        logger.error(
+            "Digest is too short (%d chars, minimum %d) — LLM likely returned "
+            "garbage. Aborting episode.",
+            len(x_thread.strip()), _MIN_DIGEST_CHARS,
+        )
+        save_usage(tracker, digests_dir)
+        sys.exit(2)
+
     # Extract the daily hook (headline) from the digest
     hook = _extract_hook(x_thread)
     if hook:
@@ -677,6 +689,19 @@ def run(args: argparse.Namespace) -> None:
             save_usage(tracker, digests_dir)
             sys.exit(1)
         logger.info("Podcast script generation took %.1fs", time.monotonic() - t0)
+
+        # 8b. Minimum podcast script length gate — catch LLM garbage before
+        #     spending TTS credits on a worthless episode.
+        _MIN_SCRIPT_WORDS = 100
+        _script_word_count = len(podcast_script.split())
+        if _script_word_count < _MIN_SCRIPT_WORDS:
+            logger.error(
+                "Podcast script is too short (%d words, minimum %d) — LLM "
+                "likely returned garbage. Aborting episode.",
+                _script_word_count, _MIN_SCRIPT_WORDS,
+            )
+            save_usage(tracker, digests_dir)
+            sys.exit(2)
 
         # Update Content Lake with podcast script (non-fatal)
         if _lake_record is not None:
