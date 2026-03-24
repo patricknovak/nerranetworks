@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcast="https://podcastindex.org/namespace/1.0" version="2.0">
   <channel>
     <title>Fascinating Frontiers</title>
@@ -9,7 +9,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 22 Mar 2026 06:53:03 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Mar 2026 06:55:48 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
     <itunes:category text="Science" />
     <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
@@ -19,44 +19,36 @@
       <itunes:email>patrick@planetterrian.com</itunes:email>
     </itunes:owner>
     <itunes:summary>Daily space and astronomy news digest. Bringing the wonders of space exploration and astronomy discoveries to everyone. AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
-    <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked><item>
-      <title>Ep 43: Researchers are investigating how Mars gravity will change astronauts' skeletal muscle.</title>
-      <link>https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep043_20260322.mp3</link>
-      <description># Fascinating Frontiers
-**Date:** March 22, 2026
-🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
-
-**HOOK:** Researchers are investigating how Mars gravity will change astronauts' skeletal muscle.
+    <item>
+      <title>Ep 44: Giant craters on metallic asteroid Psyche could finally confirm if it's the exposed core of a destroyed protoplanet.</title>
+      <link>https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep044_20260324.mp3</link>
+      <description>**HOOK:** Giant craters on metallic asteroid Psyche could finally confirm if it's the exposed core of a destroyed protoplanet.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Space &amp; Astronomy Stories
-1. **Martian Gravity and Muscle Loss: 22 March 2026 • Universe Today**
-   Marie Mortreux at the University of Rhode Island is collaborating on an international study examining the effects of Martian gravity on skeletal muscle. ...
+1. **Giant Craters Hint at Psyche's Core Origin: 24 March 2026 • Universe Today**  
+   New analysis suggests massive craters on asteroid 16 Psyche may preserve evidence of whether it is the metallic remnant of a protoplanet's core. ...
 
 AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep043-20260322-065303</guid>
-      <enclosure url="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep043_20260322.mp3" length="18198195" type="audio/mpeg" />
-      <pubDate>Sun, 22 Mar 2026 08:00:00 +0000</pubDate>
+      <guid isPermaLink="false">fascinating-frontiers-ep044-20260324-065548</guid>
+      <enclosure url="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep044_20260324.mp3" length="20142333" type="audio/mpeg" />
+      <pubDate>Tue, 24 Mar 2026 08:00:00 +0000</pubDate>
       <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:duration>12:38</itunes:duration>
+      <itunes:duration>13:59</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Fascinating Frontiers
-**Date:** March 22, 2026
-🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
-
-**HOOK:** Researchers are investigating how Mars gravity will change astronauts' skeletal muscle.
+      <itunes:summary>**HOOK:** Giant craters on metallic asteroid Psyche could finally confirm if it's the exposed core of a destroyed protoplanet.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Space &amp; Astronomy Stories
-1. **Martian Gravity and Muscle Loss: 22 March 2026 • Universe Today**
-   Marie Mortreux at the University of Rhode Island is collaborating on an international study examining the effects of Martian gravity on skeletal muscle. ...
+1. **Giant Craters Hint at Psyche's Core Origin: 24 March 2026 • Universe Today**  
+   New analysis suggests massive craters on asteroid 16 Psyche may preserve evidence of whether it is the metallic remnant of a protoplanet's core. ...
 
 AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
       <itunes:season>1</itunes:season>
-      <itunes:episode>43</itunes:episode>
-      <itunes:title>Ep 43: Researchers are investigating how Mars gravity will change astronauts' skeletal muscle.</itunes:title>
+      <itunes:episode>44</itunes:episode>
+      <itunes:title>Ep 44: Giant craters on metallic asteroid Psyche could finally confirm if it's the exposed core of a destroyed protoplanet.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/fascinating_frontiers/chapters_ep043.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/fascinating_frontiers/Fascinating_Frontiers_Ep043_20260322_transcript.json" type="application/json" /></item>
+    <podcast:chapters url="https://nerranetwork.com/digests/fascinating_frontiers/chapters_ep044.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/fascinating_frontiers/Fascinating_Frontiers_Ep044_20260324_transcript.json" type="application/json" /></item>
     <item>
       <title>Ep 42: ESA will charter its own dedicated SpaceX Crew Dragon flight to the ISS to expand astronaut flight opportunities.</title>
       <description># Fascinating Frontiers
@@ -92,43 +84,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:season>1</itunes:season>
       <itunes:episode>42</itunes:episode>
       <itunes:title>Ep 42: ESA will charter its own dedicated SpaceX Crew Dragon flight to the ISS to expand astronaut flight opportunities.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-  <item>
-      <title>Ep 41: The vernal equinox arrives today at 10:46 A.M. EDT, marking astronomical spring as the Sun crosses directly over Earth’s equator.</title>
-      <description>**Fascinating Frontiers**  
-**Date:** March 20, 2026  
-🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
-
-**HOOK:** The vernal equinox arrives today at 10:46 A.M. EDT, marking astronomical spring as the Sun crosses directly over Earth’s equator.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Space &amp; Astronomy Stories
-1. **Spring Begins in the Northern Sky: March 20-27** • Astronomy Magazine  
-The vernal equinox occurs today at 10:46 A.M. EDT with the Sun standing directly over Earth’s equator. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep041-20260320-065359</guid>
-      <enclosure url="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep041_20260320.mp3" length="25150320" type="audio/mpeg" />
-      <pubDate>Fri, 20 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:duration>17:27</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary>**Fascinating Frontiers**  
-**Date:** March 20, 2026  
-🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
-
-**HOOK:** The vernal equinox arrives today at 10:46 A.M. EDT, marking astronomical spring as the Sun crosses directly over Earth’s equator.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Space &amp; Astronomy Stories
-1. **Spring Begins in the Northern Sky: March 20-27** • Astronomy Magazine  
-The vernal equinox occurs today at 10:46 A.M. EDT with the Sun standing directly over Earth’s equator. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>41</itunes:episode>
-      <itunes:title>Ep 41: The vernal equinox arrives today at 10:46 A.M. EDT, marking astronomical spring as the Sun crosses directly over Earth’s equator.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
@@ -272,103 +227,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
-      <title>Ep 38: Scientists traced the most energetic neutrino ever detected to blazars powered by supermassive black holes.</title>
-      <description># Fascinating Frontiers
-**Date:** March 12, 2026
-🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
-
-**HOOK:** Scientists traced the most energetic neutrino ever detected to blazars powered by supermassive black holes.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Space &amp; Astronomy Stories
-1. **Most Energetic Ghost Particle Traced to Blazars: 12 March 2026 • Universe Today**  
-   The KM3NeT detector in the Mediterranean Sea recorded a neutrino with unprecedented energy three years ago, now linked to blazars with jets aimed at Earth. This finding reveals how supermassive black holes accelerate particles to extreme energies, opening new avenues for studying cosmic high-energy physics.  
-   Source: https://www.universetoday.com/articles/the-most-energetic-ghost-particle-ever-seen
-
-2. **Sun's Rotation Pattern Stays Stable for Life: 12 March 2026 • Universe Today**  
-   Advanced simulations from Nagoya University show that Sun-like stars maintain consistent rotation without flipping as they age, overturning 45 years of theory. This stability could influence stellar evolution models and our understanding of magnetic fields in aging stars.  
-   Source: https://www.universetoday.com/articles/the-sun-that-never-flips
-
-3. **Mantis Space Unveils Solar Power Constellation Plan: 12 March 2026 • SpaceNews**  
-   Startup Mantis Space emerged from stealth with $10 million in funding to build satellites that beam solar power to other spacecraft. The initiative aims to extend mission lifespans by providing on-demand energy, potentially transforming satellite operations in orbit.  
-   Source: https://spacenews.com/mantis-space-emerges-from-stealth-with-10-million-for-solar-power-constellation/
-
-4. **Supernova Births Ultra-Magnetic Neutron Star: 12 March 2026 • Space.com**  
-   Astronomers observed a massive supernova explosion creating a magnetar with a magnetic field trillions of times stronger than Earth's. This "magic trick" explains superbright supernovas and offers insights into extreme stellar remnants.  
-   Source: https://www.space.com/astronomy/stars/astronomers-witness-colossal-supernova-explosion-create-one-of-the-most-magnetic-stars-in-the-universe-for-the-first-time
-
-5. **Ionic Liquids Expand Habitable Zone Definition: 12 March 2026 • Universe Today**  
-   Researchers propose ionic liquids and deep eutectic solvents as alternatives to water, allowing life in extreme environments beyond traditional habitable zones. This could broaden astrobiology searches to hotter, colder, or barren exoplanets.  
-   Source: https://www.universetoday.com/articles/ionic-liquids-could-redefine-the-habitable-zone
-
-6. **NASA Updates Artemis 2 Moon Mission Plans: 12 March 2026 • Space.com**  
-   NASA held a briefing on Artemis 2, assessing whether the crewed lunar orbit mission could launch next month. The update addresses readiness and timelines for returning humans to the moon's vicinity.  
-   Source: https://www.space.com/space-exploration/artemis/will-artemis-2-launch-toward-the-moon-next-month-watch-nasas-mission-update-today
-
-7. **Ancient Stellar Migration Aided Earth's Life: 12 March 2026 • Space.com**  
-   The sun and similar stars migrated from the Milky Way's core billions of years ago, creating a calmer environment for life to emerge on Earth. This movement may have shielded early solar system from harsh radiation.  
-   Source: https://www.space.com/astronomy/stars/a-mass-stellar-migration-billions-of-years-ago-may-have-helped-life-get-started-on-earth
-
-8. **Europa and Shadow Transit Across Jupiter: 12 March 2026 • Astronomy Magazine**  
-   Jupiter's moon Europa transits the planet tonight, followed by its shadow, visible through telescopes starting around 10 P.M. EDT. Such events highlight Jovian moon dynamics and aid in studying their orbits and surfaces.  
-   Source: https://www.astronomy.com/observing/the-sky-today-thursday-march-12-2026/
-
-9. **Firefly Alpha Rocket Returns to Orbit: 12 March 2026 • SpaceNews**  
-   Firefly Aerospace's Alpha rocket lau...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep038-20260312-123941</guid>
-      <enclosure url="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep038_20260312.mp3" length="16454052" type="audio/mpeg" />
-      <pubDate>Thu, 12 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:duration>11:25</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Fascinating Frontiers
-**Date:** March 12, 2026
-🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
-
-**HOOK:** Scientists traced the most energetic neutrino ever detected to blazars powered by supermassive black holes.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Space &amp; Astronomy Stories
-1. **Most Energetic Ghost Particle Traced to Blazars: 12 March 2026 • Universe Today**  
-   The KM3NeT detector in the Mediterranean Sea recorded a neutrino with unprecedented energy three years ago, now linked to blazars with jets aimed at Earth. This finding reveals how supermassive black holes accelerate particles to extreme energies, opening new avenues for studying cosmic high-energy physics.  
-   Source: https://www.universetoday.com/articles/the-most-energetic-ghost-particle-ever-seen
-
-2. **Sun's Rotation Pattern Stays Stable for Life: 12 March 2026 • Universe Today**  
-   Advanced simulations from Nagoya University show that Sun-like stars maintain consistent rotation without flipping as they age, overturning 45 years of theory. This stability could influence stellar evolution models and our understanding of magnetic fields in aging stars.  
-   Source: https://www.universetoday.com/articles/the-sun-that-never-flips
-
-3. **Mantis Space Unveils Solar Power Constellation Plan: 12 March 2026 • SpaceNews**  
-   Startup Mantis Space emerged from stealth with $10 million in funding to build satellites that beam solar power to other spacecraft. The initiative aims to extend mission lifespans by providing on-demand energy, potentially transforming satellite operations in orbit.  
-   Source: https://spacenews.com/mantis-space-emerges-from-stealth-with-10-million-for-solar-power-constellation/
-
-4. **Supernova Births Ultra-Magnetic Neutron Star: 12 March 2026 • Space.com**  
-   Astronomers observed a massive supernova explosion creating a magnetar with a magnetic field trillions of times stronger than Earth's. This "magic trick" explains superbright supernovas and offers insights into extreme stellar remnants.  
-   Source: https://www.space.com/astronomy/stars/astronomers-witness-colossal-supernova-explosion-create-one-of-the-most-magnetic-stars-in-the-universe-for-the-first-time
-
-5. **Ionic Liquids Expand Habitable Zone Definition: 12 March 2026 • Universe Today**  
-   Researchers propose ionic liquids and deep eutectic solvents as alternatives to water, allowing life in extreme environments beyond traditional habitable zones. This could broaden astrobiology searches to hotter, colder, or barren exoplanets.  
-   Source: https://www.universetoday.com/articles/ionic-liquids-could-redefine-the-habitable-zone
-
-6. **NASA Updates Artemis 2 Moon Mission Plans: 12 March 2026 • Space.com**  
-   NASA held a briefing on Artemis 2, assessing whether the crewed lunar orbit mission could launch next month. The update addresses readiness and timelines for returning humans to the moon's vicinity.  
-   Source: https://www.space.com/space-exploration/artemis/will-artemis-2-launch-toward-the-moon-next-month-watch-nasas-mission-update-today
-
-7. **Ancient Stellar Migration Aided Earth's Life: 12 March 2026 • Space.com**  
-   The sun and similar stars migrated from the Milky Way's core billions of years ago, creating a calmer environment for life to emerge on Earth. This movement may have shielded early solar system from harsh radiation.  
-   Source: https://www.space.com/astronomy/stars/a-mass-stellar-migration-billions-of-years-ago-may-have-helped-life-get-started-on-earth
-
-8. **Europa and Shadow Transit Across Jupiter: 12 March 2026 • Astronomy Magazine**  
-   Jupiter's moon Europa transits the planet tonight, followed by its shadow, visible through telescopes starting around 10 P.M. EDT. Such events highlight Jovian moon dynamics and aid in studying their orbits and surfaces.  
-   Source: https://www.astronomy.com/observing/the-sky-today-thursday-march-12-2026/
-
-9. **Firefly Alpha Rocket Returns to Orbit: 12 March 2026 • SpaceNews**  
-   Firefly Aerospace's Alpha rocket lau...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>38</itunes:episode>
-      <itunes:title>Ep 38: Scientists traced the most energetic neutrino ever detected to blazars powered by supermassive black holes.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
       <title>Ep 37: NASA's DART mission successfully altered an asteroid's solar orbit, proving deflection potential for planetary defense.</title>
       <description># Fascinating Frontiers
 **Date:** March 10, 2026
@@ -474,103 +332,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
-      <title>Ep 36: A new study proposes space weather scrambles alien radio signals, evading SETI detectors.</title>
-      <description># Fascinating Frontiers
-**Date:** March 08, 2026
-🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
-
-**HOOK:** A new study proposes space weather scrambles alien radio signals, evading SETI detectors.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Space &amp; Astronomy Stories
-1. **Space Weather May Scramble Alien Transmissions: 08 March 2026 • Space.com**
-   A study suggests interstellar plasma smears alien radio signals beyond narrowband detection by SETI. This could explain the Fermi paradox by revealing why we miss extraterrestrial communications.
-   Source: https://www.space.com/space-exploration/search-for-life/where-are-all-the-aliens-maybe-space-weather-is-scrambling-their-transmissions
-
-2. **Sky Highlights: Spiral Galaxy NGC 2541 Visible: 08 March 2026 • Astronomy Magazine**
-   Observers can spot spiral galaxy NGC 2541 this week, alongside Venus meeting Saturn and daylight saving time starting. These events offer accessible stargazing opportunities and remind us of seasonal sky changes.
-   Source: https://www.astronomy.com/observing/the-sky-today-sunday-march-8-2026/
-
-3. **Bacteria and Fungi Mine Metals in Space: 08 March 2026 • Universe Today**
-   Astronauts on the ISS used microbes to extract metals from rocks in microgravity experiments. This biomining technique could enable sustainable resource harvesting for future deep-space missions.
-   Source: https://www.universetoday.com/articles/astronauts-use-bacteria-and-fungi-to-harvest-metals-in-space
-
-4. **Stunning Nebula Photo Resembles Jellyfish or Brain: 07 March 2026 • Space.com**
-   A new image captures a supernova remnant nebula 5,000 light-years away, evoking shapes like a jellyfish or brain. It highlights the dynamic beauty of stellar explosions and their remnants in deep space.
-   Source: https://www.space.com/stargazing/astrophotography/a-jellyfish-or-a-brain-tell-us-what-you-see-in-this-gorgeous-deep-space-nebula-photo
-
-5. **This Week In Space Podcast Hits 200 Episodes: 07 March 2026 • Space.com**
-   Hosts Rod Pyle and Tariq Malik mark their 200th episode with a listener special on space topics. This milestone fosters community engagement and shares ongoing enthusiasm for astronomy discoveries.
-   Source: https://www.space.com/entertainment/space-movies-shows/this-week-in-space-podcast-episode-200-our-200th-episode-listener-special
-
-6. **Bungie Details Marathon Game's Retro Futurism: 07 March 2026 • Space.com**
-   Developers explain the sci-fi aesthetic and narrative lessons from Destiny in the new Marathon extraction shooter. It draws on space-themed storytelling to immerse players in futuristic worlds.
-   Source: https://www.space.com/entertainment/space-games/bungie-explains-marathons-graphic-retro-futurism-aesthetic-and-the-live-narrative-lessons-it-learned-from-destiny-interview
-
-7. **John Herschel's Birth in Astronomy History: 07 March 2026 • Astronomy Magazine**
-   Astronomer John Herschel, son of William, was born on this date in 1792 and contributed to cataloging nebulae and stars. His work advanced observational astronomy and inspired future generations of sky watchers.
-   Source: https://www.astronomy.com/today-in-the-history-of-astronomy/march-7-1792-the-birth-of-john-herschel/
-
-━━━━━━━━━━━━━━━━━━━━
-### Cosmic Spotlight
-The idea that space weather might be scrambling alien radio signals is a fresh take on the Fermi paradox. Researchers modeled how interstellar plasma could broaden narrowband signals into undetectable smears, based on data from SETI searches and plasma physics. This opens doors to redesigning detectors for broader signals, potentially boosting our chances of finding cosmic neighbors. What if we adjusted our tech—could we finally hear from out there?
-
-━━━━━━━━━━━━━━━━━━━━
-Today's stories blend cosmic mysteries with practical space tech, reminding us how the universe keeps surprising. Keep looking up!</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep036-20260308-123025</guid>
-      <enclosure url="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep036_20260308.mp3" length="13797712" type="audio/mpeg" />
-      <pubDate>Sun, 08 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:duration>09:34</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Fascinating Frontiers
-**Date:** March 08, 2026
-🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
-
-**HOOK:** A new study proposes space weather scrambles alien radio signals, evading SETI detectors.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top 15 Space &amp; Astronomy Stories
-1. **Space Weather May Scramble Alien Transmissions: 08 March 2026 • Space.com**
-   A study suggests interstellar plasma smears alien radio signals beyond narrowband detection by SETI. This could explain the Fermi paradox by revealing why we miss extraterrestrial communications.
-   Source: https://www.space.com/space-exploration/search-for-life/where-are-all-the-aliens-maybe-space-weather-is-scrambling-their-transmissions
-
-2. **Sky Highlights: Spiral Galaxy NGC 2541 Visible: 08 March 2026 • Astronomy Magazine**
-   Observers can spot spiral galaxy NGC 2541 this week, alongside Venus meeting Saturn and daylight saving time starting. These events offer accessible stargazing opportunities and remind us of seasonal sky changes.
-   Source: https://www.astronomy.com/observing/the-sky-today-sunday-march-8-2026/
-
-3. **Bacteria and Fungi Mine Metals in Space: 08 March 2026 • Universe Today**
-   Astronauts on the ISS used microbes to extract metals from rocks in microgravity experiments. This biomining technique could enable sustainable resource harvesting for future deep-space missions.
-   Source: https://www.universetoday.com/articles/astronauts-use-bacteria-and-fungi-to-harvest-metals-in-space
-
-4. **Stunning Nebula Photo Resembles Jellyfish or Brain: 07 March 2026 • Space.com**
-   A new image captures a supernova remnant nebula 5,000 light-years away, evoking shapes like a jellyfish or brain. It highlights the dynamic beauty of stellar explosions and their remnants in deep space.
-   Source: https://www.space.com/stargazing/astrophotography/a-jellyfish-or-a-brain-tell-us-what-you-see-in-this-gorgeous-deep-space-nebula-photo
-
-5. **This Week In Space Podcast Hits 200 Episodes: 07 March 2026 • Space.com**
-   Hosts Rod Pyle and Tariq Malik mark their 200th episode with a listener special on space topics. This milestone fosters community engagement and shares ongoing enthusiasm for astronomy discoveries.
-   Source: https://www.space.com/entertainment/space-movies-shows/this-week-in-space-podcast-episode-200-our-200th-episode-listener-special
-
-6. **Bungie Details Marathon Game's Retro Futurism: 07 March 2026 • Space.com**
-   Developers explain the sci-fi aesthetic and narrative lessons from Destiny in the new Marathon extraction shooter. It draws on space-themed storytelling to immerse players in futuristic worlds.
-   Source: https://www.space.com/entertainment/space-games/bungie-explains-marathons-graphic-retro-futurism-aesthetic-and-the-live-narrative-lessons-it-learned-from-destiny-interview
-
-7. **John Herschel's Birth in Astronomy History: 07 March 2026 • Astronomy Magazine**
-   Astronomer John Herschel, son of William, was born on this date in 1792 and contributed to cataloging nebulae and stars. His work advanced observational astronomy and inspired future generations of sky watchers.
-   Source: https://www.astronomy.com/today-in-the-history-of-astronomy/march-7-1792-the-birth-of-john-herschel/
-
-━━━━━━━━━━━━━━━━━━━━
-### Cosmic Spotlight
-The idea that space weather might be scrambling alien radio signals is a fresh take on the Fermi paradox. Researchers modeled how interstellar plasma could broaden narrowband signals into undetectable smears, based on data from SETI searches and plasma physics. This opens doors to redesigning detectors for broader signals, potentially boosting our chances of finding cosmic neighbors. What if we adjusted our tech—could we finally hear from out there?
-
-━━━━━━━━━━━━━━━━━━━━
-Today's stories blend cosmic mysteries with practical space tech, reminding us how the universe keeps surprising. Keep looking up!</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>36</itunes:episode>
-      <itunes:title>Ep 36: A new study proposes space weather scrambles alien radio signals, evading SETI detectors.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
       <title>Ep 35: China's new economic plan elevates space as a pillar industry with deep space goals.</title>
       <description># Fascinating Frontiers
 **Date:** March 06, 2026
@@ -665,6 +426,338 @@ Today's stories blend cosmic mysteries with practical space tech, reminding us h
       <itunes:season>1</itunes:season>
       <itunes:episode>35</itunes:episode>
       <itunes:title>Ep 35: China's new economic plan elevates space as a pillar industry with deep space goals.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Ep 33: NASA has overhauled its Artemis program, canceling the Artemis 3 moon landing and adding a preparatory mission in 2027.</title>
+      <description># Fascinating Frontiers
+**Date:** February 27, 2026
+🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
+
+**HOOK:** NASA has overhauled its Artemis program, canceling the Artemis 3 moon landing and adding a preparatory mission in 2027.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Space &amp; Astronomy Stories
+1. **NASA Tests Solar Oxygen Extraction on Moon: 27 February 2026 • NASA**
+   NASA's Carbothermal Reduction Demonstration successfully integrated a solar concentrator with mirrors and software to produce carbon monoxide from simulated lunar regolith. This advances in-situ resource utilization, enabling future lunar bases to generate oxygen from local materials for life support and fuel.
+   Source: https://www.nasa.gov/image-detail/carbothermal-reduction-demonstration-card-project-testing-2/
+
+2. **NASA Cancels Artemis 3 Moon Landing: 27 February 2026 • Space.com**
+   NASA is reworking its Artemis missions, scrapping the planned 2028 astronaut moon landing due to unrealistic timelines. The shift focuses on foundational steps to ensure sustainable lunar exploration.
+   Source: https://www.space.com/space-exploration/artemis/nasa-cancels-artemis-3-astronaut-moon-landing-this-is-just-not-the-right-pathway-forward
+
+3. **Ancient Impact Evidence Found in Brazil: 27 February 2026 • Universe Today**
+   Researchers discovered a tektite field in Brazil indicating a major asteroid impact about 6 million years ago. This finding reveals details of Earth's geological history and the spread of impact debris across multiple provinces.
+   Source: https://www.universetoday.com/articles/6-million-years-ago-something-slammed-into-modern-day-brazil
+
+4. **NASA Overhauls Artemis Moon Program: 27 February 2026 • Spaceflight Now**
+   New NASA Administrator Jared Isaacman announced changes to Artemis, including a preparatory mission before any 2028 landing. The overhaul aims to build realistic groundwork for enduring human presence on the Moon.
+   Source: https://spaceflightnow.com/2026/02/27/nasa-announces-major-overhaul-of-artemis-moon-program/
+
+5. **JWST Probes Uranus Ionosphere Structure: 27 February 2026 • Universe Today**
+   The James Webb Space Telescope used its NIRSpec instrument to map Uranus's ionosphere, detecting auroral bands and magnetic field variations. These observations provide insights into the planet's extreme tilt and atmospheric dynamics.
+   Source: https://www.universetoday.com/articles/jwst-digs-into-the-uranian-ionosphere
+
+6. **Upcoming Total Lunar Eclipse Details: 27 February 2026 • Space.com**
+   The March 3 total lunar eclipse will be the last until New Year's Eve 2028, followed by a rare trifecta in 2028-2029. This event offers a chance to observe Earth's shadow fully obscuring the Moon.
+   Source: https://www.space.com/stargazing/lunar-eclipses/the-total-lunar-eclipse-on-march-3-will-be-the-last-until-new-years-eve-2028
+
+7. **Why Moon Turns Red in Eclipses: 27 February 2026 • Astronomy Magazine**
+   Earth's atmosphere bends red sunlight into its shadow during lunar eclipses, scattering blue light and giving the Moon an orange hue. This phenomenon explains the "blood moon" appearance and ties to atmospheric optics.
+   Source: https://www.astronomy.com/science/why-does-the-moon-turn-red-during-a-lunar-eclipse-2/
+
+8. **NASA Advances Experimental Flight Research: 27 February 2026 • NASA**
+   NASA's Armstrong Flight Research Center in California is pioneering high-speed, autonomous, and electrified aircraft technologies. These efforts support broader aeronautics goals, from breaking sound barriers to future aviation innovations.
+   Source: https://www.nasa.gov/centers-and-facilities/armstrong/nasas-home-for-experimental-flight-advances-aeronautics-mission/
+
+9. **NASA Adds Mission to Artemis Program: 27 February 2026 • NASA**
+   NASA is increasing Artemis mission cadence with a new 2027 flight to standardize vehicles and prepare for surface operations. This update aims to achieve sustainable lunar exploration and astronaut returns.
+   Sourc...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep033-20260227-192353</guid>
+      <enclosure url="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep033_20260227.mp3" length="15467250" type="audio/mpeg" />
+      <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:duration>10:44</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Fascinating Frontiers
+**Date:** February 27, 2026
+🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
+
+**HOOK:** NASA has overhauled its Artemis program, canceling the Artemis 3 moon landing and adding a preparatory mission in 2027.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Space &amp; Astronomy Stories
+1. **NASA Tests Solar Oxygen Extraction on Moon: 27 February 2026 • NASA**
+   NASA's Carbothermal Reduction Demonstration successfully integrated a solar concentrator with mirrors and software to produce carbon monoxide from simulated lunar regolith. This advances in-situ resource utilization, enabling future lunar bases to generate oxygen from local materials for life support and fuel.
+   Source: https://www.nasa.gov/image-detail/carbothermal-reduction-demonstration-card-project-testing-2/
+
+2. **NASA Cancels Artemis 3 Moon Landing: 27 February 2026 • Space.com**
+   NASA is reworking its Artemis missions, scrapping the planned 2028 astronaut moon landing due to unrealistic timelines. The shift focuses on foundational steps to ensure sustainable lunar exploration.
+   Source: https://www.space.com/space-exploration/artemis/nasa-cancels-artemis-3-astronaut-moon-landing-this-is-just-not-the-right-pathway-forward
+
+3. **Ancient Impact Evidence Found in Brazil: 27 February 2026 • Universe Today**
+   Researchers discovered a tektite field in Brazil indicating a major asteroid impact about 6 million years ago. This finding reveals details of Earth's geological history and the spread of impact debris across multiple provinces.
+   Source: https://www.universetoday.com/articles/6-million-years-ago-something-slammed-into-modern-day-brazil
+
+4. **NASA Overhauls Artemis Moon Program: 27 February 2026 • Spaceflight Now**
+   New NASA Administrator Jared Isaacman announced changes to Artemis, including a preparatory mission before any 2028 landing. The overhaul aims to build realistic groundwork for enduring human presence on the Moon.
+   Source: https://spaceflightnow.com/2026/02/27/nasa-announces-major-overhaul-of-artemis-moon-program/
+
+5. **JWST Probes Uranus Ionosphere Structure: 27 February 2026 • Universe Today**
+   The James Webb Space Telescope used its NIRSpec instrument to map Uranus's ionosphere, detecting auroral bands and magnetic field variations. These observations provide insights into the planet's extreme tilt and atmospheric dynamics.
+   Source: https://www.universetoday.com/articles/jwst-digs-into-the-uranian-ionosphere
+
+6. **Upcoming Total Lunar Eclipse Details: 27 February 2026 • Space.com**
+   The March 3 total lunar eclipse will be the last until New Year's Eve 2028, followed by a rare trifecta in 2028-2029. This event offers a chance to observe Earth's shadow fully obscuring the Moon.
+   Source: https://www.space.com/stargazing/lunar-eclipses/the-total-lunar-eclipse-on-march-3-will-be-the-last-until-new-years-eve-2028
+
+7. **Why Moon Turns Red in Eclipses: 27 February 2026 • Astronomy Magazine**
+   Earth's atmosphere bends red sunlight into its shadow during lunar eclipses, scattering blue light and giving the Moon an orange hue. This phenomenon explains the "blood moon" appearance and ties to atmospheric optics.
+   Source: https://www.astronomy.com/science/why-does-the-moon-turn-red-during-a-lunar-eclipse-2/
+
+8. **NASA Advances Experimental Flight Research: 27 February 2026 • NASA**
+   NASA's Armstrong Flight Research Center in California is pioneering high-speed, autonomous, and electrified aircraft technologies. These efforts support broader aeronautics goals, from breaking sound barriers to future aviation innovations.
+   Source: https://www.nasa.gov/centers-and-facilities/armstrong/nasas-home-for-experimental-flight-advances-aeronautics-mission/
+
+9. **NASA Adds Mission to Artemis Program: 27 February 2026 • NASA**
+   NASA is increasing Artemis mission cadence with a new 2027 flight to standardize vehicles and prepare for surface operations. This update aims to achieve sustainable lunar exploration and astronaut returns.
+   Sourc...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>33</itunes:episode>
+      <itunes:title>Ep 33: NASA has overhauled its Artemis program, canceling the Artemis 3 moon landing and adding a preparatory mission in 2027.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 30 - January 28, 2026 at 04:13 AM PST</title>
+      <description>Daily space and astronomy news for January 28, 2026 at 04:13 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep030-20260128-121701</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep030_20260128_121617.mp3" length="15828367" type="audio/mpeg" />
+      <pubDate>Wed, 28 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>30</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 28 - January 25, 2026 at 03:32 PM PST</title>
+      <description>Daily space and astronomy news for January 25, 2026 at 03:32 PM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep028-20260125-233520</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep028_20260125_233427.mp3" length="18911652" type="audio/mpeg" />
+      <pubDate>Sun, 25 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>28</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 26 - January 22, 2026 at 04:09 AM PST</title>
+      <description>Daily space and astronomy news for January 22, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep026-20260122-121258</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep026_20260122_121207.mp3" length="18077196" type="audio/mpeg" />
+      <pubDate>Thu, 22 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>26</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 24 - January 10, 2026 at 04:07 AM PST</title>
+      <description>Daily space and astronomy news for January 10, 2026 at 04:07 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep024-20260110-121212</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep024_20260110_121123.mp3" length="16973784" type="audio/mpeg" />
+      <pubDate>Sat, 10 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>24</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 22 - January 07, 2026 at 04:09 AM PST</title>
+      <description>Daily space and astronomy news for January 07, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep022-20260107-121201</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep022_20260107_121117.mp3" length="15484804" type="audio/mpeg" />
+      <pubDate>Wed, 07 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>22</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 20 - January 05, 2026 at 04:09 AM PST</title>
+      <description>Daily space and astronomy news for January 05, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep020-20260105-121221</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep020_20260105_121128.mp3" length="17181301" type="audio/mpeg" />
+      <pubDate>Mon, 05 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>20</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 18 - January 03, 2026 at 04:08 AM PST</title>
+      <description>Daily space and astronomy news for January 03, 2026 at 04:08 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep018-20260103-121137</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep018_20260103_121047.mp3" length="17559972" type="audio/mpeg" />
+      <pubDate>Sat, 03 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>18</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 16 - January 01, 2026 at 04:08 AM PST</title>
+      <description>Daily space and astronomy news for January 01, 2026 at 04:08 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep016-20260101-121138</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep016_20260101_121053.mp3" length="15861595" type="audio/mpeg" />
+      <pubDate>Thu, 01 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>16</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 14 - December 30, 2025 at 04:09 AM PST</title>
+      <description>Daily space and astronomy news for December 30, 2025 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep014-20251230-121242</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep014_20251230_121134.mp3" length="29705030" type="audio/mpeg" />
+      <pubDate>Tue, 30 Dec 2025 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>14</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 12 - December 28, 2025 at 04:07 AM PST</title>
+      <description>Daily space and astronomy news for December 28, 2025 at 04:07 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep012-20251228-121016</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep012_20251228_120923.mp3" length="22853843" type="audio/mpeg" />
+      <pubDate>Sun, 28 Dec 2025 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>12</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 13 - December 29, 2025 at 04:08 AM PST</title>
+      <description>Daily space and astronomy news for December 29, 2025 at 04:08 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep013-20251229-121201</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep013_20251229_121048.mp3" length="31699949" type="audio/mpeg" />
+      <pubDate>Mon, 29 Dec 2025 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>13</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 15 - December 31, 2025 at 04:08 AM PST</title>
+      <description>Daily space and astronomy news for December 31, 2025 at 04:08 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep015-20251231-121217</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep015_20251231_121119.mp3" length="18918548" type="audio/mpeg" />
+      <pubDate>Wed, 31 Dec 2025 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>15</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 17 - January 02, 2026 at 04:08 AM PST</title>
+      <description>Daily space and astronomy news for January 02, 2026 at 04:08 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep017-20260102-121202</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep017_20260102_121111.mp3" length="18037072" type="audio/mpeg" />
+      <pubDate>Fri, 02 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>17</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 19 - January 04, 2026 at 04:07 AM PST</title>
+      <description>Daily space and astronomy news for January 04, 2026 at 04:07 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep019-20260104-121027</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep019_20260104_120947.mp3" length="14041591" type="audio/mpeg" />
+      <pubDate>Sun, 04 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>19</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 21 - January 06, 2026 at 04:09 AM PST</title>
+      <description>Daily space and astronomy news for January 06, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep021-20260106-121237</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep021_20260106_121146.mp3" length="18195688" type="audio/mpeg" />
+      <pubDate>Tue, 06 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>21</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 23 - January 09, 2026 at 04:08 AM PST</title>
+      <description>Daily space and astronomy news for January 09, 2026 at 04:08 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep023-20260109-121223</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep023_20260109_121136.mp3" length="17001996" type="audio/mpeg" />
+      <pubDate>Fri, 09 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>23</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 25 - January 11, 2026 at 04:09 AM PST</title>
+      <description>Daily space and astronomy news for January 11, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep025-20260111-121214</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep025_20260111_121126.mp3" length="16875982" type="audio/mpeg" />
+      <pubDate>Sun, 11 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>25</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 27 - January 23, 2026 at 04:09 AM PST</title>
+      <description>Daily space and astronomy news for January 23, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep027-20260123-121254</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep027_20260123_121212.mp3" length="14696742" type="audio/mpeg" />
+      <pubDate>Fri, 23 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>27</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 29 - January 26, 2026 at 04:09 AM PST</title>
+      <description>Daily space and astronomy news for January 26, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep029-20260126-121238</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep029_20260126_121155.mp3" length="15548752" type="audio/mpeg" />
+      <pubDate>Mon, 26 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>29</itunes:episode>
+    </item>
+    <item>
+      <title>Fascinating Frontiers - Episode 31 - January 30, 2026 at 04:15 AM PST</title>
+      <description>Daily space and astronomy news for January 30, 2026 at 04:15 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep031-20260130-121907</guid>
+      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep031_20260130_121821.mp3" length="15131838" type="audio/mpeg" />
+      <pubDate>Fri, 30 Jan 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episode>31</itunes:episode>
+    </item>
+    <item>
+      <title>Ep 32: NASA shakes up human spaceflight leadership after critical Starliner report.</title>
+      <description># Fascinating Frontiers
+**Date:** February 26, 2026
+🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
+
+**HOOK:** NASA shakes up human spaceflight leadership after critical Starliner report.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Space &amp; Astronomy Stories
+1. **NASA Leadership Shake-Up: 26 February 2026 • Space.com**
+   NASA has replaced two key figures in its human spaceflight program following a critical report on the Boeing Starliner crewed flight. This restructuring aims to address oversight issu...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep032-20260226-203533</guid>
+      <enclosure url="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep032_20260226.mp3" length="10900628" type="audio/mpeg" />
+      <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:duration>07:34</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Fascinating Frontiers
+**Date:** February 26, 2026
+🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
+
+**HOOK:** NASA shakes up human spaceflight leadership after critical Starliner report.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Space &amp; Astronomy Stories
+1. **NASA Leadership Shake-Up: 26 February 2026 • Space.com**
+   NASA has replaced two key figures in its human spaceflight program following a critical report on the Boeing Starliner crewed flight. This restructuring aims to address oversight issu...</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>32</itunes:episode>
+      <itunes:title>Ep 32: NASA shakes up human spaceflight leadership after critical Starliner report.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
@@ -771,336 +864,272 @@ Today's stories blend cosmic mysteries with practical space tech, reminding us h
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
-      <title>Ep 33: NASA has overhauled its Artemis program, canceling the Artemis 3 moon landing and adding a preparatory mission in 2027.</title>
+      <title>Ep 36: A new study proposes space weather scrambles alien radio signals, evading SETI detectors.</title>
       <description># Fascinating Frontiers
-**Date:** February 27, 2026
+**Date:** March 08, 2026
 🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
 
-**HOOK:** NASA has overhauled its Artemis program, canceling the Artemis 3 moon landing and adding a preparatory mission in 2027.
+**HOOK:** A new study proposes space weather scrambles alien radio signals, evading SETI detectors.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Space &amp; Astronomy Stories
-1. **NASA Tests Solar Oxygen Extraction on Moon: 27 February 2026 • NASA**
-   NASA's Carbothermal Reduction Demonstration successfully integrated a solar concentrator with mirrors and software to produce carbon monoxide from simulated lunar regolith. This advances in-situ resource utilization, enabling future lunar bases to generate oxygen from local materials for life support and fuel.
-   Source: https://www.nasa.gov/image-detail/carbothermal-reduction-demonstration-card-project-testing-2/
+1. **Space Weather May Scramble Alien Transmissions: 08 March 2026 • Space.com**
+   A study suggests interstellar plasma smears alien radio signals beyond narrowband detection by SETI. This could explain the Fermi paradox by revealing why we miss extraterrestrial communications.
+   Source: https://www.space.com/space-exploration/search-for-life/where-are-all-the-aliens-maybe-space-weather-is-scrambling-their-transmissions
 
-2. **NASA Cancels Artemis 3 Moon Landing: 27 February 2026 • Space.com**
-   NASA is reworking its Artemis missions, scrapping the planned 2028 astronaut moon landing due to unrealistic timelines. The shift focuses on foundational steps to ensure sustainable lunar exploration.
-   Source: https://www.space.com/space-exploration/artemis/nasa-cancels-artemis-3-astronaut-moon-landing-this-is-just-not-the-right-pathway-forward
+2. **Sky Highlights: Spiral Galaxy NGC 2541 Visible: 08 March 2026 • Astronomy Magazine**
+   Observers can spot spiral galaxy NGC 2541 this week, alongside Venus meeting Saturn and daylight saving time starting. These events offer accessible stargazing opportunities and remind us of seasonal sky changes.
+   Source: https://www.astronomy.com/observing/the-sky-today-sunday-march-8-2026/
 
-3. **Ancient Impact Evidence Found in Brazil: 27 February 2026 • Universe Today**
-   Researchers discovered a tektite field in Brazil indicating a major asteroid impact about 6 million years ago. This finding reveals details of Earth's geological history and the spread of impact debris across multiple provinces.
-   Source: https://www.universetoday.com/articles/6-million-years-ago-something-slammed-into-modern-day-brazil
+3. **Bacteria and Fungi Mine Metals in Space: 08 March 2026 • Universe Today**
+   Astronauts on the ISS used microbes to extract metals from rocks in microgravity experiments. This biomining technique could enable sustainable resource harvesting for future deep-space missions.
+   Source: https://www.universetoday.com/articles/astronauts-use-bacteria-and-fungi-to-harvest-metals-in-space
 
-4. **NASA Overhauls Artemis Moon Program: 27 February 2026 • Spaceflight Now**
-   New NASA Administrator Jared Isaacman announced changes to Artemis, including a preparatory mission before any 2028 landing. The overhaul aims to build realistic groundwork for enduring human presence on the Moon.
-   Source: https://spaceflightnow.com/2026/02/27/nasa-announces-major-overhaul-of-artemis-moon-program/
+4. **Stunning Nebula Photo Resembles Jellyfish or Brain: 07 March 2026 • Space.com**
+   A new image captures a supernova remnant nebula 5,000 light-years away, evoking shapes like a jellyfish or brain. It highlights the dynamic beauty of stellar explosions and their remnants in deep space.
+   Source: https://www.space.com/stargazing/astrophotography/a-jellyfish-or-a-brain-tell-us-what-you-see-in-this-gorgeous-deep-space-nebula-photo
 
-5. **JWST Probes Uranus Ionosphere Structure: 27 February 2026 • Universe Today**
-   The James Webb Space Telescope used its NIRSpec instrument to map Uranus's ionosphere, detecting auroral bands and magnetic field variations. These observations provide insights into the planet's extreme tilt and atmospheric dynamics.
-   Source: https://www.universetoday.com/articles/jwst-digs-into-the-uranian-ionosphere
+5. **This Week In Space Podcast Hits 200 Episodes: 07 March 2026 • Space.com**
+   Hosts Rod Pyle and Tariq Malik mark their 200th episode with a listener special on space topics. This milestone fosters community engagement and shares ongoing enthusiasm for astronomy discoveries.
+   Source: https://www.space.com/entertainment/space-movies-shows/this-week-in-space-podcast-episode-200-our-200th-episode-listener-special
 
-6. **Upcoming Total Lunar Eclipse Details: 27 February 2026 • Space.com**
-   The March 3 total lunar eclipse will be the last until New Year's Eve 2028, followed by a rare trifecta in 2028-2029. This event offers a chance to observe Earth's shadow fully obscuring the Moon.
-   Source: https://www.space.com/stargazing/lunar-eclipses/the-total-lunar-eclipse-on-march-3-will-be-the-last-until-new-years-eve-2028
+6. **Bungie Details Marathon Game's Retro Futurism: 07 March 2026 • Space.com**
+   Developers explain the sci-fi aesthetic and narrative lessons from Destiny in the new Marathon extraction shooter. It draws on space-themed storytelling to immerse players in futuristic worlds.
+   Source: https://www.space.com/entertainment/space-games/bungie-explains-marathons-graphic-retro-futurism-aesthetic-and-the-live-narrative-lessons-it-learned-from-destiny-interview
 
-7. **Why Moon Turns Red in Eclipses: 27 February 2026 • Astronomy Magazine**
-   Earth's atmosphere bends red sunlight into its shadow during lunar eclipses, scattering blue light and giving the Moon an orange hue. This phenomenon explains the "blood moon" appearance and ties to atmospheric optics.
-   Source: https://www.astronomy.com/science/why-does-the-moon-turn-red-during-a-lunar-eclipse-2/
+7. **John Herschel's Birth in Astronomy History: 07 March 2026 • Astronomy Magazine**
+   Astronomer John Herschel, son of William, was born on this date in 1792 and contributed to cataloging nebulae and stars. His work advanced observational astronomy and inspired future generations of sky watchers.
+   Source: https://www.astronomy.com/today-in-the-history-of-astronomy/march-7-1792-the-birth-of-john-herschel/
 
-8. **NASA Advances Experimental Flight Research: 27 February 2026 • NASA**
-   NASA's Armstrong Flight Research Center in California is pioneering high-speed, autonomous, and electrified aircraft technologies. These efforts support broader aeronautics goals, from breaking sound barriers to future aviation innovations.
-   Source: https://www.nasa.gov/centers-and-facilities/armstrong/nasas-home-for-experimental-flight-advances-aeronautics-mission/
+━━━━━━━━━━━━━━━━━━━━
+### Cosmic Spotlight
+The idea that space weather might be scrambling alien radio signals is a fresh take on the Fermi paradox. Researchers modeled how interstellar plasma could broaden narrowband signals into undetectable smears, based on data from SETI searches and plasma physics. This opens doors to redesigning detectors for broader signals, potentially boosting our chances of finding cosmic neighbors. What if we adjusted our tech—could we finally hear from out there?
 
-9. **NASA Adds Mission to Artemis Program: 27 February 2026 • NASA**
-   NASA is increasing Artemis mission cadence with a new 2027 flight to standardize vehicles and prepare for surface operations. This update aims to achieve sustainable lunar exploration and astronaut returns.
-   Sourc...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep033-20260227-192353</guid>
-      <enclosure url="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep033_20260227.mp3" length="15467250" type="audio/mpeg" />
-      <pubDate>Fri, 27 Feb 2026 08:00:00 +0000</pubDate>
+━━━━━━━━━━━━━━━━━━━━
+Today's stories blend cosmic mysteries with practical space tech, reminding us how the universe keeps surprising. Keep looking up!</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep036-20260308-123025</guid>
+      <enclosure url="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep036_20260308.mp3" length="13797712" type="audio/mpeg" />
+      <pubDate>Sun, 08 Mar 2026 08:00:00 +0000</pubDate>
       <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:duration>10:44</itunes:duration>
+      <itunes:duration>09:34</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:summary># Fascinating Frontiers
-**Date:** February 27, 2026
+**Date:** March 08, 2026
 🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
 
-**HOOK:** NASA has overhauled its Artemis program, canceling the Artemis 3 moon landing and adding a preparatory mission in 2027.
+**HOOK:** A new study proposes space weather scrambles alien radio signals, evading SETI detectors.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Space &amp; Astronomy Stories
-1. **NASA Tests Solar Oxygen Extraction on Moon: 27 February 2026 • NASA**
-   NASA's Carbothermal Reduction Demonstration successfully integrated a solar concentrator with mirrors and software to produce carbon monoxide from simulated lunar regolith. This advances in-situ resource utilization, enabling future lunar bases to generate oxygen from local materials for life support and fuel.
-   Source: https://www.nasa.gov/image-detail/carbothermal-reduction-demonstration-card-project-testing-2/
+1. **Space Weather May Scramble Alien Transmissions: 08 March 2026 • Space.com**
+   A study suggests interstellar plasma smears alien radio signals beyond narrowband detection by SETI. This could explain the Fermi paradox by revealing why we miss extraterrestrial communications.
+   Source: https://www.space.com/space-exploration/search-for-life/where-are-all-the-aliens-maybe-space-weather-is-scrambling-their-transmissions
 
-2. **NASA Cancels Artemis 3 Moon Landing: 27 February 2026 • Space.com**
-   NASA is reworking its Artemis missions, scrapping the planned 2028 astronaut moon landing due to unrealistic timelines. The shift focuses on foundational steps to ensure sustainable lunar exploration.
-   Source: https://www.space.com/space-exploration/artemis/nasa-cancels-artemis-3-astronaut-moon-landing-this-is-just-not-the-right-pathway-forward
+2. **Sky Highlights: Spiral Galaxy NGC 2541 Visible: 08 March 2026 • Astronomy Magazine**
+   Observers can spot spiral galaxy NGC 2541 this week, alongside Venus meeting Saturn and daylight saving time starting. These events offer accessible stargazing opportunities and remind us of seasonal sky changes.
+   Source: https://www.astronomy.com/observing/the-sky-today-sunday-march-8-2026/
 
-3. **Ancient Impact Evidence Found in Brazil: 27 February 2026 • Universe Today**
-   Researchers discovered a tektite field in Brazil indicating a major asteroid impact about 6 million years ago. This finding reveals details of Earth's geological history and the spread of impact debris across multiple provinces.
-   Source: https://www.universetoday.com/articles/6-million-years-ago-something-slammed-into-modern-day-brazil
+3. **Bacteria and Fungi Mine Metals in Space: 08 March 2026 • Universe Today**
+   Astronauts on the ISS used microbes to extract metals from rocks in microgravity experiments. This biomining technique could enable sustainable resource harvesting for future deep-space missions.
+   Source: https://www.universetoday.com/articles/astronauts-use-bacteria-and-fungi-to-harvest-metals-in-space
 
-4. **NASA Overhauls Artemis Moon Program: 27 February 2026 • Spaceflight Now**
-   New NASA Administrator Jared Isaacman announced changes to Artemis, including a preparatory mission before any 2028 landing. The overhaul aims to build realistic groundwork for enduring human presence on the Moon.
-   Source: https://spaceflightnow.com/2026/02/27/nasa-announces-major-overhaul-of-artemis-moon-program/
+4. **Stunning Nebula Photo Resembles Jellyfish or Brain: 07 March 2026 • Space.com**
+   A new image captures a supernova remnant nebula 5,000 light-years away, evoking shapes like a jellyfish or brain. It highlights the dynamic beauty of stellar explosions and their remnants in deep space.
+   Source: https://www.space.com/stargazing/astrophotography/a-jellyfish-or-a-brain-tell-us-what-you-see-in-this-gorgeous-deep-space-nebula-photo
 
-5. **JWST Probes Uranus Ionosphere Structure: 27 February 2026 • Universe Today**
-   The James Webb Space Telescope used its NIRSpec instrument to map Uranus's ionosphere, detecting auroral bands and magnetic field variations. These observations provide insights into the planet's extreme tilt and atmospheric dynamics.
-   Source: https://www.universetoday.com/articles/jwst-digs-into-the-uranian-ionosphere
+5. **This Week In Space Podcast Hits 200 Episodes: 07 March 2026 • Space.com**
+   Hosts Rod Pyle and Tariq Malik mark their 200th episode with a listener special on space topics. This milestone fosters community engagement and shares ongoing enthusiasm for astronomy discoveries.
+   Source: https://www.space.com/entertainment/space-movies-shows/this-week-in-space-podcast-episode-200-our-200th-episode-listener-special
 
-6. **Upcoming Total Lunar Eclipse Details: 27 February 2026 • Space.com**
-   The March 3 total lunar eclipse will be the last until New Year's Eve 2028, followed by a rare trifecta in 2028-2029. This event offers a chance to observe Earth's shadow fully obscuring the Moon.
-   Source: https://www.space.com/stargazing/lunar-eclipses/the-total-lunar-eclipse-on-march-3-will-be-the-last-until-new-years-eve-2028
+6. **Bungie Details Marathon Game's Retro Futurism: 07 March 2026 • Space.com**
+   Developers explain the sci-fi aesthetic and narrative lessons from Destiny in the new Marathon extraction shooter. It draws on space-themed storytelling to immerse players in futuristic worlds.
+   Source: https://www.space.com/entertainment/space-games/bungie-explains-marathons-graphic-retro-futurism-aesthetic-and-the-live-narrative-lessons-it-learned-from-destiny-interview
 
-7. **Why Moon Turns Red in Eclipses: 27 February 2026 • Astronomy Magazine**
-   Earth's atmosphere bends red sunlight into its shadow during lunar eclipses, scattering blue light and giving the Moon an orange hue. This phenomenon explains the "blood moon" appearance and ties to atmospheric optics.
-   Source: https://www.astronomy.com/science/why-does-the-moon-turn-red-during-a-lunar-eclipse-2/
+7. **John Herschel's Birth in Astronomy History: 07 March 2026 • Astronomy Magazine**
+   Astronomer John Herschel, son of William, was born on this date in 1792 and contributed to cataloging nebulae and stars. His work advanced observational astronomy and inspired future generations of sky watchers.
+   Source: https://www.astronomy.com/today-in-the-history-of-astronomy/march-7-1792-the-birth-of-john-herschel/
 
-8. **NASA Advances Experimental Flight Research: 27 February 2026 • NASA**
-   NASA's Armstrong Flight Research Center in California is pioneering high-speed, autonomous, and electrified aircraft technologies. These efforts support broader aeronautics goals, from breaking sound barriers to future aviation innovations.
-   Source: https://www.nasa.gov/centers-and-facilities/armstrong/nasas-home-for-experimental-flight-advances-aeronautics-mission/
+━━━━━━━━━━━━━━━━━━━━
+### Cosmic Spotlight
+The idea that space weather might be scrambling alien radio signals is a fresh take on the Fermi paradox. Researchers modeled how interstellar plasma could broaden narrowband signals into undetectable smears, based on data from SETI searches and plasma physics. This opens doors to redesigning detectors for broader signals, potentially boosting our chances of finding cosmic neighbors. What if we adjusted our tech—could we finally hear from out there?
 
-9. **NASA Adds Mission to Artemis Program: 27 February 2026 • NASA**
-   NASA is increasing Artemis mission cadence with a new 2027 flight to standardize vehicles and prepare for surface operations. This update aims to achieve sustainable lunar exploration and astronaut returns.
-   Sourc...</itunes:summary>
+━━━━━━━━━━━━━━━━━━━━
+Today's stories blend cosmic mysteries with practical space tech, reminding us how the universe keeps surprising. Keep looking up!</itunes:summary>
       <itunes:season>1</itunes:season>
-      <itunes:episode>33</itunes:episode>
-      <itunes:title>Ep 33: NASA has overhauled its Artemis program, canceling the Artemis 3 moon landing and adding a preparatory mission in 2027.</itunes:title>
+      <itunes:episode>36</itunes:episode>
+      <itunes:title>Ep 36: A new study proposes space weather scrambles alien radio signals, evading SETI detectors.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
-      <title>Ep 32: NASA shakes up human spaceflight leadership after critical Starliner report.</title>
+      <title>Ep 38: Scientists traced the most energetic neutrino ever detected to blazars powered by supermassive black holes.</title>
       <description># Fascinating Frontiers
-**Date:** February 26, 2026
+**Date:** March 12, 2026
 🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
 
-**HOOK:** NASA shakes up human spaceflight leadership after critical Starliner report.
+**HOOK:** Scientists traced the most energetic neutrino ever detected to blazars powered by supermassive black holes.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Space &amp; Astronomy Stories
-1. **NASA Leadership Shake-Up: 26 February 2026 • Space.com**
-   NASA has replaced two key figures in its human spaceflight program following a critical report on the Boeing Starliner crewed flight. This restructuring aims to address oversight issu...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep032-20260226-203533</guid>
-      <enclosure url="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep032_20260226.mp3" length="10900628" type="audio/mpeg" />
-      <pubDate>Thu, 26 Feb 2026 08:00:00 +0000</pubDate>
+1. **Most Energetic Ghost Particle Traced to Blazars: 12 March 2026 • Universe Today**  
+   The KM3NeT detector in the Mediterranean Sea recorded a neutrino with unprecedented energy three years ago, now linked to blazars with jets aimed at Earth. This finding reveals how supermassive black holes accelerate particles to extreme energies, opening new avenues for studying cosmic high-energy physics.  
+   Source: https://www.universetoday.com/articles/the-most-energetic-ghost-particle-ever-seen
+
+2. **Sun's Rotation Pattern Stays Stable for Life: 12 March 2026 • Universe Today**  
+   Advanced simulations from Nagoya University show that Sun-like stars maintain consistent rotation without flipping as they age, overturning 45 years of theory. This stability could influence stellar evolution models and our understanding of magnetic fields in aging stars.  
+   Source: https://www.universetoday.com/articles/the-sun-that-never-flips
+
+3. **Mantis Space Unveils Solar Power Constellation Plan: 12 March 2026 • SpaceNews**  
+   Startup Mantis Space emerged from stealth with $10 million in funding to build satellites that beam solar power to other spacecraft. The initiative aims to extend mission lifespans by providing on-demand energy, potentially transforming satellite operations in orbit.  
+   Source: https://spacenews.com/mantis-space-emerges-from-stealth-with-10-million-for-solar-power-constellation/
+
+4. **Supernova Births Ultra-Magnetic Neutron Star: 12 March 2026 • Space.com**  
+   Astronomers observed a massive supernova explosion creating a magnetar with a magnetic field trillions of times stronger than Earth's. This "magic trick" explains superbright supernovas and offers insights into extreme stellar remnants.  
+   Source: https://www.space.com/astronomy/stars/astronomers-witness-colossal-supernova-explosion-create-one-of-the-most-magnetic-stars-in-the-universe-for-the-first-time
+
+5. **Ionic Liquids Expand Habitable Zone Definition: 12 March 2026 • Universe Today**  
+   Researchers propose ionic liquids and deep eutectic solvents as alternatives to water, allowing life in extreme environments beyond traditional habitable zones. This could broaden astrobiology searches to hotter, colder, or barren exoplanets.  
+   Source: https://www.universetoday.com/articles/ionic-liquids-could-redefine-the-habitable-zone
+
+6. **NASA Updates Artemis 2 Moon Mission Plans: 12 March 2026 • Space.com**  
+   NASA held a briefing on Artemis 2, assessing whether the crewed lunar orbit mission could launch next month. The update addresses readiness and timelines for returning humans to the moon's vicinity.  
+   Source: https://www.space.com/space-exploration/artemis/will-artemis-2-launch-toward-the-moon-next-month-watch-nasas-mission-update-today
+
+7. **Ancient Stellar Migration Aided Earth's Life: 12 March 2026 • Space.com**  
+   The sun and similar stars migrated from the Milky Way's core billions of years ago, creating a calmer environment for life to emerge on Earth. This movement may have shielded early solar system from harsh radiation.  
+   Source: https://www.space.com/astronomy/stars/a-mass-stellar-migration-billions-of-years-ago-may-have-helped-life-get-started-on-earth
+
+8. **Europa and Shadow Transit Across Jupiter: 12 March 2026 • Astronomy Magazine**  
+   Jupiter's moon Europa transits the planet tonight, followed by its shadow, visible through telescopes starting around 10 P.M. EDT. Such events highlight Jovian moon dynamics and aid in studying their orbits and surfaces.  
+   Source: https://www.astronomy.com/observing/the-sky-today-thursday-march-12-2026/
+
+9. **Firefly Alpha Rocket Returns to Orbit: 12 March 2026 • SpaceNews**  
+   Firefly Aerospace's Alpha rocket lau...</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep038-20260312-123941</guid>
+      <enclosure url="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep038_20260312.mp3" length="16454052" type="audio/mpeg" />
+      <pubDate>Thu, 12 Mar 2026 08:00:00 +0000</pubDate>
       <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:duration>07:34</itunes:duration>
+      <itunes:duration>11:25</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:summary># Fascinating Frontiers
-**Date:** February 26, 2026
+**Date:** March 12, 2026
 🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
 
-**HOOK:** NASA shakes up human spaceflight leadership after critical Starliner report.
+**HOOK:** Scientists traced the most energetic neutrino ever detected to blazars powered by supermassive black holes.
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Top 15 Space &amp; Astronomy Stories
-1. **NASA Leadership Shake-Up: 26 February 2026 • Space.com**
-   NASA has replaced two key figures in its human spaceflight program following a critical report on the Boeing Starliner crewed flight. This restructuring aims to address oversight issu...</itunes:summary>
+1. **Most Energetic Ghost Particle Traced to Blazars: 12 March 2026 • Universe Today**  
+   The KM3NeT detector in the Mediterranean Sea recorded a neutrino with unprecedented energy three years ago, now linked to blazars with jets aimed at Earth. This finding reveals how supermassive black holes accelerate particles to extreme energies, opening new avenues for studying cosmic high-energy physics.  
+   Source: https://www.universetoday.com/articles/the-most-energetic-ghost-particle-ever-seen
+
+2. **Sun's Rotation Pattern Stays Stable for Life: 12 March 2026 • Universe Today**  
+   Advanced simulations from Nagoya University show that Sun-like stars maintain consistent rotation without flipping as they age, overturning 45 years of theory. This stability could influence stellar evolution models and our understanding of magnetic fields in aging stars.  
+   Source: https://www.universetoday.com/articles/the-sun-that-never-flips
+
+3. **Mantis Space Unveils Solar Power Constellation Plan: 12 March 2026 • SpaceNews**  
+   Startup Mantis Space emerged from stealth with $10 million in funding to build satellites that beam solar power to other spacecraft. The initiative aims to extend mission lifespans by providing on-demand energy, potentially transforming satellite operations in orbit.  
+   Source: https://spacenews.com/mantis-space-emerges-from-stealth-with-10-million-for-solar-power-constellation/
+
+4. **Supernova Births Ultra-Magnetic Neutron Star: 12 March 2026 • Space.com**  
+   Astronomers observed a massive supernova explosion creating a magnetar with a magnetic field trillions of times stronger than Earth's. This "magic trick" explains superbright supernovas and offers insights into extreme stellar remnants.  
+   Source: https://www.space.com/astronomy/stars/astronomers-witness-colossal-supernova-explosion-create-one-of-the-most-magnetic-stars-in-the-universe-for-the-first-time
+
+5. **Ionic Liquids Expand Habitable Zone Definition: 12 March 2026 • Universe Today**  
+   Researchers propose ionic liquids and deep eutectic solvents as alternatives to water, allowing life in extreme environments beyond traditional habitable zones. This could broaden astrobiology searches to hotter, colder, or barren exoplanets.  
+   Source: https://www.universetoday.com/articles/ionic-liquids-could-redefine-the-habitable-zone
+
+6. **NASA Updates Artemis 2 Moon Mission Plans: 12 March 2026 • Space.com**  
+   NASA held a briefing on Artemis 2, assessing whether the crewed lunar orbit mission could launch next month. The update addresses readiness and timelines for returning humans to the moon's vicinity.  
+   Source: https://www.space.com/space-exploration/artemis/will-artemis-2-launch-toward-the-moon-next-month-watch-nasas-mission-update-today
+
+7. **Ancient Stellar Migration Aided Earth's Life: 12 March 2026 • Space.com**  
+   The sun and similar stars migrated from the Milky Way's core billions of years ago, creating a calmer environment for life to emerge on Earth. This movement may have shielded early solar system from harsh radiation.  
+   Source: https://www.space.com/astronomy/stars/a-mass-stellar-migration-billions-of-years-ago-may-have-helped-life-get-started-on-earth
+
+8. **Europa and Shadow Transit Across Jupiter: 12 March 2026 • Astronomy Magazine**  
+   Jupiter's moon Europa transits the planet tonight, followed by its shadow, visible through telescopes starting around 10 P.M. EDT. Such events highlight Jovian moon dynamics and aid in studying their orbits and surfaces.  
+   Source: https://www.astronomy.com/observing/the-sky-today-thursday-march-12-2026/
+
+9. **Firefly Alpha Rocket Returns to Orbit: 12 March 2026 • SpaceNews**  
+   Firefly Aerospace's Alpha rocket lau...</itunes:summary>
       <itunes:season>1</itunes:season>
-      <itunes:episode>32</itunes:episode>
-      <itunes:title>Ep 32: NASA shakes up human spaceflight leadership after critical Starliner report.</itunes:title>
+      <itunes:episode>38</itunes:episode>
+      <itunes:title>Ep 38: Scientists traced the most energetic neutrino ever detected to blazars powered by supermassive black holes.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
-      <title>Fascinating Frontiers - Episode 31 - January 30, 2026 at 04:15 AM PST</title>
-      <description>Daily space and astronomy news for January 30, 2026 at 04:15 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep031-20260130-121907</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep031_20260130_121821.mp3" length="15131838" type="audio/mpeg" />
-      <pubDate>Fri, 30 Jan 2026 08:00:00 +0000</pubDate>
+      <title>Ep 41: The vernal equinox arrives today at 10:46 A.M. EDT, marking astronomical spring as the Sun crosses directly over Earth’s equator.</title>
+      <description>**Fascinating Frontiers**  
+**Date:** March 20, 2026  
+🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
+
+**HOOK:** The vernal equinox arrives today at 10:46 A.M. EDT, marking astronomical spring as the Sun crosses directly over Earth’s equator.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Space &amp; Astronomy Stories
+1. **Spring Begins in the Northern Sky: March 20-27** • Astronomy Magazine  
+The vernal equinox occurs today at 10:46 A.M. EDT with the Sun standing directly over Earth’s equator. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep041-20260320-065359</guid>
+      <enclosure url="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep041_20260320.mp3" length="25150320" type="audio/mpeg" />
+      <pubDate>Fri, 20 Mar 2026 08:00:00 +0000</pubDate>
       <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:duration>17:27</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>31</itunes:episode>
+      <itunes:summary>**Fascinating Frontiers**  
+**Date:** March 20, 2026  
+🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
+
+**HOOK:** The vernal equinox arrives today at 10:46 A.M. EDT, marking astronomical spring as the Sun crosses directly over Earth’s equator.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Space &amp; Astronomy Stories
+1. **Spring Begins in the Northern Sky: March 20-27** • Astronomy Magazine  
+The vernal equinox occurs today at 10:46 A.M. EDT with the Sun standing directly over Earth’s equator. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>41</itunes:episode>
+      <itunes:title>Ep 41: The vernal equinox arrives today at 10:46 A.M. EDT, marking astronomical spring as the Sun crosses directly over Earth’s equator.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
     </item>
     <item>
-      <title>Fascinating Frontiers - Episode 30 - January 28, 2026 at 04:13 AM PST</title>
-      <description>Daily space and astronomy news for January 28, 2026 at 04:13 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep030-20260128-121701</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep030_20260128_121617.mp3" length="15828367" type="audio/mpeg" />
-      <pubDate>Wed, 28 Jan 2026 08:00:00 +0000</pubDate>
+      <title>Ep 43: Researchers are investigating how Mars gravity will change astronauts' skeletal muscle.</title>
+      <description># Fascinating Frontiers
+**Date:** March 22, 2026
+🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
+
+**HOOK:** Researchers are investigating how Mars gravity will change astronauts' skeletal muscle.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Space &amp; Astronomy Stories
+1. **Martian Gravity and Muscle Loss: 22 March 2026 • Universe Today**
+   Marie Mortreux at the University of Rhode Island is collaborating on an international study examining the effects of Martian gravity on skeletal muscle. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">fascinating-frontiers-ep043-20260322-065303</guid>
+      <enclosure url="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep043_20260322.mp3" length="18198195" type="audio/mpeg" />
+      <pubDate>Sun, 22 Mar 2026 08:00:00 +0000</pubDate>
       <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
+      <itunes:duration>12:38</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>30</itunes:episode>
+      <itunes:summary># Fascinating Frontiers
+**Date:** March 22, 2026
+🚀 **Fascinating Frontiers** - Space &amp; Astronomy News
+
+**HOOK:** Researchers are investigating how Mars gravity will change astronauts' skeletal muscle.
+
+━━━━━━━━━━━━━━━━━━━━
+### Top 15 Space &amp; Astronomy Stories
+1. **Martian Gravity and Muscle Loss: 22 March 2026 • Universe Today**
+   Marie Mortreux at the University of Rhode Island is collaborating on an international study examining the effects of Martian gravity on skeletal muscle. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>43</itunes:episode>
+      <itunes:title>Ep 43: Researchers are investigating how Mars gravity will change astronauts' skeletal muscle.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
     </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 29 - January 26, 2026 at 04:09 AM PST</title>
-      <description>Daily space and astronomy news for January 26, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep029-20260126-121238</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep029_20260126_121155.mp3" length="15548752" type="audio/mpeg" />
-      <pubDate>Mon, 26 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>29</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 28 - January 25, 2026 at 03:32 PM PST</title>
-      <description>Daily space and astronomy news for January 25, 2026 at 03:32 PM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep028-20260125-233520</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep028_20260125_233427.mp3" length="18911652" type="audio/mpeg" />
-      <pubDate>Sun, 25 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>28</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 27 - January 23, 2026 at 04:09 AM PST</title>
-      <description>Daily space and astronomy news for January 23, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep027-20260123-121254</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep027_20260123_121212.mp3" length="14696742" type="audio/mpeg" />
-      <pubDate>Fri, 23 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>27</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 26 - January 22, 2026 at 04:09 AM PST</title>
-      <description>Daily space and astronomy news for January 22, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep026-20260122-121258</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep026_20260122_121207.mp3" length="18077196" type="audio/mpeg" />
-      <pubDate>Thu, 22 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>26</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 25 - January 11, 2026 at 04:09 AM PST</title>
-      <description>Daily space and astronomy news for January 11, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep025-20260111-121214</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep025_20260111_121126.mp3" length="16875982" type="audio/mpeg" />
-      <pubDate>Sun, 11 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>25</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 24 - January 10, 2026 at 04:07 AM PST</title>
-      <description>Daily space and astronomy news for January 10, 2026 at 04:07 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep024-20260110-121212</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep024_20260110_121123.mp3" length="16973784" type="audio/mpeg" />
-      <pubDate>Sat, 10 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>24</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 23 - January 09, 2026 at 04:08 AM PST</title>
-      <description>Daily space and astronomy news for January 09, 2026 at 04:08 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep023-20260109-121223</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep023_20260109_121136.mp3" length="17001996" type="audio/mpeg" />
-      <pubDate>Fri, 09 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>23</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 22 - January 07, 2026 at 04:09 AM PST</title>
-      <description>Daily space and astronomy news for January 07, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep022-20260107-121201</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep022_20260107_121117.mp3" length="15484804" type="audio/mpeg" />
-      <pubDate>Wed, 07 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>22</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 21 - January 06, 2026 at 04:09 AM PST</title>
-      <description>Daily space and astronomy news for January 06, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep021-20260106-121237</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep021_20260106_121146.mp3" length="18195688" type="audio/mpeg" />
-      <pubDate>Tue, 06 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>21</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 20 - January 05, 2026 at 04:09 AM PST</title>
-      <description>Daily space and astronomy news for January 05, 2026 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep020-20260105-121221</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep020_20260105_121128.mp3" length="17181301" type="audio/mpeg" />
-      <pubDate>Mon, 05 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>20</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 19 - January 04, 2026 at 04:07 AM PST</title>
-      <description>Daily space and astronomy news for January 04, 2026 at 04:07 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep019-20260104-121027</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep019_20260104_120947.mp3" length="14041591" type="audio/mpeg" />
-      <pubDate>Sun, 04 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>19</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 18 - January 03, 2026 at 04:08 AM PST</title>
-      <description>Daily space and astronomy news for January 03, 2026 at 04:08 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep018-20260103-121137</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep018_20260103_121047.mp3" length="17559972" type="audio/mpeg" />
-      <pubDate>Sat, 03 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>18</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 17 - January 02, 2026 at 04:08 AM PST</title>
-      <description>Daily space and astronomy news for January 02, 2026 at 04:08 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep017-20260102-121202</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep017_20260102_121111.mp3" length="18037072" type="audio/mpeg" />
-      <pubDate>Fri, 02 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>17</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 16 - January 01, 2026 at 04:08 AM PST</title>
-      <description>Daily space and astronomy news for January 01, 2026 at 04:08 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep016-20260101-121138</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep016_20260101_121053.mp3" length="15861595" type="audio/mpeg" />
-      <pubDate>Thu, 01 Jan 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>16</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 15 - December 31, 2025 at 04:08 AM PST</title>
-      <description>Daily space and astronomy news for December 31, 2025 at 04:08 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep015-20251231-121217</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep015_20251231_121119.mp3" length="18918548" type="audio/mpeg" />
-      <pubDate>Wed, 31 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>15</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 14 - December 30, 2025 at 04:09 AM PST</title>
-      <description>Daily space and astronomy news for December 30, 2025 at 04:09 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep014-20251230-121242</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep014_20251230_121134.mp3" length="29705030" type="audio/mpeg" />
-      <pubDate>Tue, 30 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>14</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 13 - December 29, 2025 at 04:08 AM PST</title>
-      <description>Daily space and astronomy news for December 29, 2025 at 04:08 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep013-20251229-121201</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep013_20251229_121048.mp3" length="31699949" type="audio/mpeg" />
-      <pubDate>Mon, 29 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>13</itunes:episode>
-    </item>
-    <item>
-      <title>Fascinating Frontiers - Episode 12 - December 28, 2025 at 04:07 AM PST</title>
-      <description>Daily space and astronomy news for December 28, 2025 at 04:07 AM PST.🚀 **Fascinating Frontiers** - Space &amp; Astronomy News...</description>
-      <guid isPermaLink="false">fascinating-frontiers-ep012-20251228-121016</guid>
-      <enclosure url="https://raw.githubusercontent.com/patricknovak/nerranetworks/main/digests/fascinating_frontiers/Fascinating_Frontiers_Ep012_20251228_120923.mp3" length="22853843" type="audio/mpeg" />
-      <pubDate>Sun, 28 Dec 2025 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg" />
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:episode>12</itunes:episode>
-    </item>
-    </channel>
+  <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked></channel>
 </rss>
