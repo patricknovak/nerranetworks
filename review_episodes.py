@@ -100,7 +100,8 @@ SHOW_REGISTRY = {
         "min_tts_words": 2200,
         "min_audio_s": 300,
         "max_audio_s": 1800,
-        "required_sections": ["Top", "X Takeover", "Counterpoint", "First Principles"],
+        "required_sections": ["Top", "X Takeover", "First Principles"],
+        # "Counterpoint" is sometimes called "Short Spot" or "challenge worth discussing"
     },
     "omni_view": {
         "name": "Omni View",
@@ -163,8 +164,8 @@ SHOW_REGISTRY = {
         "prefix": "MAB_Ep",
         "min_digest_chars": 2000,
         "max_digest_chars": 18000,
-        "min_tts_words": 1500,
-        "min_audio_s": 240,
+        "min_tts_words": 1100,
+        "min_audio_s": 180,
         "max_audio_s": 1500,
         "required_sections": [],
     },
@@ -742,10 +743,106 @@ def create_github_issue(
 
 
 # ---------------------------------------------------------------------------
+# Claude Code output format
+# ---------------------------------------------------------------------------
+
+def format_for_claude(target_date: str, episodes: List[EpisodeReview]) -> str:
+    """Format review results as a prompt you can paste directly into Claude Code.
+
+    Groups issues by type with file paths and actionable instructions.
+    """
+    all_issues: List[tuple[EpisodeReview, Issue]] = []
+    for ep in episodes:
+        for issue in ep.issues:
+            all_issues.append((ep, issue))
+
+    if not all_issues:
+        return (
+            f"# Episode Review — {target_date}\n\n"
+            f"All {len(episodes)} episodes passed review. No issues found."
+        )
+
+    critical = [(ep, i) for ep, i in all_issues if i.severity == "critical"]
+    warnings = [(ep, i) for ep, i in all_issues if i.severity == "warning"]
+
+    lines = [
+        f"Fix the following issues found by the daily episode review for {target_date}.",
+        f"There are {len(critical)} critical and {len(warnings)} warning-level issues.",
+        "",
+    ]
+
+    # Group by issue type for efficient fixing
+    issue_groups: dict[str, list[tuple[EpisodeReview, Issue]]] = {}
+    for ep, issue in all_issues:
+        if issue.severity == "info":
+            continue
+        key = issue.title.split(":")[0].strip() if ":" in issue.title else issue.title
+        # Normalize similar titles
+        if "word count" in key.lower() or "artifact" in key.lower():
+            key = "LLM artifacts leaked into scripts"
+        elif "missing section" in key.lower():
+            key = "Missing required sections"
+        elif "repetition" in key.lower():
+            key = "Excessive repetition"
+        elif "too short" in key.lower() or "below target" in key.lower() or "dangerously short" in key.lower():
+            key = "Script/digest too short"
+        elif "too long" in key.lower() or "unusually long" in key.lower():
+            key = "Digest too long"
+        elif "pipeline" in key.lower():
+            key = "Pipeline failures"
+        elif "audio" in key.lower():
+            key = "Audio duration issues"
+        elif "AI quality" in key.lower() or "AI review" in key.lower():
+            key = "AI review findings"
+        issue_groups.setdefault(key, []).append((ep, issue))
+
+    for group_name, items in issue_groups.items():
+        lines.append(f"## {group_name}")
+        lines.append("")
+
+        for ep, issue in items:
+            severity_tag = "CRITICAL" if issue.severity == "critical" else "WARNING"
+            lines.append(f"- **[{severity_tag}] {ep.show_name} Ep{ep.episode_num:03d}**")
+            lines.append(f"  {issue.detail}")
+
+            # Add file path for direct editing
+            if issue.file_path:
+                lines.append(f"  File: `{issue.file_path}`")
+            elif ep.tts_path and ("script" in issue.title.lower() or "artifact" in issue.title.lower()):
+                lines.append(f"  File: `{ep.tts_path}`")
+            elif ep.digest_path:
+                lines.append(f"  File: `{ep.digest_path}`")
+            lines.append("")
+
+    # Add context about what these episodes are
+    lines.append("## Episodes reviewed")
+    lines.append("")
+    for ep in episodes:
+        n_issues = len([i for i in ep.issues if i.severity != "info"])
+        status = f"{n_issues} issue(s)" if n_issues else "OK"
+        duration = ep.metrics.get("counters", {}).get("audio_duration_s")
+        dur_str = f", {duration:.0f}s audio" if duration else ""
+        lines.append(f"- {ep.show_name} Ep{ep.episode_num:03d} ({ep.date}{dur_str}): {status}")
+
+    lines.append("")
+    lines.append("For each issue above, investigate the file, determine if the episode "
+                 "content is salvageable or needs regeneration, and fix what you can. "
+                 "For critical issues, consider whether the episode should be removed "
+                 "from the RSS feed entirely.")
+
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
-def run_review(target_date: datetime.date, create_issues: bool = False, show_filter: str = "") -> int:
+def run_review(
+    target_date: datetime.date,
+    create_issues: bool = False,
+    show_filter: str = "",
+    output_format: str = "log",
+) -> int:
     """Run the full review pipeline. Returns exit code."""
     logger.info("=== Episode Review for %s ===", target_date.isoformat())
 
@@ -801,6 +898,16 @@ def run_review(target_date: datetime.date, create_issues: bool = False, show_fil
         else:
             logger.info("%s Ep%03d: OK", ep.show_name, ep.episode_num)
 
+    # Claude Code output
+    if output_format == "claude":
+        print("\n" + "=" * 72)
+        print("COPY BELOW THIS LINE INTO CLAUDE CODE")
+        print("=" * 72 + "\n")
+        print(format_for_claude(target_date.isoformat(), episodes))
+        print("\n" + "=" * 72)
+        print("COPY ABOVE THIS LINE INTO CLAUDE CODE")
+        print("=" * 72)
+
     # Create GitHub issue if requested
     if create_issues:
         has_actionable = any(
@@ -843,9 +950,16 @@ def main():
         default="",
         help="Review only a specific show (slug)",
     )
+    parser.add_argument(
+        "--format",
+        dest="output_format",
+        choices=["log", "claude"],
+        default="log",
+        help="Output format: 'log' (default) or 'claude' (paste-ready prompt for Claude Code)",
+    )
     args = parser.parse_args()
 
-    sys.exit(run_review(args.date, args.create_issues, args.show))
+    sys.exit(run_review(args.date, args.create_issues, args.show, args.output_format))
 
 
 if __name__ == "__main__":
