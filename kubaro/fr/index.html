@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kubaro Club &mdash; Fraternit&eacute;. Force. Sens.</title>
+  <meta name="description" content="Kubaro Club est une communaut&eacute; masculine de style de vie et de soutien fond&eacute;e par Patrick et Pete. Sant&eacute; mentale, fitness, outils IA, finance, style et fraternit&eacute; authentique.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Kubaro Club &mdash; Fraternit&eacute;. Force. Sens.">
+  <meta property="og:description" content="Une communaut&eacute; masculine de style de vie et de soutien. Sant&eacute; mentale, fitness, IA, finance, style et fraternit&eacute;.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_CA">
+
+  <!-- Language alternates -->
+  <link rel="alternate" hreflang="en" href="https://kubaro.club/">
+  <link rel="alternate" hreflang="fr" href="https://kubaro.club/fr/">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../styles/kubaro.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+  <!-- ========== Navigation ========== -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__brand">Kubaro <span>Club</span></a>
+      <ul class="nav__links">
+        <li><a href="#founders">Fondateurs</a></li>
+        <li><a href="#pillars">Explorer</a></li>
+        <li><a href="#podcasts">Balados</a></li>
+        <li><a href="#founding">Adh&eacute;sion</a></li>
+        <li><a href="../" class="nav__lang">EN</a></li>
+      </ul>
+      <button class="nav__hamburger" onclick="document.querySelector('.nav__mobile').classList.toggle('is-open')" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav -->
+  <div class="nav__mobile">
+    <a href="#founders" onclick="document.querySelector('.nav__mobile').classList.remove('is-open')">Les fondateurs</a>
+    <a href="#pillars" onclick="document.querySelector('.nav__mobile').classList.remove('is-open')">Explorer</a>
+    <a href="#podcasts" onclick="document.querySelector('.nav__mobile').classList.remove('is-open')">Balados</a>
+    <a href="#founding" onclick="document.querySelector('.nav__mobile').classList.remove('is-open')">Adh&eacute;sion</a>
+    <a href="../">Switch to English</a>
+  </div>
+
+  <!-- ========== Hero ========== -->
+  <section class="hero">
+    <div class="container hero__content">
+      <div class="hero__badge">Communaut&eacute; masculine de style de vie et de soutien</div>
+      <h1 class="hero__title">Fraternit&eacute;.<br>Force. <em>Sens.</em></h1>
+      <p class="hero__desc">
+        Cr&eacute;&eacute; par des hommes, pour des hommes. Outils IA, conversations authentiques sur la
+        sant&eacute; mentale, le fitness, la finance, le style et les liens qui nous rendent plus forts ensemble.
+      </p>
+      <a href="#founding" class="hero__cta">
+        Devenir membre fondateur
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== About / Origin ========== -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="about__content fade-in">
+        <div class="section__label">L'histoire</div>
+        <h2>Du Koumbaro au Kubaro</h2>
+        <p>
+          Dans la tradition grecque, le <strong>Koumbaro</strong> est bien plus qu'un t&eacute;moin &mdash;
+          c'est un fr&egrave;re pour la vie. Un confident de confiance, un pilier de soutien, un homme
+          qui est pr&eacute;sent quand &ccedil;a compte. Kubaro Club porte cet esprit dans l'&egrave;re moderne.
+        </p>
+        <p>
+          Nous avons cr&eacute;&eacute; cette communaut&eacute; parce que les hommes ont besoin d'espaces o&ugrave; ils
+          peuvent &ecirc;tre authentiques &mdash; sur la sant&eacute; mentale, les difficult&eacute;s, les ambitions.
+          O&ugrave; demander de l'aide est une force, pas une faiblesse. O&ugrave; nous nous poussons &agrave;
+          grandir tout en restant ancr&eacute;s.
+        </p>
+        <p>
+          Kubaro est l&agrave; o&ugrave; la technologie rencontre la fraternit&eacute;. O&ugrave; les outils IA
+          amplifient votre potentiel. O&ugrave; les bonnes vibrations, les conversations honn&ecirc;tes et
+          un engagement commun &agrave; s'am&eacute;liorer cr&eacute;ent quelque chose de puissant.
+        </p>
+        <div class="about__values">
+          <span class="about__value">Fraternit&eacute;</span>
+          <span class="about__value">Sant&eacute; mentale</span>
+          <span class="about__value">Innovation</span>
+          <span class="about__value">Fitness</span>
+          <span class="about__value">Int&eacute;grit&eacute;</span>
+          <span class="about__value">Communaut&eacute;</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Founders ========== -->
+  <section id="founders" class="section section--alt">
+    <div class="container">
+      <div class="text-center fade-in">
+        <div class="section__label">Qui nous sommes</div>
+        <h2 class="section__title">Rencontrez les fondateurs</h2>
+        <p class="section__subtitle mx-auto">Deux p&egrave;res, deux villes, une mission &mdash; b&acirc;tir la communaut&eacute; qu'on aurait aim&eacute; avoir.</p>
+      </div>
+
+      <div class="founders__grid">
+        <div class="founder-card fade-in">
+          <div class="founder-card__avatar" aria-hidden="true">&#128736;</div>
+          <h3 class="founder-card__name">Patrick</h3>
+          <div class="founder-card__location">Vancouver, C.-B.</div>
+          <p class="founder-card__bio">
+            B&acirc;tisseur tech, passionn&eacute; d'IA et p&egrave;re de famille. Patrick croit fermement que les
+            technologies de pointe doivent enrichir la vie de tous. De la finance &agrave; l'&eacute;ducation,
+            du fitness &agrave; la mode &mdash; il est convaincu que les outils IA doivent autonomiser
+            chacun, et que r&eacute;pandre les bonnes vibrations et l'amour rend le monde meilleur.
+          </p>
+          <div class="founder-card__focus">
+            <span class="founder-card__tag">IA &amp; Tech</span>
+            <span class="founder-card__tag">Finance</span>
+            <span class="founder-card__tag">&Eacute;ducation</span>
+            <span class="founder-card__tag">Fitness</span>
+            <span class="founder-card__tag">Style</span>
+            <span class="founder-card__tag">Bonnes vibrations</span>
+          </div>
+        </div>
+
+        <div class="founder-card fade-in">
+          <div class="founder-card__avatar" aria-hidden="true">&#129504;</div>
+          <h3 class="founder-card__name">Pete</h3>
+          <div class="founder-card__location">Toronto, ON</div>
+          <p class="founder-card__bio">
+            P&egrave;re c&eacute;libataire, d&eacute;fenseur de la sant&eacute; mentale et b&acirc;tisseur de communaut&eacute;. Pete sait
+            de premi&egrave;re main que les hommes ont besoin d'espaces s&ucirc;rs pour parler, gu&eacute;rir et
+            grandir. Son engagement envers les groupes de soutien masculins, la sant&eacute; familiale
+            et le bien-&ecirc;tre holistique est le c&oelig;ur de Kubaro.
+          </p>
+          <div class="founder-card__focus">
+            <span class="founder-card__tag">Sant&eacute; mentale</span>
+            <span class="founder-card__tag">Soutien masculin</span>
+            <span class="founder-card__tag">Sant&eacute; familiale</span>
+            <span class="founder-card__tag">Bien-&ecirc;tre</span>
+            <span class="founder-card__tag">Communaut&eacute;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Brand Pillars ========== -->
+  <section id="pillars" class="section">
+    <div class="container">
+      <div class="text-center fade-in">
+        <div class="section__label">Nos valeurs</div>
+        <h2 class="section__title">Les six piliers de Kubaro</h2>
+        <p class="section__subtitle mx-auto">Ce qui compte le plus &mdash; b&acirc;ti avec intention, partag&eacute; avec int&eacute;grit&eacute;.</p>
+      </div>
+
+      <div class="pillars__grid">
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#129504;</div>
+          <h3 class="pillar-card__title">Sant&eacute; mentale &amp; bien-&ecirc;tre</h3>
+          <p class="pillar-card__desc">
+            De vraies conversations sur ce dont les hommes parlent rarement. Anxi&eacute;t&eacute;, &eacute;puisement,
+            d&eacute;fis de la paternit&eacute;, difficult&eacute;s relationnelles. Groupes de soutien, ressources
+            et une communaut&eacute; qui comprend &mdash; parce que demander de l'aide est l'acte le plus courageux.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#9889;</div>
+          <h3 class="pillar-card__title">IA &amp; technologie</h3>
+          <p class="pillar-card__desc">
+            Ma&icirc;trisez la r&eacute;volution de l'IA. Apprenez &agrave; utiliser les derniers mod&egrave;les, agents et
+            outils pour propulser votre carri&egrave;re, automatiser le quotidien et cr&eacute;er ce qui compte.
+            De ChatGPT aux agents personnalis&eacute;s &mdash; nous rendons tout accessible.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#128170;</div>
+          <h3 class="pillar-card__title">Fitness &amp; sant&eacute;</h3>
+          <p class="pillar-card__desc">
+            Corps et esprit en harmonie. Entra&icirc;nement bas&eacute; sur la science, long&eacute;vit&eacute;, nutrition,
+            optimisation du sommeil et les derni&egrave;res d&eacute;couvertes en sant&eacute;. La science qui vous
+            maintient au sommet pour ceux qui comptent sur vous.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#128200;</div>
+          <h3 class="pillar-card__title">Finance &amp; investissement</h3>
+          <p class="pillar-card__desc">
+            B&acirc;tissez un patrimoine g&eacute;n&eacute;rationnel avec clart&eacute;. Strat&eacute;gies d'investissement modernes,
+            perspectives de march&eacute; et litt&eacute;ratie financi&egrave;re pour l'&egrave;re de l'IA. Des d&eacute;cisions
+            &eacute;clair&eacute;es pour la s&eacute;curit&eacute; de votre famille.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#128084;</div>
+          <h3 class="pillar-card__title">Style &amp; mode de vie</h3>
+          <p class="pillar-card__desc">
+            Soyez &eacute;l&eacute;gant, vivez bien. Mode masculine, soins, voyages et l'art de vivre avec
+            intention. Le style n'est pas de la vanit&eacute; &mdash; c'est montrer au monde que vous
+            vous respectez ainsi que les gens autour de vous.
+          </p>
+        </div>
+
+        <div class="pillar-card fade-in">
+          <div class="pillar-card__icon" aria-hidden="true">&#129309;</div>
+          <h3 class="pillar-card__title">Fraternit&eacute; &amp; communaut&eacute;</h3>
+          <p class="pillar-card__desc">
+            Des hommes qui soutiennent des hommes. Des p&egrave;res qui aident des p&egrave;res. Un espace b&acirc;ti
+            sur le respect, l'amour et la compr&eacute;hension que nous avons tous besoin de gens dans
+            notre coin. Bonnes vibrations, connexions r&eacute;elles et liens qui nous rendent meilleurs.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Podcasts ========== -->
+  <section id="podcasts" class="section section--alt">
+    <div class="container">
+      <div class="text-center fade-in">
+        <div class="section__label">&Eacute;couter</div>
+        <h2 class="section__title">Balados Kubaro</h2>
+        <p class="section__subtitle mx-auto">Quatre &eacute;missions couvrant l'IA, la science, l'investissement et l'avenir &mdash; votre briefing quotidien pour une vie plus intelligente.</p>
+      </div>
+
+      <div class="podcasts__grid">
+        <!-- Models & Agents -->
+        <div class="podcast-card fade-in">
+          <div class="podcast-card__header">
+            <div class="podcast-card__cover podcast-card__cover--ma" aria-hidden="true">&#129302;</div>
+            <div class="podcast-card__meta">
+              <h3>Models &amp; Agents</h3>
+              <p>Briefing IA quotidien</p>
+            </div>
+          </div>
+          <p class="podcast-card__desc">
+            Votre briefing quotidien sur les nouveaux mod&egrave;les d'IA, les cadres d'agents et les
+            d&eacute;veloppements pratiques. Restez &agrave; la pointe avec les derni&egrave;res nouvelles d'OpenAI,
+            Anthropic, Google, Meta et la communaut&eacute; open source.
+          </p>
+          <div class="podcast-card__player">
+            <audio controls preload="none" id="podcast-player-ma">
+              <source src="" type="audio/mpeg">
+            </audio>
+          </div>
+          <p class="podcast-card__episode" id="podcast-episode-ma"></p>
+          <a href="https://nerranetwork.com/models-agents.html" class="podcast-card__link" target="_blank" rel="noopener">
+            Tous les &eacute;pisodes
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+        </div>
+
+        <!-- Models & Agents for Beginners -->
+        <div class="podcast-card fade-in">
+          <div class="podcast-card__header">
+            <div class="podcast-card__cover podcast-card__cover--mab" aria-hidden="true">&#127891;</div>
+            <div class="podcast-card__meta">
+              <h3>Models &amp; Agents pour d&eacute;butants</h3>
+              <p>L'IA simplifi&eacute;e</p>
+            </div>
+          </div>
+          <p class="podcast-card__desc">
+            L'IA pour tous &mdash; expliqu&eacute;e en langage simple. Parfait pour les ados, les d&eacute;butants
+            et tous ceux curieux de ChatGPT, Claude, la g&eacute;n&eacute;ration d'images et la r&eacute;volution IA.
+            Pas de jargon, juste de la clart&eacute;.
+          </p>
+          <div class="podcast-card__player">
+            <audio controls preload="none" id="podcast-player-mab">
+              <source src="" type="audio/mpeg">
+            </audio>
+          </div>
+          <p class="podcast-card__episode" id="podcast-episode-mab"></p>
+          <a href="https://nerranetwork.com/models-agents-beginners.html" class="podcast-card__link" target="_blank" rel="noopener">
+            Tous les &eacute;pisodes
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+        </div>
+
+        <!-- Planetterrian Daily -->
+        <div class="podcast-card fade-in">
+          <div class="podcast-card__header">
+            <div class="podcast-card__cover podcast-card__cover--pt" aria-hidden="true">&#127758;</div>
+            <div class="podcast-card__meta">
+              <h3>Planetterrian Daily</h3>
+              <p>Science &amp; long&eacute;vit&eacute;</p>
+            </div>
+          </div>
+          <p class="podcast-card__desc">
+            D&eacute;couvertes quotidiennes en science, long&eacute;vit&eacute; et sant&eacute;. Les derni&egrave;res nouvelles
+            de Nature, Science et des meilleures institutions de recherche &mdash; la technologie
+            comme force pour le bien.
+          </p>
+          <div class="podcast-card__player">
+            <audio controls preload="none" id="podcast-player-pt">
+              <source src="" type="audio/mpeg">
+            </audio>
+          </div>
+          <p class="podcast-card__episode" id="podcast-episode-pt"></p>
+          <a href="https://nerranetwork.com/planetterrian.html" class="podcast-card__link" target="_blank" rel="noopener">
+            Tous les &eacute;pisodes
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+        </div>
+
+        <!-- Modern Investing -->
+        <div class="podcast-card fade-in">
+          <div class="podcast-card__header">
+            <div class="podcast-card__cover podcast-card__cover--mi" aria-hidden="true">&#128176;</div>
+            <div class="podcast-card__meta">
+              <h3>Modern Investing</h3>
+              <p>March&eacute;s &amp; strat&eacute;gie</p>
+            </div>
+          </div>
+          <p class="podcast-card__desc">
+            Investissement intelligent pour l'&egrave;re moderne. Analyse de march&eacute;, strat&eacute;gie de
+            portefeuille et perspectives financi&egrave;res propuls&eacute;es par l'IA &mdash; pour b&acirc;tir
+            votre patrimoine avec confiance.
+          </p>
+          <div class="podcast-card__player">
+            <audio controls preload="none" id="podcast-player-mi">
+              <source src="" type="audio/mpeg">
+            </audio>
+          </div>
+          <p class="podcast-card__episode" id="podcast-episode-mi"></p>
+          <a href="https://nerranetwork.com/modern-investing.html" class="podcast-card__link" target="_blank" rel="noopener">
+            Tous les &eacute;pisodes
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Founding Members ========== -->
+  <section id="founding" class="section founding">
+    <div class="container founding__content">
+      <div class="fade-in">
+        <div class="founding__badge">Acc&egrave;s exclusif</div>
+        <h2 class="founding__title">Devenez <em>membre fondateur</em></h2>
+        <p class="founding__desc">
+          Soyez parmi les premiers &agrave; rejoindre Kubaro Club. Les membres fondateurs obtiennent
+          des avantages exclusifs, un tarif bloqu&eacute; &agrave; vie et une voix directe pour fa&ccedil;onner
+          cette communaut&eacute;. Places limit&eacute;es &mdash; une fois parties, c'est fini.
+        </p>
+      </div>
+
+      <div class="founding__benefits fade-in">
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#128272;</div>
+          <div class="benefit-card__title">Fraternit&eacute; priv&eacute;e</div>
+          <p class="benefit-card__desc">Acc&egrave;s &agrave; notre communaut&eacute; r&eacute;serv&eacute;e. Conversations authentiques, groupes de soutien et connexions avec des hommes qui comprennent.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#129302;</div>
+          <div class="benefit-card__title">Outils &amp; ressources IA</div>
+          <p class="benefit-card__desc">Guides exclusifs d'outils IA, biblioth&egrave;ques de prompts et automatisations. La technologie qui vous donne un avantage dans le travail et la vie.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#127911;</div>
+          <div class="benefit-card__title">Contenu balado premium</div>
+          <p class="benefit-card__desc">&Eacute;pisodes &eacute;tendus, contenu bonus et acc&egrave;s anticip&eacute; aux quatre balados Kubaro. Plus des analyses exclusives sur les sujets tendance.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#128170;</div>
+          <div class="benefit-card__title">Programmes bien-&ecirc;tre</div>
+          <p class="benefit-card__desc">Ressources de sant&eacute; mentale, plans fitness et guides de bien-&ecirc;tre holistique par des experts. Corps et esprit, ensemble.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#127909;</div>
+          <div class="benefit-card__title">Sessions en direct</div>
+          <p class="benefit-card__desc">&Eacute;v&eacute;nements mensuels avec Patrick, Pete et des experts invit&eacute;s. Q&amp;R, ateliers et discussions franches &mdash; r&eacute;serv&eacute;s aux membres.</p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-card__icon" aria-hidden="true">&#128176;</div>
+          <div class="benefit-card__title">Tarif fondateur &agrave; vie</div>
+          <p class="benefit-card__desc">Verrouillez votre tarif de membre fondateur pour toujours. Le club grandit, les fonctionnalit&eacute;s s'ajoutent &mdash; votre prix ne change jamais.</p>
+        </div>
+      </div>
+
+      <div class="founding__cta-wrap fade-in">
+        <span class="founding__cta" style="cursor: default;">
+          Lancement bient&ocirc;t
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </span>
+        <p class="founding__note">Nous mettons la touche finale &agrave; quelque chose de puissant. Notifications d'inscription &agrave; venir.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Footer ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <div class="footer__brand">Kubaro <span>Club</span></div>
+          <p class="footer__tagline">Fraternit&eacute;. Force. Sens. Une communaut&eacute; masculine de style de vie et de soutien par Patrick &amp; Pete &mdash; cr&eacute;&eacute;e au Canada, pour le monde.</p>
+        </div>
+
+        <div class="footer__links">
+          <h4>Explorer</h4>
+          <ul>
+            <li><a href="#about">Notre histoire</a></li>
+            <li><a href="#founders">Fondateurs</a></li>
+            <li><a href="#pillars">Nos piliers</a></li>
+            <li><a href="#podcasts">Balados</a></li>
+            <li><a href="#founding">Membres fondateurs</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__links">
+          <h4>Balados</h4>
+          <ul>
+            <li><a href="https://nerranetwork.com/models-agents.html" target="_blank" rel="noopener">Models &amp; Agents</a></li>
+            <li><a href="https://nerranetwork.com/models-agents-beginners.html" target="_blank" rel="noopener">M&amp;A pour d&eacute;butants</a></li>
+            <li><a href="https://nerranetwork.com/planetterrian.html" target="_blank" rel="noopener">Planetterrian Daily</a></li>
+            <li><a href="https://nerranetwork.com/modern-investing.html" target="_blank" rel="noopener">Modern Investing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__links">
+          <h4>Connecter</h4>
+          <ul>
+            <li><a href="../">English</a></li>
+            <li><a href="https://nerranetwork.com" target="_blank" rel="noopener">Nerra Network</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>&copy; 2026 Kubaro Club. Tous droits r&eacute;serv&eacute;s.</span>
+        <span>Cr&eacute;&eacute; avec d&eacute;termination &agrave; Vancouver &amp; Toronto, Canada</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== Scripts ========== -->
+  <script>
+    // Scroll-triggered fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Load latest podcast episodes from RSS feeds
+    const feeds = [
+      { id: 'ma', url: 'https://nerranetwork.com/models_agents_podcast.rss' },
+      { id: 'mab', url: 'https://nerranetwork.com/models_agents_beginners_podcast.rss' },
+      { id: 'pt', url: 'https://nerranetwork.com/planetterrian_podcast.rss' },
+      { id: 'mi', url: 'https://nerranetwork.com/modern_investing_podcast.rss' }
+    ];
+
+    feeds.forEach(async ({ id, url }) => {
+      try {
+        const res = await fetch(url);
+        const text = await res.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(text, 'text/xml');
+        const item = xml.querySelector('item');
+        if (!item) return;
+        const enclosure = item.querySelector('enclosure');
+        const title = item.querySelector('title');
+        const player = document.getElementById('podcast-player-' + id);
+        if (enclosure && player) {
+          player.querySelector('source').src = enclosure.getAttribute('url');
+          player.load();
+        }
+        if (title) {
+          document.getElementById('podcast-episode-' + id).textContent = 'Dernier : ' + title.textContent;
+        }
+      } catch (e) {
+        console.log('Could not load ' + id + ' feed:', e);
+      }
+    });
+  </script>
+
+</body>
+</html>
