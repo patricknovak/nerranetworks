@@ -173,15 +173,15 @@ episode:
 chapters:
   enabled: true
   section_markers:
-    - pattern: "This is Omni View"
+    - pattern: "This is Omni View|Welcome.*Omni View|Omni View.*episode"
       title: "Introduction"
     - pattern: "Shifting now to|Meanwhile|first story|first up"
       title: "Main Stories"
     - pattern: "understanding the issue|deeper look|let's understand"
       title: "Understanding the Issue"
-    - pattern: "Before we go"
+    - pattern: "Before we go|before we wrap"
       title: "Tomorrow Teaser"
-    - pattern: "That's Omni View"
+    - pattern: "That's Omni View|that.?s.*for today|until next time"
       title: "Closing"
 
 newsletter:
