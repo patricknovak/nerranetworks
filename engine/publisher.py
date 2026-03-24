@@ -46,6 +46,100 @@ def apply_op3_prefix(url: str, prefix_url: str = "https://op3.dev/e/") -> str:
 
 
 # ---------------------------------------------------------------------------
+# RSS feed helpers
+# ---------------------------------------------------------------------------
+
+def _add_existing_entry_to_feed(fg, ep_data: dict, channel_image: str = "") -> None:
+    """Re-add a parsed existing episode to the feed generator."""
+    entry = fg.add_entry()
+    entry.id(ep_data.get("guid", ""))
+    entry.title(ep_data.get("title", ""))
+    entry.description(ep_data.get("description", ""))
+
+    if ep_data.get("pubDate"):
+        try:
+            if isinstance(ep_data["pubDate"], datetime.datetime):
+                entry.pubDate(ep_data["pubDate"])
+            else:
+                entry.pubDate(parsedate_to_datetime(ep_data["pubDate"]))
+        except Exception:
+            pass
+
+    if ep_data.get("enclosure"):
+        enc = ep_data["enclosure"]
+        entry.enclosure(
+            url=enc.get("url", ""),
+            type=enc.get("type", "audio/mpeg"),
+            length=enc.get("length", "0"),
+        )
+
+    if ep_data.get("itunes_title"):
+        entry.podcast.itunes_title(ep_data["itunes_title"])
+    if ep_data.get("itunes_summary"):
+        entry.podcast.itunes_summary(ep_data["itunes_summary"])
+    if ep_data.get("itunes_duration"):
+        entry.podcast.itunes_duration(ep_data["itunes_duration"])
+    if ep_data.get("itunes_episode"):
+        entry.podcast.itunes_episode(ep_data["itunes_episode"])
+    if ep_data.get("itunes_season"):
+        entry.podcast.itunes_season(ep_data["itunes_season"])
+    if ep_data.get("itunes_episode_type"):
+        entry.podcast.itunes_episode_type(ep_data["itunes_episode_type"])
+    entry.podcast.itunes_explicit("no")
+    if channel_image:
+        entry.podcast.itunes_image(channel_image)
+
+
+def _add_new_episode(
+    fg,
+    new_guid: str,
+    episode_title: str,
+    episode_description: str,
+    episode_date: datetime.date,
+    episode_num: int,
+    mp3_filename: str,
+    mp3_duration: float,
+    mp3_path: Path,
+    base_url: str,
+    audio_subdir: str,
+    audio_url: str,
+    channel_image: str,
+    format_duration_func,
+) -> None:
+    """Add the new episode entry to the feed generator."""
+    entry = fg.add_entry()
+    entry.id(new_guid)
+    entry.title(episode_title)
+    entry.description(episode_description)
+
+    if audio_url:
+        mp3_url = audio_url
+    else:
+        mp3_url = f"{base_url}/{audio_subdir}/{mp3_filename}"
+    entry.link(href=mp3_url)
+
+    pub_date = datetime.datetime.combine(
+        episode_date,
+        datetime.time(8, 0, 0),
+        tzinfo=datetime.timezone.utc,
+    )
+    entry.pubDate(pub_date)
+
+    mp3_size = mp3_path.stat().st_size if mp3_path.exists() else 0
+    entry.enclosure(url=mp3_url, type="audio/mpeg", length=str(mp3_size))
+
+    entry.podcast.itunes_title(episode_title)
+    entry.podcast.itunes_summary(episode_description)
+    entry.podcast.itunes_duration(format_duration_func(mp3_duration))
+    entry.podcast.itunes_episode(str(episode_num))
+    entry.podcast.itunes_season("1")
+    entry.podcast.itunes_episode_type("full")
+    entry.podcast.itunes_explicit("no")
+    if channel_image:
+        entry.podcast.itunes_image(channel_image)
+
+
+# ---------------------------------------------------------------------------
 # RSS feed update
 # ---------------------------------------------------------------------------
 
@@ -212,94 +306,38 @@ def update_rss_feed(
         fg.podcast.itunes_category(channel_category)
     fg.podcast.itunes_explicit("no")
 
-    # --- Re-add existing episodes (skip the one being replaced) -----------
+    # --- Build new episode metadata ----------------------------------------
     current_time_str = datetime.datetime.now().strftime("%H%M%S")
     new_guid = f"{guid_prefix}-ep{episode_num:03d}-{episode_date:%Y%m%d}-{current_time_str}"
 
-    for ep_data in episodes_by_number.values():
-        ep_num_str = ep_data.get("itunes_episode", "")
-        if not ep_num_str:
-            guid = ep_data.get("guid", "")
-            m = re.search(r"ep(\d+)", guid)
-            if m:
-                ep_num_str = m.group(1)
-        if ep_num_str and int(ep_num_str) == episode_num:
-            logger.info(
-                "Replacing existing episode %s with new version", ep_num_str
-            )
+    # --- Collect all episodes, then add in descending order ----------------
+    # Podcast clients expect the newest episode first in the RSS feed.
+    # Remove the episode being replaced, insert the new one, then sort.
+    all_episodes: dict[int, dict] = {}
+    for ep_num_key, ep_data in episodes_by_number.items():
+        if ep_num_key == episode_num:
+            logger.info("Replacing existing episode %s with new version", ep_num_key)
             continue
         if ep_data.get("guid") == new_guid:
             continue
+        all_episodes[ep_num_key] = ep_data
 
-        entry = fg.add_entry()
-        entry.id(ep_data.get("guid", ""))
-        entry.title(ep_data.get("title", ""))
-        entry.description(ep_data.get("description", ""))
+    # Add existing episodes in descending episode number order (newest first)
+    for ep_num_key in sorted(all_episodes.keys(), reverse=True):
+        if ep_num_key > episode_num:
+            _add_existing_entry_to_feed(fg, all_episodes[ep_num_key], channel_image)
 
-        if ep_data.get("pubDate"):
-            try:
-                if isinstance(ep_data["pubDate"], datetime.datetime):
-                    entry.pubDate(ep_data["pubDate"])
-                else:
-                    entry.pubDate(parsedate_to_datetime(ep_data["pubDate"]))
-            except Exception:
-                pass
-
-        if ep_data.get("enclosure"):
-            enc = ep_data["enclosure"]
-            entry.enclosure(
-                url=enc.get("url", ""),
-                type=enc.get("type", "audio/mpeg"),
-                length=enc.get("length", "0"),
-            )
-
-        if ep_data.get("itunes_title"):
-            entry.podcast.itunes_title(ep_data["itunes_title"])
-        if ep_data.get("itunes_summary"):
-            entry.podcast.itunes_summary(ep_data["itunes_summary"])
-        if ep_data.get("itunes_duration"):
-            entry.podcast.itunes_duration(ep_data["itunes_duration"])
-        if ep_data.get("itunes_episode"):
-            entry.podcast.itunes_episode(ep_data["itunes_episode"])
-        if ep_data.get("itunes_season"):
-            entry.podcast.itunes_season(ep_data["itunes_season"])
-        if ep_data.get("itunes_episode_type"):
-            entry.podcast.itunes_episode_type(ep_data["itunes_episode_type"])
-        entry.podcast.itunes_explicit("no")
-        if channel_image:
-            entry.podcast.itunes_image(channel_image)
-
-    # --- Add the new episode ----------------------------------------------
-    entry = fg.add_entry()
-    entry.id(new_guid)
-    entry.title(episode_title)
-    entry.description(episode_description)
-
-    if audio_url:
-        mp3_url = audio_url
-    else:
-        mp3_url = f"{base_url}/{audio_subdir}/{mp3_filename}"
-    entry.link(href=mp3_url)
-
-    pub_date = datetime.datetime.combine(
-        episode_date,
-        datetime.time(8, 0, 0),
-        tzinfo=datetime.timezone.utc,
+    # --- Add the new episode (inserted at its correct position) -----------
+    _add_new_episode(
+        fg, new_guid, episode_title, episode_description, episode_date,
+        episode_num, mp3_filename, mp3_duration, mp3_path, base_url,
+        audio_subdir, audio_url, channel_image, format_duration_func,
     )
-    entry.pubDate(pub_date)
 
-    mp3_size = mp3_path.stat().st_size if mp3_path.exists() else 0
-    entry.enclosure(url=mp3_url, type="audio/mpeg", length=str(mp3_size))
-
-    entry.podcast.itunes_title(episode_title)
-    entry.podcast.itunes_summary(episode_description)
-    entry.podcast.itunes_duration(format_duration_func(mp3_duration))
-    entry.podcast.itunes_episode(str(episode_num))
-    entry.podcast.itunes_season("1")
-    entry.podcast.itunes_episode_type("full")
-    entry.podcast.itunes_explicit("no")
-    if channel_image:
-        entry.podcast.itunes_image(channel_image)
+    # Add remaining existing episodes (those with lower episode numbers)
+    for ep_num_key in sorted(all_episodes.keys(), reverse=True):
+        if ep_num_key < episode_num:
+            _add_existing_entry_to_feed(fg, all_episodes[ep_num_key], channel_image)
 
     fg.lastBuildDate(datetime.datetime.now(datetime.timezone.utc))
 
