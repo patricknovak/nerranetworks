@@ -563,6 +563,46 @@ class ContentTracker:
                 break
         return topics
 
+    def get_recent_segment_ids(self, days: Optional[int] = None) -> List[str]:
+        """Return slow-news segment IDs used in recent episodes.
+
+        IDs are returned in chronological order (oldest first) so that
+        ``select_segments()`` can pick least-recently-used when all are
+        on cooldown.
+        """
+        cutoff = (
+            datetime.date.today()
+            - datetime.timedelta(days=days or self.max_days)
+        ).isoformat()
+        ids: List[str] = []
+        for ep in self.data["episodes"]:
+            if ep.get("date", "") >= cutoff:
+                ids.extend(ep.get("slow_news_segments", []))
+        return ids
+
+    def get_segment_history(
+        self, segment_id: str, limit: int = 3
+    ) -> List[Dict]:
+        """Return past usages of a specific evergreen segment.
+
+        Each entry is ``{"date": "...", "summary": "..."}``, ordered
+        most-recent-first.  Used by ``build_slow_news_prompt_context()``
+        to inform the LLM of previous angles so it generates fresh content.
+        """
+        results: List[Dict] = []
+        for ep in reversed(self.data["episodes"]):
+            seg_ids = ep.get("slow_news_segments", [])
+            if segment_id in seg_ids:
+                summaries = ep.get("slow_news_segment_summaries", {})
+                summary = summaries.get(segment_id, "")
+                results.append({
+                    "date": ep.get("date", ""),
+                    "summary": summary,
+                })
+                if len(results) >= limit:
+                    break
+        return results
+
     def get_summary_for_prompt(self, limits: Optional[Dict[str, int]] = None) -> str:
         """Generate a 'RECENTLY USED...' block for inclusion in the Grok prompt.
 
@@ -616,6 +656,14 @@ class ContentTracker:
             topics_text = "\n".join(f"- {t}" for t in deep_dive_topics)
             parts.append(
                 f"RECENTLY USED DEEP DIVE TOPICS (DO NOT REPEAT — choose a COMPLETELY DIFFERENT topic):\n{topics_text}"
+            )
+
+        # Recently used evergreen segments (slow-news mode)
+        recent_segs = self.get_recent_segment_ids(days=30)
+        if recent_segs:
+            segs_text = ", ".join(recent_segs)
+            parts.append(
+                f"RECENTLY USED EVERGREEN SEGMENTS (DO NOT REPEAT): {segs_text}"
             )
 
         if parts:

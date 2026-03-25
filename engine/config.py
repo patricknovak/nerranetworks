@@ -183,6 +183,16 @@ class ContentTrackingConfig:
 
 
 @dataclass
+class SlowNewsConfig:
+    """Slow News Day configuration — evergreen segments instead of skipping."""
+    enabled: bool = False
+    library_file: str = ""          # e.g. "shows/segments/tesla.json"
+    max_segments: int = 2           # Max evergreen segments per slow-news episode
+    cooldown_days: int = 30         # Don't reuse a segment within this window
+    selection_mode: str = "round_robin"  # "round_robin" or "random"
+
+
+@dataclass
 class ShowConfig:
     name: str = ""
     slug: str = ""
@@ -203,6 +213,7 @@ class ShowConfig:
     newsletter: NewsletterConfig = field(default_factory=NewsletterConfig)
     chapters: ChaptersConfig = field(default_factory=ChaptersConfig)
     content_tracking: ContentTrackingConfig = field(default_factory=ContentTrackingConfig)
+    slow_news: SlowNewsConfig = field(default_factory=SlowNewsConfig)
 
 
 # ---------------------------------------------------------------------------
@@ -338,6 +349,7 @@ def load_config(yaml_path: str | Path) -> ShowConfig:
         newsletter=_build_nested(NewsletterConfig, data.get("newsletter")),
         chapters=_build_chapters(data.get("chapters")),
         content_tracking=_build_nested(ContentTrackingConfig, data.get("content_tracking")),
+        slow_news=_build_nested(SlowNewsConfig, data.get("slow_news")),
     )
     logger.info("Loaded config for '%s' from %s", config.name, path)
     return config

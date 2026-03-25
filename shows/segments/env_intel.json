@@ -1,0 +1,117 @@
+{
+  "show": "Env Intel",
+  "segments": [
+    {
+      "id": "ei_cepa_explained",
+      "type": "deep_dive",
+      "title": "CEPA Explained: Canada's Flagship Environmental Law",
+      "prompt_template": "Write a deep-dive segment explaining the Canadian Environmental Protection Act (CEPA). Cover its history, the 2023 amendments recognizing the right to a healthy environment, how CEPA regulates toxic substances, the priority substances list process, and what practitioners need to know about compliance obligations.",
+      "estimated_words": 600,
+      "tags": ["regulation", "CEPA", "compliance"]
+    },
+    {
+      "id": "ei_carbon_pricing",
+      "type": "deep_dive",
+      "title": "Carbon Pricing Mechanisms in Canada",
+      "prompt_template": "Write a deep-dive segment explaining Canada's carbon pricing system. Cover the federal carbon levy, the output-based pricing system for large emitters, provincial systems (BC carbon tax, Quebec cap-and-trade), how carbon credits work, and the ongoing political debate about the consumer carbon tax.",
+      "estimated_words": 600,
+      "tags": ["carbon", "policy", "economics"]
+    },
+    {
+      "id": "ei_pfas_remediation",
+      "type": "deep_dive",
+      "title": "PFAS: The Forever Chemical Challenge",
+      "prompt_template": "Write a deep-dive segment about PFAS contamination and remediation in Canada. Cover what PFAS are, why they are called 'forever chemicals,' major contamination sites in Canada, emerging remediation technologies (incineration, electrochemical oxidation, filtration), and the evolving regulatory landscape for PFAS limits in drinking water.",
+      "estimated_words": 600,
+      "tags": ["contamination", "PFAS", "remediation"]
+    },
+    {
+      "id": "ei_impact_assessment",
+      "type": "deep_dive",
+      "title": "How Federal Impact Assessments Actually Work",
+      "prompt_template": "Write a deep-dive segment explaining the federal impact assessment process under the Impact Assessment Act. Cover the planning phase, the actual assessment, the decision statement, Indigenous consultation requirements, and how the Supreme Court reference decision in 2023 changed the scope of federal jurisdiction.",
+      "estimated_words": 600,
+      "tags": ["regulation", "assessment", "process"]
+    },
+    {
+      "id": "ei_brownfield_redevelopment",
+      "type": "deep_dive",
+      "title": "Brownfield Redevelopment in Canadian Cities",
+      "prompt_template": "Write a deep-dive segment about brownfield site redevelopment in Canada. Cover the environmental assessment process, provincial contaminated sites registries, risk-based closure standards versus generic standards, financial incentives for redevelopment, and successful case studies of former industrial sites converted to community use.",
+      "estimated_words": 600,
+      "tags": ["contamination", "redevelopment", "urban"]
+    },
+    {
+      "id": "ei_profile_eccc",
+      "type": "profile",
+      "title": "Profile: Environment and Climate Change Canada",
+      "prompt_template": "Write a profile segment about Environment and Climate Change Canada (ECCC) as an institution. Cover its mandate, key divisions (enforcement, science, policy), how it interacts with provincial regulators, notable enforcement actions, and how its role has evolved with climate change becoming a top policy priority.",
+      "estimated_words": 500,
+      "tags": ["people", "institutions", "government"]
+    },
+    {
+      "id": "ei_profile_indigenous_guardians",
+      "type": "profile",
+      "title": "Profile: Indigenous Guardian Programs",
+      "prompt_template": "Write a profile segment about Indigenous Guardian programs in Canada. Cover how these programs integrate traditional ecological knowledge with modern environmental monitoring, notable programs across the country, their role in impact assessments and species protection, and how they are reshaping environmental governance.",
+      "estimated_words": 500,
+      "tags": ["people", "Indigenous", "monitoring"]
+    },
+    {
+      "id": "ei_history_great_lakes",
+      "type": "historical",
+      "title": "The Great Lakes Cleanup: A 50-Year Success Story",
+      "prompt_template": "Write a historical perspective segment about the cleanup of the Great Lakes from the 1970s to today. Cover the burning Cuyahoga River, the Canada-US Great Lakes Water Quality Agreement, the Areas of Concern program, phosphorus reduction successes, and remaining challenges like microplastics and invasive species.",
+      "estimated_words": 600,
+      "tags": ["history", "water", "success"]
+    },
+    {
+      "id": "ei_history_canadian_env_law",
+      "type": "historical",
+      "title": "The Evolution of Canadian Environmental Law",
+      "prompt_template": "Write a historical perspective segment tracing the evolution of Canadian environmental law from the 1970s to today. Cover the creation of Environment Canada, the first Clean Air Act, CEPA 1988 and 1999, the Species at Risk Act, the Impact Assessment Act, and the key court decisions that shaped environmental jurisdiction.",
+      "estimated_words": 600,
+      "tags": ["history", "law", "regulation"]
+    },
+    {
+      "id": "ei_contrarian_nuclear",
+      "type": "contrarian",
+      "title": "Nuclear Energy for Canada: Friend or Foe?",
+      "prompt_template": "Write a balanced contrarian segment debating nuclear energy's role in Canada's clean energy future. Cover the pro-nuclear arguments (reliable baseload, low carbon, SMR potential, existing CANDU expertise) and the anti-nuclear arguments (waste storage, cost overruns, construction timelines, Indigenous concerns near proposed sites). Present both sides fairly.",
+      "estimated_words": 600,
+      "tags": ["debate", "energy", "nuclear"]
+    },
+    {
+      "id": "ei_contrarian_carbon_capture",
+      "type": "contrarian",
+      "title": "The Carbon Capture Debate",
+      "prompt_template": "Write a contrarian segment examining the debate around carbon capture and storage (CCS) in Canada. Cover the bull case (necessary for heavy industry, supported by tax credits, Alberta's Quest project success) and the bear case (expensive distraction, moral hazard for fossil fuels, limited proven capacity). Reference Canadian projects specifically.",
+      "estimated_words": 600,
+      "tags": ["debate", "carbon", "technology"]
+    },
+    {
+      "id": "ei_utility_env_assessment",
+      "type": "utility",
+      "title": "How to Read an Environmental Site Assessment",
+      "prompt_template": "Write a practical utility segment teaching listeners how to read a Phase I and Phase II Environmental Site Assessment (ESA). Cover the purpose of each phase, key sections to focus on, how to interpret contaminant concentrations against provincial standards, what 'areas of potential environmental concern' mean, and red flags to watch for.",
+      "estimated_words": 600,
+      "tags": ["education", "assessment", "practical"]
+    },
+    {
+      "id": "ei_utility_compliance_sme",
+      "type": "utility",
+      "title": "Environmental Compliance Checklist for SMEs",
+      "prompt_template": "Write a practical utility segment providing an environmental compliance checklist for small and medium enterprises in Canada. Cover air emissions reporting, wastewater discharge permits, hazardous waste storage and transport, spill reporting obligations, and the most common compliance gaps that trigger enforcement actions.",
+      "estimated_words": 600,
+      "tags": ["education", "compliance", "business"]
+    },
+    {
+      "id": "ei_methane_regulations",
+      "type": "deep_dive",
+      "title": "Canada's Methane Regulations: Oil and Gas Sector",
+      "prompt_template": "Write a deep-dive segment about Canada's methane emissions regulations for the oil and gas sector. Cover the federal methane reduction targets, the proposed 75% reduction by 2030, leak detection and repair requirements, provincial equivalency agreements, and how Canada's approach compares to US EPA methane rules.",
+      "estimated_words": 600,
+      "tags": ["regulation", "methane", "oil-gas"]
+    }
+  ]
+}

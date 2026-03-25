@@ -160,6 +160,12 @@ chapters:
     - pattern: "That's Tesla Shorts Time|that.?s.*for today|until next time"
       title: "Closing"
 
+slow_news:
+  enabled: true
+  library_file: shows/segments/tesla.json
+  max_segments: 2
+  cooldown_days: 30
+
 newsletter:
   enabled: true
   platform: buttondown

@@ -394,14 +394,37 @@ def run(args: argparse.Namespace) -> None:
         logger.warning("No articles found even after expanded search. Skipping episode.")
         sys.exit(2)
 
-    # Skip episode if digest would be too thin
+    # Skip episode if digest would be too thin — or activate slow news mode
     skip_threshold = getattr(config, "min_articles_skip", 3) or 3
+    slow_news_mode = False
+    selected_segs: list = []
+
     if len(articles) < skip_threshold:
-        logger.warning(
-            "Only %d article(s) found — below minimum threshold (%d) for a quality episode. Skipping.",
-            len(articles), skip_threshold,
-        )
-        sys.exit(2)
+        from engine.slow_news import is_slow_news_day, load_segment_library, select_segments
+
+        if is_slow_news_day(len(articles), config):
+            logger.info(
+                "Slow news day: %d article(s) below threshold %d — activating evergreen segments",
+                len(articles), skip_threshold,
+            )
+            library = load_segment_library(config.slow_news.library_file)
+            recent_seg_ids = content_tracker.get_recent_segment_ids(
+                days=config.slow_news.cooldown_days,
+            )
+            selected_segs = select_segments(
+                library,
+                recent_seg_ids,
+                max_segments=config.slow_news.max_segments,
+                mode=config.slow_news.selection_mode,
+            )
+            slow_news_mode = True
+            metrics.record("slow_news_mode", True)
+        else:
+            logger.warning(
+                "Only %d article(s) found — below minimum threshold (%d) for a quality episode. Skipping.",
+                len(articles), skip_threshold,
+            )
+            sys.exit(2)
 
     # 5c. Cap article count to prevent prompt bloat and quality degradation
     MAX_ARTICLES_FOR_LLM = 25
@@ -449,6 +472,24 @@ def run(args: argparse.Namespace) -> None:
         "recent_content_summary": content_tracker_summary,
         "recent_deep_dive_topics": deep_dive_topics_text,
     }
+    # Slow news day context injection
+    if slow_news_mode and selected_segs:
+        from engine.slow_news import build_slow_news_prompt_context
+
+        # Gather previous angle summaries for freshness enforcement
+        previous_angles: dict = {}
+        for seg in selected_segs:
+            history = content_tracker.get_segment_history(seg["id"], limit=3)
+            angles = [h["summary"] for h in history if h.get("summary")]
+            if angles:
+                previous_angles[seg["id"]] = angles
+
+        template_vars["slow_news_context"] = build_slow_news_prompt_context(
+            articles, selected_segs, config, template_vars, previous_angles,
+        )
+    else:
+        template_vars["slow_news_context"] = ""
+
     # Merge extra context from hooks (e.g. price, change_str, x_posts_section)
     template_vars.update(extra_context)
 
@@ -472,6 +513,24 @@ def run(args: argparse.Namespace) -> None:
     if section_patterns:
         content_tracker.record_episode(x_thread, section_patterns)
         content_tracker.save()
+
+    # Record slow-news segment metadata for cooldown tracking & freshness
+    if slow_news_mode and selected_segs:
+        import datetime as _dt
+        today_iso = _dt.date.today().isoformat()
+        for ep in content_tracker.data.get("episodes", []):
+            if ep.get("date") == today_iso:
+                ep["slow_news"] = True
+                ep["slow_news_segments"] = [s["id"] for s in selected_segs]
+                ep["slow_news_segment_summaries"] = _extract_segment_summaries(
+                    x_thread, selected_segs,
+                )
+                break
+        content_tracker.save()
+        logger.info(
+            "Recorded slow-news segments: %s",
+            [s["id"] for s in selected_segs],
+        )
 
     # 7b. Post-generation digest validation — catch structure issues before TTS.
     #      If critical sections are missing, retry digest generation once with an
@@ -591,6 +650,11 @@ def run(args: argparse.Namespace) -> None:
         logger.info("Hook: %s", hook)
     else:
         logger.warning("No HOOK found in digest — using generic episode title")
+
+    # Tag slow news editions in the episode title
+    if slow_news_mode:
+        hook = f"[Slow News Edition] {hook}" if hook else "[Slow News Edition]"
+        logger.info("Episode tagged as Slow News Edition")
 
     # Save digest to file
     digest_md = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}.md"
@@ -1430,6 +1494,39 @@ def _fetch_with_expansion(
     return articles
 
 
+def _extract_segment_summaries(
+    digest_text: str, segments: list,
+) -> dict:
+    """Extract 1-2 sentence angle summaries for each evergreen segment.
+
+    Searches the digest for each segment's title heading and captures the
+    first couple of sentences as an angle summary.  This is stored in the
+    content tracker so future slow-news prompts can enforce freshness.
+    """
+    import re
+
+    summaries: dict = {}
+    for seg in segments:
+        title = seg.get("title", "")
+        if not title:
+            continue
+        # Look for the segment title (possibly surrounded by markdown)
+        pattern = re.escape(title)
+        match = re.search(
+            rf"(?:^|\n)(?:\*{{0,2}}|#+\s*).*{pattern}.*(?:\n|$)(.*?)(?:\n\n|\n#|\n\*\*|\Z)",
+            digest_text,
+            re.IGNORECASE | re.DOTALL,
+        )
+        if match:
+            text = match.group(1).strip()
+            # Take first 1-2 sentences (up to ~200 chars)
+            sentences = re.split(r"(?<=[.!?])\s+", text)
+            summary = " ".join(sentences[:2])[:200]
+            if summary:
+                summaries[seg["id"]] = summary
+    return summaries
+
+
 def _extract_hook(digest: str) -> str | None:
     """Extract the **HOOK:** line from a generated digest.
 
@@ -1537,10 +1634,15 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
         ):
             continue
         # Also catch simpler variants: "Show Name, Episode N" at end of line
+        # (with optional trailing metadata like "Script (Expanded – X words)")
         if re.match(
-            r"(?i)^.{3,50},?\s+episode\s+[\w\s]+[,.]?\s*$",
+            r"(?i)^.{3,50},?\s+episode\s+[\w\s]+[,.]?\s*"
+            r"(?:script\b.*)?$",
             line,
         ):
+            continue
+        # Catch title lines with "(Expanded – X words)" or similar metadata suffix
+        if re.search(r"(?i)\b(expanded|rewritten|revised)\s*[-–—]\s*.*\bwords?\b", line):
             continue
         # Drop markdown artifacts
         if line in {"**", "*", "__", "—", "–"}:
@@ -1604,6 +1706,12 @@ def _strip_post_pronunciation_artifacts(text: str) -> str:
         stripped = line.strip()
         # Word count in any form (numeric or word)
         if re.match(r"(?i)^\(?\s*(word\s*count|total\s*words|character\s*count)\b", stripped):
+            continue
+        # "Target: X words" metadata (may have mangled numbers after pronunciation)
+        if re.search(r"(?i)\btarget\s*:\s*.*\bwords?\b", stripped):
+            continue
+        # "approximately X min spoken" metadata
+        if re.search(r"(?i)\bapproximately\s+.*\bmin(utes?)?\s+(spoken|audio|reading)\b", stripped):
             continue
         cleaned.append(line)
     return "\n".join(cleaned)
