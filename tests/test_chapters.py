@@ -11,6 +11,7 @@ from engine.chapters import (
     Chapter,
     calculate_timestamps,
     parse_chapters,
+    split_script_at_chapters,
     write_chapters_json,
 )
 from engine.config import ChaptersConfig, SectionMarker, load_config
@@ -456,3 +457,113 @@ class TestYAMLConfigIntegration:
             show_name=cfg.name,
         )
         assert len(chapters) >= 4
+
+
+# =========================================================================
+# 6. TestPreambleBehavior
+# =========================================================================
+
+# Script where the first marker ("First Principles") does NOT start at
+# position 0 — the opening content has no matching marker.
+PREAMBLE_SCRIPT = """\
+Hey everyone, welcome back to the show. Today we have some big news.
+TSLA is up 5 percent and here are the stories you need to know about.
+
+Story 1: Tesla Semi gets wireless charging in a new Jay Leno segment.
+Story 2: Model Y arrives at Giga Texas with production lines confirmed.
+Story 3: FSD investigation update from NHTSA moves to engineering analysis.
+
+Here is our First Principles segment for today.
+The idea here is about vertical integration and why it matters for Tesla.
+Manufacturing your own batteries changes the entire cost structure.
+
+Before we go, here is what to watch tomorrow.
+Keep your eyes on European delivery numbers coming out this week.
+That wraps it up for today, thanks for listening.
+"""
+
+
+class TestPreambleBehavior:
+    """Tests for preamble handling when content precedes the first marker."""
+
+    MARKERS = [
+        {"pattern": "First Principles", "title": "First Principles"},
+        {"pattern": "Before we go", "title": "Tomorrow Teaser"},
+    ]
+
+    def test_preamble_section_included(self):
+        """Content before the first marker is returned as a section."""
+        chapters = parse_chapters(PREAMBLE_SCRIPT, self.MARKERS)
+        sections = split_script_at_chapters(PREAMBLE_SCRIPT, chapters)
+
+        assert len(sections) >= 3
+        assert "welcome back to the show" in sections[0]
+
+    def test_preamble_chapter_inserted(self):
+        """A Preamble Chapter object is inserted at index 0."""
+        chapters = parse_chapters(PREAMBLE_SCRIPT, self.MARKERS)
+        split_script_at_chapters(PREAMBLE_SCRIPT, chapters)
+
+        assert chapters[0].title == "Preamble"
+        assert chapters[0].word_start == 0
+        assert chapters[0].char_start == 0
+
+    def test_preamble_chapter_word_boundaries(self):
+        """Preamble word_end matches the original first chapter's word_start."""
+        chapters = parse_chapters(PREAMBLE_SCRIPT, self.MARKERS)
+        # The original first chapter ("First Principles") will be at index 1
+        # after preamble insertion.
+        original_first_word_start = chapters[0].word_start
+        split_script_at_chapters(PREAMBLE_SCRIPT, chapters)
+
+        assert chapters[0].title == "Preamble"
+        assert chapters[0].word_end == original_first_word_start
+        assert chapters[1].title == "First Principles"
+
+    def test_sections_equal_chapters_with_preamble(self):
+        """len(sections) == len(chapters) even when preamble is added."""
+        chapters = parse_chapters(PREAMBLE_SCRIPT, self.MARKERS)
+        sections = split_script_at_chapters(PREAMBLE_SCRIPT, chapters)
+
+        assert len(sections) == len(chapters)
+
+    def test_no_preamble_when_marker_at_start(self):
+        """No preamble chapter when the first marker matches at position 0."""
+        script = "First Principles: here we go.\nBefore we go, goodbye."
+        chapters = parse_chapters(script, self.MARKERS)
+        original_len = len(chapters)
+        sections = split_script_at_chapters(script, chapters)
+
+        assert len(chapters) == original_len  # No insertion
+        assert chapters[0].title == "First Principles"
+        assert len(sections) == len(chapters)
+
+    def test_preamble_timestamps_shift_subsequent_chapters(self):
+        """calculate_timestamps() accounts for preamble proportion."""
+        chapters = parse_chapters(PREAMBLE_SCRIPT, self.MARKERS)
+        split_script_at_chapters(PREAMBLE_SCRIPT, chapters)
+
+        calculate_timestamps(chapters, 120.0, music_intro_offset=5.0)
+
+        # Preamble starts right after music intro
+        assert chapters[0].title == "Preamble"
+        assert chapters[0].startTime == 5.0
+
+        # First Principles must start AFTER preamble, not at 5.0
+        assert chapters[1].title == "First Principles"
+        assert chapters[1].startTime > 5.0
+
+        # All timestamps should be monotonically increasing
+        for i in range(1, len(chapters)):
+            assert chapters[i].startTime >= chapters[i - 1].startTime
+
+    def test_preamble_content_coverage(self):
+        """All original script words appear across the sections."""
+        chapters = parse_chapters(PREAMBLE_SCRIPT, self.MARKERS)
+        sections = split_script_at_chapters(PREAMBLE_SCRIPT, chapters)
+
+        original_words = set(PREAMBLE_SCRIPT.split())
+        section_words = set()
+        for s in sections:
+            section_words.update(s.split())
+        assert original_words == section_words
