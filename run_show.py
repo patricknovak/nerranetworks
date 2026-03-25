@@ -723,6 +723,22 @@ def run(args: argparse.Namespace) -> None:
             save_usage(tracker, digests_dir)
             sys.exit(2)
 
+        # 8c. Pre-TTS duration estimate — skip obviously doomed episodes before
+        #     burning TTS credits.  ~150 words/minute for podcast speech.
+        #     Use a 70% margin to avoid false positives (the audio gate at
+        #     step 10 remains the final authority).
+        _min_audio = config.min_audio_duration
+        if _min_audio:
+            _estimated_duration = _script_word_count / 150.0 * 60.0
+            if _estimated_duration < _min_audio * 0.7:
+                logger.error(
+                    "Script too short for minimum duration: ~%.0fs estimated "
+                    "vs %ds minimum (%d words at ~150 wpm). Aborting before TTS.",
+                    _estimated_duration, _min_audio, _script_word_count,
+                )
+                save_usage(tracker, digests_dir)
+                sys.exit(2)
+
         # Update Content Lake with podcast script (non-fatal)
         if _lake_record is not None:
             try:
