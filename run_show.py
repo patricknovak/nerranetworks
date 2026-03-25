@@ -878,10 +878,16 @@ def run(args: argparse.Namespace) -> None:
                         sections_total, len(podcast_script),
                         100 * sections_total / len(podcast_script) if podcast_script else 0,
                     )
+                    metrics.record("section_tts_fallback", True)
+                    metrics.record("section_tts_coverage_pct", round(
+                        100 * sections_total / len(podcast_script), 1,
+                    ) if podcast_script else 0)
                     sections = []  # Force fallback to single synthesis below
 
                 if len(sections) >= 2:
                     logger.info("Section TTS: synthesizing %d sections separately", len(sections))
+                    metrics.record("section_tts_fallback", False)
+                    metrics.record("section_tts_section_count", len(sections))
                     section_tmp_dir = digests_dir / f"_sections_ep{episode_num:03d}"
 
                     if tts_provider == "chatterbox":
