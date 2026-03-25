@@ -592,6 +592,10 @@ def run(args: argparse.Namespace) -> None:
                         x_thread = x_thread_retry
                     else:
                         logger.warning("Digest retry did not improve — keeping original")
+                except LLMRefusalError:
+                    # LLM refusal is a permanent failure — don't mask it
+                    logger.error("Digest retry refused by LLM — aborting episode")
+                    raise
                 except Exception as exc:
                     logger.warning("Digest retry failed: %s — keeping original", exc)
             else:
