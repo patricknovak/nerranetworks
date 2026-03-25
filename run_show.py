@@ -549,6 +549,23 @@ def run(args: argparse.Namespace) -> None:
                         "; ".join(_item_count_issues),
                     )
                     sys.exit(2)
+
+                # Check for excessive cross-episode repeats — a few follow-ups
+                # are normal, but 3+ identical headlines means the LLM ignored
+                # the content tracker.
+                _repeat_issues = [
+                    i for i in _val_issues
+                    if "cross-episode repeat" in i.lower()
+                ]
+                metrics.record("cross_episode_repeats", len(_repeat_issues))
+                if len(_repeat_issues) >= 3:
+                    logger.error(
+                        "Digest has %d cross-episode repeat(s) — too many recycled "
+                        "stories to publish.",
+                        len(_repeat_issues),
+                    )
+                    sys.exit(2)
+
                 logger.warning(
                     "Digest validation found %d issue(s) — continuing (non-blocking)",
                     len(_val_issues),
