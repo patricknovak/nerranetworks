@@ -742,6 +742,8 @@ class ContentTracker:
         digest_text: str,
         section_patterns: Dict[str, str],
         date: Optional[str] = None,
+        source_urls: Optional[List[str]] = None,
+        source_titles: Optional[List[str]] = None,
     ) -> None:
         """Extract and record content from a generated digest.
 
@@ -753,6 +755,12 @@ class ContentTracker:
             digest_text: The full digest markdown text.
             section_patterns: Dict mapping section names to regex patterns.
             date: Episode date (ISO format). Defaults to today.
+            source_urls: Original article URLs from RSS/X fetcher (optional).
+                Supplements URLs extracted from the digest text, ensuring
+                URL-based dedup works even when the LLM omits source links.
+            source_titles: Original article titles from RSS/X fetcher (optional).
+                Supplements headlines extracted from the digest, ensuring
+                title-based dedup works even when the LLM reformats headlines.
         """
         ep_date = date or datetime.date.today().isoformat()
 
@@ -770,6 +778,15 @@ class ContentTracker:
             if url:
                 episode_record["urls"].append(url)
 
+        # Merge in original article URLs from the fetcher (more reliable
+        # than extracting from digest text, which depends on LLM formatting).
+        if source_urls:
+            existing = set(episode_record["urls"])
+            for u in source_urls:
+                if u and u not in existing:
+                    episode_record["urls"].append(u)
+                    existing.add(u)
+
         # Extract headlines
         headlines_pattern = section_patterns.get("headlines")
         if headlines_pattern:
@@ -783,6 +800,19 @@ class ContentTracker:
             m = re.search(takeover_pattern, digest_text, re.DOTALL | re.IGNORECASE)
             if m:
                 episode_record["headlines"].extend(_extract_bold_headlines(m.group(1)))
+
+        # Merge in original RSS article titles for more reliable title-based
+        # cross-episode dedup (LLM-extracted headlines can be reformatted or
+        # include timestamps, making similarity matching unreliable).
+        if source_titles:
+            existing_norm = {
+                norm_headline_for_similarity(h)
+                for h in episode_record["headlines"] if h
+            }
+            for t in source_titles:
+                if t and norm_headline_for_similarity(t) not in existing_norm:
+                    episode_record["headlines"].append(t)
+                    existing_norm.add(norm_headline_for_similarity(t))
 
         # Extract named sections
         for key, pattern in section_patterns.items():

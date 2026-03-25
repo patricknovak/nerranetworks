@@ -511,7 +511,13 @@ def run(args: argparse.Namespace) -> None:
 
     # Record episode content in the cross-episode tracker
     if section_patterns:
-        content_tracker.record_episode(x_thread, section_patterns)
+        _article_urls = [a.get("url", "") for a in articles if a.get("url")]
+        _article_titles = [a.get("title", "") for a in articles if a.get("title")]
+        content_tracker.record_episode(
+            x_thread, section_patterns,
+            source_urls=_article_urls,
+            source_titles=_article_titles,
+        )
         content_tracker.save()
 
     # Record slow-news segment metadata for cooldown tracking & freshness
