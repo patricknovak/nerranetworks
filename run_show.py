@@ -628,12 +628,84 @@ def run(args: argparse.Namespace) -> None:
                 ]
                 metrics.record("cross_episode_repeats", len(_repeat_issues))
                 if len(_repeat_issues) >= 3:
-                    logger.error(
-                        "Digest has %d cross-episode repeat(s) — too many recycled "
-                        "stories to publish.",
-                        len(_repeat_issues),
-                    )
-                    sys.exit(2)
+                    # If slow news mode is available, fall back to it instead
+                    # of skipping entirely — the repeat articles are stale but
+                    # evergreen segments can fill the episode.
+                    if not slow_news_mode and config.slow_news.enabled:
+                        from engine.slow_news import (
+                            load_segment_library, select_segments,
+                            build_slow_news_prompt_context,
+                        )
+                        logger.warning(
+                            "Digest has %d cross-episode repeat(s) — falling back "
+                            "to slow news mode with evergreen segments",
+                            len(_repeat_issues),
+                        )
+                        library = load_segment_library(config.slow_news.library_file)
+                        recent_seg_ids = content_tracker.get_recent_segment_ids(
+                            days=config.slow_news.cooldown_days,
+                        )
+                        selected_segs = select_segments(
+                            library,
+                            recent_seg_ids,
+                            max_segments=config.slow_news.max_segments,
+                            mode=config.slow_news.selection_mode,
+                        )
+                        slow_news_mode = True
+                        metrics.record("slow_news_mode", True)
+                        metrics.record("slow_news_trigger", "stale_repeats")
+
+                        # Gather previous angle summaries for freshness
+                        previous_angles: dict = {}
+                        for seg in selected_segs:
+                            history = content_tracker.get_segment_history(seg["id"], limit=3)
+                            angles = [h["summary"] for h in history if h.get("summary")]
+                            if angles:
+                                previous_angles[seg["id"]] = angles
+
+                        template_vars["slow_news_context"] = build_slow_news_prompt_context(
+                            articles, selected_segs, config, template_vars, previous_angles,
+                        )
+
+                        # Re-generate digest with slow news context
+                        logger.info("Re-generating digest with slow news context ...")
+                        try:
+                            with metrics.stage("generate_digest_slow_news"):
+                                x_thread = generate_digest(
+                                    template_vars, config, tracker=tracker,
+                                )
+                        except LLMRefusalError as e:
+                            logger.error("Slow news fallback digest refused: %s", e)
+                            sys.exit(2)
+                        except Exception as e:
+                            logger.error("Slow news fallback digest failed: %s", e)
+                            sys.exit(1)
+
+                        # Extract hook from the regenerated digest
+                        hook = _extract_hook(x_thread)
+                        if hook:
+                            hook = f"[Slow News Edition] {hook}"
+                        else:
+                            hook = "[Slow News Edition]"
+                        logger.info("Slow news fallback hook: %s", hook)
+
+                        # Re-record episode content
+                        if section_patterns:
+                            _article_urls = [a.get("url", "") for a in articles if a.get("url")]
+                            _article_titles = [a.get("title", "") for a in articles if a.get("title")]
+                            content_tracker.record_episode(
+                                x_thread, section_patterns,
+                                source_urls=_article_urls,
+                                source_titles=_article_titles,
+                            )
+                            content_tracker.save()
+                    else:
+                        logger.error(
+                            "Digest has %d cross-episode repeat(s) — too many recycled "
+                            "stories to publish.",
+                            len(_repeat_issues),
+                        )
+                        sys.exit(2)
 
                 logger.warning(
                     "Digest validation found %d issue(s) — continuing (non-blocking)",
