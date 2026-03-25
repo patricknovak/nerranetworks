@@ -1537,10 +1537,15 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
         ):
             continue
         # Also catch simpler variants: "Show Name, Episode N" at end of line
+        # (with optional trailing metadata like "Script (Expanded – X words)")
         if re.match(
-            r"(?i)^.{3,50},?\s+episode\s+[\w\s]+[,.]?\s*$",
+            r"(?i)^.{3,50},?\s+episode\s+[\w\s]+[,.]?\s*"
+            r"(?:script\b.*)?$",
             line,
         ):
+            continue
+        # Catch title lines with "(Expanded – X words)" or similar metadata suffix
+        if re.search(r"(?i)\b(expanded|rewritten|revised)\s*[-–—]\s*.*\bwords?\b", line):
             continue
         # Drop markdown artifacts
         if line in {"**", "*", "__", "—", "–"}:
@@ -1604,6 +1609,12 @@ def _strip_post_pronunciation_artifacts(text: str) -> str:
         stripped = line.strip()
         # Word count in any form (numeric or word)
         if re.match(r"(?i)^\(?\s*(word\s*count|total\s*words|character\s*count)\b", stripped):
+            continue
+        # "Target: X words" metadata (may have mangled numbers after pronunciation)
+        if re.search(r"(?i)\btarget\s*:\s*.*\bwords?\b", stripped):
+            continue
+        # "approximately X min spoken" metadata
+        if re.search(r"(?i)\bapproximately\s+.*\bmin(utes?)?\s+(spoken|audio|reading)\b", stripped):
             continue
         cleaned.append(line)
     return "\n".join(cleaned)

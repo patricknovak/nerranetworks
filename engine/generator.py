@@ -280,6 +280,14 @@ def _sanitize_podcast_script(text: str) -> str:
         if re.search(r"(?i)\b(word\s*count|total\s*words|character\s*count)\s*[:：]", stripped):
             logger.info("Stripped metadata line from podcast script: %s", stripped[:80])
             continue
+        # Catch "Target: X words" and duration metadata lines
+        if re.search(r"(?i)\btarget\s*:\s*.*\bwords?\b", stripped):
+            logger.info("Stripped metadata line from podcast script: %s", stripped[:80])
+            continue
+        # Catch "approximately X min spoken" metadata lines
+        if re.search(r"(?i)\bapproximately\s+.*\bmin(utes?)?\s+(spoken|audio|reading)\b", stripped):
+            logger.info("Stripped metadata line from podcast script: %s", stripped[:80])
+            continue
         # Strip LLM meta-commentary lines about the script itself
         if re.match(r"(?i)^here'?s?\s+(your|the|my)\s+(expanded|revised|updated|rewritten)\s+script\b", stripped_md):
             logger.info("Stripped LLM meta-commentary from podcast script: %s", stripped[:80])
