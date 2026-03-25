@@ -442,6 +442,26 @@ def generate_digest(
         max_tokens=config.llm.max_tokens,
     )
 
+    # Retry once with 50% more tokens if the response was truncated
+    if meta.get("finish_reason") == "length":
+        bumped_tokens = int(config.llm.max_tokens * 1.5)
+        logger.warning(
+            "Digest truncated at %d tokens — retrying with %d tokens",
+            config.llm.max_tokens, bumped_tokens,
+        )
+        text, meta = _call_grok(
+            prompt,
+            model=config.llm.model,
+            system_prompt=system_prompt,
+            temperature=config.llm.digest_temperature,
+            max_tokens=bumped_tokens,
+        )
+        if meta.get("finish_reason") == "length":
+            logger.warning(
+                "Digest still truncated at %d tokens — proceeding with best effort",
+                bumped_tokens,
+            )
+
     if tracker and "usage" in meta:
         try:
             from engine.tracking import record_llm_usage
@@ -703,6 +723,26 @@ def generate_podcast_script(
         temperature=config.llm.podcast_temperature,
         max_tokens=podcast_tokens,
     )
+
+    # Retry once with 50% more tokens if the response was truncated
+    if meta.get("finish_reason") == "length":
+        bumped_tokens = int(podcast_tokens * 1.5)
+        logger.warning(
+            "Podcast script truncated at %d tokens — retrying with %d tokens",
+            podcast_tokens, bumped_tokens,
+        )
+        text, meta = _call_grok(
+            prompt,
+            model=config.llm.model,
+            system_prompt=system_prompt,
+            temperature=config.llm.podcast_temperature,
+            max_tokens=bumped_tokens,
+        )
+        if meta.get("finish_reason") == "length":
+            logger.warning(
+                "Podcast script still truncated at %d tokens — proceeding with best effort",
+                bumped_tokens,
+            )
 
     if tracker and "usage" in meta:
         try:

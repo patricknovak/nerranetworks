@@ -530,13 +530,16 @@ def ai_review_episode(ep: EpisodeReview) -> None:
     if not text:
         return
 
-    # Truncate to avoid massive prompts
-    if len(text) > 8000:
-        text = text[:8000] + "\n...[truncated]"
+    # Truncate to avoid massive prompts — the AI reviewer only needs enough
+    # text to assess quality, not the full transcript.
+    _was_truncated = len(text) > 12000
+    if _was_truncated:
+        text = text[:12000] + "\n...[truncated for review — full episode is longer]"
 
     prompt = (
         f"You are a podcast quality reviewer. Review this episode of '{ep.show_name}' "
         f"(Episode {ep.episode_num}, {ep.date}).\n\n"
+        f"{'NOTE: The text below was truncated for review. Do NOT flag the episode as incomplete just because the review excerpt ends with [truncated]. Only flag incompleteness if the content itself shows signs of being cut off mid-sentence or missing expected sections.' if _was_truncated else ''}\n\n"
         f"TEXT:\n{text}\n\n"
         f"Check for these specific problems and rate each YES or NO:\n"
         f"1. FACTUAL_ERRORS: Are there obvious factual errors or contradictions?\n"
@@ -712,6 +715,21 @@ def create_github_issue(
         labels.append("severity: critical")
     if warnings:
         labels.append("severity: warning")
+
+    # Ensure labels exist (auto-create if missing)
+    _label_colors = {
+        "automated-review": "c5def5",
+        "severity: critical": "d73a4a",
+        "severity: warning": "fbca04",
+    }
+    for label in labels:
+        try:
+            subprocess.run(
+                ["gh", "label", "create", label, "--color", _label_colors.get(label, "ededed"), "--force"],
+                capture_output=True, text=True, timeout=10,
+            )
+        except Exception:
+            pass  # Best-effort; issue creation will still work without labels
 
     # Create via gh CLI
     label_args = " ".join(f'--label "{l}"' for l in labels)
