@@ -1,0 +1,117 @@
+{
+  "show": "Models & Agents",
+  "segments": [
+    {
+      "id": "ma_transformer_architecture",
+      "type": "deep_dive",
+      "title": "The Transformer Architecture Explained",
+      "prompt_template": "Write a deep-dive segment explaining the transformer architecture. Cover self-attention mechanisms, positional encoding, the encoder-decoder structure, and why transformers revolutionized NLP and vision. Use clear analogies to make the concepts accessible to a technical but non-ML audience.",
+      "estimated_words": 600,
+      "tags": ["architecture", "fundamentals", "AI"]
+    },
+    {
+      "id": "ma_rlhf_dpo",
+      "type": "deep_dive",
+      "title": "RLHF and DPO: Training Models to Follow Instructions",
+      "prompt_template": "Write a deep-dive segment about reinforcement learning from human feedback (RLHF) and direct preference optimization (DPO). Explain the reward model, the PPO training loop, why DPO emerged as a simpler alternative, and the practical tradeoffs between the two approaches.",
+      "estimated_words": 600,
+      "tags": ["training", "alignment", "AI"]
+    },
+    {
+      "id": "ma_rag_pipelines",
+      "type": "deep_dive",
+      "title": "RAG Pipelines: Giving LLMs Real-Time Knowledge",
+      "prompt_template": "Write a deep-dive segment about retrieval-augmented generation (RAG). Cover the basic architecture (retrieve-then-generate), embedding models, vector databases, chunking strategies, and common failure modes. Include practical advice for building production RAG systems.",
+      "estimated_words": 600,
+      "tags": ["RAG", "engineering", "applications"]
+    },
+    {
+      "id": "ma_tokenization",
+      "type": "deep_dive",
+      "title": "Tokenization: The Hidden Foundation of LLMs",
+      "prompt_template": "Write a deep-dive segment about tokenization in large language models. Cover BPE, SentencePiece, the impact of vocabulary size on multilingual performance, why tokenization affects math ability, and how different model families handle tokenization differently.",
+      "estimated_words": 600,
+      "tags": ["fundamentals", "NLP", "AI"]
+    },
+    {
+      "id": "ma_agent_frameworks",
+      "type": "deep_dive",
+      "title": "AI Agent Frameworks Compared",
+      "prompt_template": "Write a deep-dive segment comparing major AI agent frameworks: LangChain/LangGraph, CrewAI, AutoGen, and the Claude Agent SDK. Cover their architectures, strengths, weaknesses, and which use cases each is best suited for. Include practical recommendations.",
+      "estimated_words": 600,
+      "tags": ["agents", "engineering", "tools"]
+    },
+    {
+      "id": "ma_profile_sutskever",
+      "type": "profile",
+      "title": "Profile: Ilya Sutskever",
+      "prompt_template": "Write a profile segment about Ilya Sutskever — his journey from studying under Geoffrey Hinton, co-founding OpenAI, his pivotal role in scaling neural networks, the dramatic board events of November 2023, and his founding of Safe Superintelligence Inc. Explore what his focus on safety tells us about the field's direction.",
+      "estimated_words": 500,
+      "tags": ["people", "history", "safety"]
+    },
+    {
+      "id": "ma_profile_amodei",
+      "type": "profile",
+      "title": "Profile: Dario Amodei and Anthropic",
+      "prompt_template": "Write a profile segment about Dario Amodei and the founding of Anthropic. Cover his background at OpenAI, why he left to start Anthropic, the constitutional AI approach, Claude's evolution, and how Anthropic's safety-first philosophy compares to competitors.",
+      "estimated_words": 500,
+      "tags": ["people", "safety", "companies"]
+    },
+    {
+      "id": "ma_history_gpt_evolution",
+      "type": "historical",
+      "title": "GPT-1 to GPT-4: The Scaling Story",
+      "prompt_template": "Write a historical perspective segment tracing the evolution from GPT-1 (117M parameters) through GPT-2, GPT-3, and GPT-4. Cover how each generation surprised researchers, the scaling laws that predicted performance gains, and the key architectural and training innovations at each step.",
+      "estimated_words": 600,
+      "tags": ["history", "scaling", "OpenAI"]
+    },
+    {
+      "id": "ma_history_alexnet",
+      "type": "historical",
+      "title": "The AlexNet Moment: When Deep Learning Changed Everything",
+      "prompt_template": "Write a historical perspective segment about the AlexNet moment in 2012 when deep learning won the ImageNet competition by a dramatic margin. Cover the key ingredients (GPUs, data, architecture), how it shifted the entire field from hand-crafted features to learned representations, and the direct line from AlexNet to today's foundation models.",
+      "estimated_words": 600,
+      "tags": ["history", "vision", "milestones"]
+    },
+    {
+      "id": "ma_contrarian_open_vs_closed",
+      "type": "contrarian",
+      "title": "Open vs Closed Models: The Great Debate",
+      "prompt_template": "Write a balanced contrarian segment debating open-weight vs closed-source AI models. Cover the arguments for openness (transparency, innovation, safety research) and the arguments for closed models (safety controls, preventing misuse, commercial viability). Include perspectives from Meta, OpenAI, and Anthropic.",
+      "estimated_words": 600,
+      "tags": ["debate", "policy", "open-source"]
+    },
+    {
+      "id": "ma_contrarian_agi_timelines",
+      "type": "contrarian",
+      "title": "AGI Timelines: Hype vs Reality",
+      "prompt_template": "Write a contrarian segment examining AGI timeline predictions. Present the accelerationist view (AGI within 2-5 years) and the skeptical view (fundamental capabilities are still missing). Cover what benchmarks actually tell us, where current models still fail, and why prediction track records in AI are notoriously poor.",
+      "estimated_words": 600,
+      "tags": ["debate", "AGI", "predictions"]
+    },
+    {
+      "id": "ma_utility_benchmarks",
+      "type": "utility",
+      "title": "How to Evaluate LLM Benchmarks",
+      "prompt_template": "Write a practical utility segment teaching listeners how to critically evaluate LLM benchmark results. Cover common benchmarks (MMLU, HumanEval, GSM8K, GPQA), their limitations, benchmark contamination risks, why leaderboard rankings can be misleading, and what to look for when comparing models for real-world tasks.",
+      "estimated_words": 600,
+      "tags": ["education", "evaluation", "benchmarks"]
+    },
+    {
+      "id": "ma_utility_prompt_engineering",
+      "type": "utility",
+      "title": "Prompt Engineering Patterns That Actually Work",
+      "prompt_template": "Write a practical utility segment covering proven prompt engineering patterns. Include chain-of-thought, few-shot examples, system prompts, structured output formatting, and the importance of iteration. Focus on patterns that work reliably across different models rather than model-specific tricks.",
+      "estimated_words": 600,
+      "tags": ["education", "prompting", "practical"]
+    },
+    {
+      "id": "ma_context_windows",
+      "type": "deep_dive",
+      "title": "Context Windows: Why Size Matters (and Why It Doesn't)",
+      "prompt_template": "Write a deep-dive segment about context windows in LLMs. Cover the evolution from 2K to 1M+ tokens, the architectural challenges of long context (attention complexity, lost-in-the-middle effect), practical implications for RAG vs long-context approaches, and what the research says about effective context usage.",
+      "estimated_words": 600,
+      "tags": ["architecture", "engineering", "practical"]
+    }
+  ]
+}

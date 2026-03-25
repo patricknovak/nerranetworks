@@ -223,6 +223,12 @@ chapters:
     - pattern: "That's Environmental Intelligence"
       title: "Closing"
 
+slow_news:
+  enabled: true
+  library_file: shows/segments/env_intel.json
+  max_segments: 2
+  cooldown_days: 30
+
 newsletter:
   enabled: true
   platform: buttondown

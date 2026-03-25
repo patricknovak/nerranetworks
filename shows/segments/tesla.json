@@ -1,0 +1,117 @@
+{
+  "show": "Tesla Shorts Time",
+  "segments": [
+    {
+      "id": "tesla_battery_chemistry",
+      "type": "deep_dive",
+      "title": "Battery Chemistry Evolution",
+      "prompt_template": "Write a deep-dive segment about the evolution of battery chemistry in electric vehicles. Cover the progression from early lithium-ion cells to NMC, LFP, and Tesla's 4680 cell format. Explain why chemistry choices matter for range, cost, and longevity. Reference real-world performance data where possible.",
+      "estimated_words": 600,
+      "tags": ["technology", "batteries", "manufacturing"]
+    },
+    {
+      "id": "tesla_fsd_architecture",
+      "type": "deep_dive",
+      "title": "Full Self-Driving Architecture",
+      "prompt_template": "Write a deep-dive segment about Tesla's Full Self-Driving architecture. Explain the evolution from Autopilot HW2 through HW3 to HW4/5, the shift from radar-plus-camera to vision-only, and the role of the occupancy network and transformer-based planning. Discuss where Tesla stands relative to Waymo and Cruise.",
+      "estimated_words": 600,
+      "tags": ["technology", "autonomy", "AI"]
+    },
+    {
+      "id": "tesla_dojo_supercomputer",
+      "type": "deep_dive",
+      "title": "Dojo Supercomputer Deep Dive",
+      "prompt_template": "Write a deep-dive segment about Tesla's Dojo supercomputer. Cover the custom D1 chip architecture, how Dojo fits into the FSD training pipeline, the economics of building custom silicon versus using NVIDIA GPUs, and where the project stands today.",
+      "estimated_words": 600,
+      "tags": ["technology", "AI", "computing"]
+    },
+    {
+      "id": "tesla_optimus_robot",
+      "type": "deep_dive",
+      "title": "Optimus Humanoid Robot",
+      "prompt_template": "Write a deep-dive segment about Tesla's Optimus humanoid robot program. Cover the engineering challenges of bipedal locomotion, the actuator design, how Tesla leverages FSD neural net expertise for robot perception, potential industrial applications, and realistic timeline expectations.",
+      "estimated_words": 600,
+      "tags": ["technology", "robotics", "AI"]
+    },
+    {
+      "id": "tesla_energy_business",
+      "type": "deep_dive",
+      "title": "Tesla Energy: The Hidden Growth Story",
+      "prompt_template": "Write a deep-dive segment about Tesla's energy generation and storage business. Cover Megapack deployments, Powerwall adoption, virtual power plant programs, and why many analysts consider energy to be Tesla's most underappreciated growth vector. Include recent deployment data.",
+      "estimated_words": 600,
+      "tags": ["energy", "storage", "business"]
+    },
+    {
+      "id": "tesla_profile_straubel",
+      "type": "profile",
+      "title": "Profile: JB Straubel",
+      "prompt_template": "Write a profile segment about JB Straubel, Tesla's co-founder and former CTO. Cover his pivotal role in making Tesla a reality, his battery expertise, the founding of Redwood Materials for battery recycling, and his lasting influence on Tesla's engineering culture.",
+      "estimated_words": 500,
+      "tags": ["people", "history", "batteries"]
+    },
+    {
+      "id": "tesla_profile_von_holzhausen",
+      "type": "profile",
+      "title": "Profile: Franz von Holzhausen",
+      "prompt_template": "Write a profile segment about Franz von Holzhausen, Tesla's chief designer. Cover his background at Mazda and GM, his design philosophy for Tesla, the controversial Cybertruck design decisions, and how Tesla's design language has evolved across generations.",
+      "estimated_words": 500,
+      "tags": ["people", "design"]
+    },
+    {
+      "id": "tesla_history_production_hell",
+      "type": "historical",
+      "title": "The Model 3 Production Hell",
+      "prompt_template": "Write a historical perspective segment about Tesla's 'production hell' during the Model 3 ramp in 2017-2018. Cover the tent assembly line, the cash crisis, Elon sleeping on the factory floor, and the lessons learned that shaped Tesla's manufacturing approach for subsequent vehicles.",
+      "estimated_words": 600,
+      "tags": ["history", "manufacturing"]
+    },
+    {
+      "id": "tesla_history_roadster_to_model3",
+      "type": "historical",
+      "title": "From Roadster to Model 3: Tesla's Master Plan",
+      "prompt_template": "Write a historical perspective segment tracing Tesla's journey from the original Roadster through the Model S, Model X, and finally the mass-market Model 3. Explain how the 'Secret Master Plan' guided each step and whether the strategy delivered on its promises.",
+      "estimated_words": 600,
+      "tags": ["history", "strategy"]
+    },
+    {
+      "id": "tesla_contrarian_valuation",
+      "type": "contrarian",
+      "title": "The Tesla Valuation Debate",
+      "prompt_template": "Write a balanced contrarian/debate segment presenting both the bull and bear cases for Tesla's current valuation. The bull case should cover AI, robotics, and energy optionality. The bear case should cover competition, margin pressure, and execution risk. Present both sides fairly and let the listener decide.",
+      "estimated_words": 600,
+      "tags": ["investing", "valuation", "debate"]
+    },
+    {
+      "id": "tesla_contrarian_competition",
+      "type": "contrarian",
+      "title": "Is Tesla Losing Its Moat?",
+      "prompt_template": "Write a contrarian segment examining whether Tesla is losing its competitive advantages. Cover BYD's rise in China, legacy automakers catching up on EVs, the Supercharger network opening to competitors, and whether software/AI remains a durable moat. Challenge common assumptions on both sides.",
+      "estimated_words": 600,
+      "tags": ["competition", "debate", "strategy"]
+    },
+    {
+      "id": "tesla_utility_10k",
+      "type": "utility",
+      "title": "How to Read Tesla's 10-K Filing",
+      "prompt_template": "Write a practical utility segment teaching listeners how to read Tesla's annual 10-K filing. Cover where to find it on EDGAR, the most important sections (revenue breakdown, risk factors, segment reporting), what to compare year-over-year, and common traps retail investors fall into when reading SEC filings.",
+      "estimated_words": 600,
+      "tags": ["investing", "education", "SEC"]
+    },
+    {
+      "id": "tesla_utility_delivery_numbers",
+      "type": "utility",
+      "title": "Understanding Tesla Delivery Numbers",
+      "prompt_template": "Write a practical utility segment explaining how to interpret Tesla's quarterly delivery and production numbers. Cover the difference between production and deliveries, why the gap matters, how to compare against estimates, seasonal patterns, and what the numbers actually tell you about the business.",
+      "estimated_words": 500,
+      "tags": ["investing", "education", "fundamentals"]
+    },
+    {
+      "id": "tesla_4680_manufacturing",
+      "type": "deep_dive",
+      "title": "4680 Cell Manufacturing Challenges",
+      "prompt_template": "Write a deep-dive segment about the manufacturing challenges of Tesla's 4680 battery cell. Cover dry electrode coating, the tabless design, yield rate improvements, how the cell fits into the structural battery pack, and the timeline for achieving cost parity with suppliers like Panasonic and CATL.",
+      "estimated_words": 600,
+      "tags": ["technology", "batteries", "manufacturing"]
+    }
+  ]
+}
