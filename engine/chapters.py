@@ -162,16 +162,22 @@ def split_script_at_chapters(
     if not chapters:
         return [script] if script.strip() else []
 
+    # If there is text before the first chapter marker, insert a "Preamble"
+    # Chapter so that (a) the content is not lost and (b) len(sections) ==
+    # len(chapters), keeping alignment for calculate_timestamps().
+    first_ch = chapters[0]
+    if first_ch.char_start > 0:
+        preamble_text = script[:first_ch.char_start].strip()
+        if preamble_text:
+            chapters.insert(0, Chapter(
+                title="Preamble",
+                word_start=0,
+                word_end=first_ch.word_start,
+                char_start=0,
+                char_end=first_ch.char_start,
+            ))
+
     sections: list[str] = []
-
-    # Include any text before the first chapter as a leading section.
-    # Without this, content before the first matched marker is lost.
-    first_start = chapters[0].char_start
-    if first_start > 0:
-        preamble = script[:first_start].strip()
-        if preamble:
-            sections.append(preamble)
-
     for ch in chapters:
         section = script[ch.char_start:ch.char_end].strip()
         sections.append(section)
