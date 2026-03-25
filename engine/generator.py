@@ -157,13 +157,17 @@ def _validate_llm_output(
     stage: str = "digest",
     show_name: str = "unknown",
     min_podcast_words: int = 0,
-) -> None:
+) -> int:
     """Validate LLM output quality.
 
     Logs warnings for quality issues (short text, repetition, leaked
     instructions) so the pipeline can still proceed.  However, raises
     ``LLMRefusalError`` for outright refusals — a refusal is worse than
     no episode because it wastes TTS credits on garbage audio.
+
+    Returns the count of distinct suspicious repetition phrases found
+    (bigrams appearing 4+ times).  Callers can use this to decide
+    whether to retry with a lower temperature.
     """
     import re
 
@@ -172,7 +176,7 @@ def _validate_llm_output(
             "LLM returned EMPTY %s for '%s' — episode will likely be unusable",
             stage, show_name,
         )
-        return
+        return 0
 
     # Check for LLM refusals — must come before length checks because
     # refusal messages can be 500-2000 chars (passing min-length thresholds)
@@ -208,6 +212,7 @@ def _validate_llm_output(
 
     # Check for potential hallucinations — words repeated 4+ times in close
     # proximity often indicate corruption (e.g. "Nano Banana 2" x4)
+    _suspicious_count = 0
     words = text.split()
     if len(words) > 50:
         # Scan for any 2-3 word phrase that appears 4+ times
@@ -219,6 +224,7 @@ def _validate_llm_output(
             if phrase in ("the the", "of the", "in the", "to the", "and the", "on the", "for the", "is the"):
                 continue
             if count >= 4:
+                _suspicious_count += 1
                 logger.warning(
                     "LLM %s for '%s' has suspicious repetition: '%s' appears %d times (possible hallucination)",
                     stage, show_name, phrase, count,
@@ -234,6 +240,8 @@ def _validate_llm_output(
                 "Consider regenerating with more depth.",
                 show_name, word_count, threshold,
             )
+
+    return _suspicious_count
 
 
 def _sanitize_podcast_script(text: str) -> str:
@@ -437,7 +445,7 @@ def generate_digest(
     # Validate the digest is usable — if the LLM refused, retry up to 2 times
     # with increasingly aggressive overrides before giving up.
     try:
-        _validate_llm_output(text, stage="digest", show_name=config.name)
+        _rep_count = _validate_llm_output(text, stage="digest", show_name=config.name)
     except LLMRefusalError:
         # --- Retry 1: same prompt + bilingual anti-refusal suffix ---
         logger.warning(
@@ -487,7 +495,7 @@ def generate_digest(
                     len(text), meta2.get("usage", {}).get("total_tokens", "?"))
 
         try:
-            _validate_llm_output(text, stage="digest", show_name=config.name)
+            _rep_count = _validate_llm_output(text, stage="digest", show_name=config.name)
         except LLMRefusalError:
             # --- Retry 2: pure educational episode (no articles needed) ---
             logger.warning(
@@ -520,7 +528,38 @@ def generate_digest(
             logger.info("Retry 2 (educational) digest generated (%d chars, %s tokens)",
                         len(text), meta3.get("usage", {}).get("total_tokens", "?"))
             # Validate — if even the educational fallback refuses, let it propagate
-            _validate_llm_output(text, stage="digest", show_name=config.name)
+            _rep_count = _validate_llm_output(text, stage="digest", show_name=config.name)
+
+    # If the digest has severe repetition (3+ distinct phrases appearing 4+
+    # times), retry once with lower temperature to reduce hallucination.
+    if _rep_count >= 3:
+        logger.warning(
+            "High repetition in digest for '%s' (%d suspicious phrases) — "
+            "retrying with lower temperature ...",
+            config.name, _rep_count,
+        )
+        lower_temp = max(0.1, config.llm.digest_temperature * 0.7)
+        text_retry, _ = _call_grok(
+            prompt,
+            model=config.llm.model,
+            system_prompt=system_prompt,
+            temperature=lower_temp,
+            max_tokens=config.llm.max_tokens,
+        )
+        _rep_retry = _validate_llm_output(
+            text_retry, stage="digest", show_name=config.name,
+        )
+        if _rep_retry < _rep_count:
+            logger.info(
+                "Repetition retry improved digest for '%s' (%d → %d suspicious phrases)",
+                config.name, _rep_count, _rep_retry,
+            )
+            text = text_retry
+        else:
+            logger.warning(
+                "Repetition retry did not improve for '%s' — keeping original",
+                config.name,
+            )
 
     return text
 
@@ -660,8 +699,9 @@ def generate_podcast_script(
     min_words = getattr(config.llm, "min_podcast_words", 1500)
 
     # Validate the podcast script is usable
-    _validate_llm_output(text, stage="podcast_script", show_name=config.name,
-                         min_podcast_words=min_words)
+    _rep_count = _validate_llm_output(text, stage="podcast_script",
+                                      show_name=config.name,
+                                      min_podcast_words=min_words)
 
     # Retry once if podcast script is too short for target duration
     word_count = len(text.split())
@@ -710,14 +750,45 @@ def generate_podcast_script(
                 config.name, word_count, word_count2,
             )
             text = text2
-            _validate_llm_output(text, stage="podcast_script",
-                                 show_name=config.name,
-                                 min_podcast_words=min_words)
+            _rep_count = _validate_llm_output(text, stage="podcast_script",
+                                              show_name=config.name,
+                                              min_podcast_words=min_words)
         else:
             logger.warning(
                 "Retry did not improve script length for '%s' (%d \u2192 %d words), "
                 "keeping original",
                 config.name, word_count, word_count2,
+            )
+
+    # If the script has severe repetition, retry with lower temperature
+    if _rep_count >= 3:
+        logger.warning(
+            "High repetition in podcast script for '%s' (%d suspicious phrases) — "
+            "retrying with lower temperature ...",
+            config.name, _rep_count,
+        )
+        lower_temp = max(0.1, config.llm.podcast_temperature * 0.7)
+        text_retry, _ = _call_grok(
+            prompt,
+            model=config.llm.model,
+            system_prompt=system_prompt,
+            temperature=lower_temp,
+            max_tokens=podcast_tokens,
+        )
+        _rep_retry = _validate_llm_output(
+            text_retry, stage="podcast_script", show_name=config.name,
+            min_podcast_words=min_words,
+        )
+        if _rep_retry < _rep_count:
+            logger.info(
+                "Repetition retry improved script for '%s' (%d → %d suspicious phrases)",
+                config.name, _rep_count, _rep_retry,
+            )
+            text = text_retry
+        else:
+            logger.warning(
+                "Repetition retry did not improve for '%s' — keeping original",
+                config.name,
             )
 
     text = _sanitize_podcast_script(text)
