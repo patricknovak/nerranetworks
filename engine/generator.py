@@ -104,6 +104,14 @@ def _call_grok(
 
     text = resp.choices[0].message.content.strip()
     meta: Dict[str, Any] = {"provider": "openai_compat", "model": model}
+    finish_reason = getattr(resp.choices[0], "finish_reason", None)
+    meta["finish_reason"] = finish_reason
+    if finish_reason == "length":
+        logger.warning(
+            "LLM response truncated (finish_reason=length, max_tokens=%d) — "
+            "output may end mid-sentence",
+            max_tokens,
+        )
     if hasattr(resp, "usage") and resp.usage:
         meta["usage"] = {
             "prompt_tokens": resp.usage.prompt_tokens,
@@ -532,6 +540,8 @@ def generate_digest(
 
     # If the digest has severe repetition (3+ distinct phrases appearing 4+
     # times), retry once with lower temperature to reduce hallucination.
+    # Only retry if we haven't already exhausted retries via refusal recovery,
+    # and guard against the retry itself being refused.
     if _rep_count >= 3:
         logger.warning(
             "High repetition in digest for '%s' (%d suspicious phrases) — "
@@ -539,26 +549,32 @@ def generate_digest(
             config.name, _rep_count,
         )
         lower_temp = max(0.1, config.llm.digest_temperature * 0.7)
-        text_retry, _ = _call_grok(
-            prompt,
-            model=config.llm.model,
-            system_prompt=system_prompt,
-            temperature=lower_temp,
-            max_tokens=config.llm.max_tokens,
-        )
-        _rep_retry = _validate_llm_output(
-            text_retry, stage="digest", show_name=config.name,
-        )
-        if _rep_retry < _rep_count:
-            logger.info(
-                "Repetition retry improved digest for '%s' (%d → %d suspicious phrases)",
-                config.name, _rep_count, _rep_retry,
+        try:
+            text_retry, _ = _call_grok(
+                prompt,
+                model=config.llm.model,
+                system_prompt=system_prompt,
+                temperature=lower_temp,
+                max_tokens=config.llm.max_tokens,
             )
-            text = text_retry
-        else:
+            _rep_retry = _validate_llm_output(
+                text_retry, stage="digest", show_name=config.name,
+            )
+            if _rep_retry < _rep_count:
+                logger.info(
+                    "Repetition retry improved digest for '%s' (%d → %d suspicious phrases)",
+                    config.name, _rep_count, _rep_retry,
+                )
+                text = text_retry
+            else:
+                logger.warning(
+                    "Repetition retry did not improve for '%s' — keeping original",
+                    config.name,
+                )
+        except (LLMRefusalError, Exception) as exc:
             logger.warning(
-                "Repetition retry did not improve for '%s' — keeping original",
-                config.name,
+                "Repetition retry failed for '%s' (%s) — keeping original",
+                config.name, exc,
             )
 
     return text
@@ -768,27 +784,33 @@ def generate_podcast_script(
             config.name, _rep_count,
         )
         lower_temp = max(0.1, config.llm.podcast_temperature * 0.7)
-        text_retry, _ = _call_grok(
-            prompt,
-            model=config.llm.model,
-            system_prompt=system_prompt,
-            temperature=lower_temp,
-            max_tokens=podcast_tokens,
-        )
-        _rep_retry = _validate_llm_output(
-            text_retry, stage="podcast_script", show_name=config.name,
-            min_podcast_words=min_words,
-        )
-        if _rep_retry < _rep_count:
-            logger.info(
-                "Repetition retry improved script for '%s' (%d → %d suspicious phrases)",
-                config.name, _rep_count, _rep_retry,
+        try:
+            text_retry, _ = _call_grok(
+                prompt,
+                model=config.llm.model,
+                system_prompt=system_prompt,
+                temperature=lower_temp,
+                max_tokens=podcast_tokens,
             )
-            text = text_retry
-        else:
+            _rep_retry = _validate_llm_output(
+                text_retry, stage="podcast_script", show_name=config.name,
+                min_podcast_words=min_words,
+            )
+            if _rep_retry < _rep_count:
+                logger.info(
+                    "Repetition retry improved script for '%s' (%d → %d suspicious phrases)",
+                    config.name, _rep_count, _rep_retry,
+                )
+                text = text_retry
+            else:
+                logger.warning(
+                    "Repetition retry did not improve for '%s' — keeping original",
+                    config.name,
+                )
+        except (LLMRefusalError, Exception) as exc:
             logger.warning(
-                "Repetition retry did not improve for '%s' — keeping original",
-                config.name,
+                "Repetition retry failed for '%s' (%s) — keeping original",
+                config.name, exc,
             )
 
     text = _sanitize_podcast_script(text)
