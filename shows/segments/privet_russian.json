@@ -1,0 +1,117 @@
+{
+  "show": "Привет, Русский!",
+  "segments": [
+    {
+      "id": "pr_animals_vocab",
+      "type": "deep_dive",
+      "title": "Animal Kingdom Vocabulary",
+      "prompt_template": "Create a vocabulary lesson about animals in Russian. Teach 10 animal words (кошка, собака, медведь, волк, лиса, заяц, птица, рыба, лошадь, бабочка) with pronunciation guides, plural forms, and fun facts about these animals in Russian culture (e.g., медведь as Russia's symbol). Include a mini-story using several animal words.",
+      "estimated_words": 600,
+      "tags": ["vocabulary", "animals", "culture"]
+    },
+    {
+      "id": "pr_food_vocab",
+      "type": "deep_dive",
+      "title": "Russian Food and Kitchen Vocabulary",
+      "prompt_template": "Create a vocabulary lesson about Russian food. Teach 10 food-related words (хлеб, молоко, суп, каша, пирог, чай, мёд, яблоко, сыр, мороженое) with pronunciation guides. Include a cultural segment about traditional Russian meals (завтрак, обед, ужин), the role of чай in Russian culture, and a simple recipe dialog using the vocabulary.",
+      "estimated_words": 600,
+      "tags": ["vocabulary", "food", "culture"]
+    },
+    {
+      "id": "pr_family_vocab",
+      "type": "deep_dive",
+      "title": "Family Words and Introductions",
+      "prompt_template": "Create a vocabulary lesson about family in Russian. Teach family words (мама, папа, бабушка, дедушка, сестра, брат, тётя, дядя, семья) with pronunciation guides. Cover how to introduce your family ('Это моя мама'), possessive pronouns (мой, моя, моё, мои), and cultural notes about the importance of family in Russian culture. Include a sample family introduction dialog.",
+      "estimated_words": 600,
+      "tags": ["vocabulary", "family", "grammar"]
+    },
+    {
+      "id": "pr_colors_numbers",
+      "type": "deep_dive",
+      "title": "Colors and Numbers: The Building Blocks",
+      "prompt_template": "Create a vocabulary lesson about colors (красный, синий, зелёный, жёлтый, белый, чёрный, оранжевый, розовый) and numbers 1-20 in Russian. Cover pronunciation, gender agreement for colors (красный/красная/красное), and fun exercises like describing objects by color. Include a counting game and a treasure hunt description using colors.",
+      "estimated_words": 600,
+      "tags": ["vocabulary", "colors", "numbers"]
+    },
+    {
+      "id": "pr_weather_seasons",
+      "type": "deep_dive",
+      "title": "Weather and Seasons in Russian",
+      "prompt_template": "Create a vocabulary lesson about weather and seasons. Teach weather words (солнце, дождь, снег, ветер, облако, жарко, холодно) and seasons (весна, лето, осень, зима) with pronunciation guides. Cover how Russians talk about weather, the cultural significance of Russian winter, and Maslenitsa (welcoming spring). Include a weather report dialog.",
+      "estimated_words": 600,
+      "tags": ["vocabulary", "weather", "seasons"]
+    },
+    {
+      "id": "pr_profile_pushkin",
+      "type": "profile",
+      "title": "Profile: Alexander Pushkin — Father of Russian Literature",
+      "prompt_template": "Create an educational profile about Alexander Pushkin accessible for language learners. Cover why he's called the father of Russian literature, his most famous works (Eugene Onegin, fairy tales), key Russian words from his writing, and how Pushkin shaped the modern Russian language. Teach 5 simple phrases from Pushkin that are still used today. Bilingual format.",
+      "estimated_words": 500,
+      "tags": ["culture", "literature", "people"]
+    },
+    {
+      "id": "pr_greetings_politeness",
+      "type": "utility",
+      "title": "Russian Greetings and Polite Phrases",
+      "prompt_template": "Create a practical lesson about Russian greetings and politeness. Cover formal vs informal greetings (Здравствуйте vs Привет), saying goodbye (До свидания, Пока), please and thank you (Пожалуйста, Спасибо), sorry (Извините, Простите), and the ты vs Вы distinction. Include when to use each form and common social situations. Practice dialogs for a store, a classroom, and meeting someone new.",
+      "estimated_words": 500,
+      "tags": ["phrases", "politeness", "practical"]
+    },
+    {
+      "id": "pr_transport_city",
+      "type": "deep_dive",
+      "title": "Getting Around: Transport and City Vocabulary",
+      "prompt_template": "Create a vocabulary lesson about transportation and the city. Teach words for vehicles (машина, автобус, поезд, метро, самолёт, велосипед), city places (магазин, школа, парк, библиотека, больница, аптека), and directional phrases (налево, направо, прямо). Include a dialog asking for directions and a cultural note about the famous Moscow Metro.",
+      "estimated_words": 600,
+      "tags": ["vocabulary", "transport", "city"]
+    },
+    {
+      "id": "pr_history_alphabet",
+      "type": "historical",
+      "title": "The Story of the Russian Alphabet",
+      "prompt_template": "Create an educational segment about the Cyrillic alphabet's history. Cover Saints Cyril and Methodius, how Cyrillic evolved from Greek, the alphabet reform by Peter the Great, letters that look like English but sound different (false friends: Р=R, Н=N, С=S), and fun tips for remembering tricky letters (Ж looks like a bug, Ш looks like a comb). Interactive letter recognition exercises.",
+      "estimated_words": 600,
+      "tags": ["alphabet", "history", "Cyrillic"]
+    },
+    {
+      "id": "pr_verbs_action",
+      "type": "deep_dive",
+      "title": "Action Words: Essential Russian Verbs",
+      "prompt_template": "Create a lesson about essential Russian verbs. Teach 10 common verbs (идти, есть, пить, читать, писать, говорить, слушать, смотреть, играть, учить) with present tense conjugation for я and мы. Keep grammar light — focus on patterns rather than rules. Include action songs or rhymes, and a 'day in the life' story using all 10 verbs.",
+      "estimated_words": 600,
+      "tags": ["grammar", "verbs", "basics"]
+    },
+    {
+      "id": "pr_holidays_traditions",
+      "type": "deep_dive",
+      "title": "Russian Holidays and Traditions",
+      "prompt_template": "Create a cultural vocabulary lesson about Russian holidays. Cover Новый год (New Year — the biggest holiday), Масленица (Maslenitsa/Pancake Week), День Победы (Victory Day, May 9), and Пасха (Easter). Teach holiday-related vocabulary, traditions (ёлка, Дед Мороз, Снегурочка, блины), and how celebrations differ from Western equivalents. Include holiday greeting phrases.",
+      "estimated_words": 600,
+      "tags": ["culture", "holidays", "vocabulary"]
+    },
+    {
+      "id": "pr_contrarian_learning",
+      "type": "contrarian",
+      "title": "Debate: Is Russian Really That Hard to Learn?",
+      "prompt_template": "Create a balanced, encouraging segment addressing the 'Russian is too hard' myth. Acknowledge real challenges (cases, aspects, Cyrillic) but counter with advantages (phonetic spelling, no articles, flexible word order, predictable stress patterns in common words). Compare difficulty to other languages. Share success stories and motivational tips. End with encouragement for young learners.",
+      "estimated_words": 600,
+      "tags": ["motivation", "learning", "debate"]
+    },
+    {
+      "id": "pr_school_classroom",
+      "type": "deep_dive",
+      "title": "School and Classroom Vocabulary",
+      "prompt_template": "Create a vocabulary lesson about school. Teach classroom words (учитель, ученик, класс, книга, тетрадь, ручка, карандаш, доска, урок, перемена) with pronunciation guides. Cover how to say 'I don't understand' (Я не понимаю) and other classroom survival phrases. Include a cultural note about Russian schools (uniforms, grading 1-5, September 1st traditions).",
+      "estimated_words": 600,
+      "tags": ["vocabulary", "school", "classroom"]
+    },
+    {
+      "id": "pr_fairy_tales",
+      "type": "deep_dive",
+      "title": "Russian Fairy Tales: Learning Through Stories",
+      "prompt_template": "Create a lesson built around a simplified Russian fairy tale (Колобок or Репка). Tell the story in very simple Russian with English translations, teach key vocabulary from the story, explain repetitive story structures that help language learning, and introduce fairy tale characters (Баба Яга, Кощей Бессмертный, Жар-Птица). Include a retelling exercise.",
+      "estimated_words": 600,
+      "tags": ["stories", "fairy tales", "culture"]
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "show": "Planetterrian Daily",
+  "segments": [
+    {
+      "id": "pt_crispr_evolution",
+      "type": "deep_dive",
+      "title": "CRISPR: From Discovery to Clinic",
+      "prompt_template": "Write a deep-dive segment about the evolution of CRISPR gene editing. Cover the original bacterial immune system discovery, Doudna and Charpentier's breakthrough, CRISPR-Cas9 vs base editing vs prime editing, clinical trials for sickle cell disease and cancer, and the ethical debates around germline editing.",
+      "estimated_words": 600,
+      "tags": ["genetics", "CRISPR", "medicine"]
+    },
+    {
+      "id": "pt_longevity_science",
+      "type": "deep_dive",
+      "title": "The Science of Longevity: What Actually Works",
+      "prompt_template": "Write a deep-dive segment about the science of longevity. Cover the hallmarks of aging (genomic instability, telomere attrition, epigenetic alterations), interventions with evidence (caloric restriction, rapamycin, metformin, NAD+ precursors), the difference between lifespan and healthspan, and the current state of clinical trials in anti-aging research.",
+      "estimated_words": 600,
+      "tags": ["longevity", "aging", "interventions"]
+    },
+    {
+      "id": "pt_microbiome",
+      "type": "deep_dive",
+      "title": "The Gut Microbiome: Your Body's Hidden Ecosystem",
+      "prompt_template": "Write a deep-dive segment about the human gut microbiome. Cover its composition, the gut-brain axis, links to immunity and mental health, how diet shapes the microbiome, the promise and limitations of probiotics, fecal microbiota transplantation for C. difficile, and active areas of research.",
+      "estimated_words": 600,
+      "tags": ["microbiome", "gut", "health"]
+    },
+    {
+      "id": "pt_mrna_technology",
+      "type": "deep_dive",
+      "title": "mRNA Technology Beyond COVID Vaccines",
+      "prompt_template": "Write a deep-dive segment about the future of mRNA technology. Cover how mRNA vaccines work, Karikó and Weissman's Nobel Prize-winning research, clinical trials for cancer vaccines (melanoma, pancreatic), personalized neoantigen vaccines, mRNA therapies for rare genetic diseases, and the manufacturing advantages of the platform.",
+      "estimated_words": 600,
+      "tags": ["mRNA", "vaccines", "cancer"]
+    },
+    {
+      "id": "pt_profile_karikó",
+      "type": "profile",
+      "title": "Profile: Katalin Karikó — The mRNA Pioneer",
+      "prompt_template": "Write a profile segment about Katalin Karikó. Cover her early career struggles with mRNA research, decades of rejection and demotion, the pivotal pseudouridine discovery with Drew Weissman, how her work enabled COVID vaccines, her Nobel Prize, and what her story teaches about scientific perseverance.",
+      "estimated_words": 500,
+      "tags": ["people", "mRNA", "science"]
+    },
+    {
+      "id": "pt_profile_sinclair",
+      "type": "profile",
+      "title": "Profile: David Sinclair and the Longevity Debate",
+      "prompt_template": "Write a profile segment about David Sinclair and his role in the longevity field. Cover his sirtuin and NAD+ research at Harvard, the controversy around resveratrol, his information theory of aging, epigenetic reprogramming experiments, and both the support and criticism his work has received from the scientific community. Present a balanced view.",
+      "estimated_words": 500,
+      "tags": ["people", "longevity", "debate"]
+    },
+    {
+      "id": "pt_neuroscience_sleep",
+      "type": "deep_dive",
+      "title": "The Neuroscience of Sleep",
+      "prompt_template": "Write a deep-dive segment about the neuroscience of sleep. Cover the sleep stages (NREM, REM), the glymphatic system's waste clearance function, sleep's role in memory consolidation, the circadian clock mechanism, links between sleep deprivation and neurodegenerative disease, and evidence-based sleep optimization strategies.",
+      "estimated_words": 600,
+      "tags": ["neuroscience", "sleep", "brain"]
+    },
+    {
+      "id": "pt_stem_cells",
+      "type": "deep_dive",
+      "title": "Stem Cell Therapies: Promise vs Reality",
+      "prompt_template": "Write a deep-dive segment about stem cell therapies. Cover the difference between embryonic stem cells, adult stem cells, and iPSCs (Yamanaka's breakthrough), legitimate clinical applications (bone marrow transplant, corneal repair), promising trials (Parkinson's, spinal cord injury), and the problem of unregulated stem cell clinics selling unproven treatments.",
+      "estimated_words": 600,
+      "tags": ["stem cells", "therapy", "regeneration"]
+    },
+    {
+      "id": "pt_history_antibiotics",
+      "type": "historical",
+      "title": "The Antibiotic Era: From Penicillin to Superbugs",
+      "prompt_template": "Write a historical segment about the antibiotic era. Cover Fleming's accidental discovery, the golden age of antibiotic discovery (1940s-1960s), the innovation gap since the 1980s, the rise of antimicrobial resistance, MRSA and CRE superbugs, and current approaches to the AMR crisis (phage therapy, novel antibiotic discovery, stewardship programs).",
+      "estimated_words": 600,
+      "tags": ["history", "antibiotics", "AMR"]
+    },
+    {
+      "id": "pt_contrarian_supplements",
+      "type": "contrarian",
+      "title": "Debate: The Supplement Industry — Help or Hype?",
+      "prompt_template": "Write a balanced debate segment about the supplement industry. Present arguments for supplementation (vitamin D deficiency prevalence, omega-3 evidence, creatine research) alongside arguments against (lack of regulation, contamination risks, most nutrients obtainable from diet, publication bias in supplement studies). Reference specific meta-analyses and systematic reviews.",
+      "estimated_words": 600,
+      "tags": ["supplements", "debate", "evidence"]
+    },
+    {
+      "id": "pt_immunotherapy",
+      "type": "deep_dive",
+      "title": "Cancer Immunotherapy: Teaching the Body to Fight Back",
+      "prompt_template": "Write a deep-dive segment about cancer immunotherapy. Cover checkpoint inhibitors (PD-1, CTLA-4), CAR-T cell therapy, cancer vaccines, the role of Jim Allison and Tasuku Honjo's Nobel Prize work, response rates and limitations, the tumor microenvironment challenge, and promising combination approaches.",
+      "estimated_words": 600,
+      "tags": ["cancer", "immunotherapy", "treatment"]
+    },
+    {
+      "id": "pt_epigenetics",
+      "type": "deep_dive",
+      "title": "Epigenetics: How Environment Changes Your Genes",
+      "prompt_template": "Write a deep-dive segment about epigenetics. Cover DNA methylation, histone modification, how environmental factors (diet, stress, pollution) alter gene expression without changing DNA sequence, transgenerational epigenetic inheritance evidence, epigenetic clocks for measuring biological age, and therapeutic applications in cancer and aging.",
+      "estimated_words": 600,
+      "tags": ["epigenetics", "aging", "genetics"]
+    },
+    {
+      "id": "pt_utility_longevity",
+      "type": "utility",
+      "title": "Evidence-Based Longevity: What You Can Do Today",
+      "prompt_template": "Write a practical utility segment about evidence-based longevity interventions accessible today. Cover exercise (zone 2 cardio, resistance training), nutrition (Mediterranean diet, time-restricted eating), sleep optimization, stress management, social connection, and which blood biomarkers to track. Focus on interventions with strong clinical evidence, not hype.",
+      "estimated_words": 500,
+      "tags": ["utility", "longevity", "practical"]
+    },
+    {
+      "id": "pt_brain_computer_interfaces",
+      "type": "deep_dive",
+      "title": "Brain-Computer Interfaces: Connecting Mind and Machine",
+      "prompt_template": "Write a deep-dive segment about brain-computer interfaces. Cover Neuralink's progress and clinical trials, BrainGate's pioneering work with paralyzed patients, non-invasive alternatives (EEG-based BCIs), the challenge of biocompatibility, applications for motor disabilities and communication disorders, and the ethical considerations around cognitive enhancement.",
+      "estimated_words": 600,
+      "tags": ["neuroscience", "BCI", "technology"]
+    }
+  ]
+}

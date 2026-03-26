@@ -190,3 +190,9 @@ newsletter:
   api_key_env: OMNI_VIEW_NEWSLETTER_API_KEY
   status: about_to_send
 
+slow_news:
+  enabled: true
+  library_file: shows/segments/omni_view.json
+  max_segments: 2
+  cooldown_days: 30
+

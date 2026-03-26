@@ -1,0 +1,117 @@
+{
+  "show": "Omni View",
+  "segments": [
+    {
+      "id": "ov_media_literacy",
+      "type": "deep_dive",
+      "title": "Media Literacy: How to Spot Bias",
+      "prompt_template": "Write a deep-dive segment on media literacy and spotting bias in news coverage. Cover framing effects, selection bias, false balance, loaded language, and source credibility. Provide concrete examples of how the same event can be reported differently by outlets with different editorial leanings. Give listeners actionable tips for cross-referencing sources.",
+      "estimated_words": 600,
+      "tags": ["media", "literacy", "bias"]
+    },
+    {
+      "id": "ov_geopolitics_101",
+      "type": "deep_dive",
+      "title": "Geopolitics 101: How Alliances Shape the World",
+      "prompt_template": "Write a deep-dive segment explaining how modern geopolitical alliances work. Cover NATO, the EU, BRICS, ASEAN, and the African Union. Explain how these blocs influence trade, security, and diplomacy. Use concrete recent examples of alliance dynamics shaping international outcomes.",
+      "estimated_words": 600,
+      "tags": ["geopolitics", "alliances", "international"]
+    },
+    {
+      "id": "ov_economics_explained",
+      "type": "deep_dive",
+      "title": "Economics Explained: Inflation, Interest Rates, and You",
+      "prompt_template": "Write a deep-dive segment explaining the relationship between inflation, central bank interest rates, and everyday consumer impact. Cover how monetary policy decisions ripple through housing, groceries, and employment. Make it accessible for listeners without economics backgrounds.",
+      "estimated_words": 600,
+      "tags": ["economics", "policy", "consumer"]
+    },
+    {
+      "id": "ov_profile_un",
+      "type": "profile",
+      "title": "Profile: The United Nations System",
+      "prompt_template": "Write a profile segment about the United Nations system. Cover the Security Council, General Assembly, key agencies (WHO, UNICEF, UNHCR), how resolutions work, veto power dynamics, and the ongoing debate about UN reform. Use concrete examples of UN successes and limitations.",
+      "estimated_words": 500,
+      "tags": ["institutions", "international", "governance"]
+    },
+    {
+      "id": "ov_profile_press_freedom",
+      "type": "profile",
+      "title": "Profile: Press Freedom Organizations",
+      "prompt_template": "Write a profile segment about press freedom organizations worldwide — Reporters Without Borders, Committee to Protect Journalists, and the International Press Institute. Cover their missions, how press freedom is measured, countries where journalism is most dangerous, and why press freedom matters for democracy.",
+      "estimated_words": 500,
+      "tags": ["media", "freedom", "democracy"]
+    },
+    {
+      "id": "ov_history_propaganda",
+      "type": "historical",
+      "title": "A Brief History of Propaganda",
+      "prompt_template": "Write a historical segment tracing the evolution of propaganda from wartime posters to modern social media manipulation. Cover key moments: WWI/WWII propaganda, Cold War information warfare, the rise of spin doctors, and how algorithms amplify disinformation today. Draw parallels to help listeners recognize modern propaganda techniques.",
+      "estimated_words": 600,
+      "tags": ["history", "media", "disinformation"]
+    },
+    {
+      "id": "ov_fact_checking",
+      "type": "utility",
+      "title": "The Fact-Checker's Toolkit",
+      "prompt_template": "Write a practical utility segment teaching listeners how to fact-check news stories. Cover reverse image search, WHOIS lookups for website credibility, checking primary sources, using Snopes and PolitiFact, verifying viral claims, and recognizing deepfakes. Provide a step-by-step checklist.",
+      "estimated_words": 500,
+      "tags": ["utility", "fact-checking", "tools"]
+    },
+    {
+      "id": "ov_democracy_systems",
+      "type": "deep_dive",
+      "title": "Democracy Around the World: Different Systems Compared",
+      "prompt_template": "Write a deep-dive segment comparing democratic systems around the world. Cover parliamentary vs presidential systems, proportional representation vs first-past-the-post, direct democracy (Swiss model), and ranked-choice voting. Explain trade-offs in representation, stability, and accountability with real-world examples.",
+      "estimated_words": 600,
+      "tags": ["politics", "democracy", "systems"]
+    },
+    {
+      "id": "ov_contrarian_objectivity",
+      "type": "contrarian",
+      "title": "Debate: Is Objective Journalism Possible?",
+      "prompt_template": "Write a balanced debate segment on whether truly objective journalism is possible. Present arguments for striving toward objectivity (professional standards, public trust) alongside arguments that all reporting involves subjective choices (framing, story selection). Reference the NYT, BBC, and newer models like solutions journalism. Let listeners draw their own conclusions.",
+      "estimated_words": 600,
+      "tags": ["media", "debate", "journalism"]
+    },
+    {
+      "id": "ov_humanitarian_law",
+      "type": "deep_dive",
+      "title": "International Humanitarian Law Explained",
+      "prompt_template": "Write a deep-dive segment explaining international humanitarian law. Cover the Geneva Conventions, the International Criminal Court, the concept of war crimes, the role of the Red Cross/Red Crescent, and how these laws apply (or fail to apply) in modern conflicts. Use concrete examples while maintaining balanced perspective.",
+      "estimated_words": 600,
+      "tags": ["law", "international", "humanitarian"]
+    },
+    {
+      "id": "ov_immigration_systems",
+      "type": "deep_dive",
+      "title": "How Immigration Systems Actually Work",
+      "prompt_template": "Write a deep-dive segment explaining how immigration systems work in major countries. Compare points-based systems (Canada, Australia), employment-based systems (US H-1B), asylum processes, and the EU's freedom of movement. Address common misconceptions with data. Keep the tone factual and balanced.",
+      "estimated_words": 600,
+      "tags": ["immigration", "policy", "systems"]
+    },
+    {
+      "id": "ov_climate_science",
+      "type": "deep_dive",
+      "title": "Climate Science: What the Data Actually Says",
+      "prompt_template": "Write a deep-dive segment presenting climate science data clearly and accessibly. Cover global temperature trends, CO2 levels, ice sheet measurements, sea level rise, and extreme weather attribution science. Reference IPCC reports and peer-reviewed research. Present the scientific consensus while acknowledging areas of active research uncertainty.",
+      "estimated_words": 600,
+      "tags": ["climate", "science", "data"]
+    },
+    {
+      "id": "ov_profile_reuters_ap",
+      "type": "profile",
+      "title": "Profile: Wire Services — Reuters and AP",
+      "prompt_template": "Write a profile segment about wire services, focusing on Reuters and the Associated Press. Cover their history, business model, how wire reporting differs from editorial journalism, their role in the news ecosystem, and why most news you read originates from wire services even when branded by other outlets.",
+      "estimated_words": 500,
+      "tags": ["media", "institutions", "journalism"]
+    },
+    {
+      "id": "ov_digital_rights",
+      "type": "deep_dive",
+      "title": "Digital Rights and Online Privacy",
+      "prompt_template": "Write a deep-dive segment about digital rights and online privacy. Cover GDPR, data broker industry, surveillance capitalism, end-to-end encryption debates, government surveillance programs, and the balance between security and privacy. Reference current legislative efforts and give practical privacy tips.",
+      "estimated_words": 600,
+      "tags": ["technology", "privacy", "rights"]
+    }
+  ]
+}

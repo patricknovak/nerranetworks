@@ -1,0 +1,117 @@
+{
+  "show": "Fascinating Frontiers",
+  "segments": [
+    {
+      "id": "ff_james_webb",
+      "type": "deep_dive",
+      "title": "James Webb Space Telescope: What It's Revealing",
+      "prompt_template": "Write a deep-dive segment about the James Webb Space Telescope's discoveries. Cover its infrared capabilities, early universe observations, exoplanet atmosphere characterization, and how JWST has already challenged existing models of galaxy formation. Reference specific published findings.",
+      "estimated_words": 600,
+      "tags": ["telescope", "JWST", "discoveries"]
+    },
+    {
+      "id": "ff_mars_exploration",
+      "type": "deep_dive",
+      "title": "Mars Exploration: Past, Present, and Future",
+      "prompt_template": "Write a deep-dive segment on Mars exploration. Cover the arc from Viking through Spirit/Opportunity to Curiosity and Perseverance, the Ingenuity helicopter achievement, Mars Sample Return plans, and upcoming missions from NASA, ESA, China, and SpaceX's Starship ambitions for Mars.",
+      "estimated_words": 600,
+      "tags": ["Mars", "missions", "exploration"]
+    },
+    {
+      "id": "ff_exoplanet_hunting",
+      "type": "deep_dive",
+      "title": "Exoplanet Hunting: How We Find Other Worlds",
+      "prompt_template": "Write a deep-dive segment explaining exoplanet detection methods. Cover the transit method (Kepler/TESS), radial velocity, direct imaging, gravitational microlensing, and astrometry. Explain what each method reveals about a planet and the significance of the habitable zone concept. Reference notable discoveries like TRAPPIST-1 and Proxima Centauri b.",
+      "estimated_words": 600,
+      "tags": ["exoplanets", "detection", "habitable"]
+    },
+    {
+      "id": "ff_profile_nasa",
+      "type": "profile",
+      "title": "Profile: NASA's Jet Propulsion Laboratory",
+      "prompt_template": "Write a profile segment about NASA's Jet Propulsion Laboratory. Cover its founding by Caltech's rocketry pioneers, its role as the center for robotic planetary exploration, legendary missions it has managed, its engineering culture, and current projects. Explain why JPL is unique within NASA.",
+      "estimated_words": 500,
+      "tags": ["institutions", "NASA", "JPL"]
+    },
+    {
+      "id": "ff_profile_spacex",
+      "type": "profile",
+      "title": "Profile: SpaceX and the Reusable Rocket Revolution",
+      "prompt_template": "Write a profile segment about SpaceX's impact on spaceflight. Cover the Falcon 9 reusability milestone, Starship development, Starlink constellation, crew missions, and how SpaceX changed launch economics. Include the engineering challenges that were solved and what remains ahead.",
+      "estimated_words": 500,
+      "tags": ["SpaceX", "launch", "commercial"]
+    },
+    {
+      "id": "ff_artemis_program",
+      "type": "deep_dive",
+      "title": "Artemis: Return to the Moon",
+      "prompt_template": "Write a deep-dive segment about NASA's Artemis program. Cover the SLS rocket, Orion capsule, Gateway station, the Starship HLS lunar lander selection, international partner contributions, the timeline for crewed lunar landing, and how Artemis differs from Apollo in goals and technology.",
+      "estimated_words": 600,
+      "tags": ["Moon", "Artemis", "missions"]
+    },
+    {
+      "id": "ff_black_holes",
+      "type": "deep_dive",
+      "title": "Black Holes: What We Know and Don't Know",
+      "prompt_template": "Write a deep-dive segment about black holes. Cover stellar-mass vs supermassive black holes, the Event Horizon Telescope's imaging breakthroughs, gravitational wave detection by LIGO/Virgo, Hawking radiation theory, and the information paradox. Make the physics accessible while respecting the science.",
+      "estimated_words": 600,
+      "tags": ["physics", "black holes", "cosmology"]
+    },
+    {
+      "id": "ff_history_space_race",
+      "type": "historical",
+      "title": "The Original Space Race: Sputnik to Apollo 11",
+      "prompt_template": "Write a historical segment about the original space race. Cover Sputnik's shock, Gagarin's flight, the Mercury and Gemini programs, Kennedy's moonshot speech, and Apollo 11. Explain the geopolitical context that drove the competition and the scientific legacy that outlasted the Cold War rivalry.",
+      "estimated_words": 600,
+      "tags": ["history", "Apollo", "Cold War"]
+    },
+    {
+      "id": "ff_asteroid_defense",
+      "type": "deep_dive",
+      "title": "Planetary Defense: Protecting Earth from Asteroids",
+      "prompt_template": "Write a deep-dive segment about planetary defense. Cover the DART mission's success, Near-Earth Object detection programs, the Torino scale, how we catalog potentially hazardous asteroids, proposed deflection techniques (kinetic impactor, gravity tractor, nuclear), and the role of ESA's Hera follow-up mission.",
+      "estimated_words": 600,
+      "tags": ["asteroids", "defense", "DART"]
+    },
+    {
+      "id": "ff_space_telescopes",
+      "type": "deep_dive",
+      "title": "The Golden Age of Space Telescopes",
+      "prompt_template": "Write a deep-dive segment about the current fleet of space telescopes. Cover JWST, Hubble (still operational), Chandra (X-ray), upcoming missions like Nancy Grace Roman Space Telescope, ESA's Euclid, and how multi-wavelength observations combine to reveal the universe. Explain why space-based observing surpasses ground-based telescopes for certain science.",
+      "estimated_words": 600,
+      "tags": ["telescopes", "observatories", "surveys"]
+    },
+    {
+      "id": "ff_contrarian_space_commercialization",
+      "type": "contrarian",
+      "title": "Debate: Should Space Be Commercialized?",
+      "prompt_template": "Write a balanced debate segment on space commercialization. Present arguments for commercial space (innovation speed, cost reduction, economic growth) alongside concerns (space debris, resource exploitation ethics, equitable access, Kessler syndrome). Reference SpaceX, Blue Origin, Rocket Lab, and international treaties like the Outer Space Treaty.",
+      "estimated_words": 600,
+      "tags": ["commercial", "debate", "policy"]
+    },
+    {
+      "id": "ff_life_in_solar_system",
+      "type": "deep_dive",
+      "title": "The Search for Life in Our Solar System",
+      "prompt_template": "Write a deep-dive segment about the search for life beyond Earth within our own solar system. Cover Mars subsurface water and methane, Europa's ocean, Enceladus's hydrothermal vents, Titan's methane lakes, and Venus's phosphine controversy. Explain what biosignatures scientists look for and upcoming missions designed to detect them.",
+      "estimated_words": 600,
+      "tags": ["astrobiology", "life", "solar system"]
+    },
+    {
+      "id": "ff_satellite_constellations",
+      "type": "deep_dive",
+      "title": "Mega-Constellations: Connecting the World from Orbit",
+      "prompt_template": "Write a deep-dive segment about satellite mega-constellations. Cover Starlink, OneWeb, Amazon's Project Kuiper, and China's Guowang. Explain the technology (LEO vs GEO), real-world connectivity benefits for underserved areas, and the growing concerns about light pollution for astronomers and space debris management.",
+      "estimated_words": 600,
+      "tags": ["satellites", "internet", "LEO"]
+    },
+    {
+      "id": "ff_profile_esa",
+      "type": "profile",
+      "title": "Profile: The European Space Agency",
+      "prompt_template": "Write a profile segment about ESA. Cover its multinational structure, key missions (Rosetta, ExoMars, JUICE, Ariane rockets), how ESA collaborates with and differs from NASA, its Earth observation programs (Copernicus), and ESA's strategy for independent crew access to space.",
+      "estimated_words": 500,
+      "tags": ["ESA", "institutions", "international"]
+    }
+  ]
+}
