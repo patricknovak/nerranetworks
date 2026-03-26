@@ -1036,3 +1036,93 @@ def scan_existing_episodes_from_files(
                 logger.warning("Could not parse episode from file %s: %s", mp3_file.name, exc)
 
     return sorted(episodes, key=lambda x: x["episode_num"])
+
+
+# ---------------------------------------------------------------------------
+# Blog RSS feed
+# ---------------------------------------------------------------------------
+
+def update_blog_rss(
+    rss_path: Path,
+    posts: list,
+    *,
+    channel_title: str = "Blog",
+    channel_link: str = "https://nerranetwork.com",
+    channel_description: str = "Blog posts from podcast episodes.",
+    channel_language: str = "en-us",
+    channel_image: str = "",
+    base_url: str = "https://nerranetwork.com",
+    blog_path_prefix: str = "blog",
+    show_slug: str = "",
+) -> Path:
+    """Write a blog RSS feed (no audio enclosures).
+
+    Uses plain XML generation (no feedgen dependency).
+    """
+    from email.utils import format_datetime as _format_dt
+    from xml.sax.saxutils import escape as _esc
+
+    sorted_posts = sorted(posts, key=lambda p: p.get("episode_num", 0), reverse=True)
+    entries = sorted_posts[:50]
+
+    items_xml = []
+    for post in entries:
+        ep_num = post.get("episode_num", 0)
+        slug = post.get("show_slug", show_slug)
+        blog_url = f"{base_url}/{blog_path_prefix}/{slug}/ep{ep_num:03d}.html"
+
+        title = _esc(post.get("title", f"Episode {ep_num}"))
+        description = _esc(post.get("hook", ""))
+
+        pub_date_str = ""
+        if post.get("date_obj"):
+            dt = post["date_obj"]
+            try:
+                dt_utc = datetime.datetime(dt.year, dt.month, dt.day,
+                                           tzinfo=datetime.timezone.utc)
+                pub_date_str = _format_dt(dt_utc, usegmt=True)
+            except Exception:
+                pass
+
+        item = f"""    <item>
+      <title>{title}</title>
+      <link>{_esc(blog_url)}</link>
+      <guid isPermaLink="true">{_esc(blog_url)}</guid>
+      <description>{description}</description>"""
+        if pub_date_str:
+            item += f"\n      <pubDate>{pub_date_str}</pubDate>"
+        item += "\n    </item>"
+        items_xml.append(item)
+
+    # Build date for lastBuildDate
+    now_str = _format_dt(datetime.datetime.now(datetime.timezone.utc), usegmt=True)
+
+    image_xml = ""
+    if channel_image:
+        img_url = f"{base_url}/{channel_image}" if not channel_image.startswith("http") else channel_image
+        image_xml = f"""
+    <image>
+      <url>{_esc(img_url)}</url>
+      <title>{_esc(channel_title)}</title>
+      <link>{_esc(channel_link)}</link>
+    </image>"""
+
+    rss_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{_esc(channel_title)}</title>
+    <link>{_esc(channel_link)}</link>
+    <description>{_esc(channel_description)}</description>
+    <language>{channel_language}</language>
+    <lastBuildDate>{now_str}</lastBuildDate>
+    <generator>Nerra Network Blog Generator</generator>
+    <atom:link href="{_esc(base_url)}/{_esc(str(rss_path.name))}" rel="self" type="application/rss+xml"/>{image_xml}
+{chr(10).join(items_xml)}
+  </channel>
+</rss>
+"""
+
+    rss_path.parent.mkdir(parents=True, exist_ok=True)
+    rss_path.write_text(rss_xml, encoding="utf-8")
+    logger.info("Blog RSS written: %s (%d entries)", rss_path, len(entries))
+    return rss_path

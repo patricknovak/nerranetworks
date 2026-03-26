@@ -1218,6 +1218,149 @@ def generate_network_page(*, dry_run=False):
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+# Blog pages
+# ---------------------------------------------------------------------------
+
+def generate_blog_posts(slug, *, dry_run=False):
+    """Generate blog post HTML pages for all episodes of a show.
+
+    Returns list of (metadata_dict, output_path) tuples.
+    """
+    from engine.blog import (
+        extract_blog_metadata,
+        generate_blog_post_html,
+    )
+
+    cfg = NETWORK_SHOWS[slug]
+    env = _get_jinja_env()
+
+    # Find show digest directory
+    show_dirs = {
+        "tesla": "tesla_shorts_time",
+        "omni_view": "omni_view",
+        "fascinating_frontiers": "fascinating_frontiers",
+        "planetterrian": "planetterrian",
+        "env_intel": "env_intel",
+        "models_agents": "models_agents",
+        "models_agents_beginners": "models_agents_beginners",
+        "finansy_prosto": "finansy_prosto",
+        "modern_investing": "modern_investing",
+        "privet_russian": "privet_russian",
+    }
+    digest_dir = ROOT / "digests" / show_dirs.get(slug, slug)
+    if not digest_dir.exists():
+        print(f"Warning: digest dir {digest_dir} not found for {slug}")
+        return []
+
+    md_files = sorted(digest_dir.glob("*.md"))
+    if not md_files:
+        print(f"No markdown files found in {digest_dir}")
+        return []
+
+    # Extract metadata from all files first
+    all_meta = []
+    for md_file in md_files:
+        md_text = md_file.read_text(encoding="utf-8")
+        meta = extract_blog_metadata(md_text, slug, md_file.name)
+        meta["_md_path"] = md_file
+        all_meta.append(meta)
+
+    # Sort by episode number
+    all_meta.sort(key=lambda m: m["episode_num"])
+
+    blog_dir = ROOT / "blog" / slug
+    results = []
+
+    for i, meta in enumerate(all_meta):
+        prev_post = all_meta[i - 1] if i > 0 else None
+        next_post = all_meta[i + 1] if i < len(all_meta) - 1 else None
+
+        md_text = meta["_md_path"].read_text(encoding="utf-8")
+        html = generate_blog_post_html(
+            md_text, meta, cfg, env,
+            prev_post=prev_post,
+            next_post=next_post,
+        )
+
+        ep_num = meta["episode_num"]
+        out_path = blog_dir / f"ep{ep_num:03d}.html"
+
+        if dry_run:
+            print(f"[dry-run] Would write {out_path} ({len(html):,} bytes)")
+        else:
+            blog_dir.mkdir(parents=True, exist_ok=True)
+            out_path.write_text(html, encoding="utf-8")
+            print(f"Wrote {out_path}")
+
+        results.append((meta, out_path))
+
+    return results
+
+
+def generate_blog_index(slug, *, dry_run=False, posts=None):
+    """Generate a blog index page for a show.
+
+    If *posts* is None, scans the digest directory for metadata.
+    """
+    from engine.blog import (
+        extract_blog_metadata,
+        generate_blog_index_html,
+    )
+
+    cfg = NETWORK_SHOWS[slug]
+    env = _get_jinja_env()
+
+    if posts is None:
+        show_dirs = {
+            "tesla": "tesla_shorts_time",
+            "omni_view": "omni_view",
+            "fascinating_frontiers": "fascinating_frontiers",
+            "planetterrian": "planetterrian",
+            "env_intel": "env_intel",
+            "models_agents": "models_agents",
+            "models_agents_beginners": "models_agents_beginners",
+            "finansy_prosto": "finansy_prosto",
+            "modern_investing": "modern_investing",
+            "privet_russian": "privet_russian",
+        }
+        digest_dir = ROOT / "digests" / show_dirs.get(slug, slug)
+        posts = []
+        if digest_dir.exists():
+            for md_file in sorted(digest_dir.glob("*.md")):
+                md_text = md_file.read_text(encoding="utf-8")
+                meta = extract_blog_metadata(md_text, slug, md_file.name)
+                posts.append(meta)
+
+    # Sort newest first for index display
+    posts_sorted = sorted(posts, key=lambda m: m.get("episode_num", 0), reverse=True)
+
+    html = generate_blog_index_html(posts_sorted, cfg, env)
+
+    blog_dir = ROOT / "blog" / slug
+    out_path = blog_dir / "index.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path} ({len(html):,} bytes)")
+        return None
+
+    blog_dir.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
+def generate_all_blogs(*, dry_run=False):
+    """Generate blog posts and index pages for every show."""
+    from engine.blog import extract_blog_metadata
+
+    for slug in NETWORK_SHOWS:
+        print(f"\n--- Blog: {NETWORK_SHOWS[slug]['name']} ---")
+        results = generate_blog_posts(slug, dry_run=dry_run)
+        posts = [meta for meta, _ in results]
+        generate_blog_index(slug, dry_run=dry_run, posts=posts)
+
+
+# ---------------------------------------------------------------------------
 
 def main():
     parser = argparse.ArgumentParser(
@@ -1239,6 +1382,11 @@ def main():
         help="Generate network landing page",
     )
     parser.add_argument(
+        "--blogs",
+        action="store_true",
+        help="Generate blog posts and index pages",
+    )
+    parser.add_argument(
         "--all",
         action="store_true",
         help="Generate all pages (default if no flags given)",
@@ -1257,7 +1405,7 @@ def main():
     args = parser.parse_args()
 
     # Default to --all if no specific flag
-    if not args.summaries and not args.shows and not args.network and not args.all and not args.show:
+    if not args.summaries and not args.shows and not args.network and not args.all and not args.show and not args.blogs:
         args.all = True
 
     if args.show:
@@ -1272,6 +1420,7 @@ def main():
         generate_all_show_pages(dry_run=args.dry_run)
         generate_all_summaries(dry_run=args.dry_run)
         generate_network_page(dry_run=args.dry_run)
+        generate_all_blogs(dry_run=args.dry_run)
         return
 
     if args.shows:
@@ -1280,6 +1429,8 @@ def main():
         generate_all_summaries(dry_run=args.dry_run)
     if args.network:
         generate_network_page(dry_run=args.dry_run)
+    if args.blogs:
+        generate_all_blogs(dry_run=args.dry_run)
 
 
 if __name__ == "__main__":

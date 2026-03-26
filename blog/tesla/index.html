@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Read all Tesla Shorts Time episodes as blog posts. Daily Tesla news digest and podcast.">
+    <meta name="keywords" content="Tesla podcast, TSLA news, Tesla stock, EV analysis, Tesla Shorts Time, daily digests">
+    <title>Tesla Shorts Time Blog</title>
+    <meta name="theme-color" content="#E31937">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Tesla Shorts Time Blog">
+    <meta property="og:description" content="Read all Tesla Shorts Time episodes as blog posts. Daily Tesla news digest and podcast.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://nerranetwork.com/assets/covers/tesla-shorts-time.jpg">
+
+    <link rel="canonical" href="https://nerranetwork.com/blog/tesla/index.html">
+
+    <!-- Google Fonts: DM Sans + Source Serif 4 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
+
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="../../styles/main.css">
+
+    
+    <link rel="alternate" type="application/rss+xml" title="Tesla Shorts Time Blog RSS" href="https://nerranetwork.com/blog_tesla.rss">
+
+    <style>
+        .blog-idx-hero {
+            position: relative;
+            padding: var(--sp-20) var(--sp-6) var(--sp-12);
+            text-align: center;
+            overflow: hidden;
+        }
+        .blog-idx-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--show-color) 15%, transparent), transparent 70%);
+            pointer-events: none;
+        }
+        .blog-idx-hero-inner {
+            position: relative;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        .blog-idx-cover {
+            width: 80px;
+            height: 80px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin-bottom: var(--sp-6);
+        }
+        .blog-idx-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-3);
+        }
+        .blog-idx-hero p {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            color: var(--nn-text-muted);
+            line-height: 1.6;
+            margin: 0 0 var(--sp-6);
+        }
+        .blog-rss-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-2);
+            padding: var(--sp-2) var(--sp-5);
+            border-radius: 100px;
+            background: color-mix(in srgb, var(--show-color) 12%, transparent);
+            border: 1px solid color-mix(in srgb, var(--show-color) 30%, transparent);
+            color: var(--show-color);
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-rss-btn:hover {
+            background: color-mix(in srgb, var(--show-color) 20%, transparent);
+            border-color: var(--show-color);
+        }
+
+        /* Posts grid */
+        .blog-idx-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 var(--sp-6) var(--sp-16);
+            display: grid;
+            gap: var(--sp-5);
+        }
+        @media (min-width: 640px) {
+            .blog-idx-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .blog-idx-card {
+            display: flex;
+            flex-direction: column;
+            padding: var(--sp-6);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 14px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-idx-card:hover {
+            border-color: var(--show-color);
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        .blog-idx-card-top {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+            margin-bottom: var(--sp-3);
+        }
+        .blog-idx-date {
+            font-family: var(--font-ui);
+            font-size: 0.8rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-idx-ep {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 1px 8px;
+            border-radius: 100px;
+            background: color-mix(in srgb, var(--show-color) 15%, transparent);
+            color: var(--show-color);
+        }
+        .blog-idx-reading {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            color: var(--nn-text-muted);
+            margin-left: auto;
+        }
+        .blog-idx-card h2 {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            line-height: 1.3;
+            margin: 0 0 var(--sp-2);
+        }
+        .blog-idx-card p {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--nn-text-muted);
+            line-height: 1.5;
+            margin: 0;
+            flex: 1;
+        }
+        .blog-idx-read-more {
+            font-family: var(--font-ui);
+            font-size: 0.8rem;
+            color: var(--show-color);
+            margin-top: var(--sp-4);
+            font-weight: 500;
+        }
+
+        .blog-idx-empty {
+            text-align: center;
+            padding: var(--sp-16) var(--sp-6);
+            color: var(--nn-text-muted);
+            font-family: var(--font-ui);
+        }
+    </style>
+
+
+    
+    <style>:root { --show-color: #E31937; --show-color-dark: #C4122E; }</style>
+    
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nn-nav">
+        <div class="nn-nav-inner">
+            <a href="../../index.html" class="nn-nav-logo">
+                <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
+                <span class="gradient-text">Nerra</span> Network
+            </a>
+
+            <ul class="nn-nav-links">
+                <li class="nn-nav-dropdown">
+                    <button class="nn-nav-dropdown-btn">
+                        Shows
+                        <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="nn-nav-dropdown-menu">
+                        
+                        <a href="../../models-agents.html">
+                            <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
+                            Models & Agents
+                        </a>
+                        
+                        <a href="../../planetterrian.html">
+                            <img src="../../assets/covers/planetterrian-daily.jpg" alt="" loading="lazy">
+                            Planetterrian Daily
+                        </a>
+                        
+                        <a href="../../omni-view.html">
+                            <img src="../../assets/covers/omni-view.jpg" alt="" loading="lazy">
+                            Omni View
+                        </a>
+                        
+                        <a href="../../models-agents-beginners.html">
+                            <img src="../../assets/covers/models-agents-beginners.jpg" alt="" loading="lazy">
+                            Models & Agents for Beginners
+                        </a>
+                        
+                        <a href="../../fascinating_frontiers.html">
+                            <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" loading="lazy">
+                            Fascinating Frontiers
+                        </a>
+                        
+                        <a href="../../modern-investing.html">
+                            <img src="../../assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                            Modern Investing Techniques
+                        </a>
+                        
+                        <a href="../../tesla.html">
+                            <img src="../../assets/covers/tesla-shorts-time.jpg" alt="" loading="lazy">
+                            Tesla Shorts Time
+                        </a>
+                        
+                        <a href="../../env-intel.html">
+                            <img src="../../assets/covers/environmental-intelligence.jpg" alt="" loading="lazy">
+                            Environmental Intelligence
+                        </a>
+                        
+                        <a href="../../ru/finansy-prosto.html">
+                            <img src="../../assets/covers/finansy-prosto.jpg" alt="" loading="lazy">
+                            Финансы Просто
+                        </a>
+                        
+                        <a href="../../ru/privet-russian.html">
+                            <img src="../../assets/covers/privet-russian.jpg" alt="" loading="lazy">
+                            Привет, Русский!
+                        </a>
+                        
+                    </div>
+                </li>
+                
+                <li><a href="../../index.html">Home</a></li>
+                
+            </ul>
+
+            <button class="nn-hamburger" aria-label="Toggle menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">&#9776;</button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="nn-mobile-menu">
+        
+        <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+        
+        <div class="nn-mobile-shows">
+            <div class="nn-mobile-shows-title">All Shows</div>
+            
+            <a href="../../models-agents.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
+                Models & Agents
+            </a>
+            
+            <a href="../../planetterrian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/planetterrian-daily.jpg" alt="" loading="lazy">
+                Planetterrian Daily
+            </a>
+            
+            <a href="../../omni-view.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/omni-view.jpg" alt="" loading="lazy">
+                Omni View
+            </a>
+            
+            <a href="../../models-agents-beginners.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/models-agents-beginners.jpg" alt="" loading="lazy">
+                Models & Agents for Beginners
+            </a>
+            
+            <a href="../../fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" loading="lazy">
+                Fascinating Frontiers
+            </a>
+            
+            <a href="../../modern-investing.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                Modern Investing Techniques
+            </a>
+            
+            <a href="../../tesla.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/tesla-shorts-time.jpg" alt="" loading="lazy">
+                Tesla Shorts Time
+            </a>
+            
+            <a href="../../env-intel.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/environmental-intelligence.jpg" alt="" loading="lazy">
+                Environmental Intelligence
+            </a>
+            
+            <a href="../../ru/finansy-prosto.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/finansy-prosto.jpg" alt="" loading="lazy">
+                Финансы Просто
+            </a>
+            
+            <a href="../../ru/privet-russian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/privet-russian.jpg" alt="" loading="lazy">
+                Привет, Русский!
+            </a>
+            
+        </div>
+    </div>
+
+    
+    <!-- Hero -->
+    <header class="blog-idx-hero">
+        <div class="blog-idx-hero-inner">
+            
+            <img src="../../assets/covers/tesla-shorts-time.jpg" alt="Tesla Shorts Time" class="blog-idx-cover">
+            
+            <h1>Tesla Shorts Time Blog</h1>
+            <p>Daily Tesla news digest and podcast.</p>
+            <a href="https://nerranetwork.com/blog_tesla.rss" class="blog-rss-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+                Subscribe via RSS
+            </a>
+        </div>
+    </header>
+
+    <!-- Posts -->
+    
+    <div class="blog-idx-grid">
+        
+        <a href="ep414.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 22, 2026</span>
+                <span class="blog-idx-ep">Ep 414</span>
+                <span class="blog-idx-reading">8 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>NHTSA has escalated its investigation into Tesla's Full Self-Driving software to the engineering analysis phase.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep413.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 20, 2026</span>
+                <span class="blog-idx-ep">Ep 413</span>
+                <span class="blog-idx-reading">7 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>NHTSA has upgraded its investigation into how Tesla FSD handles glare and low-visibility conditions across 3.2 million vehicles.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep413.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 22, 2026</span>
+                <span class="blog-idx-ep">Ep 413</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla and SpaceX launched the Terafab project to build vertically integrated AI chip production on a massive scale.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep411.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 18, 2026</span>
+                <span class="blog-idx-ep">Ep 411</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Canada is investing $200 million in its own Spaceport Nova Scotia to cut reliance on SpaceX for future launches.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep408.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 15, 2026</span>
+                <span class="blog-idx-ep">Ep 408</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Elon Musk confirms Tesla's Terafab AI chip plant starts production in just seven days.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep407.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 14, 2026</span>
+                <span class="blog-idx-ep">Ep 407</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla's latest software update brings Comfort Braking to Model Y, enhancing smoother stops for owners.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep406.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 13, 2026</span>
+                <span class="blog-idx-ep">Ep 406</span>
+                <span class="blog-idx-reading">7 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla gains a stake in SpaceX by converting its $2B xAI investment, deepening ties between Musk's companies.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep405.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 12, 2026</span>
+                <span class="blog-idx-ep">Ep 405</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla is ramping up Cybercab production to hundreds weekly at its Austin factory ahead of launch.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep404.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 11, 2026</span>
+                <span class="blog-idx-ep">Ep 404</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla ramps up Cybercab testing on public roads as it queues for mass production.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep403.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 10, 2026</span>
+                <span class="blog-idx-ep">Ep 403</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla loses two long-time executives, including finance VP Sendil Palani after 17 years and OTA director Thomas Dmytryk after 11 years.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep402.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 09, 2026</span>
+                <span class="blog-idx-ep">Ep 402</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla's FSD tech is now called more revolutionary than the iPhone by experts, sparking major buzz.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep401.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 08, 2026</span>
+                <span class="blog-idx-ep">Ep 401</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla patents breakthrough dry electrode process for cheaper, cleaner battery production.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep400.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 06, 2026</span>
+                <span class="blog-idx-ep">Ep 400</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla's patent for a one-piece composite seat signals the next-gen Roadster is nearing its debut.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep399.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 05, 2026</span>
+                <span class="blog-idx-ep">Ep 399</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla's Giga Berlin workers elect 'Giga United' majority, signaling a shift away from union influence.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep398.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 04, 2026</span>
+                <span class="blog-idx-ep">Ep 398</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Automakers are exiting Tesla's EU carbon credit pool, which could squeeze a key revenue stream worth billions.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep397.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 03, 2026</span>
+                <span class="blog-idx-ep">Ep 397</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla raised the Cybertruck's entry price to $69,990 just 10 days after its $59,990 launch, signaling strong initial demand.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep396.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 02, 2026</span>
+                <span class="blog-idx-ep">Ep 396</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla raised the Cybertruck AWD price by $10K to $69,990 after strong initial demand.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep395.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 01, 2026</span>
+                <span class="blog-idx-ep">Ep 395</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla's FSD (Supervised) fleet hits 8.4 billion cumulative miles, closing in on the 10 billion needed for unsupervised autonomy.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep394.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">February 28, 2026</span>
+                <span class="blog-idx-ep">Ep 394</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla confirms upgraded black headliner and 16-inch screen for new Model Y orders in Canada, enhancing customer appeal.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep393.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">February 27, 2026</span>
+                <span class="blog-idx-ep">Ep 393</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla's new affordable Cybertruck variant sees delivery estimates pushed to April 2027 amid surging demand.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+    </div>
+    
+
+
+    <!-- Footer -->
+    <footer class="nn-footer">
+        <div class="container">
+            <div class="nn-footer-grid">
+                <div>
+                    <div class="nn-footer-brand"><span class="gradient-text">Nerra</span> Network</div>
+                    <p class="nn-footer-desc">Feed your curiosity. Not your anxiety. Independent podcast network produced in Vancouver, Canada.</p>
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Shows</h4>
+                    
+                    <a href="../../models-agents.html">Models & Agents</a>
+                    
+                    <a href="../../planetterrian.html">Planetterrian Daily</a>
+                    
+                    <a href="../../omni-view.html">Omni View</a>
+                    
+                    <a href="../../models-agents-beginners.html">Models & Agents for Beginners</a>
+                    
+                    <a href="../../fascinating_frontiers.html">Fascinating Frontiers</a>
+                    
+                    <a href="../../modern-investing.html">Modern Investing Techniques</a>
+                    
+                    <a href="../../tesla.html">Tesla Shorts Time</a>
+                    
+                    <a href="../../env-intel.html">Environmental Intelligence</a>
+                    
+                    <a href="../../ru/finansy-prosto.html">Финансы Просто</a>
+                    
+                    <a href="../../ru/privet-russian.html">Привет, Русский!</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Listen</h4>
+                    <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
+                    <a href="../../network.rss">Network RSS</a>
+                    
+                    <a href="../../models_agents_podcast.rss">Models & Agents RSS</a>
+                    
+                    <a href="../../planetterrian_podcast.rss">Planetterrian Daily RSS</a>
+                    
+                    <a href="../../omni_view_podcast.rss">Omni View RSS</a>
+                    
+                    <a href="../../models_agents_beginners_podcast.rss">Models & Agents for Beginners RSS</a>
+                    
+                    <a href="../../fascinating_frontiers_podcast.rss">Fascinating Frontiers RSS</a>
+                    
+                    <a href="../../modern_investing_podcast.rss">Modern Investing Techniques RSS</a>
+                    
+                    <a href="../../podcast.rss">Tesla Shorts Time RSS</a>
+                    
+                    <a href="../../env_intel_podcast.rss">Environmental Intelligence RSS</a>
+                    
+                    <a href="../../finansy_prosto_podcast.rss">Финансы Просто RSS</a>
+                    
+                    <a href="../../privet_russian_podcast.rss">Привет, Русский! RSS</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Connect</h4>
+                    <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
+                    <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
+                    <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
+                    <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a>
+                </div>
+            </div>
+            <div class="nn-footer-bottom">
+                <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
+                <a href="../../index.html">nerranetwork.com</a>
+            </div>
+        </div>
+    </footer>
+
+    
+</body>
+</html>
