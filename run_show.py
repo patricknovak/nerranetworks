@@ -596,6 +596,14 @@ def run(args: argparse.Namespace) -> None:
                             len(_missing), len(_missing2),
                         )
                         x_thread = x_thread_retry
+                    elif len(x_thread_retry) > len(x_thread):
+                        # Same missing sections but retry is longer — prefer
+                        # the longer output (less likely to be garbage).
+                        logger.info(
+                            "Digest retry same sections but longer (%d → %d chars) — using retry",
+                            len(x_thread), len(x_thread_retry),
+                        )
+                        x_thread = x_thread_retry
                     else:
                         logger.warning("Digest retry did not improve — keeping original")
                 except LLMRefusalError:
@@ -714,17 +722,76 @@ def run(args: argparse.Namespace) -> None:
     else:
         logger.debug("No validation config for show '%s' — skipping digest validation", config.slug)
 
-    # 7c. Minimum digest length gate — catch LLM garbage (e.g. 44-char responses)
+    # 7c. Minimum digest length gate — catch LLM garbage (e.g. 319-char responses)
     #     before the pipeline spends TTS credits and publishes a bad episode.
-    _MIN_DIGEST_CHARS = 200
-    if len(x_thread.strip()) < _MIN_DIGEST_CHARS:
-        logger.error(
-            "Digest is too short (%d chars, minimum %d) — LLM likely returned "
-            "garbage. Aborting episode.",
-            len(x_thread.strip()), _MIN_DIGEST_CHARS,
-        )
-        save_usage(tracker, digests_dir)
-        sys.exit(2)
+    #     A normal digest is 3000-10000+ chars.  Below 800 chars the LLM clearly
+    #     failed to produce a usable episode.
+    _MIN_DIGEST_CHARS = 800
+    _digest_len = len(x_thread.strip())
+    if _digest_len < _MIN_DIGEST_CHARS:
+        # Try slow news fallback — the LLM may do better with structured
+        # evergreen prompts than with the regular digest template.
+        if not slow_news_mode and config.slow_news.enabled:
+            logger.warning(
+                "Digest is too short (%d chars, minimum %d) — attempting slow "
+                "news fallback with evergreen segments ...",
+                _digest_len, _MIN_DIGEST_CHARS,
+            )
+            from engine.slow_news import (
+                load_segment_library, select_segments,
+                build_slow_news_prompt_context,
+            )
+            try:
+                library = load_segment_library(config.slow_news.library_file)
+                recent_seg_ids = content_tracker.get_recent_segment_ids(
+                    days=config.slow_news.cooldown_days,
+                )
+                selected_segs = select_segments(
+                    library, recent_seg_ids,
+                    max_segments=config.slow_news.max_segments,
+                    mode=config.slow_news.selection_mode,
+                )
+                previous_angles: dict = {}
+                for seg in selected_segs:
+                    previous_angles[seg["id"]] = content_tracker.get_segment_history(
+                        seg["id"], limit=3,
+                    )
+                slow_ctx = build_slow_news_prompt_context(
+                    articles, selected_segs, config, template_vars, previous_angles,
+                )
+                template_vars["slow_news_context"] = slow_ctx
+                slow_news_mode = True
+
+                with metrics.stage("generate_digest_llm_fallback"):
+                    x_thread = generate_digest(template_vars, config, tracker=tracker)
+
+                _digest_len = len(x_thread.strip())
+                if _digest_len >= _MIN_DIGEST_CHARS:
+                    logger.info(
+                        "Slow news fallback produced usable digest (%d chars)",
+                        _digest_len,
+                    )
+                else:
+                    logger.error(
+                        "Slow news fallback still too short (%d chars) — aborting",
+                        _digest_len,
+                    )
+                    save_usage(tracker, digests_dir)
+                    sys.exit(1)
+            except Exception as exc:
+                logger.error(
+                    "Slow news fallback failed: %s — aborting", exc,
+                )
+                save_usage(tracker, digests_dir)
+                sys.exit(1)
+        else:
+            logger.error(
+                "Digest is too short (%d chars, minimum %d) — LLM returned "
+                "garbage. Aborting episode.",
+                _digest_len, _MIN_DIGEST_CHARS,
+            )
+            save_usage(tracker, digests_dir)
+            sys.exit(1)
 
     # Extract the daily hook (headline) from the digest
     hook = _extract_hook(x_thread)
@@ -884,7 +951,7 @@ def run(args: argparse.Namespace) -> None:
                 _script_word_count, _MIN_SCRIPT_WORDS,
             )
             save_usage(tracker, digests_dir)
-            sys.exit(2)
+            sys.exit(1)
 
         # 8c. Pre-TTS duration estimate — skip obviously doomed episodes before
         #     burning TTS credits.  ~150 words/minute for podcast speech.
@@ -900,7 +967,7 @@ def run(args: argparse.Namespace) -> None:
                     _estimated_duration, _min_audio, _script_word_count,
                 )
                 save_usage(tracker, digests_dir)
-                sys.exit(2)
+                sys.exit(1)
 
         # Update Content Lake with podcast script (non-fatal)
         if _lake_record is not None:
