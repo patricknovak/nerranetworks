@@ -285,7 +285,6 @@ def update_rss_feed(
 
     # --- Set channel metadata ---------------------------------------------
     fg.title(channel_title)
-    fg.link(href=channel_link)
     fg.description(channel_description)
     fg.language(channel_language)
 
@@ -294,6 +293,9 @@ def update_rss_feed(
     rss_self_url = f"{base_url}/{rss_path.name}"
     fg.link(href="https://pubsubhubbub.appspot.com/", rel="hub")
     fg.link(href=rss_self_url, rel="self")
+    # Main channel link MUST be set after self/hub links — feedgen uses the
+    # last non-rel link for the RSS <link> element.
+    fg.link(href=channel_link)
     fg.copyright(f"Copyright {datetime.date.today().year}")
     fg.podcast.itunes_author(channel_author)
     fg.podcast.itunes_summary(channel_description)
@@ -305,6 +307,22 @@ def update_rss_feed(
     else:
         fg.podcast.itunes_category(channel_category)
     fg.podcast.itunes_explicit("no")
+
+    # --- Migrate legacy GitHub raw URLs to R2 CDN --------------------------
+    _GITHUB_RAW_PREFIX = "https://raw.githubusercontent.com/patricknovak/nerranetworks/main/"
+    r2_base = "https://audio.nerranetwork.com"
+    migrated_count = 0
+    for ep_data in episodes_by_number.values():
+        enc = ep_data.get("enclosure", {})
+        enc_url = enc.get("url", "")
+        if enc_url.startswith(_GITHUB_RAW_PREFIX):
+            # Extract filename from old URL path, construct R2 URL
+            old_path = enc_url[len(_GITHUB_RAW_PREFIX):]  # e.g. digests/FILE.mp3
+            new_url = f"{r2_base}/{old_path}"
+            enc["url"] = new_url
+            migrated_count += 1
+    if migrated_count:
+        logger.info("Migrated %d episode URL(s) from GitHub raw to R2 CDN", migrated_count)
 
     # --- Build new episode metadata ----------------------------------------
     current_time_str = datetime.datetime.now().strftime("%H%M%S")

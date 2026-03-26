@@ -11,8 +11,14 @@
     <!-- Open Graph -->
     <meta property="og:title" content="{{ page_title }}">
     <meta property="og:description" content="{{ meta_description }}">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     {% if og_image %}<meta property="og:image" content="{{ og_image }}">{% endif %}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="{% block twitter_card %}summary_large_image{% endblock %}">
+    <meta name="twitter:title" content="{{ page_title }}">
+    <meta name="twitter:description" content="{{ meta_description }}">
+    {% if og_image %}<meta name="twitter:image" content="{{ og_image }}">{% endif %}
 
     {% if canonical_url %}<link rel="canonical" href="{{ canonical_url }}">{% endif %}
 

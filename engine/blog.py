@@ -76,7 +76,7 @@ def extract_blog_metadata(
     for line in lines[:20]:  # metadata is always in the first ~20 lines
         stripped = line.strip()
 
-        # Title: first heading
+        # Title: first heading (# Heading format)
         if not title and stripped.startswith("# "):
             title = stripped[2:].strip()
 
@@ -95,6 +95,22 @@ def extract_blog_metadata(
                 if m:
                     hook = m.group(1).strip()
                     break
+
+    # Fallback: some digests use **Bold Title** instead of # Heading.
+    # Variants seen: **Title**, **# Title — Subtitle**, **TITLE**
+    if not title:
+        for line in lines[:5]:
+            stripped = line.strip()
+            # Skip lines that are metadata (HOOK:, Date:, etc.)
+            if any(stripped.startswith(p) for p in ("**HOOK:", "**Date:", "**Дата:", "**ЗАГОЛОВОК:")):
+                continue
+            m = re.match(r"^\*\*#?\s*([^*]+?)\*\*\s*$", stripped)
+            if m:
+                title = m.group(1).strip()
+                # Clean up "Title — Subtitle" to just "Title"
+                if " — " in title and title.split(" — ")[0].strip():
+                    title = title.split(" — ")[0].strip()
+                break
 
     # Parse date string
     if date_str:
@@ -373,6 +389,10 @@ def generate_blog_post_html(
     ep_num = metadata.get("episode_num", 0)
     blog_url = f"https://nerranetwork.com/blog/{show_slug}/ep{ep_num:03d}.html"
 
+    # Final fallback: use show name if no title was extracted from the digest
+    if not metadata.get("title"):
+        metadata["title"] = show_config["name"]
+
     jsonld = _build_jsonld(metadata, show_config["name"], blog_url)
 
     # Source domains for display
@@ -420,6 +440,7 @@ def generate_blog_post_html(
         "prev_post": prev_post,
         "next_post": next_post,
         "rss_file": show_config.get("rss_file", ""),
+        "show_page": show_config.get("show_page", ""),
         "blog_index_url": f"../../blog/{show_slug}/index.html",
         "tagline": show_config.get("tagline", ""),
     }
