@@ -355,6 +355,40 @@ button { font-family: var(--font-ui); cursor: pointer; }
 }
 .show-card-listen svg { width: 16px; height: 16px; }
 
+.show-card-wrap {
+  display: flex;
+  flex-direction: column;
+}
+.show-card-wrap .show-card {
+  flex: 1;
+}
+.show-card-blog-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  margin: 0 var(--sp-1) var(--sp-1);
+  border-radius: 0 0 12px 12px;
+  background: var(--nn-card);
+  border: 1px solid var(--nn-border);
+  border-top: none;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--nn-text-muted);
+  text-decoration: none;
+  transition: all var(--duration) var(--ease);
+}
+.show-card-blog-link:hover {
+  color: var(--show-color, var(--nn-purple));
+  background: var(--nn-card-hover);
+}
+.show-card-blog-link svg {
+  width: 14px;
+  height: 14px;
+}
+
 /* ---------- Episode Card ---------- */
 .episode-card {
   padding: var(--sp-5);

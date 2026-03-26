@@ -27,6 +27,7 @@
 {% endblock %}
 
 {% block nav_links %}
+<li><a href="{{ path_prefix }}{{ blog_page }}">Blog</a></li>
 <li><a href="{{ path_prefix }}{{ summaries_page }}">Summaries</a></li>
 <li><a href="{{ path_prefix }}{{ rss_file }}">RSS</a></li>
 {% if x_account %}<li><a href="https://x.com/{{ x_account }}" target="_blank" rel="noopener">@{{ x_account }}</a></li>{% endif %}
@@ -34,6 +35,7 @@
 
 {% block mobile_nav_links %}
 <a href="{{ path_prefix }}{{ show_page }}" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+<a href="{{ path_prefix }}{{ blog_page }}" onclick="document.getElementById('mobileMenu').classList.remove('open')">Blog</a>
 <a href="{{ path_prefix }}{{ summaries_page }}" onclick="document.getElementById('mobileMenu').classList.remove('open')">Summaries</a>
 <a href="#episodes" onclick="document.getElementById('mobileMenu').classList.remove('open')">Episodes</a>
 <a href="#about" onclick="document.getElementById('mobileMenu').classList.remove('open')">About</a>
@@ -61,6 +63,7 @@
                 {% endif %}
                 <div class="show-hero-actions">
                     <a href="#episodes" class="nn-btn nn-btn-primary">Listen Now</a>
+                    <a href="{{ path_prefix }}{{ blog_page }}" class="nn-btn">Read Blog</a>
                     <a href="{{ path_prefix }}{{ summaries_page }}" class="nn-btn">View Summaries</a>
                     {% if apple_podcasts_url %}
                     <a href="{{ apple_podcasts_url }}" class="nn-btn" target="_blank" rel="noopener">Apple Podcasts</a>

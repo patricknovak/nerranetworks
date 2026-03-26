@@ -1027,6 +1027,7 @@ def _build_all_shows_list():
             "episode_length": cfg.get("episode_length", ""),
             "description_long": cfg.get("description_long", cfg["description"]),
             "source_highlights": cfg.get("source_highlights", []),
+            "blog_page": f"blog/{cfg['slug']}/index.html",
             "_order": cfg.get("display_order", 99),
         }
         for cfg in NETWORK_SHOWS.values()
@@ -1158,6 +1159,7 @@ def generate_show_page(slug, *, dry_run=False):
         "show_color_dark": cfg.get("brand_color_dark", cfg["brand_color"]),
         "canonical_url": f"{GITHUB_RAW}/{cfg['show_page']}",
         "related_show": related_show_data,
+        "blog_page": f"blog/{cfg['slug']}/index.html",
         "all_shows": _build_all_shows_list(),
     }
 
