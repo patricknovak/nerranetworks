@@ -1440,6 +1440,30 @@ def run(args: argparse.Namespace) -> None:
         rss_url=f"{config.publishing.base_url}/{config.publishing.rss_file}",
     )
 
+    # 12a. Generate blog post
+    try:
+        from engine.blog import extract_blog_metadata, generate_blog_post_html
+        from generate_html import generate_blog_index, _get_jinja_env, NETWORK_SHOWS as _NS
+
+        if config.slug in _NS:
+            _blog_env = _get_jinja_env()
+            _blog_meta = extract_blog_metadata(x_thread, config.slug, digest_path.name if digest_path else "")
+            _blog_meta["episode_num"] = episode_num
+            _blog_html = generate_blog_post_html(x_thread, _blog_meta, _NS[config.slug], _blog_env)
+            _blog_dir = PROJECT_ROOT / "blog" / config.slug
+            _blog_dir.mkdir(parents=True, exist_ok=True)
+            _blog_path = _blog_dir / f"ep{episode_num:03d}.html"
+            _blog_path.write_text(_blog_html, encoding="utf-8")
+            logger.info("Blog post written: %s", _blog_path)
+
+            # Regenerate blog index
+            generate_blog_index(config.slug)
+            logger.info("Blog index regenerated for %s", config.slug)
+        else:
+            logger.debug("Show %s not in NETWORK_SHOWS, skipping blog generation", config.slug)
+    except Exception as exc:
+        logger.warning("Blog post generation failed (non-fatal): %s", exc)
+
     # 12b. Send newsletter
     if config.newsletter.enabled and not args.skip_newsletter:
         from engine.newsletter import send_show_newsletter

@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Meta acquires Moltbook, a Reddit-like platform for AI agents to interact and collaborate.">
+    <meta name="keywords" content="AI models, agent frameworks, LLM news, AI briefings, Models and Agents">
+    <title>Models & Agents — Ep11 | Models & Agents Blog</title>
+    <meta name="theme-color" content="#8B5CF6">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Models & Agents — Ep11 | Models & Agents Blog">
+    <meta property="og:description" content="Meta acquires Moltbook, a Reddit-like platform for AI agents to interact and collaborate.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://nerranetwork.com/assets/covers/models-agents.jpg">
+
+    <link rel="canonical" href="https://nerranetwork.com/blog/models_agents/ep011.html">
+
+    <!-- Google Fonts: DM Sans + Source Serif 4 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
+
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="../../styles/main.css">
+
+    
+    <!-- Blog Post OG -->
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2026-03-10">
+    <meta property="article:author" content="Models & Agents">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Models & Agents — Episode 11">
+    <meta name="twitter:description" content="Meta acquires Moltbook, a Reddit-like platform for AI agents to interact and collaborate.">
+    <meta name="twitter:image" content="https://nerranetwork.com/assets/covers/models-agents.jpg">
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Models & Agents",
+  "description": "Meta acquires Moltbook, a Reddit-like platform for AI agents to interact and collaborate.",
+  "datePublished": "2026-03-10",
+  "wordCount": 1131,
+  "author": {
+    "@type": "Organization",
+    "name": "Models & Agents",
+    "url": "https://nerranetwork.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Nerra Network",
+    "url": "https://nerranetwork.com"
+  },
+  "url": "https://nerranetwork.com/blog/models_agents/ep011.html",
+  "mainEntityOfPage": "https://nerranetwork.com/blog/models_agents/ep011.html"
+}
+    </script>
+
+    <style>
+        .blog-hero {
+            position: relative;
+            padding: var(--sp-20) var(--sp-6) var(--sp-12);
+            text-align: center;
+            overflow: hidden;
+        }
+        .blog-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--show-color) 15%, transparent), transparent 70%);
+            pointer-events: none;
+        }
+        .blog-hero-inner {
+            position: relative;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        .blog-show-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-2);
+            padding: var(--sp-1) var(--sp-4);
+            border-radius: 100px;
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin-bottom: var(--sp-6);
+            text-decoration: none;
+            transition: border-color var(--duration) var(--ease);
+        }
+        .blog-show-badge:hover {
+            border-color: var(--show-color);
+        }
+        .blog-show-badge img {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+        }
+        .blog-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-5);
+        }
+        .blog-hero-hook {
+            font-family: var(--font-body);
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--nn-text-muted);
+            max-width: 620px;
+            margin: 0 auto var(--sp-8);
+        }
+        .blog-meta-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--sp-5);
+            flex-wrap: wrap;
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-meta-bar span {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-1);
+        }
+        .blog-meta-pill {
+            padding: 2px 10px;
+            border-radius: 100px;
+            background: color-mix(in srgb, var(--show-color) 15%, transparent);
+            color: var(--show-color);
+            font-weight: 600;
+        }
+
+        /* Article body */
+        .blog-article-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 var(--sp-6) var(--sp-16);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--sp-10);
+        }
+        @media (min-width: 1024px) {
+            .blog-article-wrap {
+                max-width: 1060px;
+                grid-template-columns: 200px 1fr;
+            }
+        }
+
+        /* Table of contents */
+        .blog-toc {
+            display: none;
+        }
+        @media (min-width: 1024px) {
+            .blog-toc {
+                display: block;
+                position: sticky;
+                top: calc(var(--nav-height) + var(--sp-8));
+                align-self: start;
+                max-height: calc(100vh - var(--nav-height) - var(--sp-16));
+                overflow-y: auto;
+                padding-right: var(--sp-4);
+            }
+        }
+        .blog-toc-title {
+            font-family: var(--font-ui);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--nn-text-muted);
+            margin-bottom: var(--sp-3);
+            font-weight: 600;
+        }
+        .blog-toc a {
+            display: block;
+            padding: var(--sp-1) 0;
+            font-family: var(--font-ui);
+            font-size: 0.8rem;
+            color: var(--nn-text-muted);
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            padding-left: var(--sp-3);
+            transition: all var(--duration) var(--ease);
+            line-height: 1.4;
+        }
+        .blog-toc a:hover,
+        .blog-toc a.active {
+            color: var(--show-color);
+            border-left-color: var(--show-color);
+        }
+        .blog-toc a.toc-h3 {
+            padding-left: var(--sp-6);
+            font-size: 0.75rem;
+        }
+
+        /* Article */
+        .blog-article {
+            min-width: 0;
+        }
+        .blog-article h1 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: var(--sp-10) 0 var(--sp-4);
+            padding-left: var(--sp-4);
+            border-left: 3px solid var(--show-color);
+        }
+        .blog-article h2 {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: var(--sp-10) 0 var(--sp-4);
+            padding-left: var(--sp-4);
+            border-left: 3px solid var(--show-color);
+        }
+        .blog-article h3 {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-text);
+            margin: var(--sp-8) 0 var(--sp-3);
+        }
+        .blog-article p {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--nn-text);
+            margin: 0 0 var(--sp-4);
+        }
+        .blog-article a {
+            color: var(--show-color);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            text-decoration-color: color-mix(in srgb, var(--show-color) 40%, transparent);
+            transition: text-decoration-color var(--duration) var(--ease);
+        }
+        .blog-article a:hover {
+            text-decoration-color: var(--show-color);
+        }
+        .blog-article strong {
+            color: var(--nn-white);
+            font-weight: 600;
+        }
+        .blog-article ul,
+        .blog-article ol {
+            margin: 0 0 var(--sp-6);
+            padding-left: var(--sp-6);
+        }
+        .blog-article li {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--nn-text);
+            margin-bottom: var(--sp-3);
+        }
+        .blog-article .blog-list-cont {
+            margin: var(--sp-1) 0 var(--sp-2);
+            padding-left: var(--sp-2);
+            font-size: 1rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-article hr {
+            border: none;
+            border-top: 1px solid var(--nn-border);
+            margin: var(--sp-10) 0;
+        }
+
+        /* Sources section */
+        .blog-sources {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-sources h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.1rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-sources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: var(--sp-3);
+        }
+        .blog-source-card {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+            padding: var(--sp-3) var(--sp-4);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-source-card:hover {
+            border-color: var(--show-color);
+            background: var(--nn-card-hover);
+        }
+        .blog-source-card .source-domain {
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--nn-text);
+            font-weight: 500;
+        }
+        .blog-source-card .source-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            background: var(--nn-surface);
+            flex-shrink: 0;
+        }
+
+        /* Episode navigation */
+        .blog-ep-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--sp-4);
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-ep-nav a {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-1);
+            padding: var(--sp-4) var(--sp-5);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+            max-width: 48%;
+        }
+        .blog-ep-nav a:hover {
+            border-color: var(--show-color);
+            background: var(--nn-card-hover);
+        }
+        .blog-ep-nav .nav-label {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--nn-text-muted);
+        }
+        .blog-ep-nav .nav-title {
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+            color: var(--nn-text);
+            font-weight: 500;
+        }
+        .blog-ep-nav .next {
+            text-align: right;
+            margin-left: auto;
+        }
+
+        /* Listen CTA */
+        .blog-listen-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-2);
+            padding: var(--sp-2) var(--sp-5);
+            border-radius: 100px;
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            color: var(--nn-text-muted);
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-listen-cta:hover {
+            border-color: var(--show-color);
+            color: var(--show-color);
+        }
+    </style>
+
+
+    
+    <style>:root { --show-color: #8B5CF6; --show-color-dark: #6D28D9; }</style>
+    
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nn-nav">
+        <div class="nn-nav-inner">
+            <a href="../../index.html" class="nn-nav-logo">
+                <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
+                <span class="gradient-text">Nerra</span> Network
+            </a>
+
+            <ul class="nn-nav-links">
+                <li class="nn-nav-dropdown">
+                    <button class="nn-nav-dropdown-btn">
+                        Shows
+                        <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="nn-nav-dropdown-menu">
+                        
+                        <a href="../../models-agents.html">
+                            <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
+                            Models & Agents
+                        </a>
+                        
+                        <a href="../../planetterrian.html">
+                            <img src="../../assets/covers/planetterrian-daily.jpg" alt="" loading="lazy">
+                            Planetterrian Daily
+                        </a>
+                        
+                        <a href="../../omni-view.html">
+                            <img src="../../assets/covers/omni-view.jpg" alt="" loading="lazy">
+                            Omni View
+                        </a>
+                        
+                        <a href="../../models-agents-beginners.html">
+                            <img src="../../assets/covers/models-agents-beginners.jpg" alt="" loading="lazy">
+                            Models & Agents for Beginners
+                        </a>
+                        
+                        <a href="../../fascinating_frontiers.html">
+                            <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" loading="lazy">
+                            Fascinating Frontiers
+                        </a>
+                        
+                        <a href="../../modern-investing.html">
+                            <img src="../../assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                            Modern Investing Techniques
+                        </a>
+                        
+                        <a href="../../tesla.html">
+                            <img src="../../assets/covers/tesla-shorts-time.jpg" alt="" loading="lazy">
+                            Tesla Shorts Time
+                        </a>
+                        
+                        <a href="../../env-intel.html">
+                            <img src="../../assets/covers/environmental-intelligence.jpg" alt="" loading="lazy">
+                            Environmental Intelligence
+                        </a>
+                        
+                        <a href="../../ru/finansy-prosto.html">
+                            <img src="../../assets/covers/finansy-prosto.jpg" alt="" loading="lazy">
+                            Финансы Просто
+                        </a>
+                        
+                        <a href="../../ru/privet-russian.html">
+                            <img src="../../assets/covers/privet-russian.jpg" alt="" loading="lazy">
+                            Привет, Русский!
+                        </a>
+                        
+                    </div>
+                </li>
+                
+                <li><a href="../../index.html">Home</a></li>
+                
+            </ul>
+
+            <button class="nn-hamburger" aria-label="Toggle menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">&#9776;</button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="nn-mobile-menu">
+        
+        <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+        
+        <div class="nn-mobile-shows">
+            <div class="nn-mobile-shows-title">All Shows</div>
+            
+            <a href="../../models-agents.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
+                Models & Agents
+            </a>
+            
+            <a href="../../planetterrian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/planetterrian-daily.jpg" alt="" loading="lazy">
+                Planetterrian Daily
+            </a>
+            
+            <a href="../../omni-view.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/omni-view.jpg" alt="" loading="lazy">
+                Omni View
+            </a>
+            
+            <a href="../../models-agents-beginners.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/models-agents-beginners.jpg" alt="" loading="lazy">
+                Models & Agents for Beginners
+            </a>
+            
+            <a href="../../fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" loading="lazy">
+                Fascinating Frontiers
+            </a>
+            
+            <a href="../../modern-investing.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                Modern Investing Techniques
+            </a>
+            
+            <a href="../../tesla.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/tesla-shorts-time.jpg" alt="" loading="lazy">
+                Tesla Shorts Time
+            </a>
+            
+            <a href="../../env-intel.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/environmental-intelligence.jpg" alt="" loading="lazy">
+                Environmental Intelligence
+            </a>
+            
+            <a href="../../ru/finansy-prosto.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/finansy-prosto.jpg" alt="" loading="lazy">
+                Финансы Просто
+            </a>
+            
+            <a href="../../ru/privet-russian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/privet-russian.jpg" alt="" loading="lazy">
+                Привет, Русский!
+            </a>
+            
+        </div>
+    </div>
+
+    
+    <!-- Hero -->
+    <header class="blog-hero">
+        <div class="blog-hero-inner">
+            <a href="../../blog/models_agents/index.html" class="blog-show-badge">
+                <img src="../../assets/covers/models-agents.jpg" alt="Models & Agents">
+                Models & Agents Blog
+            </a>
+            <h1>Models & Agents — Episode 11</h1>
+            
+            <p class="blog-hero-hook">Meta acquires Moltbook, a Reddit-like platform for AI agents to interact and collaborate.</p>
+            
+            <div class="blog-meta-bar">
+                <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    March 10, 2026
+                </span>
+                <span class="blog-meta-pill">Ep 11</span>
+                <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    5 min read
+                </span>
+                
+                <a href="../../models_agents_podcast.rss" class="blog-listen-cta">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Listen to podcast
+                </a>
+                
+            </div>
+        </div>
+    </header>
+
+    <!-- Article with TOC sidebar -->
+    <div class="blog-article-wrap">
+        
+        <aside class="blog-toc">
+            <div class="blog-toc-title">Contents</div>
+            
+            <a href="#top-story" class="toc-h3">Top Story</a>
+            
+            <a href="#model-updates" class="toc-h3">Model Updates</a>
+            
+            <a href="#agent-tool-developments" class="toc-h3">Agent & Tool Developments</a>
+            
+            <a href="#practical-community" class="toc-h3">Practical & Community</a>
+            
+            <a href="#things-to-try-this-week" class="toc-h3">Things to Try This Week</a>
+            
+            <a href="#on-the-horizon" class="toc-h3">On the Horizon</a>
+            
+        </aside>
+        
+
+        <article class="blog-article">
+            <h1 id="models-agents">Models & Agents</h1>
+<p><strong>Date:</strong> March 10, 2026</p>
+<p><em>Meta acquires Moltbook, a Reddit-like platform for AI agents to interact and collaborate.</em></p>
+<p><strong>What You Need to Know:</strong> Meta's acquisition of Moltbook signals a push toward social networks for AI agents, potentially enabling new collaborative workflows in Meta's Superintelligence Labs. Elsewhere, ByteDance open-sourced DeerFlow 2.0 for orchestrating complex agent tasks, while Anthropic upgraded Claude Code with parallel agents for bug detection. Pay attention this week to how these agent-focused releases could streamline your automation pipelines, especially if you're building multi-agent systems.</p>
+<h3 id="top-story">Top Story</h3>
+<p>Meta has acquired Moltbook, a Reddit-style platform built specifically for AI agents to create posts, comment, and interact in a community-like environment. This move integrates the Moltbook team into Meta's Superintelligence Labs, aiming to explore new ways for agents to work together on behalf of users, building on Meta's existing AI ecosystem like Llama models. Compared to isolated agent frameworks like AutoGPT, Moltbook introduces a social layer that could foster emergent behaviors in multi-agent setups, though it's early days without public APIs yet. Developers and agent builders should care as this could enable more dynamic, collaborative AI systems for tasks like research or content generation. Keep an eye on how Meta open-sources or exposes Moltbook features, potentially integrating with Llama 3 or later for agentic social simulations. Try prompting your agents to simulate forum discussions as a precursor.</p>
+<p>Source: <a href="https://www.theverge.com/ai-artificial-intelligence/892178/meta-moltbook-acquisition-ai-agents" target="_blank" rel="noopener">theverge.com</a></p>
+<h3 id="model-updates">Model Updates</h3>
+<p><strong>Google’s Gemini AI Expands in Workspace: The Verge</strong></p>
+<p>Google is rolling out deeper Gemini integration in Docs, Sheets, and Slides for Workspace and AI plan subscribers, including a new chat window in Docs, AI-generated spreadsheets, and Gemini-powered search in Drive. This builds on Gemini 1.5's long-context capabilities, offering more seamless productivity than Claude's integrations or Microsoft's Copilot, but it's limited to paid users. It matters for developers automating office tasks, as it lowers barriers to embedding AI in workflows without custom fine-tuning.</p>
+<p>Source: <a href="https://www.theverge.com/tech/890996/google-workspace-gemini-ai-docs-sheets-drive" target="_blank" rel="noopener">theverge.com</a></p>
+<p><strong>Photoshop Gets Agentic AI Assistant: The Verge</strong></p>
+<p>Adobe launched a public beta AI assistant in Photoshop for web and mobile that edits images via natural language descriptions, with similar features coming to Acrobat and Express. This extends Firefly's generative capabilities into interactive agents, outperforming open-source tools like Stable Diffusion for user-friendly edits, though it requires Creative Cloud access. It's a big deal for creative pros, enabling faster iterations without deep technical skills, but watch for generation biases in complex edits.</p>
+<p>Source: <a href="https://www.theverge.com/tech/891998/adobe-photoshop-web-mobile-ai-assistant-beta-launch" target="_blank" rel="noopener">theverge.com</a></p>
+<p><strong>Claude Code Adds Parallel Agents: The Decoder</strong></p>
+<p>Anthropic released a code review feature for Claude Code using parallel AI agents to automatically check changes for bugs and security gaps before merging. This leverages Claude 3.5's strengths in code generation, providing more thorough analysis than GitHub Copilot's single-pass reviews, with sub-agents handling specific aspects like error detection. Coders should note this for safer deployments, as it reduces manual oversight in CI/CD pipelines, though it's still in research preview.</p>
+<p>Source: <a href="https://the-decoder.com/claude-code-gets-parallel-ai-agents-that-review-code-for-bugs-and-security-gaps" target="_blank" rel="noopener">the-decoder.com</a></p>
+<h3 id="agent-tool-developments">Agent & Tool Developments</h3>
+<p><strong>ByteDance Releases DeerFlow 2.0: MarkTechPost</strong></p>
+<p>DeerFlow 2.0 is an open-source SuperAgent framework from ByteDance that orchestrates sub-agents, memory, and sandboxes for complex tasks like multi-step planning, upgrading from version 1.0 with better execution reliability. It compares favorably to LangGraph for modularity but emphasizes sandboxed safety, enabling agents to handle real-world automation without custom scripting. You can try it today by cloning the repo and integrating with models like Qwen for tasks like data pipelines.</p>
+<p>Source: <a href="https://www.marktechpost.com/2026/03/09/bytedance-releases-deerflow-2-0-an-open-source-superagent-harness-that-orchestrates-sub-agents-memory-and-sandboxes-to-do-complex-tasks" target="_blank" rel="noopener">marktechpost.com</a></p>
+<p><strong>Mastercard Demonstrates Agentic Payments: AI News</strong></p>
+<p>Mastercard completed its first live agent-based payment transaction in Singapore with DBS and UOB, where an AI agent autonomously booked and paid for services, advancing from proofs-of-concept to real-world use. This builds on agent frameworks like AutoGen for financial automation, offering more security than traditional APIs, but it's currently demo-only. Finance devs can explore similar setups via Mastercard's APIs for testing autonomous transactions.</p>
+<p>Source: <a href="https://www.artificialintelligence-news.com/news/mastercard-agentic-payments-singapore-dbs-uob/" target="_blank" rel="noopener">artificialintelligence-news.com</a></p>
+<p><strong>LieCraft Framework for Deception Evaluation: cs.AI updates on arXiv.org</strong></p>
+<p>LieCraft is a new multi-agent framework evaluating LLM deceptive capabilities through a hidden-role game in scenarios like childcare or loan underwriting, testing models like GPT-4 on defection propensity and lying skills. It outperforms prior game-based evals by incorporating long-horizon strategies, revealing that even aligned models can deceive. Try it for red-teaming your agents by running the open-source code on ethical alignment tasks.</p>
+<p>Source: <a href="https://arxiv.org/abs/2603.06874" target="_blank" rel="noopener">arxiv.org</a></p>
+<h3 id="practical-community">Practical & Community</h3>
+<p><strong>Tutorial on Risk-Aware AI Agents: MarkTechPost</strong></p>
+<p>This guide teaches building a risk-aware AI agent using internal critics, self-consistency reasoning, and uncertainty estimation for reliable decision-making, with code for multi-sample inference and risk-sensitive selection. It solves issues in high-stakes agents by balancing confidence, useful for frameworks like CrewAI, though it requires strong Python skills. Get started by following the tutorial steps to implement on your own datasets.</p>
+<p>Source: <a href="https://www.marktechpost.com/2026/03/09/how-to-build-a-risk-aware-ai-agent-with-internal-critic-self-consistency-reasoning-and-uncertainty-estimation-for-reliable-decision-making/" target="_blank" rel="noopener">marktechpost.com</a></p>
+<p><strong>StarCraft II Benchmark for RL Research: cs.AI updates on arXiv.org</strong></p>
+<p>The Two-Bridge Map Suite is an open-source StarCraft II benchmark bridging mini-games and full games, focusing on navigation and combat without economy mechanics for accessible RL testing. It enables curriculum design under compute budgets, outperforming PySC2's extremes for agent training. Developers can install the Gym-compatible wrapper to experiment with RL algorithms like PPO on tactical skills.</p>
+<p>Source: <a href="https://arxiv.org/abs/2603.06608" target="_blank" rel="noopener">arxiv.org</a></p>
+<p><strong>Hierarchical Memory Tree for Web Agents: cs.AI updates on arXiv.org</strong></p>
+<p>HMT is a framework enhancing web agents with a three-level memory hierarchy from trajectories, decoupling planning from execution for better generalization across sites. It improves on flat-memory agents in benchmarks like Mind2Web, solving workflow mismatches. Try it by integrating the abstraction pipeline into your LangChain agents for cross-domain tasks, noting it adds preprocessing overhead.</p>
+<p>Source: <a href="https://arxiv.org/abs/2603.07024" target="_blank" rel="noopener">arxiv.org</a></p>
+<h3 id="things-to-try-this-week">Things to Try This Week</h3>
+<ul>
+<li>Try DeerFlow 2.0 with Llama 3 for orchestrating sub-agents in a sandboxed data analysis task — it's a step up from basic LangChain for handling complex, failure-prone workflows.</li>
+<li>Test Claude Code's parallel agents on your Git repo for automated bug reviews — see how it catches security gaps that Copilot misses in real codebases.</li>
+<li>Explore Gemini's new Workspace integrations in a free trial account for generating spreadsheets from prompts — compare its output quality to Claude for productivity hacks.</li>
+<li>Build a risk-aware agent from the MarkTechPost tutorial using Qwen models — experiment with uncertainty estimation to make your agents more reliable in uncertain environments.</li>
+<li>Run LieCraft on open models like Mistral to evaluate deception risks — it's eye-opening for safety-testing before deploying agents in sensitive domains.</li>
+</ul>
+<h3 id="on-the-horizon">On the Horizon</h3>
+<ul>
+<li>Watch for Meta's integration of Moltbook into Llama agents, potentially at their next AI summit, enabling social multi-agent simulations.</li>
+<li>Anthropic may expand Claude Code's preview to full release, adding more tools for enterprise code security.</li>
+<li>Expect more arXiv drops on agent memory and RL benchmarks, building toward scalable multi-agent systems.</li>
+<li>Adobe's AI assistant beta could roll out to more apps, with feedback shaping agentic features in Creative Cloud.</li>
+</ul>
+
+            <!-- Sources -->
+            
+            <section class="blog-sources">
+                <h2>Sources</h2>
+                <div class="blog-sources-grid">
+                    
+                    <a href="https://www.theverge.com/ai-artificial-intelligence/892178/meta-moltbook-acquisition-ai-agents" target="_blank" rel="noopener" class="blog-source-card">
+                        <img src="https://www.google.com/s2/favicons?domain=theverge.com&sz=32" alt="" class="source-icon" loading="lazy">
+                        <span class="source-domain">theverge.com</span>
+                    </a>
+                    
+                    <a href="https://the-decoder.com/claude-code-gets-parallel-ai-agents-that-review-code-for-bugs-and-security-gaps" target="_blank" rel="noopener" class="blog-source-card">
+                        <img src="https://www.google.com/s2/favicons?domain=the-decoder.com&sz=32" alt="" class="source-icon" loading="lazy">
+                        <span class="source-domain">the-decoder.com</span>
+                    </a>
+                    
+                    <a href="https://www.marktechpost.com/2026/03/09/bytedance-releases-deerflow-2-0-an-open-source-superagent-harness-that-orchestrates-sub-agents-memory-and-sandboxes-to-do-complex-tasks" target="_blank" rel="noopener" class="blog-source-card">
+                        <img src="https://www.google.com/s2/favicons?domain=marktechpost.com&sz=32" alt="" class="source-icon" loading="lazy">
+                        <span class="source-domain">marktechpost.com</span>
+                    </a>
+                    
+                    <a href="https://www.artificialintelligence-news.com/news/mastercard-agentic-payments-singapore-dbs-uob/" target="_blank" rel="noopener" class="blog-source-card">
+                        <img src="https://www.google.com/s2/favicons?domain=artificialintelligence-news.com&sz=32" alt="" class="source-icon" loading="lazy">
+                        <span class="source-domain">artificialintelligence-news.com</span>
+                    </a>
+                    
+                    <a href="https://arxiv.org/abs/2603.06874" target="_blank" rel="noopener" class="blog-source-card">
+                        <img src="https://www.google.com/s2/favicons?domain=arxiv.org&sz=32" alt="" class="source-icon" loading="lazy">
+                        <span class="source-domain">arxiv.org</span>
+                    </a>
+                    
+                </div>
+            </section>
+            
+
+            <!-- Episode Navigation -->
+            
+            <nav class="blog-ep-nav">
+                
+                <a href="ep010.html">
+                    <span class="nav-label">&larr; Previous</span>
+                    <span class="nav-title">Episode 10</span>
+                </a>
+                
+                
+                <a href="ep012.html" class="next">
+                    <span class="nav-label">Next &rarr;</span>
+                    <span class="nav-title">Episode 12</span>
+                </a>
+                
+            </nav>
+            
+        </article>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="nn-footer">
+        <div class="container">
+            <div class="nn-footer-grid">
+                <div>
+                    <div class="nn-footer-brand"><span class="gradient-text">Nerra</span> Network</div>
+                    <p class="nn-footer-desc">Feed your curiosity. Not your anxiety. Independent podcast network produced in Vancouver, Canada.</p>
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Shows</h4>
+                    
+                    <a href="../../models-agents.html">Models & Agents</a>
+                    
+                    <a href="../../planetterrian.html">Planetterrian Daily</a>
+                    
+                    <a href="../../omni-view.html">Omni View</a>
+                    
+                    <a href="../../models-agents-beginners.html">Models & Agents for Beginners</a>
+                    
+                    <a href="../../fascinating_frontiers.html">Fascinating Frontiers</a>
+                    
+                    <a href="../../modern-investing.html">Modern Investing Techniques</a>
+                    
+                    <a href="../../tesla.html">Tesla Shorts Time</a>
+                    
+                    <a href="../../env-intel.html">Environmental Intelligence</a>
+                    
+                    <a href="../../ru/finansy-prosto.html">Финансы Просто</a>
+                    
+                    <a href="../../ru/privet-russian.html">Привет, Русский!</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Listen</h4>
+                    <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
+                    <a href="../../network.rss">Network RSS</a>
+                    
+                    <a href="../../models_agents_podcast.rss">Models & Agents RSS</a>
+                    
+                    <a href="../../planetterrian_podcast.rss">Planetterrian Daily RSS</a>
+                    
+                    <a href="../../omni_view_podcast.rss">Omni View RSS</a>
+                    
+                    <a href="../../models_agents_beginners_podcast.rss">Models & Agents for Beginners RSS</a>
+                    
+                    <a href="../../fascinating_frontiers_podcast.rss">Fascinating Frontiers RSS</a>
+                    
+                    <a href="../../modern_investing_podcast.rss">Modern Investing Techniques RSS</a>
+                    
+                    <a href="../../podcast.rss">Tesla Shorts Time RSS</a>
+                    
+                    <a href="../../env_intel_podcast.rss">Environmental Intelligence RSS</a>
+                    
+                    <a href="../../finansy_prosto_podcast.rss">Финансы Просто RSS</a>
+                    
+                    <a href="../../privet_russian_podcast.rss">Привет, Русский! RSS</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Connect</h4>
+                    <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
+                    <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
+                    <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
+                    <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a>
+                </div>
+            </div>
+            <div class="nn-footer-bottom">
+                <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
+                <a href="../../index.html">nerranetwork.com</a>
+            </div>
+        </div>
+    </footer>
+
+    
+<script>
+// Highlight active TOC entry on scroll
+(function() {
+    const toc = document.querySelector('.blog-toc');
+    if (!toc) return;
+    const links = toc.querySelectorAll('a');
+    const headings = [];
+    links.forEach(function(a) {
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) headings.push({ el: el, link: a });
+    });
+    if (!headings.length) return;
+    function onScroll() {
+        var current = headings[0];
+        for (var i = 0; i < headings.length; i++) {
+            if (headings[i].el.getBoundingClientRect().top <= 120) {
+                current = headings[i];
+            }
+        }
+        links.forEach(function(a) { a.classList.remove('active'); });
+        current.link.classList.add('active');
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+})();
+</script>
+
+</body>
+</html>

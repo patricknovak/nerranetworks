@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fair zero-determinant strategies break in the periodic prisoner's dilemma, unlike the classic repeated version.">
+    <meta name="keywords" content="AI models, agent frameworks, LLM news, AI briefings, Models and Agents">
+    <title> — Ep20 | Models & Agents Blog</title>
+    <meta name="theme-color" content="#8B5CF6">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content=" — Ep20 | Models & Agents Blog">
+    <meta property="og:description" content="Fair zero-determinant strategies break in the periodic prisoner's dilemma, unlike the classic repeated version.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://nerranetwork.com/assets/covers/models-agents.jpg">
+
+    <link rel="canonical" href="https://nerranetwork.com/blog/models_agents/ep020.html">
+
+    <!-- Google Fonts: DM Sans + Source Serif 4 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
+
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="../../styles/main.css">
+
+    
+    <!-- Blog Post OG -->
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2026-03-23">
+    <meta property="article:author" content="Models & Agents">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content=" — Episode 20">
+    <meta name="twitter:description" content="Fair zero-determinant strategies break in the periodic prisoner's dilemma, unlike the classic repeated version.">
+    <meta name="twitter:image" content="https://nerranetwork.com/assets/covers/models-agents.jpg">
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "description": "Fair zero-determinant strategies break in the periodic prisoner's dilemma, unlike the classic repeated version.",
+  "datePublished": "2026-03-23",
+  "wordCount": 1334,
+  "author": {
+    "@type": "Organization",
+    "name": "Models & Agents",
+    "url": "https://nerranetwork.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Nerra Network",
+    "url": "https://nerranetwork.com"
+  },
+  "url": "https://nerranetwork.com/blog/models_agents/ep020.html",
+  "mainEntityOfPage": "https://nerranetwork.com/blog/models_agents/ep020.html"
+}
+    </script>
+
+    <style>
+        .blog-hero {
+            position: relative;
+            padding: var(--sp-20) var(--sp-6) var(--sp-12);
+            text-align: center;
+            overflow: hidden;
+        }
+        .blog-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--show-color) 15%, transparent), transparent 70%);
+            pointer-events: none;
+        }
+        .blog-hero-inner {
+            position: relative;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        .blog-show-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-2);
+            padding: var(--sp-1) var(--sp-4);
+            border-radius: 100px;
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin-bottom: var(--sp-6);
+            text-decoration: none;
+            transition: border-color var(--duration) var(--ease);
+        }
+        .blog-show-badge:hover {
+            border-color: var(--show-color);
+        }
+        .blog-show-badge img {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+        }
+        .blog-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-5);
+        }
+        .blog-hero-hook {
+            font-family: var(--font-body);
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--nn-text-muted);
+            max-width: 620px;
+            margin: 0 auto var(--sp-8);
+        }
+        .blog-meta-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--sp-5);
+            flex-wrap: wrap;
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-meta-bar span {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-1);
+        }
+        .blog-meta-pill {
+            padding: 2px 10px;
+            border-radius: 100px;
+            background: color-mix(in srgb, var(--show-color) 15%, transparent);
+            color: var(--show-color);
+            font-weight: 600;
+        }
+
+        /* Article body */
+        .blog-article-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 var(--sp-6) var(--sp-16);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--sp-10);
+        }
+        @media (min-width: 1024px) {
+            .blog-article-wrap {
+                max-width: 1060px;
+                grid-template-columns: 200px 1fr;
+            }
+        }
+
+        /* Table of contents */
+        .blog-toc {
+            display: none;
+        }
+        @media (min-width: 1024px) {
+            .blog-toc {
+                display: block;
+                position: sticky;
+                top: calc(var(--nav-height) + var(--sp-8));
+                align-self: start;
+                max-height: calc(100vh - var(--nav-height) - var(--sp-16));
+                overflow-y: auto;
+                padding-right: var(--sp-4);
+            }
+        }
+        .blog-toc-title {
+            font-family: var(--font-ui);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--nn-text-muted);
+            margin-bottom: var(--sp-3);
+            font-weight: 600;
+        }
+        .blog-toc a {
+            display: block;
+            padding: var(--sp-1) 0;
+            font-family: var(--font-ui);
+            font-size: 0.8rem;
+            color: var(--nn-text-muted);
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            padding-left: var(--sp-3);
+            transition: all var(--duration) var(--ease);
+            line-height: 1.4;
+        }
+        .blog-toc a:hover,
+        .blog-toc a.active {
+            color: var(--show-color);
+            border-left-color: var(--show-color);
+        }
+        .blog-toc a.toc-h3 {
+            padding-left: var(--sp-6);
+            font-size: 0.75rem;
+        }
+
+        /* Article */
+        .blog-article {
+            min-width: 0;
+        }
+        .blog-article h1 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: var(--sp-10) 0 var(--sp-4);
+            padding-left: var(--sp-4);
+            border-left: 3px solid var(--show-color);
+        }
+        .blog-article h2 {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: var(--sp-10) 0 var(--sp-4);
+            padding-left: var(--sp-4);
+            border-left: 3px solid var(--show-color);
+        }
+        .blog-article h3 {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-text);
+            margin: var(--sp-8) 0 var(--sp-3);
+        }
+        .blog-article p {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--nn-text);
+            margin: 0 0 var(--sp-4);
+        }
+        .blog-article a {
+            color: var(--show-color);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            text-decoration-color: color-mix(in srgb, var(--show-color) 40%, transparent);
+            transition: text-decoration-color var(--duration) var(--ease);
+        }
+        .blog-article a:hover {
+            text-decoration-color: var(--show-color);
+        }
+        .blog-article strong {
+            color: var(--nn-white);
+            font-weight: 600;
+        }
+        .blog-article ul,
+        .blog-article ol {
+            margin: 0 0 var(--sp-6);
+            padding-left: var(--sp-6);
+        }
+        .blog-article li {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--nn-text);
+            margin-bottom: var(--sp-3);
+        }
+        .blog-article .blog-list-cont {
+            margin: var(--sp-1) 0 var(--sp-2);
+            padding-left: var(--sp-2);
+            font-size: 1rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-article hr {
+            border: none;
+            border-top: 1px solid var(--nn-border);
+            margin: var(--sp-10) 0;
+        }
+
+        /* Sources section */
+        .blog-sources {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-sources h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.1rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-sources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: var(--sp-3);
+        }
+        .blog-source-card {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+            padding: var(--sp-3) var(--sp-4);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-source-card:hover {
+            border-color: var(--show-color);
+            background: var(--nn-card-hover);
+        }
+        .blog-source-card .source-domain {
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--nn-text);
+            font-weight: 500;
+        }
+        .blog-source-card .source-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            background: var(--nn-surface);
+            flex-shrink: 0;
+        }
+
+        /* Episode navigation */
+        .blog-ep-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--sp-4);
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-ep-nav a {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-1);
+            padding: var(--sp-4) var(--sp-5);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+            max-width: 48%;
+        }
+        .blog-ep-nav a:hover {
+            border-color: var(--show-color);
+            background: var(--nn-card-hover);
+        }
+        .blog-ep-nav .nav-label {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--nn-text-muted);
+        }
+        .blog-ep-nav .nav-title {
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+            color: var(--nn-text);
+            font-weight: 500;
+        }
+        .blog-ep-nav .next {
+            text-align: right;
+            margin-left: auto;
+        }
+
+        /* Listen CTA */
+        .blog-listen-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-2);
+            padding: var(--sp-2) var(--sp-5);
+            border-radius: 100px;
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            color: var(--nn-text-muted);
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-listen-cta:hover {
+            border-color: var(--show-color);
+            color: var(--show-color);
+        }
+    </style>
+
+
+    
+    <style>:root { --show-color: #8B5CF6; --show-color-dark: #6D28D9; }</style>
+    
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nn-nav">
+        <div class="nn-nav-inner">
+            <a href="../../index.html" class="nn-nav-logo">
+                <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
+                <span class="gradient-text">Nerra</span> Network
+            </a>
+
+            <ul class="nn-nav-links">
+                <li class="nn-nav-dropdown">
+                    <button class="nn-nav-dropdown-btn">
+                        Shows
+                        <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="nn-nav-dropdown-menu">
+                        
+                        <a href="../../models-agents.html">
+                            <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
+                            Models & Agents
+                        </a>
+                        
+                        <a href="../../planetterrian.html">
+                            <img src="../../assets/covers/planetterrian-daily.jpg" alt="" loading="lazy">
+                            Planetterrian Daily
+                        </a>
+                        
+                        <a href="../../omni-view.html">
+                            <img src="../../assets/covers/omni-view.jpg" alt="" loading="lazy">
+                            Omni View
+                        </a>
+                        
+                        <a href="../../models-agents-beginners.html">
+                            <img src="../../assets/covers/models-agents-beginners.jpg" alt="" loading="lazy">
+                            Models & Agents for Beginners
+                        </a>
+                        
+                        <a href="../../fascinating_frontiers.html">
+                            <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" loading="lazy">
+                            Fascinating Frontiers
+                        </a>
+                        
+                        <a href="../../modern-investing.html">
+                            <img src="../../assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                            Modern Investing Techniques
+                        </a>
+                        
+                        <a href="../../tesla.html">
+                            <img src="../../assets/covers/tesla-shorts-time.jpg" alt="" loading="lazy">
+                            Tesla Shorts Time
+                        </a>
+                        
+                        <a href="../../env-intel.html">
+                            <img src="../../assets/covers/environmental-intelligence.jpg" alt="" loading="lazy">
+                            Environmental Intelligence
+                        </a>
+                        
+                        <a href="../../ru/finansy-prosto.html">
+                            <img src="../../assets/covers/finansy-prosto.jpg" alt="" loading="lazy">
+                            Финансы Просто
+                        </a>
+                        
+                        <a href="../../ru/privet-russian.html">
+                            <img src="../../assets/covers/privet-russian.jpg" alt="" loading="lazy">
+                            Привет, Русский!
+                        </a>
+                        
+                    </div>
+                </li>
+                
+                <li><a href="../../index.html">Home</a></li>
+                
+            </ul>
+
+            <button class="nn-hamburger" aria-label="Toggle menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">&#9776;</button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="nn-mobile-menu">
+        
+        <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+        
+        <div class="nn-mobile-shows">
+            <div class="nn-mobile-shows-title">All Shows</div>
+            
+            <a href="../../models-agents.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
+                Models & Agents
+            </a>
+            
+            <a href="../../planetterrian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/planetterrian-daily.jpg" alt="" loading="lazy">
+                Planetterrian Daily
+            </a>
+            
+            <a href="../../omni-view.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/omni-view.jpg" alt="" loading="lazy">
+                Omni View
+            </a>
+            
+            <a href="../../models-agents-beginners.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/models-agents-beginners.jpg" alt="" loading="lazy">
+                Models & Agents for Beginners
+            </a>
+            
+            <a href="../../fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" loading="lazy">
+                Fascinating Frontiers
+            </a>
+            
+            <a href="../../modern-investing.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                Modern Investing Techniques
+            </a>
+            
+            <a href="../../tesla.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/tesla-shorts-time.jpg" alt="" loading="lazy">
+                Tesla Shorts Time
+            </a>
+            
+            <a href="../../env-intel.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/environmental-intelligence.jpg" alt="" loading="lazy">
+                Environmental Intelligence
+            </a>
+            
+            <a href="../../ru/finansy-prosto.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/finansy-prosto.jpg" alt="" loading="lazy">
+                Финансы Просто
+            </a>
+            
+            <a href="../../ru/privet-russian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/privet-russian.jpg" alt="" loading="lazy">
+                Привет, Русский!
+            </a>
+            
+        </div>
+    </div>
+
+    
+    <!-- Hero -->
+    <header class="blog-hero">
+        <div class="blog-hero-inner">
+            <a href="../../blog/models_agents/index.html" class="blog-show-badge">
+                <img src="../../assets/covers/models-agents.jpg" alt="Models & Agents">
+                Models & Agents Blog
+            </a>
+            <h1> — Episode 20</h1>
+            
+            <p class="blog-hero-hook">Fair zero-determinant strategies break in the periodic prisoner's dilemma, unlike the classic repeated version.</p>
+            
+            <div class="blog-meta-bar">
+                <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    March 23, 2026
+                </span>
+                <span class="blog-meta-pill">Ep 20</span>
+                <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    6 min read
+                </span>
+                
+                <a href="../../models_agents_podcast.rss" class="blog-listen-cta">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Listen to podcast
+                </a>
+                
+            </div>
+        </div>
+    </header>
+
+    <!-- Article with TOC sidebar -->
+    <div class="blog-article-wrap">
+        
+        <aside class="blog-toc">
+            <div class="blog-toc-title">Contents</div>
+            
+            <a href="#top-story" class="toc-h3">Top Story</a>
+            
+            <a href="#model-updates" class="toc-h3">Model Updates</a>
+            
+            <a href="#agent-tool-developments" class="toc-h3">Agent & Tool Developments</a>
+            
+            <a href="#practical-community" class="toc-h3">Practical & Community</a>
+            
+            <a href="#under-the-hood-belief-revision-in-iterative-llm-reasoning" class="toc-h3">Under the Hood: Belief Revision in Iterative LLM Reasoning</a>
+            
+            <a href="#things-to-try-this-week" class="toc-h3">Things to Try This Week</a>
+            
+            <a href="#on-the-horizon" class="toc-h3">On the Horizon</a>
+            
+        </aside>
+        
+
+        <article class="blog-article">
+            <p><strong>Models & Agents</strong></p>
+<p><strong>Date:</strong> March 23, 2026</p>
+<p><em>Fair zero-determinant strategies break in the periodic prisoner's dilemma, unlike the classic repeated version.</em></p>
+<p><strong>What You Need to Know:</strong> Today's arXiv drop reveals that core assumptions from repeated games don't cleanly transfer to stochastic environments, with fair ZD strategies and even Tit-for-Tat losing their guarantees in the periodic prisoner's dilemma. Several strong multi-agent and long-context reasoning papers also landed, alongside new work showing that automated prompt optimization can dramatically weaken LLM safety guardrails. Pay attention to the gap between theoretical elegance in repeated games and the messier reality of stateful multi-agent systems.</p>
+<h3 id="top-story">Top Story</h3>
+<p>A new theoretical paper proves that fair zero-determinant (ZD) strategies do not necessarily exist in the periodic prisoner's dilemma game, a simple stochastic game extension of the classic repeated setting. In repeated games, fair ZD strategies can unilaterally equalize payoffs between the focal player and opponents, and Tit-for-Tat is always a fair ZD strategy; both properties fail to hold reliably once environmental state transitions are introduced. The authors derive the more complicated existence conditions for ZD strategies in stochastic games and demonstrate the difference through rigorous analysis of the periodic variant. This matters because many multi-agent systems and reinforcement learning environments are better modeled as stochastic games, meaning practitioners relying on repeated-game intuitions for cooperation mechanisms may encounter unexpected breakdowns. The work highlights why theoretical guarantees often weaken when moving from clean repeated interactions to state-dependent ones. Watch for follow-up work extending these results to more complex stochastic environments and agent training regimes.</p>
+<p>Source: <a href="https://arxiv.org/abs/2603.19641" target="_blank" rel="noopener">arxiv.org</a></p>
+<h3 id="model-updates">Model Updates</h3>
+<p><strong>When Prompt Optimization Becomes Jailbreaking: Adaptive Red-Teaming of Large Language Models</strong></p>
+<p>Researchers repurposed black-box prompt optimization techniques (via DSPy) to iteratively refine harmful prompts from HarmfulQA and JailbreakBench, optimizing against a continuous danger score from GPT-5.1. Results show substantial degradation of safety: Qwen 3 8B's average danger score jumped from 0.09 to 0.79 post-optimization, with especially pronounced effects on open-source smaller models. This demonstrates that static safety benchmarks significantly underestimate real-world risk from adaptive adversaries. Responsible disclosure context: this is constructive red-teaming research that reveals the limitations of fixed test sets rather than providing new attack tools.</p>
+<p>Source: <a href="https://arxiv.org/abs/2603.19247" target="_blank" rel="noopener">arxiv.org</a></p>
+<p><strong>A comprehensive study of LLM-based argument classification: from Llama through DeepSeek to GPT-5.2</strong></p>
+<p>The study evaluates GPT-5.2, Llama 4, DeepSeek and others on Args.me and UKP datasets using Chain-of-Thought, prompt rephrasing, voting, and certainty-based methods. GPT-5.2 achieved the highest accuracy: 91.9% on Args.me and 78.0% on UKP, with advanced prompting adding 2–8 percentage points. Qualitative analysis reveals shared failure modes including prompt instability, difficulty with implicit criticism, and complex argument structures. The work provides both strong quantitative benchmarks and actionable error analysis for argument mining tasks.</p>
+<p>Source: <a href="https://arxiv.org/abs/2603.19253" target="_blank" rel="noopener">arxiv.org</a></p>
+<p><strong>GeoChallenge: A Multi-Answer Multiple-Choice Benchmark for Geometric Reasoning with Diagrams</strong></p>
+<p>GeoChallenge introduces 90K automatically generated geometry proof problems requiring multi-step reasoning over aligned text and diagrams, with complexity ratings and formal annotations. The best model (GPT-5-nano) reaches 75.89 exact match versus 94.74 for humans, exposing clear gaps. Analysis identifies three recurring LLM failure patterns: exact match failures in multiple-choice, weak visual reliance, and non-convergent overextended reasoning.</p>
+<p>Source: <a href="https://arxiv.org/abs/2603.19252" target="_blank" rel="noopener">arxiv.org</a></p>
+<h3 id="agent-tool-developments">Agent & Tool Developments</h3>
+<p><strong>Beyond detection: cooperative multi-agent reasoning for rapid onboard EO crisis response</strong></p>
+<p>A hierarchical multi-agent architecture coordinates vision-language models, remote sensing tools, and role-specialized agents for onboard Earth Observation under strict compute and bandwidth limits. An Early Warning agent generates fast hypotheses and selectively activates domain experts, while a Decision agent consolidates evidence. The system was tested on an actual orbital edge-computing platform for wildfire and flood scenarios, significantly reducing computational overhead while preserving decision quality. This points toward practical autonomous EO constellations.</p>
+<p>Source: <a href="https://arxiv.org/abs/2603.19858" target="_blank" rel="noopener">arxiv.org</a></p>
+<p><strong>Multi-Robot Coordination for Planning under Context Uncertainty</strong></p>
+<p>The authors formalize the Multi-Robot Context-Uncertain Stochastic Shortest Path (MR-CUSSP) problem and introduce a two-stage solution: CIMOP for coordinated context inference at landmarks and LCBS (Lexicographic Conflict-Based Search) for collision-free planning under context-induced preferences. Evaluated in simulation and on five physical mobile robots in the salp domain. The work directly tackles the real-world issue of robots needing to jointly gather information to infer operational context before optimizing objectives.</p>
+<p>Source: <a href="https://arxiv.org/abs/2603.13748" target="_blank" rel="noopener">arxiv.org</a></p>
+<p><strong>A Multi-Agent Perception-Action Alliance for Efficient Long Video Reasoning</strong></p>
+<p>A4VL implements a multi-round perception-action loop with multiple VLM agents that perform query-specific frame sampling, clue-based video block alignment, collaborative cross-review scoring, and iterative pruning/re-staging until consensus. It outperforms 18 VLMs and 11 long-video methods on five VideoQA benchmarks while delivering significantly lower inference latency. Code is available at https://github.com/git-disl/A4VL.</p>
+<p>Source: <a href="https://arxiv.org/abs/2603.14052" target="_blank" rel="noopener">arxiv.org</a></p>
+<h3 id="practical-community">Practical & Community</h3>
+<p><strong>Spelling Correction in Healthcare Query-Answer Systems: Methods, Retrieval Impact, and Empirical Evaluation</strong></p>
+<p>A controlled study on real consumer medical queries (61.5% contain spelling errors) shows that query-side correction using edit distance or context-aware methods improves BM25/TF-IDF retrieval by +9.2% MRR and +8.3% NDCG@10 on MedQuAD. Correcting only the corpus yields almost no gain. The paper includes a detailed error census and practical recommendations for healthcare QA pipelines.</p>
+<p>Source: <a href="https://arxiv.org/abs/2603.19249" target="_blank" rel="noopener">arxiv.org</a></p>
+<p><strong>Enhancing Legal LLMs through Metadata-Enriched RAG Pipelines and Direct Preference Optimization</strong></p>
+<p>The work targets two failure modes in legal RAG (retrieval errors from lexical redundancy and decoding hallucinations when context is insufficient) using Metadata Enriched Hybrid RAG plus DPO to train safe refusal behavior. The combination improves grounding and reliability for small, locally-deployed legal models where privacy constraints prohibit large cloud models.</p>
+<p>Source: <a href="https://arxiv.org/abs/2603.19251" target="_blank" rel="noopener">arxiv.org</a></p>
+<h3 id="under-the-hood-belief-revision-in-iterative-llm-reasoning">Under the Hood: Belief Revision in Iterative LLM Reasoning</h3>
+<p>Everyone talks about chain-of-thought, self-reflection, and multi-agent debate as if models are performing clean Bayesian updates. In practice, these iterative reasoning loops follow a surprisingly consistent multiplicative scaling law governed by a belief revision exponent α that blends prior beliefs with new verification evidence.</p>
+<p>The core insight is that instruction-tuned models don't treat each revision step as fully independent; instead they apply a stable scaling factor when updating probabilities over candidate answers. Theory shows that α < 1 is required for asymptotic stability under repeated revision — values at or above 1 risk divergence or oscillation. Empirical measurements across GPQA Diamond, TheoremQA, MMLU-Pro, ARC-Challenge and multiple model families (including GPT-5.2, Claude Sonnet 4, and Llama-3.3-70B) show models operating slightly above the stability boundary in single steps, but the exponent naturally decreases over successive revisions, producing the contractive dynamics needed for long-run stability.</p>
+<p>This explains why reflection sometimes helps and sometimes causes models to chase their own tail. The architecture-specific "trust ratios" also vary: some models overweight priors while others favor new evidence too aggressively. The gotcha that bites most teams is treating every CoT or debate step as equally valuable without monitoring how the revision exponent drifts.</p>
+<p>When building agentic workflows with repeated self-correction, instrument the α exponent on a validation set. If it stays consistently above 1 across multiple steps, you are likely in an unstable regime that benefits from stronger anchoring mechanisms or fewer revision rounds.</p>
+<h3 id="things-to-try-this-week">Things to Try This Week</h3>
+<ul>
+<li>Test your current safety pipelines against adaptive prompt optimization using DSPy on a small held-out harmful set — you'll likely discover your static benchmarks are overly optimistic.</li>
+<li>Try A4VL on your long-video understanding tasks if you're working with hour-scale content; the multi-agent perception-action loop delivers both higher quality and lower latency than single-model baselines.</li>
+<li>Experiment with query-side spelling correction in any domain-specific retrieval system (especially healthcare or legal) — the retrieval gains are immediate and substantial.</li>
+<li>Explore the periodic prisoner's dilemma paper if you're designing multi-agent reinforcement learning systems; it will make you rethink where repeated-game cooperation mechanisms actually apply.</li>
+</ul>
+<h3 id="on-the-horizon">On the Horizon</h3>
+<ul>
+<li>Expect more theoretical work mapping ZD strategy existence conditions across broader classes of stochastic games following today's foundational result.</li>
+<li>Look for expanded red-teaming methodologies that incorporate continuous optimization rather than fixed prompt sets as standard safety evaluation practice.</li>
+<li>Several long-video and multimodal agent frameworks are likely to adopt structured perception-action loops similar to A4VL in the coming months.</li>
+<li>Watch for domain-specific full-stack LLM workflows (like the combustion science example) appearing in other scientific fields that require strict physical or logical consistency.</li>
+</ul>
+
+            <!-- Sources -->
+            
+            <section class="blog-sources">
+                <h2>Sources</h2>
+                <div class="blog-sources-grid">
+                    
+                    <a href="https://arxiv.org/abs/2603.19641" target="_blank" rel="noopener" class="blog-source-card">
+                        <img src="https://www.google.com/s2/favicons?domain=arxiv.org&sz=32" alt="" class="source-icon" loading="lazy">
+                        <span class="source-domain">arxiv.org</span>
+                    </a>
+                    
+                </div>
+            </section>
+            
+
+            <!-- Episode Navigation -->
+            
+            <nav class="blog-ep-nav">
+                
+                <a href="ep019.html">
+                    <span class="nav-label">&larr; Previous</span>
+                    <span class="nav-title">Episode 19</span>
+                </a>
+                
+                
+            </nav>
+            
+        </article>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="nn-footer">
+        <div class="container">
+            <div class="nn-footer-grid">
+                <div>
+                    <div class="nn-footer-brand"><span class="gradient-text">Nerra</span> Network</div>
+                    <p class="nn-footer-desc">Feed your curiosity. Not your anxiety. Independent podcast network produced in Vancouver, Canada.</p>
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Shows</h4>
+                    
+                    <a href="../../models-agents.html">Models & Agents</a>
+                    
+                    <a href="../../planetterrian.html">Planetterrian Daily</a>
+                    
+                    <a href="../../omni-view.html">Omni View</a>
+                    
+                    <a href="../../models-agents-beginners.html">Models & Agents for Beginners</a>
+                    
+                    <a href="../../fascinating_frontiers.html">Fascinating Frontiers</a>
+                    
+                    <a href="../../modern-investing.html">Modern Investing Techniques</a>
+                    
+                    <a href="../../tesla.html">Tesla Shorts Time</a>
+                    
+                    <a href="../../env-intel.html">Environmental Intelligence</a>
+                    
+                    <a href="../../ru/finansy-prosto.html">Финансы Просто</a>
+                    
+                    <a href="../../ru/privet-russian.html">Привет, Русский!</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Listen</h4>
+                    <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
+                    <a href="../../network.rss">Network RSS</a>
+                    
+                    <a href="../../models_agents_podcast.rss">Models & Agents RSS</a>
+                    
+                    <a href="../../planetterrian_podcast.rss">Planetterrian Daily RSS</a>
+                    
+                    <a href="../../omni_view_podcast.rss">Omni View RSS</a>
+                    
+                    <a href="../../models_agents_beginners_podcast.rss">Models & Agents for Beginners RSS</a>
+                    
+                    <a href="../../fascinating_frontiers_podcast.rss">Fascinating Frontiers RSS</a>
+                    
+                    <a href="../../modern_investing_podcast.rss">Modern Investing Techniques RSS</a>
+                    
+                    <a href="../../podcast.rss">Tesla Shorts Time RSS</a>
+                    
+                    <a href="../../env_intel_podcast.rss">Environmental Intelligence RSS</a>
+                    
+                    <a href="../../finansy_prosto_podcast.rss">Финансы Просто RSS</a>
+                    
+                    <a href="../../privet_russian_podcast.rss">Привет, Русский! RSS</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Connect</h4>
+                    <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
+                    <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
+                    <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
+                    <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a>
+                </div>
+            </div>
+            <div class="nn-footer-bottom">
+                <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
+                <a href="../../index.html">nerranetwork.com</a>
+            </div>
+        </div>
+    </footer>
+
+    
+<script>
+// Highlight active TOC entry on scroll
+(function() {
+    const toc = document.querySelector('.blog-toc');
+    if (!toc) return;
+    const links = toc.querySelectorAll('a');
+    const headings = [];
+    links.forEach(function(a) {
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) headings.push({ el: el, link: a });
+    });
+    if (!headings.length) return;
+    function onScroll() {
+        var current = headings[0];
+        for (var i = 0; i < headings.length; i++) {
+            if (headings[i].el.getBoundingClientRect().top <= 120) {
+                current = headings[i];
+            }
+        }
+        links.forEach(function(a) { a.classList.remove('active'); });
+        current.link.classList.add('active');
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+})();
+</script>
+
+</body>
+</html>
