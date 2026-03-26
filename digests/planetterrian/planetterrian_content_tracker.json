@@ -1,108 +1,7 @@
 {
   "show": "planetterrian",
-  "last_updated": "2026-03-21",
+  "last_updated": "2026-03-26",
   "episodes": [
-    {
-      "date": "2026-03-07",
-      "headlines": [
-        "Mayo Clinic finds rare gene mutation causing fatty liver",
-        "Swedish team engineers scaffold for bone regrowth",
-        "Protein discovery may prevent diabetic blindness",
-        "Ancient sheep DNA reveals early plague secrets",
-        "Antarctica's gravity hole linked to deep Earth movements",
-        "Boosting brain protein shows promise for Rett syndrome",
-        "Koala DNA rebounding after population crash",
-        "Cannabis compounds CBD, CBG combat fatty liver",
-        "Gut inflammation may drive Alzheimer's risk",
-        "Top popular science books for March 2026",
-        "SuperAgers' brains reveal aging clues"
-      ],
-      "urls": [
-        "https://www.sciencedaily.com/releases/2026/03/260306224238.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260305223231.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260306224225.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260306224232.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260306224213.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260306145621.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260306145610.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260306145616.htm",
-        "https://www.newscientist.com/article/2518443-inflammation-might-cause-alzheimers-heres-how-to-reduce-it/?utm_campaign=RSS%7CNSNS&utm_source=NSNS&utm_medium=RSS&utm_content=home",
-        "https://www.newscientist.com/article/2518407-the-best-new-popular-science-books-of-march-2026/?utm_campaign=RSS%7CNSNS&utm_source=NSNS&utm_medium=RSS&utm_content=home",
-        "https://www.sciencenews.org/article/superagers-brain-aging-nerve-cells"
-      ],
-      "quote_author": null,
-      "sections": {
-        "planetterrian_spotlight": "### Planetterrian Spotlight\nThe discovery of a MET gene mutation causing fatty liver disease stands out for its potential to reshape how we approach this common condition. By pinpointing rare variants that trigger the disease independently of obesity or alcohol, it could help identify at-risk individuals early through genetic testing, leading to personalized prevention or treatments that target the liver's fat-processing pathways. This is especially promising for those without obvious risk facto"
-      }
-    },
-    {
-      "date": "2026-03-09",
-      "headlines": [
-        "Particles may deviate from Einstein’s geodesics",
-        "Magnets engineered to mimic graphene’s properties",
-        "Parental stress linked to childhood obesity",
-        "Microbiome modulation boosts cancer immunotherapy",
-        "Vaccines advance against mosquito-borne viruses",
-        "Ketamine reshapes brain activity for depression relief",
-        "Risperidone raises stroke risk in dementia patients",
-        "Increasing fiber intake transforms gut health"
-      ],
-      "urls": [
-        "https://www.sciencedaily.com/releases/2026/03/260308201613.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260307213230.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260307213228.htm",
-        "https://www.nature.com/articles/s41591-026-04285-x",
-        "https://www.nature.com/articles/d41591-026-00014-6",
-        "https://www.sciencedaily.com/releases/2026/03/260307213234.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260307213244.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260307213252.htm"
-      ],
-      "quote_author": null,
-      "sections": {
-        "planetterrian_spotlight": "### Planetterrian Spotlight\nThe microbiome modulation in cancer immunotherapy stands out as a game-changer, with trials showing that transplanting healthy gut bacteria can make tumors more responsive to immune checkpoint inhibitors. This approach could help patients with hard-to-treat cancers like melanoma or lung cancer, especially those who don't respond to standard therapies, by harnessing the gut's role in immune function. Looking ahead, it paves the way for personalized microbiome intervent"
-      }
-    },
-    {
-      "date": "2026-03-11",
-      "headlines": [
-        "Pill reduces sleep apnea interruptions",
-        "Plant protein boosts photosynthesis efficiency",
-        "Warming oceans enhance key microbe adaptability",
-        "Ancient asteroid triggered massive North Sea tsunami",
-        "THC induces false memories in users",
-        "Accelerator enables rapid 3D ant modeling",
-        "Fish oil slashes heart risks in dialysis patients",
-        "Quantifying nanoparticle escape for liver delivery",
-        "In vivo assay optimizes lipid nanoparticle escape",
-        "Engineered TnpB for plant and human editing",
-        "Tau biomarker detects systemic amyloidosis",
-        "Advances in clinical cancer vaccine development",
-        "Antibiotics linked to long-term gut changes",
-        "AI detects early cancer-linked cell changes",
-        "Successful freezing of mouse brain tissue"
-      ],
-      "urls": [
-        "https://www.sciencedaily.com/releases/2026/03/260311004816.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260311004716.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260311004708.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260311004836.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260311004711.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260310223603.htm",
-        "https://www.sciencedaily.com/releases/2026/03/260307213236.htm",
-        "https://www.nature.com/articles/s41587-026-03047-x",
-        "https://www.nature.com/articles/s41587-026-03022-6",
-        "https://www.nature.com/articles/s41587-026-03059-7",
-        "https://www.nature.com/articles/s41591-026-04272-2",
-        "https://www.nature.com/articles/s41591-026-04241-9",
-        "https://www.nature.com/articles/s41591-026-04284-y",
-        "https://www.sciencedaily.com/releases/2026/03/260309225152.htm",
-        "https://lifespan.io/news/scientists-successfully-freeze-and-rewarm-mouse-brain-slices/?utm_source=rss&utm_medium=rss&utm_campaign=scientists-successfully-freeze-and-rewarm-mouse-brain-slices"
-      ],
-      "quote_author": null,
-      "sections": {
-        "planetterrian_spotlight": "### Planetterrian Spotlight\nThe discovery of a potential pill for sleep apnea stands out as a game-changer for those struggling with disruptive nighttime breathing. By targeting brain signals to prevent airway collapse, sulthiame reduced interruptions significantly in trials, offering hope for better rest without bulky machines. This could improve daily life for millions, cutting risks like heart disease tied to poor sleep, and researchers are eyeing broader approvals next. What alternative trea"
-      }
-    },
     {
       "date": "2026-03-13",
       "headlines": [
@@ -286,6 +185,99 @@
         "deep_dive": "### Science Deep Dive: The hidden cost of losing the Y chromosome\nMost people assume that once chromosomes are set during development they stay fixed for life, yet in many men the Y chromosome quietly disappears from an increasing fraction of cells as they age. Right now, as you read this, some of your cells—or those of the men around you—may already be living without it, and those Y-less cells appear to gain a competitive growth advantage that lets them slowly crowd out normal ones. This isn't "
       },
       "deep_dive_topic": "The hidden cost of losing the Y chromosome"
+    },
+    {
+      "date": "2026-03-26",
+      "headlines": [
+        "Light-activated nanoparticles kill cancer cells",
+        "Scientists discover overflow valve in Parkinson’s cells",
+        "Midlife fish behaviours predict lifespan",
+        "Immune cell state linked to long COVID fatigue",
+        "Deepfake X-rays fool doctors and AI",
+        "New antibiotic alternative targets Salmonella",
+        "Dual-rail superconducting qubits achieve high-fidelity entanglement",
+        "Three-nanometer UiO-66 MOF nanosheet created",
+        "Framework links evolving dark energy to Hubble tension",
+        "Milky Way halo shows car-engine-like heating effect",
+        "Damselfish courtship calls show regional accents",
+        "Medieval DNA reveals Ibiza’s trans-Saharan links",
+        "Ghost forests key to coastal climate resilience",
+        "Gloves may inflate microplastics measurements",
+        "FDA approves Denali drug for Hunter syndrome",
+        "STAT+: A surprise opening for health care reforms",
+        "Limiting space junk's threat by predicting its mess in the Earth-moon neighborhood",
+        "Researchers create a three-nanometer single-layer UiO-66 MOF nanosheet",
+        "Light-activated nanoparticles trigger copper overload to kill cancer cells",
+        "STAT+: Data show people racing to chatbots for health advice",
+        "New framework suggests dark energy could be evolving—and may be linked to the Hubble tension",
+        "STAT+: Pharmalittle: We’re reading about an FDA OK for a rare disease drug, a grilling of the PTO chief, and more",
+        "Galactic warming: The 'car engine-like' effect heating our Milky Way",
+        "Damselfish pick-up lines could have regional accents",
+        "New antibiotic alternative fights foodborne Salmonella",
+        "Dual-rail superconducting qubits generate high-fidelity logical entanglement, study finds",
+        "Scientists discover “overflow valve” in cells linked to Parkinson’s Disease",
+        "What you do in midlife could reveal how long you’ll live",
+        "Scientists find immune cell linked to long COVID fatigue and symptoms",
+        "Deepfake X-rays are so real even doctors can’t tell the difference",
+        "STAT+: Allogene’s off-the-shelf CAR-T is nearing an early but pivotal study readout",
+        "Medieval DNA reveals trans-Saharan connections, rapid genetic mixing and leprosy in Islamic Ibiza",
+        "'Ghost forests' could be key to understanding coastal resilience to climate change",
+        "Nitrile and latex gloves may cause overestimation of microplastics in the lab",
+        "Opinion: Endometriosis is not just a gynecological disease",
+        "Vivid dreams may be the secret to deeper, more restful sleep",
+        "Decoding the complete genome of the fungus responsible for Cercospora leaf spot in olive trees",
+        "How plants stop growing to survive stress: Retired scientist's persistence reveals insight to boost farm yields",
+        "New study outlines privacy solution for retail central bank digital currencies",
+        "New research suggests deadly bat fungus is more widespread in western Canada than previously known",
+        "Light-activated nanoparticles kill cancer via copper overload: 26 March 2026 • Phys.org",
+        "Scientists discover ion channel “overflow valve” linked to Parkinson’s: 26 March 2026 • Science Daily",
+        "Midlife fish behaviours predict lifespan and reveal ageing jumps: 26 March 2026 • Science Daily",
+        "Immune cell state linked to long COVID fatigue identified: 26 March 2026 • Science Daily",
+        "Deepfake X-rays fool doctors and detection models: 26 March 2026 • Science Daily",
+        "Dual-rail superconducting qubits achieve high-fidelity logical entanglement: 26 March 2026 • Phys.org",
+        "New bacteriophage offers antibiotic alternative against foodborne Salmonella: 26 March 2026 • Phys.org",
+        "Three-nanometer single-layer UiO-66 MOF nanosheet created: 26 March 2026 • Phys.org",
+        "Framework suggests dark energy may be evolving and tied to Hubble tension: 26 March 2026 • Phys.org",
+        "Milky Way halo shows north-south temperature asymmetry from galactic “piston”: 26 March 2026 • Phys.org",
+        "Damselfish courtship calls show regional accents on Australian reefs: 26 March 2026 • Phys.org",
+        "Medieval DNA shows trans-Saharan links and leprosy in Islamic Ibiza: 26 March 2026 • Phys.org",
+        "Ghost forests offer insights into coastal resilience to sea-level rise: 26 March 2026 • Phys.org",
+        "Nitrile and latex gloves can bias microplastics measurements: 26 March 2026 • Phys.org",
+        "FDA approves Denali therapy for Hunter syndrome: 26 March 2026 • STAT News"
+      ],
+      "urls": [
+        "https://phys.org/news/2026-03-nanoparticles-trigger-copper-overload-cancer.html",
+        "https://www.sciencedaily.com/releases/2026/03/260325005920.htm",
+        "https://www.sciencedaily.com/releases/2026/03/260325005914.htm",
+        "https://www.sciencedaily.com/releases/2026/03/260325005922.htm",
+        "https://www.sciencedaily.com/releases/2026/03/260326011452.htm",
+        "https://phys.org/news/2026-03-antibiotic-alternative-foodborne-salmonella.html",
+        "https://phys.org/news/2026-03-dual-rail-superconducting-qubits-generate.html",
+        "https://phys.org/news/2026-03-nanometer-layer-uio-mof-nanosheet.html",
+        "https://phys.org/news/2026-03-framework-dark-energy-evolving-linked.html",
+        "https://phys.org/news/2026-03-galactic-car-effect-milky.html",
+        "https://phys.org/news/2026-03-damselfish-lines-regional-accents.html",
+        "https://phys.org/news/2026-03-medieval-dna-reveals-trans-saharan.html",
+        "https://phys.org/news/2026-03-ghost-forests-key-coastal-resilience.html",
+        "https://phys.org/news/2026-03-nitrile-latex-gloves-overestimation-microplastics.html",
+        "https://www.statnews.com/pharmalot/2026/03/26/fda-rare-disease-pto-novo-nordisk-340b-abortion-hiv/?utm_campaign=rss",
+        "https://www.statnews.com/2026/03/26/health-care-reform-congress-ice-funding-cdc-director-dc-diagnosis/?utm_campaign=rss",
+        "https://phys.org/news/2026-03-limiting-space-junk-threat-mess.html",
+        "https://www.statnews.com/2026/03/26/data-show-people-racing-to-chatbots-health-tech/?utm_campaign=rss",
+        "https://www.statnews.com/2026/03/26/allogene-car-t-lymphoma-treatment-study/?utm_campaign=rss",
+        "https://www.statnews.com/2026/03/26/endometriosis-diagnosis-treatment-acog-guidance/?utm_campaign=rss",
+        "https://www.sciencedaily.com/releases/2026/03/260326011458.htm",
+        "https://phys.org/news/2026-03-decoding-genome-fungus-responsible-cercospora.html",
+        "https://phys.org/news/2026-03-survive-stress-scientist-persistence-reveals.html",
+        "https://phys.org/news/2026-03-outlines-privacy-solution-retail-central.html",
+        "https://phys.org/news/2026-03-deadly-fungus-widespread-western-canada.html"
+      ],
+      "quote_author": null,
+      "sections": {
+        "planetterrian_spotlight": "### Planetterrian Spotlight\nLight-activated nanoparticles that trigger copper overload represent a fresh approach to cancer cell death. By harnessing cuproptosis, the therapy forces malignant cells to accumulate toxic copper levels when illuminated, achieving dramatically higher potency than traditional chemotherapy in preclinical work. It could particularly help patients with hard-to-treat tumours where current options fall short. What to watch next is whether this mechanism translates safely f",
+        "deep_dive": "### Science Deep Dive: Copper and Cell Death\nMost people assume the only ways cells die are through messy rupture or orderly programmed suicide called apoptosis. In reality your cells have several lesser-known death pathways, and copper-triggered death is one that researchers only formally described in 2022. Right now, inside every cell, copper ions are carefully shuttled and buffered because even small excesses can derail essential enzymes and mitochondrial function. The new light-activated nan"
+      },
+      "deep_dive_topic": "How lysosomes maintain the cell’s recycling balance"
     }
   ]
 }
