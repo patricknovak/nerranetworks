@@ -758,6 +758,36 @@ class TestLLMOutputValidation:
         # Should not raise
         _validate_llm_output(text, stage="digest", show_name="finansy_prosto")
 
+    def test_refusal_phrase_in_long_script_is_not_false_positive(self):
+        """A refusal phrase buried in a long podcast script is a false positive.
+
+        Regression test for TST Ep417 (2026-03-26): the phrase 'I must decline'
+        appeared in narration (e.g. 'I must decline to comment on rumors') in a
+        4000+ char script.  This is not a refusal — real refusals are short
+        messages, not full scripts.
+        """
+        from engine.generator import _validate_llm_output
+
+        # Build a realistic 3000+ char script with the phrase mid-way
+        script = (
+            "# Tesla Shorts Time — Episode 417\n\n"
+            "Hey everyone, welcome back to Tesla Shorts Time! " * 20
+            + "\n\nIn other news, Tesla's VP said I must decline to comment "
+            "on the upcoming product announcement until the official reveal. "
+            + "That's all for today's episode! " * 30
+        )
+        assert len(script) > 2000
+        # Should NOT raise — the phrase is in narration, not a refusal
+        _validate_llm_output(script, stage="podcast_script", show_name="test")
+
+    def test_short_refusal_with_decline_still_caught(self):
+        """A short 'I must decline' message is still caught as a refusal."""
+        from engine.generator import _validate_llm_output, LLMRefusalError
+
+        text = "I must decline to generate this episode. The sources are not suitable."
+        with pytest.raises(LLMRefusalError):
+            _validate_llm_output(text, stage="podcast_script", show_name="test")
+
 
 # ---------------------------------------------------------------------------
 # TTS chunking tests
