@@ -613,19 +613,36 @@ def run(args: argparse.Namespace) -> None:
                 except Exception as exc:
                     logger.warning("Digest retry failed: %s — keeping original", exc)
             else:
-                # Check for item-count shortfalls (e.g. "Top News has 3 items, minimum is 5")
+                # Check for item-count shortfalls (e.g. "Top News has 3 items, minimum is 5").
+                # These can be genuine content gaps OR formatting mismatches (the LLM
+                # wrote the content but didn't use bold markers for items).  If the
+                # digest is long enough to be real content, treat as a warning rather
+                # than killing the episode.
                 _item_count_issues = [
                     i for i in _val_issues
                     if "has only" in i.lower() or "below minimum" in i.lower()
                        or ("item" in i.lower() and "minimum" in i.lower())
                 ]
                 if _item_count_issues:
-                    logger.error(
-                        "Digest has %d item-count shortfall(s) — episode too thin to publish: %s",
-                        len(_item_count_issues),
-                        "; ".join(_item_count_issues),
-                    )
-                    sys.exit(2)
+                    _digest_char_count = len(x_thread.strip())
+                    if _digest_char_count < 1500:
+                        # Genuinely thin digest — not enough content
+                        logger.error(
+                            "Digest has %d item-count shortfall(s) and is short "
+                            "(%d chars) — episode too thin to publish: %s",
+                            len(_item_count_issues), _digest_char_count,
+                            "; ".join(_item_count_issues),
+                        )
+                        sys.exit(2)
+                    else:
+                        # Long enough to be real content — likely a formatting
+                        # mismatch rather than missing content.
+                        logger.warning(
+                            "Digest has %d item-count shortfall(s) but is %d chars "
+                            "(likely formatting mismatch, not missing content): %s",
+                            len(_item_count_issues), _digest_char_count,
+                            "; ".join(_item_count_issues),
+                        )
 
                 # Check for excessive cross-episode repeats — a few follow-ups
                 # are normal, but 3+ identical headlines means the LLM ignored
