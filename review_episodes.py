@@ -277,12 +277,23 @@ def check_digest_length(ep: EpisodeReview, info: dict) -> None:
         return
 
     chars = len(ep.digest_text)
-    if chars < info["min_digest_chars"]:
+    min_chars = info["min_digest_chars"]
+    if chars < min_chars * 0.5:
+        # Dangerously short — likely truncated or failed LLM response
         ep.issues.append(Issue(
             ep.show_slug, ep.episode_num, "critical",
             f"Digest too short ({chars} chars)",
-            f"Digest is only {chars} characters (minimum: {info['min_digest_chars']}). "
-            f"The LLM likely returned a truncated or low-quality response.",
+            f"Digest is only {chars} characters (minimum: {min_chars}, critical below {int(min_chars*0.5)}). "
+            f"The LLM likely returned a truncated or failed response.",
+            file_path=str(ep.digest_path),
+        ))
+    elif chars < min_chars:
+        # Below target but not catastrophically — may just be a concise episode
+        ep.issues.append(Issue(
+            ep.show_slug, ep.episode_num, "warning",
+            f"Digest below target length ({chars} chars)",
+            f"Digest is {chars} characters (target minimum: {min_chars}). "
+            f"Episode may be shorter than usual.",
             file_path=str(ep.digest_path),
         ))
     elif chars > info["max_digest_chars"]:
@@ -436,11 +447,25 @@ def check_repetition(ep: EpisodeReview) -> None:
 
     # Skip common phrases, pronunciation expansions (single-letter words from
     # TTS abbreviation splitting like TFSA -> "t f s a"), and intentional
-    # repetition in language-learning shows ("repeat after me").
+    # repetition in language-learning shows ("repeat after me", host-prefixed
+    # variants like "olya: repeat after", and bilingual teaching patterns).
     skip_phrases = {
         "of the the", "in the the", "and the the", "the the the",
         "repeat after me", "repeat after me.", "repeat after me:",
     }
+    # Patterns that indicate intentional pedagogical repetition, not LLM loops.
+    # Covers host-prefixed variants (e.g. "olya: repeat after") and common
+    # language-learning drill phrases.
+    _PEDAGOGICAL_PATTERNS = [
+        re.compile(r"^\w+: repeat"),             # "olya: repeat after"
+        re.compile(r"^repeat after \w+"),          # "repeat after olya"
+        re.compile(r"^let's practice"),            # "let's practice saying"
+        re.compile(r"^now say"),                   # "now say it"
+        re.compile(r"^try saying"),                # "try saying this"
+        re.compile(r"^\w+: now let's"),            # "olya: now let's"
+        re.compile(r"^\w+: давайте"),              # Russian: "let's"
+        re.compile(r"^повторяйте за"),             # Russian: "repeat after"
+    ]
     # Single-letter trigrams are TTS pronunciation splits (e.g. "f s d", "e s a").
     # Also match "the a i", "an a i", "your t f" — article/pronoun + split abbreviation.
     _SINGLE_LETTER_TRIGRAM = re.compile(r"^[a-z] [a-z] [a-z]$")
@@ -452,6 +477,8 @@ def check_repetition(ep: EpisodeReview) -> None:
         if _SINGLE_LETTER_TRIGRAM.match(phrase):
             continue
         if _ABBREV_CONTEXT.match(phrase):
+            continue
+        if any(p.match(phrase) for p in _PEDAGOGICAL_PATTERNS):
             continue
         if count >= 5:
             ep.issues.append(Issue(
@@ -531,15 +558,24 @@ def ai_review_episode(ep: EpisodeReview) -> None:
         return
 
     # Truncate to avoid massive prompts — the AI reviewer only needs enough
-    # text to assess quality, not the full transcript.
-    _was_truncated = len(text) > 12000
+    # text to assess quality, not the full transcript.  Truncate at a
+    # sentence boundary to avoid mid-word cuts that confuse the reviewer.
+    _REVIEW_CHAR_LIMIT = 12000
+    _was_truncated = len(text) > _REVIEW_CHAR_LIMIT
     if _was_truncated:
-        text = text[:12000] + "\n...[truncated for review — full episode is longer]"
+        # Find the last sentence-ending punctuation before the limit
+        truncated = text[:_REVIEW_CHAR_LIMIT]
+        for end_char in [". ", ".\n", "! ", "!\n", "? ", "?\n"]:
+            last_pos = truncated.rfind(end_char)
+            if last_pos > _REVIEW_CHAR_LIMIT * 0.8:  # Don't cut too aggressively
+                truncated = truncated[:last_pos + 1]
+                break
+        text = truncated + "\n\n[END OF REVIEW EXCERPT — full episode continues beyond this point]"
 
     prompt = (
         f"You are a podcast quality reviewer. Review this episode of '{ep.show_name}' "
         f"(Episode {ep.episode_num}, {ep.date}).\n\n"
-        f"{'NOTE: The text below was truncated for review. Do NOT flag the episode as incomplete just because the review excerpt ends with [truncated]. Only flag incompleteness if the content itself shows signs of being cut off mid-sentence or missing expected sections.' if _was_truncated else ''}\n\n"
+        f"{'NOTE: The text below is a REVIEW EXCERPT that ends with [END OF REVIEW EXCERPT]. The full episode is LONGER than what you see here. Do NOT flag the episode as incomplete or abruptly ending. ONLY flag INCOMPLETE if the content itself contains obvious signs of being cut off mid-sentence within the body of the text.' if _was_truncated else ''}\n\n"
         f"TEXT:\n{text}\n\n"
         f"Check for these specific problems and rate each YES or NO:\n"
         f"1. FACTUAL_ERRORS: Are there obvious factual errors or contradictions?\n"

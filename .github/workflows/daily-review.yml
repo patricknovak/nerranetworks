@@ -66,10 +66,11 @@ jobs:
             ARGS="$ARGS --create-issues"
           fi
 
+          set +e
           python review_episodes.py $ARGS
-
-          # Capture exit code but don't fail the workflow on warnings (exit 2)
           EXIT_CODE=$?
+          set -e
+
           if [ $EXIT_CODE -eq 1 ]; then
             echo "::error::CRITICAL issues found — check GitHub issues for details"
             exit 1
