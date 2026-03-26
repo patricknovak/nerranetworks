@@ -949,8 +949,14 @@
                     const xml = await resp.text();
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(xml, 'text/xml');
-                    const item = doc.querySelector('item');
-                    if (!item) return;
+                    const items = doc.querySelectorAll('item');
+                    if (!items.length) return;
+                    // Feeds may be in ascending or descending order — check both ends, pick newest
+                    const first = items[0];
+                    const last = items[items.length - 1];
+                    const firstDate = new Date(first.querySelector('pubDate')?.textContent || 0);
+                    const lastDate = new Date(last.querySelector('pubDate')?.textContent || 0);
+                    const item = lastDate > firstDate ? last : first;
                     const title = item.querySelector('title')?.textContent || 'Episode';
                     const pubDate = item.querySelector('pubDate')?.textContent || '';
                     const enclosure = item.querySelector('enclosure');
