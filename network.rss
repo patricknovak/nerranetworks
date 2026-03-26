@@ -5,13 +5,55 @@
     <description>Ten podcasts in two languages keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, modern investing, financial literacy, and Russian language learning.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Wed, 25 Mar 2026 15:37:14 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 26 Mar 2026 05:43:34 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg</url>
       <title>Nerra Network</title>
       <link>https://nerranetwork.com/</link>
     </image>
     <itunes:image href="https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg" />
+    <item>
+      <title>Привет, Русский! - Episode 5 - March 26, 2026</title>
+      <link>https://audio.nerranetwork.com/privet_russian/PR_Ep005_20260326.mp3</link>
+      <description>**Привет, Русский! — Episode Plan**  
+**Date:** March 26, 2026  
+**Theme:** Technology (Технологии)
+
+**Vocabulary List (10 words/phrases):**
+
+- **Russian (Cyrillic):** робот  
+  **Transliteration:** RO-bot  
+  **English:** robot  
+  **Example sentence:** Мелания Трамп пришла с роботом на встречу.  
+  **Example translation:** Melania Trump came to the meeting with a robot. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">pr-ep005-20260326-054331</guid>
+      <enclosure url="https://audio.nerranetwork.com/privet_russian/PR_Ep005_20260326.mp3" length="10872416" type="audio/mpeg" />
+      <pubDate>Thu, 26 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/privet-russian.jpg" />
+      <itunes:duration>07:32</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**Привет, Русский! — Episode Plan**  
+**Date:** March 26, 2026  
+**Theme:** Technology (Технологии)
+
+**Vocabulary List (10 words/phrases):**
+
+- **Russian (Cyrillic):** робот  
+  **Transliteration:** RO-bot  
+  **English:** robot  
+  **Example sentence:** Мелания Трамп пришла с роботом на встречу.  
+  **Example translation:** Melania Trump came to the meeting with a robot. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>5</itunes:episode>
+      <itunes:title>Привет, Русский! - Episode 5 - March 26, 2026</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+      <podcast:chapters url="https://nerranetwork.com/digests/privet_russian/chapters_ep005.json" type="application/json+chapters" />
+      <podcast:transcript url="https://nerranetwork.com/digests/privet_russian/PR_Ep005_20260326_transcript.json" type="application/json" />
+    </item>
     <item>
       <title>Ep 416: [Slow News Edition] Tesla is developing a new family vehicle that Elon Musk calls way cooler than a minivan as the company begins phasing out the Model S and X.</title>
       <link>https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep416_20260325.mp3</link>
@@ -251,7 +293,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Привет, Русский! - Episode 4 - March 24, 2026</title>
-      <link>https://audio.nerranetwork.com/privet_russian/PR_Ep004_20260324.mp3</link>
       <description>**Привет, Русский! — Episode Plan**  
 **Date:** March 24, 2026  
 **Theme:** Animals (Животные)
@@ -288,8 +329,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>4</itunes:episode>
       <itunes:title>Привет, Русский! - Episode 4 - March 24, 2026</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-      <podcast:chapters url="https://nerranetwork.com/digests/privet_russian/chapters_ep004.json" type="application/json+chapters" />
-      <podcast:transcript url="https://nerranetwork.com/digests/privet_russian/PR_Ep004_20260324_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Ep 3: Estée Lauder confirms a potential merger suitor yet its stock still struggles — a textbook lesson in market skepticism versus headline optimism.</title>
@@ -1981,69 +2020,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:season>1</itunes:season>
       <itunes:episode>39</itunes:episode>
       <itunes:title>Ep 39: NASA confirms readiness for Artemis 2, targeting a crewed lunar orbit no earlier than April 1.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 15: Google DeepMind's Aletheia agent autonomously advances from IMO math to professional research discoveries.</title>
-      <description># Models &amp; Agents
-**Date:** March 14, 2026
-
-**HOOK:** Google DeepMind's Aletheia agent autonomously advances from IMO math to professional research discoveries.
-
-**What You Need to Know:** Google DeepMind unveiled Aletheia, an AI agent that iterates on natural language proofs to tackle professional math research, bridging the gap from competition benchmarks to real-world discoveries. Meanwhile, Anthropic slashed costs for million-token contexts in Claude Opus 4.6 and Sonnet 4.6, and China is subsidizing OpenClaw for AI-driven "one-person companies." Pay attention to how these agentic and context upgrades could supercharge your RAG pipelines and autonomous workflows this week.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top Story
-Google DeepMind introduced Aletheia, a specialized AI agent that moves beyond gold-medal IMO performance to enable fully autonomous professional math research by iteratively generating, verifying, and revising natural language solutions. Building on models that aced the 2025 IMO, Aletheia addresses the challenges of vast literature navigation and long-horizon proofs, outperforming prior agents limited to competition-style problems. It compares favorably to tools like AlphaProof but emphasizes end-to-end autonomy without human intervention. Developers and researchers can now prototype agentic systems for complex domains like theorem proving, while math pros should explore it for accelerating discoveries. Keep an eye on integrations with frameworks like LangGraph for broader applications, and try fine-tuning it on custom datasets via DeepMind's APIs. Upcoming betas may extend Aletheia to fields like physics or biology.
-Source: https://www.marktechpost.com/2026/03/13/google-deepmind-introduces-aletheia-the-ai-agent-moving-from-math-competitions-to-fully-autonomous-professional-research-discoveries/
-
-━━━━━━━━━━━━━━━━━━━━
-### Model Updates
-**Anthropic drops the surcharge for million-token context windows, making Opus 4.6 and Sonnet 4.6 far cheaper: The Decoder**  
-Anthropic eliminated the extra fees for contexts over 200,000 tokens in Claude Opus 4.6 and Sonnet 4.6, potentially halving costs for million-token requests compared to previous pricing. This makes them more competitive with Gemini's 1M windows and OpenAI's offerings, especially for RAG-heavy tasks where long contexts were prohibitively expensive. It matters for developers building large-scale knowledge apps, as it lowers barriers to experimenting with massive inputs without breaking the bank.  
-Source: https://the-decoder.com/anthropic-drops-the-surcharge-for-million-token-context-windows-making-opus-4-6-and-sonnet-4-6-far-cheaper/
-
-**[AINews] Context Drought: Latent.Space**  
-Anthropic's general availability of 1M context windows arrives after similar rollouts from Gemini and OpenAI, highlighting a "drought" in further context innovations amid a quiet news day. These windows enable processing entire codebases or books in one go, but Anthropic's lag means it's catching up rather than leading—still, it's a win for consistency across Claude models. Practitioners should note this for cost-effective long-context tasks, though real-world needle-in-haystack retrieval remains a challenge compared to specialized RAG setups.  
-Source: https://www.latent.space/p/ainews-context-drought
-
-**Google explains the differences between its three Nano Banana image generation models: The Decoder**  
-Google detailed its Nano Banana lineup, with Nano Banana 2 offering 95% of the Pro version's capabilities at lower cost, including web search for reference images before generation. Compared to models like DALL-E or Stable Diffusion, the cheaper variant excels in efficiency for edge deployment but may lag in fine-grained control. This guide helps developers pick the right model for tasks like quick prototyping, balancing performance and inference costs in production apps.  
-Source: https://the-decoder.com/google-explains-the-differences-between-its-three-nano-banana-image-generation-models...</description>
-      <guid isPermaLink="false">models-agents-ep015-20260314-151819</guid>
-      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep015_20260314.mp3" length="16766894" type="audio/mpeg" />
-      <pubDate>Sat, 14 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
-      <itunes:duration>11:38</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary># Models &amp; Agents
-**Date:** March 14, 2026
-
-**HOOK:** Google DeepMind's Aletheia agent autonomously advances from IMO math to professional research discoveries.
-
-**What You Need to Know:** Google DeepMind unveiled Aletheia, an AI agent that iterates on natural language proofs to tackle professional math research, bridging the gap from competition benchmarks to real-world discoveries. Meanwhile, Anthropic slashed costs for million-token contexts in Claude Opus 4.6 and Sonnet 4.6, and China is subsidizing OpenClaw for AI-driven "one-person companies." Pay attention to how these agentic and context upgrades could supercharge your RAG pipelines and autonomous workflows this week.
-
-━━━━━━━━━━━━━━━━━━━━
-### Top Story
-Google DeepMind introduced Aletheia, a specialized AI agent that moves beyond gold-medal IMO performance to enable fully autonomous professional math research by iteratively generating, verifying, and revising natural language solutions. Building on models that aced the 2025 IMO, Aletheia addresses the challenges of vast literature navigation and long-horizon proofs, outperforming prior agents limited to competition-style problems. It compares favorably to tools like AlphaProof but emphasizes end-to-end autonomy without human intervention. Developers and researchers can now prototype agentic systems for complex domains like theorem proving, while math pros should explore it for accelerating discoveries. Keep an eye on integrations with frameworks like LangGraph for broader applications, and try fine-tuning it on custom datasets via DeepMind's APIs. Upcoming betas may extend Aletheia to fields like physics or biology.
-Source: https://www.marktechpost.com/2026/03/13/google-deepmind-introduces-aletheia-the-ai-agent-moving-from-math-competitions-to-fully-autonomous-professional-research-discoveries/
-
-━━━━━━━━━━━━━━━━━━━━
-### Model Updates
-**Anthropic drops the surcharge for million-token context windows, making Opus 4.6 and Sonnet 4.6 far cheaper: The Decoder**  
-Anthropic eliminated the extra fees for contexts over 200,000 tokens in Claude Opus 4.6 and Sonnet 4.6, potentially halving costs for million-token requests compared to previous pricing. This makes them more competitive with Gemini's 1M windows and OpenAI's offerings, especially for RAG-heavy tasks where long contexts were prohibitively expensive. It matters for developers building large-scale knowledge apps, as it lowers barriers to experimenting with massive inputs without breaking the bank.  
-Source: https://the-decoder.com/anthropic-drops-the-surcharge-for-million-token-context-windows-making-opus-4-6-and-sonnet-4-6-far-cheaper/
-
-**[AINews] Context Drought: Latent.Space**  
-Anthropic's general availability of 1M context windows arrives after similar rollouts from Gemini and OpenAI, highlighting a "drought" in further context innovations amid a quiet news day. These windows enable processing entire codebases or books in one go, but Anthropic's lag means it's catching up rather than leading—still, it's a win for consistency across Claude models. Practitioners should note this for cost-effective long-context tasks, though real-world needle-in-haystack retrieval remains a challenge compared to specialized RAG setups.  
-Source: https://www.latent.space/p/ainews-context-drought
-
-**Google explains the differences between its three Nano Banana image generation models: The Decoder**  
-Google detailed its Nano Banana lineup, with Nano Banana 2 offering 95% of the Pro version's capabilities at lower cost, including web search for reference images before generation. Compared to models like DALL-E or Stable Diffusion, the cheaper variant excels in efficiency for edge deployment but may lag in fine-grained control. This guide helps developers pick the right model for tasks like quick prototyping, balancing performance and inference costs in production apps.  
-Source: https://the-decoder.com/google-explains-the-differences-between-its-three-nano-banana-image-generation-models...</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>15</itunes:episode>
-      <itunes:title>Ep 15: Google DeepMind's Aletheia agent autonomously advances from IMO math to professional research discoveries.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>
