@@ -6,7 +6,7 @@
     "position_size": 1000,
     "currency": "USD",
     "created": "2026-03-16",
-    "last_updated": "2026-03-23"
+    "last_updated": "2026-03-26"
   },
   "summary": {
     "total_trades": 0,
@@ -29,6 +29,22 @@
       "symbol": "LGD",
       "market": "TSX",
       "strategy": "Asset monetization play following non-core project sale to fund flagship development.",
+      "confidence": "Medium",
+      "target_range": "+4% to +9% by Friday close.",
+      "trade_type": "weekly",
+      "status": "open",
+      "entry_price": null,
+      "exit_price": null,
+      "pnl_pct": null,
+      "pnl_dollars": null,
+      "lesson": ""
+    },
+    {
+      "episode_num": 5,
+      "date": "2026-03-26",
+      "symbol": "SOFI",
+      "market": "NASDAQ",
+      "strategy": "Contrarian mean-reversion play on elevated short interest against a fundamentally improving digital banking franchise.",
       "confidence": "Medium",
       "target_range": "+4% to +9% by Friday close.",
       "trade_type": "weekly",
