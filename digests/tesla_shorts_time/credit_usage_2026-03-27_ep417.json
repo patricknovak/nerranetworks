@@ -1,0 +1,52 @@
+{
+  "date": "2026-03-27",
+  "show": "Tesla Shorts Time",
+  "episode_number": 417,
+  "services": {
+    "grok_api": {
+      "model": "grok-4.20-beta-0309-non-reasoning",
+      "x_thread_generation": {
+        "prompt_tokens": 12398,
+        "completion_tokens": 5119,
+        "total_tokens": 17517,
+        "estimated_cost_usd": 0.05551
+      },
+      "podcast_script_generation": {
+        "prompt_tokens": 5138,
+        "completion_tokens": 1979,
+        "total_tokens": 7117,
+        "estimated_cost_usd": 0.02215
+      },
+      "total_tokens": 24634,
+      "total_cost_usd": 0.07765999999999999,
+      "podcast_outline_generation": {
+        "prompt_tokens": 2455,
+        "completion_tokens": 1083,
+        "total_tokens": 3538,
+        "estimated_cost_usd": 0.011408000000000001
+      },
+      "podcast_script_retry": {
+        "prompt_tokens": 2565,
+        "completion_tokens": 2683,
+        "total_tokens": 5248,
+        "estimated_cost_usd": 0.021228
+      }
+    },
+    "tts_api": {
+      "provider": "elevenlabs",
+      "characters": 15183,
+      "estimated_cost_usd": 4.5549
+    },
+    "x_api": {
+      "search_calls": 0,
+      "post_calls": 0,
+      "total_calls": 0
+    },
+    "elevenlabs_api": {
+      "provider": "elevenlabs",
+      "characters": 15183,
+      "estimated_cost_usd": 4.5549
+    }
+  },
+  "total_estimated_cost_usd": 4.63256
+}
