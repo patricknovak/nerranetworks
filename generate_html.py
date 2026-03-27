@@ -1417,16 +1417,7 @@ def generate_network_blog_index(*, dry_run=False, all_posts=None):
                     seen_eps[ep] = meta
             all_posts.extend(seen_eps.values())
 
-    # Sort by date (newest first), fall back to episode_num for posts
-    # without parsed dates
-    import datetime as _dt
-    all_posts_sorted = sorted(
-        all_posts,
-        key=lambda p: p.get("date_obj") or _dt.datetime.min,
-        reverse=True,
-    )
-
-    html = generate_network_blog_index_html(all_posts_sorted, NETWORK_SHOWS, env)
+    html = generate_network_blog_index_html(all_posts, NETWORK_SHOWS, env)
 
     out_path = ROOT / "blog" / "index.html"
 

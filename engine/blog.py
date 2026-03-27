@@ -559,3 +559,74 @@ def generate_blog_index_html(
     }
 
     return template.render(**context)
+
+
+def generate_network_blog_index_html(
+    posts: list[dict],
+    show_configs: dict,
+    template_env,
+) -> str:
+    """Generate the network-wide blog index page aggregating all shows.
+
+    Parameters
+    ----------
+    posts : list[dict]
+        All posts across all shows, each with ``show_slug`` set.
+        Will be sorted by date (newest first).
+    show_configs : dict
+        The full NETWORK_SHOWS dict.
+    template_env :
+        Jinja2 Environment.
+    """
+    from datetime import date as _date, datetime as _datetime
+    from generate_html import _build_all_shows_list, _path_prefix
+
+    # Sort by date_obj descending; normalize to date for consistent comparison
+    def _sort_key(p):
+        d = p.get("date_obj")
+        if isinstance(d, _datetime):
+            return d.date()
+        if isinstance(d, _date):
+            return d
+        return _date.min
+
+    sorted_posts = sorted(posts, key=_sort_key, reverse=True)
+
+    # Enrich posts with show metadata for template rendering
+    for post in sorted_posts:
+        slug = post.get("show_slug", "")
+        cfg = show_configs.get(slug, {})
+        post["show_name"] = cfg.get("name", slug)
+        post["show_color"] = cfg.get("brand_color", "#7C5CFF")
+
+    # Build show filter list (only shows that have posts)
+    slugs_with_posts = {p.get("show_slug") for p in sorted_posts}
+    shows_for_filter = [
+        {"slug": cfg["slug"], "name": cfg["name"], "color": cfg["brand_color"]}
+        for cfg in show_configs.values()
+        if cfg["slug"] in slugs_with_posts
+    ]
+    shows_for_filter.sort(key=lambda s: s["name"])
+
+    path_key = "blog/index.html"
+
+    template = template_env.get_template("network_blog_index.html.j2")
+
+    context = {
+        "path_prefix": _path_prefix(path_key),
+        "page_title": "Nerra Network Blog",
+        "meta_description": "The latest articles from all Nerra Network podcast shows.",
+        "meta_keywords": "podcast, blog, news, AI, technology, finance",
+        "theme_color": "",
+        "og_image": "https://nerranetwork.com/assets/nerra-logo-icon.svg",
+        "canonical_url": "https://nerranetwork.com/blog/index.html",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+        # Network blog specific
+        "posts": sorted_posts,
+        "shows": shows_for_filter,
+        "blog_rss_url": "https://nerranetwork.com/blog.rss",
+    }
+
+    return template.render(**context)
