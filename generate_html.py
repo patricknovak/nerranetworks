@@ -1259,6 +1259,75 @@ def generate_network_page(*, dry_run=False):
     except Exception:
         pass
 
+    # Collect latest episodes from RSS feeds (static rendering)
+    latest_episodes = []
+    try:
+        import xml.etree.ElementTree as ET
+        from email.utils import parsedate_to_datetime
+
+        for slug, cfg in NETWORK_SHOWS.items():
+            rss_path = ROOT / cfg["rss_file"]
+            if not rss_path.exists():
+                continue
+            try:
+                tree = ET.parse(rss_path)
+                root_el = tree.getroot()
+                items = root_el.findall(".//item")
+                if not items:
+                    continue
+                # Find newest item by pubDate
+                best_item = None
+                best_date = None
+                for it in items:
+                    pds = it.findtext("pubDate", "")
+                    pd = None
+                    if pds:
+                        try:
+                            pd = parsedate_to_datetime(pds)
+                        except Exception:
+                            pass
+                    if best_item is None or (pd and (best_date is None or pd > best_date)):
+                        best_item = it
+                        best_date = pd
+                if best_item is None:
+                    continue
+                title = best_item.findtext("title", "Episode")
+                pub_date_str = best_item.findtext("pubDate", "")
+                enclosure = best_item.find("enclosure")
+                audio_url = enclosure.get("url", "") if enclosure is not None else ""
+                latest_episodes.append({
+                    "show_name": cfg["name"],
+                    "show_page": cfg["show_page"],
+                    "brand_color": cfg["brand_color"],
+                    "title": title,
+                    "pub_date_str": pub_date_str,
+                    "pub_date": best_date,
+                    "audio_url": audio_url,
+                })
+            except Exception:
+                continue
+
+        from datetime import datetime as _dt, timezone as _tz
+        _epoch = _dt(1970, 1, 1, tzinfo=_tz.utc)
+        def _ep_sort(e):
+            d = e.get("pub_date")
+            if d is None:
+                return _epoch
+            if d.tzinfo is None:
+                return d.replace(tzinfo=_tz.utc)
+            return d
+        latest_episodes.sort(key=_ep_sort, reverse=True)
+        latest_episodes = latest_episodes[:10]
+        # Format dates for display
+        for ep in latest_episodes:
+            d = ep.get("pub_date")
+            if d:
+                ep["date_display"] = d.strftime("%a, %b %d, %Y")
+            else:
+                ep["date_display"] = ""
+    except Exception:
+        pass
+
     context = {
         "path_prefix": "",
         "page_title": "Nerra Network | 10 Daily Shows",
@@ -1269,6 +1338,7 @@ def generate_network_page(*, dry_run=False):
         "canonical_url": f"{GITHUB_RAW}/index.html",
         "all_shows": _build_all_shows_list(),
         "latest_blog_posts": latest_blog_posts,
+        "latest_episodes": latest_episodes,
     }
 
     html = template.render(**context)
