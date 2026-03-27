@@ -187,9 +187,21 @@ def _validate_llm_output(
         return 0
 
     # Check for LLM refusals — must come before length checks because
-    # refusal messages can be 500-2000 chars (passing min-length thresholds)
+    # refusal messages can be 500-2000 chars (passing min-length thresholds).
+    #
+    # To avoid false positives (e.g. "I must decline to comment" in podcast
+    # narration), only scan the first 500 chars when the output is long enough
+    # to be real content (>= 2000 chars).  A genuine refusal is a short
+    # message, not a 4000-char podcast script with a stray phrase.
+    _REFUSAL_SCAN_LIMIT = 500   # chars from start to scan for refusal phrases
+    _REAL_CONTENT_THRESHOLD = 2000  # output above this is likely real content
+    refusal_search_text = (
+        text[:_REFUSAL_SCAN_LIMIT]
+        if len(text.strip()) >= _REAL_CONTENT_THRESHOLD
+        else text
+    )
     for pattern in _REFUSAL_PATTERNS:
-        match = re.search(pattern, text, re.MULTILINE)
+        match = re.search(pattern, refusal_search_text, re.MULTILINE)
         if match:
             logger.error(
                 "LLM REFUSED to generate %s for '%s' — matched refusal pattern: %s "

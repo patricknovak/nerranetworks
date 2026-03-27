@@ -1,0 +1,117 @@
+{
+  "show": "Финансы Просто",
+  "segments": [
+    {
+      "id": "fp_tfsa_explained",
+      "type": "deep_dive",
+      "title": "TFSA: Ваш лучший друг для накоплений",
+      "prompt_template": "Напишите подробный сегмент о TFSA (Tax-Free Savings Account). Объясните, как работает лимит взносов, кумулятивное накопление для новых резидентов, штрафы за перевзнос, что можно держать внутри TFSA (ETF, GIC, акции), сравнение TFSA vs RRSP для разных ситуаций, и типичные ошибки новых иммигрантов. Всё на простом русском языке, как для подруги.",
+      "estimated_words": 600,
+      "tags": ["TFSA", "savings", "basics"]
+    },
+    {
+      "id": "fp_rrsp_guide",
+      "type": "deep_dive",
+      "title": "RRSP: Пенсионные накопления по-канадски",
+      "prompt_template": "Напишите подробный сегмент об RRSP (Registered Retirement Savings Plan). Объясните налоговый вычет, лимит взносов (18% дохода), HBP (Home Buyers' Plan), LLP (Lifelong Learning Plan), что происходит с RRSP при выходе на пенсию (конвертация в RRIF), и как оптимально использовать RRSP для иммигрантов с растущим доходом. Простым языком.",
+      "estimated_words": 600,
+      "tags": ["RRSP", "retirement", "taxes"]
+    },
+    {
+      "id": "fp_fhsa_new_account",
+      "type": "deep_dive",
+      "title": "FHSA: Новый счёт для первого жилья",
+      "prompt_template": "Напишите подробный сегмент о FHSA (First Home Savings Account). Объясните, кто может открыть, лимиты взносов ($8000/год, $40000 всего), двойную налоговую выгоду (как RRSP вычет + как TFSA рост), можно ли комбинировать с HBP из RRSP, что делать если не купили жильё за 15 лет, и стратегии для молодых семей в Ванкувере.",
+      "estimated_words": 600,
+      "tags": ["FHSA", "housing", "first home"]
+    },
+    {
+      "id": "fp_etf_investing",
+      "type": "deep_dive",
+      "title": "ETF-инвестирование для начинающих",
+      "prompt_template": "Напишите подробный сегмент об инвестировании в ETF. Объясните, что такое ETF, разницу между индексными и активными ETF, популярные канадские ETF (XEQT, VEQT, VGRO, VBAL), MER (комиссия управления), как покупать через Wealthsimple или Questrade, и почему Warren Buffett рекомендует индексное инвестирование. Просто и понятно.",
+      "estimated_words": 600,
+      "tags": ["ETF", "investing", "beginners"]
+    },
+    {
+      "id": "fp_profile_wealthsimple",
+      "type": "profile",
+      "title": "Профиль: Wealthsimple — канадский финтех",
+      "prompt_template": "Напишите профильный сегмент о Wealthsimple. Расскажите историю основания, основные продукты (Trade, Invest, Cash, Tax), почему Wealthsimple популярен среди молодых канадцев, сравнение с Questrade и банковскими брокерами, CDIC страховка, и подводные камни (спред на обмен валюты, ограничения для US акций).",
+      "estimated_words": 500,
+      "tags": ["companies", "fintech", "investing"]
+    },
+    {
+      "id": "fp_mortgage_basics",
+      "type": "deep_dive",
+      "title": "Ипотека в Канаде: что нужно знать",
+      "prompt_template": "Напишите подробный сегмент об ипотеке в Канаде. Объясните фиксированную vs переменную ставку, стресс-тест, CMHC страховку при первом взносе менее 20%, amortization period, renewal vs refinancing, брокеры vs банки, и как повышение ставки Bank of Canada влияет на ваши платежи. Примеры с реальными цифрами для рынка Ванкувера.",
+      "estimated_words": 600,
+      "tags": ["mortgage", "housing", "rates"]
+    },
+    {
+      "id": "fp_taxes_immigrants",
+      "type": "utility",
+      "title": "Налоги для иммигрантов: первые шаги",
+      "prompt_template": "Напишите практический сегмент о налогах для новых иммигрантов в Канаде. Покройте первую налоговую декларацию, статус налогового резидента, какие доходы декларировать, основные кредиты и вычеты (GST/HST credit, Canada Child Benefit, Climate Action Incentive), как подать через Wealthsimple Tax или TurboTax, и дедлайны.",
+      "estimated_words": 500,
+      "tags": ["taxes", "immigrants", "practical"]
+    },
+    {
+      "id": "fp_gic_vs_savings",
+      "type": "deep_dive",
+      "title": "GIC vs накопительный счёт: куда положить деньги",
+      "prompt_template": "Напишите подробный сегмент сравнивающий GIC и высокодоходные накопительные счета (HISA). Объясните, что такое GIC, сроки (cashable vs locked), текущие ставки, CDIC страховку до $100000, EQ Bank и альтернативные банки, лестничную стратегию GIC, и когда лучше выбрать HISA вместо GIC.",
+      "estimated_words": 600,
+      "tags": ["GIC", "savings", "comparison"]
+    },
+    {
+      "id": "fp_history_bank_of_canada",
+      "type": "historical",
+      "title": "История Bank of Canada и процентных ставок",
+      "prompt_template": "Напишите исторический сегмент о Bank of Canada. Расскажите об основании в 1935 году, мандате по контролю инфляции (таргет 2%), историю повышений и снижений ставки, кризис 2008 и COVID-реакцию, как решения Тифф Маклема влияют на жизнь обычных канадцев, и почему центральный банк — это самый важный финансовый институт для вашего кошелька.",
+      "estimated_words": 600,
+      "tags": ["history", "Bank of Canada", "rates"]
+    },
+    {
+      "id": "fp_contrarian_real_estate",
+      "type": "contrarian",
+      "title": "Дебаты: Стоит ли покупать жильё в Ванкувере?",
+      "prompt_template": "Напишите сбалансированный дебатный сегмент о покупке vs аренде жилья в Ванкувере. Аргументы за покупку (рост стоимости, принудительные накопления, стабильность) vs аренда (гибкость, инвестирование разницы, нет maintenance costs). Используйте реальные цифры ванкуверского рынка. Не давайте однозначный ответ — помогите слушательницам думать самостоятельно.",
+      "estimated_words": 600,
+      "tags": ["housing", "debate", "Vancouver"]
+    },
+    {
+      "id": "fp_credit_score",
+      "type": "utility",
+      "title": "Кредитная история: как построить и не испортить",
+      "prompt_template": "Напишите практический сегмент о кредитной истории в Канаде. Объясните, что такое credit score, как он рассчитывается (Equifax, TransUnion), как новый иммигрант начинает строить кредитную историю, secured credit card, факторы влияющие на скор (utilization, payment history), и мифы о кредитном рейтинге.",
+      "estimated_words": 500,
+      "tags": ["credit", "practical", "immigrants"]
+    },
+    {
+      "id": "fp_resp_education",
+      "type": "deep_dive",
+      "title": "RESP: Как накопить на образование ребёнка",
+      "prompt_template": "Напишите подробный сегмент об RESP (Registered Education Savings Plan). Объясните грант CESG (20% от государства, до $500/год), CLB для семей с низким доходом, лимиты ($50000 на ребёнка), что если ребёнок не пойдёт учиться, family vs individual plan, и оптимальную стратегию инвестирования внутри RESP по возрасту ребёнка.",
+      "estimated_words": 600,
+      "tags": ["RESP", "education", "children"]
+    },
+    {
+      "id": "fp_insurance_basics",
+      "type": "deep_dive",
+      "title": "Страховки в Канаде: что действительно нужно",
+      "prompt_template": "Напишите подробный сегмент о страховании в Канаде. Покройте term life vs whole life insurance, критическая болезнь (critical illness), disability insurance, MSP в BC, дополнительное медицинское страхование (extended health), tenant insurance, и как не переплачивать за ненужные страховки. Практические советы для молодых семей.",
+      "estimated_words": 600,
+      "tags": ["insurance", "protection", "practical"]
+    },
+    {
+      "id": "fp_budgeting",
+      "type": "utility",
+      "title": "Бюджетирование: простые методы для занятых мам",
+      "prompt_template": "Напишите практический сегмент о бюджетировании. Покройте метод 50/30/20, envelope system, приложения (YNAB, Mint, Wealthsimple), автоматизацию накоплений (pay yourself first), как отслеживать расходы без стресса, и как разговаривать о деньгах с партнёром. Тон — как дружеский разговор за кофе, без нравоучений.",
+      "estimated_words": 500,
+      "tags": ["budgeting", "practical", "lifestyle"]
+    }
+  ]
+}

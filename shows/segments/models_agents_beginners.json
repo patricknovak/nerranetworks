@@ -1,0 +1,117 @@
+{
+  "show": "Models & Agents for Beginners",
+  "segments": [
+    {
+      "id": "mab_what_is_llm",
+      "type": "deep_dive",
+      "title": "What Is a Large Language Model, Really?",
+      "prompt_template": "Write a beginner-friendly deep-dive explaining what large language models are. Cover neural networks in simple terms, how training on text works, what 'tokens' are, why models seem to 'understand' language, and what they actually can't do. Use analogies a teenager would understand. Avoid jargon or explain every technical term.",
+      "estimated_words": 600,
+      "tags": ["AI basics", "LLMs", "education"]
+    },
+    {
+      "id": "mab_prompt_engineering",
+      "type": "utility",
+      "title": "Prompt Engineering for Beginners",
+      "prompt_template": "Write a practical utility segment teaching beginners how to write better prompts for AI chatbots. Cover the basics: being specific, giving context, using examples (few-shot), chain-of-thought prompting, and common mistakes. Provide before/after prompt examples showing dramatic improvement. Make it fun and actionable for teens.",
+      "estimated_words": 500,
+      "tags": ["utility", "prompts", "practical"]
+    },
+    {
+      "id": "mab_ai_image_generation",
+      "type": "deep_dive",
+      "title": "How AI Image Generation Works",
+      "prompt_template": "Write a beginner-friendly deep-dive about AI image generation. Cover how diffusion models work (adding and removing noise), the difference between DALL-E, Midjourney, and Stable Diffusion, text-to-image vs image-to-image, what 'training data' means for art AI, and the ongoing debate about AI art and artists. Use simple analogies.",
+      "estimated_words": 600,
+      "tags": ["image generation", "diffusion", "art"]
+    },
+    {
+      "id": "mab_ai_agents_explained",
+      "type": "deep_dive",
+      "title": "AI Agents: What They Are and Why They Matter",
+      "prompt_template": "Write a beginner-friendly deep-dive explaining AI agents. Cover what makes an agent different from a chatbot (goal-oriented, can use tools, takes actions), examples like coding agents and research agents, the concept of 'tool use,' and where agents are heading. Use relatable examples like a helpful robot assistant that can browse the web, write code, and book appointments.",
+      "estimated_words": 600,
+      "tags": ["agents", "tools", "autonomy"]
+    },
+    {
+      "id": "mab_profile_openai",
+      "type": "profile",
+      "title": "Profile: OpenAI — From Research Lab to Tech Giant",
+      "prompt_template": "Write a beginner-friendly profile about OpenAI. Cover its founding as a nonprofit, key people (Sam Altman, Ilya Sutskever's departure), the launch of ChatGPT and its explosive growth, the shift to a capped-profit model, the partnership with Microsoft, and the GPT model evolution from GPT-2 to GPT-4 and beyond. Keep it accessible for teens.",
+      "estimated_words": 500,
+      "tags": ["OpenAI", "companies", "history"]
+    },
+    {
+      "id": "mab_profile_anthropic",
+      "type": "profile",
+      "title": "Profile: Anthropic and Claude",
+      "prompt_template": "Write a beginner-friendly profile about Anthropic. Cover its founding by former OpenAI researchers (Dario and Daniela Amodei), its focus on AI safety, what Constitutional AI means in simple terms, the Claude model family, and how Anthropic's approach differs from OpenAI and Google. Explain why AI safety research matters.",
+      "estimated_words": 500,
+      "tags": ["Anthropic", "safety", "companies"]
+    },
+    {
+      "id": "mab_history_ai",
+      "type": "historical",
+      "title": "A Brief History of AI: From Turing to ChatGPT",
+      "prompt_template": "Write a historical segment tracing AI's journey from Alan Turing's 1950 question 'Can machines think?' through AI winters, expert systems, Deep Blue beating Kasparov, AlphaGo's triumph, the transformer revolution, and the ChatGPT moment. Make it a fun story with heroes, setbacks, and breakthroughs. Accessible for teens.",
+      "estimated_words": 600,
+      "tags": ["history", "AI", "milestones"]
+    },
+    {
+      "id": "mab_ai_ethics",
+      "type": "deep_dive",
+      "title": "AI Ethics: The Big Questions",
+      "prompt_template": "Write a beginner-friendly deep-dive about AI ethics. Cover bias in training data (with real examples), deepfakes and misinformation, job displacement concerns, privacy issues, the alignment problem in simple terms, and what 'responsible AI' means in practice. Present multiple perspectives fairly. Encourage critical thinking rather than fear.",
+      "estimated_words": 600,
+      "tags": ["ethics", "bias", "safety"]
+    },
+    {
+      "id": "mab_contrarian_ai_school",
+      "type": "contrarian",
+      "title": "Debate: Should AI Be Allowed in Schools?",
+      "prompt_template": "Write a balanced debate segment on AI in education. Present arguments for (personalized learning, accessibility, preparing students for AI-native jobs) and against (academic integrity, over-reliance, critical thinking erosion, privacy concerns). Reference real school policies. Let listeners form their own opinion. Make it relatable for students.",
+      "estimated_words": 600,
+      "tags": ["education", "debate", "schools"]
+    },
+    {
+      "id": "mab_how_chatbots_remember",
+      "type": "deep_dive",
+      "title": "How Do AI Chatbots Remember (and Forget)?",
+      "prompt_template": "Write a beginner-friendly deep-dive about AI memory. Cover context windows (why chatbots 'forget'), how tokens limit conversation length, the difference between in-context learning and fine-tuning, RAG (retrieval-augmented generation) in simple terms, and why your ChatGPT conversation doesn't change the model itself. Use analogies like a notebook vs a textbook.",
+      "estimated_words": 600,
+      "tags": ["memory", "context", "technical"]
+    },
+    {
+      "id": "mab_ai_coding",
+      "type": "utility",
+      "title": "Getting Started with AI-Assisted Coding",
+      "prompt_template": "Write a practical utility segment about using AI for coding as a beginner. Cover GitHub Copilot, ChatGPT for code, Claude for debugging, how to describe what you want to build, iterating on AI-generated code, and why understanding code still matters even when AI writes it. Include a simple project idea a teen could try this weekend.",
+      "estimated_words": 500,
+      "tags": ["utility", "coding", "practical"]
+    },
+    {
+      "id": "mab_open_vs_closed",
+      "type": "deep_dive",
+      "title": "Open Source vs Closed AI Models",
+      "prompt_template": "Write a beginner-friendly deep-dive comparing open-source and closed-source AI models. Cover what 'open source' means for AI (model weights, training data, code), examples like Llama, Mistral, and Stable Diffusion vs GPT-4 and Claude, the trade-offs (innovation vs safety, accessibility vs misuse), and why this debate matters for the future of AI. Keep it simple.",
+      "estimated_words": 600,
+      "tags": ["open source", "models", "debate"]
+    },
+    {
+      "id": "mab_ai_music_video",
+      "type": "deep_dive",
+      "title": "AI for Music and Video: Creative AI Tools",
+      "prompt_template": "Write a beginner-friendly deep-dive about AI creative tools. Cover AI music generation (Suno, Udio), AI video (Sora, Runway), voice cloning, and how these tools work at a high level. Discuss the creative possibilities for young creators alongside the copyright and originality questions. Include tools a teen could try for free.",
+      "estimated_words": 600,
+      "tags": ["creative", "music", "video"]
+    },
+    {
+      "id": "mab_what_is_training",
+      "type": "deep_dive",
+      "title": "How AI Models Are Trained",
+      "prompt_template": "Write a beginner-friendly deep-dive about how AI models are trained. Cover the concept of training data, supervised learning vs unsupervised learning, reinforcement learning from human feedback (RLHF), what GPUs do and why they matter, how much training costs, and what 'fine-tuning' means. Use the analogy of studying for an exam but at massive scale.",
+      "estimated_words": 600,
+      "tags": ["training", "technical", "education"]
+    }
+  ]
+}

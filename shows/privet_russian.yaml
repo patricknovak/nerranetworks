@@ -175,3 +175,9 @@ newsletter:
   platform: buttondown
   api_key_env: PRIVET_RUSSIAN_NEWSLETTER_API_KEY
   status: about_to_send
+
+slow_news:
+  enabled: true
+  library_file: shows/segments/privet_russian.json
+  max_segments: 2
+  cooldown_days: 30

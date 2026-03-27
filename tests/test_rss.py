@@ -222,8 +222,8 @@ BASE_URL = "https://raw.githubusercontent.com/patricknovak/nerranetworks/main"
 R2_BASE_URL = "https://audio.nerranetwork.com"
 
 ENCLOSURE_URL_PATTERNS = {
-    "tesla": (f"{BASE_URL}/digests/", f"{R2_BASE_URL}/tesla/", f"{R2_BASE_URL}/digests/"),
-    "omni": (f"{BASE_URL}/digests/", f"{R2_BASE_URL}/omni_view/", f"{R2_BASE_URL}/digests/"),
+    "tesla": (f"{BASE_URL}/digests/", f"{R2_BASE_URL}/tesla/", f"{R2_BASE_URL}/digests/tesla_shorts_time/", f"{R2_BASE_URL}/digests/"),
+    "omni": (f"{BASE_URL}/digests/", f"{R2_BASE_URL}/omni_view/", f"{R2_BASE_URL}/digests/omni_view/", f"{R2_BASE_URL}/digests/"),
     "planetterrian": (f"{BASE_URL}/digests/planetterrian/", f"{R2_BASE_URL}/planetterrian/", f"{R2_BASE_URL}/digests/planetterrian/"),
     "frontiers": (f"{BASE_URL}/digests/fascinating_frontiers/", f"{R2_BASE_URL}/fascinating_frontiers/", f"{R2_BASE_URL}/digests/fascinating_frontiers/"),
     "env_intel": (f"{BASE_URL}/digests/env_intel/", f"{R2_BASE_URL}/env_intel/", f"{R2_BASE_URL}/digests/env_intel/"),
