@@ -69,6 +69,9 @@
                         <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                     <div class="nn-nav-dropdown-menu">
+                        <a href="{{ path_prefix }}blog/index.html" style="font-weight:600;border-bottom:1px solid var(--nn-border);padding-bottom:8px;margin-bottom:4px">
+                            All Blog Posts
+                        </a>
                         {% for s in all_shows %}
                         <a href="{{ path_prefix }}{{ s.blog_page }}">
                             <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="" loading="lazy">
@@ -102,6 +105,9 @@
         </div>
         <div class="nn-mobile-shows">
             <div class="nn-mobile-shows-title">Blogs</div>
+            <a href="{{ path_prefix }}blog/index.html" class="nn-mobile-show-link" style="font-weight:600" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                All Blog Posts
+            </a>
             {% for s in all_shows %}
             <a href="{{ path_prefix }}{{ s.blog_page }}" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
                 <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="" loading="lazy">
@@ -129,10 +135,11 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Blog</h4>
-                    <a href="{{ path_prefix }}blog.rss">Blog RSS (All Shows)</a>
+                    <a href="{{ path_prefix }}blog/index.html">All Blog Posts</a>
                     {% for s in all_shows %}
                     <a href="{{ path_prefix }}{{ s.blog_page }}">{{ s.name }}</a>
                     {% endfor %}
+                    <a href="{{ path_prefix }}blog.rss">Blog RSS (All Shows)</a>
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>

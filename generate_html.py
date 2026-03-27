@@ -1093,6 +1093,7 @@ def generate_summaries_page(slug, *, dry_run=False):
         "canonical_url": f"{GITHUB_RAW}/{cfg['summaries_page']}",
         "hero_title": cfg["name"],
         "hero_subtitle": f"Complete archive of {cfg['name']} episode summaries.",
+        "blog_page": f"blog/{cfg['slug']}/index.html",
         "all_shows": _build_all_shows_list(),
     }
 
@@ -1146,6 +1147,29 @@ def generate_show_page(slug, *, dry_run=False):
 
     prefix = _path_prefix(cfg["show_page"])
 
+    # Collect latest blog post metadata for the show page
+    latest_blog_posts = []
+    try:
+        from engine.blog import extract_blog_metadata
+        digest_dir = ROOT / "digests" / _SHOW_DIRS.get(slug, slug)
+        if digest_dir.exists():
+            seen_eps: dict[int, dict] = {}
+            for md_file in sorted(digest_dir.glob("*.md")):
+                md_text = md_file.read_text(encoding="utf-8")
+                meta = extract_blog_metadata(md_text, slug, md_file.name)
+                ep = meta["episode_num"]
+                if ep in seen_eps:
+                    if md_file.name > seen_eps[ep]["filename"]:
+                        seen_eps[ep] = meta
+                else:
+                    seen_eps[ep] = meta
+            all_posts = sorted(seen_eps.values(),
+                               key=lambda m: m.get("episode_num", 0),
+                               reverse=True)
+            latest_blog_posts = all_posts[:3]
+    except Exception:
+        pass
+
     context = {
         **cfg,
         "path_prefix": prefix,
@@ -1160,6 +1184,7 @@ def generate_show_page(slug, *, dry_run=False):
         "canonical_url": f"{GITHUB_RAW}/{cfg['show_page']}",
         "related_show": related_show_data,
         "blog_page": f"blog/{cfg['slug']}/index.html",
+        "latest_blog_posts": latest_blog_posts,
         "all_shows": _build_all_shows_list(),
     }
 
@@ -1194,6 +1219,46 @@ def generate_network_page(*, dry_run=False):
     env = _get_jinja_env()
     template = env.get_template("network_page.html.j2")
 
+    # Collect 6 most recent blog posts across all shows for the landing page
+    latest_blog_posts = []
+    try:
+        from engine.blog import extract_blog_metadata
+        from datetime import date as _date, datetime as _datetime
+
+        all_posts = []
+        for slug in NETWORK_SHOWS:
+            digest_dir = ROOT / "digests" / _SHOW_DIRS.get(slug, slug)
+            if not digest_dir.exists():
+                continue
+            seen_eps: dict[int, dict] = {}
+            for md_file in sorted(digest_dir.glob("*.md")):
+                md_text = md_file.read_text(encoding="utf-8")
+                meta = extract_blog_metadata(md_text, slug, md_file.name)
+                ep = meta["episode_num"]
+                if ep in seen_eps:
+                    if md_file.name > seen_eps[ep]["filename"]:
+                        seen_eps[ep] = meta
+                else:
+                    seen_eps[ep] = meta
+            for meta in seen_eps.values():
+                cfg_show = NETWORK_SHOWS.get(slug, {})
+                meta["show_name"] = cfg_show.get("name", slug)
+                meta["show_color"] = cfg_show.get("brand_color", "#7C5CFF")
+            all_posts.extend(seen_eps.values())
+
+        def _sort_key(p):
+            d = p.get("date_obj")
+            if isinstance(d, _datetime):
+                return d.date()
+            if isinstance(d, _date):
+                return d
+            return _date.min
+
+        all_posts.sort(key=_sort_key, reverse=True)
+        latest_blog_posts = all_posts[:6]
+    except Exception:
+        pass
+
     context = {
         "path_prefix": "",
         "page_title": "Nerra Network | 10 Daily Shows",
@@ -1203,6 +1268,7 @@ def generate_network_page(*, dry_run=False):
         "og_image": None,  # No single show image represents the network
         "canonical_url": f"{GITHUB_RAW}/index.html",
         "all_shows": _build_all_shows_list(),
+        "latest_blog_posts": latest_blog_posts,
     }
 
     html = template.render(**context)
@@ -1448,6 +1514,119 @@ def generate_all_blogs(*, dry_run=False):
 
 
 # ---------------------------------------------------------------------------
+# Sitemap generation
+# ---------------------------------------------------------------------------
+
+_SHOW_DIRS = {
+    "tesla": "tesla_shorts_time",
+    "omni_view": "omni_view",
+    "fascinating_frontiers": "fascinating_frontiers",
+    "planetterrian": "planetterrian",
+    "env_intel": "env_intel",
+    "models_agents": "models_agents",
+    "models_agents_beginners": "models_agents_beginners",
+    "finansy_prosto": "finansy_prosto",
+    "modern_investing": "modern_investing",
+    "privet_russian": "privet_russian",
+}
+
+
+def generate_sitemap(*, dry_run=False):
+    """Generate sitemap.xml with all pages on the site."""
+    from xml.sax.saxutils import escape as _esc
+
+    base = "https://nerranetwork.com"
+    urls: list[tuple[str, str, str]] = []  # (loc, priority, lastmod)
+
+    # Landing page
+    urls.append((f"{base}/", "1.0", ""))
+
+    # Show pages, summaries pages, blog indices
+    for slug, cfg in NETWORK_SHOWS.items():
+        urls.append((f"{base}/{cfg['show_page']}", "0.8", ""))
+        urls.append((f"{base}/{cfg['summaries_page']}", "0.7", ""))
+        urls.append((f"{base}/blog/{slug}/index.html", "0.7", ""))
+
+    # Network blog hub
+    urls.append((f"{base}/blog/index.html", "0.7", ""))
+
+    # Russian hub
+    urls.append((f"{base}/ru/index.html", "0.7", ""))
+
+    # Special pages
+    for extra in ["modern-investing-resources.html", "404.html"]:
+        if (ROOT / extra).exists():
+            urls.append((f"{base}/{extra}", "0.5", ""))
+
+    # Individual blog posts
+    blog_dir = ROOT / "blog"
+    if blog_dir.exists():
+        for show_dir in sorted(blog_dir.iterdir()):
+            if show_dir.is_dir():
+                for ep_file in sorted(show_dir.glob("ep*.html")):
+                    rel = f"blog/{show_dir.name}/{ep_file.name}"
+                    urls.append((f"{base}/{rel}", "0.6", ""))
+
+    # Build XML
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for loc, priority, lastmod in urls:
+        lines.append(f"  <url>")
+        lines.append(f"    <loc>{_esc(loc)}</loc>")
+        lines.append(f"    <priority>{priority}</priority>")
+        if lastmod:
+            lines.append(f"    <lastmod>{_esc(lastmod)}</lastmod>")
+        lines.append(f"  </url>")
+    lines.append("</urlset>")
+    lines.append("")
+
+    xml = "\n".join(lines)
+
+    out_path = ROOT / "sitemap.xml"
+    if dry_run:
+        print(f"[dry-run] Would write {out_path} ({len(urls)} URLs)")
+        return None
+
+    out_path.write_text(xml, encoding="utf-8")
+    print(f"Wrote {out_path} ({len(urls)} URLs)")
+    return out_path
+
+
+# ---------------------------------------------------------------------------
+# 404 page
+# ---------------------------------------------------------------------------
+
+def generate_404_page(*, dry_run=False):
+    """Generate a custom 404 error page."""
+    env = _get_jinja_env()
+    template = env.get_template("404.html.j2")
+
+    context = {
+        "path_prefix": "",
+        "page_title": "Page Not Found | Nerra Network",
+        "meta_description": "The page you're looking for doesn't exist.",
+        "meta_keywords": "",
+        "theme_color": "#7C5CFF",
+        "og_image": None,
+        "canonical_url": "",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "404.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
+# ---------------------------------------------------------------------------
 
 def main():
     parser = argparse.ArgumentParser(
@@ -1508,6 +1687,8 @@ def main():
         generate_all_summaries(dry_run=args.dry_run)
         generate_network_page(dry_run=args.dry_run)
         generate_all_blogs(dry_run=args.dry_run)
+        generate_sitemap(dry_run=args.dry_run)
+        generate_404_page(dry_run=args.dry_run)
         return
 
     if args.shows:

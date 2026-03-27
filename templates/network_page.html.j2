@@ -191,6 +191,41 @@
         </div>
     </section>
 
+    <!-- Latest from the Blog -->
+    {% if latest_blog_posts %}
+    <section class="nn-section">
+        <div class="container">
+            <div class="nn-section-header">
+                <div class="section-label">Blog</div>
+                <h2>Latest from the Blog</h2>
+                <p>In-depth articles from our latest episodes.</p>
+            </div>
+            <div class="blog-idx-grid" style="max-width:900px;margin:0 auto;padding-bottom:var(--sp-8)">
+                {% for post in latest_blog_posts %}
+                <a href="blog/{{ post.show_slug }}/ep{{ '%03d' % post.episode_num }}.html"
+                   class="blog-idx-card"
+                   style="--card-show-color: {{ post.show_color }}">
+                    <div class="blog-idx-card-top">
+                        <span class="blog-idx-show-badge" style="background:color-mix(in srgb, {{ post.show_color }} 15%, transparent);color:{{ post.show_color }}">{{ post.show_name }}</span>
+                        <span class="blog-idx-date">{{ post.date }}</span>
+                        <span class="blog-idx-ep">Ep {{ post.episode_num }}</span>
+                        <span class="blog-idx-reading">{{ post.reading_time_min }} min</span>
+                    </div>
+                    <h2>{{ post.title }}</h2>
+                    {% if post.hook %}
+                    <p>{{ post.hook[:140] }}{% if post.hook|length > 140 %}&hellip;{% endif %}</p>
+                    {% endif %}
+                    <span class="blog-idx-read-more" style="color:{{ post.show_color }}">Read article &rarr;</span>
+                </a>
+                {% endfor %}
+            </div>
+            <div style="text-align:center">
+                <a href="blog/index.html" class="nn-btn nn-btn-primary" style="font-size:0.9rem;padding:var(--sp-3) var(--sp-8)">View all blog posts</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
     <!-- About the Network -->
     <section class="nn-section" style="background:var(--nn-bg-alt);">
         <div class="container">

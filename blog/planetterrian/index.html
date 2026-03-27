@@ -95,93 +95,6 @@
             background: color-mix(in srgb, var(--show-color) 20%, transparent);
             border-color: var(--show-color);
         }
-
-        /* Posts grid */
-        .blog-idx-grid {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 var(--sp-6) var(--sp-16);
-            display: grid;
-            gap: var(--sp-5);
-        }
-        @media (min-width: 640px) {
-            .blog-idx-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .blog-idx-card {
-            display: flex;
-            flex-direction: column;
-            padding: var(--sp-6);
-            background: var(--nn-card);
-            border: 1px solid var(--nn-border);
-            border-radius: 14px;
-            text-decoration: none;
-            transition: all var(--duration) var(--ease);
-        }
-        .blog-idx-card:hover {
-            border-color: var(--show-color);
-            background: var(--nn-card-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        }
-        .blog-idx-card-top {
-            display: flex;
-            align-items: center;
-            gap: var(--sp-3);
-            margin-bottom: var(--sp-3);
-        }
-        .blog-idx-date {
-            font-family: var(--font-ui);
-            font-size: 0.8rem;
-            color: var(--nn-text-muted);
-        }
-        .blog-idx-ep {
-            font-family: var(--font-ui);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 1px 8px;
-            border-radius: 100px;
-            background: color-mix(in srgb, var(--show-color) 15%, transparent);
-            color: var(--show-color);
-        }
-        .blog-idx-reading {
-            font-family: var(--font-ui);
-            font-size: 0.75rem;
-            color: var(--nn-text-muted);
-            margin-left: auto;
-        }
-        .blog-idx-card h2 {
-            font-family: var(--font-heading);
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--nn-white);
-            line-height: 1.3;
-            margin: 0 0 var(--sp-2);
-        }
-        .blog-idx-card p {
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            color: var(--nn-text-muted);
-            line-height: 1.5;
-            margin: 0;
-            flex: 1;
-        }
-        .blog-idx-read-more {
-            font-family: var(--font-ui);
-            font-size: 0.8rem;
-            color: var(--show-color);
-            margin-top: var(--sp-4);
-            font-weight: 500;
-        }
-
-        .blog-idx-empty {
-            text-align: center;
-            padding: var(--sp-16) var(--sp-6);
-            color: var(--nn-text-muted);
-            font-family: var(--font-ui);
-        }
     </style>
 
 
@@ -264,6 +177,9 @@
                         <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                     <div class="nn-nav-dropdown-menu">
+                        <a href="../../blog/index.html" style="font-weight:600;border-bottom:1px solid var(--nn-border);padding-bottom:8px;margin-bottom:4px">
+                            All Blog Posts
+                        </a>
                         
                         <a href="../../blog/models_agents/index.html">
                             <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
@@ -387,6 +303,9 @@
         </div>
         <div class="nn-mobile-shows">
             <div class="nn-mobile-shows-title">Blogs</div>
+            <a href="../../blog/index.html" class="nn-mobile-show-link" style="font-weight:600" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                All Blog Posts
+            </a>
             
             <a href="../../blog/models_agents/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
                 <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
@@ -460,6 +379,32 @@
     <!-- Posts -->
     
     <div class="blog-idx-grid">
+        
+        <a href="ep036.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 36</span>
+                <span class="blog-idx-reading">4 min</span>
+            </div>
+            <h2>Planetterrian Daily</h2>
+            
+            <p>Excess belly fat combined with low muscle mass raises death risk by 83% through accelerated inflammation and muscle loss.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
+        <a href="ep035.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date">March 26, 2026</span>
+                <span class="blog-idx-ep">Ep 35</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Planetterrian Daily</h2>
+            
+            <p>Light-activated nanoparticles trigger copper overload to kill cancer cells 100 times more effectively than existing chemotherapy.</p>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
         
         <a href="ep034.html" class="blog-idx-card">
             <div class="blog-idx-card-top">
@@ -642,7 +587,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Blog</h4>
-                    <a href="../../blog.rss">Blog RSS (All Shows)</a>
+                    <a href="../../blog/index.html">All Blog Posts</a>
                     
                     <a href="../../blog/models_agents/index.html">Models & Agents</a>
                     
@@ -664,6 +609,7 @@
                     
                     <a href="../../blog/privet_russian/index.html">Привет, Русский!</a>
                     
+                    <a href="../../blog.rss">Blog RSS (All Shows)</a>
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>

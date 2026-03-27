@@ -120,101 +120,6 @@
             border-color: var(--nn-accent);
             color: var(--nn-accent);
         }
-
-        /* Posts grid */
-        .blog-idx-grid {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 var(--sp-6) var(--sp-16);
-            display: grid;
-            gap: var(--sp-5);
-        }
-        @media (min-width: 640px) {
-            .blog-idx-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .blog-idx-card {
-            display: flex;
-            flex-direction: column;
-            padding: var(--sp-6);
-            background: var(--nn-card);
-            border: 1px solid var(--nn-border);
-            border-radius: 14px;
-            text-decoration: none;
-            transition: all var(--duration) var(--ease);
-        }
-        .blog-idx-card:hover {
-            border-color: var(--card-show-color, var(--nn-accent));
-            background: var(--nn-card-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        }
-        .blog-idx-card-top {
-            display: flex;
-            align-items: center;
-            gap: var(--sp-2);
-            margin-bottom: var(--sp-3);
-            flex-wrap: wrap;
-        }
-        .blog-idx-show-badge {
-            font-family: var(--font-ui);
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 100px;
-            white-space: nowrap;
-        }
-        .blog-idx-date {
-            font-family: var(--font-ui);
-            font-size: 0.8rem;
-            color: var(--nn-text-muted);
-        }
-        .blog-idx-ep {
-            font-family: var(--font-ui);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 1px 8px;
-            border-radius: 100px;
-            background: color-mix(in srgb, var(--card-show-color, var(--nn-accent)) 15%, transparent);
-            color: var(--card-show-color, var(--nn-accent));
-        }
-        .blog-idx-reading {
-            font-family: var(--font-ui);
-            font-size: 0.75rem;
-            color: var(--nn-text-muted);
-            margin-left: auto;
-        }
-        .blog-idx-card h2 {
-            font-family: var(--font-heading);
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--nn-white);
-            line-height: 1.3;
-            margin: 0 0 var(--sp-2);
-        }
-        .blog-idx-card p {
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            color: var(--nn-text-muted);
-            line-height: 1.5;
-            margin: 0;
-            flex: 1;
-        }
-        .blog-idx-read-more {
-            font-family: var(--font-ui);
-            font-size: 0.8rem;
-            margin-top: var(--sp-4);
-            font-weight: 500;
-        }
-
-        .blog-idx-empty {
-            text-align: center;
-            padding: var(--sp-16) var(--sp-6);
-            color: var(--nn-text-muted);
-            font-family: var(--font-ui);
-        }
     </style>
 
 
@@ -295,6 +200,9 @@
                         <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                     <div class="nn-nav-dropdown-menu">
+                        <a href="../blog/index.html" style="font-weight:600;border-bottom:1px solid var(--nn-border);padding-bottom:8px;margin-bottom:4px">
+                            All Blog Posts
+                        </a>
                         
                         <a href="../blog/models_agents/index.html">
                             <img src="../assets/covers/models-agents.jpg" alt="" loading="lazy">
@@ -418,6 +326,9 @@
         </div>
         <div class="nn-mobile-shows">
             <div class="nn-mobile-shows-title">Blogs</div>
+            <a href="../blog/index.html" class="nn-mobile-show-link" style="font-weight:600" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                All Blog Posts
+            </a>
             
             <a href="../blog/models_agents/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
                 <img src="../assets/covers/models-agents.jpg" alt="" loading="lazy">
@@ -517,6 +428,125 @@
     
     <div class="blog-idx-grid" id="blog-grid">
         
+        <a href="tesla/ep417.html"
+           class="blog-idx-card"
+           data-show="tesla"
+           style="--card-show-color: #E31937">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #E31937 15%, transparent); color: #E31937">Tesla Shorts Time</span>
+                <span class="blog-idx-date">March 27, 2026</span>
+                <span class="blog-idx-ep">Ep 417</span>
+                <span class="blog-idx-reading">7 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla makes Fortune’s 2026 Most Innovative Companies list thanks to the Cybercab as production begins this year.</p>
+            
+            <span class="blog-idx-read-more" style="color: #E31937">Read article &rarr;</span>
+        </a>
+        
+        <a href="omni_view/ep024.html"
+           class="blog-idx-card"
+           data-show="omni_view"
+           style="--card-show-color: #0B6FD6">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #0B6FD6 15%, transparent); color: #0B6FD6">Omni View</span>
+                <span class="blog-idx-date">March 27, 2026</span>
+                <span class="blog-idx-ep">Ep 24</span>
+                <span class="blog-idx-reading">16 min</span>
+            </div>
+            <h2>Omni View</h2>
+            
+            <p>Trump extends deadline for Iran to reopen Strait of Hormuz to April 6, pausing strikes on energy sites as oil markets fluctuate.</p>
+            
+            <span class="blog-idx-read-more" style="color: #0B6FD6">Read article &rarr;</span>
+        </a>
+        
+        <a href="models_agents/ep021.html"
+           class="blog-idx-card"
+           data-show="models_agents"
+           style="--card-show-color: #8B5CF6">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #8B5CF6 15%, transparent); color: #8B5CF6">Models & Agents</span>
+                <span class="blog-idx-date">March 27, 2026</span>
+                <span class="blog-idx-ep">Ep 21</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Models & Agents</h2>
+            
+            <p>New arXiv papers expose critical flaws in how we evaluate depression-detection models, LLM pruning, and verbalized confidence.</p>
+            
+            <span class="blog-idx-read-more" style="color: #8B5CF6">Read article &rarr;</span>
+        </a>
+        
+        <a href="modern_investing/ep007.html"
+           class="blog-idx-card"
+           data-show="modern_investing"
+           style="--card-show-color: #059669">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #059669 15%, transparent); color: #059669">Modern Investing Techniques</span>
+                <span class="blog-idx-date">March 27, 2026</span>
+                <span class="blog-idx-ep">Ep 7</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Modern Investing Techniques</h2>
+            
+            <p>Oil prices climb as Trump notes Iran allowed 10 tankers through the Strait of Hormuz, creating fresh energy-sector volatility.</p>
+            
+            <span class="blog-idx-read-more" style="color: #059669">Read article &rarr;</span>
+        </a>
+        
+        <a href="omni_view/ep023.html"
+           class="blog-idx-card"
+           data-show="omni_view"
+           style="--card-show-color: #0B6FD6">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #0B6FD6 15%, transparent); color: #0B6FD6">Omni View</span>
+                <span class="blog-idx-date">March 26, 2026</span>
+                <span class="blog-idx-ep">Ep 23</span>
+                <span class="blog-idx-reading">16 min</span>
+            </div>
+            <h2>Omni View</h2>
+            
+            <p>Iran has rejected President Trump’s proposed peace plan as a pretext for invasion, while Israel claims it killed Iran’s naval chief amid escalating Middle East &hellip;</p>
+            
+            <span class="blog-idx-read-more" style="color: #0B6FD6">Read article &rarr;</span>
+        </a>
+        
+        <a href="planetterrian/ep035.html"
+           class="blog-idx-card"
+           data-show="planetterrian"
+           style="--card-show-color: #018DB1">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #018DB1 15%, transparent); color: #018DB1">Planetterrian Daily</span>
+                <span class="blog-idx-date">March 26, 2026</span>
+                <span class="blog-idx-ep">Ep 35</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Planetterrian Daily</h2>
+            
+            <p>Light-activated nanoparticles trigger copper overload to kill cancer cells 100 times more effectively than existing chemotherapy.</p>
+            
+            <span class="blog-idx-read-more" style="color: #018DB1">Read article &rarr;</span>
+        </a>
+        
+        <a href="env_intel/ep015.html"
+           class="blog-idx-card"
+           data-show="env_intel"
+           style="--card-show-color: #1B5E20">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #1B5E20 15%, transparent); color: #1B5E20">Environmental Intelligence</span>
+                <span class="blog-idx-date">March 26, 2026</span>
+                <span class="blog-idx-ep">Ep 15</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Environmental Intelligence</h2>
+            
+            <p>Trans Mountain pipeline reaches full capacity in April due to Middle East disruptions, directly affecting crude export scheduling and associated environmental c&hellip;</p>
+            
+            <span class="blog-idx-read-more" style="color: #1B5E20">Read article &rarr;</span>
+        </a>
+        
         <a href="privet_russian/ep005.html"
            class="blog-idx-card"
            data-show="privet_russian"
@@ -525,6 +555,21 @@
                 <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #6366F1 15%, transparent); color: #6366F1">Привет, Русский!</span>
                 <span class="blog-idx-date">March 26, 2026</span>
                 <span class="blog-idx-ep">Ep 5</span>
+                <span class="blog-idx-reading">4 min</span>
+            </div>
+            <h2>Привет, Русский!</h2>
+            
+            <span class="blog-idx-read-more" style="color: #6366F1">Read article &rarr;</span>
+        </a>
+        
+        <a href="privet_russian/ep006.html"
+           class="blog-idx-card"
+           data-show="privet_russian"
+           style="--card-show-color: #6366F1">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #6366F1 15%, transparent); color: #6366F1">Привет, Русский!</span>
+                <span class="blog-idx-date">March 26, 2026</span>
+                <span class="blog-idx-ep">Ep 6</span>
                 <span class="blog-idx-reading">4 min</span>
             </div>
             <h2>Привет, Русский!</h2>
@@ -545,6 +590,23 @@
             <h2>Modern Investing Techniques</h2>
             
             <p>Short sellers piling into SoFi while XRP gets positive SEC clarity — two clear signals worth dissecting for your portfolio.</p>
+            
+            <span class="blog-idx-read-more" style="color: #059669">Read article &rarr;</span>
+        </a>
+        
+        <a href="modern_investing/ep006.html"
+           class="blog-idx-card"
+           data-show="modern_investing"
+           style="--card-show-color: #059669">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #059669 15%, transparent); color: #059669">Modern Investing Techniques</span>
+                <span class="blog-idx-date">March 26, 2026</span>
+                <span class="blog-idx-ep">Ep 6</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Modern Investing Techniques</h2>
+            
+            <p>Canada hits the NATO 2% GDP defence target, opening fresh capital-flow opportunities in Canadian aerospace and defence names.</p>
             
             <span class="blog-idx-read-more" style="color: #059669">Read article &rarr;</span>
         </a>
@@ -2358,6 +2420,23 @@
             <span class="blog-idx-read-more" style="color: #7C5CFF">Read article &rarr;</span>
         </a>
         
+        <a href="fascinating_frontiers/ep045.html"
+           class="blog-idx-card"
+           data-show="fascinating_frontiers"
+           style="--card-show-color: #7C5CFF">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #7C5CFF 15%, transparent); color: #7C5CFF">Fascinating Frontiers</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 45</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Fascinating Frontiers</h2>
+            
+            <p>Hubble has caught a tiny comet slowing its spin and then reversing direction entirely.</p>
+            
+            <span class="blog-idx-read-more" style="color: #7C5CFF">Read article &rarr;</span>
+        </a>
+        
         <a href="planetterrian/ep033.html"
            class="blog-idx-card"
            data-show="planetterrian"
@@ -2371,6 +2450,23 @@
             <h2>Planetterrian Daily</h2>
             
             <p>South African raptors have declined sharply over 16 years, with half the studied species dropping more than 50%.</p>
+            
+            <span class="blog-idx-read-more" style="color: #018DB1">Read article &rarr;</span>
+        </a>
+        
+        <a href="planetterrian/ep036.html"
+           class="blog-idx-card"
+           data-show="planetterrian"
+           style="--card-show-color: #018DB1">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #018DB1 15%, transparent); color: #018DB1">Planetterrian Daily</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 36</span>
+                <span class="blog-idx-reading">4 min</span>
+            </div>
+            <h2>Planetterrian Daily</h2>
+            
+            <p>Excess belly fat combined with low muscle mass raises death risk by 83% through accelerated inflammation and muscle loss.</p>
             
             <span class="blog-idx-read-more" style="color: #018DB1">Read article &rarr;</span>
         </a>
@@ -2405,6 +2501,23 @@
             <h2>Environmental Intelligence</h2>
             
             <p>Ontario's absence from federal Ring of Fire impact assessment creates immediate regulatory uncertainty for mining proponents in northern Ontario.</p>
+            
+            <span class="blog-idx-read-more" style="color: #1B5E20">Read article &rarr;</span>
+        </a>
+        
+        <a href="env_intel/ep016.html"
+           class="blog-idx-card"
+           data-show="env_intel"
+           style="--card-show-color: #1B5E20">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #1B5E20 15%, transparent); color: #1B5E20">Environmental Intelligence</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 16</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Environmental Intelligence</h2>
+            
+            <p>Alberta First Nations and farmers demand full federal Impact Assessment for carbon capture pipeline project under IAA.</p>
             
             <span class="blog-idx-read-more" style="color: #1B5E20">Read article &rarr;</span>
         </a>
@@ -2473,6 +2586,23 @@
             <h2>Models & Agents for Beginners</h2>
             
             <p>NVIDIA's new DLSS 5 is making gamers furious — here's why this AI upscaling change actually matters.</p>
+            
+            <span class="blog-idx-read-more" style="color: #F59E0B">Read article &rarr;</span>
+        </a>
+        
+        <a href="models_agents_beginners/ep011.html"
+           class="blog-idx-card"
+           data-show="models_agents_beginners"
+           style="--card-show-color: #F59E0B">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #F59E0B 15%, transparent); color: #F59E0B">Models & Agents for Beginners</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 11</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Models & Agents for Beginners</h2>
+            
+            <p>Anthropic just confirmed their leaked model is a huge leap in AI reasoning — and it happened because of a simple security slip-up.</p>
             
             <span class="blog-idx-read-more" style="color: #F59E0B">Read article &rarr;</span>
         </a>
@@ -2617,7 +2747,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Blog</h4>
-                    <a href="../blog.rss">Blog RSS (All Shows)</a>
+                    <a href="../blog/index.html">All Blog Posts</a>
                     
                     <a href="../blog/models_agents/index.html">Models & Agents</a>
                     
@@ -2639,6 +2769,7 @@
                     
                     <a href="../blog/privet_russian/index.html">Привет, Русский!</a>
                     
+                    <a href="../blog.rss">Blog RSS (All Shows)</a>
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
