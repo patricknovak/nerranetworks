@@ -1072,15 +1072,26 @@ def update_blog_rss(
     base_url: str = "https://nerranetwork.com",
     blog_path_prefix: str = "blog",
     show_slug: str = "",
+    sort_by_date: bool = False,
 ) -> Path:
     """Write a blog RSS feed (no audio enclosures).
 
     Uses plain XML generation (no feedgen dependency).
+
+    When *sort_by_date* is True, posts are sorted by ``date_obj`` instead
+    of ``episode_num``.  Use this for the network-wide aggregated RSS.
     """
     from email.utils import format_datetime as _format_dt
     from xml.sax.saxutils import escape as _esc
 
-    sorted_posts = sorted(posts, key=lambda p: p.get("episode_num", 0), reverse=True)
+    if sort_by_date:
+        sorted_posts = sorted(
+            posts,
+            key=lambda p: p.get("date_obj") or datetime.datetime.min,
+            reverse=True,
+        )
+    else:
+        sorted_posts = sorted(posts, key=lambda p: p.get("episode_num", 0), reverse=True)
     entries = sorted_posts[:50]
 
     items_xml = []

@@ -1456,9 +1456,13 @@ def run(args: argparse.Namespace) -> None:
             _blog_path.write_text(_blog_html, encoding="utf-8")
             logger.info("Blog post written: %s", _blog_path)
 
-            # Regenerate blog index
+            # Regenerate blog index (per-show + network)
             generate_blog_index(config.slug)
             logger.info("Blog index regenerated for %s", config.slug)
+
+            from generate_html import generate_network_blog_index as _gen_net_blog
+            _gen_net_blog()
+            logger.info("Network blog index regenerated")
         else:
             logger.debug("Show %s not in NETWORK_SHOWS, skipping blog generation", config.slug)
     except Exception as exc:

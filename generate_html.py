@@ -1267,6 +1267,22 @@ def generate_blog_posts(slug, *, dry_run=False):
         meta["_md_path"] = md_file
         all_meta.append(meta)
 
+    # Deduplicate by episode number — keep the file with the latest filename
+    # (newer date in filename wins, e.g. Ep413_20260322 over Ep413_20260320)
+    seen_eps: dict[int, dict] = {}
+    for meta in all_meta:
+        ep = meta["episode_num"]
+        if ep in seen_eps:
+            existing = seen_eps[ep]
+            if meta["_md_path"].name > existing["_md_path"].name:
+                print(f"  Warning: duplicate ep{ep} — keeping {meta['_md_path'].name} over {existing['_md_path'].name}")
+                seen_eps[ep] = meta
+            else:
+                print(f"  Warning: duplicate ep{ep} — keeping {existing['_md_path'].name} over {meta['_md_path'].name}")
+        else:
+            seen_eps[ep] = meta
+    all_meta = list(seen_eps.values())
+
     # Sort by episode number
     all_meta.sort(key=lambda m: m["episode_num"])
 
@@ -1328,10 +1344,17 @@ def generate_blog_index(slug, *, dry_run=False, posts=None):
         digest_dir = ROOT / "digests" / show_dirs.get(slug, slug)
         posts = []
         if digest_dir.exists():
+            seen_eps: dict[int, dict] = {}
             for md_file in sorted(digest_dir.glob("*.md")):
                 md_text = md_file.read_text(encoding="utf-8")
                 meta = extract_blog_metadata(md_text, slug, md_file.name)
-                posts.append(meta)
+                ep = meta["episode_num"]
+                if ep in seen_eps:
+                    if md_file.name > seen_eps[ep]["filename"]:
+                        seen_eps[ep] = meta
+                else:
+                    seen_eps[ep] = meta
+            posts = list(seen_eps.values())
 
     # Sort newest first for index display
     posts_sorted = sorted(posts, key=lambda m: m.get("episode_num", 0), reverse=True)
@@ -1351,15 +1374,86 @@ def generate_blog_index(slug, *, dry_run=False, posts=None):
     return out_path
 
 
+def generate_network_blog_index(*, dry_run=False, all_posts=None):
+    """Generate the network-wide blog index page at blog/index.html.
+
+    If *all_posts* is None, collects posts from all shows by scanning
+    their digest directories.
+    """
+    from engine.blog import (
+        extract_blog_metadata,
+        generate_network_blog_index_html,
+    )
+
+    env = _get_jinja_env()
+
+    if all_posts is None:
+        all_posts = []
+        show_dirs = {
+            "tesla": "tesla_shorts_time",
+            "omni_view": "omni_view",
+            "fascinating_frontiers": "fascinating_frontiers",
+            "planetterrian": "planetterrian",
+            "env_intel": "env_intel",
+            "models_agents": "models_agents",
+            "models_agents_beginners": "models_agents_beginners",
+            "finansy_prosto": "finansy_prosto",
+            "modern_investing": "modern_investing",
+            "privet_russian": "privet_russian",
+        }
+        for slug in NETWORK_SHOWS:
+            digest_dir = ROOT / "digests" / show_dirs.get(slug, slug)
+            if not digest_dir.exists():
+                continue
+            seen_eps: dict[int, dict] = {}
+            for md_file in sorted(digest_dir.glob("*.md")):
+                md_text = md_file.read_text(encoding="utf-8")
+                meta = extract_blog_metadata(md_text, slug, md_file.name)
+                ep = meta["episode_num"]
+                if ep in seen_eps:
+                    if md_file.name > seen_eps[ep]["filename"]:
+                        seen_eps[ep] = meta
+                else:
+                    seen_eps[ep] = meta
+            all_posts.extend(seen_eps.values())
+
+    # Sort by date (newest first), fall back to episode_num for posts
+    # without parsed dates
+    import datetime as _dt
+    all_posts_sorted = sorted(
+        all_posts,
+        key=lambda p: p.get("date_obj") or _dt.datetime.min,
+        reverse=True,
+    )
+
+    html = generate_network_blog_index_html(all_posts_sorted, NETWORK_SHOWS, env)
+
+    out_path = ROOT / "blog" / "index.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path} ({len(html):,} bytes)")
+        return None
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
 def generate_all_blogs(*, dry_run=False):
-    """Generate blog posts and index pages for every show."""
-    from engine.blog import extract_blog_metadata
+    """Generate blog posts and index pages for every show, plus network index."""
+    all_posts = []
 
     for slug in NETWORK_SHOWS:
         print(f"\n--- Blog: {NETWORK_SHOWS[slug]['name']} ---")
         results = generate_blog_posts(slug, dry_run=dry_run)
         posts = [meta for meta, _ in results]
         generate_blog_index(slug, dry_run=dry_run, posts=posts)
+        all_posts.extend(posts)
+
+    # Generate network-wide blog index
+    print("\n--- Network Blog Index ---")
+    generate_network_blog_index(dry_run=dry_run, all_posts=all_posts)
 
 
 # ---------------------------------------------------------------------------
