@@ -255,10 +255,23 @@ def convert_md_to_blog_html(md_text: str) -> tuple[str, list[dict]]:
             in_list = False
             list_type = ""
 
-    for line in lines:
+    for idx, line in enumerate(lines):
         stripped = line.strip()
 
         if not stripped:
+            # Look ahead: don't close the list if the next content line
+            # continues the same list type (handles blank-line-separated items).
+            if in_list:
+                next_stripped = ""
+                for future in lines[idx + 1:]:
+                    ns = future.strip()
+                    if ns:
+                        next_stripped = ns
+                        break
+                if list_type == "ol" and re.match(r"^\d+\.\s+", next_stripped):
+                    continue
+                if list_type == "ul" and next_stripped.startswith("- "):
+                    continue
             close_list()
             continue
 
