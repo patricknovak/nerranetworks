@@ -441,6 +441,7 @@ def generate_blog_post_html(
         "next_post": next_post,
         "rss_file": show_config.get("rss_file", ""),
         "show_page": show_config.get("show_page", ""),
+        "summaries_page": show_config.get("summaries_page", ""),
         "blog_index_url": f"../../blog/{show_slug}/index.html",
         "tagline": show_config.get("tagline", ""),
     }

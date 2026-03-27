@@ -73,6 +73,15 @@
         </a>
     </div>
 
+    {% if blog_page %}
+    <div style="text-align:center;margin-bottom:var(--sp-6);">
+        <a href="{{ path_prefix }}{{ blog_page }}" style="display:inline-flex;align-items:center;gap:var(--sp-2);font-family:var(--font-ui);font-size:0.88rem;font-weight:500;color:var(--show-color);text-decoration:none;padding:var(--sp-2) var(--sp-5);border:1px solid color-mix(in srgb, var(--show-color) 30%, transparent);border-radius:100px;transition:all var(--duration) var(--ease);" onmouseover="this.style.background='color-mix(in srgb, var(--show-color) 12%, transparent)'" onmouseout="this.style.background='transparent'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Read in-depth articles on our blog
+        </a>
+    </div>
+    {% endif %}
+
     <!-- Search & Filter Controls -->
     <div class="nn-controls">
         <input type="text" class="nn-search" id="searchBox" placeholder="Search episodes..." aria-label="Search episodes">
