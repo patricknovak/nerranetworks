@@ -1,82 +1,7 @@
 {
   "show": "models_agents_beginners",
-  "last_updated": "2026-03-22",
+  "last_updated": "2026-03-27",
   "episodes": [
-    {
-      "date": "2026-03-09",
-      "headlines": [],
-      "urls": [
-        "https://www.marktechpost.com/2026/03/08/andrej-karpathy-open-sources-autoresearch-a-630-line-python-tool-letting-ai-agents-run-autonomous-ml-experiments-on-single-gpus/",
-        "https://www.tomsguide.com/ai/i-ran-7-real-world-prompts-on-gemini-3-and-claude-sonnet-4-6-the-results-surprised-me",
-        "https://the-decoder.com/ai-agent-benchmarks-obsess-over-coding-while-ignoring-92-of-the-us-labor-market-study-finds/",
-        "https://the-decoder.com/llm-text-data-is-drying-up-but-meta-points-to-unlabeled-video-as-the-next-massive-training-frontier/",
-        "https://the-decoder.com/millions-already-use-ai-chatbots-for-financial-advice-but-experts-warn-of-clear-limits/",
-        "https://www.marktechpost.com/2026/03/09/the-bayesian-upgrade-why-google-ais-new-teaching-method-is-the-key-to-llm-reasoning/",
-        "https://the-decoder.com/openai-employees-hint-at-a-new-omni-model/",
-        "https://the-decoder.com/study-warns-of-ai-brain-fry-as-workers-hit-cognitive-limits-overseeing-ai-agents/",
-        "https://www.artificialintelligence-news.com/news/uk-sovereign-ai-fund-build-domestic-computing-infrastructure/",
-        "https://www.artificialintelligence-news.com/news/city-union-bank-launches-ai-centre-to-support-banking-operations/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "cool_stuff": "### Cool Stuff & Try This\n**[OpenAI's Next Big Thing? Hints of a Super-Smart Omni Model: The Decoder]**\nOpenAI might be working on a new \"omni\" model, which is an upgrade to their AI that handles multiple types of input like text, images, and sound all at once – think of it as evolving from a text-only chatbot to a full multimedia helper. It's cool because it could make AI even better at real-world tasks, like describing a photo you upload or generating audio from your ideas, opening up creative",
-        "quick_bits": "### Quick Bits\n**[UK's New AI Fund Boosts Homegrown Tech]**\nThe UK is launching a sovereign AI fund with £500 million to build its own computing power for AI, meaning less reliance on other countries' tech – it's cool because it could lead to more accessible AI tools made right at home, like faster apps for education or games without global delays.\nSource: https://www.artificialintelligence-news.com/news/uk-sovereign-ai-fund-build-domestic-computing-infrastructure/\n\n**[Bank's AI Center Levels Up"
-      }
-    },
-    {
-      "date": "2026-03-10",
-      "headlines": [],
-      "urls": [
-        "https://www.theverge.com/tech/890996/google-workspace-gemini-ai-docs-sheets-drive",
-        "https://www.theverge.com/ai-artificial-intelligence/891678/youtube-is-expanding-its-ai-deepfake-detection-tool-to-politicians-and-journalists",
-        "https://www.theverge.com/tech/891998/adobe-photoshop-web-mobile-ai-assistant-beta-launch",
-        "https://techcrunch.com/2026/03/10/zoom-launches-an-ai-powered-office-suite-says-ai-avatars-for-meetings-are-coming-soon/",
-        "https://www.theverge.com/ai-artificial-intelligence/892178/meta-moltbook-acquisition-ai-agents",
-        "https://techcrunch.com/2026/03/10/youtube-expands-ai-deepfake-detection-to-politicians-government-officials-and-journalists/",
-        "https://www.theverge.com/tech/891933/meta-oversight-board-ai-labels-deepfake-c2pa-facebook-instagram"
-      ],
-      "quote_author": null,
-      "sections": {
-        "cool_stuff": "### Cool Stuff & Try This\n**[Chat with AI to Edit Your Photos Like Magic: The Verge]**\nAdobe just launched a public beta of an AI assistant inside Photoshop that lets you describe changes to images in plain words, like \"make the sky brighter and add a rainbow,\" and it does the editing for you. This is exciting because it turns pro-level photo tweaking—stuff that used to need hours of learning—into something as easy as texting a friend, perfect for teens making memes, students jazzing up project ",
-        "quick_bits": "### Quick Bits\n**[AI Agents Get Their Own Social Network]**\nMeta just bought Moltbook, a platform like Reddit but for AI agents to post, comment, and connect in an always-on directory—imagine AI helpers chatting and sharing tips like users on TikTok. This is cool because it hints at a future where AIs team up to solve problems for us, maybe helping with school research or game strategies without you lifting a finger.\nSource: https://www.theverge.com/ai-artificial-intelligence/892178/meta-moltboo"
-      }
-    },
-    {
-      "date": "2026-03-11",
-      "headlines": [],
-      "urls": [
-        "https://the-decoder.com/an-ai-agent-hacked-mckinseys-internal-ai-platform-in-two-hours-using-a-decades-old-technique/",
-        "https://the-decoder.com/openais-new-training-dataset-teaches-ai-models-which-instructions-to-trust/",
-        "https://techcrunch.com/2026/03/10/google-gemini-chrome-expands-to-india-canada-new-zealand/",
-        "https://techcrunch.com/2026/03/10/amazon-launches-its-healthcare-ai-assistant-on-its-website-and-app/",
-        "https://www.tomsguide.com/ai/oversight-board-slams-metas-inadequate-deepfake-rules-calls-for-a-total-ai-overhaul",
-        "https://the-decoder.com/german-court-says-its-ai-isnt-enough-to-void-copyright/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "cool_stuff": "### Cool Stuff & Try This\n**[Get AI Help Right in Your Browser: Google's Gemini Expands]**: TechCrunch\nGoogle is rolling out its Gemini AI – a smart chatbot that can understand and generate text, images, and more – into the Chrome browser for users in places like India, Canada, and New Zealand. This means you can have an AI sidekick pop up as a sidebar while browsing, helping with things like summarizing a webpage, pulling info from your Gmail or YouTube, or comparing stuff across tabs. It's coo",
-        "quick_bits": "### Quick Bits\n**[Meta Gets Called Out on Deepfake Rules]**\nMeta's oversight board – a group that reviews the company's policies – is criticizing their rules on deepfakes (fake videos or images created by AI that look super real) as not strong enough, pushing for better ways to detect and label them. This is interesting because as AI makes fakes harder to spot, it could help stop misinformation on social media, like altered videos of celebrities or politicians that teens might share on Instagram"
-      }
-    },
-    {
-      "date": "2026-03-12",
-      "headlines": [],
-      "urls": [
-        "https://www.theverge.com/ai-artificial-intelligence/893625/anthropic-claude-ai-charts-diagrams",
-        "https://the-decoder.com/google-unifies-text-image-video-and-audio-in-a-single-vector-space-with-gemini-embedding-2",
-        "https://www.tomsguide.com/ai/most-people-cant-score-10-10-on-this-ai-quiz-can-you",
-        "https://www.tomsguide.com/ai/new-to-ai-chatbots-7-things-to-try-with-chatgpt-claude-or-gemini-first",
-        "https://techcrunch.com/2026/03/11/wordpress-debuts-a-private-workspace-that-runs-in-your-browser-via-a-new-service-my-wordpress-net/",
-        "https://www.the-decoder.com/nvidia-steps-into-the-open-source-ai-gap-that-openai-meta-and-anthropic-left-behind/",
-        "https://www.technologyreview.com/2026/03/12/1134207/the-download-china-openclaw-ai-craze-us-battery-industry-downturn/",
-        "https://www.theverge.com/streaming/893538/ai-model-netflix-interpositive-ben-affleck"
-      ],
-      "quote_author": null,
-      "sections": {
-        "cool_stuff": "### Cool Stuff & Try This\n**[Test Your AI Smarts with This Fun Quiz]: Latest from Tom's Guide**  \nThis is a quick 10-question quiz about popular AI tools like ChatGPT and Gemini, covering features, updates, and trends — it's designed for anyone curious about AI, not experts. It's cool because it turns learning into a game, helping you spot what you know and what to explore next, like discovering hidden chatbot tricks. Teens into trivia or students prepping for tech classes should try it, as it's",
-        "quick_bits": "### Quick Bits\n**[Nvidia's Betting Big on Free AI Models]**  \nNvidia, the company that makes powerful computer chips for AI, plans to invest $26 billion over five years in creating \"open-weight\" AI models that anyone can use and tweak for free. This is cool because it could mean more accessible tools for beginners, like smarter apps for art or games, countering pricey closed models from other companies. It's exciting for future careers, as it keeps innovation open to everyone.  \nSource: https://"
-      }
-    },
     {
       "date": "2026-03-13",
       "headlines": [],
@@ -156,6 +81,57 @@
         "cool_stuff": "### Cool Stuff & Try This\n**95% of UK Students Use AI — Here’s What They Actually Think** — The Decoder  \nA new survey found that 95% of British students are using generative AI, but their feelings are totally split. Some say it helps them understand topics better and makes learning more interesting. Others worry it’s quietly replacing their ability to think for themselves. Universities are struggling to keep up with these changes.\n\nThis is super relevant if you’re in school or college right now",
         "quick_bits": "### Quick Bits\n**OpenAI Plans to Nearly Double Its Staff**  \nOpenAI is reportedly growing from about 4,500 employees to 8,000 by the end of 2026. They’re hiring in engineering, research, product development, sales, and even “technical ambassadors” who help businesses use AI better. It shows how fast the biggest AI companies are still expanding.\n\nSource: https://www.engadget.com/ai/openai-reportedly-plans-to-double-its-workforce-to-8000-employees-161028377.html\n\n**Minecraft Theme Park Coming to L",
         "deep_dive": "### Explain Like I'm 14\n**How safe testing strategies for AI models actually work**\n\nYou know how when you want to try a new hairstyle, you don’t just chop off all your hair at once? You might test it on a small section first, ask a couple friends what they think, or even use an app to see a photo of the change before committing. That same careful approach is exactly how smart companies test new AI models before showing them to millions of users.\n\nHere’s the simple version: imagine your school h"
+      }
+    },
+    {
+      "date": "2026-03-27",
+      "headlines": [
+        "Anthropic confirms leaked model marks a \"step change\" in reasoning after data breach reveals its existence",
+        "Google Releases Gemini 3.1 Flash Live: A Real-Time Multimodal Voice Model for Low-Latency Audio, Video, and Tool Use for AI Agents",
+        "Google Gemini now lets you import your chats and data from other AI apps",
+        "Apple will reportedly allow other AI chatbots to plug into Siri",
+        "Apple gets full Gemini access and uses distillation to build lightweight on-device AI",
+        "Judge tosses out X's advertiser boycott lawsuit",
+        "Study: Sycophantic AI can undermine human judgment",
+        "Meet the Tech Reporters Using AI to Help Write and Edit Their Stories",
+        "Sanders and Ocasio-Cortez introduce a bill to pause US data center construction",
+        "The debut of Gemini 3.1 Flash Live could make it harder to know if you're talking to a robot",
+        "Wikipedia has banned AI-generated articles",
+        "AMD's Ryzen 9950X3D2 chip features an incredible 208MB of on-chip cache",
+        "ByteDance’s new AI video generation model, Dreamina Seedance 2.0, comes to CapCut",
+        "Conntour raises $7M from General Catalyst, YC to build an AI search engine for security video systems",
+        "GitHub will use Copilot interaction data to train AI models starting April 2026",
+        "OpenAI drops plans to release an adult chatbot",
+        "Uber and Pony.ai are testing a robotaxi service for Europe",
+        "The snow gods: How a couple of ski bums built the internet’s best weather app"
+      ],
+      "urls": [
+        "https://the-decoder.com/anthropic-confirms-leaked-model-marks-a-step-change-in-reasoning-after-data-breach-reveals-its-existence/",
+        "https://the-decoder.com/anthropic-confirms-leaked-model-marks-a-step-change-in-reasoning-after-data-breach-reveals-its-existence/",
+        "https://www.marktechpost.com/2026/03/26/google-releases-gemini-3-1-flash-live-a-real-time-multimodal-voice-model-for-low-latency-audio-video-and-tool-use-for-ai-agents/",
+        "https://www.engadget.com/ai/google-gemini-now-lets-you-import-your-chats-and-data-from-other-ai-apps-225711015.html?src=rss",
+        "https://www.theverge.com/tech/902048/apple-siri-ai-chatbot-update-ios-27",
+        "https://www.engadget.com/ai/wikipedia-has-banned-ai-generated-articles-173641377.html?src=rss",
+        "https://www.engadget.com/ai/openai-drops-plans-to-release-an-adult-chatbot-113121190.html?src=rss",
+        "https://the-decoder.com/apple-gets-full-gemini-access-and-uses-distillation-to-build-lightweight-on-device-ai/",
+        "https://www.engadget.com/social-media/judge-tosses-out-xs-advertiser-boycott-lawsuit-184832071.html?src=rss",
+        "https://arstechnica.com/science/2026/03/study-sycophantic-ai-can-undermine-human-judgment/",
+        "https://www.wired.com/story/tech-reporters-using-ai-write-edit-stories/",
+        "https://www.engadget.com/ai/sanders-and-ocasio-cortez-introduce-a-bill-to-pause-us-data-center-construction-174451974.html?src=rss",
+        "https://arstechnica.com/ai/2026/03/the-debut-of-gemini-3-1-flash-live-could-make-it-harder-to-know-if-youre-talking-to-a-robot/",
+        "https://www.engadget.com/computing/amds-ryzen-9950x3d2-chip-features-an-incredible-208mb-of-on-chip-cache-154137156.html?src=rss",
+        "https://techcrunch.com/2026/03/26/bytedances-new-ai-video-generation-model-dreamina-seedance-2-0-comes-to-capcut/",
+        "https://techcrunch.com/2026/03/26/conntour-raises-7m-from-general-catalyst-yc-to-build-an-ai-search-engine-for-security-video-systems/",
+        "https://the-decoder.com/github-will-use-copilot-interaction-data-to-train-ai-models-starting-april-2026/",
+        "https://www.engadget.com/transportation/uber-and-ponyai-are-testing-a-robotaxi-service-for-europe-104811944.html?src=rss",
+        "https://www.technologyreview.com/2026/03/26/1134470/the-snow-gods-how-a-couple-of-ski-bums-built-the-internets-best-weather-app/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "explain_like_14": "### Explain Like I'm 14\n**What “reasoning” actually means in AI**\n\nYou know how when you’re solving a tough math word problem, you don’t just guess the answer? You read it, break it into smaller steps, try a plan, check if it makes sense, and adjust if you made a mistake. That whole thinking process is reasoning.\n\nModern AI language models started mostly like super-fast autocomplete. They learned to predict the next word in a sentence by looking at billions of examples from the internet. That ma",
+        "cool_stuff": "### Cool Stuff & Try This\n**Google’s New Voice AI Feels Like Talking to a Real Person:** MarkTechPost  \nGoogle just released Gemini 3.1 Flash Live — a model built especially for natural, low-latency conversations using voice, video, and even tools. “Low-latency” just means it responds with almost no delay, like a real conversation instead of waiting for a slow robot. It can understand what it sees on camera and use other tools while talking, which is a big step toward AI agents that can actually",
+        "quick_bits": "### Quick Bits\n**Apple Opening Siri to Other Chatbots**  \nApple is planning to let users pick their favorite AI (like Gemini or Claude) to power Siri’s answers in a future iOS update. This means your phone’s assistant could get way smarter by borrowing brains from different companies.\n\nSource: https://www.theverge.com/tech/902048/apple-siri-ai-chatbot-update-ios-27\n\n**Wikipedia Bans AI-Written Articles**  \nEnglish Wikipedia now officially bans using AI to write or rewrite articles because it oft",
+        "deep_dive": "### Explain Like I'm 14\n**What “reasoning” actually means in AI**\n\nYou know how when you’re solving a tough math word problem, you don’t just guess the answer? You read it, break it into smaller steps, try a plan, check if it makes sense, and adjust if you made a mistake. That whole thinking process is reasoning.\n\nModern AI language models started mostly like super-fast autocomplete. They learned to predict the next word in a sentence by looking at billions of examples from the internet. That ma"
       }
     }
   ]
