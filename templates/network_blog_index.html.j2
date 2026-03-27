@@ -1,0 +1,259 @@
+{% extends "base.html.j2" %}
+
+{% block head_extra %}
+    <link rel="alternate" type="application/rss+xml" title="Nerra Network Blog RSS" href="{{ blog_rss_url }}">
+
+    <style>
+        .blog-idx-hero {
+            position: relative;
+            padding: var(--sp-20) var(--sp-6) var(--sp-12);
+            text-align: center;
+            overflow: hidden;
+        }
+        .blog-idx-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--nn-accent) 15%, transparent), transparent 70%);
+            pointer-events: none;
+        }
+        .blog-idx-hero-inner {
+            position: relative;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        .blog-idx-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-3);
+        }
+        .blog-idx-hero p {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            color: var(--nn-text-muted);
+            line-height: 1.6;
+            margin: 0 0 var(--sp-6);
+        }
+        .blog-rss-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-2);
+            padding: var(--sp-2) var(--sp-5);
+            border-radius: 100px;
+            background: color-mix(in srgb, var(--nn-accent) 12%, transparent);
+            border: 1px solid color-mix(in srgb, var(--nn-accent) 30%, transparent);
+            color: var(--nn-accent);
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-rss-btn:hover {
+            background: color-mix(in srgb, var(--nn-accent) 20%, transparent);
+            border-color: var(--nn-accent);
+        }
+
+        /* Show filter bar */
+        .blog-filter-bar {
+            max-width: 900px;
+            margin: 0 auto var(--sp-6);
+            padding: 0 var(--sp-6);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--sp-2);
+            justify-content: center;
+        }
+        .blog-filter-btn {
+            padding: var(--sp-1) var(--sp-4);
+            border-radius: 100px;
+            border: 1px solid var(--nn-border);
+            background: transparent;
+            color: var(--nn-text-muted);
+            font-family: var(--font-ui);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-filter-btn:hover {
+            border-color: var(--nn-accent);
+            color: var(--nn-white);
+        }
+        .blog-filter-btn.active {
+            background: color-mix(in srgb, var(--nn-accent) 15%, transparent);
+            border-color: var(--nn-accent);
+            color: var(--nn-accent);
+        }
+
+        /* Posts grid */
+        .blog-idx-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 var(--sp-6) var(--sp-16);
+            display: grid;
+            gap: var(--sp-5);
+        }
+        @media (min-width: 640px) {
+            .blog-idx-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .blog-idx-card {
+            display: flex;
+            flex-direction: column;
+            padding: var(--sp-6);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 14px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-idx-card:hover {
+            border-color: var(--card-show-color, var(--nn-accent));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        .blog-idx-card-top {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            margin-bottom: var(--sp-3);
+            flex-wrap: wrap;
+        }
+        .blog-idx-show-badge {
+            font-family: var(--font-ui);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 100px;
+            white-space: nowrap;
+        }
+        .blog-idx-date {
+            font-family: var(--font-ui);
+            font-size: 0.8rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-idx-ep {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 1px 8px;
+            border-radius: 100px;
+            background: color-mix(in srgb, var(--card-show-color, var(--nn-accent)) 15%, transparent);
+            color: var(--card-show-color, var(--nn-accent));
+        }
+        .blog-idx-reading {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            color: var(--nn-text-muted);
+            margin-left: auto;
+        }
+        .blog-idx-card h2 {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            line-height: 1.3;
+            margin: 0 0 var(--sp-2);
+        }
+        .blog-idx-card p {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--nn-text-muted);
+            line-height: 1.5;
+            margin: 0;
+            flex: 1;
+        }
+        .blog-idx-read-more {
+            font-family: var(--font-ui);
+            font-size: 0.8rem;
+            margin-top: var(--sp-4);
+            font-weight: 500;
+        }
+
+        .blog-idx-empty {
+            text-align: center;
+            padding: var(--sp-16) var(--sp-6);
+            color: var(--nn-text-muted);
+            font-family: var(--font-ui);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <!-- Hero -->
+    <header class="blog-idx-hero">
+        <div class="blog-idx-hero-inner">
+            <h1><span class="gradient-text">Nerra Network</span> Blog</h1>
+            <p>The latest articles from all our podcast shows, in one place.</p>
+            <a href="{{ blog_rss_url }}" class="blog-rss-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+                Subscribe via RSS
+            </a>
+        </div>
+    </header>
+
+    <!-- Show filter -->
+    {% if shows %}
+    <div class="blog-filter-bar">
+        <button class="blog-filter-btn active" data-filter="all">All Shows</button>
+        {% for show in shows %}
+        <button class="blog-filter-btn" data-filter="{{ show.slug }}" style="--filter-color: {{ show.color }}">{{ show.name }}</button>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Posts -->
+    {% if posts %}
+    <div class="blog-idx-grid" id="blog-grid">
+        {% for post in posts %}
+        <a href="{{ post.show_slug }}/ep{{ '%03d' % post.episode_num }}.html"
+           class="blog-idx-card"
+           data-show="{{ post.show_slug }}"
+           style="--card-show-color: {{ post.show_color }}">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, {{ post.show_color }} 15%, transparent); color: {{ post.show_color }}">{{ post.show_name }}</span>
+                <span class="blog-idx-date">{{ post.date }}</span>
+                <span class="blog-idx-ep">Ep {{ post.episode_num }}</span>
+                <span class="blog-idx-reading">{{ post.reading_time_min }} min</span>
+            </div>
+            <h2>{{ post.title }}</h2>
+            {% if post.hook %}
+            <p>{{ post.hook[:160] }}{% if post.hook|length > 160 %}&hellip;{% endif %}</p>
+            {% endif %}
+            <span class="blog-idx-read-more" style="color: {{ post.show_color }}">Read article &rarr;</span>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="blog-idx-empty">
+        <p>No blog posts yet. Check back soon!</p>
+    </div>
+    {% endif %}
+
+    <script>
+    (function() {
+        const buttons = document.querySelectorAll('.blog-filter-btn');
+        const cards = document.querySelectorAll('.blog-idx-card');
+        buttons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                buttons.forEach(function(b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-filter');
+                cards.forEach(function(card) {
+                    if (filter === 'all' || card.getAttribute('data-show') === filter) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    })();
+    </script>
+{% endblock %}
