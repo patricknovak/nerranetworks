@@ -11,6 +11,18 @@
     <script type="application/ld+json">
 {{ jsonld }}
     </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nerranetwork.com/"},
+    {"@type": "ListItem", "position": 2, "name": "{{ show_name }}", "item": "https://nerranetwork.com/{{ show_page }}"},
+    {"@type": "ListItem", "position": 3, "name": "Blog", "item": "https://nerranetwork.com/blog/{{ show_slug }}/index.html"},
+    {"@type": "ListItem", "position": 4, "name": "Episode {{ episode_num }}"}
+  ]
+}
+    </script>
 
     <style>
         .blog-hero {
@@ -341,6 +353,16 @@
 {% endblock %}
 
 {% block content %}
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb" style="max-width:900px;margin:calc(72px + var(--sp-4)) auto 0;padding:0 var(--sp-6);font-family:var(--font-ui);font-size:0.82rem;">
+        <ol style="list-style:none;display:flex;flex-wrap:wrap;gap:var(--sp-1);padding:0;margin:0;color:var(--nn-text-muted);">
+            <li><a href="{{ path_prefix }}index.html" style="color:var(--nn-text-muted);text-decoration:none;">Home</a> <span aria-hidden="true">/</span></li>
+            <li><a href="{{ path_prefix }}{{ show_page }}" style="color:var(--nn-text-muted);text-decoration:none;">{{ show_name }}</a> <span aria-hidden="true">/</span></li>
+            <li><a href="{{ blog_index_url }}" style="color:var(--nn-text-muted);text-decoration:none;">Blog</a> <span aria-hidden="true">/</span></li>
+            <li aria-current="page" style="color:var(--show-color);">Episode {{ episode_num }}</li>
+        </ol>
+    </nav>
+
     <!-- Hero -->
     <header class="blog-hero">
         <div class="blog-hero-inner">

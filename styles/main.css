@@ -1590,3 +1590,99 @@ details[open] .faq-question::after { content: '\2212'; }
   color: var(--nn-text-muted);
   font-family: var(--font-ui);
 }
+
+/* ------------------------------------------------------------------ */
+/* Accessibility                                                       */
+/* ------------------------------------------------------------------ */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--sp-4);
+  z-index: 10000;
+  padding: var(--sp-2) var(--sp-4);
+  background: var(--nn-purple);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  border-radius: 0 0 8px 8px;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+}
+body.menu-open {
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------ */
+/* Stock widget (Tesla show page)                                      */
+/* ------------------------------------------------------------------ */
+.stock-widget {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  max-width: 400px;
+  margin: 2rem auto 0;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  font-family: var(--font-ui);
+}
+.stock-widget .ticker {
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  color: var(--nn-white);
+}
+.stock-widget .price {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--nn-white);
+}
+.stock-widget .change {
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 2px 10px;
+  border-radius: 8px;
+}
+.stock-widget .change.up {
+  background: rgba(34,197,94,0.15);
+  color: #22c55e;
+}
+.stock-widget .change.down {
+  background: rgba(239,68,68,0.15);
+  color: #ef4444;
+}
+
+/* ------------------------------------------------------------------ */
+/* Print styles                                                        */
+/* ------------------------------------------------------------------ */
+@media print {
+  .nn-nav, .nn-hamburger, .nn-mobile-menu, .nn-footer,
+  .nn-sticky-audio, audio, .skip-link, .topic-ticker,
+  .hero-cta-row, .subscribe-grid, .subscribe-rss-grid {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #111;
+  }
+  a { color: #111; text-decoration: underline; }
+  .glass-card {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    box-shadow: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Mobile hero height fix                                              */
+/* ------------------------------------------------------------------ */
+@media (max-width: 640px) {
+  .network-hero {
+    min-height: auto;
+    padding: var(--sp-16) 0 var(--sp-12);
+  }
+}
