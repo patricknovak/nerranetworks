@@ -945,7 +945,7 @@
                     const doc = parser.parseFromString(xml, 'text/xml');
                     const items = doc.querySelectorAll('item');
                     if (!items.length) return;
-                    // Feeds may be in ascending or descending order — check both ends, pick newest
+                    // Feeds may be ascending or descending — pick the newest item
                     const first = items[0];
                     const last = items[items.length - 1];
                     const firstDate = new Date(first.querySelector('pubDate')?.textContent || 0);
