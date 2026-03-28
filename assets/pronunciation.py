@@ -142,9 +142,13 @@ def clean_text_for_tts(text: str) -> str:
 # partial matches (e.g. "EVs" before "EV").
 COMMON_ACRONYMS: Dict[str, str] = {
     # --- AI and ML ---
+    "OpenAI's": "Open A I's",
     "OpenAI": "Open A I",
     "GenAI": "Gen A I",
+    "xAI's": "ex A I's",
     "xAI": "ex A I",
+    "AIs": "A I's",
+    "AI's": "A I's",
     "AI": "A I",
     "ML": "M L",
     "LLM": "L L M",
@@ -1421,8 +1425,12 @@ def prepare_text_for_tts(
             word_pronunciations=words,
         )
 
-    # ── 8. Slashes to spaces (after acronyms so P/E → "P to E" is preserved) ──
+    # ── 8. Post-acronym cleanup ──
+    # Slashes to spaces (after acronyms so P/E → "P to E" is preserved)
     text = replace_slashes(text)
+    # Expanded acronyms followed by hyphens: "A I-powered" → "A I powered"
+    # Matches spaced-letter expansions (A I, E V, M L, etc.) before a hyphen.
+    text = re.sub(r"([A-Z](?: [A-Z])+)-(\w)", r"\1 \2", text)
 
     # ── 9. Final whitespace cleanup ──
     text = re.sub(r"  +", " ", text)
