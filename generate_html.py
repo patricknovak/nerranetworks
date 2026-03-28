@@ -1748,8 +1748,14 @@ def main():
         if args.show not in NETWORK_SHOWS:
             print(f"Error: unknown show '{args.show}'. Valid: {', '.join(NETWORK_SHOWS)}", file=sys.stderr)
             sys.exit(1)
-        generate_show_page(args.show, dry_run=args.dry_run)
-        generate_summaries_page(args.show, dry_run=args.dry_run)
+        if args.blogs:
+            generate_blog_posts(args.show, dry_run=args.dry_run)
+            generate_blog_index(args.show, dry_run=args.dry_run)
+        else:
+            generate_show_page(args.show, dry_run=args.dry_run)
+            generate_summaries_page(args.show, dry_run=args.dry_run)
+        if args.network:
+            generate_network_page(dry_run=args.dry_run)
         return
 
     if args.all:
