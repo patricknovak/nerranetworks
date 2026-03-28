@@ -1783,6 +1783,11 @@ def main():
         help="Generate pages for a specific show slug (e.g. tesla, omni_view)",
     )
     parser.add_argument(
+        "--sitemap",
+        action="store_true",
+        help="Generate sitemap.xml",
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Preview output without writing files",
@@ -1791,19 +1796,19 @@ def main():
     args = parser.parse_args()
 
     # Default to --all if no specific flag
-    if not args.summaries and not args.shows and not args.network and not args.all and not args.show and not args.blogs:
+    if not args.summaries and not args.shows and not args.network and not args.all and not args.show and not args.blogs and not args.sitemap:
         args.all = True
 
     if args.show:
         if args.show not in NETWORK_SHOWS:
             print(f"Error: unknown show '{args.show}'. Valid: {', '.join(NETWORK_SHOWS)}", file=sys.stderr)
             sys.exit(1)
+        # Always generate the show page and summaries page
+        generate_show_page(args.show, dry_run=args.dry_run)
+        generate_summaries_page(args.show, dry_run=args.dry_run)
         if args.blogs:
             generate_blog_posts(args.show, dry_run=args.dry_run)
             generate_blog_index(args.show, dry_run=args.dry_run)
-        else:
-            generate_show_page(args.show, dry_run=args.dry_run)
-            generate_summaries_page(args.show, dry_run=args.dry_run)
         if args.network:
             generate_network_page(dry_run=args.dry_run)
         return
@@ -1823,8 +1828,13 @@ def main():
         generate_all_summaries(dry_run=args.dry_run)
     if args.network:
         generate_network_page(dry_run=args.dry_run)
-    if args.blogs:
+        # --network --blogs: regenerate network blog index only (not all posts)
+        if args.blogs:
+            generate_network_blog_index(dry_run=args.dry_run)
+    elif args.blogs:
         generate_all_blogs(dry_run=args.dry_run)
+    if args.sitemap:
+        generate_sitemap(dry_run=args.dry_run)
 
 
 if __name__ == "__main__":
