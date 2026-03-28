@@ -34,16 +34,6 @@
     <link rel="stylesheet" href="styles/main.css">
 
     
-
-<style>
-  .stock-widget { max-width: 400px; margin: 2rem auto 0; padding: 12px 20px; background: var(--nn-card); border-radius: 12px; border: 1px solid var(--nn-border); display: flex; align-items: center; gap: 12px; font-family: var(--font-ui); font-size: 0.9rem; flex-wrap: wrap; justify-content: center; }
-  .stock-widget .ticker { font-weight: 700; font-size: 1.1rem; color: var(--nn-white); }
-  .stock-widget .price { font-weight: 600; color: var(--nn-white); }
-  .stock-widget .change { font-weight: 600; }
-  .stock-widget .change.up { color: #22c55e; }
-  .stock-widget .change.down { color: #ef4444; }
-</style>
-
 <!-- Schema.org PodcastSeries -->
 <script type="application/ld+json">
 {
@@ -64,6 +54,7 @@
     
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
     <nav class="nn-nav">
         <div class="nn-nav-inner">
@@ -74,58 +65,58 @@
 
             <ul class="nn-nav-links">
                 <li class="nn-nav-dropdown">
-                    <button class="nn-nav-dropdown-btn">
+                    <button class="nn-nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
                         Shows
                         <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
-                    <div class="nn-nav-dropdown-menu">
+                    <div class="nn-nav-dropdown-menu" role="menu">
                         
-                        <a href="models-agents.html">
+                        <a href="models-agents.html" role="menuitem">
                             <img src="assets/covers/models-agents.jpg" alt="" loading="lazy">
                             Models & Agents
                         </a>
                         
-                        <a href="planetterrian.html">
+                        <a href="planetterrian.html" role="menuitem">
                             <img src="assets/covers/planetterrian-daily.jpg" alt="" loading="lazy">
                             Planetterrian Daily
                         </a>
                         
-                        <a href="omni-view.html">
+                        <a href="omni-view.html" role="menuitem">
                             <img src="assets/covers/omni-view.jpg" alt="" loading="lazy">
                             Omni View
                         </a>
                         
-                        <a href="models-agents-beginners.html">
+                        <a href="models-agents-beginners.html" role="menuitem">
                             <img src="assets/covers/models-agents-beginners.jpg" alt="" loading="lazy">
                             Models & Agents for Beginners
                         </a>
                         
-                        <a href="fascinating_frontiers.html">
+                        <a href="fascinating_frontiers.html" role="menuitem">
                             <img src="assets/covers/fascinating-frontiers.jpg" alt="" loading="lazy">
                             Fascinating Frontiers
                         </a>
                         
-                        <a href="modern-investing.html">
+                        <a href="modern-investing.html" role="menuitem">
                             <img src="assets/covers/modern-investing.jpg" alt="" loading="lazy">
                             Modern Investing Techniques
                         </a>
                         
-                        <a href="tesla.html">
+                        <a href="tesla.html" role="menuitem">
                             <img src="assets/covers/tesla-shorts-time.jpg" alt="" loading="lazy">
                             Tesla Shorts Time
                         </a>
                         
-                        <a href="env-intel.html">
+                        <a href="env-intel.html" role="menuitem">
                             <img src="assets/covers/environmental-intelligence.jpg" alt="" loading="lazy">
                             Environmental Intelligence
                         </a>
                         
-                        <a href="ru/finansy-prosto.html">
+                        <a href="ru/finansy-prosto.html" role="menuitem">
                             <img src="assets/covers/finansy-prosto.jpg" alt="" loading="lazy">
                             Финансы Просто
                         </a>
                         
-                        <a href="ru/privet-russian.html">
+                        <a href="ru/privet-russian.html" role="menuitem">
                             <img src="assets/covers/privet-russian.jpg" alt="" loading="lazy">
                             Привет, Русский!
                         </a>
@@ -133,7 +124,7 @@
                     </div>
                 </li>
                 <li class="nn-nav-dropdown">
-                    <button class="nn-nav-dropdown-btn">
+                    <button class="nn-nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
                         Blog
                         <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
@@ -202,7 +193,7 @@
 
             </ul>
 
-            <button class="nn-hamburger" aria-label="Toggle menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">&#9776;</button>
+            <button class="nn-hamburger" aria-label="Toggle menu" aria-expanded="false" onclick="var m=document.getElementById('mobileMenu');m.classList.toggle('open');this.setAttribute('aria-expanded',m.classList.contains('open'));document.body.classList.toggle('menu-open')">&#9776;</button>
         </div>
     </nav>
 
@@ -220,52 +211,52 @@
         <div class="nn-mobile-shows">
             <div class="nn-mobile-shows-title">All Shows</div>
             
-            <a href="models-agents.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="models-agents.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/models-agents.jpg" alt="" loading="lazy">
                 Models & Agents
             </a>
             
-            <a href="planetterrian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="planetterrian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/planetterrian-daily.jpg" alt="" loading="lazy">
                 Planetterrian Daily
             </a>
             
-            <a href="omni-view.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="omni-view.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/omni-view.jpg" alt="" loading="lazy">
                 Omni View
             </a>
             
-            <a href="models-agents-beginners.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="models-agents-beginners.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/models-agents-beginners.jpg" alt="" loading="lazy">
                 Models & Agents for Beginners
             </a>
             
-            <a href="fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/fascinating-frontiers.jpg" alt="" loading="lazy">
                 Fascinating Frontiers
             </a>
             
-            <a href="modern-investing.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="modern-investing.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/modern-investing.jpg" alt="" loading="lazy">
                 Modern Investing Techniques
             </a>
             
-            <a href="tesla.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="tesla.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/tesla-shorts-time.jpg" alt="" loading="lazy">
                 Tesla Shorts Time
             </a>
             
-            <a href="env-intel.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="env-intel.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/environmental-intelligence.jpg" alt="" loading="lazy">
                 Environmental Intelligence
             </a>
             
-            <a href="ru/finansy-prosto.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="ru/finansy-prosto.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/finansy-prosto.jpg" alt="" loading="lazy">
                 Финансы Просто
             </a>
             
-            <a href="ru/privet-russian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="ru/privet-russian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/privet-russian.jpg" alt="" loading="lazy">
                 Привет, Русский!
             </a>
@@ -273,56 +264,56 @@
         </div>
         <div class="nn-mobile-shows">
             <div class="nn-mobile-shows-title">Blogs</div>
-            <a href="blog/index.html" class="nn-mobile-show-link" style="font-weight:600" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="blog/index.html" class="nn-mobile-show-link" style="font-weight:600" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 All Blog Posts
             </a>
             
-            <a href="blog/models_agents/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="blog/models_agents/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/models-agents.jpg" alt="" loading="lazy">
                 Models & Agents Blog
             </a>
             
-            <a href="blog/planetterrian/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="blog/planetterrian/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/planetterrian-daily.jpg" alt="" loading="lazy">
                 Planetterrian Daily Blog
             </a>
             
-            <a href="blog/omni_view/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="blog/omni_view/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/omni-view.jpg" alt="" loading="lazy">
                 Omni View Blog
             </a>
             
-            <a href="blog/models_agents_beginners/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="blog/models_agents_beginners/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/models-agents-beginners.jpg" alt="" loading="lazy">
                 Models & Agents for Beginners Blog
             </a>
             
-            <a href="blog/fascinating_frontiers/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="blog/fascinating_frontiers/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/fascinating-frontiers.jpg" alt="" loading="lazy">
                 Fascinating Frontiers Blog
             </a>
             
-            <a href="blog/modern_investing/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="blog/modern_investing/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/modern-investing.jpg" alt="" loading="lazy">
                 Modern Investing Techniques Blog
             </a>
             
-            <a href="blog/tesla/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="blog/tesla/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/tesla-shorts-time.jpg" alt="" loading="lazy">
                 Tesla Shorts Time Blog
             </a>
             
-            <a href="blog/env_intel/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="blog/env_intel/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/environmental-intelligence.jpg" alt="" loading="lazy">
                 Environmental Intelligence Blog
             </a>
             
-            <a href="blog/finansy_prosto/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="blog/finansy_prosto/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/finansy-prosto.jpg" alt="" loading="lazy">
                 Финансы Просто Blog
             </a>
             
-            <a href="blog/privet_russian/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="blog/privet_russian/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/privet-russian.jpg" alt="" loading="lazy">
                 Привет, Русский! Blog
             </a>
@@ -330,6 +321,7 @@
         </div>
     </div>
 
+    <main id="main-content">
     
     <!-- Hero -->
     <section class="show-hero">
@@ -390,7 +382,107 @@
             <div class="nn-section-header" style="text-align:left;">
                 <h2>Recent Episodes</h2>
             </div>
-            <div id="episodes-grid" class="episodes-grid"></div>
+            <div id="episodes-grid" class="episodes-grid">
+                
+                
+                <div class="episode-card glass-card">
+                    <div class="episode-card-title">Ep 417: [Slow News Edition] Tesla makes Fortune’s 2026 Most Innovative Companies list thanks to the Cybercab as production begins this year.</div>
+                    <div class="episode-card-date">Fri, Mar 27, 2026</div>
+                    
+                    <audio controls preload="none" src="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep417_20260327.mp3" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                    
+                </div>
+                
+                <div class="episode-card glass-card">
+                    <div class="episode-card-title">Ep 416: [Slow News Edition] Tesla is developing a new family vehicle that Elon Musk calls way cooler than a minivan as the company begins phasing out the Model S and X.</div>
+                    <div class="episode-card-date">Wed, Mar 25, 2026</div>
+                    
+                    <audio controls preload="none" src="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep416_20260325.mp3" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                    
+                </div>
+                
+                <div class="episode-card glass-card">
+                    <div class="episode-card-title">Ep 415: Cybertruck earns IIHS Top Safety Pick+ while Tesla patents a fresh trailer-style range extender.</div>
+                    <div class="episode-card-date">Tue, Mar 24, 2026</div>
+                    
+                    <audio controls preload="none" src="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep415_20260324.mp3" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                    
+                </div>
+                
+                <div class="episode-card glass-card">
+                    <div class="episode-card-title">Ep 413: Tesla and SpaceX launched the Terafab project to build vertically integrated AI chip production on a massive scale.</div>
+                    <div class="episode-card-date">Sun, Mar 22, 2026</div>
+                    
+                    <audio controls preload="none" src="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep413_20260322.mp3" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                    
+                </div>
+                
+                <div class="episode-card glass-card">
+                    <div class="episode-card-title">Ep 414: NHTSA has escalated its investigation into Tesla's Full Self-Driving software to the engineering analysis phase.</div>
+                    <div class="episode-card-date">Sun, Mar 22, 2026</div>
+                    
+                    <audio controls preload="none" src="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep414_20260322.mp3" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                    
+                </div>
+                
+                <div class="episode-card glass-card">
+                    <div class="episode-card-title">Ep 411: Canada is investing $200 million in its own Spaceport Nova Scotia to cut reliance on SpaceX for future launches.</div>
+                    <div class="episode-card-date">Wed, Mar 18, 2026</div>
+                    
+                    <audio controls preload="none" src="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep411_20260318.mp3" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                    
+                </div>
+                
+                <div class="episode-card glass-card">
+                    <div class="episode-card-title">Ep 408: Elon Musk confirms Tesla's Terafab AI chip plant starts production in just seven days.</div>
+                    <div class="episode-card-date">Sun, Mar 15, 2026</div>
+                    
+                    <audio controls preload="none" src="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep408_20260315.mp3" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                    
+                </div>
+                
+                <div class="episode-card glass-card">
+                    <div class="episode-card-title">Ep 407: Tesla's latest software update brings Comfort Braking to Model Y, enhancing smoother stops for owners.</div>
+                    <div class="episode-card-date">Sat, Mar 14, 2026</div>
+                    
+                    <audio controls preload="none" src="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep407_20260314.mp3" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                    
+                </div>
+                
+                <div class="episode-card glass-card">
+                    <div class="episode-card-title">Ep 406: Tesla gains a stake in SpaceX by converting its $2B xAI investment, deepening ties between Musk's companies.</div>
+                    <div class="episode-card-date">Fri, Mar 13, 2026</div>
+                    
+                    <audio controls preload="none" src="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep406_20260313.mp3" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                    
+                </div>
+                
+                <div class="episode-card glass-card">
+                    <div class="episode-card-title">Ep 405: Tesla is ramping up Cybercab production to hundreds weekly at its Austin factory ahead of launch.</div>
+                    <div class="episode-card-date">Thu, Mar 12, 2026</div>
+                    
+                    <audio controls preload="none" src="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep405_20260312.mp3" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                    
+                </div>
+                
+                <div class="episode-card glass-card">
+                    <div class="episode-card-title">Ep 404: Tesla ramps up Cybercab testing on public roads as it queues for mass production.</div>
+                    <div class="episode-card-date">Wed, Mar 11, 2026</div>
+                    
+                    <audio controls preload="none" src="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep404_20260311.mp3" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                    
+                </div>
+                
+                <div class="episode-card glass-card">
+                    <div class="episode-card-title">Ep 403: Tesla loses two long-time executives, including finance VP Sendil Palani after 17 years and OTA director Thomas Dmytryk after 11 years.</div>
+                    <div class="episode-card-date">Tue, Mar 10, 2026</div>
+                    
+                    <audio controls preload="none" src="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep403_20260310.mp3" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                    
+                </div>
+                
+                
+            </div>
             <div style="text-align:center;margin-top:var(--sp-6);">
                 <a href="tesla-summaries.html" class="nn-btn">View All Episodes</a>
             </div>
@@ -969,6 +1061,7 @@
         </div>
     </section>
 
+    </main>
 
     <!-- Footer -->
     <footer class="nn-footer">
@@ -1069,6 +1162,21 @@
         </div>
     </footer>
 
+    <script>
+    // Toggle aria-expanded on dropdown hover/focus
+    document.querySelectorAll('.nn-nav-dropdown').forEach(function(dd) {
+        var btn = dd.querySelector('.nn-nav-dropdown-btn');
+        if (!btn) return;
+        dd.addEventListener('mouseenter', function() { btn.setAttribute('aria-expanded', 'true'); });
+        dd.addEventListener('mouseleave', function() { btn.setAttribute('aria-expanded', 'false'); });
+        btn.addEventListener('focus', function() { btn.setAttribute('aria-expanded', 'true'); });
+        btn.addEventListener('blur', function() {
+            setTimeout(function() {
+                if (!dd.contains(document.activeElement)) btn.setAttribute('aria-expanded', 'false');
+            }, 100);
+        });
+    });
+    </script>
     
     
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

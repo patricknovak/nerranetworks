@@ -1,16 +1,6 @@
 {% extends "base.html.j2" %}
 
 {% block head_extra %}
-{% if show_slug == 'tesla' %}
-<style>
-  .stock-widget { max-width: 400px; margin: 2rem auto 0; padding: 12px 20px; background: var(--nn-card); border-radius: 12px; border: 1px solid var(--nn-border); display: flex; align-items: center; gap: 12px; font-family: var(--font-ui); font-size: 0.9rem; flex-wrap: wrap; justify-content: center; }
-  .stock-widget .ticker { font-weight: 700; font-size: 1.1rem; color: var(--nn-white); }
-  .stock-widget .price { font-weight: 600; color: var(--nn-white); }
-  .stock-widget .change { font-weight: 600; }
-  .stock-widget .change.up { color: #22c55e; }
-  .stock-widget .change.down { color: #ef4444; }
-</style>
-{% endif %}
 <!-- Schema.org PodcastSeries -->
 <script type="application/ld+json">
 {
@@ -103,7 +93,19 @@
             <div class="nn-section-header" style="text-align:left;">
                 <h2>Recent Episodes</h2>
             </div>
-            <div id="episodes-grid" class="episodes-grid"></div>
+            <div id="episodes-grid" class="episodes-grid">
+                {% if static_episodes %}
+                {% for ep in static_episodes %}
+                <div class="episode-card glass-card">
+                    <div class="episode-card-title">{{ ep.title }}</div>
+                    <div class="episode-card-date">{{ ep.date_display }}</div>
+                    {% if ep.audio_url %}
+                    <audio controls preload="none" src="{{ ep.audio_url }}" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
             <div style="text-align:center;margin-top:var(--sp-6);">
                 <a href="{{ path_prefix }}{{ summaries_page }}" class="nn-btn">View All Episodes</a>
             </div>

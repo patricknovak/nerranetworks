@@ -40,6 +40,7 @@
     {% endif %}
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
     <nav class="nn-nav">
         <div class="nn-nav-inner">
@@ -50,13 +51,13 @@
 
             <ul class="nn-nav-links">
                 <li class="nn-nav-dropdown">
-                    <button class="nn-nav-dropdown-btn">
+                    <button class="nn-nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
                         Shows
                         <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
-                    <div class="nn-nav-dropdown-menu">
+                    <div class="nn-nav-dropdown-menu" role="menu">
                         {% for s in all_shows %}
-                        <a href="{{ path_prefix }}{{ s.show_page }}">
+                        <a href="{{ path_prefix }}{{ s.show_page }}" role="menuitem">
                             <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="" loading="lazy">
                             {{ s.name }}
                         </a>
@@ -64,7 +65,7 @@
                     </div>
                 </li>
                 <li class="nn-nav-dropdown">
-                    <button class="nn-nav-dropdown-btn">
+                    <button class="nn-nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
                         Blog
                         <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
@@ -85,19 +86,19 @@
                 {% endblock %}
             </ul>
 
-            <button class="nn-hamburger" aria-label="Toggle menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">&#9776;</button>
+            <button class="nn-hamburger" aria-label="Toggle menu" aria-expanded="false" onclick="var m=document.getElementById('mobileMenu');m.classList.toggle('open');this.setAttribute('aria-expanded',m.classList.contains('open'));document.body.classList.toggle('menu-open')">&#9776;</button>
         </div>
     </nav>
 
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         {% block mobile_nav_links %}
-        <a href="{{ path_prefix }}index.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+        <a href="{{ path_prefix }}index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         {% endblock %}
         <div class="nn-mobile-shows">
             <div class="nn-mobile-shows-title">All Shows</div>
             {% for s in all_shows %}
-            <a href="{{ path_prefix }}{{ s.show_page }}" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="{{ path_prefix }}{{ s.show_page }}" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="" loading="lazy">
                 {{ s.name }}
             </a>
@@ -105,11 +106,11 @@
         </div>
         <div class="nn-mobile-shows">
             <div class="nn-mobile-shows-title">Blogs</div>
-            <a href="{{ path_prefix }}blog/index.html" class="nn-mobile-show-link" style="font-weight:600" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="{{ path_prefix }}blog/index.html" class="nn-mobile-show-link" style="font-weight:600" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 All Blog Posts
             </a>
             {% for s in all_shows %}
-            <a href="{{ path_prefix }}{{ s.blog_page }}" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+            <a href="{{ path_prefix }}{{ s.blog_page }}" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="" loading="lazy">
                 {{ s.name }} Blog
             </a>
@@ -117,7 +118,9 @@
         </div>
     </div>
 
+    <main id="main-content">
     {% block content %}{% endblock %}
+    </main>
 
     <!-- Footer -->
     <footer class="nn-footer">
@@ -164,6 +167,21 @@
         </div>
     </footer>
 
+    <script>
+    // Toggle aria-expanded on dropdown hover/focus
+    document.querySelectorAll('.nn-nav-dropdown').forEach(function(dd) {
+        var btn = dd.querySelector('.nn-nav-dropdown-btn');
+        if (!btn) return;
+        dd.addEventListener('mouseenter', function() { btn.setAttribute('aria-expanded', 'true'); });
+        dd.addEventListener('mouseleave', function() { btn.setAttribute('aria-expanded', 'false'); });
+        btn.addEventListener('focus', function() { btn.setAttribute('aria-expanded', 'true'); });
+        btn.addEventListener('blur', function() {
+            setTimeout(function() {
+                if (!dd.contains(document.activeElement)) btn.setAttribute('aria-expanded', 'false');
+            }, 100);
+        });
+    });
+    </script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

@@ -1167,8 +1167,46 @@ def generate_show_page(slug, *, dry_run=False):
                                key=lambda m: m.get("episode_num", 0),
                                reverse=True)
             latest_blog_posts = all_posts[:3]
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"Warning: could not collect blog posts for show page: {e}")
+
+    # Collect latest episodes from RSS for static rendering
+    static_episodes = []
+    try:
+        import xml.etree.ElementTree as ET
+        from email.utils import parsedate_to_datetime
+        rss_path = ROOT / cfg["rss_file"]
+        if rss_path.exists():
+            tree = ET.parse(rss_path)
+            root_el = tree.getroot()
+            items = root_el.findall(".//item")
+            for it in items:
+                title = it.findtext("title", "Episode")
+                pub_date_str = it.findtext("pubDate", "")
+                enclosure = it.find("enclosure")
+                audio_url = enclosure.get("url", "") if enclosure is not None else ""
+                pub_date = None
+                if pub_date_str:
+                    try:
+                        pub_date = parsedate_to_datetime(pub_date_str)
+                    except Exception:
+                        pass
+                static_episodes.append({
+                    "title": title,
+                    "pub_date": pub_date,
+                    "pub_date_str": pub_date_str,
+                    "date_display": pub_date.strftime("%a, %b %d, %Y") if pub_date else "",
+                    "audio_url": audio_url,
+                })
+            # Sort newest first
+            static_episodes.sort(
+                key=lambda e: e["pub_date"] or __import__("datetime").datetime.min.replace(
+                    tzinfo=__import__("datetime").timezone.utc),
+                reverse=True,
+            )
+            static_episodes = static_episodes[:12]
+    except Exception as e:
+        print(f"Warning: could not collect episodes from RSS for {slug}: {e}")
 
     context = {
         **cfg,
@@ -1185,6 +1223,7 @@ def generate_show_page(slug, *, dry_run=False):
         "related_show": related_show_data,
         "blog_page": f"blog/{cfg['slug']}/index.html",
         "latest_blog_posts": latest_blog_posts,
+        "static_episodes": static_episodes,
         "all_shows": _build_all_shows_list(),
     }
 
@@ -1256,8 +1295,8 @@ def generate_network_page(*, dry_run=False):
 
         all_posts.sort(key=_sort_key, reverse=True)
         latest_blog_posts = all_posts[:6]
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"Warning: could not collect blog posts for network page: {e}")
 
     # Collect latest episodes from RSS feeds (static rendering)
     latest_episodes = []
@@ -1325,8 +1364,8 @@ def generate_network_page(*, dry_run=False):
                 ep["date_display"] = d.strftime("%a, %b %d, %Y")
             else:
                 ep["date_display"] = ""
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"Warning: could not collect latest episodes from RSS: {e}")
 
     context = {
         "path_prefix": "",
@@ -1604,29 +1643,40 @@ _SHOW_DIRS = {
 def generate_sitemap(*, dry_run=False):
     """Generate sitemap.xml with all pages on the site."""
     from xml.sax.saxutils import escape as _esc
+    import os
+    from datetime import datetime, timezone
 
     base = "https://nerranetwork.com"
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     urls: list[tuple[str, str, str]] = []  # (loc, priority, lastmod)
 
+    def _file_lastmod(path):
+        """Get file modification date as YYYY-MM-DD."""
+        try:
+            mtime = os.path.getmtime(path)
+            return datetime.fromtimestamp(mtime, tz=timezone.utc).strftime("%Y-%m-%d")
+        except Exception:
+            return today
+
     # Landing page
-    urls.append((f"{base}/", "1.0", ""))
+    urls.append((f"{base}/", "1.0", today))
 
     # Show pages, summaries pages, blog indices
     for slug, cfg in NETWORK_SHOWS.items():
-        urls.append((f"{base}/{cfg['show_page']}", "0.8", ""))
-        urls.append((f"{base}/{cfg['summaries_page']}", "0.7", ""))
-        urls.append((f"{base}/blog/{slug}/index.html", "0.7", ""))
+        urls.append((f"{base}/{cfg['show_page']}", "0.8", today))
+        urls.append((f"{base}/{cfg['summaries_page']}", "0.7", today))
+        urls.append((f"{base}/blog/{slug}/index.html", "0.7", today))
 
     # Network blog hub
-    urls.append((f"{base}/blog/index.html", "0.7", ""))
+    urls.append((f"{base}/blog/index.html", "0.7", today))
 
     # Russian hub
-    urls.append((f"{base}/ru/index.html", "0.7", ""))
+    urls.append((f"{base}/ru/index.html", "0.7", today))
 
     # Special pages
     for extra in ["modern-investing-resources.html", "404.html"]:
         if (ROOT / extra).exists():
-            urls.append((f"{base}/{extra}", "0.5", ""))
+            urls.append((f"{base}/{extra}", "0.5", _file_lastmod(ROOT / extra)))
 
     # Individual blog posts
     blog_dir = ROOT / "blog"
@@ -1635,7 +1685,7 @@ def generate_sitemap(*, dry_run=False):
             if show_dir.is_dir():
                 for ep_file in sorted(show_dir.glob("ep*.html")):
                     rel = f"blog/{show_dir.name}/{ep_file.name}"
-                    urls.append((f"{base}/{rel}", "0.6", ""))
+                    urls.append((f"{base}/{rel}", "0.6", _file_lastmod(ep_file)))
 
     # Build XML
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',

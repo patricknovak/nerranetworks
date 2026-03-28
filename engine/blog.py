@@ -200,11 +200,14 @@ def _slugify(text: str) -> str:
     slug = text.lower()
     slug = re.sub(r"[^\w\s-]", "", slug)
     slug = re.sub(r"[\s_]+", "-", slug)
+    slug = re.sub(r"-+", "-", slug)
     return slug.strip("-")
 
 
 def _md_inline(text: str) -> str:
-    """Convert inline markdown (bold, italic, links) to HTML."""
+    """Convert inline markdown (bold, italic, links, code) to HTML."""
+    # Inline code (before bold/italic to avoid conflicts)
+    text = re.sub(r"`(.+?)`", r"<code>\1</code>", text)
     # Bold
     text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
     # Italic
@@ -247,6 +250,9 @@ def convert_md_to_blog_html(md_text: str) -> tuple[str, list[dict]]:
     toc: list[dict] = []
     in_list = False
     list_type = ""  # "ul" or "ol"
+    in_code_block = False
+    code_block_lines: list[str] = []
+    in_blockquote = False
 
     def close_list():
         nonlocal in_list, list_type
@@ -255,8 +261,31 @@ def convert_md_to_blog_html(md_text: str) -> tuple[str, list[dict]]:
             in_list = False
             list_type = ""
 
+    def close_blockquote():
+        nonlocal in_blockquote
+        if in_blockquote:
+            html_parts.append("</blockquote>")
+            in_blockquote = False
+
     for idx, line in enumerate(lines):
         stripped = line.strip()
+
+        # Fenced code blocks
+        if stripped.startswith("```"):
+            if in_code_block:
+                # Close code block
+                from html import escape as _html_escape
+                html_parts.append("<pre><code>" + _html_escape("\n".join(code_block_lines)) + "</code></pre>")
+                code_block_lines = []
+                in_code_block = False
+            else:
+                close_list()
+                close_blockquote()
+                in_code_block = True
+            continue
+        if in_code_block:
+            code_block_lines.append(line)
+            continue
 
         if not stripped:
             # Look ahead: don't close the list if the next content line
@@ -273,28 +302,47 @@ def convert_md_to_blog_html(md_text: str) -> tuple[str, list[dict]]:
                 if list_type == "ul" and next_stripped.startswith("- "):
                     continue
             close_list()
+            close_blockquote()
             continue
 
-        # Headings
+        # Blockquotes
+        if stripped.startswith("> "):
+            close_list()
+            if not in_blockquote:
+                html_parts.append("<blockquote>")
+                in_blockquote = True
+            html_parts.append(f"<p>{_md_inline(stripped[2:])}</p>")
+            continue
+        if stripped == ">":
+            # Empty blockquote continuation line
+            if not in_blockquote:
+                html_parts.append("<blockquote>")
+                in_blockquote = True
+            continue
+        # Close blockquote if we hit non-blockquote content
+        close_blockquote()
+
+        # Headings — demoted one level so page h1 stays in the template
         if stripped.startswith("### "):
             close_list()
             text = stripped[4:].strip()
             slug = _slugify(text)
-            toc.append({"id": slug, "text": text, "level": 3})
-            html_parts.append(f'<h3 id="{slug}">{_md_inline(text)}</h3>')
+            toc.append({"id": slug, "text": text, "level": 4})
+            html_parts.append(f'<h4 id="{slug}">{_md_inline(text)}</h4>')
             continue
         if stripped.startswith("## "):
             close_list()
             text = stripped[3:].strip()
             slug = _slugify(text)
-            toc.append({"id": slug, "text": text, "level": 2})
-            html_parts.append(f'<h2 id="{slug}">{_md_inline(text)}</h2>')
+            toc.append({"id": slug, "text": text, "level": 3})
+            html_parts.append(f'<h3 id="{slug}">{_md_inline(text)}</h3>')
             continue
         if stripped.startswith("# "):
             close_list()
             text = stripped[2:].strip()
             slug = _slugify(text)
-            html_parts.append(f'<h1 id="{slug}">{_md_inline(text)}</h1>')
+            toc.append({"id": slug, "text": text, "level": 2})
+            html_parts.append(f'<h2 id="{slug}">{_md_inline(text)}</h2>')
             continue
 
         # Horizontal rules
@@ -335,6 +383,11 @@ def convert_md_to_blog_html(md_text: str) -> tuple[str, list[dict]]:
         html_parts.append(f"<p>{_md_inline(stripped)}</p>")
 
     close_list()
+    close_blockquote()
+    # Close any unclosed code block
+    if in_code_block and code_block_lines:
+        from html import escape as _html_escape
+        html_parts.append("<pre><code>" + _html_escape("\n".join(code_block_lines)) + "</code></pre>")
     return "\n".join(html_parts), toc
 
 
@@ -342,7 +395,8 @@ def convert_md_to_blog_html(md_text: str) -> tuple[str, list[dict]]:
 # Schema.org JSON-LD
 # ---------------------------------------------------------------------------
 
-def _build_jsonld(metadata: dict, show_name: str, blog_url: str) -> str:
+def _build_jsonld(metadata: dict, show_name: str, blog_url: str,
+                   show_config: dict | None = None) -> str:
     """Build Schema.org BlogPosting JSON-LD."""
     data = {
         "@context": "https://schema.org",
@@ -351,6 +405,8 @@ def _build_jsonld(metadata: dict, show_name: str, blog_url: str) -> str:
         "description": metadata.get("hook", ""),
         "datePublished": metadata.get("date_iso", ""),
         "wordCount": metadata.get("word_count", 0),
+        "articleSection": show_name,
+        "inLanguage": "ru" if show_config and show_config.get("slug") in ("finansy_prosto", "privet_russian") else "en",
         "author": {
             "@type": "Organization",
             "name": show_name,
@@ -364,6 +420,10 @@ def _build_jsonld(metadata: dict, show_name: str, blog_url: str) -> str:
         "url": blog_url,
         "mainEntityOfPage": blog_url,
     }
+    if show_config and show_config.get("podcast_image"):
+        data["image"] = f"https://nerranetwork.com/{show_config['podcast_image']}"
+    if show_config and show_config.get("meta_keywords"):
+        data["keywords"] = show_config["meta_keywords"]
     return json.dumps(data, indent=2)
 
 
@@ -406,7 +466,7 @@ def generate_blog_post_html(
     if not metadata.get("title"):
         metadata["title"] = show_config["name"]
 
-    jsonld = _build_jsonld(metadata, show_config["name"], blog_url)
+    jsonld = _build_jsonld(metadata, show_config["name"], blog_url, show_config)
 
     # Source domains for display
     source_domains = []
@@ -457,71 +517,6 @@ def generate_blog_post_html(
         "summaries_page": show_config.get("summaries_page", ""),
         "blog_index_url": f"../../blog/{show_slug}/index.html",
         "tagline": show_config.get("tagline", ""),
-    }
-
-    return template.render(**context)
-
-
-def generate_network_blog_index_html(
-    posts: list[dict],
-    show_configs: dict,
-    template_env,
-) -> str:
-    """Generate a network-wide blog index aggregating all shows.
-
-    Parameters
-    ----------
-    posts : list[dict]
-        List of metadata dicts from all shows, each with ``show_slug`` key.
-        Should already be sorted newest-first by date.
-    show_configs : dict
-        Full NETWORK_SHOWS dict.
-    template_env :
-        Jinja2 Environment.
-    """
-    from generate_html import _build_all_shows_list, _path_prefix
-
-    path_key = "blog/index.html"
-    blog_url = "https://nerranetwork.com/blog/index.html"
-
-    template = template_env.get_template("network_blog_index.html.j2")
-
-    # Build show list for filter buttons
-    show_list = []
-    slugs_with_posts = {p["show_slug"] for p in posts}
-    for slug, cfg in show_configs.items():
-        if slug in slugs_with_posts:
-            show_list.append({
-                "slug": slug,
-                "name": cfg["name"],
-                "color": cfg["brand_color"],
-            })
-
-    # Enrich posts with show display info
-    enriched_posts = []
-    for post in posts:
-        slug = post.get("show_slug", "")
-        cfg = show_configs.get(slug, {})
-        enriched = dict(post)
-        enriched["show_name"] = cfg.get("name", slug)
-        enriched["show_color"] = cfg.get("brand_color", "#7C5CFF")
-        enriched_posts.append(enriched)
-
-    context = {
-        "path_prefix": _path_prefix(path_key),
-        "page_title": "Nerra Network Blog — All Shows",
-        "meta_description": "The latest blog posts from all Nerra Network podcast shows.",
-        "meta_keywords": "podcast, blog, news, technology, AI, finance, science",
-        "theme_color": "",
-        "og_image": "https://nerranetwork.com/assets/nerra-logo-icon.svg",
-        "canonical_url": blog_url,
-        "show_color": "#7C5CFF",
-        "show_color_dark": "#6B4FE0",
-        "all_shows": _build_all_shows_list(),
-        # Network blog specific
-        "shows": show_list,
-        "posts": enriched_posts,
-        "blog_rss_url": "https://nerranetwork.com/blog.rss",
     }
 
     return template.render(**context)
