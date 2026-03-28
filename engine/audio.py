@@ -359,10 +359,14 @@ def _music_intro_cmd(music_in: str, intro_out: str,
 def _music_overlap_cmd(music_in: str, overlap_out: str,
                        start: int = 5, duration: int = 3,
                        volume: float = 0.5) -> list:
+    # Fade-out over the last 0.5s so the transition to the fadeout segment
+    # is smooth (avoids a volume discontinuity at the concat boundary).
+    fade_out_start = max(0, duration - 0.5)
     return [
         "ffmpeg", "-y", "-threads", "0", "-i", music_in,
         "-ss", str(start), "-t", str(duration),
-        "-af", f"afade=t=in:curve=log:st=0:d=1,volume={volume}",
+        "-af", f"afade=t=in:curve=log:st=0:d=1,volume={volume},"
+               f"afade=t=out:curve=log:st={fade_out_start}:d=0.5",
         "-ar", "44100", "-ac", "2",
         "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
         overlap_out,
@@ -429,12 +433,17 @@ def _mono_silence_cmd(duration_seconds: float, silence_out: str) -> list:
 
 
 def _music_concat_cmd(concat_list: str, music_full_out: str) -> list:
+    # Re-encode MP3 output to eliminate frame boundary artifacts
+    # (pops/clicks/overlapping samples) that occur with -c copy.
+    # WAV output uses stream copy (no frame boundary issues with PCM).
+    if music_full_out.endswith(".wav"):
+        codec = ["-c", "copy"]
+    else:
+        codec = list(_ENCODE_ARGS)
     return [
         "ffmpeg", "-y", "-threads", "0",
         "-f", "concat", "-safe", "0", "-i", concat_list,
-        "-c", "copy",
-        music_full_out,
-    ]
+    ] + codec + [music_full_out]
 
 
 def _final_mix_cmd(voice_in: str, music_in: str, final_out: str) -> list:

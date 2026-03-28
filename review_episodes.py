@@ -465,6 +465,13 @@ def check_repetition(ep: EpisodeReview) -> None:
         re.compile(r"^\w+: now let's"),            # "olya: now let's"
         re.compile(r"^\w+: давайте"),              # Russian: "let's"
         re.compile(r"^повторяйте за"),             # Russian: "repeat after"
+        # Translation patterns — inherent to bilingual language-learning shows
+        re.compile(r"^that means"),               # "that means [translation]"
+        re.compile(r"^it means"),                 # "it means [translation]"
+        re.compile(r"^\w+: that means"),          # "olya: that means"
+        re.compile(r"^\w+: it means"),            # "olya: it means"
+        re.compile(r"^means i am"),               # tail of "that means I am..."
+        re.compile(r"^means the \w+"),            # tail of "that means the..."
     ]
     # Single-letter trigrams are TTS pronunciation splits (e.g. "f s d", "e s a").
     # Also match "the a i", "an a i", "your t f" — article/pronoun + split abbreviation.

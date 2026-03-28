@@ -60,10 +60,11 @@ def music_intro(music_in: str, intro_out: str) -> list:
 
 
 def music_overlap(music_in: str, overlap_out: str) -> list:
-    """3-second overlap starting at 5s mark, 0.5 volume with 1s fade-in."""
+    """3-second overlap starting at 5s mark, 0.5 volume with 1s fade-in and 0.5s fade-out."""
     return [
         "ffmpeg", "-y", "-threads", "0", "-i", music_in, "-ss", "5", "-t", "3",
-        "-af", "afade=t=in:curve=log:st=0:d=1,volume=0.5",
+        "-af", "afade=t=in:curve=log:st=0:d=1,volume=0.5,"
+               "afade=t=out:curve=log:st=2.5:d=0.5",
         "-ar", "44100", "-ac", "2",
         "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
         overlap_out,
@@ -105,11 +106,11 @@ def silence_segment(duration_seconds: float, silence_out: str) -> list:
 
 
 def music_concat(concat_list: str, music_full_out: str) -> list:
-    """Concatenate music segments via concat demuxer."""
+    """Concatenate music segments via concat demuxer with re-encoding."""
     return [
         "ffmpeg", "-y", "-threads", "0",
         "-f", "concat", "-safe", "0", "-i", concat_list,
-        "-c", "copy",
+        "-ar", "44100", "-c:a", "libmp3lame", "-b:a", "192k", "-preset", "fast",
         music_full_out,
     ]
 
@@ -239,7 +240,7 @@ class TestMusicConcatenation:
         cmd = music_concat("/tmp/list.txt", "/tmp/full.mp3")
         assert "-f" in cmd and cmd[cmd.index("-f") + 1] == "concat"
         assert "-safe" in cmd and cmd[cmd.index("-safe") + 1] == "0"
-        assert "-c" in cmd and cmd[cmd.index("-c") + 1] == "copy"
+        assert "-c:a" in cmd and cmd[cmd.index("-c:a") + 1] == "libmp3lame"
 
 
 class TestFinalMix:
