@@ -1580,10 +1580,14 @@ def generate_network_blog_index(*, dry_run=False, all_posts=None):
             digest_dir = ROOT / "digests" / show_dirs.get(slug, slug)
             if not digest_dir.exists():
                 continue
+            cfg = NETWORK_SHOWS[slug]
             seen_eps: dict[int, dict] = {}
             for md_file in sorted(digest_dir.glob("*.md")):
                 md_text = md_file.read_text(encoding="utf-8")
                 meta = extract_blog_metadata(md_text, slug, md_file.name)
+                # Fallback: use show name when digest has no title heading
+                if not meta.get("title"):
+                    meta["title"] = cfg["name"]
                 ep = meta["episode_num"]
                 if ep in seen_eps:
                     if md_file.name > seen_eps[ep]["filename"]:
