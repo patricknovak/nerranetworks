@@ -1,25 +1,7 @@
 {
   "show": "models_agents_beginners",
-  "last_updated": "2026-03-27",
+  "last_updated": "2026-03-28",
   "episodes": [
-    {
-      "date": "2026-03-13",
-      "headlines": [],
-      "urls": [
-        "https://the-decoder.com/claude-can-now-create-interactive-charts-and-visualizations-directly-in-chat/",
-        "https://www.tomsguide.com/ai/ai-chatbot-basics-how-to-write-prompts-that-get-better-responses-and-better-results",
-        "https://the-decoder.com/perplexitys-personal-computer-promises-a-tireless-ai-agent-for-200-a-month/",
-        "https://techcrunch.com/2026/03/12/bumble-introduces-an-ai-dating-assistant-bee/",
-        "https://the-decoder.com/meta-delays-its-next-ai-model-avocado-after-internal-tests-show-it-cant-keep-up-with-google-and-openai/",
-        "https://www.artificialintelligence-news.com/news/bmw-humanoid-robots-manufacturing-europe-leipzig/",
-        "https://the-decoder.com/us-military-chief-says-anthropics-ai-models-pollute-the-supply-chain-with-built-in-ethics/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "cool_stuff": "### Cool Stuff & Try This\n**[Your Tireless AI Sidekick for Everyday Chaos: Perplexity's \"Personal Computer\"] The Decoder**\nPerplexity AI just launched something called the \"Personal Computer,\" which is basically an always-on AI agent (a smart helper that can take actions like a virtual assistant) that runs 24/7 to handle tasks for you, like sorting emails, making presentations, or even controlling apps. It's not a physical device—it's software that lives on your computer and works in the backgro",
-        "quick_bits": "### Quick Bits\n**[Meta Hits Pause on Its Next Big AI Model]**\nMeta is delaying the release of its new AI model called Avocado because internal tests showed it wasn't keeping up with rivals like Google and OpenAI in performance. This is interesting because it shows even tech giants have to iterate carefully, reminding us AI progress isn't always smooth—it's like a video game update that needs more polishing to beat the high scores. For beginners, it's a peek into how competition drives better too"
-      }
-    },
     {
       "date": "2026-03-14",
       "headlines": [],
@@ -132,6 +114,33 @@
         "cool_stuff": "### Cool Stuff & Try This\n**Google’s New Voice AI Feels Like Talking to a Real Person:** MarkTechPost  \nGoogle just released Gemini 3.1 Flash Live — a model built especially for natural, low-latency conversations using voice, video, and even tools. “Low-latency” just means it responds with almost no delay, like a real conversation instead of waiting for a slow robot. It can understand what it sees on camera and use other tools while talking, which is a big step toward AI agents that can actually",
         "quick_bits": "### Quick Bits\n**Apple Opening Siri to Other Chatbots**  \nApple is planning to let users pick their favorite AI (like Gemini or Claude) to power Siri’s answers in a future iOS update. This means your phone’s assistant could get way smarter by borrowing brains from different companies.\n\nSource: https://www.theverge.com/tech/902048/apple-siri-ai-chatbot-update-ios-27\n\n**Wikipedia Bans AI-Written Articles**  \nEnglish Wikipedia now officially bans using AI to write or rewrite articles because it oft",
         "deep_dive": "### Explain Like I'm 14\n**What “reasoning” actually means in AI**\n\nYou know how when you’re solving a tough math word problem, you don’t just guess the answer? You read it, break it into smaller steps, try a plan, check if it makes sense, and adjust if you made a mistake. That whole thinking process is reasoning.\n\nModern AI language models started mostly like super-fast autocomplete. They learned to predict the next word in a sentence by looking at billions of examples from the internet. That ma"
+      }
+    },
+    {
+      "date": "2026-03-28",
+      "headlines": [
+        "Meta's new AI model predicts how your brain reacts to images, sounds, and speech",
+        "Federal judge blocks Trump's ban on Anthropic AI models, calls security risk label \"Orwellian\"",
+        "Not Just Understanding, But Evolving: The All-New Self-Evolving JiuwenClaw Makes Its Debut",
+        "The AI Doc explores how we can survive an uncertain AI future",
+        "Meta's own supervisory body warns that Community Notes are no match for AI disinformation",
+        "From ‘Project Hail Mary’ to Artemis II, spaceflight captures audiences when it centers on people because human space travel is hazardous"
+      ],
+      "urls": [
+        "https://the-decoder.com/metas-new-ai-model-predicts-how-your-brain-reacts-to-images-sounds-and-speech/",
+        "https://the-decoder.com/metas-new-ai-model-predicts-how-your-brain-reacts-to-images-sounds-and-speech/",
+        "https://www.marktechpost.com/2026/03/27/openjiuwen-community-releases-jiuwenclaw-a-self-evolving-ai-agent-for-task-management/",
+        "https://www.engadget.com/entertainment/tv-movies/the-ai-doc-explores-how-we-can-survive-an-uncertain-ai-future-154341735.html?src=rss",
+        "https://the-decoder.com/federal-judge-blocks-trumps-ban-on-anthropic-ai-models-calls-security-risk-label-orwellian/",
+        "https://the-decoder.com/metas-own-supervisory-body-warns-that-community-notes-are-no-match-for-ai-disinformation/",
+        "https://theconversation.com/from-project-hail-mary-to-artemis-ii-spaceflight-captures-audiences-when-it-centers-on-people-because-human-space-travel-is-hazardous-279147"
+      ],
+      "quote_author": null,
+      "sections": {
+        "explain_like_14": "### Explain Like I'm 14\n**How AI brain-prediction models actually work**\n\nYou know how when you're texting, your phone suggests the next word based on what you've typed so far? It’s guessing what comes next by looking at patterns from millions of other messages.\n\nNow imagine doing the same thing, but instead of guessing words, you're guessing which parts of the brain will light up. Scientists have collected thousands of brain scans while people looked at pictures or listened to sounds. Each scan",
+        "cool_stuff": "### Cool Stuff & Try This\n**New Self-Evolving AI Agent for Tasks: JiuwenClaw** — MarkTechPost  \nAI agents are programs that try to get real tasks done instead of just chatting. The new JiuwenClaw is designed to keep improving itself when it fails at a task, which is a big step because many current agents \"drop the ball\" when moving from conversation to actual work.  \n\nThis is exciting because it moves us closer to AI helpers that can handle school projects, organize your study schedule, or manag",
+        "quick_bits": "### Quick Bits\n**Judge blocks government ban on Anthropic AI models**  \nA federal judge stopped the Trump administration from banning Anthropic's AI models, calling the security risk label \"Orwellian.\" The judge said it looked like illegal punishment for the company criticizing the government. This shows how debates about AI safety can get tied up with free speech and politics.\n\nSource: https://the-decoder.com/federal-judge-blocks-trumps-ban-on-anthropic-ai-models-calls-security-risk-label-orwel",
+        "deep_dive": "### Explain Like I'm 14\n**How AI brain-prediction models actually work**\n\nYou know how when you're texting, your phone suggests the next word based on what you've typed so far? It’s guessing what comes next by looking at patterns from millions of other messages.\n\nNow imagine doing the same thing, but instead of guessing words, you're guessing which parts of the brain will light up. Scientists have collected thousands of brain scans while people looked at pictures or listened to sounds. Each scan"
       }
     }
   ]

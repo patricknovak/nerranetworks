@@ -5,7 +5,7 @@
     <description>Ten podcasts in two languages keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, modern investing, financial literacy, and Russian language learning.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Sat, 28 Mar 2026 06:54:23 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 Mar 2026 08:23:38 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg</url>
       <title>Nerra Network</title>
@@ -43,6 +43,38 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episodeType>full</itunes:episodeType>
       <podcast:chapters url="https://nerranetwork.com/digests/fascinating_frontiers/chapters_ep046.json" type="application/json+chapters" />
       <podcast:transcript url="https://nerranetwork.com/digests/fascinating_frontiers/Fascinating_Frontiers_Ep046_20260328_transcript.json" type="application/json" />
+    </item>
+    <item>
+      <title>Ep 12: Meta built an AI that can predict how your brain will react to pictures, music, and speech — better than reading one real person's brain scan.</title>
+      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep012_20260328.mp3</link>
+      <description>**Models &amp; Agents for Beginners**  
+**Date:** March 28, 2026
+
+**HOOK:** Meta built an AI that can predict how your brain will react to pictures, music, and speech — better than reading one real person's brain scan.
+
+**What's Cool Today:** Meta just created a model that predicts brain activity when you see images, hear sounds, or listen to speech. It actually matches typical human brain responses more closely than any single real person's scan would. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">mab-ep012-20260328-082336</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep012_20260328.mp3" length="9996582" type="audio/mpeg" />
+      <pubDate>Sat, 28 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents-beginners.jpg" />
+      <itunes:duration>06:56</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**Models &amp; Agents for Beginners**  
+**Date:** March 28, 2026
+
+**HOOK:** Meta built an AI that can predict how your brain will react to pictures, music, and speech — better than reading one real person's brain scan.
+
+**What's Cool Today:** Meta just created a model that predicts brain activity when you see images, hear sounds, or listen to speech. It actually matches typical human brain responses more closely than any single real person's scan would. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>12</itunes:episode>
+      <itunes:title>Ep 12: Meta built an AI that can predict how your brain will react to pictures, music, and speech — better than reading one real person's brain scan.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+      <podcast:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep012.json" type="application/json+chapters" />
+      <podcast:transcript url="https://nerranetwork.com/digests/models_agents_beginners/MAB_Ep012_20260328_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Привет, Русский! - Episode 7 - March 28, 2026</title>
@@ -262,7 +294,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Ep 11: Anthropic just confirmed their leaked model is a huge leap in AI reasoning — and it happened because of a simple security slip-up.</title>
-      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep011_20260327.mp3</link>
       <description>**HOOK:** Anthropic just confirmed their leaked model is a huge leap in AI reasoning — and it happened because of a simple security slip-up.
 
 **What's Cool Today:** Anthropic accidentally revealed their most advanced AI yet through a data breach, calling it a "step change" in how well models can reason and solve problems. This shows how fast the biggest AI companies are racing to build smarter systems, even as they compete with Google and OpenAI. ...
@@ -283,8 +314,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>11</itunes:episode>
       <itunes:title>Ep 11: Anthropic just confirmed their leaked model is a huge leap in AI reasoning — and it happened because of a simple security slip-up.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-      <podcast:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep011.json" type="application/json+chapters" />
-      <podcast:transcript url="https://nerranetwork.com/digests/models_agents_beginners/MAB_Ep011_20260327_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Ep 7: Oil prices climb as Trump notes Iran allowed 10 tankers through the Strait of Hormuz, creating fresh energy-sector volatility.</title>
@@ -1593,29 +1622,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:season>1</itunes:season>
       <itunes:episode>8</itunes:episode>
       <itunes:title>Ep 8: Google just opened its powerful Colab computers so any AI agent can use them with free GPUs.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 9: NVIDIA's new DLSS 5 is making gamers furious — here's why this AI upscaling change actually matters.</title>
-      <description>**HOOK:** NVIDIA's new DLSS 5 is making gamers furious — here's why this AI upscaling change actually matters.
-
-**What's Cool Today:** NVIDIA just announced DLSS 5, an AI system that promises photorealistic lighting and materials in games this fall, but it's sparking major backlash because it works differently from earlier versions that simply made games look sharper or run smoother. Today we'll break down what changed, why people are upset, and what it means for the games you play. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
-      <guid isPermaLink="false">mab-ep009-20260320-122231</guid>
-      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep009_20260320.mp3" length="9807874" type="audio/mpeg" />
-      <pubDate>Fri, 20 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents-beginners.jpg" />
-      <itunes:duration>06:48</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary>**HOOK:** NVIDIA's new DLSS 5 is making gamers furious — here's why this AI upscaling change actually matters.
-
-**What's Cool Today:** NVIDIA just announced DLSS 5, an AI system that promises photorealistic lighting and materials in games this fall, but it's sparking major backlash because it works differently from earlier versions that simply made games look sharper or run smoother. Today we'll break down what changed, why people are upset, and what it means for the games you play. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>9</itunes:episode>
-      <itunes:title>Ep 9: NVIDIA's new DLSS 5 is making gamers furious — here's why this AI upscaling change actually matters.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>
