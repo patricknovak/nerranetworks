@@ -1,0 +1,27 @@
+{
+  "show_slug": "privet_russian",
+  "episode_num": 7,
+  "total_duration_s": 30.29,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 13.98,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 16.31,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 74,
+    "section_tts_fallback": false,
+    "section_tts_section_count": 6,
+    "tts_duration_s": 76.2,
+    "audio_mix_duration_s": 20.1,
+    "rss_update_duration_s": 0.01,
+    "digest_chars": 5578,
+    "audio_duration_s": 487.209796
+  }
+}
