@@ -158,6 +158,13 @@ COMMON_ACRONYMS: Dict[str, str] = {
     "CUDA": "koo-dah",
     "TPU": "T P U",
     "MCP": "M C P",
+    "VLMs": "V L M's",
+    "VLM": "V L M",
+    "GPQA": "G P Q A",
+    "MMLU": "M M L U",
+    "NDCG": "N D C G",
+    "MRR": "M R R",
+    "TF-IDF": "T F I D F",
 
     # --- Space agencies and missions ---
     "NASA": "nassa",  # phonetic guide — prevents letter-split
@@ -367,6 +374,20 @@ WORD_PRONUNCIATIONS: Dict[str, str] = {
     "Mistral": "Mee-stral",
     "Anthropic": "An-thropic",
     "NVIDIA": "En-vidia",
+    "DeepSeek": "Deep Seek",
+    "MiniMax": "Mini Max",
+    "Hachette": "hah-SHET",
+    "SoFi": "So-Fi",
+    "TradingView": "Trading View",
+    "NOIRLab": "Noir Lab",
+    "DSPy": "D S Pie",
+    "HarmfulQA": "Harmful Q A",
+    "JailbreakBench": "Jailbreak Bench",
+    "GeoChallenge": "Geo Challenge",
+    "TheoremQA": "Theorem Q A",
+    "VideoQA": "Video Q A",
+    "MedQuAD": "Med Quad",
+    "Afeela": "ah-FEE-lah",
 
     # --- Scientific names ---
     "Enceladus": "En-sell-uh-dus",
@@ -376,6 +397,10 @@ WORD_PRONUNCIATIONS: Dict[str, str] = {
     "inflammaging": "inflamma-aging",
     "epigenetic": "epi-genetic",
     "epigenetics": "epi-genetics",
+
+    # --- AI model names ---
+    "Qwen": "Chwen",
+    "Llama": "Lah-mah",
 
     # --- People ---
     "Karpathy": "Kar-pathy",
@@ -661,6 +686,25 @@ def replace_price_ranges(text: str) -> str:
             return m.group(0)
 
     text = re.sub(r"([$€£])(\d+)\s*[-–—]\s*\1(\d+)", _range_whole, text)
+    return text
+
+
+def replace_slashes(text: str) -> str:
+    """Convert slashes between words to spaces for natural speech.
+
+    Handles single-letter pairs (A/B → A B), uppercase trading pairs
+    (XRP/USD → XRP USD), and regulation numbers (153/04 → 153 oh-four).
+    Skips URLs (already stripped), w/ (handled elsewhere), and entries
+    already in the acronym dictionary (P/E).
+
+    Examples:
+        'A/B testing' → 'A B testing'
+        'XRP/USD'     → 'XRP USD'
+    """
+    # Single-letter pairs: A/B → A B
+    text = re.sub(r"\b([A-Za-z])/([A-Za-z])\b", r"\1 \2", text)
+    # Uppercase word pairs (trading pairs, comparisons): XRP/USD → XRP USD
+    text = re.sub(r"\b([A-Z]{2,})/([A-Z]{2,})\b", r"\1 \2", text)
     return text
 
 
@@ -1377,7 +1421,10 @@ def prepare_text_for_tts(
             word_pronunciations=words,
         )
 
-    # ── 8. Final whitespace cleanup ──
+    # ── 8. Slashes to spaces (after acronyms so P/E → "P to E" is preserved) ──
+    text = replace_slashes(text)
+
+    # ── 9. Final whitespace cleanup ──
     text = re.sub(r"  +", " ", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
