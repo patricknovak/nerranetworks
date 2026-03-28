@@ -341,6 +341,14 @@ jobs:
         if: steps.pipeline.outputs.skipped != 'true'
         run: python generate_network_rss.py
 
+      - name: Regenerate HTML pages
+        if: steps.pipeline.outputs.skipped != 'true'
+        run: |
+          # Regenerate blog posts for this show
+          python generate_html.py --show ${{ matrix.show }} --blogs
+          # Regenerate the network landing page (latest episodes + blog posts)
+          python generate_html.py --network
+
       - name: Notify podcast directories
         if: success() && steps.pipeline.outputs.skipped != 'true'
         env:
@@ -371,6 +379,8 @@ jobs:
           git add -A digests/ || true
           git add *.rss || true
           git add *.html || true
+          git add -A blog/ || true
+          git add sitemap.xml || true
 
           # Exclude MP3 files (hosted on R2, not in git)
           git reset HEAD -- '*.mp3' 2>/dev/null || true

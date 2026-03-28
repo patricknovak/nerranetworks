@@ -14,6 +14,12 @@
     <meta property="og:type" content="website">
     
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Nerra Network | 10 Daily Shows">
+    <meta name="twitter:description" content="Nerra Network — Ten daily podcasts keeping you informed. Tesla, world news, space, science, environment, AI, modern investing, Russian finance, and language learning. Independent, daily, free.">
+    
+
     <link rel="canonical" href="https://nerranetwork.com/index.html">
 
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
@@ -106,6 +112,9 @@
                         <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                     <div class="nn-nav-dropdown-menu">
+                        <a href="blog/index.html" style="font-weight:600;border-bottom:1px solid var(--nn-border);padding-bottom:8px;margin-bottom:4px">
+                            All Blog Posts
+                        </a>
                         
                         <a href="blog/models_agents/index.html">
                             <img src="assets/covers/models-agents.jpg" alt="" loading="lazy">
@@ -232,6 +241,9 @@
         </div>
         <div class="nn-mobile-shows">
             <div class="nn-mobile-shows-title">Blogs</div>
+            <a href="blog/index.html" class="nn-mobile-show-link" style="font-weight:600" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                All Blog Posts
+            </a>
             
             <a href="blog/models_agents/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
                 <img src="assets/covers/models-agents.jpg" alt="" loading="lazy">
@@ -657,14 +669,101 @@
                 <p>The most recent episodes from all shows.</p>
             </div>
         </div>
-        <div class="latest-scroll-row" id="latestEpisodes">
-            <div class="latest-scroll-card glass-card nn-skeleton" style="height:180px;"></div>
-            <div class="latest-scroll-card glass-card nn-skeleton" style="height:180px;"></div>
-            <div class="latest-scroll-card glass-card nn-skeleton" style="height:180px;"></div>
-            <div class="latest-scroll-card glass-card nn-skeleton" style="height:180px;"></div>
-            <div class="latest-scroll-card glass-card nn-skeleton" style="height:180px;"></div>
-            <div class="latest-scroll-card glass-card nn-skeleton" style="height:180px;"></div>
+        
+        <div class="latest-scroll-row">
+            
+            <div class="latest-scroll-card glass-card">
+                <div class="episode-card-show" style="background:#E31937;">Tesla Shorts Time</div>
+                <div class="episode-card-title">Ep 417: [Slow News Edition] Tesla makes Fortune’s 2026 Most Innovative Companies list thanks to the Cybercab as production begins this year.</div>
+                <div class="episode-card-date">Fri, Mar 27, 2026</div>
+                
+                <audio controls preload="none" src="https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep417_20260327.mp3" aria-label="Tesla Shorts Time episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                
+            </div>
+            
+            <div class="latest-scroll-card glass-card">
+                <div class="episode-card-show" style="background:#0B6FD6;">Omni View</div>
+                <div class="episode-card-title">Ep 24: Trump extends deadline for Iran to reopen Strait of Hormuz to April 6, pausing strikes on energy sites as oil markets fluctuate.</div>
+                <div class="episode-card-date">Fri, Mar 27, 2026</div>
+                
+                <audio controls preload="none" src="https://audio.nerranetwork.com/omni_view/Omni_View_Ep024_20260327.mp3" aria-label="Omni View episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                
+            </div>
+            
+            <div class="latest-scroll-card glass-card">
+                <div class="episode-card-show" style="background:#018DB1;">Planetterrian Daily</div>
+                <div class="episode-card-title">Ep 36: [Slow News Edition] Excess belly fat combined with low muscle mass raises death risk by 83% through accelerated inflammation and muscle loss.</div>
+                <div class="episode-card-date">Fri, Mar 27, 2026</div>
+                
+                <audio controls preload="none" src="https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep036_20260327.mp3" aria-label="Planetterrian Daily episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                
+            </div>
+            
+            <div class="latest-scroll-card glass-card">
+                <div class="episode-card-show" style="background:#1B5E20;">Environmental Intelligence</div>
+                <div class="episode-card-title">Ep 16: Alberta First Nations and farmers demand full federal Impact Assessment for carbon capture pipeline project under IAA.</div>
+                <div class="episode-card-date">Fri, Mar 27, 2026</div>
+                
+                <audio controls preload="none" src="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep016_20260327.mp3" aria-label="Environmental Intelligence episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                
+            </div>
+            
+            <div class="latest-scroll-card glass-card">
+                <div class="episode-card-show" style="background:#8B5CF6;">Models & Agents</div>
+                <div class="episode-card-title">Ep 21: New arXiv papers expose critical flaws in how we evaluate depression-detection models, LLM pruning, and verbalized confidence.</div>
+                <div class="episode-card-date">Fri, Mar 27, 2026</div>
+                
+                <audio controls preload="none" src="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep021_20260327.mp3" aria-label="Models & Agents episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                
+            </div>
+            
+            <div class="latest-scroll-card glass-card">
+                <div class="episode-card-show" style="background:#F59E0B;">Models & Agents for Beginners</div>
+                <div class="episode-card-title">Ep 11: Anthropic just confirmed their leaked model is a huge leap in AI reasoning — and it happened because of a simple security slip-up.</div>
+                <div class="episode-card-date">Fri, Mar 27, 2026</div>
+                
+                <audio controls preload="none" src="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep011_20260327.mp3" aria-label="Models & Agents for Beginners episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                
+            </div>
+            
+            <div class="latest-scroll-card glass-card">
+                <div class="episode-card-show" style="background:#059669;">Modern Investing Techniques</div>
+                <div class="episode-card-title">Ep 7: Oil prices climb as Trump notes Iran allowed 10 tankers through the Strait of Hormuz, creating fresh energy-sector volatility.</div>
+                <div class="episode-card-date">Fri, Mar 27, 2026</div>
+                
+                <audio controls preload="none" src="https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep007_20260327.mp3" aria-label="Modern Investing Techniques episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                
+            </div>
+            
+            <div class="latest-scroll-card glass-card">
+                <div class="episode-card-show" style="background:#7C5CFF;">Fascinating Frontiers</div>
+                <div class="episode-card-title">Ep 45: [Slow News Edition] Hubble has caught a tiny comet slowing its spin and then reversing direction entirely.</div>
+                <div class="episode-card-date">Thu, Mar 26, 2026</div>
+                
+                <audio controls preload="none" src="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep045_20260326.mp3" aria-label="Fascinating Frontiers episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                
+            </div>
+            
+            <div class="latest-scroll-card glass-card">
+                <div class="episode-card-show" style="background:#EC4899;">Финансы Просто</div>
+                <div class="episode-card-title">Финансы Просто - Episode 14 - March 26, 2026</div>
+                <div class="episode-card-date">Thu, Mar 26, 2026</div>
+                
+                <audio controls preload="none" src="https://audio.nerranetwork.com/finansy_prosto/FP_Ep014_20260326.mp3" aria-label="Финансы Просто episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                
+            </div>
+            
+            <div class="latest-scroll-card glass-card">
+                <div class="episode-card-show" style="background:#6366F1;">Привет, Русский!</div>
+                <div class="episode-card-title">Привет, Русский! - Episode 5 - March 26, 2026</div>
+                <div class="episode-card-date">Thu, Mar 26, 2026</div>
+                
+                <audio controls preload="none" src="https://audio.nerranetwork.com/privet_russian/PR_Ep005_20260326.mp3" aria-label="Привет, Русский! episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                
+            </div>
+            
         </div>
+        
     </section>
 
     <!-- Why Nerra -->
@@ -708,6 +807,121 @@
             </div>
         </div>
     </section>
+
+    <!-- Latest from the Blog -->
+    
+    <section class="nn-section">
+        <div class="container">
+            <div class="nn-section-header">
+                <div class="section-label">Blog</div>
+                <h2>Latest from the Blog</h2>
+                <p>In-depth articles from our latest episodes.</p>
+            </div>
+            <div class="blog-idx-grid" style="max-width:900px;margin:0 auto;padding-bottom:var(--sp-8)">
+                
+                <a href="blog/tesla/ep417.html"
+                   class="blog-idx-card"
+                   style="--card-show-color: #E31937">
+                    <div class="blog-idx-card-top">
+                        <span class="blog-idx-show-badge" style="background:color-mix(in srgb, #E31937 15%, transparent);color:#E31937">Tesla Shorts Time</span>
+                        <span class="blog-idx-date">March 27, 2026</span>
+                        <span class="blog-idx-ep">Ep 417</span>
+                        <span class="blog-idx-reading">7 min</span>
+                    </div>
+                    <h2>Tesla Shorts Time</h2>
+                    
+                    <p>Tesla makes Fortune’s 2026 Most Innovative Companies list thanks to the Cybercab as production begins this year.</p>
+                    
+                    <span class="blog-idx-read-more" style="color:#E31937">Read article &rarr;</span>
+                </a>
+                
+                <a href="blog/omni_view/ep024.html"
+                   class="blog-idx-card"
+                   style="--card-show-color: #0B6FD6">
+                    <div class="blog-idx-card-top">
+                        <span class="blog-idx-show-badge" style="background:color-mix(in srgb, #0B6FD6 15%, transparent);color:#0B6FD6">Omni View</span>
+                        <span class="blog-idx-date">March 27, 2026</span>
+                        <span class="blog-idx-ep">Ep 24</span>
+                        <span class="blog-idx-reading">16 min</span>
+                    </div>
+                    <h2>Omni View</h2>
+                    
+                    <p>Trump extends deadline for Iran to reopen Strait of Hormuz to April 6, pausing strikes on energy sites as oil markets fluctuate.</p>
+                    
+                    <span class="blog-idx-read-more" style="color:#0B6FD6">Read article &rarr;</span>
+                </a>
+                
+                <a href="blog/models_agents/ep021.html"
+                   class="blog-idx-card"
+                   style="--card-show-color: #8B5CF6">
+                    <div class="blog-idx-card-top">
+                        <span class="blog-idx-show-badge" style="background:color-mix(in srgb, #8B5CF6 15%, transparent);color:#8B5CF6">Models & Agents</span>
+                        <span class="blog-idx-date">March 27, 2026</span>
+                        <span class="blog-idx-ep">Ep 21</span>
+                        <span class="blog-idx-reading">5 min</span>
+                    </div>
+                    <h2>Models & Agents</h2>
+                    
+                    <p>New arXiv papers expose critical flaws in how we evaluate depression-detection models, LLM pruning, and verbalized confidence.</p>
+                    
+                    <span class="blog-idx-read-more" style="color:#8B5CF6">Read article &rarr;</span>
+                </a>
+                
+                <a href="blog/modern_investing/ep007.html"
+                   class="blog-idx-card"
+                   style="--card-show-color: #059669">
+                    <div class="blog-idx-card-top">
+                        <span class="blog-idx-show-badge" style="background:color-mix(in srgb, #059669 15%, transparent);color:#059669">Modern Investing Techniques</span>
+                        <span class="blog-idx-date">March 27, 2026</span>
+                        <span class="blog-idx-ep">Ep 7</span>
+                        <span class="blog-idx-reading">5 min</span>
+                    </div>
+                    <h2>Modern Investing Techniques</h2>
+                    
+                    <p>Oil prices climb as Trump notes Iran allowed 10 tankers through the Strait of Hormuz, creating fresh energy-sector volatility.</p>
+                    
+                    <span class="blog-idx-read-more" style="color:#059669">Read article &rarr;</span>
+                </a>
+                
+                <a href="blog/omni_view/ep023.html"
+                   class="blog-idx-card"
+                   style="--card-show-color: #0B6FD6">
+                    <div class="blog-idx-card-top">
+                        <span class="blog-idx-show-badge" style="background:color-mix(in srgb, #0B6FD6 15%, transparent);color:#0B6FD6">Omni View</span>
+                        <span class="blog-idx-date">March 26, 2026</span>
+                        <span class="blog-idx-ep">Ep 23</span>
+                        <span class="blog-idx-reading">16 min</span>
+                    </div>
+                    <h2>Omni View</h2>
+                    
+                    <p>Iran has rejected President Trump’s proposed peace plan as a pretext for invasion, while Israel claims it killed Iran’s naval chief amid esc&hellip;</p>
+                    
+                    <span class="blog-idx-read-more" style="color:#0B6FD6">Read article &rarr;</span>
+                </a>
+                
+                <a href="blog/planetterrian/ep035.html"
+                   class="blog-idx-card"
+                   style="--card-show-color: #018DB1">
+                    <div class="blog-idx-card-top">
+                        <span class="blog-idx-show-badge" style="background:color-mix(in srgb, #018DB1 15%, transparent);color:#018DB1">Planetterrian Daily</span>
+                        <span class="blog-idx-date">March 26, 2026</span>
+                        <span class="blog-idx-ep">Ep 35</span>
+                        <span class="blog-idx-reading">5 min</span>
+                    </div>
+                    <h2>Planetterrian Daily</h2>
+                    
+                    <p>Light-activated nanoparticles trigger copper overload to kill cancer cells 100 times more effectively than existing chemotherapy.</p>
+                    
+                    <span class="blog-idx-read-more" style="color:#018DB1">Read article &rarr;</span>
+                </a>
+                
+            </div>
+            <div style="text-align:center">
+                <a href="blog/index.html" class="nn-btn nn-btn-primary" style="font-size:0.9rem;padding:var(--sp-3) var(--sp-8)">View all blog posts</a>
+            </div>
+        </div>
+    </section>
+    
 
     <!-- About the Network -->
     <section class="nn-section" style="background:var(--nn-bg-alt);">
@@ -842,7 +1056,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Blog</h4>
-                    <a href="blog.rss">Blog RSS (All Shows)</a>
+                    <a href="blog/index.html">All Blog Posts</a>
                     
                     <a href="blog/models_agents/index.html">Models & Agents</a>
                     
@@ -864,6 +1078,7 @@
                     
                     <a href="blog/privet_russian/index.html">Привет, Русский!</a>
                     
+                    <a href="blog.rss">Blog RSS (All Shows)</a>
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
@@ -907,103 +1122,5 @@
     </footer>
 
     
-    <script>
-        // Load latest episodes from individual show RSS feeds
-        const SHOW_RSS = [
-            
-            { name: "Models \u0026 Agents", rss: "models_agents_podcast.rss", page: "models-agents.html", color: "#8B5CF6" },
-            
-            { name: "Planetterrian Daily", rss: "planetterrian_podcast.rss", page: "planetterrian.html", color: "#018DB1" },
-            
-            { name: "Omni View", rss: "omni_view_podcast.rss", page: "omni-view.html", color: "#0B6FD6" },
-            
-            { name: "Models \u0026 Agents for Beginners", rss: "models_agents_beginners_podcast.rss", page: "models-agents-beginners.html", color: "#F59E0B" },
-            
-            { name: "Fascinating Frontiers", rss: "fascinating_frontiers_podcast.rss", page: "fascinating_frontiers.html", color: "#7C5CFF" },
-            
-            { name: "Modern Investing Techniques", rss: "modern_investing_podcast.rss", page: "modern-investing.html", color: "#059669" },
-            
-            { name: "Tesla Shorts Time", rss: "podcast.rss", page: "tesla.html", color: "#E31937" },
-            
-            { name: "Environmental Intelligence", rss: "env_intel_podcast.rss", page: "env-intel.html", color: "#1B5E20" },
-            
-            { name: "\u0424\u0438\u043d\u0430\u043d\u0441\u044b \u041f\u0440\u043e\u0441\u0442\u043e", rss: "finansy_prosto_podcast.rss", page: "ru/finansy-prosto.html", color: "#EC4899" },
-            
-            { name: "\u041f\u0440\u0438\u0432\u0435\u0442, \u0420\u0443\u0441\u0441\u043a\u0438\u0439!", rss: "privet_russian_podcast.rss", page: "ru/privet-russian.html", color: "#6366F1" }
-            
-        ];
-
-        async function loadLatestEpisodes() {
-            const episodes = [];
-
-            await Promise.all(SHOW_RSS.map(async (show) => {
-                try {
-                    const resp = await fetch(show.rss);
-                    if (!resp.ok) { console.warn(`[Nerra] RSS fetch failed for ${show.name}: ${resp.status}`); return; }
-                    const xml = await resp.text();
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(xml, 'text/xml');
-                    const items = doc.querySelectorAll('item');
-                    if (!items.length) return;
-                    // Feeds may be ascending or descending — pick the newest item
-                    const first = items[0];
-                    const last = items[items.length - 1];
-                    const firstDate = new Date(first.querySelector('pubDate')?.textContent || 0);
-                    const lastDate = new Date(last.querySelector('pubDate')?.textContent || 0);
-                    const item = lastDate > firstDate ? last : first;
-                    const title = item.querySelector('title')?.textContent || 'Episode';
-                    const pubDate = item.querySelector('pubDate')?.textContent || '';
-                    const enclosure = item.querySelector('enclosure');
-                    const audioUrl = enclosure ? enclosure.getAttribute('url') : '';
-                    episodes.push({
-                        show: show.name,
-                        showPage: show.page,
-                        color: show.color,
-                        title: title,
-                        date: pubDate,
-                        audioUrl: audioUrl
-                    });
-                } catch (err) { console.warn(`[Nerra] RSS error for ${show.name}:`, err); }
-            }));
-
-            // Sort by date descending
-            episodes.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            const container = document.getElementById('latestEpisodes');
-            if (!episodes.length) {
-                container.innerHTML = '<p style="color:var(--nn-text-muted);padding:2rem;text-align:center;width:100%;">Episodes will appear here once available.</p>';
-                return;
-            }
-
-            container.innerHTML = episodes.slice(0, 6).map(ep => `
-                <div class="latest-scroll-card glass-card">
-                    <div class="episode-card-show" style="background:${ep.color};">${escapeHtml(ep.show)}</div>
-                    <div class="episode-card-title">${escapeHtml(ep.title)}</div>
-                    <div class="episode-card-date">${ep.date ? formatDate(ep.date) : ''}</div>
-                    ${ep.audioUrl ? `<audio controls preload="none" src="${escapeAttr(ep.audioUrl)}" aria-label="${escapeAttr(ep.show)} episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>` : ''}
-                </div>
-            `).join('');
-        }
-
-        function formatDate(d) {
-            try {
-                const date = new Date(d);
-                return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
-            } catch { return d; }
-        }
-        function escapeHtml(s) { const el = document.createElement('span'); el.textContent = s; return el.innerHTML; }
-        function escapeAttr(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-        // Skeleton timeout: replace with message if loading takes > 10s
-        const _skeletonTimeout = setTimeout(() => {
-            const container = document.getElementById('latestEpisodes');
-            if (container && container.querySelector('.nn-skeleton')) {
-                container.innerHTML = '<p style="color:var(--nn-text-muted);padding:2rem;text-align:center;width:100%;">Episodes could not be loaded. Please refresh to try again.</p>';
-            }
-        }, 10000);
-
-        loadLatestEpisodes().finally(() => clearTimeout(_skeletonTimeout));
-    </script>
-
 </body>
 </html>

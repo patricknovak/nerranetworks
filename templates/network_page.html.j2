@@ -139,14 +139,24 @@
                 <p>The most recent episodes from all shows.</p>
             </div>
         </div>
-        <div class="latest-scroll-row" id="latestEpisodes">
-            <div class="latest-scroll-card glass-card nn-skeleton" style="height:180px;"></div>
-            <div class="latest-scroll-card glass-card nn-skeleton" style="height:180px;"></div>
-            <div class="latest-scroll-card glass-card nn-skeleton" style="height:180px;"></div>
-            <div class="latest-scroll-card glass-card nn-skeleton" style="height:180px;"></div>
-            <div class="latest-scroll-card glass-card nn-skeleton" style="height:180px;"></div>
-            <div class="latest-scroll-card glass-card nn-skeleton" style="height:180px;"></div>
+        {% if latest_episodes %}
+        <div class="latest-scroll-row">
+            {% for ep in latest_episodes %}
+            <div class="latest-scroll-card glass-card">
+                <div class="episode-card-show" style="background:{{ ep.brand_color }};">{{ ep.show_name }}</div>
+                <div class="episode-card-title">{{ ep.title }}</div>
+                <div class="episode-card-date">{{ ep.date_display }}</div>
+                {% if ep.audio_url %}
+                <audio controls preload="none" src="{{ ep.audio_url }}" aria-label="{{ ep.show_name }} episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                {% endif %}
+            </div>
+            {% endfor %}
         </div>
+        {% else %}
+        <div class="latest-scroll-row">
+            <p style="color:var(--nn-text-muted);padding:2rem;text-align:center;width:100%;">Episodes will appear here once available.</p>
+        </div>
+        {% endif %}
     </section>
 
     <!-- Why Nerra -->
@@ -191,6 +201,41 @@
         </div>
     </section>
 
+    <!-- Latest from the Blog -->
+    {% if latest_blog_posts %}
+    <section class="nn-section">
+        <div class="container">
+            <div class="nn-section-header">
+                <div class="section-label">Blog</div>
+                <h2>Latest from the Blog</h2>
+                <p>In-depth articles from our latest episodes.</p>
+            </div>
+            <div class="blog-idx-grid" style="max-width:900px;margin:0 auto;padding-bottom:var(--sp-8)">
+                {% for post in latest_blog_posts %}
+                <a href="blog/{{ post.show_slug }}/ep{{ '%03d' % post.episode_num }}.html"
+                   class="blog-idx-card"
+                   style="--card-show-color: {{ post.show_color }}">
+                    <div class="blog-idx-card-top">
+                        <span class="blog-idx-show-badge" style="background:color-mix(in srgb, {{ post.show_color }} 15%, transparent);color:{{ post.show_color }}">{{ post.show_name }}</span>
+                        <span class="blog-idx-date">{{ post.date }}</span>
+                        <span class="blog-idx-ep">Ep {{ post.episode_num }}</span>
+                        <span class="blog-idx-reading">{{ post.reading_time_min }} min</span>
+                    </div>
+                    <h2>{{ post.title }}</h2>
+                    {% if post.hook %}
+                    <p>{{ post.hook[:140] }}{% if post.hook|length > 140 %}&hellip;{% endif %}</p>
+                    {% endif %}
+                    <span class="blog-idx-read-more" style="color:{{ post.show_color }}">Read article &rarr;</span>
+                </a>
+                {% endfor %}
+            </div>
+            <div style="text-align:center">
+                <a href="blog/index.html" class="nn-btn nn-btn-primary" style="font-size:0.9rem;padding:var(--sp-3) var(--sp-8)">View all blog posts</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
     <!-- About the Network -->
     <section class="nn-section" style="background:var(--nn-bg-alt);">
         <div class="container">
@@ -234,86 +279,4 @@
             <p style="text-align:center;color:var(--nn-text-muted);font-family:var(--font-ui);font-size:0.88rem;margin-top:var(--sp-6);">Copy any RSS link into your podcast app of choice — Apple Podcasts, Spotify, Pocket Casts, Overcast, or any RSS reader.</p>
         </div>
     </section>
-{% endblock %}
-
-{% block scripts %}
-    <script>
-        // Load latest episodes from individual show RSS feeds
-        const SHOW_RSS = [
-            {% for s in all_shows %}
-            { name: {{ s.name | tojson }}, rss: {{ s.rss_file | tojson }}, page: {{ s.show_page | tojson }}, color: {{ s.brand_color | tojson }} }{{ "," if not loop.last }}
-            {% endfor %}
-        ];
-
-        async function loadLatestEpisodes() {
-            const episodes = [];
-
-            await Promise.all(SHOW_RSS.map(async (show) => {
-                try {
-                    const resp = await fetch(show.rss);
-                    if (!resp.ok) { console.warn(`[Nerra] RSS fetch failed for ${show.name}: ${resp.status}`); return; }
-                    const xml = await resp.text();
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(xml, 'text/xml');
-                    const items = doc.querySelectorAll('item');
-                    if (!items.length) return;
-                    // Feeds may be ascending or descending — pick the newest item
-                    const first = items[0];
-                    const last = items[items.length - 1];
-                    const firstDate = new Date(first.querySelector('pubDate')?.textContent || 0);
-                    const lastDate = new Date(last.querySelector('pubDate')?.textContent || 0);
-                    const item = lastDate > firstDate ? last : first;
-                    const title = item.querySelector('title')?.textContent || 'Episode';
-                    const pubDate = item.querySelector('pubDate')?.textContent || '';
-                    const enclosure = item.querySelector('enclosure');
-                    const audioUrl = enclosure ? enclosure.getAttribute('url') : '';
-                    episodes.push({
-                        show: show.name,
-                        showPage: show.page,
-                        color: show.color,
-                        title: title,
-                        date: pubDate,
-                        audioUrl: audioUrl
-                    });
-                } catch (err) { console.warn(`[Nerra] RSS error for ${show.name}:`, err); }
-            }));
-
-            // Sort by date descending
-            episodes.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            const container = document.getElementById('latestEpisodes');
-            if (!episodes.length) {
-                container.innerHTML = '<p style="color:var(--nn-text-muted);padding:2rem;text-align:center;width:100%;">Episodes will appear here once available.</p>';
-                return;
-            }
-
-            container.innerHTML = episodes.slice(0, 6).map(ep => `
-                <div class="latest-scroll-card glass-card">
-                    <div class="episode-card-show" style="background:${ep.color};">${escapeHtml(ep.show)}</div>
-                    <div class="episode-card-title">${escapeHtml(ep.title)}</div>
-                    <div class="episode-card-date">${ep.date ? formatDate(ep.date) : ''}</div>
-                    ${ep.audioUrl ? `<audio controls preload="none" src="${escapeAttr(ep.audioUrl)}" aria-label="${escapeAttr(ep.show)} episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>` : ''}
-                </div>
-            `).join('');
-        }
-
-        function formatDate(d) {
-            try {
-                const date = new Date(d);
-                return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
-            } catch { return d; }
-        }
-        function escapeHtml(s) { const el = document.createElement('span'); el.textContent = s; return el.innerHTML; }
-        function escapeAttr(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-        // Skeleton timeout: replace with message if loading takes > 10s
-        const _skeletonTimeout = setTimeout(() => {
-            const container = document.getElementById('latestEpisodes');
-            if (container && container.querySelector('.nn-skeleton')) {
-                container.innerHTML = '<p style="color:var(--nn-text-muted);padding:2rem;text-align:center;width:100%;">Episodes could not be loaded. Please refresh to try again.</p>';
-            }
-        }, 10000);
-
-        loadLatestEpisodes().finally(() => clearTimeout(_skeletonTimeout));
-    </script>
 {% endblock %}

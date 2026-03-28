@@ -1093,6 +1093,7 @@ def generate_summaries_page(slug, *, dry_run=False):
         "canonical_url": f"{GITHUB_RAW}/{cfg['summaries_page']}",
         "hero_title": cfg["name"],
         "hero_subtitle": f"Complete archive of {cfg['name']} episode summaries.",
+        "blog_page": f"blog/{cfg['slug']}/index.html",
         "all_shows": _build_all_shows_list(),
     }
 
@@ -1146,6 +1147,29 @@ def generate_show_page(slug, *, dry_run=False):
 
     prefix = _path_prefix(cfg["show_page"])
 
+    # Collect latest blog post metadata for the show page
+    latest_blog_posts = []
+    try:
+        from engine.blog import extract_blog_metadata
+        digest_dir = ROOT / "digests" / _SHOW_DIRS.get(slug, slug)
+        if digest_dir.exists():
+            seen_eps: dict[int, dict] = {}
+            for md_file in sorted(digest_dir.glob("*.md")):
+                md_text = md_file.read_text(encoding="utf-8")
+                meta = extract_blog_metadata(md_text, slug, md_file.name)
+                ep = meta["episode_num"]
+                if ep in seen_eps:
+                    if md_file.name > seen_eps[ep]["filename"]:
+                        seen_eps[ep] = meta
+                else:
+                    seen_eps[ep] = meta
+            all_posts = sorted(seen_eps.values(),
+                               key=lambda m: m.get("episode_num", 0),
+                               reverse=True)
+            latest_blog_posts = all_posts[:3]
+    except Exception:
+        pass
+
     context = {
         **cfg,
         "path_prefix": prefix,
@@ -1160,6 +1184,7 @@ def generate_show_page(slug, *, dry_run=False):
         "canonical_url": f"{GITHUB_RAW}/{cfg['show_page']}",
         "related_show": related_show_data,
         "blog_page": f"blog/{cfg['slug']}/index.html",
+        "latest_blog_posts": latest_blog_posts,
         "all_shows": _build_all_shows_list(),
     }
 
@@ -1194,6 +1219,115 @@ def generate_network_page(*, dry_run=False):
     env = _get_jinja_env()
     template = env.get_template("network_page.html.j2")
 
+    # Collect 6 most recent blog posts across all shows for the landing page
+    latest_blog_posts = []
+    try:
+        from engine.blog import extract_blog_metadata
+        from datetime import date as _date, datetime as _datetime
+
+        all_posts = []
+        for slug in NETWORK_SHOWS:
+            digest_dir = ROOT / "digests" / _SHOW_DIRS.get(slug, slug)
+            if not digest_dir.exists():
+                continue
+            seen_eps: dict[int, dict] = {}
+            for md_file in sorted(digest_dir.glob("*.md")):
+                md_text = md_file.read_text(encoding="utf-8")
+                meta = extract_blog_metadata(md_text, slug, md_file.name)
+                ep = meta["episode_num"]
+                if ep in seen_eps:
+                    if md_file.name > seen_eps[ep]["filename"]:
+                        seen_eps[ep] = meta
+                else:
+                    seen_eps[ep] = meta
+            for meta in seen_eps.values():
+                cfg_show = NETWORK_SHOWS.get(slug, {})
+                meta["show_name"] = cfg_show.get("name", slug)
+                meta["show_color"] = cfg_show.get("brand_color", "#7C5CFF")
+            all_posts.extend(seen_eps.values())
+
+        def _sort_key(p):
+            d = p.get("date_obj")
+            if isinstance(d, _datetime):
+                return d.date()
+            if isinstance(d, _date):
+                return d
+            return _date.min
+
+        all_posts.sort(key=_sort_key, reverse=True)
+        latest_blog_posts = all_posts[:6]
+    except Exception:
+        pass
+
+    # Collect latest episodes from RSS feeds (static rendering)
+    latest_episodes = []
+    try:
+        import xml.etree.ElementTree as ET
+        from email.utils import parsedate_to_datetime
+
+        for slug, cfg in NETWORK_SHOWS.items():
+            rss_path = ROOT / cfg["rss_file"]
+            if not rss_path.exists():
+                continue
+            try:
+                tree = ET.parse(rss_path)
+                root_el = tree.getroot()
+                items = root_el.findall(".//item")
+                if not items:
+                    continue
+                # Find newest item by pubDate
+                best_item = None
+                best_date = None
+                for it in items:
+                    pds = it.findtext("pubDate", "")
+                    pd = None
+                    if pds:
+                        try:
+                            pd = parsedate_to_datetime(pds)
+                        except Exception:
+                            pass
+                    if best_item is None or (pd and (best_date is None or pd > best_date)):
+                        best_item = it
+                        best_date = pd
+                if best_item is None:
+                    continue
+                title = best_item.findtext("title", "Episode")
+                pub_date_str = best_item.findtext("pubDate", "")
+                enclosure = best_item.find("enclosure")
+                audio_url = enclosure.get("url", "") if enclosure is not None else ""
+                latest_episodes.append({
+                    "show_name": cfg["name"],
+                    "show_page": cfg["show_page"],
+                    "brand_color": cfg["brand_color"],
+                    "title": title,
+                    "pub_date_str": pub_date_str,
+                    "pub_date": best_date,
+                    "audio_url": audio_url,
+                })
+            except Exception:
+                continue
+
+        from datetime import datetime as _dt, timezone as _tz
+        _epoch = _dt(1970, 1, 1, tzinfo=_tz.utc)
+        def _ep_sort(e):
+            d = e.get("pub_date")
+            if d is None:
+                return _epoch
+            if d.tzinfo is None:
+                return d.replace(tzinfo=_tz.utc)
+            return d
+        latest_episodes.sort(key=_ep_sort, reverse=True)
+        latest_episodes = latest_episodes[:10]
+        # Format dates for display
+        for ep in latest_episodes:
+            d = ep.get("pub_date")
+            if d:
+                ep["date_display"] = d.strftime("%a, %b %d, %Y")
+            else:
+                ep["date_display"] = ""
+    except Exception:
+        pass
+
     context = {
         "path_prefix": "",
         "page_title": "Nerra Network | 10 Daily Shows",
@@ -1203,6 +1337,8 @@ def generate_network_page(*, dry_run=False):
         "og_image": None,  # No single show image represents the network
         "canonical_url": f"{GITHUB_RAW}/index.html",
         "all_shows": _build_all_shows_list(),
+        "latest_blog_posts": latest_blog_posts,
+        "latest_episodes": latest_episodes,
     }
 
     html = template.render(**context)
@@ -1267,6 +1403,22 @@ def generate_blog_posts(slug, *, dry_run=False):
         meta["_md_path"] = md_file
         all_meta.append(meta)
 
+    # Deduplicate by episode number — keep the file with the latest filename
+    # (newer date in filename wins, e.g. Ep413_20260322 over Ep413_20260320)
+    seen_eps: dict[int, dict] = {}
+    for meta in all_meta:
+        ep = meta["episode_num"]
+        if ep in seen_eps:
+            existing = seen_eps[ep]
+            if meta["_md_path"].name > existing["_md_path"].name:
+                print(f"  Warning: duplicate ep{ep} — keeping {meta['_md_path'].name} over {existing['_md_path'].name}")
+                seen_eps[ep] = meta
+            else:
+                print(f"  Warning: duplicate ep{ep} — keeping {existing['_md_path'].name} over {meta['_md_path'].name}")
+        else:
+            seen_eps[ep] = meta
+    all_meta = list(seen_eps.values())
+
     # Sort by episode number
     all_meta.sort(key=lambda m: m["episode_num"])
 
@@ -1328,10 +1480,17 @@ def generate_blog_index(slug, *, dry_run=False, posts=None):
         digest_dir = ROOT / "digests" / show_dirs.get(slug, slug)
         posts = []
         if digest_dir.exists():
+            seen_eps: dict[int, dict] = {}
             for md_file in sorted(digest_dir.glob("*.md")):
                 md_text = md_file.read_text(encoding="utf-8")
                 meta = extract_blog_metadata(md_text, slug, md_file.name)
-                posts.append(meta)
+                ep = meta["episode_num"]
+                if ep in seen_eps:
+                    if md_file.name > seen_eps[ep]["filename"]:
+                        seen_eps[ep] = meta
+                else:
+                    seen_eps[ep] = meta
+            posts = list(seen_eps.values())
 
     # Sort newest first for index display
     posts_sorted = sorted(posts, key=lambda m: m.get("episode_num", 0), reverse=True)
@@ -1351,15 +1510,190 @@ def generate_blog_index(slug, *, dry_run=False, posts=None):
     return out_path
 
 
+def generate_network_blog_index(*, dry_run=False, all_posts=None):
+    """Generate the network-wide blog index page at blog/index.html.
+
+    If *all_posts* is None, collects posts from all shows by scanning
+    their digest directories.
+    """
+    from engine.blog import (
+        extract_blog_metadata,
+        generate_network_blog_index_html,
+    )
+
+    env = _get_jinja_env()
+
+    if all_posts is None:
+        all_posts = []
+        show_dirs = {
+            "tesla": "tesla_shorts_time",
+            "omni_view": "omni_view",
+            "fascinating_frontiers": "fascinating_frontiers",
+            "planetterrian": "planetterrian",
+            "env_intel": "env_intel",
+            "models_agents": "models_agents",
+            "models_agents_beginners": "models_agents_beginners",
+            "finansy_prosto": "finansy_prosto",
+            "modern_investing": "modern_investing",
+            "privet_russian": "privet_russian",
+        }
+        for slug in NETWORK_SHOWS:
+            digest_dir = ROOT / "digests" / show_dirs.get(slug, slug)
+            if not digest_dir.exists():
+                continue
+            seen_eps: dict[int, dict] = {}
+            for md_file in sorted(digest_dir.glob("*.md")):
+                md_text = md_file.read_text(encoding="utf-8")
+                meta = extract_blog_metadata(md_text, slug, md_file.name)
+                ep = meta["episode_num"]
+                if ep in seen_eps:
+                    if md_file.name > seen_eps[ep]["filename"]:
+                        seen_eps[ep] = meta
+                else:
+                    seen_eps[ep] = meta
+            all_posts.extend(seen_eps.values())
+
+    html = generate_network_blog_index_html(all_posts, NETWORK_SHOWS, env)
+
+    out_path = ROOT / "blog" / "index.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path} ({len(html):,} bytes)")
+        return None
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
 def generate_all_blogs(*, dry_run=False):
-    """Generate blog posts and index pages for every show."""
-    from engine.blog import extract_blog_metadata
+    """Generate blog posts and index pages for every show, plus network index."""
+    all_posts = []
 
     for slug in NETWORK_SHOWS:
         print(f"\n--- Blog: {NETWORK_SHOWS[slug]['name']} ---")
         results = generate_blog_posts(slug, dry_run=dry_run)
         posts = [meta for meta, _ in results]
         generate_blog_index(slug, dry_run=dry_run, posts=posts)
+        all_posts.extend(posts)
+
+    # Generate network-wide blog index
+    print("\n--- Network Blog Index ---")
+    generate_network_blog_index(dry_run=dry_run, all_posts=all_posts)
+
+
+# ---------------------------------------------------------------------------
+# Sitemap generation
+# ---------------------------------------------------------------------------
+
+_SHOW_DIRS = {
+    "tesla": "tesla_shorts_time",
+    "omni_view": "omni_view",
+    "fascinating_frontiers": "fascinating_frontiers",
+    "planetterrian": "planetterrian",
+    "env_intel": "env_intel",
+    "models_agents": "models_agents",
+    "models_agents_beginners": "models_agents_beginners",
+    "finansy_prosto": "finansy_prosto",
+    "modern_investing": "modern_investing",
+    "privet_russian": "privet_russian",
+}
+
+
+def generate_sitemap(*, dry_run=False):
+    """Generate sitemap.xml with all pages on the site."""
+    from xml.sax.saxutils import escape as _esc
+
+    base = "https://nerranetwork.com"
+    urls: list[tuple[str, str, str]] = []  # (loc, priority, lastmod)
+
+    # Landing page
+    urls.append((f"{base}/", "1.0", ""))
+
+    # Show pages, summaries pages, blog indices
+    for slug, cfg in NETWORK_SHOWS.items():
+        urls.append((f"{base}/{cfg['show_page']}", "0.8", ""))
+        urls.append((f"{base}/{cfg['summaries_page']}", "0.7", ""))
+        urls.append((f"{base}/blog/{slug}/index.html", "0.7", ""))
+
+    # Network blog hub
+    urls.append((f"{base}/blog/index.html", "0.7", ""))
+
+    # Russian hub
+    urls.append((f"{base}/ru/index.html", "0.7", ""))
+
+    # Special pages
+    for extra in ["modern-investing-resources.html", "404.html"]:
+        if (ROOT / extra).exists():
+            urls.append((f"{base}/{extra}", "0.5", ""))
+
+    # Individual blog posts
+    blog_dir = ROOT / "blog"
+    if blog_dir.exists():
+        for show_dir in sorted(blog_dir.iterdir()):
+            if show_dir.is_dir():
+                for ep_file in sorted(show_dir.glob("ep*.html")):
+                    rel = f"blog/{show_dir.name}/{ep_file.name}"
+                    urls.append((f"{base}/{rel}", "0.6", ""))
+
+    # Build XML
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for loc, priority, lastmod in urls:
+        lines.append(f"  <url>")
+        lines.append(f"    <loc>{_esc(loc)}</loc>")
+        lines.append(f"    <priority>{priority}</priority>")
+        if lastmod:
+            lines.append(f"    <lastmod>{_esc(lastmod)}</lastmod>")
+        lines.append(f"  </url>")
+    lines.append("</urlset>")
+    lines.append("")
+
+    xml = "\n".join(lines)
+
+    out_path = ROOT / "sitemap.xml"
+    if dry_run:
+        print(f"[dry-run] Would write {out_path} ({len(urls)} URLs)")
+        return None
+
+    out_path.write_text(xml, encoding="utf-8")
+    print(f"Wrote {out_path} ({len(urls)} URLs)")
+    return out_path
+
+
+# ---------------------------------------------------------------------------
+# 404 page
+# ---------------------------------------------------------------------------
+
+def generate_404_page(*, dry_run=False):
+    """Generate a custom 404 error page."""
+    env = _get_jinja_env()
+    template = env.get_template("404.html.j2")
+
+    context = {
+        "path_prefix": "",
+        "page_title": "Page Not Found | Nerra Network",
+        "meta_description": "The page you're looking for doesn't exist.",
+        "meta_keywords": "",
+        "theme_color": "#7C5CFF",
+        "og_image": None,
+        "canonical_url": "",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "404.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
 
 
 # ---------------------------------------------------------------------------
@@ -1414,8 +1748,14 @@ def main():
         if args.show not in NETWORK_SHOWS:
             print(f"Error: unknown show '{args.show}'. Valid: {', '.join(NETWORK_SHOWS)}", file=sys.stderr)
             sys.exit(1)
-        generate_show_page(args.show, dry_run=args.dry_run)
-        generate_summaries_page(args.show, dry_run=args.dry_run)
+        if args.blogs:
+            generate_blog_posts(args.show, dry_run=args.dry_run)
+            generate_blog_index(args.show, dry_run=args.dry_run)
+        else:
+            generate_show_page(args.show, dry_run=args.dry_run)
+            generate_summaries_page(args.show, dry_run=args.dry_run)
+        if args.network:
+            generate_network_page(dry_run=args.dry_run)
         return
 
     if args.all:
@@ -1423,6 +1763,8 @@ def main():
         generate_all_summaries(dry_run=args.dry_run)
         generate_network_page(dry_run=args.dry_run)
         generate_all_blogs(dry_run=args.dry_run)
+        generate_sitemap(dry_run=args.dry_run)
+        generate_404_page(dry_run=args.dry_run)
         return
 
     if args.shows:

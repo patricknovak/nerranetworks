@@ -14,6 +14,12 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://nerranetwork.com/assets/covers/finansy-prosto.jpg">
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Финансы Просто Blog">
+    <meta name="twitter:description" content="Read all Финансы Просто episodes as blog posts. Ежедневный подкаст о финансах на русском языке для женщин в Канаде.">
+    <meta name="twitter:image" content="https://nerranetwork.com/assets/covers/finansy-prosto.jpg">
+
     <link rel="canonical" href="https://nerranetwork.com/blog/finansy_prosto/index.html">
 
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
@@ -88,93 +94,6 @@
         .blog-rss-btn:hover {
             background: color-mix(in srgb, var(--show-color) 20%, transparent);
             border-color: var(--show-color);
-        }
-
-        /* Posts grid */
-        .blog-idx-grid {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 var(--sp-6) var(--sp-16);
-            display: grid;
-            gap: var(--sp-5);
-        }
-        @media (min-width: 640px) {
-            .blog-idx-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .blog-idx-card {
-            display: flex;
-            flex-direction: column;
-            padding: var(--sp-6);
-            background: var(--nn-card);
-            border: 1px solid var(--nn-border);
-            border-radius: 14px;
-            text-decoration: none;
-            transition: all var(--duration) var(--ease);
-        }
-        .blog-idx-card:hover {
-            border-color: var(--show-color);
-            background: var(--nn-card-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        }
-        .blog-idx-card-top {
-            display: flex;
-            align-items: center;
-            gap: var(--sp-3);
-            margin-bottom: var(--sp-3);
-        }
-        .blog-idx-date {
-            font-family: var(--font-ui);
-            font-size: 0.8rem;
-            color: var(--nn-text-muted);
-        }
-        .blog-idx-ep {
-            font-family: var(--font-ui);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 1px 8px;
-            border-radius: 100px;
-            background: color-mix(in srgb, var(--show-color) 15%, transparent);
-            color: var(--show-color);
-        }
-        .blog-idx-reading {
-            font-family: var(--font-ui);
-            font-size: 0.75rem;
-            color: var(--nn-text-muted);
-            margin-left: auto;
-        }
-        .blog-idx-card h2 {
-            font-family: var(--font-heading);
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--nn-white);
-            line-height: 1.3;
-            margin: 0 0 var(--sp-2);
-        }
-        .blog-idx-card p {
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            color: var(--nn-text-muted);
-            line-height: 1.5;
-            margin: 0;
-            flex: 1;
-        }
-        .blog-idx-read-more {
-            font-family: var(--font-ui);
-            font-size: 0.8rem;
-            color: var(--show-color);
-            margin-top: var(--sp-4);
-            font-weight: 500;
-        }
-
-        .blog-idx-empty {
-            text-align: center;
-            padding: var(--sp-16) var(--sp-6);
-            color: var(--nn-text-muted);
-            font-family: var(--font-ui);
         }
     </style>
 
@@ -258,6 +177,9 @@
                         <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                     <div class="nn-nav-dropdown-menu">
+                        <a href="../../blog/index.html" style="font-weight:600;border-bottom:1px solid var(--nn-border);padding-bottom:8px;margin-bottom:4px">
+                            All Blog Posts
+                        </a>
                         
                         <a href="../../blog/models_agents/index.html">
                             <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
@@ -381,6 +303,9 @@
         </div>
         <div class="nn-mobile-shows">
             <div class="nn-mobile-shows-title">Blogs</div>
+            <a href="../../blog/index.html" class="nn-mobile-show-link" style="font-weight:600" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                All Blog Posts
+            </a>
             
             <a href="../../blog/models_agents/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
                 <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
@@ -455,13 +380,24 @@
     
     <div class="blog-idx-grid">
         
+        <a href="ep014.html" class="blog-idx-card">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 14</span>
+                <span class="blog-idx-reading">1 min</span>
+            </div>
+            <h2>К сожалению, я не могу создать этот выпуск.</h2>
+            
+            <span class="blog-idx-read-more">Read article &rarr;</span>
+        </a>
+        
         <a href="ep013.html" class="blog-idx-card">
             <div class="blog-idx-card-top">
                 <span class="blog-idx-date">March 24, 2026</span>
                 <span class="blog-idx-ep">Ep 13</span>
                 <span class="blog-idx-reading">4 min</span>
             </div>
-            <h2></h2>
+            <h2>Финансы Просто</h2>
             
             <p>Как найти ипотеку, когда банки говорят «нет»: история одной семьи из Эдмонтона</p>
             
@@ -474,7 +410,7 @@
                 <span class="blog-idx-ep">Ep 12</span>
                 <span class="blog-idx-reading">4 min</span>
             </div>
-            <h2></h2>
+            <h2>Финансы Просто</h2>
             
             <p>Как открыть TFSA с нуля и пользоваться им с максимальной выгодой</p>
             
@@ -487,7 +423,7 @@
                 <span class="blog-idx-ep">Ep 11</span>
                 <span class="blog-idx-reading">4 min</span>
             </div>
-            <h2></h2>
+            <h2>Финансы Просто</h2>
             
             <p>Как открыть TFSA с нуля: пошаговый гид для каждой женщины в Ванкувере</p>
             
@@ -500,7 +436,7 @@
                 <span class="blog-idx-ep">Ep 10</span>
                 <span class="blog-idx-reading">4 min</span>
             </div>
-            <h2></h2>
+            <h2>Финансы Просто</h2>
             
             <p>Почему ставки по ипотеке снова могут вырасти и что это значит для вашей семьи в Ванкувере</p>
             
@@ -513,7 +449,7 @@
                 <span class="blog-idx-ep">Ep 9</span>
                 <span class="blog-idx-reading">4 min</span>
             </div>
-            <h2></h2>
+            <h2>Финансы Просто</h2>
             
             <p>Банк Канады оставил ключевую ставку на уровне 2,25% — что это значит для вашей ипотеки и сбережений</p>
             
@@ -526,7 +462,7 @@
                 <span class="blog-idx-ep">Ep 8</span>
                 <span class="blog-idx-reading">4 min</span>
             </div>
-            <h2></h2>
+            <h2>Финансы Просто</h2>
             
             <p>Как открыть и использовать TFSA — пошаговое руководство от нуля</p>
             
@@ -584,7 +520,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Blog</h4>
-                    <a href="../../blog.rss">Blog RSS (All Shows)</a>
+                    <a href="../../blog/index.html">All Blog Posts</a>
                     
                     <a href="../../blog/models_agents/index.html">Models & Agents</a>
                     
@@ -606,6 +542,7 @@
                     
                     <a href="../../blog/privet_russian/index.html">Привет, Русский!</a>
                     
+                    <a href="../../blog.rss">Blog RSS (All Shows)</a>
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>

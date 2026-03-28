@@ -1,95 +1,7 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-23",
+  "last_updated": "2026-03-27",
   "episodes": [
-    {
-      "date": "2026-03-09",
-      "headlines": [],
-      "urls": [
-        "https://the-decoder.com/anthropics-claude-opus-4-6-saw-through-an-ai-test-cracked-the-encryption-and-grabbed-the-answers-itself/",
-        "https://the-decoder.com/openai-employees-hint-at-a-new-omni-model/",
-        "https://www.marktechpost.com/2026/03/09/the-bayesian-upgrade-why-google-ais-new-teaching-method-is-the-key-to-llm-reasoning/",
-        "https://arxiv.org/abs/2603.05528",
-        "https://blog.langchain.com/how-we-built-langchains-gtm-agent/",
-        "https://arxiv.org/abs/2603.05522",
-        "https://arxiv.org/abs/2603.06290",
-        "https://arxiv.org/abs/2603.05517",
-        "https://arxiv.org/abs/2603.05980",
-        "https://arxiv.org/abs/2603.05529"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**OpenAI Employees Hint at a New Omni Model: The Decoder**  \nOpenAI is reportedly developing a new omni model under project \"BiDi,\" suggested by employee posts and leaked audio, focusing on multimodal upgrades beyond GPT-4o with bidirectional processing for text, audio, and vision. It compares favorably to Gemini 1.5 in handling complex multimodal tasks but may emphasize real-time interaction, potentially at lower latency. This matters for practitioners building cross-modal age",
-        "agent_developments": "### Agent & Tool Developments\n**How We Built LangChain’s GTM Agent: LangChain Blog**  \nLangChain detailed building a Go-To-Market (GTM) agent that boosts lead conversion by 250% and saves sales reps 40 hours monthly, using LangGraph for orchestration and tool calling with models like GPT-4. It's an improvement over basic AutoGPT setups by integrating RAG and real-time data pulls, enabling autonomous sales workflows. Try it via LangChain's open-source repo to automate your CRM tasks—clone and cus",
-        "practical_community": "### Practical & Community\n**Traversal-as-Policy: Log-Distilled Gated Behavior Trees as Externalized, Verifiable Policies for Safe, Robust, and Efficient Agents: cs.AI updates on arXiv.org**  \nThis approach distills agent logs into Gated Behavior Trees (GBTs) for verifiable policies, improving success on SWE-bench from 34.6% to 73.6% with near-zero violations. It solves misalignment in agentic flows better than CrewAI by enforcing gates, though it adds distillation overhead. Get started by clonin"
-      }
-    },
-    {
-      "date": "2026-03-10",
-      "headlines": [],
-      "urls": [
-        "https://www.theverge.com/ai-artificial-intelligence/892178/meta-moltbook-acquisition-ai-agents",
-        "https://www.theverge.com/tech/890996/google-workspace-gemini-ai-docs-sheets-drive",
-        "https://www.theverge.com/tech/891998/adobe-photoshop-web-mobile-ai-assistant-beta-launch",
-        "https://the-decoder.com/claude-code-gets-parallel-ai-agents-that-review-code-for-bugs-and-security-gaps",
-        "https://www.marktechpost.com/2026/03/09/bytedance-releases-deerflow-2-0-an-open-source-superagent-harness-that-orchestrates-sub-agents-memory-and-sandboxes-to-do-complex-tasks",
-        "https://www.artificialintelligence-news.com/news/mastercard-agentic-payments-singapore-dbs-uob/",
-        "https://arxiv.org/abs/2603.06874",
-        "https://www.marktechpost.com/2026/03/09/how-to-build-a-risk-aware-ai-agent-with-internal-critic-self-consistency-reasoning-and-uncertainty-estimation-for-reliable-decision-making/",
-        "https://arxiv.org/abs/2603.06608",
-        "https://arxiv.org/abs/2603.07024"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**Google’s Gemini AI Expands in Workspace: The Verge**  \nGoogle is rolling out deeper Gemini integration in Docs, Sheets, and Slides for Workspace and AI plan subscribers, including a new chat window in Docs, AI-generated spreadsheets, and Gemini-powered search in Drive. This builds on Gemini 1.5's long-context capabilities, offering more seamless productivity than Claude's integrations or Microsoft's Copilot, but it's limited to paid users. It matters for developers automating",
-        "agent_developments": "### Agent & Tool Developments\n**ByteDance Releases DeerFlow 2.0: MarkTechPost**  \nDeerFlow 2.0 is an open-source SuperAgent framework from ByteDance that orchestrates sub-agents, memory, and sandboxes for complex tasks like multi-step planning, upgrading from version 1.0 with better execution reliability. It compares favorably to LangGraph for modularity but emphasizes sandboxed safety, enabling agents to handle real-world automation without custom scripting. You can try it today by cloning the ",
-        "practical_community": "### Practical & Community\n**Tutorial on Risk-Aware AI Agents: MarkTechPost**  \nThis guide teaches building a risk-aware AI agent using internal critics, self-consistency reasoning, and uncertainty estimation for reliable decision-making, with code for multi-sample inference and risk-sensitive selection. It solves issues in high-stakes agents by balancing confidence, useful for frameworks like CrewAI, though it requires strong Python skills. Get started by following the tutorial steps to implemen"
-      }
-    },
-    {
-      "date": "2026-03-11",
-      "headlines": [],
-      "urls": [
-        "https://www.marktechpost.com/2026/03/11/google-ai-introduces-gemini-embedding-2-a-multimodal-embedding-model-that-lets-your-bring-text-images-video-audio-and-docs-into-the-embedding-space/",
-        "https://www.marktechpost.com/2026/03/11/google-ai-introduces-gemini-embedding-2-a-multimodal-embedding-model-that-lets-your-bring-text-images-video-audio-and-docs-into-the-embedding-space/",
-        "https://arxiv.org/abs/2603.09875",
-        "https://arxiv.org/abs/2603.09086",
-        "https://www.marktechpost.com/2026/03/10/how-to-build-a-self-designing-meta-agent-that-automatically-constructs-instantiates-and-refines-task-specific-ai-agents/",
-        "https://arxiv.org/abs/2603.09290",
-        "https://arxiv.org/abs/2603.08814",
-        "https://arxiv.org/abs/2603.08745",
-        "https://arxiv.org/abs/2603.08852",
-        "https://arxiv.org/abs/2603.09733"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**Google AI Introduces Gemini Embedding 2: MarkTechPost**  \nGemini Embedding 2 is a multimodal model that embeds text, images, video, audio, and docs, succeeding the text-focused gemini-embedding-001 with better handling of high-dimensional data for RAG systems. It compares favorably to LlamaIndex's multimodal embeddings by offering unified cross-modal retrieval without custom adapters, though it may require more VRAM for large-scale inference. This matters for developers optim",
-        "agent_developments": "### Agent & Tool Developments\n**How to Build a Self-Designing Meta-Agent: MarkTechPost**  \nThis tutorial outlines building a meta-agent that analyzes tasks, selects tools, configures memory and planners, then instantiates dynamic agents—going beyond static templates in frameworks like LangGraph or CrewAI. The update enables automatic refinement for task-specific agents, improving adaptability without manual coding. Try it by following the step-by-step code in Python to automate agent creation fo",
-        "practical_community": "### Practical & Community\n**ChatNeuroSim: An LLM Agent Framework for Automated Compute-in-Memory Accelerator Deployment and Optimization: cs.MA updates on arXiv.org**  \nChatNeuroSim automates CIM accelerator workflows using LLMs for task scheduling, script generation, and optimization via design space pruning, cutting runtime by up to 0.79x compared to baselines. It solves manual dependency headaches in hardware DSE, ideal for AI infrastructure devs, but assumes familiarity with NeuroSim. Get st"
-      }
-    },
-    {
-      "date": "2026-03-12",
-      "headlines": [],
-      "urls": [
-        "https://the-decoder.com/nvidia-steps-into-the-open-source-ai-gap-that-openai-meta-and-anthropic-left-behind/",
-        "https://the-decoder.com/metas-jepa-architecture-outperforms-standard-ai-methods-in-cardiac-ultrasound-analysis/",
-        "https://the-decoder.com/meta-unveils-four-generations-of-custom-ai-chips-to-cut-inference-costs-for-billions-of-users/",
-        "https://arxiv.org/abs/2603.09982",
-        "https://techcrunch.com/2026/03/12/gumloop-lands-50m-from-benchmark-to-turn-every-employee-into-an-ai-agent-builder/",
-        "https://www.theverge.com/ai-artificial-intelligence/893536/perplexitys-personal-computer-turns-your-spare-mac-into-an-ai-agent",
-        "https://www.latent.space/p/ainews-replit-agent-4-the-knowledge",
-        "https://arxiv.org/abs/2603.10085",
-        "https://arxiv.org/abs/2603.11025",
-        "https://arxiv.org/abs/2603.11048"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**Meta's JEPA Architecture Outperforms in Noisy Medical Imaging: The Decoder**  \nMeta's JEPA (Joint Embedding Predictive Architecture) has been adapted for cardiac ultrasound analysis, outperforming masked autoencoders and contrastive learning in benchmarks on noisy medical imaging data. Unlike standard methods that struggle with incomplete or distorted inputs, JEPA's predictive approach handles variability better, achieving higher accuracy in tasks like echo analysis. This mat",
-        "agent_developments": "### Agent & Tool Developments\n**Gumloop's $50M Funding for Employee AI Agent Building: TechCrunch**  \nGumloop, backed by $50M from Benchmark, enables non-technical employees to build AI agents for enterprise automation, using a no-code interface that integrates with tools like LangChain for custom workflows. This expands beyond specialized frameworks like CrewAI by democratizing agent creation, potentially reducing development time for tasks like data processing. Try it via their platform for bu",
-        "practical_community": "### Practical & Community\n**KernelSkill for GPU Kernel Optimization: cs.MA updates on arXiv.org**  \nKernelSkill is a multi-agent framework using LLMs to optimize GPU kernels, featuring a dual-memory architecture for reusable skills and trajectory awareness, achieving 1.92x to 5.44x speedups over baselines like Torch Eager. It solves optimization inefficiencies in AI infrastructure by replacing opaque heuristics with expert-driven agents. Get started by cloning the GitHub repo and testing on your"
-      }
-    },
     {
       "date": "2026-03-13",
       "headlines": [],
@@ -272,6 +184,72 @@
         "deep_dive": "### Under the Hood: Belief Revision in Iterative LLM Reasoning\nEveryone talks about chain-of-thought, self-reflection, and multi-agent debate as if models are performing clean Bayesian updates. In practice, these iterative reasoning loops follow a surprisingly consistent multiplicative scaling law governed by a belief revision exponent α that blends prior beliefs with new verification evidence.\n\nThe core insight is that instruction-tuned models don't treat each revision step as fully independent"
       },
       "deep_dive_topic": "Reputation Vectors vs Scalar Trust"
+    },
+    {
+      "date": "2026-03-27",
+      "headlines": [
+        "When Consistency Becomes Bias: Interviewer Effects in Semi-Structured Clinical Interviews",
+        "Demystifying When Pruning Works via Representation Hierarchies",
+        "Fine-Tuning A Large Language Model for Systematic Review Screening",
+        "Evaluating Fine-Tuned LLM Model For Medical Transcription With Small Low-Resource Languages Validated Dataset",
+        "Enhancing Structured Meaning Representations with Aspect Classification",
+        "Synthetic Rewriting as a Quality Multiplier: Evidence from Portuguese Continued Pretraining",
+        "Prune as You Generate: Online Rollout Pruning for Faster and Better RLVR",
+        "Estimating near-verbatim extraction risk in language models with decoding-constrained beam search",
+        "Toward domain-specific machine translation and quality estimation systems",
+        "LLM-Driven Reasoning for Constraint-Aware Feature Selection in Industrial Systems",
+        "Exons-Detect: Identifying and Amplifying Exonic Tokens via Hidden-State Discrepancy for Robust AI-Generated Text Detection",
+        "Imperative Interference: Social Register Shapes Instruction Topology in Large Language Models",
+        "Approaches to Analysing Historical Newspapers Using LLMs",
+        "Closing the Confidence-Faithfulness Gap in Large Language Models",
+        "OMIND: Framework for Knowledge Grounded Finetuning and Multi-Turn Dialogue Benchmark for Mental Health LLMs",
+        "Do LLMs Know What They Know? Measuring Metacognitive Efficiency with Signal Detection Theory",
+        "Goodness-of-pronunciation without phoneme time alignment",
+        "To Write or to Automate Linguistic Prompts, That Is the Question",
+        "Prompt Attack Detection with LLM-as-a-Judge and Mixture-of-Models",
+        "Probing the Lack of Stable Internal Beliefs in LLMs",
+        "A Catalog of Basque Dialectal Resources: Online Collections and Standard-to-Dialectal Adaptations",
+        "A Decade-Scale Benchmark Evaluating LLMs' Clinical Practice Guidelines Detection and Adherence in Multi-turn Conversations",
+        "SafeMath: Inference-time Safety improves Math Accuracy",
+        "Translation or Recitation? Calibrating Evaluation Scores for Machine Translation of Extremely Low-Resource Languages",
+        "Comparing Natural and Synthetic Structured Data: A Study of the Passive Verb Alternation in French and Italian"
+      ],
+      "urls": [
+        "https://arxiv.org/abs/2603.24651",
+        "https://arxiv.org/abs/2603.24651",
+        "https://arxiv.org/abs/2603.24652",
+        "https://arxiv.org/abs/2603.24767",
+        "https://arxiv.org/abs/2603.24772",
+        "https://arxiv.org/abs/2603.24979",
+        "https://arxiv.org/abs/2603.25176",
+        "https://arxiv.org/abs/2603.24826",
+        "https://arxiv.org/abs/2603.25052",
+        "https://arxiv.org/abs/2603.25112",
+        "https://arxiv.org/abs/2603.24797",
+        "https://arxiv.org/abs/2603.24840",
+        "https://arxiv.org/abs/2603.24917",
+        "https://arxiv.org/abs/2603.24955",
+        "https://arxiv.org/abs/2603.24981",
+        "https://arxiv.org/abs/2603.25015",
+        "https://arxiv.org/abs/2603.25051",
+        "https://arxiv.org/abs/2603.25105",
+        "https://arxiv.org/abs/2603.25150",
+        "https://arxiv.org/abs/2603.25169",
+        "https://arxiv.org/abs/2603.25187",
+        "https://arxiv.org/abs/2603.25189",
+        "https://arxiv.org/abs/2603.25196",
+        "https://arxiv.org/abs/2603.25201",
+        "https://arxiv.org/abs/2603.25222",
+        "https://arxiv.org/abs/2603.25227"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**When Consistency Becomes Bias: Interviewer Effects in Semi-Structured Clinical Interviews**\nModels achieve strong depression detection performance without using participant language by exploiting fixed interviewer prompts. Restricting to participant utterances reveals the true linguistic signals. This finding has immediate implications for any medical conversation AI.\n\nSource: https://arxiv.org/abs/2603.24651\n\n**Demystifying When Pruning Works via Representation Hierarchies**",
+        "agent_developments": "### Agent & Tool Developments\n**LLM-Driven Reasoning for Constraint-Aware Feature Selection in Industrial Systems**\nModel Feature Agent (MoFA) uses semantic and quantitative feature information in structured prompts to perform sequential, reasoning-based feature selection under operational constraints. It delivered accuracy gains plus reduced feature complexity in True Interest prediction, discovered high-order interactions improving online engagement, and selected compact subsets that boosted b",
+        "practical_community": "### Practical & Community\n**Synthetic Rewriting as a Quality Multiplier: Evidence from Portuguese Continued Pretraining**\nControlled study on Portuguese data shows synthetic rewriting acts primarily as a *quality multiplier* rather than a substitute for curation. Rewriting high-quality data gave +3.4 NPM at 7B scale while rewriting low-quality data gave only +0.5. Effect is scale-dependent; unmodified low-quality data performed comparably to rewritten high-quality data at 1.1B scale.\n\nSource: ht",
+        "deep_dive": "### Under the Hood: Representation Hierarchies in Pruning\nEveryone talks about pruning as if it's a simple \"remove low-magnitude weights\" switch that should work equally everywhere. In reality, it's a story about three distinct representation spaces that respond differently to perturbation.\n\nThe core insight is that embedding (hidden states) and logit (pre-softmax) spaces are surprisingly robust to pruning. The trouble begins in the nonlinear transformation from logits to probabilities. Small de"
+      },
+      "deep_dive_topic": "Representation Hierarchies in Pruning"
     }
   ]
 }

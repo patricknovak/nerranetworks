@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hubble has caught a tiny comet slowing its spin and then reversing direction entirely.">
+    <meta name="keywords" content="space podcast, astronomy news, NASA discoveries, space exploration, Fascinating Frontiers">
+    <title>Fascinating Frontiers — Ep45 | Fascinating Frontiers Blog</title>
+    <meta name="theme-color" content="#7C5CFF">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Fascinating Frontiers — Ep45 | Fascinating Frontiers Blog">
+    <meta property="og:description" content="Hubble has caught a tiny comet slowing its spin and then reversing direction entirely.">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fascinating Frontiers — Ep45 | Fascinating Frontiers Blog">
+    <meta name="twitter:description" content="Hubble has caught a tiny comet slowing its spin and then reversing direction entirely.">
+    <meta name="twitter:image" content="https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg">
+
+    <link rel="canonical" href="https://nerranetwork.com/blog/fascinating_frontiers/ep045.html">
+
+    <!-- Google Fonts: DM Sans + Source Serif 4 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
+
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="../../styles/main.css">
+
+    
+    <!-- Blog Post OG -->
+    <meta property="article:published_time" content="">
+    <meta property="article:author" content="Fascinating Frontiers">
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Fascinating Frontiers",
+  "description": "Hubble has caught a tiny comet slowing its spin and then reversing direction entirely.",
+  "datePublished": "",
+  "wordCount": 1029,
+  "author": {
+    "@type": "Organization",
+    "name": "Fascinating Frontiers",
+    "url": "https://nerranetwork.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Nerra Network",
+    "url": "https://nerranetwork.com"
+  },
+  "url": "https://nerranetwork.com/blog/fascinating_frontiers/ep045.html",
+  "mainEntityOfPage": "https://nerranetwork.com/blog/fascinating_frontiers/ep045.html"
+}
+    </script>
+
+    <style>
+        .blog-hero {
+            position: relative;
+            padding: var(--sp-20) var(--sp-6) var(--sp-12);
+            text-align: center;
+            overflow: hidden;
+        }
+        .blog-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--show-color) 15%, transparent), transparent 70%);
+            pointer-events: none;
+        }
+        .blog-hero-inner {
+            position: relative;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        .blog-show-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-2);
+            padding: var(--sp-1) var(--sp-4);
+            border-radius: 100px;
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin-bottom: var(--sp-6);
+            text-decoration: none;
+            transition: border-color var(--duration) var(--ease);
+        }
+        .blog-show-badge:hover {
+            border-color: var(--show-color);
+        }
+        .blog-show-badge img {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+        }
+        .blog-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-5);
+        }
+        .blog-hero-hook {
+            font-family: var(--font-body);
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--nn-text-muted);
+            max-width: 620px;
+            margin: 0 auto var(--sp-8);
+        }
+        .blog-meta-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--sp-5);
+            flex-wrap: wrap;
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-meta-bar span {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-1);
+        }
+        .blog-meta-pill {
+            padding: 2px 10px;
+            border-radius: 100px;
+            background: color-mix(in srgb, var(--show-color) 15%, transparent);
+            color: var(--show-color);
+            font-weight: 600;
+        }
+
+        /* Article body */
+        .blog-article-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 var(--sp-6) var(--sp-16);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--sp-10);
+        }
+        @media (min-width: 1024px) {
+            .blog-article-wrap {
+                max-width: 1060px;
+                grid-template-columns: 200px 1fr;
+            }
+        }
+
+        /* Table of contents */
+        .blog-toc {
+            display: none;
+        }
+        @media (min-width: 1024px) {
+            .blog-toc {
+                display: block;
+                position: sticky;
+                top: calc(var(--nav-height) + var(--sp-8));
+                align-self: start;
+                max-height: calc(100vh - var(--nav-height) - var(--sp-16));
+                overflow-y: auto;
+                padding-right: var(--sp-4);
+            }
+        }
+        .blog-toc-title {
+            font-family: var(--font-ui);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--nn-text-muted);
+            margin-bottom: var(--sp-3);
+            font-weight: 600;
+        }
+        .blog-toc a {
+            display: block;
+            padding: var(--sp-1) 0;
+            font-family: var(--font-ui);
+            font-size: 0.8rem;
+            color: var(--nn-text-muted);
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            padding-left: var(--sp-3);
+            transition: all var(--duration) var(--ease);
+            line-height: 1.4;
+        }
+        .blog-toc a:hover,
+        .blog-toc a.active {
+            color: var(--show-color);
+            border-left-color: var(--show-color);
+        }
+        .blog-toc a.toc-h3 {
+            padding-left: var(--sp-6);
+            font-size: 0.75rem;
+        }
+
+        /* Article */
+        .blog-article {
+            min-width: 0;
+        }
+        .blog-article h1 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: var(--sp-10) 0 var(--sp-4);
+            padding-left: var(--sp-4);
+            border-left: 3px solid var(--show-color);
+        }
+        .blog-article h2 {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: var(--sp-10) 0 var(--sp-4);
+            padding-left: var(--sp-4);
+            border-left: 3px solid var(--show-color);
+        }
+        .blog-article h3 {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-text);
+            margin: var(--sp-8) 0 var(--sp-3);
+        }
+        .blog-article p {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--nn-text);
+            margin: 0 0 var(--sp-4);
+        }
+        .blog-article a {
+            color: var(--show-color);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            text-decoration-color: color-mix(in srgb, var(--show-color) 40%, transparent);
+            transition: text-decoration-color var(--duration) var(--ease);
+        }
+        .blog-article a:hover {
+            text-decoration-color: var(--show-color);
+        }
+        .blog-article strong {
+            color: var(--nn-white);
+            font-weight: 600;
+        }
+        .blog-article ul,
+        .blog-article ol {
+            margin: 0 0 var(--sp-6);
+            padding-left: var(--sp-6);
+        }
+        .blog-article li {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--nn-text);
+            margin-bottom: var(--sp-3);
+        }
+        .blog-article .blog-list-cont {
+            margin: var(--sp-1) 0 var(--sp-2);
+            padding-left: var(--sp-2);
+            font-size: 1rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-article hr {
+            border: none;
+            border-top: 1px solid var(--nn-border);
+            margin: var(--sp-10) 0;
+        }
+
+        /* Sources section */
+        .blog-sources {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-sources h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.1rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-sources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: var(--sp-3);
+        }
+        .blog-source-card {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+            padding: var(--sp-3) var(--sp-4);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-source-card:hover {
+            border-color: var(--show-color);
+            background: var(--nn-card-hover);
+        }
+        .blog-source-card .source-domain {
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--nn-text);
+            font-weight: 500;
+        }
+        .blog-source-card .source-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            background: var(--nn-surface);
+            flex-shrink: 0;
+        }
+
+        /* Episode navigation */
+        .blog-ep-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--sp-4);
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-ep-nav a {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-1);
+            padding: var(--sp-4) var(--sp-5);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+            max-width: 48%;
+        }
+        .blog-ep-nav a:hover {
+            border-color: var(--show-color);
+            background: var(--nn-card-hover);
+        }
+        .blog-ep-nav .nav-label {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--nn-text-muted);
+        }
+        .blog-ep-nav .nav-title {
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+            color: var(--nn-text);
+            font-weight: 500;
+        }
+        .blog-ep-nav .next {
+            text-align: right;
+            margin-left: auto;
+        }
+
+        /* Listen CTA */
+        .blog-listen-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-2);
+            padding: var(--sp-2) var(--sp-5);
+            border-radius: 100px;
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            color: var(--nn-text-muted);
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-listen-cta:hover {
+            border-color: var(--show-color);
+            color: var(--show-color);
+        }
+    </style>
+
+
+    
+    <style>:root { --show-color: #7C5CFF; --show-color-dark: #6366f1; }</style>
+    
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nn-nav">
+        <div class="nn-nav-inner">
+            <a href="../../index.html" class="nn-nav-logo">
+                <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
+                <span class="gradient-text">Nerra</span> Network
+            </a>
+
+            <ul class="nn-nav-links">
+                <li class="nn-nav-dropdown">
+                    <button class="nn-nav-dropdown-btn">
+                        Shows
+                        <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="nn-nav-dropdown-menu">
+                        
+                        <a href="../../models-agents.html">
+                            <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
+                            Models & Agents
+                        </a>
+                        
+                        <a href="../../planetterrian.html">
+                            <img src="../../assets/covers/planetterrian-daily.jpg" alt="" loading="lazy">
+                            Planetterrian Daily
+                        </a>
+                        
+                        <a href="../../omni-view.html">
+                            <img src="../../assets/covers/omni-view.jpg" alt="" loading="lazy">
+                            Omni View
+                        </a>
+                        
+                        <a href="../../models-agents-beginners.html">
+                            <img src="../../assets/covers/models-agents-beginners.jpg" alt="" loading="lazy">
+                            Models & Agents for Beginners
+                        </a>
+                        
+                        <a href="../../fascinating_frontiers.html">
+                            <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" loading="lazy">
+                            Fascinating Frontiers
+                        </a>
+                        
+                        <a href="../../modern-investing.html">
+                            <img src="../../assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                            Modern Investing Techniques
+                        </a>
+                        
+                        <a href="../../tesla.html">
+                            <img src="../../assets/covers/tesla-shorts-time.jpg" alt="" loading="lazy">
+                            Tesla Shorts Time
+                        </a>
+                        
+                        <a href="../../env-intel.html">
+                            <img src="../../assets/covers/environmental-intelligence.jpg" alt="" loading="lazy">
+                            Environmental Intelligence
+                        </a>
+                        
+                        <a href="../../ru/finansy-prosto.html">
+                            <img src="../../assets/covers/finansy-prosto.jpg" alt="" loading="lazy">
+                            Финансы Просто
+                        </a>
+                        
+                        <a href="../../ru/privet-russian.html">
+                            <img src="../../assets/covers/privet-russian.jpg" alt="" loading="lazy">
+                            Привет, Русский!
+                        </a>
+                        
+                    </div>
+                </li>
+                <li class="nn-nav-dropdown">
+                    <button class="nn-nav-dropdown-btn">
+                        Blog
+                        <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="nn-nav-dropdown-menu">
+                        <a href="../../blog/index.html" style="font-weight:600;border-bottom:1px solid var(--nn-border);padding-bottom:8px;margin-bottom:4px">
+                            All Blog Posts
+                        </a>
+                        
+                        <a href="../../blog/models_agents/index.html">
+                            <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
+                            Models & Agents Blog
+                        </a>
+                        
+                        <a href="../../blog/planetterrian/index.html">
+                            <img src="../../assets/covers/planetterrian-daily.jpg" alt="" loading="lazy">
+                            Planetterrian Daily Blog
+                        </a>
+                        
+                        <a href="../../blog/omni_view/index.html">
+                            <img src="../../assets/covers/omni-view.jpg" alt="" loading="lazy">
+                            Omni View Blog
+                        </a>
+                        
+                        <a href="../../blog/models_agents_beginners/index.html">
+                            <img src="../../assets/covers/models-agents-beginners.jpg" alt="" loading="lazy">
+                            Models & Agents for Beginners Blog
+                        </a>
+                        
+                        <a href="../../blog/fascinating_frontiers/index.html">
+                            <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" loading="lazy">
+                            Fascinating Frontiers Blog
+                        </a>
+                        
+                        <a href="../../blog/modern_investing/index.html">
+                            <img src="../../assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                            Modern Investing Techniques Blog
+                        </a>
+                        
+                        <a href="../../blog/tesla/index.html">
+                            <img src="../../assets/covers/tesla-shorts-time.jpg" alt="" loading="lazy">
+                            Tesla Shorts Time Blog
+                        </a>
+                        
+                        <a href="../../blog/env_intel/index.html">
+                            <img src="../../assets/covers/environmental-intelligence.jpg" alt="" loading="lazy">
+                            Environmental Intelligence Blog
+                        </a>
+                        
+                        <a href="../../blog/finansy_prosto/index.html">
+                            <img src="../../assets/covers/finansy-prosto.jpg" alt="" loading="lazy">
+                            Финансы Просто Blog
+                        </a>
+                        
+                        <a href="../../blog/privet_russian/index.html">
+                            <img src="../../assets/covers/privet-russian.jpg" alt="" loading="lazy">
+                            Привет, Русский! Blog
+                        </a>
+                        
+                    </div>
+                </li>
+                
+                <li><a href="../../index.html">Home</a></li>
+                
+            </ul>
+
+            <button class="nn-hamburger" aria-label="Toggle menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">&#9776;</button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="nn-mobile-menu">
+        
+        <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+        
+        <div class="nn-mobile-shows">
+            <div class="nn-mobile-shows-title">All Shows</div>
+            
+            <a href="../../models-agents.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
+                Models & Agents
+            </a>
+            
+            <a href="../../planetterrian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/planetterrian-daily.jpg" alt="" loading="lazy">
+                Planetterrian Daily
+            </a>
+            
+            <a href="../../omni-view.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/omni-view.jpg" alt="" loading="lazy">
+                Omni View
+            </a>
+            
+            <a href="../../models-agents-beginners.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/models-agents-beginners.jpg" alt="" loading="lazy">
+                Models & Agents for Beginners
+            </a>
+            
+            <a href="../../fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" loading="lazy">
+                Fascinating Frontiers
+            </a>
+            
+            <a href="../../modern-investing.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                Modern Investing Techniques
+            </a>
+            
+            <a href="../../tesla.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/tesla-shorts-time.jpg" alt="" loading="lazy">
+                Tesla Shorts Time
+            </a>
+            
+            <a href="../../env-intel.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/environmental-intelligence.jpg" alt="" loading="lazy">
+                Environmental Intelligence
+            </a>
+            
+            <a href="../../ru/finansy-prosto.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/finansy-prosto.jpg" alt="" loading="lazy">
+                Финансы Просто
+            </a>
+            
+            <a href="../../ru/privet-russian.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/privet-russian.jpg" alt="" loading="lazy">
+                Привет, Русский!
+            </a>
+            
+        </div>
+        <div class="nn-mobile-shows">
+            <div class="nn-mobile-shows-title">Blogs</div>
+            <a href="../../blog/index.html" class="nn-mobile-show-link" style="font-weight:600" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                All Blog Posts
+            </a>
+            
+            <a href="../../blog/models_agents/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/models-agents.jpg" alt="" loading="lazy">
+                Models & Agents Blog
+            </a>
+            
+            <a href="../../blog/planetterrian/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/planetterrian-daily.jpg" alt="" loading="lazy">
+                Planetterrian Daily Blog
+            </a>
+            
+            <a href="../../blog/omni_view/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/omni-view.jpg" alt="" loading="lazy">
+                Omni View Blog
+            </a>
+            
+            <a href="../../blog/models_agents_beginners/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/models-agents-beginners.jpg" alt="" loading="lazy">
+                Models & Agents for Beginners Blog
+            </a>
+            
+            <a href="../../blog/fascinating_frontiers/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" loading="lazy">
+                Fascinating Frontiers Blog
+            </a>
+            
+            <a href="../../blog/modern_investing/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/modern-investing.jpg" alt="" loading="lazy">
+                Modern Investing Techniques Blog
+            </a>
+            
+            <a href="../../blog/tesla/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/tesla-shorts-time.jpg" alt="" loading="lazy">
+                Tesla Shorts Time Blog
+            </a>
+            
+            <a href="../../blog/env_intel/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/environmental-intelligence.jpg" alt="" loading="lazy">
+                Environmental Intelligence Blog
+            </a>
+            
+            <a href="../../blog/finansy_prosto/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/finansy-prosto.jpg" alt="" loading="lazy">
+                Финансы Просто Blog
+            </a>
+            
+            <a href="../../blog/privet_russian/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                <img src="../../assets/covers/privet-russian.jpg" alt="" loading="lazy">
+                Привет, Русский! Blog
+            </a>
+            
+        </div>
+    </div>
+
+    
+    <!-- Hero -->
+    <header class="blog-hero">
+        <div class="blog-hero-inner">
+            <a href="../../blog/fascinating_frontiers/index.html" class="blog-show-badge">
+                <img src="../../assets/covers/fascinating-frontiers.jpg" alt="Fascinating Frontiers">
+                Fascinating Frontiers Blog
+            </a>
+            <h1>Fascinating Frontiers — Episode 45</h1>
+            
+            <p class="blog-hero-hook">Hubble has caught a tiny comet slowing its spin and then reversing direction entirely.</p>
+            
+            <div class="blog-meta-bar">
+                <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    
+                </span>
+                <span class="blog-meta-pill">Ep 45</span>
+                <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    5 min read
+                </span>
+                
+                <a href="../../fascinating_frontiers.html" class="blog-listen-cta">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Listen to podcast
+                </a>
+                
+                
+                <a href="../../fascinating-frontiers-summaries.html" class="blog-listen-cta">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    View summaries
+                </a>
+                
+            </div>
+        </div>
+    </header>
+
+    <!-- Article with TOC sidebar -->
+    <div class="blog-article-wrap">
+        
+        <aside class="blog-toc">
+            <div class="blog-toc-title">Contents</div>
+            
+            <a href="#top-15-space-astronomy-stories" class="toc-h3">Top 15 Space & Astronomy Stories</a>
+            
+            <a href="#cosmic-spotlight" class="toc-h3">Cosmic Spotlight</a>
+            
+            <a href="#cosmic-deep-dive-measuring-the-universes-expansion" class="toc-h3">Cosmic Deep Dive: Measuring the Universe's Expansion</a>
+            
+        </aside>
+        
+
+        <article class="blog-article">
+            <p><em>Hubble has caught a tiny comet slowing its spin and then reversing direction entirely.</em></p>
+<h3 id="top-15-space-astronomy-stories">Top 15 Space & Astronomy Stories</h3>
+<ol>
+<li><strong>Nearby Rocky Worlds for Life Search: 26 March 2026 • Universe Today</strong></li>
+<p class="blog-list-cont">A new paper in Monthly Notices of the Royal Astronomical Society has identified 45 rocky exoplanets with potential for life out of the 6,281 currently known. These nearby candidates could become prime targets for future observations seeking signs of biology.</p>
+<p class="blog-list-cont">Source: <a href="https://www.universetoday.com/articles/looking-for-nearby-project-hail-mary-worlds" target="_blank" rel="noopener">universetoday.com</a></p>
+<li><strong>SMILE Mission Pre-Launch Briefing: 26 March 2026 • European Space Agency</strong></li>
+<p class="blog-list-cont">ESA and the Chinese Academy of Sciences held a media briefing covering final details before the SMILE spacecraft launches on a Vega-C rocket from French Guiana. The joint mission will study how solar wind interacts with Earth’s magnetic field.</p>
+<p class="blog-list-cont">Source: <a href="https://www.esa.int/ESA_Multimedia/Videos/2026/03/Smile_pre-launch_media_briefing" target="_blank" rel="noopener">esa.int</a></p>
+<li><strong>New Hubble Constant Measurement Using Gravitational Waves: 26 March 2026 • Universe Today</strong></li>
+<p class="blog-list-cont">A fresh study has used ripples in spacetime to produce a new value for the Hubble constant, the rate at which the universe is expanding. This approach may help settle one of cosmology’s longest-running disagreements.</p>
+<p class="blog-list-cont">Source: <a href="https://www.universetoday.com/articles/ripples-in-spacetime-and-the-universes-most-controversial-number" target="_blank" rel="noopener">universetoday.com</a></p>
+<li><strong>NASA Hubble Detects Comet Spin Reversal: 26 March 2026 • NASA</strong></li>
+<p class="blog-list-cont">Astronomers using Hubble have found the first evidence of a small comet whose spin slowed and then reversed direction due to volatile activity. This offers a dramatic look at how outgassing can reshape small bodies in the solar system.</p>
+<p class="blog-list-cont">Source: <a href="https://science.nasa.gov/missions/hubble/nasas-hubble-detects-first-ever-spin-reversal-of-tiny-comet/" target="_blank" rel="noopener">science.nasa.gov</a></p>
+<li><strong>Webb and Hubble Team Up on Saturn: 26 March 2026 • Space.com</strong></li>
+<p class="blog-list-cont">Combined observations from the James Webb and Hubble space telescopes have produced the most detailed view yet of Saturn’s atmosphere and rings. The images reveal new details about the planet’s dynamic weather and ring structure.</p>
+<p class="blog-list-cont">Source: <a href="https://www.space.com/astronomy/saturn/incredible-new-nasa-images-reveal-saturn-in-a-new-light-and-its-all-thanks-to-a-telescope-team-up-from-webb-and-hubble" target="_blank" rel="noopener">space.com</a></p>
+<li><strong>Mystery of Gamma Cassiopeiae Solved: 26 March 2026 • Universe Today</strong></li>
+<p class="blog-list-cont">After fifty years of unexplained high-energy X-rays, observations with a next-generation space telescope have shown that Gamma Cas is being fed by an invisible companion star. The bright star in the distinctive W of Cassiopeia is now understood as a binary system.</p>
+<p class="blog-list-cont">Source: <a href="https://www.universetoday.com/articles/the-star-that-kept-its-secret-for-50-years" target="_blank" rel="noopener">universetoday.com</a></p>
+<li><strong>How Venus Became a Hellscape: 26 March 2026 • Universe Today</strong></li>
+<p class="blog-list-cont">A new study ran 234,000 simulations of Venus’s 4.5-billion-year evolution to explore why it diverged so sharply from Earth. The results point to four possible pathways that turned our neighbour into the extreme world we see today.</p>
+<p class="blog-list-cont">Source: <a href="https://www.universetoday.com/articles/how-did-venus-become-a-hellscape-234000-simulations-reveal-four-possible-paths" target="_blank" rel="noopener">universetoday.com</a></p>
+<li><strong>45 Potentially Habitable Exoplanets Catalogued: 26 March 2026 • Space.com</strong></li>
+<p class="blog-list-cont">Astronomers have released a new catalog of 45 exoplanets that stand out as promising places to search for alien life. The list provides a focused framework for upcoming telescope observations.</p>
+<p class="blog-list-cont">Source: <a href="https://www.space.com/astronomy/exoplanets/these-45-exoplanets-may-be-the-best-places-to-search-for-alien-life" target="_blank" rel="noopener">space.com</a></p>
+<li><strong>100 New Exoplanets Found in TESS Data: 25 March 2026 • Space.com</strong></li>
+<p class="blog-list-cont">An innovative AI program has uncovered an additional 100 worlds hidden in data from NASA’s TESS spacecraft. The haul expands our catalogue of planets beyond our solar system.</p>
+<p class="blog-list-cont">Source: <a href="https://www.space.com/astronomy/exoplanets/100-new-alien-worlds-scientists-find-hidden-haul-in-data-from-nasa-exoplanet-hunting-spacecraft" target="_blank" rel="noopener">space.com</a></p>
+<li><strong>Direct Confirmation of Two Baby Planets: 25 March 2026 • Universe Today</strong></li>
+<p class="blog-list-cont">Using ESO telescopes, astronomers have directly confirmed two planets forming in the disc around the young Sun-like star WISPIT 2 through spectroscopy. The system’s structure suggests it may mirror aspects of our own solar system’s early days.</p>
+<p class="blog-list-cont">Source: <a href="https://www.universetoday.com/articles/direct-confirmation-of-two-baby-planets-forming-around-a-young-sun-like-star" target="_blank" rel="noopener">universetoday.com</a></p>
+<li><strong>Future of Space Stations Part II: 25 March 2026 • Universe Today</strong></li>
+<p class="blog-list-cont">As the ISS heads toward retirement in 2030, several commercial proposals are advancing, including Airbus’s Loop habitat with a centrifuge and greenhouse. These designs represent diverse approaches to sustaining human presence in orbit.</p>
+<p class="blog-list-cont">Source: <a href="https://www.universetoday.com/articles/the-future-of-space-stations-part-ii-commercial-space" target="_blank" rel="noopener">universetoday.com</a></p>
+<li><strong>NASA Sets Artemis II Coverage Plans: 25 March 2026 • NASA</strong></li>
+<p class="blog-list-cont">NASA has detailed its live coverage plans for the Artemis II crewed flight test around the Moon, targeting launch no earlier than 6:24 p.m. EDT on April 1. The mission will send astronauts beyond low Earth orbit for the first time in over fifty years.</p>
+<p class="blog-list-cont">Source: <a href="https://www.nasa.gov/news-release/nasa-sets-coverage-for-first-artemis-crewed-mission-around-moon/" target="_blank" rel="noopener">nasa.gov</a></p>
+<li><strong>Artemis Moon Tree Dedicated: 25 March 2026 • NASA</strong></li>
+<p class="blog-list-cont">A loblolly pine grown from seeds that flew around the Moon has been dedicated at Mary W. Jackson Elementary School in Hampton, Virginia. The tree honours the legacy of NASA’s first Black female engineer.</p>
+<p class="blog-list-cont">Source: <a href="https://science.nasa.gov/learning-resources/science-activation/artemis-moon-tree-dedicated-in-honor-of-mary-w-jackson/" target="_blank" rel="noopener">science.nasa.gov</a></p>
+<li><strong>NASA Names Acting Launch Services Manager: 25 March 2026 • NASA</strong></li>
+<p class="blog-list-cont">Jennifer Lyons has been selected as acting program manager for NASA’s Launch Services Program at Kennedy Space Center, effective April 1. She will oversee acquisition of commercial launch vehicles for science and robotic missions.</p>
+<p class="blog-list-cont">Source: <a href="https://www.nasa.gov/centers-and-facilities/kennedy/nasa-names-jennifer-lyons-as-acting-launch-services-program-manager/" target="_blank" rel="noopener">nasa.gov</a></p>
+</ol>
+<h3 id="cosmic-spotlight">Cosmic Spotlight</h3>
+<p><strong>NASA Hubble Detects Comet Spin Reversal</strong></p>
+<p>Astronomers pointed Hubble at a small comet and watched something remarkable: its rotation gradually slowed, stopped, and then began turning the other way. The cause is volatile ices turning to gas and shooting out like tiny thrusters, torquing the nucleus in unpredictable ways. This is the first time we’ve caught the full reversal in action, giving us a real-time glimpse of how comets physically evolve. The observation shows these small bodies are far more dynamic than we once thought. What will we find when we watch more of them over long periods?</p>
+<h3 id="cosmic-deep-dive-measuring-the-universes-expansion">Cosmic Deep Dive: Measuring the Universe's Expansion</h3>
+<p>If you stretched the observable universe to the size of Canada, the difference between competing measurements of its expansion rate would equal the distance between Toronto and Ottawa. The Hubble constant tells us how fast space itself is growing, yet two main ways of calculating it keep giving stubbornly different answers. One method uses the cosmic microwave background from the early universe, while the other relies on nearby supernovae and galaxies whose distances we can measure directly. Imagine trying to guess the speed of a river by looking at its source 13 billion years ago versus watching the water flow right beside you today. Gravitational waves from colliding neutron stars now offer a third, completely independent ruler that travels at the speed of light across billions of light-years without being bent by intervening matter. Each new technique seems to sharpen the mystery instead of solving it. We can measure the universe expanding in exquisite detail, yet we still don’t know why our two best numbers refuse to agree.</p>
+<p>Today's edition is packed with fresh discoveries and missions that keep pushing our understanding further outward. Keep looking up.</p>
+
+            <!-- Sources -->
+            
+            <section class="blog-sources">
+                <h2>Sources</h2>
+                <div class="blog-sources-grid">
+                    
+                    <a href="https://www.universetoday.com/articles/looking-for-nearby-project-hail-mary-worlds" target="_blank" rel="noopener" class="blog-source-card">
+                        <img src="https://www.google.com/s2/favicons?domain=universetoday.com&sz=32" alt="" class="source-icon" loading="lazy">
+                        <span class="source-domain">universetoday.com</span>
+                    </a>
+                    
+                    <a href="https://www.esa.int/ESA_Multimedia/Videos/2026/03/Smile_pre-launch_media_briefing" target="_blank" rel="noopener" class="blog-source-card">
+                        <img src="https://www.google.com/s2/favicons?domain=esa.int&sz=32" alt="" class="source-icon" loading="lazy">
+                        <span class="source-domain">esa.int</span>
+                    </a>
+                    
+                    <a href="https://science.nasa.gov/missions/hubble/nasas-hubble-detects-first-ever-spin-reversal-of-tiny-comet/" target="_blank" rel="noopener" class="blog-source-card">
+                        <img src="https://www.google.com/s2/favicons?domain=science.nasa.gov&sz=32" alt="" class="source-icon" loading="lazy">
+                        <span class="source-domain">science.nasa.gov</span>
+                    </a>
+                    
+                    <a href="https://www.space.com/astronomy/saturn/incredible-new-nasa-images-reveal-saturn-in-a-new-light-and-its-all-thanks-to-a-telescope-team-up-from-webb-and-hubble" target="_blank" rel="noopener" class="blog-source-card">
+                        <img src="https://www.google.com/s2/favicons?domain=space.com&sz=32" alt="" class="source-icon" loading="lazy">
+                        <span class="source-domain">space.com</span>
+                    </a>
+                    
+                    <a href="https://www.nasa.gov/news-release/nasa-sets-coverage-for-first-artemis-crewed-mission-around-moon/" target="_blank" rel="noopener" class="blog-source-card">
+                        <img src="https://www.google.com/s2/favicons?domain=nasa.gov&sz=32" alt="" class="source-icon" loading="lazy">
+                        <span class="source-domain">nasa.gov</span>
+                    </a>
+                    
+                </div>
+            </section>
+            
+
+            <!-- Episode Navigation -->
+            
+            <nav class="blog-ep-nav">
+                
+                <a href="ep044.html">
+                    <span class="nav-label">&larr; Previous</span>
+                    <span class="nav-title">Episode 44</span>
+                </a>
+                
+                
+            </nav>
+            
+        </article>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="nn-footer">
+        <div class="container">
+            <div class="nn-footer-grid">
+                <div>
+                    <div class="nn-footer-brand"><span class="gradient-text">Nerra</span> Network</div>
+                    <p class="nn-footer-desc">Feed your curiosity. Not your anxiety. Independent podcast network produced in Vancouver, Canada.</p>
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Shows</h4>
+                    
+                    <a href="../../models-agents.html">Models & Agents</a>
+                    
+                    <a href="../../planetterrian.html">Planetterrian Daily</a>
+                    
+                    <a href="../../omni-view.html">Omni View</a>
+                    
+                    <a href="../../models-agents-beginners.html">Models & Agents for Beginners</a>
+                    
+                    <a href="../../fascinating_frontiers.html">Fascinating Frontiers</a>
+                    
+                    <a href="../../modern-investing.html">Modern Investing Techniques</a>
+                    
+                    <a href="../../tesla.html">Tesla Shorts Time</a>
+                    
+                    <a href="../../env-intel.html">Environmental Intelligence</a>
+                    
+                    <a href="../../ru/finansy-prosto.html">Финансы Просто</a>
+                    
+                    <a href="../../ru/privet-russian.html">Привет, Русский!</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Blog</h4>
+                    <a href="../../blog/index.html">All Blog Posts</a>
+                    
+                    <a href="../../blog/models_agents/index.html">Models & Agents</a>
+                    
+                    <a href="../../blog/planetterrian/index.html">Planetterrian Daily</a>
+                    
+                    <a href="../../blog/omni_view/index.html">Omni View</a>
+                    
+                    <a href="../../blog/models_agents_beginners/index.html">Models & Agents for Beginners</a>
+                    
+                    <a href="../../blog/fascinating_frontiers/index.html">Fascinating Frontiers</a>
+                    
+                    <a href="../../blog/modern_investing/index.html">Modern Investing Techniques</a>
+                    
+                    <a href="../../blog/tesla/index.html">Tesla Shorts Time</a>
+                    
+                    <a href="../../blog/env_intel/index.html">Environmental Intelligence</a>
+                    
+                    <a href="../../blog/finansy_prosto/index.html">Финансы Просто</a>
+                    
+                    <a href="../../blog/privet_russian/index.html">Привет, Русский!</a>
+                    
+                    <a href="../../blog.rss">Blog RSS (All Shows)</a>
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Listen</h4>
+                    <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
+                    <a href="../../network.rss">Network RSS</a>
+                    
+                    <a href="../../models_agents_podcast.rss">Models & Agents RSS</a>
+                    
+                    <a href="../../planetterrian_podcast.rss">Planetterrian Daily RSS</a>
+                    
+                    <a href="../../omni_view_podcast.rss">Omni View RSS</a>
+                    
+                    <a href="../../models_agents_beginners_podcast.rss">Models & Agents for Beginners RSS</a>
+                    
+                    <a href="../../fascinating_frontiers_podcast.rss">Fascinating Frontiers RSS</a>
+                    
+                    <a href="../../modern_investing_podcast.rss">Modern Investing Techniques RSS</a>
+                    
+                    <a href="../../podcast.rss">Tesla Shorts Time RSS</a>
+                    
+                    <a href="../../env_intel_podcast.rss">Environmental Intelligence RSS</a>
+                    
+                    <a href="../../finansy_prosto_podcast.rss">Финансы Просто RSS</a>
+                    
+                    <a href="../../privet_russian_podcast.rss">Привет, Русский! RSS</a>
+                    
+                </div>
+                <div class="nn-footer-col">
+                    <h4>Connect</h4>
+                    <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
+                    <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
+                    <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
+                    <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a>
+                </div>
+            </div>
+            <div class="nn-footer-bottom">
+                <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
+                <a href="../../index.html">nerranetwork.com</a>
+            </div>
+        </div>
+    </footer>
+
+    
+<script>
+// Highlight active TOC entry on scroll
+(function() {
+    const toc = document.querySelector('.blog-toc');
+    if (!toc) return;
+    const links = toc.querySelectorAll('a');
+    const headings = [];
+    links.forEach(function(a) {
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) headings.push({ el: el, link: a });
+    });
+    if (!headings.length) return;
+    function onScroll() {
+        var current = headings[0];
+        for (var i = 0; i < headings.length; i++) {
+            if (headings[i].el.getBoundingClientRect().top <= 120) {
+                current = headings[i];
+            }
+        }
+        links.forEach(function(a) { a.classList.remove('active'); });
+        current.link.classList.add('active');
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+})();
+</script>
+
+</body>
+</html>

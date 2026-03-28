@@ -87,8 +87,19 @@ def backfill_network_rss(all_posts, *, dry_run=False):
         channel_description="Blog posts from all Nerra Network podcast shows.",
         channel_image="assets/nerra-logo-icon.svg",
         show_slug="network",
+        sort_by_date=True,
     )
     print(f"\nNetwork blog RSS: {rss_path} ({len(all_posts)} entries)")
+
+
+def backfill_network_blog(all_posts, *, dry_run=False):
+    """Generate the network-wide blog index HTML page."""
+    from generate_html import generate_network_blog_index
+
+    if not all_posts:
+        return
+
+    generate_network_blog_index(dry_run=dry_run, all_posts=all_posts)
 
 
 def main():
@@ -109,8 +120,9 @@ def main():
             posts = backfill_show(slug, dry_run=args.dry_run)
             all_posts.extend(posts)
 
-    # Network-wide RSS
+    # Network-wide RSS + blog index
     backfill_network_rss(all_posts, dry_run=args.dry_run)
+    backfill_network_blog(all_posts, dry_run=args.dry_run)
 
     print(f"\nDone! {len(all_posts)} total blog posts processed.")
 

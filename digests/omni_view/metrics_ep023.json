@@ -1,0 +1,33 @@
+{
+  "show_slug": "omni_view",
+  "episode_num": 23,
+  "total_duration_s": 143.21,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 48.34,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 63.47,
+      "success": true
+    },
+    {
+      "name": "generate_digest_retry",
+      "duration_s": 31.4,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 276,
+    "section_tts_fallback": false,
+    "section_tts_section_count": 3,
+    "tts_duration_s": 33.31,
+    "audio_mix_duration_s": 34.01,
+    "rss_update_duration_s": 0.02,
+    "x_post_duration_s": 0.25,
+    "digest_chars": 27131,
+    "audio_duration_s": 789.76
+  }
+}

@@ -2,14 +2,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcast="https://podcastindex.org/namespace/1.0" version="2.0">
   <channel>
     <title>Финансы Просто</title>
-    <link>https://nerranetwork.com/finansy_prosto_podcast.rss</link>
+    <link>https://nerranetwork.com/ru/finansy-prosto.html</link>
     <description>Ежедневный подкаст о финансах на русском языке для женщин в Канаде. Ведущая Оля объясняет инвестиции, сбережения, бюджет и финансовую грамотность — просто и понятно. Каждый выпуск — практические советы, новости и ресурсы для финансовой независимости. AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
     <atom:link href="https://nerranetwork.com/finansy_prosto_podcast.rss" rel="self" />
     <copyright>Copyright 2026</copyright>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Mar 2026 08:56:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 Mar 2026 08:54:35 +0000</lastBuildDate>
     <itunes:author>Nerra Network</itunes:author>
     <itunes:category text="Business" />
     <itunes:image href="https://nerranetwork.com/assets/covers/finansy-prosto.jpg" />
@@ -532,7 +532,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Финансы Просто - Episode 14 - March 26, 2026</title>
-      <link>https://audio.nerranetwork.com/finansy_prosto/FP_Ep014_20260326.mp3</link>
       <description>**К сожалению, я не могу создать этот выпуск.**
 
 Дата в запросе — **March 26, 2026**, а все ссылки ведут на события 2026 года (включая объявления Bank of Canada в октябре и декабре 2026). На сегодняшний день такая информация ещё не существует, это будущие события.
@@ -557,6 +556,38 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>14</itunes:episode>
       <itunes:title>Финансы Просто - Episode 14 - March 26, 2026</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/finansy_prosto/chapters_ep014.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/finansy_prosto/FP_Ep014_20260326_transcript.json" type="application/json" /></item>
+    </item>
+    <item>
+      <title>Ep 15: [Slow News Edition]</title>
+      <link>https://audio.nerranetwork.com/finansy_prosto/FP_Ep015_20260328.mp3</link>
+      <description>**Финансы Просто**  
+**Дата:** March 28, 2026
+
+**Заголовок:** Ontario расширяет возврат HST на новые дома — что это значит для покупательниц в BC
+
+**Что сегодня важного:**  
+Сегодня мы поговорим о важном изменении в правилах возврата налога на новые дома в Онтарио и о том, как это может косвенно повлиять на рынок недвижимости по всей Канаде. Хотя новость из Онтарио, она важна для тех, кто следит за ценами на жильё и ипотечными ставками. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">fp-ep015-20260328-085435</guid>
+      <enclosure url="https://audio.nerranetwork.com/finansy_prosto/FP_Ep015_20260328.mp3" length="18003844" type="audio/mpeg" />
+      <pubDate>Sat, 28 Mar 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/finansy-prosto.jpg" />
+      <itunes:duration>12:30</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**Финансы Просто**  
+**Дата:** March 28, 2026
+
+**Заголовок:** Ontario расширяет возврат HST на новые дома — что это значит для покупательниц в BC
+
+**Что сегодня важного:**  
+Сегодня мы поговорим о важном изменении в правилах возврата налога на новые дома в Онтарио и о том, как это может косвенно повлиять на рынок недвижимости по всей Канаде. Хотя новость из Онтарио, она важна для тех, кто следит за ценами на жильё и ипотечными ставками. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>15</itunes:episode>
+      <itunes:title>Ep 15: [Slow News Edition]</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/finansy_prosto/chapters_ep015.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/finansy_prosto/FP_Ep015_20260328_transcript.json" type="application/json" /></item>
   <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked></channel>
 </rss>

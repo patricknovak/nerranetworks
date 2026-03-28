@@ -14,6 +14,12 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://nerranetwork.com/assets/covers/privet-russian.jpg">
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Привет, Русский! | Summaries">
+    <meta name="twitter:description" content="Привет, Русский! — Learn Russian with fun bilingual podcast episodes. Vocabulary, phrases, grammar, and culture for beginners.">
+    <meta name="twitter:image" content="https://nerranetwork.com/assets/covers/privet-russian.jpg">
+
     <link rel="canonical" href="https://nerranetwork.com/ru/privet-russian-summaries.html">
 
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
@@ -108,6 +114,9 @@
                         <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                     <div class="nn-nav-dropdown-menu">
+                        <a href="../blog/index.html" style="font-weight:600;border-bottom:1px solid var(--nn-border);padding-bottom:8px;margin-bottom:4px">
+                            All Blog Posts
+                        </a>
                         
                         <a href="../blog/models_agents/index.html">
                             <img src="../assets/covers/models-agents.jpg" alt="" loading="lazy">
@@ -239,6 +248,9 @@
         </div>
         <div class="nn-mobile-shows">
             <div class="nn-mobile-shows-title">Blogs</div>
+            <a href="../blog/index.html" class="nn-mobile-show-link" style="font-weight:600" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+                All Blog Posts
+            </a>
             
             <a href="../blog/models_agents/index.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">
                 <img src="../assets/covers/models-agents.jpg" alt="" loading="lazy">
@@ -337,6 +349,15 @@
             RSS Feed
         </a>
     </div>
+
+    
+    <div style="text-align:center;margin-bottom:var(--sp-6);">
+        <a href="../blog/privet_russian/index.html" style="display:inline-flex;align-items:center;gap:var(--sp-2);font-family:var(--font-ui);font-size:0.88rem;font-weight:500;color:var(--show-color);text-decoration:none;padding:var(--sp-2) var(--sp-5);border:1px solid color-mix(in srgb, var(--show-color) 30%, transparent);border-radius:100px;transition:all var(--duration) var(--ease);" onmouseover="this.style.background='color-mix(in srgb, var(--show-color) 12%, transparent)'" onmouseout="this.style.background='transparent'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Read in-depth articles on our blog
+        </a>
+    </div>
+    
 
     <!-- Search & Filter Controls -->
     <div class="nn-controls">
@@ -495,7 +516,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Blog</h4>
-                    <a href="../blog.rss">Blog RSS (All Shows)</a>
+                    <a href="../blog/index.html">All Blog Posts</a>
                     
                     <a href="../blog/models_agents/index.html">Models & Agents</a>
                     
@@ -517,6 +538,7 @@
                     
                     <a href="../blog/privet_russian/index.html">Привет, Русский!</a>
                     
+                    <a href="../blog.rss">Blog RSS (All Shows)</a>
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>

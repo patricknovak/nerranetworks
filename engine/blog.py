@@ -76,7 +76,7 @@ def extract_blog_metadata(
     for line in lines[:20]:  # metadata is always in the first ~20 lines
         stripped = line.strip()
 
-        # Title: first heading
+        # Title: first heading (# Heading format)
         if not title and stripped.startswith("# "):
             title = stripped[2:].strip()
 
@@ -95,6 +95,22 @@ def extract_blog_metadata(
                 if m:
                     hook = m.group(1).strip()
                     break
+
+    # Fallback: some digests use **Bold Title** instead of # Heading.
+    # Variants seen: **Title**, **# Title — Subtitle**, **TITLE**
+    if not title:
+        for line in lines[:5]:
+            stripped = line.strip()
+            # Skip lines that are metadata (HOOK:, Date:, etc.)
+            if any(stripped.startswith(p) for p in ("**HOOK:", "**Date:", "**Дата:", "**ЗАГОЛОВОК:")):
+                continue
+            m = re.match(r"^\*\*#?\s*([^*]+?)\*\*\s*$", stripped)
+            if m:
+                title = m.group(1).strip()
+                # Clean up "Title — Subtitle" to just "Title"
+                if " — " in title and title.split(" — ")[0].strip():
+                    title = title.split(" — ")[0].strip()
+                break
 
     # Parse date string
     if date_str:
@@ -239,10 +255,23 @@ def convert_md_to_blog_html(md_text: str) -> tuple[str, list[dict]]:
             in_list = False
             list_type = ""
 
-    for line in lines:
+    for idx, line in enumerate(lines):
         stripped = line.strip()
 
         if not stripped:
+            # Look ahead: don't close the list if the next content line
+            # continues the same list type (handles blank-line-separated items).
+            if in_list:
+                next_stripped = ""
+                for future in lines[idx + 1:]:
+                    ns = future.strip()
+                    if ns:
+                        next_stripped = ns
+                        break
+                if list_type == "ol" and re.match(r"^\d+\.\s+", next_stripped):
+                    continue
+                if list_type == "ul" and next_stripped.startswith("- "):
+                    continue
             close_list()
             continue
 
@@ -373,6 +402,10 @@ def generate_blog_post_html(
     ep_num = metadata.get("episode_num", 0)
     blog_url = f"https://nerranetwork.com/blog/{show_slug}/ep{ep_num:03d}.html"
 
+    # Final fallback: use show name if no title was extracted from the digest
+    if not metadata.get("title"):
+        metadata["title"] = show_config["name"]
+
     jsonld = _build_jsonld(metadata, show_config["name"], blog_url)
 
     # Source domains for display
@@ -420,8 +453,75 @@ def generate_blog_post_html(
         "prev_post": prev_post,
         "next_post": next_post,
         "rss_file": show_config.get("rss_file", ""),
+        "show_page": show_config.get("show_page", ""),
+        "summaries_page": show_config.get("summaries_page", ""),
         "blog_index_url": f"../../blog/{show_slug}/index.html",
         "tagline": show_config.get("tagline", ""),
+    }
+
+    return template.render(**context)
+
+
+def generate_network_blog_index_html(
+    posts: list[dict],
+    show_configs: dict,
+    template_env,
+) -> str:
+    """Generate a network-wide blog index aggregating all shows.
+
+    Parameters
+    ----------
+    posts : list[dict]
+        List of metadata dicts from all shows, each with ``show_slug`` key.
+        Should already be sorted newest-first by date.
+    show_configs : dict
+        Full NETWORK_SHOWS dict.
+    template_env :
+        Jinja2 Environment.
+    """
+    from generate_html import _build_all_shows_list, _path_prefix
+
+    path_key = "blog/index.html"
+    blog_url = "https://nerranetwork.com/blog/index.html"
+
+    template = template_env.get_template("network_blog_index.html.j2")
+
+    # Build show list for filter buttons
+    show_list = []
+    slugs_with_posts = {p["show_slug"] for p in posts}
+    for slug, cfg in show_configs.items():
+        if slug in slugs_with_posts:
+            show_list.append({
+                "slug": slug,
+                "name": cfg["name"],
+                "color": cfg["brand_color"],
+            })
+
+    # Enrich posts with show display info
+    enriched_posts = []
+    for post in posts:
+        slug = post.get("show_slug", "")
+        cfg = show_configs.get(slug, {})
+        enriched = dict(post)
+        enriched["show_name"] = cfg.get("name", slug)
+        enriched["show_color"] = cfg.get("brand_color", "#7C5CFF")
+        enriched_posts.append(enriched)
+
+    context = {
+        "path_prefix": _path_prefix(path_key),
+        "page_title": "Nerra Network Blog — All Shows",
+        "meta_description": "The latest blog posts from all Nerra Network podcast shows.",
+        "meta_keywords": "podcast, blog, news, technology, AI, finance, science",
+        "theme_color": "",
+        "og_image": "https://nerranetwork.com/assets/nerra-logo-icon.svg",
+        "canonical_url": blog_url,
+        "show_color": "#7C5CFF",
+        "show_color_dark": "#6B4FE0",
+        "all_shows": _build_all_shows_list(),
+        # Network blog specific
+        "shows": show_list,
+        "posts": enriched_posts,
+        "blog_rss_url": "https://nerranetwork.com/blog.rss",
     }
 
     return template.render(**context)
@@ -470,6 +570,77 @@ def generate_blog_index_html(
         "description": show_config.get("description", ""),
         "posts": posts,
         "blog_rss_url": f"https://nerranetwork.com/blog_{show_slug}.rss",
+    }
+
+    return template.render(**context)
+
+
+def generate_network_blog_index_html(
+    posts: list[dict],
+    show_configs: dict,
+    template_env,
+) -> str:
+    """Generate the network-wide blog index page aggregating all shows.
+
+    Parameters
+    ----------
+    posts : list[dict]
+        All posts across all shows, each with ``show_slug`` set.
+        Will be sorted by date (newest first).
+    show_configs : dict
+        The full NETWORK_SHOWS dict.
+    template_env :
+        Jinja2 Environment.
+    """
+    from datetime import date as _date, datetime as _datetime
+    from generate_html import _build_all_shows_list, _path_prefix
+
+    # Sort by date_obj descending; normalize to date for consistent comparison
+    def _sort_key(p):
+        d = p.get("date_obj")
+        if isinstance(d, _datetime):
+            return d.date()
+        if isinstance(d, _date):
+            return d
+        return _date.min
+
+    sorted_posts = sorted(posts, key=_sort_key, reverse=True)
+
+    # Enrich posts with show metadata for template rendering
+    for post in sorted_posts:
+        slug = post.get("show_slug", "")
+        cfg = show_configs.get(slug, {})
+        post["show_name"] = cfg.get("name", slug)
+        post["show_color"] = cfg.get("brand_color", "#7C5CFF")
+
+    # Build show filter list (only shows that have posts)
+    slugs_with_posts = {p.get("show_slug") for p in sorted_posts}
+    shows_for_filter = [
+        {"slug": cfg["slug"], "name": cfg["name"], "color": cfg["brand_color"]}
+        for cfg in show_configs.values()
+        if cfg["slug"] in slugs_with_posts
+    ]
+    shows_for_filter.sort(key=lambda s: s["name"])
+
+    path_key = "blog/index.html"
+
+    template = template_env.get_template("network_blog_index.html.j2")
+
+    context = {
+        "path_prefix": _path_prefix(path_key),
+        "page_title": "Nerra Network Blog",
+        "meta_description": "The latest articles from all Nerra Network podcast shows.",
+        "meta_keywords": "podcast, blog, news, AI, technology, finance",
+        "theme_color": "",
+        "og_image": "https://nerranetwork.com/assets/nerra-logo-icon.svg",
+        "canonical_url": "https://nerranetwork.com/blog/index.html",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+        # Network blog specific
+        "posts": sorted_posts,
+        "shows": shows_for_filter,
+        "blog_rss_url": "https://nerranetwork.com/blog.rss",
     }
 
     return template.render(**context)
