@@ -324,14 +324,18 @@ def speak(
             )
             wav_files.append(wav_file)
 
-        # Concatenate WAV files with short crossfade to eliminate boundary artifacts
+        # Concatenate WAV files with a very short crossfade to eliminate
+        # boundary artifacts without overlapping speech.  0.05s (50ms) is
+        # enough to avoid pops/clicks at chunk joins while staying well
+        # within the natural silence between sentences.
+        _XFADE_SECS = "0.05"
         if len(wav_files) == 2:
             merged_wav = tmp_dir / "tts_merged.wav"
             subprocess.run(
                 [
                     "ffmpeg", "-y",
                     "-i", str(wav_files[0]), "-i", str(wav_files[1]),
-                    "-filter_complex", "acrossfade=d=0.3:c1=tri:c2=tri",
+                    "-filter_complex", f"acrossfade=d={_XFADE_SECS}:c1=tri:c2=tri",
                     str(merged_wav),
                 ],
                 check=True, capture_output=True, timeout=300,
@@ -345,7 +349,7 @@ def speak(
                     [
                         "ffmpeg", "-y",
                         "-i", str(merged_wav), "-i", str(wav_files[idx]),
-                        "-filter_complex", "acrossfade=d=0.3:c1=tri:c2=tri",
+                        "-filter_complex", f"acrossfade=d={_XFADE_SECS}:c1=tri:c2=tri",
                         str(step_out),
                     ],
                     check=True, capture_output=True, timeout=300,
@@ -1125,7 +1129,7 @@ def synthesize_fish(
                 "ffmpeg", "-y",
                 "-i", str(chunk_files[0]), "-i", str(chunk_files[1]),
                 "-filter_complex",
-                "[0:a][1:a]acrossfade=d=0.25:c1=log:c2=log[out]",
+                "[0:a][1:a]acrossfade=d=0.05:c1=log:c2=log[out]",
                 "-map", "[out]",
                 "-ar", "44100",
                 "-c:a", "pcm_s16le",
@@ -1143,7 +1147,7 @@ def synthesize_fish(
         for j in range(1, len(chunk_files)):
             out_label = f"[cf{j}]" if j < len(chunk_files) - 1 else "[out]"
             fc_parts.append(
-                f"{prev}[{j}:a]acrossfade=d=0.25:c1=log:c2=log{out_label}"
+                f"{prev}[{j}:a]acrossfade=d=0.05:c1=log:c2=log{out_label}"
             )
             prev = out_label
         filter_complex = ";".join(fc_parts)
