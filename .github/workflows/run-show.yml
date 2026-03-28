@@ -341,13 +341,11 @@ jobs:
         if: steps.pipeline.outputs.skipped != 'true'
         run: python generate_network_rss.py
 
-      - name: Regenerate HTML pages
+      - name: Regenerate show HTML pages
         if: steps.pipeline.outputs.skipped != 'true'
         run: |
-          # Regenerate blog posts for this show
+          # Regenerate show page (static episodes) + blog posts for this show
           python generate_html.py --show ${{ matrix.show }} --blogs
-          # Regenerate the network landing page (latest episodes + blog posts)
-          python generate_html.py --network
 
       - name: Notify podcast directories
         if: success() && steps.pipeline.outputs.skipped != 'true'
@@ -438,3 +436,85 @@ jobs:
             -H "Content-Type: application/json" \
             -d "{\"text\":\"Pipeline FAILED: ${{ matrix.show }} on $(date -u +%Y-%m-%d). Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
             || echo "Webhook notification failed (non-blocking)"
+
+  # -----------------------------------------------------------------------
+  # Finalize: regenerate shared pages after all show jobs have completed
+  # -----------------------------------------------------------------------
+  # Each show job commits its own blog posts, show page, and RSS.  But the
+  # network homepage (index.html), network blog index (blog/index.html), and
+  # sitemap.xml aggregate data from ALL shows.  Generating them inside each
+  # matrix job causes a race condition: the last job to push overwrites the
+  # others, losing their updates to the shared pages.
+  #
+  # This finalize job runs once after all matrix jobs are done.  It pulls
+  # the latest main (with every show's committed data), regenerates the
+  # shared pages with the complete dataset, and pushes a single commit.
+  # -----------------------------------------------------------------------
+  finalize:
+    needs: run
+    if: always() && needs.run.result != 'skipped'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: finalize-shared-pages
+      cancel-in-progress: false
+    steps:
+      - name: Checkout latest main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Pull latest changes from all show jobs
+        run: git pull origin main
+
+      - name: Regenerate shared pages
+        run: |
+          # Network homepage (latest episodes + blog posts from all shows)
+          # Network-wide blog index (aggregates all shows' posts)
+          # Sitemap with all pages
+          python generate_html.py --network --blogs --sitemap
+
+      - name: Commit and push shared pages
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          git add index.html || true
+          git add blog/index.html || true
+          git add sitemap.xml || true
+
+          if git diff --cached --quiet; then
+            echo "Shared pages are already up to date."
+            exit 0
+          fi
+
+          git commit -m "Update shared pages (network index, blog index, sitemap) $(date +%Y-%m-%d)"
+
+          for attempt in 1 2 3 4; do
+            if git pull --rebase origin main && git push origin main; then
+              echo "Push succeeded on attempt $attempt"
+              exit 0
+            fi
+            echo "Push failed on attempt $attempt, retrying in $((attempt * 2))s..."
+            sleep $((attempt * 2))
+          done
+          echo "All push attempts failed"
+          exit 1
