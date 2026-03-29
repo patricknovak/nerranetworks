@@ -412,6 +412,100 @@ def _validate_llm_output(
     return _suspicious_count
 
 
+def _normalize_for_compare(line: str) -> str:
+    """Normalize a line for duplicate comparison.
+
+    Strips host prefixes (``Patrick:``, ``Olya:``), leading/trailing
+    whitespace, and common filler phrases so that near-identical
+    transition sentences match.
+    """
+    s = re.sub(r"^\w+:\s*", "", line.strip())
+    # Drop minor filler differences ("these days", "this week", etc.)
+    s = re.sub(r"\b(these days|this week|right now|at the moment)\b", "", s)
+    s = re.sub(r"\s{2,}", " ", s).strip().lower()
+    return s
+
+
+def _dedup_transition_sentences(lines: list[str]) -> list[str]:
+    """Remove duplicate transition sentences from a podcast script.
+
+    The LLM sometimes writes a transition tease at the end of one
+    paragraph and repeats it (identically or near-identically) as
+    the first sentence of the next paragraph.  This function detects
+    such duplicates and removes the *first* occurrence (the tease at
+    the end of the previous paragraph), keeping the version that opens
+    the new topic.
+
+    Works across blank-line paragraph boundaries and also catches
+    consecutive non-blank lines that are duplicates.
+    """
+    if not lines:
+        return lines
+
+    # Identify content lines (non-blank) and their normalized forms
+    content_indices: list[int] = []
+    normalized: dict[int, str] = {}
+    for i, line in enumerate(lines):
+        if line.strip():
+            content_indices.append(i)
+            normalized[i] = _normalize_for_compare(line)
+
+    # Find pairs of content lines where the earlier one's last sentence
+    # matches the later one.  We check consecutive content lines
+    # (which may be separated by blank lines).
+    drop_indices: set[int] = set()
+    for ci in range(len(content_indices) - 1):
+        idx_a = content_indices[ci]
+        idx_b = content_indices[ci + 1]
+        norm_a = normalized[idx_a]
+        norm_b = normalized[idx_b]
+
+        if len(norm_b) < 30:
+            continue  # Too short to be a meaningful transition
+
+        # Case 1: entire line A == line B (exact or near-exact)
+        if norm_a == norm_b:
+            drop_indices.add(idx_a)
+            logger.info("Stripped duplicate transition line: %s", lines[idx_a].strip()[:80])
+            continue
+
+        # Case 2: line A ends with a sentence that matches line B.
+        # Split A into sentences and check if the last one matches B.
+        # This handles: "...wearing people down. Speaking of Cyber-cab..."
+        sentences_a = re.split(r"(?<=[.!?])\s+", norm_a)
+        if len(sentences_a) >= 2:
+            last_sentence_a = sentences_a[-1].strip()
+            if len(last_sentence_a) >= 30 and _sentence_similar(last_sentence_a, norm_b):
+                # Remove the trailing sentence from line A instead of dropping the whole line
+                orig_line = lines[idx_a]
+                # Find and remove the last sentence from the original line
+                orig_sentences = re.split(r"(?<=[.!?])\s+", orig_line.strip())
+                if len(orig_sentences) >= 2:
+                    lines[idx_a] = " ".join(orig_sentences[:-1])
+                    logger.info(
+                        "Stripped duplicate trailing transition: %s",
+                        orig_sentences[-1][:80],
+                    )
+
+    result = [line for i, line in enumerate(lines) if i not in drop_indices]
+    return result
+
+
+def _sentence_similar(a: str, b: str) -> bool:
+    """Check if two normalized sentences are similar enough to be duplicates.
+
+    Uses word-level overlap: if >= 80% of the shorter sentence's words
+    appear in the longer one, they're considered duplicates.
+    """
+    words_a = set(a.split())
+    words_b = set(b.split())
+    if not words_a or not words_b:
+        return False
+    overlap = words_a & words_b
+    smaller = min(len(words_a), len(words_b))
+    return len(overlap) / smaller >= 0.80
+
+
 def _sanitize_podcast_script(text: str) -> str:
     """Strip known LLM artifacts that break TTS quality.
 
@@ -453,6 +547,11 @@ def _sanitize_podcast_script(text: str) -> str:
             logger.info("Stripped LLM meta-commentary from podcast script: %s", stripped[:80])
             continue
         cleaned.append(line)
+
+    # Remove duplicate transition sentences — the LLM sometimes writes a
+    # transition tease at the end of one paragraph and then repeats it
+    # (identically or near-identically) to open the next paragraph.
+    cleaned = _dedup_transition_sentences(cleaned)
 
     return "\n".join(cleaned)
 
