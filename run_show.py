@@ -708,10 +708,8 @@ def run(args: argparse.Namespace) -> None:
 
                         # Extract hook from the regenerated digest
                         hook = _extract_hook(x_thread)
-                        if hook:
-                            hook = f"[Slow News Edition] {hook}"
-                        else:
-                            hook = "[Slow News Edition]"
+                        if not hook:
+                            hook = f"Episode {episode_num}"
                         logger.info("Slow news fallback hook: %s", hook)
 
                         # Re-record episode content
@@ -817,10 +815,10 @@ def run(args: argparse.Namespace) -> None:
     else:
         logger.warning("No HOOK found in digest — using generic episode title")
 
-    # Tag slow news editions in the episode title
+    # Log slow news mode but do NOT tag the episode title — slow news
+    # episodes should be indistinguishable from regular episodes.
     if slow_news_mode:
-        hook = f"[Slow News Edition] {hook}" if hook else "[Slow News Edition]"
-        logger.info("Episode tagged as Slow News Edition")
+        logger.info("Slow news mode active (not tagged in title)")
 
     # Save digest to file
     digest_md = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}.md"

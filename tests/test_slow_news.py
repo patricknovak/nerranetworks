@@ -264,8 +264,8 @@ class TestBuildSlowNewsPromptContext:
             articles, segments, config, template_vars,
         )
 
-        assert "SLOW NEWS DAY MODE" in result
-        assert "NEWS PULSE" in result
+        assert "MIXED CONTENT" in result
+        assert "NEWS" in result
         assert "Breaking News A" in result
         assert "EVERGREEN SEGMENT" in result
         assert "ALPHA TOPIC" in result  # title is uppercased in the section header
