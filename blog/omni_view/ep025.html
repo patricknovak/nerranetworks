@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Read all Omni View episodes as blog posts. Daily balanced news summaries from diverse sources.">
+    <meta name="description" content="">
     <meta name="keywords" content="balanced news, diverse perspectives, media literacy, news analysis, unbiased reporting">
-    <title>Omni View Blog</title>
+    <title>OMNI VIEW SPECIAL EDUCATIONAL EPISODE — Ep25 | Omni View Blog</title>
     <meta name="theme-color" content="#0B6FD6">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Omni View Blog">
-    <meta property="og:description" content="Read all Omni View episodes as blog posts. Daily balanced news summaries from diverse sources.">
-    <meta property="og:type" content="website">
+    <meta property="og:title" content="OMNI VIEW SPECIAL EDUCATIONAL EPISODE — Ep25 | Omni View Blog">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="article">
     <meta property="og:image" content="https://nerranetwork.com/assets/covers/omni-view.jpg">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Omni View Blog">
-    <meta name="twitter:description" content="Read all Omni View episodes as blog posts. Daily balanced news summaries from diverse sources.">
+    <meta name="twitter:title" content="OMNI VIEW SPECIAL EDUCATIONAL EPISODE — Ep25 | Omni View Blog">
+    <meta name="twitter:description" content="">
     <meta name="twitter:image" content="https://nerranetwork.com/assets/covers/omni-view.jpg">
 
-    <link rel="canonical" href="https://nerranetwork.com/blog/omni_view/index.html">
+    <link rel="canonical" href="https://nerranetwork.com/blog/omni_view/ep025.html">
 
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,66 +34,374 @@
     <link rel="stylesheet" href="../../styles/main.css">
 
     
-    <link rel="alternate" type="application/rss+xml" title="Omni View Blog RSS" href="https://nerranetwork.com/blog_omni_view.rss">
+    <!-- Blog Post OG -->
+    <meta property="article:published_time" content="">
+    <meta property="article:author" content="Omni View">
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "OMNI VIEW SPECIAL EDUCATIONAL EPISODE",
+  "description": "",
+  "datePublished": "",
+  "wordCount": 1267,
+  "articleSection": "Omni View",
+  "inLanguage": "en",
+  "author": {
+    "@type": "Organization",
+    "name": "Omni View",
+    "url": "https://nerranetwork.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Nerra Network",
+    "url": "https://nerranetwork.com"
+  },
+  "url": "https://nerranetwork.com/blog/omni_view/ep025.html",
+  "mainEntityOfPage": "https://nerranetwork.com/blog/omni_view/ep025.html",
+  "image": "https://nerranetwork.com/assets/covers/omni-view.jpg",
+  "keywords": "balanced news, diverse perspectives, media literacy, news analysis, unbiased reporting"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nerranetwork.com/"},
+    {"@type": "ListItem", "position": 2, "name": "Omni View", "item": "https://nerranetwork.com/omni-view.html"},
+    {"@type": "ListItem", "position": 3, "name": "Blog", "item": "https://nerranetwork.com/blog/omni_view/index.html"},
+    {"@type": "ListItem", "position": 4, "name": "Episode 25"}
+  ]
+}
+    </script>
 
     <style>
-        .blog-idx-hero {
+        .blog-hero {
             position: relative;
             padding: var(--sp-20) var(--sp-6) var(--sp-12);
             text-align: center;
             overflow: hidden;
         }
-        .blog-idx-hero::before {
+        .blog-hero::before {
             content: '';
             position: absolute;
             inset: 0;
             background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--show-color) 15%, transparent), transparent 70%);
             pointer-events: none;
         }
-        .blog-idx-hero-inner {
+        .blog-hero-inner {
             position: relative;
-            max-width: 680px;
+            max-width: 760px;
             margin: 0 auto;
         }
-        .blog-idx-cover {
-            width: 80px;
-            height: 80px;
-            border-radius: 18px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        .blog-show-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-2);
+            padding: var(--sp-1) var(--sp-4);
+            border-radius: 100px;
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
             margin-bottom: var(--sp-6);
+            text-decoration: none;
+            transition: border-color var(--duration) var(--ease);
         }
-        .blog-idx-hero h1 {
+        .blog-show-badge:hover {
+            border-color: var(--show-color);
+        }
+        .blog-show-badge img {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+        }
+        .blog-hero h1 {
             font-family: var(--font-heading);
-            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-5);
+        }
+        .blog-hero-hook {
+            font-family: var(--font-body);
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--nn-text-muted);
+            max-width: 620px;
+            margin: 0 auto var(--sp-8);
+        }
+        .blog-meta-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--sp-5);
+            flex-wrap: wrap;
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-meta-bar span {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-1);
+        }
+        .blog-meta-pill {
+            padding: 2px 10px;
+            border-radius: 100px;
+            background: color-mix(in srgb, var(--show-color) 15%, transparent);
+            color: var(--show-color);
+            font-weight: 600;
+        }
+
+        /* Article body */
+        .blog-article-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 var(--sp-6) var(--sp-16);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--sp-10);
+        }
+        @media (min-width: 1024px) {
+            .blog-article-wrap {
+                max-width: 1060px;
+                grid-template-columns: 200px 1fr;
+            }
+        }
+
+        /* Table of contents */
+        .blog-toc {
+            display: none;
+        }
+        @media (min-width: 1024px) {
+            .blog-toc {
+                display: block;
+                position: sticky;
+                top: calc(var(--nav-height) + var(--sp-8));
+                align-self: start;
+                max-height: calc(100vh - var(--nav-height) - var(--sp-16));
+                overflow-y: auto;
+                padding-right: var(--sp-4);
+            }
+        }
+        .blog-toc-title {
+            font-family: var(--font-ui);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--nn-text-muted);
+            margin-bottom: var(--sp-3);
+            font-weight: 600;
+        }
+        .blog-toc a {
+            display: block;
+            padding: var(--sp-1) 0;
+            font-family: var(--font-ui);
+            font-size: 0.8rem;
+            color: var(--nn-text-muted);
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            padding-left: var(--sp-3);
+            transition: all var(--duration) var(--ease);
+            line-height: 1.4;
+        }
+        .blog-toc a:hover,
+        .blog-toc a.active {
+            color: var(--show-color);
+            border-left-color: var(--show-color);
+        }
+        .blog-toc a.toc-h3 {
+            padding-left: var(--sp-6);
+            font-size: 0.75rem;
+        }
+
+        /* Article */
+        .blog-article {
+            min-width: 0;
+        }
+        .blog-article h1 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
             font-weight: 700;
             color: var(--nn-white);
-            margin: 0 0 var(--sp-3);
+            margin: var(--sp-10) 0 var(--sp-4);
+            padding-left: var(--sp-4);
+            border-left: 3px solid var(--show-color);
         }
-        .blog-idx-hero p {
+        .blog-article h2 {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: var(--sp-10) 0 var(--sp-4);
+            padding-left: var(--sp-4);
+            border-left: 3px solid var(--show-color);
+        }
+        .blog-article h3 {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-text);
+            margin: var(--sp-8) 0 var(--sp-3);
+        }
+        .blog-article p {
             font-family: var(--font-body);
             font-size: 1.05rem;
-            color: var(--nn-text-muted);
-            line-height: 1.6;
-            margin: 0 0 var(--sp-6);
+            line-height: 1.8;
+            color: var(--nn-text);
+            margin: 0 0 var(--sp-4);
         }
-        .blog-rss-btn {
+        .blog-article a {
+            color: var(--show-color);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            text-decoration-color: color-mix(in srgb, var(--show-color) 40%, transparent);
+            transition: text-decoration-color var(--duration) var(--ease);
+        }
+        .blog-article a:hover {
+            text-decoration-color: var(--show-color);
+        }
+        .blog-article strong {
+            color: var(--nn-white);
+            font-weight: 600;
+        }
+        .blog-article ul,
+        .blog-article ol {
+            margin: 0 0 var(--sp-6);
+            padding-left: var(--sp-6);
+        }
+        .blog-article li {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--nn-text);
+            margin-bottom: var(--sp-3);
+        }
+        .blog-article .blog-list-cont {
+            margin: var(--sp-1) 0 var(--sp-2);
+            padding-left: var(--sp-2);
+            font-size: 1rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-article hr {
+            border: none;
+            border-top: 1px solid var(--nn-border);
+            margin: var(--sp-10) 0;
+        }
+
+        /* Sources section */
+        .blog-sources {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-sources h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.1rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-sources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: var(--sp-3);
+        }
+        .blog-source-card {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+            padding: var(--sp-3) var(--sp-4);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-source-card:hover {
+            border-color: var(--show-color);
+            background: var(--nn-card-hover);
+        }
+        .blog-source-card .source-domain {
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--nn-text);
+            font-weight: 500;
+        }
+        .blog-source-card .source-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            background: var(--nn-surface);
+            flex-shrink: 0;
+        }
+
+        /* Episode navigation */
+        .blog-ep-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--sp-4);
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-ep-nav a {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-1);
+            padding: var(--sp-4) var(--sp-5);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+            max-width: 48%;
+        }
+        .blog-ep-nav a:hover {
+            border-color: var(--show-color);
+            background: var(--nn-card-hover);
+        }
+        .blog-ep-nav .nav-label {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--nn-text-muted);
+        }
+        .blog-ep-nav .nav-title {
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+            color: var(--nn-text);
+            font-weight: 500;
+        }
+        .blog-ep-nav .next {
+            text-align: right;
+            margin-left: auto;
+        }
+
+        /* Listen CTA */
+        .blog-listen-cta {
             display: inline-flex;
             align-items: center;
             gap: var(--sp-2);
             padding: var(--sp-2) var(--sp-5);
             border-radius: 100px;
-            background: color-mix(in srgb, var(--show-color) 12%, transparent);
-            border: 1px solid color-mix(in srgb, var(--show-color) 30%, transparent);
-            color: var(--show-color);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            color: var(--nn-text-muted);
             font-family: var(--font-ui);
             font-size: 0.85rem;
-            font-weight: 500;
             text-decoration: none;
             transition: all var(--duration) var(--ease);
         }
-        .blog-rss-btn:hover {
-            background: color-mix(in srgb, var(--show-color) 20%, transparent);
+        .blog-listen-cta:hover {
             border-color: var(--show-color);
+            color: var(--show-color);
         }
     </style>
 
@@ -363,322 +671,117 @@
 
     <main id="main-content">
     
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb" style="max-width:900px;margin:calc(72px + var(--sp-4)) auto 0;padding:0 var(--sp-6);font-family:var(--font-ui);font-size:0.82rem;">
+        <ol style="list-style:none;display:flex;flex-wrap:wrap;gap:var(--sp-1);padding:0;margin:0;color:var(--nn-text-muted);">
+            <li><a href="../../index.html" style="color:var(--nn-text-muted);text-decoration:none;">Home</a> <span aria-hidden="true">/</span></li>
+            <li><a href="../../omni-view.html" style="color:var(--nn-text-muted);text-decoration:none;">Omni View</a> <span aria-hidden="true">/</span></li>
+            <li><a href="../../blog/omni_view/index.html" style="color:var(--nn-text-muted);text-decoration:none;">Blog</a> <span aria-hidden="true">/</span></li>
+            <li aria-current="page" style="color:var(--show-color);">Episode 25</li>
+        </ol>
+    </nav>
+
     <!-- Hero -->
-    <header class="blog-idx-hero">
-        <div class="blog-idx-hero-inner">
-            
-            <img src="../../assets/covers/omni-view.jpg" alt="Omni View" class="blog-idx-cover">
-            
-            <h1>Omni View Blog</h1>
-            <p>Daily balanced news summaries from diverse sources.</p>
-            <a href="https://nerranetwork.com/blog_omni_view.rss" class="blog-rss-btn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
-                Subscribe via RSS
+    <header class="blog-hero">
+        <div class="blog-hero-inner">
+            <a href="../../blog/omni_view/index.html" class="blog-show-badge">
+                <img src="../../assets/covers/omni-view.jpg" alt="Omni View">
+                Omni View Blog
             </a>
+            <h1>OMNI VIEW SPECIAL EDUCATIONAL EPISODE — Episode 25</h1>
+            
+            <div class="blog-meta-bar">
+                <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    
+                </span>
+                <span class="blog-meta-pill">Ep 25</span>
+                <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    6 min read
+                </span>
+                
+                <a href="../../omni-view.html" class="blog-listen-cta">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Listen to podcast
+                </a>
+                
+                
+                <a href="../../omni-view-summaries.html" class="blog-listen-cta">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    View summaries
+                </a>
+                
+            </div>
         </div>
     </header>
 
-    <!-- Posts -->
-    
-    <div class="blog-idx-grid">
+    <!-- Article with TOC sidebar -->
+    <div class="blog-article-wrap">
         
-        <a href="ep025.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date"></span>
-                <span class="blog-idx-ep">Ep 25</span>
-                <span class="blog-idx-reading">6 min</span>
-            </div>
-            <h2>OMNI VIEW SPECIAL EDUCATIONAL EPISODE</h2>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
+        <div></div>
         
-        <a href="ep024.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 27, 2026</span>
-                <span class="blog-idx-ep">Ep 24</span>
-                <span class="blog-idx-reading">16 min</span>
-            </div>
-            <h2>Omni View</h2>
+
+        <article class="blog-article">
+            <p><strong>OMNI VIEW SPECIAL EDUCATIONAL EPISODE</strong></p>
+<p><strong>March 29, 2026</strong></p>
+<p><strong>Today’s Topic: How Modern Central Bank Digital Currencies (CBDCs) Are Actually Designed and What They Could Change</strong></p>
+<p><strong>Introduction</strong></p>
+<p>Welcome to this special educational edition of Omni View. When regular news flow is light, we step back and examine a structural issue that will shape economies, privacy, and geopolitics for decades. Today we explore central bank digital currencies — not the hype or the conspiracy narratives, but the actual design choices, technical architectures, and policy trade-offs that central banks are wrestling with right now.</p>
+<p>We’ll look at this from multiple perspectives: the monetary policy view, the financial stability and banking sector view, the privacy and civil liberties view, the national security and geopolitical view, and the developing-world perspective. The goal is to give you a clear map of the real debates rather than the polarized slogans.</p>
+<p><strong>Section 1: The Core Problem Central Banks Are Trying to Solve</strong></p>
+<p>Most central banks began exploring CBDCs after observing two trends: the sharp decline in the use of physical cash in many economies and the rise of private digital payment systems (both decentralized cryptocurrencies and centralized “stablecoins” or big-tech payment rails).</p>
+<p>From a monetary sovereignty standpoint, the concern is that if cash disappears and the public’s money is increasingly held in private ledgers (commercial bank deposits, PayPal, Alipay, or future stablecoins), the central bank loses its direct relationship with the public. In extreme scenarios, a dominant private money could constrain monetary policy transmission.</p>
+<p>Different institutions frame this differently. The Bank for International Settlements and many G7 central banks describe it as ensuring the public continues to have access to a risk-free central bank liability in digital form. Emerging market central banks often emphasize financial inclusion and reducing the cost of remittances and domestic payments. Some analysts on the more skeptical side argue the real driver is the desire to maintain control over the monetary system as technology erodes the effectiveness of cash.</p>
+<p><strong>Section 2: Two Broad Technical Models — Wholesale vs Retail, and the Critical Design Choices</strong></p>
+<p>CBDCs come in two primary flavors:</p>
+<ul>
+<li>Wholesale CBDCs: Digital central bank money restricted to financial institutions for settling large-value payments. Several countries already operate systems that resemble this (upgraded real-time gross settlement systems). This version is relatively uncontroversial.</li>
+<li>Retail CBDCs: Digital central bank money available to households and businesses for everyday use. This is where the real design battles occur.</li>
+</ul>
+<p>Within retail CBDCs, the most important design axis is <strong>account-based versus token-based</strong>, and the degree of <strong>intermediation</strong>.</p>
+<ul>
+<li>Account-based systems resemble today’s online banking but with the central bank (or a tightly supervised operator) holding the ledger. These tend to offer stronger identity verification and are easier for monetary policy tools like programmable money or negative interest rates.</li>
+<li>Token-based or “value-based” systems are closer to digital cash — possession of a cryptographic token proves ownership without necessarily revealing identity at every step. These are harder to implement at scale but preserve more cash-like anonymity.</li>
+</ul>
+<p>A second critical choice is the <strong>two-tier vs direct model</strong>. In the two-tier model (preferred by most central banks), the central bank issues the CBDC but commercial banks or payment service providers handle customer onboarding, KYC, wallets, and customer service. The central bank does not have direct accounts for every citizen. China’s digital yuan (e-CNY) largely follows this approach in practice, despite being legally a direct claim on the People’s Bank of China.</p>
+<p>The third choice is <strong>privacy architecture</strong>: how much transaction data the central bank or law enforcement can see, and under what legal conditions. Proposals range from full anonymity for small transactions (similar to cash) all the way to complete traceability. Most serious projects are exploring “tiered privacy” or “selective disclosure” using cryptographic techniques such as zero-knowledge proofs or secure multi-party computation, though these remain technically challenging at population scale.</p>
+<p><strong>Section 3: Monetary Policy and Financial Stability Implications</strong></p>
+<p>Proponents of CBDCs argue they could strengthen monetary policy by allowing direct transmission of rates to the public (including negative rates in theory) and by enabling “programmable money” for fiscal stimulus — for example, money that expires or can only be spent on certain goods.</p>
+<p>Critics from the banking sector warn of disintermediation: in a crisis, depositors could flee commercial banks for the safety of CBDC, creating digital bank runs that are faster than anything seen before. Central banks counter that they can design CBDCs with holding limits, fees on large balances, or interest rate tiers to prevent this.</p>
+<p>There is also debate about whether CBDCs would crowd out or complement private innovation. Some free-market voices argue any central bank digital currency will inevitably distort competition and become a de facto standard that private stablecoins or crypto cannot overcome. Others believe a well-designed CBDC could actually increase overall innovation by providing a neutral settlement asset.</p>
+<p><strong>Section 4: Privacy, Surveillance, and Civil Liberties Perspectives</strong></p>
+<p>This is perhaps the most polarized dimension.</p>
+<p>Civil liberties organizations and some cryptocurrency advocates worry that a CBDC creates the technical infrastructure for unprecedented financial surveillance and programmable control over individual spending. They point to potential features like transaction expiration, merchant restrictions, or automatic tax collection as tools that could be abused by future governments.</p>
+<p>Central banks and many regulators respond that no major CBDC project is currently proposing such extensive controls, that cash is already being displaced by traceable private systems (credit cards, Venmo, Alipay), and that proper legal frameworks and cryptographic privacy techniques can mitigate risks. They note that today’s commercial bank money is already highly traceable under existing AML/KYC rules.</p>
+<p>The counterpoint from privacy advocates is that moving the ledger to the central bank changes the incentives and removes the friction that currently exists between government and private financial data.</p>
+<p><strong>Section 5: Geopolitical and International Dimensions</strong></p>
+<p>CBDCs are increasingly seen through a great-power competition lens. China’s early progress with the e-CNY is watched closely in Washington and Brussels. The United States has been more cautious, with the Federal Reserve emphasizing research over deployment. The EU is advancing the digital euro project with a strong focus on privacy and European strategic autonomy.</p>
+<p>Cross-border interoperability is another frontier. Projects like Project mBridge (involving China, Hong Kong, Thailand, UAE, and others) explore using CBDCs for faster, cheaper international settlement, potentially reducing reliance on the dollar-based correspondent banking system. Perspectives differ sharply on whether this represents healthy competition or a deliberate attempt to dedollarize trade.</p>
+<p>Developing countries face their own calculus: many see CBDCs as a way to leapfrog outdated financial infrastructure, reduce dollar dependence in remittances, and combat illicit finance. Others worry about technological capacity and the risk of becoming dependent on foreign CBDC systems.</p>
+<p><strong>Conclusion</strong></p>
+<p>The design of any major CBDC will ultimately reflect the priorities and values of the society it serves: the balance between efficiency and privacy, between state capacity and individual liberty, between innovation and stability.</p>
+<p>No large economy has fully launched a widely used retail CBDC yet. The choices made in the next five years — on privacy architecture, holding limits, interest-bearing features, and cross-border design — will be difficult to reverse. The technology is not neutral; different technical decisions embed different assumptions about the relationship between citizens, banks, and the state.</p>
+<p>What’s interesting here is how rarely these core design trade-offs appear in public debate, which tends to oscillate between “CBDCs are just digital cash” and “CBDCs are programmable surveillance money.” The reality is more granular, more technical, and more consequential than either slogan suggests.</p>
+<p>Thanks for listening to this special educational episode of Omni View. We’ll return to regular multi-perspective news coverage as soon as the news flow justifies it.</p>
+
+            <!-- Sources -->
             
-            <p>Trump extends deadline for Iran to reopen Strait of Hormuz to April 6, pausing strikes on energy sites as oil markets fluctuate.</p>
+
+            <!-- Episode Navigation -->
             
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep023.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 26, 2026</span>
-                <span class="blog-idx-ep">Ep 23</span>
-                <span class="blog-idx-reading">16 min</span>
-            </div>
-            <h2>Omni View</h2>
+            <nav class="blog-ep-nav">
+                
+                <a href="ep024.html">
+                    <span class="nav-label">&larr; Previous</span>
+                    <span class="nav-title">Episode 24</span>
+                </a>
+                
+                
+            </nav>
             
-            <p>Iran has rejected President Trump’s proposed peace plan as a pretext for invasion, while Israel claims it killed Iran’s naval chief amid escalating Middle East &hellip;</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep022.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 25, 2026</span>
-                <span class="blog-idx-ep">Ep 22</span>
-                <span class="blog-idx-reading">12 min</span>
-            </div>
-            <h2>Omni View</h2>
-            
-            <p>Trump administration shares 15-point plan to end Iran war as Tehran launches new strikes on US and Israeli targets.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep021.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 23, 2026</span>
-                <span class="blog-idx-ep">Ep 21</span>
-                <span class="blog-idx-reading">12 min</span>
-            </div>
-            <h2>Omni View</h2>
-            
-            <p>Escalating Iran conflict triggers global energy crisis warnings, market turmoil, and emergency government meetings.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep020.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date"></span>
-                <span class="blog-idx-ep">Ep 20</span>
-                <span class="blog-idx-reading">12 min</span>
-            </div>
-            <h2></h2>
-            
-            <p>Trump considers winding down Iran war while easing sanctions on Iranian oil as Israel strikes Tehran targets and global energy prices surge.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep019.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date"></span>
-                <span class="blog-idx-ep">Ep 19</span>
-                <span class="blog-idx-reading">5 min</span>
-            </div>
-            <h2>OMNI VIEW</h2>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep018.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 20, 2026</span>
-                <span class="blog-idx-ep">Ep 18</span>
-                <span class="blog-idx-reading">12 min</span>
-            </div>
-            <h2>Omni View</h2>
-            
-            <p>Oil prices fall as U.S. considers releasing sanctioned Iranian crude while Israel-Iran conflict disrupts global energy markets.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep017.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 17, 2026</span>
-                <span class="blog-idx-ep">Ep 17</span>
-                <span class="blog-idx-reading">12 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>Iran war escalates with US embassy attack in Baghdad and global inflation fears prompting rate hikes.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep016.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 15, 2026</span>
-                <span class="blog-idx-ep">Ep 16</span>
-                <span class="blog-idx-reading">10 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>Iran denies its supreme leader's death amid escalating US-Israel strikes and global oil disruptions.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep015.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 14, 2026</span>
-                <span class="blog-idx-ep">Ep 15</span>
-                <span class="blog-idx-reading">12 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>US bombs Iran's Kharg Island oil hub as Middle East conflict escalates.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep014.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 13, 2026</span>
-                <span class="blog-idx-ep">Ep 14</span>
-                <span class="blog-idx-reading">12 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>Four US service members killed in Iraq plane crash as Middle East war escalates with Iranian drone strikes.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep013.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 12, 2026</span>
-                <span class="blog-idx-ep">Ep 13</span>
-                <span class="blog-idx-reading">9 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>Iran strikes oil tankers in the Gulf, surging prices to $100 a barrel amid escalating US-Israel conflict.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep012.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 11, 2026</span>
-                <span class="blog-idx-ep">Ep 12</span>
-                <span class="blog-idx-reading">11 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>Ships attacked in Strait of Hormuz amid US-Israel-Iran war, escalating global oil supply fears.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep011.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 10, 2026</span>
-                <span class="blog-idx-ep">Ep 11</span>
-                <span class="blog-idx-reading">12 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>Trump claims Iran war could end soon but threatens escalation if oil supplies are disrupted.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep010.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 09, 2026</span>
-                <span class="blog-idx-ep">Ep 10</span>
-                <span class="blog-idx-reading">10 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>Iran's new supreme leader vows escalated attacks as oil surges past $120 amid Gulf strikes.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep009.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 08, 2026</span>
-                <span class="blog-idx-ep">Ep 9</span>
-                <span class="blog-idx-reading">11 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>US and Israeli strikes ignite oil depots in Tehran, escalating the Middle East war into its second week.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep008.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 07, 2026</span>
-                <span class="blog-idx-ep">Ep 8</span>
-                <span class="blog-idx-reading">12 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>Iran's drone attack on Dubai airport escalates Middle East conflict as Israel strikes Tehran.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep007.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 03, 2026</span>
-                <span class="blog-idx-ep">Ep 7</span>
-                <span class="blog-idx-reading">12 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>Iran escalates attacks on US assets in the Middle East as the conflict with the US and Israel enters its fourth day.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep006.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 02, 2026</span>
-                <span class="blog-idx-ep">Ep 6</span>
-                <span class="blog-idx-reading">10 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>Iran escalates Middle East attacks, hitting Saudi oil refinery and downing US F-15 jets in Kuwait friendly fire blunder.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep005.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">March 01, 2026</span>
-                <span class="blog-idx-ep">Ep 5</span>
-                <span class="blog-idx-reading">12 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>US and Israel kill Iran's Supreme Leader Khamenei in airstrikes, igniting retaliatory attacks across the Middle East.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep004.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">February 27, 2026</span>
-                <span class="blog-idx-ep">Ep 4</span>
-                <span class="blog-idx-reading">12 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>Bill Clinton testified before Congress on his ties to Jeffrey Epstein, denying any wrongdoing amid ongoing scrutiny.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
-        <a href="ep003.html" class="blog-idx-card">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-date">February 27, 2026</span>
-                <span class="blog-idx-ep">Ep 3</span>
-                <span class="blog-idx-reading">8 min</span>
-            </div>
-            <h2>Omni View — Omni‑View Briefing</h2>
-            
-            <p>Pakistan bombs Kabul, declares 'open war' on Afghanistan amid escalating border clashes.</p>
-            
-            <span class="blog-idx-read-more">Read article &rarr;</span>
-        </a>
-        
+        </article>
     </div>
-    
 
     </main>
 
@@ -797,5 +900,33 @@
     });
     </script>
     
+<script>
+// Highlight active TOC entry on scroll
+(function() {
+    const toc = document.querySelector('.blog-toc');
+    if (!toc) return;
+    const links = toc.querySelectorAll('a');
+    const headings = [];
+    links.forEach(function(a) {
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) headings.push({ el: el, link: a });
+    });
+    if (!headings.length) return;
+    function onScroll() {
+        var current = headings[0];
+        for (var i = 0; i < headings.length; i++) {
+            if (headings[i].el.getBoundingClientRect().top <= 120) {
+                current = headings[i];
+            }
+        }
+        links.forEach(function(a) { a.classList.remove('active'); });
+        current.link.classList.add('active');
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+})();
+</script>
+
 </body>
 </html>

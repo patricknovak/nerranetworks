@@ -1,0 +1,137 @@
+Thanks for joining us. This is OmniView Episode 25. It's March 29, 2026, and as always, we're covering
+what happened from every angle. Here's the news, the perspectives, and the questions worth asking.
+Here's what's making news in the OmniView World today. Central banks around the world are
+actively exploring and designing central bank digital currencies known as CBDCs. These digital
+versions of sovereign money represent one of the most significant shifts in monetary architecture
+and decades. The push has accelerated as physical cash usage continues its long decline in many
+economies, while private digital payment systems from companies like Alipay, PayPal, and various
+FinTech startups have captured growing shares of everyday transactions. The core concern for many
+central banks is preserving monetary sovereignty, ensuring that as public money moves increasingly
+onto private ledgers, the state retains its traditional role at the center of the monetary system.
+Different institutions frame this challenge in distinct ways. The bank for international settlements
+and many G7 central banks describe CBDCs as a way to ensure the public continues to have access
+to a risk-free central bank liability in digital form, maintaining the anchor of trust that physical
+cash has provided for generations. Emerging market central banks often emphasize financial inclusion,
+pointing out that large portions of their populations remain unbanked and that digital currencies
+could reduce the high costs of remittances and domestic payments that currently burden families
+and small businesses. Some more skeptical analysts argue the real driver is the desire to maintain control
+over the monetary system as technology erodes the effectiveness of cash, which has historically
+operated outside direct surveillance. What's interesting here is how the motivation for CBDCs varies
+significantly depending on a country's economic structure and stage of development. In advanced
+economies with sophisticated financial systems, the conversation often centers on maintaining relevance
+and countering private sector innovation. In developing nations, the focus tends to be more on practical
+improvements in access and cost reduction. The question worth considering are central banks primarily
+solving a genuine problem of monetary sovereignty or are they responding to technological change in ways
+that could expand state influence over money? The answer may differ substantially depending on which
+part of the world you're examining. Shifty. Nung now to the technical design choices that will
+determine what CBDCs actually become. These aren't abstract engineering decisions that they will shape
+how people experience money in their daily lives for decades to come. CBDCs come in two primary
+flavors, wholesale and retail. Wholesale CBDCs are restricted to financial institutions for settling
+large value payments and are relatively uncontroversial with several countries already operating similar
+systems that function like upgraded versions of existing central bank reserves. Retail CBDCs available
+to households and businesses for everyday use are where the real design battles occur. Within retail
+CBDCs, systems can be account-based resembling online banking with stronger identity verification
+requirements or token-based functioning more like digital cash with greater potential for anonymity.
+Another key choice is the two-tier model preferred by most central banks where commercial banks and
+authorized payment providers handle customer onboarding and relationship management while the central
+bank issues the actual currency. China's digital yuan largely follows this two-tier approach in practice
+despite being legally a direct claim on the central bank. The third critical choice involves privacy
+architecture ranging from full anonymity for small transactions to complete traceability with many
+projects exploring tiered privacy using advanced cryptography like zero-knowledge proofs. Perspectives
+on these designs differ sharply. Supporters of account-based systems argue they make monetary policy
+tools like programmable money more feasible and align better with existing anti-money laundering
+frameworks. Advocates for token-based systems emphasize preserving cash-like properties and
+individual privacy that many citizens have come to expect from physical currency. The question worth
+considering which technical features should be prioritized when the choice is made now will be difficult
+to reverse in the coming decades. Once millions of people and businesses begin using a particular
+CBDC design, changing course becomes enormously expensive and disruptive. These decisions being made today
+in committee rooms and pilot programs may lock in the character of money for the rest of the century.
+Next, let's examine the monetary policy and financial stability implications of these designs.
+This is where the technical choices meet real economic consequences. Proponents argue CBDCs could
+strengthen monetary policy transmission by allowing central banks to pass interest rates directly
+to the public, including negative rates in theory, something that's proven difficult with physical cash.
+They also see potential for programmable money that could enable more targeted fiscal stimulus,
+such as funds that expire after a certain period or can only be spent on specific categories of goods
+during economic downturns. Critics from the banking sector warn that CBDCs could lead to disintermediation,
+wherein a crisis depositors rapidly shift funds from commercial banks to the perceived safety
+of central bank digital money. This could create digital bank runs that spread faster than
+traditional ones, according to these concerns, potentially amplifying financial instability rather
+than reducing it. Central banks counter that they can design safeguards like holding limits,
+fees on large balances or interest rate tiers to prevent such runs and maintain the important role
+commercial banks play in credit creation. There is also debate about whether CBDCs would crowd out
+private innovation or complement it by providing a neutral settlement asset that all participants
+can trust. Free market voices argue any central bank digital currency will inevitably distort
+competition and become a de facto standard that private solutions must work around.
+What's interesting is how these design features could either stabilize or destabilize the financial
+system, depending on how they are implemented, a poorly designed CBDC might exacerbate bank
+runs during stress, while a thoughtfully constructed one could actually enhance resilience.
+The question worth considering, can central banks design CBDCs that enhance policy effectiveness
+without creating new vulnerabilities in the banking sector during times of stress?
+The tension between innovation and stability runs through this entire debate.
+Now turning to the highly polarized debate around privacy, surveillance, and civil liberties,
+this has become perhaps the most emotionally charged aspect of the CBDC discussion.
+Civil liberties organizations and some cryptocurrency advocates worry that CBDCs create technical
+infrastructure for unprecedented financial surveillance and programmable control over individual spending.
+They point to potential features like transaction, expiration, merchant restrictions,
+or automatic tax collection as tools that could be abused by governments in the future,
+especially during times of social or political tension.
+Central banks and regulators respond that no major CBDC project is currently proposing such extensive
+controls and that cash is already being displaced by traceable private systems like credit cards
+and mobile payment apps which operate under existing anti-money laundering and know your customer rules.
+Privacy advocates counter that placing the ledger directly with the central bank changes the
+incentives and removes friction between government and financial data that currently exists when
+information must be requested from private companies. Many projects are exploring selective disclosure
+using techniques like zero knowledge proofs, though these remain technically challenging at population
+scale and may involve difficult trade-offs between privacy and functionality. The question worth
+considering does moving from private to central bank ledgers fundamentally alter the balance between
+privacy and oversight even with cryptographic safeguards in place. The technical possibilities are
+still evolving but the philosophical stakes are clear. Let's look at the geopolitical and international
+dimensions of CBDC development. What began as a domestic monetary policy conversation has increasingly
+taken on strategic significance. CBDCs are now viewed through the lens of great power competition
+with China's progress on its digital yuan being closely watched in Washington and Brussels.
+The United States has taken a more cautious approach with the Federal Reserve emphasizing research
+rather than rapid deployment partly due to concerns about implementation risks and the dollar's
+current dominant position. The European Union is advancing its digital euro project with a
+strong focus on privacy and strategic autonomy from both American tech giants and Chinese payment
+systems. Cross-border projects like the one involving China, Hong Kong, Thailand, and the UAE
+explore using CBDCs for faster, cheaper international settlements that could bypass some traditional
+correspondent banking channels. Perspectives differ on whether these efforts represent healthy
+competition that could lower costs for consumers and businesses or a deliberate attempt to reduce
+reliance on the dollar-based system that has dominated global finance since World War II.
+Developing countries see CBDCs as a way to leapfrog outdated infrastructure, reduce dollar
+dependence in remittances and combat illicit finance more effectively. Others in these nations worry
+about technological capacity, implementation costs, and the risk of becoming dependent on foreign CBDC
+systems or standards set by larger powers. What's interesting here is how monetary technology has become
+another arena for strategic rivalry between major powers. The choices nations make about their
+digital currencies may influence not just their domestic economies, but also their position in the
+evolving global financial order. The question worth considering, will CBDCs ultimately reinforce
+existing global financial hierarchies or create genuine alternatives for smaller economies?
+The early evidence suggests both possibilities remain open depending on how these systems are
+designed and governed. Now to really understand this entire discussion, there's something most
+coverage leaves out. The reality is that CBDC design involves a series of deliberate trade-offs
+rather than a simple choice between digital cash and surveillance money. Each technical decision
+embeds assumptions about the proper relationship between citizens, banks, and the state. For example,
+choosing strong privacy protections may limit the effectiveness of certain monetary policy tools
+that policymakers believe could help stabilize the economy during downturns. Conversely,
+designing for easy policy transmission may reduce the anonymity that people currently expect from
+cash and have come to value in a digital age. The two-tier distribution model keeps commercial
+banks involved but creates questions about who actually controls customer data and relationships.
+Privacy architectures using cryptography sound promising but face real scalability challenges
+when applied to entire populations with millions of daily transactions. No large economy has fully
+launched a widely used retail CBDC yet, meaning these choices are still being actively debated
+in pilot programs and research papers rather than proven in practice. The common misunderstanding is
+treating all CBDCs as essentially the same when the design variations will determine their actual
+impact far more than the simple fact of their existence. A retail CBDC with strict holding limits and
+strong privacy features would function very differently from one designed for maximum policy flexibility
+and extensive monitoring capabilities. Next time you hear claims about CBDCs, ask yourself which
+specific design features are being discussed and which trade-offs are being ignored in the heat
+of the debate. The devil, as they say, is very much in these technical details. Before we go,
+tomorrow watch for any updates on how major central banks are adjusting their CBDC research priorities
+in response to private sector payment innovations that continue to reshape how money moves. That's
+omniview. For full source links and more context, check out today's written briefing on the omniview
+summaries page. As always, compare outlets, look for primary documents, and separate what's known
+from what's assumed. If balanced perspectives are valuable to you, share this with a friend and
+subscribe wherever you listen. See you tomorrow. This podcast is curated by Patrick but generated
+using AI voice synthesis of my voice using 11 labs. The primary reason to do this is I unfortunately
+don't have the time to be consistent with generating all the content and wanted to focus on creating
+consistent and regular episodes for all the themes that I enjoy and I hope others do as well.
