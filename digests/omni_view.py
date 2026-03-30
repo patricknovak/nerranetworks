@@ -773,7 +773,7 @@ Here are the sections, stories, and allowed sources (JSON). Again: ONLY use thes
 
     # Grok call (mirrors Tesla script patterns)
     resp = client.chat.completions.create(
-        model=os.getenv("GROK_MODEL", "grok-4.20-beta-0309-non-reasoning"),
+        model=os.getenv("GROK_MODEL", "grok-4.20-non-reasoning"),
         messages=[{"role": "user", "content": prompt}],
         temperature=0.5,
         max_tokens=3200,
@@ -1188,7 +1188,7 @@ def create_omni_view_podcast(script_text: str) -> tuple[Path, float]:
         out_mp3,
         api_key=api_key,
         max_chars=int(os.getenv("ELEVENLABS_MAX_CHARS", "4500")),
-        model_id=os.getenv("ELEVENLABS_MODEL_ID", "eleven_turbo_v2_5"),
+        model_id=os.getenv("ELEVENLABS_MODEL_ID", "eleven_v3"),
         stability=float(os.getenv("ELEVENLABS_STABILITY", "0.65")),
         similarity_boost=float(os.getenv("ELEVENLABS_SIMILARITY_BOOST", "0.9")),
         style=float(os.getenv("ELEVENLABS_STYLE", "0.85")),

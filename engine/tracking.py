@@ -24,9 +24,17 @@ GROK_PRICING = {
     "grok-3": {"input_per_1m": 3.00, "output_per_1m": 15.00},
     "grok-3-mini": {"input_per_1m": 0.30, "output_per_1m": 0.50},
     "grok-4": {"input_per_1m": 3.00, "output_per_1m": 15.00},
-    "grok-4.20-beta-0309-non-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
-    "grok-4.20-beta-0309-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
-    "grok-4.20-multi-agent-beta-0309": {"input_per_1m": 2.00, "output_per_1m": 6.00},
+    # Grok 4.20 — alias and dated variants
+    "grok-4.20-non-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
+    "grok-4.20-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
+    "grok-4.20-multi-agent": {"input_per_1m": 2.00, "output_per_1m": 6.00},
+    "grok-4.20-0309-non-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
+    "grok-4.20-0309-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
+    "grok-4.20-multi-agent-0309": {"input_per_1m": 2.00, "output_per_1m": 6.00},
+    # Grok 4.1 Fast
+    "grok-4-1-fast-non-reasoning": {"input_per_1m": 0.20, "output_per_1m": 0.50},
+    "grok-4-1-fast-reasoning": {"input_per_1m": 0.20, "output_per_1m": 0.50},
+    # Legacy
     "grok-2": {"input_per_1m": 2.00, "output_per_1m": 10.00},
 }
 
