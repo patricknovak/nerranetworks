@@ -41,10 +41,15 @@ _DATE_PATTERNS = [
 _HOOK_PATTERNS = [
     re.compile(r"\*\*HOOK:\*\*\s*(.+)"),
     re.compile(r"\*\*ЗАГОЛОВОК:\*\*\s*(.+)"),
+    re.compile(r"\*\*Theme:\*\*\s*(.+)"),
+    re.compile(r"\*\*Тема:\*\*\s*(.+)"),
 ]
 
 # Episode number from filename: ..._Ep414_20260322.md
 _EPISODE_RE = re.compile(r"Ep(\d+)")
+
+# Date from filename: ..._20260322.md → (2026, 03, 22)
+_FILENAME_DATE_RE = re.compile(r"(\d{4})(\d{2})(\d{2})\.md$")
 
 # Source URLs in digest text
 _SOURCE_URL_RE = re.compile(r"Source:\s*(https?://\S+)")
@@ -102,7 +107,7 @@ def extract_blog_metadata(
         for line in lines[:5]:
             stripped = line.strip()
             # Skip lines that are metadata (HOOK:, Date:, etc.)
-            if any(stripped.startswith(p) for p in ("**HOOK:", "**Date:", "**Дата:", "**ЗАГОЛОВОК:")):
+            if any(stripped.startswith(p) for p in ("**HOOK:", "**Date:", "**Дата:", "**ЗАГОЛОВОК:", "**Theme:", "**Тема:")):
                 continue
             m = re.match(r"^\*\*#?\s*([^*]+?)\*\*\s*$", stripped)
             if m:
@@ -121,9 +126,43 @@ def extract_blog_metadata(
             except ValueError:
                 continue
 
+    # Fallback: extract date from filename (e.g., Ep046_20260328.md)
+    if not parsed_date:
+        fd = _FILENAME_DATE_RE.search(filename)
+        if fd:
+            try:
+                parsed_date = datetime(int(fd.group(1)), int(fd.group(2)), int(fd.group(3)))
+                date_str = parsed_date.strftime("%B %d, %Y")
+            except ValueError:
+                pass
+
     # Episode number from filename
     ep_match = _EPISODE_RE.search(filename)
     episode_num = int(ep_match.group(1)) if ep_match else 0
+
+    # Fallback: use hook as title (truncated) — much better than generic show name
+    if not title and hook:
+        title = hook[:80] + ("..." if len(hook) > 80 else "")
+
+    # Fallback: derive hook from first substantive content paragraph
+    if not hook:
+        for line in lines:
+            stripped = line.strip()
+            # Skip blank lines, headings, metadata, separators
+            if not stripped or len(stripped) < 20:
+                continue
+            if stripped.startswith(("#", "**Date:", "**Дата:", "**HOOK:", "**ЗАГОЛОВОК:",
+                                    "**Theme:", "**Тема:", "━", "─", "═", "---", "***")):
+                continue
+            if all(c in "━─═" for c in stripped):
+                continue
+            # Found a content paragraph — use it as hook
+            # Strip markdown formatting for clean display
+            clean = re.sub(r"\*\*(.+?)\*\*", r"\1", stripped)
+            clean = re.sub(r"\*(.+?)\*", r"\1", clean)
+            clean = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", clean)
+            hook = clean[:200] + ("..." if len(clean) > 200 else "")
+            break
 
     # Source URLs
     source_urls = _SOURCE_URL_RE.findall(md_text)

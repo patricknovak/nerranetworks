@@ -14,7 +14,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--nn-accent) 15%, transparent), transparent 70%);
+            background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--nn-purple) 15%, transparent), transparent 70%);
             pointer-events: none;
         }
         .blog-idx-hero-inner {
@@ -42,9 +42,9 @@
             gap: var(--sp-2);
             padding: var(--sp-2) var(--sp-5);
             border-radius: 100px;
-            background: color-mix(in srgb, var(--nn-accent) 12%, transparent);
-            border: 1px solid color-mix(in srgb, var(--nn-accent) 30%, transparent);
-            color: var(--nn-accent);
+            background: color-mix(in srgb, var(--nn-purple) 12%, transparent);
+            border: 1px solid color-mix(in srgb, var(--nn-purple) 30%, transparent);
+            color: var(--nn-purple);
             font-family: var(--font-ui);
             font-size: 0.85rem;
             font-weight: 500;
@@ -52,8 +52,8 @@
             transition: all var(--duration) var(--ease);
         }
         .blog-rss-btn:hover {
-            background: color-mix(in srgb, var(--nn-accent) 20%, transparent);
-            border-color: var(--nn-accent);
+            background: color-mix(in srgb, var(--nn-purple) 20%, transparent);
+            border-color: var(--nn-purple);
         }
 
         /* Show filter bar */
@@ -79,13 +79,13 @@
             transition: all var(--duration) var(--ease);
         }
         .blog-filter-btn:hover {
-            border-color: var(--nn-accent);
+            border-color: var(--nn-purple);
             color: var(--nn-white);
         }
         .blog-filter-btn.active {
-            background: color-mix(in srgb, var(--nn-accent) 15%, transparent);
-            border-color: var(--nn-accent);
-            color: var(--nn-accent);
+            background: color-mix(in srgb, var(--nn-purple) 15%, transparent);
+            border-color: var(--nn-purple);
+            color: var(--nn-purple);
         }
     </style>
 {% endblock %}
@@ -106,9 +106,9 @@
     <!-- Show filter -->
     {% if shows %}
     <div class="blog-filter-bar">
-        <button class="blog-filter-btn active" data-filter="all">All Shows</button>
+        <button class="blog-filter-btn active" data-filter="all" aria-pressed="true">All Shows</button>
         {% for show in shows %}
-        <button class="blog-filter-btn" data-filter="{{ show.slug }}" style="--filter-color: {{ show.color }}">{{ show.name }}</button>
+        <button class="blog-filter-btn" data-filter="{{ show.slug }}" aria-pressed="false" style="--filter-color: {{ show.color }}">{{ show.name }}</button>
         {% endfor %}
     </div>
     {% endif %}
@@ -147,8 +147,9 @@
         const cards = document.querySelectorAll('.blog-idx-card');
         buttons.forEach(function(btn) {
             btn.addEventListener('click', function() {
-                buttons.forEach(function(b) { b.classList.remove('active'); });
+                buttons.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
                 btn.classList.add('active');
+                btn.setAttribute('aria-pressed', 'true');
                 const filter = btn.getAttribute('data-filter');
                 cards.forEach(function(card) {
                     if (filter === 'all' || card.getAttribute('data-show') === filter) {

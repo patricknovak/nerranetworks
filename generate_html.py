@@ -1398,6 +1398,23 @@ def generate_network_page(*, dry_run=False):
 # Blog pages
 # ---------------------------------------------------------------------------
 
+# Mapping from show slug to digest directory name.  Only "tesla" differs
+# (slug "tesla" → directory "tesla_shorts_time").  Used by all blog and
+# sitemap functions.  Single source of truth — do NOT duplicate elsewhere.
+_SHOW_DIRS = {
+    "tesla": "tesla_shorts_time",
+    "omni_view": "omni_view",
+    "fascinating_frontiers": "fascinating_frontiers",
+    "planetterrian": "planetterrian",
+    "env_intel": "env_intel",
+    "models_agents": "models_agents",
+    "models_agents_beginners": "models_agents_beginners",
+    "finansy_prosto": "finansy_prosto",
+    "modern_investing": "modern_investing",
+    "privet_russian": "privet_russian",
+}
+
+
 def generate_blog_posts(slug, *, dry_run=False):
     """Generate blog post HTML pages for all episodes of a show.
 
@@ -1411,20 +1428,7 @@ def generate_blog_posts(slug, *, dry_run=False):
     cfg = NETWORK_SHOWS[slug]
     env = _get_jinja_env()
 
-    # Find show digest directory
-    show_dirs = {
-        "tesla": "tesla_shorts_time",
-        "omni_view": "omni_view",
-        "fascinating_frontiers": "fascinating_frontiers",
-        "planetterrian": "planetterrian",
-        "env_intel": "env_intel",
-        "models_agents": "models_agents",
-        "models_agents_beginners": "models_agents_beginners",
-        "finansy_prosto": "finansy_prosto",
-        "modern_investing": "modern_investing",
-        "privet_russian": "privet_russian",
-    }
-    digest_dir = ROOT / "digests" / show_dirs.get(slug, slug)
+    digest_dir = ROOT / "digests" / _SHOW_DIRS.get(slug, slug)
     if not digest_dir.exists():
         print(f"Warning: digest dir {digest_dir} not found for {slug}")
         return []
@@ -1504,19 +1508,7 @@ def generate_blog_index(slug, *, dry_run=False, posts=None):
     env = _get_jinja_env()
 
     if posts is None:
-        show_dirs = {
-            "tesla": "tesla_shorts_time",
-            "omni_view": "omni_view",
-            "fascinating_frontiers": "fascinating_frontiers",
-            "planetterrian": "planetterrian",
-            "env_intel": "env_intel",
-            "models_agents": "models_agents",
-            "models_agents_beginners": "models_agents_beginners",
-            "finansy_prosto": "finansy_prosto",
-            "modern_investing": "modern_investing",
-            "privet_russian": "privet_russian",
-        }
-        digest_dir = ROOT / "digests" / show_dirs.get(slug, slug)
+        digest_dir = ROOT / "digests" / _SHOW_DIRS.get(slug, slug)
         posts = []
         if digest_dir.exists():
             seen_eps: dict[int, dict] = {}
@@ -1564,20 +1556,8 @@ def generate_network_blog_index(*, dry_run=False, all_posts=None):
 
     if all_posts is None:
         all_posts = []
-        show_dirs = {
-            "tesla": "tesla_shorts_time",
-            "omni_view": "omni_view",
-            "fascinating_frontiers": "fascinating_frontiers",
-            "planetterrian": "planetterrian",
-            "env_intel": "env_intel",
-            "models_agents": "models_agents",
-            "models_agents_beginners": "models_agents_beginners",
-            "finansy_prosto": "finansy_prosto",
-            "modern_investing": "modern_investing",
-            "privet_russian": "privet_russian",
-        }
         for slug in NETWORK_SHOWS:
-            digest_dir = ROOT / "digests" / show_dirs.get(slug, slug)
+            digest_dir = ROOT / "digests" / _SHOW_DIRS.get(slug, slug)
             if not digest_dir.exists():
                 continue
             cfg = NETWORK_SHOWS[slug]
@@ -1629,19 +1609,6 @@ def generate_all_blogs(*, dry_run=False):
 # ---------------------------------------------------------------------------
 # Sitemap generation
 # ---------------------------------------------------------------------------
-
-_SHOW_DIRS = {
-    "tesla": "tesla_shorts_time",
-    "omni_view": "omni_view",
-    "fascinating_frontiers": "fascinating_frontiers",
-    "planetterrian": "planetterrian",
-    "env_intel": "env_intel",
-    "models_agents": "models_agents",
-    "models_agents_beginners": "models_agents_beginners",
-    "finansy_prosto": "finansy_prosto",
-    "modern_investing": "modern_investing",
-    "privet_russian": "privet_russian",
-}
 
 
 def generate_sitemap(*, dry_run=False):

@@ -26,7 +26,7 @@
    In response to a lawsuit over a fatal Model 3 crash, Tesla argues that Autopilot was not engaged and that the driver was intoxicated. The company is pushing back against claims that its driver-assistance technology played a role. For the business environment this shows Tesla continuing to emphasize driver responsibility in legal cases involving its systems. 
    Source: https://driveteslacanada.ca/news/tesla-says-autopilot-was-off-and-driver-was-drunk-in-fatal-model-3-crash/
 
-6. **Tesla FSD ‘coming coon’ to Israel, says Transport Minister: 27 March, 2026, 02:06 PM PST, Drive Tesla**
+6. **Tesla FSD ‘coming soon’ to Israel, says Transport Minister: 27 March, 2026, 02:06 PM PST, Drive Tesla**
    Israel's Transport Minister indicated that Tesla's Full Self-Driving software could soon become available for public use in the country. This would mark another step in expanding FSD beyond North America though not yet in Europe. It matters for Tesla's international growth as regulatory approval in new markets remains a key hurdle for the supervised autonomy rollout. 
    Source: https://driveteslacanada.ca/news/tesla-fsd-coming-coon-to-israel-says-transport-minister/
 

@@ -294,6 +294,54 @@
             border-top: 1px solid var(--nn-border);
             margin: var(--sp-10) 0;
         }
+        .blog-article pre {
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 8px;
+            padding: var(--sp-4);
+            margin: 0 0 var(--sp-6);
+            overflow-x: auto;
+        }
+        .blog-article pre > code {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--nn-text);
+            background: none;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+        }
+        .blog-article code {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 0.88em;
+            background: color-mix(in srgb, var(--nn-border) 50%, transparent);
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+            color: var(--nn-white);
+        }
+        .blog-article blockquote {
+            border-left: 3px solid var(--show-color);
+            margin: 0 0 var(--sp-6);
+            padding: var(--sp-3) var(--sp-6);
+            background: color-mix(in srgb, var(--show-color) 5%, transparent);
+            border-radius: 0 8px 8px 0;
+        }
+        .blog-article blockquote p {
+            font-style: italic;
+            color: var(--nn-text-muted);
+            margin-bottom: var(--sp-2);
+        }
+        .blog-article blockquote p:last-child {
+            margin-bottom: 0;
+        }
+        .blog-article h4 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-text);
+            margin: var(--sp-6) 0 var(--sp-2);
+        }
 
         /* Sources section */
         .blog-sources {
@@ -812,13 +860,13 @@
             
             <nav class="blog-ep-nav">
                 
-                <a href="ep010.html">
+                <a href="ep010.html" rel="prev">
                     <span class="nav-label">&larr; Previous</span>
                     <span class="nav-title">Episode 10</span>
                 </a>
                 
                 
-                <a href="ep012.html" class="next">
+                <a href="ep012.html" rel="next" class="next">
                     <span class="nav-label">Next &rarr;</span>
                     <span class="nav-title">Episode 12</span>
                 </a>
