@@ -91,7 +91,7 @@
                 <span class="blog-idx-ep">Ep {{ post.episode_num }}</span>
                 <span class="blog-idx-reading">{{ post.reading_time_min }} min</span>
             </div>
-            <h2>{{ post.title }}</h2>
+            <h2>{{ post.title }}{% if post.title == show_name %} — Ep {{ post.episode_num }}{% endif %}</h2>
             {% if post.hook %}
             <p>{{ post.hook[:160] }}{% if post.hook|length > 160 %}&hellip;{% endif %}</p>
             {% endif %}

@@ -1662,7 +1662,8 @@ body.menu-open {
 @media print {
   .nn-nav, .nn-hamburger, .nn-mobile-menu, .nn-footer,
   .nn-sticky-audio, audio, .skip-link, .topic-ticker,
-  .hero-cta-row, .subscribe-grid, .subscribe-rss-grid {
+  .hero-cta-row, .subscribe-grid, .subscribe-rss-grid,
+  .blog-ep-nav, .blog-listen-cta, .blog-toc {
     display: none !important;
   }
   body {
