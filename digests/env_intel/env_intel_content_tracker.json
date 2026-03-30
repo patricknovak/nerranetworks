@@ -1,18 +1,7 @@
 {
   "show": "env_intel",
-  "last_updated": "2026-03-27",
+  "last_updated": "2026-03-30",
   "episodes": [
-    {
-      "date": "2026-03-13",
-      "headlines": [],
-      "urls": [
-        "https://www.cbc.ca/news/canada/nova-scotia/so-blatant-developer-ordered-to-remove-two-storeys-from-dartmouth-building-9.7125640?cmp=rss",
-        "https://insideclimatenews.org/news/13032026/native-hawaiian-activist-deep-sea-mining-regulations/",
-        "https://insideclimatenews.org/news/12032026/alabama-public-service-commission-utility-regulation-electric-bills/"
-      ],
-      "quote_author": null,
-      "sections": {}
-    },
     {
       "date": "2026-03-20",
       "headlines": [
@@ -121,6 +110,35 @@
       ],
       "quote_author": null,
       "sections": {}
+    },
+    {
+      "date": "2026-03-30",
+      "headlines": [
+        "Alberta Bill 23 removes deadlines for government response to citizen petitions.",
+        "New bill would remove deadlines for Alberta government to act on citizen petitions",
+        "Robert Land Academy, now-shut private school in Ontario, under police investigation for alleged child abuse",
+        "‘Near failing grade’: conservation groups react to Manitoba budget",
+        "With new environmental law, China expands its ‘war on pollution’",
+        "‘Creative math’ or conservation loophole? B.C. rethinks 30-by-30 after industry push",
+        "The big flaw in climate policy: We’re trying to solve the wrong problem",
+        "Scientists shocked to find lab gloves may be skewing microplastics data"
+      ],
+      "urls": [
+        "https://www.cbc.ca/news/canada/edmonton/bill-23-alberta-justice-statutes-9.7147592?cmp=rss",
+        "https://thenarwhal.ca/mining-lobbying-bc-conservation-targets/",
+        "https://thenarwhal.ca/manitoba-budget-2026-conservation/",
+        "https://www.sciencedaily.com/releases/2026/03/260329222938.htm",
+        "https://yaleclimateconnections.org/2026/03/the-big-flaw-in-climate-policy-were-trying-to-solve-the-wrong-problem/",
+        "https://www.cbc.ca/news/canada/hamilton/robert-land-investigation-9.7147243?cmp=rss",
+        "https://www.science.org/content/article/new-environmental-law-china-expands-its-war-pollution"
+      ],
+      "quote_author": null,
+      "sections": {
+        "regulatory_watch": "### Regulatory & Policy Watch\n**B.C. 30-by-30 conservation target review**  \nFollowing lobbying by the mining industry, the B.C. government is re-examining how it defines “conservation” under its 30-by-30 commitment. The review could allow more flexible accounting of lands subject to mining tenure, directly affecting future protected area designations and associated restrictions on mineral exploration and contaminated sites remediation near new conservation boundaries. Consultants supporting min",
+        "science_technical": "### Science & Technical\n**Lab gloves skewing microplastics data**  \nA University of Michigan study found that common nitrile and latex laboratory gloves release stearates that closely resemble microplastics, leading to inflated contamination estimates in some samples. The particles can contaminate samples during testing and force researchers to revise previously reported microplastics concentrations. Laboratories supporting Canadian contaminated sites work under ISO 17025 should evaluate their g",
+        "deep_dive": "### Practitioner Deep Dive: Laboratory Contamination Controls in Emerging Contaminant Analysis\nYou arrive at the lab with split samples from a former firefighting training area expecting low PFAS results, yet the lab blank and the field duplicate both show elevated detections that make no sense given the site history. The issue is often not the groundwater but procedural contamination introduced during sample handling or analysis. Under CCME guidance and provincial QA/QC expectations, laboratori"
+      },
+      "deep_dive_topic": "Laboratory Contamination Controls in Emerging Contaminant Analysis"
     }
   ]
 }
