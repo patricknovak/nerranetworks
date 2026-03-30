@@ -473,7 +473,7 @@ class TestFeatureFlags:
 class TestShowConfigs:
     """Verify all show YAML configs can be loaded."""
 
-    @pytest.fixture(params=["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel", "models_agents"])
+    @pytest.fixture(params=["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel", "models_agents", "models_agents_beginners", "finansy_prosto", "privet_russian", "modern_investing"])
     def show_slug(self, request):
         return request.param
 
@@ -842,7 +842,7 @@ class TestSystemPrompts:
     """Verify all shows now have system prompt files."""
 
     @pytest.fixture(
-        params=["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel", "models_agents"]
+        params=["tesla", "omni_view", "fascinating_frontiers", "planetterrian", "env_intel", "models_agents", "models_agents_beginners", "finansy_prosto", "privet_russian", "modern_investing"]
     )
     def show_slug(self, request):
         return request.param
