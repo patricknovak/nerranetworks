@@ -29,6 +29,7 @@ Fish Audio functions:
 """
 
 import logging
+import re
 import subprocess
 from pathlib import Path
 from typing import List
@@ -171,10 +172,52 @@ def chunk_text(text: str, max_chars: int = 5000) -> List[str]:
     return chunks
 
 
+def _sanitize_for_elevenlabs(text: str) -> str:
+    """Last-resort sanitization before sending text to ElevenLabs.
+
+    Removes characters and patterns known to cause 400 errors:
+    - URLs (shouldn't be here after pronunciation processing, but defense-in-depth)
+    - Control characters (except newlines)
+    - Zero-width unicode characters
+    - Excessive whitespace
+    """
+    # Strip any surviving URLs
+    text = re.sub(r"https?://\S+", "", text)
+    # Strip zero-width characters (joiners, non-joiners, BOM, etc.)
+    text = re.sub(r"[\u200b-\u200f\u2028-\u202f\ufeff\u00ad]+", "", text)
+    # Strip control characters except newline and tab
+    text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
+    # Collapse excessive whitespace
+    text = re.sub(r"[ \t]{3,}", "  ", text)
+    text = re.sub(r"\n{4,}", "\n\n\n", text)
+    return text.strip()
+
+
+class ElevenLabsClientError(Exception):
+    """Non-retryable ElevenLabs API error (4xx).
+
+    Raised for client errors (400, 403, 422 etc.) that will not resolve on
+    retry.  Carries the status code and response body for diagnostics.
+    """
+
+    def __init__(self, message: str, status_code: int, body: str = ""):
+        super().__init__(message)
+        self.status_code = status_code
+        self.body = body
+
+
+class _ElevenLabsServerError(requests.HTTPError):
+    """Retryable ElevenLabs server error (5xx / 429).
+
+    Wraps HTTPError so the retry decorator can distinguish server errors
+    (which should be retried) from client errors (which should not).
+    """
+
+
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_exponential(multiplier=1, min=2, max=10),
-    retry=retry_if_exception_type((requests.RequestException, requests.Timeout)),
+    retry=retry_if_exception_type((requests.ConnectionError, requests.Timeout, _ElevenLabsServerError)),
 )
 def speak_chunk(
     text: str,
@@ -199,7 +242,18 @@ def speak_chunk(
     Parameters *previous_text* and *next_text* provide surrounding context
     so ElevenLabs can maintain natural prosody across chunk boundaries
     (the text is not spoken, only used for conditioning).
+
+    Only retries on transient errors (connection failures, timeouts).
+    Client errors (4xx) fail immediately with diagnostic info.
     """
+    # Defense-in-depth: sanitize text before sending to ElevenLabs
+    text = _sanitize_for_elevenlabs(text)
+    if not text:
+        logger.warning("speak_chunk: text is empty after sanitization, skipping")
+        # Write a silent MP3 so downstream concat doesn't break
+        Path(out_path).write_bytes(b"")
+        return
+
     url = "/".join([ELEVENLABS_API_BASE, "text-to-speech", voice_id, "stream"])
 
     headers = {
@@ -220,21 +274,51 @@ def speak_chunk(
     # ElevenLabs uses previous/next_text to condition prosody at chunk
     # boundaries, reducing audible transitions between chunks.
     if previous_text:
-        payload["previous_text"] = previous_text
+        payload["previous_text"] = _sanitize_for_elevenlabs(previous_text)
     if next_text:
-        payload["next_text"] = next_text
+        payload["next_text"] = _sanitize_for_elevenlabs(next_text)
 
     with requests.post(url, json=payload, headers=headers, stream=True, timeout=timeout) as r:
         if r.status_code == 401:
-            raise requests.HTTPError(
+            raise ElevenLabsClientError(
                 "ElevenLabs returned 401 Unauthorized. "
                 "Verify ELEVENLABS_API_KEY and that the voice ID is accessible.",
+                status_code=401,
+            )
+        if 400 <= r.status_code < 500 and r.status_code != 429:
+            body = r.text[:500]
+            logger.error(
+                "ElevenLabs returned %d for chunk (%d chars): %s",
+                r.status_code, len(text), body,
+            )
+            raise ElevenLabsClientError(
+                f"ElevenLabs returned {r.status_code}: {body}",
+                status_code=r.status_code,
+                body=body,
+            )
+        if r.status_code == 429 or r.status_code >= 500:
+            body = r.text[:500]
+            logger.warning(
+                "ElevenLabs returned %d (retryable) for chunk (%d chars): %s",
+                r.status_code, len(text), body,
+            )
+            raise _ElevenLabsServerError(
+                f"ElevenLabs returned {r.status_code}: {body}",
                 response=r,
             )
         r.raise_for_status()
         with open(out_path, "wb") as f:
             for data in r.iter_content(chunk_size=8192):
                 f.write(data)
+
+
+# Fallback model chain: if the primary model returns a 4xx, try these
+# alternatives in order.  Only triggered on ElevenLabsClientError (not on
+# server errors, which are retried in-place by speak_chunk).
+_MODEL_FALLBACKS = {
+    "eleven_v3": "eleven_turbo_v2_5",
+    "eleven_turbo_v2_5": "eleven_multilingual_v2",
+}
 
 
 def speak(
@@ -258,6 +342,9 @@ def speak(
     are split at sentence boundaries, synthesised as separate chunks, and
     concatenated with ``ffmpeg -f concat``.  Always uses the ElevenLabs
     streaming endpoint.
+
+    If the primary model returns a 4xx error, automatically falls back to
+    an older model (see ``_MODEL_FALLBACKS``).
     """
     tts_kwargs = dict(
         api_key=api_key,
@@ -271,7 +358,31 @@ def speak(
 
     chunks = chunk_text(text, max_chars=max_chars)
 
+    try:
+        _speak_with_model(chunks, voice_id, filename, tts_kwargs, append_exclamation)
+        return
+    except ElevenLabsClientError as exc:
+        fallback = _MODEL_FALLBACKS.get(model_id)
+        if not fallback:
+            raise
+        logger.warning(
+            "ElevenLabs %s returned %d — falling back to %s",
+            model_id, exc.status_code, fallback,
+        )
+        tts_kwargs["model_id"] = fallback
+        _speak_with_model(chunks, voice_id, filename, tts_kwargs, append_exclamation)
+
+
+def _speak_with_model(
+    chunks: List[str],
+    voice_id: str,
+    filename: str,
+    tts_kwargs: dict,
+    append_exclamation: bool,
+) -> None:
+    """Internal: synthesize chunks with the model specified in tts_kwargs."""
     if len(chunks) == 1:
+        text = chunks[0]
         out_text = text + "!" if append_exclamation else text
         speak_chunk(out_text, voice_id, Path(filename), **tts_kwargs)
         logger.info("ElevenLabs TTS: Generated single chunk (%d chars)", len(text))
