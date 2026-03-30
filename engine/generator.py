@@ -848,11 +848,20 @@ def generate_digest(
                 text_retry, stage="digest", show_name=config.name,
             )
             if _rep_retry < _rep_count:
-                logger.info(
-                    "Repetition retry improved digest for '%s' (%d → %d suspicious phrases)",
-                    config.name, _rep_count, _rep_retry,
-                )
-                text = text_retry
+                # Guard: don't swap to a drastically shorter retry — it's
+                # likely garbage even if it has fewer repetitions.
+                if len(text_retry) < len(text) * 0.5:
+                    logger.warning(
+                        "Repetition retry for '%s' has fewer repetitions but is "
+                        "drastically shorter (%d → %d chars) — keeping original",
+                        config.name, len(text), len(text_retry),
+                    )
+                else:
+                    logger.info(
+                        "Repetition retry improved digest for '%s' (%d → %d suspicious phrases)",
+                        config.name, _rep_count, _rep_retry,
+                    )
+                    text = text_retry
             else:
                 logger.warning(
                     "Repetition retry did not improve for '%s' — keeping original",

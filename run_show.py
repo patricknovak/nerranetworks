@@ -590,7 +590,18 @@ def run(args: argparse.Namespace) -> None:
                         i for i in _val2_issues
                         if "missing from digest" in i.lower()
                     ]
-                    if len(_missing2) < len(_missing):
+                    # If the original is very short (likely garbage from a
+                    # failed refusal recovery), prefer any substantially
+                    # longer retry regardless of section comparison.
+                    _orig_is_garbage = len(x_thread) < 2000 and len(x_thread_retry) > len(x_thread) * 3
+                    if _orig_is_garbage:
+                        logger.info(
+                            "Original digest looks like garbage (%d chars) — "
+                            "preferring much longer retry (%d chars)",
+                            len(x_thread), len(x_thread_retry),
+                        )
+                        x_thread = x_thread_retry
+                    elif len(_missing2) < len(_missing):
                         logger.info(
                             "Digest retry improved: %d → %d missing sections",
                             len(_missing), len(_missing2),
