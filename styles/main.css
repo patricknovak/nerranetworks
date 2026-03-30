@@ -1514,8 +1514,10 @@ details[open] .faq-question::after { content: '\2212'; }
   display: flex;
   flex-direction: column;
   padding: var(--sp-6);
+  padding-left: calc(var(--sp-6) + 4px);
   background: var(--nn-card);
   border: 1px solid var(--nn-border);
+  border-left: 4px solid var(--card-accent);
   border-radius: 14px;
   text-decoration: none;
   transition: all var(--duration) var(--ease);

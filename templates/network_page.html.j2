@@ -6,9 +6,46 @@
 {% endblock %}
 
 {% block mobile_nav_links %}
-<a href="#shows" onclick="document.getElementById('mobileMenu').classList.remove('open')">Shows</a>
 <a href="#latest" onclick="document.getElementById('mobileMenu').classList.remove('open')">Latest</a>
 <a href="#subscribe" onclick="document.getElementById('mobileMenu').classList.remove('open')">Subscribe</a>
+{% endblock %}
+
+{% block head_extra %}
+    <style>
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+        .hero-show-orbit .orbit-card {
+            animation: cardFloat 4s ease-in-out infinite;
+            transition: transform 0.3s ease;
+        }
+        .hero-show-orbit .orbit-card:nth-child(1) { animation-delay: 0s; }
+        .hero-show-orbit .orbit-card:nth-child(2) { animation-delay: 0.4s; }
+        .hero-show-orbit .orbit-card:nth-child(3) { animation-delay: 0.8s; }
+        .hero-show-orbit .orbit-card:nth-child(4) { animation-delay: 1.2s; }
+        .hero-show-orbit .orbit-card:nth-child(5) { animation-delay: 1.6s; }
+        .hero-show-orbit .orbit-card:nth-child(6) { animation-delay: 2.0s; }
+        .hero-show-orbit .orbit-card:nth-child(7) { animation-delay: 2.4s; }
+        .hero-show-orbit .orbit-card:nth-child(8) { animation-delay: 2.8s; }
+        .hero-show-orbit .orbit-card:nth-child(9) { animation-delay: 3.2s; }
+        .hero-show-orbit .orbit-card:nth-child(10) { animation-delay: 3.6s; }
+
+        @keyframes ctaPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(124, 92, 255, 0.4); }
+            50% { box-shadow: 0 0 20px 5px rgba(124, 92, 255, 0.2); }
+        }
+        .hero-cta-primary {
+            animation: ctaPulse 3s ease-in-out infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-show-orbit .orbit-card,
+            .hero-cta-primary {
+                animation: none;
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -35,7 +72,7 @@
                 {% endfor %}
             </div>
             <div class="hero-cta-row">
-                <a href="#shows" class="nn-btn nn-btn-primary nn-btn-lg" style="--show-color:#7C5CFF;">Explore Shows</a>
+                <a href="#shows" class="nn-btn nn-btn-primary nn-btn-lg hero-cta-primary" style="--show-color:#7C5CFF;">Explore Shows</a>
                 <a href="#subscribe" class="nn-btn nn-btn-lg">Subscribe Free</a>
                 <a href="blog/index.html" class="nn-btn nn-btn-lg">Read Blog</a>
             </div>

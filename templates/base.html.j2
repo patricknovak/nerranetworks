@@ -9,18 +9,23 @@
     {% if theme_color %}<meta name="theme-color" content="{{ theme_color }}">{% endif %}
 
     <!-- Open Graph -->
-    <meta property="og:title" content="{{ page_title }}">
-    <meta property="og:description" content="{{ meta_description }}">
+    <meta property="og:title" content="{{ page_title | default('Nerra Network — Independent Podcast Network') }}">
+    <meta property="og:description" content="{{ page_description | default(meta_description | default('10 ad-free daily shows covering AI, Tesla, investing, space, science, environmental policy, and more. Produced in Vancouver, Canada.')) }}">
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
-    {% if og_image %}<meta property="og:image" content="{{ og_image }}">{% endif %}
+    <meta property="og:image" content="{{ og_image | default(path_prefix ~ 'assets/og-preview.png') }}">
+    {% if canonical_url %}<meta property="og:url" content="{{ canonical_url }}">{% endif %}
+    <meta property="og:site_name" content="Nerra Network">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="{% block twitter_card %}summary_large_image{% endblock %}">
-    <meta name="twitter:title" content="{{ page_title }}">
-    <meta name="twitter:description" content="{{ meta_description }}">
-    {% if og_image %}<meta name="twitter:image" content="{{ og_image }}">{% endif %}
+    <meta name="twitter:title" content="{{ page_title | default('Nerra Network') }}">
+    <meta name="twitter:description" content="{{ page_description | default(meta_description | default('10 ad-free daily shows. Feed your curiosity. Not your anxiety.')) }}">
+    <meta name="twitter:image" content="{{ og_image | default(path_prefix ~ 'assets/og-preview.png') }}">
 
     {% if canonical_url %}<link rel="canonical" href="{{ canonical_url }}">{% endif %}
+    {% if rss_url %}
+    <link rel="alternate" type="application/rss+xml" title="{{ show_name | default('Nerra Network') }} RSS" href="{{ rss_url }}">
+    {% endif %}
 
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,6 +43,28 @@
     {% if show_color %}
     <style>:root { --show-color: {{ show_color }}; --show-color-dark: {{ show_color_dark | default(show_color) }}; }</style>
     {% endif %}
+    <style>
+        @media (max-width: 768px) {
+            .nn-footer-grid { grid-template-columns: 1fr; }
+            .nn-footer-col h4 {
+                cursor: pointer;
+                position: relative;
+                padding-right: 1.5rem;
+            }
+            .nn-footer-col h4::after {
+                content: '+';
+                position: absolute;
+                right: 0;
+                font-size: 1.2rem;
+                color: var(--nn-text-muted);
+            }
+            .nn-footer-col.expanded h4::after { content: '\2212'; }
+            .nn-footer-col > a,
+            .nn-footer-col > ul { display: none; }
+            .nn-footer-col.expanded > a,
+            .nn-footer-col.expanded > ul { display: block; }
+        }
+    </style>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -157,7 +184,6 @@
                     <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
                     <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
-                    <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a>
                 </div>
             </div>
             <div class="nn-footer-bottom">
@@ -181,6 +207,14 @@
             }, 100);
         });
     });
+    // Mobile footer accordions
+    if (window.innerWidth <= 768) {
+        document.querySelectorAll('.nn-footer-col h4').forEach(function(h4) {
+            h4.addEventListener('click', function() {
+                h4.parentElement.classList.toggle('expanded');
+            });
+        });
+    }
     </script>
     {% block scripts %}{% endblock %}
 </body>

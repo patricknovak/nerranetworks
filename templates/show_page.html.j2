@@ -14,6 +14,29 @@
   "sameAs": [{{ apple_podcasts_url | tojson }}]{% endif %}
 }
 </script>
+<style>
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+    .skeleton-card {
+        background: rgba(255,255,255,0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+    }
+    .skeleton-line {
+        height: 14px;
+        background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.06) 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 4px;
+        margin-bottom: 0.75rem;
+    }
+    .skeleton-title { width: 70%; height: 18px; }
+    .skeleton-date { width: 30%; }
+    .skeleton-text { width: 100%; }
+    .skeleton-text.short { width: 60%; }
+</style>
 {% endblock %}
 
 {% block nav_links %}
@@ -104,6 +127,10 @@
                     {% endif %}
                 </div>
                 {% endfor %}
+                {% else %}
+                <div class="skeleton-card"><div class="skeleton-line skeleton-title"></div><div class="skeleton-line skeleton-date"></div><div class="skeleton-line skeleton-text"></div><div class="skeleton-line skeleton-text short"></div></div>
+                <div class="skeleton-card"><div class="skeleton-line skeleton-title"></div><div class="skeleton-line skeleton-date"></div><div class="skeleton-line skeleton-text"></div><div class="skeleton-line skeleton-text short"></div></div>
+                <div class="skeleton-card"><div class="skeleton-line skeleton-title"></div><div class="skeleton-line skeleton-date"></div><div class="skeleton-line skeleton-text"></div><div class="skeleton-line skeleton-text short"></div></div>
                 {% endif %}
             </div>
             <div style="text-align:center;margin-top:var(--sp-6);">
@@ -391,6 +418,11 @@
                 if (!resp.ok) throw new Error('JSON not found');
                 const data = await resp.json();
                 const episodes = (JSON_FORMAT === 'array') ? (Array.isArray(data) ? data : []) : (data.summaries || data);
+                if (!episodes || !episodes.length) {
+                    console.warn(`[${SHOW_NAME}] JSON loaded but no episodes found, falling back to RSS`);
+                    loadFromRSS();
+                    return;
+                }
                 renderEpisodes(episodes);
             } catch (err) {
                 console.warn(`[${SHOW_NAME}] JSON load failed, falling back to RSS:`, err.message);

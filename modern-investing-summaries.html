@@ -13,6 +13,8 @@
     <meta property="og:description" content="Modern Investing Techniques — AI-powered daily market intelligence with simulated trades, strategy breakdowns, and tools for Canadian and US investors.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://nerranetwork.com/assets/covers/modern-investing.jpg">
+    <meta property="og:url" content="https://nerranetwork.com/modern-investing-summaries.html">
+    <meta property="og:site_name" content="Nerra Network">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -21,6 +23,9 @@
     <meta name="twitter:image" content="https://nerranetwork.com/assets/covers/modern-investing.jpg">
 
     <link rel="canonical" href="https://nerranetwork.com/modern-investing-summaries.html">
+    
+    <link rel="alternate" type="application/rss+xml" title="Modern Investing Techniques RSS" href="modern_investing_podcast.rss">
+    
 
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,6 +43,28 @@
     
     <style>:root { --show-color: #059669; --show-color-dark: #047857; }</style>
     
+    <style>
+        @media (max-width: 768px) {
+            .nn-footer-grid { grid-template-columns: 1fr; }
+            .nn-footer-col h4 {
+                cursor: pointer;
+                position: relative;
+                padding-right: 1.5rem;
+            }
+            .nn-footer-col h4::after {
+                content: '+';
+                position: absolute;
+                right: 0;
+                font-size: 1.2rem;
+                color: var(--nn-text-muted);
+            }
+            .nn-footer-col.expanded h4::after { content: '\2212'; }
+            .nn-footer-col > a,
+            .nn-footer-col > ul { display: none; }
+            .nn-footer-col.expanded > a,
+            .nn-footer-col.expanded > ul { display: block; }
+        }
+    </style>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -574,7 +601,6 @@
                     <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
                     <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
-                    <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a>
                 </div>
             </div>
             <div class="nn-footer-bottom">
@@ -598,6 +624,14 @@
             }, 100);
         });
     });
+    // Mobile footer accordions
+    if (window.innerWidth <= 768) {
+        document.querySelectorAll('.nn-footer-col h4').forEach(function(h4) {
+            h4.addEventListener('click', function() {
+                h4.parentElement.classList.toggle('expanded');
+            });
+        });
+    }
     </script>
     
     <script>
