@@ -139,14 +139,6 @@ audio:
   fade_volume: 0.4
   outro_volume: 0.4
 
-storage:
-  provider: r2
-  bucket: podcast-audio
-  endpoint_env: R2_ENDPOINT_URL
-  access_key_env: R2_ACCESS_KEY_ID
-  secret_key_env: R2_SECRET_ACCESS_KEY
-  public_base_url: "https://audio.nerranetwork.com"
-
 publishing:
   rss_file: models_agents_beginners_podcast.rss
   rss_title: "Models & Agents for Beginners"

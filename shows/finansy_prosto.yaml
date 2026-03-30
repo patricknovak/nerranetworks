@@ -150,16 +150,9 @@ audio:
   fade_volume: 0.4
   outro_volume: 0.4
 
-storage:
-  provider: r2
-  bucket: podcast-audio
-  endpoint_env: R2_ENDPOINT_URL
-  access_key_env: R2_ACCESS_KEY_ID
-  secret_key_env: R2_SECRET_ACCESS_KEY
-  public_base_url: "https://audio.nerranetwork.com"
-
 publishing:
   host_name: "Оля"
+  rss_language: ru
   rss_file: finansy_prosto_podcast.rss
   rss_title: "Финансы Просто"
   rss_description: "Ежедневный подкаст о финансах на русском языке для женщин в Канаде. Ведущая Оля объясняет инвестиции, сбережения, бюджет и финансовую грамотность — просто и понятно. Каждый выпуск — практические советы, новости и ресурсы для финансовой независимости."

@@ -28,6 +28,7 @@ GROK_PRICING = {
     "grok-4.20-non-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
     "grok-4.20-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
     "grok-4.20-multi-agent": {"input_per_1m": 2.00, "output_per_1m": 6.00},
+    # Legacy dated variants — kept for historical cost reporting
     "grok-4.20-0309-non-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
     "grok-4.20-0309-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
     "grok-4.20-multi-agent-0309": {"input_per_1m": 2.00, "output_per_1m": 6.00},
