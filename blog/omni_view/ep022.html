@@ -13,6 +13,8 @@
     <meta property="og:description" content="Trump administration shares 15-point plan to end Iran war as Tehran launches new strikes on US and Israeli targets.">
     <meta property="og:type" content="article">
     <meta property="og:image" content="https://nerranetwork.com/assets/covers/omni-view.jpg">
+    <meta property="og:url" content="https://nerranetwork.com/blog/omni_view/ep022.html">
+    <meta property="og:site_name" content="Nerra Network">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -21,6 +23,7 @@
     <meta name="twitter:image" content="https://nerranetwork.com/assets/covers/omni-view.jpg">
 
     <link rel="canonical" href="https://nerranetwork.com/blog/omni_view/ep022.html">
+    
 
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -157,6 +160,45 @@
             background: color-mix(in srgb, var(--show-color) 15%, transparent);
             color: var(--show-color);
             font-weight: 600;
+        }
+        .post-author {
+            color: var(--nn-text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Share buttons */
+        .share-buttons {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+            color: var(--nn-text-muted);
+            flex-wrap: wrap;
+        }
+        .share-buttons a,
+        .share-buttons button {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-1);
+            padding: var(--sp-2) var(--sp-4);
+            border-radius: 8px;
+            border: 1px solid var(--nn-border);
+            background: var(--nn-card);
+            color: var(--nn-text-muted);
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--duration) var(--ease);
+        }
+        .share-buttons a:hover,
+        .share-buttons button:hover {
+            border-color: var(--show-color);
+            color: var(--nn-white);
         }
 
         /* Article body */
@@ -457,6 +499,28 @@
     
     <style>:root { --show-color: #0B6FD6; --show-color-dark: #0B1B3B; }</style>
     
+    <style>
+        @media (max-width: 768px) {
+            .nn-footer-grid { grid-template-columns: 1fr; }
+            .nn-footer-col h4 {
+                cursor: pointer;
+                position: relative;
+                padding-right: 1.5rem;
+            }
+            .nn-footer-col h4::after {
+                content: '+';
+                position: absolute;
+                right: 0;
+                font-size: 1.2rem;
+                color: var(--nn-text-muted);
+            }
+            .nn-footer-col.expanded h4::after { content: '\2212'; }
+            .nn-footer-col > a,
+            .nn-footer-col > ul { display: none; }
+            .nn-footer-col.expanded > a,
+            .nn-footer-col.expanded > ul { display: block; }
+        }
+    </style>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -741,6 +805,7 @@
             <p class="blog-hero-hook">Trump administration shares 15-point plan to end Iran war as Tehran launches new strikes on US and Israeli targets.</p>
             
             <div class="blog-meta-bar">
+                <span class="post-author">By Patrick</span>
                 <span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     March 25, 2026
@@ -994,6 +1059,14 @@
             <!-- Sources -->
             
 
+            <!-- Share Buttons -->
+            <div class="share-buttons">
+                <span>Share:</span>
+                <a href="https://twitter.com/intent/tweet?url=https://nerranetwork.com/blog/omni_view/ep022.html&text=Omni%20View%20%E2%80%94%20Ep22%20%7C%20Omni%20View%20Blog" target="_blank" rel="noopener" aria-label="Share on Twitter">&#120143; Post</a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/omni_view/ep022.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
+                <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
+            </div>
+
             <!-- Episode Navigation -->
             
             <nav class="blog-ep-nav">
@@ -1105,7 +1178,6 @@
                     <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
                     <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
-                    <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a>
                 </div>
             </div>
             <div class="nn-footer-bottom">
@@ -1129,6 +1201,14 @@
             }, 100);
         });
     });
+    // Mobile footer accordions
+    if (window.innerWidth <= 768) {
+        document.querySelectorAll('.nn-footer-col h4').forEach(function(h4) {
+            h4.addEventListener('click', function() {
+                h4.parentElement.classList.toggle('expanded');
+            });
+        });
+    }
     </script>
     
 <script>

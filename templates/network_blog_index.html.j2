@@ -87,6 +87,31 @@
             border-color: var(--nn-purple);
             color: var(--nn-purple);
         }
+
+        /* Blog search */
+        .blog-search {
+            max-width: 500px;
+            margin: 0 auto var(--sp-6);
+            padding: 0 var(--sp-6);
+        }
+        .blog-search input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--nn-border);
+            background: var(--nn-card);
+            color: var(--nn-white);
+            font-family: var(--font-ui);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .blog-search input:focus {
+            border-color: var(--nn-purple);
+        }
+        .blog-search input::placeholder {
+            color: var(--nn-text-muted);
+        }
     </style>
 {% endblock %}
 
@@ -102,6 +127,11 @@
             </a>
         </div>
     </header>
+
+    <!-- Search -->
+    <div class="blog-search">
+        <input type="text" id="blog-search-input" placeholder="Search articles..." aria-label="Search blog posts">
+    </div>
 
     <!-- Show filter -->
     {% if shows %}
@@ -141,25 +171,81 @@
     </div>
     {% endif %}
 
+    <!-- Pagination -->
+    <div class="blog-pagination" id="blog-pagination" style="max-width:900px;margin:var(--sp-8) auto 0;padding:0 var(--sp-6);display:flex;justify-content:center;gap:var(--sp-2);flex-wrap:wrap;"></div>
+
     <script>
     (function() {
+        const PER_PAGE = 24;
         const buttons = document.querySelectorAll('.blog-filter-btn');
-        const cards = document.querySelectorAll('.blog-idx-card');
+        const allCards = Array.from(document.querySelectorAll('.blog-idx-card'));
+        const searchInput = document.getElementById('blog-search-input');
+        const paginationEl = document.getElementById('blog-pagination');
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let currentPage = 1;
+
+        function getVisibleCards() {
+            return allCards.filter(function(card) {
+                const matchFilter = currentFilter === 'all' || card.getAttribute('data-show') === currentFilter;
+                const matchSearch = !currentSearch || card.textContent.toLowerCase().includes(currentSearch);
+                return matchFilter && matchSearch;
+            });
+        }
+
+        function renderPage() {
+            var visible = getVisibleCards();
+            var totalPages = Math.max(1, Math.ceil(visible.length / PER_PAGE));
+            if (currentPage > totalPages) currentPage = totalPages;
+            var start = (currentPage - 1) * PER_PAGE;
+            var end = start + PER_PAGE;
+
+            allCards.forEach(function(card) { card.style.display = 'none'; });
+            visible.forEach(function(card, i) {
+                card.style.display = (i >= start && i < end) ? '' : 'none';
+            });
+
+            // Render pagination buttons
+            paginationEl.innerHTML = '';
+            if (totalPages > 1) {
+                for (var p = 1; p <= totalPages; p++) {
+                    var btn = document.createElement('button');
+                    btn.textContent = p;
+                    btn.className = 'blog-filter-btn' + (p === currentPage ? ' active' : '');
+                    btn.setAttribute('data-page', p);
+                    btn.addEventListener('click', function() {
+                        currentPage = parseInt(this.getAttribute('data-page'));
+                        renderPage();
+                        var grid = document.getElementById('blog-grid');
+                        if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                    paginationEl.appendChild(btn);
+                }
+            }
+        }
+
+        // Filter buttons
         buttons.forEach(function(btn) {
             btn.addEventListener('click', function() {
                 buttons.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
                 btn.classList.add('active');
                 btn.setAttribute('aria-pressed', 'true');
-                const filter = btn.getAttribute('data-filter');
-                cards.forEach(function(card) {
-                    if (filter === 'all' || card.getAttribute('data-show') === filter) {
-                        card.style.display = '';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+                currentFilter = btn.getAttribute('data-filter');
+                currentPage = 1;
+                renderPage();
             });
         });
+
+        // Search
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                currentSearch = this.value.toLowerCase();
+                currentPage = 1;
+                renderPage();
+            });
+        }
+
+        renderPage();
     })();
     </script>
 {% endblock %}

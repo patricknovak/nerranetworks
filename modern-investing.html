@@ -13,6 +13,8 @@
     <meta property="og:description" content="Modern Investing Techniques — AI-powered daily market intelligence with simulated trades, strategy breakdowns, and tools for Canadian and US investors.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://nerranetwork.com/assets/covers/modern-investing.jpg">
+    <meta property="og:url" content="https://nerranetwork.com/modern-investing.html">
+    <meta property="og:site_name" content="Nerra Network">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -21,6 +23,9 @@
     <meta name="twitter:image" content="https://nerranetwork.com/assets/covers/modern-investing.jpg">
 
     <link rel="canonical" href="https://nerranetwork.com/modern-investing.html">
+    
+    <link rel="alternate" type="application/rss+xml" title="Modern Investing Techniques RSS" href="modern_investing_podcast.rss">
+    
 
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,11 +51,56 @@
   "image": "assets/covers/modern-investing.jpg"
 }
 </script>
+<style>
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+    .skeleton-card {
+        background: rgba(255,255,255,0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+    }
+    .skeleton-line {
+        height: 14px;
+        background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.06) 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 4px;
+        margin-bottom: 0.75rem;
+    }
+    .skeleton-title { width: 70%; height: 18px; }
+    .skeleton-date { width: 30%; }
+    .skeleton-text { width: 100%; }
+    .skeleton-text.short { width: 60%; }
+</style>
 
 
     
     <style>:root { --show-color: #059669; --show-color-dark: #047857; }</style>
     
+    <style>
+        @media (max-width: 768px) {
+            .nn-footer-grid { grid-template-columns: 1fr; }
+            .nn-footer-col h4 {
+                cursor: pointer;
+                position: relative;
+                padding-right: 1.5rem;
+            }
+            .nn-footer-col h4::after {
+                content: '+';
+                position: absolute;
+                right: 0;
+                font-size: 1.2rem;
+                color: var(--nn-text-muted);
+            }
+            .nn-footer-col.expanded h4::after { content: '\2212'; }
+            .nn-footer-col > a,
+            .nn-footer-col > ul { display: none; }
+            .nn-footer-col.expanded > a,
+            .nn-footer-col.expanded > ul { display: block; }
+        }
+    </style>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -771,11 +821,13 @@
                 
                 <a href="blog/modern_investing/ep008.html" class="blog-idx-card">
                     <div class="blog-idx-card-top">
-                        <span class="blog-idx-date"></span>
+                        <span class="blog-idx-date">March 30, 2026</span>
                         <span class="blog-idx-ep">Ep 8</span>
                         <span class="blog-idx-reading">6 min</span>
                     </div>
                     <h2>Modern Investing Techniques – Special Educational Episode</h2>
+                    
+                    <p>Modern Investing Techniques – Special Educational Episode</p>
                     
                     <span class="blog-idx-read-more">Read article &rarr;</span>
                 </a>
@@ -1037,7 +1089,6 @@
                     <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
                     <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
-                    <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a>
                 </div>
             </div>
             <div class="nn-footer-bottom">
@@ -1061,6 +1112,14 @@
             }, 100);
         });
     });
+    // Mobile footer accordions
+    if (window.innerWidth <= 768) {
+        document.querySelectorAll('.nn-footer-col h4').forEach(function(h4) {
+            h4.addEventListener('click', function() {
+                h4.parentElement.classList.toggle('expanded');
+            });
+        });
+    }
     </script>
     
     
@@ -1102,6 +1161,11 @@
                 if (!resp.ok) throw new Error('JSON not found');
                 const data = await resp.json();
                 const episodes = (JSON_FORMAT === 'array') ? (Array.isArray(data) ? data : []) : (data.summaries || data);
+                if (!episodes || !episodes.length) {
+                    console.warn(`[${SHOW_NAME}] JSON loaded but no episodes found, falling back to RSS`);
+                    loadFromRSS();
+                    return;
+                }
                 renderEpisodes(episodes);
             } catch (err) {
                 console.warn(`[${SHOW_NAME}] JSON load failed, falling back to RSS:`, err.message);

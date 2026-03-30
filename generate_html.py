@@ -1091,6 +1091,7 @@ def generate_summaries_page(slug, *, dry_run=False):
         "show_color": cfg["brand_color"],
         "show_color_dark": cfg.get("brand_color_dark", cfg["brand_color"]),
         "canonical_url": f"{GITHUB_RAW}/{cfg['summaries_page']}",
+        "rss_url": f"{prefix}{cfg['rss_file']}",
         "hero_title": cfg["name"],
         "hero_subtitle": f"Complete archive of {cfg['name']} episode summaries.",
         "blog_page": f"blog/{cfg['slug']}/index.html",
@@ -1220,6 +1221,7 @@ def generate_show_page(slug, *, dry_run=False):
         "show_color": cfg["brand_color"],
         "show_color_dark": cfg.get("brand_color_dark", cfg["brand_color"]),
         "canonical_url": f"{GITHUB_RAW}/{cfg['show_page']}",
+        "rss_url": f"{prefix}{cfg['rss_file']}",
         "related_show": related_show_data,
         "blog_page": f"blog/{cfg['slug']}/index.html",
         "latest_blog_posts": latest_blog_posts,
@@ -1375,6 +1377,7 @@ def generate_network_page(*, dry_run=False):
         "theme_color": "#7C5CFF",
         "og_image": None,  # No single show image represents the network
         "canonical_url": f"{GITHUB_RAW}/index.html",
+        "rss_url": "network.rss",
         "all_shows": _build_all_shows_list(),
         "latest_blog_posts": latest_blog_posts,
         "latest_episodes": latest_episodes,

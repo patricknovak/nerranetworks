@@ -13,6 +13,8 @@
     <meta property="og:description" content="Read all Models & Agents for Beginners episodes as blog posts. Daily AI podcast for beginners and teens — AI explained simply.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://nerranetwork.com/assets/covers/models-agents-beginners.jpg">
+    <meta property="og:url" content="https://nerranetwork.com/blog/models_agents_beginners/index.html">
+    <meta property="og:site_name" content="Nerra Network">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -21,6 +23,7 @@
     <meta name="twitter:image" content="https://nerranetwork.com/assets/covers/models-agents-beginners.jpg">
 
     <link rel="canonical" href="https://nerranetwork.com/blog/models_agents_beginners/index.html">
+    
 
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -101,6 +104,28 @@
     
     <style>:root { --show-color: #F59E0B; --show-color-dark: #D97706; }</style>
     
+    <style>
+        @media (max-width: 768px) {
+            .nn-footer-grid { grid-template-columns: 1fr; }
+            .nn-footer-col h4 {
+                cursor: pointer;
+                position: relative;
+                padding-right: 1.5rem;
+            }
+            .nn-footer-col h4::after {
+                content: '+';
+                position: absolute;
+                right: 0;
+                font-size: 1.2rem;
+                color: var(--nn-text-muted);
+            }
+            .nn-footer-col.expanded h4::after { content: '\2212'; }
+            .nn-footer-col > a,
+            .nn-footer-col > ul { display: none; }
+            .nn-footer-col.expanded > a,
+            .nn-footer-col.expanded > ul { display: block; }
+        }
+    </style>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -388,7 +413,7 @@
                 <span class="blog-idx-ep">Ep 13</span>
                 <span class="blog-idx-reading">5 min</span>
             </div>
-            <h2>Models & Agents for Beginners</h2>
+            <h2>Models & Agents for Beginners — Ep 13</h2>
             
             <p>Bluesky just dropped an AI that builds your perfect social feed from a simple sentence — no coding needed.</p>
             
@@ -401,7 +426,7 @@
                 <span class="blog-idx-ep">Ep 12</span>
                 <span class="blog-idx-reading">6 min</span>
             </div>
-            <h2>Models & Agents for Beginners</h2>
+            <h2>Models & Agents for Beginners — Ep 12</h2>
             
             <p>Meta built an AI that can predict how your brain will react to pictures, music, and speech — better than reading one real person's brain scan.</p>
             
@@ -410,11 +435,11 @@
         
         <a href="ep011.html" class="blog-idx-card">
             <div class="blog-idx-card-top">
-                <span class="blog-idx-date"></span>
+                <span class="blog-idx-date">March 27, 2026</span>
                 <span class="blog-idx-ep">Ep 11</span>
                 <span class="blog-idx-reading">6 min</span>
             </div>
-            <h2></h2>
+            <h2>Anthropic just confirmed their leaked model is a huge leap in AI reasoning — and...</h2>
             
             <p>Anthropic just confirmed their leaked model is a huge leap in AI reasoning — and it happened because of a simple security slip-up.</p>
             
@@ -427,7 +452,7 @@
                 <span class="blog-idx-ep">Ep 10</span>
                 <span class="blog-idx-reading">6 min</span>
             </div>
-            <h2>Models & Agents for Beginners</h2>
+            <h2>Models & Agents for Beginners — Ep 10</h2>
             
             <p>A new AI that helped build itself? Plus safe ways to test models without breaking anything — today’s news is wild.</p>
             
@@ -436,11 +461,11 @@
         
         <a href="ep009.html" class="blog-idx-card">
             <div class="blog-idx-card-top">
-                <span class="blog-idx-date"></span>
+                <span class="blog-idx-date">March 20, 2026</span>
                 <span class="blog-idx-ep">Ep 9</span>
                 <span class="blog-idx-reading">6 min</span>
             </div>
-            <h2></h2>
+            <h2>NVIDIA's new DLSS 5 is making gamers furious — here's why this AI upscaling chan...</h2>
             
             <p>NVIDIA's new DLSS 5 is making gamers furious — here's why this AI upscaling change actually matters.</p>
             
@@ -449,11 +474,11 @@
         
         <a href="ep008.html" class="blog-idx-card">
             <div class="blog-idx-card-top">
-                <span class="blog-idx-date"></span>
+                <span class="blog-idx-date">March 20, 2026</span>
                 <span class="blog-idx-ep">Ep 8</span>
                 <span class="blog-idx-reading">6 min</span>
             </div>
-            <h2></h2>
+            <h2>Google just opened its powerful Colab computers so any AI agent can use them wit...</h2>
             
             <p>Google just opened its powerful Colab computers so any AI agent can use them with free GPUs.</p>
             
@@ -466,7 +491,7 @@
                 <span class="blog-idx-ep">Ep 7</span>
                 <span class="blog-idx-reading">6 min</span>
             </div>
-            <h2>Models & Agents for Beginners</h2>
+            <h2>Models & Agents for Beginners — Ep 7</h2>
             
             <p>Imagine an AI that solves real math mysteries like a pro researcher—Google just made it happen!</p>
             
@@ -567,7 +592,6 @@
                     <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
                     <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
-                    <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a>
                 </div>
             </div>
             <div class="nn-footer-bottom">
@@ -591,6 +615,14 @@
             }, 100);
         });
     });
+    // Mobile footer accordions
+    if (window.innerWidth <= 768) {
+        document.querySelectorAll('.nn-footer-col h4').forEach(function(h4) {
+            h4.addEventListener('click', function() {
+                h4.parentElement.classList.toggle('expanded');
+            });
+        });
+    }
     </script>
     
 </body>

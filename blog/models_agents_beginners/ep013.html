@@ -13,6 +13,8 @@
     <meta property="og:description" content="Bluesky just dropped an AI that builds your perfect social feed from a simple sentence — no coding needed.">
     <meta property="og:type" content="article">
     <meta property="og:image" content="https://nerranetwork.com/assets/covers/models-agents-beginners.jpg">
+    <meta property="og:url" content="https://nerranetwork.com/blog/models_agents_beginners/ep013.html">
+    <meta property="og:site_name" content="Nerra Network">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -21,6 +23,7 @@
     <meta name="twitter:image" content="https://nerranetwork.com/assets/covers/models-agents-beginners.jpg">
 
     <link rel="canonical" href="https://nerranetwork.com/blog/models_agents_beginners/ep013.html">
+    
 
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -158,6 +161,45 @@
             color: var(--show-color);
             font-weight: 600;
         }
+        .post-author {
+            color: var(--nn-text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Share buttons */
+        .share-buttons {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+            color: var(--nn-text-muted);
+            flex-wrap: wrap;
+        }
+        .share-buttons a,
+        .share-buttons button {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-1);
+            padding: var(--sp-2) var(--sp-4);
+            border-radius: 8px;
+            border: 1px solid var(--nn-border);
+            background: var(--nn-card);
+            color: var(--nn-text-muted);
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--duration) var(--ease);
+        }
+        .share-buttons a:hover,
+        .share-buttons button:hover {
+            border-color: var(--show-color);
+            color: var(--nn-white);
+        }
 
         /* Article body */
         .blog-article-wrap {
@@ -294,6 +336,54 @@
             border-top: 1px solid var(--nn-border);
             margin: var(--sp-10) 0;
         }
+        .blog-article pre {
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 8px;
+            padding: var(--sp-4);
+            margin: 0 0 var(--sp-6);
+            overflow-x: auto;
+        }
+        .blog-article pre > code {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--nn-text);
+            background: none;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+        }
+        .blog-article code {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 0.88em;
+            background: color-mix(in srgb, var(--nn-border) 50%, transparent);
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+            color: var(--nn-white);
+        }
+        .blog-article blockquote {
+            border-left: 3px solid var(--show-color);
+            margin: 0 0 var(--sp-6);
+            padding: var(--sp-3) var(--sp-6);
+            background: color-mix(in srgb, var(--show-color) 5%, transparent);
+            border-radius: 0 8px 8px 0;
+        }
+        .blog-article blockquote p {
+            font-style: italic;
+            color: var(--nn-text-muted);
+            margin-bottom: var(--sp-2);
+        }
+        .blog-article blockquote p:last-child {
+            margin-bottom: 0;
+        }
+        .blog-article h4 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-text);
+            margin: var(--sp-6) 0 var(--sp-2);
+        }
 
         /* Sources section */
         .blog-sources {
@@ -409,6 +499,28 @@
     
     <style>:root { --show-color: #F59E0B; --show-color-dark: #D97706; }</style>
     
+    <style>
+        @media (max-width: 768px) {
+            .nn-footer-grid { grid-template-columns: 1fr; }
+            .nn-footer-col h4 {
+                cursor: pointer;
+                position: relative;
+                padding-right: 1.5rem;
+            }
+            .nn-footer-col h4::after {
+                content: '+';
+                position: absolute;
+                right: 0;
+                font-size: 1.2rem;
+                color: var(--nn-text-muted);
+            }
+            .nn-footer-col.expanded h4::after { content: '\2212'; }
+            .nn-footer-col > a,
+            .nn-footer-col > ul { display: none; }
+            .nn-footer-col.expanded > a,
+            .nn-footer-col.expanded > ul { display: block; }
+        }
+    </style>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -693,6 +805,7 @@
             <p class="blog-hero-hook">Bluesky just dropped an AI that builds your perfect social feed from a simple sentence — no coding needed.</p>
             
             <div class="blog-meta-bar">
+                <span class="post-author">By Patrick</span>
                 <span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     March 30, 2026
@@ -802,11 +915,19 @@
             </section>
             
 
+            <!-- Share Buttons -->
+            <div class="share-buttons">
+                <span>Share:</span>
+                <a href="https://twitter.com/intent/tweet?url=https://nerranetwork.com/blog/models_agents_beginners/ep013.html&text=Models%20%26%20Agents%20for%20Beginners%20%E2%80%94%20Ep13%20%7C%20Models%20%26%20Agents%20for%20Beginners%20Blog" target="_blank" rel="noopener" aria-label="Share on Twitter">&#120143; Post</a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/models_agents_beginners/ep013.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
+                <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
+            </div>
+
             <!-- Episode Navigation -->
             
             <nav class="blog-ep-nav">
                 
-                <a href="ep012.html">
+                <a href="ep012.html" rel="prev">
                     <span class="nav-label">&larr; Previous</span>
                     <span class="nav-title">Episode 12</span>
                 </a>
@@ -908,7 +1029,6 @@
                     <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
                     <a href="https://x.com/omniviewnews" target="_blank" rel="noopener">@omniviewnews</a>
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
-                    <a href="https://github.com/patricknovak/nerranetworks" target="_blank" rel="noopener">GitHub</a>
                 </div>
             </div>
             <div class="nn-footer-bottom">
@@ -932,6 +1052,14 @@
             }, 100);
         });
     });
+    // Mobile footer accordions
+    if (window.innerWidth <= 768) {
+        document.querySelectorAll('.nn-footer-col h4').forEach(function(h4) {
+            h4.addEventListener('click', function() {
+                h4.parentElement.classList.toggle('expanded');
+            });
+        });
+    }
     </script>
     
 <script>
