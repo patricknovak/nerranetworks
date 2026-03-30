@@ -29,6 +29,7 @@ Fish Audio functions:
 """
 
 import logging
+import re
 import subprocess
 from pathlib import Path
 from typing import List
@@ -171,6 +172,27 @@ def chunk_text(text: str, max_chars: int = 5000) -> List[str]:
     return chunks
 
 
+def _sanitize_for_elevenlabs(text: str) -> str:
+    """Last-resort sanitization before sending text to ElevenLabs.
+
+    Removes characters and patterns known to cause 400 errors:
+    - URLs (shouldn't be here after pronunciation processing, but defense-in-depth)
+    - Control characters (except newlines)
+    - Zero-width unicode characters
+    - Excessive whitespace
+    """
+    # Strip any surviving URLs
+    text = re.sub(r"https?://\S+", "", text)
+    # Strip zero-width characters (joiners, non-joiners, BOM, etc.)
+    text = re.sub(r"[\u200b-\u200f\u2028-\u202f\ufeff\u00ad]+", "", text)
+    # Strip control characters except newline and tab
+    text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
+    # Collapse excessive whitespace
+    text = re.sub(r"[ \t]{3,}", "  ", text)
+    text = re.sub(r"\n{4,}", "\n\n\n", text)
+    return text.strip()
+
+
 class ElevenLabsClientError(Exception):
     """Non-retryable ElevenLabs API error (4xx).
 
@@ -216,6 +238,14 @@ def speak_chunk(
     Only retries on transient errors (connection failures, timeouts).
     Client errors (4xx) fail immediately with diagnostic info.
     """
+    # Defense-in-depth: sanitize text before sending to ElevenLabs
+    text = _sanitize_for_elevenlabs(text)
+    if not text:
+        logger.warning("speak_chunk: text is empty after sanitization, skipping")
+        # Write a silent MP3 so downstream concat doesn't break
+        Path(out_path).write_bytes(b"")
+        return
+
     url = "/".join([ELEVENLABS_API_BASE, "text-to-speech", voice_id, "stream"])
 
     headers = {
@@ -236,9 +266,9 @@ def speak_chunk(
     # ElevenLabs uses previous/next_text to condition prosody at chunk
     # boundaries, reducing audible transitions between chunks.
     if previous_text:
-        payload["previous_text"] = previous_text
+        payload["previous_text"] = _sanitize_for_elevenlabs(previous_text)
     if next_text:
-        payload["next_text"] = next_text
+        payload["next_text"] = _sanitize_for_elevenlabs(next_text)
 
     with requests.post(url, json=payload, headers=headers, stream=True, timeout=timeout) as r:
         if r.status_code == 401:
