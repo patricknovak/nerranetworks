@@ -101,7 +101,8 @@ SHOW_REGISTRY = {
         "min_audio_s": 300,
         "max_audio_s": 1800,
         "required_sections": ["Top", "X Takeover", "First Principles"],
-        # "Counterpoint" is sometimes called "Short Spot" or "challenge worth discussing"
+        # Schedule: "daily", "odd", "even", "weekday", "odd_weekday"
+        "schedule": "daily",
     },
     "omni_view": {
         "name": "Omni View",
@@ -113,6 +114,7 @@ SHOW_REGISTRY = {
         "min_audio_s": 240,
         "max_audio_s": 1500,
         "required_sections": [],
+        "schedule": "odd",
     },
     "fascinating_frontiers": {
         "name": "Fascinating Frontiers",
@@ -124,6 +126,7 @@ SHOW_REGISTRY = {
         "min_audio_s": 240,
         "max_audio_s": 1500,
         "required_sections": [],
+        "schedule": "even",
     },
     "planetterrian": {
         "name": "Planetterrian Daily",
@@ -135,6 +138,7 @@ SHOW_REGISTRY = {
         "min_audio_s": 240,
         "max_audio_s": 1500,
         "required_sections": [],
+        "schedule": "odd",
     },
     "env_intel": {
         "name": "Environmental Intelligence",
@@ -146,6 +150,7 @@ SHOW_REGISTRY = {
         "min_audio_s": 240,
         "max_audio_s": 1500,
         "required_sections": [],
+        "schedule": "odd_weekday",
     },
     "models_agents": {
         "name": "Models & Agents",
@@ -157,6 +162,7 @@ SHOW_REGISTRY = {
         "min_audio_s": 240,
         "max_audio_s": 1500,
         "required_sections": [],
+        "schedule": "odd",
     },
     "models_agents_beginners": {
         "name": "Models & Agents for Beginners",
@@ -168,6 +174,7 @@ SHOW_REGISTRY = {
         "min_audio_s": 180,
         "max_audio_s": 1500,
         "required_sections": [],
+        "schedule": "even",
     },
     "finansy_prosto": {
         "name": "Finansy Prosto",
@@ -179,6 +186,7 @@ SHOW_REGISTRY = {
         "min_audio_s": 180,
         "max_audio_s": 1200,
         "required_sections": [],
+        "schedule": "even",
     },
     "modern_investing": {
         "name": "Modern Investing Techniques",
@@ -190,6 +198,7 @@ SHOW_REGISTRY = {
         "min_audio_s": 300,
         "max_audio_s": 1800,
         "required_sections": ["Strategy Spotlight", "Practice Investment"],
+        "schedule": "weekday",
     },
     "privet_russian": {
         "name": "Privet Russian",
@@ -201,8 +210,69 @@ SHOW_REGISTRY = {
         "min_audio_s": 180,
         "max_audio_s": 1200,
         "required_sections": [],
+        "schedule": "even",
     },
 }
+
+
+# ---------------------------------------------------------------------------
+# Schedule helpers
+# ---------------------------------------------------------------------------
+
+def _should_run_on(schedule: str, target_date: datetime.date) -> bool:
+    """Return True if *schedule* means the show should produce an episode on *target_date*."""
+    day = target_date.day
+    weekday = target_date.weekday()  # 0=Mon .. 6=Sun
+    is_weekday = weekday < 5
+
+    if schedule == "daily":
+        return True
+    if schedule == "odd":
+        return day % 2 == 1
+    if schedule == "even":
+        return day % 2 == 0
+    if schedule == "weekday":
+        return is_weekday
+    if schedule == "odd_weekday":
+        return day % 2 == 1 and is_weekday
+    return True  # unknown schedule → assume should run
+
+
+def check_missed_episodes(
+    target_date: datetime.date,
+    found_episodes: List[EpisodeReview],
+    show_filter: str = "",
+) -> List[Issue]:
+    """Detect shows that were scheduled to produce an episode but didn't.
+
+    Returns a list of Issue objects for missing episodes.
+    """
+    found_slugs = {ep.show_slug for ep in found_episodes}
+    missed: List[Issue] = []
+
+    for slug, info in SHOW_REGISTRY.items():
+        if show_filter and slug != show_filter:
+            continue
+        schedule = info.get("schedule", "daily")
+        if not _should_run_on(schedule, target_date):
+            continue
+        if slug in found_slugs:
+            continue
+        missed.append(Issue(
+            show=slug,
+            episode=0,
+            severity="critical",
+            title=f"Missed episode: {info['name']}",
+            detail=(
+                f"{info['name']} was scheduled to produce an episode on "
+                f"{target_date.isoformat()} (schedule: {schedule}) but no output "
+                f"files were found in {info['output_dir']}/. The pipeline may have "
+                f"failed, been skipped due to insufficient articles, or the workflow "
+                f"did not trigger."
+            ),
+        ))
+
+    return missed
 
 
 # ---------------------------------------------------------------------------
@@ -551,6 +621,283 @@ def check_cross_episode_duplicates(episodes: List[EpisodeReview]) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Additional quality checks
+# ---------------------------------------------------------------------------
+
+def check_transition_duplication(ep: EpisodeReview) -> None:
+    """Detect duplicate transition sentences (line N ends with same sentence that line N+1 starts with).
+
+    This is the TST Ep419 bug pattern: the LLM writes a transition tease at the
+    end of one paragraph, then repeats it verbatim as the opener of the next.
+    """
+    text = ep.tts_text or ep.digest_text
+    if not text:
+        return
+
+    lines = [l.strip() for l in text.splitlines() if l.strip()]
+    if len(lines) < 2:
+        return
+
+    def _normalize(s: str) -> str:
+        # Strip host prefixes and whitespace
+        s = re.sub(r"^(?:Host|Olya|Patrick)\s*:\s*", "", s, flags=re.IGNORECASE)
+        return s.lower().strip()
+
+    def _sentence_words(s: str) -> set:
+        return set(re.findall(r"\b[a-z]+\b", s.lower()))
+
+    dup_count = 0
+    for i in range(len(lines) - 1):
+        line_a = _normalize(lines[i])
+        line_b = _normalize(lines[i + 1])
+        if not line_a or not line_b:
+            continue
+
+        words_a = _sentence_words(line_a)
+        words_b = _sentence_words(line_b)
+        if len(words_a) < 4 or len(words_b) < 4:
+            continue
+
+        # Case 1: entire line is near-duplicate (high word overlap).
+        # Use Jaccard similarity but also check containment — if the shorter
+        # line's words are almost entirely in the longer line, it's a dup
+        # even if the longer line adds extra words.
+        intersection = words_a & words_b
+        union = words_a | words_b
+        jaccard = len(intersection) / max(len(union), 1)
+        smaller = min(len(words_a), len(words_b))
+        containment = len(intersection) / max(smaller, 1)
+        if jaccard >= 0.75 or (containment >= 0.85 and len(intersection) >= 5):
+            dup_count += 1
+            continue
+
+        # Case 2: line A ends with a sentence that matches line B's opening
+        sentences_a = re.split(r'(?<=[.!?])\s+', line_a)
+        if len(sentences_a) >= 2:
+            last_sent = sentences_a[-1]
+            last_words = _sentence_words(last_sent)
+            # Compare last sentence of A to full line B (or first sentence of B)
+            sentences_b = re.split(r'(?<=[.!?])\s+', line_b)
+            first_b_words = _sentence_words(sentences_b[0])
+            if len(last_words) >= 4 and len(first_b_words) >= 4:
+                sent_overlap = len(last_words & first_b_words) / max(len(last_words | first_b_words), 1)
+                if sent_overlap >= 0.70:
+                    dup_count += 1
+
+    if dup_count >= 2:
+        ep.issues.append(Issue(
+            ep.show_slug, ep.episode_num, "warning",
+            f"Duplicate transitions ({dup_count} instances)",
+            f"Found {dup_count} consecutive line pairs with near-duplicate content. "
+            f"The LLM is repeating transition sentences across paragraph boundaries.",
+            file_path=str(ep.tts_path or ep.digest_path or ""),
+        ))
+    elif dup_count == 1:
+        ep.issues.append(Issue(
+            ep.show_slug, ep.episode_num, "info",
+            "Possible duplicate transition (1 instance)",
+            "One consecutive line pair has near-duplicate content.",
+            file_path=str(ep.tts_path or ep.digest_path or ""),
+        ))
+
+
+def check_slow_news_leakage(ep: EpisodeReview) -> None:
+    """Detect leaked slow-news-day language in episode text.
+
+    Slow news episodes should be indistinguishable from normal episodes.
+    """
+    text = ep.tts_text or ep.digest_text
+    if not text:
+        return
+
+    leakage_patterns = [
+        (r"(?i)\bslow\s+news\s+day\b", "slow news day"),
+        (r"(?i)\bslow\s+news\s+edition\b", "slow news edition"),
+        (r"(?i)\blighter\s+(?:than\s+usual|news\s+day)\b", "lighter than usual"),
+        (r"(?i)\bfewer\s+stories?\s+than\s+usual\b", "fewer stories than usual"),
+        (r"(?i)\bnews\s+is\s+(?:slow|light|quiet)\b", "news is slow/light/quiet"),
+        (r"(?i)\bnot\s+(?:much|a\s+lot\s+of)\s+news\b", "not much news"),
+        (r"(?i)\bquiet\s+news\s+day\b", "quiet news day"),
+        (r"(?i)\[Slow\s+News", "[Slow News label"),
+    ]
+
+    for pattern, desc in leakage_patterns:
+        matches = re.findall(pattern, text)
+        if matches:
+            ep.issues.append(Issue(
+                ep.show_slug, ep.episode_num, "warning",
+                f"Slow news language leaked: '{desc}'",
+                f"Episode contains '{desc}' language ({len(matches)} occurrence(s)). "
+                f"Slow news episodes should not reveal they are slow news days.",
+                file_path=str(ep.tts_path or ep.digest_path or ""),
+            ))
+            break  # One is enough
+
+
+def check_intro_outro(ep: EpisodeReview) -> None:
+    """Verify that the podcast script has both an intro and closing section."""
+    text = ep.tts_text
+    if not text:
+        return
+
+    text_lower = text.lower()
+    words = text.split()
+    if len(words) < 50:
+        return  # Too short to meaningfully check
+
+    # Check that the script starts with host dialogue (not raw text)
+    first_lines = text_lower[:500]
+    has_host_prefix = bool(re.search(r"^(host|olya|patrick)\s*:", first_lines, re.MULTILINE))
+    if not has_host_prefix:
+        ep.issues.append(Issue(
+            ep.show_slug, ep.episode_num, "warning",
+            "Script may be missing host prefix",
+            "The first 500 characters don't contain a 'Host:' line prefix. "
+            "The script may not follow the expected dialogue format.",
+            file_path=str(ep.tts_path),
+        ))
+
+    # Check last 500 chars for closing indicators
+    last_text = text_lower[-500:]
+    closing_indicators = [
+        "tomorrow", "next episode", "next time", "see you",
+        "until then", "that's it for", "that's all for",
+        "thanks for listening", "thanks for tuning",
+        "до свидания", "до встречи", "до завтра",
+        "subscribe", "follow",
+    ]
+    has_closing = any(ind in last_text for ind in closing_indicators)
+    if not has_closing:
+        ep.issues.append(Issue(
+            ep.show_slug, ep.episode_num, "info",
+            "Script may be missing closing section",
+            "No closing indicators found in the last 500 characters. "
+            "Episode may end abruptly without a proper sign-off.",
+            file_path=str(ep.tts_path),
+        ))
+
+
+def check_pipeline_metrics(ep: EpisodeReview) -> None:
+    """Check pipeline performance metrics for anomalies."""
+    if not ep.metrics:
+        return
+
+    counters = ep.metrics.get("counters", {})
+    stages = ep.metrics.get("stages", [])
+
+    # Check for excessive LLM retries
+    retry_stages = [s for s in stages if "retry" in s.get("name", "").lower()]
+    if len(retry_stages) >= 3:
+        ep.issues.append(Issue(
+            ep.show_slug, ep.episode_num, "warning",
+            f"Excessive LLM retries ({len(retry_stages)} retry stages)",
+            f"The pipeline required {len(retry_stages)} retry stages, "
+            f"indicating the LLM struggled to produce acceptable output. "
+            f"This may indicate prompt issues or model degradation.",
+        ))
+
+    # Check total pipeline duration
+    total_duration = counters.get("total_duration_s")
+    if total_duration and total_duration > 2400:  # 40 minutes
+        ep.issues.append(Issue(
+            ep.show_slug, ep.episode_num, "warning",
+            f"Pipeline unusually slow ({total_duration:.0f}s)",
+            f"Total pipeline took {total_duration:.0f}s ({total_duration/60:.1f} min). "
+            f"Normal is under 30 minutes. Check for LLM timeouts or TTS issues.",
+        ))
+
+    # Check if slow_news_mode was active — informational
+    slow_news = counters.get("slow_news_mode")
+    if slow_news:
+        trigger = counters.get("slow_news_trigger", "unknown")
+        ep.issues.append(Issue(
+            ep.show_slug, ep.episode_num, "info",
+            f"Slow news mode active (trigger: {trigger})",
+            f"This episode was produced in slow news mode (trigger: {trigger}). "
+            f"Verify it sounds natural and doesn't reveal the slow news status.",
+        ))
+
+    # Check article count — too few may indicate feed issues
+    article_count = counters.get("article_count")
+    if article_count is None:
+        article_count = counters.get("articles_fetched")
+    if article_count is not None and article_count == 0:
+        ep.issues.append(Issue(
+            ep.show_slug, ep.episode_num, "warning",
+            "Zero articles fetched",
+            "The pipeline fetched zero articles. RSS feeds may be down "
+            "or the news sources may have changed their format.",
+        ))
+    elif article_count is not None and article_count <= 2:
+        ep.issues.append(Issue(
+            ep.show_slug, ep.episode_num, "info",
+            f"Very few articles fetched ({article_count})",
+            f"Only {article_count} article(s) were available. Content may be thin.",
+        ))
+
+
+def check_story_duplication(ep: EpisodeReview) -> None:
+    """Detect the same story being told twice within a single episode.
+
+    Uses proper-noun signal extraction to find non-adjacent paragraphs
+    covering the same topic.
+    """
+    text = ep.tts_text or ep.digest_text
+    if not text:
+        return
+
+    # Split into paragraph blocks (separated by blank lines or host prefixes)
+    blocks = re.split(r"\n\s*\n|\n(?=(?:Host|Olya|Patrick)\s*:)", text, flags=re.IGNORECASE)
+    blocks = [b.strip() for b in blocks if len(b.strip()) > 100]
+
+    if len(blocks) < 3:
+        return
+
+    # Extract proper noun signals from each block
+    def _extract_signals(block: str) -> set:
+        # Remove host prefixes
+        clean = re.sub(r"^(?:Host|Olya|Patrick)\s*:\s*", "", block, flags=re.IGNORECASE | re.MULTILINE)
+        # Find multi-word proper noun phrases (consecutive capitalized words)
+        phrases = set()
+        for m in re.finditer(r"\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)\b", clean):
+            phrase = m.group(1)
+            # Skip generic phrases
+            if phrase.lower() not in {"the united states", "new york", "first principles"}:
+                phrases.add(phrase.lower())
+        # Find individual proper nouns (single capitalized words, 4+ chars)
+        for m in re.finditer(r"\b([A-Z][a-z]{3,})\b", clean):
+            word = m.group(1).lower()
+            if word not in {"this", "that", "host", "today", "here", "well",
+                           "just", "first", "they", "their", "there", "these",
+                           "before", "after", "about", "also", "still", "really",
+                           "episode", "podcast", "next", "last", "meanwhile"}:
+                phrases.add(word)
+        return phrases
+
+    block_signals = [_extract_signals(b) for b in blocks]
+
+    # Compare non-adjacent blocks (skip intro [0] and outro [-1])
+    dup_pairs = 0
+    for i in range(1, len(blocks) - 1):
+        for j in range(i + 2, len(blocks) - 1):
+            if not block_signals[i] or not block_signals[j]:
+                continue
+            overlap = block_signals[i] & block_signals[j]
+            union = block_signals[i] | block_signals[j]
+            if len(overlap) >= 3 and len(overlap) / max(len(union), 1) >= 0.5:
+                dup_pairs += 1
+
+    if dup_pairs >= 2:
+        ep.issues.append(Issue(
+            ep.show_slug, ep.episode_num, "warning",
+            f"Possible story duplication ({dup_pairs} block pairs)",
+            f"Found {dup_pairs} pairs of non-adjacent paragraph blocks with "
+            f"high proper-noun overlap. The same story may be covered twice.",
+            file_path=str(ep.tts_path or ep.digest_path or ""),
+        ))
+
+
+# ---------------------------------------------------------------------------
 # AI-powered review (optional, uses Grok)
 # ---------------------------------------------------------------------------
 
@@ -676,12 +1023,13 @@ def create_github_issue(
     target_date: str,
     episodes: List[EpisodeReview],
     critical_only: bool = False,
+    missed_issues: Optional[List[Issue]] = None,
 ) -> Optional[str]:
     """Create a GitHub issue summarizing today's review.
 
     Returns the issue URL on success, None if no issues to report or gh fails.
     """
-    all_issues: List[Issue] = []
+    all_issues: List[Issue] = list(missed_issues or [])
     for ep in episodes:
         all_issues.extend(ep.issues)
 
@@ -702,12 +1050,31 @@ def create_github_issue(
     else:
         title = f"Daily Review {target_date}: {len(warnings)} warning(s) across {n_shows} show(s)"
 
+    # Separate missed-episode issues from per-episode issues
+    _missed = [i for i in all_issues if i.episode == 0 and "Missed episode" in i.title]
+    _missed_shows = {i.show for i in _missed}
+
     # Build issue body
     body_lines = [
         f"## Daily Episode Review — {target_date}\n",
         f"**Episodes reviewed:** {len(episodes)}",
-        f"**Issues found:** {len(critical)} critical, {len(warnings)} warning(s), {len(infos)} info\n",
     ]
+    if _missed:
+        body_lines.append(f"**Missed episodes:** {len(_missed)} show(s) failed to produce output")
+    body_lines.append(
+        f"**Issues found:** {len(critical)} critical, {len(warnings)} warning(s), {len(infos)} info\n"
+    )
+
+    # Missed episodes section (before the episodes table)
+    if _missed:
+        body_lines.append("### Missed Episodes\n")
+        body_lines.append(
+            "These shows were scheduled to produce an episode today but no output was found:\n"
+        )
+        for issue in _missed:
+            show_name = SHOW_REGISTRY.get(issue.show, {}).get("name", issue.show)
+            body_lines.append(f"- **{show_name}** (`{issue.show}`): {issue.detail}")
+        body_lines.append("")
 
     # Episodes summary table
     body_lines.append("### Episodes Reviewed\n")
@@ -725,11 +1092,12 @@ def create_github_issue(
             status = "OK"
         body_lines.append(f"| {ep.show_name} | Ep{ep.episode_num:03d} | {status} |")
 
-    # Critical issues
-    if critical:
+    # Critical issues (exclude missed episodes — they have their own section)
+    _ep_critical = [i for i in critical if i not in _missed]
+    if _ep_critical:
         body_lines.append("\n### Critical Issues\n")
         body_lines.append("These episodes may need to be removed from the RSS feed:\n")
-        for issue in critical:
+        for issue in _ep_critical:
             body_lines.append(f"- **[{issue.show} Ep{issue.episode:03d}]** {issue.title}")
             body_lines.append(f"  {issue.detail}")
 
@@ -807,17 +1175,22 @@ def create_github_issue(
 # Claude Code output format
 # ---------------------------------------------------------------------------
 
-def format_for_claude(target_date: str, episodes: List[EpisodeReview]) -> str:
+def format_for_claude(
+    target_date: str,
+    episodes: List[EpisodeReview],
+    missed_issues: Optional[List[Issue]] = None,
+) -> str:
     """Format review results as a prompt you can paste directly into Claude Code.
 
     Groups issues by type with file paths and actionable instructions.
     """
+    missed_issues = missed_issues or []
     all_issues: List[tuple[EpisodeReview, Issue]] = []
     for ep in episodes:
         for issue in ep.issues:
             all_issues.append((ep, issue))
 
-    if not all_issues:
+    if not all_issues and not missed_issues:
         return (
             f"# Episode Review — {target_date}\n\n"
             f"All {len(episodes)} episodes passed review. No issues found."
@@ -828,9 +1201,24 @@ def format_for_claude(target_date: str, episodes: List[EpisodeReview]) -> str:
 
     lines = [
         f"Fix the following issues found by the daily episode review for {target_date}.",
-        f"There are {len(critical)} critical and {len(warnings)} warning-level issues.",
+        f"There are {len(critical) + len(missed_issues)} critical and {len(warnings)} warning-level issues.",
         "",
     ]
+
+    # Missed episodes section
+    if missed_issues:
+        lines.append("## Missed Episodes")
+        lines.append("")
+        for issue in missed_issues:
+            show_name = SHOW_REGISTRY.get(issue.show, {}).get("name", issue.show)
+            lines.append(f"- **[CRITICAL] {show_name}** — {issue.detail}")
+        lines.append("")
+        lines.append(
+            "Investigate the CI workflow logs for the above shows to determine "
+            "why they failed. Check GitHub Actions run history, RSS feed health, "
+            "and news source availability."
+        )
+        lines.append("")
 
     # Group by issue type for efficient fixing
     issue_groups: dict[str, list[tuple[EpisodeReview, Issue]]] = {}
@@ -908,8 +1296,15 @@ def run_review(
     logger.info("=== Episode Review for %s ===", target_date.isoformat())
 
     episodes = discover_episodes(target_date, show_filter)
-    if not episodes:
-        logger.info("No episodes found for %s", target_date.isoformat())
+
+    # --- Missed episode detection ---
+    missed_issues = check_missed_episodes(target_date, episodes, show_filter)
+    if missed_issues:
+        for issue in missed_issues:
+            logger.error("[CRITICAL] %s: %s", issue.title, issue.detail)
+
+    if not episodes and not missed_issues:
+        logger.info("No episodes found for %s (and none expected)", target_date.isoformat())
         return 0
 
     logger.info("Found %d episode(s) to review", len(episodes))
@@ -926,6 +1321,11 @@ def run_review(
         check_leaked_artifacts(ep)
         check_required_sections(ep, info)
         check_repetition(ep)
+        check_transition_duplication(ep)
+        check_slow_news_leakage(ep)
+        check_intro_outro(ep)
+        check_pipeline_metrics(ep)
+        check_story_duplication(ep)
 
     # Cross-episode checks
     check_cross_episode_duplicates(episodes)
@@ -938,7 +1338,7 @@ def run_review(
         logger.info("Skipping AI review (no GROK_API_KEY)")
 
     # Report
-    total_critical = 0
+    total_critical = len(missed_issues)  # missed episodes are critical
     total_warnings = 0
     for ep in episodes:
         n_crit = sum(1 for i in ep.issues if i.severity == "critical")
@@ -964,7 +1364,7 @@ def run_review(
         print("\n" + "=" * 72)
         print("COPY BELOW THIS LINE INTO CLAUDE CODE")
         print("=" * 72 + "\n")
-        print(format_for_claude(target_date.isoformat(), episodes))
+        print(format_for_claude(target_date.isoformat(), episodes, missed_issues))
         print("\n" + "=" * 72)
         print("COPY ABOVE THIS LINE INTO CLAUDE CODE")
         print("=" * 72)
@@ -974,16 +1374,16 @@ def run_review(
         has_actionable = any(
             i.severity in ("critical", "warning")
             for ep in episodes for i in ep.issues
-        )
+        ) or bool(missed_issues)
         if has_actionable:
-            create_github_issue(target_date.isoformat(), episodes)
+            create_github_issue(target_date.isoformat(), episodes, missed_issues=missed_issues)
         else:
             logger.info("No actionable issues — skipping GitHub issue creation")
 
     # Summary
     logger.info(
-        "=== Review complete: %d episode(s), %d critical, %d warning(s) ===",
-        len(episodes), total_critical, total_warnings,
+        "=== Review complete: %d episode(s), %d missed, %d critical, %d warning(s) ===",
+        len(episodes), len(missed_issues), total_critical, total_warnings,
     )
 
     if total_critical > 0:
