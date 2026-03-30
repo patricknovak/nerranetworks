@@ -171,10 +171,23 @@ def chunk_text(text: str, max_chars: int = 5000) -> List[str]:
     return chunks
 
 
+class ElevenLabsClientError(Exception):
+    """Non-retryable ElevenLabs API error (4xx).
+
+    Raised for client errors (400, 403, 422 etc.) that will not resolve on
+    retry.  Carries the status code and response body for diagnostics.
+    """
+
+    def __init__(self, message: str, status_code: int, body: str = ""):
+        super().__init__(message)
+        self.status_code = status_code
+        self.body = body
+
+
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_exponential(multiplier=1, min=2, max=10),
-    retry=retry_if_exception_type((requests.RequestException, requests.Timeout)),
+    retry=retry_if_exception_type((requests.ConnectionError, requests.Timeout)),
 )
 def speak_chunk(
     text: str,
@@ -199,6 +212,9 @@ def speak_chunk(
     Parameters *previous_text* and *next_text* provide surrounding context
     so ElevenLabs can maintain natural prosody across chunk boundaries
     (the text is not spoken, only used for conditioning).
+
+    Only retries on transient errors (connection failures, timeouts).
+    Client errors (4xx) fail immediately with diagnostic info.
     """
     url = "/".join([ELEVENLABS_API_BASE, "text-to-speech", voice_id, "stream"])
 
@@ -226,10 +242,21 @@ def speak_chunk(
 
     with requests.post(url, json=payload, headers=headers, stream=True, timeout=timeout) as r:
         if r.status_code == 401:
-            raise requests.HTTPError(
+            raise ElevenLabsClientError(
                 "ElevenLabs returned 401 Unauthorized. "
                 "Verify ELEVENLABS_API_KEY and that the voice ID is accessible.",
-                response=r,
+                status_code=401,
+            )
+        if 400 <= r.status_code < 500:
+            body = r.text[:500]
+            logger.error(
+                "ElevenLabs returned %d for chunk (%d chars): %s",
+                r.status_code, len(text), body,
+            )
+            raise ElevenLabsClientError(
+                f"ElevenLabs returned {r.status_code}: {body}",
+                status_code=r.status_code,
+                body=body,
             )
         r.raise_for_status()
         with open(out_path, "wb") as f:
