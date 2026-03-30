@@ -843,7 +843,7 @@ def generate_digest_with_grok():
     """Generate digest with retry logic"""
     def _create_via_openai_compat():
         return client.chat.completions.create(
-            model="grok-4.20-beta-0309-non-reasoning",
+            model="grok-4.20-non-reasoning",
             messages=[{"role": "user", "content": X_PROMPT}],
             temperature=0.7,
             max_tokens=3500,  # Reduced from 4000 for faster generation
@@ -865,7 +865,7 @@ def generate_digest_with_grok():
             raise RuntimeError("Missing GROK_API_KEY (or XAI_API_KEY) for xAI SDK client.")
 
         xai_client = XAIClient(api_key=api_key, timeout=3600)
-        chat = xai_client.chat.create(model="grok-4.20-beta-0309-non-reasoning", store_messages=False)
+        chat = xai_client.chat.create(model="grok-4.20-non-reasoning", store_messages=False)
         chat.append(xai_user(X_PROMPT))
         return chat.sample()
 
@@ -1024,7 +1024,7 @@ Here is today's complete formatted digest. Use ONLY this content:
     )
     def generate_podcast_script_with_grok():
         response = client.chat.completions.create(
-            model="grok-4.20-beta-0309-non-reasoning",
+            model="grok-4.20-non-reasoning",
             messages=[{"role": "user", "content": POD_PROMPT}],
             temperature=0.7,
             max_tokens=3500  # Reduced from 4000 for faster generation
@@ -1116,7 +1116,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         }
         payload = {
             "text": text + "!",
-            "model_id": "eleven_turbo_v2_5",
+            "model_id": "eleven_v3",
             "voice_settings": {
                 "stability": 0.65,
                 "similarity_boost": 0.9,

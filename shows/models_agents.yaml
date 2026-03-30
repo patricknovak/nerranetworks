@@ -139,7 +139,6 @@ keywords:
 
 llm:
   provider: xai
-  model: grok-4.20-beta-0309-non-reasoning
   system_prompt_file: shows/prompts/models_agents_system.txt
   digest_prompt_file: shows/prompts/models_agents_digest.txt
   podcast_prompt_file: shows/prompts/models_agents_podcast.txt
@@ -150,7 +149,6 @@ llm:
 
 tts:
   voice_id: dTrBzPvD2GpAqkk1MUzA
-  model: eleven_turbo_v2_5
   stability: 0.65
   similarity_boost: 0.9
   style: 0.85

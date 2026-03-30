@@ -47,7 +47,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--nn-purple) 15%, transparent), transparent 70%);
+            background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--nn-accent) 15%, transparent), transparent 70%);
             pointer-events: none;
         }
         .blog-idx-hero-inner {
@@ -75,9 +75,9 @@
             gap: var(--sp-2);
             padding: var(--sp-2) var(--sp-5);
             border-radius: 100px;
-            background: color-mix(in srgb, var(--nn-purple) 12%, transparent);
-            border: 1px solid color-mix(in srgb, var(--nn-purple) 30%, transparent);
-            color: var(--nn-purple);
+            background: color-mix(in srgb, var(--nn-accent) 12%, transparent);
+            border: 1px solid color-mix(in srgb, var(--nn-accent) 30%, transparent);
+            color: var(--nn-accent);
             font-family: var(--font-ui);
             font-size: 0.85rem;
             font-weight: 500;
@@ -85,8 +85,8 @@
             transition: all var(--duration) var(--ease);
         }
         .blog-rss-btn:hover {
-            background: color-mix(in srgb, var(--nn-purple) 20%, transparent);
-            border-color: var(--nn-purple);
+            background: color-mix(in srgb, var(--nn-accent) 20%, transparent);
+            border-color: var(--nn-accent);
         }
 
         /* Show filter bar */
@@ -112,13 +112,13 @@
             transition: all var(--duration) var(--ease);
         }
         .blog-filter-btn:hover {
-            border-color: var(--nn-purple);
+            border-color: var(--nn-accent);
             color: var(--nn-white);
         }
         .blog-filter-btn.active {
-            background: color-mix(in srgb, var(--nn-purple) 15%, transparent);
-            border-color: var(--nn-purple);
-            color: var(--nn-purple);
+            background: color-mix(in srgb, var(--nn-accent) 15%, transparent);
+            border-color: var(--nn-accent);
+            color: var(--nn-accent);
         }
     </style>
 
@@ -401,27 +401,27 @@
     <!-- Show filter -->
     
     <div class="blog-filter-bar">
-        <button class="blog-filter-btn active" data-filter="all" aria-pressed="true">All Shows</button>
+        <button class="blog-filter-btn active" data-filter="all">All Shows</button>
         
-        <button class="blog-filter-btn" data-filter="env_intel" aria-pressed="false" style="--filter-color: #1B5E20">Environmental Intelligence</button>
+        <button class="blog-filter-btn" data-filter="env_intel" style="--filter-color: #1B5E20">Environmental Intelligence</button>
         
-        <button class="blog-filter-btn" data-filter="fascinating_frontiers" aria-pressed="false" style="--filter-color: #7C5CFF">Fascinating Frontiers</button>
+        <button class="blog-filter-btn" data-filter="fascinating_frontiers" style="--filter-color: #7C5CFF">Fascinating Frontiers</button>
         
-        <button class="blog-filter-btn" data-filter="models_agents" aria-pressed="false" style="--filter-color: #8B5CF6">Models & Agents</button>
+        <button class="blog-filter-btn" data-filter="models_agents" style="--filter-color: #8B5CF6">Models & Agents</button>
         
-        <button class="blog-filter-btn" data-filter="models_agents_beginners" aria-pressed="false" style="--filter-color: #F59E0B">Models & Agents for Beginners</button>
+        <button class="blog-filter-btn" data-filter="models_agents_beginners" style="--filter-color: #F59E0B">Models & Agents for Beginners</button>
         
-        <button class="blog-filter-btn" data-filter="modern_investing" aria-pressed="false" style="--filter-color: #059669">Modern Investing Techniques</button>
+        <button class="blog-filter-btn" data-filter="modern_investing" style="--filter-color: #059669">Modern Investing Techniques</button>
         
-        <button class="blog-filter-btn" data-filter="omni_view" aria-pressed="false" style="--filter-color: #0B6FD6">Omni View</button>
+        <button class="blog-filter-btn" data-filter="omni_view" style="--filter-color: #0B6FD6">Omni View</button>
         
-        <button class="blog-filter-btn" data-filter="planetterrian" aria-pressed="false" style="--filter-color: #018DB1">Planetterrian Daily</button>
+        <button class="blog-filter-btn" data-filter="planetterrian" style="--filter-color: #018DB1">Planetterrian Daily</button>
         
-        <button class="blog-filter-btn" data-filter="tesla" aria-pressed="false" style="--filter-color: #E31937">Tesla Shorts Time</button>
+        <button class="blog-filter-btn" data-filter="tesla" style="--filter-color: #E31937">Tesla Shorts Time</button>
         
-        <button class="blog-filter-btn" data-filter="privet_russian" aria-pressed="false" style="--filter-color: #6366F1">Привет, Русский!</button>
+        <button class="blog-filter-btn" data-filter="privet_russian" style="--filter-color: #6366F1">Привет, Русский!</button>
         
-        <button class="blog-filter-btn" data-filter="finansy_prosto" aria-pressed="false" style="--filter-color: #EC4899">Финансы Просто</button>
+        <button class="blog-filter-btn" data-filter="finansy_prosto" style="--filter-color: #EC4899">Финансы Просто</button>
         
     </div>
     
@@ -429,6 +429,89 @@
     <!-- Posts -->
     
     <div class="blog-idx-grid" id="blog-grid">
+        
+        <a href="fascinating_frontiers/ep047.html"
+           class="blog-idx-card"
+           data-show="fascinating_frontiers"
+           style="--card-show-color: #7C5CFF">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #7C5CFF 15%, transparent); color: #7C5CFF">Fascinating Frontiers</span>
+                <span class="blog-idx-date">March 30, 2026</span>
+                <span class="blog-idx-ep">Ep 47</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Fascinating Frontiers</h2>
+            
+            <p>SpaceX is preparing to loft 119 small satellites in one rideshare launch from California this morning.</p>
+            
+            <span class="blog-idx-read-more" style="color: #7C5CFF">Read article &rarr;</span>
+        </a>
+        
+        <a href="models_agents_beginners/ep013.html"
+           class="blog-idx-card"
+           data-show="models_agents_beginners"
+           style="--card-show-color: #F59E0B">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #F59E0B 15%, transparent); color: #F59E0B">Models & Agents for Beginners</span>
+                <span class="blog-idx-date">March 30, 2026</span>
+                <span class="blog-idx-ep">Ep 13</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Models & Agents for Beginners</h2>
+            
+            <p>Bluesky just dropped an AI that builds your perfect social feed from a simple sentence — no coding needed.</p>
+            
+            <span class="blog-idx-read-more" style="color: #F59E0B">Read article &rarr;</span>
+        </a>
+        
+        <a href="finansy_prosto/ep016.html"
+           class="blog-idx-card"
+           data-show="finansy_prosto"
+           style="--card-show-color: #EC4899">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #EC4899 15%, transparent); color: #EC4899">Финансы Просто</span>
+                <span class="blog-idx-date">March 30, 2026</span>
+                <span class="blog-idx-ep">Ep 16</span>
+                <span class="blog-idx-reading">4 min</span>
+            </div>
+            <h2>Финансы Просто</h2>
+            
+            <p>Ontario расширяет налоговую скидку на новые дома — что это значит для рынка недвижимости</p>
+            
+            <span class="blog-idx-read-more" style="color: #EC4899">Read article &rarr;</span>
+        </a>
+        
+        <a href="privet_russian/ep008.html"
+           class="blog-idx-card"
+           data-show="privet_russian"
+           style="--card-show-color: #6366F1">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #6366F1 15%, transparent); color: #6366F1">Привет, Русский!</span>
+                <span class="blog-idx-date">March 30, 2026</span>
+                <span class="blog-idx-ep">Ep 8</span>
+                <span class="blog-idx-reading">3 min</span>
+            </div>
+            <h2>Привет, Русский!</h2>
+            
+            <span class="blog-idx-read-more" style="color: #6366F1">Read article &rarr;</span>
+        </a>
+        
+        <a href="tesla/ep419.html"
+           class="blog-idx-card"
+           data-show="tesla"
+           style="--card-show-color: #E31937">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #E31937 15%, transparent); color: #E31937">Tesla Shorts Time</span>
+                <span class="blog-idx-date">March 29, 2026</span>
+                <span class="blog-idx-ep">Ep 419</span>
+                <span class="blog-idx-reading">7 min</span>
+            </div>
+            <h2>Tesla Shorts Time</h2>
+            
+            <p>Tesla has started delivering the refreshed Model Y Performance and RWD in British Columbia after weeks of shifting timelines.</p>
+            
+            <span class="blog-idx-read-more" style="color: #E31937">Read article &rarr;</span>
+        </a>
         
         <a href="tesla/ep418.html"
            class="blog-idx-card"
@@ -445,23 +528,6 @@
             <p>A Tesla on FSD Supervised avoided a potential collision with a school bus that nearly ran a red light, with the viral video showing the system braking sharply t&hellip;</p>
             
             <span class="blog-idx-read-more" style="color: #E31937">Read article &rarr;</span>
-        </a>
-        
-        <a href="fascinating_frontiers/ep046.html"
-           class="blog-idx-card"
-           data-show="fascinating_frontiers"
-           style="--card-show-color: #7C5CFF">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #7C5CFF 15%, transparent); color: #7C5CFF">Fascinating Frontiers</span>
-                <span class="blog-idx-date">March 28, 2026</span>
-                <span class="blog-idx-ep">Ep 46</span>
-                <span class="blog-idx-reading">5 min</span>
-            </div>
-            <h2>Mars-like exoplanets orbiting M-dwarfs could lose their atmospheres in just mill...</h2>
-            
-            <p>Mars-like exoplanets orbiting M-dwarfs could lose their atmospheres in just millions of years.</p>
-            
-            <span class="blog-idx-read-more" style="color: #7C5CFF">Read article &rarr;</span>
         </a>
         
         <a href="models_agents_beginners/ep012.html"
@@ -493,8 +559,6 @@
             </div>
             <h2>Финансы Просто</h2>
             
-            <p>Заголовок: Ontario расширяет возврат HST на новые дома — что это значит для покупательниц в BC</p>
-            
             <span class="blog-idx-read-more" style="color: #EC4899">Read article &rarr;</span>
         </a>
         
@@ -509,8 +573,6 @@
                 <span class="blog-idx-reading">4 min</span>
             </div>
             <h2>Привет, Русский!</h2>
-            
-            <p>Weather (Погода)</p>
             
             <span class="blog-idx-read-more" style="color: #6366F1">Read article &rarr;</span>
         </a>
@@ -549,40 +611,6 @@
             <span class="blog-idx-read-more" style="color: #0B6FD6">Read article &rarr;</span>
         </a>
         
-        <a href="planetterrian/ep036.html"
-           class="blog-idx-card"
-           data-show="planetterrian"
-           style="--card-show-color: #018DB1">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #018DB1 15%, transparent); color: #018DB1">Planetterrian Daily</span>
-                <span class="blog-idx-date">March 27, 2026</span>
-                <span class="blog-idx-ep">Ep 36</span>
-                <span class="blog-idx-reading">4 min</span>
-            </div>
-            <h2>Excess belly fat combined with low muscle mass raises death risk by 83% through ...</h2>
-            
-            <p>Excess belly fat combined with low muscle mass raises death risk by 83% through accelerated inflammation and muscle loss.</p>
-            
-            <span class="blog-idx-read-more" style="color: #018DB1">Read article &rarr;</span>
-        </a>
-        
-        <a href="env_intel/ep016.html"
-           class="blog-idx-card"
-           data-show="env_intel"
-           style="--card-show-color: #1B5E20">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #1B5E20 15%, transparent); color: #1B5E20">Environmental Intelligence</span>
-                <span class="blog-idx-date">March 27, 2026</span>
-                <span class="blog-idx-ep">Ep 16</span>
-                <span class="blog-idx-reading">5 min</span>
-            </div>
-            <h2>Alberta First Nations and farmers demand full federal Impact Assessment for carb...</h2>
-            
-            <p>Alberta First Nations and farmers demand full federal Impact Assessment for carbon capture pipeline project under IAA.</p>
-            
-            <span class="blog-idx-read-more" style="color: #1B5E20">Read article &rarr;</span>
-        </a>
-        
         <a href="models_agents/ep021.html"
            class="blog-idx-card"
            data-show="models_agents"
@@ -598,23 +626,6 @@
             <p>New arXiv papers expose critical flaws in how we evaluate depression-detection models, LLM pruning, and verbalized confidence.</p>
             
             <span class="blog-idx-read-more" style="color: #8B5CF6">Read article &rarr;</span>
-        </a>
-        
-        <a href="models_agents_beginners/ep011.html"
-           class="blog-idx-card"
-           data-show="models_agents_beginners"
-           style="--card-show-color: #F59E0B">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #F59E0B 15%, transparent); color: #F59E0B">Models & Agents for Beginners</span>
-                <span class="blog-idx-date">March 27, 2026</span>
-                <span class="blog-idx-ep">Ep 11</span>
-                <span class="blog-idx-reading">6 min</span>
-            </div>
-            <h2>Anthropic just confirmed their leaked model is a huge leap in AI reasoning — and...</h2>
-            
-            <p>Anthropic just confirmed their leaked model is a huge leap in AI reasoning — and it happened because of a simple security slip-up.</p>
-            
-            <span class="blog-idx-read-more" style="color: #F59E0B">Read article &rarr;</span>
         </a>
         
         <a href="modern_investing/ep007.html"
@@ -651,23 +662,6 @@
             <span class="blog-idx-read-more" style="color: #0B6FD6">Read article &rarr;</span>
         </a>
         
-        <a href="fascinating_frontiers/ep045.html"
-           class="blog-idx-card"
-           data-show="fascinating_frontiers"
-           style="--card-show-color: #7C5CFF">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #7C5CFF 15%, transparent); color: #7C5CFF">Fascinating Frontiers</span>
-                <span class="blog-idx-date">March 26, 2026</span>
-                <span class="blog-idx-ep">Ep 45</span>
-                <span class="blog-idx-reading">5 min</span>
-            </div>
-            <h2>Hubble has caught a tiny comet slowing its spin and then reversing direction ent...</h2>
-            
-            <p>Hubble has caught a tiny comet slowing its spin and then reversing direction entirely.</p>
-            
-            <span class="blog-idx-read-more" style="color: #7C5CFF">Read article &rarr;</span>
-        </a>
-        
         <a href="planetterrian/ep035.html"
            class="blog-idx-card"
            data-show="planetterrian"
@@ -702,23 +696,6 @@
             <span class="blog-idx-read-more" style="color: #1B5E20">Read article &rarr;</span>
         </a>
         
-        <a href="finansy_prosto/ep014.html"
-           class="blog-idx-card"
-           data-show="finansy_prosto"
-           style="--card-show-color: #EC4899">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #EC4899 15%, transparent); color: #EC4899">Финансы Просто</span>
-                <span class="blog-idx-date">March 26, 2026</span>
-                <span class="blog-idx-ep">Ep 14</span>
-                <span class="blog-idx-reading">1 min</span>
-            </div>
-            <h2>К сожалению, я не могу создать этот выпуск.</h2>
-            
-            <p>К сожалению, я не могу создать этот выпуск.</p>
-            
-            <span class="blog-idx-read-more" style="color: #EC4899">Read article &rarr;</span>
-        </a>
-        
         <a href="privet_russian/ep005.html"
            class="blog-idx-card"
            data-show="privet_russian"
@@ -730,8 +707,6 @@
                 <span class="blog-idx-reading">4 min</span>
             </div>
             <h2>Привет, Русский!</h2>
-            
-            <p>Technology (Технологии)</p>
             
             <span class="blog-idx-read-more" style="color: #6366F1">Read article &rarr;</span>
         </a>
@@ -747,8 +722,6 @@
                 <span class="blog-idx-reading">4 min</span>
             </div>
             <h2>Привет, Русский!</h2>
-            
-            <p>Travel (Путешествие)</p>
             
             <span class="blog-idx-read-more" style="color: #6366F1">Read article &rarr;</span>
         </a>
@@ -821,23 +794,6 @@
             <span class="blog-idx-read-more" style="color: #0B6FD6">Read article &rarr;</span>
         </a>
         
-        <a href="env_intel/ep014.html"
-           class="blog-idx-card"
-           data-show="env_intel"
-           style="--card-show-color: #1B5E20">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #1B5E20 15%, transparent); color: #1B5E20">Environmental Intelligence</span>
-                <span class="blog-idx-date">March 25, 2026</span>
-                <span class="blog-idx-ep">Ep 14</span>
-                <span class="blog-idx-reading">6 min</span>
-            </div>
-            <h2>Ontario's absence from federal Ring of Fire impact assessment creates immediate ...</h2>
-            
-            <p>Ontario's absence from federal Ring of Fire impact assessment creates immediate regulatory uncertainty for mining proponents in northern Ontario.</p>
-            
-            <span class="blog-idx-read-more" style="color: #1B5E20">Read article &rarr;</span>
-        </a>
-        
         <a href="modern_investing/ep004.html"
            class="blog-idx-card"
            data-show="modern_investing"
@@ -872,23 +828,6 @@
             <span class="blog-idx-read-more" style="color: #E31937">Read article &rarr;</span>
         </a>
         
-        <a href="fascinating_frontiers/ep044.html"
-           class="blog-idx-card"
-           data-show="fascinating_frontiers"
-           style="--card-show-color: #7C5CFF">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #7C5CFF 15%, transparent); color: #7C5CFF">Fascinating Frontiers</span>
-                <span class="blog-idx-date">March 24, 2026</span>
-                <span class="blog-idx-ep">Ep 44</span>
-                <span class="blog-idx-reading">5 min</span>
-            </div>
-            <h2>Giant craters on metallic asteroid Psyche could finally confirm if it's the expo...</h2>
-            
-            <p>Giant craters on metallic asteroid Psyche could finally confirm if it's the exposed core of a destroyed protoplanet.</p>
-            
-            <span class="blog-idx-read-more" style="color: #7C5CFF">Read article &rarr;</span>
-        </a>
-        
         <a href="finansy_prosto/ep013.html"
            class="blog-idx-card"
            data-show="finansy_prosto"
@@ -917,8 +856,6 @@
                 <span class="blog-idx-reading">4 min</span>
             </div>
             <h2>Привет, Русский!</h2>
-            
-            <p>Animals (Животные)</p>
             
             <span class="blog-idx-read-more" style="color: #6366F1">Read article &rarr;</span>
         </a>
@@ -955,23 +892,6 @@
             <p>Escalating Iran conflict triggers global energy crisis warnings, market turmoil, and emergency government meetings.</p>
             
             <span class="blog-idx-read-more" style="color: #0B6FD6">Read article &rarr;</span>
-        </a>
-        
-        <a href="models_agents/ep019.html"
-           class="blog-idx-card"
-           data-show="models_agents"
-           style="--card-show-color: #8B5CF6">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #8B5CF6 15%, transparent); color: #8B5CF6">Models & Agents</span>
-                <span class="blog-idx-date">March 23, 2026</span>
-                <span class="blog-idx-ep">Ep 19</span>
-                <span class="blog-idx-reading">5 min</span>
-            </div>
-            <h2>TrustFlow introduces topic-aware vector reputation for multi-agent systems, repl...</h2>
-            
-            <p>TrustFlow introduces topic-aware vector reputation for multi-agent systems, replacing scalar scores with queryable multi-dimensional vectors.</p>
-            
-            <span class="blog-idx-read-more" style="color: #8B5CF6">Read article &rarr;</span>
         </a>
         
         <a href="models_agents/ep020.html"
@@ -1076,40 +996,6 @@
             <span class="blog-idx-read-more" style="color: #F59E0B">Read article &rarr;</span>
         </a>
         
-        <a href="finansy_prosto/ep012.html"
-           class="blog-idx-card"
-           data-show="finansy_prosto"
-           style="--card-show-color: #EC4899">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #EC4899 15%, transparent); color: #EC4899">Финансы Просто</span>
-                <span class="blog-idx-date">March 22, 2026</span>
-                <span class="blog-idx-ep">Ep 12</span>
-                <span class="blog-idx-reading">4 min</span>
-            </div>
-            <h2>Финансы Просто</h2>
-            
-            <p>Как открыть TFSA с нуля и пользоваться им с максимальной выгодой</p>
-            
-            <span class="blog-idx-read-more" style="color: #EC4899">Read article &rarr;</span>
-        </a>
-        
-        <a href="omni_view/ep020.html"
-           class="blog-idx-card"
-           data-show="omni_view"
-           style="--card-show-color: #0B6FD6">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #0B6FD6 15%, transparent); color: #0B6FD6">Omni View</span>
-                <span class="blog-idx-date">March 21, 2026</span>
-                <span class="blog-idx-ep">Ep 20</span>
-                <span class="blog-idx-reading">12 min</span>
-            </div>
-            <h2>Trump considers winding down Iran war while easing sanctions on Iranian oil as I...</h2>
-            
-            <p>Trump considers winding down Iran war while easing sanctions on Iranian oil as Israel strikes Tehran targets and global energy prices surge.</p>
-            
-            <span class="blog-idx-read-more" style="color: #0B6FD6">Read article &rarr;</span>
-        </a>
-        
         <a href="planetterrian/ep034.html"
            class="blog-idx-card"
            data-show="planetterrian"
@@ -1140,23 +1026,6 @@
             <h2>Omni View</h2>
             
             <p>Oil prices fall as U.S. considers releasing sanctioned Iranian crude while Israel-Iran conflict disrupts global energy markets.</p>
-            
-            <span class="blog-idx-read-more" style="color: #0B6FD6">Read article &rarr;</span>
-        </a>
-        
-        <a href="omni_view/ep019.html"
-           class="blog-idx-card"
-           data-show="omni_view"
-           style="--card-show-color: #0B6FD6">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #0B6FD6 15%, transparent); color: #0B6FD6">Omni View</span>
-                <span class="blog-idx-date">March 20, 2026</span>
-                <span class="blog-idx-ep">Ep 19</span>
-                <span class="blog-idx-reading">5 min</span>
-            </div>
-            <h2>OMNI VIEW</h2>
-            
-            <p>Special Educational Episode</p>
             
             <span class="blog-idx-read-more" style="color: #0B6FD6">Read article &rarr;</span>
         </a>
@@ -1229,23 +1098,6 @@
             <span class="blog-idx-read-more" style="color: #018DB1">Read article &rarr;</span>
         </a>
         
-        <a href="planetterrian/ep033.html"
-           class="blog-idx-card"
-           data-show="planetterrian"
-           style="--card-show-color: #018DB1">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #018DB1 15%, transparent); color: #018DB1">Planetterrian Daily</span>
-                <span class="blog-idx-date">March 20, 2026</span>
-                <span class="blog-idx-ep">Ep 33</span>
-                <span class="blog-idx-reading">4 min</span>
-            </div>
-            <h2>South African raptors have declined sharply over 16 years, with half the studied...</h2>
-            
-            <p>South African raptors have declined sharply over 16 years, with half the studied species dropping more than 50%.</p>
-            
-            <span class="blog-idx-read-more" style="color: #018DB1">Read article &rarr;</span>
-        </a>
-        
         <a href="env_intel/ep012.html"
            class="blog-idx-card"
            data-show="env_intel"
@@ -1256,96 +1108,11 @@
                 <span class="blog-idx-ep">Ep 12</span>
                 <span class="blog-idx-reading">6 min</span>
             </div>
-            <h2>Aamjiwnaang First Nation demands full spill details and remediation plan from Su...</h2>
+            <h2>Environmental Intelligence</h2>
             
             <p>Aamjiwnaang First Nation demands full spill details and remediation plan from Suncor following discharge to St. Clair River.</p>
             
             <span class="blog-idx-read-more" style="color: #1B5E20">Read article &rarr;</span>
-        </a>
-        
-        <a href="env_intel/ep013.html"
-           class="blog-idx-card"
-           data-show="env_intel"
-           style="--card-show-color: #1B5E20">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #1B5E20 15%, transparent); color: #1B5E20">Environmental Intelligence</span>
-                <span class="blog-idx-date">March 20, 2026</span>
-                <span class="blog-idx-ep">Ep 13</span>
-                <span class="blog-idx-reading">4 min</span>
-            </div>
-            <h2>No qualifying Canadian regulatory, enforcement, or contaminated-sites developmen...</h2>
-            
-            <p>No qualifying Canadian regulatory, enforcement, or contaminated-sites developments in today's feeds; focus shifts to practice intelligence and cross-border meth&hellip;</p>
-            
-            <span class="blog-idx-read-more" style="color: #1B5E20">Read article &rarr;</span>
-        </a>
-        
-        <a href="models_agents/ep018.html"
-           class="blog-idx-card"
-           data-show="models_agents"
-           style="--card-show-color: #8B5CF6">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #8B5CF6 15%, transparent); color: #8B5CF6">Models & Agents</span>
-                <span class="blog-idx-date">March 20, 2026</span>
-                <span class="blog-idx-ep">Ep 18</span>
-                <span class="blog-idx-reading">5 min</span>
-            </div>
-            <h2>LlamaIndex drops LiteParse, a spatial PDF parser built specifically for agentic ...</h2>
-            
-            <p>LlamaIndex drops LiteParse, a spatial PDF parser built specifically for agentic RAG workflows.</p>
-            
-            <span class="blog-idx-read-more" style="color: #8B5CF6">Read article &rarr;</span>
-        </a>
-        
-        <a href="models_agents_beginners/ep008.html"
-           class="blog-idx-card"
-           data-show="models_agents_beginners"
-           style="--card-show-color: #F59E0B">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #F59E0B 15%, transparent); color: #F59E0B">Models & Agents for Beginners</span>
-                <span class="blog-idx-date">March 20, 2026</span>
-                <span class="blog-idx-ep">Ep 8</span>
-                <span class="blog-idx-reading">6 min</span>
-            </div>
-            <h2>Google just opened its powerful Colab computers so any AI agent can use them wit...</h2>
-            
-            <p>Google just opened its powerful Colab computers so any AI agent can use them with free GPUs.</p>
-            
-            <span class="blog-idx-read-more" style="color: #F59E0B">Read article &rarr;</span>
-        </a>
-        
-        <a href="models_agents_beginners/ep009.html"
-           class="blog-idx-card"
-           data-show="models_agents_beginners"
-           style="--card-show-color: #F59E0B">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #F59E0B 15%, transparent); color: #F59E0B">Models & Agents for Beginners</span>
-                <span class="blog-idx-date">March 20, 2026</span>
-                <span class="blog-idx-ep">Ep 9</span>
-                <span class="blog-idx-reading">6 min</span>
-            </div>
-            <h2>NVIDIA's new DLSS 5 is making gamers furious — here's why this AI upscaling chan...</h2>
-            
-            <p>NVIDIA's new DLSS 5 is making gamers furious — here's why this AI upscaling change actually matters.</p>
-            
-            <span class="blog-idx-read-more" style="color: #F59E0B">Read article &rarr;</span>
-        </a>
-        
-        <a href="finansy_prosto/ep008.html"
-           class="blog-idx-card"
-           data-show="finansy_prosto"
-           style="--card-show-color: #EC4899">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #EC4899 15%, transparent); color: #EC4899">Финансы Просто</span>
-                <span class="blog-idx-date">March 20, 2026</span>
-                <span class="blog-idx-ep">Ep 8</span>
-                <span class="blog-idx-reading">4 min</span>
-            </div>
-            <h2>Финансы Просто</h2>
-            
-            <p>Как открыть и использовать TFSA — пошаговое руководство от нуля</p>
-            
-            <span class="blog-idx-read-more" style="color: #EC4899">Read article &rarr;</span>
         </a>
         
         <a href="finansy_prosto/ep009.html"
@@ -1382,23 +1149,6 @@
             <span class="blog-idx-read-more" style="color: #EC4899">Read article &rarr;</span>
         </a>
         
-        <a href="finansy_prosto/ep011.html"
-           class="blog-idx-card"
-           data-show="finansy_prosto"
-           style="--card-show-color: #EC4899">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #EC4899 15%, transparent); color: #EC4899">Финансы Просто</span>
-                <span class="blog-idx-date">March 20, 2026</span>
-                <span class="blog-idx-ep">Ep 11</span>
-                <span class="blog-idx-reading">4 min</span>
-            </div>
-            <h2>Финансы Просто</h2>
-            
-            <p>Как открыть TFSA с нуля: пошаговый гид для каждой женщины в Ванкувере</p>
-            
-            <span class="blog-idx-read-more" style="color: #EC4899">Read article &rarr;</span>
-        </a>
-        
         <a href="privet_russian/ep002.html"
            class="blog-idx-card"
            data-show="privet_russian"
@@ -1410,8 +1160,6 @@
                 <span class="blog-idx-reading">4 min</span>
             </div>
             <h2>Привет, Русский!</h2>
-            
-            <p>Animals (Животные)</p>
             
             <span class="blog-idx-read-more" style="color: #6366F1">Read article &rarr;</span>
         </a>
@@ -1428,26 +1176,7 @@
             </div>
             <h2>Привет, Русский!</h2>
             
-            <p>Space (Космос)</p>
-            
             <span class="blog-idx-read-more" style="color: #6366F1">Read article &rarr;</span>
-        </a>
-        
-        <a href="modern_investing/ep001.html"
-           class="blog-idx-card"
-           data-show="modern_investing"
-           style="--card-show-color: #059669">
-            <div class="blog-idx-card-top">
-                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #059669 15%, transparent); color: #059669">Modern Investing Techniques</span>
-                <span class="blog-idx-date">March 20, 2026</span>
-                <span class="blog-idx-ep">Ep 1</span>
-                <span class="blog-idx-reading">6 min</span>
-            </div>
-            <h2>Modern Investing Techniques – Special Educational Episode</h2>
-            
-            <p>Modern Investing Techniques – Special Educational Episode</p>
-            
-            <span class="blog-idx-read-more" style="color: #059669">Read article &rarr;</span>
         </a>
         
         <a href="tesla/ep411.html"
@@ -1682,8 +1411,6 @@
                 <span class="blog-idx-reading">3 min</span>
             </div>
             <h2>Привет, Русский! — Episode Plan</h2>
-            
-            <p>Winter Sports</p>
             
             <span class="blog-idx-read-more" style="color: #6366F1">Read article &rarr;</span>
         </a>
@@ -2793,6 +2520,404 @@
             <span class="blog-idx-read-more" style="color: #8B5CF6">Read article &rarr;</span>
         </a>
         
+        <a href="omni_view/ep019.html"
+           class="blog-idx-card"
+           data-show="omni_view"
+           style="--card-show-color: #0B6FD6">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #0B6FD6 15%, transparent); color: #0B6FD6">Omni View</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 19</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>OMNI VIEW</h2>
+            
+            <span class="blog-idx-read-more" style="color: #0B6FD6">Read article &rarr;</span>
+        </a>
+        
+        <a href="omni_view/ep020.html"
+           class="blog-idx-card"
+           data-show="omni_view"
+           style="--card-show-color: #0B6FD6">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #0B6FD6 15%, transparent); color: #0B6FD6">Omni View</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 20</span>
+                <span class="blog-idx-reading">12 min</span>
+            </div>
+            <h2>Omni View</h2>
+            
+            <p>Trump considers winding down Iran war while easing sanctions on Iranian oil as Israel strikes Tehran targets and global energy prices surge.</p>
+            
+            <span class="blog-idx-read-more" style="color: #0B6FD6">Read article &rarr;</span>
+        </a>
+        
+        <a href="omni_view/ep025.html"
+           class="blog-idx-card"
+           data-show="omni_view"
+           style="--card-show-color: #0B6FD6">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #0B6FD6 15%, transparent); color: #0B6FD6">Omni View</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 25</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>OMNI VIEW SPECIAL EDUCATIONAL EPISODE</h2>
+            
+            <span class="blog-idx-read-more" style="color: #0B6FD6">Read article &rarr;</span>
+        </a>
+        
+        <a href="fascinating_frontiers/ep044.html"
+           class="blog-idx-card"
+           data-show="fascinating_frontiers"
+           style="--card-show-color: #7C5CFF">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #7C5CFF 15%, transparent); color: #7C5CFF">Fascinating Frontiers</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 44</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Fascinating Frontiers</h2>
+            
+            <p>Giant craters on metallic asteroid Psyche could finally confirm if it's the exposed core of a destroyed protoplanet.</p>
+            
+            <span class="blog-idx-read-more" style="color: #7C5CFF">Read article &rarr;</span>
+        </a>
+        
+        <a href="fascinating_frontiers/ep045.html"
+           class="blog-idx-card"
+           data-show="fascinating_frontiers"
+           style="--card-show-color: #7C5CFF">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #7C5CFF 15%, transparent); color: #7C5CFF">Fascinating Frontiers</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 45</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Fascinating Frontiers</h2>
+            
+            <p>Hubble has caught a tiny comet slowing its spin and then reversing direction entirely.</p>
+            
+            <span class="blog-idx-read-more" style="color: #7C5CFF">Read article &rarr;</span>
+        </a>
+        
+        <a href="fascinating_frontiers/ep046.html"
+           class="blog-idx-card"
+           data-show="fascinating_frontiers"
+           style="--card-show-color: #7C5CFF">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #7C5CFF 15%, transparent); color: #7C5CFF">Fascinating Frontiers</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 46</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Fascinating Frontiers</h2>
+            
+            <p>Mars-like exoplanets orbiting M-dwarfs could lose their atmospheres in just millions of years.</p>
+            
+            <span class="blog-idx-read-more" style="color: #7C5CFF">Read article &rarr;</span>
+        </a>
+        
+        <a href="planetterrian/ep033.html"
+           class="blog-idx-card"
+           data-show="planetterrian"
+           style="--card-show-color: #018DB1">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #018DB1 15%, transparent); color: #018DB1">Planetterrian Daily</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 33</span>
+                <span class="blog-idx-reading">4 min</span>
+            </div>
+            <h2>Planetterrian Daily</h2>
+            
+            <p>South African raptors have declined sharply over 16 years, with half the studied species dropping more than 50%.</p>
+            
+            <span class="blog-idx-read-more" style="color: #018DB1">Read article &rarr;</span>
+        </a>
+        
+        <a href="planetterrian/ep036.html"
+           class="blog-idx-card"
+           data-show="planetterrian"
+           style="--card-show-color: #018DB1">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #018DB1 15%, transparent); color: #018DB1">Planetterrian Daily</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 36</span>
+                <span class="blog-idx-reading">4 min</span>
+            </div>
+            <h2>Planetterrian Daily</h2>
+            
+            <p>Excess belly fat combined with low muscle mass raises death risk by 83% through accelerated inflammation and muscle loss.</p>
+            
+            <span class="blog-idx-read-more" style="color: #018DB1">Read article &rarr;</span>
+        </a>
+        
+        <a href="planetterrian/ep037.html"
+           class="blog-idx-card"
+           data-show="planetterrian"
+           style="--card-show-color: #018DB1">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #018DB1 15%, transparent); color: #018DB1">Planetterrian Daily</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 37</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Planetterrian Daily</h2>
+            
+            <p>Supercomputer simulations have mapped the full motions of the spliceosome inside a two-million-atom model of the human cell.</p>
+            
+            <span class="blog-idx-read-more" style="color: #018DB1">Read article &rarr;</span>
+        </a>
+        
+        <a href="env_intel/ep013.html"
+           class="blog-idx-card"
+           data-show="env_intel"
+           style="--card-show-color: #1B5E20">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #1B5E20 15%, transparent); color: #1B5E20">Environmental Intelligence</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 13</span>
+                <span class="blog-idx-reading">4 min</span>
+            </div>
+            <h2>Environmental Intelligence</h2>
+            
+            <p>No qualifying Canadian regulatory, enforcement, or contaminated-sites developments in today's feeds; focus shifts to practice intelligence and cross-border meth&hellip;</p>
+            
+            <span class="blog-idx-read-more" style="color: #1B5E20">Read article &rarr;</span>
+        </a>
+        
+        <a href="env_intel/ep014.html"
+           class="blog-idx-card"
+           data-show="env_intel"
+           style="--card-show-color: #1B5E20">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #1B5E20 15%, transparent); color: #1B5E20">Environmental Intelligence</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 14</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Environmental Intelligence</h2>
+            
+            <p>Ontario's absence from federal Ring of Fire impact assessment creates immediate regulatory uncertainty for mining proponents in northern Ontario.</p>
+            
+            <span class="blog-idx-read-more" style="color: #1B5E20">Read article &rarr;</span>
+        </a>
+        
+        <a href="env_intel/ep016.html"
+           class="blog-idx-card"
+           data-show="env_intel"
+           style="--card-show-color: #1B5E20">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #1B5E20 15%, transparent); color: #1B5E20">Environmental Intelligence</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 16</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Environmental Intelligence</h2>
+            
+            <p>Alberta First Nations and farmers demand full federal Impact Assessment for carbon capture pipeline project under IAA.</p>
+            
+            <span class="blog-idx-read-more" style="color: #1B5E20">Read article &rarr;</span>
+        </a>
+        
+        <a href="models_agents/ep018.html"
+           class="blog-idx-card"
+           data-show="models_agents"
+           style="--card-show-color: #8B5CF6">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #8B5CF6 15%, transparent); color: #8B5CF6">Models & Agents</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 18</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Models & Agents</h2>
+            
+            <p>LlamaIndex drops LiteParse, a spatial PDF parser built specifically for agentic RAG workflows.</p>
+            
+            <span class="blog-idx-read-more" style="color: #8B5CF6">Read article &rarr;</span>
+        </a>
+        
+        <a href="models_agents/ep019.html"
+           class="blog-idx-card"
+           data-show="models_agents"
+           style="--card-show-color: #8B5CF6">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #8B5CF6 15%, transparent); color: #8B5CF6">Models & Agents</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 19</span>
+                <span class="blog-idx-reading">5 min</span>
+            </div>
+            <h2>Models & Agents</h2>
+            
+            <p>TrustFlow introduces topic-aware vector reputation for multi-agent systems, replacing scalar scores with queryable multi-dimensional vectors.</p>
+            
+            <span class="blog-idx-read-more" style="color: #8B5CF6">Read article &rarr;</span>
+        </a>
+        
+        <a href="models_agents/ep022.html"
+           class="blog-idx-card"
+           data-show="models_agents"
+           style="--card-show-color: #8B5CF6">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #8B5CF6 15%, transparent); color: #8B5CF6">Models & Agents</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 22</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Models & Agents</h2>
+            
+            <p>Naver's Seoul World Model grounds video generation in real Street View geometry from over a million images and generalizes to other cities without fine-tuning.</p>
+            
+            <span class="blog-idx-read-more" style="color: #8B5CF6">Read article &rarr;</span>
+        </a>
+        
+        <a href="models_agents_beginners/ep008.html"
+           class="blog-idx-card"
+           data-show="models_agents_beginners"
+           style="--card-show-color: #F59E0B">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #F59E0B 15%, transparent); color: #F59E0B">Models & Agents for Beginners</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 8</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Models & Agents for Beginners</h2>
+            
+            <p>Google just opened its powerful Colab computers so any AI agent can use them with free GPUs.</p>
+            
+            <span class="blog-idx-read-more" style="color: #F59E0B">Read article &rarr;</span>
+        </a>
+        
+        <a href="models_agents_beginners/ep009.html"
+           class="blog-idx-card"
+           data-show="models_agents_beginners"
+           style="--card-show-color: #F59E0B">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #F59E0B 15%, transparent); color: #F59E0B">Models & Agents for Beginners</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 9</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Models & Agents for Beginners</h2>
+            
+            <p>NVIDIA's new DLSS 5 is making gamers furious — here's why this AI upscaling change actually matters.</p>
+            
+            <span class="blog-idx-read-more" style="color: #F59E0B">Read article &rarr;</span>
+        </a>
+        
+        <a href="models_agents_beginners/ep011.html"
+           class="blog-idx-card"
+           data-show="models_agents_beginners"
+           style="--card-show-color: #F59E0B">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #F59E0B 15%, transparent); color: #F59E0B">Models & Agents for Beginners</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 11</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Models & Agents for Beginners</h2>
+            
+            <p>Anthropic just confirmed their leaked model is a huge leap in AI reasoning — and it happened because of a simple security slip-up.</p>
+            
+            <span class="blog-idx-read-more" style="color: #F59E0B">Read article &rarr;</span>
+        </a>
+        
+        <a href="finansy_prosto/ep008.html"
+           class="blog-idx-card"
+           data-show="finansy_prosto"
+           style="--card-show-color: #EC4899">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #EC4899 15%, transparent); color: #EC4899">Финансы Просто</span>
+                <span class="blog-idx-date">20 марта 2026</span>
+                <span class="blog-idx-ep">Ep 8</span>
+                <span class="blog-idx-reading">4 min</span>
+            </div>
+            <h2>Финансы Просто</h2>
+            
+            <p>Как открыть и использовать TFSA — пошаговое руководство от нуля</p>
+            
+            <span class="blog-idx-read-more" style="color: #EC4899">Read article &rarr;</span>
+        </a>
+        
+        <a href="finansy_prosto/ep011.html"
+           class="blog-idx-card"
+           data-show="finansy_prosto"
+           style="--card-show-color: #EC4899">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #EC4899 15%, transparent); color: #EC4899">Финансы Просто</span>
+                <span class="blog-idx-date">20 марта 2026</span>
+                <span class="blog-idx-ep">Ep 11</span>
+                <span class="blog-idx-reading">4 min</span>
+            </div>
+            <h2>Финансы Просто</h2>
+            
+            <p>Как открыть TFSA с нуля: пошаговый гид для каждой женщины в Ванкувере</p>
+            
+            <span class="blog-idx-read-more" style="color: #EC4899">Read article &rarr;</span>
+        </a>
+        
+        <a href="finansy_prosto/ep012.html"
+           class="blog-idx-card"
+           data-show="finansy_prosto"
+           style="--card-show-color: #EC4899">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #EC4899 15%, transparent); color: #EC4899">Финансы Просто</span>
+                <span class="blog-idx-date">22 марта 2026</span>
+                <span class="blog-idx-ep">Ep 12</span>
+                <span class="blog-idx-reading">4 min</span>
+            </div>
+            <h2>Финансы Просто</h2>
+            
+            <p>Как открыть TFSA с нуля и пользоваться им с максимальной выгодой</p>
+            
+            <span class="blog-idx-read-more" style="color: #EC4899">Read article &rarr;</span>
+        </a>
+        
+        <a href="finansy_prosto/ep014.html"
+           class="blog-idx-card"
+           data-show="finansy_prosto"
+           style="--card-show-color: #EC4899">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #EC4899 15%, transparent); color: #EC4899">Финансы Просто</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 14</span>
+                <span class="blog-idx-reading">1 min</span>
+            </div>
+            <h2>К сожалению, я не могу создать этот выпуск.</h2>
+            
+            <span class="blog-idx-read-more" style="color: #EC4899">Read article &rarr;</span>
+        </a>
+        
+        <a href="modern_investing/ep001.html"
+           class="blog-idx-card"
+           data-show="modern_investing"
+           style="--card-show-color: #059669">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #059669 15%, transparent); color: #059669">Modern Investing Techniques</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 1</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Modern Investing Techniques – Special Educational Episode</h2>
+            
+            <span class="blog-idx-read-more" style="color: #059669">Read article &rarr;</span>
+        </a>
+        
+        <a href="modern_investing/ep008.html"
+           class="blog-idx-card"
+           data-show="modern_investing"
+           style="--card-show-color: #059669">
+            <div class="blog-idx-card-top">
+                <span class="blog-idx-show-badge" style="background: color-mix(in srgb, #059669 15%, transparent); color: #059669">Modern Investing Techniques</span>
+                <span class="blog-idx-date"></span>
+                <span class="blog-idx-ep">Ep 8</span>
+                <span class="blog-idx-reading">6 min</span>
+            </div>
+            <h2>Modern Investing Techniques – Special Educational Episode</h2>
+            
+            <span class="blog-idx-read-more" style="color: #059669">Read article &rarr;</span>
+        </a>
+        
     </div>
     
 
@@ -2802,9 +2927,8 @@
         const cards = document.querySelectorAll('.blog-idx-card');
         buttons.forEach(function(btn) {
             btn.addEventListener('click', function() {
-                buttons.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
+                buttons.forEach(function(b) { b.classList.remove('active'); });
                 btn.classList.add('active');
-                btn.setAttribute('aria-pressed', 'true');
                 const filter = btn.getAttribute('data-filter');
                 cards.forEach(function(card) {
                     if (filter === 'all' || card.getAttribute('data-show') === filter) {

@@ -195,23 +195,24 @@ def build_slow_news_prompt_context(
     parts: list[str] = []
 
     parts.append("=" * 60)
-    parts.append("SLOW NEWS DAY MODE — SPECIAL EPISODE FORMAT")
+    parts.append("EPISODE FORMAT — MIXED CONTENT")
     parts.append("=" * 60)
     parts.append("")
     parts.append(
-        "Today has fewer news stories than usual. You MUST produce a full-length, "
-        "high-quality episode using the format below. Do NOT shorten the episode "
-        "or apologize for the lighter news day."
+        "You MUST produce a full-length, high-quality episode using the format "
+        "below. Do NOT shorten the episode, do NOT mention that news is slow or "
+        "lighter than usual, and do NOT apologize or comment on the number of "
+        "stories. Treat this as a completely normal episode."
     )
     parts.append("")
 
-    # --- News Pulse section ---
-    parts.append("--- SECTION 1: NEWS PULSE ---")
+    # --- News section ---
+    parts.append("--- SECTION 1: NEWS ---")
     parts.append(
-        "Summarize the available news stories in a concise 'News Pulse' segment. "
-        "Cover each story briefly but substantively. Frame it as: "
-        "'Today's news flow is lighter than usual, so we're using this as an "
-        "opportunity to go deeper on some evergreen topics after the headlines.'"
+        "Cover the available news stories with full depth and substance. "
+        "Treat them as normal headline stories — do NOT say anything like "
+        "'news is lighter today' or 'fewer stories than usual'. Just cover "
+        "the stories naturally as you would in any episode."
     )
     parts.append("")
     if articles:

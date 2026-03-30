@@ -1,48 +1,7 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-27",
+  "last_updated": "2026-03-29",
   "episodes": [
-    {
-      "date": "2026-03-13",
-      "headlines": [],
-      "urls": [
-        "https://the-decoder.com/ukraine-provides-allies-with-a-platform-with-combat-data-for-ai-training/",
-        "https://the-decoder.com/meta-delays-its-next-ai-model-avocado-after-internal-tests-show-it-cant-keep-up-with-google-and-openai/",
-        "https://arxiv.org/abs/2603.11126",
-        "https://arxiv.org/abs/2603.11560",
-        "https://the-decoder.com/perplexitys-personal-computer-promises-a-tireless-ai-agent-for-200-a-month/",
-        "https://devblogs.microsoft.com/agent-framework/whats-new-in-agent-skills-code-skills-script-execution-and-approval-for-python/",
-        "https://www.marktechpost.com/2026/03/13/model-context-protocol-mcp-vs-ai-agent-skills-a-deep-dive-into-structured-tools-and-behavioral-guidance-for-llms/",
-        "https://www.wired.com/story/china-is-going-all-in-on-openclaw/",
-        "https://arxiv.org/abs/2603.11356",
-        "https://arxiv.org/abs/2603.11927"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**Meta Delays Avocado Model: The Decoder**  \nMeta is postponing the release of its next AI model, Avocado, after internal tests showed it underperforms against Google, OpenAI, and Anthropic in key benchmarks like reasoning and multimodal tasks. This delay highlights ongoing challenges in scaling beyond Llama 3, with Avocado aiming for advanced capabilities but falling short on efficiency and accuracy metrics. For developers, this means sticking with alternatives like Gemini 1.5",
-        "agent_developments": "### Agent & Tool Developments\n**Perplexity's \"Personal Computer\" AI Agent: The Decoder**  \nPerplexity's new \"Personal Computer\" is a subscription-based AI agent that operates 24/7, managing emails, creating presentations, and controlling apps via tool calling, built on their search-optimized models. This improves on episodic agents in CrewAI by adding persistence and automation, though at $200/month it's pricier than open-source alternatives. Try it via their platform for workflow automation—sig",
-        "practical_community": "### Practical & Community\n**China’s OpenClaw Boom: Artificial Intelligence Latest**  \nOpenClaw, an open-source agent framework, is sparking a gold rush in China, driving cloud rentals and AI subscriptions for testing its multi-agent coordination in tasks like automation. It enables scalable agent teams without proprietary dependencies, similar to Agent Zero but with broader community adoption. Get started by cloning the repo and running demos on a basic GPU—note it may require significant resour"
-      }
-    },
-    {
-      "date": "2026-03-14",
-      "headlines": [],
-      "urls": [
-        "https://www.marktechpost.com/2026/03/13/google-deepmind-introduces-aletheia-the-ai-agent-moving-from-math-competitions-to-fully-autonomous-professional-research-discoveries/",
-        "https://the-decoder.com/anthropic-drops-the-surcharge-for-million-token-context-windows-making-opus-4-6-and-sonnet-4-6-far-cheaper/",
-        "https://www.latent.space/p/ainews-context-drought",
-        "https://the-decoder.com/google-explains-the-differences-between-its-three-nano-banana-image-generation-models/",
-        "https://the-decoder.com/china-pushes-openclaw-one-person-companies-with-millions-in-ai-agent-subsidies/",
-        "https://techcrunch.com/2026/03/13/nyne-founded-by-a-father-son-duo-gives-ai-agents-the-human-context-theyre-missing/",
-        "https://huggingface.co/blog/nvidia/nemo-retriever-agentic-retrieval"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**Anthropic drops the surcharge for million-token context windows, making Opus 4.6 and Sonnet 4.6 far cheaper: The Decoder**  \nAnthropic eliminated the extra fees for contexts over 200,000 tokens in Claude Opus 4.6 and Sonnet 4.6, potentially halving costs for million-token requests compared to previous pricing. This makes them more competitive with Gemini's 1M windows and OpenAI's offerings, especially for RAG-heavy tasks where long contexts were prohibitively expensive. It ma",
-        "agent_developments": "### Agent & Tool Developments\n**China pushes OpenClaw \"one-person companies\" with millions in AI agent subsidies: The Decoder**  \nChinese governments are funding OpenClaw projects with millions to enable \"one-person companies\" where AI agents act as employees for tasks like operations and decision-making. This builds on frameworks like AutoGPT by emphasizing scalable agent ecosystems, with improvements in tool calling and browser automation for business automation. Try integrating OpenClaw with ",
-        "practical_community": "### Practical & Community\n(none this briefing — insufficient qualifying articles without overlap from above sections)"
-      }
-    },
     {
       "date": "2026-03-15",
       "headlines": [],
@@ -250,6 +209,39 @@
         "deep_dive": "### Under the Hood: Representation Hierarchies in Pruning\nEveryone talks about pruning as if it's a simple \"remove low-magnitude weights\" switch that should work equally everywhere. In reality, it's a story about three distinct representation spaces that respond differently to perturbation.\n\nThe core insight is that embedding (hidden states) and logit (pre-softmax) spaces are surprisingly robust to pruning. The trouble begins in the nonlinear transformation from logits to probabilities. Small de"
       },
       "deep_dive_topic": "Representation Hierarchies in Pruning"
+    },
+    {
+      "date": "2026-03-29",
+      "headlines": [
+        "Naver's \"Seoul World Model\" uses actual Street View data to stop AI from hallucinating entire cities",
+        "Google-Agent vs Googlebot: Google Defines the Technical Boundary Between User Triggered AI Access and Search Crawling Systems Today",
+        "A Coding Guide to Exploring nanobot’s Full Agent Pipeline, from Wiring Up Tools and Memory to Skills, Subagents, and Cron Scheduling",
+        "Mistral AI Releases Voxtral TTS: A 4B Open-Weight Streaming Speech Model for Low-Latency Multilingual Voice Generation",
+        "Using OpenClaw as a Force Multiplier: What One Person Can Ship with Autonomous Agents",
+        "Google's new Gemini API Agent Skill patches the knowledge gap AI models have with their own SDKs",
+        "Quoting Matt Webb",
+        "Meta's hyperagents improve at tasks and improve at improving",
+        "Anthropic's new data shows AI skill builds over time, and that could widen the inequality gap"
+      ],
+      "urls": [
+        "https://the-decoder.com/navers-seoul-world-model-uses-actual-street-view-data-to-stop-ai-from-hallucinating-entire-cities/",
+        "https://www.marktechpost.com/2026/03/28/mistral-ai-releases-voxtral-tts-a-4b-open-weight-streaming-speech-model-for-low-latency-multilingual-voice-generation/",
+        "https://the-decoder.com/metas-hyperagents-improve-at-tasks-and-improve-at-improving/",
+        "https://the-decoder.com/googles-new-gemini-api-agent-skill-patches-the-knowledge-gap-ai-models-have-with-their-own-sdks/",
+        "https://www.marktechpost.com/2026/03/28/a-coding-guide-to-exploring-nanobots-full-agent-pipeline-from-wiring-up-tools-and-memory-to-skills-subagents-and-cron-scheduling/",
+        "https://towardsdatascience.com/using-openclaw-as-a-force-multiplier-what-one-person-can-ship-with-autonomous-agents/",
+        "https://www.marktechpost.com/2026/03/28/google-agent-vs-googlebot-google-defines-the-technical-boundary-between-user-triggered-ai-access-and-search-crawling-systems-today/",
+        "https://simonwillison.net/2026/Mar/28/matt-webb/#atom-everything",
+        "https://the-decoder.com/anthropics-new-data-shows-ai-skill-builds-over-time-and-that-could-widen-the-inequality-gap/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Mistral AI Releases Voxtral TTS: A 4B Open-Weight Streaming Speech Model for Low-Latency Multilingual Voice Generation — MarkTechPost**\nMistral AI launched Voxtral TTS, a 4B parameter open-weight text-to-speech model that supports streaming generation and multiple languages, completing their audio stack after previous transcription and language models. The model is positioned as a direct open alternative to proprietary voice APIs, emphasizing low latency suitable for real-tim",
+        "agent_developments": "### Agent & Tool Developments\n**A Coding Guide to Exploring nanobot’s Full Agent Pipeline, from Wiring Up Tools and Memory to Skills, Subagents, and Cron Scheduling — MarkTechPost**\nHKUDS released nanobot, an ultra-lightweight personal AI agent framework implemented in roughly 4,000 lines of Python that includes tools, memory, skills, subagents, and cron scheduling. A detailed coding guide walks through manually recreating each subsystem to deeply understand the architecture. \n\nThis is one of th",
+        "practical_community": "### Practical & Community\n**Google-Agent vs Googlebot: Google Defines the Technical Boundary Between User Triggered AI Access and Search Crawling Systems Today — MarkTechPost**\nGoogle has introduced a new user-agent entity called Google-Agent that distinguishes between user-triggered AI requests and traditional autonomous Googlebot crawling. This technical boundary has immediate implications for developers implementing robots.txt rules, rate limiting, and access control for AI-powered features. ",
+        "deep_dive": "### Under the Hood: World Model Grounding\nEveryone talks about \"world models\" as if the main challenge is simply scaling video generation. In practice, the hardest engineering problem is keeping the generated world geometrically and semantically consistent with reality over long sequences.\n\nThe core insight behind Naver's Seoul World Model is to inject real measured geometry from Street View directly into the training process rather than hoping the model learns correct city layouts from internet"
+      },
+      "deep_dive_topic": "World Model Grounding"
     }
   ]
 }

@@ -1,0 +1,135 @@
+Welcome to Planet-terry-an Daily. I’m Patrick in Vancouver, and this is episode thirty-seven. It’s March twenty-ninth, twenty twenty-six. Today we’re diving into a collection of studies that each, in their own way, pull back the curtain on systems we thought we understood reasonably well—only to discover there’s still remarkable depth left to explore.
+
+Let’s begin inside the cell itself, at a scale that’s almost impossible to visualize. Researchers at the Italian Institute of Technology, working with colleagues at Uppsala University and Astra-Zeneca, have built and run what might be the most ambitious molecular simulation of the spliceosome to date.
+
+Using advanced computational chemistry and serious supercomputing power, they constructed a model containing two million atoms that tries to represent a realistic slice of a human cell. Inside that model they let the spliceosome run through its full range of motions.
+
+The spliceosome is the massive molecular machine responsible for R N A splicing—cutting out introns and stitching exons back together so that a single gene can produce multiple protein variants. Until now, most of what we knew came from static snapshots taken by cryo-electron microscopy. Those images are incredibly valuable, but they’re frozen moments.
+
+This new work gives us something closer to a movie. You can watch the machine’s moving parts coordinate in three dimensions, see how it grips the R N A, how it bends and repositions itself, and how different subunits talk to one another during the catalytic cycle.
+
+What stands out to me is how this bridges two worlds that have historically been quite separate: structural biology and simulation science. The level of detail now available means we can start asking questions that were previously theoretical. Why do certain mutations stall the machine at specific points? How do small molecules change the choreography?
+
+Could we design drugs that nudge the spliceosome back into correct behaviour in diseases where splicing goes wrong? Because faulty splicing is implicated in a range of conditions, from some forms of spinal muscular atrophy to quite a few cancers, having a dynamic model like this feels like gaining a new set of eyes.
+
+The obvious next chapter is whether these simulations can be scaled and made fast enough to test libraries of compounds or patient-specific mutations in something approaching real time. If that becomes practical, we could see a noticeable acceleration in how splicing-targeted therapies move from concept to clinic.
+
+It’s a beautiful example of computation letting us observe biology that’s simply too fast and too small for any microscope we currently have.
+
+While that simulation lets us watch one of the cell’s most intricate machines in motion, another large-scale effort has given us clarity on an entirely different set of proteins that touch almost every aspect of cellular life. A global collaboration led by researchers at WEHI in Australia has produced the first comprehensive, authoritative atlas of all human E3 ubiquitin ligases.
+
+These enzymes are the cell’s master regulators of protein degradation and signalling. They decide which proteins get tagged for the proteasome, which get modified to change their function, and they play central roles in everything from cell-cycle control to D N A repair and immune signalling.
+
+For nearly two decades the field has been working with inconsistent, sometimes contradictory datasets about how many E3 ligases there actually are, what their true substrates are, and how specific they really are. The new atlas, published in Cell, sets a new gold standard.
+
+It brings together structural, biochemical, and functional data into one coherent reference that should reduce wasted effort and misdirected hypotheses across hundreds of labs.
+
+I find this story quietly exciting because E3 ligases have become extremely attractive drug targets in recent years. The development of PROTACs—those bifunctional molecules that hijack an E3 to degrade a disease-causing protein—depends on knowing exactly which ligases are available and how they behave.
+
+A reliable map like this doesn’t just tidy up the literature; it removes a layer of friction that has slowed progress. It’s the kind of foundational resource that tends to pay dividends for a decade or more.
+
+Staying with fundamental biology but shifting upward in scale, let’s move from the machinery inside individual cells to the machinery inside our own heads.
+
+A paper in Physical Review Letters takes a careful second look at the idea that the human brain operates exactly at a critical point—the sweet spot between order and chaos that some theorists have argued gives brains their remarkable balance of stability and flexibility.
+
+Using whole-brain fMRI data and a more statistically robust analytical framework than earlier studies, the researchers show that many of the signatures people have interpreted as evidence of criticality are actually statistical artifacts. The brain does appear to function near a critical point, but not precisely at it. There’s a meaningful distinction here.
+
+Operating right at criticality would make the system exquisitely sensitive to small inputs but also potentially unstable. Sitting slightly off that edge might give the brain just enough margin to remain robust while still retaining the advantages of operating close to the transition.
+
+This refines rather than overturns the criticality hypothesis, and that’s exactly the kind of incremental clarification I appreciate. It pushes modellers to be more precise about what “near-critical” actually means for information processing, learning, and adaptability.
+
+For those of us who follow neuroscience, it’s another reminder that the brain is subtle; the elegant theories sometimes need tempering by rigorous data analysis.
+
+From the delicate balance inside the brain, we shift to an even older partnership—one that’s been shaping both species for far longer than most of us learned in school. An analysis of ancient D N A, published in Nature, reveals that dogs were already widely distributed across Western Eurasia during the Palaeolithic, living and working alongside humans much earlier than previously thought.
+
+The study significantly extends the timeline of one of humanity’s oldest interspecies relationships. We’re not just talking about a few isolated finds; the genetic evidence points to dogs being part of human groups across a broad geographic area at a time when we were still hunter-gatherers. This deeper history changes how we think about the process of domestication.
+
+It suggests the relationship may have begun more gradually and in more places than the classic “single origin” stories implied.
+
+What I find moving about this work is how it underscores the reciprocity. Dogs didn’t just adapt to us; we adapted to them. Their presence likely improved our hunting success, our safety, even our social lives. In return we provided them with reliable food and protection. The partnership has been mutual for so long that it’s become part of who both species are.
+
+Every time we see a new ancient D N A paper like this, it feels like we’re slowly filling in the early chapters of a shared story that’s still being written.
+
+While ancient D N A is illuminating our past on Earth, new observations are revealing hidden activity deep inside our own star. Researchers at NYU Abu Dhabi have detected large-scale magnetic waves moving through regions of the Sun that have remained largely inaccessible to direct observation.
+
+These waves are driven by magnetic fields far below the surface, and they appear to propagate in ways that give us a new window into the Sun’s interior dynamics.
+
+Until recently, much of what we knew about the Sun’s deep layers came from theoretical models and indirect measurements of surface oscillations. These newly observed magnetic waves act almost like a seismic probe, carrying information about temperature, density, and magnetic field strength from regions we couldn’t easily reach before.
+
+The hope is that this data will improve our ability to model the solar dynamo—the process that generates the Sun’s magnetic field and drives the roughly 11-year cycle of sunspots, flares, and coronal mass ejections.
+
+Better long-term forecasts of solar activity matter for satellites, power grids, aviation, and communications. Space weather isn’t just an academic curiosity; it’s an infrastructure issue. So any new tool that lets us see deeper into the Sun’s engine room deserves attention.
+
+It’s early days, but the detection itself is the kind of observational advance that often opens an entire new chapter in solar physics.
+
+Speaking of energy systems, two quite different stories this week look at how we might produce cleaner energy and materials. In the first, researchers demonstrated singlet fission in a solar-cell architecture using a spin-flip metal complex.
+
+The system is able to produce more energy carriers than the number of photons absorbed, reaching approximately 130 percent efficiency in terms of excitons generated.
+
+Singlet fission is a quantum process in which a single high-energy photon can generate two lower-energy excitons instead of just one. It’s one of the more promising routes around the Shockley-Queisser limit that has capped conventional solar-cell efficiency for decades.
+
+What makes this particular demonstration notable is that they achieved it with a relatively stable metal-complex approach rather than purely organic materials that have sometimes proven fragile. It’s still laboratory-scale, but it adds to the growing sense that third-generation photovoltaic concepts are moving from theoretical curiosity toward something that could eventually appear in real panels.
+
+While that work is about capturing more energy from the Sun, another group has found a smarter way to capture something we urgently need to remove from the atmosphere. Scientists have developed a nitrogen-tuned carbon material that captures carbon dioxide more efficiently and, crucially, releases the captured CO₂ at much lower temperatures—sometimes below 60 degrees Celsius.
+
+That means the regeneration step could potentially run on low-grade waste heat rather than requiring high-energy steam or other intensive inputs.
+
+Traditional amine-based carbon-capture systems are effective but energy-hungry, which is one reason they’ve been slow to scale. Lowering the temperature needed to release the CO₂ changes the energy equation in a meaningful way and could bring the overall cost down substantially. The material itself is built on carbon, which is abundant and relatively inexpensive to produce at scale.
+
+It’s another incremental but practical step toward making carbon capture something that industries might actually choose to deploy rather than simply comply with.
+
+That’s one approach to dealing with carbon. In a very different direction, researchers at Xi’an Jiaotong University have used improved A I models to systematically identify entirely new solid forms of carbon. Some of the predicted structures are expected to be harder than diamond and show exotic combinations of properties that don’t exist in graphite, diamond, or the better-known carbon allotropes.
+
+What I like about this story is the methodological advance. Rather than relying on serendipity or exhaustive trial-and-error in the lab, they’ve trained models that can explore vast regions of structural space that would be impractical to test experimentally.
+
+The A I essentially acts as a hypothesis generator, suggesting candidates that are then evaluated with more computationally expensive methods. This approach is already being applied to other materials classes, and it feels like the beginning of a broader shift in how we discover new substances.
+
+The potential applications range from cutting tools to electronics to quantum technologies—pretty much anywhere extreme hardness or unusual electronic properties would be useful.
+
+From new materials to rethinking how we make existing ones, chemists at Wageningen University and Research and Utrecht University have developed an electrochemical method to produce a key chemical building block directly from biomass.
+
+The precursor in question is used in plastics, pharmaceuticals, and fragrances, and the traditional production routes often rely on hazardous reagents and harsh conditions. Their electrochemical approach works in a relatively simple setup, avoids those dangerous chemicals, and uses renewable feedstock.
+
+Green chemistry advances like this don’t always make headlines, but they matter. Every time we can replace a toxic feedstock or a high-energy process with something milder and cleaner, we reduce both environmental burden and safety risks in manufacturing.
+
+It’s also a nice demonstration of how electrochemistry—powered increasingly by renewable electricity—can serve as a bridge between biomass and the chemicals we still need in everyday products.
+
+While those stories focus on potential solutions, two environmental studies this week highlight the law of unintended consequences that often accompanies our clean-energy push. A team at Helmholtz-Zentrum Hereon examined how offshore wind farms are altering natural sediment transport in the North Sea, with the German Bight particularly affected.
+
+The structures appear to be changing current patterns and could move up to 1.5 million tons of sediment annually in ways that weren’t fully anticipated.
+
+We tend to think of wind farms as almost purely beneficial—clean electricity with no direct emissions. This research is a useful reminder that large physical structures in dynamic marine environments will always have secondary effects.
+
+Coastal ecosystems, sediment balances, and even the long-term stability of the seabed around the turbines deserve careful monitoring as offshore wind capacity continues to grow. The goal isn’t to stop deployment, but to deploy with eyes open.
+
+A broader analysis, led by Germán Bersalli and colleagues and published in Current Research in Environmental Sustainability, looked at four European countries and asked a tougher question: are we actually achieving the deep systemic change we claim, or are we mostly substituting one energy source for another while leaving the underlying structure of our economies and energy systems largely intact?
+
+Their method suggests that none of the studied nations has yet completed the full structural transformation required for genuine sustainability.
+
+Emissions cuts and rising renewable shares are necessary but not sufficient. The paper encourages us to look beyond headline numbers at things like energy return on investment, material flows, land-use change, and the persistence of certain high-impact industries. It’s the kind of sobering, systems-level thinking that’s easy to dismiss as overly pessimistic but important to sit with.
+
+Real progress requires examining the entire system, not just the parts that photograph well.
+
+Finally, a story that sits at the intersection of materials science and next-generation electronics. A team led by Professor Boseok Kang at Sungkyunkwan University has solved a long-standing puzzle about why polarity inversion occurs in only some polymer semiconductors.
+
+The discovery, published in Advanced Functional Materials, clarifies the molecular mechanism behind this behaviour that has puzzled researchers for years.
+
+Understanding exactly what controls polarity inversion gives material designers a much more precise lever. It should help them create organic semiconductors with more predictable and stable performance, which is critical for flexible electronics, wearable sensors, and printed circuits.
+
+These materials are attractive because they can be solution-processed at low temperatures, potentially making electronics cheaper and more flexible than silicon allows. Every time we remove one of these “why does this only happen sometimes?” mysteries, the path to reliable commercial devices gets a little clearer.
+
+Now, here’s something most people get wrong about feeling sick. We tend to assume that loss of appetite during illness is simply a side effect of general fatigue—that your body is too busy fighting infection to bother with food. In reality, specialized cells in your gut are actively detecting the presence of parasites and bacteria.
+
+These cells then send targeted signals that specifically tell the brain to suppress hunger.
+
+The process is surprisingly sophisticated. Right now, even as you listen, those gut cells are constantly sampling what you’ve eaten and monitoring for microbial invaders. The signal builds gradually, which is why you often feel fine at first but then suddenly lose interest in food once the infection takes hold. A single nerve pathway can relay these signals at speeds up to 120 metres per second.
+
+It’s an ancient defence mechanism designed to stop you from consuming more pathogens while your immune system deals with the current threat.
+
+The next time you feel that sudden disinterest in eating during an illness, it might help to remember it isn’t weakness or random fatigue—it’s a deliberate protective response. Paying attention to how quickly your appetite returns after symptoms ease can even serve as a rough personal signal that your body has cleared the immediate danger.
+
+Before we go, keep an eye on how those supercomputer simulations of molecular machines develop in the coming months. There’s real potential for them to start influencing drug design in tangible ways. Next time we’ll also be watching for further updates on solar interior discoveries and what they mean for space weather prediction.
+
+That’s Planet-terry-an Daily for today. If you enjoyed the episode, a rating or review on Apple Podcasts or Spotify really does help new listeners find the show. I’m Patrick in Vancouver. Thanks for listening, and I’ll talk to you tomorrow.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.

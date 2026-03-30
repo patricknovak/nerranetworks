@@ -71,7 +71,7 @@ def _elevenlabs_tts_mp3(text: str, out_path: Path, voice_id: str) -> None:
     }
     payload = {
         "text": text,
-        "model_id": os.getenv("ELEVENLABS_MODEL_ID", "eleven_turbo_v2_5"),
+        "model_id": os.getenv("ELEVENLABS_MODEL_ID", "eleven_v3"),
         "voice_settings": {
             "stability": float(os.getenv("ELEVENLABS_STABILITY", "0.35")),
             "similarity_boost": float(os.getenv("ELEVENLABS_SIMILARITY_BOOST", "0.75")),

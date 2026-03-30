@@ -167,7 +167,7 @@ class TestDefaultValues:
     def test_llm_defaults(self):
         c = LLMConfig()
         assert c.provider == "xai"
-        assert c.model == "grok-3"
+        assert c.model == "grok-4.20-non-reasoning"
         assert c.system_prompt_file == ""
         assert c.digest_prompt_file == ""
         assert c.podcast_prompt_file == ""
@@ -178,7 +178,7 @@ class TestDefaultValues:
     def test_tts_defaults(self):
         c = TTSConfig()
         assert c.voice_id == "dTrBzPvD2GpAqkk1MUzA"
-        assert c.model == "eleven_turbo_v2_5"
+        assert c.model == "eleven_v3"
         assert c.stability == 0.65
         assert c.similarity_boost == 0.9
         assert c.style == 0.85
@@ -388,7 +388,7 @@ class TestLoadConfigRealFiles:
         assert len(cfg.sources) == 13
         assert cfg.sources[0].label == "Teslarati"
         assert "tsla" in cfg.keywords
-        assert cfg.llm.model == "grok-4.20-beta-0309-non-reasoning"
+        assert cfg.llm.model == "grok-4.20-non-reasoning"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.llm.podcast_temperature == 0.9
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
@@ -405,7 +405,7 @@ class TestLoadConfigRealFiles:
         assert len(cfg.sources) == 28
         assert cfg.sources[0].label == "NASA Breaking"
         assert "space" in cfg.keywords
-        assert cfg.llm.model == "grok-4.20-beta-0309-non-reasoning"
+        assert cfg.llm.model == "grok-4.20-non-reasoning"
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
         assert cfg.audio.music_file == "assets/music/fascinatingfrontiers.mp3"
         assert cfg.audio.background_music_file == "assets/music/fascinatingfrontiers_bg.mp3"
@@ -434,7 +434,7 @@ class TestLoadConfigRealFiles:
         assert len(cfg.sources) == 23
         assert cfg.sources[0].label == "NPR"
         assert "election" in cfg.keywords
-        assert cfg.llm.model == "grok-4.20-beta-0309-non-reasoning"
+        assert cfg.llm.model == "grok-4.20-non-reasoning"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.llm.max_tokens == 4000
         assert cfg.tts.stability == 0.65
@@ -454,7 +454,7 @@ class TestLoadConfigRealFiles:
         assert cfg.sources[0].label == "BC Ministry of Environment"
         assert "contaminated sites" in cfg.keywords
         assert "CCME" in cfg.keywords
-        assert cfg.llm.model == "grok-4.20-beta-0309-non-reasoning"
+        assert cfg.llm.model == "grok-4.20-non-reasoning"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
         assert cfg.tts.stability == 0.65  # Normalized to network standard
@@ -495,7 +495,7 @@ class TestNestedConfigOverrides:
         assert cfg.tts.stability == 0.3
         assert cfg.tts.max_chars == 9999
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
-        assert cfg.tts.model == "eleven_turbo_v2_5"
+        assert cfg.tts.model == "eleven_v3"
 
     def test_partial_audio_override(self, tmp_path):
         data = {"audio": {"music_file": "custom.mp3", "voice_intro_delay": 15.0}}
