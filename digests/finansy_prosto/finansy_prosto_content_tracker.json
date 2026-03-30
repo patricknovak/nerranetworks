@@ -1,6 +1,6 @@
 {
   "show": "finansy_prosto",
-  "last_updated": "2026-03-28",
+  "last_updated": "2026-03-30",
   "episodes": [
     {
       "date": "2026-03-18",
@@ -131,6 +131,31 @@
       "slow_news_segments": [
         "fp_tfsa_explained",
         "fp_rrsp_guide"
+      ],
+      "slow_news_segment_summaries": {}
+    },
+    {
+      "date": "2026-03-30",
+      "headlines": [
+        "Interest Rate Announcement",
+        "Interest Rate Announcement and Monetary Policy Report",
+        "Ontario expands HST rebate on new homes, how to sell during divorce, the Home of the Week and more top real estate stories"
+      ],
+      "urls": [
+        "https://www.theglobeandmail.com/business/article-hst-rebate-on-new-homes-ontario-gst-rebate-real-estate-news-march-27/",
+        "https://www.bankofcanada.ca/2026/10/interest-rate-announcement-and-monetary-policy-report-october-28-2026/",
+        "https://www.bankofcanada.ca/2026/12/interest-rate-announcement-december-9-2026/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "deep_dive": "### Объясни как подруге\nПодруга спросила меня вчера: «Оля, а что вообще такое overnight rate и почему все так волнуются, когда Bank of Canada его меняет? Мне в банке сказали, что это влияет на мою ипотеку, но я ничего не поняла».\n\nДавай разберёмся по-честному и по-простому.\n\nПредставь, что все банки в Канаде — это большие магазины, которые одалживают друг другу деньги на очень короткое время, буквально на одну ночь. Bank of Canada — это как главный склад, который устанавливает цену, по которой э",
+        "practical_tips": "### Практические советы\n**Как продавать недвижимость во время развода**  \nИсточник: https://www.theglobeandmail.com/business/article-hst-rebate-on-new-homes-ontario-gst-rebate-real-estate-news-march-27/\n\nРаздел имущества при разводе — одна из самых сложных финансовых ситуаций. Когда речь идёт о продаже общего дома, важно правильно оформить все документы. Статья напоминает, что при продаже недвижимости во время развода нужно заранее договориться о разделе денег, учесть налоги и правильно заполнит",
+        "quick_news": "### Коротко и ясно\n**Даты объявления ставок Bank of Canada**  \nВ этом году Bank of Canada объявит решение по overnight rate 28 октября и 9 декабря. В октябре вместе со ставкой опубликуют полный Monetary Policy Report — прогноз по инфляции и росту экономики. Следите за этими датами — они напрямую влияют на ваши кредиты и сбережения.  \nSource: https://www.bankofcanada.ca/2026/10/interest-rate-announcement-and-monetary-policy-report-october-28-2026/ и https://www.bankofcanada.ca/2026/12/interest-ra"
+      },
+      "slow_news": true,
+      "slow_news_segments": [
+        "fp_fhsa_new_account",
+        "fp_etf_investing"
       ],
       "slow_news_segment_summaries": {}
     }
