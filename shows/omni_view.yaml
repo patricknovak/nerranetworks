@@ -106,7 +106,6 @@ keywords:
 
 llm:
   provider: xai
-  model: grok-4.20-beta-0309-non-reasoning
   system_prompt_file: shows/prompts/omni_view_system.txt
   digest_prompt_file: shows/prompts/omni_view_digest.txt
   podcast_prompt_file: shows/prompts/omni_view_podcast.txt
@@ -118,7 +117,6 @@ llm:
 
 tts:
   voice_id: dTrBzPvD2GpAqkk1MUzA
-  model: eleven_turbo_v2_5
   stability: 0.65
   similarity_boost: 0.9
   style: 0.85
@@ -138,14 +136,6 @@ audio:
   overlap_volume: 0.4
   fade_volume: 0.3
   outro_volume: 0.3
-
-storage:
-  provider: r2
-  bucket: podcast-audio
-  endpoint_env: R2_ENDPOINT_URL
-  access_key_env: R2_ACCESS_KEY_ID
-  secret_key_env: R2_SECRET_ACCESS_KEY
-  public_base_url: "https://audio.nerranetwork.com"
 
 publishing:
   rss_file: omni_view_podcast.rss

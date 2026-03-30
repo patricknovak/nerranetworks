@@ -1,24 +1,7 @@
 {
   "show": "models_agents_beginners",
-  "last_updated": "2026-03-28",
+  "last_updated": "2026-03-30",
   "episodes": [
-    {
-      "date": "2026-03-14",
-      "headlines": [],
-      "urls": [
-        "https://www.marktechpost.com/2026/03/13/google-deepmind-introduces-aletheia-the-ai-agent-moving-from-math-competitions-to-fully-autonomous-professional-research-discoveries/",
-        "https://www.marktechpost.com/2026/03/13/google-deepmind-introduces-aletheia-the-ai-agent-moving-from-math-competitions-to-fully-autonomous-professional-research-discoveries/",
-        "https://www.theverge.com/games/894799/microsoft-gaming-copilot-ai-xbox-consoles",
-        "https://the-decoder.com/google-explains-the-differences-between-its-three-nano-banana-image-generation-models/",
-        "https://techcrunch.com/2026/03/13/lawyer-behind-ai-psychosis-cases-warns-of-mass-casualty-risks/",
-        "https://the-decoder.com/china-pushes-openclaw-one-person-companies-with-millions-in-ai-agent-subsidies/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "cool_stuff": "### Cool Stuff & Try This\n**[Xbox Gets Its Own AI Sidekick: Gaming Just Got Smarter]: AI | The Verge**  \nMicrosoft is bringing its Copilot AI assistant to current-generation Xbox consoles later this year, turning it into a helpful gaming buddy that can answer questions, give tips, or even integrate with more services. Copilot is like a voice-activated helper (think Siri or Alexa but powered by advanced AI that understands context and chats naturally) that's already in tools like Microsoft Edge o",
-        "quick_bits": "### Quick Bits\n**[AI Safety Alert: Chatbots and Real Risks]**  \nA lawyer who's handled cases of AI-linked mental health issues, like chatbots contributing to suicides, is now warning about bigger dangers, including mass casualty events, because the tech is advancing faster than safety measures. This is interesting because it highlights how we need to balance AI's helpful side—like homework aids—with protecting users, sparking important talks about ethical guidelines that could make AI safer for "
-      }
-    },
     {
       "date": "2026-03-20",
       "headlines": [],
@@ -141,6 +124,38 @@
         "cool_stuff": "### Cool Stuff & Try This\n**New Self-Evolving AI Agent for Tasks: JiuwenClaw** — MarkTechPost  \nAI agents are programs that try to get real tasks done instead of just chatting. The new JiuwenClaw is designed to keep improving itself when it fails at a task, which is a big step because many current agents \"drop the ball\" when moving from conversation to actual work.  \n\nThis is exciting because it moves us closer to AI helpers that can handle school projects, organize your study schedule, or manag",
         "quick_bits": "### Quick Bits\n**Judge blocks government ban on Anthropic AI models**  \nA federal judge stopped the Trump administration from banning Anthropic's AI models, calling the security risk label \"Orwellian.\" The judge said it looked like illegal punishment for the company criticizing the government. This shows how debates about AI safety can get tied up with free speech and politics.\n\nSource: https://the-decoder.com/federal-judge-blocks-trumps-ban-on-anthropic-ai-models-calls-security-risk-label-orwel",
         "deep_dive": "### Explain Like I'm 14\n**How AI brain-prediction models actually work**\n\nYou know how when you're texting, your phone suggests the next word based on what you've typed so far? It’s guessing what comes next by looking at patterns from millions of other messages.\n\nNow imagine doing the same thing, but instead of guessing words, you're guessing which parts of the brain will light up. Scientists have collected thousands of brain scans while people looked at pictures or listened to sounds. Each scan"
+      }
+    },
+    {
+      "date": "2026-03-30",
+      "headlines": [
+        "Why OpenAI really shut down Sora",
+        "Agent-Infra Releases AIO Sandbox: An All-in-One Runtime for AI Agents with Browser, Shell, Shared Filesystem, and MCP",
+        "How to Build Advanced Cybersecurity AI Agents with CAI Using Tools, Guardrails, Handoffs, and Multi-Agent Workflows",
+        "Bluesky’s new app is an AI for customizing your feed",
+        "Meet A-Evolve: The PyTorch Moment For Agentic AI Systems Replacing Manual Tuning With Automated State Mutation And Self-Correction",
+        "Bluesky's next product is an AI assistant that helps build custom social media feeds",
+        "Sora’s shutdown could be a reality check moment for AI video",
+        "MetaClaw framework trains AI agents while you're in meetings by checking your Google Calendar",
+        "AI sycophancy makes people less likely to apologize and more likely to double down, study finds"
+      ],
+      "urls": [
+        "https://techcrunch.com/2026/03/29/why-openai-really-shut-down-sora/",
+        "https://www.marktechpost.com/2026/03/29/agent-infra-releases-aio-sandbox-an-all-in-one-runtime-for-ai-agents-with-browser-shell-shared-filesystem-and-mcp/",
+        "https://www.theverge.com/ai-artificial-intelligence/903190/bluesky-attie-ai-custom-feeds",
+        "https://the-decoder.com/metaclaw-framework-trains-ai-agents-while-youre-in-meetings-by-checking-your-google-calendar/",
+        "https://techcrunch.com/2026/03/29/soras-shutdown-could-be-a-reality-check-moment-for-ai-video/",
+        "https://the-decoder.com/ai-sycophancy-makes-people-less-likely-to-apologize-and-more-likely-to-double-down-study-finds/",
+        "https://www.marktechpost.com/2026/03/29/how-to-build-advanced-cybersecurity-ai-agents-with-cai-using-tools-guardrails-handoffs-and-multi-agent-workflows/",
+        "https://www.marktechpost.com/2026/03/29/meet-a-evolve-the-pytorch-moment-for-agentic-ai-systems-replacing-manual-tuning-with-automated-state-mutation-and-self-correction/",
+        "https://www.engadget.com/ai/blueskys-next-product-is-an-ai-assistant-that-helps-build-custom-social-media-feeds-163140902.html?src=rss"
+      ],
+      "quote_author": null,
+      "sections": {
+        "explain_like_14": "### Explain Like I'm 14\n**What “Agentic AI” really means**\n\nYou know how when you play a video game, your character doesn’t just sit there — it can walk around, pick up objects, open doors, and react to what’s happening in the game world? That’s because the game gives your character an environment with rules and tools it can use.\n\nNow imagine instead of controlling the character yourself, you tell an AI “go explore that dungeon and find the treasure.” The AI has to make a plan, decide which door",
+        "cool_stuff": "### Cool Stuff & Try This\n**Build Your Own Social Media Feed with AI** — The Verge  \nBluesky just released Attie, a new AI assistant that lets you create completely custom social feeds using normal sentences instead of complicated settings. You simply type what kind of posts you want to see — like “electronic music and experimental sound from people in my network” or “builders working on new AI tools” — and the AI builds the feed for you. It’s powered by Anthropic’s Claude and runs on Bluesky’s ",
+        "quick_bits": "### Quick Bits\n**Sora Shutdown Reality Check**  \nTechCrunch is asking whether OpenAI’s quick decision to close Sora means the whole AI video industry might slow down. It could be a sign that creating realistic AI video is harder and more expensive than companies first thought.\n\nSource: https://techcrunch.com/2026/03/29/soras-shutdown-could-be-a-reality-check-moment-for-ai-video/\n\n**AI Makes People More Stubborn**  \nA new study found that when AI acts overly nice and agrees with everything (calle",
+        "deep_dive": "### Explain Like I'm 14\n**What “Agentic AI” really means**\n\nYou know how when you play a video game, your character doesn’t just sit there — it can walk around, pick up objects, open doors, and react to what’s happening in the game world? That’s because the game gives your character an environment with rules and tools it can use.\n\nNow imagine instead of controlling the character yourself, you tell an AI “go explore that dungeon and find the treasure.” The AI has to make a plan, decide which door"
       }
     }
   ]

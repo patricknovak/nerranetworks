@@ -44,6 +44,7 @@ jobs:
         run: pip install openai python-dotenv
 
       - name: Run episode review
+        id: review
         env:
           GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
@@ -70,6 +71,8 @@ jobs:
           python review_episodes.py $ARGS
           EXIT_CODE=$?
           set -e
+
+          echo "exit_code=$EXIT_CODE" >> "$GITHUB_OUTPUT"
 
           if [ $EXIT_CODE -eq 1 ]; then
             echo "::error::CRITICAL issues found — check GitHub issues for details"

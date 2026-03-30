@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -72,7 +73,7 @@ def _get_api_key() -> str:
 def _call_grok(
     prompt: str,
     *,
-    model: str = "grok-4.20-beta-0309-non-reasoning",
+    model: str = "grok-4.20-non-reasoning",
     system_prompt: Optional[str] = None,
     temperature: float = 0.7,
     max_tokens: int = 3500,
@@ -158,6 +159,147 @@ _REFUSAL_PATTERNS = [
     r"Хочешь,?\s+я\s+(?:подожду|покажу)",
     r"(?:пришли|пришлите)\s+(?:их|новый\s+список|другой\s+список|реальные)",
 ]
+
+
+# -------------------------------------------------------------------
+# Story-level duplication detection
+# -------------------------------------------------------------------
+
+# Common English words that carry no story-specific signal
+_STOPWORDS = frozenset(
+    "the a an and or but in on of to for is it its that this with from by at "
+    "as be are was were has have had do does did will would could should can "
+    "not no nor so if then than too also just about more most very much how "
+    "what when where which who whom whose why all each every some any many "
+    "few both other another such only own same into over after before between "
+    "through during without because until while these those their them they "
+    "you your we our he she his her him one been being get got may might "
+    "still even now here there up out off down back well really right going "
+    "think know see like make take come go say says said new first last "
+    "today according".split()
+)
+
+
+def _detect_story_duplication(text: str, show_name: str) -> int:
+    """Detect when the same news story is told more than once in a script.
+
+    Splits the script into story-sized blocks (groups of consecutive
+    non-blank lines), extracts *story-signal* words — proper nouns,
+    source names, and location-like terms — from each block, and flags
+    pairs with high overlap indicating the same story is being retold.
+
+    Returns the number of duplicated story pairs found (added to the
+    suspicious-repetition count).
+    """
+    # Split into blocks of consecutive non-blank lines (roughly story-sized)
+    blocks: list[list[str]] = []
+    current: list[str] = []
+    for line in text.split("\n"):
+        stripped = line.strip()
+        # Remove "Patrick:" or similar host prefixes for analysis
+        stripped = re.sub(r"^\w+:\s*", "", stripped)
+        if stripped:
+            current.append(stripped)
+        elif current:
+            blocks.append(current)
+            current = []
+    if current:
+        blocks.append(current)
+
+    # Merge very short blocks (< 3 lines) with the next block — these are
+    # usually transitions, not standalone stories
+    merged: list[str] = []
+    buf: list[str] = []
+    for block in blocks:
+        buf.extend(block)
+        if len(buf) >= 3:
+            merged.append(" ".join(buf))
+            buf = []
+    if buf:
+        if merged:
+            merged[-1] += " " + " ".join(buf)
+        else:
+            merged.append(" ".join(buf))
+
+    if len(merged) < 3:
+        return 0  # Too few blocks to have meaningful duplication
+
+    # Extract story-signal words: proper nouns, source names, locations,
+    # and CamelCase terms.  These carry much stronger signal for story
+    # identity than common vocabulary.
+    _GENERIC_CAPS = frozenset(
+        "The This That These Those What When Where Which Who How Why "
+        "And But For Not Now Also Then Here There Just Still Even "
+        "According From Some Every Each Most Many They Their Its "
+        # Show topics and host names — too common to be story-specific
+        "Patrick Tesla Model Three Drive Semi Auto Podcast".split()
+    )
+
+    def _story_signals(block_text: str) -> set:
+        signals: set[str] = set()
+        # Multi-word proper noun phrases (e.g. "Northern Virginia") — strongest signal
+        phrase_words: set[str] = set()  # Track words consumed by phrases
+        for m in re.finditer(r"[A-Z][a-z]{2,}(?:\s+[A-Z][a-z]{2,})+", block_text):
+            # Strip generic words from edges (e.g. "That Northern Virginia" → "Northern Virginia")
+            words_in_phrase = [w for w in m.group().split() if w not in _GENERIC_CAPS]
+            if len(words_in_phrase) < 2:
+                continue
+            phrase = " ".join(words_in_phrase)
+            signals.add(phrase.lower())
+            for w in words_in_phrase:
+                phrase_words.add(w.lower())
+        # CamelCase source names (e.g. "WhatsUpTesla", "Teslarati")
+        for m in re.finditer(r"\b[A-Z][a-z]+(?:[A-Z][a-z]+)+\b", block_text):
+            signals.add(m.group().lower())
+        # Individual proper nouns not at sentence start — only if not
+        # already consumed by a multi-word phrase above
+        for m in re.finditer(r"(?<=[a-z] )([A-Z][a-z]{3,})\b", block_text):
+            w = m.group()
+            if w not in _GENERIC_CAPS and w.lower() not in phrase_words:
+                signals.add(w.lower())
+        return signals
+
+    block_signals = [_story_signals(b) for b in merged]
+
+    # Skip intro (first block) and outro (last block) — these mention
+    # the show name and common phrases that false-positive with stories
+    start_idx = 1
+    end_idx = len(block_signals) - 1
+
+    # Compare non-adjacent blocks (skip immediate neighbors — adjacent
+    # blocks may naturally share a transition sentence)
+    dup_count = 0
+    seen_pairs: set[tuple[int, int]] = set()
+    for i in range(start_idx, end_idx):
+        for j in range(i + 2, end_idx):
+            if (i, j) in seen_pairs:
+                continue
+            si, sj = block_signals[i], block_signals[j]
+            if len(si) < 2 or len(sj) < 2:
+                continue  # Block too small to judge
+            overlap = si & sj
+            smaller = min(len(si), len(sj))
+            ratio = len(overlap) / smaller
+            # Two thresholds:
+            # - 2+ shared signals at 100% overlap (e.g. "Northern Virginia" + "WhatsUpTesla")
+            # - 3+ shared signals at >= 75% overlap (broader match)
+            is_dup = (len(overlap) >= 2 and ratio >= 1.0) or (len(overlap) >= 3 and ratio >= 0.75)
+            if is_dup:
+                seen_pairs.add((i, j))
+                sample = sorted(overlap)[:10]
+                logger.warning(
+                    "Story duplication in podcast script for '%s': "
+                    "blocks %d and %d share %d/%d proper-noun signals (%.0f%%) — "
+                    "likely the same story retold. Shared: %s",
+                    show_name, i + 1, j + 1, len(overlap), smaller,
+                    ratio * 100, ", ".join(sample),
+                )
+                dup_count += 1
+
+    # Cap at 2 — story-level duplication is a softer signal than
+    # bigram-level hallucination.  The prompt-level anti-repetition
+    # instruction is the primary fix; this detector is a safety net.
+    return min(dup_count, 2)
 
 
 def _validate_llm_output(
@@ -261,7 +403,107 @@ def _validate_llm_output(
                 show_name, word_count, threshold,
             )
 
+    # Detect story-level duplication — same news story retold in different
+    # sections of the podcast script (e.g. school bus story told at lines
+    # 7-13 and again at lines 31-35 with different framing).
+    if stage == "podcast_script":
+        _suspicious_count += _detect_story_duplication(text, show_name)
+
     return _suspicious_count
+
+
+def _normalize_for_compare(line: str) -> str:
+    """Normalize a line for duplicate comparison.
+
+    Strips host prefixes (``Patrick:``, ``Olya:``), leading/trailing
+    whitespace, and common filler phrases so that near-identical
+    transition sentences match.
+    """
+    s = re.sub(r"^\w+:\s*", "", line.strip())
+    # Drop minor filler differences ("these days", "this week", etc.)
+    s = re.sub(r"\b(these days|this week|right now|at the moment)\b", "", s)
+    s = re.sub(r"\s{2,}", " ", s).strip().lower()
+    return s
+
+
+def _dedup_transition_sentences(lines: list[str]) -> list[str]:
+    """Remove duplicate transition sentences from a podcast script.
+
+    The LLM sometimes writes a transition tease at the end of one
+    paragraph and repeats it (identically or near-identically) as
+    the first sentence of the next paragraph.  This function detects
+    such duplicates and removes the *first* occurrence (the tease at
+    the end of the previous paragraph), keeping the version that opens
+    the new topic.
+
+    Works across blank-line paragraph boundaries and also catches
+    consecutive non-blank lines that are duplicates.
+    """
+    if not lines:
+        return lines
+
+    # Identify content lines (non-blank) and their normalized forms
+    content_indices: list[int] = []
+    normalized: dict[int, str] = {}
+    for i, line in enumerate(lines):
+        if line.strip():
+            content_indices.append(i)
+            normalized[i] = _normalize_for_compare(line)
+
+    # Find pairs of content lines where the earlier one's last sentence
+    # matches the later one.  We check consecutive content lines
+    # (which may be separated by blank lines).
+    drop_indices: set[int] = set()
+    for ci in range(len(content_indices) - 1):
+        idx_a = content_indices[ci]
+        idx_b = content_indices[ci + 1]
+        norm_a = normalized[idx_a]
+        norm_b = normalized[idx_b]
+
+        if len(norm_b) < 30:
+            continue  # Too short to be a meaningful transition
+
+        # Case 1: entire line A == line B (exact or near-exact)
+        if norm_a == norm_b:
+            drop_indices.add(idx_a)
+            logger.info("Stripped duplicate transition line: %s", lines[idx_a].strip()[:80])
+            continue
+
+        # Case 2: line A ends with a sentence that matches line B.
+        # Split A into sentences and check if the last one matches B.
+        # This handles: "...wearing people down. Speaking of Cyber-cab..."
+        sentences_a = re.split(r"(?<=[.!?])\s+", norm_a)
+        if len(sentences_a) >= 2:
+            last_sentence_a = sentences_a[-1].strip()
+            if len(last_sentence_a) >= 30 and _sentence_similar(last_sentence_a, norm_b):
+                # Remove the trailing sentence from line A instead of dropping the whole line
+                orig_line = lines[idx_a]
+                # Find and remove the last sentence from the original line
+                orig_sentences = re.split(r"(?<=[.!?])\s+", orig_line.strip())
+                if len(orig_sentences) >= 2:
+                    lines[idx_a] = " ".join(orig_sentences[:-1])
+                    logger.info(
+                        "Stripped duplicate trailing transition: %s",
+                        orig_sentences[-1][:80],
+                    )
+
+    result = [line for i, line in enumerate(lines) if i not in drop_indices]
+    return result
+
+
+def _sentence_similar(a: str, b: str) -> bool:
+    """Check if two normalized sentences are similar enough to be duplicates.
+
+    Uses word-level overlap: if >= 80% of the shorter sentence's words
+    appear in the longer one, they're considered duplicates.
+    """
+    words_a = set(a.split())
+    words_b = set(b.split())
+    if not words_a or not words_b:
+        return False
+    overlap = words_a & words_b
+    smaller = min(len(words_a), len(words_b))
+    return len(overlap) / smaller >= 0.80
 
 
 def _sanitize_podcast_script(text: str) -> str:
@@ -305,6 +547,11 @@ def _sanitize_podcast_script(text: str) -> str:
             logger.info("Stripped LLM meta-commentary from podcast script: %s", stripped[:80])
             continue
         cleaned.append(line)
+
+    # Remove duplicate transition sentences — the LLM sometimes writes a
+    # transition tease at the end of one paragraph and then repeats it
+    # (identically or near-identically) to open the next paragraph.
+    cleaned = _dedup_transition_sentences(cleaned)
 
     return "\n".join(cleaned)
 
@@ -601,11 +848,20 @@ def generate_digest(
                 text_retry, stage="digest", show_name=config.name,
             )
             if _rep_retry < _rep_count:
-                logger.info(
-                    "Repetition retry improved digest for '%s' (%d → %d suspicious phrases)",
-                    config.name, _rep_count, _rep_retry,
-                )
-                text = text_retry
+                # Guard: don't swap to a drastically shorter retry — it's
+                # likely garbage even if it has fewer repetitions.
+                if len(text_retry) < len(text) * 0.5:
+                    logger.warning(
+                        "Repetition retry for '%s' has fewer repetitions but is "
+                        "drastically shorter (%d → %d chars) — keeping original",
+                        config.name, len(text), len(text_retry),
+                    )
+                else:
+                    logger.info(
+                        "Repetition retry improved digest for '%s' (%d → %d suspicious phrases)",
+                        config.name, _rep_count, _rep_retry,
+                    )
+                    text = text_retry
             else:
                 logger.warning(
                     "Repetition retry did not improve for '%s' — keeping original",
@@ -857,11 +1113,20 @@ def generate_podcast_script(
                 min_podcast_words=min_words,
             )
             if _rep_retry < _rep_count:
-                logger.info(
-                    "Repetition retry improved script for '%s' (%d → %d suspicious phrases)",
-                    config.name, _rep_count, _rep_retry,
-                )
-                text = text_retry
+                # Guard: don't swap to a drastically shorter retry — it's
+                # likely garbage even if it has fewer repetitions.
+                if len(text_retry) < len(text) * 0.5:
+                    logger.warning(
+                        "Repetition retry for '%s' has fewer repetitions but is "
+                        "drastically shorter (%d → %d chars) — keeping original",
+                        config.name, len(text), len(text_retry),
+                    )
+                else:
+                    logger.info(
+                        "Repetition retry improved script for '%s' (%d → %d suspicious phrases)",
+                        config.name, _rep_count, _rep_retry,
+                    )
+                    text = text_retry
             else:
                 logger.warning(
                     "Repetition retry did not improve for '%s' — keeping original",

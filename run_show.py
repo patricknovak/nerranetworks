@@ -590,7 +590,18 @@ def run(args: argparse.Namespace) -> None:
                         i for i in _val2_issues
                         if "missing from digest" in i.lower()
                     ]
-                    if len(_missing2) < len(_missing):
+                    # If the original is very short (likely garbage from a
+                    # failed refusal recovery), prefer any substantially
+                    # longer retry regardless of section comparison.
+                    _orig_is_garbage = len(x_thread) < 2000 and len(x_thread_retry) > len(x_thread) * 3
+                    if _orig_is_garbage:
+                        logger.info(
+                            "Original digest looks like garbage (%d chars) — "
+                            "preferring much longer retry (%d chars)",
+                            len(x_thread), len(x_thread_retry),
+                        )
+                        x_thread = x_thread_retry
+                    elif len(_missing2) < len(_missing):
                         logger.info(
                             "Digest retry improved: %d → %d missing sections",
                             len(_missing), len(_missing2),
@@ -708,10 +719,8 @@ def run(args: argparse.Namespace) -> None:
 
                         # Extract hook from the regenerated digest
                         hook = _extract_hook(x_thread)
-                        if hook:
-                            hook = f"[Slow News Edition] {hook}"
-                        else:
-                            hook = "[Slow News Edition]"
+                        if not hook:
+                            hook = f"Episode {episode_num}"
                         logger.info("Slow news fallback hook: %s", hook)
 
                         # Re-record episode content
@@ -817,10 +826,10 @@ def run(args: argparse.Namespace) -> None:
     else:
         logger.warning("No HOOK found in digest — using generic episode title")
 
-    # Tag slow news editions in the episode title
+    # Log slow news mode but do NOT tag the episode title — slow news
+    # episodes should be indistinguishable from regular episodes.
     if slow_news_mode:
-        hook = f"[Slow News Edition] {hook}" if hook else "[Slow News Edition]"
-        logger.info("Episode tagged as Slow News Edition")
+        logger.info("Slow news mode active (not tagged in title)")
 
     # Save digest to file
     digest_md = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}.md"
