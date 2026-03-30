@@ -382,11 +382,34 @@ def run(args: argparse.Namespace) -> None:
                 logger.warning("X account fetch failed: %s — continuing with RSS only", exc)
                 x_posts = []
 
-    # Merge X posts into articles
+    # Merge X posts into articles, deduplicating against existing RSS articles
     if x_posts:
         logger.info("Merging %d X posts from %d account(s) into %d RSS articles",
                      len(x_posts), len(config.x_accounts), len(articles))
-        articles.extend(x_posts)
+        from engine.utils import calculate_similarity
+        _X_DEDUP_THRESHOLD = 0.65
+        filtered_x = []
+        for xp in x_posts:
+            xp_title = (xp.get("title") or xp.get("summary") or "")[:200]
+            if not xp_title:
+                filtered_x.append(xp)
+                continue
+            is_dup = False
+            for art in articles:
+                art_title = (art.get("title") or art.get("summary") or "")[:200]
+                if art_title and calculate_similarity(xp_title, art_title) >= _X_DEDUP_THRESHOLD:
+                    logger.info("X post deduped against RSS article (%.0f%%): '%s'",
+                                calculate_similarity(xp_title, art_title) * 100,
+                                xp_title[:80])
+                    is_dup = True
+                    break
+            if not is_dup:
+                filtered_x.append(xp)
+        skipped = len(x_posts) - len(filtered_x)
+        if skipped:
+            logger.info("Cross-dedup filtered %d X post(s) that overlapped with RSS articles", skipped)
+        articles.extend(filtered_x)
+        x_posts = filtered_x  # Update for accurate count below
     logger.info("After fetch + dedup: %d articles (incl. %d X posts)", len(articles), len(x_posts))
     metrics.record("article_count", len(articles))
 
@@ -543,10 +566,11 @@ def run(args: argparse.Namespace) -> None:
     #      explicit instruction to include them.
     from engine.validation import validate_digest as _validate_digest, SHOW_VALIDATION_CONFIGS
     _val_factory = SHOW_VALIDATION_CONFIGS.get(config.slug)
+    _exact_dups: list = []  # Populated by validate_digest for 100% cross-episode matches
     if _val_factory:
         _val_config = _val_factory()
         _recent = content_tracker.get_recent_headlines(days=7)
-        _val_passed, _val_issues = _validate_digest(
+        _val_passed, _val_issues, _exact_dups = _validate_digest(
             x_thread, _val_config,
             section_patterns=section_patterns,
             recent_headlines=_recent,
@@ -581,7 +605,7 @@ def run(args: argparse.Namespace) -> None:
                             prompt_suffix=_retry_suffix,
                         )
                     # Re-validate
-                    _val2_passed, _val2_issues = _validate_digest(
+                    _val2_passed, _val2_issues, _exact_dups2 = _validate_digest(
                         x_thread_retry, _val_config,
                         section_patterns=section_patterns,
                         recent_headlines=_recent,
@@ -601,12 +625,14 @@ def run(args: argparse.Namespace) -> None:
                             len(x_thread), len(x_thread_retry),
                         )
                         x_thread = x_thread_retry
+                        _exact_dups = _exact_dups2
                     elif len(_missing2) < len(_missing):
                         logger.info(
                             "Digest retry improved: %d → %d missing sections",
                             len(_missing), len(_missing2),
                         )
                         x_thread = x_thread_retry
+                        _exact_dups = _exact_dups2
                     elif len(x_thread_retry) > len(x_thread):
                         # Same missing sections but retry is longer — prefer
                         # the longer output (less likely to be garbage).
@@ -615,6 +641,7 @@ def run(args: argparse.Namespace) -> None:
                             len(x_thread), len(x_thread_retry),
                         )
                         x_thread = x_thread_retry
+                        _exact_dups = _exact_dups2
                     else:
                         logger.warning("Digest retry did not improve — keeping original")
                 except LLMRefusalError:
@@ -898,6 +925,28 @@ def run(args: argparse.Namespace) -> None:
         # sometimes echoes these through to the script, and TTS reads them
         # aloud.  This is defense-in-depth alongside the prompt instructions.
         clean_digest = _clean_digest_for_podcast(x_thread)
+
+        # Strip exact cross-episode duplicates from the digest so they don't
+        # make it into the podcast script.  _exact_dups is populated by
+        # validate_digest when a headline matches a recent episode at 100%.
+        if _val_factory and _exact_dups:
+            for dup_headline in _exact_dups:
+                if dup_headline in clean_digest:
+                    # Remove the paragraph containing the duplicate headline
+                    import re as _re
+                    # Try to remove the full bold-headline block
+                    _dup_escaped = _re.escape(dup_headline)
+                    _pattern = _re.compile(
+                        r'\n[^\n]*\*\*' + _dup_escaped + r'\*\*[^\n]*(?:\n(?![#\n━*])[^\n]*)*',
+                        _re.IGNORECASE,
+                    )
+                    clean_digest_new = _pattern.sub('', clean_digest)
+                    if clean_digest_new != clean_digest:
+                        logger.info(
+                            "Stripped 100%% duplicate headline from podcast digest: '%s'",
+                            dup_headline[:60],
+                        )
+                        clean_digest = clean_digest_new
 
         effective_hook = hook or f"Here's what's making news in the {config.name} world today."
 
@@ -1196,6 +1245,7 @@ def run(args: argparse.Namespace) -> None:
                             stability=config.tts.stability,
                             similarity_boost=config.tts.similarity_boost,
                             style=config.tts.style,
+                            language_code=config.tts.language_code,
                         )
 
                     generate_transition_sting(sting_path)

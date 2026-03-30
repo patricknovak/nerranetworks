@@ -230,6 +230,7 @@ def speak_chunk(
     similarity_boost: float = 0.9,
     style: float = 0.85,
     use_speaker_boost: bool = True,
+    language_code: str = "",
     timeout: int = 120,
     previous_text: str = "",
     next_text: str = "",
@@ -271,6 +272,10 @@ def speak_chunk(
             "use_speaker_boost": use_speaker_boost,
         },
     }
+    # ElevenLabs eleven_v3 uses language_code for optimal pronunciation
+    # in non-English content (ISO 639-1, e.g. "ru", "es").
+    if language_code:
+        payload["language_code"] = language_code
     # ElevenLabs uses previous/next_text to condition prosody at chunk
     # boundaries, reducing audible transitions between chunks.
     if previous_text:
@@ -333,6 +338,7 @@ def speak(
     similarity_boost: float = 0.9,
     style: float = 0.85,
     use_speaker_boost: bool = True,
+    language_code: str = "",
     timeout: int = 120,
     append_exclamation: bool = False,
 ) -> None:
@@ -353,6 +359,7 @@ def speak(
         similarity_boost=similarity_boost,
         style=style,
         use_speaker_boost=use_speaker_boost,
+        language_code=language_code,
         timeout=timeout,
     )
 
@@ -510,6 +517,7 @@ def synthesize(
     stability: float = 0.65,
     similarity_boost: float = 0.9,
     style: float = 0.85,
+    language_code: str = "",
     timeout: int = 120,
     append_exclamation: bool = False,
 ) -> Path:
@@ -529,6 +537,7 @@ def synthesize(
         stability=stability,
         similarity_boost=similarity_boost,
         style=style,
+        language_code=language_code,
         timeout=timeout,
         append_exclamation=append_exclamation,
     )
@@ -547,6 +556,7 @@ def synthesize_sections(
     stability: float = 0.65,
     similarity_boost: float = 0.9,
     style: float = 0.85,
+    language_code: str = "",
     timeout: int = 120,
 ) -> List[Path]:
     """Synthesize multiple script sections into individual audio files.
@@ -596,6 +606,7 @@ def synthesize_sections(
             stability=stability,
             similarity_boost=similarity_boost,
             style=style,
+            language_code=language_code,
             timeout=timeout,
         )
         section_files.append(section_path)

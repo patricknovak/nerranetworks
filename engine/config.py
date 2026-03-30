@@ -59,6 +59,7 @@ class TTSConfig:
     style: float = 0.85
     use_speaker_boost: bool = True
     max_chars: int = 5000
+    language_code: str = ""  # ISO 639-1 code (e.g. "ru" for Russian); improves eleven_v3 pronunciation
     # Kokoro-specific (ignored when provider != kokoro)
     kokoro_voice: str = "am_adam"
     kokoro_speed: float = 1.0

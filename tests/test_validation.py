@@ -198,7 +198,7 @@ class TestWithinEpisodeDuplicates:
 class TestCrossEpisodeRepeats:
     def test_detects_repeat(self):
         recent = ["Tesla Cybertruck Production Ramps Up Significantly"]
-        issues = check_cross_episode_repeats(
+        issues, exact_dups = check_cross_episode_repeats(
             SAMPLE_DIGEST,
             recent,
             TST_SECTION_PATTERNS,
@@ -208,32 +208,34 @@ class TestCrossEpisodeRepeats:
 
     def test_no_repeats_with_different_headlines(self):
         recent = ["SpaceX Launches New Satellite"]
-        issues = check_cross_episode_repeats(
+        issues, exact_dups = check_cross_episode_repeats(
             SAMPLE_DIGEST,
             recent,
             TST_SECTION_PATTERNS,
             threshold=0.65,
         )
         assert len(issues) == 0
+        assert len(exact_dups) == 0
 
 
 class TestValidateDigest:
     def test_clean_digest_passes(self):
         config = ValidationConfig()
-        passed, issues = validate_digest(SAMPLE_DIGEST, config)
+        passed, issues, exact_dups = validate_digest(SAMPLE_DIGEST, config)
         assert passed is True
         assert len(issues) == 0
+        assert len(exact_dups) == 0
 
     def test_empty_digest_fails(self):
         config = ValidationConfig()
-        passed, issues = validate_digest("", config)
+        passed, issues, exact_dups = validate_digest("", config)
         assert passed is False
 
     def test_with_section_pairs(self):
         config = ValidationConfig(
             section_pairs=[("headlines", "takeover_headlines")],
         )
-        passed, issues = validate_digest(
+        passed, issues, exact_dups = validate_digest(
             SAMPLE_DIGEST, config, section_patterns=TST_SECTION_PATTERNS
         )
         assert passed is True
