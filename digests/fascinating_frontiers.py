@@ -940,7 +940,7 @@ def generate_digest_with_grok():
 
     text, meta = grok_generate_text(
         prompt=X_PROMPT,
-        model="grok-4.20-beta-0309-non-reasoning",
+        model="grok-4.20-non-reasoning",
         temperature=0.7,
         max_tokens=3500,
         timeout_seconds=300.0,
@@ -1053,7 +1053,7 @@ Here is today's complete formatted digest. Use ONLY this content:
 
         return grok_generate_text(
             prompt=POD_PROMPT,
-            model="grok-4.20-beta-0309-non-reasoning",
+            model="grok-4.20-non-reasoning",
             temperature=0.7,
             max_tokens=3500,  # Reduced from 4000 for faster generation
             timeout_seconds=300.0,
@@ -1151,7 +1151,7 @@ Here is today's complete formatted digest. Use ONLY this content:
         }
         payload = {
             "text": text + "!",
-            "model_id": "eleven_turbo_v2_5",
+            "model_id": "eleven_v3",
             "voice_settings": {
                 "stability": 0.65,
                 "similarity_boost": 0.9,

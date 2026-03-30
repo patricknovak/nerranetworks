@@ -10,7 +10,7 @@
 
 llm:
   provider: xai
-  model: grok-4.20-beta-0309-non-reasoning
+  model: grok-4.20-non-reasoning
   digest_temperature: 0.5
   podcast_temperature: 0.7
   max_tokens: 3500
@@ -21,7 +21,7 @@ llm:
 tts:
   provider: elevenlabs
   voice_id: dTrBzPvD2GpAqkk1MUzA
-  model: eleven_turbo_v2_5
+  model: eleven_v3
   stability: 0.65
   similarity_boost: 0.9
   style: 0.85

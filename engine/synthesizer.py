@@ -379,7 +379,7 @@ on connections that no single-domain publication would catch."""
     try:
         text, meta = _call_grok(
             prompt=prompt,
-            model="grok-4.20-beta-0309-non-reasoning",
+            model="grok-4.20-non-reasoning",
             temperature=0.5,
             max_tokens=4000,
             system_prompt=(

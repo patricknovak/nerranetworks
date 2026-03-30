@@ -37,7 +37,7 @@ class XAccountConfig:
 @dataclass
 class LLMConfig:
     provider: str = "xai"
-    model: str = "grok-3"
+    model: str = "grok-4.20-non-reasoning"
     system_prompt_file: str = ""
     digest_prompt_file: str = ""
     podcast_prompt_file: str = ""
@@ -53,7 +53,7 @@ class LLMConfig:
 class TTSConfig:
     provider: str = "elevenlabs"  # "elevenlabs", "kokoro", "chatterbox", or "fish"
     voice_id: str = "dTrBzPvD2GpAqkk1MUzA"
-    model: str = "eleven_turbo_v2_5"
+    model: str = "eleven_v3"
     stability: float = 0.65
     similarity_boost: float = 0.9
     style: float = 0.85

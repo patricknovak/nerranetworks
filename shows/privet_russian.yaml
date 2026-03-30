@@ -84,7 +84,6 @@ keywords:
 
 llm:
   provider: xai
-  model: grok-4.20-beta-0309-non-reasoning
   system_prompt_file: shows/prompts/privet_russian_system.txt
   digest_prompt_file: shows/prompts/privet_russian_digest.txt
   podcast_prompt_file: shows/prompts/privet_russian_podcast.txt
@@ -96,7 +95,6 @@ llm:
 
 tts:
   voice_id: gedzfqL7OGdPbwm0ynTP
-  model: eleven_multilingual_v2
   stability: 0.65
   similarity_boost: 0.9
   style: 0.85

@@ -62,7 +62,7 @@ keywords:
 # ---------------------------------------------------------------------------
 llm:
   provider: xai
-  model: grok-4.20-beta-0309-non-reasoning  # grok-4.20 for highest quality; grok-4 for cost savings
+  # model: inherited from _defaults.yaml (grok-4.20-non-reasoning)
   digest_prompt_file: shows/prompts/{slug}_digest.txt
   podcast_prompt_file: shows/prompts/{slug}_podcast.txt
   digest_temperature: 0.5          # Lower = more factual/consistent. 0.4-0.6 for news.
@@ -87,7 +87,7 @@ llm:
 #   DO NOT USE: stability < 0.35 or style < 0.3 (sounds robotic/flat)
 tts:
   voice_id: dTrBzPvD2GpAqkk1MUzA
-  model: eleven_turbo_v2_5
+  # model: inherited from _defaults.yaml (eleven_v3)
   stability: 0.65
   similarity_boost: 0.9
   style: 0.85
