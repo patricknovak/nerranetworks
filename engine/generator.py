@@ -36,6 +36,12 @@ class LLMRefusalError(RuntimeError):
     """
 
 
+# Fallback model used when the primary model refuses to generate content
+# after educational prompt retry.  A different model often has different
+# refusal thresholds and can succeed where the primary model won't.
+_LLM_FALLBACK_MODEL = "grok-4"
+
+
 # ---------------------------------------------------------------------------
 # Prompt template loading
 # ---------------------------------------------------------------------------
@@ -381,11 +387,32 @@ def _validate_llm_output(
         from collections import Counter
         bigrams = [" ".join(words[i:i+2]).lower() for i in range(len(words) - 1)]
         bigram_counts = Counter(bigrams)
+        # Common phrases that naturally repeat in news digests and podcast scripts
+        _COMMON_BIGRAMS = {
+            # Articles / prepositions
+            "the the", "of the", "in the", "to the", "and the", "on the",
+            "for the", "is the", "is a", "it's a", "this is", "with the",
+            "at the", "by the", "from the", "that the", "has been",
+            # Host attribution patterns (e.g. "patrick: the", "host: this")
+            "patrick: the", "patrick: this", "patrick: it", "patrick: a",
+            "patrick: so", "patrick: now", "patrick: and", "patrick: but",
+            "**host:** the", "**host:** this", "**host:** it", "**host:** a",
+            # Section separators / formatting
+            "━━━━━━━━━━ ###", "━━━━━━━━━━━━━━━━━━━━ ###",
+            # Article reference patterns
+            "according to", "going to", "we're going",
+        }
+        # Podcast scripts are longer and naturally have more repeated phrases
+        _rep_threshold = 5 if stage == "podcast_script" else 4
         for phrase, count in bigram_counts.most_common(5):
             # Skip common phrases
-            if phrase in ("the the", "of the", "in the", "to the", "and the", "on the", "for the", "is the"):
+            if phrase in _COMMON_BIGRAMS:
                 continue
-            if count >= 4:
+            # Skip phrases that are mostly stopwords or very short tokens
+            tokens = phrase.split()
+            if all(len(t) <= 3 for t in tokens):
+                continue
+            if count >= _rep_threshold:
                 _suspicious_count += 1
                 logger.warning(
                     "LLM %s for '%s' has suspicious repetition: '%s' appears %d times (possible hallucination)",
@@ -822,8 +849,44 @@ def generate_digest(
 
             logger.info("Retry 2 (educational) digest generated (%d chars, %s tokens)",
                         len(text), meta3.get("usage", {}).get("total_tokens", "?"))
-            # Validate — if even the educational fallback refuses, let it propagate
-            _rep_count = _validate_llm_output(text, stage="digest", show_name=config.name)
+            # Validate — if even the educational fallback refuses, try a
+            # different model before giving up.
+            try:
+                _rep_count = _validate_llm_output(text, stage="digest", show_name=config.name)
+            except LLMRefusalError:
+                if config.llm.model == _LLM_FALLBACK_MODEL:
+                    raise  # Already using fallback model — nothing left to try
+                # --- Retry 3: fallback model with educational prompt ---
+                logger.warning(
+                    "LLM refused even educational fallback for '%s' — "
+                    "trying fallback model '%s' ...",
+                    config.name, _LLM_FALLBACK_MODEL,
+                )
+                text, meta4 = _call_grok(
+                    edu_prompt,
+                    model=_LLM_FALLBACK_MODEL,
+                    system_prompt=system_prompt,
+                    temperature=config.llm.podcast_temperature,
+                    max_tokens=config.llm.max_tokens,
+                )
+                if tracker and "usage" in meta4:
+                    try:
+                        from engine.tracking import record_llm_usage
+                        record_llm_usage(
+                            tracker,
+                            "x_thread_generation_retry_fallback_model",
+                            meta4["usage"].get("prompt_tokens", 0),
+                            meta4["usage"].get("completion_tokens", 0),
+                            model=_LLM_FALLBACK_MODEL,
+                        )
+                    except Exception as e:
+                        logger.warning("Failed to record fallback model LLM usage: %s", e)
+                logger.info(
+                    "Retry 3 (fallback model) digest generated (%d chars, %s tokens)",
+                    len(text), meta4.get("usage", {}).get("total_tokens", "?"),
+                )
+                # Validate — if fallback model also refuses, let it propagate
+                _rep_count = _validate_llm_output(text, stage="digest", show_name=config.name)
 
     # If the digest has severe repetition (3+ distinct phrases appearing 4+
     # times), retry once with lower temperature to reduce hallucination.
@@ -1030,10 +1093,85 @@ def generate_podcast_script(
 
     min_words = getattr(config.llm, "min_podcast_words", 1500)
 
-    # Validate the podcast script is usable
-    _rep_count = _validate_llm_output(text, stage="podcast_script",
-                                      show_name=config.name,
-                                      min_podcast_words=min_words)
+    # Use podcast-specific tokens for retries too
+    podcast_tokens_for_retry = podcast_tokens
+
+    # Validate the podcast script — recover from refusals with retries
+    try:
+        _rep_count = _validate_llm_output(text, stage="podcast_script",
+                                          show_name=config.name,
+                                          min_podcast_words=min_words)
+    except LLMRefusalError:
+        # --- Retry 1: lower temperature + simplified prompt (just digest) ---
+        logger.warning(
+            "LLM refused to generate podcast script for '%s' — "
+            "retrying with lower temperature (attempt 1/2) ...",
+            config.name,
+        )
+        digest_text = template_vars.get("digest", "")
+        simple_prompt = (
+            f"You are the host of {config.name}. Read the following digest and "
+            f"convert it into a natural, conversational podcast script. "
+            f"Speak directly to the listener. Cover every story.\n\n"
+            f"DIGEST:\n{digest_text}"
+        )
+        lower_temp = max(0.3, config.llm.podcast_temperature * 0.6)
+        text, meta_r1 = _call_grok(
+            simple_prompt,
+            model=config.llm.model,
+            system_prompt=system_prompt,
+            temperature=lower_temp,
+            max_tokens=podcast_tokens_for_retry,
+        )
+        if tracker and "usage" in meta_r1:
+            try:
+                from engine.tracking import record_llm_usage
+                record_llm_usage(
+                    tracker, "podcast_script_refusal_retry",
+                    meta_r1["usage"].get("prompt_tokens", 0),
+                    meta_r1["usage"].get("completion_tokens", 0),
+                    model=config.llm.model,
+                )
+            except Exception:
+                pass
+        logger.info("Podcast refusal retry 1 generated (%d chars)", len(text))
+
+        try:
+            _rep_count = _validate_llm_output(text, stage="podcast_script",
+                                              show_name=config.name,
+                                              min_podcast_words=min_words)
+        except LLMRefusalError:
+            # --- Retry 2: fallback model ---
+            if config.llm.model == _LLM_FALLBACK_MODEL:
+                raise
+            logger.warning(
+                "LLM refused podcast script again for '%s' — "
+                "trying fallback model '%s' ...",
+                config.name, _LLM_FALLBACK_MODEL,
+            )
+            text, meta_r2 = _call_grok(
+                simple_prompt,
+                model=_LLM_FALLBACK_MODEL,
+                system_prompt=system_prompt,
+                temperature=lower_temp,
+                max_tokens=podcast_tokens_for_retry,
+            )
+            if tracker and "usage" in meta_r2:
+                try:
+                    from engine.tracking import record_llm_usage
+                    record_llm_usage(
+                        tracker, "podcast_script_refusal_fallback_model",
+                        meta_r2["usage"].get("prompt_tokens", 0),
+                        meta_r2["usage"].get("completion_tokens", 0),
+                        model=_LLM_FALLBACK_MODEL,
+                    )
+                except Exception:
+                    pass
+            logger.info("Podcast refusal retry 2 (fallback model) generated (%d chars)", len(text))
+            # If fallback model also refuses, let it propagate
+            _rep_count = _validate_llm_output(text, stage="podcast_script",
+                                              show_name=config.name,
+                                              min_podcast_words=min_words)
 
     # Retry once if podcast script is too short for target duration
     word_count = len(text.split())

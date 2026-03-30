@@ -185,16 +185,25 @@ def check_cross_episode_repeats(
     recent_headlines: List[str],
     section_patterns: Dict[str, str],
     threshold: float = 0.65,
-) -> List[str]:
-    """Check for stories that repeat from recent episodes."""
+) -> Tuple[List[str], List[str]]:
+    """Check for stories that repeat from recent episodes.
+
+    Returns
+    -------
+    Tuple of (warning_issues, exact_duplicate_headlines).
+    - warning_issues: list of warning strings for near-duplicates (>= threshold)
+    - exact_duplicate_headlines: list of headline texts that matched at 100%
+      similarity (should be stripped from digest before podcast generation)
+    """
     if not recent_headlines:
-        return []
+        return [], []
 
     issues = []
+    exact_duplicates: List[str] = []
     # Extract today's headlines
     headlines_pattern = section_patterns.get("headlines", "")
     if not headlines_pattern:
-        return []
+        return [], []
 
     today_items = _extract_items_from_section(digest_text, headlines_pattern)
 
@@ -207,14 +216,21 @@ def check_cross_episode_repeats(
             if not r:
                 continue
             sim = calculate_similarity(norm_item, r)
-            if sim >= threshold:
+            if sim >= 1.0:
+                exact_duplicates.append(item)
+                issues.append(
+                    f"BLOCKING cross-episode repeat: '{item[:60]}...' is identical "
+                    f"to recent story (similarity 100%)"
+                )
+                break
+            elif sim >= threshold:
                 issues.append(
                     f"Cross-episode repeat: '{item[:60]}...' similar to recent story "
                     f"(similarity {sim:.0%})"
                 )
                 break
 
-    return issues
+    return issues, exact_duplicates
 
 
 def validate_digest(
@@ -222,8 +238,8 @@ def validate_digest(
     config: ValidationConfig,
     section_patterns: Optional[Dict[str, str]] = None,
     recent_headlines: Optional[List[str]] = None,
-) -> Tuple[bool, List[str]]:
-    """Master validation function. Returns (passed, issues).
+) -> Tuple[bool, List[str], List[str]]:
+    """Master validation function. Returns (passed, issues, exact_duplicates).
 
     Args:
         digest_text: The generated digest text to validate.
@@ -232,13 +248,16 @@ def validate_digest(
         recent_headlines: Headlines from recent episodes for cross-day check.
 
     Returns:
-        Tuple of (passed: bool, issues: list[str]).
+        Tuple of (passed: bool, issues: list[str], exact_duplicates: list[str]).
         passed is True if no issues were found.
+        exact_duplicates contains headlines that matched at 100% similarity
+        to recent episodes — callers should strip these before podcast generation.
     """
     if not digest_text:
-        return False, ["Empty digest text"]
+        return False, ["Empty digest text"], []
 
     issues: List[str] = []
+    exact_duplicates: List[str] = []
     patterns = section_patterns or {}
 
     # 1. Section overlap check
@@ -265,7 +284,7 @@ def validate_digest(
 
     # 5. Cross-episode repeats
     if recent_headlines and patterns:
-        repeat_issues = check_cross_episode_repeats(
+        repeat_issues, exact_duplicates = check_cross_episode_repeats(
             digest_text, recent_headlines, patterns, config.cross_episode_threshold
         )
         issues.extend(repeat_issues)
@@ -277,7 +296,7 @@ def validate_digest(
     else:
         logger.info("Digest validation passed — no issues found")
 
-    return (len(issues) == 0, issues)
+    return (len(issues) == 0, issues, exact_duplicates)
 
 
 # ---------------------------------------------------------------------------
