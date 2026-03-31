@@ -1720,6 +1720,49 @@ def generate_404_page(*, dry_run=False):
     return out_path
 
 
+def generate_player_page(*, dry_run=False):
+    """Generate the cross-show podcast player page."""
+    env = _get_jinja_env()
+    template = env.get_template("player_page.html.j2")
+
+    # Build show list for the player's JS config
+    player_shows = []
+    for cfg in NETWORK_SHOWS.values():
+        player_shows.append({
+            "slug": cfg["slug"],
+            "name": cfg["name"],
+            "json_path": cfg["json_path"],
+            "podcast_image": cfg["podcast_image"],
+            "brand_color": cfg["brand_color"],
+        })
+
+    context = {
+        "path_prefix": "",
+        "page_title": "Player | Nerra Network",
+        "meta_description": "Listen to all Nerra Network shows in one player. Build your queue, reorder episodes, and discover new content across 10 daily podcasts.",
+        "meta_keywords": "podcast player, Nerra Network, queue, playlist",
+        "theme_color": "#7C5CFF",
+        "og_image": None,
+        "canonical_url": f"{GITHUB_RAW}/player.html",
+        "rss_url": "network.rss",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+        "player_shows": player_shows,
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "player.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
 # ---------------------------------------------------------------------------
 
 def main():
@@ -1762,6 +1805,11 @@ def main():
         help="Generate sitemap.xml",
     )
     parser.add_argument(
+        "--player",
+        action="store_true",
+        help="Generate the cross-show podcast player page",
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Preview output without writing files",
@@ -1770,7 +1818,7 @@ def main():
     args = parser.parse_args()
 
     # Default to --all if no specific flag
-    if not args.summaries and not args.shows and not args.network and not args.all and not args.show and not args.blogs and not args.sitemap:
+    if not args.summaries and not args.shows and not args.network and not args.all and not args.show and not args.blogs and not args.sitemap and not args.player:
         args.all = True
 
     if args.show:
@@ -1794,6 +1842,7 @@ def main():
         generate_all_blogs(dry_run=args.dry_run)
         generate_sitemap(dry_run=args.dry_run)
         generate_404_page(dry_run=args.dry_run)
+        generate_player_page(dry_run=args.dry_run)
         return
 
     if args.shows:
@@ -1809,6 +1858,8 @@ def main():
         generate_all_blogs(dry_run=args.dry_run)
     if args.sitemap:
         generate_sitemap(dry_run=args.dry_run)
+    if args.player:
+        generate_player_page(dry_run=args.dry_run)
 
 
 if __name__ == "__main__":
