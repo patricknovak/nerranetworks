@@ -66,15 +66,16 @@
             <p class="hero-subtitle">{{ all_shows | length }} ad-free shows covering Tesla, world news, space, science, AI, investing, and more. Produced daily in Vancouver.</p>
             <div class="hero-show-orbit">
                 {% for s in all_shows %}
-                <div class="orbit-card" style="--i: {{ loop.index0 }};">
-                    <img src="{{ s.podcast_image }}" alt="{{ s.name }}" loading="eager" />
-                </div>
+                <a href="{{ path_prefix }}{{ s.show_page }}" class="orbit-card" style="--i: {{ loop.index0 }};">
+                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }}" loading="eager" />
+                </a>
                 {% endfor %}
             </div>
             <div class="hero-cta-row">
                 <a href="#shows" class="nn-btn nn-btn-primary nn-btn-lg hero-cta-primary" style="--show-color:#7C5CFF;">Explore Shows</a>
+                <a href="{{ path_prefix }}player.html" class="nn-btn nn-btn-lg">Open Player</a>
                 <a href="#subscribe" class="nn-btn nn-btn-lg">Subscribe Free</a>
-                <a href="blog/index.html" class="nn-btn nn-btn-lg">Read Blog</a>
+                <a href="{{ path_prefix }}blog/index.html" class="nn-btn nn-btn-lg">Read Blog</a>
             </div>
         </div>
     </section>
