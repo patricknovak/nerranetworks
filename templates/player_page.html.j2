@@ -354,15 +354,22 @@
   .nn-queue-drawer { display: block; }
   #episode-grid { grid-template-columns: 1fr; }
   .nn-bp-volume { display: none; }
-  .nn-bp-speed { display: none; }
   .nn-bp-meta { flex: 0 1 120px; }
   .nn-player-search { width: 140px; }
+  .nn-bottom-player-inner {
+    flex-wrap: wrap; justify-content: center;
+  }
+  .nn-bp-speed {
+    width: 100%; justify-content: center;
+    padding: var(--sp-1) 0 0;
+    border-top: 1px solid var(--nn-border);
+  }
 }
 @media (max-width: 480px) {
   .nn-bottom-player-inner { padding: var(--sp-2) var(--sp-3); gap: var(--sp-2); }
   .nn-bp-art { width: 36px; height: 36px; }
   .nn-progress-wrap { display: none; }
-  .nn-bp-skip { display: none; }
+  .nn-bp-meta { flex: 0 1 80px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .nn-skel-line { animation: none; }
