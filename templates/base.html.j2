@@ -109,6 +109,7 @@
                     </div>
                 </li>
                 {% block nav_links %}
+                <li><a href="{{ path_prefix }}player.html">Player</a></li>
                 <li><a href="{{ path_prefix }}index.html">Home</a></li>
                 {% endblock %}
             </ul>
@@ -120,6 +121,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         {% block mobile_nav_links %}
+        <a href="{{ path_prefix }}player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="{{ path_prefix }}index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         {% endblock %}
         <div class="nn-mobile-shows">
@@ -173,6 +175,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="{{ path_prefix }}player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="{{ path_prefix }}network.rss">Network RSS</a>
                     {% for s in all_shows %}
