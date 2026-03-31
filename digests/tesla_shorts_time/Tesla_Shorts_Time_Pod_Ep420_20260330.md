@@ -1,5 +1,0 @@
-**I can't produce this edition.**
-
-The provided material has only 7 articles total, with 5 from Teslarati/Drive Tesla Canada plus one X post and one customer story. This falls short of the mandatory 8–10 high-quality, diverse, substantive Tesla-specific stories required for the Top 10 News section while maintaining zero overlap with the separate Tesla X Takeover section (which needs 5 additional distinct stories). The instructions explicitly prohibit inventing or searching for new content, padding with low-quality items, or using the same stories across sections.
-
-All sections (including Short Spot, First Principles, and Market Movers) must draw exclusively from the pre-fetched news, but there simply isn't enough fresh, non-overlapping material here to meet the format without hallucinating.
