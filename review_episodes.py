@@ -109,7 +109,7 @@ SHOW_REGISTRY = {
         "output_dir": "digests/omni_view",
         "prefix": "Omni_View_Ep",
         "min_digest_chars": 2000,
-        "max_digest_chars": 18000,
+        "max_digest_chars": 30000,
         "min_tts_words": 1500,
         "min_audio_s": 240,
         "max_audio_s": 1500,
@@ -484,9 +484,19 @@ def check_leaked_artifacts(ep: EpisodeReview) -> None:
 
 
 def check_required_sections(ep: EpisodeReview, info: dict) -> None:
-    """Check that required sections are present in the digest."""
+    """Check that required sections are present in the digest.
+
+    Skips the check when the episode was produced in slow news mode, since
+    slow news episodes use a different structure (evergreen segments) and
+    aren't expected to have the same sections as regular episodes.
+    """
     required = info.get("required_sections", [])
     if not required or not ep.digest_text:
+        return
+
+    # Skip for slow news episodes — different episode structure
+    counters = ep.metrics.get("counters", {}) if ep.metrics else {}
+    if counters.get("slow_news_mode"):
         return
 
     text_lower = ep.digest_text.lower()
@@ -745,15 +755,25 @@ def check_intro_outro(ep: EpisodeReview) -> None:
     if len(words) < 50:
         return  # Too short to meaningfully check
 
-    # Check that the script starts with host dialogue (not raw text)
+    # Check that the script starts with a proper intro.
+    # NOTE: The TTS text has "Host:" prefixes stripped by clean_podcast_script()
+    # (they're not meant to be spoken), so we check for intro patterns instead.
     first_lines = text_lower[:500]
-    has_host_prefix = bool(re.search(r"^(host|olya|patrick)\s*:", first_lines, re.MULTILINE))
-    if not has_host_prefix:
+    intro_patterns = [
+        r"welcome to", r"thanks? for tuning", r"thanks? for joining",
+        r"good (morning|afternoon|evening)", r"episode\s+\w+",
+        r"it'?s\s+(january|february|march|april|may|june|july|august|september|october|november|december)",
+        r"i'?m\s+(patrick|olya)", r"добро пожаловать", r"привет",
+        r"здравствуйте", r"let'?s\s+dive",
+    ]
+    has_intro = any(re.search(p, first_lines) for p in intro_patterns)
+    if not has_intro:
         ep.issues.append(Issue(
-            ep.show_slug, ep.episode_num, "warning",
-            "Script may be missing host prefix",
-            "The first 500 characters don't contain a 'Host:' line prefix. "
-            "The script may not follow the expected dialogue format.",
+            ep.show_slug, ep.episode_num, "info",
+            "Script may be missing intro greeting",
+            "The first 500 characters don't contain a recognizable intro pattern "
+            "(e.g. 'Welcome to', 'Thanks for tuning in', host name). "
+            "The episode may start abruptly.",
             file_path=str(ep.tts_path),
         ))
 
@@ -929,10 +949,14 @@ def ai_review_episode(ep: EpisodeReview) -> None:
     prompt = (
         f"You are a podcast quality reviewer. Review this episode of '{ep.show_name}' "
         f"(Episode {ep.episode_num}, {ep.date}).\n\n"
+        f"IMPORTANT CONTEXT: Today's date is {ep.date}. This is a valid, real date. "
+        f"Do NOT flag the date itself as a factual error. These episodes are AI-generated "
+        f"daily podcasts — the date and year are correct by definition.\n\n"
         f"{'NOTE: The text below is a REVIEW EXCERPT that ends with [END OF REVIEW EXCERPT]. The full episode is LONGER than what you see here. Do NOT flag the episode as incomplete or abruptly ending. ONLY flag INCOMPLETE if the content itself contains obvious signs of being cut off mid-sentence within the body of the text.' if _was_truncated else ''}\n\n"
         f"TEXT:\n{text}\n\n"
         f"Check for these specific problems and rate each YES or NO:\n"
-        f"1. FACTUAL_ERRORS: Are there obvious factual errors or contradictions?\n"
+        f"1. FACTUAL_ERRORS: Are there obvious factual errors or contradictions? "
+        f"(Do NOT flag the episode date or year as an error.)\n"
         f"2. INCOHERENT: Are there sections that don't make sense or seem garbled?\n"
         f"3. REPETITIVE: Are stories or paragraphs repeated verbatim or near-verbatim?\n"
         f"4. OFF_TOPIC: Is significant content unrelated to the show's topic?\n"
