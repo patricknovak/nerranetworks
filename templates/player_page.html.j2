@@ -1,0 +1,1195 @@
+{% extends "base.html.j2" %}
+
+{% block head_extra %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Nerra Network Player",
+  "description": "Cross-show podcast player with queue management",
+  "url": "https://nerranetwork.com/player.html"
+}
+</script>
+<style>
+/* ---- Player Page Styles ---- */
+.nn-player-header {
+  padding: calc(var(--nav-height) + var(--sp-8)) var(--sp-6) var(--sp-6);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.nn-player-header h1 {
+  font-family: var(--font-heading); font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700; color: var(--nn-white);
+}
+.nn-player-header p { color: var(--nn-text-muted); font-size: 0.9rem; margin-top: var(--sp-1); }
+.nn-player-refresh {
+  width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--nn-border);
+  background: var(--nn-surface); color: var(--nn-text); font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--duration) var(--ease); cursor: pointer; flex-shrink: 0;
+}
+.nn-player-refresh:hover { border-color: var(--nn-purple); color: var(--nn-purple); }
+.nn-player-refresh.spinning svg { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Filter bar */
+.nn-player-filters {
+  max-width: var(--max-width); margin: 0 auto;
+  padding: 0 var(--sp-6) var(--sp-4);
+  display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center;
+}
+.nn-player-search {
+  padding: var(--sp-2) var(--sp-4); border-radius: 8px;
+  border: 1px solid var(--nn-border); background: var(--nn-card);
+  color: var(--nn-text); font-family: var(--font-ui); font-size: 0.85rem;
+  width: 200px; outline: none; transition: border-color var(--duration) var(--ease);
+}
+.nn-player-search:focus { border-color: var(--nn-purple); }
+.nn-player-search::placeholder { color: var(--nn-text-muted); }
+.nn-sort-toggle {
+  padding: var(--sp-2) var(--sp-3); border-radius: 8px;
+  border: 1px solid var(--nn-border); background: var(--nn-card);
+  color: var(--nn-text-muted); font-family: var(--font-ui);
+  font-size: 0.82rem; font-weight: 600; cursor: pointer;
+  transition: all var(--duration) var(--ease); margin-left: auto;
+}
+.nn-sort-toggle:hover { border-color: var(--nn-purple); color: var(--nn-purple); }
+
+/* Two-column layout */
+.nn-player-layout {
+  max-width: var(--max-width); margin: 0 auto; padding: 0 var(--sp-6);
+  display: grid; grid-template-columns: 1fr 380px; gap: var(--sp-6);
+  padding-bottom: 100px;
+}
+
+/* Episode grid */
+#episode-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--sp-4);
+}
+.nn-ep-card {
+  background: var(--nn-card); border: 1px solid var(--nn-border);
+  border-radius: 14px; padding: var(--sp-5);
+  transition: all var(--duration) var(--ease);
+}
+.nn-ep-card:hover { background: var(--nn-card-hover); border-color: var(--nn-border-hover); }
+.nn-ep-card-top { display: flex; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.nn-ep-card-cover {
+  width: 48px; height: 48px; border-radius: 8px; object-fit: cover; flex-shrink: 0;
+}
+.nn-ep-card-info { min-width: 0; }
+.nn-ep-card-show {
+  display: inline-block; font-family: var(--font-ui);
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; padding: 2px var(--sp-2); border-radius: 4px;
+  color: var(--nn-white); margin-bottom: var(--sp-1);
+}
+.nn-ep-card-title {
+  font-family: var(--font-heading); font-size: 0.92rem; font-weight: 600;
+  color: var(--nn-white); display: -webkit-box; -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden; line-height: 1.3;
+}
+.nn-ep-card-date {
+  font-family: var(--font-ui); font-size: 0.78rem; color: var(--nn-text-muted);
+  margin-bottom: var(--sp-2);
+}
+.nn-ep-card-preview {
+  font-size: 0.85rem; color: var(--nn-text-muted); line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; margin-bottom: var(--sp-3);
+}
+.nn-ep-card-actions { display: flex; gap: var(--sp-2); }
+.nn-ep-card-actions button {
+  padding: var(--sp-1) var(--sp-3); border-radius: 6px;
+  font-family: var(--font-ui); font-size: 0.8rem; font-weight: 600;
+  cursor: pointer; transition: all var(--duration) var(--ease);
+}
+.nn-play-now-btn {
+  background: var(--nn-purple); border: 1px solid transparent;
+  color: var(--nn-white);
+}
+.nn-play-now-btn:hover { filter: brightness(1.2); }
+.nn-add-queue-btn {
+  background: var(--nn-surface); border: 1px solid var(--nn-border);
+  color: var(--nn-text-muted);
+}
+.nn-add-queue-btn:hover { border-color: var(--nn-purple); color: var(--nn-purple); }
+.nn-add-queue-btn.in-queue {
+  border-color: var(--nn-purple); color: var(--nn-purple); opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Queue panel */
+.nn-queue-panel {
+  background: var(--nn-card); border: 1px solid var(--nn-border);
+  border-radius: 16px; padding: var(--sp-5); position: sticky;
+  top: calc(var(--nav-height) + var(--sp-4));
+  max-height: calc(100vh - var(--nav-height) - var(--sp-8));
+  overflow-y: auto; align-self: start;
+}
+.nn-queue-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: var(--sp-4); padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--nn-border);
+}
+.nn-queue-header h3 {
+  font-family: var(--font-heading); font-size: 1rem; font-weight: 700;
+  color: var(--nn-white);
+}
+.nn-queue-count {
+  font-family: var(--font-ui); font-size: 0.8rem; color: var(--nn-text-muted);
+  font-weight: 400;
+}
+.nn-queue-clear {
+  padding: var(--sp-1) var(--sp-3); border-radius: 6px;
+  border: 1px solid var(--nn-border); background: var(--nn-surface);
+  color: var(--nn-text-muted); font-family: var(--font-ui);
+  font-size: 0.75rem; font-weight: 600; cursor: pointer;
+  transition: all var(--duration) var(--ease);
+}
+.nn-queue-clear:hover { border-color: #ef4444; color: #ef4444; }
+
+/* New episodes banner */
+.nn-new-banner {
+  background: linear-gradient(135deg, rgba(124,92,255,0.15), rgba(0,212,255,0.15));
+  border: 1px solid rgba(124,92,255,0.3); border-radius: 10px;
+  padding: var(--sp-3) var(--sp-4); margin-bottom: var(--sp-4);
+  font-family: var(--font-ui); font-size: 0.85rem; color: var(--nn-text);
+  display: none; /* shown by JS */
+}
+.nn-new-banner.visible { display: block; }
+.nn-new-banner-actions { display: flex; gap: var(--sp-2); margin-top: var(--sp-2); }
+.nn-new-banner-actions button {
+  padding: var(--sp-1) var(--sp-3); border-radius: 6px;
+  font-family: var(--font-ui); font-size: 0.78rem; font-weight: 600;
+  cursor: pointer; transition: all var(--duration) var(--ease);
+}
+.nn-new-add-all { background: var(--nn-purple); border: none; color: var(--nn-white); }
+.nn-new-dismiss { background: var(--nn-surface); border: 1px solid var(--nn-border); color: var(--nn-text-muted); }
+
+/* Queue list */
+#queue-list { list-style: none; }
+.nn-queue-item {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3); border-radius: 8px;
+  margin-bottom: var(--sp-1); border: 1px solid transparent;
+  transition: all var(--duration) var(--ease); cursor: grab;
+}
+.nn-queue-item:hover { background: var(--nn-card-hover); }
+.nn-queue-item.playing {
+  background: rgba(124,92,255,0.1);
+  border-left: 3px solid var(--nn-purple);
+}
+.nn-queue-item.dragging { opacity: 0.4; }
+.nn-queue-item.drag-over { border-color: var(--nn-purple); background: rgba(124,92,255,0.08); }
+.nn-queue-drag { color: var(--nn-text-muted); font-size: 0.9rem; cursor: grab; flex-shrink: 0; user-select: none; }
+.nn-queue-cover { width: 32px; height: 32px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
+.nn-queue-info { min-width: 0; flex: 1; }
+.nn-queue-title {
+  font-family: var(--font-heading); font-size: 0.82rem; font-weight: 600;
+  color: var(--nn-white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nn-queue-show {
+  font-family: var(--font-ui); font-size: 0.72rem; color: var(--nn-text-muted);
+}
+.nn-queue-actions { display: flex; gap: 2px; flex-shrink: 0; }
+.nn-queue-btn {
+  width: 24px; height: 24px; border-radius: 4px; border: none;
+  background: transparent; color: var(--nn-text-muted);
+  font-size: 0.75rem; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  transition: color var(--duration) var(--ease);
+}
+.nn-queue-btn:hover { color: var(--nn-white); }
+.nn-queue-btn.remove:hover { color: #ef4444; }
+.nn-queue-empty {
+  text-align: center; padding: var(--sp-8) var(--sp-4);
+  color: var(--nn-text-muted); font-family: var(--font-ui); font-size: 0.88rem;
+}
+
+/* Bottom player bar */
+.nn-bottom-player {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+  background: rgba(11, 15, 26, 0.95);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border-top: 1px solid var(--nn-border);
+  display: none; /* shown when episode loaded */
+}
+.nn-bottom-player.visible { display: block; }
+.nn-bottom-player-inner {
+  max-width: var(--max-width); margin: 0 auto;
+  padding: var(--sp-3) var(--sp-6);
+  display: flex; align-items: center; gap: var(--sp-4);
+}
+.nn-bp-art { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+.nn-bp-meta { min-width: 0; flex: 0 1 200px; }
+.nn-bp-title {
+  font-family: var(--font-heading); font-size: 0.88rem; font-weight: 600;
+  color: var(--nn-white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nn-bp-show {
+  font-family: var(--font-ui); font-size: 0.78rem; color: var(--nn-text-muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nn-bp-controls { display: flex; align-items: center; gap: var(--sp-2); flex-shrink: 0; }
+.nn-bp-btn {
+  width: 36px; height: 36px; border-radius: 50%; border: none;
+  background: transparent; color: var(--nn-text); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: color var(--duration) var(--ease); font-size: 1rem;
+}
+.nn-bp-btn:hover { color: var(--nn-white); }
+.nn-bp-play {
+  width: 42px; height: 42px; background: var(--nn-purple);
+  color: var(--nn-white); border-radius: 50%;
+}
+.nn-bp-play:hover { filter: brightness(1.2); }
+
+/* Progress bar */
+.nn-progress-wrap { flex: 1; display: flex; align-items: center; gap: var(--sp-2); min-width: 0; }
+.nn-progress-container {
+  flex: 1; height: 6px; background: rgba(255,255,255,0.1);
+  border-radius: 3px; cursor: pointer; position: relative; min-width: 80px;
+}
+.nn-progress-bar {
+  height: 100%; background: var(--nn-gradient); border-radius: 3px;
+  width: 0%; transition: width 0.1s linear; pointer-events: none;
+}
+.nn-progress-time {
+  font-family: var(--font-ui); font-size: 0.72rem; color: var(--nn-text-muted);
+  white-space: nowrap; flex-shrink: 0;
+}
+
+/* Volume */
+.nn-bp-volume { display: flex; align-items: center; gap: var(--sp-1); flex-shrink: 0; }
+.nn-bp-volume svg { color: var(--nn-text-muted); width: 16px; height: 16px; }
+.nn-volume-slider {
+  width: 70px; height: 4px; -webkit-appearance: none; appearance: none;
+  background: rgba(255,255,255,0.15); border-radius: 2px; outline: none;
+}
+.nn-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--nn-text); cursor: pointer;
+}
+
+/* Speed */
+.nn-bp-speed { display: flex; gap: 2px; flex-shrink: 0; }
+
+/* Queue toggle for mobile */
+.nn-bp-queue-toggle {
+  padding: var(--sp-1) var(--sp-3); border-radius: 6px;
+  border: 1px solid var(--nn-border); background: var(--nn-surface);
+  color: var(--nn-text-muted); font-family: var(--font-ui);
+  font-size: 0.78rem; font-weight: 600; cursor: pointer;
+  display: none; flex-shrink: 0;
+}
+
+/* Mobile queue drawer */
+.nn-queue-drawer {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 1001; max-height: 70vh;
+  background: rgba(11, 15, 26, 0.98);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--nn-border);
+  border-radius: 16px 16px 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s var(--ease);
+  overflow-y: auto; padding: var(--sp-5);
+}
+.nn-queue-drawer.open { transform: translateY(0); }
+.nn-drawer-backdrop {
+  display: none; position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.5);
+}
+.nn-drawer-backdrop.open { display: block; }
+
+/* Toast */
+.nn-toast {
+  position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+  background: var(--nn-purple); color: var(--nn-white);
+  padding: var(--sp-2) var(--sp-5); border-radius: 8px;
+  font-family: var(--font-ui); font-size: 0.85rem; font-weight: 600;
+  z-index: 1100; opacity: 0; transition: opacity 0.3s;
+  pointer-events: none;
+}
+.nn-toast.visible { opacity: 1; }
+
+/* Live region (sr-only) */
+#player-announcer {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* Loading skeleton */
+.nn-ep-skeleton {
+  background: var(--nn-card); border: 1px solid var(--nn-border);
+  border-radius: 14px; padding: var(--sp-5); min-height: 160px;
+}
+.nn-skel-line {
+  height: 14px; border-radius: 4px; margin-bottom: var(--sp-3);
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+  background-size: 200% 100%; animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+.nn-skel-w70 { width: 70%; }
+.nn-skel-w40 { width: 40%; }
+.nn-skel-w90 { width: 90%; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nn-player-layout { grid-template-columns: 1fr; }
+  .nn-queue-panel { display: none; }
+  .nn-bp-queue-toggle { display: inline-flex; }
+  .nn-queue-drawer { display: block; }
+  #episode-grid { grid-template-columns: 1fr; }
+  .nn-bp-volume { display: none; }
+  .nn-bp-speed { display: none; }
+  .nn-bp-meta { flex: 0 1 120px; }
+  .nn-player-search { width: 140px; }
+}
+@media (max-width: 480px) {
+  .nn-bottom-player-inner { padding: var(--sp-2) var(--sp-3); gap: var(--sp-2); }
+  .nn-bp-art { width: 36px; height: 36px; }
+  .nn-progress-wrap { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nn-skel-line { animation: none; }
+  .nn-queue-drawer { transition: none; }
+}
+</style>
+{% endblock %}
+
+{% block nav_links %}
+<li><a href="{{ path_prefix }}player.html" style="color:var(--nn-purple);font-weight:700">Player</a></li>
+<li><a href="{{ path_prefix }}index.html">Home</a></li>
+{% endblock %}
+
+{% block mobile_nav_links %}
+<a href="{{ path_prefix }}player.html" style="color:var(--nn-purple);font-weight:700" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
+<a href="{{ path_prefix }}index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="nn-player-header">
+  <div>
+    <h1><span class="gradient-text">Network</span> Player</h1>
+    <p>All 10 shows. One queue. Your order.</p>
+  </div>
+  <button class="nn-player-refresh" id="refresh-btn" aria-label="Check for new episodes" title="Check for new episodes">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+  </button>
+</div>
+
+<!-- Filters -->
+<div class="nn-player-filters" role="toolbar" aria-label="Filter episodes">
+  <button class="nn-filter-btn active" data-filter="all">All</button>
+  {% for s in player_shows %}
+  <button class="nn-filter-btn" data-filter="{{ s.slug }}" style="--show-color:{{ s.brand_color }}">{{ s.name }}</button>
+  {% endfor %}
+  <input type="search" class="nn-player-search" id="search-input" placeholder="Search episodes..." aria-label="Search episodes">
+  <button class="nn-sort-toggle" id="sort-toggle" aria-label="Toggle sort order">Newest first</button>
+</div>
+
+<!-- Main layout -->
+<div class="nn-player-layout">
+  <!-- Episode browser -->
+  <div>
+    <div id="episode-grid" aria-label="Episodes">
+      <!-- Skeleton loaders -->
+      <div class="nn-ep-skeleton"><div class="nn-skel-line nn-skel-w70"></div><div class="nn-skel-line nn-skel-w40"></div><div class="nn-skel-line nn-skel-w90"></div></div>
+      <div class="nn-ep-skeleton"><div class="nn-skel-line nn-skel-w70"></div><div class="nn-skel-line nn-skel-w40"></div><div class="nn-skel-line nn-skel-w90"></div></div>
+      <div class="nn-ep-skeleton"><div class="nn-skel-line nn-skel-w70"></div><div class="nn-skel-line nn-skel-w40"></div><div class="nn-skel-line nn-skel-w90"></div></div>
+      <div class="nn-ep-skeleton"><div class="nn-skel-line nn-skel-w70"></div><div class="nn-skel-line nn-skel-w40"></div><div class="nn-skel-line nn-skel-w90"></div></div>
+    </div>
+  </div>
+
+  <!-- Queue panel (desktop) -->
+  <div class="nn-queue-panel" id="queue-panel" aria-label="Play queue">
+    <div class="nn-queue-header">
+      <h3>Up Next <span class="nn-queue-count" id="queue-count">(0)</span></h3>
+      <button class="nn-queue-clear" id="queue-clear-btn">Clear</button>
+    </div>
+    <div class="nn-new-banner" id="new-banner">
+      <span id="new-banner-text"></span>
+      <div class="nn-new-banner-actions">
+        <button class="nn-new-add-all" id="new-add-all">Add All</button>
+        <button class="nn-new-dismiss" id="new-dismiss">Dismiss</button>
+      </div>
+    </div>
+    <ol id="queue-list" role="listbox" aria-label="Queue"></ol>
+  </div>
+</div>
+
+<!-- Bottom player bar -->
+<div class="nn-bottom-player" id="bottom-player">
+  <div class="nn-bottom-player-inner">
+    <img class="nn-bp-art" id="bp-art" src="" alt="" width="44" height="44">
+    <div class="nn-bp-meta">
+      <div class="nn-bp-title" id="bp-title">No episode selected</div>
+      <div class="nn-bp-show" id="bp-show"></div>
+    </div>
+    <div class="nn-bp-controls">
+      <button class="nn-bp-btn" id="bp-prev" aria-label="Previous">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+      </button>
+      <button class="nn-bp-btn nn-bp-play" id="bp-play" aria-label="Play">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" id="play-icon"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button class="nn-bp-btn" id="bp-next" aria-label="Next">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 18h2V6h-2zM6 18l8.5-6L6 6z"/></svg>
+      </button>
+    </div>
+    <div class="nn-progress-wrap">
+      <span class="nn-progress-time" id="bp-current">0:00</span>
+      <div class="nn-progress-container" id="progress-container" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="nn-progress-bar" id="progress-bar"></div>
+      </div>
+      <span class="nn-progress-time" id="bp-duration">0:00</span>
+    </div>
+    <div class="nn-bp-volume">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+      <input type="range" class="nn-volume-slider" id="volume-slider" min="0" max="1" step="0.05" value="1" aria-label="Volume">
+    </div>
+    <div class="nn-bp-speed" id="speed-btns">
+      <button class="nn-speed-btn" data-speed="0.5">0.5x</button>
+      <button class="nn-speed-btn active" data-speed="1">1x</button>
+      <button class="nn-speed-btn" data-speed="1.25">1.25x</button>
+      <button class="nn-speed-btn" data-speed="1.5">1.5x</button>
+      <button class="nn-speed-btn" data-speed="2">2x</button>
+    </div>
+    <button class="nn-bp-queue-toggle" id="queue-toggle">Queue <span id="queue-toggle-count">0</span></button>
+  </div>
+</div>
+
+<!-- Mobile queue drawer -->
+<div class="nn-drawer-backdrop" id="drawer-backdrop"></div>
+<div class="nn-queue-drawer" id="queue-drawer">
+  <div class="nn-queue-header">
+    <h3>Up Next <span class="nn-queue-count" id="drawer-queue-count">(0)</span></h3>
+    <button class="nn-queue-clear" id="drawer-clear-btn">Clear</button>
+  </div>
+  <ol id="drawer-queue-list" role="listbox" aria-label="Queue"></ol>
+</div>
+
+<!-- Hidden audio element -->
+<audio id="audio-el" preload="none"></audio>
+
+<!-- Toast -->
+<div class="nn-toast" id="toast"></div>
+
+<!-- Screen reader announcements -->
+<div id="player-announcer" aria-live="polite" role="status"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// ---- Show Configuration (from Jinja2) ----
+const SHOWS = [
+{% for s in player_shows %}
+  { slug: {{ s.slug|tojson }}, name: {{ s.name|tojson }}, jsonPath: {{ s.json_path|tojson }}, cover: '{{ path_prefix }}' + {{ s.podcast_image|tojson }}, color: {{ s.brand_color|tojson }} },
+{% endfor %}
+];
+
+// ---- State ----
+var allEpisodes = [];
+var filteredEpisodes = [];
+var queue = [];
+var currentIndex = -1;
+var knownEpisodeIds = new Set();
+var playbackSpeed = 1;
+var activeFilter = 'all';
+var searchText = '';
+var sortOrder = 'newest';
+var newEpisodes = [];
+var lastPositionSave = 0;
+var audio = null;
+
+// ---- Helpers ----
+function formatTime(s) {
+  if (!s || isNaN(s)) return '0:00';
+  var m = Math.floor(s / 60);
+  var sec = Math.floor(s % 60);
+  return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+function formatDate(d) {
+  if (!d) return '';
+  try {
+    var dt = new Date(d + 'T00:00:00');
+    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch(e) { return d; }
+}
+function stripMarkdown(t) {
+  if (!t) return '';
+  return t.replace(/#{1,6}\s*/g, '').replace(/\*{1,2}/g, '').replace(/_{1,2}/g, '')
+    .replace(/---+/g, '').replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/[>\-]\s*/g, '').replace(/\n+/g, ' ').trim();
+}
+function truncate(t, n) {
+  var s = stripMarkdown(t);
+  return s.length > n ? s.substring(0, n) + '...' : s;
+}
+function announce(msg) {
+  var el = document.getElementById('player-announcer');
+  if (el) el.textContent = msg;
+}
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  setTimeout(function() { t.classList.remove('visible'); }, 2500);
+}
+function isInQueue(id) {
+  for (var i = 0; i < queue.length; i++) { if (queue[i].id === id) return true; }
+  return false;
+}
+
+// ---- Data Loading ----
+function loadAllShows() {
+  var fetches = SHOWS.map(function(show) {
+    return fetch(show.jsonPath).then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function(data) {
+      var episodes = data.summaries || data;
+      if (!Array.isArray(episodes)) episodes = [];
+      return episodes.map(function(ep) {
+        return {
+          id: show.slug + '::' + (ep.episode_num || ep.date || ''),
+          showSlug: show.slug,
+          showName: show.name,
+          showColor: show.color,
+          coverUrl: show.cover,
+          title: ep.episode_title || ('Episode ' + (ep.episode_num || '')),
+          date: ep.date || '',
+          audioUrl: ep.audio_url || '',
+          content: ep.content || ''
+        };
+      });
+    }).catch(function() { return []; });
+  });
+  return Promise.all(fetches).then(function(results) {
+    allEpisodes = [];
+    results.forEach(function(eps) { allEpisodes = allEpisodes.concat(eps); });
+    allEpisodes.sort(function(a, b) {
+      return (b.date || '').localeCompare(a.date || '');
+    });
+    return allEpisodes;
+  });
+}
+
+// ---- Queue Manager ----
+function addToQueue(ep) {
+  if (isInQueue(ep.id)) { showToast('Already in queue'); return; }
+  queue.push(ep);
+  saveState();
+  renderQueue();
+  renderEpisodeBrowser();
+  showToast('Added to queue');
+}
+function addToQueueTop(ep) {
+  if (isInQueue(ep.id)) {
+    // Move to top instead
+    for (var i = 0; i < queue.length; i++) {
+      if (queue[i].id === ep.id) {
+        queue.splice(i, 1);
+        if (currentIndex === i) currentIndex = 0;
+        else if (currentIndex > i) currentIndex--;
+        break;
+      }
+    }
+  }
+  queue.unshift(ep);
+  if (currentIndex >= 0) currentIndex++;
+  currentIndex = 0;
+  saveState();
+  renderQueue();
+  renderEpisodeBrowser();
+  loadEpisode(ep);
+  audio.play();
+  updatePlayBtn(true);
+}
+function removeFromQueue(idx) {
+  queue.splice(idx, 1);
+  if (queue.length === 0) {
+    currentIndex = -1;
+  } else if (idx === currentIndex) {
+    if (currentIndex >= queue.length) currentIndex = queue.length - 1;
+    loadEpisode(queue[currentIndex]);
+  } else if (idx < currentIndex) {
+    currentIndex--;
+  }
+  saveState();
+  renderQueue();
+  renderEpisodeBrowser();
+}
+function moveInQueue(from, to) {
+  if (from === to || to < 0 || to >= queue.length) return;
+  var item = queue.splice(from, 1)[0];
+  queue.splice(to, 0, item);
+  // Adjust currentIndex
+  if (currentIndex === from) {
+    currentIndex = to;
+  } else if (from < currentIndex && to >= currentIndex) {
+    currentIndex--;
+  } else if (from > currentIndex && to <= currentIndex) {
+    currentIndex++;
+  }
+  saveState();
+  renderQueue();
+}
+function clearQueue() {
+  if (queue.length === 0) return;
+  if (!confirm('Clear the entire queue?')) return;
+  queue = [];
+  currentIndex = -1;
+  audio.pause();
+  audio.src = '';
+  updatePlayBtn(false);
+  document.getElementById('bottom-player').classList.remove('visible');
+  saveState();
+  renderQueue();
+  renderEpisodeBrowser();
+}
+function playNext() {
+  if (currentIndex < queue.length - 1) {
+    currentIndex++;
+    loadEpisode(queue[currentIndex]);
+    audio.play();
+    updatePlayBtn(true);
+    saveState();
+    renderQueue();
+    announce('Now playing: ' + queue[currentIndex].title);
+  } else {
+    audio.pause();
+    updatePlayBtn(false);
+    showToast('Queue finished');
+  }
+}
+function playPrev() {
+  if (audio.currentTime > 3) {
+    audio.currentTime = 0;
+    return;
+  }
+  if (currentIndex > 0) {
+    currentIndex--;
+    loadEpisode(queue[currentIndex]);
+    audio.play();
+    updatePlayBtn(true);
+    saveState();
+    renderQueue();
+    announce('Now playing: ' + queue[currentIndex].title);
+  }
+}
+
+// ---- Persistence ----
+function saveState() {
+  var ids = [];
+  knownEpisodeIds.forEach(function(id) { ids.push(id); });
+  // Keep max 500
+  if (ids.length > 500) ids = ids.slice(ids.length - 500);
+  var state = {
+    version: 1,
+    queue: queue,
+    currentIndex: currentIndex,
+    knownEpisodeIds: ids,
+    playbackPosition: audio ? audio.currentTime || 0 : 0,
+    playbackSpeed: playbackSpeed
+  };
+  try { localStorage.setItem('nn-player-queue', JSON.stringify(state)); } catch(e) {}
+}
+function loadState() {
+  try {
+    var raw = localStorage.getItem('nn-player-queue');
+    if (!raw) return false;
+    var state = JSON.parse(raw);
+    if (state.version !== 1) return false;
+    queue = state.queue || [];
+    currentIndex = state.currentIndex != null ? state.currentIndex : -1;
+    knownEpisodeIds = new Set(state.knownEpisodeIds || []);
+    playbackSpeed = state.playbackSpeed || 1;
+    // Validate currentIndex
+    if (currentIndex >= queue.length) currentIndex = queue.length - 1;
+    return true;
+  } catch(e) { return false; }
+}
+
+// ---- New Episode Detection ----
+function detectNewEpisodes() {
+  newEpisodes = [];
+  allEpisodes.forEach(function(ep) {
+    if (!knownEpisodeIds.has(ep.id)) {
+      newEpisodes.push(ep);
+    }
+  });
+  // Mark all as known
+  allEpisodes.forEach(function(ep) { knownEpisodeIds.add(ep.id); });
+  if (newEpisodes.length > 0) {
+    var banner = document.getElementById('new-banner');
+    document.getElementById('new-banner-text').textContent = newEpisodes.length + ' new episode' + (newEpisodes.length > 1 ? 's' : '') + ' available';
+    banner.classList.add('visible');
+  }
+  saveState();
+}
+function addAllNewEpisodes() {
+  var count = 0;
+  newEpisodes.forEach(function(ep) {
+    if (!isInQueue(ep.id)) { queue.push(ep); count++; }
+  });
+  newEpisodes = [];
+  document.getElementById('new-banner').classList.remove('visible');
+  saveState();
+  renderQueue();
+  renderEpisodeBrowser();
+  if (count > 0) showToast('Added ' + count + ' episode' + (count > 1 ? 's' : ''));
+}
+function dismissNewEpisodes() {
+  newEpisodes = [];
+  document.getElementById('new-banner').classList.remove('visible');
+}
+
+// ---- Player Controller ----
+function loadEpisode(ep) {
+  if (!ep || !ep.audioUrl) return;
+  audio.src = ep.audioUrl;
+  audio.playbackRate = playbackSpeed;
+  document.getElementById('bp-art').src = ep.coverUrl;
+  document.getElementById('bp-art').alt = ep.showName;
+  document.getElementById('bp-title').textContent = ep.title;
+  document.getElementById('bp-show').textContent = ep.showName;
+  document.getElementById('progress-bar').style.width = '0%';
+  document.getElementById('bp-current').textContent = '0:00';
+  document.getElementById('bp-duration').textContent = '0:00';
+  document.getElementById('bottom-player').classList.add('visible');
+  // MediaSession
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: ep.title,
+      artist: ep.showName,
+      album: 'Nerra Network',
+      artwork: [{ src: ep.coverUrl, sizes: '512x512', type: 'image/jpeg' }]
+    });
+  }
+}
+function togglePlay() {
+  if (!audio.src) return;
+  if (audio.paused) {
+    audio.play();
+    updatePlayBtn(true);
+  } else {
+    audio.pause();
+    updatePlayBtn(false);
+  }
+}
+function updatePlayBtn(playing) {
+  var icon = document.getElementById('play-icon');
+  if (playing) {
+    icon.innerHTML = '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
+  } else {
+    icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+  }
+  document.getElementById('bp-play').setAttribute('aria-label', playing ? 'Pause' : 'Play');
+}
+function setSpeed(rate) {
+  playbackSpeed = rate;
+  if (audio) audio.playbackRate = rate;
+  document.querySelectorAll('.nn-speed-btn').forEach(function(btn) {
+    btn.classList.toggle('active', parseFloat(btn.dataset.speed) === rate);
+  });
+  saveState();
+}
+
+// ---- UI Rendering ----
+function renderEpisodeBrowser() {
+  var grid = document.getElementById('episode-grid');
+  // Filter
+  filteredEpisodes = allEpisodes.filter(function(ep) {
+    if (activeFilter !== 'all' && ep.showSlug !== activeFilter) return false;
+    if (searchText) {
+      var q = searchText.toLowerCase();
+      if (ep.title.toLowerCase().indexOf(q) === -1 &&
+          ep.showName.toLowerCase().indexOf(q) === -1 &&
+          (ep.content || '').toLowerCase().indexOf(q) === -1) return false;
+    }
+    return true;
+  });
+  // Sort
+  filteredEpisodes.sort(function(a, b) {
+    var cmp = (b.date || '').localeCompare(a.date || '');
+    return sortOrder === 'oldest' ? -cmp : cmp;
+  });
+  // Render
+  grid.innerHTML = '';
+  if (filteredEpisodes.length === 0) {
+    var empty = document.createElement('div');
+    empty.className = 'nn-queue-empty';
+    empty.textContent = searchText ? 'No episodes match your search.' : 'No episodes found.';
+    grid.appendChild(empty);
+    return;
+  }
+  // Show max 50 to avoid DOM overload
+  var toShow = filteredEpisodes.slice(0, 50);
+  toShow.forEach(function(ep) {
+    var card = document.createElement('div');
+    card.className = 'nn-ep-card';
+
+    var top = document.createElement('div');
+    top.className = 'nn-ep-card-top';
+
+    var img = document.createElement('img');
+    img.className = 'nn-ep-card-cover';
+    img.src = ep.coverUrl; img.alt = ep.showName;
+    img.width = 48; img.height = 48; img.loading = 'lazy';
+    top.appendChild(img);
+
+    var info = document.createElement('div');
+    info.className = 'nn-ep-card-info';
+
+    var badge = document.createElement('span');
+    badge.className = 'nn-ep-card-show';
+    badge.style.background = ep.showColor;
+    badge.textContent = ep.showName;
+    info.appendChild(badge);
+
+    var title = document.createElement('div');
+    title.className = 'nn-ep-card-title';
+    title.textContent = ep.title;
+    info.appendChild(title);
+
+    top.appendChild(info);
+    card.appendChild(top);
+
+    var date = document.createElement('div');
+    date.className = 'nn-ep-card-date';
+    date.textContent = formatDate(ep.date);
+    card.appendChild(date);
+
+    var preview = document.createElement('div');
+    preview.className = 'nn-ep-card-preview';
+    preview.textContent = truncate(ep.content, 200);
+    card.appendChild(preview);
+
+    var actions = document.createElement('div');
+    actions.className = 'nn-ep-card-actions';
+
+    var playBtn = document.createElement('button');
+    playBtn.className = 'nn-play-now-btn';
+    playBtn.textContent = 'Play Now';
+    playBtn.setAttribute('aria-label', 'Play ' + ep.title);
+    playBtn.addEventListener('click', function() { addToQueueTop(ep); });
+    actions.appendChild(playBtn);
+
+    var addBtn = document.createElement('button');
+    addBtn.className = 'nn-add-queue-btn';
+    if (isInQueue(ep.id)) {
+      addBtn.textContent = 'In Queue';
+      addBtn.classList.add('in-queue');
+    } else {
+      addBtn.textContent = '+ Queue';
+    }
+    addBtn.setAttribute('aria-label', 'Add ' + ep.title + ' to queue');
+    addBtn.addEventListener('click', function() { addToQueue(ep); });
+    actions.appendChild(addBtn);
+
+    card.appendChild(actions);
+    grid.appendChild(card);
+  });
+}
+
+function renderQueueInto(listEl, countEl) {
+  listEl.innerHTML = '';
+  countEl.textContent = '(' + queue.length + ')';
+  if (queue.length === 0) {
+    var empty = document.createElement('li');
+    empty.className = 'nn-queue-empty';
+    empty.textContent = 'Queue is empty. Browse episodes and add some!';
+    listEl.appendChild(empty);
+    return;
+  }
+  queue.forEach(function(ep, idx) {
+    var li = document.createElement('li');
+    li.className = 'nn-queue-item';
+    if (idx === currentIndex) li.classList.add('playing');
+    li.setAttribute('role', 'option');
+    li.setAttribute('draggable', 'true');
+    li.dataset.index = idx;
+
+    var drag = document.createElement('span');
+    drag.className = 'nn-queue-drag';
+    drag.textContent = '\u2847';
+    drag.setAttribute('aria-hidden', 'true');
+    li.appendChild(drag);
+
+    var img = document.createElement('img');
+    img.className = 'nn-queue-cover';
+    img.src = ep.coverUrl; img.alt = '';
+    img.width = 32; img.height = 32; img.loading = 'lazy';
+    li.appendChild(img);
+
+    var info = document.createElement('div');
+    info.className = 'nn-queue-info';
+    var title = document.createElement('div');
+    title.className = 'nn-queue-title';
+    title.textContent = ep.title;
+    info.appendChild(title);
+    var show = document.createElement('div');
+    show.className = 'nn-queue-show';
+    show.textContent = ep.showName;
+    info.appendChild(show);
+    li.appendChild(info);
+
+    // Click to play
+    info.style.cursor = 'pointer';
+    info.addEventListener('click', function() {
+      currentIndex = idx;
+      loadEpisode(ep);
+      audio.play();
+      updatePlayBtn(true);
+      saveState();
+      renderQueue();
+      announce('Now playing: ' + ep.title);
+    });
+
+    var actions = document.createElement('div');
+    actions.className = 'nn-queue-actions';
+
+    var upBtn = document.createElement('button');
+    upBtn.className = 'nn-queue-btn';
+    upBtn.innerHTML = '&#9650;';
+    upBtn.setAttribute('aria-label', 'Move up');
+    upBtn.disabled = idx === 0;
+    upBtn.addEventListener('click', function(e) { e.stopPropagation(); moveInQueue(idx, idx - 1); });
+    actions.appendChild(upBtn);
+
+    var downBtn = document.createElement('button');
+    downBtn.className = 'nn-queue-btn';
+    downBtn.innerHTML = '&#9660;';
+    downBtn.setAttribute('aria-label', 'Move down');
+    downBtn.disabled = idx === queue.length - 1;
+    downBtn.addEventListener('click', function(e) { e.stopPropagation(); moveInQueue(idx, idx + 1); });
+    actions.appendChild(downBtn);
+
+    var rmBtn = document.createElement('button');
+    rmBtn.className = 'nn-queue-btn remove';
+    rmBtn.innerHTML = '&#10005;';
+    rmBtn.setAttribute('aria-label', 'Remove from queue');
+    rmBtn.addEventListener('click', function(e) { e.stopPropagation(); removeFromQueue(idx); });
+    actions.appendChild(rmBtn);
+
+    li.appendChild(actions);
+
+    // Drag events
+    li.addEventListener('dragstart', function(e) {
+      li.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', idx.toString());
+    });
+    li.addEventListener('dragend', function() { li.classList.remove('dragging'); });
+    li.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      li.classList.add('drag-over');
+    });
+    li.addEventListener('dragleave', function() { li.classList.remove('drag-over'); });
+    li.addEventListener('drop', function(e) {
+      e.preventDefault();
+      li.classList.remove('drag-over');
+      var fromIdx = parseInt(e.dataTransfer.getData('text/plain'), 10);
+      var toIdx = idx;
+      if (!isNaN(fromIdx)) moveInQueue(fromIdx, toIdx);
+    });
+
+    listEl.appendChild(li);
+  });
+}
+
+function renderQueue() {
+  renderQueueInto(document.getElementById('queue-list'), document.getElementById('queue-count'));
+  // Also render mobile drawer queue
+  var drawerList = document.getElementById('drawer-queue-list');
+  var drawerCount = document.getElementById('drawer-queue-count');
+  if (drawerList) renderQueueInto(drawerList, drawerCount);
+  // Update toggle count
+  var toggleCount = document.getElementById('queue-toggle-count');
+  if (toggleCount) toggleCount.textContent = queue.length;
+}
+
+// ---- Initialization ----
+document.addEventListener('DOMContentLoaded', function() {
+  audio = document.getElementById('audio-el');
+  var hadState = loadState();
+
+  // Audio events
+  audio.addEventListener('timeupdate', function() {
+    if (!audio.duration) return;
+    var pct = (audio.currentTime / audio.duration) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('bp-current').textContent = formatTime(audio.currentTime);
+    document.getElementById('progress-container').setAttribute('aria-valuenow', Math.round(pct));
+    // Save position every 5s
+    var now = Date.now();
+    if (now - lastPositionSave > 5000) {
+      lastPositionSave = now;
+      saveState();
+    }
+  });
+  audio.addEventListener('loadedmetadata', function() {
+    document.getElementById('bp-duration').textContent = formatTime(audio.duration);
+  });
+  audio.addEventListener('ended', function() {
+    playNext();
+  });
+  audio.addEventListener('play', function() { updatePlayBtn(true); });
+  audio.addEventListener('pause', function() { updatePlayBtn(false); });
+  audio.addEventListener('error', function() {
+    showToast('Error loading audio. Skipping...');
+    setTimeout(playNext, 3000);
+  });
+
+  // MediaSession
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.setActionHandler('play', function() { audio.play(); });
+    navigator.mediaSession.setActionHandler('pause', function() { audio.pause(); });
+    navigator.mediaSession.setActionHandler('previoustrack', playPrev);
+    navigator.mediaSession.setActionHandler('nexttrack', playNext);
+  }
+
+  // Player controls
+  document.getElementById('bp-play').addEventListener('click', togglePlay);
+  document.getElementById('bp-prev').addEventListener('click', playPrev);
+  document.getElementById('bp-next').addEventListener('click', playNext);
+
+  // Progress seek
+  document.getElementById('progress-container').addEventListener('click', function(e) {
+    if (!audio.duration) return;
+    var rect = this.getBoundingClientRect();
+    var frac = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = frac * audio.duration;
+  });
+
+  // Volume
+  document.getElementById('volume-slider').addEventListener('input', function() {
+    audio.volume = parseFloat(this.value);
+  });
+
+  // Speed buttons
+  document.querySelectorAll('.nn-speed-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      setSpeed(parseFloat(btn.dataset.speed));
+    });
+  });
+  // Set initial speed UI
+  setSpeed(playbackSpeed);
+
+  // Filter buttons
+  document.querySelectorAll('.nn-filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.nn-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      renderEpisodeBrowser();
+    });
+  });
+
+  // Search
+  var searchTimer = null;
+  document.getElementById('search-input').addEventListener('input', function() {
+    clearTimeout(searchTimer);
+    var self = this;
+    searchTimer = setTimeout(function() {
+      searchText = self.value.trim();
+      renderEpisodeBrowser();
+    }, 300);
+  });
+
+  // Sort toggle
+  document.getElementById('sort-toggle').addEventListener('click', function() {
+    sortOrder = sortOrder === 'newest' ? 'oldest' : 'newest';
+    this.textContent = sortOrder === 'newest' ? 'Newest first' : 'Oldest first';
+    renderEpisodeBrowser();
+  });
+
+  // Queue clear buttons
+  document.getElementById('queue-clear-btn').addEventListener('click', clearQueue);
+  var drawerClear = document.getElementById('drawer-clear-btn');
+  if (drawerClear) drawerClear.addEventListener('click', clearQueue);
+
+  // New episode banner
+  document.getElementById('new-add-all').addEventListener('click', addAllNewEpisodes);
+  document.getElementById('new-dismiss').addEventListener('click', dismissNewEpisodes);
+
+  // Refresh button
+  document.getElementById('refresh-btn').addEventListener('click', function() {
+    var btn = this;
+    btn.classList.add('spinning');
+    loadAllShows().then(function() {
+      detectNewEpisodes();
+      renderEpisodeBrowser();
+      btn.classList.remove('spinning');
+      showToast('Episodes refreshed');
+    });
+  });
+
+  // Mobile queue drawer
+  var drawer = document.getElementById('queue-drawer');
+  var backdrop = document.getElementById('drawer-backdrop');
+  document.getElementById('queue-toggle').addEventListener('click', function() {
+    drawer.classList.toggle('open');
+    backdrop.classList.toggle('open');
+  });
+  backdrop.addEventListener('click', function() {
+    drawer.classList.remove('open');
+    backdrop.classList.remove('open');
+  });
+
+  // Load episodes
+  loadAllShows().then(function() {
+    // First visit: auto-populate queue with latest from each show
+    if (!hadState || queue.length === 0) {
+      var seen = {};
+      allEpisodes.forEach(function(ep) {
+        if (!seen[ep.showSlug]) {
+          seen[ep.showSlug] = ep;
+        }
+      });
+      SHOWS.forEach(function(show) {
+        if (seen[show.slug] && !isInQueue(seen[show.slug].id)) {
+          queue.push(seen[show.slug]);
+        }
+      });
+      if (queue.length > 0 && currentIndex < 0) currentIndex = 0;
+    }
+
+    // Mark all as known
+    allEpisodes.forEach(function(ep) { knownEpisodeIds.add(ep.id); });
+
+    // Detect new episodes (only meaningful on return visits)
+    if (hadState) detectNewEpisodes();
+
+    saveState();
+    renderEpisodeBrowser();
+    renderQueue();
+
+    // Restore current episode
+    if (currentIndex >= 0 && currentIndex < queue.length) {
+      loadEpisode(queue[currentIndex]);
+      // Restore position
+      try {
+        var raw = localStorage.getItem('nn-player-queue');
+        if (raw) {
+          var state = JSON.parse(raw);
+          if (state.playbackPosition > 0) {
+            audio.addEventListener('loadedmetadata', function restorePos() {
+              audio.currentTime = state.playbackPosition;
+              audio.removeEventListener('loadedmetadata', restorePos);
+            });
+          }
+        }
+      } catch(e) {}
+    }
+  });
+});
+</script>
+{% endblock %}
