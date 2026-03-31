@@ -938,9 +938,10 @@ button { font-family: var(--font-ui); cursor: pointer; }
 }
 
 .orbit-card {
-  width: 76px;
-  height: 76px;
-  border-radius: 18%;
+  display: block;
+  width: 96px;
+  height: 96px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.35),
@@ -949,6 +950,9 @@ button { font-family: var(--font-ui); cursor: pointer; }
   animation-delay: calc(var(--i) * -0.4s);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  aspect-ratio: 1 / 1;
+  text-decoration: none;
+  flex-shrink: 0;
 }
 
 .orbit-card:hover {
@@ -973,12 +977,12 @@ button { font-family: var(--font-ui); cursor: pointer; }
 }
 
 @media (min-width: 640px) {
-  .orbit-card { width: 96px; height: 96px; }
+  .orbit-card { width: 110px; height: 110px; }
   .hero-show-orbit { gap: 20px; }
 }
 
 @media (min-width: 1024px) {
-  .orbit-card { width: 115px; height: 115px; }
+  .orbit-card { width: 120px; height: 120px; }
   .hero-show-orbit { gap: 22px; flex-wrap: nowrap; }
 }
 
