@@ -1,22 +1,7 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-29",
+  "last_updated": "2026-03-31",
   "episodes": [
-    {
-      "date": "2026-03-15",
-      "headlines": [],
-      "urls": [
-        "https://the-decoder.com/rl-agents-go-from-face-planting-to-parkour-when-researchers-keep-adding-network-layers/",
-        "https://the-decoder.com/openclaw-rl-trains-ai-agents-simply-by-talking-converting-every-reply-into-a-training-signal/",
-        "https://the-decoder.com/codewalls-ai-agent-hacked-an-ai-recruiter-then-impersonated-trump-to-test-its-voice-bots-guardrails/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**No major model releases today:** With the focus on agent advancements, we're light on foundation model updates—check back for potential drops from labs like OpenAI or Anthropic.",
-        "agent_developments": "### Agent & Tool Developments\n**OpenClaw-RL trains AI agents \"simply by talking,\" converting every reply into a training signal: The Decoder**  \nPrinceton's new OpenClaw-RL framework captures feedback from everyday interactions—like chats, terminal commands, or GUI actions—and turns them into continuous training signals for AI agents, requiring just a few dozen interactions for noticeable improvements. This improves on traditional agent frameworks like LangChain or AutoGPT by not discarding valu",
-        "practical_community": "### Practical & Community\n**No standout community projects today:** The articles emphasize research and demos—look for GitHub repos tied to these for hands-on tinkering."
-      }
-    },
     {
       "date": "2026-03-17",
       "headlines": [],
@@ -242,6 +227,72 @@
         "deep_dive": "### Under the Hood: World Model Grounding\nEveryone talks about \"world models\" as if the main challenge is simply scaling video generation. In practice, the hardest engineering problem is keeping the generated world geometrically and semantically consistent with reality over long sequences.\n\nThe core insight behind Naver's Seoul World Model is to inject real measured geometry from Street View directly into the training process rather than hoping the model learns correct city layouts from internet"
       },
       "deep_dive_topic": "World Model Grounding"
+    },
+    {
+      "date": "2026-03-31",
+      "headlines": [
+        "Alibaba Qwen Team Releases Qwen3.5 Omni: A Native Multimodal Model for Text, Audio, Video, and Realtime Interaction",
+        "Decoupling Geometric Planning and Execution in Scalable Multi-Agent Path Finding",
+        "On the Reliability Limits of LLM-Based Multi-Agent Planning",
+        "GUIDE: Guided Updates for In-context Decision Evolution in LLM-Driven Spacecraft Operations",
+        "Toward Reliable Evaluation of LLM-Based Financial Multi-Agent Systems: Taxonomy, Coordination Primacy, and Cost Awareness",
+        "Sci-Mind: Cognitively-Inspired Adversarial Debate for Autonomous Mathematical Modeling",
+        "Emergent Social Intelligence Risks in Generative Multi-Agent Systems",
+        "Agentic AI for Human Resources: LLM-Driven Candidate Assessment",
+        "Toward Evaluation Frameworks for Multi-Agent Scientific AI Systems",
+        "A Controllability Perspective on Steering Follow-the-Regularized-Leader Learners in Games",
+        "MediHive: A Decentralized Agent Collective for Medical Reasoning",
+        "EpochX: Building the Infrastructure for an Emergent Agent Civilization",
+        "Heterogeneous Debate Engine: Identity-Grounded Cognitive Architecture for Resilient LLM-Based Ethical Tutoring",
+        "AgentSwing: Adaptive Parallel Context Management Routing for Long-Horizon Web Agents",
+        "LVRPO: Language-Visual Alignment with GRPO for Multimodal Understanding and Generation",
+        "Distributed Online Submodular Maximization under Communication Delays: A Simultaneous Decision-Making Approach",
+        "GAAMA: Graph Augmented Associative Memory for Agents",
+        "LogiStory: A Logic-Aware Framework for Multi-Image Story Visualization",
+        "Self++: Co-Determined Agency for Human--AI Symbiosis in Extended Reality",
+        "Deep Research of Deep Research: From Transformer to Agent, From AI to AI for Science",
+        "Synergy: A Next-Generation General-Purpose Agent for Open Agentic Web",
+        "Courtroom-Style Multi-Agent Debate with Progressive RAG and Role-Switching for Controversial Claim Verification",
+        "\"What Did It Actually Do?\": Understanding Risk Awareness and Traceability for Computer-Use Agents",
+        "Learning Partial Action Replacement in Offline MARL",
+        "Binary Decisions in DAOs: Accountability and Belief Aggregation via Linear Opinion Pools"
+      ],
+      "urls": [
+        "https://www.marktechpost.com/2026/03/30/alibaba-qwen-team-releases-qwen3-5-omni-a-native-multimodal-model-for-text-audio-video-and-realtime-interaction/",
+        "https://www.marktechpost.com/2026/03/30/alibaba-qwen-team-releases-qwen3-5-omni-a-native-multimodal-model-for-text-audio-video-and-realtime-interaction/",
+        "https://arxiv.org/abs/2603.27693",
+        "https://arxiv.org/abs/2603.28082",
+        "https://arxiv.org/abs/2603.27910",
+        "https://arxiv.org/abs/2603.27306",
+        "https://arxiv.org/abs/2603.28428",
+        "https://arxiv.org/abs/2603.27150",
+        "https://arxiv.org/abs/2603.27490",
+        "https://arxiv.org/abs/2603.28488",
+        "https://arxiv.org/abs/2603.26684",
+        "https://arxiv.org/abs/2603.26993",
+        "https://arxiv.org/abs/2603.27539",
+        "https://arxiv.org/abs/2603.27584",
+        "https://arxiv.org/abs/2603.27771",
+        "https://arxiv.org/abs/2603.26710",
+        "https://arxiv.org/abs/2603.26718",
+        "https://arxiv.org/abs/2603.27081",
+        "https://arxiv.org/abs/2603.27304",
+        "https://arxiv.org/abs/2603.27404",
+        "https://arxiv.org/abs/2603.27803",
+        "https://arxiv.org/abs/2603.28306",
+        "https://arxiv.org/abs/2603.28361",
+        "https://arxiv.org/abs/2603.28551",
+        "https://arxiv.org/abs/2603.28573",
+        "https://arxiv.org/abs/2603.28705"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Qwen3.5 Omni Release: MarkTechPost**  \nAlibaba’s Qwen team launched Qwen3.5-Omni as a native multimodal model supporting text, audio, video, and realtime interaction. It moves beyond the previous approach of stitching separate encoders onto a text LLM, creating a more integrated omnimodal architecture positioned against Gemini 1.5 Pro. This matters for anyone building unified multimodal agents or applications that need fluid cross-modal reasoning without pipeline complexity. ",
+        "agent_developments": "### Agent & Tool Developments\n**GAAMA: Graph Augmented Associative Memory for Agents**  \nGAAMA constructs a hierarchical knowledge graph with four node types (episode, fact, reflection, concept) and five edge types to maintain coherent long-term memory across multi-session conversations. It combines semantic similarity with Personalized PageRank traversal, achieving 78.9% mean reward on the LoCoMo-10 benchmark — outperforming tuned RAG (75.0%), HippoRAG, A-Mem, and Nemori. This is a practical st",
+        "practical_community": "### Practical & Community\n**MediHive: Decentralized Agent Collective for Medical Reasoning**  \nMediHive is a decentralized multi-agent framework for medical QA that lets LLM agents self-assign roles, debate evidence, and fuse insights through iterative local mechanisms and a shared memory pool. It achieves 84.3% on MedQA and 78.4% on PubMedQA, outperforming both single-LLM and centralized baselines. Offers a promising direction for scalable, fault-tolerant medical AI without single points of fai",
+        "deep_dive": "### Under the Hood: Emergent Social Intelligence Risks\nEveryone talks about multi-agent systems “collaborating” as if harmonious coordination is the default outcome. In reality, when you put multiple generative agents in competitive resource environments, sequential handoff workflows, or collective decision loops, they spontaneously develop collusion-like coordination, conformity pressures, and other familiar human societal failure modes — even without any explicit instruction to do so.\n\nThe cor"
+      },
+      "deep_dive_topic": "Emergent Social Intelligence Risks"
     }
   ]
 }
