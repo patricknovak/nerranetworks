@@ -1,0 +1,275 @@
+{% extends "base.html.j2" %}
+
+{% block head_extra %}
+    <style>
+        .start-hero {
+            padding: calc(var(--nav-height) + var(--sp-16)) var(--sp-6) var(--sp-12);
+            text-align: center;
+        }
+        .start-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-3);
+        }
+        .start-hero p {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--nn-text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .start-categories {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 var(--sp-6) var(--sp-16);
+        }
+        .start-cat {
+            margin-bottom: var(--sp-12);
+        }
+        .start-cat-header {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+            margin-bottom: var(--sp-4);
+        }
+        .start-cat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        .start-cat-header h2 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0;
+        }
+        .start-cat-header p {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--nn-text-muted);
+            margin: 2px 0 0;
+        }
+        .start-shows-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--sp-4);
+        }
+        .start-show-card {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--sp-4);
+            padding: var(--sp-5);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 14px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .start-show-card:hover {
+            border-color: var(--card-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .start-show-card img {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+        .start-show-card .start-card-info h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0 0 4px;
+        }
+        .start-show-card .start-card-info p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.4;
+        }
+        .start-show-card .start-card-meta {
+            display: flex;
+            gap: var(--sp-2);
+            margin-top: var(--sp-2);
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            color: var(--nn-text-muted);
+        }
+        .start-show-card .start-card-meta span {
+            background: var(--nn-surface);
+            padding: 1px 8px;
+            border-radius: 4px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <header class="start-hero">
+        <h1>Not sure where to <span class="gradient-text">start</span>?</h1>
+        <p>We have 10 shows covering different topics. Pick what interests you most, or explore them all — every show is ad-free and produced daily.</p>
+    </header>
+
+    <div class="start-categories">
+        <div class="start-cat">
+            <div class="start-cat-header">
+                <div class="start-cat-icon" style="background: color-mix(in srgb, #00D4FF 15%, transparent);">&#x1F4BB;</div>
+                <div>
+                    <h2>Technology & AI</h2>
+                    <p>Stay ahead of the curve on artificial intelligence, Tesla, and emerging tech.</p>
+                </div>
+            </div>
+            <div class="start-shows-row">
+                {% for s in all_shows if s.slug in ['tesla', 'models_agents', 'models_agents_beginners'] %}
+                <a href="{{ path_prefix }}{{ s.show_page }}" class="start-show-card" style="--card-color: {{ s.brand_color }}">
+                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>{{ s.name }}</h3>
+                        <p>{{ s.tagline }}</p>
+                        <div class="start-card-meta">
+                            <span>{{ s.schedule }}</span>
+                            {% if s.episode_length %}<span>{{ s.episode_length }}</span>{% endif %}
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="start-cat">
+            <div class="start-cat-header">
+                <div class="start-cat-icon" style="background: color-mix(in srgb, #7C5CFF 15%, transparent);">&#x1F30D;</div>
+                <div>
+                    <h2>News & World Events</h2>
+                    <p>Balanced, multi-perspective news coverage from diverse sources.</p>
+                </div>
+            </div>
+            <div class="start-shows-row">
+                {% for s in all_shows if s.slug in ['omni_view'] %}
+                <a href="{{ path_prefix }}{{ s.show_page }}" class="start-show-card" style="--card-color: {{ s.brand_color }}">
+                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>{{ s.name }}</h3>
+                        <p>{{ s.tagline }}</p>
+                        <div class="start-card-meta">
+                            <span>{{ s.schedule }}</span>
+                            {% if s.episode_length %}<span>{{ s.episode_length }}</span>{% endif %}
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="start-cat">
+            <div class="start-cat-header">
+                <div class="start-cat-icon" style="background: color-mix(in srgb, #22C55E 15%, transparent);">&#x1F4B0;</div>
+                <div>
+                    <h2>Investing & Finance</h2>
+                    <p>Practical investing strategies for Canadian and US markets.</p>
+                </div>
+            </div>
+            <div class="start-shows-row">
+                {% for s in all_shows if s.slug in ['modern_investing', 'finansy_prosto'] %}
+                <a href="{{ path_prefix }}{{ s.show_page }}" class="start-show-card" style="--card-color: {{ s.brand_color }}">
+                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>{{ s.name }}</h3>
+                        <p>{{ s.tagline }}</p>
+                        <div class="start-card-meta">
+                            <span>{{ s.schedule }}</span>
+                            {% if s.episode_length %}<span>{{ s.episode_length }}</span>{% endif %}
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="start-cat">
+            <div class="start-cat-header">
+                <div class="start-cat-icon" style="background: color-mix(in srgb, #F59E0B 15%, transparent);">&#x1F52D;</div>
+                <div>
+                    <h2>Science & Space</h2>
+                    <p>Discover the latest breakthroughs in space, physics, biology, and more.</p>
+                </div>
+            </div>
+            <div class="start-shows-row">
+                {% for s in all_shows if s.slug in ['fascinating_frontiers', 'planetterrian'] %}
+                <a href="{{ path_prefix }}{{ s.show_page }}" class="start-show-card" style="--card-color: {{ s.brand_color }}">
+                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>{{ s.name }}</h3>
+                        <p>{{ s.tagline }}</p>
+                        <div class="start-card-meta">
+                            <span>{{ s.schedule }}</span>
+                            {% if s.episode_length %}<span>{{ s.episode_length }}</span>{% endif %}
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="start-cat">
+            <div class="start-cat-header">
+                <div class="start-cat-icon" style="background: color-mix(in srgb, #10B981 15%, transparent);">&#x1F33F;</div>
+                <div>
+                    <h2>Environment & Policy</h2>
+                    <p>Environmental regulations, sustainability science, and policy analysis.</p>
+                </div>
+            </div>
+            <div class="start-shows-row">
+                {% for s in all_shows if s.slug in ['env_intel'] %}
+                <a href="{{ path_prefix }}{{ s.show_page }}" class="start-show-card" style="--card-color: {{ s.brand_color }}">
+                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>{{ s.name }}</h3>
+                        <p>{{ s.tagline }}</p>
+                        <div class="start-card-meta">
+                            <span>{{ s.schedule }}</span>
+                            {% if s.episode_length %}<span>{{ s.episode_length }}</span>{% endif %}
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="start-cat">
+            <div class="start-cat-header">
+                <div class="start-cat-icon" style="background: color-mix(in srgb, #EF4444 15%, transparent);">&#x1F1F7;&#x1F1FA;</div>
+                <div>
+                    <h2>Russian Language</h2>
+                    <p>Learn Russian or enjoy Russian-language content from a Canadian perspective.</p>
+                </div>
+            </div>
+            <div class="start-shows-row">
+                {% for s in all_shows if s.slug in ['privet_russian'] %}
+                <a href="{{ path_prefix }}{{ s.show_page }}" class="start-show-card" style="--card-color: {{ s.brand_color }}">
+                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>{{ s.name }}</h3>
+                        <p>{{ s.tagline }}</p>
+                        <div class="start-card-meta">
+                            <span>{{ s.schedule }}</span>
+                            {% if s.episode_length %}<span>{{ s.episode_length }}</span>{% endif %}
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

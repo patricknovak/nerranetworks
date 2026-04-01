@@ -1418,8 +1418,11 @@ _SHOW_DIRS = {
 }
 
 
-def generate_blog_posts(slug, *, dry_run=False):
+def generate_blog_posts(slug, *, dry_run=False, cross_show_posts=None):
     """Generate blog post HTML pages for all episodes of a show.
+
+    *cross_show_posts*: optional list of dicts from other shows for
+    "You might also like" recommendations on each post.
 
     Returns list of (metadata_dict, output_path) tuples.
     """
@@ -1476,10 +1479,19 @@ def generate_blog_posts(slug, *, dry_run=False):
         next_post = all_meta[i + 1] if i < len(all_meta) - 1 else None
 
         md_text = meta["_md_path"].read_text(encoding="utf-8")
+
+        # Pick up to 3 recent posts from other shows for cross-show recs
+        _related = []
+        if cross_show_posts:
+            import random
+            _candidates = [p for p in cross_show_posts if p.get("show_slug") != slug]
+            _related = _candidates[:3] if len(_candidates) <= 3 else random.sample(_candidates[:12], 3)
+
         html = generate_blog_post_html(
             md_text, meta, cfg, env,
             prev_post=prev_post,
             next_post=next_post,
+            related_posts=_related,
         )
 
         ep_num = meta["episode_num"]
@@ -1595,11 +1607,39 @@ def generate_network_blog_index(*, dry_run=False, all_posts=None):
 
 def generate_all_blogs(*, dry_run=False):
     """Generate blog posts and index pages for every show, plus network index."""
+    from engine.blog import extract_blog_metadata
+
+    # First pass: collect recent posts from all shows for cross-show recs
+    _cross_show_posts: list[dict] = []
+    for slug, cfg in NETWORK_SHOWS.items():
+        digest_dir = ROOT / "digests" / _SHOW_DIRS.get(slug, slug)
+        if not digest_dir.exists():
+            continue
+        md_files = sorted(digest_dir.glob("*.md"))[-6:]  # Last 6 episodes per show
+        for md_file in md_files:
+            try:
+                md_text = md_file.read_text(encoding="utf-8")
+                meta = extract_blog_metadata(md_text, slug, md_file.name)
+                _cross_show_posts.append({
+                    "show_slug": slug,
+                    "show_name": cfg["name"],
+                    "show_color": cfg["brand_color"],
+                    "title": meta.get("title", cfg["name"]),
+                    "hook": meta.get("hook", ""),
+                    "episode_num": meta.get("episode_num", 0),
+                    "url": f"../../blog/{slug}/ep{meta.get('episode_num', 0):03d}.html",
+                    "date": meta.get("date", ""),
+                })
+            except Exception:
+                pass
+    # Sort by date descending so most recent posts get picked
+    _cross_show_posts.sort(key=lambda p: p.get("date", ""), reverse=True)
+
     all_posts = []
 
     for slug in NETWORK_SHOWS:
         print(f"\n--- Blog: {NETWORK_SHOWS[slug]['name']} ---")
-        results = generate_blog_posts(slug, dry_run=dry_run)
+        results = generate_blog_posts(slug, dry_run=dry_run, cross_show_posts=_cross_show_posts)
         posts = [meta for meta, _ in results]
         generate_blog_index(slug, dry_run=dry_run, posts=posts)
         all_posts.extend(posts)
@@ -1647,8 +1687,13 @@ def generate_sitemap(*, dry_run=False):
     # Russian hub
     urls.append((f"{base}/ru/index.html", "0.7", today))
 
+    # Legal pages
+    for legal in ["privacy-policy.html", "terms-of-service.html", "ai-disclosure.html"]:
+        if (ROOT / legal).exists():
+            urls.append((f"{base}/{legal}", "0.4", _file_lastmod(ROOT / legal)))
+
     # Special pages
-    for extra in ["modern-investing-resources.html", "404.html"]:
+    for extra in ["modern-investing-resources.html", "start-here.html", "404.html"]:
         if (ROOT / extra).exists():
             urls.append((f"{base}/{extra}", "0.5", _file_lastmod(ROOT / extra)))
 
@@ -1710,6 +1755,37 @@ def generate_404_page(*, dry_run=False):
 
     html = template.render(**context)
     out_path = ROOT / "404.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
+def generate_start_here_page(*, dry_run=False):
+    """Generate the 'Start Here' guided entry page for new listeners."""
+    env = _get_jinja_env()
+    template = env.get_template("start_here.html.j2")
+
+    context = {
+        "path_prefix": "",
+        "page_title": "Start Here | Nerra Network",
+        "page_description": "Not sure where to start? Find the perfect show for your interests across AI, news, science, investing, and more.",
+        "meta_description": "Find your perfect Nerra Network show. 10 ad-free daily podcasts covering AI, Tesla, world news, science, investing, and more.",
+        "meta_keywords": "podcast recommendations, best podcasts, AI podcasts, Tesla podcasts, science podcasts",
+        "theme_color": "#7C5CFF",
+        "og_image": "",
+        "canonical_url": "https://nerranetwork.com/start-here.html",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "start-here.html"
 
     if dry_run:
         print(f"[dry-run] Would write {out_path}")
@@ -1843,6 +1919,20 @@ def main():
         generate_sitemap(dry_run=args.dry_run)
         generate_404_page(dry_run=args.dry_run)
         generate_player_page(dry_run=args.dry_run)
+        generate_start_here_page(dry_run=args.dry_run)
+        # Regenerate JSON API for mobile app
+        try:
+            import subprocess
+            api_script = ROOT / "scripts" / "generate_api.py"
+            if api_script.exists():
+                _api_cmd = [sys.executable, str(api_script)]
+                if args.dry_run:
+                    print(f"[dry-run] Would run: {' '.join(_api_cmd)}")
+                else:
+                    subprocess.run(_api_cmd, check=True, cwd=str(ROOT))
+                    print("API regenerated successfully")
+        except Exception as exc:
+            print(f"Warning: API regeneration failed (non-fatal): {exc}", file=sys.stderr)
         return
 
     if args.shows:
