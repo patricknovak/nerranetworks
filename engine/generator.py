@@ -146,11 +146,16 @@ _MIN_CHARS = {"digest": 200, "podcast_script": 500}
 # Patterns that indicate the LLM refused to generate content.
 # A refusal is NOT imperfect content — it is explicitly NOT content.
 # Continuing would waste TTS credits on garbage audio.
+# Apostrophe character class: matches straight (') and curly/smart (\u2019) quotes
+_APOS = "['\u2019]"
+
 _REFUSAL_PATTERNS = [
     # English — common LLM refusal phrasings
-    r"(?i)\bI\s+(?:cannot|can't|am unable to|'m unable to)\s+(?:create|generate|produce|write)\s+(?:this|the|an?)\s+(?:episode|podcast|digest|script|content|briefing)",
-    r"(?i)\bI\s+(?:apologize|'m sorry),?\s+but\s+I\s+(?:cannot|can't|am unable)",
-    r"(?i)\bI\s+(?:cannot|can't)\s+(?:fulfill|complete|comply with)\s+(?:this|your)\s+request",
+    f"(?i)\\bI(?:\\s+|{_APOS})(?:cannot|can{_APOS}t|am unable to|m unable to)\\s+(?:create|generate|produce|write)\\s+(?:this|the|an?)\\s+(?:episode|podcast|digest|script|content|briefing|edition|output|segment|show|issue|material)",
+    # Catch-all: "I can't produce this" regardless of following noun
+    f"(?i)\\bI(?:\\s+|{_APOS})(?:cannot|can{_APOS}t)\\s+(?:create|generate|produce|write)\\s+this\\b",
+    f"(?i)\\bI(?:\\s+|{_APOS})(?:apologize|m sorry),?\\s+but\\s+I(?:\\s+|{_APOS})(?:cannot|can{_APOS}t|am unable)",
+    f"(?i)\\bI(?:\\s+|{_APOS})(?:cannot|can{_APOS}t)\\s+(?:fulfill|complete|comply with)\\s+(?:this|your)\\s+request",
     # "I must decline" / "I need to decline" — from MIT Ep002 refusal (2026-03-19)
     r"(?i)\bI\s+(?:must|need to)\s+decline\b",
     # "it is impossible to produce" — from MIT Ep002 refusal (2026-03-19)
@@ -158,7 +163,7 @@ _REFUSAL_PATTERNS = [
     # "I cannot generate today's" — trailing show name variant
     r"(?i)\bI\s+cannot\s+generate\s+today",
     # "Therefore, I cannot" — conclusion-style refusal
-    r"(?i)\btherefore,?\s+I\s+(?:cannot|can't)\b",
+    f"(?i)\\btherefore,?\\s+I\\s+(?:cannot|can{_APOS}t)\\b",
     # Russian — from actual Finansy Prosto ep008/ep009 refusals (2026-03-18)
     r"Я\s+не\s+могу\s+(?:создать|подготовить|написать|сгенерировать)",
     r"не\s+предоставляю\s+контент",

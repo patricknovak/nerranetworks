@@ -1375,7 +1375,7 @@ def generate_network_page(*, dry_run=False):
         "meta_description": "Nerra Network — Ten daily podcasts keeping you informed. Tesla, world news, space, science, environment, AI, modern investing, Russian finance, and language learning. Independent, daily, free.",
         "meta_keywords": "podcast network, daily podcasts, Nerra Network, Tesla, space, science, AI, environment",
         "theme_color": "#7C5CFF",
-        "og_image": None,  # No single show image represents the network
+        "og_image": f"{GITHUB_RAW}/assets/og-preview.png",
         "canonical_url": f"{GITHUB_RAW}/index.html",
         "rss_url": "network.rss",
         "all_shows": _build_all_shows_list(),
@@ -1701,7 +1701,7 @@ def generate_404_page(*, dry_run=False):
         "meta_description": "The page you're looking for doesn't exist.",
         "meta_keywords": "",
         "theme_color": "#7C5CFF",
-        "og_image": None,
+        "og_image": "",  # Falls back to default in base.html.j2
         "canonical_url": "",
         "show_color": "",
         "show_color_dark": "",

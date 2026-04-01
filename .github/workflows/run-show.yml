@@ -324,6 +324,24 @@ jobs:
             done
           fi
 
+          # Check digest content for LLM refusal text
+          python3 -c "
+          import re, pathlib, sys
+          output_dir = '$OUTPUT_DIR'
+          today = '$(date +%Y%m%d)'
+          md_files = list(pathlib.Path(output_dir).glob(f'*{today}*.md'))
+          REFUSAL_RE = re.compile(r'(?i)\bI\s+(?:cannot|can[\x27\u2019]t)\s+(?:create|generate|produce|write)\b')
+          for f in md_files:
+              text = f.read_text()[:2000]
+              if REFUSAL_RE.search(text):
+                  print(f'ERROR: Digest {f.name} contains LLM refusal text')
+                  sys.exit(1)
+              if len(text.strip()) < 200:
+                  print(f'ERROR: Digest {f.name} is suspiciously short ({len(text.strip())} chars)')
+                  sys.exit(1)
+          print(f'Digest content validated ({len(md_files)} file(s))')
+          "
+
           # Validate RSS feed is well-formed XML
           RSS_FILES=$(find . -maxdepth 1 -name "*.rss" -newer "$OUTPUT_DIR" -type f 2>/dev/null || true)
           for rss in *.rss; do

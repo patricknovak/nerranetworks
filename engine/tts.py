@@ -181,8 +181,15 @@ def _sanitize_for_elevenlabs(text: str) -> str:
     - Zero-width unicode characters
     - Excessive whitespace
     """
+    # Decode HTML entities (e.g. &amp; → &, &nbsp; → space)
+    import html as _html
+    text = _html.unescape(text)
     # Strip any surviving URLs
     text = re.sub(r"https?://\S+", "", text)
+    # Strip residual markdown formatting characters
+    text = re.sub(r"[*_~`#]+", "", text)
+    # Truncate extremely long unbroken tokens (100+ chars) that can confuse TTS
+    text = re.sub(r"\S{100,}", lambda m: m.group(0)[:80], text)
     # Strip zero-width characters (joiners, non-joiners, BOM, etc.)
     text = re.sub(r"[\u200b-\u200f\u2028-\u202f\ufeff\u00ad]+", "", text)
     # Strip control characters except newline and tab
