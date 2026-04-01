@@ -178,12 +178,14 @@ class TestDefaultValues:
     def test_tts_defaults(self):
         c = TTSConfig()
         assert c.voice_id == "dTrBzPvD2GpAqkk1MUzA"
-        assert c.model == "eleven_v3"
-        assert c.stability == 0.65
-        assert c.similarity_boost == 0.9
-        assert c.style == 0.85
+        assert c.model == "eleven_flash_v2_5"
+        assert c.stability == 0.5
+        assert c.similarity_boost == 0.75
+        assert c.style == 0.0
         assert c.use_speaker_boost is True
-        assert c.max_chars == 5000
+        assert c.max_chars == 10000
+        assert c.speed == 1.0
+        assert c.apply_text_normalization == "on"
 
     def test_audio_defaults(self):
         c = AudioConfig()
@@ -437,8 +439,8 @@ class TestLoadConfigRealFiles:
         assert cfg.llm.model == "grok-4.20-non-reasoning"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.llm.max_tokens == 4000
-        assert cfg.tts.stability == 0.65
-        assert cfg.tts.style == 0.85
+        assert cfg.tts.stability == 0.5
+        assert cfg.tts.style == 0.0
         assert cfg.audio.music_file == "assets/music/LubechangeOilers.mp3"
         assert cfg.publishing.rss_category == "News"
         assert cfg.publishing.guid_prefix == "omni-view"
@@ -457,9 +459,9 @@ class TestLoadConfigRealFiles:
         assert cfg.llm.model == "grok-4.20-non-reasoning"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
-        assert cfg.tts.stability == 0.65  # Normalized to network standard
-        assert cfg.tts.style == 0.55
-        assert cfg.tts.max_chars == 4500
+        assert cfg.tts.stability == 0.5  # Normalized to network standard
+        assert cfg.tts.style == 0.0
+        assert cfg.tts.max_chars == 10000
         assert cfg.audio.music_file == "assets/music/tesla_shorts_time.mp3"
         assert cfg.publishing.x_enabled is False
         assert cfg.episode.prefix == "Env_Intel"
@@ -495,7 +497,7 @@ class TestNestedConfigOverrides:
         assert cfg.tts.stability == 0.3
         assert cfg.tts.max_chars == 9999
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
-        assert cfg.tts.model == "eleven_v3"
+        assert cfg.tts.model == "eleven_flash_v2_5"
 
     def test_partial_audio_override(self, tmp_path):
         data = {"audio": {"music_file": "custom.mp3", "voice_intro_delay": 15.0}}

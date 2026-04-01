@@ -67,7 +67,10 @@ This script is synthesized by AI text-to-speech. Write it so speech sounds natur
 - Use natural breathing pauses: end sentences with periods, not semicolons or dashes
 - Avoid long compound sentences joined by "and... and... and..." — break them up
 - Avoid tongue-twisters, unusual word clusters, or rapid technical term sequences
-- Spell out numbers under 100 ("fifteen billion" not "15 billion", "two hundred" not "200")
+- Spell out ALL numbers as words ("fifteen billion" not "15 billion", "two hundred" not "200", "twelve percent" not "12%")
+- Spell out currency amounts ("fifteen million dollars" not "$15M" or "$15,000,000")
+- Spell out dates naturally ("March fifteenth" not "3/15")
+- Spell out abbreviations on first use ("versus" not "vs.", "approximately" not "approx.")
 - Use commas to create natural pauses where a speaker would breathe
 - Vary sentence length for rhythm: a short punchy sentence after a longer explanatory one
 - Do NOT repeat the same phrase or sentence structure across segments — varied phrasing keeps the voice model sounding natural and prevents monotone delivery

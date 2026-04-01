@@ -35,7 +35,9 @@ Write SHORT paragraphs — 1 to 2 sentences per "Olya:" line. Do NOT combine an 
 This script is synthesized by AI text-to-speech in English. Russian words should be written with transliteration guidance nearby so the TTS handles them as naturally as possible:
 - Keep sentences between 8 and 25 words
 - Use natural breathing pauses with periods and commas
-- Spell out all numbers ("five" not "5")
+- Spell out ALL numbers as words ("five" not "5", "twelve percent" not "12%")
+- Spell out currency amounts ("fifteen dollars" not "$15")
+- Spell out dates naturally ("March fifteenth" not "3/15")
 - For Russian words, write them in a way TTS can attempt to pronounce: include the transliteration in natural speech flow (e.g., "The Russian word is 'privyet' — that means 'hello'")
 - Use commas for natural pauses, especially around Russian words
 - Vary sentence length for good rhythm
