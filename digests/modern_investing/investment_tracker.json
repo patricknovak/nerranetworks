@@ -6,7 +6,7 @@
     "position_size": 1000,
     "currency": "USD",
     "created": "2026-03-16",
-    "last_updated": "2026-03-27"
+    "last_updated": "2026-04-01"
   },
   "summary": {
     "total_trades": 2,
@@ -71,7 +71,23 @@
       "pnl_pct": null,
       "pnl_dollars": null,
       "lesson": "",
-      "current_price": 251.67
+      "current_price": 270.49
+    },
+    {
+      "episode_num": 10,
+      "date": "2026-04-01",
+      "symbol": "TSLA",
+      "market": "NASDAQ",
+      "strategy": "Contrarian fade of negative analyst sentiment following recent price weakness, betting on eventual relief-driven rebound.",
+      "confidence": "Medium",
+      "target_range": "+4% to +9% by Friday close.",
+      "trade_type": "weekly",
+      "status": "open",
+      "entry_price": null,
+      "exit_price": null,
+      "pnl_pct": null,
+      "pnl_dollars": null,
+      "lesson": ""
     }
   ]
 }
