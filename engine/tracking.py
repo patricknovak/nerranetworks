@@ -16,7 +16,7 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 # TTS pricing per 1000 characters
-ELEVENLABS_COST_PER_1K_CHARS = 0.30
+ELEVENLABS_COST_PER_1K_CHARS = 0.15  # Flash v2.5: 0.5 credits/char = $0.15/1K chars
 FISH_AUDIO_COST_PER_1K_CHARS = 0.015  # Fish Audio S1: ~$0.015/1K chars
 
 # xAI Grok pricing per 1M tokens (input/output)
