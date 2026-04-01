@@ -1606,7 +1606,7 @@ def run(args: argparse.Namespace) -> None:
 
         if config.slug in _NS:
             _blog_env = _get_jinja_env()
-            _blog_meta = extract_blog_metadata(x_thread, config.slug, digest_path.name if digest_path else "")
+            _blog_meta = extract_blog_metadata(x_thread, config.slug, digest_md.name if digest_md else "")
             _blog_meta["episode_num"] = episode_num
             _blog_html = generate_blog_post_html(x_thread, _blog_meta, _NS[config.slug], _blog_env)
             _blog_dir = PROJECT_ROOT / "blog" / config.slug

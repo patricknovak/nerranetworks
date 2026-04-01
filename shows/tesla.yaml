@@ -15,8 +15,6 @@ sources:
     label: The Drive
   - url: https://whatsuptesla.com/feed
     label: WhatsUpTesla
-  - url: https://www.notateslaapp.com/news/rss
-    label: Not A Tesla App
   - url: https://www.tesmanian.com/blogs/tesmanian-blog.atom
     label: Tesmanian
   - url: https://driveteslacanada.ca/feed/
@@ -25,10 +23,10 @@ sources:
     label: CarBuzz
   - url: https://insideevs.com/rss/articles/all/
     label: InsideEVs
-  - url: https://www.tesery.com/blogs/news.atom
-    label: Tesery
   - url: https://www.torquenews.com/rss.xml
     label: Torque News
+  - url: https://electrek.co/guides/tesla/feed/
+    label: Electrek
 
 x_accounts:
   - handle: sawyermerrit
