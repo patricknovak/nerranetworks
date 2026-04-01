@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Disclosure Policy - Nerra Network</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #0B0F1A;
+            color: #E0E8F0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+
+        header {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #2A3142;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #7C5CFF 0%, #00D4FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .meta {
+            color: #8892A6;
+            font-size: 0.95rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #7C5CFF;
+            margin-top: 48px;
+            margin-bottom: 20px;
+            padding-top: 20px;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #00D4FF;
+            margin-top: 28px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: #B0B8C8;
+        }
+
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #B0B8C8;
+        }
+
+        .core-statement {
+            background: linear-gradient(135deg, rgba(124, 92, 255, 0.15) 0%, rgba(0, 212, 255, 0.1) 100%);
+            border-left: 4px solid #7C5CFF;
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 4px;
+            border-right: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .core-statement p {
+            margin-bottom: 0;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #E0E8F0;
+        }
+
+        .control-box {
+            background-color: #1A1F2E;
+            border: 1px solid #2A3142;
+            padding: 24px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .control-box h3 {
+            margin-top: 0;
+            color: #00D4FF;
+        }
+
+        .checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .checkmark {
+            color: #00D4FF;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .checklist-item p {
+            margin-bottom: 0;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .tool-card {
+            background-color: #1A1F2E;
+            border: 1px solid #2A3142;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .tool-card h4 {
+            color: #7C5CFF;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .tool-card p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .compliance-section {
+            background-color: rgba(0, 212, 255, 0.05);
+            border-left: 4px solid #00D4FF;
+            padding: 20px;
+            margin: 24px 0;
+            border-radius: 4px;
+        }
+
+        .compliance-section h3 {
+            margin-top: 0;
+        }
+
+        .strength-badge {
+            display: inline-block;
+            background-color: rgba(0, 212, 255, 0.2);
+            color: #00D4FF;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding-top: 24px;
+            border-top: 1px solid #2A3142;
+            text-align: center;
+            color: #8892A6;
+            font-size: 0.9rem;
+        }
+
+        .last-updated {
+            color: #7C5CFF;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 40px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Content Disclosure</h1>
+            <div class="meta">Nerra Network • Effective: March 31, 2026</div>
+        </header>
+
+        <section>
+            <p>Nerra Network is transparent about its use of artificial intelligence tools in content creation. This policy explains what we use AI for, how we maintain editorial integrity, and why we believe AI-assisted content—with human direction—is beneficial for our audience.</p>
+
+            <div class="strength-badge">
+                Transparency is our strength, not our weakness
+            </div>
+        </section>
+
+        <h2>Our Commitment to Transparency</h2>
+
+        <div class="core-statement">
+            <p>Nerra Network uses AI tools to enhance content quality and production speed, but humans maintain full editorial control. AI assists with research and synthesis; Patrick Novak (human creator) directs strategy, selects topics, fact-checks, and approves all final content.</p>
+        </div>
+
+        <p>This hybrid approach allows Nerra Network to deliver daily, high-quality content while maintaining editorial integrity and human judgment in every decision that matters.</p>
+
+        <h2>How We Use AI</h2>
+
+        <h3>Specific AI Applications</h3>
+
+        <div class="tool-grid">
+            <div class="tool-card">
+                <h4>Research Assistance</h4>
+                <p>AI helps gather, organize, and synthesize information from multiple sources. Patrick reviews all research for accuracy and relevance before use.</p>
+            </div>
+            <div class="tool-card">
+                <h4>Content Summarization</h4>
+                <p>AI assists in condensing longer documents or sources into key points. All summaries are reviewed for accuracy and context.</p>
+            </div>
+            <div class="tool-card">
+                <h4>Text-to-Speech</h4>
+                <p>AI narration tools generate audio from written content. Patrick selects tone and verifies output quality before publishing.</p>
+            </div>
+            <div class="tool-card">
+                <h4>Outline Generation</h4>
+                <p>AI suggests content structure and organization. Patrick refines, rejects, or modifies these outlines as needed.</p>
+            </div>
+        </div>
+
+        <p>These tools make content creation faster and allow daily output, but they do not make editorial decisions.</p>
+
+        <h2>What Humans Control</h2>
+
+        <div class="control-box">
+            <h3>Patrick Novak's Editorial Control</h3>
+            <div class="checklist">
+                <div class="checklist-item">
+                    <div class="checkmark">✓</div>
+                    <p><strong>Topic Selection:</strong> Patrick chooses what to cover based on newsworthiness, audience interest, and expertise</p>
+                </div>
+                <div class="checklist-item">
+                    <div class="checkmark">✓</div>
+                    <p><strong>Editorial Direction:</strong> Patrick sets the angle, perspective, and narrative approach</p>
+                </div>
+                <div class="checklist-item">
+                    <div class="checkmark">✓</div>
+                    <p><strong>Fact-Checking:</strong> All claims, statistics, and citations are verified by Patrick</p>
+                </div>
+                <div class="checklist-item">
+                    <div class="checkmark">✓</div>
+                    <p><strong>Final Review:</strong> Every episode and article is personally reviewed and approved by Patrick</p>
+                </div>
+                <div class="checklist-item">
+                    <div class="checkmark">✓</div>
+                    <p><strong>Quality Standards:</strong> Patrick maintains quality, accuracy, and brand standards for all content</p>
+                </div>
+                <div class="checklist-item">
+                    <div class="checkmark">✓</div>
+                    <p><strong>Strategic Direction:</strong> Patrick decides where content goes, how often, and in what format</p>
+                </div>
+            </div>
+        </div>
+
+        <h2>Why This Matters: AI-Assisted is Better</h2>
+
+        <p>We believe transparency about AI use is a competitive advantage, not a liability:</p>
+
+        <ul>
+            <li><strong>Honesty builds trust:</strong> We tell you how we work instead of hiding it</li>
+            <li><strong>Better content:</strong> AI assistance allows daily output without sacrificing quality</li>
+            <li><strong>Efficiency:</strong> AI handles routine research and synthesis, freeing Patrick to focus on editorial judgment</li>
+            <li><strong>Scalability:</strong> With AI assistance, we can cover more topics and produce more content for our audience</li>
+            <li><strong>Consistency:</strong> AI tools help maintain consistent quality and formatting across all content</li>
+        </ul>
+
+        <p>Many content creators use AI without disclosing it. We believe the honest approach is stronger.</p>
+
+        <h2>Regulatory Compliance</h2>
+
+        <h3>FTC Guidelines (United States)</h3>
+
+        <div class="compliance-section">
+            <h3>FTC AI Disclosures</h3>
+            <p>The Federal Trade Commission (FTC) issued guidance on AI-generated content disclosures. Nerra Network complies by:</p>
+            <ul>
+                <li>Clearly disclosing use of AI tools in content creation</li>
+                <li>Being specific about which tools we use and what they do</li>
+                <li>Emphasizing human editorial control and final review</li>
+                <li>Maintaining transparency as content is created</li>
+            </ul>
+            <p><strong>Guidance:</strong> <a href="https://www.ftc.gov/news-events/news/2023/11/ftc-warns-companies-disclosing-when-ai-writes-your-emails" style="color: #00D4FF;">FTC Warns Companies About AI Disclosures</a></p>
+        </div>
+
+        <h3>California AI Transparency Act (AB 942)</h3>
+
+        <div class="compliance-section">
+            <h3>California AB 942 Compliance</h3>
+            <p>California's AI Transparency Act (effective January 2026) requires disclosure of deceptive AI-generated content used for advertising or political purposes. Nerra Network is not a political entity and does not use deceptive AI for advertising, but we proactively disclose all AI use regardless.</p>
+            <ul>
+                <li>This disclosure satisfies California law requirements</li>
+                <li>We transparently identify AI-assisted content</li>
+                <li>We maintain human editorial control</li>
+            </ul>
+            <p><strong>Regulation:</strong> California Assembly Bill 942 (effective Jan 2026)</p>
+        </div>
+
+        <h2>Content Quality & Accuracy</h2>
+
+        <p>Using AI does not mean lower quality. In fact:</p>
+
+        <ul>
+            <li>Patrick's fact-checking is more rigorous than ever—he verifies every AI-generated summary</li>
+            <li>Daily content output means more frequent updates on breaking news</li>
+            <li>Consistent formatting and structure improve user experience</li>
+            <li>AI handles routine synthesis, allowing Patrick to focus on judgment and analysis</li>
+        </ul>
+
+        <p>If you ever identify an inaccuracy in our content, please contact us immediately at patricknovak1@gmail.com.</p>
+
+        <h2>Copyright & Ownership</h2>
+
+        <h3>AI-Generated Content Copyright</h3>
+
+        <p><strong>US Copyright Office Position (March 2026):</strong> The US Copyright Office and US Supreme Court have determined that AI-generated content cannot be copyrighted without substantial human authorship.</p>
+
+        <p>At Nerra Network:</p>
+
+        <ul>
+            <li>All content is substantially written or directed by Patrick (human)</li>
+            <li>AI is used as a tool, not as the primary author</li>
+            <li>Patrick's editorial direction, fact-checking, and approval constitute substantial human authorship</li>
+            <li>Therefore, Nerra Network content is protected by copyright</li>
+            <li>You may not reproduce, distribute, or commercialize our content without permission</li>
+        </ul>
+
+        <h2>Audience Trust & Feedback</h2>
+
+        <p>We value your questions and feedback about our use of AI. If you have concerns about any piece of content:</p>
+
+        <ul>
+            <li>Contact us at <a href="mailto:patricknovak1@gmail.com" style="color: #00D4FF;">patricknovak1@gmail.com</a></li>
+            <li>Ask about the specific AI tools used for any piece of content</li>
+            <li>Request verification of facts or sources</li>
+            <li>Share feedback on how we can improve transparency</li>
+        </ul>
+
+        <div class="control-box">
+            <h3>Our Promise</h3>
+            <p>We promise to:</p>
+            <ul>
+                <li>Continue disclosing AI use transparently</li>
+                <li>Never use AI to deceive or misrepresent content</li>
+                <li>Maintain Patrick's editorial control in all content decisions</li>
+                <li>Fact-check all AI-generated research before publishing</li>
+                <li>Prioritize accuracy over speed</li>
+                <li>Update this disclosure as our AI tools and practices evolve</li>
+            </ul>
+        </div>
+
+        <h2>Future of AI at Nerra Network</h2>
+
+        <p>As AI technology evolves, we may adopt new tools. We will always:</p>
+
+        <ul>
+            <li>Disclose any new AI tools we use</li>
+            <li>Maintain human editorial control</li>
+            <li>Prioritize transparency over concealment</li>
+            <li>Comply with all applicable regulations (FTC, California AB 942, etc.)</li>
+            <li>Seek audience feedback on our approach</li>
+        </ul>
+
+        <h2>Questions?</h2>
+
+        <div class="control-box">
+            <h3>Contact Us</h3>
+            <p>If you have questions about our use of AI, this disclosure, or any content on Nerra Network:</p>
+            <p style="margin-top: 16px;">
+                <strong>Patrick Novak</strong><br>
+                Nerra Network<br>
+                Vancouver, British Columbia, Canada<br>
+                Email: <a href="mailto:patricknovak1@gmail.com" style="color: #00D4FF; text-decoration: none;">patricknovak1@gmail.com</a>
+            </p>
+            <p style="margin-top: 16px; font-size: 0.9rem;">
+                We aim to respond to all inquiries within 48 hours.
+            </p>
+        </div>
+
+        <footer>
+            <p>This AI Disclosure Policy is effective as of <span class="last-updated">March 31, 2026</span></p>
+            <p>Version 1.0 • Compliant with FTC Guidelines and California AB 942 • Last reviewed: March 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
