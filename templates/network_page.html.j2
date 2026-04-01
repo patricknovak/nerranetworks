@@ -11,6 +11,29 @@
 {% endblock %}
 
 {% block head_extra %}
+    <!-- Schema.org: Organization + PodcastSeries -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Nerra Network",
+  "url": "https://nerranetwork.com",
+  "description": "Independent podcast network featuring 10 ad-free daily shows covering AI, Tesla, investing, space, science, environmental policy, and more. Produced in Vancouver, Canada.",
+  "logo": "https://nerranetwork.com/assets/nerra-logo-icon.svg",
+  "hasPart": [
+    {% for s in all_shows %}
+    {
+      "@type": "PodcastSeries",
+      "name": "{{ s.name }}",
+      "description": "{{ s.description_long[:200] | e }}",
+      "webFeed": "https://nerranetwork.com/{{ s.rss_file }}",
+      "image": "https://nerranetwork.com/{{ s.podcast_image }}",
+      "url": "https://nerranetwork.com/{{ s.show_page }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+    </script>
     <style>
         @keyframes cardFloat {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -309,7 +332,7 @@
             <div class="subscribe-rss-grid">
                 {% for s in all_shows %}
                 <a href="{{ s.rss_file }}" class="subscribe-rss-item">
-                    <img src="{{ s.podcast_image }}" alt="" loading="lazy">
+                    <img src="{{ s.podcast_image }}" alt="{{ s.name }} podcast cover art" loading="lazy">
                     <span>{{ s.name }}</span>
                     <span class="subscribe-rss-label">RSS</span>
                 </a>

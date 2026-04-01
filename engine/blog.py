@@ -478,6 +478,7 @@ def generate_blog_post_html(
     *,
     prev_post: Optional[dict] = None,
     next_post: Optional[dict] = None,
+    related_posts: Optional[list] = None,
 ) -> str:
     """Generate a complete blog post HTML page from digest markdown.
 
@@ -515,6 +516,20 @@ def generate_blog_post_html(
         if domain not in seen_domains:
             seen_domains.add(domain)
             source_domains.append({"url": url, "domain": domain})
+
+    # Load transcript (TTS script) if available — scan digest dir for
+    # a *_Ep{NNN}_*_tts.txt file matching this episode number.
+    transcript_text = ""
+    try:
+        _md_path = metadata.get("_md_path")
+        if _md_path:
+            _digest_dir = Path(_md_path).parent
+            _tts_pattern = f"*_Ep{ep_num:03d}_*_tts.txt"
+            _tts_files = sorted(_digest_dir.glob(_tts_pattern))
+            if _tts_files:
+                transcript_text = _tts_files[-1].read_text(encoding="utf-8").strip()
+    except Exception:
+        pass  # Non-fatal — transcript is optional
 
     template = template_env.get_template("blog_post.html.j2")
 
@@ -556,6 +571,8 @@ def generate_blog_post_html(
         "summaries_page": show_config.get("summaries_page", ""),
         "blog_index_url": f"../../blog/{show_slug}/index.html",
         "tagline": show_config.get("tagline", ""),
+        "transcript": transcript_text,
+        "related_posts": related_posts or [],
     }
 
     return template.render(**context)
