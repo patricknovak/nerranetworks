@@ -23,6 +23,7 @@ import importlib.util
 import json
 import logging
 import os
+import re
 import signal
 import sys
 import time
@@ -857,6 +858,13 @@ def run(args: argparse.Namespace) -> None:
     # episodes should be indistinguishable from regular episodes.
     if slow_news_mode:
         logger.info("Slow news mode active (not tagged in title)")
+
+    # Defense-in-depth: final refusal scan before saving digest
+    from engine.generator import _REFUSAL_PATTERNS as _FINAL_REFUSAL_PATTERNS
+    for _rpat in _FINAL_REFUSAL_PATTERNS:
+        if re.search(_rpat, x_thread):
+            logger.error("BLOCKED: Digest contains LLM refusal text (matched: %s)", _rpat[:60])
+            raise SystemExit(1)
 
     # Save digest to file
     digest_md = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}.md"

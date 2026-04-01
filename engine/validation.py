@@ -11,7 +11,7 @@ Usage:
         sections=[SectionRule("Top 10", min_items=6)],
         forbidden_patterns=[r"\\$\\d+\\.\\d+\\s*[+\\-]"],
     )
-    passed, issues = validate_digest(digest_text, config)
+    passed, issues, exact_dups = validate_digest(digest_text, config)
 """
 
 import logging
@@ -552,6 +552,37 @@ def fp_validation_config() -> ValidationConfig:
     )
 
 
+def pr_validation_config() -> ValidationConfig:
+    """Validation config for Привет, Русский! (Privet Russian)."""
+    return ValidationConfig(
+        section_pairs=[],
+        sections=[
+            SectionRule(
+                name="Word of the Day",
+                pattern=(
+                    r"(?:### Word of the Day|## Word of the Day|word of the day|first word)"
+                    r"(.*?)"
+                    r"(?=━━|### Vocabulary|## Vocabulary|### Grammar|## Grammar|$)"
+                ),
+                min_items=1,
+            ),
+            SectionRule(
+                name="Culture Corner",
+                pattern=(
+                    r"(?:### Culture Corner|## Culture Corner|culture corner|fun fact)"
+                    r"(.*?)"
+                    r"(?=━━|### Practice|## Practice|### Quiz|$)"
+                ),
+                min_items=1,
+                optional=True,
+            ),
+        ],
+        forbidden_patterns=[
+            r"https?://\S+",
+        ],
+    )
+
+
 # Registry mapping show slugs to their validation config factory.
 SHOW_VALIDATION_CONFIGS = {
     "tesla": tst_validation_config,
@@ -564,4 +595,5 @@ SHOW_VALIDATION_CONFIGS = {
     "models_agents_beginners": mab_validation_config,
     "finansy_prosto": fp_validation_config,
     "modern_investing": mi_validation_config,
+    "privet_russian": pr_validation_config,
 }
