@@ -11,7 +11,7 @@ Supports four providers:
 ElevenLabs functions:
   - synthesize(): top-level entry point — text in, audio file out
   - validate_elevenlabs_auth(): fail-fast API key check
-  - chunk_text(): sentence-aware text splitting for the 5000-char API limit
+  - chunk_text(): sentence-aware text splitting for the configurable chunk limit
   - speak_chunk(): single-chunk TTS with retry
   - speak(): full TTS with automatic chunking + ffmpeg concatenation
 
@@ -232,12 +232,14 @@ def speak_chunk(
     out_path: Path,
     *,
     api_key: str,
-    model_id: str = "eleven_v3",
-    stability: float = 0.65,
-    similarity_boost: float = 0.9,
-    style: float = 0.85,
+    model_id: str = "eleven_flash_v2_5",
+    stability: float = 0.5,
+    similarity_boost: float = 0.75,
+    style: float = 0.0,
     use_speaker_boost: bool = True,
     language_code: str = "",
+    speed: float = 1.0,
+    apply_text_normalization: str = "on",
     timeout: int = 120,
     previous_text: str = "",
     next_text: str = "",
@@ -277,10 +279,12 @@ def speak_chunk(
             "similarity_boost": similarity_boost,
             "style": style,
             "use_speaker_boost": use_speaker_boost,
+            "speed": speed,
         },
+        "apply_text_normalization": apply_text_normalization,
     }
-    # ElevenLabs eleven_v3 uses language_code for optimal pronunciation
-    # in non-English content (ISO 639-1, e.g. "ru", "es").
+    # ElevenLabs uses language_code for optimal pronunciation in
+    # non-English content (ISO 639-1, e.g. "ru", "es").
     if language_code:
         payload["language_code"] = language_code
     # ElevenLabs uses previous/next_text to condition prosody at chunk
@@ -328,7 +332,8 @@ def speak_chunk(
 # alternatives in order.  Only triggered on ElevenLabsClientError (not on
 # server errors, which are retried in-place by speak_chunk).
 _MODEL_FALLBACKS = {
-    "eleven_v3": "eleven_turbo_v2_5",
+    "eleven_flash_v2_5": "eleven_multilingual_v2",
+    "eleven_v3": "eleven_flash_v2_5",
     "eleven_turbo_v2_5": "eleven_multilingual_v2",
 }
 
@@ -339,13 +344,15 @@ def speak(
     filename: str,
     *,
     api_key: str,
-    max_chars: int = 5000,
-    model_id: str = "eleven_v3",
-    stability: float = 0.65,
-    similarity_boost: float = 0.9,
-    style: float = 0.85,
+    max_chars: int = 10000,
+    model_id: str = "eleven_flash_v2_5",
+    stability: float = 0.5,
+    similarity_boost: float = 0.75,
+    style: float = 0.0,
     use_speaker_boost: bool = True,
     language_code: str = "",
+    speed: float = 1.0,
+    apply_text_normalization: str = "on",
     timeout: int = 120,
     append_exclamation: bool = False,
 ) -> None:
@@ -367,6 +374,8 @@ def speak(
         style=style,
         use_speaker_boost=use_speaker_boost,
         language_code=language_code,
+        speed=speed,
+        apply_text_normalization=apply_text_normalization,
         timeout=timeout,
     )
 
@@ -519,12 +528,14 @@ def synthesize(
     output_path: str | Path,
     *,
     api_key: str,
-    max_chars: int = 4500,
-    model_id: str = "eleven_v3",
-    stability: float = 0.65,
-    similarity_boost: float = 0.9,
-    style: float = 0.85,
+    max_chars: int = 10000,
+    model_id: str = "eleven_flash_v2_5",
+    stability: float = 0.5,
+    similarity_boost: float = 0.75,
+    style: float = 0.0,
     language_code: str = "",
+    speed: float = 1.0,
+    apply_text_normalization: str = "on",
     timeout: int = 120,
     append_exclamation: bool = False,
 ) -> Path:
@@ -545,6 +556,8 @@ def synthesize(
         similarity_boost=similarity_boost,
         style=style,
         language_code=language_code,
+        speed=speed,
+        apply_text_normalization=apply_text_normalization,
         timeout=timeout,
         append_exclamation=append_exclamation,
     )
@@ -558,12 +571,14 @@ def synthesize_sections(
     *,
     api_key: str,
     section_prefix: str = "section",
-    max_chars: int = 4500,
-    model_id: str = "eleven_v3",
-    stability: float = 0.65,
-    similarity_boost: float = 0.9,
-    style: float = 0.85,
+    max_chars: int = 10000,
+    model_id: str = "eleven_flash_v2_5",
+    stability: float = 0.5,
+    similarity_boost: float = 0.75,
+    style: float = 0.0,
     language_code: str = "",
+    speed: float = 1.0,
+    apply_text_normalization: str = "on",
     timeout: int = 120,
 ) -> List[Path]:
     """Synthesize multiple script sections into individual audio files.
@@ -614,6 +629,8 @@ def synthesize_sections(
             similarity_boost=similarity_boost,
             style=style,
             language_code=language_code,
+            speed=speed,
+            apply_text_normalization=apply_text_normalization,
             timeout=timeout,
         )
         section_files.append(section_path)

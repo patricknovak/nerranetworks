@@ -53,13 +53,15 @@ class LLMConfig:
 class TTSConfig:
     provider: str = "elevenlabs"  # "elevenlabs", "kokoro", "chatterbox", or "fish"
     voice_id: str = "dTrBzPvD2GpAqkk1MUzA"
-    model: str = "eleven_v3"
-    stability: float = 0.65
-    similarity_boost: float = 0.9
-    style: float = 0.85
+    model: str = "eleven_flash_v2_5"
+    stability: float = 0.5
+    similarity_boost: float = 0.75
+    style: float = 0.0
     use_speaker_boost: bool = True
-    max_chars: int = 5000
-    language_code: str = ""  # ISO 639-1 code (e.g. "ru" for Russian); improves eleven_v3 pronunciation
+    max_chars: int = 10000
+    language_code: str = ""  # ISO 639-1 code (e.g. "ru" for Russian)
+    speed: float = 1.0  # Speech speed (0.7–1.2); Flash v2.5 supports this range
+    apply_text_normalization: str = "on"  # "auto", "on", or "off"; helps with number/date pronunciation
     # Kokoro-specific (ignored when provider != kokoro)
     kokoro_voice: str = "am_adam"
     kokoro_speed: float = 1.0

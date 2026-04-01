@@ -87,12 +87,12 @@ llm:
 #   DO NOT USE: stability < 0.35 or style < 0.3 (sounds robotic/flat)
 tts:
   voice_id: dTrBzPvD2GpAqkk1MUzA
-  # model: inherited from _defaults.yaml (eleven_v3)
-  stability: 0.65
-  similarity_boost: 0.9
-  style: 0.85
+  # model: inherited from _defaults.yaml (eleven_flash_v2_5)
+  stability: 0.5
+  similarity_boost: 0.75
+  style: 0.0
   use_speaker_boost: true
-  max_chars: 4500                  # Chunk size for TTS. 4000-5000 typical.
+  max_chars: 10000                 # Chunk size for TTS. Flash v2.5 supports up to 40K.
 
 # ---------------------------------------------------------------------------
 # Audio — Music Mixing

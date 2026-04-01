@@ -32,7 +32,7 @@ is a standalone X-posting script, not a podcast show.
 1. **Fetch** news sources (RSS, xAI/Grok web search, yfinance for Tesla)
 2. **Dedup** via ContentTracker (cross-episode) + entity dedup
 3. **Generate** digest text via xAI/Grok API
-4. **Synthesize** podcast audio via ElevenLabs, Fish Audio, Kokoro, or Chatterbox TTS (per-show config)
+4. **Synthesize** podcast audio via ElevenLabs (`eleven_flash_v2_5`), Fish Audio, Kokoro, or Chatterbox TTS (per-show config)
 5. **Mix** intro/outro music with voice (ffmpeg) — all shows (configurable per YAML)
 6. **Post** X thread via `engine/publisher.post_to_x()` + update RSS feed + commit output to git
 
@@ -118,15 +118,15 @@ nerranetworks/
   Uses **ElevenLabs TTS**. X posting disabled.
 - **FP** (Финансы Просто) runs via `run_show.py` +
   `shows/finansy_prosto.yaml`; Russian-language financial literacy podcast
-  for women in Canada. Uses **ElevenLabs TTS** (`eleven_multilingual_v2`
-  for Russian support). All content generated in Russian. X posting disabled.
+  for women in Canada. Uses **ElevenLabs TTS** (`eleven_flash_v2_5`
+  with `language_code: ru`). All content generated in Russian. X posting disabled.
 - **MIT** (Modern Investing Techniques) runs via `run_show.py` +
   `shows/modern_investing.yaml`; daily investing podcast focused on Canadian
   and US markets. Weekdays only. X posting disabled.
 - **PR** (Привет, Русский!) runs via `run_show.py` +
   `shows/privet_russian.yaml`; bilingual Russian language learning podcast
   for English speakers. Even days only. Uses **ElevenLabs TTS**
-  (`eleven_multilingual_v2`). X posting disabled.
+  (`eleven_flash_v2_5` with `language_code: ru`). X posting disabled.
 - All shows delegate X posting to `engine.publisher.post_to_x()`
 - TST/FF/PT delegate voice normalization to `engine.audio.normalize_voice()`
 - All shows use `engine.audio.mix_with_music()` for music mixing (3 modes:
@@ -242,7 +242,7 @@ Phase 3 (current):
     removed (quality issues). RSS entries removed where applicable.
 11. **MAB TTS settled on ElevenLabs** — Chatterbox produced gibberish on CPU,
     Kokoro had robotic pronunciation, Fish Audio was trialled briefly. MAB and
-    FP now use ElevenLabs (`eleven_turbo_v2_5` and `eleven_multilingual_v2`
+    FP now use ElevenLabs (`eleven_flash_v2_5`
     respectively) for reliable quality.
 12. **Summaries JSONs moved** — all summaries live in per-show subdirectories
     (`digests/<show>/summaries_*.json`), not at the `digests/` top level.

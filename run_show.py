@@ -1254,6 +1254,8 @@ def run(args: argparse.Namespace) -> None:
                             similarity_boost=config.tts.similarity_boost,
                             style=config.tts.style,
                             language_code=config.tts.language_code,
+                            speed=config.tts.speed,
+                            apply_text_normalization=config.tts.apply_text_normalization,
                         )
 
                     generate_transition_sting(sting_path)
@@ -1310,6 +1312,9 @@ def run(args: argparse.Namespace) -> None:
                             model_id=config.tts.model, stability=config.tts.stability,
                             similarity_boost=config.tts.similarity_boost,
                             style=config.tts.style,
+                            language_code=config.tts.language_code,
+                            speed=config.tts.speed,
+                            apply_text_normalization=config.tts.apply_text_normalization,
                         )
             else:
                 if tts_provider == "chatterbox":
@@ -1350,6 +1355,9 @@ def run(args: argparse.Namespace) -> None:
                         model_id=config.tts.model, stability=config.tts.stability,
                         similarity_boost=config.tts.similarity_boost,
                         style=config.tts.style,
+                        language_code=config.tts.language_code,
+                        speed=config.tts.speed,
+                        apply_text_normalization=config.tts.apply_text_normalization,
                     )
 
             _tts_duration = time.monotonic() - t0
