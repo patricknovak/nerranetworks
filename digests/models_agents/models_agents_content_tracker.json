@@ -1,40 +1,7 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-03-31",
+  "last_updated": "2026-04-01",
   "episodes": [
-    {
-      "date": "2026-03-17",
-      "headlines": [],
-      "urls": [
-        "https://techcrunch.com/2026/03/16/picsart-now-allows-creators-to-hire-ai-assistants-through-agent-marketplace/",
-        "https://arxiv.org/abs/2603.13325",
-        "https://arxiv.org/abs/2603.13890",
-        "https://arxiv.org/abs/2603.15255",
-        "https://arxiv.org/abs/2603.13840",
-        "https://arxiv.org/abs/2603.13256",
-        "https://arxiv.org/abs/2603.13625",
-        "https://arxiv.org/abs/2603.15341",
-        "https://arxiv.org/abs/2603.14066",
-        "https://arxiv.org/abs/2603.14625",
-        "https://arxiv.org/abs/2603.14265",
-        "https://arxiv.org/abs/2603.14052",
-        "https://arxiv.org/abs/2504.12961",
-        "https://arxiv.org/abs/2510.05174",
-        "https://arxiv.org/abs/2603.14867",
-        "https://arxiv.org/abs/2603.15408",
-        "https://arxiv.org/abs/2510.06436",
-        "https://arxiv.org/abs/2603.14975",
-        "https://arxiv.org/abs/2603.15351",
-        "https://arxiv.org/abs/2603.14312",
-        "https://arxiv.org/abs/2505.08195"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**QLLM: Credit Assignment Without Mixing Networks**\nQLLM proposes using LLMs to build training-free credit assignment functions in multi-agent RL, avoiding traditional mixing networks for better interpretability and fewer parameters. It outperforms baselines on MARL benchmarks with faster convergence, generalizing across value decomposition algorithms. This could streamline your RL workflows if you're dealing with cooperative agents, though it assumes access to capable LLMs for",
-        "agent_developments": "### Agent & Tool Developments\n**TrinityGuard: Safeguarding Multi-Agent Systems**\nTrinityGuard is a unified framework for safety evaluation and monitoring in LLM-based MAS, featuring a three-tier risk taxonomy, attack probes, and runtime monitors coordinated by an LLM judge. It covers vulnerabilities from single agents to system-level hazards and works across MAS structures. Developers can try it for vulnerability reports on platforms like AutoGen—code's not linked, but it's designed for scalabil",
-        "practical_community": "### Practical & Community\n**PMAx: AI-Driven Process Mining**\nPMAx is an agentic framework acting as a virtual analyst for process mining, using multi-agents to run local scripts on event logs and interpret results without sending data externally. It ensures privacy and accuracy by separating computation from LLM interpretation. Get started by querying business processes via natural language; limitations include reliance on established mining algorithms, so it's best for users with event-log data"
-      }
-    },
     {
       "date": "2026-03-19",
       "headlines": [],
@@ -293,6 +260,71 @@
         "deep_dive": "### Under the Hood: Emergent Social Intelligence Risks\nEveryone talks about multi-agent systems “collaborating” as if harmonious coordination is the default outcome. In reality, when you put multiple generative agents in competitive resource environments, sequential handoff workflows, or collective decision loops, they spontaneously develop collusion-like coordination, conformity pressures, and other familiar human societal failure modes — even without any explicit instruction to do so.\n\nThe cor"
       },
       "deep_dive_topic": "Emergent Social Intelligence Risks"
+    },
+    {
+      "date": "2026-04-01",
+      "headlines": [
+        "Hugging Face Releases TRL v1.0: A Unified Post-Training Stack for SFT, Reward Modeling, DPO, and GRPO Workflows",
+        "Liquid AI Released LFM2.5-350M: A Compact 350M Parameter Model Trained on 28T Tokens with Scaled Reinforcement Learning",
+        "OptiMer: Optimal Distribution Vector Merging Is Better than Data Mixing for Continual Pre-Training",
+        "From Consensus to Split Decisions: ABC-Stratified Sentiment in Holocaust Oral Histories",
+        "CrossTrace: A Cross-Domain Dataset of Grounded Scientific Reasoning Traces for Hypothesis Generation",
+        "Theory of Mind and Self-Attributions of Mentality are Dissociable in LLMs",
+        "Known Intents, New Combinations: Clause-Factorized Decoding for Compositional Multi-Intent Detection",
+        "Human-Like Lifelong Memory: A Neuroscience-Grounded Architecture for Infinite Interaction",
+        "The Model Says Walk: How Surface Heuristics Override Implicit Constraints in LLM Reasoning",
+        "On the limited utility of parallel data for learning shared multilingual representations",
+        "An Empirical Recipe for Universal Phone Recognition",
+        "Dual Perspectives in Emotion Attribution: A Generator-Interpreter Framework for Cross-Cultural Analysis of Emotion in LLMs",
+        "PolarQuant: Optimal Gaussian Weight Quantization via Hadamard Rotation for LLM Compression",
+        "APEX-EM: Non-Parametric Online Learning for Autonomous Agents via Structured Procedural-Episodic Experience Replay",
+        "Concept Training for Human-Aligned Language Models",
+        "Kwame 2.0: Human-in-the-Loop Generative AI Teaching Assistant for Large Scale Online Coding Education in Africa",
+        "SyriSign: A Parallel Corpus for Arabic Text to Syrian Arabic Sign Language Translation",
+        "SiPaKosa: A Comprehensive Corpus of Canonical and Classical Buddhist Texts in Sinhala and Pali",
+        "Long-Document QA with Chain-of-Structured-Thought and Fine-Tuned SLMs",
+        "The Thiomi Dataset: A Large-Scale Multimodal Corpus for Low-Resource African Languages",
+        "MemRerank: Preference Memory for Personalized Product Reranking",
+        "CADEL: A Corpus of Administrative Web Documents for Japanese Entity Linking",
+        "Open Machine Translation for Esperanto",
+        "Beyond Idealized Patients: Evaluating LLMs under Challenging Patient Behaviors in Medical Consultations",
+        "Is my model perplexed for the right reason? Contrasting LLMs' Benchmark Behavior with Token-Level Perplexity"
+      ],
+      "urls": [
+        "https://www.marktechpost.com/2026/04/01/hugging-face-releases-trl-v1-0-a-unified-post-training-stack-for-sft-reward-modeling-dpo-and-grpo-workflows/",
+        "https://www.marktechpost.com/2026/03/31/liquid-ai-released-lfm2-5-350m-a-compact-350m-parameter-model-trained-on-28t-tokens-with-scaled-reinforcement-learning/",
+        "https://arxiv.org/abs/2603.29078",
+        "https://arxiv.org/abs/2603.28858",
+        "https://arxiv.org/abs/2603.29093",
+        "https://arxiv.org/abs/2603.29023",
+        "https://arxiv.org/abs/2603.28924",
+        "https://arxiv.org/abs/2603.29232",
+        "https://arxiv.org/abs/2603.29247",
+        "https://arxiv.org/abs/2603.28913",
+        "https://arxiv.org/abs/2603.28925",
+        "https://arxiv.org/abs/2603.28929",
+        "https://arxiv.org/abs/2603.29025",
+        "https://arxiv.org/abs/2603.29026",
+        "https://arxiv.org/abs/2603.29042",
+        "https://arxiv.org/abs/2603.29077",
+        "https://arxiv.org/abs/2603.29123",
+        "https://arxiv.org/abs/2603.29159",
+        "https://arxiv.org/abs/2603.29219",
+        "https://arxiv.org/abs/2603.29221",
+        "https://arxiv.org/abs/2603.29244",
+        "https://arxiv.org/abs/2603.29336",
+        "https://arxiv.org/abs/2603.29345",
+        "https://arxiv.org/abs/2603.29373",
+        "https://arxiv.org/abs/2603.29396"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Liquid AI Releases LFM2.5-350M: Intelligence Density Over Parameter Count**  \nLiquid AI released LFM2.5-350M, a compact 350M parameter model trained on 28T tokens (up from 10T) using additional pre-training and large-scale reinforcement learning. Rather than chasing raw scale, the model serves as a case study in “intelligence density,” showing that careful data scaling and RL can extract surprising capability from smaller architectures. This is worth watching for teams deploy",
+        "agent_developments": "### Agent & Tool Developments\n**APEX-EM: Non-Parametric Online Learning for Autonomous Agents**  \nAPEX-EM introduces a structured procedural-episodic experience replay system that lets LLM agents accumulate, retrieve, and reuse plans without updating weights. Using a Plan-Retrieve-Generate-Iterate-Ingest workflow and hybrid retrieval (semantic + structural DAG matching), it delivers massive gains: +48.3pp on KGQAGen-10k (89.6% vs 41.3%) and +29.4pp on BigCodeBench. This is one of the strongest d",
+        "practical_community": "### Practical & Community\n**CrossTrace: Grounded Scientific Reasoning Traces for Hypothesis Generation**  \nCrossTrace provides 1,389 cross-domain (biomedical, AI/ML, cross-domain) grounded reasoning traces with step-level verification. Fine-tuning Qwen2.5-7B-Instruct on this data via QLoRA dramatically improves hypothesis generation quality and structural compliance. Balanced cross-domain training outperforms single-domain, suggesting scientific reasoning patterns transfer. Excellent resource fo",
+        "deep_dive": "### Under the Hood: Heuristic Override in LLM Reasoning\nEveryone talks about LLMs “reasoning” as if they perform logical inference like a human. In practice, they are heavily driven by surface heuristics that can completely override implicit feasibility constraints.\n\nThe core insight is that certain salient cues (distance, cost, efficiency, semantic similarity) create strong sigmoid-shaped influences on model output. Token-level attribution shows these decisions look more like keyword associatio"
+      },
+      "deep_dive_topic": "Heuristic Override in LLM Reasoning"
     }
   ]
 }
