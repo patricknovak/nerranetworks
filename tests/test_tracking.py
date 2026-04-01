@@ -303,8 +303,8 @@ class TestSaveUsage:
         assert "total_estimated_cost_usd" in data
 
     def test_elevenlabs_cost_per_1k_constant(self):
-        """Verify the pricing constant matches the documented rate."""
-        assert ELEVENLABS_COST_PER_1K_CHARS == 0.30
+        """Verify the pricing constant matches the documented rate (Flash v2.5)."""
+        assert ELEVENLABS_COST_PER_1K_CHARS == 0.15
 
     def test_fish_audio_cost_per_1k_constant(self):
         """Verify the Fish Audio pricing constant."""
@@ -316,7 +316,7 @@ class TestSaveUsage:
         record_tts_usage(tracker, 3333)
         save_usage(tracker, tmp_path)
         tts = tracker["services"]["tts_api"]
-        expected = (3333 / 1000) * 0.30
+        expected = (3333 / 1000) * 0.15
         assert abs(tts["estimated_cost_usd"] - expected) < 1e-10
 
 

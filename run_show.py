@@ -450,6 +450,36 @@ def run(args: argparse.Namespace) -> None:
             )
             sys.exit(2)
 
+    # 5b2. Thin content detection — article count is above skip threshold but
+    #      below the quality threshold (min_articles).  Activate slow news mode
+    #      to supplement with evergreen segments so the LLM has enough material.
+    min_quality = getattr(config, "min_articles", 6) or 6
+    if (
+        not slow_news_mode
+        and len(articles) < min_quality
+        and config.slow_news.enabled
+    ):
+        from engine.slow_news import load_segment_library, select_segments
+
+        logger.warning(
+            "Thin content: %d articles (skip threshold %d met, quality "
+            "threshold %d not met) — supplementing with evergreen segments",
+            len(articles), skip_threshold, min_quality,
+        )
+        library = load_segment_library(config.slow_news.library_file)
+        recent_seg_ids = content_tracker.get_recent_segment_ids(
+            days=config.slow_news.cooldown_days,
+        )
+        selected_segs = select_segments(
+            library,
+            recent_seg_ids,
+            max_segments=config.slow_news.max_segments,
+            mode=config.slow_news.selection_mode,
+        )
+        slow_news_mode = True
+        metrics.record("slow_news_mode", True)
+        metrics.record("slow_news_trigger", "thin_content")
+
     # 5c. Cap article count to prevent prompt bloat and quality degradation
     MAX_ARTICLES_FOR_LLM = 25
     if len(articles) > MAX_ARTICLES_FOR_LLM:
@@ -1025,13 +1055,29 @@ def run(args: argparse.Namespace) -> None:
 
         # 8b. Minimum podcast script length gate — catch LLM garbage before
         #     spending TTS credits on a worthless episode.
+        #     Two thresholds:
+        #       _MIN_SCRIPT_WORDS (100): absolute floor — LLM returned garbage
+        #       _QUALITY_FLOOR: 70% of min_podcast_words — script too thin for
+        #         a quality episode (e.g. 1540 for a 2200-word target)
         _MIN_SCRIPT_WORDS = 100
         _script_word_count = len(podcast_script.split())
+        _min_podcast_words = getattr(config.llm, "min_podcast_words", 0)
+        _QUALITY_FLOOR = int(_min_podcast_words * 0.70) if _min_podcast_words else 0
         if _script_word_count < _MIN_SCRIPT_WORDS:
             logger.error(
                 "Podcast script is too short (%d words, minimum %d) — LLM "
                 "likely returned garbage. Aborting episode.",
                 _script_word_count, _MIN_SCRIPT_WORDS,
+            )
+            save_usage(tracker, digests_dir)
+            sys.exit(1)
+        if _QUALITY_FLOOR and _script_word_count < _QUALITY_FLOOR:
+            logger.error(
+                "Podcast script is below quality floor (%d words, need at "
+                "least %d — 70%% of %d target). The LLM could not produce "
+                "enough content. Aborting episode to avoid a low-quality "
+                "release.",
+                _script_word_count, _QUALITY_FLOOR, _min_podcast_words,
             )
             save_usage(tracker, digests_dir)
             sys.exit(1)
@@ -1716,9 +1762,19 @@ def _fetch_with_expansion(
     dedup thresholds until at least *min_articles* survive, or all expansion
     stages are exhausted.  This prevents shows like Env Intel from producing
     empty episodes on days when RSS feeds are sparse.
+
+    Even when the article count technically meets *min_articles*, if fewer
+    than 30% of configured feeds produced any articles we treat it as a
+    content-thin day and continue expanding to gather more material for the
+    LLM to work with.
     """
     from engine.fetcher import fetch_rss_articles
     from engine.utils import deduplicate_by_entity
+
+    total_feeds = len(feed_dicts)
+    # Minimum fraction of feeds that should contribute content.  If fewer
+    # feeds produce articles, we keep expanding even if count >= min_articles.
+    _MIN_FEED_HIT_RATIO = 0.30
 
     expansion_stages = [
         # (cutoff_hours, similarity_threshold, keyword_filter)
@@ -1728,7 +1784,9 @@ def _fetch_with_expansion(
         (72, 0.55, False),   # Drop keyword filter entirely (broader catch)
     ]
 
-    for cutoff_hours, sim_threshold, use_keywords in expansion_stages:
+    best_articles: list[dict] = []
+
+    for stage_idx, (cutoff_hours, sim_threshold, use_keywords) in enumerate(expansion_stages):
         kw = keywords if use_keywords else None
         articles = fetch_rss_articles(
             feed_dicts, cutoff_hours=cutoff_hours, keywords=kw,
@@ -1751,7 +1809,28 @@ def _fetch_with_expansion(
             sim_threshold, len(articles),
         )
 
+        # Keep the best result seen so far (most articles)
+        if len(articles) > len(best_articles):
+            best_articles = articles
+
         if len(articles) >= min_articles:
+            # Check feed diversity — if most feeds returned nothing,
+            # we likely have thin content even if count looks okay.
+            if total_feeds >= 5 and stage_idx < len(expansion_stages) - 1:
+                contributing_feeds = len({
+                    a.get("source_name", a.get("feed_url", ""))
+                    for a in articles
+                })
+                feed_hit_ratio = contributing_feeds / total_feeds
+                if feed_hit_ratio < _MIN_FEED_HIT_RATIO:
+                    logger.warning(
+                        "Content-thin day: %d articles from only %d/%d feeds "
+                        "(%.0f%% < %.0f%% threshold) — expanding search for "
+                        "more material ...",
+                        len(articles), contributing_feeds, total_feeds,
+                        feed_hit_ratio * 100, _MIN_FEED_HIT_RATIO * 100,
+                    )
+                    continue
             return articles
 
         logger.info(
@@ -1759,8 +1838,8 @@ def _fetch_with_expansion(
             len(articles), min_articles,
         )
 
-    # Return whatever we have, even if below min_articles
-    return articles
+    # Return the best result we found across all stages
+    return best_articles
 
 
 def _extract_segment_summaries(

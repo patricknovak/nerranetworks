@@ -27,6 +27,10 @@ sources:
     label: Torque News
   - url: https://electrek.co/guides/tesla/feed/
     label: Electrek
+  - url: https://www.cnbc.com/id/10001147/device/rss/rss.html
+    label: CNBC
+  - url: https://www.reuters.com/technology/rss
+    label: Reuters
 
 x_accounts:
   - handle: sawyermerrit
@@ -35,9 +39,12 @@ x_accounts:
   - handle: tslaming
     label: TSLAming
     max_posts: 5
+  - handle: wholemarsblog
+    label: Whole Mars Blog
+    max_posts: 3
 
-min_articles: 6
-min_articles_skip: 5
+min_articles: 10
+min_articles_skip: 6
 min_audio_duration: 300
 
 keywords:

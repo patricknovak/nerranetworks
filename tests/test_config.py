@@ -387,7 +387,7 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "tesla.yaml")
         assert cfg.name == "Tesla Shorts Time"
         assert cfg.slug == "tesla"
-        assert len(cfg.sources) == 13
+        assert len(cfg.sources) == 14
         assert cfg.sources[0].label == "Teslarati"
         assert "tsla" in cfg.keywords
         assert cfg.llm.model == "grok-4.20-non-reasoning"
