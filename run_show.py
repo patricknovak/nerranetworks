@@ -1054,30 +1054,15 @@ def run(args: argparse.Namespace) -> None:
         logger.info("Podcast script generation took %.1fs", time.monotonic() - t0)
 
         # 8b. Minimum podcast script length gate — catch LLM garbage before
-        #     spending TTS credits on a worthless episode.
-        #     Two thresholds:
-        #       _MIN_SCRIPT_WORDS (100): absolute floor — LLM returned garbage
-        #       _QUALITY_FLOOR: 70% of min_podcast_words — script too thin for
-        #         a quality episode (e.g. 1540 for a 2200-word target)
-        _MIN_SCRIPT_WORDS = 100
+        #     spending TTS credits on a worthless episode.  Short-but-coherent
+        #     scripts are fine; only abort on clear garbage (<1000 words).
+        _MIN_SCRIPT_WORDS = 1000
         _script_word_count = len(podcast_script.split())
-        _min_podcast_words = getattr(config.llm, "min_podcast_words", 0)
-        _QUALITY_FLOOR = int(_min_podcast_words * 0.70) if _min_podcast_words else 0
         if _script_word_count < _MIN_SCRIPT_WORDS:
             logger.error(
                 "Podcast script is too short (%d words, minimum %d) — LLM "
                 "likely returned garbage. Aborting episode.",
                 _script_word_count, _MIN_SCRIPT_WORDS,
-            )
-            save_usage(tracker, digests_dir)
-            sys.exit(1)
-        if _QUALITY_FLOOR and _script_word_count < _QUALITY_FLOOR:
-            logger.error(
-                "Podcast script is below quality floor (%d words, need at "
-                "least %d — 70%% of %d target). The LLM could not produce "
-                "enough content. Aborting episode to avoid a low-quality "
-                "release.",
-                _script_word_count, _QUALITY_FLOOR, _min_podcast_words,
             )
             save_usage(tracker, digests_dir)
             sys.exit(1)
