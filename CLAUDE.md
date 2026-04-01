@@ -141,7 +141,7 @@ nerranetworks/
 - `GROK_API_KEY` — primary xAI key (all shows)
 - `ELEVENLABS_API_KEY` — ElevenLabs TTS (all shows)
 - `X_*` / `PLANETTERRIAN_X_*` — two separate X accounts
-- Voice IDs: TST/FF/PT/M&A/EI share `dTrBzPvD2GpAqkk1MUzA`, OV uses `ns7MjJ6c8tJKnvw7U6sN`
+- Voice IDs: All English shows share `dTrBzPvD2GpAqkk1MUzA`, Russian shows (FP/PR) use `gedzfqL7OGdPbwm0ynTP`
 - `FISH_AUDIO_API_KEY` — Fish Audio TTS (available but not currently used by active shows)
 - See `docs/env_var_inventory.md` for the complete inventory
 
