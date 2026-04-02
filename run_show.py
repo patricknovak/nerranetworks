@@ -1940,6 +1940,9 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
         # Russian (Финансы Просто)
         "Ведущая:",
         "Ведущий:",
+        # Latin transliterations of Cyrillic host names
+        "Olya:",
+        "Olga:",
         # Generic
         "Narrator:",
         "Speaker:",
@@ -1991,11 +1994,16 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
         # Drop source attribution lines that survived earlier cleaning
         if re.match(r"(?i)^\s*source\s*:", line):
             continue
-        # Strip speaker prefixes
+        # Strip speaker prefixes (plain and bold markdown variants)
         text = line
         for prefix in _SPEAKER_PREFIXES:
             if line.startswith(prefix):
                 text = line[len(prefix):].strip()
+                break
+            # Also catch **Host:** bold markdown variants
+            bold = f"**{prefix[:-1]}:**"  # e.g. "Host:" → "**Host:**"
+            if line.startswith(bold):
+                text = line[len(bold):].strip()
                 break
         if text:
             parts.append(text)

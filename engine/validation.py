@@ -560,9 +560,10 @@ def pr_validation_config() -> ValidationConfig:
             SectionRule(
                 name="Word of the Day",
                 pattern=(
-                    r"(?:### Word of the Day|## Word of the Day|word of the day|first word)"
+                    r"(?:### Word of the Day|## Word of the Day|word of the day|first word"
+                    r"|\*\*Vocabulary List|### Vocabulary|## Vocabulary)"
                     r"(.*?)"
-                    r"(?=━━|### Vocabulary|## Vocabulary|### Grammar|## Grammar|$)"
+                    r"(?=━━|### Grammar|## Grammar|\*\*Grammar|### Culture|## Culture|$)"
                 ),
                 min_items=1,
             ),

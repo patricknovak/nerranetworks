@@ -243,7 +243,12 @@ def _detect_story_duplication(text: str, show_name: str) -> int:
         "And But For Not Now Also Then Here There Just Still Even "
         "According From Some Every Each Most Many They Their Its "
         # Show topics and host names — too common to be story-specific
-        "Patrick Tesla Model Three Drive Semi Auto Podcast".split()
+        "Patrick Tesla Model Three Drive Semi Auto Podcast "
+        # Language names — too common in bilingual/learning shows
+        "Russian English French Spanish German Chinese Japanese "
+        "Indo European Latin Greek Arabic "
+        # Language learning host names
+        "Olya".split()
     )
 
     def _story_signals(block_text: str) -> set:
@@ -402,6 +407,23 @@ def _validate_llm_output(
             "patrick: the", "patrick: this", "patrick: it", "patrick: a",
             "patrick: so", "patrick: now", "patrick: and", "patrick: but",
             "**host:** the", "**host:** this", "**host:** it", "**host:** a",
+            # Olya host attribution (Привет, Русский! language learning show)
+            "**olya:** the", "**olya:** this", "**olya:** it", "**olya:** a",
+            "**olya:** so", "**olya:** now", "**olya:** and", "**olya:** but",
+            "**olya:** that", "**olya:** repeat", "**olya:** can",
+            "**olya:** let's", "**olya:** ok,", "**olya:** today",
+            "olya: the", "olya: this", "olya: it", "olya: that",
+            "olya: repeat", "olya: so", "olya: now", "olya: let's",
+            # Language learning pedagogical patterns
+            "it means", "that means", "which means", "means the",
+            "repeat after", "after me.", "after me,", "say it",
+            "in russian", "in english", "the russian", "the english",
+            "- russian", "- **russian", "russian (cyrillic):",
+            # Structured digest labels (vocabulary lists repeat per word)
+            "**example sentence:**", "example sentence:",
+            "**example translation:**", "example translation:",
+            "**memory hook:**", "memory hook:",
+            "**russian (cyrillic):**",
             # Section separators / formatting
             "━━━━━━━━━━ ###", "━━━━━━━━━━━━━━━━━━━━ ###",
             # Article reference patterns
