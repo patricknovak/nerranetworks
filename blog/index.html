@@ -178,7 +178,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../index.html" class="nn-nav-logo">
                 <img src="../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -308,6 +308,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../start-here.html">Start Here</a></li>
                 <li><a href="../player.html">Player</a></li>
                 <li><a href="../index.html">Home</a></li>
                 
@@ -320,6 +321,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -3382,9 +3384,23 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../privacy-policy.html">Privacy Policy</a>
+                <a href="../terms-of-service.html">Terms of Service</a>
+                <a href="../ai-disclosure.html">AI Disclosure</a>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../terms-of-service.html">Terms</a> &middot;
+                    <a href="../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>
