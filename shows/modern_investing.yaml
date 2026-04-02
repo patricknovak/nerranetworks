@@ -50,6 +50,26 @@ sources:
     label: Seeking Alpha
   - url: https://www.investing.com/rss/news.rss
     label: Investing.com
+  # Google News — supplementary market coverage
+  - url: "https://news.google.com/rss/search?q=stock+market+investing+news&hl=en-CA&gl=CA&ceid=CA:en"
+    label: Google News Investing
+  - url: "https://news.google.com/rss/search?q=TSX+Canadian+stock+market&hl=en-CA&gl=CA&ceid=CA:en"
+    label: Google News TSX
+  - url: "https://news.google.com/rss/search?q=ETF+index+fund+investing&hl=en-CA&gl=CA&ceid=CA:en"
+    label: Google News ETF
+  # Reddit — investing communities
+  - url: "https://www.reddit.com/r/CanadianInvestor/.rss"
+    label: r/CanadianInvestor
+  - url: "https://www.reddit.com/r/investing/.rss"
+    label: r/investing
+  - url: "https://www.reddit.com/r/stocks/.rss"
+    label: r/stocks
+
+web_search_queries:
+  - "stock market investing news today"
+  - "TSX Canadian market news"
+  - "ETF investing strategy news"
+  - "AI investing fintech news"
 
 min_articles: 6
 

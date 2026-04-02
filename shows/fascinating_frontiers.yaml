@@ -59,6 +59,26 @@ sources:
     label: Space.com Tech
   - url: https://www.space.com/launches/feed
     label: Space.com Launches
+  # Google News — supplementary broad coverage
+  - url: "https://news.google.com/rss/search?q=space+exploration+news&hl=en-US&gl=US&ceid=US:en"
+    label: Google News Space
+  - url: "https://news.google.com/rss/search?q=NASA+SpaceX+rocket+launch&hl=en-US&gl=US&ceid=US:en"
+    label: Google News NASA SpaceX
+  - url: "https://news.google.com/rss/search?q=astronomy+discovery+exoplanet&hl=en-US&gl=US&ceid=US:en"
+    label: Google News Astronomy
+  # Reddit — community space coverage
+  - url: "https://www.reddit.com/r/space/.rss"
+    label: r/space
+  - url: "https://www.reddit.com/r/spacex/.rss"
+    label: r/spacex
+  - url: "https://www.reddit.com/r/astronomy/.rss"
+    label: r/astronomy
+
+web_search_queries:
+  - "space exploration news today"
+  - "NASA SpaceX launch update"
+  - "astronomy discovery news"
+  - "rocket launch news today"
 
 min_articles_skip: 4
 

@@ -42,6 +42,21 @@ sources:
     label: The Conversation
   - url: https://github.blog/feed/
     label: GitHub Blog
+  # Google News — supplementary beginner-friendly AI coverage
+  - url: "https://news.google.com/rss/search?q=ChatGPT+AI+chatbot+news&hl=en-US&gl=US&ceid=US:en"
+    label: Google News ChatGPT
+  - url: "https://news.google.com/rss/search?q=artificial+intelligence+beginners+explained&hl=en-US&gl=US&ceid=US:en"
+    label: Google News AI Explained
+  # Reddit — beginner-friendly AI communities
+  - url: "https://www.reddit.com/r/ChatGPT/.rss"
+    label: r/ChatGPT
+  - url: "https://www.reddit.com/r/artificial/.rss"
+    label: r/artificial
+
+web_search_queries:
+  - "AI news for beginners today"
+  - "ChatGPT update news"
+  - "AI tools new features today"
 
 keywords:
   # Core AI concepts (beginner-accessible)

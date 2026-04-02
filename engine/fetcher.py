@@ -50,6 +50,34 @@ def _strip_html(text: str) -> str:
 # ---------------------------------------------------------------------------
 
 _SOURCE_MAP: List[tuple] = [
+    # Google News (must precede generic patterns)
+    ("news.google.com", "Google News"),
+    # Reddit — specific subreddits first, then generic fallback
+    # (must precede generic patterns like "longevity", "science", etc.)
+    ("reddit.com/r/teslamotors", "r/teslamotors"),
+    ("reddit.com/r/electricvehicles", "r/electricvehicles"),
+    ("reddit.com/r/teslainvestorsclub", "r/teslainvestorsclub"),
+    ("reddit.com/r/environment", "r/environment"),
+    ("reddit.com/r/climate", "r/climate"),
+    ("reddit.com/r/britishcolumbia", "r/britishcolumbia"),
+    ("reddit.com/r/spacex", "r/spacex"),
+    ("reddit.com/r/space", "r/space"),
+    ("reddit.com/r/astronomy", "r/astronomy"),
+    ("reddit.com/r/longevity", "r/longevity"),
+    ("reddit.com/r/science", "r/science"),
+    ("reddit.com/r/biotech", "r/biotech"),
+    ("reddit.com/r/worldnews", "r/worldnews"),
+    ("reddit.com/r/news", "r/news"),
+    ("reddit.com/r/geopolitics", "r/geopolitics"),
+    ("reddit.com/r/machinelearning", "r/MachineLearning"),
+    ("reddit.com/r/localllama", "r/LocalLLaMA"),
+    ("reddit.com/r/artificial", "r/artificial"),
+    ("reddit.com/r/chatgpt", "r/ChatGPT"),
+    ("reddit.com/r/canadianinvestor", "r/CanadianInvestor"),
+    ("reddit.com/r/investing", "r/investing"),
+    ("reddit.com/r/stocks", "r/stocks"),
+    ("reddit.com/r/personalfinancecanada", "r/PersonalFinanceCanada"),
+    ("reddit.com", "Reddit"),
     # Space / Astronomy
     ("nasa.gov", "NASA"),
     ("space.com", "Space.com"),
@@ -129,16 +157,6 @@ _SOURCE_MAP: List[tuple] = [
     ("notateslaapp.com", "Not a Tesla App"),
     ("torquenews.com", "Torque News"),
     ("cleantechnica.com", "CleanTechnica"),
-    # Google News
-    ("news.google.com", "Google News"),
-    # Reddit
-    ("reddit.com/r/teslamotors", "r/teslamotors"),
-    ("reddit.com/r/electricvehicles", "r/electricvehicles"),
-    ("reddit.com/r/teslainvestorsclub", "r/teslainvestorsclub"),
-    ("reddit.com/r/environment", "r/environment"),
-    ("reddit.com/r/climate", "r/climate"),
-    ("reddit.com/r/britishcolumbia", "r/britishcolumbia"),
-    ("reddit.com", "Reddit"),
 ]
 
 

@@ -48,6 +48,21 @@ sources:
   # Canadian Immigration & Newcomer Finance
   - url: https://www.cicnews.com/feed
     label: CIC News (Canadian Immigration)
+  # Google News — supplementary Canadian finance coverage
+  - url: "https://news.google.com/rss/search?q=Canada+personal+finance+TFSA+RRSP&hl=en-CA&gl=CA&ceid=CA:en"
+    label: Google News Canada Finance
+  - url: "https://news.google.com/rss/search?q=Canadian+immigration+newcomer+finance&hl=en-CA&gl=CA&ceid=CA:en"
+    label: Google News Immigration Finance
+  # Reddit — Canadian finance communities
+  - url: "https://www.reddit.com/r/PersonalFinanceCanada/.rss"
+    label: r/PersonalFinanceCanada
+  - url: "https://www.reddit.com/r/CanadianInvestor/.rss"
+    label: r/CanadianInvestor
+
+web_search_queries:
+  - "Canada personal finance TFSA RRSP news"
+  - "Canadian newcomer finance tips"
+  - "Bank of Canada interest rate news"
 
 min_articles_skip: 4
 

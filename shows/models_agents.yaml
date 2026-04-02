@@ -68,6 +68,26 @@ sources:
     label: BentoML Blog
   - url: https://towardsdatascience.com/feed
     label: Towards Data Science
+  # Google News — supplementary broad coverage
+  - url: "https://news.google.com/rss/search?q=artificial+intelligence+AI+news&hl=en-US&gl=US&ceid=US:en"
+    label: Google News AI
+  - url: "https://news.google.com/rss/search?q=large+language+model+LLM+GPT&hl=en-US&gl=US&ceid=US:en"
+    label: Google News LLM
+  - url: "https://news.google.com/rss/search?q=AI+agent+autonomous+agent&hl=en-US&gl=US&ceid=US:en"
+    label: Google News AI Agents
+  # Reddit — community AI coverage
+  - url: "https://www.reddit.com/r/MachineLearning/.rss"
+    label: r/MachineLearning
+  - url: "https://www.reddit.com/r/LocalLLaMA/.rss"
+    label: r/LocalLLaMA
+  - url: "https://www.reddit.com/r/artificial/.rss"
+    label: r/artificial
+
+web_search_queries:
+  - "AI artificial intelligence news today"
+  - "large language model LLM news"
+  - "AI agent framework news"
+  - "OpenAI Anthropic Google AI news"
 
 min_articles_skip: 4
 
