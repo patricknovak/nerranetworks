@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -943,6 +1045,19 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Welcome to Fascinating Frontiers, episode thirty-two. Today is February twenty-sixth, twenty twenty-six. N A S A shakes up human spaceflight leadership after critical Starliner report. Let's dive right into that headline story. N A S A has made some significant changes in its human spaceflight program, replacing two key figures after a critical report on the Boeing Starliner crewed flight came to light. According to Space.com, this shake-up is all about addressing oversight issues that were flagged in the report, with the ultimate goal of ensuring safer missions moving forward. Now, the Starliner program has had its share of challenges, and this restructuring seems to signal that N A S A is taking those seriously. Why does this matter? Well, human spaceflight is the most high-stakes arena in exploration—every decision can mean the difference between success and catastrophe. I’m curious to see how this change in leadership will shape the timeline for Starliner’s next steps and whether it restores confidence in the program. What do you think—will this be a turning point? Shifting gears to a story that’s a bit more speculative but just as exciting, let’s talk about Europa, one of Jupiter’s most intriguing moons. New research highlighted by Universe Today suggests that Europa and other Jovian moons may have formed with complex organic molecules—essentially, the building blocks of life. This finding ramps up the odds that we might find signs of life in Europa’s subsurface ocean, a place already considered a prime target for astrobiology. Think about it: if these molecules were baked into the moon from the start, it’s a game-changer for how we approach the search for life. I’m particularly struck by the idea that life’s ingredients could be so widespread in our solar system. It makes me wonder what we’ll uncover when missions like Europa Clipper get there. Isn’t it amazing to think we’re on the cusp of answering such profound questions? On a different note, let’s touch on something closer to home—well, at least in terms of observation. Landsat 9, launched back in 2021, continues to build on a 50-year legacy of imaging Earth’s land surface, as reported by N A S A. This satellite’s data is critical for tracking environmental changes, from deforestation to urban sprawl, and it supports global research in ways that directly impact policy and conservation. What stands out to me is the sheer longevity of the Landsat program—it’s like a time machine for Earth’s surface. I find it quietly remarkable that we have this continuous record to lean on, especially as climate challenges grow. It’s not the flashiest story, but its importance can’t be overstated. How often do we get to see the big picture of our own planet like this? Now, for something a bit more visually spectacular, let’s look ahead to a celestial event. According to Sky and Telescope, a total lunar eclipse is coming up on March 3, and it’ll be especially striking for viewers around the Pacific region. This is one of those rare moments where the Moon slips into Earth’s shadow, and we won’t see another like it until late 2028. I love how these events remind us of our place in the cosmic dance—Earth, Moon, and Sun aligning just so. If you’re in the viewing area, mark your calendar; it’s a chance to witness something raw and ancient. I’m already planning to step outside and take it in. Will you be watching? Speaking of stunning visuals, I’ve got to dive deeper into a particularly eerie and fascinating image captured by the James Webb Space Telescope. The Exposed Cranium Nebula, as covered by Universe Today, looks uncannily like a human skull, formed from the outer layers ejected by a dying star and glowing under its intense radiation. What’s incredible is how Webb’s dual imaging—using its NIRCam and MIRI instruments—reveals intricate details about the nebula’s structure and composition. Each tool shows us a different slice of reality, painting a fuller picture of this cosmic oddity. Beyond its striking appearance, this observation is a window into stellar life cycles, showing us how massive stars end their lives and shape their surroundings. I can’t help but wonder what future studies of nebulae like this might reveal about the materials they scatter into space—could they seed new stars or even planets? It’s a haunting reminder of the beauty and violence of the universe, and I’m captivated by what we’re learning from it. Moving from the distant cosmos to a more immediate milestone, let’s talk about N A S A’s Artemis II mission. Space.com reports that the rocket has been moved back to the Vehicle Assembly Building for repairs to its upper stage. This step is critical in setting the timeline for what will be a historic mission around the Moon. I find the engineering side of Artemis so compelling—every component has to be perfect for a crewed flight this ambitious. Delays can be frustrating, but they’re a necessary part of ensuring safety and success. I’m rooting for the team to iron out these issues soon. What’s your take—how soon do you think we’ll see Artemis II launch? Next up, let’s turn to Mars with a mission that’s got some fascinating goals. N A S A’s ESCAPADE mission, as detailed by the agency itself, is gearing up to study space weather between Earth and Mars, zeroing in on how solar wind impacts the Red Planet. This isn’t just about pretty auroras; understanding these dynamics could explain why Mars lost so much of its atmosphere over billions of years. I’m struck by how much we still don’t know about our nearest neighbor, and missions like this fill in those gaps. It’s also a reminder of how hostile space can be—something we’ll need to master for future human missions. I’ll be keeping an eye on ESCAPADE’s findings. Could this be a key to unlocking Mars’ past? On the topic of Mars, let’s check in with N A S A’s Curiosity rover, which has been doing some incredible work on the ground. Universe Today notes that Curiosity recently got its closest look yet at boxwork formations—rock structures that look like spiderwebs—and sampled them for signs of ancient life. These formations could hold clues to Mars’ past habitability, and I’m intrigued by the idea that we might find chemical traces of life in these rocks. The rover’s persistence, after all these years, is nothing short of inspiring. Every sample brings us closer to understanding whether Mars once harbored life. I can’t wait to see what the analysis reveals—could this be the evidence we’ve been searching for? Finally, let’s wrap up with a massive achievement in radio astronomy. Space.com reports that the LOFAR telescope array has completed its largest-ever radio survey of the cosmos, uncovering over 13 million events like black holes and supernovas. That’s 13 million, folks—a staggering number that offers unprecedented insights into the universe’s most energetic phenomena. I’m blown away by the scale of this dataset; it’s like opening a new chapter in our cosmic history book. What excites me most is how this will fuel research for years to come, possibly reshaping our models of the universe. It’s a quieter story compared to a rocket launch, but its impact could be just as profound. What do you think we’ll learn from diving into this treasure trove of data? That's Fascinating Frontiers for today. If you enjoyed this episode, a rating or review on Apple Podcasts or Spotify really helps new listeners find the show. I'm Patrick in Vancouver. Thanks for listening, and I'll see you tomorrow.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -950,6 +1065,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/fascinating_frontiers/ep032.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Fascinating Frontiers in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Fascinating Frontiers">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -964,6 +1095,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1030,6 +1163,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1061,9 +1195,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

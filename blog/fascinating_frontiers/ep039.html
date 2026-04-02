@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -943,6 +1045,43 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Welcome to Fascinating Frontiers, episode thirty-nine. Today is March fourteenth, twenty twenty-six. nassa confirms readiness for Artemis 2, targeting a crewed lunar orbit no earlier than April 1.
+
+nassa confirms readiness for Artemis 2, targeting a crewed lunar orbit no earlier than April 1.
+
+Alright, let's dive right into that Artemis news because it's a big step forward for getting humans back to the Moon. According to Spaceflight Now, nassa's flight readiness review for Artemis 2 has wrapped up with a green light from all teams, meaning the Orion spacecraft and its systems are cleared for the mission pending some final assembly in the Vehicle Assembly Building. This is the first crewed lunar orbit since the Apollo days, and it'll test how well Orion handles deep space with astronauts aboard—think radiation shielding, life support, and navigation all getting a real workout. What fascinates me here is the human element; these reviews aren't just checklists, they're the culmination of years of engineering grit from teams who've learned from Artemis 1's uncrewed test. It's a reminder of how far we've come since the 1970s, bridging that gap with modern tech to make lunar exploration routine again. If everything stays on track, this could pave the way for Artemis 3's landing, really kicking off sustainable Moon presence. I'm genuinely excited to see how this unfolds—it's not just about the hardware, but reigniting that sense of possibility for the next generation.
+
+Staying with Artemis for a moment, nassa Administrator gave an interview teasing more program updates, as reported by Spaceflight Now. They highlighted the ongoing preparations, like stacking the rocket components, which signals that the whole operation is humming along toward that April launch window. This matters because Artemis isn't a one-off; it's building a framework for international partnerships and long-term lunar bases, potentially even resource extraction like water ice for fuel. From my perspective, it's intriguing to hear the admin's take—it's like peeking behind the curtain at the decision-making that balances budgets, safety, and ambition. We've seen delays before, so this confidence boost feels earned, and it connects directly to broader goals like Mars missions down the line. Overall, it's a quiet but crucial nudge forward in humanity's push beyond Earth orbit.
+
+Now, shifting gears to something that's challenging our cosmic assumptions—a gamma-ray burst traced back to colliding neutron stars. Space dot com details how astronomers used Hubble and other telescopes to pinpoint this powerful explosion to a pair of neutron stars smashing together in a distant galaxy, but here's the twist: it happened in a dense, crowded region that models once deemed 'forbidden' for such events because the stars shouldn't survive long enough to merge there. This discovery shakes up our understanding of how these collisions forge heavy elements like gold and platinum, which get scattered across the universe and even end up in our own solar system. What I find compelling is the detective work involved; by combining data from multiple observatories, scientists pieced together the burst's origin, revealing that these mergers can happen in unexpected environments, possibly more frequently than we thought. It prompts questions about universe evolution—could this mean we're missing other bursts in similar spots? For planetary science, it ties into how elements crucial for life are distributed, and with next-gen telescopes on the horizon, we might uncover even more of these hidden cosmic forges. It's a perfect example of how one observation can refine entire theories, keeping astronomy so dynamic.
+
+On a more observational note, let's talk about Jupiter's moon Io putting on a show this weekend, as covered in Astronomy Magazine. Io will transit in front of Jupiter, casting its shadow, and then occult behind the planet, events visible through backyard telescopes if the skies cooperate. These happenings aren't just pretty sights—they illustrate the intricate orbital mechanics of the Jovian system, where Io's close orbit leads to tidal heating and those famous volcanic plumes. I love how accessible this is; it reminds us that cutting-edge science can start with simple stargazing, helping amateurs contribute to timing these events for better data on moon positions. Thinking about the engineering side, missions like Juno have built on such observations to map Io's activity, and this weekend's views could inspire the next wave of citizen scientists. It's a subtle thrill, connecting everyday skywatchers to the bigger picture of planetary dynamics.
+
+Speaking of planetary insights, new findings from Arizona's Meteor Crater are unlocking secrets about ancient impacts, according to Space dot com. Scientists treating the fifty thousand-year-old site as a natural lab have uncovered fresh details on how the meteor strike reshaped the landscape, including shock effects on rocks that mimic what we see on other worlds. This enhances our grasp of Earth's impact history, which is key for planetary defense—understanding past craters helps predict and mitigate future asteroid threats. What's neat is the human story here; this crater has been studied for decades, but new tech like advanced imaging keeps revealing layers, almost like archaeology in reverse. It ties directly into missions scanning for near-Earth objects, making me appreciate how ground-based sites inform space-based strategies. In a way, it's a bridge between our planet's scars and the broader solar system's violent past.
+
+Turning to telescope triumphs, the James Webb Space Telescope has captured stunning images of star formation in the spiral galaxy NGC 5134, as reported by Universe Today. J W S T peered through the dusty arms to reveal embedded young stars and clumps of gas where new ones are brewing, offering a clearer view than ever of how spirals evolve. This matters for models of galaxy formation—spirals like ours are star factories, and these observations show the role of dust in nurturing stellar birth, potentially explaining why some galaxies are more prolific than others. I get a kick out of the engineering feat; J W S T's infrared capabilities cut through obscuring material that Hubble couldn't, highlighting how tech advances open new windows on the universe. It's reflective stuff—makes you wonder about the Milky Way's own hidden nurseries and what they say about our cosmic neighborhood. Definitely a story that underscores J W S T's ongoing revolution in astronomy.
+
+Over on the international front, China is advancing a low-cost lunar cargo system, per SpaceNews. A state contractor unveiled a concept for economical transport to support their expanding moon base program, focusing on efficient payload delivery without breaking the bank. This is significant because it accelerates plans for lunar infrastructure, like habitats and research outposts, potentially fostering more international collaboration or competition. From an engineering angle, it's about smart design—reusable elements and optimized trajectories that could make frequent Moon trips viable. I find it curious how this fits into the global race, echoing nassa's Artemis but with a emphasis on affordability that might influence future missions. It's a forward-looking development, hinting at a busier lunar surface in the coming decades.
+
+Meanwhile, Russia is reviving plans for a 2036 Venus mission called Venera-D, as detailed in Space dot com. Building on Soviet successes from the 1960s to 1980s, this effort includes advanced landers and orbiters to probe Venus's hellish surface and atmosphere. Why it matters: Venus is a key puzzle for understanding planetary habitability—it's Earth's twin gone wrong, with runaway greenhouse effects that could inform climate models here. The human story is captivating; after decades of dormancy, this revival aims to reclaim leadership in planetary science, overcoming tech and funding hurdles. It's got me thinking about the challenges of landing on such a hostile world—extreme heat and pressure that demand innovative materials. If successful, it could yield breakthroughs on volcanic activity and atmospheric chemistry, enriching our view of inner solar system worlds.
+
+Wrapping up with some orbital housekeeping, Astroscale's British unit has selected Isar Aerospace to launch their ELSA-M satellite servicing mission, according to SpaceNews. This tech demo aims at active debris removal, docking with defunct satellites to deorbit them safely. It's crucial for sustainable space use—as orbits get crowded, clearing junk prevents collisions that could cascade into bigger problems. I appreciate the partnership angle; a startup like Isar providing the ride shows how commercial space is democratizing access, making missions like this more feasible. Looking ahead, successes here could standardize debris mitigation, ensuring safer skies for future satellites and stations. It's a practical, engineering-driven story that underscores the less glamorous but essential side of space exploration.
+
+Before we go—next time, we'll be watching for any final tweaks to Artemis 2's launch plans as assembly wraps up, plus updates on that Venera-D Venus revival.
+
+That's Fascinating Frontiers for today. If you enjoyed this episode, a rating or review on Apple Podcasts or Spotify really helps new listeners find the show. I'm Patrick in Vancouver. Thanks for listening, and I'll see you tomorrow.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -950,6 +1089,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/fascinating_frontiers/ep039.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Fascinating Frontiers in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Fascinating Frontiers">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -967,6 +1122,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1033,6 +1190,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1064,9 +1222,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>
