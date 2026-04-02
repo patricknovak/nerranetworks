@@ -1226,6 +1226,7 @@ def generate_show_page(slug, *, dry_run=False):
         "blog_page": f"blog/{cfg['slug']}/index.html",
         "latest_blog_posts": latest_blog_posts,
         "static_episodes": static_episodes,
+        "newsletter_tag": cfg["name"],
         "all_shows": _build_all_shows_list(),
     }
 
