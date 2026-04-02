@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -924,6 +1026,213 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Hey there! Welcome to Models and Agents for Beginners, episode ten, for March twenty-second, twenty twenty-six.
+
+Some awesome A I developments today, and we're going to make all of it make sense.
+
+Let's get into it!
+
+So imagine a student who doesn't just do their math homework.
+
+This student also invents better ways to study, tests those new methods on themselves, and actually gets smarter faster.
+
+That is basically what just happened with a new model from a Chinese company called MiniMax.
+
+They released a model named M2.7 that reportedly took an active role in improving its own training.
+
+Instead of humans doing all the work, the model used what are called autonomous optimization loops.
+
+Those are basically self-running experiments where the model tries different ways to learn, sees what works best, and adjusts its own training approach.
+
+And amazingly it still achieved competitive results on tests.
+
+Think of it like this.
+
+Normally building an A I is like a coach designing every single drill for an athlete.
+
+Here the athlete started suggesting better drills and testing them too.
+
+This matters because most A I models are built entirely by teams of engineers who decide exactly how to train them.
+
+If models can start helping design their own learning process, it could speed up how fast new AIs improve.
+
+It might even make them better at complex tasks that need creative problem solving.
+
+For students and creators this points toward future tools that understand their own weaknesses and fix them.
+
+Kind of like a super-smart homework helper that knows when it's guessing and tells you.
+
+The big so what for you is that A I is moving from something humans fully control to systems that can participate in their own growth.
+
+That raises cool questions about how much we should trust A I to improve itself and what kinds of safeguards we need.
+
+You cannot try M2.7 directly today but you can experiment with the idea of self-checking A I right now.
+
+Open Chat G P T or Google Gemini, both free, and try this.
+
+Ask it a question you know the answer to.
+
+Then say now rate your confidence in that answer from one to ten and explain why.
+
+Watch how it evaluates itself.
+
+That is the beginning of the uncertainty-aware systems experts are building.
+
+Okay, now for my favourite part of the show.
+
+Let's do a proper deep dive into how safe testing strategies for A I models actually work.
+
+You know how when you want to try a new hairstyle you do not just chop off all your hair at once?
+
+You might test it on a small section first, ask a couple friends what they think, or use an app to see a photo of the change before committing.
+
+That same careful approach is exactly how smart companies test new A I models before showing them to millions of users.
+
+Imagine your school has two lunch menus.
+
+The normal one everyone knows and a brand-new experimental one.
+
+Instead of forcing everyone to eat the new food they could try four safe methods.
+
+First they could randomly give half the students the new menu and half the old one.
+
+This is called A/B testing and they see who is happier.
+
+Second they could test the new menu only with one small group like just the Year 9s before rolling it out to the whole school.
+
+This is called canary testing, like sending a canary in first to check if it is safe.
+
+Third they could mix both menus together so every student gets some old and some new items in random order.
+
+This is interleaved testing and they compare reactions bite by bite.
+
+Finally they could secretly prepare the new menu in the kitchen but keep serving the old one while secretly measuring how the new recipes would have performed.
+
+This is shadow testing.
+
+The real menu never changes until they are sure the new one is better.
+
+And that is basically what these four controlled strategies are doing with A I.
+
+Companies run the new model alongside the old one in careful ways so they can catch problems before anyone gets a bad experience.
+
+Next time you hear about deploying machine learning models to production you can tell your friends it is basically the same caution you would use before changing your whole hairstyle.
+
+And that is basically how safe testing strategies for A I models work.
+
+Not so scary, right?
+
+Alright, let us talk about some cool stuff you can actually try today.
+
+A new survey found that ninety-five percent of British students are using generative A I.
+
+Generative A I just means systems that create new content like text or pictures instead of only searching for existing stuff.
+
+But their feelings are totally split.
+
+Some say it helps them understand topics better and makes learning more interesting.
+
+Others worry it is quietly replacing their ability to think for themselves.
+
+Universities are struggling to keep up with these changes.
+
+This is super relevant if you are in school or college right now.
+
+A I is not some far-off thing.
+
+It is already part of how most students work.
+
+The survey shows both the excitement and the honest concerns.
+
+Which is a great reminder that you get to decide how you use these tools.
+
+Try this today.
+
+Open a free A I like Chat G P T, Claude, or Gemini.
+
+Pick something you are studying this week, maybe a history topic or science concept.
+
+First write your own one-paragraph explanation.
+
+Then ask the A I to explain the same thing.
+
+Compare the two.
+
+Ask yourself did the A I help me understand it better or did I just copy?
+
+This exact experiment is what thousands of students are figuring out right now.
+
+Here is another interesting one.
+
+A big publisher called Hachette Book Group decided not to publish a horror novel called Shy Girl.
+
+They were worried the text was generated by artificial intelligence.
+
+This shows how seriously some big publishers are taking the question of A I-created books.
+
+It matters because a lot of people care whether a story was written by a human or by A I.
+
+For anyone who loves reading, writing stories, or dreams of publishing one day this news highlights the ongoing conversation about creativity and A I.
+
+You can try something related right now.
+
+Go to any free A I writing tool like Chat G P T.
+
+Ask it to write the first page of a horror story about a shy girl who discovers something strange in her mirror.
+
+Then write your own version of the same scene.
+
+Compare them.
+
+Notice what feels different.
+
+This simple side-by-side test helps you see what the conversation is really about.
+
+Time for a few quick bits to finish us off.
+
+Open A I is reportedly growing from about four thousand five hundred employees to eight thousand by the end of twenty twenty six.
+
+They are hiring in engineering, research, product development, sales, and even technical ambassadors who help businesses use A I better.
+
+It shows how fast the biggest A I companies are still expanding.
+
+A permanent Minecraft World theme park is planned to open inside Chessington World of Adventures in twenty twenty seven.
+
+It will have a roller coaster, interactive adventures, and block-built playscapes.
+
+While not directly A I news it shows how our favourite games are jumping from screens into real life.
+
+And A I will likely help design experiences like this in the future.
+
+Finally Google's Gemini can now take over simple tasks like ordering food or booking rides in certain apps.
+
+It is still limited and a bit slow but it is an early look at A I agents.
+
+A I agents are systems that can actually use apps for you instead of just answering questions.
+
+Pretty wild to think about.
+
+And that's a wrap!
+
+If any of today's stories made you go huh that's cool — go play with it.
+
+Curiosity is how every expert started.
+
+See you tomorrow!
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -931,6 +1240,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/models_agents_beginners/ep010.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Models & Agents for Beginners in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Models & Agents for Beginners">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -948,6 +1273,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1014,6 +1341,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1045,9 +1373,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>
