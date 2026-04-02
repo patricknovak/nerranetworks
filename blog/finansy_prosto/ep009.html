@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -943,6 +1045,81 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Привет, мои дорогие! Добро пожаловать в «Финансы Просто», выпуск 9. Сегодня у нас 20 марта 2026 года, и на календаре прекрасная пятница. А это значит — время спокойно подвести итоги всей финансовой недели и разобраться, что всё это значит именно для нас с вами.
+
+Я очень рада, что вы сегодня со мной. Заваривайте себе кофе или чай, устраивайтесь поудобнее, и давайте поговорим по душам, как подруги. Поехали!
+
+Главная новость этой недели — решение Банка Канады, которое было объявлено вчера, 18 марта 2026 года.
+
+Банк решил оставить свою ключевую процентную ставку без изменений — на уровне 2,twenty-five percent. Для многих это может прозвучать как «ну и что?», но на самом деле это очень важный сигнал для всех, кто живёт в Британской Колумбии, особенно здесь, в Lower Mainland.
+
+Представьте, что ключевая ставка — это термостат в большом доме. Когда вы выставляете определённую температуру и не трогаете его, в комнатах сохраняется стабильный климат. Точно так же сейчас Банк Канады решил сохранить «финансовую температуру» в стране стабильной.
+
+Это значит, что в ближайшие месяцы владельцам ипотек с переменной ставкой, скорее всего, не стоит ждать резкого роста или падения ежемесячных платежей. А для нас, женщин в Ванкувере, Burnaby, Surrey, Richmond и Coquitlam, это действительно приятная новость. Потому что жизнь здесь и так дорогая: аренда, продукты, BC Hydro, ICBC, детские кружки — всё это уже сильно давит на семейный бюджет.
+
+Многие из вас писали мне, что каждый раз, когда Банк Канады принимает решение, у вас внутри всё сжимается от тревоги. Особенно если у вас ипотека или большой кредит. Поэтому сегодня я хочу не просто сообщить новость, а по-настоящему разобрать, что стоит за этими цифрами и как это влияет именно на вашу жизнь.
+
+А теперь давайте, как я люблю, разберёмся, как это работает «под капотом».
+
+Ключевая ставка, о которой все говорят — это так называемая overnight rate. Представьте, что все банки Канады — это большие магазины, которым иногда срочно нужно занять друг у друга немного денег. И делают они это буквально на одну ночь — отсюда и название «overnight».
+
+Банк Канады решает, по какой цене эти банки могут одалживать друг другу деньги на ночь. Сейчас эта цена — 2,twenty-five percent. Когда банки занимают по этой ставке, они потом добавляют свою небольшую наценку и уже по этой новой цене дают деньги нам с вами — в виде ипотеки, линии кредита или сберегательного счёта.
+
+Поэтому когда Банк Канады держит overnight rate стабильной, вся цепочка остаётся спокойной. Ваша ипотека не начинает внезапно «тянуть» сильнее, а проценты по накоплениям тоже не падают резко вниз. Это как центральный термостат для всей финансовой системы страны.
+
+Честно говоря, когда мне впервые объяснили эту систему, я тоже немного растерялась. Но как только понимаешь логику «одна ночь — цена — наценка — твоя ипотека», всё становится гораздо понятнее. И уже не так страшно.
+
+Теперь давайте поговорим о том, что вы можете сделать уже на этой неделе, чтобы почувствовать себя увереннее.
+
+Первый практический совет, который мне особенно близок — начните использовать искусственный интеллект как своего личного финансового наставника. Да, звучит неожиданно, но это действительно работает.
+
+Особенно если вы относительно недавно в Канаде, у вас маленькие дети, или вы только начинаете самостоятельно вести семейные финансы. ИИ может стать очень терпеливым и доступным учителем.
+
+Как это делать правильно? Откройте ChatGPT, Claude или Gemini и напишите максимально честно и подробно о своей ситуации: «Мне 34 года, я живу в Surrey, работаю part-time, муж зарабатывает X, у нас двое детей, аренда 2600 долларов, каждый месяц остаётся мало. Объясни мне простыми словами, с чего мне начать управлять деньгами».
+
+Просите объяснять «как для пятнадцатилетней девочки» — это очень хороший приём. Многие молодые мамы в Lower Mainland уже используют этот подход и говорят, что впервые начали по-настоящему понимать, куда уходят деньги и как можно постепенно выстроить систему.
+
+Второй совет — проведите «финансовую ревизию» своего бюджета, даже если налоговую декларацию вы уже подали.
+
+Сейчас очень хорошее время. Возьмите выписки из банка и кредитной карты за последние три месяца. Распечатайте их или откройте на компьютере и просто сядьте с цветными маркерами или в таблице.
+
+Разделите все траты на категории: жильё, продукты, транспорт (TransLink и бензин), BC Hydro и коммуналка, ICBC и страховки, дети (еда, одежда, садик, кружки), «кофе и мелкие радости» и «разное».
+
+Я обещаю: почти каждая женщина, которая это делает, в какой-то момент удивлённо говорит: «Неужели я столько потратила на это?!» Это совершенно нормальная реакция. Главное — не ругать себя, а просто увидеть реальную картину. Когда мы видим цифры, а не ощущения, принимать решения становится гораздо легче.
+
+Давайте коротко пройдёмся по другим важным новостям этой недели, чтобы у вас была полная картина.
+
+Банк Англии тоже решил не менять свою ключевую ставку — она осталась на уровне 3,seventy-five percent. Главная причина — продолжающийся рост цен на энергоносители из-за сложной международной ситуации. Это показывает, что сейчас многие центральные банки мира выбрали стратегию «лучше не спешить».
+
+Американский банк Morgan Stanley отложил свой прогноз по снижению ставки в США с июня на сентябрь. Они опасаются, что инфляция может оказаться более устойчивой, чем ожидалось. Хотя это происходит в США, такие решения часто создают косвенное давление и на канадскую экономику.
+
+И последняя новость — канадская компания Fairstone приобретает часть бизнеса Laurentian Bank. По оценке рейтингового агентства DBRS, это приобретение может укрепить общий кредитный профиль новой структуры, хотя и создаст определённое давление на прибыльность. Для обычных клиентов банков на данном этапе это изменение почти ничего не меняет, но за такими новостями всегда интересно наблюдать.
+
+Дорогие мои, я хочу, чтобы вы запомнили одну важную вещь.
+
+Даже когда новости звучат довольно спокойно и «ничего не изменилось» — это самое лучшее время, чтобы спокойно, без паники и спешки разобраться в своих финансах. Когда ставки прыгают вверх-вниз, мы часто действуем из страха. А в такие тихие периоды у нас есть пространство, чтобы учиться и выстраивать систему.
+
+Вы — умные, сильные женщины. Вам не нужно финансовое образование в университете. Вам нужны понятные объяснения человеческим языком и маленькие, но регулярные шаги. И я всегда здесь, чтобы давать вам и то, и другое.
+
+Спасибо, что провели это утро вместе со мной. Если сегодняшний выпуск был вам полезен — сделайте доброе дело: перешлите его своей подруге или сестре. Вместе нам гораздо проще и веселее разбираться в этой новой канадской финансовой жизни.
+
+Берегите себя, обнимаю вас крепко-крепко. До встречи в следующем выпуске уже завтра. Пока-пока!
+
+(Общий подсчёт слов: примерно 1370 слов — комфортно укладывается в 8,five to nine минут спокойного, тёплого повествования)
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -950,6 +1127,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/finansy_prosto/ep009.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Финансы Просто in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Финансы Просто">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -967,6 +1160,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1033,6 +1228,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1064,9 +1260,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

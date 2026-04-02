@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -900,6 +1002,215 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Привет! С вами Оля и «Финансы Просто», выпуск 7, March fourteenth, twenty twenty-six.
+
+Давайте разберёмся в самых важных финансовых новостях дня — просто и понятно.
+
+Поехали!
+
+Друзья, сегодня главная тема — это предстоящее решение Банка России по ключевой ставке, которое может случиться уже 20 марта.
+
+Представьте, что это как термостат в вашем доме в Ванкувере, который регулирует тепло, чтобы всем было комфортно.
+
+Ключевая ставка — это базовая процентная ставка, по которой центральный банк, такой как Банк России, даёт деньги коммерческим банкам, и она влияет на всю экономику страны.
+
+На предыдущих шести заседаниях её снижали, и аналитики думают, что это продолжится, но всё зависит от цен на нефть, бюджета и курса рубля.
+
+Это связано с инфляцией — ростом цен на товары и услуги, который центральный банк пытается держать под контролем.
+
+Если инфляция нагревается слишком сильно, как летняя жара в Lower Mainland, когда даже в тени душно, банк повышает ставку, чтобы охладить экономику.
+
+Это делает кредиты дороже, люди и бизнесы тратят меньше, и цены стабилизируются.
+
+Сейчас, с волатильностью нефти и рубля, эксперты ждут снижения, чтобы подтолкнуть рост, но если инфляция ускорится, могут быть сюрпризы.
+
+Почему это важно для нас, живущих в Канаде?
+
+Многие из нас — иммигрантки из России, Украины или стран СНГ, и мы часто отправляем деньги семьям домой.
+
+По данным Statistics Canada, русскоговорящие канадцы активно поддерживают родственников за границей.
+
+Курс рубля напрямую влияет на то, сколько рублей получит ваша мама или сестра от ваших ста канадских долларов.
+
+Если ставка снизится, рубль может ослабнуть, и ваши переводы станут выгоднее — как будто вы даёте больше помощи за те же деньги.
+
+Но это повысит цены в России, что может ударить по бюджету ваших близких.
+
+А если ставка останется высокой, кредиты для бизнеса там подорожают, экономика замедлится, и доходы семьи могут пострадать.
+
+В Ванкувере, где средняя цена на жильё в Greater Vancouver сейчас превышает один миллион двести тысяч долларов, каждый доллар на счету.
+
+Средняя аренда однокомнатной квартиры в Burnaby или Surrey — около двух тысяч двухсот долларов в месяц, так что такие глобальные новости помогают планировать свой бюджет.
+
+Если рубль упадёт, ваши переводы "станут дороже" в смысле большей поддержки семье.
+
+Конкретно, если курс рубля к канадскому доллару изменится на пять-десять процентов, как часто бывает после таких решений, это может означать плюс или минус пятьдесят-сто долларов в эквиваленте для ежемесячного перевода в пятьсот канадских долларов.
+
+Это как волны на океане у English Bay — маленькое изменение в России может докатиться до вашего кошелька здесь.
+
+Или подумайте о вашем ежемесячном платеже за ICBC, страховку на машину в Британской Колумбии, которая может быть долларов или больше — такие новости помогают решить, стоит ли отложить перевод, чтобы сэкономить.
+
+Что можно сделать прямо сейчас?
+
+Проверьте текущий курс рубля на сайте вашего банка, например, RBC или TD.
+
+Подумайте, стоит ли отправить деньги до 20 марта.
+
+Обсудите с финансовым советником, если у вас есть сбережения в рублях, чтобы понять риски.
+
+Помните, это не рекомендация, а просто шаг для осознанности.
+
+Вы точно можете в этом разобраться, и это поможет вашей семье.
+
+А теперь моя любимая часть — блок «Как это работает».
+
+Сегодня разберём, как работает ключевая ставка центрального банка.
+
+Это базовая процентная ставка, которую устанавливает банк вроде Банка России или Bank of Canada, чтобы управлять экономикой.
+
+Представьте её как руль в вашей машине, когда вы едете по хайвею в Ванкувере к Stanley Park.
+
+Банк поворачивает этот руль, чтобы экономика не вылетела с дороги из-за слишком быстрого роста цен или, наоборот, застоя.
+
+Шаг первый: центральный банк смотрит на данные.
+
+Это инфляция — как цены на продукты в Save-On-Foods растут, безработица и внешние факторы, вроде цен на нефть, которые важны для Канады как экспортёра.
+
+Как будто вы проверяете погоду перед поездкой на TransLink, чтобы не попасть в дождь.
+
+Шаг второй: если инфляция высокая, банк повышает ставку, делая кредиты дороже.
+
+Это как нажать на тормоз, чтобы люди и бизнесы меньше тратили, снижая спрос и цены.
+
+Подумайте о вашем бюджете на BC Hydro, оплату за электричество в Британской Колумбии — если цены растут, вы тратите меньше на другие вещи.
+
+Шаг третий: если экономика слабеет, ставку снижают, чтобы кредиты стали дешевле.
+
+Это стимулирует покупки и инвестиции — как газ, чтобы разогнаться.
+
+Как будто вы добавляете скорость, чтобы быстрее добраться до Costco за покупками.
+
+Шаг четвёртый: это решение влияет на всё, от ваших ипотечных платежей в BC, если речь о Bank of Canada, до курса валют для переводов домой.
+
+В итоге, банк балансирует, чтобы инфляция была стабильной, около двух-трех процентов в год.
+
+Как комфортная температура в доме зимой с BC Hydro — не слишком жарко, не слишком холодно.
+
+И вот так работает ключевая ставка — не так уж и сложно, правда?
+
+Это помогает понять, почему новости о ставках влияют на ваш кошелёк, даже за океаном.
+
+Вы молодец, что разобрались в этом со мной.
+
+Переходим к практическим советам — это то, что вы можете применить прямо сегодня.
+
+Первый совет: бюджетные покупки до трех тысяч рублей — идеи для экономии на повседневном.
+
+Это около сорока канадских долларов по текущему курсу.
+
+Редакция собрала шестнадцать идей — от одежды и аксессуаров до товаров для дома, все доступные в магазинах или онлайн.
+
+Представьте это как охоту за скидками в Dollarama в Surrey, где вы находите полезные вещи за пять-двадцать долларов.
+
+Почему это полезно?
+
+В Ванкувере цены на продукты и одежду в Walmart или Superstore часто кусаются — средний чек на семью может быть восемьсот-тысяча долларов в месяц.
+
+Такие идеи вдохновляют искать аналоги здесь, в thrift stores, чтобы сэкономить, не жертвуя качеством.
+
+Кому подойдёт: мамам, которые хотят обновить гардероб детям или себе без перерасхода бюджета.
+
+Особенно если вы планируете на Canada Child Benefit, или CCB — ежемесячное пособие на детей до восемнадцати лет, которое в BC может быть до шестисот долларов на ребёнка в год.
+
+Как начать: зайдите на сайт источника, просмотрите список.
+
+Затем поищите похожие товары на канадских сайтах вроде Amazon.ca или Kijiji.
+
+Выберите две-три вещи, посчитайте, сколько сэкономите по сравнению с обычными ценами, и закажите с доставкой.
+
+Это бесплатно для просмотра, а покупки — по вашему бюджету.
+
+Вы справитесь, и это добавит уверенности в управлении расходами.
+
+Второй совет: что делать с новостями о падении акций канадских компаний.
+
+Это обзор турбулентного квартала на фондовом рынке.
+
+Акции — это доли в компаниях, которые люди покупают для инвестиций.
+
+Например, акции Goeasy, компании, предоставляющей потребительские кредиты, упали почти на шестьдесят процентов после приостановки дивидендов.
+
+Algoma Steel понесла убытки, а Transat показала прибыль на фоне корпоративных изменений.
+
+Представьте рынок как качели в парке — иногда вверх, иногда вниз, и это сигнализирует о рисках в экономике.
+
+Почему это полезно?
+
+Такие новости влияют на ваши сбережения в TFSA, Tax-Free Savings Account — безналоговый сберегательный счёт, где прибыль не облагается налогом.
+
+Или в RRSP, Registered Retirement Savings Plan — зарегистрированный пенсионный сберегательный план, который снижает ваши налоги.
+
+Кому подойдёт: женщинам, начинающим инвестировать, чтобы понять, почему диверсификация важна.
+
+Не кладите все яйца в одну корзину, как в вашем продуктовом бюджете, когда вы покупаете не только хлеб, но и овощи.
+
+Как начать: откройте приложение вашего банка, например, Wealthsimple или Questrade.
+
+Проверьте, есть ли у вас акции подобных компаний в портфеле.
+
+Почитайте бесплатные гайды по диверсификации — это можно сделать за десять минут с телефона, без затрат.
+
+Многие финансовые советники рекомендуют начинать с E T F, Exchange-Traded Funds — биржевые фонды, как корзина разных акций, которую покупаешь одной сделкой.
+
+Это просто, и вы можете это освоить шаг за шагом.
+
+Теперь блок «Коротко и ясно» — быстрые новости дня.
+
+Первая: прогнозы по ключевой ставке в России.
+
+Аналитики ожидают снижения ключевой ставки Банка России 20 марта на фоне новостей о нефти и рубле, но решение может удивить из-за инфляции.
+
+Это интересно, потому что для иммигранток в Lower Mainland такие изменения влияют на стоимость переводов через сервисы вроде Wise, помогая планировать помощь семье.
+
+Вторая: турбулентность на канадском рынке акций.
+
+Акции канадской кредитной компании Goeasy рухнули почти на шестьдесят процентов после приостановки дивидендов, Algoma Steel зафиксировала убытки, а Transat — прибыль.
+
+Это напоминает о рисках инвестиций и важности следить за новостями, особенно если вы копите на пенсию в CPP, Canada Pension Plan — канадская пенсионная программа.
+
+Или OAS, Old Age Security — пособие для пожилых.
+
+Третья: бюджетные находки для шопинга.
+
+Редакция предлагает шестнадцать идей покупок до трех тысяч рублей — от косметики до гаджетов.
+
+Интересно для экономии, как поиск сделок в Ванкувере на Craigslist, чтобы снизить расходы на фоне роста цен на BC Hydro, электроэнергию в Британской Колумбии.
+
+На сегодня всё!
+
+Напоминаю, что мы делимся общей информацией для обучения, а не финансовыми рекомендациями.
+
+Для важных решений поговорите с финансовым советником.
+
+Помните, каждый финансовый эксперт когда-то начинал с нуля — точно так же, как мы с вами сейчас.
+
+Если что-то из сегодняшнего выпуска вас заинтересовало — попробуйте, действуйте.
+
+Именно так и учатся.
+
+Берегите себя, берегите свои деньги, и до завтра!</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -907,6 +1218,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/finansy_prosto/ep007.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Финансы Просто in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Финансы Просто">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -921,6 +1248,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -987,6 +1316,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1018,9 +1348,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

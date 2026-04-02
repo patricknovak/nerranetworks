@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -923,6 +1025,101 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Привет, моя хорошая! С вами Оля и подкаст «Финансы Просто», выпуск 13. Сегодня 24 марта 2026 года. Устраивайся поудобнее с чашкой кофе или чая, сегодня будет очень полезный и практичный выпуск. Мы поговорим о том, как попасть на лестницу недвижимости, даже если традиционные банки говорят «нет», а также как заставить свои сбережения работать чуть активнее. Поехали!
+
+Представьте такую ситуацию: вы несколько лет очень дисциплинированно копили на первый взнос. Отказывали себе в поездках, считали каждый доллар, искали подходящий дом. И вот наконец нашли милое бунгало в Surrey или компактный домик в Burnaby — именно то, что подходит вашей семье. Вы уже представляете, как дети будут бегать по своему двору, а не по коридору арендованной квартиры.
+
+Подаёте заявку в банк… и получаете отказ.
+
+Именно такая история недавно произошла с одной семьёй из Эдмонтона. Женщина работала на себя — у неё был небольшой бизнес. По всем классическим банковским правилам она «не проходила». Традиционные банки смотрели только на её налоговые декларации последних двух лет и говорили, что доход недостаточно стабильный. Семья уже почти отчаялась, но не сдалась.
+
+Они решили обратиться к альтернативному кредитору. Это компании, которые тоже выдают ипотечные кредиты, но не являются большими пятёрками канадских банков. У них другие правила оценки заёмщиков. В итоге эта семья всё-таки купила своё бунгало за 565 020 долларов. Они стали собственниками.
+
+Почему я рассказываю эту историю именно вам — русскоговорящим женщинам в Ванкувере и Нижнем Материке? Потому что очень многие из нас находятся в похожей ситуации. Кто-то работает фрилансером, кто-то открыл свой маленький бизнес после переезда, кто-то недавно приехал в Канаду и ещё не успел набрать длинную кредитную историю.
+
+У кого-то доход идёт через собственную компанию, и традиционные банки это очень не любят.
+
+Большие банки работают по жёстким формулам. Они хотят видеть стабильную зарплату от одного работодателя, идеальный кредитный рейтинг и чёткое соотношение долга к доходу. Если хоть один пункт не совпадает — отказ. Альтернативные кредиторы смотрят на всю картину целиком: доход от бизнеса, налоговые возвраты, накопления, историю платежей, даже потенциал будущего дохода.
+
+Представьте, что обычный банк — это строгий охранник у входа в эксклюзивный клуб. У него есть список, и если твоей фамилии там нет — проход закрыт. А альтернативный кредитор — это более опытный менеджер, который смотрит на тебя внимательно, задаёт вопросы и пытается понять, кто ты на самом деле. Да, вход может стоить дороже, но тебя хотя бы рассматривают.
+
+Конечно, нужно быть честной с собой: такая ипотека почти всегда дороже. Процентная ставка выше, потому что кредитор берёт на себя больше риска. Могут быть дополнительные комиссии. Но для многих семей в Ванкувере это единственный реальный способ перестать отдавать огромные деньги за аренду и начать строить собственный капитал.
+
+Особенно это важно для нас, мам. Когда аренда в Burnaby, Richmond или Surrey съедает forty to fifty percent семейного бюджета, очень сложно чувствовать финансовую безопасность. Собственное жильё — это не просто крыша над головой. Это стабильность для детей, возможность передать им что-то реальное, а не только образование и любовь.
+
+Что можно сделать уже сегодня, даже если покупка жилья только в планах на ближайшие один-два года? Начните собирать «папку собственника». Соберите все налоговые декларации за последние два-три года, все документы, подтверждающие доход от бизнеса, выписки со всех счетов, где лежат ваши сбережения.
+
+Чем лучше вы подготовите свою финансовую историю, тем легче будет разговор с любым кредитором.
+
+А теперь, как я люблю, давайте разберёмся, как это работает «под капотом». Подруга написала мне вчера: «Оля, а что такое альтернативный кредитор? Это вообще безопасно или я рискую всем?» Давай разберём спокойно и по полочкам, как будто мы сидим с тобой на кухне в Ванкувере.
+
+Обычные большие банки работают как большой конвейер на заводе. У них есть чёткие инструкции, таблицы и алгоритмы. Если твои цифры не попадают в эти таблицы — машина просто выплевывает отказ. Они не любят исключения, потому что обрабатывают тысячи заявок.
+
+Альтернативные кредиторы работают совсем по-другому. Они готовы рассматривать нестандартные ситуации. Это не значит, что они дают деньги всем подряд. Они тоже проверяют, но делают это более индивидуально.
+
+Давай разберём процесс на три простых шага.
+
+Первый шаг: традиционный банк смотрит только на то, что легко измерить — официальную зарплату по T4, кредитный рейтинг и соотношение всех твоих платежей к доходу по своим жёстким формулам. Не подошло — до свидания.
+
+Второй шаг: альтернативный кредитор смотрит гораздо шире. Он изучает доход от твоего бизнеса, налоговые возвраты, как ты платила налоги, сколько у тебя сбережений, насколько стабильно поступают деньги на счёт, есть ли контракты на будущие месяцы.
+
+Третий шаг: за эту гибкость и дополнительную работу с рисками они берут более высокую процентную ставку. Это их компенсация. Как плата за то, что они готовы посмотреть на тебя как на человека, а не как на набор цифр в таблице.
+
+Представь такую аналогию. Ты просишь у мамы 20 долларов на такси. Она говорит: «Покажи дневник. Если все пятёрки — дам». А у тёти ты можешь попросить даже если в дневнике тройка по математике, потому что тётя знает тебя много лет и понимает, что в целом ты ответственный человек. Просто тётя скажет: «Хорошо, но вернёшь 25». Вот примерно так же работают альтернативные кредиторы.
+
+В Ванкувере и Нижнем Материке это особенно актуально. Цены на жильё остаются очень высокими. Аренда однокомнатной или двухкомнатной квартиры в Surrey или Burnaby может съедать огромную часть бюджета. Многие женщины хотят перестать быть вечными арендаторами и начать строить своё.
+
+Важно понимать одну вещь: альтернативные кредиторы — это не «плохие» и не «хорошие». Это просто другой инструмент. Как скальпель и молоток. Каждый хорош для своей задачи. Нужно просто понимать, когда какой использовать.
+
+И конечно, с любой ипотекой — особенно альтернативной — нужно очень внимательно читать все условия. Считать не только процентную ставку, но и все возможные комиссии, условия досрочного погашения, штрафы. Лучше потратить вечер и всё посчитать, чем потом удивляться.
+
+Теперь, когда ты услышишь слова «alternative lender», «private mortgage» или «B-lender», ты уже будешь точно понимать, о чём речь. И это уже не будет звучать страшно.
+
+Давай перейдём ко второй важной теме выпуска — куда сейчас можно положить сбережения, чтобы они хотя бы немного росли.
+
+Есть такой инструмент — High-Interest Savings Account, высокопроцентный сберегательный счёт. В отличие от обычного chequing account, где деньги практически не приносят доход, здесь процент заметно выше.
+
+И самое приятное — в отличие от GIC (гарантированного инвестиционного сертификата), деньги с этого счёта ты можешь снять в любой момент без штрафа и без потери начисленных процентов. Это идеальный вариант для «подушки безопасности» или денег на первый взнос, который может понадобиться в ближайшие месяцы.
+
+Представь, что твой обычный счёт — это старая копилка, которая просто лежит под кроватью. А высокопроцентный счёт — это та же копилка, но она ещё и немного работает на тебя каждый день.
+
+Особенно это важно для семей в Ванкувере. Когда ты копишь на первый взнос по ипотеке или откладываешь на образование детей через RESP, даже небольшая разница в процентах за год может превратиться в несколько сотен дополнительных долларов. А в нашей дорогой провинции каждый доллар на счету имеет значение.
+
+Что можно сделать прямо сегодня или завтра? Зайди на сайты сравнения банковских продуктов, посмотри актуальные предложения по высокопроцентным счетам. Выбери два-три варианта, которые тебе понравились. Проверь требования к минимальному балансу и условия. Большинство таких счетов открывается полностью онлайн за ten to fifteen минут. Это бесплатно и безопасно.
+
+Второй практический совет — следи за решениями Bank of Canada по ключевой ставке. В 2026 году они будут объявлять свою overnight rate target 28 октября и 9 декабря.
+
+Представь, что ключевая ставка — это главный термостат всей канадской экономики. Когда Банк Канады его поднимает или опускает, становится либо «дороже» брать кредиты и ипотеку, либо «дешевле». Также это влияет и на то, сколько процентов ты будешь получать на свои сбережения.
+
+Отметь эти даты в календаре. После nine forty-five A Mутра по восточному времени (то есть после six forty-five A Mутра по нашему, тихоокеанскому) можно зайти на сайт Bank of Canada и прочитать пресс-релиз. Это занимает пять минут, но даёт понимание, в какую сторону движется экономика.
+
+Если у тебя ипотека с переменной ставкой — это напрямую повлияет на твой ежемесячный платёж. Даже если ставка фиксированная, эти решения важны для того, чтобы понимать, когда лучше делать рефинансирование в будущем.
+
+Подводя итог: в 2026 году Банк Канады объявит ключевую ставку 28 октября вместе с полным отчётом о монетарной политике и 9 декабря. Эти решения влияют на стоимость ипотеки и доходность сбережений по всей стране, включая наш дорогой Нижний Материк.
+
+По данным источников, в этом году продолжают появляться довольно привлекательные варианты высокопроцентных сберегательных счетов. Это хороший, безопасный и гибкий инструмент для тех, кто хочет, чтобы деньги хотя бы немного обгоняли инфляцию, но при этом сохранял полный доступ к ним.
+
+Как всегда напоминаю: это не финансовый совет, а только объяснение, как работают разные инструменты в канадской системе. Для твоей личной ситуации обязательно поговори с квалифицированным ипотечным брокером или финансовым советником, который посмотрит именно на твои цифры.
+
+Вот и всё на сегодня! Если выпуск был полезным — сделай доброе дело, перешли его подруге, которая тоже думает о покупке жилья или хочет лучше разобраться в своих финансах. Вместе мы всегда разбираемся быстрее и веселее.
+
+Береги себя, обнимаю тебя крепко. До завтра в новом выпуске «Финансы Просто». Пока-пока!
+
+(Слов: примерно 1380)
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -930,6 +1127,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/finansy_prosto/ep013.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Финансы Просто in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Финансы Просто">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -947,6 +1160,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1013,6 +1228,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1044,9 +1260,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

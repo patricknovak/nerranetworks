@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -910,6 +1012,95 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Привет, мои дорогие! Это «Финансы Просто», выпуск 10, и сегодня 20 марта 2026 года. Пятница — время подводить спокойные итоги недели и разбираться, что всё это значит именно для нас с вами.
+
+Я очень рада, что вы со мной. Заваривайте себе кофе или чай, устраивайтесь поудобнее, и давайте поговорим по душам, как подруги на кухне в Ванкувере.
+
+Сегодня главный разговор у нас будет об ипотечных ставках — почему они снова могут пойти вверх и что это будет означать для вашей семьи здесь, в Lower Mainland. Мы разберём это очень подробно и спокойно, шаг за шагом, чтобы у вас в голове сложилась полная картинка.
+
+Представьте, что ваш семейный бюджет — это небольшая лодка в океане у берегов Британской Колумбии. А процентные ставки — это волны вокруг неё. Когда волны небольшие и спокойные, лодка легко держит курс, вы планируете расходы, откладываете на детей, на путешествия или на пенсию. Но когда волны становятся выше и сильнее, лодке приходится тяжелее.
+
+Нужно больше усилий, чтобы не сбиться с пути и не начать заливать водой.
+
+Именно такая ситуация может начать разворачиваться на этой неделе. Появились сообщения, что из-за резкого роста цен на нефть, связанного с ситуацией вокруг Ирана, Bank of Canada, наш центральный банк Канады, может держать ключевую ставку на более высоком уровне значительно дольше, чем многие экономисты и семьи ожидали ещё пару месяцев назад.
+
+Давайте разберёмся, что такое эта ключевая ставка и почему она так сильно влияет на нашу жизнь. Ключевая ставка — это главный процент в стране. От него, как от большого дерева, отходят ветки ко всем остальным ставкам: по ипотекам, кредитам, линиям кредитов и даже отчасти по сберегательным счетам. Bank of Canada проводит восемь официальных объявлений о ключевой ставке в год.
+
+Это как восемь важных встреч, где они решают, в какую сторону двигать денежную политику страны.
+
+В этом году ближайшие такие объявления запланированы на 28 октября и 9 декабря 2026 года. И именно эти две даты сейчас стоит держать в голове.
+
+Когда ключевая ставка остаётся высокой продолжительное время, коммерческие банки почти всегда поднимают ставки по ипотечным кредитам. Для семей в Ванкувере, Burnaby, Surrey, Richmond или Coquitlam это может означать вполне ощутимое увеличение ежемесячного платежа. А мы все прекрасно знаем, что в нашем регионе и без того одни из самых высоких цен на жильё в Канаде.
+
+По данным Real Estate Board of Greater Vancouver, средняя цена дома остаётся очень серьёзной, и даже небольшое изменение ставки в zero point two five percent может добавить лишние сотни долларов к вашему месячному платежу.
+
+Это особенно чувствительно для тех, кто приехал в Канаду относительно недавно и взял ипотеку в последние пару лет, а также для тех, кто пока снимает жильё. Потому что арендная плата тоже часто следует за движением ставок — когда у собственников растут расходы по ипотеке, они стараются компенсировать это повышением аренды.
+
+Получается, что рост ставок бьёт и по тем, кто уже платит ипотеку, и по тем, кто пока арендует.
+
+А теперь — моя самая любимая часть каждого выпуска. Давайте разберёмся, как это всё работает под капотом. Я обещаю объяснить так, чтобы было понятно даже если вы никогда раньше не интересовались финансами.
+
+Давайте поговорим о двух основных видах ипотеки — фиксированной и переменной. Я очень люблю сравнивать их с договорами на электричество с BC Hydro, потому что это близко и понятно каждой женщине в Британской Колумбии.
+
+Фиксированная ставка (fixed rate mortgage) — это как если бы вы заключили договор с BC Hydro и зафиксировали цену за киловатт, скажем, на 12 центов на ближайшие два или пять лет. Что бы ни происходило с ценами на энергию в мире — подорожает нефть, газ или электричество — вы продолжаете платить ровно столько, сколько договорились. Ваш ежемесячный платёж остаётся абсолютно предсказуемым.
+
+Вы можете спокойно планировать семейный бюджет, знать точно, сколько останется на продукты, на детские кружки, на одежду и на сбережения. Ночью вы спите спокойно, потому что сюрпризов от банка не будет.
+
+Переменная ставка (variable rate mortgage) работает совсем по-другому. Она «плавает» вместе с ключевой ставкой Bank of Canada. Обычно в начале срока переменная ставка немного ниже, чем фиксированная, и это привлекает многих людей. Но если Bank of Canada решает держать свою ставку высокой из-за внешних факторов, таких как резкий рост цен на нефть, ваш процент тоже начинает постепенно расти.
+
+Это как тариф на электричество, который меняется каждый месяц в зависимости от того, сколько стоит энергия на мировом рынке и какие решения принимает центральный банк.
+
+Если у вас сейчас переменная ипотека на дом в Surrey или на квартиру в Richmond, и Bank of Canada оставит ставку высокой в октябре и декабре, ваш ежемесячный платёж может заметно вырасти уже в ближайшие месяцы. Многие семьи в Lower Mainland, особенно те, у кого есть дети и важна стабильность, предпочитают именно фиксированную ставку.
+
+Они готовы немного переплатить за спокойствие и предсказуемость бюджета.
+
+Вот так устроена ипотека «под капотом». Не так уж сложно, правда? Когда понимаешь механику, становится гораздо меньше страха.
+
+А теперь давайте перейдём к тому, что вы можете сделать уже сегодня или на этой неделе, чтобы чувствовать себя увереннее.
+
+Первый практический совет: найдите и запишите дату продления вашей ипотеки (renewal date). Многие из нас честно платят каждый месяц, но совершенно не помнят, когда заканчивается текущий срок договора. Renewal — это важный момент, когда заканчивается текущая ставка и банк предлагает вам новую. Обычно банк начинает присылать предварительные предложения за три-шесть месяцев до этой даты.
+
+Зайдите сегодня вечером в онлайн-банкинг своего банка (RBC, TD, Scotiabank, CIBC или BMO) или просто позвоните в ипотечный отдел. Найдите точную дату renewal и запишите текущую ставку. Это займёт буквально десять-пятнадцать минут, но даст вам огромное ощущение контроля. Особенно сейчас, когда вероятность роста ставок повышается, это знание становится очень ценным.
+
+Второй совет: поставьте в телефоне напоминания на две важные даты объявлений Bank of Canada — 28 октября и 9 декабря. В эти дни банк публикует не только решение по ставке, но и Monetary Policy Report. Обычно уже в течение одной-двух недель после этих дат большинство банков меняют свои ставки по ипотекам и по сберегательным продуктам.
+
+Если вы будете знать точную дату, вы сможете вовремя зайти и посмотреть, как это отразится именно на ваших платежах.
+
+Третий совет: начните спокойно думать о том, какая именно ипотека больше подходит вашей семье именно сейчас. Если для вас самое важное — предсказуемость бюджета, особенно когда в семье дети, школьные расходы, кружки и нужно чётко понимать, сколько денег останется в конце месяца, то при следующем продлении стоит серьёзно рассмотреть переход на фиксированную ставку.
+
+Если же у вас есть определённый финансовый буфер, вы комфортно себя чувствуете с изменениями платежа и хотите попробовать сэкономить в начале срока, тогда переменная ставка может быть вариантом. Это очень личное решение. Оно зависит от вашего возраста, наличия детей, стабильности дохода, от того, насколько вы эмоционально чувствительны к изменениям в бюджете.
+
+Обязательно обсудите все варианты с вашим ипотечным брокером или специалистом в банке. Они посмотрят именно вашу ситуацию.
+
+Теперь давайте коротко пробежимся по другим важным новостям этой недели.
+
+Первая новость: американские регуляторы предложили смягчить правила для крупных банков в США. Они хотят ослабить требования к капиталу, которые были введены после финансового кризиса. Это может позволить банкам больше кредитовать, активнее выкупать собственные акции и выплачивать более высокие дивиденды акционерам.
+
+Хотя это американская новость, изменения в политике крупнейших банков США иногда косвенно влияют на настроения и на канадском рынке ставок и доступности кредитов. Пока это не прямое влияние на ваши счета в Ванкувере, но полезно держать в голове общую картину.
+
+Вторая новость мы уже с вами подробно обсудили — это предстоящие объявления Bank of Canada 28 октября и 9 декабря. Именно после этих дат чаще всего происходят изменения ставок, которые касаются нас с вами напрямую.
+
+Вот и всё на сегодня, мои хорошие.
+
+Если этот выпуск был для вас полезным — пожалуйста, поделитесь им с подругой или с сестрой. Вместе разбираться в финансах гораздо веселее и интереснее.
+
+Берегите себя, своих близких и свои деньги. Спасибо, что вы со мной. До встречи уже завтра в новом выпуске «Финансы Просто».
+
+(Общий подсчёт слов: примерно 1370 слов. Время звучания при естественном тёплом темпе — 8,five to nine минут.)
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -917,6 +1108,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/finansy_prosto/ep010.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Финансы Просто in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Финансы Просто">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -934,6 +1141,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1000,6 +1209,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1031,9 +1241,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

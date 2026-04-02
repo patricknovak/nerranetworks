@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -883,6 +985,91 @@
             <!-- Sources -->
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Привет, дорогие! С вами Оля и подкаст «Финансы Просто». Это выпуск 14, и сегодня у нас 26 марта 2026 года. Спасибо, что вы со мной в это утро или вечер — когда бы вы ни слушали.
+
+Сегодня мы поговорим о теме, которая, я уверена, отзывается почти у каждой из нас, кто живёт в Ванкувере или Нижнем Материке. Мы разберём, как в условиях очень высокой стоимости жизни сохранять спокойствие и контроль над семейным бюджетом.
+
+Представьте, что ваш семейный бюджет — это небольшая лодка, в которой плывёт ваша семья. А вокруг — океан расходов Британской Колумбии. Волны здесь совсем не такие, как в наших родных странах. Цены на аренду, коммунальные услуги, страховку и продукты могут сильно раскачивать эту лодку.
+
+Многие из нас приехали сюда уже взрослыми. Мы привыкли к совершенно другим цифрам. И когда впервые видишь счёт за аренду однокомнатной квартиры в Burnaby или двухкомнатной в Surrey, честно говоря, становится не по себе.
+
+Добавьте к этому счета от BC Hydro, которые могут сильно меняться в зависимости от сезона, и ежегодную страховку ICBC на машину — и вот уже кажется, что все деньги улетают куда-то в никуда.
+
+Но хорошая новость в том, что даже в таком дорогом месте можно научиться управлять финансами спокойно и уверенно. Сегодня мы не будем говорить о быстрых схемах и «волшебных» инвестициях. Мы поговорим о том, как лучше понять свои деньги и начать чувствовать себя хозяйкой ситуации, а не пассажиркой в этой лодке.
+
+Вы очень умная женщина. Просто канадская финансовая система для вас ещё относительно новая. И я здесь именно для того, чтобы объяснять всё по-дружески, без сложных терминов и без спешки.
+
+А теперь давайте перейдём к моей самой любимой части каждого выпуска — разберёмся, как это работает «под капотом».
+
+Давайте возьмём самый обычный ежемесячный бюджет. Я очень люблю объяснять это через аналогию с готовкой. Представьте, что ваш бюджет — это рецепт вашего любимого борща или супа, который вы готовите для всей семьи.
+
+У вас есть определённое количество «ингредиентов» — это ваши доходы. Сюда входит зарплата, которую вы получаете на работе, Canada Child Benefit, если у вас есть дети, налоговый возврат от CRA, возможно, какие-то дополнительные выплаты или помощь от семьи.
+
+А «продукты», которые вы кладёте в кастрюлю — это ваши расходы. Некоторые из них очень дорогие: аренда или ипотека в Ванкувере — это как положить в суп целую дорогую вырезку. Потом идут продукты из Costco или Save-On-Foods, транспорт по TransLink, счета за электричество от BC Hydro, страховка ICBC, бензин, одежда для детей, интернет и всё остальное.
+
+Если вы кладёте слишком много дорогих ингредиентов, не соизмеряя с тем, сколько у вас всего есть, суп может либо не получиться, либо закончиться уже на середине месяца. И тогда приходится «досаливать» кредиткой или овердрафтом. Знакомо многим, правда?
+
+Поэтому самое важное — точно понимать, сколько у вас ингредиентов и куда они реально уходят. И вот здесь начинается настоящая работа.
+
+Первый шаг — спокойно сесть и записать все свои доходы за месяц. Не примерно, а именно те суммы, которые реально приходят на ваш счёт. Зарплата после всех удержаний, детские пособия, налоговые возвраты, любые другие регулярные поступления.
+
+Второй шаг — посмотреть на самые большие расходы, которые характерны именно для жизни в Lower Mainland. Обычно это аренда или платежи по ипотеке — они часто съедают thirty-five to fifty percent дохода. Дальше идёт еда, транспорт (SkyTrain, автобусы, парковка), коммунальные услуги BC Hydro, страховка ICBC и газ для машины.
+
+Третий шаг — честно найти хотя бы одну-две статьи расходов, где можно немного уменьшить траты, при этом не потеряв качество жизни. Может быть, вы заметите, что слишком часто заказываете кофе на вынос по дороге на работу. Или что в Costco каждый раз набираете гораздо больше, чем планировали. Или что можно чуть изменить привычки в использовании электричества и воды.
+
+Да, в первый раз это может показаться немного запутанным и даже скучным. Но когда вы сделаете это один-два месяца подряд, у вас появится совершенно другое ощущение контроля. Вы начнёте видеть свою финансовую картину, а не просто чувствовать, что «деньги куда-то исчезают».
+
+Теперь давайте перейдём к практическим шагам, которые вы действительно можете сделать уже сегодня или в ближайшие дни.
+
+Первый и самый мощный совет — начните вести простой учёт расходов. Не нужно скачивать десять приложений и строить сложные таблицы в Excel. Возьмите обычный блокнот или создайте заметку в телефоне. Каждый вечер, буквально за одну-две минуты, записывайте, на что сегодня потратили деньги. Даже если это был кофе за 6 долларов или пачка молока за 4,50.
+
+Делайте это хотя бы две-три недели подряд. Я обещаю: почти каждая женщина, которая пробовала это упражнение, в какой-то момент говорила: «Ого, я даже не представляла, что столько уходит на всякие мелкие покупки». Это один из самых простых и при этом самых эффективных способов начать брать контроль над своими деньгами. И он совершенно бесплатный.
+
+Второй важный совет — проверьте, получаете ли вы все пособия и налоговые льготы, которые вам положены по закону. В Канаде действительно много разных программ поддержки, особенно для семей с детьми и для новых иммигрантов.
+
+Зайдите в свой аккаунт на сайте Canada Revenue Agency (CRA). Посмотрите, подали ли вы налоговую декларацию за прошлый год, всё ли там заявлено правильно, не висят ли какие-то возвраты. Если вы ещё не подали документы за 2025 год — сейчас самое подходящее время это сделать, чтобы получить деньги вовремя.
+
+Многие женщины удивляются, когда узнают, сколько они на самом деле могут вернуть от государства, просто правильно заполнив документы.
+
+Третий совет — уделите десять минут разговору со своим банком. Очень многие из нас держат основные деньги на обычном текущем счёте, где процент практически нулевой. Позвоните в свой банк или зайдите в приложение и спросите, есть ли у них высокопроцентный сберегательный счёт или другие варианты для повседневных денег.
+
+Иногда достаточно просто перевести деньги на другой тип счёта внутри того же банка — и уже через год разница может быть очень приятной. Это не про рискованные инвестиции, а про то, чтобы ваши деньги хотя бы немного работали, а не лежали мёртвым грузом.
+
+Теперь давайте коротко поговорим о нескольких важных моментах, которые сейчас происходят в нашей провинции.
+
+Во-первых, в Ванкувере и Нижнем Материке продолжают расти цены на аренду жилья. Для многих женщин, которые снимают квартиру, это означает, что каждый год или даже каждые несколько месяцев нужно снова пересматривать свой бюджет. Именно поэтому так важно регулярно возвращаться к своим цифрам и понимать, где можно подстроиться, не жертвуя при этом самым важным.
+
+Во-вторых, BC Hydro недавно напомнила своим клиентам о том, как важно регулярно проверять свои счета в личном кабинете онлайн. Когда вы видите потребление электричества в реальном времени, гораздо легче заметить, если вдруг расход резко вырос — может быть, где-то что-то течёт или техника работает неэффективно.
+
+Регулярная проверка помогает избежать очень неприятных неожиданных счетов, особенно в холодные месяцы.
+
+И в-третьих, многие семьи в Британской Колумбии получают Canada Child Benefit. Эти выплаты приходят каждый месяц и предназначены именно для поддержки детей. Но важно помнить, что часть этих денег можно не только тратить на текущие нужды, но и постепенно откладывать.
+
+Даже если это будет всего fifty to one hundred долларов в месяц — за несколько лет это превращается в очень достойную сумму, которую можно использовать на образование ребёнка или как стартовый капитал для него.
+
+На сегодня у меня всё.
+
+Напоминаю, как всегда: мы с вами разбираем общую информацию исключительно в образовательных целях. Это не является финансовой рекомендацией. Для решений, которые касаются именно вашей ситуации, пожалуйста, обращайтесь к квалифицированному финансовому советнику или специалисту по налогам.
+
+Помните одну очень важную вещь: каждый финансовый эксперт, каждый человек, который сейчас уверенно управляет своими деньгами, когда-то тоже начинал с нуля. Точно так же, как начинаем сейчас мы с вами. И каждый маленький шаг, который вы делаете сегодня — это уже огромная победа.
+
+Берегите себя, берегите свои деньги и свою энергию. Спасибо, что были со мной. До встречи в следующем выпуске уже завтра. Обнимаю вас!
+
+(Слов: примерно 1380)
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -890,6 +1077,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/finansy_prosto/ep014.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Финансы Просто in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Финансы Просто">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -907,6 +1110,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -973,6 +1178,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1004,9 +1210,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>
