@@ -203,6 +203,7 @@ class ShowConfig:
     sources: List[SourceConfig] = field(default_factory=list)
     x_accounts: List[XAccountConfig] = field(default_factory=list)
     keywords: List[str] = field(default_factory=list)
+    web_search_queries: List[str] = field(default_factory=list)
     min_articles: int = 3  # Minimum articles before expanding search
     min_articles_skip: int = 3  # Hard cutoff — skip episode if fewer articles
     min_audio_duration: int = 0  # Minimum audio seconds — skip if shorter (0 = disabled)
@@ -339,6 +340,7 @@ def load_config(yaml_path: str | Path) -> ShowConfig:
         sources=_build_sources(data.get("sources")),
         x_accounts=_build_x_accounts(data.get("x_accounts")),
         keywords=data.get("keywords", []),
+        web_search_queries=data.get("web_search_queries", []),
         min_articles=data.get("min_articles", 3),
         min_articles_skip=data.get("min_articles_skip", 3),
         min_audio_duration=data.get("min_audio_duration", 0),

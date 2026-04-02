@@ -23,6 +23,29 @@ logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
+# HTML stripping helper
+# ---------------------------------------------------------------------------
+
+def _strip_html(text: str) -> str:
+    """Strip HTML tags and collapse whitespace to produce plain text.
+
+    Google News RSS feeds (and some Reddit feeds) return HTML in the
+    description field. This cleans it to plain text.
+    """
+    import re
+    if not text or "<" not in text:
+        return text
+    clean = re.sub(r"<[^>]+>", " ", text)
+    clean = re.sub(r"&amp;", "&", clean)
+    clean = re.sub(r"&lt;", "<", clean)
+    clean = re.sub(r"&gt;", ">", clean)
+    clean = re.sub(r"&nbsp;", " ", clean)
+    clean = re.sub(r"&#\d+;", "", clean)
+    clean = re.sub(r"\s+", " ", clean).strip()
+    return clean
+
+
+# ---------------------------------------------------------------------------
 # Source name mapping
 # ---------------------------------------------------------------------------
 
@@ -106,6 +129,16 @@ _SOURCE_MAP: List[tuple] = [
     ("notateslaapp.com", "Not a Tesla App"),
     ("torquenews.com", "Torque News"),
     ("cleantechnica.com", "CleanTechnica"),
+    # Google News
+    ("news.google.com", "Google News"),
+    # Reddit
+    ("reddit.com/r/teslamotors", "r/teslamotors"),
+    ("reddit.com/r/electricvehicles", "r/electricvehicles"),
+    ("reddit.com/r/teslainvestorsclub", "r/teslainvestorsclub"),
+    ("reddit.com/r/environment", "r/environment"),
+    ("reddit.com/r/climate", "r/climate"),
+    ("reddit.com/r/britishcolumbia", "r/britishcolumbia"),
+    ("reddit.com", "Reddit"),
 ]
 
 
@@ -200,6 +233,12 @@ def _fetch_single_feed(
                 or entry.get("summary", "").strip()
             )
             link = entry.get("link", "").strip()
+
+            # Strip HTML from descriptions (Google News, Reddit, etc.)
+            if description and "<" in description:
+                description = _strip_html(description)
+            if title and "<" in title:
+                title = _strip_html(title)
 
             if not title or not link:
                 continue
@@ -308,6 +347,7 @@ def fetch_rss_articles(
     all_articles: List[Dict] = []
     problematic_feeds: set = set()
     problematic_feeds_lock = Lock()
+    successful_feeds = 0
 
     with ThreadPoolExecutor(max_workers=max_workers) as pool:
         future_to_url = {
@@ -326,6 +366,7 @@ def fetch_rss_articles(
             result = future.result()
             if result:
                 _feed_url, feed_articles, source_name = result
+                successful_feeds += 1
                 logger.info(
                     "Fetched %d articles from %s",
                     len(feed_articles),
@@ -333,7 +374,9 @@ def fetch_rss_articles(
                 )
                 all_articles.extend(feed_articles)
 
-    logger.info("Fetched %d total articles from RSS feeds", len(all_articles))
+    raw_count = len(all_articles)
+    failed_feeds = len(problematic_feeds)
+    logger.info("Fetched %d total articles from RSS feeds", raw_count)
     if problematic_feeds:
         logger.warning(
             "Skipped %d problematic feed(s): %s",
@@ -343,6 +386,11 @@ def fetch_rss_articles(
 
     if not all_articles:
         logger.warning("No articles found from RSS feeds")
+        logger.info(
+            "RSS fetch summary: %d feeds attempted, %d succeeded, %d failed, "
+            "%d raw articles, 0 after dedup",
+            len(urls), successful_feeds, failed_feeds, raw_count,
+        )
         return []
 
     # Deduplicate
@@ -357,6 +405,11 @@ def fetch_rss_articles(
         logger.info(
             "Removed %d similar/duplicate articles", before - after
         )
+    logger.info(
+        "RSS fetch summary: %d feeds attempted, %d succeeded, %d failed, "
+        "%d raw articles, %d after dedup",
+        len(urls), successful_feeds, failed_feeds, raw_count, after,
+    )
 
     # Sort newest first
     articles.sort(key=lambda x: x.get("published_date", ""), reverse=True)
@@ -523,3 +576,145 @@ def _parse_x_posts(
         })
 
     return posts
+
+
+# ---------------------------------------------------------------------------
+# Web search fetcher (via xAI Grok web_search)
+# ---------------------------------------------------------------------------
+
+def fetch_web_search_articles(
+    queries: List[str],
+    keywords: Optional[List[str]] = None,
+    max_results_per_query: int = 10,
+) -> List[Dict]:
+    """Fetch recent news articles using xAI's web_search tool.
+
+    Supplements RSS feeds on slow news days by searching the web for
+    articles matching the provided queries.
+
+    Parameters
+    ----------
+    queries:
+        List of search query strings (e.g. ``["Tesla news today"]``).
+    keywords:
+        Optional keyword filter applied after retrieval.
+    max_results_per_query:
+        Maximum articles to extract per query.
+
+    Returns
+    -------
+    list[dict]
+        Articles with standard keys: ``title``, ``description``, ``url``,
+        ``source_name``, ``published_date``, ``relevance_score``, ``author``.
+    """
+    import datetime as _dt
+    import os
+    import re
+
+    if not queries:
+        return []
+
+    api_key = (os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY") or "").strip()
+    if not api_key:
+        logger.warning("No GROK_API_KEY — skipping web search fetch")
+        return []
+
+    all_articles: List[Dict] = []
+    now_iso = _dt.datetime.now(_dt.timezone.utc).isoformat()
+
+    for query in queries:
+        logger.info("Web search: querying '%s' ...", query)
+        try:
+            from digests.xai_grok import grok_generate_text
+
+            extraction_prompt = (
+                f"Search the web for recent news articles (last 24 hours) about: {query}\n\n"
+                f"Return ONLY a structured list of articles, formatted exactly like this "
+                f"(one block per article, separated by blank lines):\n\n"
+                f"ARTICLE_TITLE: [exact headline]\n"
+                f"ARTICLE_URL: [full URL]\n"
+                f"ARTICLE_DESCRIPTION: [2-3 sentence summary]\n"
+                f"ARTICLE_SOURCE: [publication name]\n\n"
+                f"Rules:\n"
+                f"- Include up to {max_results_per_query} articles maximum\n"
+                f"- Only include articles from the last 24 hours\n"
+                f"- Skip opinion pieces, editorials, and social media posts\n"
+                f"- If no recent articles found, return exactly: NO_RECENT_ARTICLES\n"
+                f"- Do NOT add any commentary — just the structured list\n"
+            )
+
+            text, _meta = grok_generate_text(
+                prompt=extraction_prompt,
+                enable_web_search=True,
+                max_turns=3,
+            )
+
+            if not text or "NO_RECENT_ARTICLES" in text:
+                logger.info("Web search: no recent articles for '%s'", query)
+                continue
+
+            # Parse structured response
+            blocks = re.split(r"(?=ARTICLE_TITLE\s*:)", text.strip())
+            query_articles = 0
+            for block in blocks:
+                block = block.strip()
+                if not block.startswith("ARTICLE_TITLE"):
+                    continue
+
+                title_m = re.search(r"ARTICLE_TITLE\s*:\s*(.+?)(?:\n|$)", block)
+                url_m = re.search(r"ARTICLE_URL\s*:\s*(https?://\S+)", block)
+                desc_m = re.search(
+                    r"ARTICLE_DESCRIPTION\s*:\s*(.+?)(?=ARTICLE_SOURCE|\Z)",
+                    block, re.DOTALL,
+                )
+                source_m = re.search(r"ARTICLE_SOURCE\s*:\s*(.+?)(?:\n|$)", block)
+
+                title = title_m.group(1).strip() if title_m else ""
+                url = url_m.group(1).strip() if url_m else ""
+                desc = desc_m.group(1).strip() if desc_m else ""
+                source = source_m.group(1).strip() if source_m else "Web"
+
+                if not title or not url:
+                    continue
+
+                all_articles.append({
+                    "title": title,
+                    "description": desc,
+                    "url": url,
+                    "source_name": f"{source} (web)",
+                    "published_date": now_iso,
+                    "relevance_score": 0.0,
+                    "author": "",
+                })
+                query_articles += 1
+
+            logger.info("Web search: %d articles from '%s'", query_articles, query)
+
+        except Exception as exc:
+            logger.warning("Web search failed for '%s': %s", query, exc)
+            continue
+
+    # Keyword filter
+    if keywords and all_articles:
+        kw_lower = [k.lower() for k in keywords]
+        before = len(all_articles)
+        all_articles = [
+            a for a in all_articles
+            if any(
+                kw in (a.get("title", "") + " " + a.get("description", "")).lower()
+                for kw in kw_lower
+            )
+        ]
+        if before != len(all_articles):
+            logger.info("Web search keyword filter: %d → %d articles", before, len(all_articles))
+
+    # Dedup
+    if all_articles:
+        all_articles = remove_similar_items(
+            all_articles,
+            similarity_threshold=0.80,
+            get_text_func=lambda x: f"{x.get('title', '')} {x.get('description', '')}",
+        )
+
+    logger.info("Web search summary: %d queries, %d articles returned", len(queries), len(all_articles))
+    return all_articles

@@ -106,6 +106,7 @@ def select_segments(
     *,
     max_segments: int = 2,
     mode: str = "round_robin",
+    covered_topics: Optional[set] = None,
 ) -> List[Dict]:
     """Pick segments from the library, avoiding recently used ones.
 
@@ -119,6 +120,10 @@ def select_segments(
         Maximum number of segments to return.
     mode:
         Selection strategy — ``"round_robin"`` (default) or ``"random"``.
+    covered_topics:
+        Optional set of topic strings recently covered by this show
+        (from content lake). Segments whose topics overlap less with
+        this set are preferred.
 
     Returns
     -------
@@ -145,6 +150,17 @@ def select_segments(
         logger.info(
             "All %d segments on cooldown — falling back to least-recently-used",
             len(library),
+        )
+
+    # Topic-aware reordering: prefer segments whose topics are least covered
+    if covered_topics and len(available) > max_segments:
+        def _topic_overlap(seg: Dict) -> int:
+            seg_topics = set(t.lower() for t in seg.get("topics", []))
+            return len(seg_topics & covered_topics)
+        available.sort(key=_topic_overlap)
+        logger.info(
+            "Topic-aware reorder: least-covered segments prioritised "
+            "(%d covered topics checked)", len(covered_topics),
         )
 
     if mode == "random":

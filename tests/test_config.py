@@ -387,9 +387,10 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "tesla.yaml")
         assert cfg.name == "Tesla Shorts Time"
         assert cfg.slug == "tesla"
-        assert len(cfg.sources) == 14
+        assert len(cfg.sources) == 21
         assert cfg.sources[0].label == "Teslarati"
         assert "tsla" in cfg.keywords
+        assert len(cfg.web_search_queries) == 4
         assert cfg.llm.model == "grok-4.20-non-reasoning"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.llm.podcast_temperature == 0.9
@@ -452,7 +453,7 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "env_intel.yaml")
         assert cfg.name == "Environmental Intelligence"
         assert cfg.slug == "env_intel"
-        assert len(cfg.sources) == 20
+        assert len(cfg.sources) == 27
         assert cfg.sources[0].label == "BC Ministry of Environment"
         assert "contaminated sites" in cfg.keywords
         assert "CCME" in cfg.keywords

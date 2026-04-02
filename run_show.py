@@ -314,6 +314,13 @@ def run(args: argparse.Namespace) -> None:
     from engine.tracking import create_tracker, save_usage
     tracker = create_tracker(config.name, episode_num)
 
+    # 3b. Initialize content lake database (idempotent — CREATE IF NOT EXISTS)
+    try:
+        from engine.content_lake import init_db as _init_lake_db
+        _init_lake_db()
+    except Exception as exc:
+        logger.warning("Content lake init failed (non-fatal): %s", exc)
+
     # 4 & 5. Pre-fetch hook + RSS fetch in parallel (concurrent.futures)
     hook_module = _load_hook(args.show)
     extra_context: dict = {}
@@ -412,6 +419,47 @@ def run(args: argparse.Namespace) -> None:
         articles.extend(filtered_x)
         x_posts = filtered_x  # Update for accurate count below
     logger.info("After fetch + dedup: %d articles (incl. %d X posts)", len(articles), len(x_posts))
+
+    # 5a2. Web search fallback — if articles below quality threshold, try Grok web_search
+    web_articles: list = []
+    min_quality = getattr(config, "min_articles", 6) or 6
+    if len(articles) < min_quality and getattr(config, "web_search_queries", None):
+        logger.info(
+            "Articles (%d) below quality threshold (%d) — trying web search ...",
+            len(articles), min_quality,
+        )
+        try:
+            from engine.fetcher import fetch_web_search_articles
+            web_articles = fetch_web_search_articles(
+                config.web_search_queries,
+                keywords=config.keywords,
+            )
+            if web_articles:
+                from engine.utils import calculate_similarity
+                # Dedup web articles against existing RSS+X articles
+                deduped_web = []
+                for wa in web_articles:
+                    wa_title = wa.get("title", "")[:200]
+                    is_dup = any(
+                        calculate_similarity(wa_title, a.get("title", "")[:200]) >= 0.65
+                        for a in articles
+                    )
+                    if not is_dup:
+                        deduped_web.append(wa)
+                logger.info(
+                    "Web search: %d articles found, %d after cross-dedup",
+                    len(web_articles), len(deduped_web),
+                )
+                articles.extend(deduped_web)
+                web_articles = deduped_web
+        except Exception as exc:
+            logger.warning("Web search fallback failed (non-fatal): %s", exc)
+
+    logger.info(
+        "Content pipeline: %d RSS + %d X + %d web_search = %d total",
+        len(articles) - len(x_posts) - len(web_articles),
+        len(x_posts), len(web_articles), len(articles),
+    )
     metrics.record("article_count", len(articles))
 
     if not articles:
@@ -422,6 +470,23 @@ def run(args: argparse.Namespace) -> None:
     skip_threshold = getattr(config, "min_articles_skip", 3) or 3
     slow_news_mode = False
     selected_segs: list = []
+
+    # Helper: query content lake for recently covered topics (for segment selection)
+    def _get_covered_topics() -> set:
+        try:
+            from engine.content_lake import query_show_range
+            from datetime import timedelta
+            hist = query_show_range(
+                args.show,
+                (today - timedelta(days=30)).isoformat(),
+                today.isoformat(),
+            )
+            topics: set = set()
+            for ep in hist:
+                topics.update(t.lower() for t in ep.get("topics", []))
+            return topics
+        except Exception:
+            return set()
 
     if len(articles) < skip_threshold:
         from engine.slow_news import is_slow_news_day, load_segment_library, select_segments
@@ -440,6 +505,7 @@ def run(args: argparse.Namespace) -> None:
                 recent_seg_ids,
                 max_segments=config.slow_news.max_segments,
                 mode=config.slow_news.selection_mode,
+                covered_topics=_get_covered_topics(),
             )
             slow_news_mode = True
             metrics.record("slow_news_mode", True)
@@ -475,6 +541,7 @@ def run(args: argparse.Namespace) -> None:
             recent_seg_ids,
             max_segments=config.slow_news.max_segments,
             mode=config.slow_news.selection_mode,
+            covered_topics=_get_covered_topics(),
         )
         slow_news_mode = True
         metrics.record("slow_news_mode", True)
@@ -543,6 +610,37 @@ def run(args: argparse.Namespace) -> None:
         )
     else:
         template_vars["slow_news_context"] = ""
+
+    # Cross-show topic awareness from content lake (avoid redundancy across shows)
+    try:
+        from engine.content_lake import query_all_shows_range
+        from datetime import timedelta
+        cross_start = (today - timedelta(days=7)).isoformat()
+        cross_end = today.isoformat()
+        recent_cross = query_all_shows_range(cross_start, cross_end)
+        other_show_topics = [
+            ep for ep in recent_cross
+            if ep.get("show_slug") != args.show and ep.get("headlines")
+        ]
+        if other_show_topics:
+            lines = []
+            for ep in other_show_topics[-10:]:  # Last 10 episodes from other shows
+                show_label = ep.get("show_name", ep.get("show_slug", ""))
+                date_label = ep.get("date", "")
+                headlines = ep.get("headlines", [])[:3]
+                if headlines:
+                    lines.append(f"- {show_label} ({date_label}): {'; '.join(headlines)}")
+            if lines:
+                template_vars["cross_show_context"] = (
+                    "Topics recently covered by other Nerra Network shows "
+                    "(avoid redundancy):\n" + "\n".join(lines)
+                )
+                logger.info("Injecting cross-show context (%d shows) into digest prompt", len(lines))
+        if "cross_show_context" not in template_vars:
+            template_vars["cross_show_context"] = ""
+    except Exception as exc:
+        logger.debug("Cross-show context unavailable (non-fatal): %s", exc)
+        template_vars["cross_show_context"] = ""
 
     # Merge extra context from hooks (e.g. price, change_str, x_posts_section)
     template_vars.update(extra_context)

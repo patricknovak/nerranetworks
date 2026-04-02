@@ -1,0 +1,55 @@
+name: Feed Audit
+
+on:
+  schedule:
+    - cron: '0 12 * * 0'  # Sunday 12:00 UTC
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - uses: actions/cache@v5
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-audit-${{ hashFiles('requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-audit-
+
+      - name: Install dependencies
+        run: pip install pyyaml requests feedparser
+
+      - name: Run feed audit
+        id: audit
+        run: |
+          set +e
+          python scripts/audit_feeds.py 2>&1 | tee audit_output.txt
+          EXIT_CODE=$?
+          echo "exit_code=$EXIT_CODE" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Commit JSON report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/feed_audit_*.json
+          if git diff --cached --quiet; then
+            echo "No new report to commit"
+          else
+            git commit -m "Feed audit report $(date +%Y-%m-%d)"
+            git push
+          fi
+
+      - name: Warn if unhealthy feeds
+        if: steps.audit.outputs.exit_code == '1'
+        run: echo "::warning::Feed audit found stale or dead feeds — check audit_output.txt"
