@@ -495,6 +495,108 @@ button { font-family: var(--font-ui); cursor: pointer; }
 }
 .nn-footer-bottom a:hover { color: var(--nn-white); }
 
+/* ---------- Footer Newsletter Subscribe ---------- */
+.nn-footer-subscribe {
+  margin-top: var(--sp-6);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--nn-border);
+}
+.nn-subscribe-form h4 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--nn-white);
+  margin-bottom: var(--sp-1);
+}
+.nn-subscribe-form > p {
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  color: var(--nn-text-muted);
+  margin-bottom: var(--sp-3);
+}
+.nn-subscribe-tags {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-1) var(--sp-4);
+  margin-bottom: var(--sp-4);
+}
+.nn-subscribe-tags label {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--nn-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  cursor: pointer;
+}
+.nn-subscribe-tags input[type="checkbox"] {
+  accent-color: var(--nn-accent);
+  width: 16px;
+  height: 16px;
+}
+.nn-subscribe-row {
+  display: flex;
+  gap: var(--sp-2);
+  max-width: 480px;
+}
+.nn-subscribe-row input[type="email"] {
+  flex: 1;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 8px;
+  border: 1px solid var(--nn-border);
+  background: var(--nn-surface);
+  color: var(--nn-white);
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+}
+.nn-subscribe-row input[type="email"]::placeholder {
+  color: var(--nn-text-muted);
+}
+.nn-subscribe-row button {
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: 8px;
+  border: none;
+  background: var(--nn-accent);
+  color: var(--nn-white);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background var(--duration) var(--ease);
+  white-space: nowrap;
+}
+.nn-subscribe-row button:hover {
+  background: var(--nn-accent-hover, color-mix(in srgb, var(--nn-accent) 85%, white));
+}
+@media (max-width: 768px) {
+  .nn-subscribe-tags { grid-template-columns: 1fr; }
+}
+
+/* ---------- Per-show inline subscribe ---------- */
+.show-subscribe-inline {
+  margin-top: var(--sp-6);
+  padding: var(--sp-5);
+  border-radius: 12px;
+  background: var(--nn-surface);
+  border: 1px solid var(--nn-border);
+}
+.show-subscribe-inline h3 {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--nn-white);
+  margin-bottom: var(--sp-1);
+}
+.show-subscribe-inline p {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--nn-text-muted);
+  margin-bottom: var(--sp-3);
+}
+.show-subscribe-inline .nn-subscribe-row {
+  max-width: 400px;
+}
+
 .nn-footer-legal {
   display: flex;
   justify-content: space-between;

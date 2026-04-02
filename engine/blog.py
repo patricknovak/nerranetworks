@@ -573,6 +573,7 @@ def generate_blog_post_html(
         "tagline": show_config.get("tagline", ""),
         "transcript": transcript_text,
         "related_posts": related_posts or [],
+        "newsletter_tag": show_config["name"],
     }
 
     return template.render(**context)

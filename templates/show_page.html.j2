@@ -349,6 +349,26 @@
     </section>
     {% endif %}
 
+    <!-- Newsletter Subscribe -->
+    {% if newsletter_tag %}
+    <section class="nn-section" style="padding-top:0;">
+        <div class="container" style="max-width:700px;">
+            <div class="show-subscribe-inline">
+                <h3>Get {{ show_name }} in your inbox</h3>
+                <p>New episode alerts delivered straight to your email — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="{{ newsletter_tag }}">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
     <!-- More from Nerra Network -->
     <section class="cross-network nn-section">
         <div class="container">
