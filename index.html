@@ -35,6 +35,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="styles/main.css">
 
@@ -843,6 +846,15 @@
         <div class="latest-scroll-row">
             
             <div class="latest-scroll-card glass-card">
+                <div class="episode-card-show" style="background:#7C5CFF;">Fascinating Frontiers</div>
+                <div class="episode-card-title">Ep 48: Artemis 2 astronauts have successfully repaired their toilet during the first crewed lunar mission in over 50 years.</div>
+                <div class="episode-card-date">Thu, Apr 02, 2026</div>
+                
+                <audio controls preload="none" src="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep048_20260402.mp3" aria-label="Fascinating Frontiers episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
+                
+            </div>
+            
+            <div class="latest-scroll-card glass-card">
                 <div class="episode-card-show" style="background:#E31937;">Tesla Shorts Time</div>
                 <div class="episode-card-title">Tesla Shorts Time - Episode 422 - April 01, 2026</div>
                 <div class="episode-card-date">Wed, Apr 01, 2026</div>
@@ -893,15 +905,6 @@
                 <div class="episode-card-date">Tue, Mar 31, 2026</div>
                 
                 <audio controls preload="none" src="https://audio.nerranetwork.com/omni_view/Omni_View_Ep026_20260331.mp3" aria-label="Omni View episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
-                
-            </div>
-            
-            <div class="latest-scroll-card glass-card">
-                <div class="episode-card-show" style="background:#7C5CFF;">Fascinating Frontiers</div>
-                <div class="episode-card-title">Ep 47: SpaceX is preparing to loft 119 small satellites in one rideshare launch from California this morning.</div>
-                <div class="episode-card-date">Mon, Mar 30, 2026</div>
-                
-                <audio controls preload="none" src="https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep047_20260330.mp3" aria-label="Fascinating Frontiers episode audio" style="width:100%;height:36px;border-radius:8px;margin-top:var(--sp-2);"></audio>
                 
             </div>
             
@@ -989,6 +992,22 @@
             </div>
             <div class="blog-idx-grid" style="max-width:900px;margin:0 auto;padding-bottom:var(--sp-8)">
                 
+                <a href="blog/fascinating_frontiers/ep048.html"
+                   class="blog-idx-card"
+                   style="--card-show-color: #7C5CFF">
+                    <div class="blog-idx-card-top">
+                        <span class="blog-idx-show-badge" style="background:color-mix(in srgb, #7C5CFF 15%, transparent);color:#7C5CFF">Fascinating Frontiers</span>
+                        <span class="blog-idx-date">April 02, 2026</span>
+                        <span class="blog-idx-ep">Ep 48</span>
+                        <span class="blog-idx-reading">5 min</span>
+                    </div>
+                    <h2>Artemis 2 astronauts have successfully repaired their toilet during the first cr...</h2>
+                    
+                    <p>Artemis 2 astronauts have successfully repaired their toilet during the first crewed lunar mission in over 50 years.</p>
+                    
+                    <span class="blog-idx-read-more" style="color:#7C5CFF">Read article &rarr;</span>
+                </a>
+                
                 <a href="blog/tesla/ep422.html"
                    class="blog-idx-card"
                    style="--card-show-color: #E31937">
@@ -1067,22 +1086,6 @@
                     <p>What You Need to Know: Hugging Face just shipped TRL v1.0, turning the messy post-training pipeline (SFT → Reward Modeling → DPO/GRPO) into &hellip;</p>
                     
                     <span class="blog-idx-read-more" style="color:#8B5CF6">Read article &rarr;</span>
-                </a>
-                
-                <a href="blog/modern_investing/ep010.html"
-                   class="blog-idx-card"
-                   style="--card-show-color: #059669">
-                    <div class="blog-idx-card-top">
-                        <span class="blog-idx-show-badge" style="background:color-mix(in srgb, #059669 15%, transparent);color:#059669">Modern Investing Techniques</span>
-                        <span class="blog-idx-date">April 01, 2026</span>
-                        <span class="blog-idx-ep">Ep 10</span>
-                        <span class="blog-idx-reading">6 min</span>
-                    </div>
-                    <h2>Modern Investing Techniques</h2>
-                    
-                    <p>World stocks rocket higher on optimism the Iran war could end soon, lifting S&P 500 futures +2.9%.</p>
-                    
-                    <span class="blog-idx-read-more" style="color:#059669">Read article &rarr;</span>
                 </a>
                 
             </div>
@@ -1290,6 +1293,27 @@
                 <a href="privacy-policy.html">Privacy Policy</a>
                 <a href="terms-of-service.html">Terms of Service</a>
                 <a href="ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
             </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
