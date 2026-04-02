@@ -51,6 +51,16 @@ sources:
     label: The Guardian World
   - url: https://feeds.washingtonpost.com/rss/world
     label: Washington Post World
+  # Google News — vocabulary theme inspiration
+  - url: "https://news.google.com/rss/search?q=science+discovery+nature+animals&hl=en-US&gl=US&ceid=US:en"
+    label: Google News Science Nature
+  - url: "https://news.google.com/rss/search?q=Russian+culture+language+news&hl=en-US&gl=US&ceid=US:en"
+    label: Google News Russian Culture
+
+web_search_queries:
+  - "interesting science news for kids"
+  - "Russian culture traditions news"
+  - "fun world news vocabulary themes"
 
 min_articles_skip: 1
 

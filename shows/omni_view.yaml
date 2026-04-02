@@ -49,6 +49,26 @@ sources:
     label: Wired
   - url: https://arstechnica.com/rss.xml
     label: Ars Technica
+  # Google News — supplementary broad coverage
+  - url: "https://news.google.com/rss/search?q=US+politics+policy+news&hl=en-US&gl=US&ceid=US:en"
+    label: Google News US Politics
+  - url: "https://news.google.com/rss/search?q=world+news+geopolitics+today&hl=en-US&gl=US&ceid=US:en"
+    label: Google News World
+  - url: "https://news.google.com/rss/search?q=economy+inflation+markets+news&hl=en-US&gl=US&ceid=US:en"
+    label: Google News Economy
+  # Reddit — community news coverage
+  - url: "https://www.reddit.com/r/worldnews/.rss"
+    label: r/worldnews
+  - url: "https://www.reddit.com/r/news/.rss"
+    label: r/news
+  - url: "https://www.reddit.com/r/geopolitics/.rss"
+    label: r/geopolitics
+
+web_search_queries:
+  - "breaking news today"
+  - "US politics policy news today"
+  - "world news geopolitics today"
+  - "economy markets news today"
 
 min_articles_skip: 4
 

@@ -31,6 +31,22 @@ sources:
     label: CNBC
   - url: https://www.reuters.com/technology/rss
     label: Reuters
+  # Google News — supplementary broad coverage
+  - url: "https://news.google.com/rss/search?q=tesla+electric+vehicle&hl=en-US&gl=US&ceid=US:en"
+    label: Google News Tesla
+  - url: "https://news.google.com/rss/search?q=TSLA+stock+OR+tesla+earnings&hl=en-US&gl=US&ceid=US:en"
+    label: Google News TSLA
+  - url: "https://news.google.com/rss/search?q=tesla+full+self+driving+OR+tesla+robotaxi&hl=en-US&gl=US&ceid=US:en"
+    label: Google News Tesla FSD
+  - url: "https://news.google.com/rss/search?q=electric+vehicle+industry+news&hl=en-US&gl=US&ceid=US:en"
+    label: Google News EV Industry
+  # Reddit — community-sourced breaking stories
+  - url: "https://www.reddit.com/r/teslamotors/.rss"
+    label: r/teslamotors
+  - url: "https://www.reddit.com/r/electricvehicles/.rss"
+    label: r/electricvehicles
+  - url: "https://www.reddit.com/r/teslainvestorsclub/.rss"
+    label: r/teslainvestorsclub
 
 x_accounts:
   - handle: sawyermerrit
@@ -46,6 +62,12 @@ x_accounts:
 min_articles: 10
 min_articles_skip: 6
 min_audio_duration: 300
+
+web_search_queries:
+  - "Tesla news today"
+  - "TSLA stock market news"
+  - "Tesla FSD update"
+  - "electric vehicle industry news today"
 
 keywords:
   - tesla
