@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -937,6 +1037,179 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Hey, welcome to Tesla Shorts Time Daily, episode four hundred three. I'm Patrick in Vancouver. Today is March tenth, twenty twenty-six. Here's what's happening with Tesla today.
+
+Tesla loses two long-time executives, including finance VP Sendil Palani after 17 years and O T A director Thomas Dmytryk after 11 years.
+
+Let's dive right into those executive departures, starting with Sendil Palani.
+
+According to TeslaNorth dot com, Palani, who served as Tesla's VP of Finance since 2009, has left the company after playing a key role in its journey from a small startup to a global powerhouse.
+
+Over his 17 years, he helped navigate financial strategies during massive scaling periods, like the ramp-up of Model Three production and the expansion into energy products.
+
+This exit comes at a time when Tesla is pushing hard into Robo-taxi services and energy storage, so it might signal a broader refresh in leadership to bring in new ideas for handling that growth.
+
+On the flip side, it could create some short-term gaps in institutional knowledge, but Tesla has a history of promoting from within, which might help smooth the transition.
+
+Why does this matter? Well, finance leadership is crucial for a company balancing ambitious projects with profitability, and Palani's tenure overlapped with Tesla's shift to sustained profits.
+
+My take is that while departures like this are normal in tech, they highlight the need for Tesla to keep attracting top talent to maintain its edge.
+
+Shifting to the software side, Tesla-rah-tee reported that Thomas Dmytryk, the director behind Tesla's Over-the-Air updates, has also departed after more than 11 years.
+
+Dmytryk was instrumental in developing O T A capabilities, which allow Tesla to push improvements like enhanced Auto-pilot features or battery optimizations directly to vehicles without owners visiting a service center.
+
+This feature has been a game-changer for customer satisfaction, turning cars into evolving products and setting Tesla apart from traditional automakers.
+
+His leaving creates a potential void in software innovation, especially as Tesla ramps up Full Self-Driving development and integrates more A I-driven updates.
+
+From a technology angle, O T A has enabled rapid iterations, like fixing issues in real-time or adding holiday modes, which build loyalty among owners.
+
+That said, Tesla's deep bench in engineering could fill this gap, but it underscores how reliant the company is on key individuals for its software edge.
+
+I see this as a reminder of Tesla's strength in continuous improvement, even if it means navigating personnel changes.
+
+Now, on a different note, let's talk about some manufacturing and product expansions.
+
+Tesla-rah-tee mentioned that Tesla is bringing its longer-wheelbase Model Why L variant to a new market, focusing on better seating and space for families without the compromises of a third row.
+
+This version offers more legroom and practicality, making it ideal for regions where larger family vehicles are in demand.
+
+It's a smart move to strengthen Tesla's lineup in competitive E V markets, addressing needs for versatile electric SUVs.
+
+However, there's no sign of it coming to the U.S. yet, which points to differences in regulations or consumer preferences that might limit options for American buyers.
+
+From a business perspective, this expansion could boost sales in Asia or Europe, where space-efficient designs resonate more.
+
+Overall, it shows Tesla tailoring products to regional demands, which is key for global growth.
+
+Speaking of production ramps, TeslaNorth dot com spotted over 30 Cybercabs being shipped from Giga Texas, some with steering wheels, ahead of an April launch.
+
+This suggests Tesla is accelerating testing and manufacturing for its autonomous vehicles, potentially including variants for different regulatory environments.
+
+The Cyber-cab is central to Tesla's Robo-taxi vision, aiming to create fleets that operate without human drivers, transforming how people get around in cities.
+
+Why it matters: If successful, this could open massive revenue streams through ride-hailing, beyond just selling cars.
+
+The inclusion of steering wheels might be for initial testing or markets not fully ready for full autonomy, showing Tesla's pragmatic approach.
+
+From a technology standpoint, it's exciting to see hardware moving, as it ties into broader A I advancements for safe, efficient self-driving.
+
+I think this positions Tesla well in the race for urban mobility, though clearing regulatory hurdles will be crucial.
+
+On the infrastructure front, Drive Tesla reported that Tesla now operates more than two thousand five hundred Super-charger stations and twelve thousand stalls across mainland China.
+
+This milestone enhances charging accessibility in one of the biggest E V markets, helping owners tackle longer trips without worry.
+
+It's part of Tesla's strategy to build out networks that support vehicle sales, directly addressing range anxiety in a country with vast distances.
+
+Competitively, this gives Tesla an edge over local players, as reliable charging can sway buyers toward the brand.
+
+From a customer perspective, it improves the ownership experience, potentially driving higher adoption rates.
+
+My view is that expansions like this are foundational for Tesla's long-term presence in Asia.
+
+Similarly, Clean Technica covered plans for a huge charging hub in Southern California with over 400 fast chargers, some powered by solar.
+
+This setup would ease grid strain by incorporating renewable energy, making it a model for sustainable infrastructure in high-traffic areas.
+
+It's aimed at scaling up for growing E V demand, providing quick top-ups for fleets and individual drivers.
+
+Technologically, integrating solar highlights Tesla's energy expertise, blending charging with clean power generation.
+
+This could set a precedent for future hubs, promoting broader E V adoption by making charging more eco-friendly and efficient.
+
+I see it as a step toward reducing reliance on fossil fuels in transportation hubs.
+
+Staying with sales trends, Tesla-rah-tee noted that the Model Why topped sales in three U.S. states, thanks to its impressive range, performance, and lower operating costs.
+
+This shows strong demand for practical E Vs, especially in regions where efficiency and tech features win out.
+
+However, Ford still dominates overall, which underscores the competitive landscape Tesla navigates.
+
+From a market angle, it pushes Tesla to innovate on affordability and features to capture more share.
+
+It's a positive sign of E V mainstreaming, with the Model Why appealing to families and commuters alike.
+
+Ultimately, this highlights Tesla's strengths in specific segments while facing broader rivalry.
+
+Closer to home, Drive Tesla announced a new Super-charger opening in Abbotsford, British Columbia, adding capacity in the Fraser Valley.
+
+This boosts convenience for Canadian owners, supporting long-distance travel across the region.
+
+It's part of Tesla's efforts to densify its North American network, making E Vs more viable for everyday use.
+
+From a business view, these additions encourage more adoptions by filling infrastructure gaps.
+
+As someone in Vancouver, I appreciate how this enhances connectivity in Western Canada.
+
+Now, weaving in some buzz from the broader Tesla community, there's excitement around ex A I hitting its third birthday milestone.
+
+Elon Musk's ex A I, which powers tools like Grok and Grokipedia, celebrated three years of rapid A I progress.
+
+This matters because ex A I's advancements could spill over to Tesla, enhancing things like autonomous driving through shared tech innovations.
+
+It's generating talk about Musk's growing A I influence and how it might integrate with Tesla's ecosystem.
+
+From a technology crossover perspective, it's intriguing to see potential synergies.
+
+Another hot topic is the investment math around Cybercabs, with calculations showing how a six dollars,000 investment could scale to two hundred eighty-five dollars,000 monthly in a Robo-taxi fleet.
+
+This illustrates the passive income potential as Cybercabs launch, shifting vehicles from one-time buys to ongoing revenue generators.
+
+It's buzzing among investors for highlighting Tesla's autonomous future.
+
+Competitively, it points to new business models in mobility.
+
+And one more: Tesla opened its first public Mega-charger for Semi trucks in Los Angeles, as per Drive Tesla.
+
+This station marks a key step for electric trucking, allowing fleet operators to charge heavy-duty vehicles publicly.
+
+It's crucial for the Semi program, enabling zero-emission logistics with lower costs over time.
+
+From an energy business angle, it expands Tesla's infrastructure into commercial sectors.
+
+This could disrupt traditional trucking by making E Vs practical for long hauls.
+
+Now, one thing worth watching is the escalating union tensions in Sweden, as reported by Tesla-rah-tee.
+
+Tesla's Mega-pack Super-charger near Arlanda is still operating despite a blockade from the I F Metall union amid ongoing labor disputes.
+
+This highlights broader conflicts between Tesla's non-union model and traditional European labor practices.
+
+It risks further actions that could slow infrastructure projects there.
+
+That said, Tesla's focus on efficiency and alternative strategies, like negotiations or diversified operations, positions it to navigate these challenges.
+
+It's a test of resilience in contentious environments, but resolving it could strengthen Tesla's European footprint.
+
+Taking a step back from today's headlines, let's apply some first principles thinking to Tesla's approach to global talent acquisition in this competitive tech landscape.
+
+The fundamental question is: How can Tesla attract and retain top engineering talent when rivals offer similar incentives in a crowded E V and A I market?
+
+Data from industry reports shows Tesla with over one hundred forty thousand employees and a typical ten to fifteen percent annual turnover rate, but competitors like Rivian and Lucid are poaching with equity packages up to twenty percent higher, plus Tesla's stock volatility adds compensation risk.
+
+Tesla breaks it down to basics: Identify core skills for innovation, then recruit around mission-driven appeals, like accelerating sustainable energy.
+
+They combine this with internal promotions and stock grants tied to milestones, prioritizing direct impact on world-changing projects over traditional perks.
+
+The bottom line is this strengthens workforce resilience, building loyalty through purpose rather than just pay, which drives faster advancements in vehicle and energy tech amid talent wars.
+
+Before we go — tomorrow, we'll be watching for any updates on Cyber-cab production ramps as April approaches, potentially signaling more about Tesla's autonomous timeline.
+
+That's your Tesla news for today. T S L A closed at three hundred ninety-eight dollars and sixty-eight cents, up, one dollars and eighty-four cents, zero point five percent. If you found this useful, a rating or review on Apple Podcasts or Spotify really helps new listeners find the show. You can also find us on X at tesla shorts time. I'm Patrick in Vancouver. Thanks for listening, and I'll see you tomorrow.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -944,6 +1217,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/tesla/ep403.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Tesla Shorts Time in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Tesla Shorts Time">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -961,6 +1250,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1059,9 +1350,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

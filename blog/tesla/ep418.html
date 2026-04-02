@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -954,6 +1054,117 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Thanks for tuning in to Tesla Shorts Time Daily, episode four hundred eighteen.
+
+It's March twenty-eighth, twenty twenty-six and I'm Patrick in Vancouver.
+
+Let's dive into today's Tesla news.
+
+One of the most shared videos this week shows a Tesla on F S D Supervised handling a genuinely scary moment on the road. A school bus in Northern Virginia came barreling toward a red light with no sign of slowing down. The Tesla, approaching on a green, reacted instantly—braking hard enough to avoid what could have been a serious collision.
+
+What stands out in the footage is how decisive and controlled the stop was. It didn't panic or lock up the tires; it just did exactly what was needed. According to WhatsUpTesla, clips like this are starting to change how everyday drivers think about these systems.
+
+Instead of debating hypotheticals, people are seeing the car react faster than most humans probably would in the same split-second situation. It also highlights how mixed traffic with large commercial vehicles can create surprises that even attentive drivers might miss. For customers, moments like this feel like tangible proof that the safety net is actually working when it counts.
+
+Of course, one viral video doesn't prove the whole system is perfect, but it does give a real-world glimpse into the kind of edge cases F S D is being trained to handle every day. These examples are slowly shifting the conversation from "if" the tech can help, to "how often" it steps in.
+
+Staying on the theme of real-world F S D use and responsibility, there's a story out of Vacaville, California that shows how murky the legal side still is. A man reportedly had a few drinks, then decided to let his Tesla handle the driving while he took a nap in the driver's seat. Police spotted the vehicle, pulled it over, and arrested him on DUI charges anyway.
+
+According to Tesla-rah-tee, the case is a pretty clear reminder that even when the car is moving itself under supervision, the human behind the wheel is still fully on the hook legally. It highlights this awkward gray area we're in right now—where the technology is capable of doing more, but the law and insurance rules haven't fully caught up.
+
+From a business perspective, these incidents matter because they show why Tesla keeps hammering the point that F S D is supervised autonomy, not a free pass to check out completely. If too many of these stories pile up, it could slow down regulatory comfort in other markets.
+
+At the same time, it underscores the importance of getting the regulatory framework right so the rules match what the cars can actually do today. These kinds of cases are going to keep coming up as more people test the boundaries, and how they're handled will shape public trust and policy for years ahead.
+
+That legal tension around responsibility also showed up this week in another high-stakes situation. Tesla is responding to a lawsuit involving a fatal Model Three crash, and the company is pushing back hard. According to Drive Tesla, Tesla's position is that Auto-pilot was not engaged at the time of the incident, and that the driver was intoxicated.
+
+The company is essentially arguing that this wasn't a failure of their driver-assistance technology, but rather a case where the driver didn't meet the basic requirements of staying attentive and sober. These courtroom battles are becoming a regular part of the landscape as the systems get more capable.
+
+For Tesla's business environment, it shows the company continuing to draw a very clear line between what the car can do and what the driver must still handle. The outcomes of these cases matter because they can set legal precedents that affect liability not just for Tesla, but across the entire industry.
+
+It also serves as a sober reminder that even with impressive technology, the current versions still require active supervision and responsible use. Every time one of these stories hits the news, it puts the spotlight back on that gap between perception and reality.
+
+Speaking of the gap between perception and reality, it's refreshing when we get footage that actually shows the system performing well. That Northern Virginia school bus video I mentioned earlier is making the rounds for a reason. The Tesla didn't just brake—it anticipated the danger and created space in a way that likely prevented a much worse outcome.
+
+Viewers have been pointing out how the car's reaction time seemed to beat what a human driver could reasonably manage under surprise conditions. According to WhatsUpTesla, this kind of real-world evidence is valuable for shaping customer perception of the safety features. It moves the discussion away from theoretical benchmarks and toward actual on-road performance in messy, unpredictable traffic.
+
+For owners who are already using F S D Supervised, clips like this reinforce the idea that the system can act as an extra layer of protection. Of course, we have to be careful not to overgeneralize from any single event, but it's hard to watch that video and not see the potential. These positive examples help balance out the more negative legal stories that tend to dominate headlines.
+
+On the product development side, there's a quiet but meaningful update in Tesla's service documentation. The Model Three is now listed as using PCS2Lite power electronics hardware. This change was made without any big announcement or press release, which is pretty typical for Tesla.
+
+According to Drive Tesla, it looks like the company is laying some important groundwork for future energy features, possibly including vehicle-to-load capabilities down the line. That could eventually let owners use their cars to power tools at a job site, run appliances during a power outage, or even support home backup in certain setups.
+
+For the product itself, this feels like another step in making the vehicle more than just transportation—turning it into a genuine energy asset that fits into daily life in new ways. It fits Tesla's long-standing pattern of putting incremental hardware improvements in place that can be unlocked or enhanced later through software.
+
+These kinds of under-the-radar changes often end up being more significant than they first appear, because they open doors for features that customers don't even know they want yet.
+
+Shifting from passenger cars to heavy-duty trucks, there's some encouraging feedback coming in about the Tesla Semi. Drivers who've had seat time in the latest versions describe it as dramatically quieter and quicker off the line than traditional diesel rigs. They also mention it's far less physically demanding—no constant vibration, noise, or gear shifting to wear you down over long hauls.
+
+According to Tesla-rah-tee, the consensus from these early operators is solidly positive, especially after the recent upgrades. The truck reportedly delivers three times the power while promising much lower operating costs over time. For Tesla's ambitions in the commercial space, this kind of real-world operator feedback is gold.
+
+It could help accelerate adoption among fleet operators who care mostly about total cost of ownership and driver retention. Truck drivers seem to particularly appreciate how much easier it is on the body compared to conventional semis. If those lower operating costs hold up at scale, it could genuinely change the economics for freight companies. It's still early days, but the momentum feels real.
+
+Staying on the infrastructure front, Tesla has been busy in China. Fifty-five new Super-charger stations have come online along highways in Chongqing. That's a significant expansion in a major metropolitan region.
+
+According to TSLAming, the move strengthens Tesla's network in one of its most important markets and supports longer-distance travel for both Tesla and non-Tesla vehicles now that the network is open. For customers in the area, it means more reliable options for highway trips and less worry about finding a charger when you're out exploring.
+
+This kind of infrastructure investment helps reduce range anxiety, especially in dense urban corridors where traffic and charging options can get tricky. It also shows that even as Tesla pushes hard on software and autonomy, they're still committed to growing the physical charging network that got them this far.
+
+The balance between software speed and real-world infrastructure is something Tesla continues to manage carefully.
+
+On the international regulatory side, there's some promising movement in Israel. The country's Transport Minister recently indicated that Tesla's Full Self-Driving software could soon be approved for public use there. That would mark another step forward in expanding F S D beyond North America, although it's still not available in Europe yet.
+
+According to Drive Tesla, regulatory approval in new markets remains one of the biggest hurdles for the supervised autonomy rollout. For Tesla's international growth, this feels like a meaningful development. It suggests that at least some regulators are becoming more comfortable with the current supervised version of the technology.
+
+Every new country that comes on board also helps build the global data set and expands the customer base that can contribute to improvement. These regulatory wins don't always make big headlines, but they matter a lot for the pace of adoption outside the U.S. and Canada.
+
+Now, one thing worth watching closely is how this whole regulatory and legal environment around autonomy develops. The Vacaville DUI case and the various lawsuits we're seeing are perfect examples of the tension. Police and courts are still holding drivers legally responsible even when the car is doing the majority of the work.
+
+These high-profile incidents can shape both public opinion and how lawmakers think about the technology. They raise important questions about whether F S D reduces liability or simply shifts it in new ways. Tesla's approach has been consistent—keep emphasizing the supervised nature of the system while also advocating for clearer legal frameworks that match the actual capabilities.
+
+Getting the regulatory environment right is going to be just as important as the engineering breakthroughs themselves. The gap between what the cars can do today and what the law expects still needs bridging, and cases like these are part of that process.
+
+Taking a step back from the day-to-day headlines, it's worth thinking about the Super-charger network as a whole. The fundamental question is whether it can generate enough margin and strategic value to justify the continued heavy investment, or whether it risks becoming a financial drag as the fleet grows.
+
+It's one of the few significant physical assets Tesla owns that touches almost every owner on a regular basis. Every charging session creates recurring revenue from both Tesla drivers and non-Tesla vehicles now using the network. Beyond the direct dollars, the physical locations also generate valuable data on travel patterns that can feed into routing algorithms and energy products.
+
+If Tesla treats the network like any other engineering challenge—measuring duty cycles, energy throughput, and actual demand at each site—they can keep iterating on placement and power levels. The approach includes tight integration with the vehicle software and the broader energy business through Mega-packs.
+
+If it delivers both healthy margins and genuine ecosystem lock-in, it becomes a durable competitive advantage. If it can't scale efficiently as millions more vehicles come online, it could turn into an expensive maintenance item instead. That balance between physical infrastructure and Tesla's software-first mindset is something I'll be watching closely in the coming months.
+
+Before we wrap up, a quick note on the broader context. Tesla's share price has dropped nearly 20 percent over the past six months. Some observers are wondering if enthusiasm for the Robo-taxi vision is cooling off a bit. Sustained pressure on the valuation could eventually affect how aggressively the company can invest in autonomy development.
+
+At the same time, a Wall Street analyst recently floated the idea that Tesla and Space X could merge in 2027, citing growing operational ties, shared A I work, and long-term technology alignment.
+
+On the competitive front, Volkswagen and Rivian just completed winter testing of their joint software-defined vehicle platform, showing that traditional automakers are still very much in the game when it comes to software and hardware integration. These are all reminders that the landscape around Tesla is constantly shifting.
+
+Before we go, keep an eye on how regulators in different countries respond to the latest F S D expansion news and how that affects rollout timelines.
+
+That's your Tesla news for today.
+
+T S L A closed at three hundred sixty-one dollars and eighty-three cents, down twelve dollars and thirty-seven cents, or three point three percent.
+
+If you found this useful, a rating or review on Apple Podcasts or Spotify really helps new listeners find the show.
+
+You can also find us on X at tesla shorts time.
+
+I'm Patrick in Vancouver.
+
+Thanks for listening, and I'll see you tomorrow.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -961,6 +1172,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/tesla/ep418.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Tesla Shorts Time in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Tesla Shorts Time">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -978,6 +1205,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1076,9 +1305,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

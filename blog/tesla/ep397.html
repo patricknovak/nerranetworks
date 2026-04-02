@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -922,6 +1022,149 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Hey, welcome to Tesla Shorts Time Daily, episode three hundred ninety-seven. I'm Patrick in Vancouver. Today is March third, twenty twenty-six. Here's what's happening with Tesla today.
+
+Tesla raised the Cyber-truck's entry price to sixty-nine dollars,990 just 10 days after its fifty-nine dollars,990 launch, signaling strong initial demand.
+
+Let's dive right into that Cyber-truck pricing shift, which really caught my eye this morning.
+
+According to TeslaNorth.com, just ten days after rolling out the dual-motor Cyber-truck at fifty-nine dollars,990, Tesla bumped the entry price up to sixty-nine dollars,990.
+
+Elon Musk had hinted at an imminent increase, and it seems like this is a quick response to the realities of demand and production costs.
+
+For the business side, this adjustment could help Tesla maintain stronger margins on what is already a high-profile vehicle in a crowded truck market.
+
+But it might leave some potential buyers feeling a bit frustrated, especially those who were holding out for that more affordable option promised years ago.
+
+At the same time, it tests customer loyalty—will folks still line up, or will they look elsewhere?
+
+Overall, it's a reminder of how Tesla operates with agility, tweaking prices to balance supply chains and market response, which could ultimately support smoother production ramps.
+
+On a related note, speaking of Cyber-truck demand, there's some buzz about the order volume.
+
+Clean Technica reported that the new fifty-nine dollars,990 AWD version sparked a massive wave of orders last week, with early estimates suggesting it could equal a full year's worth.
+
+This surge really underscores how competitive pricing can drive adoption in the electric pickup segment, even if it's higher than the original forty-nine dollars,990 target from seven years back.
+
+From a manufacturing perspective, it means Tesla has to bolster its production ramps to handle the backlog, which is great for revenue but adds pressure amid any supply chain hiccups.
+
+It's fascinating because it shows the pickup market's hunger for E Vs when the price hits a sweet spot, potentially accelerating broader adoption.
+
+That said, Tesla will need to deliver on these orders efficiently to keep the momentum going.
+
+I think this positions them well against rivals, as long as they manage the expectations set by that initial pricing tease.
+
+Shifting over to Europe, there's an update on Tesla's performance in Norway that highlights their strength in mature E V markets.
+
+Tesla-rah-tee noted that Tesla reclaimed the top spot there in February, with one thousand two hundred ten registrations and a sixteen point six percent market share.
+
+What's remarkable is that Norway's overall E V market hit an astonishing ninety-eight percent penetration that month, driven by strong incentives and infrastructure.
+
+This dominance reflects Tesla's brand power in places where electrification is already the norm, which could inform their strategies in other regions.
+
+Technologically, it points to the effectiveness of Tesla's lineup in cold climates, where range and charging reliability are key.
+
+For the competitive landscape, it signals that Tesla needs to keep innovating to hold onto leads as more players enter the space.
+
+It's a positive sign for the industry as a whole, showing how policy can push E V adoption to near-total levels.
+
+On a different note, let's talk about some security news out of the U.S.
+
+Tesla-rah-tee covered a story where a suspect in an arson attack on Tesla vehicles pleaded guilty and now faces up to 70 years in prison, as per the U.S. Attorney’s Office in Nevada.
+
+This case brings to light the security risks that E V makers like Tesla face, possibly tied to environmental debates or competitive rivalries.
+
+From a business angle, it emphasizes the need for strong asset protection measures, which could influence things like insurance premiums and operational planning in exposed areas.
+
+It's a human story too—vandalism like this affects owners and employees, reminding us of the real-world tensions around rapid tech shifts.
+
+Tesla has dealt with incidents before, and this guilty plea might deter future ones, but it highlights ongoing vulnerabilities.
+
+Hopefully, it leads to better safeguards without slowing down innovation.
+
+Now, weaving in something from the charging world, I came across this promotion Tesla is running in China.
+
+During the recent holidays, Tesla offered up to nine dollars,500 in Supercharging credits to owners there as part of a New Year event.
+
+With a huge spike in travel, this not only rewards loyal customers but also demonstrates the strength of Tesla's charging network in one of their largest markets.
+
+It's interesting from a customer experience standpoint—initiatives like this make E V ownership more appealing during peak times, potentially boosting long-term loyalty.
+
+In terms of global trends, it shows how Tesla is tailoring incentives to fuel growth in Asia, which could inspire similar programs elsewhere.
+
+Technologically, it underscores the network's robustness, handling surges that traditional fueling might struggle with.
+
+I see this as a smart way to highlight infrastructure advantages, setting a model for E V expansion worldwide.
+
+Another cool development ties into connectivity, involving Starlink and a European telecom giant.
+
+Starlink is partnering with Deutsche Telekom to deliver satellite-to-phone service across Europe, targeting remote areas with five G speeds.
+
+This collaboration aims to eliminate dead zones in challenging terrains, blending Space X's satellite tech with established mobile networks.
+
+For Tesla enthusiasts, it's exciting because it connects to broader ecosystem synergies, like enhancing vehicle connectivity for things like autonomous features.
+
+From a technology perspective, it's a step toward revolutionizing mobile access, making it more reliable without relying solely on ground towers.
+
+The partnership could expand quickly, with rollouts planned soon, potentially influencing how we think about global connectivity.
+
+It's a reminder of how Space X innovations might integrate with Tesla down the line, pushing boundaries in unexpected ways.
+
+One more from the connectivity front—Space X is expanding Starlink Mobile V2 for up to 100 times more data density, promising five G-level speeds from satellites.
+
+This upgrade could transform remote and mobile internet, which is particularly relevant for Tesla's focus on vehicle tech and autonomy.
+
+Think about it: better satellite connectivity might enhance over-the-air updates or real-time navigation in areas without traditional coverage.
+
+Competitively, it positions Starlink ahead in the race for global, high-speed access, with implications for industries beyond just E Vs.
+
+The buzz here is how it hints at future integrations that could make driving experiences safer and more connected.
+
+It's a forward-looking move that ties into Tesla's ecosystem through shared leadership and vision.
+
+Now, one thing worth watching is a challenge over at Tesla's Giga-factory in Germany.
+
+Clean Technica reported that the Berlin factory is running at only forty percent capacity right now, with an upcoming union vote that could shape things further.
+
+This underutilization stems from labor disputes and fluctuations in market demand, which are common hurdles in regulated European markets.
+
+It matters for Tesla's global efficiency, as it could delay expansion and raise costs in a key region for E V adoption.
+
+That said, Tesla is well-positioned to handle this through negotiations and their agile manufacturing model, which has helped them ramp up in other locations.
+
+By focusing on efficiency improvements and open dialogue, they could turn this around, leveraging lessons from past challenges.
+
+It's a legitimate concern, but not insurmountable given their track record.
+
+Taking a step back from today's headlines, let's apply some first principles thinking to Tesla's integration of A I in vehicle safety features.
+
+The fundamental question here is: How can A I enhance vehicle safety without relying on overly complex systems?
+
+Real-world data from Tesla's fleet shows over 1 billion miles driven with Auto-pilot, reducing accident rates by up to 9 times compared to average human driving.
+
+This is based on the physics of quicker reaction times and sensor accuracy, versus human error rates of about one crash per seventy thousand miles.
+
+Tesla's approach breaks it down to basics—they use vast data from cameras and sensors to train neural networks on core principles like object detection and predictive modeling.
+
+Then, they iterate through over-the-air updates to refine everything without needing hardware overhauls.
+
+The bottom line is safer roads through scalable A I, which boosts Tesla's tech edge and sets industry standards for reliable autonomy that prioritizes simplicity and data-driven improvements.
+
+Before we go—tomorrow, we'll be watching for any updates on that union vote at Giga-factory Berlin, as it could signal shifts in Tesla's European operations.
+
+That's your Tesla news for today. T S L A closed at four hundred three dollars and thirty-two cents, up, thirty-seven cents, zero point one percent. If you found this useful, a rating or review on Apple Podcasts or Spotify really helps new listeners find the show. You can also find us on X at tesla shorts time. I'm Patrick in Vancouver. Thanks for listening, and I'll see you tomorrow.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -929,6 +1172,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/tesla/ep397.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Tesla Shorts Time in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Tesla Shorts Time">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -946,6 +1205,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1044,9 +1305,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

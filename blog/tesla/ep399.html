@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -926,6 +1026,187 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Hey, welcome to Tesla Shorts Time Daily, episode three hundred ninety-nine. I'm Patrick in Vancouver. Today is March fifth, twenty twenty-six. Here's what's happening with Tesla today.
+
+Tesla's Giga Berlin workers elect 'Giga United' majority, signaling a shift away from union influence.
+
+Let's dive right into that one, because it's a significant development for Tesla's operations in Europe.
+
+According to Drive Tesla, in the latest works council election at Giga Berlin, the independent group called Giga United secured a clear majority of the seats.
+
+At the same time, support for the traditional union, I G Metall, dropped off quite a bit.
+
+This isn't just about internal politics—it's a reflection of how employees there seem to prefer representation that's more aligned with the company's own structure, rather than outside union involvement.
+
+For Tesla's business, this could mean smoother day-to-day operations, with fewer potential disruptions from labor disputes that we've seen in other manufacturing sectors.
+
+Giga Berlin is a cornerstone for Tesla in Europe, cranking out vehicles for a competitive market, so having a works council that's on the same page could help boost productivity and keep things efficient.
+
+It's interesting to see this employee-driven shift; it underscores Tesla's unique culture, where internal solutions often win out over traditional models.
+
+Overall, this feels like a win for stability at a key factory, especially as Tesla ramps up production to meet demand.
+
+Now, shifting over to something in the broader Elon Musk ecosystem—there's news from Starlink that's affecting the aviation world.
+
+Drive Tesla reports that Starlink has hiked prices for its satellite internet service aimed at small planes, and they've added a speed cap of 100 miles per hour.
+
+This is prompting some backlash from general aviation pilots who relied on it for in-flight connectivity, things like navigation and real-time communication.
+
+While Starlink isn't directly under Tesla, it does highlight challenges in scaling innovative tech across Elon's companies, especially when user expectations clash with operational decisions.
+
+In the aviation sector, reliable high-speed internet is a big deal, so this cap could make the service less appealing for faster flights or certain use cases.
+
+It might limit Starlink's growth in non-traditional markets like this, where they're trying to expand beyond home and mobile users.
+
+On the flip side, it could be a way to manage network demands or ensure quality, but pilots are voicing concerns that it reduces the value proposition.
+
+It's a reminder that even cutting-edge services have to balance innovation with practicality.
+
+Next up, some positive movement in charging infrastructure down in Southeast Asia.
+
+Tesla has opened up four of its Super-charger stations in Malaysia to non-Tesla electric vehicles, marking the first time they've done this in the country, as per Drive Tesla.
+
+This is about making the network more inclusive, which could really help push broader E V adoption in the region.
+
+For Tesla, it means potentially higher utilization of those chargers, turning them into a bigger revenue source while encouraging more people to go electric.
+
+Customers—whether they drive a Tesla or not—get more convenient fast-charging options, which is key in building out a robust ecosystem.
+
+It also puts some pressure on competitors to step up their own networks, fostering healthier competition overall.
+
+In a place like Malaysia, where E V infrastructure is still developing, moves like this can accelerate the shift away from gas vehicles.
+
+I think it's a smart strategic play, aligning with Tesla's goal of sustainable transport without locking out others.
+
+On the sales front, there's good news coming out of Australia.
+
+Tesla's Model Why drove a rebound in E V sales there last month, topping the charts after a slower start to the year, based on early data from the Electric Vehicle Council as reported by Drive Tesla.
+
+This highlights the Model Why's strong appeal—it's practical, versatile, and seems to resonate in markets with diverse driving needs.
+
+For Tesla's business, maintaining momentum in places like Australia is crucial amid global demand fluctuations; it helps bolster overall volume.
+
+The rebound also shows resilience, perhaps tied to factors like pricing adjustments or improved availability.
+
+It's a positive sign for the brand's strength internationally, contributing to that global footprint.
+
+As E Vs become more mainstream, models like the Y are key to keeping Tesla at the forefront.
+
+Speaking of technology adoption, let's talk about Full Self-Driving in South Korea.
+
+Tesla owners there have logged over 8 million kilometers using F S D Supervised in just the first 100 days since rollout, according to Drive Tesla.
+
+That's a rapid uptake in a market known for being tech-forward, which speaks to the system's reliability and the trust users are placing in it.
+
+This real-world mileage provides Tesla with a ton of valuable data to refine the software, improving it not just locally but globally.
+
+For the broader industry, it shows how hands-on usage can speed up advancements in autonomous driving, making roads safer and more efficient over time.
+
+It's impressive to see this kind of engagement so quickly—South Korean drivers are essentially helping pioneer the tech.
+
+This positions Tesla well in the ongoing race for better self-driving capabilities.
+
+One more from the main news items: changes in Tesla's European emissions pooling.
+
+Drive Tesla notes that Toyota and Stellantis have exited Tesla's E U emissions pooling arrangement for 2026, based on recent regulatory filings.
+
+This shrinks the group, meaning Tesla might earn less from selling carbon credits to these legacy automakers who use Tesla's zero-emission vehicles to offset their own fleets.
+
+It's a shift that could impact one of Tesla's revenue streams, as the industry as a whole moves toward more electrification.
+
+On the business side, it pushes Tesla to lean even more into core vehicle sales and other innovations like energy products.
+
+Interestingly, this reflects progress in the sector—competitors are catching up, which is ultimately good for the transition to E Vs.
+
+Tesla's lead in full electrification should help them adapt, but it's worth monitoring how this affects their financials.
+
+Now, on a different note, there's some exciting buzz around the Cyber-truck.
+
+Tesla has announced they're ramping up production and introducing new variants, including a more affordable base model and an off-road package.
+
+This addresses some of the early demand issues and widens the appeal to a broader range of truck buyers, not just the enthusiasts.
+
+Community reactions are highlighting the customization options, which could really boost Tesla's share in the competitive pickup market.
+
+It's generating a lot of talk because it shows Tesla iterating quickly on a unique product.
+
+For everyday users, this means more accessible ways to get into the Cyber-truck, potentially expanding its footprint.
+
+Overall, it's a step toward making the truck a staple in more driveways.
+
+Another development that's got people talking is the start of Robo-taxi fleet testing.
+
+Tesla has begun real-world testing of its Robo-taxi service in select cities in California.
+
+What's key here is the integration of the latest F S D software, which could help speed up regulatory approvals and challenge established players in ride-hailing.
+
+Fans are sharing videos of these seamless rides, sparking discussions about how this might reshape urban mobility.
+
+It's a practical step toward making autonomous transport a reality, with potential to disrupt the industry.
+
+The testing phase will provide critical insights, refining the service for wider rollout.
+
+This feels like a tangible move forward in Tesla's vision for self-driving fleets.
+
+One more that's standing out: a breakthrough in battery tech.
+
+Reports indicate Tesla has achieved about 20 percent higher energy density in their forty-six eighty cells through some manufacturing tweaks.
+
+This could translate to longer ranges in vehicles like the Model Three, making E Vs even more competitive against traditional gas cars.
+
+For the industry, it's significant because it promises lower costs and faster adoption worldwide.
+
+It's the kind of incremental improvement that builds on Tesla's strengths in battery innovation.
+
+Customers stand to benefit from better efficiency and performance in future models.
+
+This keeps Tesla at the cutting edge of what's possible with E V powertrains.
+
+Now, one thing worth watching that's a bit of a challenge for Tesla involves their emissions revenue.
+
+As mentioned earlier, with Toyota and Stellantis bailing on the 2026 E U pooling deal, Tesla could see a hit to income from selling those emissions credits.
+
+This matters because those sales have been a nice financial bolster during Tesla's growth spurts, helping fund expansions.
+
+But it's also a sign of the competition maturing—more automakers are electrifying their lineups, reducing the need for such arrangements.
+
+Tesla is well-positioned to handle this by focusing harder on vehicle sales, energy storage, and other core areas where they have a strong lead.
+
+It's not a catastrophe, but it does highlight the evolving landscape, pushing Tesla to innovate beyond these side revenues.
+
+They'll likely offset it through their advantages in full electrification and software.
+
+Taking a step back from today's headlines, let's apply some first principles thinking to the integration of solar power in residential energy systems.
+
+The fundamental question here is: How can homes achieve true energy independence without relying on outdated grid infrastructure?
+
+The data shows global solar adoption growing at about 25 percent annually, but there are efficiency losses in storage and conversion that limit the net benefits.
+
+Based on Tesla's real deployment stats, Power-wall users in sunny regions can reduce grid dependency by up to 90 percent.
+
+The Tesla approach breaks it down to basics—capturing sunlight, storing electrons efficiently, and distributing power intelligently.
+
+They do this through integrated systems like the Solar Roof and Power-wall, minimizing waste with software optimization.
+
+The bottom line is that this empowers consumers with resilient, cost-effective energy, strengthening Tesla's role in the home energy market.
+
+It also accelerates the broader shift to sustainable living across the industry.
+
+Before we go—tomorrow, we'll be watching for any updates on how the Cyber-truck's new variants impact production numbers and early orders.
+
+That's your Tesla news for today. T S L A closed at four hundred five dollars and ninety-four cents, down, eighty cents, zero point two percent. If you found this useful, a rating or review on Apple Podcasts or Spotify really helps new listeners find the show. You can also find us on X at tesla shorts time. I'm Patrick in Vancouver. Thanks for listening, and I'll see you tomorrow.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -933,6 +1214,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/tesla/ep399.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Tesla Shorts Time in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Tesla Shorts Time">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -950,6 +1247,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1048,9 +1347,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

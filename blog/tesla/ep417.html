@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -937,6 +1037,129 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">It's Friday, welcome to Tesla Shorts Time Daily, episode four hundred seventeen.
+
+I'm Patrick in Vancouver.
+
+Today is March twenty-seventh, twenty twenty-six.
+
+Let's see how Tesla is heading into the weekend.
+
+You know, it's always interesting to watch how the outside world starts to catch up to what Tesla's been working on for years. This week Fortune named Tesla one of America's most innovative companies for 2026, and the main reason they gave was the Cyber-cab, with production officially kicking off this year.
+
+That recognition feels pretty timely because it lands right as Tesla shifts from years of prototype testing and regulatory work into the much harder phase of actually building these things at volume.
+
+The Cyber-cab isn't just another concept car; it's the physical embodiment of the bet that unsupervised autonomy can work at scale, and that the economics only make sense if you design the whole vehicle around that reality from day one.
+
+What stands out to me is the contrast with several big competitors who have quietly scaled back their own autonomous vehicle timelines in the last year or so. Some have pushed their Robo-taxi launches further into the future, others have cut funding, and a few have simply walked away.
+
+In that environment, Tesla getting this kind of validation from a mainstream business publication adds a layer of credibility that matters when you're trying to convince cities, regulators, and eventually customers that this technology is ready.
+
+It also reinforces the perception that the company is pulling ahead in a critical area where hardware, software, and manufacturing all have to come together perfectly. From a business standpoint, it's nice recognition, but let's be honest — Wall Street is still mostly focused on the more immediate numbers we'll see in a few weeks.
+
+Speaking of which, Tesla just put out its latest company-compiled analyst consensus for Q one, and the picture it paints is pretty mixed.
+
+The consensus is sitting around three hundred sixty-five thousand vehicle deliveries for the quarter. That would represent a decline compared to the previous quarter, which isn't the kind of headline Tesla owners love to see, even if it's partly seasonal. At the same time, the energy storage side of the business continues to look strong, with expectations that deployments there will keep growing nicely.
+
+To me this highlights something we've been watching for a while now: the two main engines of Tesla are on somewhat different trajectories. Vehicle deliveries have been the traditional growth driver for years, but the energy business is clearly becoming more important to the overall story.
+
+Wall Street seems to be pricing in some softness on the auto side while giving the company more credit for the progress it's making on Mega-packs and related products.
+
+It will be fascinating to see how the actual numbers land when Tesla reports them in a few weeks, because that report will give us a clearer read on whether the energy momentum is enough to offset any temporary weakness in vehicle sales. And while we're talking about real-world execution, the labour situation in Germany is heating up again, which is never ideal timing.
+
+Germany's largest union, I G Metall, has formally challenged the results of the recent works council election at Tesla's Giga-factory near Berlin. This legal action escalates what has already been a fairly tense relationship between management and labour at the plant.
+
+For Tesla's European manufacturing operations, this adds another layer of regulatory and labour-relations complexity in a market that's already not the easiest to operate in. Stable production at Giga Berlin is genuinely important for the company's growth plans in the region, especially as it looks to serve European customers without relying entirely on shipments from North America or China.
+
+The company will need to keep navigating local labour laws and union dynamics while still trying to preserve its preferred approach to corporate culture and fast decision-making. These kinds of disputes aren't exactly rare in European manufacturing, but they do require ongoing attention and careful handling.
+
+It's the kind of thing that reminds you Tesla isn't operating in a vacuum — even as it pushes the boundaries on technology, it still has to manage very human, very local operational realities. On a brighter note, the competitive landscape delivered some encouraging news this week with one of the so-called Tesla killers quietly leaving the field.
+
+The Sony-Honda joint venture has officially discontinued development of its AFEELA electric vehicles, including both the luxury sedan and the planned SUV. This marks yet another high-profile exit from the premium E V segment, and it feels like a pretty clear signal about how difficult it has become for new entrants to compete directly with Tesla's integrated approach.
+
+When you step back and think about it, Tesla has spent more than a decade building its own vehicles, its own software stack, its own manufacturing system, and its own charging network. Most newcomers are still trying to piece those things together from different suppliers, and the economics just don't add up as easily.
+
+The Sony-Honda decision could point to further consolidation across the industry in the coming years as the reality of the capital requirements and the technology challenges sets in. For Tesla, it potentially clears at least some competitive pressure in the higher-end part of the market.
+
+While legacy automakers and flashy new entrants struggle to find their footing, Tesla continues to refine the fundamentals, and a newly published patent gives us a glimpse of what that refinement looks like on the next Roadster.
+
+The patent shows Tesla advancing its steer-by-wire technology with some interesting improvements aimed at better steering precision and feel. This system is expected to make its way into the upcoming Roadster, which is a pretty big deal for a vehicle that's been hyped for so long.
+
+Most automakers have treated steering as a solved problem for decades, relying on traditional mechanical linkages, but Tesla is once again choosing to remove those constraints and rethink the entire system. That willingness to challenge even the most basic assumptions is one of the things that still sets the company apart from a pure engineering perspective.
+
+The timing of this patent, coming ahead of the Roadster's expected reveal next month, has enthusiasts wondering exactly what kind of hardware improvements we'll see when the car finally shows up. It demonstrates a consistent philosophy: if the engineering case is strong enough and the data supports it, they're willing to rebuild things from the ground up.
+
+Staying on the engineering side, Tesla also made charging infrastructure deployment a lot more practical this week with a new design that could meaningfully change the economics of growing the network.
+
+They introduced a new Folding Unit Super-charger that builds on the earlier prefabricated units but adds a hinged base. That design allows for faster and less expensive installation while also fitting more stalls into the same footprint.
+
+According to reports, this approach cuts installation time significantly compared with previous generations, which is huge when you're trying to scale a network across multiple continents. For Tesla's charging business, this directly improves the deployment economics and could help the company expand coverage more quickly into new markets and less dense areas.
+
+It strengthens the overall case for growing the network while still keeping capital expenditure under reasonable control. I've been thinking about this a lot lately because most people assume that simply owning the biggest charging network is automatically a lasting competitive advantage.
+
+But when you break it down, the real value comes from how quickly and how cheaply that network can be deployed and operated over time.
+
+Simply having the most plugs doesn't guarantee a moat, especially as other charging networks continue to open up and improve. The new Folding Unit design seems to attack the biggest cost and speed barriers head-on. It improves the amount of energy delivered per dollar spent on infrastructure by cutting installation time and increasing stall density in a smart way.
+
+What I find interesting is how Tesla approaches charging like any other engineering problem — they start from physics and cost fundamentals, then iterate on the physical design and integrate it tightly with the vehicle and the software.
+
+If they can keep driving those deployment costs down, the network really does become a genuine advantage that supports both Tesla owners and the growing number of paying customers from other brands. Otherwise it risks becoming just another expensive fixed asset that doesn't provide the kind of differentiated return the company needs.
+
+That same first-principles thinking is also very visible in the Cyber-cab design itself, even though some of the choices have drawn criticism.
+
+When the Cyber-cab was first shown, a fair number of people zeroed in on the fact that it only has two seats. At first glance that can seem limiting, but a deeper look shows the decision actually aligns pretty closely with the cost, weight, and utilization economics of running a high-volume autonomous ride-hailing service.
+
+The simpler interior layout reduces per-vehicle cost and complexity, which in turn can improve overall utilization rates and margins once you're operating thousands or tens of thousands of these vehicles without a driver. These aren't arbitrary styling choices; they flow directly from the physics and the economics of what an unsupervised Robo-taxi business actually requires to be profitable.
+
+It's a reminder that success in this space will depend as much on operational efficiency and sharp product design as it does on the underlying autonomy technology. While Tesla prepares for its own Robo-taxi rollout, competition is already starting to appear in Europe in a more immediate way.
+
+Rimac's Verne subsidiary is partnering with Uber and Pony dot A I to launch what they're calling Europe's first commercial Robo-taxi service. The service is supposed to begin this year in Croatia and will be available directly through the Uber app, which is an interesting distribution choice.
+
+This definitely adds a layer of competitive pressure in the Robo-taxi space as Tesla continues to ready its own unsupervised offerings. It will be worth watching how quickly these early services can scale beyond the initial pilot phase and what real customers actually think of the experience once it's running.
+
+Tesla won't be entering a completely untested market; there will already be some data points out there about customer acceptance, regulatory pushback, and operational challenges in a European context. And finally, just to keep the rumour mill spinning, Elon Musk dropped another hint about an upcoming Tesla vehicle in a recent post.
+
+Observers are speculating whether the comment points to the Roadster that's scheduled for an unveiling next month, or whether it might relate to the Robovan that was first shown back in 2024, or possibly something else entirely.
+
+These kinds of cryptic messages have become something of a tradition, and they do succeed in keeping attention on Tesla's broader product pipeline beyond the current models and the Cyber-cab. It adds a bit of extra buzz and excitement ahead of what many people expect will be a significant Roadster reveal.
+
+The community is clearly eager to see what comes next, and these little breadcrumbs help maintain that sense of anticipation.
+
+Before we wrap up, it's worth circling back to that labour situation at Giga Berlin for a moment. I G Metall taking Tesla to court over the works council election adds another layer of friction in Europe, and these things rarely resolve overnight.
+
+European manufacturing always comes with local labour laws that can slow down decision-making and add costs that North American or Chinese operations don't face in the same way. Tesla has tried hard to preserve its own culture and maintain the speed of decision-making that has served it well so far.
+
+That approach sometimes clashes with traditional union expectations in Germany, and finding the right balance isn't easy. The outcome of this legal action could have a real impact on how smoothly production ramps in the region over the next year or two.
+
+It's a useful reminder that even as Tesla pushes technological frontiers, it still has to manage very human, very local operational realities on the ground. The company has shown it can navigate these kinds of issues before, but they do require steady, patient attention.
+
+Before we go, keep an eye on any further updates around that Roadster unveiling next month, because the speculation is only going to build from here.
+
+That's your Tesla news for today.
+
+T S L A closed at three hundred seventy-two dollars and eleven cents, down two dollars and nine cents, zero point six percent.
+
+If you found this useful, a rating or review on Apple Podcasts or Spotify really helps new listeners find the show.
+
+You can also find us on X at tesla shorts time.
+
+I'm Patrick in Vancouver.
+
+Thanks for listening, and I'll see you tomorrow.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -944,6 +1167,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/tesla/ep417.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Tesla Shorts Time in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Tesla Shorts Time">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -961,6 +1200,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1059,9 +1300,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

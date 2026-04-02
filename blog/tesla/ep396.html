@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -931,6 +1031,125 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Hey, welcome to Tesla Shorts Time Daily, episode three hundred ninety-six. I'm Patrick in Vancouver. Today is March second, twenty twenty-six. Here's what's happening with Tesla today.
+
+Tesla raised the Cyber-truck AWD price by $ten thousand to sixty-nine dollars,990 after strong initial demand.
+
+Let's dive right into that price adjustment, since it's fresh news from over the weekend.
+
+According to Drive Tesla, Tesla bumped up the price of the Dual Motor Cyber-truck AWD from fifty-nine dollars,990 to sixty-nine dollars,990, just ten days after its launch.
+
+Elon Musk had hinted at potential changes based on how demand played out, and this move suggests the initial response has been robust.
+
+For the business side, it's a sign of confidence in the truck's appeal, helping Tesla manage production ramps and keep margins healthy as they scale up.
+
+That said, in a competitive E V truck market with options from Ford and Rivian, this could test how price-sensitive buyers are, especially if it affects overall sales volume.
+
+It's interesting to see Tesla using real-time demand signals to tweak pricing so quickly—it's a flexible approach that sets them apart from traditional automakers.
+
+I think this reflects Tesla's strategy of prioritizing profitability over flooding the market early on, which could pay off as they refine the lineup.
+
+Shifting gears to something lighter and more fun in Tesla's world.
+
+Owen Sparks discovered a clever Easter egg in the Cyber-truck's map, as reported by WhatsUpTesla.
+
+It shows a satellite view connecting Tesla's Austin headquarters, the Neuralink facility in Del Valle, and the Space X and Boring Company site in Bastrop, outlining the shape of a Cyber-truck.
+
+This highlights Tesla's expanding ecosystem in Texas and how Elon's various companies are intertwined, which is pretty neat for fans who follow the bigger picture.
+
+From a technology perspective, it's a subtle way Tesla builds community engagement through hidden features that encourage exploration and sharing.
+
+Why it matters is that these kinds of touches strengthen brand loyalty without much cost, turning owners into enthusiastic promoters.
+
+In the broader context, it showcases Tesla's vision for integrated tech hubs, blending automotive, space, and even neural tech in one region.
+
+Personally, I love how this Easter egg nods to the interconnected ventures—it's a reminder that Tesla is part of a larger innovation story.
+
+On a related note, community buzz is growing around these Texas synergies, with fans discussing how Tesla's Austin base ties into tunnels and brain interfaces for future mobility.
+
+It's exciting because it positions Tesla as more than a carmaker, sparking talks about urban innovations that could reshape how we think about transportation.
+
+This trend really emphasizes the ecosystem effect, where one company's progress amplifies the others under Elon's umbrella.
+
+Now, let's talk about changes to Tesla's Full Self-Driving transfer policy.
+
+Drive Tesla covered an update where Tesla clarified eligibility for transferring F S D Supervised to new vehicles, and it turns out many customers no longer qualify.
+
+This has led to some disappointment among owners who bought the twelve dollars,000 add-on expecting to carry it over when upgrading.
+
+For Tesla's software business, it's a move that pushes fresh purchases, which could boost revenue, but it risks frustrating loyal customers in a market where autonomy is still evolving.
+
+The policy shift affects how people perceive the value of F S D, potentially slowing down vehicle upgrade cycles if owners feel stuck.
+
+In the competitive landscape, with companies like Waymo advancing, Tesla needs to balance monetizing software while keeping the community happy.
+
+I see this as part of Tesla's maturing approach to autonomy, where they're refining rules based on real-world usage data.
+
+It might encourage more subscriptions over one-time buys, aligning with their over-the-air update model.
+
+Building on that, there's a lot of debate heating up in online communities about autonomous software loyalty and transferable features.
+
+Owners are sharing frustrations and even workarounds, which highlights how permanence in software influences long-term E V decisions.
+
+This conversation is key because it shows the shifting dynamics between hardware and upgradable tech in the industry.
+
+One thing worth watching here is the potential ripple effects from Space X's big moves.
+
+TeslaNorth.com reports that Space X is eyeing a potential I P O in June at a massive one point seven five trillion dollars valuation, moving away from its private status.
+
+While this isn't directly about Tesla, the shared leadership under Elon Musk means there could be indirect benefits, like synergies in tech or freed-up resources.
+
+In the aerospace world, this would mark Space X's dominance and set a high bar for tech IPOs, especially with growing interest in space ventures.
+
+For Tesla, it might mean more focus on shared innovations, like battery tech or A I, as the companies overlap in talent and ideas.
+
+The valuation is eye-popping, reflecting Space X's achievements in rockets and Starlink, which could positively influence investor views on Elon's empire.
+
+It's a reminder of how interconnected these ventures are, potentially stabilizing sentiment around Tesla during market fluctuations.
+
+Interestingly, speculation is swirling about how this Space X I P O could indirectly boost Tesla, with analysts pointing to enhanced bandwidth for things like robotics.
+
+This matters because it ties into the broader fortunes of Musk's companies, which often support each other in subtle ways.
+
+Now, one challenge worth discussing is the disappointment around those F S D transfer limits.
+
+As detailed in Drive Tesla, the revised policy is excluding many owners from moving the feature to new cars, which is creating real frustration and could erode trust in software as an investment.
+
+This is significant because it might slow down upgrade cycles, impacting Tesla's recurring revenue if people hesitate on new purchases.
+
+On the flip side, Tesla is well-positioned to handle this by possibly broadening eligibility or rolling out incentives through their over-the-air updates.
+
+Their strength in software flexibility means they can rebuild goodwill quickly, perhaps by enhancing F S D features to make staying put more appealing.
+
+It's a legitimate concern, but Tesla's track record of listening to feedback suggests they could turn this around.
+
+Taking a step back from today's headlines, let's apply some first principles thinking to how Tesla uses fun, hidden features like Easter eggs to enhance the user experience.
+
+The fundamental question is how subtle, playful elements in product design can foster deeper customer connections and set a brand apart.
+
+Data from studies shows that gamification in tech can boost user retention by up to 30 percent, and Tesla's software updates with these surprises often generate millions of social media impressions, way ahead of competitors.
+
+Tesla's approach breaks it down to basics: start with core user delight, ditch conventional bland interfaces, and iterate based on community feedback to weave in whimsy that fits their innovative ethos.
+
+Practically, this turns owners into advocates, driving organic growth without big ad budgets, which strengthens their market position.
+
+It's a smart, low-cost way to differentiate in a crowded field, aligning with physics-defying tech while building lasting loyalty.
+
+Before we go—tomorrow, we'll be watching for any updates on Cyber-truck demand trends following this price hike, as it could signal broader E V market shifts.
+
+That's your Tesla news for today. T S L A closed at four hundred two dollars and fifty-one cents, up, seventy-one cents, zero point two percent. If you found this useful, a rating or review on Apple Podcasts or Spotify really helps new listeners find the show. You can also find us on X at tesla shorts time. I'm Patrick in Vancouver. Thanks for listening, and I'll see you tomorrow.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -938,6 +1157,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/tesla/ep396.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Tesla Shorts Time in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Tesla Shorts Time">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -955,6 +1190,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1053,9 +1290,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

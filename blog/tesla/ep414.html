@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -962,6 +1062,109 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Welcome back to Tesla Shorts Time Daily, episode four hundred fourteen. It's March twenty-second, twenty twenty-six and I'm Patrick in Vancouver. Let's get into what's moving in the Tesla world today.
+
+The big regulatory story this morning is that N H T S A has officially moved its investigation into Tesla's Full Self-Driving software up to the engineering analysis phase. This is the stage where the agency starts requesting detailed technical data, running its own simulations, and really digging into the architecture of the system rather than just collecting incident reports.
+
+For context, this investigation has been simmering for a while, focused mainly on how the camera-based F S D handles certain crash scenarios and edge cases. The escalation signals that regulators aren't satisfied with the explanations they've received so far and want to understand the underlying decision-making logic at a much deeper level.
+
+From a business perspective, this adds another layer of uncertainty for Tesla as it tries to expand supervised autonomy approvals across different states. It also puts the spotlight squarely on Tesla's stubborn commitment to a vision-only approach when many competitors are still hedging with radar, lidar, or other sensors.
+
+That said, it's worth remembering that moving to engineering analysis doesn't automatically mean a recall or enforcement action is coming; it's more like the agency is rolling up its sleeves for serious homework. Still, it highlights the challenging regulatory environment Tesla operates in even as the technology itself keeps making progress.
+
+It's interesting to contrast that with what's happening across the Atlantic, because Europe seems to be heading in a more accommodating direction right now. Tesla has finished its final vehicle testing for Full Self-Driving in the Netherlands and has submitted all the required paperwork to the Dutch authorities.
+
+The regulator there is now aiming for an April 10 decision, after having pushed back from an earlier late-March target. This milestone comes after about eighteen months of dedicated work to meet Europe's stricter safety and documentation standards. If approved, it would mark the first supervised launch of F S D in a major European market, which could open the door for other countries to follow.
+
+According to reports, the testing wrapped up without any major red flags and the documentation package is now fully in the hands of the regulators. For Tesla, this feels like tangible international progress on the autonomy front after years of slower movement in Europe compared to North America.
+
+It also shows that while the company faces headwinds with N H T S A, it can still find regulatory pathways elsewhere when it puts in the sustained effort. That kind of geographic variation in approval timelines is going to be a recurring theme as supervised autonomy rolls out globally.
+
+Of course, all these regulatory moves only matter if the underlying technology can actually deliver in the real world, and that's where a recent conversation with a long-time Tesla owner caught my attention. This person has been using F S D for over six years, which means they've seen pretty much every major software version since the early days.
+
+What they're noticing now is that camera performance in adverse weather continues to be a meaningful limitation for the vision-only system. Rain, snow, fog, heavy spray from other vehicles; these conditions still create constraints that force drivers to take over more often than they'd like.
+
+It's surprising, honestly, that this vulnerability has taken this long to get widespread attention, because all-weather reliability feels so fundamental to any serious autonomy claim. Customers who live in places with frequent bad weather, think the Pacific Northwest, the Prairies in winter, or parts of Northern Europe, are already feeling these limitations in their daily driving routines.
+
+This isn't just an inconvenience; it sits right at the heart of both safety and long-term customer trust. The challenge is baked into the vision-only philosophy Tesla has bet so heavily on, so it's not something that can be easily fixed by bolting on another sensor.
+
+I think we're going to see Tesla lean even harder on software improvements and massive amounts of training data from diverse climates to try to close this gap. Additional real-world miles from places that actually get proper winters and monsoons could help the system learn those edge cases better over time.
+
+And if software gains start to plateau, we might eventually see some hardware refreshes play a supporting role, though the company has been pretty quiet about that possibility.
+
+While autonomy continues to navigate these technical and regulatory hurdles, Tesla is still quietly expanding the physical infrastructure that keeps its current fleet happy. The company has now activated its first true V4 Super-charger station on the East Coast, located in Kissimmee, Florida.
+
+This site features eight stalls that are capable of delivering up to five hundred kilowatts of charging power. While individual V4 stalls have shown up in other locations before, this represents the first full station in the region built around that five hundred kilowatt capability. It's also only the fourth such high-power station across the entire United States.
+
+For owners of the latest vehicles that can actually accept that much power, this should translate into noticeably shorter charging times and less time spent waiting at busy locations. It also sends a signal that Tesla remains committed to investing in its Super-charger network even as it's opening those stalls to other automakers.
+
+Faster, more reliable charging directly improves the ownership experience for people who are already in Teslas, and it helps address one of the bigger practical barriers to broader E V adoption. In a lot of ways, this feels like the unglamorous but essential work of building out the supporting ecosystem while everyone else focuses on the flashier autonomy headlines.
+
+At the same time, Tesla appears to be laying some early groundwork in markets where it hasn't even started selling cars yet. The company recently posted a job that points to initial steps toward entering India's utility-scale energy storage sector with its Mega-pack business. It's worth noting that Tesla still isn't selling vehicles in India, so this energy-first approach is telling.
+
+It suggests the company is trying to build a foundation on the grid side before tackling the complexities of the passenger vehicle market there. This matters for Tesla's broader international growth strategy because it shows they're willing to think beyond just cars when entering emerging markets.
+
+India has set some very ambitious renewable energy targets over the coming years, and those goals will require substantial buffering capacity to handle the intermittency of solar and wind. Mega-packs could potentially open up a meaningful new revenue stream if a number of those large renewable projects actually move forward.
+
+The beauty of this approach is that grid-scale storage projects often involve different regulatory pathways than selling consumer vehicles; they tend to work through utilities and government entities rather than individual buyers. From a first-principles perspective, it makes a lot of sense.
+
+Physics tells us that integrating large amounts of renewable power onto the grid efficiently requires exactly the kind of buffering capacity that standardized battery systems can provide. Tesla's Mega-pack design benefits from being manufactured at volume in existing factories and installed with relatively little custom engineering.
+
+Starting with energy storage rather than jumping straight into cars may turn out to be a smarter, lower-friction way to build relationships and demonstrate real value in a market like India. It could reduce some of the political and regulatory friction over time before the more visible car business enters the picture.
+
+China, on the other hand, remains the most competitive and fastest-moving E V battlefield right now. Xiaomi just unveiled the next-generation version of its SU7 electric sedan, complete with upgraded technology and improved safety features.
+
+The updated model comes with a starting price of two hundred nineteen thousand nine hundred yuan, which undercuts the previous pricing and makes it even more aggressive in the market. Early demand for this new SU7 appears to be strong based on reports coming out of the region. This move really illustrates how quickly local Chinese E V makers are able to iterate on both features and pricing.
+
+It adds yet another layer of pressure on Tesla in the world's largest E V market, where the competitive intensity just keeps accelerating. The combination of meaningful tech improvements being delivered at lower price points makes the Chinese market particularly tough at the moment. Tesla has to stay sharp on both product and cost if it wants to maintain its position there.
+
+On a more positive note, the commercial vehicle side of the business is starting to generate some genuinely encouraging feedback from the road. Early users of the Tesla Semi are praising its comfort, range, and overall performance as the truck gets closer to mass production.
+
+Fleet operators who have had the chance to test it are reporting clear advantages over traditional diesel semis, especially when it comes to the driver experience. These positive real-world reports help address years of skepticism that surrounded Tesla's heavy-duty vehicle ambitions.
+
+For fleets that make decisions based on total cost of ownership, this kind of feedback could accelerate adoption in the coming years. The comfort features and consistent range seem to be particularly effective at winning over drivers who spend long hours behind the wheel.
+
+It's the kind of grounded, practical validation that matters a lot in the commercial space, where emotions run lower than they do in the passenger car world. This good news on the Semi side provides a nice counterbalance to some of the regulatory and technical challenges we've been talking about earlier in the episode.
+
+In other regulatory news, N H T S A has closed out a defect petition that had called for a recall of essentially all Tesla vehicles produced over the past decade over claims of unintended acceleration. After reviewing the petition, the agency decided it did not warrant any further action.
+
+This closes the book on one long-circulating source of potential widespread recalls that had been hanging around for years in public discussion. The decision gives Tesla some regulatory relief on an issue that has persisted despite multiple previous investigations. Interestingly, it comes from the same agency that is currently ramping up its scrutiny on the F S D software.
+
+Taken together, these two N H T S A actions this week paint a mixed but very active regulatory picture. Some pressure is easing in one area while intensifying in another. That's fairly typical in this space; the relationship with regulators tends to be complicated and multifaceted.
+
+Before we wrap up, it's worth circling back to that camera and weather limitation we discussed earlier because I think it's one of the more honest engineering challenges Tesla is facing right now. A long-term owner with extensive experience points out that the vision-only system still struggles meaningfully when conditions get bad.
+
+The fact that this issue has taken years to surface prominently is telling, especially since reliable operation in all weather feels so central to safe autonomy. Consistent performance across every condition isn't just a nice-to-have; it's essential for both safety outcomes and for building lasting customer trust. This remains a genuine technical hurdle for the vision-first approach.
+
+That said, Tesla is well positioned to tackle it through relentless software iteration and by gathering more training data from vehicles operating in diverse climates. Every additional mile driven in heavy rain or blowing snow becomes valuable training material.
+
+If software progress eventually plateaus, future hardware refreshes could still play a supporting role, though the company hasn't signaled any immediate changes there.
+
+Taking a step back from the day-to-day headlines, applying some first-principles thinking to how Tesla is approaching markets like India feels particularly relevant right now. The popular narrative always focuses narrowly on when the company will finally start selling cars there.
+
+But the recent job posting around Mega-pack expertise shows they're actually coming at the country through grid infrastructure first. That shift in sequencing is smart. Grid-scale storage projects travel on different regulatory paths than consumer vehicle sales and tend to involve utilities and government bodies rather than individual buyers.
+
+Starting with energy creates infrastructure relationships and demonstrates practical value before introducing the more emotionally charged car business. It could smooth out some of the political and regulatory friction over the longer term.
+
+Keep an eye on how that Dutch F S D decision lands around April 10 and whether it creates any meaningful momentum for other European markets. These regulatory wins tend to have a bit of a domino effect when they happen.
+
+That's your Tesla news for today. T S L A closed at three hundred sixty-seven dollars and ninety-six cents, down fourteen dollars and sixty-four cents, or three point eight percent. If you found this useful, a rating or review on Apple Podcasts or Spotify really helps new listeners find the show. You can also find us on X at tesla shorts time. I'm Patrick in Vancouver.
+
+Thanks for listening, and I'll see you tomorrow.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -969,6 +1172,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/tesla/ep414.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Tesla Shorts Time in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Tesla Shorts Time">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -986,6 +1205,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1084,9 +1305,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

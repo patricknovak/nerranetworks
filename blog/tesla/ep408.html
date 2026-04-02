@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -947,6 +1047,145 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Hey, welcome to Tesla Shorts Time Daily, episode four hundred eight. I'm Patrick in Vancouver. Today is March fifteenth, twenty twenty-six. Here's what's happening with Tesla today.
+
+Elon Musk confirms Tesla's Terafab A I chip plant starts production in just seven days.
+
+Let's dive right into that. Elon Musk shared an update yesterday, verifying that Tesla's Terafab project is set to launch in exactly one week, building on the plans he outlined at last year's shareholder meeting.
+
+According to Drive Tesla and TeslaNorth dot com, this initiative focuses on in-house A I chip manufacturing, with expansions happening at the North Campus.
+
+Why does this matter? Well, it's a big step toward vertical integration for Tesla, allowing them to produce their own chips for things like autonomous driving systems and the Optimus robots.
+
+By doing this domestically, they're addressing supply chain vulnerabilities, especially in the midst of the broader A I boom where demand for semiconductors is through the roof.
+
+This could reduce costs and boost efficiency, giving Tesla more control over their tech stack and potentially speeding up innovations in areas like Full Self-Driving.
+
+It's a strategic move that positions Tesla not just as an automaker, but as a leader in the A I hardware space, which might reshape how the entire industry approaches self-sufficiency in tech.
+
+I'm genuinely excited about this one—it's the kind of bold integration that could pay off big in the long run, though we'll have to see how quickly they scale production.
+
+Now, shifting gears to the trucking side of things, there's some fresh insight into why the Tesla Semi is still in its pilot program stage, even though it was unveiled back in 2017.
+
+According to Clean Technica, companies like Mone Transport are now joining these trials, but the program hasn't moved to full-scale production yet.
+
+This highlights ongoing challenges with battery technology, infrastructure for charging heavy-duty vehicles, and just proving out the real-world viability on a larger scale.
+
+For the trucking industry, electric semis like this could make a massive dent in emissions, since freight transport is a huge contributor to pollution.
+
+But the delays mean Tesla is moving slower than some expected, and that opens the door for competitors to catch up in the heavy-duty E V market.
+
+Still, these pilots are gathering crucial data, which should help Tesla refine the product and eventually dominate in terms of efficiency and range.
+
+It's a reminder that scaling something as complex as an electric semi isn't straightforward, but Tesla's focus on real-world testing could be what sets them apart in the end.
+
+On a different note, let's talk about this new project called Digital Optimus, which is a collaboration between Tesla and ex A I.
+
+As explained by Tesla-rah-tee, it's essentially a dual-process A I architecture designed to mimic human cognition, with one part handling quick, intuitive decisions and another focusing on deliberate, analytical thinking.
+
+This could be a game-changer for Tesla's robotics and autonomous systems, making them more adaptive and efficient in real-world scenarios.
+
+Think about how that applies to something like the Optimus humanoid robot—better decision-making means safer, more reliable performance in tasks that require nuance.
+
+For the broader A I industry, it pushes the envelope on ethics and efficiency, ensuring that advancements aren't just about speed but about thoughtful integration.
+
+Tesla's edge here comes from combining their hardware expertise with ex A I's software prowess, which might accelerate developments in areas like factory automation or even home assistants.
+
+It's an intriguing step forward, and I'm curious to see how it evolves—could really differentiate Tesla in the crowded A I field.
+
+Speaking of software advancements, Tesla has just rolled out F S D Version 14, the latest update to their Full Self-Driving system.
+
+This version promises smoother navigation and improved handling of complex urban scenarios, directly addressing feedback from users on those tricky edge cases.
+
+From what owners are sharing in early videos, it looks like there are noticeable gains in safety and reliability, which is generating a lot of buzz in the community.
+
+Why this matters is that better performance could help push through regulatory approvals for wider rollout, making autonomous driving more accessible.
+
+It's a competitive landscape out there, with other companies like Waymo advancing too, so these incremental improvements keep Tesla in the lead.
+
+For customers, it means a more refined driving experience, potentially reducing the need for interventions and building trust in the technology.
+
+Overall, it's a solid update that shows Tesla's commitment to iterating based on real user data.
+
+Now, over in Europe, Giga Berlin has gotten the green light for expansion from local authorities.
+
+This approval allows Tesla to add new production lines, which is key for ramping up manufacturing capacity in the region.
+
+Amid growing demand for E Vs in Europe, this helps Tesla navigate supply chain issues and meet orders more efficiently.
+
+It's also a boost for local jobs and the economy, while sparking conversations about sustainable factory practices, like integrating more renewable energy.
+
+From a global perspective, expanding here strengthens Tesla's footprint and reduces reliance on imports from other factories.
+
+It's a practical win that underscores how regulatory hurdles can be overcome with the right planning.
+
+Another leak that's got people talking is about the upcoming Tesla Model 2, with new details surfacing on specs like a range over 300 miles.
+
+This affordable E V is aimed at budget-conscious buyers, which could really democratize electric cars and bring more people into the fold.
+
+What's interesting is how it intensifies competition with legacy automakers, who are scrambling to match on price and features.
+
+Fans are speculating on design elements that might make it stand out, like compact efficiency without sacrificing usability.
+
+For Tesla, nailing this could drive massive volume growth and help scale their mission of accelerating the E V transition.
+
+It's still in the rumor stage, but these leaks build anticipation for what might be a true game-changer in accessibility.
+
+Switching to the energy side, Tesla's energy division just reported record deployments of Power-wall and Mega-pack systems in the last quarter.
+
+This surge highlights the growing need for renewable energy storage to stabilize grids, especially during peak demand or outages.
+
+It positions Tesla as a major player in the clean energy shift, helping reduce dependence on fossil fuels worldwide.
+
+From a business angle, these products are becoming a significant revenue stream, diversifying beyond just vehicles.
+
+The trend also points to broader adoption in homes and utilities, which could accelerate as more regions invest in sustainable infrastructure.
+
+It's impressive to see this part of the company hitting new highs, showing the potential for energy to be a core pillar for Tesla.
+
+There's one more thing worth discussing on the challenge front—the Tesla Semi's prolonged stay in pilot limbo.
+
+As detailed in that Clean Technica piece, with Mone Transport now involved, it underscores hurdles like scaling production and getting charging infrastructure ready, which have kept it from full market entry since 2017.
+
+This matters because it slows down the electrification of freight transport, where emissions are a big issue, and lets competitors gain some ground.
+
+That said, Tesla is well-positioned with their battery expertise and the data they're collecting from these pilots to eventually overcome these bottlenecks.
+
+They need to address them head-on to meet expectations, but the real-world testing is building a strong foundation for when they do ramp up.
+
+It's an honest setback in timing, but not a deal-breaker for their long-term leadership in this space.
+
+Taking a step back from today's headlines, let's apply some first principles thinking to the scalability of Tesla's Super-charger network amid the surge in E V adoption.
+
+The fundamental question here is: How can Tesla ensure their charging infrastructure keeps pace with exponential growth in electric vehicles without compromising speed or reliability?
+
+Looking at the data, they've got over fifty thousand Super-chargers globally, and with E V sales projected to hit 20 million annually by 2030, utilization rates are peaking at eighty percent in high-traffic areas, which risks longer wait times.
+
+Physics plays a role too—energy delivery has limits, so denser networks are essential, but land and power grid constraints add real costs, averaging about one hundred dollars,000 per stall.
+
+Tesla's approach breaks it down to basics: They optimize site selection using A I-driven demand forecasting, integrate solar and battery storage for off-grid resilience, and use standardized modular designs for rapid deployment, similar to their factory efficiency strategies.
+
+The bottom line is that this positions Tesla to dominate charging as a service, turning infrastructure into a profitable moat while accelerating the shift to sustainable transport for everyone.
+
+It's a smart, foundational way to tackle what could be a major bottleneck in the E V world.
+
+Before we go—tomorrow, we'll be watching for any early updates on the Terafab launch and how it might impact Tesla's A I initiatives.
+
+That's your Tesla news for today. T S L A closed at three hundred ninety-one dollars and twenty cents, down, four dollars and twenty-eight cents, one point one percent. If you found this useful, a rating or review on Apple Podcasts or Spotify really helps new listeners find the show. You can also find us on X at tesla shorts time. I'm Patrick in Vancouver. Thanks for listening, and I'll see you tomorrow.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -954,6 +1193,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/tesla/ep408.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Tesla Shorts Time in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Tesla Shorts Time">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -971,6 +1226,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1069,9 +1326,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>
