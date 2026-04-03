@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -1080,6 +1182,67 @@
             <!-- Sources -->
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Good morning. This is Omni View, episode fourteen — balanced news perspectives. Today is March thirteenth, twenty twenty-six. We'll cover what happened, how different viewpoints frame it — so you can decide for yourself.
+
+Four U S service members killed in Iraq plane crash as Middle East war escalates with Iranian drone strikes.
+
+Let's start with that tragic incident in Iraq. A U S KC-135 refueling aircraft crashed in the western part of the country, killing four out of the six crew members on board, according to official reports. Rescue efforts are still underway for the survivors, and military officials have emphasized that the crash wasn't due to any hostile or friendly fire, though it happened on a day marked by separate drone attacks in the region that claimed a French soldier's life and targeted British special forces. This all unfolds against the backdrop of heightened tensions in the Middle East.
+
+Coverage from U S-based outlets, like Fox News, stresses the military's assurances that this was an accident, focusing on the inherent risks service members face in active zones and aiming to preserve confidence in ongoing operations without linking it directly to enemy actions. International sources, such as the BBC, place it within a broader context of chaos in Iraq, connecting it to escalating conflicts involving Iran-backed forces and coalition troops, which some interpret as signs of the war's expanding reach. Conservative-leaning perspectives highlight the human toll on American forces and question whether deeper U S involvement in the region is avoidable, while progressive views often probe the overall effectiveness of the military presence in averting such losses.
+
+What's interesting here is how this might influence public perceptions of the war's costs—could this incident prompt a reevaluation of U S military strategy in the Middle East?
+
+Shifting now to another flashpoint in the region, Iranian drone strikes have targeted Dubai's financial center. Reports from outlets like the Mail Online describe a kamikaze drone hitting the International Financial Centre, causing buildings to shake, though details on casualties and damage are still unclear. This is part of the wider U S-Israel war with Iran, which also saw a drone strike kill a French soldier in Iraq, with live updates pointing to explosions in Dubai's key economic district.
+
+British tabloid-style coverage sensationalizes the immediate disruption and fear, portraying it as Iran's bold move that could ripple into global finance and spark economic fallout. In the U S, political angles often tie this to statements from figures like former President Trump, who speak of America's readiness for a long fight, framing the strikes as a challenge to Western resolve. International observers sometimes see these as Iran's defensive retaliation against airstrikes, conservative takes criticize vulnerabilities in alliances, and centrist views underscore the risks to civilians and infrastructure without rushing to blame.
+
+The question nobody's asking enough is how this might reshape international alliances in the Middle East—could it draw in more neutral players or fracture existing ones?
+
+Meanwhile, there's intriguing news out of Iran itself about its leadership. According to a source in Tehran reported by the Mail Online, Mojtaba Khamenei, said to be the new supreme leader, is in a coma at a hospital following an airstrike and is unaware of the ongoing war or even his own ascension. Despite this, the regime has released what it claims is his first official statement, though all these details remain unverified.
+
+Tabloid reports dramatize the irony and personal tragedy of a comatose leader amid wartime, suggesting it exposes cracks in the regime's stability and casts doubt on the authenticity of their communications to project control. International coverage might view this as a pivotal moment, potentially weakening Iran's command structure due to successful allied strikes. Conservative perspectives could hail it as a strategic win for U S and Israeli forces, while others urge skepticism, pointing to the fog of propaganda from all sides in the conflict.
+
+How can we independently verify such a sensitive report, and what might it mean for Iran's ability to sustain its war efforts if true?
+
+Turning to the home front, a truck attack on a synagogue in Michigan has been linked to revenge for an airstrike. The Mail Online reports that Ayman Mohamad Ghazali, a Lebanese-born man, allegedly drove an explosives-laden truck into Temple Israel in West Bloomfield and opened fire, motivated by the deaths of his family in an airstrike; the FBI later raided his home, though casualty details from the attack are still emerging.
+
+U S media emphasizes the domestic security angle, seeing it as conflict spillover from the Middle East and praising law enforcement's quick response to mitigate further threats. Some outlets frame it through rising antisemitism, pushing for better protections at religious sites, while others highlight the attacker's grief as a symptom of war's broader human toll. International views connect it to global tensions, with progressive perspectives calling for addressing civilian casualties abroad as root causes, and conservative ones stressing the importance of stronger border and security measures.
+
+What more do we need to confirm about the attacker's motives, and could this signal a pattern of retaliatory incidents on U S soil?
+
+On a related note, the FBI has issued alerts about a potential Iranian drone threat off California's coast. Fox News details how the bureau warned local law enforcement based on an unverified tip about possible drone activity, but White House officials have downplayed it as aspirational intelligence rather than an imminent danger, all amid the escalating Middle East conflict.
+
+Conservative reporting treats this as a grave national security issue, criticizing any minimization by the administration and linking it to Iran's aggressive posture elsewhere. Government responses in the coverage aim to calm public fears by framing it as a routine precaution, emphasizing vigilance without alarm. Broader discussions debate the tip's reliability, with some seeing it as proof of Iran's growing ambitions, while others worry it might be overhyped in the tense wartime atmosphere.
+
+How can we better assess the credibility of such intelligence tips, and what does this imply for U S coastal defenses more broadly?
+
+Now, let's look at some economic ripples from these global tensions, starting with the U K. Official figures reported by the Mail Online and The Guardian show the U K economy had zero growth in January, even before the U S-Israel-Iran war spiked energy prices, amid fears of inflation and uncertainty from the autumn budget; the chancellor is now meeting with energy bosses to tackle concerns over profiteering.
+
+British media portrays the government's push against "rip-off" fuel prices as a hands-on effort to counter war-induced pressures, with left-leaning views endorsing regulations to curb corporate greed. Conservative critics tie the stagnation to alleged policy missteps and political scandals, accusing the administration of masking deeper issues. International perspectives see this as a vulnerability predating the war but worsened by it, affecting Western economies at large, with some framing it as part of wider instability.
+
+What's fascinating is the interplay of pre-war factors in this stagnation—how might interventions on energy prices actually play out for everyday consumers?
+
+Finally, in technology news with ties to the military landscape, Palantir has demonstrated A I chatbots for war planning. WIRED reports on software demos and Pentagon records showing how tools like An-thropic’s Claude could analyze intelligence and suggest next steps in military strategies, though they're still in exploratory stages without confirmed use.
+
+Tech coverage highlights the potential for these A I systems to boost efficiency in defense operations, with supporters viewing them as innovative aids for quick, data-driven decisions in conflicts. Critics, however, raise ethical flags about automating warfare, warning it could lead to dehumanized tactics prone to errors or biases. Military-focused takes stress their role in controlled intelligence analysis, while skeptics question how reliable these suggestions would be in real, high-stakes scenarios.
+
+The question this raises is what safeguards are in place to ensure ethical A I use in the military, and how might that evolve?
+
+Before we go—tomorrow, watch for any updates on Iran's leadership situation, as verifications could shift the dynamics of the ongoing war.
+
+That's Omni View. For full source links and more context, check out today's written briefing on the Omni View summaries page. As always—compare outlets, look for primary documents, and separate what's known from what's assumed. If balanced perspectives are valuable to you, share this with a friend and subscribe wherever you listen. See you tomorrow.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -1087,6 +1250,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/omni_view/ep014.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Omni View in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Omni View">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -1104,6 +1283,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1170,6 +1351,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1201,9 +1383,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

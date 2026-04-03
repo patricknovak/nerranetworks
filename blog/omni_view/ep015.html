@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -1089,6 +1191,79 @@
             <!-- Sources -->
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Good morning. This is Omni View, episode fifteen — balanced news perspectives. Today is March fourteenth, twenty twenty-six. We'll cover what happened, how different viewpoints frame it — so you can decide for yourself.
+
+U S bombs Iran's Kharg Island oil hub as Middle East conflict escalates.
+
+Let's start with that major development in the ongoing U S-Iran war. President Trump announced that U S forces had struck military targets on Iran's Kharg Island, a critical point for the country's oil exports, and he warned of more attacks on oil infrastructure if Iran disrupts shipping in the Strait of Hormuz. Iranian media, meanwhile, insist that oil facilities escaped unharmed, with only military sites affected, amid a backdrop of escalating threats from both sides. According to Mail Online, Trump described the action as total obliteration, while France 24 notes Iranian claims of minimal impact.
+
+Conservative outlets are hailing this as a bold win for U S leadership, arguing it cripples Iran's economy and safeguards global trade routes, with emphasis on how it's advancing the war under Trump's command. On the other hand, progressive perspectives, as seen in NPR coverage, raise alarms about humanitarian fallout and environmental damage, warning that it could spike oil prices and destabilize the region further. International voices, including some European ones, quietly critique it as a risky move that might empower rivals like Russia and China by diverting attention and resources.
+
+What's interesting here is how the narratives diverge on the actual damage—something worth watching as more evidence emerges. The question nobody's asking enough is: what evidence truly supports or contradicts the claims about Kharg Island's damage, and how might that shape the next phase of this conflict?
+
+Shifting now to a related incident that's adding to the chaos in the region: missile strikes have hit the U S embassy compound in Baghdad.
+
+Explosions from what appear to be Iranian drone strikes shook buildings in Baghdad, including the U S embassy, as part of the intensifying U S-Iran war. Reports from Mail Online describe live developments with impacts felt even in the city's financial center, though details on casualties and the full scope of damage are still unclear and developing. This comes amid a pattern of retaliatory actions that are spilling over into Iraq.
+
+U S-focused media are portraying these strikes as blatant Iranian aggression that demands a firm response, often tying it to the broader success of Trump's war strategy despite these setbacks. International coverage, drawing from various sources, stresses the risks to Iraqi civilians and the war's uncontrolled expansion beyond borders, with some framing it as a sign of desperation from Iran. Meanwhile, regional allies in the Gulf express frustration over the instability, debating whether this is a calculated escalation or a symptom of weakening resolve on Iran's part.
+
+It's a reminder of how quickly conflicts can affect neutral ground. A thoughtful question to consider: how do these strikes impact everyday civilian life in Baghdad, and what does that mean for long-term stability in Iraq?
+
+Meanwhile, as tensions rise, the U S is bolstering its presence with a new deployment to the Middle East.
+
+The Pentagon is sending the USS Tripoli, an amphibious assault ship carrying Marines, F-35 jets, and supporting warships, to the region. France 24 reports that President Trump and Defense Secretary Pete Hegseth have described the overall war effort against Iran as going well, though specifics on the deployment's timeline and operations remain limited. This move appears aimed at reinforcing U S capabilities amid the ongoing strikes and threats.
+
+Pro-administration sources see this as a vital display of strength that enhances U S dominance and deters Iranian aggression, praising it as integral to a winning approach. European and international outlets, however, express wariness, viewing it as potentially provocative, especially in light of alliances with Israel and the risk of drawing in other powers. Some analysts from Gulf states highlight concerns about heightened tensions, while others argue it could prevent further attacks by projecting overwhelming force.
+
+What's fascinating is the role advanced assets like the F-35 might play here. One question worth pondering: how might this deployment alter the dynamics of the U S-Iran conflict, particularly in terms of escalation risks with other regional actors?
+
+On a somber note, the war's toll extended to allied forces this week with the death of a French soldier in Iraq.
+
+A French chief warrant officer, Arnaud Frion, was killed by an Iranian-made drone during an anti-jihadist mission in Iraqi Kurdistan, marking France's first military fatality in this Middle East conflict. France 24 details that he was part of a Western coalition focused on combating potential jihadist threats in the area. This incident underscores the broadening dangers of the war.
+
+French and European media are framing this as a tragic reminder of the perils of involvement in the U S-led operations, calling for more caution in these anti-jihadist efforts. Conservative U S perspectives integrate it into a narrative of Iranian hostility that justifies stronger responses, while international reports point to it as proof of the conflict's spillover onto allied troops. There's also debate across viewpoints about the effectiveness of Western missions in Iraq, mixing condolences with urges for strategic reevaluation amid rising drone threats.
+
+It highlights the human cost beyond the main combatants. A key question: what does this reveal about the expanding reach of Iranian drone technology, and could it prompt changes in how anti-jihadist strategies are conducted?
+
+Staying with the theme of Iranian capabilities, there's a domestic security alert here in the U S that's raising eyebrows.
+
+The FBI has warned California law enforcement about possible Iranian drone strikes on the West Coast as retaliation for the ongoing war, with reports from Mail Online noting these drones' potential to reach far into Europe as well. Details on specific targets or timelines are uncertain, but it emphasizes the long-range threats tied to the conflict. This comes as part of broader concerns over Iran's retaliatory options.
+
+U S security-oriented outlets are emphasizing this as a serious extension of Iran's arsenal, calling for increased vigilance and seeing it as justification for the U S's aggressive stance. International coverage, including European angles, discusses the wider global security implications, with some expressing alarm at vulnerabilities to such attacks and debating if it's real intent or psychological warfare. Critics from various sides argue it points to the dangers of escalation without diplomatic paths, while others view it as propaganda to sow fear.
+
+The facts are still developing, but it's a stark example of how far conflicts can potentially reach. Something to think about: how prepared are U S coastal defenses against these kinds of drone threats, and what verification do we need for the reported ranges?
+
+Turning to reactions from abroad, European leaders are reportedly not thrilled with the U S approach to this war.
+
+Behind closed doors, European and Gulf leaders are criticizing President Trump's handling of the Iran war as misguided, amid a flurry of missile and drone attacks, according to Mail Online. Meanwhile, allies like those in Moscow and Beijing are said to be benefiting from the distractions. The U S continues to claim progress in the conflict.
+
+Conservative commentators are defending Trump's tactics as effective and dismissing the foreign backlash as signs of weakness or jealousy. Progressive and international outlets are amplifying these private criticisms, portraying the U S strategy as isolating and inadvertently strengthening rivals like Russia and China. Broader discussions contrast the official "victory" claims with the on-the-ground disorder, raising concerns about strained alliances and the war's enduring economic and diplomatic costs.
+
+It's a case where the coverage itself reveals fractures in global partnerships. A thoughtful question: how might this criticism influence U S alliances moving forward, and could it lead to any diplomatic shifts?
+
+And in a surprising twist from within the region, Hamas is weighing in on Iran's actions.
+
+Hamas has publicly urged Iran to stop its attacks on Gulf states while affirming Tehran's right to defend itself against the U S and Israel, as reported by Al Jazeera. The statement condemns aggression toward Iran but pushes for de-escalation to maintain regional stability. This unfolds against the backdrop of the wider Middle East war.
+
+Palestinian and pro-Iran sources are presenting this as a measured show of solidarity, balancing support for self-defense with a call for Arab unity to avoid broader fallout. Western media interpret it as a strategic pivot by Hamas to prevent isolation, potentially pressuring Iran without fully breaking ties. There's debate across perspectives on whether this refocuses attention on Palestinian issues or signals cracks in alliances, with some criticizing all parties for perpetuating instability.
+
+What's intriguing is how it might subtly shift dynamics. One question to consider: what does this reveal about the state of Hamas-Iran relations, and could it actually lead to fewer attacks in the Gulf?
+
+Before we go — tomorrow, watch for updates on how rising oil prices from the Iran conflict might ripple into global energy markets and consumer costs.
+
+That's Omni View. For full source links and more context, check out today's written briefing on the Omni View summaries page. As always — compare outlets, look for primary documents, and separate what's known from what's assumed. If balanced perspectives are valuable to you, share this with a friend and subscribe wherever you listen. See you tomorrow.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -1096,6 +1271,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/omni_view/ep015.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Omni View in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Omni View">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -1113,6 +1304,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1179,6 +1372,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1210,9 +1404,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

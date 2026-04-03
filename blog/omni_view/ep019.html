@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -870,6 +972,84 @@
             <!-- Sources -->
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Welcome to Omni View, episode nineteen. It’s March twentieth, twenty twenty-six, and as always, we’re covering what happened from every angle. Today’s big story is the surprisingly rapid advance of artificial intelligence and the increasingly urgent debate over how — or even whether — such powerful systems can be governed.
+
+We’ll explore four distinct perspectives on this question, giving each the space to lay out its case. As usual, no spin, no agenda — just the different ways thoughtful people are looking at the same technological reality. Here’s what’s making news in the Omni View world today.
+
+The pace of A I progress has outstripped nearly every forecast made in 2023. What many analysts then described as a distant possibility has become today’s working reality. By early 2026, frontier models are routinely performing at or above expert human level across a wide range of cognitive tasks.
+
+These include writing complex software code, carrying out original scientific research, and producing sophisticated strategic plans for corporations and governments alike. The models have moved from narrow tools to something closer to general-purpose cognitive engines. This shift has happened in plain sight, yet it still feels jarring to many observers.
+
+The speed has forced a reckoning: how should such capable systems be governed before their influence grows even larger?
+
+Many American policymakers, technology executives, and national-security analysts believe the United States must maintain clear technological leadership.
+
+They point to the unique strengths of the American innovation ecosystem — world-class universities, deep venture-capital markets, and fierce private-sector competition — as the main reason today’s leading A I models were developed primarily in the United States.
+
+In their view, heavy-handed regulation or premature international treaties could inadvertently hand strategic advantage to authoritarian competitors who do not share democratic values. Instead, they favor targeted safeguards focused on genuinely dangerous applications, such as the design of autonomous weapons or the creation of biological weapons.
+
+They prefer voluntary industry standards, strict export controls on advanced hardware like high-end G P U's, and bilateral agreements among allies. The dominant fear is that over-regulation could repeat what some see as past policy mistakes with nuclear energy or the early internet — slowing beneficial development while adversaries race ahead.
+
+What’s interesting here is how this perspective tightly links economic prosperity with military deterrence. The central question worth considering is whether prioritizing speed and innovation ultimately best protects national interests, or whether it quietly increases shared global risks that no single country can manage alone.
+
+Shifting now from Washington’s strategic lens to a very different worldview coming out of Europe. European governments, regulators, and many civil-society organizations argue that A I systems this powerful are simply too consequential to be left to market forces or raw national competition.
+
+The European Union’s A I Act, which was significantly expanded and strengthened throughout 2025 and into 2026, takes a risk-based approach. It classifies models according to their potential for harm and imposes strict requirements on transparency, data governance, human oversight, and legal accountability for the highest-risk systems.
+
+Europeans contend that fundamental rights — privacy, non-discrimination, due process, and democratic accountability — must be engineered into these systems from the beginning rather than added later. They worry that an unchecked innovation race creates a dangerous race to the bottom on safety and ethics.
+
+Many in this camp support the creation of international treaties that would establish baseline global standards, drawing parallels to long-standing agreements governing civil aviation or nuclear non-proliferation.
+
+They believe democratic societies should set the rules of the road now, before either authoritarian governments or unaccountable private corporations define the technology’s long-term trajectory. What stands out in this perspective is its deep focus on protecting liberal democratic values rather than treating the contest as pure strategic competition.
+
+The question worth considering is whether embedding rights and oversight mechanisms early can prevent serious harms without unnecessarily slowing down beneficial progress that could improve medicine, science, and quality of life.
+
+Next we turn to the distinct vision coming from Beijing. Chinese official policy treats A I as a strategic general-purpose technology on the same level as electricity or the internet itself. The government believes such a powerful tool must be directed by the state in service of clear national goals: sustained economic development, social stability, and national security.
+
+Chinese leaders have repeatedly suggested that Western approaches are naïve both about how quickly capabilities are advancing and about the necessity of firm political control over any technology that could reshape society. In their view, A I must be aligned with socialist values and actively used to strengthen governance capacity, improve public services, and maintain social harmony.
+
+China has poured resources into developing its own domestic technical standards and has put forward global A I governance proposals that stress respect for state sovereignty and non-interference in internal affairs.
+
+Beijing remains generally skeptical of binding international institutions that might limit its ability to deploy A I for domestic surveillance, military modernization, or centralized economic planning. At the same time, Chinese diplomats have quietly signaled openness to narrow, technical agreements on specific issues such as preventing accidental escalation between military A I systems.
+
+What’s particularly interesting about this perspective is its consistent emphasis on maintaining control over both society and national security. The question worth considering is whether a state-directed approach to A I can genuinely deliver long-term stability and prosperity, or whether that same centralized control creates different but equally serious kinds of risks over time.
+
+A fourth perspective comes from internationalists — scientists, international lawyers, United Nations officials, and thinkers from various countries — who view the most powerful forms of A I as a global commons that no single nation or company should fully control.
+
+This school of thought draws analogies to established frameworks like the Law of the Sea, the Antarctic Treaty, and efforts to prevent the weaponization of outer space. Proponents argue that once A I crosses certain capability thresholds, the risks become genuinely transnational and cannot be managed effectively by competing nation-states alone.
+
+They propose concrete mechanisms such as international monitoring of compute resources, shared safety-testing facilities, tiered access to the most advanced models, and new institutions with limited but real enforcement powers. Critics from the other three camps contend that this vision is unrealistic given today’s tense geopolitics.
+
+They also worry that such structures could unintentionally slow beneficial innovation or create new layers of unaccountable global bureaucracy. What makes this perspective stand out is its primary focus on the danger of humanity as a whole losing control over the technology itself, rather than any one country losing advantage.
+
+The question worth considering is whether it is realistically possible to build effective supranational governance in a world still organized around competing nation-states, or whether attempts to do so risk creating new problems that could be even harder to solve.
+
+Now, to really understand this story, there’s an important dimension that much of the coverage tends to leave out. The debate is not simply a straightforward contest between regulation and innovation. Each perspective is actually trying to solve a different core problem. The United States is most worried about falling behind strategically in a new technological arms race.
+
+Europe is most worried about protecting liberal democratic values and individual rights from being eroded by powerful technology. China is most worried about losing control over its own society and internal security. Internationalists are most worried about humanity collectively losing control over the technology itself. These are not easily reconciled concerns.
+
+The factual ground that nearly everyone agrees on is that capabilities are advancing rapidly. Leading models are now multimodal — able to handle text, images, code, and more — and increasingly agentic, meaning they can take sequences of actions toward goals with less human guidance.
+
+The performance gap between frontier systems and both open-source and smaller models remains significant in many domains, though that gap is narrowing in certain areas. What remains sharply contested is the probability and timing of even more dangerous capabilities emerging, the best mechanisms for ensuring safety, and the proper balance between competition and cooperation.
+
+Next time you hear arguments about A I governance, it can be helpful to ask yourself which core problem that particular perspective is trying to solve first. This simple mental exercise often cuts through the framing and reveals what different stakeholders actually fear most.
+
+Before we go, keep an eye on developments tomorrow as these competing visions continue to collide in ongoing international negotiations. That wraps up today’s Omni View. Remember — the best-informed people read more than one perspective. If this show helps you do that, share it with someone who values fair coverage. See you tomorrow.
+
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -877,6 +1057,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/omni_view/ep019.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Omni View in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Omni View">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -894,6 +1090,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -960,6 +1158,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -991,9 +1190,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

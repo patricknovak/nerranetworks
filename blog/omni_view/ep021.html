@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -1094,6 +1196,127 @@
             <!-- Sources -->
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Thanks for joining us. This is Omni View, episode twenty-one. It's March twenty-third, twenty twenty-six, and as always, we're covering what happened from every angle. New week, fresh perspectives. Let's see what happened over the weekend and what's developing today.
+
+The first story that's dominating headlines involves the escalating conflict involving Iran, which has now triggered serious global energy crisis warnings, significant market turmoil, and a wave of emergency government meetings across multiple countries.
+
+The ongoing war in Iran and the accompanying threats around the Strait of Hormuz have triggered major concerns about the stability of global energy supplies.
+
+The head of the International Energy Agency described the situation as equivalent to the combined impact of the 1970s oil shocks and the fallout from the war in Ukraine, suggesting this could be one of the more serious disruptions in recent decades. Multiple countries are now assessing the potential economic impacts, with financial markets reacting negatively as investors price in higher risks.
+
+The U K Prime Minister has called an emergency meeting specifically focused on the economic consequences for British households and businesses. What's interesting here is how quickly a regional conflict has moved from geopolitical tension to immediate economic calculations for governments far from the Middle East.
+
+The Guardian reports that IEA chief Fatih Birol warned that world leaders initially underestimated the potential fallout, which could disrupt not just oil but also petrochemicals, fertilisers, and other vital industrial supplies that many economies depend on. This reflects deeper concerns about both long-term economic stability and energy security in an increasingly interconnected world.
+
+BBC News notes that Asian stocks slid in response to the latest U S and Iranian threats, highlighting the speed with which these developments affect global markets and investor confidence. The Guardian's coverage of the Middle East crisis shows the U K government focusing particularly on the effects on families, businesses, energy security, and complex supply chains that could face disruption.
+
+The International Energy Agency has indicated it remains open to releasing more oil stocks from emergency reserves if the situation deteriorates further. Outlets covering the story connect this crisis to broader geopolitical tensions that have been building for years.
+
+Some perspectives emphasise the urgent need for international cooperation and diplomatic efforts to stabilise the situation, while others focus more on immediate domestic economic protection measures that individual nations might need to take. Both sides agree that the situation around the Strait of Hormuz is absolutely central to the current risks.
+
+Where they differ is on whether the priority should be diplomatic de-escalation or rapidly securing alternative energy sources and supply routes. The question worth considering: how might disruptions in the Strait of Hormuz, which carries roughly one-fifth of the world's seaborne oil, eventually affect everyday fuel prices at the pump and the cost of goods that rely on global shipping?
+
+Shifting now from international energy security to an incident much closer to home in London.
+
+In the early hours of the morning, four ambulances belonging to a Jewish community ambulance service were set on fire in Golders Green, north London. Police are treating the incident as an antisemitic hate crime and are actively looking for three suspects who were seen in the area.
+
+The London Fire Brigade was called to the scene around one forty A Mto one forty-five A M to extinguish the vehicles which were well alight. Both BBC News and The Guardian report the basic facts of this arson attack with no major factual disputes between them, which provides some confidence in the core details.
+
+The Guardian frames the story within the broader context of rising antisemitic incidents across the U K and Europe in recent years, noting that the vehicles belonged specifically to the Jewish community ambulance service, known as Hatzolah, which provides vital emergency medical support to that community.
+
+BBC News focuses more on the police investigation details, including the search for the three suspects and appeals for information from the public. The coverage from various outlets reflects growing concerns about community safety and the effectiveness of hate crime prevention efforts in major cities.
+
+Authorities have emphasised the particular seriousness of targeting emergency medical vehicles that are used to save lives, regardless of the community they primarily serve. This incident raises difficult questions about social cohesion and the climate of intolerance that appears to be affecting certain communities more than others.
+
+The question worth considering: what makes an attack on emergency service vehicles particularly serious, beyond the immediate property damage, in terms of both public safety and the message it sends to the targeted community?
+
+Next, we turn to a significant weather development unfolding across Australia that has some unusual characteristics.
+
+Ex-Tropical Cyclone Narelle has weakened to a tropical low after bringing heavy rain to already saturated parts of the Northern Territory. The system is now moving westward across the continent and could potentially re-intensify over the coming days, with Perth emerging as a possible target later in the week according to current forecasts.
+
+Communities in Australia's far north remain on flood alert as the system continues its unusual journey. The Guardian's coverage focuses on the unusual path of this weather system and its impact on regions that were already dealing with flood-affected conditions from previous weather events.
+
+Reports note the tension between these immediate weather threats and broader national issues, including existing fuel shortage concerns that could complicate emergency responses. The story connects to practical concerns about infrastructure resilience and community preparedness in the face of extreme weather events that seem to be crossing the continent with increasing frequency.
+
+What's interesting here is how a single weather system can test multiple regions with very different climates and preparedness levels as it travels. The question worth considering: why is a tropical system crossing an entire continent unusual, given Australia's unique geography that spans from tropical to temperate zones, and what does this suggest about changing weather patterns?
+
+Turning now to some important changes happening in the U K's justice system that could have long-term implications.
+
+A new government policy to eliminate most short prison sentences has officially taken effect in the U K. The measure aims to reduce pressure on severely overcrowded prisons by diverting certain offenders away from custodial sentences of less than twelve months in many cases.
+
+Officials hope it will ease the population crisis in the prison system, which has been operating near or above capacity for some time. BBC News presents the policy as a practical step toward addressing long-standing prison overcrowding issues rather than purely an ideological shift.
+
+It focuses on the government's stated goals of managing capacity problems while still maintaining public safety through alternative sentencing options. The coverage reflects ongoing debates about criminal justice priorities that have continued for decades.
+
+Some perspectives emphasise rehabilitation, cost-effectiveness, and the potential for community-based sentences to reduce reoffending rates, while others may prioritise different approaches to sentencing that focus more on deterrence and punishment.
+
+The story connects to broader questions about balancing public safety with the practical constraints of the justice system, including the significant costs of maintaining a large prison population. The question worth considering: how does prison population affect conditions inside facilities, staff morale, and overall costs to the taxpayer?
+
+Now, to really understand several of these stories, there's something that most coverage leaves out or only mentions in passing.
+
+Today's top stories show how one major geopolitical event can create ripples across energy markets, weather preparedness, infrastructure projects, and even local politics in ways that aren't always obvious. The Iran conflict is driving energy price warnings while simultaneously pushing private investors toward certain heavy assets and affecting bond markets as far away as Thailand.
+
+It is also raising costs for major U K infrastructure projects like HS2 through newly introduced steel tariffs designed to protect domestic industry from international market disruptions. At the same time, Australia faces this rare weather system crossing the country while already dealing with fuel shortage concerns that could be made worse by global energy instability.
+
+These stories illustrate how global events interact with domestic policy choices and local conditions in increasingly complex and sometimes unpredictable ways. What often gets missed is how interconnected these systems have become in our modern world.
+
+A conflict in one region can affect steel prices in Britain, investment decisions in private markets thousands of miles away, and emergency planning in Australia all at the same time.
+
+Next time you hear about an energy shock or a new tariff, it might be worth asking yourself how that single development could be influencing seemingly unrelated areas like weather response capabilities or local infrastructure costs. This layered view helps separate immediate headlines from the wider mechanisms at work beneath the surface.
+
+Moving to international political developments, there have been some notable results in French local elections.
+
+Socialist candidate Emmanuel Grégoire has been elected mayor of Paris, defeating the right-winger Rachida Dati in a contest that drew significant national attention. Marine Le Pen’s National Rally failed to win several targeted cities including Marseille and Toulon in these French local elections, despite expectations in some quarters that they might make gains.
+
+Grégoire has pledged to continue pro-cycling and environmental policies that have become a hallmark of Paris in recent years. The Guardian frames these results as a significant setback for the far-right National Rally in its efforts to gain urban footholds beyond its traditional strongholds.
+
+Coverage notes Grégoire's victory bike ride with councillors through the streets as a symbolic moment representing the continued environmental focus in the French capital. The outcome reflects ongoing French political dynamics where traditional parties appear to maintain considerable strength in major cities even when facing challenges at the national level.
+
+This persists despite what polls have shown regarding far-right support across France in recent years. These local results provide an interesting counterpoint to national political trends and suggest that voters may approach different elections with different priorities in mind.
+
+The question worth considering: what factors influence local versus national election results, particularly when it comes to issues like quality of life, environment, and practical governance compared to broader ideological positions?
+
+Meanwhile, new climate findings released by the United Nations have added to the ongoing conversation about global temperature trends.
+
+The United Nations has reported that Earth's heat-trapping greenhouse gas levels reached a record high in 2025. The World Meteorological Organisation stated that the 11 warmest years on record have now all occurred between 2015 and 2025, continuing a clear pattern.
+
+The U N warned that many of the warming impacts already set in motion will persist for thousands of years even if emissions were to stop immediately. Both France 24 and BBC News report the U N's climate findings with a similar factual basis, though with slightly different emphases in their reporting.
+
+France 24 emphasises the long-term duration of these warming effects and what that means for future generations. BBC News describes the Earth's climate as now being further out of balance than at any time in recorded history, highlighting the unprecedented nature of current conditions.
+
+The coverage across outlets reflects the broad scientific consensus on temperature trends while acknowledging the political and communication challenges involved. It notes the difficulty of communicating these long-term risks effectively to both policymakers who work in short electoral cycles and to the public who are dealing with immediate economic pressures.
+
+The question worth considering: how do short-term weather events like the Australian tropical system we discussed earlier relate to these long-term climate trends, and how should that relationship inform our preparedness strategies?
+
+In Australia, public broadcasting is facing disruption this week due to industrial action.
+
+Staff at Australia's public broadcaster, the ABC, will strike for 24 hours on Wednesday in what will be the first such action in two decades. The union cites below-inflation pay rises and increasing insecure work as serious threats to the future of public-interest journalism.
+
+The action is expected to cause widespread disruption to news services, including potential impacts on radio, television, and online content. The Guardian presents the strike as a response to deeper concerns about the future of quality journalism in an environment of funding constraints.
+
+It notes the practical impact on programs like the flagship current affairs show 7.30, which many Australians rely on for in-depth reporting. The coverage reflects ongoing tensions between the funding realities of public broadcasters and the working conditions of their staff.
+
+The story connects to broader debates about the role and long-term sustainability of public media in changing economic and technological conditions, particularly as audiences have more entertainment and information options than ever before.
+
+The question worth considering: what unique role does public broadcasting play in a democracy, especially during times of geopolitical tension and complex global challenges when reliable, non-commercial information sources become particularly valuable?
+
+Before we go, tomorrow we will be watching for further developments in the Iran conflict and any new statements from energy agencies or governments on potential mitigation measures that might be under consideration.
+
+That's Omni View. For full source links and more context, check out today's written briefing on the Omni View summaries page. As always — compare outlets, look for primary documents, and separate what's known from what's assumed. If balanced perspectives are valuable to you, share this with a friend and subscribe wherever you listen. See you tomorrow.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -1101,6 +1324,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/omni_view/ep021.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Omni View in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Omni View">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -1118,6 +1357,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1184,6 +1425,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1215,9 +1457,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

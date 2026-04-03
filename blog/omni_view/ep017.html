@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -1085,6 +1187,69 @@
             <!-- Sources -->
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Welcome to Omni View, episode seventeen — balanced news perspectives. Today is March seventeenth, twenty twenty-six. Let's look at the day's news from every angle.
+
+Iran war escalates with U S embassy attack in Baghdad and global inflation fears prompting rate hikes.
+
+Starting with the ongoing conflict involving Iran, reports today indicate that drones and rockets targeted the U S embassy in Baghdad, with Iraqi officials confirming the incident amid heightened tensions in the region. Separately, U S President Trump has requested a delay in a planned summit with China's Xi, asking for about a month to focus on immediate crises, while insisting this isn't an attempt to pressure Beijing over the Strait of Hormuz situation. The Middle East developments remain highly uncertain, and they're being linked to potential increases in global and domestic inflation as energy markets react.
+
+Looking at perspectives on this, outlets like The Guardian describe Trump's summit delay as a strategic and pragmatic move to navigate the war's uncertainties, emphasizing the need for diplomatic flexibility without escalating pressures on allies like China. On the other hand, coverage from Al Jazeera, including views from a former Marine with an anti-war stance, criticizes Trump's policies toward Israel and Iran as misguided, advocating for de-escalation and connecting this to broader calls against military intervention. European angles, also via Al Jazeera, show E U foreign policy chief Kaja Kallas rejecting any expansion of involvement in the Strait of Hormuz, highlighting a priority on avoiding non-European conflicts to maintain stability and resources at home.
+
+What's interesting here is how these delays in international summits might affect global efforts to resolve the Iran conflict—could they create openings for negotiation, or just prolong the uncertainty?
+
+Shifting now to economic responses tied to these global tensions, the Reserve Bank of Australia has raised its official cash rate target by 25 basis points to four point one percent, a reversal of prior cuts that's set to impact mortgage holders across the country. RBA governor Michele Bullock clarified that higher petrol prices aren't the direct cause, but she acknowledged that Middle East developments could fuel inflation. This move comes amid worldwide energy uncertainties, putting a spotlight on how central banks are navigating these shocks.
+
+The Guardian portrays this hike as a necessary step to counter inflation risks from the Iran war, focusing on the need to stabilize costs for households even as it acknowledges the hardship for borrowers. Similarly, CNBC sees it as an expected adjustment aligned with analyst predictions, stressing the importance of monetary tightening to protect long-term economic growth amid global pressures. Where they differ is in emphasis—some view it as a reactive measure to external events like the war, while others frame it as a proactive guard against domestic inflationary trends.
+
+The question nobody's asking enough is how this rate hike could affect everyday Australians already grappling with cost-of-living challenges—might it ease inflation in the long run, or exacerbate immediate financial strains?
+
+Meanwhile, in South Asia, a devastating strike on a hospital in Kabul that treats drug users has reportedly killed around 400 people so far, with about 250 others injured, mostly patients. Afghan officials have pointed the finger at the Pakistani military for the attack, though Pakistan denies targeting the facility. Details on the exact circumstances are still unclear, but the scale of the casualties has drawn international attention to this cross-border incident.
+
+Coverage in The Guardian presents the Afghan accusations as a serious escalation in regional tensions, underscoring interests in accountability and border stability while noting that Pakistan's denial raises doubts about the evidence presented. Broader outlets agree on the tragic casualty figures but split on attribution, with some framing it as part of entrenched cross-border conflicts driven by counter-terrorism priorities on one side and sovereignty concerns on the other. Fact-checkers haven't yet settled the responsibility debate, but the human cost is a point of consensus.
+
+What evidence is truly needed to verify who was behind the strike, and how might that shape not just bilateral relations but calls for international investigations?
+
+Staying with international perspectives on the Iran conflict, the E U has firmly rejected expanding its naval mission to the Strait of Hormuz. E U foreign policy chief Kaja Kallas stated there's no appetite for such involvement, following reports that European countries turned down U S calls for help in reopening the strait. This stance emphasizes a focus on non-involvement in the war, prioritizing other regional concerns.
+
+Al Jazeera depicts this as the E U prioritizing its own strategic autonomy and resources, avoiding entanglement in Middle Eastern affairs that don't directly affect Europe. In contrast, reports woven into Guardian coverage highlight a tension with U S-led expectations for alliance support, where Europeans see the conflict as outside their sphere, while American viewpoints might interpret it as a shortfall in shared global responsibility. The divide underscores differing ideas of what constitutes international duty in times of crisis.
+
+How does this rejection affect U S-E U relations during the conflict—could it strain alliances, or open doors to alternative diplomatic strategies?
+
+Turning to a health story closer to home for some listeners, health officials in Kent are tracking thousands of people potentially exposed to a deadly strain of meningitis after a cluster that has already left two dead and 11 gravely ill. An emergency response included distributing preventative antibiotics to about two thousand students in Canterbury, but questions are swirling about the timing of warnings, especially with a potential case reported in London. The outbreak followed a wet winter, and reports suggest delays in alerts came after Mother's Day travels.
+
+Mail Online coverage frames the response as a frantic effort to contain a public health crisis, praising the antibiotic distribution for protecting vulnerable groups like students but critiquing the post-Mother's Day warning delay as a communication failure that could risk wider spread. This ties into broader values of transparency in health alerts, with some perspectives seeing it as a systemic issue in timely notifications, while others highlight the proactive measures as effectively mitigating harm despite the timing.
+
+Why was the warning issued only after students had traveled home for Mother's Day—does this point to gaps in outbreak protocols that need addressing to prevent future risks?
+
+On a different note, in Australia, the Queensland government has reversed its policy of contesting all new native title claims in court. This backflip came on the eve of a court hearing, following a federal judge's request for an explanation on halted negotiations with Cape York traditional owners. The opposition's stance on native title remains unclear, adding another layer to the debate.
+
+The Guardian portrays this reversal as a win for Indigenous rights advocates, who push for fair negotiations over litigation to respect traditional ownership and advance reconciliation. In contrast, the government's initial policy might have been driven by resource management priorities, aiming to protect state interests, while critics argue that contesting claims unnecessarily hinders justice. The unclear opposition position fuels discussions on whether such policies balance public interests or perpetuate inequities.
+
+How might this policy shift affect ongoing native title negotiations across Australia—could it speed up resolutions, or reveal deeper inconsistencies in approach?
+
+And finally, a media business development: Canadian billionaire Stephen Smith and his family holding company have acquired a twenty-six point nine percent minority stake in the publisher of The Economist magazine, through an agreement with existing owners. This move comes without specified details on immediate implications, but it raises questions about influence in global journalism.
+
+Bloomberg frames the purchase as a strategic investment in quality media, potentially enhancing the publication's resources and aligning with interests in diversifying portfolios amid economic shifts. On the other side, some perspectives question whether the buyer's background could subtly shift editorial directions, connecting to values of media independence, while supporters see it as a boost for the outlet's long-term stability without compromising content.
+
+What drives billionaires to invest in media outlets like this— is it purely financial, or does it hint at broader influences on global narratives?
+
+Before we go — tomorrow, watch for updates on the Iran conflict's impact on energy markets, as central banks worldwide weigh further rate adjustments amid rising inflation fears.
+
+That's Omni View. For full source links and more context, check out today's written briefing on the Omni View summaries page. As always — compare outlets, look for primary documents, and separate what's known from what's assumed. If balanced perspectives are valuable to you, share this with a friend and subscribe wherever you listen. See you tomorrow.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -1092,6 +1257,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/omni_view/ep017.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Omni View in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Omni View">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -1109,6 +1290,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1175,6 +1358,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1206,9 +1390,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

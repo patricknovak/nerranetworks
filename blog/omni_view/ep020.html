@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -1108,6 +1210,130 @@
             <!-- Sources -->
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Good to have you here. This is Omni View, episode twenty, for March twenty-first, twenty twenty-six. Balanced news perspectives. Let's look at the day's news from every angle.
+
+The dominant story today remains the rapidly evolving crisis in the Middle East, where President Trump is reportedly considering ways to wind down the conflict with Iran even as Israel conducts strikes on targets inside Tehran, global energy prices continue to surge, and the U.S. has temporarily waived sanctions on Iranian oil already at sea.
+
+The U.S. has granted a 30-day waiver allowing Iranian oil currently loaded on tankers to reach global markets without immediate penalty. According to reports, this could bring as much as 140 million barrels of supply into the system relatively quickly, intended to ease some of the immediate pressure on oil prices and global supply chains that have been strained by the fighting.
+
+At the same time, Israel has launched retaliatory strikes on regime targets in and around Tehran in response to Iranian missile attacks. President Trump has publicly stated he does not want a formal ceasefire but is actively considering how to wind the conflict down. Meanwhile, the Pentagon is deploying additional warships and thousands more troops to the region.
+
+The fighting has already disrupted critical energy infrastructure, most notably Qatar’s massive Ras Laffan LNG export facility, which has been forced to shut down operations amid the chaos. What’s interesting here is the apparent contradiction between military escalation and economic de-escalation happening simultaneously.
+
+The temporary sanctions relief is clearly an attempt to prevent a total meltdown in global energy markets, yet it occurs alongside active combat operations and new troop deployments.
+
+Different outlets frame this tension in revealing ways.
+
+The Guardian presents the situation as the world tipping from dangerous brinkmanship into something closer to uncontrolled freefall, emphasizing the massive financial costs already borne by the United States, oil prices climbing to one hundred twenty-five dollars per barrel, and what it describes as Iran’s willingness to sacrifice the economies of other Gulf states in order to preserve its own regime.
+
+In contrast, Mail Online focuses more on the live military developments, including Iranian missile strikes on a joint U K-U S base on Diego Garcia and the involvement of Houthi forces. It highlights Trump’s claims that the U.S. and its partners are close to destroying key elements of Tehran’s military capabilities while also outlining potential plans regarding the Strait of Hormuz.
+
+Both sources agree on the core facts: the temporary sanctions relief, the Israeli strikes on Iranian targets, and the serious disruption to energy infrastructure. Where they diverge is in emphasis.
+
+The Guardian tends to stress the human suffering and the long-term economic consequences, while Mail Online leans into the tactical military moves, including Britain’s decision to allow American bombers to operate from U K bases.
+
+Trump’s reported surprise at Australia’s refusal to commit troops to secure the Strait of Hormuz also surfaces in some coverage, offering a window into his views on alliances and burden-sharing among partners.
+
+What’s interesting here is how this temporary sanctions relief exists in the middle of active military operations — a pragmatic economic move wrapped inside a shooting war.
+
+The question worth considering is how this 30-day waiver might affect the incentives of the different parties involved, and what historical parallels we might draw from past episodes of brinkmanship that either cooled off or spiraled into something broader.
+
+Shifting now to a closely related development in the same crisis, Britain has formally permitted the United States to use British-based bombers, including aircraft operating from RAF Fairford and from the Diego Garcia base in the Indian Ocean, to conduct strikes against Iranian targets that threaten the strategically vital Strait of Hormuz.
+
+This decision comes as the regional conflict continues to drive an energy crisis with global implications. Reports suggest President Trump told Prime Minister Star-mer that the U K should have moved more quickly to grant this access.
+
+Perspectives on the significance of this British decision vary. Mail Online frames it as an important step toward unlocking the waterway for safer passage of energy shipments, while also noting Trump’s criticism of the timing. The Guardian places the same development within the broader context of alliance politics and growing concerns about energy security across Europe and Asia.
+
+Both reports agree that the U K has approved the use of its bases by American aircraft, but they differ in tone — one emphasizing transatlantic coordination and military practicality, the other focusing on the larger strategic stakes around energy supplies. This development underscores how even seemingly distant allies are being drawn more deeply into the operational side of the conflict.
+
+The question worth considering: what is the true strategic importance of the Strait of Hormuz for global trade, and how do alliance commitments and domestic politics influence military decision-making in moments like these?
+
+Meanwhile, a striking maritime incident this week highlights how tactics in the region are evolving in real time. A vessel that appeared to be impersonating a scrapped gas carrier managed to successfully exit the Strait of Hormuz despite the heightened risks.
+
+This episode appears to demonstrate new methods that shipping operators are using to navigate the waterway as the Middle East conflict continues and commercial shipping faces growing disruption and insurance costs.
+
+Bloomberg reports the incident as evidence of rapidly changing strategies in response to the conflict. Related Guardian coverage points to the broader risks facing shipping lanes, including Iranian drones and other asymmetric threats targeting commercial vessels.
+
+The basic fact of the ship’s successful transit is not in dispute, though interpretations differ on whether it represents clever adaptation or a sign of how fragile maritime security in the region has become.
+
+The question worth considering: what does this incident reveal about sanctions evasion techniques or conflict adaptation by commercial actors, and just how vulnerable is global energy shipping to these kinds of tactics?
+
+The Iran conflict is also generating wider economic shocks that extend well beyond the immediate region. The first six days of the conflict reportedly cost the United States twelve point seven billion dollars, and the Pentagon is now said to be seeking as much as two hundred billion dollars in additional funding from Congress.
+
+Oil prices have surged sharply, and key energy facilities such as Qatar’s Ras Laffan LNG plant face what could be a prolonged closure. Iranian drones have also been used to threaten other Gulf oil depots, raising fears of a wider infrastructure war.
+
+The Guardian delves into the financial and infrastructure damage, arguing that Iran’s strategy of escalation may be its most effective remaining tool for clinging to power despite the costs. Mail Online’s coverage includes live updates on Saudi warnings to Tehran and signs of broader regional involvement.
+
+Both sources agree that energy prices are rising and that important infrastructure has been damaged or shut down, but they place different weight on the economic ripple effects versus the military and diplomatic responses. The scale of the potential costs — both immediate and long-term — suggests this conflict could reshape energy markets for years even if fighting were to ease soon.
+
+The question worth considering: what incentives drive continued escalation even in the face of such high costs, and how might prolonged disruption to energy infrastructure ultimately affect global markets and ordinary consumers far from the battlefield?
+
+Adding to the military dimension, the United States is sending three additional warships and thousands more troops to the region amid the ongoing Iran conflict. This deployment occurs alongside efforts to secure passage through the Strait of Hormuz and to manage the resulting energy supply challenges.
+
+The Guardian links these new deployments primarily to efforts to stabilize critical shipping routes. Mail Online coverage connects the same moves to other recent military actions and highlights allied support.
+
+The reports agree that the additional forces are heading to the region, but they vary in how they characterize the posture — some coverage frames it more defensively around protecting shipping, while other reporting leaves more room for an offensive interpretation.
+
+These moves come at a moment when President Trump has also signaled interest in winding the conflict down, creating another layer of apparent contradiction worth watching.
+
+The question worth considering: what are the strategic goals behind these additional deployments, and how do such military moves affect the chances for eventual de-escalation?
+
+Now, to really understand the energy dimension that runs through so many of these stories, there’s an important piece of context that much of the coverage leaves out or assumes listeners already know. The Strait of Hormuz normally carries roughly a fifth of global oil trade, and Qatar’s Ras Laffan facility ranks among the world’s largest LNG export terminals.
+
+When conflict damages infrastructure or dramatically raises insurance costs for tankers, the consequences are not limited to higher prices at the gas station. The effects cascade through manufacturing, electricity generation, fertilizer production, and global food systems because affordable energy underpins nearly every modern supply chain.
+
+The temporary 30-day sanctions waivers on Iranian oil at sea are a deliberate attempt to release trapped supply quickly without formally lifting the broader sanctions regime. But critics argue that such pauses risk rewarding destabilizing behavior, while allies question whether these measures genuinely stabilize markets or simply postpone more difficult decisions.
+
+The next time you hear about an energy crisis linked to conflict in the Middle East, it’s worth asking exactly which chokepoints are affected and how long it would realistically take to scale up alternative routes or new sources of supply.
+
+Turning now to a very different story, heavy rains have triggered severe flash flooding across Oahu in Hawaii — described as the worst in roughly 20 years. The flooding has forced mass rescues, urgent evacuation orders, and dramatic overnight efforts to move people to safety.
+
+A major dam is facing imminent risk of failure, prompting officials to tell thousands of residents to evacuate immediately, in some cases in the middle of the night. Videos from the scene show streets completely inundated, vehicles swept away by muddy waters, and emergency teams working under difficult conditions.
+
+More than 230 people have been rescued so far, with the total likely to rise as assessments continue.
+
+The Guardian reports on the rapid onset of the flooding and the ongoing impacts of the storm system across the Hawaiian islands. Mail Online focuses more on the sense of panic surrounding the potential dam collapse and the scale of the nighttime evacuation effort.
+
+Both sources agree on the severity of the flooding and the serious threat posed by the dam, with differences mainly in tone and emphasis. The Guardian tends to highlight the rescue operations and the work of emergency services, while Mail Online stresses the urgency of the evacuation warnings and the human drama of families being roused in the middle of the night.
+
+The question worth considering: what infrastructure vulnerabilities does this event expose in Hawaii and similar island communities, and what role does the timing of early warnings play in determining outcomes during fast-moving natural disasters?
+
+In other news, millions of people across the Middle East and Central Asia marked the ancient Persian New Year, Nowruz, even as the regional conflict continues to unfold. The celebrations are taking place against a backdrop of ongoing military actions, economic hardship, and deep uncertainty about what comes next.
+
+Roughly 300 million people observe this holiday, which has roots stretching back thousands of years.
+
+Al Jazeera coverage brings out the contrast between this deeply rooted cultural tradition and the current realities of conflict. Guardian reporting on the war’s human cost, including civilian casualties inside Iran, helps provide context for the somber mood that has accompanied this year’s observances.
+
+The basic fact that Nowruz celebrations occurred is not disputed, but coverage differs in focus — some outlets emphasize cultural resilience and continuity, while others highlight how the war’s impact weighs on the human dimension of the holiday.
+
+The question worth considering: how do cultural traditions and communal rituals persist during times of conflict, and what is the human dimension that often gets overlooked when war reporting focuses primarily on military movements and economic statistics?
+
+A lighter story from the art world offers a striking example of how societal attitudes can shift over time. An 1887 painting by Hermione von Preuschen titled Mors Imperator — which depicts death dramatically toppling a royal throne — is now being displayed in a Berlin state museum.
+
+The work was originally rejected more than a century ago over fears that it mocked the German emperor and undermined respect for authority.
+
+The Guardian presents this as a tale of artistic expression clashing with political sensitivity in imperial Germany. Its return to public view after so many years highlights how standards and tolerances around symbols of power and mortality have evolved in the intervening century.
+
+The question worth considering: how have societal standards for political and provocative art changed over time, and what does the painting’s original rejection reveal about the power structures and sensitivities of that era?
+
+Before we go, tomorrow’s developments will likely bring further clarity around the situation in the Strait of Hormuz and whether the temporary sanctions relief on Iranian oil will be extended beyond the current 30-day window. These stories remain fluid, and new information could shift the picture quickly.
+
+That’s Omni View. For full source links and more context, check out today’s written briefing on the Omni View summaries page. As always — compare outlets, look for primary documents, and separate what’s known from what’s assumed. If balanced perspectives are valuable to you, share this with a friend and subscribe wherever you listen. See you tomorrow.
+
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -1115,6 +1341,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/omni_view/ep020.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Omni View in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Omni View">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -1132,6 +1374,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1198,6 +1442,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1229,9 +1474,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>
