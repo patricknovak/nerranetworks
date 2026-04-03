@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -940,6 +1040,121 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Hey, welcome to Planet-terry-an Daily. I’m Patrick in Vancouver, and this is episode thirty-three.
+
+Today we’re going to move from the grasslands of South Africa to the inside of a human mouth, then into glowing plants, lab-grown organs, the surprising real-world story of weight-loss drugs, a cosmic collision next door, cleaner ways to turn CO₂ into fuel, A I that can predict floods with almost no local data, the tempered results coming out of psychedelic trials, the current state of biological A I, and finally the quiet disappearance of front gardens in Australian suburbs.
+
+It’s a wide-ranging set of findings, but each one tells us something useful about how living systems—whether they’re raptors, human cells, plants, or whole cities—respond to pressure.
+
+Let’s start with the South African raptors, because the numbers are sobering. Over a 16-year period from 2009 to 2025, researchers ran consistent road surveys across central South Africa, covering the same routes again and again so they could track actual population trends rather than snapshots. They monitored 26 species of raptors and large terrestrial birds.
+
+What they found was that half of those species experienced significant declines, and for many of them the drop exceeded 50 percent. Only three species showed clear increases over the same timeframe.
+
+To put this in context, these aren’t obscure birds hiding in remote wilderness. Many of these raptors are the ones you might see perched on telephone poles or gliding over farmland as you drive through the Highveld.
+
+The fact that so many of them have declined so sharply in less than two decades suggests that the pressures—whether it’s changing agricultural practices, pesticide use, power-line collisions, or broader habitat alteration—are adding up faster than the birds can adapt. What strikes me is how quickly these shifts can happen once multiple stressors align.
+
+It’s a reminder that ecosystems don’t always degrade gradually; sometimes the change looks sudden once you have long enough data to see the trend. We’ll likely need more detailed follow-up to tease apart exactly which factors matter most in which regions, but the overall message is clear: the top of the food chain is wobbling.
+
+Moving from large-scale ecological losses to something much smaller and closer to home, there’s a fascinating—and slightly unsettling—new connection between oral bacteria and breast cancer. A common bacterium associated with gum disease has been shown to travel through the bloodstream and reach breast tissue, where it can cause D N A damage and accelerate both tumour growth and metastasis.
+
+The effect appears to be stronger in people who carry mutations in the BRCA1 gene, and there are early hints that the bacterium may also reduce the effectiveness of certain cancer therapies.
+
+Most of us were taught to think of gum disease as a strictly local problem—bleeding gums, bad breath, maybe eventual tooth loss. But the reality is that your oral microbiome is constantly interacting with your immune system, and when gums are chronically inflamed, those bacteria can slip into the circulation.
+
+Once they reach distant tissues they’re not just passive passengers; this particular species can trigger D N A damage and make tumour cells more aggressive. Your mouth harbours hundreds of bacterial species, and even mild, ongoing inflammation can create openings for them to travel.
+
+What I find particularly interesting here is how this reframes prevention. If these findings hold up in larger studies, routine dental care and good oral hygiene could eventually become part of broader cancer-risk discussions, especially for people with known genetic vulnerabilities.
+
+Researchers are already planning to look at whether treating periodontal disease produces measurable changes in cancer progression or treatment response in at-risk groups. It’s a powerful example of how two fields—dentistry and oncology—that we usually keep in separate boxes might need to start talking to each other more often.
+
+Staying with surprising biological connections, scientists have created a beautiful new research tool by engineering plants that literally glow when their immune system kicks into gear. They took bioluminescence genes from mushrooms and inserted them into the plants in such a way that the plants light up visibly during immune responses triggered by infection, stress, or insect attack.
+
+Because the glow is tied directly to the plant’s own defence pathways, researchers can now watch immune activation happen in real time without having to destroy the plant or use invasive markers.
+
+This feels elegant in a way that a lot of synthetic biology sometimes doesn’t. Instead of waiting for yellowing leaves or stunted growth to tell you something’s wrong, you can see the precise moment and location where the plant is mounting its defence.
+
+That kind of non-invasive, real-time monitoring could become very useful for studying crop resilience, testing new varieties, or understanding how different environmental stresses interact with plant immunity. It’s still early days, but I can imagine plant breeders using these glowing lines as a quick visual screen in greenhouses or growth chambers.
+
+It’s a nice reminder that sometimes the most useful innovations are the ones that simply let us observe nature more clearly.
+
+From glowing plants to the challenge of regenerating entire organs, another study this week caught my attention for very practical reasons. Researchers successfully grew an autologous esophageal segment—tissue made from the minipig’s own cells—in the lab and then implanted it into the animal.
+
+The engineered tissue integrated well, maintained its structure, and showed functional performance in this large-animal model. That matters because moving from small rodents to something closer to human size is one of the big translational hurdles in regenerative medicine.
+
+We’re still years away from routine clinical use in people, but seeing a lab-grown esophagus actually work in a physiologically relevant model is genuinely encouraging. It suggests the field is making steady, incremental progress rather than just accumulating more proof-of-concept papers in mice.
+
+The long-term goal is to be able to repair or replace damaged sections of esophagus after cancer surgery or severe injury without having to harvest tissue from elsewhere in the patient’s body. This study doesn’t get us all the way there, but it’s an important step along a very difficult road.
+
+While we’re still some distance from lab-grown organs becoming commonplace, real-world data on existing treatments is already reshaping how we think about long-term health management. A large observational study involving nearly eight thousand patients looked at what actually happens when people stop taking GLP-1 receptor agonists like Ozempic or Mounjaro.
+
+The earlier clinical trials had suggested that most people regain weight quickly once they discontinue the drugs. But this real-world analysis paints a more optimistic picture: many patients either maintain their weight loss or keep losing by restarting treatment when needed, switching to a different agent, or making meaningful lifestyle changes.
+
+I think this distinction between controlled trial data and real-world experience is important. Trials are essential for establishing safety and efficacy under strict conditions, but they don’t always capture how people actually live with these medications over years.
+
+The fact that a substantial portion of patients seem able to manage their weight even after stopping—through some combination of continued support and behaviour change—could ease some of the anxiety that surrounds these drugs. It doesn’t mean the medications are a permanent cure, but it does suggest the story is more nuanced than the headlines about rapid rebound would have us believe.
+
+Shifting from individual metabolic health to the health of entire ecosystems and beyond, the raptor declines we opened with are part of much larger environmental changes. But let’s travel even farther out for a moment—to a galaxy not so far away.
+
+Astronomers have figured out that the chaotic stellar motions inside the Small Magellanic Cloud are the result of a past collision with its bigger neighbour, the Large Magellanic Cloud. That ancient impact also explains the galaxy’s unusual patterns of gas rotation.
+
+For a long time the Small Magellanic Cloud was treated as a relatively simple, typical dwarf galaxy. Now it looks like it has a more violent history than we assumed. What we see today is the aftermath of that cosmic event millions of years ago. It’s a useful reminder that even objects we think we understand well can turn out to have complicated backstories once we look more carefully.
+
+The universe, it seems, is full of neighbours with bruises.
+
+Speaking of dramatic impacts, researchers have developed a cleaner, more efficient way to turn carbon dioxide into methanol using a catalyst made of individual indium atoms rather than traditional metal clusters. These single-atom catalysts appear to convert CO₂ more effectively while also lowering the energy required for the reaction.
+
+An added scientific bonus is that the simpler design makes the underlying mechanism easier to study in detail.
+
+This feels like a solid example of green chemistry making incremental but meaningful progress. Turning CO₂ into something useful—especially a liquid fuel like methanol—has been a long-standing goal, but efficiency and cost have always been barriers. Single-atom catalysts are an elegant way to squeeze more performance out of less material while potentially reducing unwanted side reactions.
+
+It’s not going to solve the climate crisis on its own, but it’s the kind of steady advance that improves the toolkit we have for carbon utilization.
+
+From chemistry that helps the planet to technology that helps us predict its extremes, there’s an interesting new development in A I-driven environmental forecasting. Foundation models trained on vast amounts of general time-series data can now predict river flows and flood risk even in regions that have very little local hydrological monitoring.
+
+The models don’t need dense networks of river gauges or decades of high-quality local records; they generalize from patterns seen across many different environments.
+
+This could be particularly valuable in parts of the world where monitoring infrastructure is limited or has been disrupted. Better flood warnings, improved drought planning, and more informed water-resource management become possible even in data-scarce regions.
+
+It’s another reminder that large A I systems, when thoughtfully applied, can sometimes help level the playing field for places that have historically been left behind by traditional scientific infrastructure.
+
+While A I is showing promise in environmental science, its application in medicine—particularly around psychedelic compounds—has faced some reality checks lately. Psilocybin and related substances have been studied in clinical trials for depression, PTSD, addiction, and even obesity.
+
+Despite the high hopes that built up over the past decade, the results have not consistently outperformed placebo controls across these different conditions.
+
+It’s a useful reminder that rigorous data often moves more slowly than enthusiasm. The mixed findings don’t mean these compounds have no value, but they do suggest we need to be more precise about which patients might benefit, at what doses, and in combination with what kind of therapeutic support. Science has a habit of tempering our expectations, and this appears to be one of those moments.
+
+That note of caution feels appropriate as we consider the broader landscape of what some people are calling biological A I—generalist systems that can tackle diverse tasks across genomics, proteomics, drug discovery, and other biological domains. A recent review lays out both the significant promise and the very real current limitations of these tools.
+
+The paper is refreshingly honest about where the field stands: excited but still early.
+
+We don’t yet know exactly what these systems will eventually be able to achieve, but understanding both their strengths and their blind spots now will help us apply them more effectively later. It’s the kind of measured stock-taking that fields need as they move from hype to actual utility.
+
+Finally, a story that hits close to home for anyone living in a growing city. In Sydney’s suburbs, the trend toward “knock-down rebuilds”—demolishing older houses to build larger new ones—is quietly removing nearly half of front gardens and more than sixty percent of tree canopy while expanding driveways by fifty-seven percent.
+
+The result is denser streetscapes with fewer trees, less permeable surface, and reduced habitat for birds and insects.
+
+This isn’t unique to Sydney. Similar patterns are playing out in many cities around the world as property values rise and people maximize building footprints. The cumulative effect on urban heat, stormwater management, mental health, and biodiversity is substantial even if no single rebuild looks dramatic on its own.
+
+It’s a reminder that the ecological health of cities is shaped by thousands of small, seemingly private decisions.
+
+Before we wrap up, it’s worth keeping an eye on the developing research around oral bacteria and cancer risk. Several groups are now planning studies to test whether treating gum disease can meaningfully change therapy outcomes in at-risk patients. It’s the kind of unexpected connection that could quietly shift clinical practice if the data continues to line up.
+
+That’s Planet-terry-an Daily for today. If you’ve been enjoying the show, a rating or review on Apple Podcasts or Spotify really does help new listeners find us. I’m Patrick in Vancouver. Thanks for spending part of your day with me, and I’ll talk to you again tomorrow.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -947,6 +1162,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/planetterrian/ep033.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Planetterrian Daily in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Planetterrian Daily">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -964,6 +1195,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1062,9 +1295,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -902,6 +1002,137 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Welcome to Planet-terry-an Daily, episode twenty-four. Today is March first, twenty twenty-six. A massive cellular atlas of 7 million cells shows aging begins earlier and coordinates across 21 organs.
+
+A massive cellular atlas of 7 million cells shows aging begins earlier and coordinates across 21 organs.
+
+Alright, folks, let's dive right into that one because it's a standout piece of research that's got me thinking about how we age from the inside out.
+
+According to Science Daily, researchers just released this enormous cellular atlas, analyzing nearly seven million cells from twenty-one different organs in the body.
+
+What they found is that aging doesn't just creep up on us in our later years—it starts kicking in earlier than we thought, and it's not isolated; it's a coordinated process across the entire body.
+
+They mapped out shifts in cell types, like how immune cells change in the lungs or stem cells decline in the muscles, and pinpointed genetic hotspots where these age-related changes cluster.
+
+Interestingly, there are sex differences too—women might see more pronounced shifts in certain metabolic genes, while men have variations in inflammatory pathways, which could explain why some age-related diseases hit differently between genders.
+
+This matters because it highlights shared mechanisms, like inflammation or D N A repair failures, that tie organs together in the aging process, potentially opening doors for targeted therapies that hit multiple spots at once.
+
+For me, the scale here is what's fascinating—seven million cells give us a high-resolution view that could guide anti-aging drugs, maybe even personalized ones based on your sex or the organs most at risk.
+
+Researchers are already talking about using these hotspots for drug development, so I'm keeping an eye on upcoming clinical trials that might build on this to extend healthy lifespans, perhaps targeting the heart or brain where changes surprised me the most with their early onset.
+
+Now, shifting gears to something that's been on a lot of minds lately—those popular weight loss drugs like Ozempic and Wegovy.
+
+A new animal study highlighted in Science Daily points to a hidden ingredient in their pill forms called SNAC, which might be stirring up some unexpected effects in the gut.
+
+In these experiments, exposure to SNAC led to changes in gut bacteria, increased inflammation, and even alterations in brain proteins, raising questions about what daily doses could mean over the long haul.
+
+The mechanism seems tied to how SNAC helps the drug absorb better, but it might disrupt the microbiome in ways that echo inflammatory conditions.
+
+While this doesn't confirm harm in humans yet—it's early days and based on animals—it does prompt us to investigate further, especially since these meds are taken orally every day by millions.
+
+Clinically, this could influence how we monitor patients on these drugs, maybe adding gut health checks to routine follow-ups.
+
+My take? It's a reminder that even breakthrough treatments come with layers we need to peel back; let's hope follow-up studies in people clarify if this is a real concern or just a quirk in the lab.
+
+On a different note, let's talk sleep—specifically, how insomnia and sleep apnea team up to mess with your heart.
+
+Science Daily reports on a massive study of nearly a million veterans, showing that when these two sleep issues combine, they crank up the risk for hypertension and heart disease way more than either one alone.
+
+The key here is the interactive strain on the heart—insomnia keeps you from restorative sleep, while apnea interrupts breathing, and together they amplify inflammation and blood pressure spikes.
+
+This builds on what we already knew about individual sleep disorders but adds evidence that their combo is particularly nasty, potentially through shared pathways like stress hormones.
+
+For populations like veterans, who often deal with both due to trauma or lifestyle, this underscores the need for early screening.
+
+Practically, it suggests that treating them together—say, with CPAP machines plus cognitive behavioral therapy for insomnia—could prevent a lot of cardiovascular grief down the line.
+
+I'm genuinely interested in this because it's so actionable; if you're struggling with sleep, addressing both issues might be a straightforward way to protect your ticker.
+
+Next up, a discovery that's rewriting the textbooks on animal evolution, starting with the humble sponge.
+
+As covered in Science Daily, gene analysis and evolutionary modeling reveal that the earliest sponges didn't have skeletons at all—they were soft, squishy creatures without those mineralized structures we associate with them.
+
+This explains why we haven't found early sponge fossils; they simply didn't leave hard remains, and it shows that skeletal features evolved separately in different sponge lineages.
+
+From an evolutionary angle, this reshapes our understanding of how reef-building started and even touches on the origins of all animals, since sponges are among the oldest multicellular life forms.
+
+It challenges the idea that complexity like skeletons was there from the start, suggesting instead that environmental pressures drove these adaptations over time.
+
+What surprises me is how this fills in gaps in the fossil record—it's like finding a missing chapter in the story of life on Earth.
+
+For future research, this could influence how we model early ocean ecosystems and biodiversity, potentially informing conservation today.
+
+Speaking of foundational biology, there's a fresh take on how cells divide that caught my eye.
+
+In zebrafish embryos, Science Daily explains, scientists observed giant cells using a mechanical ratchet system to split, rather than the classic closed contractile ring we all learned about in bio class.
+
+This ratchet mechanism involves asymmetric pulling and tightening, allowing these oversized cells to divide efficiently during rapid embryonic growth.
+
+It updates our models of cell mechanics, showing that division isn't one-size-fits-all—context like cell size matters.
+
+Implications ripple into developmental biology, possibly affecting how we study birth defects or tissue regeneration where large cells are involved.
+
+My brief take: It's incremental but cool, adding nuance to what we know and reminding us that nature has clever workarounds in early life stages.
+
+This could inspire bioengineering, like in lab-grown organs, where mimicking these mechanics might improve outcomes.
+
+Now, for something with big potential in fighting superbugs—a bacterial kill switch discovered through virus tactics.
+
+High-resolution imaging, as per Science Daily, showed viruses disabling a key bacterial protein called MurJ, which stops cell wall building and leads to the bug's death.
+
+The mechanism is precise: it flips MurJ's orientation, halting the transport of building blocks needed for the wall.
+
+This targets drug-resistant bacteria by exploiting a vulnerability that's hard for them to evolve around, since MurJ is essential.
+
+In the context of rising antibiotic resistance, it's a promising lead for new drugs that mimic this viral strategy.
+
+What excites me is the elegance—nature's already figured out a way, and we're just borrowing it.
+
+Looking ahead, this could speed up antibiotic development, especially for stubborn infections like MRSA.
+
+On the tech side, imagine combining caffeine with gene editing—sounds wild, but it's real.
+
+Researchers, according to Science Daily, created a chemogenetic system where caffeine from something as simple as coffee activates pre-programmed crisper tools in cells.
+
+It works by linking crisper to a caffeine-sensitive switch, allowing on-demand editing, even in things like cancer-fighting T cells.
+
+This provides precise control—turn it on with a sip, turn it off when done—potentially simplifying therapies for diseases like cancer or genetic disorders.
+
+Mechanistically, it's a step up from current methods, which can be hard to regulate once started.
+
+For clinical implications, it might make treatments safer and more targeted, reducing off-target effects.
+
+I'm enthusiastic about this because it's so accessible—caffeine is everywhere, which could democratize advanced therapies.
+
+Finally, a sustainable win in materials science: milk protein turned into biodegradable plastic.
+
+Science Daily details a film made from calcium caseinate, starch, and nanoclay that matches plastic's durability but fully breaks down in soil in just thirteen weeks.
+
+The blend creates a barrier against moisture and oxygen, ideal for food packaging, while being eco-friendly.
+
+This addresses plastic pollution by offering a drop-in alternative for single-use items, derived from abundant dairy byproducts.
+
+Contextually, it's incremental in the green materials space but practical, with full degradation confirmed in tests.
+
+My take? It's grounded progress— not a total game-changer, but it could cut down on landfill waste if scaled up.
+
+Before we go—next time, we'll be watching for updates on how that caffeine-crisper system moves into human trials, potentially revolutionizing gene therapies.
+
+That's Planet-terry-an Daily for today. If you enjoyed this episode, a rating or review on Apple Podcasts or Spotify really helps new listeners find the show. I'm Patrick in Vancouver. Thanks for listening, and I'll see you tomorrow.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -909,6 +1140,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/planetterrian/ep024.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Planetterrian Daily in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Planetterrian Daily">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -926,6 +1173,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1024,9 +1273,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

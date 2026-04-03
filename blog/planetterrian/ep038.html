@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -929,6 +1029,95 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Welcome to Planet-terry-an Daily. I’m Patrick in Vancouver, and this is episode thirty-eight. Every week we dig into the latest peer-reviewed work that’s quietly reshaping how we understand the body, the brain, and the world around us.
+
+Today we’ve got a particularly rich mix: from the precise neural circuitry that makes deep sleep a nightly fountain of youth, to surprisingly practical improvements in the protein shakes we already rely on, all the way to some genuinely surprising discoveries about how early touch, gut bacteria, and cellular aging signals affect everything from chick emotions to human back pain. Let’s dive in.
+
+The first story starts where so much of our long-term health actually begins: in the deepest stages of sleep. Researchers have now mapped the specific neural circuits that create a beautifully elegant feedback loop during deep, slow-wave sleep. When those circuits activate, they trigger the release of growth hormone from the pituitary gland.
+
+That hormone then goes to work rebuilding muscle, mobilizing fat stores for energy, strengthening bone, and even fine-tuning cognitive circuits. What makes this discovery particularly satisfying is that the same loop also helps regulate the transition back to wakefulness, so the system is self-correcting. It’s a rare example of biology solving multiple problems with one elegant mechanism.
+
+The implications feel especially relevant as our population ages. Age-related muscle loss, known as sarcopenia, contributes to frailty, falls, and loss of independence. Metabolic disorders like type 2 diabetes often worsen when this nightly repair process becomes less efficient.
+
+And cognitive decline, from mild memory lapses to more serious impairment, also tracks with deteriorating sleep architecture.
+
+By showing exactly which neurons are talking to which other neurons during deep sleep, this work opens the door to more targeted interventions—whether through better sleep hygiene protocols, non-drug ways to deepen slow-wave sleep, or eventually precision therapies that could restore this natural feedback loop in older adults.
+
+It’s not hype to say the research makes the case that protecting deep sleep might be one of the highest-R O I things we can do for healthy aging. The science simply shows how deeply our nightly physiology is wired into our physical resilience.
+
+And yet, even when the biology is working in our favour, we still have to live with the practical side of staying healthy. That brings us to a much more everyday story that still matters for anyone who tries to use protein supplements consistently.
+
+Researchers have found a way to tweak the manufacturing process for whey protein so that the resulting shakes have significantly better texture and mouthfeel, all without changing a single nutritional parameter. The taste and grittiness that put so many people off are largely solved by adjusting how the protein is processed at the factory level.
+
+For a lot of us, the post-workout or morning shake is one of those habits we know we should keep but often abandon because it just isn’t pleasant. The chalky aftertaste, the way it coats your mouth, the slight graininess—those small sensory barriers add up. This new approach addresses the problem at the source rather than trying to mask it with more sweeteners or flavours.
+
+The result is a product that people might actually look forward to drinking every day. That consistency matters. If more people can stick with adequate protein intake around their training or simply to maintain muscle as they age, the downstream health effects could be meaningful even if the study itself is modest.
+
+It’s a reminder that sometimes the breakthroughs that help the most people are the ones that remove friction from behaviours we already know are useful.
+
+Speaking of early influences that shape long-term outcomes, a team at the University of Bristol has published some quietly powerful work on how gentle, positive human contact in the first few days of life can dramatically change the emotional landscape of young animals. In this case they were working with baby chicks, but the principle feels broadly relevant.
+
+Chicks that received regular, calm handling from humans showed much lower fear responses later in life and displayed behavioural signs consistent with more positive emotional states.
+
+What’s striking is how lasting the effect appears to be. A relatively short period of gentle interaction early on seems to “program” their stress-response systems in a healthier direction. From a welfare perspective, this is excellent news because it’s an incredibly low-cost intervention.
+
+Farmers don’t need expensive equipment or drugs—just a few minutes of calm, predictable human contact with newly hatched birds. The study adds to a growing body of evidence that early-life environment doesn’t just affect physical growth; it calibrates the nervous system’s set point for anxiety and resilience.
+
+While we have to be careful about over-extrapolating from birds to mammals, the work still invites us to think about how early experiences, touch included, might quietly shape emotional regulation across species, including our own.
+
+From the effects of gentle touch on developing nervous systems we move to something even more unexpected: the way gut microbes can literally change social behaviour through smell. Neurobiologists at Northwestern University discovered that certain bacteria living in a mouse’s gut produce a pungent chemical signal that other mice can detect through their noses.
+
+That smell, in turn, influences how aggressive the receiving mouse is and even affects social dominance hierarchies within groups.
+
+The pathway they’ve uncovered—gut to nose to brain—is remarkably direct. It’s another example of the microbiome reaching out beyond digestion to shape who we are in the social world. In the mouse experiments, altering the bacterial composition changed the scent profile, which changed the behavioural dynamics.
+
+The dominant mice literally smelled different because of what was living in their intestines. While we’re still a long way from knowing whether comparable mechanisms operate in humans, the finding adds to the growing realization that our internal ecosystems are not isolated. They communicate with the outside world in ways we’re only beginning to map.
+
+It makes you wonder how many subtle social signals we’re exchanging every day without realizing part of the message is microbial.
+
+Staying with fundamental biological mechanisms, another team has zeroed in on one of the most common and debilitating sources of chronic pain: degeneration of the intervertebral discs in the spine. Researchers found that a growth factor called FGF21 increases the activity of a sirtuin protein, SIRT1, which in turn slows down the aging process inside those discs.
+
+The work was done in rats, but it targets cellular pathways that are highly conserved across mammals.
+
+Lower back pain caused by disc degeneration affects a staggering number of people worldwide and is one of the leading causes of disability. Most current treatments focus on managing symptoms—painkillers, physiotherapy, injections, or surgery in severe cases. This approach is different because it goes after the root biological aging process itself.
+
+By supporting the cell’s own repair and stress-resistance machinery, FGF21 appears to help the discs maintain their structural integrity longer. It’s early-stage research, but it fits into a larger pattern we’re seeing in regenerative medicine: rather than simply patching damage, we’re learning to slow the damage-causing processes at a molecular level.
+
+If the mechanism translates, it could eventually offer a way to prevent or delay one of the most widespread age-related conditions instead of just treating it after the fact.
+
+Finally, we shift from biology to materials science with a breakthrough that feels almost like science fiction becoming routine. An international team has used an exquisitely sensitive quantum twisting microscope to directly observe electron-electron interactions in graphene at room temperature—something that was previously thought to require extreme cryogenic conditions.
+
+The result confirms a theoretical prediction that had stood for decades, and they achieved it with remarkable precision.
+
+For years, seeing these subtle quantum effects meant cooling materials to just above absolute zero, which made practical applications seem distant. Being able to witness them at normal room temperature changes the timeline. It brings quantum phenomena much closer to the kinds of conditions we actually live and build things in.
+
+The work doesn’t deliver an immediate consumer product, but it removes a major technical barrier. Expect it to accelerate progress in developing new quantum materials, sensors, and potentially even more energy-efficient electronics. It’s a beautiful example of how patient, precise observation of nature at the smallest scales can eventually open doors we didn’t even know were closed.
+
+So that’s the week in science and health. We’ve seen how a well-timed pulse of growth hormone during deep sleep supports muscle, metabolism, and cognition in adults far beyond childhood. We’ve looked at small manufacturing changes that could make consistent protein intake more realistic for millions.
+
+We’ve considered how early gentle contact can shape emotional resilience even in farm animals, how gut bacteria might influence social behaviour through scent, how cellular aging signals could one day change how we think about back pain, and how a quantum microscope just made room-temperature physics far more accessible.
+
+None of these stories are complete revolutions on their own, but together they illustrate something I find consistently hopeful: progress often comes from paying extremely close attention to mechanisms we already half-understand.
+
+Whether it’s mapping neural loops in sleep, tweaking a production process, or observing electrons dancing at room temperature, the pattern is the same—curious people asking better questions and using better tools to answer them.
+
+Before we wrap up, a small personal note: the next time you’re tempted to scroll in bed or cut your sleep short, remember that feedback loop we started with. Your brain is quietly deciding how much growth hormone to release based on how deeply you let it rest. Sometimes the most profound intervention is simply protecting the basics.
+
+Thanks for spending this time with me. If you found any of these stories interesting, share the episode with someone who likes to geek out about how the world actually works. I’m Patrick in Vancouver. We’ll talk again next week on Planet-terry-an Daily.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -936,6 +1125,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/planetterrian/ep038.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Planetterrian Daily in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Planetterrian Daily">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -953,6 +1158,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1051,9 +1258,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

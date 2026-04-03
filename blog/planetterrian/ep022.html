@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -940,6 +1040,19 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Welcome to Planet-terry-an Daily, episode twenty-two. Today is February twenty-sixth, twenty twenty-six. Shingles vaccine may slow biological aging and reduce inflammation. Let’s dive right into that headline story about the shingles vaccine. A large study involving over three thousand eight hundred Americans aged 70 and older has revealed something pretty remarkable, as reported by Science Daily. This vaccine, which most of us associate with preventing those painful rashes, seems to slow down biological aging by tackling chronic inflammation—a process often called "inflammaging." That’s significant because this kind of inflammation is tied to serious age-related issues like heart disease, frailty, and even cognitive decline. What’s exciting here is the idea that a routine shot could have such wide-reaching protective effects for millions. Researchers are now digging deeper into the molecular mechanisms behind this, and I can’t help but wonder: could other common vaccines hold similar hidden benefits for longevity? It’s a fascinating avenue for future studies. Now, shifting gears to a very different kind of discovery, let’s talk about some tiny but mighty creatures—honeyeaters. According to Science News, these birds have evolved unique metabolic tricks to thrive on diets heavy in nectar and fruit. They can handle high glucose levels and manage blood pressure in ways that are just remarkable for such small animals. This isn’t just a cute bird fact; it gives us a window into how species adapt to extreme dietary challenges. I find it intriguing to think about what this resilience could teach us about metabolism across different organisms, maybe even informing human nutrition research down the line. On a more sobering note, let’s discuss a finding about tyrosine, an amino acid often found in supplements for focus and energy. A study of two hundred seventy thousand people, covered by Science Daily, linked higher tyrosine levels to a reduced life expectancy in men—by nearly a year. That’s a striking correlation, and it raises real questions about the risks of taking such supplements without guidance. While the exact mechanisms aren’t fully clear yet, this adds to the growing caution around untested health trends. My take? It’s a reminder to approach biohacking with skepticism and always dig into the data before popping a pill. Next up, a piece from Life-span dot i o about how aging affects our stem cells. Research published in Cell Discovery shows that age-related metabolic shifts impair adipose-derived stem cells in humans, which are crucial for tissue repair. This could explain why our bodies struggle to heal as we get older, and it points to potential targets for anti-aging therapies. I find the precision of this work compelling—pinpointing a specific cellular change opens doors to interventions. It’s not a cure for aging, but it’s a solid step in understanding why our repair systems falter over time. Let’s turn to something cutting-edge in the realm of technology and medicine: quantum light. Science Daily reports that scientists have managed to shape quantum light into high-dimensional states, meaning each photon can carry more information than ever before. This could revolutionize communication and imaging technologies, and there’s even talk of using topological states to make these signals more stable over long distances. What grabs me here is the sheer potential—imagine medical imaging so precise it catches issues we can’t even detect today. It’s still early days, but this feels like a building block for something transformative. Switching to a health concern closer to home, there’s new research on acid reflux drugs like Prilosec. Science Daily highlights a study in rats showing that long-term use disrupts iron and calcium absorption, potentially raising risks for anemia and osteoporosis. While it’s not a direct human study, it’s a red flag for anyone using these meds without close medical oversight. I think this underscores a broader point: even common treatments can have unexpected downsides over time. It’s worth having that conversation with a doctor if you’re on these long-term. Now, let’s touch on a breakthrough in cancer research that’s hard to ignore. Nature reports that ultra-sensitive CAR T cells have successfully eliminated hard-to-treat solid tumors in mice by targeting even low levels of antigens. This is a big deal because solid tumors have often been out of reach for CAR T therapies, which have worked better on blood cancers. The clinical implications here could be huge, potentially expanding treatment options for some of the toughest cancers out there. I’m cautiously optimistic—mouse studies are just the start, but this precision targeting is thrilling to see. What’s the next step for human trials? I’ll be watching closely. On a related but preventive note, Nature also covered a promising development in cancer vaccines. An off-the-shelf neoantigen vaccine was tested in patients with Lynch syndrome—a group at high hereditary risk for cancer—and proved both safe and immunogenic. That means it successfully triggered an immune response, which is a critical first step for a preventive strategy. This isn’t about curing cancer but stopping it before it starts, and that shift in thinking is what fascinates me. Could we one day vaccinate against certain cancers as routinely as we do for flu? It’s a long road, but this study lights the path. Finally, a psychological angle on aging that caught my eye. A study of over 700 women, reported by Science Daily, found that anxiety about aging—especially fears around health—correlates with faster biological aging, as measured by epigenetic clocks. In other words, worrying about getting old might actually speed up cellular decline. That mind-body connection is striking to me; it’s not just about lifestyle or genetics, but how our outlook shapes our biology. It’s a small study, but it’s a nudge to consider mental health as part of any longevity strategy. How do we cultivate a healthier mindset about aging? That’s a question worth pondering. That's Planet-terry-an Daily for today. If you enjoyed this episode, a rating or review on Apple Podcasts or Spotify really helps new listeners find the show. I'm Patrick in Vancouver. Thanks for listening, and I'll see you tomorrow.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -947,6 +1060,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/planetterrian/ep022.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Planetterrian Daily in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Planetterrian Daily">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -961,6 +1090,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1059,9 +1190,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

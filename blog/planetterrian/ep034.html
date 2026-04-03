@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -958,6 +1058,113 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Hey, welcome to Planet-terry-an Daily. I’m Patrick, coming to you from Vancouver. Today is March twenty-first, twenty twenty-six, and we’ve got a rich mix of stories that span from living medicines fighting cancer inside the body all the way out to ancient forests storing carbon and even what it might take to grow food on Mars. Let’s dive in.
+
+The first story really caught my attention because it feels like one of those moments when synthetic biology stops being theoretical and starts becoming practical medicine. Scientists have engineered ordinary probiotic bacteria to act as mobile tumor-seeking drug factories.
+
+In mouse studies, these modified bacteria successfully infiltrated solid tumors and then produced a cancer-fighting drug right on site, exactly where it was needed. What makes this elegant is how localized the production stays.
+
+By manufacturing the therapeutic inside the tumor itself, the approach dramatically improves effectiveness at the disease site while sharply limiting how much of the drug circulates through the rest of the body.
+
+That matters, because two of the biggest frustrations with conventional chemotherapy have always been inadequate drug penetration into dense tumor tissue and the collateral damage caused by systemic exposure.
+
+This bacterial platform essentially turns harmless, food-grade microbes into precision delivery vehicles that home in on the abnormal environment of a tumor and begin manufacturing medicine only after they arrive.
+
+I find it quietly exciting because it borrows an existing biological preference—bacteria already tend to thrive in the low-oxygen, immunosuppressive conditions inside many solid tumors—and engineers it into something therapeutic. Of course, there’s still work ahead.
+
+The next phase will involve refining the genetic circuits inside these bacteria for greater safety, tighter control, and more consistent performance across different tumor types. Once those engineering challenges are addressed, researchers hope to move toward early human trials to see whether the same precision and reduced side-effect profile translate from mice to people.
+
+If it does, this could open an entirely new delivery platform for many hard-to-treat solid tumors that have resisted traditional drug approaches. It’s a beautiful example of how we’re learning to partner with biology rather than just fighting against it.
+
+While we’re making these sophisticated strides in fighting cancer with engineered living systems, other research is quietly reminding us how everyday environmental exposures may be shaping our health from a much earlier age than we often realize.
+
+A new study has linked early-life exposure to P fas—those persistent “forever chemicals” found in everything from non-stick cookware to stain-resistant fabrics—to lower bone density during the teenage years. The association appears especially pronounced in girls, and the timing of exposure seems to matter a great deal.
+
+It suggests there are critical windows during childhood and adolescence when these chemicals can subtly disrupt the complex process of bone mineralization and growth. This adds another layer to our growing understanding of how P fas can influence human development in ways that are not immediately obvious but may carry lifelong consequences.
+
+Bone density in the teen years is a major predictor of osteoporosis risk decades later, so these findings reinforce the importance of minimizing exposure during periods of rapid skeletal development. From my perspective, this is the kind of incremental but meaningful epidemiology that slowly shifts policy and personal choices.
+
+We already knew P fas were problematic for immune function and metabolic health; now we’re seeing they may also be quietly undermining the very scaffolding that holds us up. The practical takeaway is straightforward: the less exposure children receive during those formative growth years, the better the odds for stronger bones later in life.
+
+Speaking of long-term health risks that accumulate quietly over decades, another line of research is shedding light on a cellular change in men that most of us have never heard about, even though it becomes surprisingly common with age.
+
+Here’s something that still surprises me every time I read about it: in many men, the Y chromosome quietly disappears from an increasing fraction of their cells as they get older. Most of us assume our chromosomes are fixed for life once development is complete, but that’s not entirely true for the Y in adult males.
+
+As time passes, certain blood cells and other tissues begin losing the Y chromosome through errors in cell division, and those Y-less cells seem to gain a competitive growth advantage. They slowly crowd out the normal cells, gradually becoming a larger and larger proportion of the total cell population.
+
+This loss has been associated with higher risks of heart disease, certain cancers, Alzheimer’s disease, and overall shorter lifespan. The underlying mechanism appears to involve disrupted gene regulation and altered immune signaling once the Y chromosome is no longer present to provide its usual set of instructions.
+
+One of the most striking details is simply how common this phenomenon becomes in older age—by the time many men reach their 70s or 80s, a substantial portion of their circulating blood cells may be living without a Y chromosome. I find this story compelling because it offers a concrete, measurable cellular change that could help explain some of the differences we see in how men and women age.
+
+Tracking the degree of Y chromosome loss might eventually become a useful biomarker for men’s health, prompting earlier attention to cardiovascular risks, cognitive screening, or immune function. It’s a reminder that aging isn’t just about wrinkles and slower metabolism; sometimes the most important changes are happening deep inside individual cells, one division at a time.
+
+Staying with the theme of longevity and what ultimately shapes how long and how well we live, let’s zoom out for a moment to an entirely different scale. New research out of Sweden has quantified just how much carbon our remaining old-growth forests can hold compared with the managed woodlands that now dominate much of Europe.
+
+The numbers are striking: these ancient, untouched forests store 83 percent more carbon than the managed stands around them. That difference reflects centuries of human forestry practices—selective harvesting, shorter rotation cycles, and simplified species composition—that have gradually reduced the carbon-carrying capacity of the landscape.
+
+The remaining old-growth stands serve as living relics, showing us what European forests were capable of storing before intensive management became the norm. From a climate perspective, the findings underscore the real value of protecting what little old-growth remains.
+
+These ecosystems aren’t just beautiful; they’re functioning as powerful, long-term carbon reservoirs that continue to accumulate and hold carbon for hundreds of years. Preserving them isn’t nostalgia—it’s pragmatic climate strategy. At the same time, the study invites us to think more carefully about how we manage the younger forests we do control.
+
+There may be ways to adjust forestry practices to allow greater carbon storage without sacrificing timber production entirely. It’s another example of how respecting natural processes often yields better outcomes than trying to simplify or accelerate them.
+
+While forests work quietly above ground to pull carbon from the atmosphere, another team of researchers has been focused on the living systems beneath the waves. New work led by James Cook University makes a compelling case that the success of marine protected areas depends far more on understanding and influencing human behavior than many conservationists have traditionally acknowledged.
+
+Compliance, it turns out, is an underappreciated but absolutely critical factor in whether these protected zones actually deliver the ecological benefits they’re designed to provide. No matter how carefully the boundaries are drawn or how strong the scientific rationale, protected areas ultimately succeed or fail based on what people actually do when they’re near them.
+
+The study highlights the need for more systematic attention to the behavioral and social dimensions of marine conservation—everything from enforcement strategies to community engagement to cultural attitudes toward ocean resources. It’s a reminder that conservation is never purely biological; it’s always a human enterprise as well.
+
+Focusing more deliberately on compliance and local stewardship could strengthen the outcomes of future marine protection efforts and help ensure that the oceans’ remarkable biodiversity has a better chance of persisting.
+
+That sense of deep connection between humans and the natural world shows up in a different and rather delightful way in another piece of research. It turns out that humans and animals largely agree on which bird songs, frog calls, and cricket chirps sound the most attractive or appealing.
+
+The study connects back to some of Darwin’s early thinking about signals that evolved specifically to appeal to mates, suggesting that our shared perception of beauty in nature may have surprisingly deep evolutionary roots. Both humans and other animals seem to respond to the same acoustic features—things like pitch, rhythm, and complexity—in these natural sounds.
+
+The alignment points to perceptual mechanisms that were shaped over vast stretches of evolutionary time, long before our species appeared. I love findings like this because they gently collapse the artificial boundary we sometimes draw between ourselves and the rest of the living world.
+
+What we experience as musical or beautiful in a dawn chorus isn’t entirely cultural; some of it appears to be wired into us at a fundamental level. It’s a small but lovely reminder of our continuity with other creatures.
+
+Shifting from evolutionary signals to very practical new tools for the laboratory, researchers have developed an ingenious system called CarGAP that gives scientists precise control over the communication channels between cells.
+
+The tool uses a combination of vitamin B12 and green light to open and close gap junctions—the tiny tunnels that allow neighboring cells to exchange ions, metabolites, and electrical signals.
+
+It worked successfully both in mammalian cells in culture and in living fruit flies, offering new possibilities for studying everything from embryonic development to immune responses to the coordinated firing of neurons. What makes the approach especially practical is that it relies on a common vitamin and visible light rather than exotic chemicals or invasive procedures.
+
+This kind of optogenetic-style control over cell-to-cell communication could become a valuable addition to the biologist’s toolkit, helping us untangle the incredibly complex conversations that cells have with one another in real time.
+
+Continuing with clever biological innovations, another team has taken a meaningful step toward making long-duration space exploration more self-sufficient. Working together, researchers from ZARM, the University of Bremen, and the German Aerospace Center have shown that a fertilizer produced solely from resources available on Mars can successfully grow edible biomass.
+
+The advance matters because every kilogram of food that doesn’t have to be launched from Earth represents a huge saving in mass, cost, and logistical complexity. Being able to generate at least some fresh food from local Martian materials moves us closer to the kind of closed-loop life support systems that will be necessary for sustained human presence on other worlds.
+
+It’s an incremental but genuinely exciting demonstration that we’re learning to live off the land—even when that land is another planet.
+
+From growing food on Mars back to improving how we deliver medicine here on Earth, researchers have uncovered a surprising biological barrier that helps explain why many nanoparticle therapies have struggled to reach their targets consistently.
+
+The team identified a previously underappreciated gut-liver immune axis that is maintained through interactions between commensal gut bacteria and serotonin-related signaling. This pathway appears to recognize and rapidly clear many of the synthetic drug-delivery carriers that researchers have designed.
+
+The discovery has implications for tumor-targeted therapies, messenger R N A treatments, and gene-editing approaches that rely on nanoparticle delivery. Understanding exactly how this clearance mechanism works may eventually allow scientists to design carriers that can evade it or even work with it.
+
+It’s the kind of fundamental biological insight that often precedes major improvements in drug delivery efficiency.
+
+The Planet-terry-an Spotlight today returns to that opening story about engineered probiotic bacteria. What stays with me is how neatly it solves two longstanding problems at once. By turning harmless bacteria into living drug factories that only activate inside the tumor, the approach concentrates the medicine exactly where it’s needed while sparing healthy tissue from unnecessary exposure.
+
+The bacterial platform could eventually help treat many hard-to-treat solid tumors with a level of precision that conventional drugs have struggled to achieve. Of course, the engineering still needs to be refined for safety and consistency before human trials, but the underlying idea feels like a genuine leap in how we might partner with biology to fight disease.
+
+That’s Planet-terry-an Daily for today. If you enjoyed the episode, a rating or review on Apple Podcasts or Spotify really does help new listeners discover the show. I’m Patrick in Vancouver. Thanks for spending part of your day with me, and I’ll talk to you again tomorrow.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -965,6 +1172,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/planetterrian/ep034.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Planetterrian Daily in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Planetterrian Daily">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -982,6 +1205,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1080,9 +1305,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>
