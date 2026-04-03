@@ -5,7 +5,7 @@
     <description>Ten podcasts in two languages keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, modern investing, financial literacy, and Russian language learning.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Apr 2026 07:33:54 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 03 Apr 2026 07:57:10 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg</url>
       <title>Nerra Network</title>
@@ -119,6 +119,40 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episodeType>full</itunes:episodeType>
       <podcast:chapters url="https://nerranetwork.com/digests/env_intel/chapters_ep020.json" type="application/json+chapters" />
       <podcast:transcript url="https://nerranetwork.com/digests/env_intel/Env_Intel_Ep020_20260403_transcript.json" type="application/json" />
+    </item>
+    <item>
+      <title>Ep 25: Google drops Gemma 4, claiming the strongest small multimodal open model yet with dramatic gains across every benchmark compared to Gemma 3.</title>
+      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep025_20260403.mp3</link>
+      <description>**# Models &amp; Agents**  
+**Date:** April 03, 2026
+
+**HOOK:** Google drops Gemma 4, claiming the strongest small multimodal open model yet with dramatic gains across every benchmark compared to Gemma 3.
+
+**What You Need to Know:**  
+Google’s Gemma 4 update leads today’s releases, positioning it as the new leader among efficient multimodal models. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">models-agents-ep025-20260403-075707</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep025_20260403.mp3" length="16005164" type="audio/mpeg" />
+      <pubDate>Fri, 03 Apr 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
+      <itunes:duration>11:06</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**# Models &amp; Agents**  
+**Date:** April 03, 2026
+
+**HOOK:** Google drops Gemma 4, claiming the strongest small multimodal open model yet with dramatic gains across every benchmark compared to Gemma 3.
+
+**What You Need to Know:**  
+Google’s Gemma 4 update leads today’s releases, positioning it as the new leader among efficient multimodal models. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>25</itunes:episode>
+      <itunes:title>Ep 25: Google drops Gemma 4, claiming the strongest small multimodal open model yet with dramatic gains across every benchmark compared to Gemma 3.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+      <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep025.json" type="application/json+chapters" />
+      <podcast:transcript url="https://nerranetwork.com/digests/models_agents/Models_Agents_Ep025_20260403_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Tesla Shorts Time - Episode 424 - April 02, 2026</title>
@@ -386,7 +420,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Models &amp; Agents - Episode 24 - April 01, 2026</title>
-      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep024_20260401.mp3</link>
       <description>**What You Need to Know:** Hugging Face just shipped TRL v1.0, turning the messy post-training pipeline (SFT → Reward Modeling → DPO/GRPO) into a stable, production-ready unified API. Liquid AI dropped LFM2.5-350M, a 350M-parameter model trained on 28T tokens with scaled RL that challenges the “bigger is better” scaling narrative. ...
 
 AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
@@ -403,8 +436,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>24</itunes:episode>
       <itunes:title>Models &amp; Agents - Episode 24 - April 01, 2026</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-      <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep024.json" type="application/json+chapters" />
-      <podcast:transcript url="https://nerranetwork.com/digests/models_agents/Models_Agents_Ep024_20260401_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Ep 10: World stocks rocket higher on optimism the Iran war could end soon, lifting S&amp;P 500 futures +2.9%.</title>
@@ -1527,45 +1558,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:season>1</itunes:season>
       <itunes:episode>5</itunes:episode>
       <itunes:title>Привет, Русский! - Episode 5 - March 26, 2026</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Привет, Русский! - Episode 6 - March 26, 2026</title>
-      <description>**Привет, Русский! — Episode Plan**  
-**Date:** March 26, 2026  
-**Theme:** Travel (Путешествие)
-
-**Vocabulary List (10 words/phrases):**
-
-- Russian (Cyrillic): аэропорт  
-  Transliteration: ah-eh-roh-port  
-  English: airport  
-  Example sentence: Мы летим в Москву. Давай встретимся в аэропорту.  
-  Example translation: We are flying to Moscow. Let's meet at the airport. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
-      <guid isPermaLink="false">pr-ep006-20260326-150245</guid>
-      <enclosure url="https://audio.nerranetwork.com/privet_russian/PR_Ep006_20260326.mp3" length="11289330" type="audio/mpeg" />
-      <pubDate>Thu, 26 Mar 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/privet-russian.jpg" />
-      <itunes:duration>07:50</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary>**Привет, Русский! — Episode Plan**  
-**Date:** March 26, 2026  
-**Theme:** Travel (Путешествие)
-
-**Vocabulary List (10 words/phrases):**
-
-- Russian (Cyrillic): аэропорт  
-  Transliteration: ah-eh-roh-port  
-  English: airport  
-  Example sentence: Мы летим в Москву. Давай встретимся в аэропорту.  
-  Example translation: We are flying to Moscow. Let's meet at the airport. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>6</itunes:episode>
-      <itunes:title>Привет, Русский! - Episode 6 - March 26, 2026</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>

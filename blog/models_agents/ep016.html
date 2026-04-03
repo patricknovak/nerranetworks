@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -905,6 +1005,51 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Hey, welcome to Models and Agents, episode sixteen, for March fifteenth, twenty twenty-six. Your daily briefing on the A I models and agents that are changing everything. And no, not THOSE kinds of models and agents. Let's get into it.
+
+RL agents scaled to one thousand twenty-four layers unlock emergent parkour skills from basic failures.
+
+Alright, if that doesn't make you sit up a bit straighter, I don't know what will. We're talking about reinforcement learning agents that evolve from tripping over their own feet to pulling off fluid parkour moves, all thanks to cranking up the network depth. It's the kind of breakthrough that reminds me why I love this field—real progress hiding in what used to be a technical dead end. Stick around, because today we're diving into how deeper networks are supercharging agents, plus some clever new frameworks for training them on the fly. If you're building with A I, this could change how you approach robotics or automation. And as always, we'll wrap with stuff you can try right now to see it for yourself.
+
+So, what you need to know today: Researchers have pushed reinforcement learning agents to unprecedented depths of up to one thousand twenty-four network layers, yielding two times to fifty times performance gains and entirely new behaviors like advanced locomotion in self-supervised setups. Meanwhile, Princeton's OpenClaw-RL framework turns casual interactions into training data for agents, and Codewall demonstrated how agents can hack systems while testing security. Pay attention this week to how deeper networks and interactive training could make agents more capable for real-world tasks like robotics or automation. It's a reminder that the agent side of A I is heating up fast, even if foundation models are quiet today—perfect for those of you feeling overwhelmed by the pace, because this stuff is actionable and exciting without being pure hype.
+
+Let's jump into the top story, because this one has me genuinely buzzing. A research team has scaled reinforcement learning agents by bumping up the network depth from the usual 2 to 5 layers all the way to one thousand twenty-four layers. That's not a typo—one thousand twenty-four layers deep. In self-supervised environments, this led to massive performance jumps, from two times to as much as fifty times improvements over shallower setups. For context, reinforcement learning, or RL, is where agents learn by trial and error, getting rewards for good actions—think algorithms like PPO, which stands for Proximal Policy Optimization, or DQN, Deep Q-Network. Traditionally, stacking too many layers in these networks causes training to go haywire, with gradients vanishing or exploding, making the whole thing unstable.
+
+But these folks cracked that nut, and the results are wild. In simulated humanoid tasks, the agents started with basic failures—like clumsy falls—and evolved into showing emergent behaviors, like transitioning to fluid parkour moves. We're talking jumping, flipping, and navigating obstacles without anyone explicitly programming those skills. It's all self-supervised, meaning no hand-crafted rewards; the agent figures it out from its own experiences. Compared to shallower models, these deep ones generalize way better, handling new scenarios without needing massive datasets or tons of reward engineering. If you've been tinkering with RL in something like robotics or game A I, this is huge—shallower networks often plateau, but here, depth unlocks sophistication that feels almost magical.
+
+Practically speaking, if you're a developer, this means you can start experimenting with deeper architectures to build more autonomous behaviors. It could cut down on the data hunger that plagues a lot of RL projects. Keep an eye out for open-source implementations of this scaling technique—they're likely coming soon. And here's a tip: try integrating it with frameworks like Stable Baselines3 for your own RL projects. It's not ready for prime-time production everywhere yet, but for prototyping, it's a game-changer. What to watch next? Further benchmarks on real hardware, not just sims, and how this plays with multimodal inputs like vision data. I mean, imagine robots that learn parkour from watching videos— that's the kind of leap this enables. Just when you thought RL was stuck in a rut, bam, depth scaling flips the script.
+
+Shifting gears to model updates—honestly, it's a quiet day on the foundation model front. No major releases from the big labs like Open A I or An-thropic, which isn't surprising given the agent focus today. Sometimes these lulls happen, and it gives us breathing room to catch up on the tools that actually use those models. If you've been waiting for something like a new Llama variant or G P T iteration, check back soon— these things drop without warning. But this fits into a bigger trend: while models get all the headlines, it's the agent layers on top that are turning raw capabilities into practical wins. For instance, if you're using something like Llama 3 for generation, pairing it with today's agent advancements could amp up its real-world utility in automation tasks. Developers, if you're feeling the hype fatigue from constant model drops, today is your reminder that depth in agents might matter more than the next parameter count bump. We'll keep you posted if anything lands overnight.
+
+Now, onto agent and tool developments, where things get really fun and a bit cheeky. First up, Princeton's new OpenClaw-RL framework is turning everyday interactions into training gold. According to The Decoder, it trains A I agents "simply by talking," capturing feedback from chats, terminal commands, or even GUI actions and converting them into continuous training signals. You only need a few dozen interactions for noticeable improvements—no massive R L H F setups required, which is reinforcement learning from human feedback, the pricey process behind models like ChatGPT.
+
+This improves on traditional agent frameworks like Lang Chain or AutoGPT, which often discard live data after a task. Instead, OpenClaw-RL keeps learning on the fly, enabling faster adaptation for things like personalized assistants. It's open-source, so you can download the code from their GitHub repo today and integrate it with your existing workflows. If you're building agents for tasks like code debugging or customer support, this is accessible and powerful—start with a simple chat-based agent and watch it get smarter from your inputs. I love how it democratizes training; no need for a data center, just your daily use.
+
+Then there's Codewall's demo, also covered by The Decoder, where an A I agent hacked into an A I recruiting platform in under an hour, then used voice synthesis to impersonate figures like Trump to test the system's guardrails. It's a showcase of evolving agent capabilities in browser automation and social engineering tests—think red-teaming, where you probe for weaknesses. This builds on tools like AutoGen or Semantic Kernel but spotlights security vulnerabilities in agentic systems. If you're a developer, it's a wake-up call to test your own apps. You can explore similar setups with open agent frameworks; if Codewall's demo code is out there, grab it to simulate hacks on voice bots or recruitment tools. It's equal parts impressive and amusing—agents are getting sneaky, but in a way that helps us build better defenses. Overall, these developments scream practicality: agents aren't just theoretical anymore; they're tools you can tweak and deploy right now.
+
+For practical and community highlights, it's a bit lighter today—the articles are heavy on research and demos, without massive new open-source drops. But that doesn't mean you can't get hands-on. The real gems are the GitHub repos tied to these stories, like the one for OpenClaw-RL. If you're in the community, this is your cue to tinker—fork that repo and experiment with integrating it into your projects. It's solving a common pain point: how do you train agents without endless data collection? Community folks are already buzzing about this on forums, and I wouldn't be surprised if we see quick contributions, like plugins for popular setups. If you're a builder feeling overwhelmed, start small: clone one of these and run a basic test. It's the kind of underrated project that could save you hours in the long run. And hey, if you're contributing, share your tweaks— that's how this ecosystem thrives.
+
+Alright, things to try this week—let's make this actionable. If you haven't scaled your RL agents to deeper layers yet, up to one thousand twenty-four like in the research, this is the perfect time. Use the techniques for robotics sims and watch emergent behaviors pop up—it's a total game-changer compared to standard 5-layer setups that often stall out. Next, integrate OpenClaw-RL into a Lang Chain agent for interactive training via chat; you'll see quick improvements in tasks like code debugging with just minimal data. For the security-minded, red-team your own A I systems with agentic hacks inspired by Codewall's demo—grab tools like CrewAI to simulate vulnerabilities in voice or recruitment bots. And don't miss experimenting with self-supervised RL in environments like MuJoCo to replicate that parkour emergence; compare the performance against baselines like PPO to really feel the difference. These are low-barrier entries—most run on a decent laptop—so dive in and let me know what you build.
+
+On the horizon, we've got potential open-source releases of that deep RL scaling code from the research team, which could spark a wave of community fine-tuning. Look for beta expansions in OpenClaw-RL integrations with frameworks like Microsoft AutoGen. There might be more red-teaming reports on agent security, possibly from conferences like NeurIPS 2026. And upcoming benchmarks could compare these deep RL agents to foundation models like Llama 3 for hybrid agentic tasks—exciting stuff that blends the best of both worlds.
+
+Before we go—tomorrow, keep an eye on potential foundation model drops from labs like Open A I, as the quiet today often means a storm tomorrow.
+
+That's Models and Agents for March fifteenth, twenty twenty-six. If you found this useful, share it with someone who's trying to keep up with all these changes, and subscribe so you don't miss tomorrow's update. The A I world moves fast. We'll help you keep up. See you tomorrow.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -912,6 +1057,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/models_agents/ep016.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Models & Agents in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Models & Agents">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -929,6 +1090,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1027,9 +1190,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

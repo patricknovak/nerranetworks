@@ -1,38 +1,7 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-04-01",
+  "last_updated": "2026-04-03",
   "episodes": [
-    {
-      "date": "2026-03-19",
-      "headlines": [],
-      "urls": [
-        "https://www.marktechpost.com/2026/03/18/meet-mamba-3-a-new-state-space-model-frontier-with-2x-smaller-states-and-enhanced-mimo-decoding-hardware-efficiency/",
-        "https://arxiv.org/abs/2603.15726",
-        "https://arxiv.org/abs/2603.15677",
-        "https://arxiv.org/abs/2603.15653",
-        "https://arxiv.org/abs/2603.17787",
-        "https://arxiv.org/abs/2603.16910",
-        "https://arxiv.org/abs/2603.17564",
-        "https://arxiv.org/abs/2603.17417",
-        "https://arxiv.org/abs/2603.17392",
-        "https://arxiv.org/abs/2603.17179",
-        "https://arxiv.org/abs/2603.15953",
-        "https://arxiv.org/abs/2603.15773",
-        "https://arxiv.org/abs/2603.15965",
-        "https://arxiv.org/abs/2603.16899",
-        "https://arxiv.org/abs/2510.19995",
-        "https://arxiv.org/abs/2505.08448",
-        "https://arxiv.org/abs/2603.16916",
-        "https://arxiv.org/abs/2512.18561",
-        "https://arxiv.org/abs/2508.11401"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**A Family of LLMs Liberated from Static Vocabularies**\nResearchers released a family of hierarchical autoregressive transformer (HAT) models, including conversions of Llama 3.1 8B and 70B into byte-level HAT architectures (Llama-3.1-8B-TFree-HAT and Llama-3.1-70B-TFree-HAT) plus a 7B model trained from scratch on nearly 4 trillion words. The HAT design uses an encoder to aggregate bytes into word embeddings for the backbone transformer, improving text compression and robustnes",
-        "agent_developments": "### Agent & Tool Developments\n**Capability-Priced Micro-Markets: A Micro-Economic Framework for the Agentic Web over HTTP 402**\nThis paper presents Capability-Priced Micro-Markets (CPMM), integrating MIT's Project NANDA for capability-based security, HTTP 402 micropayments, and the Agent Capability Negotiation and Binding Protocol. The framework formalizes agent interactions as repeated bilateral games with incomplete information and introduces \"privacy elasticity of demand\" to quantify informat",
-        "practical_community": "### Practical & Community\n**Noncooperative Human-AI Agent Dynamics**\nA new study models humans with Prospect Theory preferences (reference dependence and loss aversion) while AI agents use standard expected utility, testing them in matrix games and specialized scenarios. The accompanying code repository enables extensive simulations across AI, aware humans, and learning Prospect agents. The work surfaces patterns ranging from near-identical behavior to Prospect Theory anomalies and unexpected su"
-      }
-    },
     {
       "date": "2026-03-20",
       "headlines": [],
@@ -325,6 +294,72 @@
         "deep_dive": "### Under the Hood: Heuristic Override in LLM Reasoning\nEveryone talks about LLMs “reasoning” as if they perform logical inference like a human. In practice, they are heavily driven by surface heuristics that can completely override implicit feasibility constraints.\n\nThe core insight is that certain salient cues (distance, cost, efficiency, semantic similarity) create strong sigmoid-shaped influences on model output. Token-level attribution shows these decisions look more like keyword associatio"
       },
       "deep_dive_topic": "Heuristic Override in LLM Reasoning"
+    },
+    {
+      "date": "2026-04-03",
+      "headlines": [
+        "Step by Step Guide to Build an End-to-End Model Optimization Pipeline with NVIDIA Model Optimizer Using FastNAS Pruning and Fine-Tuning",
+        "[AINews] Gemma 4: The best small Multimodal Open Models, dramatically better than Gemma 3 in every way",
+        "Google DeepMind Exposes 6 Vulnerabilities Of AI Agents, Including A Crypto Crash Risk - Cointribune",
+        "Microsoft Releases Agent Governance Toolkit For Autonomous Agents - Let's Data Science",
+        "Microsoft releases open-source toolkit to govern autonomous AI agents - Help Net Security",
+        "Built an AI “project brain” to run and manage engineering projects solo, how can I make this more efficient?",
+        "Computational Foundations for Strategic Coopetition: Formalizing Sequential Interaction and Reciprocity",
+        "Free Information Disrupts Even Bayesian Crowds",
+        "Optimizing Interventions for Agent-Based Infectious Disease Simulations",
+        "DarwinNet: An Evolutionary Network Architecture for Agent-Driven Protocol Synthesis",
+        "A Role-Based LLM Framework for Structured Information Extraction from Healthy Food Policies",
+        "Systematic Analyses of Reinforcement Learning Controllers in Signalized Urban Corridors",
+        "Multi-Agent Video Recommenders: Evolution, Patterns, and Open Challenges",
+        "The Self Driving Portfolio: Agentic Architecture for Institutional Asset Management",
+        "HEAS: Hierarchical Evolutionary Agent-Based Simulation Framework for Multi-Objective Policy Search",
+        "Sci-Mind: Cognitively-Inspired Adversarial Debate for Autonomous Mathematical Modeling",
+        "AssetOpsBench: Benchmarking AI Agents for Task Automation in Industrial Asset Operations and Maintenance",
+        "Benchmark for Assessing Olfactory Perception of Large Language Models",
+        "A Reliability Evaluation of Hybrid Deterministic-LLM Based Approaches for Academic Course Registration PDF Information Extraction",
+        "LinearARD: Linear-Memory Attention Distillation for RoPE Restoration",
+        "Scalable Identification and Prioritization of Requisition-Specific Personal Competencies Using Large Language Models",
+        "Dynin-Omni: Omnimodal Unified Large Diffusion Language Model",
+        "How Trustworthy Are LLM-as-Judge Ratings for Interpretive Responses? Implications for Qualitative Research Workflows",
+        "Eyla: Toward an Identity-Anchored LLM Architecture with Integrated Biological Priors -- Vision, Implementation Attempt, and Lessons from AI-Assisted Development",
+        "Can LLMs Perceive Time? An Empirical Investigation"
+      ],
+      "urls": [
+        "https://www.latent.space/p/ainews-gemma-4-the-best-small-multimodal",
+        "https://www.latent.space/p/ainews-gemma-4-the-best-small-multimodal",
+        "https://arxiv.org/abs/2604.00004",
+        "https://arxiv.org/abs/2604.00007",
+        "https://news.google.com/rss/articles/CBMipAFBVV95cUxOWTJ2STRjUURtdThoZ1l3aXhnN1JEM1YxdDF6R3lNTEF3TmZkQWdrem9id3pCYm1iUkhBVmpIX1pheE5oRHVIVWRtRDRfbjhISVVIZldKZXo5RHdpWlFhbGVHdk40ZnNhd3NhdXlIQ01lbWducC02bUtPUVN5SkM5M1N3NXBNTkdnWkhBMHhSMUEwd3NUTnRBeG14TXZCYS0zWlplbA?oc=5",
+        "https://news.google.com/rss/articles/CBMinwFBVV95cUxNTmFiVjdwcEtaNHhuVmVIT29mdjNoNjFNU3Z2WXRPaGwtSGJEWEdEWW9LeFBUME5aZVRwWTJ6OGU2X0FGTmx5dlV2eTlKTFYyRmVNZ1ZRRVRaSDZXOURqTmVxc0lxUkdQTU45a3AwVWNWQzRFMExxNXVxMVhVVHJKUy1xbjdVVWc0QkNSVVk1alFJb0lZVEtaWFhyTjlwWEU?oc=5",
+        "https://www.marktechpost.com/2026/04/03/step-by-step-guide-to-build-an-end-to-end-model-optimization-pipeline-with-nvidia-model-optimizer-using-fastnas-pruning-and-fine-tuning/",
+        "https://www.reddit.com/r/artificial/comments/1sb4eu8/built_an_ai_project_brain_to_run_and_manage/",
+        "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNR1F2M2lMT080M09PNFMxaUFLU0RCY2hwQ241UjZJcFdNaXJ0QWpYMlhHWW1BMmZjd19zZW9WR0cxY08wM2hwaXVOcDgtelVtaTVpTmJyZDlNSkdjZkl4N3NIdlo4dXA2QkZtV0hmTVBxaklFYUp2VlJfSkp3UFBvNDd6VUZlQnM5?oc=5",
+        "https://arxiv.org/abs/2604.01240",
+        "https://arxiv.org/abs/2604.01838",
+        "https://arxiv.org/abs/2604.02016",
+        "https://arxiv.org/abs/2604.01236",
+        "https://arxiv.org/abs/2604.01529",
+        "https://arxiv.org/abs/2604.02025",
+        "https://arxiv.org/abs/2604.02211",
+        "https://arxiv.org/abs/2604.02279",
+        "https://arxiv.org/abs/2508.15555",
+        "https://arxiv.org/abs/2603.27584",
+        "https://arxiv.org/abs/2506.03828",
+        "https://arxiv.org/abs/2604.00002",
+        "https://arxiv.org/abs/2604.00003",
+        "https://arxiv.org/abs/2604.00006",
+        "https://arxiv.org/abs/2604.00008",
+        "https://arxiv.org/abs/2604.00009",
+        "https://arxiv.org/abs/2604.00010"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Gemma 4: The best small Multimodal Open Models, dramatically better than Gemma 3 in every way — Latent.Space**  \nGoogle delivered a major upgrade with Gemma 4, focusing on multimodal performance while keeping the model small and efficient. It reportedly outperforms its predecessor across language, vision, and combined tasks, making it one of the strongest openly available options in the sub-10B class. This matters for developers who need capable multimodal reasoning without r",
+        "agent_developments": "### Agent & Tool Developments\n**Microsoft Releases Agent Governance Toolkit For Autonomous Agents — Multiple Sources**  \nMicrosoft open-sourced a governance toolkit designed to help manage and oversee autonomous AI agents. The release addresses growing needs for control, auditing, and safety in production agent deployments. Developers building multi-agent systems or internal agent platforms should review the toolkit for practical governance patterns.\n\nSource: https://news.google.com/rss/articles",
+        "practical_community": "### Practical & Community\n**Step by Step Guide to Build an End-to-End Model Optimization Pipeline with NVIDIA Model Optimizer Using FastNAS Pruning and Fine-Tuning — MarkTechPost**  \nA detailed Colab-based tutorial shows how to train, prune with FastNAS, and fine-tune a ResNet model on CIFAR-10 using NVIDIA Model Optimizer. The guide walks through the complete pipeline from environment setup to optimized deployment. Perfect for developers looking to reduce model size and latency while maintainin",
+        "deep_dive": "### Under the Hood: Metric Aggregation Divergence in Agent-Based Simulations\nEveryone talks about evolutionary and agent-based optimization as if running many simulations and picking the “best” policy is straightforward. In reality, when optimization, tournament selection, and statistical validation each implement metric extraction independently, you get metric aggregation divergence — a hidden confound that makes champion selection reflect aggregation artifacts rather than true policy quality.\n"
+      },
+      "deep_dive_topic": "Metric Aggregation Divergence in Agent-Based Simulations"
     }
   ]
 }

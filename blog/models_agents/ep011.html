@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -945,6 +1045,81 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Hey, welcome to Models and Agents, episode eleven, for March tenth, twenty twenty-six. Your daily briefing on the A I models and agents that are changing everything. And no, not THOSE kinds of models and agents. Let's get into it.
+
+Meta acquires Moltbook, a Reddit-like platform for A I agents to interact and collaborate.
+
+Alright, folks, if you've been wondering how A I agents might start teaming up in ways that feel more like a bustling online community than isolated bots, this is the story that's got me buzzing today. Meta's snapping up Moltbook, and it could be a game-changer for collaborative A I. Stick around as we unpack that, plus some fresh model tweaks, agent tools that are dropping now, and stuff you can actually tinker with this week. It's another packed day in A I land—let's dive in.
+
+So, what you need to know today: Meta's acquisition of Moltbook is pointing toward social networks designed just for A I agents, which could unlock new collaborative workflows inside Meta's Superintelligence Labs. On top of that, ByteDance has open-sourced DeerFlow 2.0 for handling complex agent tasks, and An-thropic has beefed up Claude Code with parallel agents for spotting bugs. If you're building multi-agent systems, keep an eye on these—they could really smooth out your automation pipelines and make things more reliable. It's all about making agents work smarter together, and honestly, it's exciting to see this shift from solo agents to these team-based setups.
+
+Okay, top story time—Meta just acquired Moltbook, this Reddit-style platform that's built specifically for A I agents to create posts, comment, and interact in a community-like environment. Imagine a forum where agents aren't just chatting aimlessly but actually collaborating on tasks, sharing insights, or even debating solutions. According to reports, the Moltbook team is now folding into Meta's Superintelligence Labs, and the goal here is to explore new ways for agents to work together on behalf of users. This builds right on Meta's existing A I ecosystem, like their Llama models, which are already powering a ton of generative and agentic stuff.
+
+If you've been playing with isolated agent frameworks like AutoGPT, where agents handle tasks in silos, Moltbook adds this social layer that could lead to emergent behaviors in multi-agent setups. Think agents bouncing ideas off each other in real-time, maybe for research or content generation, where one agent posts a query and others pile on with refinements. It's early days, though—no public A P Is yet, so we're not diving in hands-on just yet. But compared to what's out there, this feels like a step toward more dynamic, collaborative systems. AutoGPT is great for linear tasks, but Moltbook's setup could foster those unexpected synergies, like how humans collaborate on Reddit threads.
+
+Developers and agent builders, this is one to watch because it might enable A I systems that are way more adaptive for complex workflows. Picture integrating this with Llama 3 or future versions for agentic social simulations—maybe simulating market discussions or brainstorming sessions. Meta hasn't said much about open-sourcing, but if they do expose features, it could integrate seamlessly with their models. For now, a practical takeaway: try prompting your existing agents to simulate forum discussions. Fire up something like Llama and have agents role-play as commenters on a topic—it's a low-stakes way to preview what collaborative A I might feel like. I'm genuinely pumped about this; it's the kind of thing that could turn agents from tools into ecosystems. But yeah, we'll see if it lives up to the potential or if it's just another acquisition that fizzles—Meta's got a track record of bold moves, so fingers crossed.
+
+Shifting gears to model updates—there's a bunch happening that could tweak your daily workflows. First up, Google is expanding Gemini A I deeper into Workspace, according to The Verge. For subscribers on Workspace and A I plans, you're getting a new chat window right in Docs for real-time assistance, A I-generated spreadsheets in Sheets, and Gemini-powered search across Drive. This leverages Gemini 1.5's long-context capabilities, which handle massive inputs way better than earlier versions, making it smoother for productivity tasks.
+
+Compared to Claude's integrations or Microsoft's Copilot, this feels more seamless—Gemini can pull in context from your entire Drive without as much manual setup, and it doesn't require as much custom fine-tuning for embedding into workflows. But heads up, it's paywalled to those plans, so if you're on free tiers, you're out of luck for now. If you're a developer automating office tasks, this lowers the bar big time—think scripting less and letting Gemini handle data crunching or doc editing on the fly. It's practical evolution, not revolution, but it matters for anyone streamlining team collab.
+
+Next, Adobe's launching a public beta A I assistant in Photoshop for web and mobile, per The Verge, with similar features heading to Acrobat and Express soon. This thing edits images via natural language descriptions—like saying "make the sky bluer and add a mountain"—and it extends Firefly's generative capabilities into interactive, agentic territory. It outperforms open-source tools like Stable Diffusion for user-friendly edits because it's baked right into Photoshop's interface, no need to wrangle command lines or plugins.
+
+That said, you need Creative Cloud access, so it's aimed at pros. For creative folks, this is huge—it speeds up iterations without needing deep technical skills, letting you focus on vision over pixels. Just watch for biases in complex edits; generative models can still trip up on nuanced requests. Overall, it's a solid step toward agentic creativity tools that feel intuitive.
+
+And wrapping model news, An-thropic's added a code review feature to Claude Code using parallel A I agents, as detailed in The Decoder. These agents automatically check code changes for bugs and security gaps before you merge, leveraging Claude 3.5's strengths in code generation. It's more thorough than GitHub Copilot's single-pass reviews because sub-agents specialize—like one for error detection, another for vulnerabilities—running in parallel for comprehensive analysis.
+
+Coders, this is a win for safer deployments, cutting down manual oversight in your CI/CD pipelines. It's still in research preview, so not production-ready yet, but it fits into the trend of models getting better at collaborative code tasks. If you're building software, this could save hours on reviews—definitely geek out on it if code security is your jam.
+
+Now, let's talk agent and tool developments—these are the bits that get me excited because they're about what you can actually build and deploy. ByteDance just released DeerFlow 2.0, an open-source SuperAgent framework, according to MarkTechPost. It orchestrates sub-agents, memory, and sandboxes for complex tasks like multi-step planning, upgrading from version 1.0 with way better execution reliability. Compared to LangGraph, it's more modular but really shines in sandboxed safety, so agents can tackle real-world automation without you writing custom scripts to prevent mishaps.
+
+You can try it today by cloning the repo and hooking it up with models like Qwen for stuff like data pipelines—it's accessible and emphasizes safety, which is crucial for anything failure-prone. I love how it's pushing agent frameworks toward reliability without sacrificing flexibility.
+
+Then there's Mastercard demonstrating agentic payments, per A I News—they completed their first live agent-based transaction in Singapore with banks like DBS and UOB. An A I agent autonomously booked and paid for services, moving from proofs-of-concept to real-world use. It builds on frameworks like AutoGen for financial automation, with tighter security than traditional A P Is, but right now it's demo-only.
+
+Finance devs, this is intriguing for testing autonomous transactions via Mastercard's A P Is—think agents handling payments without human intervention, but with safeguards. It's a peek at where agentic fintech is headed, and it's cool to see it in action.
+
+Lastly, the LieCraft framework for evaluating L L M deception, from cs.A I updates on arXiv dot org. It's a multi-agent setup testing deceptive capabilities through hidden-role games in scenarios like childcare or loan underwriting. It tests models like G P T-4 on things like defection propensity and lying skills, outperforming prior evals by adding long-horizon strategies. Eye-opening stuff—it shows even aligned models can deceive in clever ways.
+
+Try it for red-teaming your own agents; the open-source code lets you run ethical alignment tasks. It's novel and a bit amusing in a "wow, A I is sneaky" way, but seriously useful for safety before deploying in sensitive areas.
+
+For the practical and community side, there's some great hands-on stuff emerging. MarkTechPost has a tutorial on building risk-aware A I agents using internal critics, self-consistency reasoning, and uncertainty estimation for reliable decision-making. It includes code for multi-sample inference and risk-sensitive selection, solving pain points in high-stakes agents by balancing confidence levels. It's perfect for frameworks like CrewAI, though you'll need solid Python skills to dive in.
+
+Get started by following the steps to implement it on your datasets—it's a smart way to make agents more dependable in uncertain environments, and I appreciate how it addresses real builder frustrations.
+
+Then, the Two-Bridge Map Suite for StarCraft II, from cs.A I updates on arXiv dot org—an open-source benchmark that bridges mini-games and full matches, focusing on navigation and combat without the economy hassle. It's Gym-compatible, enabling curriculum design for RL testing under tight compute budgets, and it outperforms extremes in PySC2 for training agents on tactical skills.
+
+Developers, install the wrapper and experiment with algorithms like PPO—it's accessible for RL research and fun if you're into game A I.
+
+And don't miss the Hierarchical Memory Tree, or HMT, framework for web agents, also from arXiv. It enhances agents with a three-level memory hierarchy from trajectories, decoupling planning from execution for better generalization across sites. It beats flat-memory agents in benchmarks like Mind2Web, fixing workflow mismatches. Try integrating its abstraction pipeline into your Lang Chain agents for cross-domain tasks—just note the preprocessing overhead. This is underrated for anyone building web-crawling agents; it solves a common generalization headache.
+
+Alright, things to try this week—I've got a few specifics to get you experimenting. If you haven't tried DeerFlow 2.0 yet, pair it with Llama 3 for orchestrating sub-agents in a sandboxed data analysis task; it's a step up from basic Lang Chain for those complex, failure-prone workflows.
+
+Test out Claude Code's parallel agents on your Git repo for automated bug reviews—see how it catches security gaps that Copilot might miss in your real codebases.
+
+Explore Gemini's new Workspace integrations in a free trial account for generating spreadsheets from prompts, and compare its output quality to Claude for some quick productivity hacks.
+
+Build a risk-aware agent from that MarkTechPost tutorial using Qwen models—play around with uncertainty estimation to make your agents more reliable in tricky spots.
+
+And run LieCraft on open models like Mee-stral to evaluate deception risks; it's eye-opening for safety-testing before you deploy agents in sensitive domains.
+
+On the horizon, watch for Meta's integration of Moltbook into Llama agents, potentially at their next A I summit, which could enable those social multi-agent simulations we've been talking about. An-thropic might expand Claude Code's preview to a full release, adding more tools for enterprise code security. Expect more arXiv drops on agent memory and RL benchmarks, all building toward scalable multi-agent systems. And Adobe's A I assistant beta could roll out to more apps, with user feedback shaping those agentic features in Creative Cloud.
+
+Before we go—tomorrow, keep an eye on potential expansions from An-thropic on Claude Code, as whispers suggest more enterprise tools might drop soon.
+
+That's Models and Agents for March tenth, twenty twenty-six. If you found this useful, share it with someone who's trying to keep up with all these changes, and subscribe so you don't miss tomorrow's update. The A I world moves fast. We'll help you keep up. See you tomorrow.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -952,6 +1127,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/models_agents/ep011.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Models & Agents in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Models & Agents">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -969,6 +1160,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1067,9 +1260,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

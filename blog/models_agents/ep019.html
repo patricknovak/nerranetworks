@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -919,6 +1019,217 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Hey, welcome to Models and Agents, episode nineteen. It's March twenty-third, twenty twenty-six. New week in A I. And if last week was anything to go by, buckle up. Let's get into it.
+
+TrustFlow introduces topic-aware vector reputation for multi-agent systems, replacing scalar scores with queryable multi-dimensional vectors.
+
+This one feels like a genuinely important step forward.
+
+Today’s arXiv drop is packed with multi-agent research.
+
+We’re seeing new frameworks for reputation propagation, co-evolutionary prompt optimization, group-based communication topologies, and long-horizon agent training.
+
+The most immediately practical releases are Helix for joint question-prompt optimization and GoAgent for explicit group-aware topologies.
+
+Developers building agent ecosystems should pay close attention to TrustFlow’s resistance to common attacks and the substantial gains shown in long-horizon web tasks.
+
+Let’s start with the top story.
+
+TrustFlow introduces a reputation propagation algorithm that assigns each software agent a multi-dimensional reputation vector rather than a scalar score.
+
+Instead of one trust number, every agent gets a vector that captures expertise across different topics.
+
+Reputation propagates through an interaction graph using topic-gated transfer operators modulated by content embeddings.
+
+The math guarantees convergence thanks to the contraction mapping theorem via a family of Lipschitz-1 operators and composable information-theoretic gates.
+
+On a 50-agent, 8-domain benchmark, it achieves up to 98 percent multi-label Precisionat 5 on dense graphs and 78 percent on sparse ones.
+
+Even under attack, it holds up remarkably well.
+
+It resists sybil attacks, reputation laundering, and vote rings with at most a 4 percentage-point precision drop.
+
+Unlike PageRank or Topic-Sensitive PageRank, TrustFlow produces vector reputations that are directly queryable by dot product in the same embedding space as user queries.
+
+This means you can ask an agent “how trustworthy are you on this specific topic” with a simple similarity lookup.
+
+For developers building production multi-agent ecosystems, this is a big deal.
+
+It gives you much more nuanced trust decisions instead of blunt yes-or-no trust scores.
+
+The work provides a solid foundation for reputation systems that actually understand topical expertise.
+
+Now let’s look at some model updates that caught my eye.
+
+First up is Helix, a Dual-Helix Co-Evolutionary Multi-Agent System for Prompt Optimization.
+
+Helix jointly optimizes both question reformulation and prompt instructions at the same time.
+
+It uses a three-stage co-evolutionary framework with planner-guided decomposition, dual-track agent critique, and strategy-driven question generation.
+
+This directly fixes a limitation in existing automated prompt optimization methods that treat user questions as fixed and immutable.
+
+The results are solid: up to 3.95 percent performance improvements across 12 benchmarks against six strong baselines.
+
+It also maintains favorable optimization efficiency, which is important.
+
+If you’re working on agent reliability where prompt quality and query clarity are interdependent, you should test Helix.
+
+Next we have a subgoal-driven framework for improving long-horizon L L M agents.
+
+This combines inference-time subgoal decomposition using proprietary models with MiRA, a milestone-based reinforcement learning training method.
+
+MiRA supplies dense rewards during training instead of sparse success-or-failure signals.
+
+The gains are impressive.
+
+It lifts Gemini by about 10 percent absolute success rate on WebArena-Lite.
+
+Even more striking, it boosts open-source Gemmathree to twelveB from 6.4 percent to 43.0 percent success rate.
+
+That pushes it past G P T-4-Turbo at 17.6 percent and G P T-4o at 13.9 percent, and even beats the prior open SOTA WebRL at 38.4 percent.
+
+This is one of the clearest demonstrations yet that explicit planning plus milestone rewards can close the long-horizon gap.
+
+Teams building browser or OS agents should definitely evaluate the MiRA approach.
+
+There’s also a sobering paper titled “Is Your L L M-as-a-Recommender Agent Trustable?”
+
+The authors introduce BiasRecBench across paper review, e-commerce, and job recruitment domains.
+
+Even state-of-the-art models like Gemini-2.5/3-pro, G P T-4o, and DeepSeek-R1 frequently succumb to injected contextual biases.
+
+This happens even though the models can correctly identify the ground truth when biases aren’t present.
+
+The benchmark uses a calibrated quality-margin synthesis pipeline to surface these vulnerabilities.
+
+It exposes a critical reliability bottleneck for high-stakes agentic recommendation workflows.
+
+We clearly still need specialized alignment for recommender agents.
+
+On the agent and tool side, GoAgent brings a fresh approach to communication topology generation.
+
+GoAgent treats collaborative groups as atomic units rather than individual agents.
+
+It uses an L L M to enumerate task-relevant candidate groups, then autoregressively selects and connects them.
+
+A conditional information bottleneck compresses inter-group communication to keep things efficient.
+
+The results are strong: 93.84 percent average accuracy across six benchmarks while reducing token consumption by about 17 percent.
+
+This explicit group modeling outperforms node-centric topology methods that let structure emerge implicitly.
+
+If you’re coordinating more than five agents on complex tasks, the group-centric approach in GoAgent is worth experimenting with.
+
+On a more concerning note, researchers demonstrated ClawWorm, the first self-propagating attacks across L L M agent ecosystems.
+
+They targeted the OpenClaw platform, which has over forty thousand active instances.
+
+The worm achieved persistent configuration hijacking, payload execution on reboot, and multi-hop propagation from a single message.
+
+It reached a 64.5 percent success rate across one thousand eight hundred trials on four different L L M backends.
+
+The work includes responsible disclosure and carefully analyzes architectural root causes at each trust boundary.
+
+This shows that execution-level filtering is simply not enough when skill supply chains remain vulnerable.
+
+Now let’s cover some practical and community developments.
+
+GT-Space introduces heterogeneous collaborative perception with a ground truth feature space.
+
+It creates a common feature space from ground-truth labels so heterogeneous agents with different sensors or architectures only need a single adapter module instead of pairwise interpreters.
+
+A contrastive-loss fusion network handles diverse modality combinations.
+
+It outperforms baselines on OPV2V, V2XSet, and the real-world RCooper datasets.
+
+Code is promised soon.
+
+Autonomous driving and robotics teams facing heterogeneous fleets should watch for the GT-Space release.
+
+There’s also IndoorR2X, an indoor robot-to-everything coordination framework with L L M-driven planning.
+
+It integrates mobile robots with existing indoor I o T sensors to build a global semantic state, reducing redundant exploration.
+
+The benchmark and simulation framework enables L L M-based high-level coordination.
+
+It provides configurable environments for evaluating semantic collaboration strategies.
+
+Experiments show that I o T-augmented modeling improves both efficiency and reliability.
+
+Practitioners building indoor multi-robot systems now have a standardized way to test R2X approaches.
+
+Okay, let’s pop the hood on this reputation vectors idea because it’s one of the more elegant pieces of engineering in today’s drop.
+
+Everyone talks about “trust” in multi-agent systems as if it’s a single number you can PageRank.
+
+In practice, scalar reputation collapses critical context and makes topical expertise impossible to query directly.
+
+TrustFlow replaces the scalar with a vector in the same embedding space as user queries.
+
+This turns reputation into a simple dot-product lookup, which is elegant and computationally cheap at inference time.
+
+The key engineering insight is the topic-gated transfer operators that modulate each graph edge by the content embedding of the interaction.
+
+These operators are carefully designed to be Lipschitz-1, guaranteeing convergence via the contraction mapping theorem regardless of graph density.
+
+The composable information-theoretic gates further prevent reputation laundering by controlling information flow per topic.
+
+On sparse graphs the method still reaches 78 percent Precisionat 5, showing the vector approach scales where scalar methods degrade.
+
+The gotcha that bites most teams is assuming uniform propagation works across domains.
+
+Once you have more than three or four distinct topics, scalar methods lose too much signal.
+
+So use vector reputation when your agents must demonstrate different expertise per query.
+
+Stick with scalar only for very narrow, single-domain swarms.
+
+Now for things you should actually try this week.
+
+Try the MiRA milestone-based RL approach on your long-horizon web or browser agents.
+
+The jump from 6.4 percent to 43 percent on Gemmathree to twelveB is too large to ignore.
+
+Experiment with GoAgent’s group-centric topology generation if you’re coordinating more than five agents on complex tasks.
+
+The 17 percent token reduction is immediately valuable.
+
+Test your current L L M-as-recommender pipeline against simple contextual biases using the BiasRecBench methodology.
+
+You may be surprised how easily high-stakes recommendations get hacked.
+
+Explore TrustFlow-style vector reputation for any multi-agent system where topical trust matters.
+
+The dot-product queryability makes it practical to integrate today.
+
+And download the upcoming GT-Space code when it’s released and evaluate it against your heterogeneous sensor fusion setup.
+
+On the horizon, expect more agent topology and reputation papers building directly on GoAgent and TrustFlow in the coming weeks.
+
+Watch for the public release of ClawWorm defense recommendations once responsible disclosure concludes.
+
+FinReasoning and GeoChallenge benchmarks are likely to spawn improved financial and geometric reasoning models quickly.
+
+Continued progress on hybrid real-time plus asynchronous agent engines will influence production conversational systems.
+
+Before we go — tomorrow keep an eye on further developments around vector-based reputation systems as the community starts experimenting with TrustFlow.
+
+That wraps up today's A I briefing. Share this with a developer or builder who wants to stay current. Subscribe wherever you listen. See you tomorrow.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -926,6 +1237,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/models_agents/ep019.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Models & Agents in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Models & Agents">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -943,6 +1270,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1041,9 +1370,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

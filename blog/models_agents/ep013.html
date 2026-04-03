@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -945,6 +1045,59 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Hey, welcome to Models and Agents, episode thirteen, for March twelfth, twenty twenty-six. Your daily briefing on the A I models and agents that are changing everything. And no, not THOSE kinds of models and agents. Let's get into it.
+
+En-vidia plans $26B investment in open-weight A I models to counter Chinese dominance and lock in developers.
+
+Alright, folks, if that doesn't make you sit up a bit straighter, I don't know what will. We're talking about a massive bet from the hardware giant that's been powering so much of this A I boom. Stick around because we've got a ton to unpack today, from breakthroughs in medical imaging to no-code agents that could change how teams automate their work. Whether you're knee-deep in code or just trying to make sense of it all, I've got the specifics you need, plus some hands-on things to try right now. Let's dive in.
+
+So, what you need to know today: En-vidia's dropping a whopping twenty-six billion dollars over five years into open-weight A I models, which is basically their way of stepping in where closed players like Open A I and Meta have left gaps in the open-source world. This could supercharge innovation while keeping everything nicely tied to En-vidia's hardware. On top of that, Meta's showing off some clever architecture for handling noisy medical data, and we're seeing agent frameworks like Replit Agent 4 and Perplexity's Personal Computer pushing the envelope for knowledge work and local A I setups. Keep an eye this week on how these are making agent building accessible to non-experts and optimizing multi-agent systems for real efficiency in the wild. It's all about democratizing this tech and making it practical—exciting stuff if you're building or just watching.
+
+Okay, top story time, and this one's a doozy. En-vidia just announced in an S E C filing that they're committing twenty-six billion dollars over the next five years to develop open-weight A I models. For those not familiar, open-weight models are like the ones from Mee-stral or Llama— you get the model weights to run and tweak yourself, but they're not fully open-source in the traditional sense. En-vidia's pivot here is strategic: they're eyeing the rise of Chinese open-source models that are gaining traction, and they want to counter that while making sure developers stay hooked on their hardware ecosystem. Think tools like TensorRT for optimizing model inference or Triton Inference Server for deploying them at scale—En-vidia's already got those, and this investment builds right on top.
+
+Compared to the closed ecosystems from Open A I, Meta, or An-thropic, where you often pay per A P I call and have limited control, En-vidia's play could deliver more accessible models that are hardware-optimized out of the gate. Imagine something akin to Llama but tuned specifically for fast inference on En-vidia G P U's, especially in multimodal A I where their hardware shines—like processing images, video, and text together efficiently. We're talking potential for quantized versions, which means compressing the models to run lighter and faster on edge devices without losing much performance.
+
+For you developers out there, this is huge. If you've been relying on proprietary A P Is for your apps, this could mean lower costs and more flexibility for custom fine-tuning, especially in areas like deploying A I on mobile or I o T devices. But fair warning—expect some of these models to play nicest with En-vidia's ecosystem, which might not be as seamless on AMD hardware. It's a smart lock-in strategy, but one that could accelerate open-source innovation overall. Initial releases are expected in the coming months, so if you're building with open-source L L Ms, start thinking about how this might reduce your A P I bills and speed up your edge deployments. Just when you thought the hardware wars were cooling off, En-vidia's heating them right back up—I'm genuinely pumped to see what models they drop first.
+
+Shifting gears to model updates, we've got some fascinating stuff from Meta and beyond. First up, according to The Decoder, Meta's JEPA architecture—that's Joint Embedding Predictive Architecture—is making waves in noisy medical imaging. They've adapted it for cardiac ultrasound analysis, and it outperforms things like masked autoencoders or contrastive learning on benchmarks with messy, incomplete data. Standard methods often choke on distorted inputs, but JEPA's predictive style handles variability way better, nailing higher accuracy in tasks like analyzing echocardiograms.
+
+Why does this matter? If you're an A I practitioner in healthcare, this means more robust models for real-world diagnostics—no need for tons of fine-tuning to deal with noisy scans. You could integrate it with something like Hugging Face for quick deployment, turning it into a tool for faster, more reliable medical A I. It's a step toward A I that works in the imperfect conditions of actual hospitals, which is where the rubber meets the road.
+
+Staying with Meta, The Decoder also reports they've unveiled four generations of custom A I chips built specifically for inference—that's the part where you run the model to get outputs, not training it. These are designed to cut costs for serving billions of users, slashing reliance on general-purpose G P U's from En-vidia or AMD. Benchmarks show up to two times savings in cost for large-scale L L M deployment, with lower latency and power draw. For infrastructure teams, this points to a trend of specialized silicon that might inspire open-source projects to follow suit, though right now it's locked into Meta's internal setup. If you're scaling A I services, keep this in mind—it's a hint that custom hardware could be the future for efficient, massive inference.
+
+And from cs.CL updates on arXiv dot org, there's AraModernBERT, which tweaks the ModernBERT encoder for Arabic language tasks. It uses transtokenized initialization—basically a smarter way to handle tokenization for scripts like Arabic—and supports up to eight thousand one hundred ninety-two tokens for long-context modeling. This crushes non-transtokenized baselines in things like masked language modeling, named entity recognition (NER), and question similarity. Compared to multilingual BERT, it tackles Arabic's unique script challenges way better, but yeah, training it needs serious compute. If you're working on non-English N L P, this is gold for building better retrieval-augmented generation (rag) systems or long-context agents in Arabic-speaking regions. It's filling a real gap in diverse language support, and I'm excited to see how it integrates into broader ecosystems.
+
+Now, let's talk agents and tools—these are the frameworks and setups that let A I act more autonomously, like little digital workers. Kicking off with TechCrunch: Gumloop just snagged fifty million dollars from Benchmark to let non-technical folks build A I agents for enterprise automation. It's a no-code interface that plugs into stuff like Lang Chain for custom workflows, going beyond specialized tools like CrewAI by making it dead simple for anyone to create agents. Think automating data processing or routine tasks without a dev team— it could slash development time big time. Their platform's in beta, so if you're in a team setting, give it a spin for building quick automation agents; it's all about scalability without needing expert skills.
+
+Next, from The Verge, Perplexity's rolling out Personal Computer, which turns a spare Mac into a always-on local A I agent. It uses large language models (L L Ms) for things like research or automation, acting as your "digital proxy" with natural language chats. This improves on AutoGPT by running everything locally—no A P I fees, better privacy—but it's Mac-only for now. If you're a developer, install it on a dedicated machine and prompt it for ongoing tasks like monitoring news feeds. It's a cool way to experiment with persistent, private agents without cloud dependencies.
+
+And over on Latent.Space, Replit Agent 4 is stepping up with advanced multi-agent features for coding and knowledge work. It builds on earlier versions with sharper tool calling and integrations for collaborative flows, outperforming basic agents in Microsoft AutoGen by managing complex, iterative tasks with minimal babysitting. If you're prototyping autonomous dev tools, hop on Replit's platform and try building a coding agent—it's perfect for those iterative workflows that used to require constant human tweaks. Honestly, the pace of these agent upgrades is wild; just when you think you've got a handle on one, bam, version 4 drops with multiplayer smarts.
+
+For the practical and community side, we've got some gems from cs.MA updates on arXiv dot org that are worth your time if you're hands-on. First, KernelSkill is a multi-agent framework that uses L L Ms to optimize G P U kernels—those are the low-level code bits that run computations on graphics cards. It has a dual-memory setup for reusing skills and tracking trajectories, delivering speedups from 1.ninety-two times to 5.forty-four times over baselines like Torch Eager mode. This tackles the black-box headaches in A I infrastructure, swapping heuristics for agent-driven expertise. Clone the GitHub repo and test it on your G P U setups—it's great for tuning inference pipelines, though you'll need L L M access and might tweak it for funky kernels.
+
+Then there's LLMGreenRec, an L L M-powered multi-agent recommender for e-commerce that pushes eco-friendly products. It analyzes user intents, refines prompts over iterations, and cuts down on energy waste and fluff interactions. Benchmarks show it beats traditional session-based systems by actually connecting green goals to buys. If sustainable A I is your jam, grab the code from arXiv and try it on e-commerce datasets—it's research-y, so production might need tweaks, but it's a smart way to blend agents with real-world impact.
+
+And for a fun twist, COMIC is an agentic framework that generates short comedic videos like a mini production studio. L L M agents handle scripting, critiquing (aligned with YouTube data for humor checks), and synthesis, hitting near-pro levels. It goes beyond video tools like Runway by automating wild idea generation across agents. Check out the arXiv framework for your own video experiments—prompt it with character concepts, but heads up, it guzzles compute and might hallucinate outside tuned domains. I love how this shows agents getting creative; it's absurdly cool for prototyping fun content.
+
+Alright, things to try this week—let's make this actionable. If you haven't dabbled in no-code agents, jump into Gumloop's beta for building them into your workflow. It's a fast path to automating enterprise tasks without mastering Lang Chain, and it could save you hours on the repetitive stuff. Experiment with AraModernBERT on Hugging Face for Arabic N L P, like long-context rag—stack it against multilingual BERT to feel those script-handling wins firsthand. Test KernelSkill on your G P U kernels by cloning the repo and benchmarking against Torch; it's a straightforward way to squeeze speedups from your inference setups. Set up Perplexity's Personal Computer on a spare Mac for local tasks like automated research—great if privacy over cloud A P Is appeals to you. And for a creative break, play with COMIC to generate A I comedy sketches; start with some character ideas and see how multi-agent collab amps up the laughs over solo L L Ms.
+
+On the horizon, watch for En-vidia's first open-weight model drops in Q two twenty twenty-six—they'll likely be quantized for edge efficiency and baked into TensorRT. Expect more on Meta's custom chip rollouts, maybe with open-source inference tweaks by mid-year. Anticipate benchmarks from Replit Agent 4 hooking up with LangGraph for next-level knowledge agents. And look for community spins on LLMGreenRec in sustainable A I, perhaps at NeurIPS workshops coming up.
+
+Before we go—tomorrow, keep an eye on potential updates from Meta on open-sourcing parts of their custom inference chips, which could shake up hardware-agnostic deployments.
+
+That's Models and Agents for March twelfth, twenty twenty-six. If you found this useful, share it with someone who's trying to keep up with all these changes, and subscribe so you don't miss tomorrow's update. The A I world moves fast. We'll help you keep up. See you tomorrow.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -952,6 +1105,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/models_agents/ep013.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Models & Agents in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Models & Agents">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -969,6 +1138,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1067,9 +1238,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

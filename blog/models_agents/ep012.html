@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -930,6 +1030,63 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Hey, welcome to Models and Agents, episode twelve, for March eleventh, twenty twenty-six. Your daily briefing on the A I models and agents that are changing everything. And no, not THOSE kinds of models and agents. Let's get into it.
+
+Google unveils Gemini Embedding 2, a multimodal model embedding text, images, video, audio, and docs for advanced rag systems.
+
+Alright, folks, if you're feeling that familiar whiplash from the A I world's breakneck pace, you're not alone—just when you thought you'd nailed your rag setup, Google drops something that could shake it all up. Today, we're diving into their new Gemini Embedding 2, which is a big step forward for handling multimodal data in retrieval-augmented generation pipelines. We've also got fresh agent frameworks like ToolRosetta and Scale-Plan that are making it easier to connect open-source tools with L L Ms for real automated tasks, plus some intriguing arXiv papers on stabilizing multi-agent systems—super relevant as enterprises like Manulife start weaving A I into their core workflows. Stick around because we'll break down how these lower barriers for building reliable agents in mixed teams and multimodal scenarios, and as always, I'll point you to what you can actually try this week to stay ahead.
+
+Let's kick off with the top story that's got me genuinely buzzing—Google's release of Gemini Embedding 2. This is the successor to their text-only gemini-embedding-001, and it's a multimodal powerhouse that embeds not just text, but images, video, audio, and documents all into a shared vector space. If you've been wrestling with high-dimensional storage or trying to do cross-modal retrieval—think searching across text and video seamlessly—this is designed to tackle those headaches in production-grade rag systems. rag, for the uninitiated, stands for retrieval-augmented generation, where you pull in relevant data to ground your L L M's responses, and multimodality means handling different types of data without silos.
+
+What sets this apart? Well, compared to something like Open A I's text-embedding-ada-002, which is solid for text but requires bolt-on solutions for other media, or Cohere's multilingual embeddings that focus on language diversity, Gemini Embedding 2 does native multimodality without needing separate models. That could slash latency and simplify your integration in hybrid workflows—imagine unifying enterprise search or content recommendations across diverse media types. Early adopters are reporting smoother cross-modal performance, though heads up, it demands more compute during embedding generation, so factor that into your setup.
+
+For you builders out there, this matters if you're optimizing rag pipelines for multimedia apps. According to MarkTechPost, it compares favorably to LlamaIndex's multimodal embeddings by offering unified retrieval without custom adapters, but you might need extra VRAM for large-scale inference. Practically speaking, if you've been using gemini-embedding-001, upgrading could make your context-rich retrieval way more accurate. Google Cloud has integration guides rolling out, so I'd say start there. To try it hands-on, grab the Gemini A P I and experiment with embedding mixed inputs in a simple rag demo—embed some text alongside a video clip and see how the unified search performs. It's one of those updates that feels like a real enabler for enterprise teams dealing with messy, real-world data.
+
+Shifting to model updates, we've got a few gems today that tie into broader trends. First, circling back a bit on Gemini Embedding 2—MarkTechPost highlights how it succeeds the text-focused gemini-embedding-001 with superior handling of high-dimensional data, making it a go-to for developers fine-tuning rag systems. It's a step up from needing those custom adapters in setups like LlamaIndex, though that extra VRAM requirement is something to watch for big jobs.
+
+Then there's this fascinating arXiv paper called "The Bureaucracy of Speed" from the cs.MA updates. It introduces the Capability Coherence System, or CCS, which maps memory consistency models to multi-agent authorization. Basically, it uses state-mapping to bound unauthorized operations under bounded-staleness semantics—think of it as a smarter way to manage permissions in fast-moving agent teams. Unlike traditional TTL-based strategies, where time-to-live limits access, this scales independently of how quickly agents are operating, cutting unauthorized ops by up to 120 times in simulations compared to lease methods. If you're on an A I infrastructure team dealing with high-velocity agents, this could mean safer revocation in distributed systems without that overhead scaling with velocity. It's a practical win for reliability, especially as agents get deployed in more chaotic, real-time environments.
+
+Another arXiv standout is "Latent World Models for Automated Driving," also from cs.MA. This paper lays out a taxonomy for latent world models in self-driving tech, covering latent worlds, actions, and generators with priors for geometry and semantics, plus metrics like closed-loop evaluation suites. It pulls together progress in generative models, similar to what Wayve or Tesla's VLA systems are doing, but points out gaps in robustness for long-horizon forecasting—like predicting far into the future without dropping the ball. For developers working on autonomous agents, this framework could help build verifiable, resource-efficient models, though it flags ongoing challenges in deliberation costs, meaning the compute needed for thoughtful planning. It's a reminder that while we're making strides, edge cases in driving A I still need ironing out. Overall, these updates show a trend toward more stable, scalable models that fit into agentic systems—definitely worth geeking out over if you're in robotics or infrastructure.
+
+Now, let's talk agent and tool developments, where things get really hands-on. I love this space because it's all about what you can actually build and deploy. Starting with a tutorial from MarkTechPost on building a self-designing meta-agent. This goes beyond static templates in frameworks like LangGraph or CrewAI by creating an agent that analyzes tasks, picks tools, configures memory and planners, and then spins up dynamic agents on the fly. The cool part is the automatic refinement for task-specific needs, which means less manual coding for adaptability. If you're into agent automation, follow their step-by-step Python code to automate agent creation for something like data analysis workflows—it's a fun way to see how meta-agents can evolve your setups.
+
+Next up, ToolRosetta from the cs.MA arXiv updates— this tool automatically translates open-source repos and A P Is into formats compatible with multi-agent comms protocols for L L M agents. It enables autonomous task planning and execution with little human input, improving on manual curation in things like AutoGen or Semantic Kernel by adding security checks and cutting down on reproduction effort. That said, it might trip up on super proprietary code. Developers, you can install it via GitHub and test converting a repo into an agent toolchain—think integrating niche libraries for tasks like scientific computing. It's one of those bridges that makes open-source way more agent-friendly.
+
+Rounding this out, Scale-Plan, another arXiv gem from cs.MA, uses L L Ms to generate compact problem representations from natural language, then orchestrates agents for decomposition and planning in multi-robot teams. It outperforms pure L L M or hybrid baselines by filtering out irrelevancies early, which is a notch above static planning in Lang Chain. You do need PDDL specs— that's Planning Domain Definition Language—for it to shine, but experiment with it on AI2-THOR benchmarks to simulate robot coordination in household scenarios. These tools are lowering the bar for heterogeneous agent teams, and honestly, it's exciting to see how they're making scalable, real-world automation more accessible—definitely try one if you're building multi-agent systems.
+
+For the practical and community side, we've got some open-source highlights that solve real pain points. First, ChatNeuroSim from cs.MA on arXiv— this is an L L M agent framework for automating compute-in-memory accelerator workflows. It handles task scheduling, script generation, and optimization through design space pruning, slashing runtime by up to 0.79 times compared to baselines. If you've dealt with manual dependency nightmares in hardware design space exploration, this is a lifesaver for A I infrastructure devs, though it assumes you're familiar with tools like NeuroSim. Clone the repo and run it on something like Swin Transformer optimization tasks to see the speedup.
+
+Then there's LDP, or Identity-Aware Protocol for Multi-Agent L L M Systems, also from cs.MA on arXiv. It brings delegate identity cards, progressive payloads, and trust domains to multi-agent communications, implemented in the JamJet runtime, which cuts latency by 12 times via specialization. It builds on protocols like A2A by adding model-level properties, but watch for noisy provenance degrading quality without verification. Try the plugin for agent routing in local Ollama setups to test semantic payloads—it's great for comparing to basic A2A in specialized delegate pools.
+
+Finally, FetalAgents, a multi-agent system for fetal ultrasound image and video analysis from cs.MA on arXiv. It coordinates vision experts for diagnosis, measurement, segmentation, and even video summarization into reports, beating multimodal L L Ms on multi-center benchmarks. This addresses full clinical workflows beyond just static analysis, though it needs high-quality ultrasound data. If you're in medical A I, explore the framework for domain-specific agent orchestration—it's a solid example of how agents can tackle specialized, high-stakes tasks. These community contributions are underrated heroes, fixing common bottlenecks and giving you tools to experiment with today.
+
+Alright, wrapping up with things to try this week—let's make this actionable so you can dive in right away. If you haven't played with Gemini Embedding 2 yet, hit the Google Cloud A P I to embed mixed media in a rag pipeline; it's a game-changer for cross-modal search, unifying text and video way better than juggling separate models.
+
+Build a self-designing meta-agent from that MarkTechPost tutorial if agent automation is your jam—experiment with task-specific configs to watch dynamic refinement outperform static LangGraph setups.
+
+Test ToolRosetta on an open-source GitHub repo for converting to M C P-compatible tools; it's perfect for integrating niche libraries into L L M agents without all the manual standardization.
+
+Run ChatNeuroSim on a compute-in-memory optimization task like Swin Transformer—see how that design space pruning accelerates your hardware explorations compared to tedious manual iterations.
+
+And explore LDP in a JamJet setup for multi-agent chats; compare its identity-aware routing to basic A2A for noticeably lower latency in specialized delegate pools. These are all low-barrier ways to level up your skills this week.
+
+On the horizon, keep watching for more multimodal expansions in the Gemini family, maybe even fine-tuning A P Is for custom embeddings. Expect some enterprise case studies from deployments like Manulife's, showcasing agent integration in finance. Anticipate updates to multi-agent communication protocols building on LDP's identity features for wider adoption, and look out for benchmarks on latent world models in driving that could shape edge deployment standards. It's all building toward more robust, enterprise-ready A I.
+
+Before we go—tomorrow, keep an eye on potential benchmarks evaluating latent world models in driving, which might influence how we standardize edge deployments.
+
+That's Models and Agents for March eleventh, twenty twenty-six. If you found this useful, share it with someone who's trying to keep up with all these changes, and subscribe so you don't miss tomorrow's update. The A I world moves fast. We'll help you keep up. See you tomorrow.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -937,6 +1094,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/models_agents/ep012.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Models & Agents in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Models & Agents">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -954,6 +1127,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1052,9 +1227,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>
