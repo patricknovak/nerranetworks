@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -924,6 +1024,95 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Good morning. This is Environmental Intelligence, episode seventeen, for March thirtieth, twenty twenty-six. Your daily environmental intelligence briefing. Starting the week with the regulatory developments that actually move the needle for contaminated sites counsel and senior practitioners across Western Canada.
+
+Let’s begin in Alberta, where procedural accountability is once again being recalibrated. Alberta Bill 23 would eliminate government deadlines to respond to citizen petitions under the Citizen Initiative Act.
+
+This is the third substantive amendment the United Conservative government has made to the Act since it was introduced in 2021, and the second set of changes to the companion recall legislation.
+
+The bill removes the fixed timelines that currently require the provincial government — including the Ministry of Environment and Protected Areas — to acknowledge, investigate, or formally respond to citizen petitions within a prescribed period. For those of us managing high-profile contaminated sites, this is not an abstract constitutional issue.
+
+Petitions have been a reliable tool for community groups and environmental organizations to compel the Ministry to initiate or accelerate EPEA compliance reviews, detailed site investigations, or risk assessments on legacy oil and gas liabilities, former refinery properties, and abandoned upstream sites.
+
+By removing the mandatory clock, the government is effectively lengthening the runway between public pressure and regulatory action. That changes the tempo of files. What used to be a 60- or 90-day forced response window now becomes an open-ended administrative process whose pace is largely at the ministry’s discretion.
+
+For consultants and counsel, this removes a predictable lever that third parties have used to force movement on stalled remediation plans or to trigger new source control obligations.
+
+Projects facing organized public opposition may now sit in regulatory limbo longer, increasing carrying costs, delaying divestitures, and extending the uncertainty that often accompanies high-visibility files.
+
+In my view, this represents a further relaxation of procedural accountability mechanisms that have historically been one of the few reliable ways to focus ministerial attention on legacy contamination issues in Alberta. The practical takeaway is clear: the rhythm of public-driven EPEA scrutiny is about to become noticeably less predictable for those handling files with active stakeholder pressure.
+
+Now, shifting west to British Columbia, where the ground rules for conservation are under quiet but significant review. The provincial government is re-examining how it defines conservation in the context of its 30-by-30 commitment.
+
+This review was prompted by sustained lobbying from the mining industry, which has expressed concern that overly rigid interpretations could sterilize large areas of mineral tenure from future exploration and development.
+
+The outcome of this exercise could allow more flexible accounting of lands that are subject to existing mining claims or tenure when calculating progress toward the 30 percent protected-area target.
+
+That matters because the precise boundaries and the regulatory restrictions that flow from new conservation designations directly influence environmental assessment scope, offset requirements, and the permissible range of activities on adjacent properties — including contaminated sites remediation.
+
+For consultants supporting mining clients or linear infrastructure projects in B.C., the revised definition could materially alter the risk profile and remediation obligations for sites that end up near new conservation zone boundaries.
+
+A more permissive accounting approach might reduce the pressure to create large new parks that overlap with operating or legacy mine sites, but it could also create uncertainty during the transition period as the government finalizes its methodology.
+
+Boundary decisions of this nature have a long history of shifting the cost and complexity of both impact assessments and long-term stewardship obligations. Practitioners would be well advised to track the revised definition closely as it moves through cabinet and stakeholder consultation.
+
+Turning to Manitoba, the 2026 provincial budget was released last week with two notable environmental-adjacent commitments: funding to rebuild campgrounds destroyed by recent wildfires and a measure to make public transit free for children.
+
+Major conservation organizations have given the budget a near-failing grade, citing insufficient new spending or policy direction on broader environmental protection, species at risk, and climate adaptation beyond immediate wildfire recovery.
+
+From a contaminated sites perspective, the budget has limited direct implications for work conducted under the Manitoba Environment Act. There are no new material funding streams for site assessment or remediation programs, nor are there announced changes to the regulatory framework governing contaminated sites. That said, the continued heavy emphasis on wildfire recovery is worth noting.
+
+Practitioners advising clients on climate adaptation and site resilience planning in Manitoba should factor in the province’s clear priority on restoring public infrastructure in fire-affected zones.
+
+This may create modest opportunities to align remediation or risk management plans with post-fire landscape recovery objectives, particularly for sites that experienced damage or access restrictions during the 2024 and 2025 fire seasons. The broader signal is one of fiscal restraint on environmental programming outside of immediate disaster response.
+
+Let’s move to the science and technical front, where laboratory integrity issues continue to surface in ways that affect regulatory decision-making. A University of Michigan study found that common nitrile and latex laboratory gloves release stearates and other particulate materials that closely resemble microplastics under current analytical methods.
+
+These particles can contaminate samples during handling and testing, leading to inflated microplastics concentrations in both soil and sediment matrices.
+
+The implications are not trivial. Laboratories supporting Canadian contaminated sites work — particularly those operating under ISO 17025 accreditation — need to evaluate their glove selection and handling protocols against this documented interference when analyzing for microplastics or related particulate contaminants.
+
+In my experience, false positives at this stage can cascade into risk assessments, triggering unnecessary remedial planning, increased costs, and protracted negotiations with regulators. The study serves as a timely reminder that even accredited labs can introduce systematic artifacts when methods push toward lower and lower detection limits.
+
+This leads naturally into a broader reflection on procedural contamination that many of us have encountered in the field. You arrive at the lab with split samples from a former firefighting training area expecting low or non-detect PFAS results based on site history and prior rounds of data.
+
+Yet both the lab blank and the field duplicate show elevated detections that simply do not align with the hydrogeological understanding of the plume.
+
+The issue, more often than not, is not the groundwater itself but subtle procedural contamination introduced during sample collection, transport, or analysis. Under CCME guidance and the QA QC expectations embedded in provincial frameworks, laboratories are required to demonstrate that method blanks fall below reporting limits for each analytical batch.
+
+However, when targeting sub-µg/L concentrations of PFAS or other emerging contaminants, even minor contributions from consumables — gloves, tubing, vial septa, or pipette tips — can become statistically significant.
+
+Experienced practitioners have learned to insist on reviewing the full laboratory narrative and raw chromatograms rather than relying solely on summary tables. The difference between a false positive and a genuine exceedance can fundamentally alter the recommended path forward: shifting a risk assessment from monitored natural attenuation to aggressive source removal and long-term water treatment.
+
+The most common mistake I see is assuming that an accredited lab’s ISO 17025 status automatically eliminates all sources of procedural contamination.
+
+The practical fix is to embed specific consumables control language directly into every analytical specification and to require the glove type, lot numbers, and reagent details to be documented in the case narrative for every emerging contaminant suite.
+
+Action items for the week:
+
+If you are working on Alberta contaminated sites files, pull the current text of Bill 23 and assess its implications for any active public petitions or stakeholder engagement strategies on EPEA-listed sites. Update your laboratory statements of work for microplastics or particulate analysis to require explicit documentation of glove type, lot numbers, and associated blank data.
+
+Brief your mining-sector clients in British Columbia on the ongoing 30-by-30 definition review and its potential effect on new protected-area proposals near operating or legacy sites.
+
+Finally, confirm with your Manitoba-based project teams whether the wildfire recovery funding in the 2026 budget creates any new compliance pathways or incremental funding opportunities for sites located in fire-affected zones.
+
+For the week ahead, monitor Alberta legislature proceedings for any vote or committee schedule on Bill 23. Track B.C. government announcements on revised conservation accounting metrics following the mining industry input. And prepare for what are expected to be active spring 2026 CCME guideline comment periods on topics including soil vapour intrusion and potential PFAS updates.
+
+That’s Environmental Intelligence for today. If this briefing is useful to your practice, share it with a colleague and subscribe wherever you get your podcasts. We’re back tomorrow. Have a productive and well-informed day.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -931,6 +1120,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/env_intel/ep017.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Environmental Intelligence in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Environmental Intelligence">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -948,6 +1153,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1046,9 +1253,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

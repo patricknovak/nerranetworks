@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -904,6 +1004,59 @@
             <!-- Sources -->
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Good morning. This is Environmental Intelligence, episode ten, for March twelfth, twenty twenty-six. Your daily briefing on environmental regulatory, science, and compliance developments that matter for Canadian professionals.
+
+Ontario's fast-tracking of Great Bear mine permits under the Mining Act faces Grassy Narrows lawsuit, signaling risks for mining assessments in the province.
+
+Ontario's advancement of the Great Bear gold mine despite pending litigation over the Mining Act and water permits under the Environmental Protection Act creates immediate uncertainty for mining proponents conducting environmental assessments, requiring reviews of Indigenous consultation obligations. A California water board rule on dairy nitrate pollution may influence C C M E guidelines or provincial water quality standards in agricultural regions like Alberta and Ontario. Professionals should monitor federal Canada Gazette notices this week for any related consultations on mining or water regulations.
+
+Let's start with the lead today, which is the ongoing challenge to Ontario's Mining Act in the context of the Great Bear gold mine. Grassy Narrows First Nation has filed a lawsuit targeting the Mining Act, specifically R.S.O. 1990, chapter M.14, along with a water permit issued under O. Reg. 387/04 for water taking and transfer. The core allegations center on inadequate Indigenous consultation and insufficient environmental protections, building on previous legal challenges in the province.
+
+For context, this isn't isolated—it's part of a pattern where mining approvals face scrutiny for failing to meet consultation standards. Compare that to BC's E M A, where First Nations engagement is embedded in mining approvals through Protocol 13 risk assessments, or Alberta's EPEA Part 2, which mandates similar considerations in mine site remediation planning. In Quebec, under the LQE, mining permits explicitly require contaminant transport modeling, which adds a layer of rigor that Ontario's process sometimes lacks.
+
+What's happening here is the Doug Ford government pushing forward with fast-tracking—this is the third project to get that treatment, potentially compressing the usual eighteen to twenty-four month assessment timelines. But that speed comes at a cost: heightened litigation risks that could lead to delays in site development or even compliance orders from the courts. Practitioners working on mining ESAs in Ontario need to audit their files for alignment with Fisheries Act section 35(1), which protects against habitat disruption. It's also worth cross-referencing with federal IAA triggers, especially for projects over five thousand tonnes per day ore production.
+
+What I find interesting here is the potential for broader precedents. If this lawsuit progresses—and it could escalate to the Supreme Court—it might influence SARA compliance across jurisdictions, pushing for more interprovincial harmonization. In practice, this means updating risk registers for your Ontario mining clients to account for possible court-imposed stays. It's a reminder that fast-tracking might save months upfront but could add years if consultation gaps aren't addressed.
+
+Shifting to regulatory and policy watch, there's movement on the water quality front from California that could ripple into Canadian frameworks. The California State Water Resources Control Board is preparing to release a new rule aimed at curbing nitrate pollution from dairies, focusing on excess nitrogen leaching into groundwater with thresholds potentially below 10 mg/L nitrate-N to prevent seepage into waterways.
+
+This stands in contrast to C C M E's Canadian Water Quality Guidelines, which set 45 mg/L nitrate for aquatic life protection, or Ontario's O. Reg. 169/03 under the E P A, where controls on agricultural runoff are less prescriptive. In Alberta, EPEA's Tier 1 guidelines for nitrate in soil—say, 200 mg/kg for commercial sites—might feel the influence if federal see-pa amendments start incorporating U S-style nutrient management plans, particularly for dairy operations on the prairies.
+
+For Saskatchewan, this ties into EMPA requirements for manure storage, where similar nutrient loading issues could prompt tighter rules. What this signals is a possible push for C C M E review cycles to adopt comparable limits, affecting 2027 compliance reporting for sites with historical fertilizer use. Keep an eye on federal Canada Gazette notices this week for any consultations that might link to this.
+
+On the spill response side, the Sarnia oil spill at a Suncor facility warrants a quick note, even if it's not a full regulatory shift. Containment efforts using booms and vacuum equipment align with Ontario E P A protocols under O. Reg. 675/98, but if hydrocarbon sheens reach the St. Clair River, expect Fisheries Act investigations—much like federal oversight in BC's C S R for petrochemical sites.
+
+Looking at the regulatory calendar, federal see-pa toxic substances list consultations close on March twenty-fifth, twenty twenty-six, so get your submissions in on proposed additions like certain P fas analogs; this directly impacts site assessments under BC C S R Protocol 6. Ontario's E P A O. Reg. 153/04 has an annual reporting deadline for Record of Site Condition filings on April first, twenty twenty-six, which means updating any Phase two ESAs from Q one. In Alberta, EPEA remediation certificate applications for oil sands sites hit a March thirty-first, twenty twenty-six, milestone for Tier 2 risk assessments, tying into C C M E soil quality guidelines. And C C M E's guideline review for petroleum hydrocarbons kicks off April fifth, twenty twenty-six, with input periods that could shape Manitoba Environment Act compliance.
+
+Cross-jurisdictionally, track that California dairy nitrate rule for its potential to influence C C M E water quality updates—nutrient loading in the Canadian prairies mirrors this, possibly leading to tightened thresholds under the federal Fisheries Act or Quebec's LQE. Also, the U S E P A's P fas strategic roadmap for 2026 proposed drinking water standards might harmonize with Health Canada's maximum acceptable concentrations, like 0.2 µg/L for PFOA, affecting lab accreditation and treatment tech such as granular activated carbon in Ontario and BC. Finally, E U REACH amendments on microplastics could impact see-pa 2024 import regulations for polymers, requiring Canadian importers to audit supply chains by Q two twenty twenty-six.
+
+Turning to science and technical developments, the California dairy rule brings some practical insights for remediation designs here in Canada. It highlights the use of permeable reactive barriers for nitrate attenuation, with efficacy rates of seventy to ninety percent based on USEPA data. This could prompt labs to validate ISO 17025 methods for lower detection limits, such as 0.05 mg/L via ion chromatography, especially for groundwater monitoring in agricultural contaminated sites.
+
+Tying into that, the Ontario mining context reinforces the need for robust contaminant transport modeling in ESAs, similar to Quebec's LQE requirements. If you're dealing with nitrate or similar pollutants, compare these to provincial equivalents like Saskatchewan's EMPA for manure storage—it's a straightforward way to anticipate shifts in thresholds. The details aren't fully clear yet on the California thresholds, but here's what we know: they're aiming below 10 mg/L nitrate-N, which is more stringent than C C M E's 45 mg/L for aquatic life.
+
+In industry and practice, with spring fieldwork on the horizon, it's time to prep groundwater monitoring for contaminated sites. Make sure your sampling plans account for seasonal high-water table fluctuations, following BC C S R Protocol 1 for well installation depths and Alberta EPEA requirements for quarterly VOC analysis via GC-MS with MDLs below 0.5 µg/L.
+
+Calibrate equipment for P fas-free sampling to avoid cross-contamination, drawing on USEPA Method 537.1. And integrate climate adaptation by mapping flood risk zones per IAA guidelines—that prioritizes resilient monitoring networks for high-vulnerability sites. This is routine prep, but skipping it could complicate compliance, especially if you're tying into C C M E's upcoming review on petroleum hydrocarbons.
+
+For action items today: If you're handling mining ESAs in Ontario, review the Mining Act litigation and update Indigenous consultation templates to mitigate delays. Compare the California dairy nitrate thresholds to C C M E guidelines and adjust groundwater models for agricultural sites in Alberta or Ontario. Audit spill response plans for Ontario petrochemical facilities against E P A O. Reg. 675/98, incorporating lessons from the Sarnia incident. Prepare submissions for see-pa consultations closing March 25, focusing on P fas implications for risk assessments. And update spring monitoring protocols to include flood risk mapping per federal IAA, targeting high-vulnerability sites.
+
+Looking at the week ahead: March fifteenth, twenty twenty-six, marks a federal Impact Assessment Agency webinar on IAA amendments for mining projects, relevant to Ontario and BC practitioners. March eighteenth, twenty twenty-six, is the close of Alberta EPEA consultation on updated Tier 1 soil guidelines for metals, which will affect remediation designs. March twenty-second, twenty twenty-six, brings a C C M E virtual meeting on P fas analytical methods, discussing ISO 17025 updates for labs across jurisdictions. And March twenty-fifth, twenty twenty-six, is the deadline for feedback on proposed Fisheries Act habitat protection enhancements, with overlap to provincial EPAs.
+
+Before we wrap—tomorrow, watch for more on the federal Impact Assessment Agency webinar set for March 15, which could clarify IAA amendments impacting mining assessments in Ontario and BC.
+
+That's Environmental Intelligence for March twelfth, twenty twenty-six. If this briefing is useful to your practice, share it with a colleague and subscribe wherever you get your podcasts. We're back tomorrow. Have a productive day.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -911,6 +1064,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/env_intel/ep010.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Environmental Intelligence in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Environmental Intelligence">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -928,6 +1097,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1026,9 +1197,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

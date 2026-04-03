@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -924,6 +1024,109 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Good morning. This is Environmental Intelligence, episode eighteen. It's March thirty-first, twenty twenty-six. Here's what changed overnight in the environmental regulatory landscape.
+
+Today's briefing stands out because, while it is unusually light on new regulatory developments, it delivers meaningful scientific insight with direct, practical value for anyone managing projects in permafrost zones.
+
+In an industry where field seasons are short and closure timelines are under constant pressure from both regulators and clients, even incremental improvements in predictive tools can materially reduce uncertainty in risk assessments and reclamation plans.
+
+The study published yesterday in Nature Climate Change quantifies surface greenness recovery times following retrogressive thaw slumps and establishes annual ecosystem gross primary productivity as a reliable predictive metric.
+
+Rather than relying on simple time-since-disturbance assumptions that often prove overly optimistic or pessimistic depending on local conditions, the research demonstrates that post-thaw vegetation trajectories can be forecast using a measurable functional parameter tied to the site's own ecological productivity.
+
+This shifts the conversation from calendar-based guesses to data-driven forecasts grounded in actual ecosystem performance.
+
+For contaminated-sites practitioners and remediation engineers working on federal Impact Assessment Act reviews or territorial projects in Yukon, Northwest Territories, or Nunavut, this supplies an evidence-based method to evaluate monitored natural attenuation feasibility and long-term reclamation success in thawing permafrost environments.
+
+Thaw slumps frequently mobilize soil carbon, alter hydrology, and change the way contaminants partition between soil, water, and vegetation. By linking recovery to gross primary productivity, the study allows better integration of ecological forecasts into risk assessments where vegetation cover directly influences contaminant fate and transport.
+
+Consultants should therefore consider incorporating productivity-based recovery estimates when preparing closure plans or adaptive management strategies for northern sites this coming field season.
+
+What I find particularly useful here is how cleanly this work moves us away from chronological assumptions toward a site-specific, measurable functional parameter.
+
+In practice, this means your closure predictions can now be anchored to actual productivity data collected at the site rather than generic recovery timelines that may not reflect local microclimates, soil types, or nutrient availability.
+
+That should meaningfully tighten uncertainty in IAA submissions and territorial reclamation plans, giving both proponents and regulators a more defensible basis for decision-making.
+
+No qualifying provincial or federal regulatory changes, proposed amendments, enforcement actions, court decisions, or government consultations meeting our inclusion criteria were identified today. That makes this an unusually quiet day across the Alberta EPEA, British Columbia EMA, CEPA, and all provincial contaminated sites regimes.
+
+Use this low-content day to deepen your analysis of the thaw-slump findings for any projects you have in permafrost zones and to review the upcoming 30-day regulatory calendar while you still have breathing room.
+
+The same Nature Climate Change study on vegetation recovery following retrogressive thaw slumps establishes a functional relationship between annual ecosystem gross primary productivity and post-thaw surface greenness rebound.
+
+In northern Canada, where retrogressive thaw slumps can expose previously frozen soils and dramatically reshape landscapes over just a few seasons, having a predictive tool like this is more than academic. It has practical significance for site assessment, remediation design, and long-term monitoring under both territorial regimes and federal IAA processes.
+
+Thaw slumps often alter soil carbon dynamics, change surface hydrology, and can either accelerate or impede monitored natural attenuation or natural recovery remedies.
+
+The ability to forecast vegetation recovery based on productivity rather than elapsed time allows practitioners to evaluate whether incorporating site-specific productivity measurements will improve closure predictions compared with generic time-based assumptions.
+
+For projects where vegetation cover is a key performance indicator in the closure plan, this study offers a defensible way to justify monitored natural attenuation timelines to regulators and Indigenous governments who increasingly expect quantitative, evidence-based reclamation forecasts.
+
+An interview with Peter Brannen places current atmospheric CO₂ concentrations in the context of four billion years of Earth history and highlights the planet's repeated shifts between greenhouse and icehouse states.
+
+While the piece does not provide new regulatory thresholds or analytical methods, the long-term carbon-cycle perspective it offers can be valuable when communicating risk and adaptation strategies in federal and provincial climate adaptation planning for contaminated sites.
+
+Understanding that today's CO₂ levels, though elevated by human standards, are not unprecedented in deep time can help frame discussions about resilience, recovery, and the appropriate time scales for environmental management.
+
+No immediate changes to CCME guidelines, BC CSR, Alberta EPEA, or Ontario O. Reg. 153/04 result from this historical framing.
+
+However, for senior practitioners who regularly brief boards, regulators, or community groups on climate-related risks at northern or coastal sites, this broader geologic context can strengthen risk communication by moving the conversation beyond short-term political cycles to the deeper rhythms of the carbon cycle.
+
+Summit Carbon Solutions has shifted the intended use of its Midwest CO₂ pipeline from carbon capture and storage to fossil fuel service after multi-year eminent domain disputes. The development carries no direct regulatory implication for Canadian pipeline approvals under the Canadian Energy Regulator or provincial oil and gas legislation in Alberta or Saskatchewan.
+
+That said, Canadian practitioners monitoring cross-border carbon transport or sequestration projects should note the precedent this sets for contract and land-use changes when public opposition and legal challenges alter project economics.
+
+The case illustrates how quickly the business case for CCS can shift when regulatory, social, and legal risks materialize.
+
+While it does not create immediate compliance obligations for Canadian sites, it serves as a useful reminder to stress-test any assumptions about long-term carbon infrastructure when evaluating whether carbon capture should be considered part of a site's remedial strategy or climate adaptation plan.
+
+Researchers have also developed a nitrogen-doped carbon material that captures CO₂ effectively and releases it at temperatures below 60 °C, enabling the use of waste heat rather than high-energy input for regeneration. This advance may influence future treatment technology selection for large-scale point-source capture projects.
+
+It does not alter current CEPA, CCME, or provincial contaminated-sites requirements, but remediation engineers who track carbon capture as a potential remedial technology should monitor peer-reviewed performance data before recommending adoption on Canadian sites.
+
+The lower regeneration temperature is particularly interesting because many industrial sites and remote northern operations have access to low-grade waste heat that is currently underutilized. If the material proves durable under field conditions, it could improve the economics of certain capture applications and broaden the range of sites where carbon capture becomes technically feasible.
+
+For now, the prudent approach remains tracking the literature and waiting for independent validation at scales relevant to contaminated sites remediation.
+
+You arrive at a remote northern site with visible permafrost thaw slumps and submit soil and water samples for both PFAS and hydrocarbon analysis, only to receive elevated blanks and non-detects that do not match field observations. This frustrating scenario is more common than many project managers admit.
+
+The issue frequently traces to inconsistent low-level laboratory contamination controls when laboratories switch between standard hydrocarbon suites and emerging contaminant methods that demand far stricter blank performance.
+
+Under ISO 17025 accreditation, laboratories must demonstrate method detection limits and blank contamination control specific to each analyte list. However, when samples require both CCME hydrocarbon fractions and PFAS by modified EPA 537.1 or 1633, the extraction and instrument blanks must be evaluated independently for each method.
+
+Experienced practitioners know to request the full laboratory report package, including all trip blanks, field blanks, and continuing calibration verification data, rather than relying on the summary table alone. They also insist on batch-specific blank data when samples cross multiple contaminant classes.
+
+The most common mistake is assuming that accreditation for PFAS automatically means the laboratory applies the same rigorous contamination controls to every sample stream. The practical fix is straightforward: specify in the chain-of-custody and quality assurance plan that all blanks must be reported at the project-specific reporting limit for both analyte groups before data validation proceeds.
+
+Taking this step early can save weeks of re-sampling, re-analysis, and difficult conversations with both clients and regulators when data quality becomes an issue during review.
+
+If you're working on northern reclamation or risk assessment projects under territorial or federal IAA processes, I recommend you review the recent Nature Climate Change permafrost recovery study for applicability to your sites.
+
+At the same time, request full laboratory blank and calibration packages on upcoming emerging contaminant analyses to confirm that ISO 17025-compliant contamination controls are actually being applied. Update your field sampling plans for spring 2026 programs in permafrost regions to include productivity metrics where vegetation recovery is a closure criterion.
+
+Finally, brief northern clients on the predictive value of gross primary productivity for post-thaw recovery timelines when negotiating monitored natural attenuation remedies or closure plans.
+
+Looking ahead, from April 1 through 30 continue monitoring for any Canada Gazette Part one notices on CEPA amendments or CCME guideline revisions expected in Q two twenty twenty-six. April 15 is the typical deadline for many Alberta EPEA annual environmental reports for oil sands and mining operations.
+
+The March 31 through April 30 window also covers the standard period for BC CSR Schedule 2 site annual compliance reporting obligations. Ongoing, track federal and provincial consultation portals for any new permafrost or climate adaptation guidance that may reference the recent Nature study on productivity-based recovery.
+
+Before we wrap — tomorrow watch for any early Q two Canada Gazette notices or provincial guidance that could start referencing these permafrost productivity metrics in regulatory expectations.
+
+That's Environmental Intelligence for today. If this briefing is useful to your practice, share it with a colleague and subscribe wherever you get your podcasts. We're back tomorrow. Have a productive day.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -931,6 +1134,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/env_intel/ep018.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Environmental Intelligence in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Environmental Intelligence">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -948,6 +1167,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1046,9 +1267,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

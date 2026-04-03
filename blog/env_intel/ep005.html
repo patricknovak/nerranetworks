@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -915,6 +1015,81 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Good morning. This is Environmental Intelligence, episode five, for March fifth, twenty twenty-six. Your daily briefing on environmental regulatory, science, and compliance developments that matter for Canadian professionals.
+
+BC opens consultation on Koksilah Watershed Plan, requiring input by April 30 for water sustainability compliance under Water Sustainability Act.
+
+BC's Ministry of Water, Land and Resource Stewardship invites public input on the Xwulqw’selu (Koksilah) Watershed and Water Sustainability Plan, introducing potential new management measures for groundwater and surface water in Vancouver Island's Cowichan Valley. This directly impacts remediation projects involving water extraction or discharge under BC's E M A and Water Sustainability Act, with submissions due April thirtieth, twenty twenty-six. Professionals should monitor Indigenous consent disputes in BC mining, as they could delay site assessments near Princeton under C S R protocols, and review boreal wildfire emission data for GHG reporting adjustments under federal see-pa.
+
+Let's dive into the lead story today, which centers on a brewing dispute in BC's mining sector that could ripple into contaminated sites work. The Similkameen Indian Bands are asserting that the Copper Mountain mine expansion near Princeton is moving forward without their consent, in violation of BC's Declaration on the Rights of Indigenous Peoples Act, or DRIPA, and potentially E M A permitting requirements for mining operations.
+
+To set the context, previously, mine expansions like this one often triggered federal IAA reviews if they involved significant environmental effects, but this project is reviving an old pit and raising a tailings dam by 87 meters without what appears to be adequate Indigenous consultation under provincial frameworks. That's a shift from the more rigorous federal oversight we've seen in past cases, where IAA would mandate detailed impact assessments including Indigenous knowledge integration.
+
+What changed here? The Bands argue the process skips DRIPA's consent provisions, which require free, prior, and informed consent for projects on traditional territories. This isn't just procedural—it's tied directly to E M A, where permits for mining operations must now align with DRIPA since its enactment in 2019. The expansion's location near the Similkameen River also amps up risks under the federal Fisheries Act, particularly for sediment and contaminant transport that could affect fish habitats downstream.
+
+For those of us in contaminated sites and remediation, this means heightened scrutiny on Phase one ESAs and risk assessments for any mining-related sites in BC. If you're consulting on a project in the area, expect potential stop-work orders that could delay remediation timelines by months—I've seen similar disputes push back assessments by 60 days or more while judicial reviews play out.
+
+The BC Ministry of Energy, Mines and Low Carbon Innovation is the key enforcer to watch; the Bands may pursue judicial review, which could halt activities within that 60-day window. In practice, this signals a broader enforcement trend under DRIPA—consultants should audit client permits for compliance now to mitigate litigation risks. What I find interesting here is how this revives old pits without new federal triggers, potentially setting a precedent for faster approvals but at the cost of Indigenous relations. If your work touches BC mining, factor in extra time for consent protocols in your next proposal; it's not optional anymore.
+
+Moving to regulatory and policy watch, starting with that watershed consultation I mentioned up top.
+
+According to BC Gov News, the Ministry of Water, Land and Resource Stewardship has opened input on the Xwulqw’selu (Koksilah) Watershed and Water Sustainability Plan under BC's Water Sustainability Act. This targets integrated management of groundwater, surface water, and drought risks in the Cowichan Valley on Vancouver Island.
+
+The shift here is from ad-hoc permitting to plan-based approvals, which will affect discharge limits and monitoring for contaminated sites under E M A and C S R Protocol 12. Previously, you'd handle water-related aspects on a case-by-case basis, but this plan could impose standardized thresholds for extraction or discharge in remediation projects.
+
+One concrete implication: if you're designing water treatment systems or managing effluent in the region, integrate these plan elements early to avoid permit rejections. Submissions are due by April thirtieth, twenty twenty-six—get your comments in to shape those final thresholds. This ties into broader BC water sustainability efforts, much like what we've seen in other watersheds, but with a focus on drought-prone areas that could tighten E M A compliance for sites involving groundwater.
+
+That's the main regulatory update for today; nothing earth-shattering elsewhere, but worth noting if Vancouver Island projects are on your docket.
+
+On the science and technical front, new research is highlighting gaps in how we model carbon emissions from boreal wildfires, which has direct ties to our work in northern jurisdictions.
+
+According to Science Daily, studies show that wildfires in Canada's boreal forests are burning deep into peat soils, releasing ancient carbon at rates up to 10 times higher than what satellite estimates capture. Smoldering fires, in particular, are contributing unreported CO2 equivalents exceeding 1 gigatonne annually.
+
+This affects risk assessments under C C M E climate guidelines and federal see-pa GHG inventories—underestimation here could invalidate your site-specific carbon offset calculations, especially for remediation projects in northern areas like those under BC C S R or Alberta EPEA.
+
+Reference BC C S R Protocol 13 when integrating these updated emission factors into your environmental impact models; it's a straightforward adjustment but could mean recalibrating GHG baselines for any boreal site. What this confirms is what many of us suspected—satellites miss the subsurface burn, so if you're modeling wildfire risks for contaminated sites, build in a buffer for these higher emissions. It's not revolutionary, but it gives us better data for defending models in regulatory reviews.
+
+For industry and practice developments, today's briefing keeps it light, but looping back to the lead story, the Copper Mountain expansion underscores practical shifts in mining remediation. Raising tailings dams by 87 meters without full consent processes could lead to cost overruns if disputes escalate—think added monitoring under Fisheries Act for river proximity.
+
+This affects day-to-day consulting on BC mining sites, where you might need to compare technologies like enhanced tailings stability measures against potential delays. Market-wise, it signals tighter scrutiny on pipeline decommissioning or landfill assessments near Indigenous territories, potentially shifting budgets toward compliance audits. If your practice involves cross-jurisdictional work, note how this contrasts with Alberta's EPEA approaches, where wildfire interfaces are getting more attention—more on that in the week ahead.
+
+Now, action items to keep your projects on track.
+
+If you're working on mining-related ESAs near Indigenous territories in BC, review DRIPA compliance to avoid project delays from consent disputes.
+
+Submit feedback on BC's Koksilah Watershed Plan by April 30, focusing on implications for E M A discharge permits in remediation.
+
+Update GHG emission models for boreal sites using new peat fire data, aligning with see-pa reporting requirements.
+
+Audit tailings dam designs in BC projects for Fisheries Act conformance, incorporating Similkameen River proximity risks.
+
+Brief clients on potential boreal wildfire impacts to carbon pricing under federal frameworks, adjusting Q one twenty twenty-six compliance strategies.
+
+Looking at the week ahead, mark your calendar for these.
+
+March tenth, twenty twenty-six: Federal see-pa consultation closes on proposed amendments to GHG reporting thresholds; monitor Canada Gazette for northern project implications.
+
+March fifteenth, twenty twenty-six: BC E M A annual compliance reporting deadline for contaminated sites; ensure C S R Protocol 1 updates are filed.
+
+March twentieth, twenty twenty-six: Alberta EPEA webinar on wildfire interface planning; relevant for cross-jurisdictional mining remediation.
+
+March thirty-first, twenty twenty-six: C C M E review cycle begins for soil quality guidelines; watch for boreal carbon integration into risk assessments.
+
+Before we wrap—tomorrow, watch for updates on the federal see-pa amendments as the consultation wraps, potentially shifting GHG thresholds for your northern assessments.
+
+That's Environmental Intelligence for March fifth, twenty twenty-six. If this briefing is useful to your practice, share it with a colleague and subscribe wherever you get your podcasts. We're back tomorrow. Have a productive day.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -922,6 +1097,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/env_intel/ep005.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Environmental Intelligence in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Environmental Intelligence">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -939,6 +1130,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1037,9 +1230,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

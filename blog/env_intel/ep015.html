@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -950,6 +1050,137 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Good morning. This is Environmental Intelligence, episode fifteen, for March twenty-sixth, twenty twenty-six. Your daily briefing on environmental regulatory, science, and compliance developments that matter for Canadian professionals.
+
+The Trans Mountain pipeline system is expected to reach and sustain full capacity starting in April. This is driven by ongoing supply disruptions in the Middle East that are rerouting global crude flows toward North American export terminals.
+
+The recently completed TMX expansion has now moved from commissioning into steady-state operations, placing the federally regulated corridor through British Columbia at its maximum design throughput for the first time.
+
+For environmental professionals supporting upstream oil sands operators in Alberta or midstream compliance teams in BC, this development translates into heightened regulatory scrutiny on existing EPEA approvals, BC E M A discharge permits, and Fisheries Act section 36 authorizations.
+
+Increased volumes can push contingency planning assumptions that were developed years ago — sometimes under lower throughput scenarios — into new territory, particularly around spill response timing, containment capacity, and downstream receptor protection.
+
+Current projects involving pipeline integrity digs, emergency response plan updates, or risk assessments for the Lower Fraser River or Burrard Inlet should immediately confirm that hydraulic modelling, dispersion modelling, and sensitivity analyses still reflect maximum design flows rather than average or nominal rates.
+
+Practitioners should also verify that Indigenous consultation records, Species at Risk Act compliance documentation, and any associated adaptive management triggers remain current given the elevated operational tempo that is now expected to persist through at least May.
+
+The practical takeaway is clear: even in the absence of new regulatory amendments, operational tempo alone can reopen foundational assumptions buried in older approvals and permits.
+
+In practice, this means pulling out your existing contingency plans and risk registers and rerunning the numbers at sustained maximum throughput before a regulator or Indigenous group does it for you. The cost of being reactive here is measured in both project delays and eroded trust.
+
+What this also signals is that Canadian crude-by-rail movements may see reduced pressure in the near term, which in turn could ease some contaminated sites liabilities and remediation scheduling pressures in Alberta and Saskatchewan rail yards. That breathing room, however, is likely temporary and should be used strategically.
+
+Let's turn from the operational story to the broader regulatory scan.
+
+Today's review of federal and provincial activity turned up no qualifying regulatory changes, proposed amendments, enforcement actions, or court decisions that meet our threshold for immediate practitioner attention.
+
+That kind of quiet regulatory day is relatively rare, particularly in the current environment of overlapping climate, energy, and reconciliation priorities. Use this breathing room deliberately.
+
+It is an opportunity to get ahead on the science and technical developments that are quietly reshaping the parameters we use in everyday contaminated sites work, climate resilience planning, and project approvals.
+
+Turning now to those science and technical developments.
+
+A significant study has documented a measurable decline in low-level cloud cover over the past two decades. This reduction allows more solar radiation to reach the Earth's surface, creating a positive feedback loop that accelerates warming beyond what many models previously projected.
+
+For Canadian practitioners, the implications are not abstract. Updated warming rates directly affect sea-level rise projections for coastal contaminated sites in British Columbia and the Atlantic provinces, where many legacy industrial properties sit within the intertidal or near-shore zone.
+
+The same data also shifts flood risk mapping used under provincial adaptation guidelines in BC, Alberta, and Ontario, requiring revisions to both design storm events and the assumed frequency of extreme precipitation.
+
+In permafrost regions or high-precipitation zones, these changes can alter the performance assumptions for permeable reactive barriers, soil vapour extraction systems, and long-term containment strategies.
+
+Site conceptual models prepared for BC C S R Schedule 2 risk assessments or Ontario O. Reg. 153/04 filings should now be cross-checked against the latest regionally downscaled climate data sets to confirm that contaminant transport rates, natural attenuation assumptions, and receptor exposure pathways remain valid under the revised climate baseline.
+
+The practical step is to pull the climate chapter of your current risk assessment or remedial action plan and test whether the original conclusions still hold when you substitute the newer warming trajectory. Many will require modest but important adjustments to monitoring frequency or contingency triggers.
+
+A second major study has concluded that limiting global warming to 2°C above pre-industrial levels may not be sufficient to avoid a range of extreme and potentially irreversible global impacts.
+
+This finding carries direct relevance for Canadian environmental professionals who are currently preparing climate resilience statements for federal Impact Assessment Act processes, provincial environmental assessments, or corporate disclosure requirements.
+
+Risk assessments supporting long-lived remediation systems — such as monitored natural attenuation programs, permeable reactive barriers, or engineered caps — should now incorporate higher-impact climate scenarios rather than treating 2°C as the sole planning threshold.
+
+This is especially important for oil sands, mining, and large infrastructure projects where the remediation horizon extends decades into the future and where the difference between 2°C and 3°C materially changes freeze-thaw cycles, precipitation intensity, and groundwater recharge rates.
+
+What I find particularly noteworthy is the speed with which climate science is moving from broad, high-level projections to specific numerical parameters that we now use in everyday modelling and regulatory submissions.
+
+The days of treating climate change as a distant overlay or sensitivity case are clearly behind us. It has become core design input, and the standard of care is shifting accordingly.
+
+Staying with the theme of energy transition and industrial adaptation, a proposed Google data center project in Michigan offers an instructive model for Canadian practitioners.
+
+The facility incorporates both dedicated renewable energy supply contracts and advanced demand-response capability, allowing it to ramp down power consumption during peak grid periods in close coordination with the local utility.
+
+Although the project is located in the United States, the technical and commercial approach has clear cross-border relevance for Canadian consultants advising on large-scale industrial power demands in Ontario, Alberta, and British Columbia.
+
+For environmental professionals supporting data centre clients or other energy-intensive industrial projects, the Michigan example demonstrates how genuine load flexibility can materially reduce the need for new fossil-fired generation capacity.
+
+This in turn can simplify air quality approvals, lower reported greenhouse gas emissions under provincial regimes and see-pa, and strengthen the case during public consultation or Impact Assessment processes.
+
+The lesson is that early integration of demand-response architecture into project design is becoming both a technical and a reputational advantage.
+
+Separately, several First Nations in British Columbia continue to advance their own renewable energy projects, often in partnership with utilities, developers, or through federal funding streams.
+
+These initiatives frequently intersect with provincial clean energy policy, impact benefit agreements, and the redevelopment of legacy contaminated sites or closed mine lands.
+
+Practitioners working on BC C S R Schedule 2 sites or former industrial properties located near Indigenous communities should take note of this growing integration of clean energy into project proposals and long-term land use plans.
+
+The presence of a community-owned solar, wind, or run-of-river installation can materially affect residual risk calculations, long-term stewardship funding models, and the social licence baseline for any future remediation or redevelopment decisions.
+
+Another practical example of brownfield-to-clean-energy transition comes from a burned-out residential structure in Detroit that has been retrofitted as a clean energy demonstration home.
+
+The project combines high-efficiency insulation, advanced HVAC systems, and on-site renewable generation to achieve dramatic reductions in energy demand and carbon footprint.
+
+While the demonstration is U S-based, the building science and retrofit techniques are directly transferable to Canadian contaminated sites redevelopment work in Ontario, British Columbia, and beyond.
+
+Remediation engineers and consultants can integrate these approaches into site redevelopment plans to help meet evolving municipal green building bylaws, reduce long-term operational emissions, and improve the financial performance of remediated properties.
+
+Now, speaking of spills, waterways, and Indigenous engagement, there is a scenario worth thinking through carefully because it arises with frustrating regularity.
+
+You receive the call that a diesel release from a pipeline or rail incident has reached a navigable waterway in British Columbia or Alberta. The initial reported volume triggers immediate notification obligations under the Fisheries Act and the Canadian Environmental Protection Act, 1999.
+
+Yet the real test of professional judgment begins the moment you move beyond the statutory 24-hour telephone report and begin determining the extent and depth of Indigenous engagement required.
+
+Under the federal Impact Assessment Act, modern treaties, and the evolving legal framework around section 35 rights, the duty to consult is triggered at a relatively low threshold whenever a spill has potential to affect fishing, cultural use, or other Aboriginal rights associated with the waterbody.
+
+Experienced practitioners therefore map the spill location against the nearest First Nation’s traditional territory, modern treaty schedules, and any specific notification protocols contained in relevant Impact Benefit Agreements or provincial environmental management plans — and they do so before the regulator even asks the question.
+
+The nuance that consistently separates senior from junior consultants is the recognition that a regulator’s acceptance of the spill notification report does not equal Crown discharge of the duty to consult.
+
+Parallel engagement logs must be maintained even when the released volume sits below typical reportable thresholds, because the legal trigger is effect on rights, not merely volume.
+
+Within the first 48 hours, the team should be tracking downstream drinking water intakes, fish habitat sensitivities under the Fisheries Act, and any SARA-listed species in the receiving environment, while simultaneously updating the consultation record as plume modelling and receptor data evolve.
+
+The most common mistake is treating the spill notification as a one-time administrative checkbox rather than the start of a living engagement process.
+
+The practical fix is straightforward but requires discipline: maintain a single, time-stamped consultation log that cross-references both the spill report number and the specific Indigenous groups engaged. Provide that log proactively in the first written submission to the regulator. Doing so demonstrates both competence and respect.
+
+If you are currently working on pipeline or rail exposure sites in BC and Alberta, this is an excellent time to review your standard Fisheries Act and see-pa spill notification templates against any recent TMX-related volume increases and to stress-test your Indigenous engagement protocols accordingly.
+
+To close today’s briefing, here are the priority actions for the week ahead.
+
+Monitor CER filings for any operational variance applications or updates related to sustained full-capacity operation of the Trans Mountain system.
+
+Track ongoing C C M E guideline review cycles for potential future updates to soil vapour intrusion or P fas guidance that could appear in coming quarters.
+
+Prepare for the spring groundwater monitoring season by confirming low-flow sampling protocols, laboratory hold times for volatile parameters, and any site-specific adjustments required by updated climate data on your active contaminated sites.
+
+Watch for federal or provincial announcements on clean energy funding streams that may create new opportunities at the intersection of brownfield redevelopment, mine closure, and Indigenous economic development in British Columbia and elsewhere.
+
+And keep an eye on early signals of how sustained TMX full-capacity operations may influence spill response planning assumptions and Fisheries Act authorization reviews in the coming weeks.
+
+That covers today’s edition of Environmental Intelligence. If you found this briefing useful, please share it with a colleague who needs to stay current in this rapidly evolving space. We are back tomorrow morning with the next set of developments that matter. Have a productive day.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -957,6 +1188,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/env_intel/ep015.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Environmental Intelligence in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Environmental Intelligence">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -974,6 +1221,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1072,9 +1321,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

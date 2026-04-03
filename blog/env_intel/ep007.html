@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -913,6 +1013,69 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Good morning. This is Environmental Intelligence, episode seven, for March ninth, twenty twenty-six. Your daily briefing on environmental regulatory, science, and compliance developments that matter for Canadian professionals.
+
+New Brunswick's delayed response to Vanier Highway chemical spill highlights gaps in provincial spill protocols under the Clean Environment Act.
+
+New Brunswick established a vehicle decontamination site for a chemical spill on Vanier Highway, but criticism of the 48-hour delay underscores potential liabilities in emergency response under the province's Clean Environment Act, affecting consultants handling spill assessments. U S state "Sound Science" bills could influence Canadian regulatory harmonization via C C M E, raising barriers to evidence-based thresholds in provinces like Alberta and Ontario. Professionals should review cross-border policy alignments this week for impacts on risk assessments involving emerging contaminants.
+
+Let's dive into the lead story out of New Brunswick. The Department of Environment and Local Government there set up a decontamination car wash for vehicles exposed to a chemical spill on Fredericton's Vanier Highway. It ran from Wednesday evening through Friday at 4 p.m. AT, operating under the spill response provisions of the Clean Environment Act. Before this, these kinds of incidents leaned on ad-hoc notifications without any mandated timelines for action. What we're seeing here is a clear inconsistency in how quickly these responses get activated, especially when you stack it against something like BC's E M A, which pushes for rapid response, or Alberta's EPEA Tier 1 guidelines that set clearer expectations for immediate steps.
+
+The 48-hour delay in this case drew resident complaints, and it's likely to spark investigations into whether this lines up with C C M E spill management standards. For those of us in the field, this puts a spotlight on Phase one E S A timelines, particularly for transportation corridors in the Atlantic provinces. You could see enforcement ramping up, which means remediation plans and compliance programs might need to incorporate more robust emergency protocols to avoid liabilities.
+
+Implementation-wise, keep an eye out for any ministerial orders or audit reports over the next 30 days. There's also overlap with federal see-pa spill reporting requirements, so if you're consulting on New Brunswick sites, it's time to audit client protocols against this as a precedent. What I find interesting here is how this exposes the patchwork nature of provincial responses—New Brunswick's approach feels slower than what we'd expect in western provinces, and that could lead to cross-jurisdictional lessons for anyone managing multi-province portfolios. In practice, this means factoring in potential delays when scoping spill assessments, to keep your timelines realistic and your clients out of hot water.
+
+Moving to regulatory and policy watch. According to Inside Climate News, Republican-led legislatures in U S states like Alabama are pushing "Sound Science" bills that slap high evidentiary burdens on environmental agencies. These could block regulations on contaminants unless there's what critics call "insurmountable proof" of harm, and scientists are pointing out the risks to public health from that kind of threshold.
+
+For us in Canada, this matters because it could put pressure on C C M E harmonization efforts. Think about how similar debates play out in Ontario's E P A amendments or Alberta's EPEA reviews, where evidence thresholds directly shape site remediation criteria. If these U S bills gain traction, they might delay interprovincial standards adoption, especially for emerging contaminants.
+
+I'd monitor for any federal see-pa alignments here—brief your clients on potential slowdowns by Q two twenty twenty-six. This ties into what Alberta did last month on EPEA evidence standards; it's not a direct copy, but the ripple effects could complicate risk assessments if C C M E starts mirroring these higher bars. In short, if you're handling Alberta EPEA or Ontario projects, this is worth watching because it could mean revising your evidentiary approaches to stay ahead of any harmonized changes.
+
+On the science and technical side, documents from a Florida state-commissioned environmental assessment are raising concerns about pollution from over 200 generators at the Everglades detention site, known as Alligator Alcatraz. The assessment, released through lawsuit documents and covered by Inside Climate News, shows elevated GHG emissions and air contaminants based on monitoring data.
+
+This underscores practical challenges in remote site assessments, much like what we deal with in Canadian mining operations under Saskatchewan's EMPA or the federal IAA. Generator emissions can throw a wrench into risk modeling, especially when benchmarked against C C M E air quality guidelines.
+
+For your work, integrate these kinds of emission factors into BC C S R Protocol 1 vapour intrusion assessments. It might mean adjusting method detection limits for VOCs in your next fieldwork rounds. This confirms what many of us have suspected about generator-heavy sites—emissions add layers to S V E designs or monitored natural attenuation plans, so factor that in to avoid underestimating risks. It's a reminder that even in non-Canadian contexts, the data can refine our models here, particularly for federal IAA-compliant projects where air quality ties into broader impact assessments.
+
+In industry and practice developments, CBC Canada News reports that New Brunswick's government set up that car wash in Fredericton for vehicles hit by the chemical spill. It's a straightforward decontamination measure, but it really highlights the delays in activating responses under the provincial Clean Environment Act protocols.
+
+For remediation contractors dealing with similar incidents, this means building extended timelines into your cost estimates for spill response projects in Atlantic Canada. We're talking potential budget increases of twenty to thirty percent just for equipment mobilization, based on how this played out.
+
+Update your standard operating procedures to include rapid sampling for unknown chemicals, and make sure they align with ISO 17025 accreditation for field labs. This is routine in some ways—spill responses always have variables—but the delay here is a dry lesson in why overestimating timelines can save you from underbidding. If you're bidding on pump-and-treat or in-situ oxidation work in eastern Canada, adjust those proposals accordingly to reflect these real-world gaps.
+
+Now, action items for the week. If you're handling transportation corridor assessments in the Atlantic provinces, review New Brunswick's Clean Environment Act spill response protocols and flag any implications for your current projects.
+
+Update your risk assessment templates to incorporate potential influences from those U S "Sound Science" bills on C C M E guidelines, especially if you're on Alberta EPEA or Ontario O. Reg. 153/04 work.
+
+Integrate generator emission data from those Florida assessments into your vapour extraction designs for remote sites under federal IAA or Saskatchewan EMPA.
+
+Audit client emergency plans against C C M E spill standards, and prioritize updates for any New Brunswick-based operations this week.
+
+Finally, brief your remediation teams on these decontamination delays, and adjust timelines for pump-and-treat or in-situ oxidation bids in eastern Canada.
+
+Looking at the week ahead. March 15 is the federal see-pa consultation deadline on 2024 amendments for toxic substances lists, which will impact national contaminated sites inventories.
+
+On March 18, Alberta EPEA annual compliance reporting is due for Tier 1 sites, so get those updates on monitored natural attenuation progress in order.
+
+March 22 marks the close of the BC C S R Protocol 13 review period, with possible changes to P fas screening levels for groundwater.
+
+And on March 25, there's a C C M E webinar on interprovincial harmonization of climate adaptation requirements, useful for flood risk mapping in Ontario and Quebec. Mark your calendars for these to stay on top of deadlines.
+
+Before we wrap—tomorrow, watch for updates on the federal see-pa consultation outcomes, which could shift toxic substance thresholds for cross-jurisdictional sites.
+
+That's Environmental Intelligence for March ninth, twenty twenty-six. If this briefing is useful to your practice, share it with a colleague and subscribe wherever you get your podcasts. We're back tomorrow. Have a productive day.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -920,6 +1083,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/env_intel/ep007.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Environmental Intelligence in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Environmental Intelligence">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -937,6 +1116,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1035,9 +1216,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

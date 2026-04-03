@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -914,6 +1014,73 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Good morning. This is Environmental Intelligence, episode six, for March sixth, twenty twenty-six. Your daily briefing on environmental regulatory, science, and compliance developments that matter for Canadian professionals.
+
+Carbon market additionality rules may exclude Indigenous-managed lands in BC and federal jurisdictions, limiting offset eligibility.
+
+Nature's analysis highlights how carbon market additionality requirements penalize ongoing Indigenous stewardship in Canada, favoring degraded land recovery over protection and potentially barring projects under BC's E M A or federal see-pa carbon pricing. In BC, Haisla Nation's opposition to a new oil pipeline underscores IAA consultation risks for proponents, while supporting LNG aligns with provincial climate goals. Professionals should review carbon offset portfolios this week for Indigenous land eligibility and monitor federal IAA updates on pipeline assessments.
+
+Let's dive into the lead story from Nature's peer-reviewed commentary, which pulls no punches on how additionality requirements in carbon markets are sidelining Indigenous-managed lands. This affects voluntary and compliance markets across BC, Alberta, and federal see-pa frameworks, where the focus is on prioritizing emissions reductions from degraded sites rather than crediting sustained protection. Previously, C C M E-aligned guidelines and provincial standards like BC C S R Protocol 13 allowed broader stewardship credits, recognizing ongoing practices that preserve carbon stocks without needing a degraded baseline. But the 2024 see-pa amendments have tightened federal carbon pricing to emphasize verifiable "additional" actions, often disqualifying long-term Indigenous management that maintains biodiversity and carbon without that baseline shift.
+
+What this means for your work is a sharper focus on risk assessment for carbon offset projects. You'll need to demonstrate degradation baselines through ISO 17025-accredited soil carbon sampling and historical land use data—think method detection limits that prove flux changes, or you risk invalidating credits from undisturbed Indigenous territories. In practice, this could force a reassessment of eligibility under BC's Forest Carbon Offset Protocol or Alberta's TIER system, where excluding Indigenous options might hike compliance costs by 20minus thirty percent as you source alternatives from more conventional recovery sites.
+
+The shift signals a broader tension between equity and verifiability in carbon accounting, and it's worth watching because C C M E guideline revisions are expected in Q two twenty twenty-six. Federal consultation under see-pa Part 5 closes April fifteenth, twenty twenty-six, and there's potential harmonization with U S E P A carbon standards that could ripple into cross-border projects. Practitioners, I'd cross-reference this with Species at Risk Act overlays—there's room to argue for equity-based exemptions in impact assessments, especially if you're layering in biodiversity offsets. If your portfolio includes Indigenous partnerships, audit those baselines now; the details aren't fully clear yet, but this could reshape how we model long-term carbon viability in remediation plans.
+
+Moving to regulatory and policy watch, starting with the calendar review. Federal see-pa 2024 amendment consultations on toxic substance listings, including P fas updates, close March thirty-first, twenty twenty-six—get your submissions in on analytical methods like E P A Method 537.1 equivalents for PFOA/PFOS thresholds below 0.01 µg/L in groundwater. This directly impacts compliance in Ontario O. Reg. 153/04 site assessments and BC C S R numerical standards, so if you're handling Phase one or II work there, align your lab protocols accordingly.
+
+In Alberta, EPEA Tier 1 guideline revisions for oil sands tailings ponds enter force April first, twenty twenty-six, mandating enhanced monitored natural attenuation monitoring—that's going to require tighter data on contaminant plumes, potentially extending remediation timelines for those sites.
+
+Quebec's LQE/RPRT annual reporting deadline for contaminated sites is March fifteenth, twenty twenty-six, with new requirements for permeable reactive barrier efficacy data; if you're consulting there, compile that now to avoid last-minute scrambles.
+
+On the cross-jurisdictional front, U S E P A's proposed P fas drinking water standards at 4 ng/L for PFOA may prompt C C M E harmonization by mid-2026, which could tighten interprovincial standards like Saskatchewan EMPA groundwater criteria. Track this for adoption in federal Fisheries Act s.36(3) effluent limits—it's a heads-up for anyone modeling cross-border water quality risks.
+
+Similarly, recent U S carbon market reforms under the Inflation Reduction Act could influence federal IAA additionality criteria for Indigenous projects, potentially aligning with BC E M A offsets. This ties into what Alberta did last month on TIER expansions, so if you're bridging U S-Canada work, factor in these parallels for offset validations.
+
+In science and technical developments, Nature's analysis quantifies how Indigenous-managed lands in Canada sustain 10minus twenty percent higher carbon stocks through traditional practices. But additionality rules demand proof of actions beyond business-as-usual, often excluding them because method detection limits for carbon flux below 0.5 tCO2e/ha/year aren't achievable without degradation baselines.
+
+This affects risk assessment under C C M E guidelines and BC C S R Protocol 1, where you'll now need to integrate cultural impact data into designs for permeable reactive barriers or in-situ remediation plans to maintain carbon credit eligibility. Reference federal IAA for equity adjustments in biodiversity offsets—exclusion here could reduce project viability by limiting funding for wildfire interface planning, which we've seen erode budgets in similar setups.
+
+What I find interesting is that this confirms what many practitioners have suspected: our standards reward recovery over prevention, but layering in IAA equity arguments might open doors for credits. If you're updating models, pull in those carbon stock differentials—it's practical data for arguing viability in assessments.
+
+Shifting to industry and practice, DeSmog reports on why the Haisla Nation in BC is fine with LNG but not Mark Carney’s new oil pipeline. They're reaffirming opposition to the proposed oil pipeline to the northwest coast, citing risks under federal IAA and BC E M A, while supporting LNG projects that comply with provincial climate adaptation requirements like sea-level rise projections.
+
+For remediation engineers and consultants on BC pipeline assessments, this means incorporating enhanced Indigenous consultation into Phase two ESAs, which could add 15minus twenty-five percent to timelines through Fisheries Act s.35 reviews for spill risk modeling. If your projects link to oil sands, update pump-and-treat system designs to address Haisla-specific concerns on contaminant transport—avoiding enforcement under Species at Risk Act is key here.
+
+It's a reminder that jurisdiction matters: LNG gets a pass for aligning with BC's goals, but oil pipelines trigger deeper scrutiny. If you're briefing clients, highlight how this opposition underscores the need for robust consultation to mitigate delays in decommissioning or site prep work.
+
+Now for action items. If you're working on carbon offset projects in BC under E M A or federally under see-pa, review your portfolios for Indigenous land eligibility, prioritizing degradation baseline audits this week.
+
+Update your IAA consultation templates for BC pipeline proposals to include Haisla Nation positions on LNG versus oil, and brief clients on potential delays.
+
+Submit comments on see-pa P fas listings by March thirty-first, twenty twenty-six, incorporating ISO 17025 method updates for site assessments in multiple provinces.
+
+Assess current remediation designs against C C M E carbon stock guidelines, integrating equity arguments for Indigenous stewardship credits.
+
+Monitor U S E P A P fas standards for harmonization risks to Ontario E P A and Alberta EPEA thresholds, preparing analytical lab briefs.
+
+Looking at the week ahead, mark your calendar for March tenth, twenty twenty-six, when the federal IAA public hearing on BC coastal projects closes—relevant for pipeline environmental assessments under Fisheries Act overlap.
+
+March fifteenth, twenty twenty-six, is the Quebec LQE/RPRT contaminated sites annual reports due date, requiring data on P fas treatment technologies like granular activated carbon.
+
+On March twentieth, twenty twenty-six, there's a C C M E webinar on spring groundwater monitoring prep, covering method detection limits for volatile organics in Alberta EPEA contexts.
+
+And March thirty-first, twenty twenty-six, is the see-pa consultation deadline for 2024 amendments, focusing on climate adaptation in risk assessments across jurisdictions.
+
+Before we wrap—tomorrow, watch for updates on Alberta's EPEA tailings pond monitoring requirements, which could shift remediation strategies for oil sands sites.
+
+That's Environmental Intelligence for March sixth, twenty twenty-six. If this briefing is useful to your practice, share it with a colleague and subscribe wherever you get your podcasts. We're back tomorrow. Have a productive day.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -921,6 +1088,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/env_intel/ep006.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Environmental Intelligence in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Environmental Intelligence">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -938,6 +1121,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1036,9 +1221,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,7 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -667,6 +766,7 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -915,6 +1015,133 @@
             </section>
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Good morning. This is Environmental Intelligence, episode three, for March second, twenty twenty-six. Your daily briefing on environmental regulatory, science, and compliance developments that matter for Canadian professionals.
+
+Road salt accumulation in Ontario's Lake Simcoe watershed exceeds C C M E chloride guidelines, triggering site assessments under O. Reg. 153/04.
+
+Ontario watersheds face year-round chloride contamination from winter road salt, with Lake Simcoe levels surpassing C C M E aquatic life thresholds of 120 mg/L chronic and 640 mg/L acute, requiring consultants to integrate salt transport modeling into Phase one ESAs and stormwater plans under the Environmental Protection Act.
+
+This directly impacts remediation projects in southern Ontario by necessitating chloride-specific risk assessments per Protocol 15.
+
+Professionals should monitor upcoming Ontario Ministry of the Environment consultations on salt management guidelines this quarter for compliance updates.
+
+Let's dive into the lead story, because this one has real teeth for anyone handling contaminated sites in Ontario.
+
+Winter road salt applications are causing persistent chloride contamination in Ontario's Lake Simcoe watershed, affecting drinking water sources under the Ontario Environmental Protection Act and O. Reg. 153/04 for contaminated sites.
+
+Previously, seasonal monitoring focused on acute winter spikes, but new data shows year-round exceedances of C C M E water quality guidelines, with chronic exposures above 120 mg/L in groundwater and surface water.
+
+This shifts from episodic to continuous risk, complicating natural attenuation strategies.
+
+For practitioners, this means updating current site conceptual models in southern Ontario to include chloride as a contaminant of concern, potentially requiring permeable reactive barriers or enhanced pump-and-treat systems in remediation designs.
+
+What this signals is a broader push toward integrating non-traditional contaminants like chlorides into standard protocols, especially where watersheds feed into drinking water supplies.
+
+In practice, if you're scoping a Phase two E S A, you'll need to layer in salt transport modeling early to avoid rework during risk assessment.
+
+Watch for Ontario's proposed amendments to salt application standards under the Lakes and Rivers Improvement Act, with consultations expected by Q two twenty twenty-six.
+
+Implementation could mandate revised Tier 1 risk screening levels by 2027, so factor that into your project timelines now—delays in approvals could add months if you're not ahead of it.
+
+This isn't just a local issue; it underscores how everyday infrastructure maintenance can cascade into major remediation liabilities under the E P A.
+
+I've seen similar patterns in other provinces, but Ontario's data here is robust enough to force action.
+
+What I find interesting is how this might influence federal C C M E updates, potentially harmonizing chloride thresholds across jurisdictions.
+
+If you're bidding on southern Ontario work, build in contingencies for these evolving standards—it's the difference between a smooth project and regulatory headaches.
+
+Moving to regulatory and policy watch, where cross-border developments could ripple into Canadian frameworks.
+
+Texas regulators are considering Dow's proposal to permit plastic pellet discharges into San Antonio Bay under state water quality rules, following a lawsuit for unauthorized pollution; this could set precedents for microplastics thresholds absent in current U S E P A guidelines.
+
+For Canadian professionals, this highlights potential harmonization risks under see-pa 2024 amendments, where similar industrial discharges might influence federal toxic substance listings for plastics in interprovincial waters.
+
+Action required: Review client effluent permits in BC and Alberta for microplastics monitoring ahead of possible C C M E guideline updates by 2027.
+
+This ties into what we've seen in federal pushes under see-pa, where microplastics are climbing the priority list for toxic substances.
+
+In BC, under the E M A, effluent permits already touch on this, but Alberta's EPEA might see tighter alignment if C C M E moves.
+
+The so-what here is straightforward—if your clients operate near transboundary waters, this Texas case could prompt Ottawa to accelerate listings, affecting compliance monitoring in Phase one assessments.
+
+It's worth watching because it exposes gaps in our own guidelines; C C M E has been slow on microplastics, but pressure from U S precedents might change that.
+
+Keep an eye on interprovincial implications, especially for sites along the Great Lakes or Pacific coast.
+
+No need to panic, but incorporating microplastics into your next permit review could save headaches down the line.
+
+Now, shifting to science and technical updates, where new research intersects with our day-to-day risk modeling.
+
+Research quantifies that rising temperatures from climate change reduce E V battery lifespan by up to twenty percent in high-heat scenarios, but advancements like solid-state electrolytes improve durability by 15minus twenty-five percent, maintaining capacity above eighty percent after one thousand cycles under projected 2down four°C warming.
+
+This affects risk assessments in contaminated sites near transportation corridors, where E V infrastructure planning must incorporate BC C S R Protocol 13 climate adaptation factors or Alberta EPEA flood risk mapping.
+
+Reference C C M E soil quality guidelines for lithium and cobalt to adjust remediation endpoints in battery-related brownfields.
+
+Practically, if you're designing remediation for sites tied to E V charging hubs or battery recycling facilities, this data means tweaking your contaminant transport models to account for longer-term leaching under warmer conditions.
+
+It's confirming what many of us suspected—climate factors aren't abstract; they directly hit battery contaminants like lithium, potentially elevating soil and groundwater risks.
+
+In BC, Protocol 13 already mandates this for vapour and groundwater pathways, so integrate it into your next C S R submission.
+
+For Alberta, EPEA's flood mapping ties in neatly, especially for oil sands areas pivoting to green tech.
+
+This is useful intelligence for brownfield redevelopments; it could shift your endpoints by 10minus fifteen percent if you're modeling cobalt migration.
+
+No surprises here, but the quantification gives us better inputs for risk software—plug in those twenty percent lifespan reductions to refine your scenarios.
+
+On to industry and practice, where today's quiet—nothing major shaking up the consulting or lab space directly.
+
+That said, the chloride story from Ontario reinforces the need for adaptive remediation tech in watershed projects, like scaling up permeable reactive barriers for in-situ treatment.
+
+If you're in the lab side, expect more demand for chloride-specific assays aligned with C C M E thresholds, especially in southern Ontario.
+
+Cost-wise, this could add 5minus ten percent to Phase two budgets if salt modeling becomes standard, so factor that into proposals.
+
+For pipeline decommissioning or transportation corridor work, the E V battery insights mean cross-checking against C C M E soil guidelines for emerging metals.
+
+Overall, it's a reminder to stay agile; these technical shifts affect everything from site assessments to compliance audits.
+
+Let's get to action items—these are your takeaways to apply today.
+
+If you're working on Ontario projects, review Phase one and II ESAs to incorporate chloride sampling per C C M E guidelines, updating risk assessments under O. Reg. 153/04.
+
+Assess industrial client permits in BC and Alberta for microplastics compliance, cross-referencing see-pa schedules against Texas precedents.
+
+Integrate E V battery durability data into climate adaptation plans for sites under IAA, focusing on lithium contaminant transport modeling.
+
+Brief remediation teams on potential C C M E updates for road salt, prioritizing in-situ treatment tech like reactive barriers for watershed projects.
+
+Monitor Ontario E P A consultations on salt management to flag changes for Q two twenty twenty-six compliance reporting.
+
+These are crisp steps—knock them out this week to stay ahead.
+
+Looking at the week ahead, mark your calendars for a few key dates.
+
+March fifteenth, twenty twenty-six: Federal see-pa toxic substances list review comments due for P fas additions, impacting national contaminated sites under C C M E protocols.
+
+March twentieth, twenty twenty-six: Alberta EPEA annual compliance reporting deadline for oil sands operators, requiring updated groundwater monitoring data per Tier 1 guidelines.
+
+March twenty-fifth, twenty twenty-six: BC C S R Protocol 1 consultation closes on vapour intrusion updates, affecting remediation designs in urban brownfields.
+
+March thirty-first, twenty twenty-six: Ontario O. Reg. 153/04 filing deadline for Record of Site Condition submissions, with emphasis on emerging contaminants like chlorides.
+
+Before we wrap—tomorrow, watch for updates on BC's vapour intrusion consultations as the deadline approaches, with potential shifts in urban remediation standards.
+
+That's Environmental Intelligence for March second, twenty twenty-six. If this briefing is useful to your practice, share it with a colleague and subscribe wherever you get your podcasts. We're back tomorrow. Have a productive day.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -922,6 +1149,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/env_intel/ep003.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Environmental Intelligence in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Environmental Intelligence">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -939,6 +1182,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1037,9 +1282,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>
