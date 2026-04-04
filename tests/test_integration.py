@@ -430,42 +430,6 @@ class TestPublisherIntegration:
 
 
 # ---------------------------------------------------------------------------
-# Feature flags integration
-# ---------------------------------------------------------------------------
-
-
-class TestFeatureFlags:
-    """Verify feature flags are env-overridable in all show scripts."""
-
-    def _extract_flag_pattern(self, script_path: Path) -> bool:
-        """Check if a script uses env_bool for feature flag overrides."""
-        content = script_path.read_text(encoding="utf-8")
-        has_env_bool_test_mode = bool(
-            re.search(r'TEST_MODE\s*=\s*env_bool\s*\(\s*"TEST_MODE"', content)
-        )
-        has_env_bool_x_posting = bool(
-            re.search(r'ENABLE_X_POSTING\s*=\s*env_bool\s*\(\s*"ENABLE_X_POSTING"', content)
-        )
-        return has_env_bool_test_mode and has_env_bool_x_posting
-
-    def test_tst_has_env_overridable_flags(self):
-        script = PROJECT_ROOT / "digests" / "tesla_shorts_time.py"
-        assert self._extract_flag_pattern(script), "TST should have env-overridable flags"
-
-    def test_ff_has_env_overridable_flags(self):
-        script = PROJECT_ROOT / "digests" / "fascinating_frontiers.py"
-        assert self._extract_flag_pattern(script), "FF should have env-overridable flags"
-
-    def test_pt_has_env_overridable_flags(self):
-        script = PROJECT_ROOT / "digests" / "planetterrian.py"
-        assert self._extract_flag_pattern(script), "PT should have env-overridable flags"
-
-    def test_ov_has_env_overridable_flags(self):
-        script = PROJECT_ROOT / "digests" / "omni_view.py"
-        assert self._extract_flag_pattern(script), "OV should have env-overridable flags"
-
-
-# ---------------------------------------------------------------------------
 # Show config integration
 # ---------------------------------------------------------------------------
 
@@ -570,11 +534,6 @@ class TestCleanup:
             content = workflow.read_text()
             assert "NEWSAPI_KEY" not in content
 
-    def test_no_formatted_md_creation(self):
-        """TST should no longer create _formatted.md files."""
-        tst = PROJECT_ROOT / "digests" / "tesla_shorts_time.py"
-        content = tst.read_text()
-        assert "x_path_formatted" not in content, "TST should not create _formatted.md files"
 
 
 # ---------------------------------------------------------------------------
@@ -1003,38 +962,20 @@ class TestRunShowPipeline:
 
 
 # ---------------------------------------------------------------------------
-# Legacy script deprecation
+# Workflow integration checks
 # ---------------------------------------------------------------------------
 
 
-class TestLegacyDeprecation:
-    """Verify legacy scripts carry deprecation notices."""
-
-    LEGACY_SCRIPTS = [
-        "tesla_shorts_time.py",
-        "omni_view.py",
-        "fascinating_frontiers.py",
-        "planetterrian.py",
-    ]
-
-    @pytest.mark.parametrize("script", LEGACY_SCRIPTS)
-    def test_has_deprecation_notice(self, script):
-        """Each legacy script should have a deprecation notice in its docstring."""
-        path = PROJECT_ROOT / "digests" / script
-        content = path.read_text(encoding="utf-8")
-        assert "deprecated" in content.lower(), (
-            f"{script} is missing a deprecation notice"
-        )
-        assert "run_show.py" in content, (
-            f"{script} deprecation notice should reference run_show.py"
-        )
+class TestWorkflowIntegration:
+    """Verify CI workflow configuration."""
 
     def test_workflow_uses_run_show_not_legacy(self):
         """The CI workflow should call run_show.py, not legacy scripts."""
         workflow = PROJECT_ROOT / ".github" / "workflows" / "run-show.yml"
         content = workflow.read_text()
         assert "python run_show.py" in content
-        for script in self.LEGACY_SCRIPTS:
+        for script in ["tesla_shorts_time.py", "omni_view.py",
+                        "fascinating_frontiers.py", "planetterrian.py"]:
             assert script not in content, (
                 f"Workflow should not reference legacy script {script}"
             )

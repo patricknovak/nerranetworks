@@ -31,6 +31,7 @@ Fish Audio functions:
 import logging
 import re
 import subprocess
+import threading
 from pathlib import Path
 from typing import List
 
@@ -647,16 +648,12 @@ def synthesize_sections(
 # ---------------------------------------------------------------------------
 
 _kokoro_model = None
-_kokoro_model_lock = None
+_kokoro_model_lock = threading.Lock()
 
 
 def _get_kokoro_model():
     """Lazy-load the Kokoro ONNX model (singleton to avoid reloading ~330MB per chunk)."""
-    global _kokoro_model, _kokoro_model_lock
-    import threading
-
-    if _kokoro_model_lock is None:
-        _kokoro_model_lock = threading.Lock()
+    global _kokoro_model
 
     with _kokoro_model_lock:
         if _kokoro_model is not None:
@@ -867,7 +864,7 @@ def synthesize_kokoro_sections(
 # ---------------------------------------------------------------------------
 
 _chatterbox_model = None
-_chatterbox_model_lock = None
+_chatterbox_model_lock = threading.Lock()
 
 
 def _get_chatterbox_model(device: str = "cpu"):
@@ -876,11 +873,7 @@ def _get_chatterbox_model(device: str = "cpu"):
     Downloads model weights from HuggingFace Hub on first use (~1.5 GB).
     Cached in ``~/.cache/huggingface/hub/`` for subsequent runs.
     """
-    global _chatterbox_model, _chatterbox_model_lock
-    import threading
-
-    if _chatterbox_model_lock is None:
-        _chatterbox_model_lock = threading.Lock()
+    global _chatterbox_model
 
     with _chatterbox_model_lock:
         if _chatterbox_model is not None:

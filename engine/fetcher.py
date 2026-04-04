@@ -12,6 +12,12 @@ from threading import Lock
 from typing import Dict, List, Optional
 
 import requests
+from tenacity import (
+    retry,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+)
 
 from engine.utils import (
     DEFAULT_HEADERS,
@@ -188,6 +194,26 @@ def _parse_entry_date(entry) -> Optional[datetime.datetime]:
 
 
 # ---------------------------------------------------------------------------
+# Retry-wrapped HTTP helper
+# ---------------------------------------------------------------------------
+
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=2, max=10),
+    retry=retry_if_exception_type((
+        requests.exceptions.ConnectionError,
+        requests.exceptions.Timeout,
+    )),
+    reraise=True,
+)
+def _fetch_url_with_retry(url: str) -> requests.Response:
+    """GET a URL with automatic retry on transient network errors."""
+    response = requests.get(url, headers=DEFAULT_HEADERS, timeout=HTTP_TIMEOUT_SECONDS)
+    response.raise_for_status()
+    return response
+
+
+# ---------------------------------------------------------------------------
 # Single-feed fetcher
 # ---------------------------------------------------------------------------
 
@@ -207,12 +233,7 @@ def _fetch_single_feed(
     import feedparser
 
     try:
-        response = requests.get(
-            feed_url,
-            headers=DEFAULT_HEADERS,
-            timeout=HTTP_TIMEOUT_SECONDS,
-        )
-        response.raise_for_status()
+        response = _fetch_url_with_retry(feed_url)
         feed = feedparser.parse(response.content)
 
         if feed.bozo and feed.bozo_exception:
