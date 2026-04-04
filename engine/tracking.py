@@ -17,7 +17,6 @@ logger = logging.getLogger(__name__)
 
 # TTS pricing per 1000 characters
 ELEVENLABS_COST_PER_1K_CHARS = 0.15  # Flash v2.5: 0.5 credits/char = $0.15/1K chars
-FISH_AUDIO_COST_PER_1K_CHARS = 0.015  # Fish Audio S1: ~$0.015/1K chars
 
 # xAI Grok pricing per 1M tokens (input/output)
 GROK_PRICING = {
@@ -163,17 +162,12 @@ def save_usage(tracker: dict, output_dir: Path) -> Path | None:
         x_api = tracker["services"]["x_api"]
         x_api["total_calls"] = x_api["search_calls"] + x_api["post_calls"]
 
-        # TTS cost (provider-aware)
+        # TTS cost
         tts = tracker["services"]["tts_api"]
         provider = tts.get("provider", "elevenlabs")
-        if provider == "fish":
-            tts["estimated_cost_usd"] = (
-                tts["characters"] / 1000
-            ) * FISH_AUDIO_COST_PER_1K_CHARS
-        else:
-            tts["estimated_cost_usd"] = (
-                tts["characters"] / 1000
-            ) * ELEVENLABS_COST_PER_1K_CHARS
+        tts["estimated_cost_usd"] = (
+            tts["characters"] / 1000
+        ) * ELEVENLABS_COST_PER_1K_CHARS
 
         # Also keep legacy key for backward compatibility
         if "elevenlabs_api" not in tracker["services"]:

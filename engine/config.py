@@ -51,7 +51,7 @@ class LLMConfig:
 
 @dataclass
 class TTSConfig:
-    provider: str = "elevenlabs"  # "elevenlabs", "kokoro", "chatterbox", or "fish"
+    provider: str = "elevenlabs"
     voice_id: str = "dTrBzPvD2GpAqkk1MUzA"
     model: str = "eleven_flash_v2_5"
     stability: float = 0.5
@@ -62,25 +62,7 @@ class TTSConfig:
     language_code: str = ""  # ISO 639-1 code (e.g. "ru" for Russian)
     speed: float = 1.0  # Speech speed (0.7–1.2); Flash v2.5 supports this range
     apply_text_normalization: str = "on"  # "auto", "on", or "off"; helps with number/date pronunciation
-    # Kokoro-specific (ignored when provider != kokoro)
-    kokoro_voice: str = "am_adam"
-    kokoro_speed: float = 1.0
-    kokoro_lang: str = "a"  # "a" = American English, "b" = British English
-    # Chatterbox-specific (ignored when provider != chatterbox)
-    voice_reference: str = ""  # Path to WAV file for zero-shot voice cloning
-    chatterbox_exaggeration: float = 0.5  # Emotional intensity (0.0–1.0)
-    chatterbox_cfg_weight: float = 0.5  # Prosody/accent guidance weight
-    chatterbox_device: str = "cpu"  # "cpu" or "cuda"
-    # Fish Audio-specific (ignored when provider != fish)
-    fish_reference_id: str = ""  # Persistent voice model ID from Fish Audio
-    fish_voice_reference: str = ""  # Path to WAV for inline zero-shot cloning
-    fish_temperature: float = 0.3  # Expressiveness (0.0–1.0); low = consistent voice
-    fish_top_p: float = 0.5  # Diversity via nucleus sampling; low = stable output
-    fish_speed: float = 1.0  # Prosody speed
-    fish_repetition_penalty: float = 1.5  # Reduce repeated audio patterns
-    fish_format: str = "mp3"  # Output format
-    fish_mp3_bitrate: int = 192  # MP3 bitrate (match downstream normalization)
-    # Post-TTS transcription validation (opt-in, all providers)
+    # Post-TTS transcription validation (opt-in)
     validate_transcription: bool = False
     whisper_model: str = "base"  # "tiny", "base", "small", "medium"
     whisper_threshold: float = 0.7  # Minimum match score (0.0–1.0)

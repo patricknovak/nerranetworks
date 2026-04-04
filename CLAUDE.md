@@ -4,9 +4,7 @@
 
 Automated daily podcast generation system running 10 shows via a unified
 `run_show.py` runner + per-show YAML configs, plus 4 legacy standalone scripts
-(deprecated — see note below). Shows use **ElevenLabs TTS**, **Fish Audio TTS**
-(with voice cloning), **Kokoro TTS**, or **Chatterbox TTS** (configurable per
-show via `tts.provider` in YAML) and post to X/Twitter via
+(deprecated — see note below). Shows use **ElevenLabs TTS** (`eleven_flash_v2_5`) and post to X/Twitter via
 `engine/publisher.post_to_x()`.
 
 | Show | Legacy Script | YAML Config | Schedule | X Account | TTS |
@@ -32,7 +30,7 @@ is a standalone X-posting script, not a podcast show.
 1. **Fetch** news sources (RSS, xAI/Grok web search, yfinance for Tesla)
 2. **Dedup** via ContentTracker (cross-episode) + entity dedup
 3. **Generate** digest text via xAI/Grok API
-4. **Synthesize** podcast audio via ElevenLabs (`eleven_flash_v2_5`), Fish Audio, Kokoro, or Chatterbox TTS (per-show config)
+4. **Synthesize** podcast audio via ElevenLabs TTS (`eleven_flash_v2_5`)
 5. **Mix** intro/outro music with voice (ffmpeg) — all shows (configurable per YAML)
 6. **Post** X thread via `engine/publisher.post_to_x()` + update RSS feed + commit output to git
 
@@ -142,7 +140,6 @@ nerranetworks/
 - `ELEVENLABS_API_KEY` — ElevenLabs TTS (all shows)
 - `X_*` / `PLANETTERRIAN_X_*` — two separate X accounts
 - Voice IDs: All English shows share `dTrBzPvD2GpAqkk1MUzA`, Russian shows (FP/PR) use `gedzfqL7OGdPbwm0ynTP`
-- `FISH_AUDIO_API_KEY` — Fish Audio TTS (available but not currently used by active shows)
 - See `docs/env_var_inventory.md` for the complete inventory
 
 ### RSS Feeds
@@ -240,9 +237,7 @@ Phase 3 (current):
    and other legacy scripts. Env var overrides still supported.
 10. **Early episodes deleted** — first 20 Tesla, 10 FF, 10 PT, 10 OV episodes
     removed (quality issues). RSS entries removed where applicable.
-11. **MAB TTS settled on ElevenLabs** — Chatterbox produced gibberish on CPU,
-    Kokoro had robotic pronunciation, Fish Audio was trialled briefly. MAB and
-    FP now use ElevenLabs (`eleven_flash_v2_5`
-    respectively) for reliable quality.
+11. **All shows use ElevenLabs TTS** — Chatterbox, Kokoro, and Fish Audio
+    were trialled and removed. All shows use ElevenLabs `eleven_flash_v2_5`.
 12. **Summaries JSONs moved** — all summaries live in per-show subdirectories
     (`digests/<show>/summaries_*.json`), not at the `digests/` top level.
