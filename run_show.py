@@ -485,7 +485,8 @@ def run(args: argparse.Namespace) -> None:
             for ep in hist:
                 topics.update(t.lower() for t in ep.get("topics", []))
             return topics
-        except Exception:
+        except Exception as exc:
+            logger.warning("Content lake query failed (dedup disabled): %s", exc)
             return set()
 
     if len(articles) < skip_threshold:
@@ -1395,12 +1396,12 @@ def run(args: argparse.Namespace) -> None:
                     for sf in section_files:
                         try:
                             sf.unlink()
-                        except Exception:
-                            pass
+                        except Exception as exc:
+                            logger.debug("Failed to clean up temp file %s: %s", sf, exc)
                     try:
                         section_tmp_dir.rmdir()
-                    except Exception:
-                        pass
+                    except Exception as exc:
+                        logger.debug("Failed to remove temp dir %s: %s", section_tmp_dir, exc)
                 else:
                     # Not enough sections — fall back to single synthesis
                     if tts_provider == "chatterbox":
@@ -1735,7 +1736,7 @@ def run(args: argparse.Namespace) -> None:
 
         if config.slug in _NS:
             _blog_env = _get_jinja_env()
-            _blog_meta = extract_blog_metadata(x_thread, config.slug, digest_md.name if digest_md else "")
+            _blog_meta = extract_blog_metadata(x_thread, config.slug, digest_md.name if digest_md else "", file_path=digest_md)
             _blog_meta["episode_num"] = episode_num
             _blog_html = generate_blog_post_html(x_thread, _blog_meta, _NS[config.slug], _blog_env)
             _blog_dir = PROJECT_ROOT / "blog" / config.slug

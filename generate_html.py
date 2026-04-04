@@ -1157,7 +1157,7 @@ def generate_show_page(slug, *, dry_run=False):
             seen_eps: dict[int, dict] = {}
             for md_file in sorted(digest_dir.glob("*.md")):
                 md_text = md_file.read_text(encoding="utf-8")
-                meta = extract_blog_metadata(md_text, slug, md_file.name)
+                meta = extract_blog_metadata(md_text, slug, md_file.name, file_path=md_file)
                 ep = meta["episode_num"]
                 if ep in seen_eps:
                     if md_file.name > seen_eps[ep]["filename"]:
@@ -1275,7 +1275,7 @@ def generate_network_page(*, dry_run=False):
             seen_eps: dict[int, dict] = {}
             for md_file in sorted(digest_dir.glob("*.md")):
                 md_text = md_file.read_text(encoding="utf-8")
-                meta = extract_blog_metadata(md_text, slug, md_file.name)
+                meta = extract_blog_metadata(md_text, slug, md_file.name, file_path=md_file)
                 ep = meta["episode_num"]
                 if ep in seen_eps:
                     if md_file.name > seen_eps[ep]["filename"]:
@@ -1449,7 +1449,7 @@ def generate_blog_posts(slug, *, dry_run=False, cross_show_posts=None):
     all_meta = []
     for md_file in md_files:
         md_text = md_file.read_text(encoding="utf-8")
-        meta = extract_blog_metadata(md_text, slug, md_file.name)
+        meta = extract_blog_metadata(md_text, slug, md_file.name, file_path=md_file)
         meta["_md_path"] = md_file
         all_meta.append(meta)
 
@@ -1530,7 +1530,7 @@ def generate_blog_index(slug, *, dry_run=False, posts=None):
             seen_eps: dict[int, dict] = {}
             for md_file in sorted(digest_dir.glob("*.md")):
                 md_text = md_file.read_text(encoding="utf-8")
-                meta = extract_blog_metadata(md_text, slug, md_file.name)
+                meta = extract_blog_metadata(md_text, slug, md_file.name, file_path=md_file)
                 ep = meta["episode_num"]
                 if ep in seen_eps:
                     if md_file.name > seen_eps[ep]["filename"]:
@@ -1580,7 +1580,7 @@ def generate_network_blog_index(*, dry_run=False, all_posts=None):
             seen_eps: dict[int, dict] = {}
             for md_file in sorted(digest_dir.glob("*.md")):
                 md_text = md_file.read_text(encoding="utf-8")
-                meta = extract_blog_metadata(md_text, slug, md_file.name)
+                meta = extract_blog_metadata(md_text, slug, md_file.name, file_path=md_file)
                 # Fallback: use show name when digest has no title heading
                 if not meta.get("title"):
                     meta["title"] = cfg["name"]
@@ -1620,7 +1620,7 @@ def generate_all_blogs(*, dry_run=False):
         for md_file in md_files:
             try:
                 md_text = md_file.read_text(encoding="utf-8")
-                meta = extract_blog_metadata(md_text, slug, md_file.name)
+                meta = extract_blog_metadata(md_text, slug, md_file.name, file_path=md_file)
                 _cross_show_posts.append({
                     "show_slug": slug,
                     "show_name": cfg["name"],

@@ -66,6 +66,7 @@ def extract_blog_metadata(
     md_text: str,
     show_slug: str,
     filename: str,
+    file_path: Optional[Path] = None,
 ) -> dict:
     """Parse episode markdown and return blog metadata dict.
 
@@ -135,6 +136,16 @@ def extract_blog_metadata(
                 date_str = parsed_date.strftime("%B %d, %Y")
             except ValueError:
                 pass
+
+    # Last resort: use file modification time so blog RSS always has a pubDate
+    if not parsed_date and file_path is not None:
+        try:
+            mtime = Path(file_path).stat().st_mtime
+            parsed_date = datetime.fromtimestamp(mtime)
+            date_str = parsed_date.strftime("%B %d, %Y")
+            logger.debug("Using file mtime as date fallback for %s", filename)
+        except (OSError, ValueError):
+            pass
 
     # Episode number from filename
     ep_match = _EPISODE_RE.search(filename)

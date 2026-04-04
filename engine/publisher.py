@@ -1104,6 +1104,9 @@ def update_blog_rss(
         description = _esc(post.get("hook", ""))
 
         pub_date_str = ""
+        if not post.get("date_obj"):
+            logger.warning("Blog post '%s' (ep%d) missing date — no pubDate in RSS",
+                           post.get("title", "?"), post.get("episode_num", 0))
         if post.get("date_obj"):
             dt = post["date_obj"]
             try:

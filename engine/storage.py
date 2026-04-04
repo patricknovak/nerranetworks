@@ -11,6 +11,8 @@ import os
 from pathlib import Path
 from typing import Optional
 
+from tenacity import retry, stop_after_attempt, wait_exponential
+
 logger = logging.getLogger(__name__)
 
 
@@ -63,13 +65,17 @@ def upload_to_r2(
 
     content_type = "audio/mpeg" if str(local_path).endswith(".mp3") else "application/octet-stream"
 
+    @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, min=4, max=30))
+    def _upload():
+        s3.upload_file(
+            str(local_path),
+            bucket,
+            remote_key,
+            ExtraArgs={"ContentType": content_type},
+        )
+
     logger.info("Uploading %s → r2://%s/%s", local_path.name, bucket, remote_key)
-    s3.upload_file(
-        str(local_path),
-        bucket,
-        remote_key,
-        ExtraArgs={"ContentType": content_type},
-    )
+    _upload()
 
     if public_base_url:
         url = f"{public_base_url.rstrip('/')}/{remote_key}"
