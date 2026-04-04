@@ -17,7 +17,6 @@ import pytest
 
 from engine.tracking import (
     ELEVENLABS_COST_PER_1K_CHARS,
-    FISH_AUDIO_COST_PER_1K_CHARS,
     GROK_PRICING,
     create_tracker,
     record_llm_usage,
@@ -260,14 +259,6 @@ class TestSaveUsage:
         expected_cost = (10000 / 1000) * ELEVENLABS_COST_PER_1K_CHARS
         assert tts["estimated_cost_usd"] == pytest.approx(expected_cost)
 
-    def test_calculates_fish_audio_cost(self, tmp_path):
-        tracker = create_tracker("Test", 1)
-        record_tts_usage(tracker, 10000, provider="fish")
-        save_usage(tracker, tmp_path)
-        tts = tracker["services"]["tts_api"]
-        expected_cost = (10000 / 1000) * FISH_AUDIO_COST_PER_1K_CHARS
-        assert tts["estimated_cost_usd"] == pytest.approx(expected_cost)
-
     def test_calculates_x_api_totals(self, tmp_path):
         tracker = create_tracker("Test", 1)
         record_x_post(tracker)
@@ -305,10 +296,6 @@ class TestSaveUsage:
     def test_elevenlabs_cost_per_1k_constant(self):
         """Verify the pricing constant matches the documented rate (Flash v2.5)."""
         assert ELEVENLABS_COST_PER_1K_CHARS == 0.15
-
-    def test_fish_audio_cost_per_1k_constant(self):
-        """Verify the Fish Audio pricing constant."""
-        assert FISH_AUDIO_COST_PER_1K_CHARS == 0.015
 
     def test_cost_precision(self, tmp_path):
         """Costs should not have floating point drift issues."""

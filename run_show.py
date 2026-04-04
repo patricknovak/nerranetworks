@@ -204,24 +204,13 @@ def _preflight_checks(config, *, dry_run: bool = False) -> None:
         if path_str and not (PROJECT_ROOT / path_str).exists():
             issues.append(f"Audio file not found: {path_str}")
 
-    # Check voice reference exists (Chatterbox/Fish Audio)
-    if config.tts.provider in ("chatterbox", "fish"):
-        ref = config.tts.voice_reference or config.tts.fish_voice_reference
-        if ref and not (PROJECT_ROOT / ref).exists():
-            issues.append(f"Voice reference not found: {ref}")
-
     # Validate TTS provider name
-    valid_providers = {"elevenlabs", "kokoro", "chatterbox", "fish"}
-    if config.tts.provider not in valid_providers:
-        issues.append(f"Unknown TTS provider: {config.tts.provider!r} (expected one of {valid_providers})")
+    if config.tts.provider != "elevenlabs":
+        issues.append(f"Unknown TTS provider: {config.tts.provider!r} (only 'elevenlabs' is supported)")
 
     # Check critical API key env vars are populated
-    if config.tts.provider == "elevenlabs":
-        if not os.environ.get("ELEVENLABS_API_KEY"):
-            issues.append("ELEVENLABS_API_KEY env var is empty or missing")
-    elif config.tts.provider == "fish":
-        if not os.environ.get("FISH_AUDIO_API_KEY"):
-            issues.append("FISH_AUDIO_API_KEY env var is empty or missing")
+    if not os.environ.get("ELEVENLABS_API_KEY"):
+        issues.append("ELEVENLABS_API_KEY env var is empty or missing")
 
     if not os.environ.get("GROK_API_KEY"):
         issues.append("GROK_API_KEY env var is empty or missing")
@@ -1229,63 +1218,16 @@ def run(args: argparse.Namespace) -> None:
         tts_script_path.write_text(podcast_script, encoding="utf-8")
         logger.info("TTS script saved: %s", tts_script_path)
 
-        # 9. TTS — route based on provider (elevenlabs, kokoro, chatterbox, or fish)
-        tts_provider = getattr(config.tts, "provider", "elevenlabs")
-
+        # 9. TTS — ElevenLabs
+        # 9. TTS — ElevenLabs
         tts_ready = False
-        if tts_provider == "chatterbox":
-            try:
-                from engine.tts import synthesize_chatterbox, synthesize_chatterbox_sections
-                # Resolve voice reference path relative to project root
-                voice_ref = ""
-                if config.tts.voice_reference:
-                    voice_ref = str(PROJECT_ROOT / config.tts.voice_reference)
-                tts_ready = True
-                logger.info(
-                    "TTS provider: Chatterbox (device=%s, voice_ref=%s, exag=%.2f, cfg=%.2f)",
-                    config.tts.chatterbox_device,
-                    config.tts.voice_reference or "(default voice)",
-                    config.tts.chatterbox_exaggeration,
-                    config.tts.chatterbox_cfg_weight,
-                )
-            except Exception as e:
-                logger.error("Chatterbox TTS unavailable: %s. Skipping TTS.", e)
-        elif tts_provider == "kokoro":
-            try:
-                from engine.tts import synthesize_kokoro, synthesize_kokoro_sections
-                tts_ready = True
-                logger.info("TTS provider: Kokoro (voice=%s, speed=%.2f)",
-                            config.tts.kokoro_voice, config.tts.kokoro_speed)
-            except Exception as e:
-                logger.error("Kokoro TTS unavailable: %s. Skipping TTS.", e)
-        elif tts_provider == "fish":
-            try:
-                from engine.tts import synthesize_fish, synthesize_fish_sections
-                fish_api_key = (os.getenv("FISH_AUDIO_API_KEY") or "").strip()
-                if not fish_api_key:
-                    logger.error("FISH_AUDIO_API_KEY not set. Skipping TTS.")
-                else:
-                    fish_voice_ref = ""
-                    if config.tts.fish_voice_reference:
-                        fish_voice_ref = str(PROJECT_ROOT / config.tts.fish_voice_reference)
-                    tts_ready = True
-                    logger.info(
-                        "TTS provider: Fish Audio (ref_id=%s, voice_ref=%s, temp=%.2f, speed=%.1f)",
-                        config.tts.fish_reference_id or "(none)",
-                        config.tts.fish_voice_reference or "(none)",
-                        config.tts.fish_temperature,
-                        config.tts.fish_speed,
-                    )
-            except Exception as e:
-                logger.error("Fish Audio TTS unavailable: %s. Skipping TTS.", e)
+        api_key = (os.getenv("ELEVENLABS_API_KEY") or "").strip()
+        if not api_key:
+            logger.error("ELEVENLABS_API_KEY not set. Skipping TTS.")
         else:
-            api_key = (os.getenv("ELEVENLABS_API_KEY") or "").strip()
-            if not api_key:
-                logger.error("ELEVENLABS_API_KEY not set. Skipping TTS.")
-            else:
-                from engine.tts import synthesize, validate_elevenlabs_auth
-                validate_elevenlabs_auth(api_key)
-                tts_ready = True
+            from engine.tts import synthesize, validate_elevenlabs_auth
+            validate_elevenlabs_auth(api_key)
+            tts_ready = True
 
         if tts_ready:
             raw_mp3 = digests_dir / f"{config.episode.prefix}_Ep{episode_num:03d}_{today:%Y%m%d}_raw.mp3"
@@ -1333,60 +1275,22 @@ def run(args: argparse.Namespace) -> None:
                     metrics.record("section_tts_section_count", len(sections))
                     section_tmp_dir = digests_dir / f"_sections_ep{episode_num:03d}"
 
-                    if tts_provider == "chatterbox":
-                        section_files = synthesize_chatterbox_sections(
-                            sections,
-                            section_tmp_dir,
-                            voice_reference=voice_ref,
-                            exaggeration=config.tts.chatterbox_exaggeration,
-                            cfg_weight=config.tts.chatterbox_cfg_weight,
-                            device=config.tts.chatterbox_device,
-                            section_prefix=f"sec_ep{episode_num:03d}",
-                            max_chars=config.tts.max_chars,
-                        )
-                    elif tts_provider == "kokoro":
-                        section_files = synthesize_kokoro_sections(
-                            sections,
-                            section_tmp_dir,
-                            voice=config.tts.kokoro_voice,
-                            speed=config.tts.kokoro_speed,
-                            lang=config.tts.kokoro_lang,
-                            section_prefix=f"sec_ep{episode_num:03d}",
-                            max_chars=config.tts.max_chars,
-                        )
-                    elif tts_provider == "fish":
-                        section_files = synthesize_fish_sections(
-                            sections,
-                            section_tmp_dir,
-                            api_key=fish_api_key,
-                            reference_id=config.tts.fish_reference_id,
-                            voice_reference=fish_voice_ref,
-                            section_prefix=f"sec_ep{episode_num:03d}",
-                            max_chars=config.tts.max_chars,
-                            temperature=config.tts.fish_temperature,
-                            top_p=config.tts.fish_top_p,
-                            speed=config.tts.fish_speed,
-                            repetition_penalty=config.tts.fish_repetition_penalty,
-                            format=config.tts.fish_format,
-                            mp3_bitrate=config.tts.fish_mp3_bitrate,
-                        )
-                    else:
-                        from engine.tts import synthesize_sections
-                        section_files = synthesize_sections(
-                            sections,
-                            config.tts.voice_id,
-                            section_tmp_dir,
-                            api_key=api_key,
-                            section_prefix=f"sec_ep{episode_num:03d}",
-                            max_chars=config.tts.max_chars,
-                            model_id=config.tts.model,
-                            stability=config.tts.stability,
-                            similarity_boost=config.tts.similarity_boost,
-                            style=config.tts.style,
-                            language_code=config.tts.language_code,
-                            speed=config.tts.speed,
-                            apply_text_normalization=config.tts.apply_text_normalization,
-                        )
+                    from engine.tts import synthesize_sections
+                    section_files = synthesize_sections(
+                        sections,
+                        config.tts.voice_id,
+                        section_tmp_dir,
+                        api_key=api_key,
+                        section_prefix=f"sec_ep{episode_num:03d}",
+                        max_chars=config.tts.max_chars,
+                        model_id=config.tts.model,
+                        stability=config.tts.stability,
+                        similarity_boost=config.tts.similarity_boost,
+                        style=config.tts.style,
+                        language_code=config.tts.language_code,
+                        speed=config.tts.speed,
+                        apply_text_normalization=config.tts.apply_text_normalization,
+                    )
 
                     generate_transition_sting(sting_path)
                     concatenate_with_stings(
@@ -1404,81 +1308,6 @@ def run(args: argparse.Namespace) -> None:
                         logger.debug("Failed to remove temp dir %s: %s", section_tmp_dir, exc)
                 else:
                     # Not enough sections — fall back to single synthesis
-                    if tts_provider == "chatterbox":
-                        synthesize_chatterbox(
-                            podcast_script, raw_mp3,
-                            voice_reference=voice_ref,
-                            exaggeration=config.tts.chatterbox_exaggeration,
-                            cfg_weight=config.tts.chatterbox_cfg_weight,
-                            device=config.tts.chatterbox_device,
-                            max_chars=config.tts.max_chars,
-                        )
-                    elif tts_provider == "kokoro":
-                        synthesize_kokoro(
-                            podcast_script, raw_mp3,
-                            voice=config.tts.kokoro_voice,
-                            speed=config.tts.kokoro_speed,
-                            lang=config.tts.kokoro_lang,
-                            max_chars=config.tts.max_chars,
-                        )
-                    elif tts_provider == "fish":
-                        synthesize_fish(
-                            podcast_script, raw_mp3,
-                            api_key=fish_api_key,
-                            reference_id=config.tts.fish_reference_id,
-                            voice_reference=fish_voice_ref,
-                            max_chars=config.tts.max_chars,
-                            temperature=config.tts.fish_temperature,
-                            top_p=config.tts.fish_top_p,
-                            speed=config.tts.fish_speed,
-                            repetition_penalty=config.tts.fish_repetition_penalty,
-                            format=config.tts.fish_format,
-                            mp3_bitrate=config.tts.fish_mp3_bitrate,
-                        )
-                    else:
-                        synthesize(
-                            podcast_script, config.tts.voice_id, raw_mp3,
-                            api_key=api_key, max_chars=config.tts.max_chars,
-                            model_id=config.tts.model, stability=config.tts.stability,
-                            similarity_boost=config.tts.similarity_boost,
-                            style=config.tts.style,
-                            language_code=config.tts.language_code,
-                            speed=config.tts.speed,
-                            apply_text_normalization=config.tts.apply_text_normalization,
-                        )
-            else:
-                if tts_provider == "chatterbox":
-                    synthesize_chatterbox(
-                        podcast_script, raw_mp3,
-                        voice_reference=voice_ref,
-                        exaggeration=config.tts.chatterbox_exaggeration,
-                        cfg_weight=config.tts.chatterbox_cfg_weight,
-                        device=config.tts.chatterbox_device,
-                        max_chars=config.tts.max_chars,
-                    )
-                elif tts_provider == "kokoro":
-                    synthesize_kokoro(
-                        podcast_script, raw_mp3,
-                        voice=config.tts.kokoro_voice,
-                        speed=config.tts.kokoro_speed,
-                        lang=config.tts.kokoro_lang,
-                        max_chars=config.tts.max_chars,
-                    )
-                elif tts_provider == "fish":
-                    synthesize_fish(
-                        podcast_script, raw_mp3,
-                        api_key=fish_api_key,
-                        reference_id=config.tts.fish_reference_id,
-                        voice_reference=fish_voice_ref,
-                        max_chars=config.tts.max_chars,
-                        temperature=config.tts.fish_temperature,
-                        top_p=config.tts.fish_top_p,
-                        speed=config.tts.fish_speed,
-                        repetition_penalty=config.tts.fish_repetition_penalty,
-                        format=config.tts.fish_format,
-                        mp3_bitrate=config.tts.fish_mp3_bitrate,
-                    )
-                else:
                     synthesize(
                         podcast_script, config.tts.voice_id, raw_mp3,
                         api_key=api_key, max_chars=config.tts.max_chars,
@@ -1489,6 +1318,17 @@ def run(args: argparse.Namespace) -> None:
                         speed=config.tts.speed,
                         apply_text_normalization=config.tts.apply_text_normalization,
                     )
+            else:
+                synthesize(
+                    podcast_script, config.tts.voice_id, raw_mp3,
+                    api_key=api_key, max_chars=config.tts.max_chars,
+                    model_id=config.tts.model, stability=config.tts.stability,
+                    similarity_boost=config.tts.similarity_boost,
+                    style=config.tts.style,
+                    language_code=config.tts.language_code,
+                    speed=config.tts.speed,
+                    apply_text_normalization=config.tts.apply_text_normalization,
+                )
 
             _tts_duration = time.monotonic() - t0
             logger.info("TTS synthesis took %.1fs", _tts_duration)
