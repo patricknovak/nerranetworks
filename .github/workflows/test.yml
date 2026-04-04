@@ -28,6 +28,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
+          pip install numpy  # pkuseg (chatterbox-tts dep) needs numpy at build time
           pip install -r requirements.txt
 
       - name: Run tests

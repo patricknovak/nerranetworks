@@ -210,6 +210,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install --upgrade pip
+          pip install numpy  # pkuseg (chatterbox-tts dep) needs numpy at build time
           pip install -r requirements.txt
           # Show-specific extras
           if [ "${{ matrix.show }}" = "fascinating_frontiers" ] && [ -f requirements_fascinating_frontiers.txt ]; then
@@ -498,6 +499,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install --upgrade pip
+          pip install numpy  # pkuseg (chatterbox-tts dep) needs numpy at build time
           pip install -r requirements.txt
 
       - name: Pull latest changes from all show jobs
