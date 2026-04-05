@@ -416,7 +416,8 @@ def _validate_llm_output(
             "olya: repeat", "olya: so", "olya: now", "olya: let's",
             # Language learning pedagogical patterns
             "it means", "that means", "which means", "means the",
-            "repeat after", "after me.", "after me,", "say it",
+            "repeat after", "after me.", "after me,", "after me:", "say it",
+            "that means,", "[short pause]",
             "in russian", "in english", "the russian", "the english",
             "- russian", "- **russian", "russian (cyrillic):",
             # Structured digest labels (vocabulary lists repeat per word)
@@ -455,13 +456,38 @@ def _validate_llm_output(
             "of the the", "in the the", "one of the", "some of the",
             "a lot of", "going to be", "it's going to",
             "according to the", "is going to", "we're going to",
-            "repeat after me.", "repeat after me,", "repeat after me:",
+            # Language learning pedagogical patterns
+            "it sounds like", "sounds like the", "the english word",
+            "the russian word", "in russian it", "means it is",
+            "that means the", "it means the", "which means the",
+            "repeat after me", "repeat after me.", "repeat after me,",
+            "repeat after me:", "say it with",
+            # Structured vocabulary card labels (per-word repetition)
+            "- **russian (cyrillic):**", "- russian (cyrillic):",
+            "**memory hook:** sounds", "**memory hook:** think",
+            "**memory hook:** imagine", "**memory hook:** picture",
+            "hook:** sounds like", "hook:** think of",
+            "**example sentence:**", "example sentence: the",
+            "**example translation:**",
         }
+        # Regex patterns for pedagogical trigrams that can't be enumerated
+        # (mirrors _PEDAGOGICAL_PATTERNS in review_episodes.py)
+        _PEDAGOGICAL_TRIGRAM_PATTERNS = [
+            re.compile(r"^\*?\*?\w+:?\*?\*?\s+repeat after"),  # "olya: repeat after"
+            re.compile(r"^repeat after \w+"),                    # "repeat after me"
+            re.compile(r"^\*?\*?\w+:?\*?\*?\s+that means"),    # "olya: that means"
+            re.compile(r"^\*?\*?\w+:?\*?\*?\s+it means"),      # "olya: it means"
+            re.compile(r"^means (?:it is|the|i am)"),           # tail fragments
+            re.compile(r"^\*\*\w[\w\s]*:\*\*"),                  # bold labels: "**Memory Hook:**"
+            re.compile(r"^- \*\*\w"),                            # "- **Russian..." list items
+        ]
         for phrase, count in trigram_counts.most_common(5):
             if phrase in _COMMON_TRIGRAMS:
                 continue
             tokens = phrase.split()
             if all(len(t) <= 3 for t in tokens):
+                continue
+            if any(p.match(phrase) for p in _PEDAGOGICAL_TRIGRAM_PATTERNS):
                 continue
             if count >= _rep_threshold:
                 _suspicious_count += 1
