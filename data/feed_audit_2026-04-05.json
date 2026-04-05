@@ -1,0 +1,2284 @@
+{
+  "date": "2026-04-05",
+  "shows": {
+    "env_intel": [
+      {
+        "url": "https://news.gov.bc.ca/ministries/environment-and-parks/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-02T20:15:00+00:00",
+        "latest_age_hours": 64.1,
+        "fresh": true
+      },
+      {
+        "url": "https://news.gov.bc.ca/ministries/energy-and-climate-solutions/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-02T18:30:00+00:00",
+        "latest_age_hours": 65.8,
+        "fresh": true
+      },
+      {
+        "url": "https://news.gov.bc.ca/ministries/water-land-and-resource-stewardship/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-02T19:15:00+00:00",
+        "latest_age_hours": 65.1,
+        "fresh": true
+      },
+      {
+        "url": "https://news.gov.bc.ca/ministries/emergency-management-and-climate-readiness/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-03-31T16:30:00+00:00",
+        "latest_age_hours": 115.8,
+        "fresh": false
+      },
+      {
+        "url": "https://www.gazette.gc.ca/rss/p1-eng.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 410,
+        "latest_entry_date": "2026-04-04T19:00:00+00:00",
+        "latest_age_hours": 17.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.gazette.gc.ca/rss/p2-eng.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 217,
+        "latest_entry_date": "2026-03-25T14:00:00+00:00",
+        "latest_age_hours": 262.3,
+        "fresh": false
+      },
+      {
+        "url": "https://www.epa.gov/newsreleases/search/rss",
+        "status": 202,
+        "error": null,
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.nature.com/nclimate.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 8,
+        "latest_entry_date": "2026-04-03T00:00:00+00:00",
+        "latest_age_hours": 60.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.sciencedaily.com/rss/top/environment.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 60,
+        "latest_entry_date": "2026-04-05T04:39:37+00:00",
+        "latest_age_hours": 7.7,
+        "fresh": true
+      },
+      {
+        "url": "https://www.science.org/rss/news_current.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T12:26:00+00:00",
+        "latest_age_hours": 47.9,
+        "fresh": true
+      },
+      {
+        "url": "https://thenarwhal.ca/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 11,
+        "latest_entry_date": "2026-04-02T16:26:14+00:00",
+        "latest_age_hours": 67.9,
+        "fresh": true
+      },
+      {
+        "url": "https://thetyee.ca/rss2.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 21,
+        "latest_entry_date": "2026-04-04T00:40:00+00:00",
+        "latest_age_hours": 35.7,
+        "fresh": true
+      },
+      {
+        "url": "https://www.cbc.ca/webfeed/rss/rss-canada",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-04T22:50:30+00:00",
+        "latest_age_hours": 13.5,
+        "fresh": true
+      },
+      {
+        "url": "https://www.desmog.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-03-30T16:41:23+00:00",
+        "latest_age_hours": 139.6,
+        "fresh": false
+      },
+      {
+        "url": "https://www.nationalobserver.com/feed",
+        "status": 403,
+        "error": "HTTP 403",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.carbonbrief.org/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-02T15:32:06+00:00",
+        "latest_age_hours": 68.8,
+        "fresh": true
+      },
+      {
+        "url": "https://yaleclimateconnections.org/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T11:00:00+00:00",
+        "latest_age_hours": 49.3,
+        "fresh": true
+      },
+      {
+        "url": "https://grist.org/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-04T13:00:00+00:00",
+        "latest_age_hours": 23.3,
+        "fresh": true
+      },
+      {
+        "url": "https://insideclimatenews.org/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T09:00:00+00:00",
+        "latest_age_hours": 3.3,
+        "fresh": true
+      },
+      {
+        "url": "https://eponline.com/rss-feeds/News.aspx",
+        "status": 403,
+        "error": "HTTP 403",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=british+columbia+environment+OR+BC+climate+policy&hl=en-CA&gl=CA&ceid=CA:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-02-24T08:00:00+00:00",
+        "latest_age_hours": 964.3,
+        "fresh": false
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=canada+climate+change+policy&hl=en-CA&gl=CA&ceid=CA:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-03-18T07:00:00+00:00",
+        "latest_age_hours": 437.3,
+        "fresh": false
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=environmental+science+sustainability+news&hl=en-CA&gl=CA&ceid=CA:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 65,
+        "latest_entry_date": "2026-04-04T11:46:21+00:00",
+        "latest_age_hours": 24.6,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=clean+energy+canada+renewable&hl=en-CA&gl=CA&ceid=CA:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-02T06:50:10+00:00",
+        "latest_age_hours": 77.5,
+        "fresh": false
+      },
+      {
+        "url": "https://www.reddit.com/r/environment/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T02:20:22+00:00",
+        "latest_age_hours": 10.0,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/climate/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T11:37:00+00:00",
+        "latest_age_hours": 0.7,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/britishcolumbia/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T01:39:39+00:00",
+        "latest_age_hours": 10.7,
+        "fresh": true
+      }
+    ],
+    "fascinating_frontiers": [
+      {
+        "url": "https://www.nasa.gov/rss/dyn/breaking_news.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-04T19:44:31+00:00",
+        "latest_age_hours": 16.6,
+        "fresh": true
+      },
+      {
+        "url": "https://www.nasa.gov/rss/dyn/educationnews.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-03-25T21:19:37+00:00",
+        "latest_age_hours": 255.0,
+        "fresh": false
+      },
+      {
+        "url": "https://www.nasa.gov/rss/dyn/image_of_the_day.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 60,
+        "latest_entry_date": "2026-04-04T15:08:00+00:00",
+        "latest_age_hours": 21.2,
+        "fresh": true
+      },
+      {
+        "url": "https://www.nasa.gov/rss/dyn/centers/kennedy/news/releases/current.rss",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.nasa.gov/rss/dyn/centers/jpl/news/releases/current.rss",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.nasa.gov/rss/dyn/centers/goddard/news/releases/current.rss",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.space.com/feeds/all",
+        "status": 200,
+        "error": null,
+        "entry_count": 50,
+        "latest_entry_date": "2026-04-05T12:00:00+00:00",
+        "latest_age_hours": 0.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.space.com/rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 50,
+        "latest_entry_date": "2026-04-05T12:00:00+00:00",
+        "latest_age_hours": 0.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.spaceflightnow.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T22:10:24+00:00",
+        "latest_age_hours": 38.2,
+        "fresh": true
+      },
+      {
+        "url": "https://spacenews.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 24,
+        "latest_entry_date": "2026-04-05T03:29:58+00:00",
+        "latest_age_hours": 8.8,
+        "fresh": true
+      },
+      {
+        "url": "https://www.space.com/news/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.astronomy.com/feed/",
+        "status": 403,
+        "error": "HTTP 403",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.skyandtelescope.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T12:00:00+00:00",
+        "latest_age_hours": 48.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.universetoday.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-04T21:44:00+00:00",
+        "latest_age_hours": 14.6,
+        "fresh": true
+      },
+      {
+        "url": "https://www.space.com/science-astronomy/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.space.com/spaceflight/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.esa.int/rssfeed/ESA",
+        "status": 200,
+        "error": null,
+        "entry_count": 9,
+        "latest_entry_date": "2026-04-03T13:10:00+00:00",
+        "latest_age_hours": 47.2,
+        "fresh": true
+      },
+      {
+        "url": "https://www.esa.int/rssfeed/Our_Activities",
+        "status": 200,
+        "error": null,
+        "entry_count": 9,
+        "latest_entry_date": "2026-04-03T13:10:00+00:00",
+        "latest_age_hours": 47.2,
+        "fresh": true
+      },
+      {
+        "url": "https://www.esa.int/rssfeed/Space_Science",
+        "status": 200,
+        "error": null,
+        "entry_count": 15,
+        "latest_entry_date": "2026-04-03T08:00:00+00:00",
+        "latest_age_hours": 52.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.roscosmos.ru/feed/",
+        "status": 403,
+        "error": "HTTP 403",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://global.jaxa.jp/rss/",
+        "status": 403,
+        "error": "HTTP 403",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.spacex.com/news.xml",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.blueorigin.com/news/rss",
+        "status": 429,
+        "error": "HTTP 429",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.nasa.gov/rss/dyn/commercial_crew_program_updates.rss",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.nature.com/nature/astronomy.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 75,
+        "latest_entry_date": "2026-04-04T00:00:00+00:00",
+        "latest_age_hours": 36.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science",
+        "status": 200,
+        "error": null,
+        "entry_count": 46,
+        "latest_entry_date": "2026-04-02T07:00:00+00:00",
+        "latest_age_hours": 77.3,
+        "fresh": false
+      },
+      {
+        "url": "https://www.space.com/technology/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.space.com/launches/feed",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=space+exploration+news&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 92,
+        "latest_entry_date": "2026-04-05T12:01:58+00:00",
+        "latest_age_hours": 0.3,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=NASA+SpaceX+rocket+launch&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-05T10:17:54+00:00",
+        "latest_age_hours": 2.0,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=astronomy+discovery+exoplanet&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-05T08:15:38+00:00",
+        "latest_age_hours": 4.1,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/space/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T02:51:58+00:00",
+        "latest_age_hours": 9.5,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/spacex/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-03T12:53:43+00:00",
+        "latest_age_hours": 47.4,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/astronomy/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T11:37:04+00:00",
+        "latest_age_hours": 0.7,
+        "fresh": true
+      }
+    ],
+    "finansy_prosto": [
+      {
+        "url": "https://www.moneysense.ca/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 9,
+        "latest_entry_date": "2026-04-02T07:21:56+00:00",
+        "latest_age_hours": 77.0,
+        "fresh": false
+      },
+      {
+        "url": "https://financialpost.com/category/personal-finance/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-01T15:31:00+00:00",
+        "latest_age_hours": 92.8,
+        "fresh": false
+      },
+      {
+        "url": "https://www.ratehub.ca/blog/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-03-26T05:00:00+00:00",
+        "latest_age_hours": 247.3,
+        "fresh": false
+      },
+      {
+        "url": "https://canadianmortgagetrends.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T14:55:24+00:00",
+        "latest_age_hours": 45.4,
+        "fresh": true
+      },
+      {
+        "url": "https://canadiancouchpotato.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2022-01-17T17:00:44+00:00",
+        "latest_age_hours": 36931.3,
+        "fresh": false
+      },
+      {
+        "url": "https://www.getsmarteraboutmoney.ca/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-03-20T15:34:28+00:00",
+        "latest_age_hours": 380.8,
+        "fresh": false
+      },
+      {
+        "url": "https://feeds.feedburner.com/BoomerEcho",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-04T00:28:56+00:00",
+        "latest_age_hours": 35.9,
+        "fresh": true
+      },
+      {
+        "url": "https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/investing/personal-finance/",
+        "status": 200,
+        "error": null,
+        "entry_count": 51,
+        "latest_entry_date": "2026-04-05T11:00:00+00:00",
+        "latest_age_hours": 1.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.bnnbloomberg.ca/arc/outboundfeeds/rss/",
+        "status": 200,
+        "error": null,
+        "entry_count": 11,
+        "latest_entry_date": "2026-04-05T15:25:28+00:00",
+        "latest_age_hours": -3.1,
+        "fresh": true
+      },
+      {
+        "url": "https://www.cbc.ca/webfeed/rss/rss-business",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-04T08:00:00+00:00",
+        "latest_age_hours": 28.3,
+        "fresh": true
+      },
+      {
+        "url": "https://nationalpost.com/category/news/economy/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T11:00:49+00:00",
+        "latest_age_hours": 1.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.bankofcanada.ca/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-12-28T15:01:18+00:00",
+        "latest_age_hours": -6410.7,
+        "fresh": true
+      },
+      {
+        "url": "https://vancouversun.com/category/business/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-01T14:27:55+00:00",
+        "latest_age_hours": 93.9,
+        "fresh": false
+      },
+      {
+        "url": "https://www.biv.com/rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-04T11:45:00+00:00",
+        "latest_age_hours": 24.6,
+        "fresh": true
+      },
+      {
+        "url": "https://meduza.io/rss/en/all",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-05T07:23:52+00:00",
+        "latest_age_hours": 4.9,
+        "fresh": true
+      },
+      {
+        "url": "https://www.themoscowtimes.com/rss/news",
+        "status": 200,
+        "error": null,
+        "entry_count": 50,
+        "latest_entry_date": "2026-04-05T10:06:00+00:00",
+        "latest_age_hours": 2.2,
+        "fresh": true
+      },
+      {
+        "url": "https://www.ukrinform.net/rss/rubric-economy",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-05T02:27:00+00:00",
+        "latest_age_hours": 9.9,
+        "fresh": true
+      },
+      {
+        "url": "https://www.cicnews.com/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T11:00:56+00:00",
+        "latest_age_hours": 1.3,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=Canada+personal+finance+TFSA+RRSP&hl=en-CA&gl=CA&ceid=CA:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 69,
+        "latest_entry_date": "2026-03-02T08:00:00+00:00",
+        "latest_age_hours": 820.3,
+        "fresh": false
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=Canadian+immigration+newcomer+finance&hl=en-CA&gl=CA&ceid=CA:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 61,
+        "latest_entry_date": "2026-03-24T07:00:00+00:00",
+        "latest_age_hours": 293.3,
+        "fresh": false
+      },
+      {
+        "url": "https://www.reddit.com/r/PersonalFinanceCanada/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T11:38:03+00:00",
+        "latest_age_hours": 0.7,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/CanadianInvestor/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T06:27:24+00:00",
+        "latest_age_hours": 5.9,
+        "fresh": true
+      }
+    ],
+    "models_agents": [
+      {
+        "url": "https://openai.com/blog/rss.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 903,
+        "latest_entry_date": "2026-04-02T10:30:00+00:00",
+        "latest_age_hours": 73.8,
+        "fresh": false
+      },
+      {
+        "url": "https://blog.google/technology/ai/rss/",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-02T16:00:00+00:00",
+        "latest_age_hours": 68.3,
+        "fresh": true
+      },
+      {
+        "url": "https://ai.meta.com/blog/rss/",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.anthropic.com/rss.xml",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://huggingface.co/blog/feed.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 756,
+        "latest_entry_date": "2026-04-02T00:00:00+00:00",
+        "latest_age_hours": 84.3,
+        "fresh": false
+      },
+      {
+        "url": "https://mistral.ai/feed.xml",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.technologyreview.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T17:03:19+00:00",
+        "latest_age_hours": 43.3,
+        "fresh": true
+      },
+      {
+        "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-04T16:32:22+00:00",
+        "latest_age_hours": 19.8,
+        "fresh": true
+      },
+      {
+        "url": "https://venturebeat.com/category/ai/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 7,
+        "latest_entry_date": "2026-01-22T14:00:00+00:00",
+        "latest_age_hours": 1750.3,
+        "fresh": false
+      },
+      {
+        "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T12:00:00+00:00",
+        "latest_age_hours": 0.3,
+        "fresh": true
+      },
+      {
+        "url": "https://arstechnica.com/ai/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-03T21:06:15+00:00",
+        "latest_age_hours": 39.2,
+        "fresh": true
+      },
+      {
+        "url": "https://www.wired.com/feed/tag/ai/latest/rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-04T10:30:00+00:00",
+        "latest_age_hours": 25.8,
+        "fresh": true
+      },
+      {
+        "url": "https://www.marktechpost.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T09:21:16+00:00",
+        "latest_age_hours": 3.0,
+        "fresh": true
+      },
+      {
+        "url": "https://the-decoder.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T10:55:18+00:00",
+        "latest_age_hours": 1.4,
+        "fresh": true
+      },
+      {
+        "url": "https://www.artificialintelligence-news.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 12,
+        "latest_entry_date": "2026-04-02T16:30:53+00:00",
+        "latest_age_hours": 67.8,
+        "fresh": true
+      },
+      {
+        "url": "https://arxiv.org/rss/cs.AI",
+        "status": 200,
+        "error": null,
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://arxiv.org/rss/cs.CL",
+        "status": 200,
+        "error": null,
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://arxiv.org/rss/cs.MA",
+        "status": 200,
+        "error": null,
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://github.blog/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T16:00:00+00:00",
+        "latest_age_hours": 44.3,
+        "fresh": true
+      },
+      {
+        "url": "https://devblogs.microsoft.com/semantic-kernel/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T17:04:03+00:00",
+        "latest_age_hours": 43.3,
+        "fresh": true
+      },
+      {
+        "url": "https://blog.langchain.dev/rss/",
+        "status": 200,
+        "error": null,
+        "entry_count": 15,
+        "latest_entry_date": "2026-04-03T17:01:03+00:00",
+        "latest_age_hours": 43.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.latent.space/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-03T22:03:37+00:00",
+        "latest_age_hours": 38.3,
+        "fresh": true
+      },
+      {
+        "url": "https://neptune.ai/blog/feed",
+        "status": 403,
+        "error": "HTTP 403",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.deeplearning.ai/the-batch/feed/",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://simonwillison.net/atom/everything/",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-05T04:07:13+00:00",
+        "latest_age_hours": 8.2,
+        "fresh": true
+      },
+      {
+        "url": "https://lilianweng.github.io/index.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 51,
+        "latest_entry_date": "2025-05-01T00:00:00+00:00",
+        "latest_age_hours": 8148.3,
+        "fresh": false
+      },
+      {
+        "url": "https://www.bentoml.com/blog/rss.xml",
+        "status": 500,
+        "error": "HTTP 500",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://towardsdatascience.com/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-04T15:00:00+00:00",
+        "latest_age_hours": 21.3,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=artificial+intelligence+AI+news&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-05T12:05:58+00:00",
+        "latest_age_hours": 0.2,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=large+language+model+LLM+GPT&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-03-26T07:00:00+00:00",
+        "latest_age_hours": 245.3,
+        "fresh": false
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=AI+agent+autonomous+agent&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-05T07:59:04+00:00",
+        "latest_age_hours": 4.4,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/MachineLearning/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T10:32:53+00:00",
+        "latest_age_hours": 1.8,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/LocalLLaMA/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T10:34:32+00:00",
+        "latest_age_hours": 1.8,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/artificial/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T10:46:27+00:00",
+        "latest_age_hours": 1.6,
+        "fresh": true
+      }
+    ],
+    "models_agents_beginners": [
+      {
+        "url": "https://openai.com/blog/rss.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 903,
+        "latest_entry_date": "2026-04-02T10:30:00+00:00",
+        "latest_age_hours": 73.8,
+        "fresh": false
+      },
+      {
+        "url": "https://blog.google/technology/ai/rss/",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-02T16:00:00+00:00",
+        "latest_age_hours": 68.3,
+        "fresh": true
+      },
+      {
+        "url": "https://huggingface.co/blog/feed.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 756,
+        "latest_entry_date": "2026-04-02T00:00:00+00:00",
+        "latest_age_hours": 84.3,
+        "fresh": false
+      },
+      {
+        "url": "https://www.technologyreview.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T17:03:19+00:00",
+        "latest_age_hours": 43.3,
+        "fresh": true
+      },
+      {
+        "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-04T16:32:22+00:00",
+        "latest_age_hours": 19.8,
+        "fresh": true
+      },
+      {
+        "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T12:00:00+00:00",
+        "latest_age_hours": 0.3,
+        "fresh": true
+      },
+      {
+        "url": "https://arstechnica.com/ai/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-03T21:06:15+00:00",
+        "latest_age_hours": 39.2,
+        "fresh": true
+      },
+      {
+        "url": "https://www.wired.com/feed/tag/ai/latest/rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-04T10:30:00+00:00",
+        "latest_age_hours": 25.8,
+        "fresh": true
+      },
+      {
+        "url": "https://www.marktechpost.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T09:21:16+00:00",
+        "latest_age_hours": 3.0,
+        "fresh": true
+      },
+      {
+        "url": "https://the-decoder.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T10:55:18+00:00",
+        "latest_age_hours": 1.4,
+        "fresh": true
+      },
+      {
+        "url": "https://www.oneusefulthing.org/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-03-31T22:34:37+00:00",
+        "latest_age_hours": 109.8,
+        "fresh": false
+      },
+      {
+        "url": "https://www.engadget.com/rss.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 50,
+        "latest_entry_date": "2026-04-04T21:35:43+00:00",
+        "latest_age_hours": 14.7,
+        "fresh": true
+      },
+      {
+        "url": "https://www.livescience.com/feeds/all",
+        "status": 200,
+        "error": null,
+        "entry_count": 50,
+        "latest_entry_date": "2026-04-05T12:00:00+00:00",
+        "latest_age_hours": 0.3,
+        "fresh": true
+      },
+      {
+        "url": "https://theconversation.com/us/articles.atom",
+        "status": 200,
+        "error": null,
+        "entry_count": 50,
+        "latest_entry_date": "2026-04-04T12:54:45+00:00",
+        "latest_age_hours": 23.4,
+        "fresh": true
+      },
+      {
+        "url": "https://github.blog/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T16:00:00+00:00",
+        "latest_age_hours": 44.3,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=ChatGPT+AI+chatbot+news&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-04T15:28:44+00:00",
+        "latest_age_hours": 20.9,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=artificial+intelligence+beginners+explained&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 71,
+        "latest_entry_date": "2026-03-30T19:44:25+00:00",
+        "latest_age_hours": 136.6,
+        "fresh": false
+      },
+      {
+        "url": "https://www.reddit.com/r/ChatGPT/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T11:45:36+00:00",
+        "latest_age_hours": 0.6,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/artificial/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T10:46:27+00:00",
+        "latest_age_hours": 1.6,
+        "fresh": true
+      }
+    ],
+    "modern_investing": [
+      {
+        "url": "https://financialpost.com/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T12:14:07+00:00",
+        "latest_age_hours": 0.1,
+        "fresh": true
+      },
+      {
+        "url": "https://www.bnnbloomberg.ca/arc/outboundfeeds/rss/?outputType=xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 11,
+        "latest_entry_date": "2026-04-05T15:25:28+00:00",
+        "latest_age_hours": -3.1,
+        "fresh": true
+      },
+      {
+        "url": "https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/investing/",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-05T11:00:00+00:00",
+        "latest_age_hours": 1.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.moneysense.ca/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 9,
+        "latest_entry_date": "2026-04-02T07:21:56+00:00",
+        "latest_age_hours": 77.0,
+        "fresh": false
+      },
+      {
+        "url": "https://www.fool.ca/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-04T14:00:00+00:00",
+        "latest_age_hours": 22.3,
+        "fresh": true
+      },
+      {
+        "url": "https://finance.yahoo.com/news/rssindex",
+        "status": 200,
+        "error": null,
+        "entry_count": 50,
+        "latest_entry_date": "2026-04-04T12:30:00+00:00",
+        "latest_age_hours": 23.8,
+        "fresh": true
+      },
+      {
+        "url": "https://www.fool.com/feeds/index.aspx",
+        "status": 200,
+        "error": null,
+        "entry_count": 50,
+        "latest_entry_date": "2026-04-05T11:50:00+00:00",
+        "latest_age_hours": 0.5,
+        "fresh": true
+      },
+      {
+        "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-05T11:37:30+00:00",
+        "latest_age_hours": 0.7,
+        "fresh": true
+      },
+      {
+        "url": "https://www.cnbc.com/id/10001147/device/rss/rss.html",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-04T14:56:33+00:00",
+        "latest_age_hours": 21.4,
+        "fresh": true
+      },
+      {
+        "url": "https://feeds.bloomberg.com/markets/news.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-05T11:24:35+00:00",
+        "latest_age_hours": 0.9,
+        "fresh": true
+      },
+      {
+        "url": "https://www.bankofcanada.ca/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-12-28T15:01:18+00:00",
+        "latest_age_hours": -6410.7,
+        "fresh": true
+      },
+      {
+        "url": "https://www.benzinga.com/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T11:15:25+00:00",
+        "latest_age_hours": 1.1,
+        "fresh": true
+      },
+      {
+        "url": "https://www.marketwatch.com/rss/topstories",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T11:26:00+00:00",
+        "latest_age_hours": 0.9,
+        "fresh": true
+      },
+      {
+        "url": "https://etfdb.com/feed/",
+        "status": 403,
+        "error": "HTTP 403",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://cointelegraph.com/rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-05T09:46:54+00:00",
+        "latest_age_hours": 2.6,
+        "fresh": true
+      },
+      {
+        "url": "https://seekingalpha.com/feed.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-05T12:15:00+00:00",
+        "latest_age_hours": 0.1,
+        "fresh": true
+      },
+      {
+        "url": "https://www.investing.com/rss/news.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T11:48:51+00:00",
+        "latest_age_hours": 0.5,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=stock+market+investing+news&hl=en-CA&gl=CA&ceid=CA:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 61,
+        "latest_entry_date": "2026-04-05T07:00:00+00:00",
+        "latest_age_hours": 5.3,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=TSX+Canadian+stock+market&hl=en-CA&gl=CA&ceid=CA:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-05T10:10:21+00:00",
+        "latest_age_hours": 2.2,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=ETF+index+fund+investing&hl=en-CA&gl=CA&ceid=CA:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-04T23:30:00+00:00",
+        "latest_age_hours": 12.8,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/CanadianInvestor/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T06:27:24+00:00",
+        "latest_age_hours": 5.9,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/investing/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T11:10:19+00:00",
+        "latest_age_hours": 1.2,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/stocks/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T12:04:48+00:00",
+        "latest_age_hours": 0.3,
+        "fresh": true
+      }
+    ],
+    "omni_view": [
+      {
+        "url": "https://feeds.npr.org/1001/rss.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T11:00:00+00:00",
+        "latest_age_hours": 1.3,
+        "fresh": true
+      },
+      {
+        "url": "https://rss.cnn.com/rss/edition.rss",
+        "status": null,
+        "error": "CONNECTION_ERROR: HTTPSConnectionPool(host='rss.cnn.com', port=443): Max retries exceeded with url",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://feeds.bbci.co.uk/news/rss.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 29,
+        "latest_entry_date": "2026-04-05T11:50:41+00:00",
+        "latest_age_hours": 0.5,
+        "fresh": true
+      },
+      {
+        "url": "https://www.nytimes.com/rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.washingtonpost.com/rss/",
+        "status": null,
+        "error": "TIMEOUT",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.reutersagency.com/feed/",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://feeds.a.dj.com/rss/RSSWorldNews.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2025-01-27T19:23:00+00:00",
+        "latest_age_hours": 10385.0,
+        "fresh": false
+      },
+      {
+        "url": "https://feeds.foxnews.com/foxnews/politics",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T11:46:01+00:00",
+        "latest_age_hours": 0.6,
+        "fresh": true
+      },
+      {
+        "url": "https://www.newsmax.com/rss/Newsfront/16/",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-05T09:50:40+00:00",
+        "latest_age_hours": 2.5,
+        "fresh": true
+      },
+      {
+        "url": "https://www.breitbart.com/rss.xml",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.dailymail.co.uk/articles.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 122,
+        "latest_entry_date": "2026-04-05T12:17:45+00:00",
+        "latest_age_hours": 0.0,
+        "fresh": true
+      },
+      {
+        "url": "https://www.aljazeera.com/xml/rss/all.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T11:34:42+00:00",
+        "latest_age_hours": 0.8,
+        "fresh": true
+      },
+      {
+        "url": "https://www.theguardian.com/world/rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 45,
+        "latest_entry_date": "2026-04-05T11:49:19+00:00",
+        "latest_age_hours": 0.5,
+        "fresh": true
+      },
+      {
+        "url": "https://www.france24.com/en/rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 24,
+        "latest_entry_date": "2026-04-05T11:40:45+00:00",
+        "latest_age_hours": 0.7,
+        "fresh": true
+      },
+      {
+        "url": "https://www.dw.com/en/rss.xml",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://theintercept.com/feed/?lang=en",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-04T10:16:00+00:00",
+        "latest_age_hours": 26.1,
+        "fresh": true
+      },
+      {
+        "url": "https://www.motherjones.com/rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T11:30:00+00:00",
+        "latest_age_hours": 0.8,
+        "fresh": true
+      },
+      {
+        "url": "https://reason.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 48,
+        "latest_entry_date": "2026-04-05T11:00:14+00:00",
+        "latest_age_hours": 1.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.realclearpolitics.com/index.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 21,
+        "latest_entry_date": "2026-04-05T11:55:05+00:00",
+        "latest_age_hours": 0.4,
+        "fresh": true
+      },
+      {
+        "url": "https://feeds.bloomberg.com/markets/news.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-05T11:24:35+00:00",
+        "latest_age_hours": 0.9,
+        "fresh": true
+      },
+      {
+        "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-05T11:37:30+00:00",
+        "latest_age_hours": 0.7,
+        "fresh": true
+      },
+      {
+        "url": "https://www.wired.com/feed/rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 50,
+        "latest_entry_date": "2026-04-05T12:00:00+00:00",
+        "latest_age_hours": 0.3,
+        "fresh": true
+      },
+      {
+        "url": "https://arstechnica.com/rss.xml",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=US+politics+policy+news&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 84,
+        "latest_entry_date": "2026-04-03T17:11:20+00:00",
+        "latest_age_hours": 43.1,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=world+news+geopolitics+today&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 72,
+        "latest_entry_date": "2026-04-05T07:48:10+00:00",
+        "latest_age_hours": 4.5,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=economy+inflation+markets+news&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 45,
+        "latest_entry_date": "2026-04-02T07:00:00+00:00",
+        "latest_age_hours": 77.3,
+        "fresh": false
+      },
+      {
+        "url": "https://www.reddit.com/r/worldnews/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T11:29:29+00:00",
+        "latest_age_hours": 0.8,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/news/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T09:25:58+00:00",
+        "latest_age_hours": 2.9,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/geopolitics/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T11:27:55+00:00",
+        "latest_age_hours": 0.9,
+        "fresh": true
+      }
+    ],
+    "planetterrian": [
+      {
+        "url": "https://www.nature.com/nature.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 75,
+        "latest_entry_date": "2026-04-04T00:00:00+00:00",
+        "latest_age_hours": 36.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science",
+        "status": 200,
+        "error": null,
+        "entry_count": 46,
+        "latest_entry_date": "2026-04-02T07:00:00+00:00",
+        "latest_age_hours": 77.3,
+        "fresh": false
+      },
+      {
+        "url": "https://www.biorxiv.org/rss/current.xml",
+        "status": 404,
+        "error": "HTTP 404",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.medrxiv.org/rss/current.xml",
+        "status": 403,
+        "error": "HTTP 403",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.nature.com/nbt.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 8,
+        "latest_entry_date": "2026-04-01T00:00:00+00:00",
+        "latest_age_hours": 108.3,
+        "fresh": false
+      },
+      {
+        "url": "https://www.nature.com/nm.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 8,
+        "latest_entry_date": "2026-04-03T00:00:00+00:00",
+        "latest_age_hours": 60.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.nature.com/nmeth.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 8,
+        "latest_entry_date": "2026-04-04T00:00:00+00:00",
+        "latest_age_hours": 36.3,
+        "fresh": true
+      },
+      {
+        "url": "https://phys.org/rss-feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-05T12:00:02+00:00",
+        "latest_age_hours": 0.3,
+        "fresh": true
+      },
+      {
+        "url": "https://arstechnica.com/science/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-03T23:19:36+00:00",
+        "latest_age_hours": 37.0,
+        "fresh": true
+      },
+      {
+        "url": "https://www.sciencedaily.com/rss/all.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 60,
+        "latest_entry_date": "2026-04-05T11:08:57+00:00",
+        "latest_age_hours": 1.2,
+        "fresh": true
+      },
+      {
+        "url": "https://www.sciencenews.org/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-03T17:00:00+00:00",
+        "latest_age_hours": 43.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.quantamagazine.org/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 5,
+        "latest_entry_date": "2026-04-03T15:19:16+00:00",
+        "latest_age_hours": 45.0,
+        "fresh": true
+      },
+      {
+        "url": "https://www.technologyreview.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T17:03:19+00:00",
+        "latest_age_hours": 43.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.statnews.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-03T17:50:53+00:00",
+        "latest_age_hours": 42.5,
+        "fresh": true
+      },
+      {
+        "url": "https://www.lifespan.io/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T16:00:39+00:00",
+        "latest_age_hours": 44.3,
+        "fresh": true
+      },
+      {
+        "url": "https://longevity.stanford.edu/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 5,
+        "latest_entry_date": "2026-01-06T05:37:59+00:00",
+        "latest_age_hours": 2142.7,
+        "fresh": false
+      },
+      {
+        "url": "https://news.harvard.edu/gazette/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 50,
+        "latest_entry_date": "2026-04-03T16:22:58+00:00",
+        "latest_age_hours": 44.0,
+        "fresh": true
+      },
+      {
+        "url": "https://news.mit.edu/rss/topic/health",
+        "status": 200,
+        "error": null,
+        "entry_count": 50,
+        "latest_entry_date": "2026-03-31T18:30:00+00:00",
+        "latest_age_hours": 113.8,
+        "fresh": false
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=longevity+anti-aging+science&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-03-31T15:00:32+00:00",
+        "latest_age_hours": 117.3,
+        "fresh": false
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=biotechnology+gene+therapy+breakthrough&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 68,
+        "latest_entry_date": "2026-03-28T10:26:53+00:00",
+        "latest_age_hours": 193.9,
+        "fresh": false
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=medical+science+breakthrough+discovery&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-03-31T14:27:20+00:00",
+        "latest_age_hours": 117.9,
+        "fresh": false
+      },
+      {
+        "url": "https://www.reddit.com/r/longevity/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-04T17:41:22+00:00",
+        "latest_age_hours": 18.6,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/science/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T12:11:46+00:00",
+        "latest_age_hours": 0.1,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/biotech/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T04:18:53+00:00",
+        "latest_age_hours": 8.0,
+        "fresh": true
+      }
+    ],
+    "privet_russian": [
+      {
+        "url": "https://feeds.bbci.co.uk/news/rss.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 29,
+        "latest_entry_date": "2026-04-05T11:50:41+00:00",
+        "latest_age_hours": 0.5,
+        "fresh": true
+      },
+      {
+        "url": "https://feeds.npr.org/1001/rss.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T11:00:00+00:00",
+        "latest_age_hours": 1.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.theverge.com/rss/index.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T12:00:00+00:00",
+        "latest_age_hours": 0.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.sciencedaily.com/rss/top/science.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 60,
+        "latest_entry_date": "2026-04-05T11:08:57+00:00",
+        "latest_age_hours": 1.2,
+        "fresh": true
+      },
+      {
+        "url": "https://phys.org/rss-feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-05T12:00:02+00:00",
+        "latest_age_hours": 0.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.themoscowtimes.com/rss/news",
+        "status": 200,
+        "error": null,
+        "entry_count": 50,
+        "latest_entry_date": "2026-04-05T10:06:00+00:00",
+        "latest_age_hours": 2.2,
+        "fresh": true
+      },
+      {
+        "url": "https://meduza.io/rss/en/all",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-05T07:23:52+00:00",
+        "latest_age_hours": 4.9,
+        "fresh": true
+      },
+      {
+        "url": "https://russianwithmax.com/feed/",
+        "status": 403,
+        "error": "HTTP 403",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://www.sciencenewsforstudents.org/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-03T10:30:00+00:00",
+        "latest_age_hours": 49.8,
+        "fresh": true
+      },
+      {
+        "url": "https://www.atlasobscura.com/feeds/latest",
+        "status": 200,
+        "error": null,
+        "entry_count": 27,
+        "latest_entry_date": "2026-04-03T20:00:00+00:00",
+        "latest_age_hours": 40.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.smithsonianmag.com/rss/latest_articles/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T20:35:27+00:00",
+        "latest_age_hours": 39.7,
+        "fresh": true
+      },
+      {
+        "url": "https://www.cbc.ca/webfeed/rss/rss-canada",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-04T22:50:30+00:00",
+        "latest_age_hours": 13.5,
+        "fresh": true
+      },
+      {
+        "url": "https://www.ukrinform.net/rss/block-lastnews",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-05T12:00:00+00:00",
+        "latest_age_hours": 0.3,
+        "fresh": true
+      },
+      {
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 13,
+        "latest_entry_date": "2026-04-05T12:13:38+00:00",
+        "latest_age_hours": 0.1,
+        "fresh": true
+      },
+      {
+        "url": "https://www.theguardian.com/world/rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 45,
+        "latest_entry_date": "2026-04-05T11:49:19+00:00",
+        "latest_age_hours": 0.5,
+        "fresh": true
+      },
+      {
+        "url": "https://feeds.washingtonpost.com/rss/world",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T12:15:15+00:00",
+        "latest_age_hours": 0.1,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=science+discovery+nature+animals&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 73,
+        "latest_entry_date": "2026-04-01T04:53:05+00:00",
+        "latest_age_hours": 103.5,
+        "fresh": false
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=Russian+culture+language+news&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 75,
+        "latest_entry_date": "2026-04-05T09:02:59+00:00",
+        "latest_age_hours": 3.3,
+        "fresh": true
+      }
+    ],
+    "tesla": [
+      {
+        "url": "https://www.teslarati.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-04T13:00:06+00:00",
+        "latest_age_hours": 23.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.theverge.com/rss/tesla/index.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-02T18:15:00+00:00",
+        "latest_age_hours": 66.1,
+        "fresh": true
+      },
+      {
+        "url": "https://www.findmyelectric.com/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-02-15T21:38:22+00:00",
+        "latest_age_hours": 1166.7,
+        "fresh": false
+      },
+      {
+        "url": "https://cleantechnica.com/tag/tesla/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 45,
+        "latest_entry_date": "2026-04-04T03:59:37+00:00",
+        "latest_age_hours": 32.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.thedrive.com/category/tesla-news/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://whatsuptesla.com/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-03T15:20:13+00:00",
+        "latest_age_hours": 45.0,
+        "fresh": true
+      },
+      {
+        "url": "https://www.tesmanian.com/blogs/tesmanian-blog.atom",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2024-10-01T19:35:03+00:00",
+        "latest_age_hours": 13216.8,
+        "fresh": false
+      },
+      {
+        "url": "https://driveteslacanada.ca/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-04T03:36:30+00:00",
+        "latest_age_hours": 32.7,
+        "fresh": true
+      },
+      {
+        "url": "https://carbuzz.com/feed",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2026-04-05T11:49:11+00:00",
+        "latest_age_hours": 0.5,
+        "fresh": true
+      },
+      {
+        "url": "https://insideevs.com/rss/articles/all/",
+        "status": 200,
+        "error": null,
+        "entry_count": 20,
+        "latest_entry_date": "2026-04-05T12:00:36+00:00",
+        "latest_age_hours": 0.3,
+        "fresh": true
+      },
+      {
+        "url": "https://www.torquenews.com/rss.xml",
+        "status": 200,
+        "error": null,
+        "entry_count": 10,
+        "latest_entry_date": "2020-10-22T15:52:38+00:00",
+        "latest_age_hours": 47780.5,
+        "fresh": false
+      },
+      {
+        "url": "https://electrek.co/guides/tesla/feed/",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-02T13:09:09+00:00",
+        "latest_age_hours": 71.2,
+        "fresh": true
+      },
+      {
+        "url": "https://www.cnbc.com/id/10001147/device/rss/rss.html",
+        "status": 200,
+        "error": null,
+        "entry_count": 30,
+        "latest_entry_date": "2026-04-04T14:56:33+00:00",
+        "latest_age_hours": 21.4,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reuters.com/technology/rss",
+        "status": 401,
+        "error": "HTTP 401",
+        "entry_count": 0,
+        "latest_entry_date": null,
+        "latest_age_hours": null,
+        "fresh": false
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=tesla+electric+vehicle&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-05T09:52:07+00:00",
+        "latest_age_hours": 2.5,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=TSLA+stock+OR+tesla+earnings&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-03T17:45:00+00:00",
+        "latest_age_hours": 42.6,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=tesla+full+self+driving+OR+tesla+robotaxi&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-04T14:02:16+00:00",
+        "latest_age_hours": 22.3,
+        "fresh": true
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=electric+vehicle+industry+news&hl=en-US&gl=US&ceid=US:en",
+        "status": 200,
+        "error": null,
+        "entry_count": 100,
+        "latest_entry_date": "2026-04-04T19:20:30+00:00",
+        "latest_age_hours": 17.0,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/teslamotors/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-03T20:25:02+00:00",
+        "latest_age_hours": 39.9,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/electricvehicles/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T11:57:30+00:00",
+        "latest_age_hours": 0.4,
+        "fresh": true
+      },
+      {
+        "url": "https://www.reddit.com/r/teslainvestorsclub/.rss",
+        "status": 200,
+        "error": null,
+        "entry_count": 25,
+        "latest_entry_date": "2026-04-05T05:01:04+00:00",
+        "latest_age_hours": 7.3,
+        "fresh": true
+      }
+    ]
+  }
+}
