@@ -315,7 +315,7 @@ def _detect_story_duplication(text: str, show_name: str) -> int:
     # Cap at 2 — story-level duplication is a softer signal than
     # bigram-level hallucination.  The prompt-level anti-repetition
     # instruction is the primary fix; this detector is a safety net.
-    return min(dup_count, 2)
+    return min(dup_count, 3)
 
 
 def _validate_llm_output(
@@ -446,6 +446,30 @@ def _validate_llm_output(
                     stage, show_name, phrase, count,
                 )
 
+    # Also scan for 3-word phrases (trigrams) — catches patterns like
+    # "the question worth" that slip through bigram detection.
+    if len(words) > 50:
+        trigrams = [" ".join(words[i:i+3]).lower() for i in range(len(words) - 2)]
+        trigram_counts = Counter(trigrams)
+        _COMMON_TRIGRAMS = {
+            "of the the", "in the the", "one of the", "some of the",
+            "a lot of", "going to be", "it's going to",
+            "according to the", "is going to", "we're going to",
+            "repeat after me.", "repeat after me,", "repeat after me:",
+        }
+        for phrase, count in trigram_counts.most_common(5):
+            if phrase in _COMMON_TRIGRAMS:
+                continue
+            tokens = phrase.split()
+            if all(len(t) <= 3 for t in tokens):
+                continue
+            if count >= _rep_threshold:
+                _suspicious_count += 1
+                logger.warning(
+                    "LLM %s for '%s' has suspicious trigram repetition: '%s' appears %d times",
+                    stage, show_name, phrase, count,
+                )
+
     # Warn if podcast script is too short to fill target duration
     if stage == "podcast_script":
         word_count = len(text.split())
@@ -460,7 +484,7 @@ def _validate_llm_output(
     # Detect story-level duplication — same news story retold in different
     # sections of the podcast script (e.g. school bus story told at lines
     # 7-13 and again at lines 31-35 with different framing).
-    if stage == "podcast_script":
+    if stage in ("digest", "podcast_script"):
         _suspicious_count += _detect_story_duplication(text, show_name)
 
     return _suspicious_count

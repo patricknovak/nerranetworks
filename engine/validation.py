@@ -326,6 +326,15 @@ def tst_validation_config() -> ValidationConfig:
                 ),
                 min_items=1,
             ),
+            SectionRule(
+                name="First Principles",
+                pattern=(
+                    r"(?:### Tesla First Principles|🧠\s*Tesla First Principles)"
+                    r"(.*?)"
+                    r"(?=━━|### Daily Challenge|💪|$)"
+                ),
+                min_items=1,
+            ),
         ],
         forbidden_patterns=[
             # Stock price in podcast script (not digest — only for POD_PROMPT output)
