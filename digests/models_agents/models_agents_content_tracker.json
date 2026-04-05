@@ -1,39 +1,7 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-04-03",
+  "last_updated": "2026-04-05",
   "episodes": [
-    {
-      "date": "2026-03-20",
-      "headlines": [],
-      "urls": [
-        "https://www.marktechpost.com/2026/03/19/google-colab-now-has-an-open-source-mcp-model-context-protocol-server-use-colab-runtimes-with-gpus-from-any-local-ai-agent/",
-        "https://the-decoder.com/cursor-takes-on-openai-and-anthropic-with-composer-2-a-code-only-model-built-to-match-rivals-at-a-fraction-of-the-cost/",
-        "https://techcrunch.com/2026/03/19/multiverse-computing-pushes-its-compressed-ai-models-into-the-mainstream/",
-        "https://www.marktechpost.com/2026/03/19/google-colab-now-has-an-open-source-mcp-model-context-protocol-server-use-colab-runtimes-with-gpus-from-any-local-ai-agent/",
-        "https://blog.langchain.com/introducing-langsmith-fleet/",
-        "https://github.blog/ai-and-ml/github-copilot/how-squad-runs-coordinated-ai-agents-inside-your-repository/",
-        "https://simonwillison.net/2026/Mar/19/openai-acquiring-astral/#atom-everything",
-        "https://towardsdatascience.com/beyond-prompt-caching-5-more-things-you-should-cache-in-rag-pipelines/",
-        "https://www.marktechpost.com/2026/03/19/llamaindex-releases-liteparse-a-cli-and-typescript-native-library-for-spatial-pdf-parsing-in-ai-agent-workflows/",
-        "https://arxiv.org/abs/2603.18007",
-        "https://arxiv.org/abs/2603.18363",
-        "https://arxiv.org/abs/2603.18014",
-        "https://arxiv.org/abs/2603.18012",
-        "https://the-decoder.com/google-gives-ai-shopping-agents-cart-catalog-and-loyalty-features/",
-        "https://arxiv.org/abs/2603.18010",
-        "https://arxiv.org/abs/2603.18011",
-        "https://arxiv.org/abs/2603.18009",
-        "https://arxiv.org/abs/2603.18008"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**Theory of Mind in LLMs: GPT-4o stands out**  \nA new arXiv paper tested five LLMs against humans using the Strange Stories paradigm. Earlier and smaller models were heavily affected by the number of inferential cues and vulnerable to distracting information, while GPT-4o achieved high accuracy and strong robustness, performing comparably to human controls even in the hardest conditions. This is one of the clearest demonstrations yet of genuine capability differences at scale. ",
-        "agent_developments": "### Agent & Tool Developments\n**DynaRAG: Bridging static and dynamic knowledge**  \nDynaRAG selectively calls external APIs when retrieved documents are insufficient, using an LLM reranker, sufficiency classifier, and Gorilla v2 for tool invocation. It shows strong gains on dynamic questions in the CRAG benchmark while reducing hallucinations.  \nSource: https://arxiv.org/abs/2603.18012\n\n**Google expands Universal Commerce Protocol for shopping agents**  \nGoogle added shopping cart, catalog, and i",
-        "practical_community": "### Practical & Community\n**Controllable Evidence Selection via Deterministic Utility Gating**  \nNew framework introduces Meaning-Utility Estimation (MUE) and Diversity-Utility Estimation (DUE) to make evidence selection deterministic and auditable before answer generation. It only accepts sentences that explicitly satisfy the required fact or condition, dramatically improving transparency in RAG.  \nSource: https://arxiv.org/abs/2603.18011\n\n**UCPOF: Uncertainty-calibrated prompt optimization**  ",
-        "deep_dive": "### Under the Hood: Agentic RAG Failure Modes\nEveryone talks about agentic RAG like the main challenge is just making the LLM smarter. In practice, the real killers are silent failure modes that don't crash but quietly destroy performance and inflate costs: Retrieval Thrash, Tool Storms, and Context Bloat.\n\nThe core insight is that once you give an agent a loop and multiple tools, its behavior becomes a search process rather than a single forward pass. Retrieval Thrash happens when the agent kee"
-      },
-      "deep_dive_topic": "Agent Misalignment Monitoring via Chain-of-Thought"
-    },
     {
       "date": "2026-03-23",
       "headlines": [],
@@ -360,6 +328,72 @@
         "deep_dive": "### Under the Hood: Metric Aggregation Divergence in Agent-Based Simulations\nEveryone talks about evolutionary and agent-based optimization as if running many simulations and picking the “best” policy is straightforward. In reality, when optimization, tournament selection, and statistical validation each implement metric extraction independently, you get metric aggregation divergence — a hidden confound that makes champion selection reflect aggregation artifacts rather than true policy quality.\n"
       },
       "deep_dive_topic": "Metric Aggregation Divergence in Agent-Based Simulations"
+    },
+    {
+      "date": "2026-04-05",
+      "headlines": [
+        "Auto agent - Self improving domain expertise agent",
+        "gemma4 is the beast as windows agent!",
+        "Gemma 4 31B vs Gemma 4 26B-A4B vs Qwen 3.5 27B — 30-question blind eval with Claude Opus 4.6 as judge",
+        "Alibaba's Qwen team makes AI models think deeper with new algorithm",
+        "Gemma 4 for 16 GB VRAM",
+        "Improved markdown quality, code intelligence for 248 languages, and more in Kreuzberg v4.7.0",
+        "Gemma 4 26b is the perfect all around local model and I'm surprised how well it does.",
+        "Charging people",
+        "scan-for-secrets 0.1",
+        "Walmart CEO reportedly brags that company's in-app AI agent is making people spend 35% more money - Yahoo Finance",
+        "Local Claude Code with Qwen3.5 27B",
+        "Gemma 4 vs Qwen3.5 on SVG style",
+        "Mastercard Bets on Autonomous AI Agents as the Next Frontier in Digital Payments - ad-hoc-news.de",
+        "[P] Cadenza: Connect Wandb logs to agents easily for autonomous research.",
+        "Is ChatGPT changing the way we think too much already?",
+        "Extended NYT Connections Benchmark scores: MiniMax-M2.7 34.4, Gemma 4 31B 30.1, Arcee Trinity Large Thinking 29.5",
+        "we just hit 555 stars on our open source AI agent config tool and i'm honestly still in shock",
+        "Gemma4 26B A4B runs easily on 16GB Macs",
+        "Will people continue paying for the plans after the honeymoon is over?",
+        "Running OpenClaw with Gemma 4 TurboQuant on MacAir 16GB",
+        "Gemma 4 31B beats several frontier models on the FoodTruck Bench",
+        "We absolutely need Qwen3.6-397B-A17B to be open source",
+        "The one AI story writing platform that I love to use: My two weeks experience and two cents",
+        "Cursor 3 AI agent delivers powerful leap in autonomous coding - Pune Mirror",
+        "Nvidia Unveils Agent Toolkit to Power Enterprise AI Agents - National Today"
+      ],
+      "urls": [
+        "https://github.com/kevinrgu/autoagent",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1scwos6/gemma_4_31b_vs_gemma_4_26ba4b_vs_qwen_35_27b/",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1scx7la/gemma4_is_the_beast_as_windows_agent/",
+        "https://the-decoder.com/alibabas-qwen-team-makes-ai-models-think-deeper-with-new-algorithm/",
+        "https://www.reddit.com/r/artificial/comments/1scx9kw/auto_agent_self_improving_domain_expertise_agent/",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1sciyfg/running_openclaw_with_gemma_4_turboquant_on/",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1scv46p/improved_markdown_quality_code_intelligence_for/",
+        "https://simonwillison.net/2026/Apr/5/scan-for-secrets-3/#atom-everything",
+        "https://www.reddit.com/r/artificial/comments/1scmaxt/p_cadenza_connect_wandb_logs_to_agents_easily_for/",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1scw979/gemma_4_for_16_gb_vram/",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1scucfg/gemma_4_26b_is_the_perfect_all_around_local_model/",
+        "https://www.reddit.com/r/artificial/comments/1scu2a6/charging_people/",
+        "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOcWFJb2x3UHg5bENQWXpvT2o3UnVkX3dtM2Z0aS1SWUo1c21CTkMzMWtYeGpXRl9XZWNsQm0yM3hRTFExczMxRUpFMEt0LVNhN3EtZWtqc1FoelVDWU9wbThRbFY0dVdFNWM1Z3YzM1JYOElFNTR2YkpaSkRsSkdOZjRuMktoWjgxSWFNYnU2ZTF1TmlrSmhmVGN5aXVHbVVIRHdnWjBXTkxEQQ?oc=5",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1scrnzm/local_claude_code_with_qwen35_27b/",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1scr78z/gemma_4_vs_qwen35_on_svg_style/",
+        "https://news.google.com/rss/articles/CBMiygFBVV95cUxNVnFGNkZfU3BWYmFKN3BQcXgzYndBTnpNUlNPTVRnNVNuUm9FdkRrVmxLejdzTHVxX3dBT3FLbjd1MHhxbk1xRUpsVjdySWJkYjBKZDlOc044NXBzRkNxYlI3NDNMQlpudVBBLWFKOHdfY3pIZ0VEMFZ6dGxEekk5b19ySlg1MnZ1MDZqRzRtaWNQZENudHAtT2xGVWlTWUxVWVR5bUJ3Q3plMGFGdGdiYXg5Q3N4MVlKSkVOVFRyVjM0bXNwanhsTkNn?oc=5",
+        "https://www.reddit.com/r/artificial/comments/1sclpti/is_chatgpt_changing_the_way_we_think_too_much/",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1scl7pl/extended_nyt_connections_benchmark_scores/",
+        "https://www.reddit.com/r/artificial/comments/1sckxf1/we_just_hit_555_stars_on_our_open_source_ai_agent/",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1scjoox/gemma4_26b_a4b_runs_easily_on_16gb_macs/",
+        "https://www.reddit.com/r/artificial/comments/1scjcrg/will_people_continue_paying_for_the_plans_after/",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1sci5h6/gemma_4_31b_beats_several_frontier_models_on_the/",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1sccpbj/we_absolutely_need_qwen36397ba17b_to_be_open/",
+        "https://www.reddit.com/r/artificial/comments/1sc8y7o/the_one_ai_story_writing_platform_that_i_love_to/",
+        "https://news.google.com/rss/articles/CBMifEFVX3lxTE9hSTFQaC1NNjFfcUxXU2JRTjIxZVBWNnBEdWJCZW9oUnJkcWhfd0FySXhHbmM0OGxjelZsVDdTRFkwcUZvOU1MdGdMTEw0VkxSd0V3aWMxUUJyRVNKaXR0UHVldHhjNVl0bXJjUEJYQWVvQWtQSUpEWFN6Snk?oc=5",
+        "https://news.google.com/rss/articles/CBMitwFBVV95cUxQU052dll1ZjFIQzNoRlVMTC1US1ltRjVnM091TmdRNHhBbVYxeHRPcEx3NVhrSEdIZVBFcnNZX2MxcWJvbnNRNWRsbDBCTWhZZEZRLWc4M1E4OEVHUURENF9RaWJUb25RVGQ1WkVVSmp3VVdOX2ltUjNZOV9Xc3NVbk5GbkpPdjVyZTlBQlk5S1FhU1AxVTdPU3pQVlZpck5EMEc5T0p1REtzUEdhS1JsRmpDSDVSdnc?oc=5"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Gemma 4 31B vs Gemma 4 26B-A4B vs Qwen 3.5 27B blind eval** — r/LocalLLaMA  \nA 30-question blind test (code, reasoning, analysis, communication, meta-alignment) judged by Claude Opus 4.6 showed Qwen 3.5 27B winning 46.7% of matchups but suffering format/refusal failures on 10% of questions. Both Gemma 4 31B and the 26B-A4B MoE variant achieved identical 8.82 average scores, with Gemma 4 31B dominating communication and the MoE variant showing strong efficiency when it didn't ",
+        "agent_developments": "### Agent & Tool Developments\n**AutoAgent self-improving harness** — r/artificial  \nThe core contribution is treating the agent harness itself as the optimizable artifact. A meta-agent iteratively modifies prompts, tool definitions, and evaluation criteria, using the same model to critique its own performance. This removes humans as the bottleneck for domain-specific agent training.\n\nSource: https://www.reddit.com/r/artificial/comments/1scx9kw/auto_agent_self_improving_domain_expertise_agent/\n\n*",
+        "practical_community": "### Practical & Community\n**Kreuzberg v4.7.0 document intelligence library** — r/LocalLLaMA  \nThe Rust-core extraction library now supports 248 languages via tree-sitter, performs AST-level code intelligence (functions, classes, imports, symbols), and dramatically improved Structural F1 scores across 23 formats (LaTeX 0%→100%, XLSX 30%→100%, PDF tables 15.5%→53.7%). It ships as an OpenWebUI backend and includes TOON format for 30-50% lower token usage in agent prompts.\n\nSource: https://www.reddi",
+        "deep_dive": "### Under the Hood: Self-Improving Agent Harnesses\n\nEveryone talks about \"self-improving agents\" as if the model simply gets smarter through some magical feedback loop. In practice, the breakthrough in AutoAgent is that it treats the harness — the system prompt, tool schemas, error recovery logic, and evaluation criteria — as the primary optimization target rather than the weights.\n\nThe core insight is that most agent failures are systematic and reproducible once you have a reliable critic. By u"
+      },
+      "deep_dive_topic": "Self-Improving Agent Harnesses"
     }
   ]
 }

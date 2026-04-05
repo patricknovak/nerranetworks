@@ -9,7 +9,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 03 Apr 2026 07:57:07 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 05 Apr 2026 07:52:39 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
     <itunes:category text="Technology" />
     <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
@@ -1201,7 +1201,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Ep 25: Google drops Gemma 4, claiming the strongest small multimodal open model yet with dramatic gains across every benchmark compared to Gemma 3.</title>
-      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep025_20260403.mp3</link>
       <description>**# Models &amp; Agents**  
 **Date:** April 03, 2026
 
@@ -1230,6 +1229,30 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>25</itunes:episode>
       <itunes:title>Ep 25: Google drops Gemma 4, claiming the strongest small multimodal open model yet with dramatic gains across every benchmark compared to Gemma 3.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep025.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/models_agents/Models_Agents_Ep025_20260403_transcript.json" type="application/json" /></item>
+    </item>
+    <item>
+      <title>Ep 26: AutoAgent autonomously optimizes its own harness using the same model to reach #1 on Terminal-Bench and financial modeling in under 24 hours.</title>
+      <link>https://audio.nerranetwork.com/models_agents/Models_Agents_Ep026_20260405.mp3</link>
+      <description>**HOOK:** AutoAgent autonomously optimizes its own harness using the same model to reach #1 on Terminal-Bench and financial modeling in under 24 hours.
+
+**What You Need to Know:** The open-source AutoAgent project demonstrates that the biggest limiter for agent performance isn't the underlying model but the quality of the harness (tools, prompts, and evaluation loops). ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">models-agents-ep026-20260405-075239</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep026_20260405.mp3" length="17665297" type="audio/mpeg" />
+      <pubDate>Sun, 05 Apr 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
+      <itunes:duration>12:16</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**HOOK:** AutoAgent autonomously optimizes its own harness using the same model to reach #1 on Terminal-Bench and financial modeling in under 24 hours.
+
+**What You Need to Know:** The open-source AutoAgent project demonstrates that the biggest limiter for agent performance isn't the underlying model but the quality of the harness (tools, prompts, and evaluation loops). ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>26</itunes:episode>
+      <itunes:title>Ep 26: AutoAgent autonomously optimizes its own harness using the same model to reach #1 on Terminal-Bench and financial modeling in under 24 hours.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep026.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/models_agents/Models_Agents_Ep026_20260405_transcript.json" type="application/json" /></item>
   <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked></channel>
 </rss>
