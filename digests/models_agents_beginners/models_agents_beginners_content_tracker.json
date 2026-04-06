@@ -1,27 +1,7 @@
 {
   "show": "models_agents_beginners",
-  "last_updated": "2026-04-05",
+  "last_updated": "2026-04-06",
   "episodes": [
-    {
-      "date": "2026-03-22",
-      "headlines": [],
-      "urls": [
-        "https://the-decoder.com/chinese-ai-model-minimax-m2-7-reportedly-helped-develop-itself/",
-        "https://www.marktechpost.com/2026/03/21/safely-deploying-ml-models-to-production-four-controlled-strategies-a-b-canary-interleaved-shadow-testing/",
-        "https://the-decoder.com/95-of-uk-students-now-use-ai-and-their-experiences-couldnt-be-more-divided/",
-        "https://techcrunch.com/2026/03/21/publisher-pulls-horror-novel-shy-girl-over-ai-concerns/",
-        "https://www.engadget.com/ai/openai-reportedly-plans-to-double-its-workforce-to-8000-employees-161028377.html",
-        "https://www.engadget.com/gaming/a-minecraft-theme-park-will-open-in-london-in-2027-173000917.html",
-        "https://www.theverge.com/tech/898282/gemini-task-automation-uber-doordash-hands-on"
-      ],
-      "quote_author": null,
-      "sections": {
-        "explain_like_14": "### Explain Like I'm 14\n**How safe testing strategies for AI models actually work**\n\nYou know how when you want to try a new hairstyle, you don’t just chop off all your hair at once? You might test it on a small section first, ask a couple friends what they think, or even use an app to see a photo of the change before committing. That same careful approach is exactly how smart companies test new AI models before showing them to millions of users.\n\nHere’s the simple version: imagine your school h",
-        "cool_stuff": "### Cool Stuff & Try This\n**95% of UK Students Use AI — Here’s What They Actually Think** — The Decoder  \nA new survey found that 95% of British students are using generative AI, but their feelings are totally split. Some say it helps them understand topics better and makes learning more interesting. Others worry it’s quietly replacing their ability to think for themselves. Universities are struggling to keep up with these changes.\n\nThis is super relevant if you’re in school or college right now",
-        "quick_bits": "### Quick Bits\n**OpenAI Plans to Nearly Double Its Staff**  \nOpenAI is reportedly growing from about 4,500 employees to 8,000 by the end of 2026. They’re hiring in engineering, research, product development, sales, and even “technical ambassadors” who help businesses use AI better. It shows how fast the biggest AI companies are still expanding.\n\nSource: https://www.engadget.com/ai/openai-reportedly-plans-to-double-its-workforce-to-8000-employees-161028377.html\n\n**Minecraft Theme Park Coming to L",
-        "deep_dive": "### Explain Like I'm 14\n**How safe testing strategies for AI models actually work**\n\nYou know how when you want to try a new hairstyle, you don’t just chop off all your hair at once? You might test it on a small section first, ask a couple friends what they think, or even use an app to see a photo of the change before committing. That same careful approach is exactly how smart companies test new AI models before showing them to millions of users.\n\nHere’s the simple version: imagine your school h"
-      }
-    },
     {
       "date": "2026-03-27",
       "headlines": [
@@ -233,6 +213,38 @@
         "cool_stuff": "### Cool Stuff & Try This\n**Beating AI limits without paying: a real student setup** — r/artificial  \nLots of people hit the free usage limits on ChatGPT and Claude right when they’re in the middle of homework, writing, or brainstorming. One user shared the exact free combo they landed on after months of testing.\n\nThey use Google AI Studio the most (it handles long notes and drafts better than the regular Gemini website and they haven’t hit a hard limit yet). For quick research they open Perplex",
         "quick_bits": "### Quick Bits\n**Japan using robots to fill jobs nobody wants**  \nLabor shortages mean Japan is moving real physical robots from test projects into everyday work. It’s a reminder that AI and robots aren’t just coming for creative jobs — they’re also helping with tasks people don’t want to do.\n\nSource: https://techcrunch.com/2026/04/05/japan-is-proving-experimental-physical-ai-is-ready-for-the-real-world/\n\n**AI chatbots are growing super fast**  \nNew data shows AI chatbot traffic is growing seven",
         "deep_dive": "### Explain Like I'm 14\n**How AI chatbots actually “think” when they answer you**\n\nYou know how when you’re texting a friend and your phone suggests the next word? That’s basically what a language model is doing — but on steroids.\n\nImagine the world’s biggest “what comes next?” game. The AI has read millions of books, websites, conversations, and scripts. It doesn’t actually understand things the way a human does. Instead, it has learned patterns: after seeing the words “once upon a,” it knows “"
+      }
+    },
+    {
+      "date": "2026-04-06",
+      "headlines": [
+        "RightNow AI Releases AutoKernel: An Open-Source Framework that Applies an Autonomous Agent Loop to GPU Kernel Optimization for Arbitrary PyTorch Models",
+        "Alibaba's Qwen team built HopChain to fix how AI vision models fall apart during multi-step reasoning",
+        "I resurrected LavaPS - a Linux process monitor from 2004 that died when GNOME2 did. Running on a robot car.",
+        "AI should be an assistant, not a moral authority.",
+        "We're running an online 4-week hackathon series with $4,000 in prizes, open to all skill levels!",
+        "You can now give an AI agent its own email, phone number, wallet, computer, and voice. This is what the stack looks like",
+        "I have been coding for 11 years and I caught myself completely unable to debug a problem without AI assistance last month. That scared me more than anything I have seen in this industry.",
+        "🚗 AI Chatbots Arrive in Cars: ChatGPT Comes to Apple CarPlay, Leaving Android Auto Behind - indiaherald.com",
+        "Take-Two laid off the head its AI division and an undisclosed number of staff"
+      ],
+      "urls": [
+        "https://www.marktechpost.com/2026/04/06/rightnow-ai-releases-autokernel-an-open-source-framework-that-applies-an-autonomous-agent-loop-to-gpu-kernel-optimization-for-arbitrary-pytorch-models/",
+        "https://the-decoder.com/alibabas-qwen-team-built-hopchain-to-fix-how-ai-vision-models-fall-apart-during-multi-step-reasoning/",
+        "https://www.reddit.com/r/artificial/comments/1sdiugx/you_can_now_give_an_ai_agent_its_own_email_phone/",
+        "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQaWFKSlM4VjBDSjNzVUpqLVNhUHI2SzgtckFEMkhaTEV2OFlQSGw2QmgyMjItZXBNTkQ2aWFDT213Qk1kb2JweFdhallYcnBoUkVqQUVGdUN1eE5wN2pGTnpVQ3ZfMjlGRXpsQUFRRnRlTDkxSGh6Z05EbWVJS2huallWbVdocmJ4TEdDY0dfRk1USUxnY2JMMlFQSTc3aFN1bGM3ck93Vy1jQm9GTmFIQ1IzangtQmdQYmJMd1g2clJxZEQydkw5ckhLVkRpLW5EYWs1T0RKSdIB1wFBVV95cUxQaWFKSlM4VjBDSjNzVUpqLVNhUHI2SzgtckFEMkhaTEV2OFlQSGw2QmgyMjItZXBNTkQ2aWFDT213Qk1kb2JweFdhallYcnBoUkVqQUVGdUN1eE5wN2pGTnpVQ3ZfMjlGRXpsQUFRRnRlTDkxSGh6Z05EbWVJS2huallWbVdocmJ4TEdDY0dfRk1USUxnY2JMMlFQSTc3aFN1bGM3ck93Vy1jQm9GTmFIQ1IzangtQmdQYmJMd1g2clJxZEQydkw5ckhLVkRpLW5EYWs1T0RKSQ?oc=5",
+        "https://www.reddit.com/r/ChatGPT/comments/1sdmikg/ai_should_be_an_assistant_not_a_moral_authority/",
+        "https://www.reddit.com/r/artificial/comments/1sderg4/i_have_been_coding_for_11_years_and_i_caught/",
+        "https://www.reddit.com/r/artificial/comments/1sdqwqc/i_resurrected_lavaps_a_linux_process_monitor_from/",
+        "https://www.reddit.com/r/artificial/comments/1sdjfx9/were_running_an_online_4week_hackathon_series/",
+        "https://www.engadget.com/gaming/take-two-laid-off-the-head-its-ai-division-and-an-undisclosed-number-of-staff-182824338.html?src=rss"
+      ],
+      "quote_author": null,
+      "sections": {
+        "explain_like_14": "### Explain Like I'm 14\n**How AI Vision Models Break During Multi-Step Reasoning (and how HopChain helps)**\n\nYou know how when you’re solving a puzzle in a video game, one tiny mistake early on can make you lose the whole level? That’s basically what happens with many AI vision models when they try to reason about images in several steps.\n\nHere’s the everyday version: Imagine you and a friend are describing a photo of a birthday party over text. Your friend says “there’s a cake,” then later “the",
+        "cool_stuff": "### Cool Stuff & Try This\n**Give an AI Its Own Email, Phone & Wallet** — r/artificial  \nThis post shows how people are now giving AI agents their own “human-like” tools: separate email accounts, phone numbers, digital wallets, computers, and voices. Instead of just chatting inside one app, these agents can send real emails, make calls, remember things, browse the web, and even spend money on your behalf.\n\nIt’s exciting because it turns AI from a simple assistant into something that can act more ",
+        "quick_bits": "### Quick Bits\n**Should AI Be a Moral Authority?**  \nA Reddit discussion argues that AI tools should help you without correcting your personal beliefs or morals. The poster started a petition saying AI should be an assistant, not a digital parent or teacher of right and wrong. It’s a great conversation starter about where we want the line between helpful and preachy.\n\nSource: https://www.reddit.com/r/ChatGPT/comments/1sdmikg/ai_should_be_an_assistant_not_a_moral_authority/\n\n**Veteran Programmer ",
+        "deep_dive": "### Explain Like I'm 14\n**How AI Vision Models Break During Multi-Step Reasoning (and how HopChain helps)**\n\nYou know how when you’re solving a puzzle in a video game, one tiny mistake early on can make you lose the whole level? That’s basically what happens with many AI vision models when they try to reason about images in several steps.\n\nHere’s the everyday version: Imagine you and a friend are describing a photo of a birthday party over text. Your friend says “there’s a cake,” then later “the"
       }
     }
   ]

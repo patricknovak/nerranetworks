@@ -1,0 +1,28 @@
+{
+  "show_slug": "models_agents_beginners",
+  "episode_num": 16,
+  "total_duration_s": 20.07,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 9.44,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 10.63,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 9,
+    "cross_episode_repeats": 0,
+    "section_tts_fallback": false,
+    "section_tts_section_count": 4,
+    "tts_duration_s": 15.25,
+    "audio_mix_duration_s": 23.01,
+    "rss_update_duration_s": 0.02,
+    "digest_chars": 9213,
+    "audio_duration_s": 468.871837
+  }
+}
