@@ -1,38 +1,7 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-04-05",
+  "last_updated": "2026-04-07",
   "episodes": [
-    {
-      "date": "2026-03-23",
-      "headlines": [],
-      "urls": [
-        "https://arxiv.org/abs/2603.19452",
-        "https://arxiv.org/abs/2603.19732",
-        "https://arxiv.org/abs/2603.19685",
-        "https://arxiv.org/abs/2603.17417",
-        "https://arxiv.org/abs/2603.19677",
-        "https://arxiv.org/abs/2603.15727",
-        "https://arxiv.org/abs/2603.19308",
-        "https://arxiv.org/abs/2603.20182",
-        "https://arxiv.org/abs/2603.19641",
-        "https://arxiv.org/abs/2603.19247",
-        "https://arxiv.org/abs/2603.19253",
-        "https://arxiv.org/abs/2603.19252",
-        "https://arxiv.org/abs/2603.19858",
-        "https://arxiv.org/abs/2603.13748",
-        "https://arxiv.org/abs/2603.14052",
-        "https://arxiv.org/abs/2603.19249",
-        "https://arxiv.org/abs/2603.19251"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**When Prompt Optimization Becomes Jailbreaking: Adaptive Red-Teaming of Large Language Models**  \nResearchers repurposed black-box prompt optimization techniques (via DSPy) to iteratively refine harmful prompts from HarmfulQA and JailbreakBench, optimizing against a continuous danger score from GPT-5.1. Results show substantial degradation of safety: Qwen 3 8B's average danger score jumped from 0.09 to 0.79 post-optimization, with especially pronounced effects on open-source s",
-        "agent_developments": "### Agent & Tool Developments\n**Beyond detection: cooperative multi-agent reasoning for rapid onboard EO crisis response**  \nA hierarchical multi-agent architecture coordinates vision-language models, remote sensing tools, and role-specialized agents for onboard Earth Observation under strict compute and bandwidth limits. An Early Warning agent generates fast hypotheses and selectively activates domain experts, while a Decision agent consolidates evidence. The system was tested on an actual orbi",
-        "practical_community": "### Practical & Community\n**Spelling Correction in Healthcare Query-Answer Systems: Methods, Retrieval Impact, and Empirical Evaluation**  \nA controlled study on real consumer medical queries (61.5% contain spelling errors) shows that query-side correction using edit distance or context-aware methods improves BM25/TF-IDF retrieval by +9.2% MRR and +8.3% NDCG@10 on MedQuAD. Correcting only the corpus yields almost no gain. The paper includes a detailed error census and practical recommendations f",
-        "deep_dive": "### Under the Hood: Belief Revision in Iterative LLM Reasoning\nEveryone talks about chain-of-thought, self-reflection, and multi-agent debate as if models are performing clean Bayesian updates. In practice, these iterative reasoning loops follow a surprisingly consistent multiplicative scaling law governed by a belief revision exponent α that blends prior beliefs with new verification evidence.\n\nThe core insight is that instruction-tuned models don't treat each revision step as fully independent"
-      },
-      "deep_dive_topic": "Reputation Vectors vs Scalar Trust"
-    },
     {
       "date": "2026-03-27",
       "headlines": [
@@ -394,6 +363,71 @@
         "deep_dive": "### Under the Hood: Self-Improving Agent Harnesses\n\nEveryone talks about \"self-improving agents\" as if the model simply gets smarter through some magical feedback loop. In practice, the breakthrough in AutoAgent is that it treats the harness — the system prompt, tool schemas, error recovery logic, and evaluation criteria — as the primary optimization target rather than the weights.\n\nThe core insight is that most agent failures are systematic and reproducible once you have a reliable critic. By u"
       },
       "deep_dive_topic": "Self-Improving Agent Harnesses"
+    },
+    {
+      "date": "2026-04-07",
+      "headlines": [
+        "How Minimal Container Images Fortify AI Agent Security - autogpt.net",
+        "Anyone else using coding agents as general-purpose AI agents?",
+        "Gemma 4 is a huge improvement in many European languages, including Danish, Dutch, French and Italian",
+        "[R] Hybrid attention for small code models: 50x faster inference, but data scaling still dominates",
+        "Is LegalZoom (LZ) Quietly Rewriting Its Risk Profile With AI Agents And Buybacks? - Yahoo Finance",
+        "Flowise AI Agent Builder Under Active CVSS 10.0 RCE Exploitation; 12,000+ Instances Exposed - The Hacker News",
+        "thinking about running Gemma4 E2B as a preprocessor before every Claude Code API call. anyone see obvious problems with this?",
+        "Perfect Corp. Sees Agentic AI as Future of Innovation in Beauty - WWD",
+        "[R] Agentic AI and Occupational Displacement: A Multi-Regional Task Exposure Analysis (236 occupations, 5 US metros)",
+        "I got tired of 3 AM PagerDuty alerts, so I built an AI agent to fix cloud outages while I sleep. (Built with GLM-5.1)",
+        "Emergent Compositional Communication for Latent World Properties",
+        "Multi-Agent Training-free Urban Food Delivery System using Resilient UMST Network",
+        "Scaling Teams or Scaling Time? Memory Enabled Lifelong Learning in LLM Multi-Agent Systems",
+        "Scaling Multi-agent Systems: A Smart Middleware for Improving Agent Interactions",
+        "When AI Agents Disagree Like Humans: Reasoning Trace Analysis for Human-AI Collaborative Moderation",
+        "Investigating the Impact of Subgraph Social Structure Preference on the Strategic Behavior of Networked Mixed-Motive Learning Agents",
+        "Symbolic-Vector Attention Fusion for Collective Intelligence",
+        "Agentization of Digital Assets for the Agentic Web: Concepts, Techniques, and Benchmark",
+        "Agents for Agents: An Interrogator-Based Secure Framework for Autonomous Internet of Underwater Things",
+        "Decentralized Ergodic Coverage Control in Unknown Time-Varying Environments",
+        "Statistical Model Checking of the Island Model: An Established Economic Agent-Based Model of Endogenous Growth",
+        "Agentic Federated Learning: The Future of Distributed Training Orchestration",
+        "VisionClaw: Always-On AI Agents through Smart Glasses",
+        "D\\'ej\\`aVu: A Minimalistic Mechanism for Distributed Plurality Consensus",
+        "Decomposing Communication Gain and Delay Cost Under Cross-Timestep Delays in Cooperative Multi-Agent Reinforcement Learning"
+      ],
+      "urls": [
+        "https://www.reddit.com/r/MachineLearning/comments/1senzrn/r_hybrid_attention_for_small_code_models_50x/",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1seo2rq/gemma_4_is_a_huge_improvement_in_many_european/",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1semwnm/thinking_about_running_gemma4_e2b_as_a/",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1seojt5/anyone_else_using_coding_agents_as_generalpurpose/",
+        "https://arxiv.org/abs/2604.03486",
+        "https://www.reddit.com/r/artificial/comments/1selmm8/i_got_tired_of_3_am_pagerduty_alerts_so_i_built/",
+        "https://news.google.com/rss/articles/CBMigAFBVV95cUxPdlg3SHIxZ1NTWThGcFNMNlZQS1EydTJBT0Z6dHIzYVhPbHRGQmY5MWJidE1VcXpVYVJCNUlSMDhKRV85QklsVkhIbzJOUFVhWFZKakJ5YVVNX1lwZlRIZUk3X3hnRFZZMlJNWTRPcmxDR1lYRjZ2b0U1WnNNRndmVQ?oc=5",
+        "https://news.google.com/rss/articles/CBMiggFBVV95cUxOMmV2elZDZ1d0eWFXU2prMHQweUZ4b2tPbEk1cWtFY0ktWHgxcXZ0XzlGdUc4em50UVBDMmtyaC1QMF80UjNjTVpjSVpLckFvUG9xUDloVkFOLWNPcDN5OTA2YkZRVmF1YzlXVG5mdzc5dTR2LUVxRkdKNy1WeWhaV3p3?oc=5",
+        "https://news.google.com/rss/articles/CBMiogFBVV95cUxQRDEwN1dsVzI3VUpKSldpcG96Z19NZGpEX3pkX1kxY2t2WGpPOThfQTFyWU94MVBUWkM3OW1VUUs1QzhTN2FSVDlkOUVvaGcwZEJyYmQyMVYwOEdVOTZMS2E1YmxNRnUwc3l2T0NEazhNN3pCMEZBSm9pSVpScE9IQkVTTEEzZ1JxSFNIOGxRZW5oVlBMcVN5THl4cXM3UlQtQUE?oc=5",
+        "https://news.google.com/rss/articles/CBMiswFBVV95cUxOdG82VTNRNUhjb3JJelRmSE9Ta2dHQ1Y2NzVPYWk4bEU1YVo2QzBPdjlTMldldlpzZXFnRTdXWmJpV1QzdHlKWVdmMFgya1BBOXdnaEtidVJzRUhGOUp5UzV0dnBtdWZuMVp0U19BLU9PZ1BmWHB6RDNoLTlVeEowMV9adGZvc3NLcldkUm5lZVU3ci1kNnF5N2lTS01tcXBTMWlTRFF3ZEM5enMtRHJZcUJUVQ?oc=5",
+        "https://www.reddit.com/r/MachineLearning/comments/1selu8x/r_agentic_ai_and_occupational_displacement_a/",
+        "https://arxiv.org/abs/2604.03266",
+        "https://arxiv.org/abs/2604.03280",
+        "https://arxiv.org/abs/2604.03295",
+        "https://arxiv.org/abs/2604.03430",
+        "https://arxiv.org/abs/2604.03796",
+        "https://arxiv.org/abs/2604.03818",
+        "https://arxiv.org/abs/2604.03955",
+        "https://arxiv.org/abs/2604.04226",
+        "https://arxiv.org/abs/2604.04262",
+        "https://arxiv.org/abs/2604.04280",
+        "https://arxiv.org/abs/2604.04543",
+        "https://arxiv.org/abs/2604.04895",
+        "https://arxiv.org/abs/2604.03648",
+        "https://arxiv.org/abs/2604.03785"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Gemma 4 shines on European languages: EuroEval leaderboard**  \nGemma 4 31B ranks 3rd on Dutch, 2nd on Danish, 3rd on English, 1st on Finnish, 2nd on French, 5th on German, 2nd on Italian and 3rd on Swedish, representing a huge leap for a model of its size. Community members are now asking whether real-world usage matches the impressive benchmark numbers, especially for non-English coding, legal, or creative tasks. Early feedback suggests the multilingual improvements are noti",
+        "agent_developments": "### Agent & Tool Developments\n**Coding agents as general-purpose AI agents**  \nReddit user Individual-Library-1 reports using a Pi / coding-agent SDK with read/write/bash tools to handle document knowledge bases, structured extraction from 100+ PDFs, and database benchmarking—without any vector database. Traditional pipelines collapse into agent loops: RAG becomes “read index, choose files, open them”; ETL becomes “write script, run, inspect, retry.” The pattern has scaled to ~600 documents; the",
+        "practical_community": "### Practical & Community\n**Minimal container images fortify AI agent security**  \nNew guidance highlights how drastically shrinking container images reduces attack surface for deployed AI agents. Smaller images mean fewer dependencies, smaller SBOMs, and faster cold starts—practical wins for both security and operational efficiency when running autonomous agents at scale.\n\nSource: https://news.google.com/rss/articles/CBMigAFBVV95cUxPdlg3SHIxZ1NTWThGcFNMNlZQS1EydTJBT0Z6dHIzYVhPbHRGQmY5MWJidE1VcX",
+        "deep_dive": "### Under the Hood: Hybrid Attention for Tiny Models\nEveryone talks about “hybrid attention” as if it’s a simple performance dial you turn on. In practice it is a carefully engineered compromise between local syntax, long-range state, and memory bandwidth. The core insight is to split attention into three stages—linear projection, a narrow quadratic window that still captures short-range dependencies, and another linear stage—while injecting a GRU-style recurrent state that compresses history. A"
+      },
+      "deep_dive_topic": "Hybrid Attention for Tiny Models"
     }
   ]
 }

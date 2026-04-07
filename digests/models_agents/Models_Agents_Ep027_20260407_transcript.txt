@@ -1,0 +1,247 @@
+Hey, everyone, welcome to Models and Agents episode 27.
+It's April 7th, 2026.
+You're daily briefing on the AI models and agents
+that are changing everything.
+And no, not those kinds of models and agents.
+Let's get into it.
+Gemma 4 delivers massive gains across European languages
+while a 25.6 million rust model achieves
+50 times faster inference via hybrid attention.
+This week, the AI world is showing us
+three different ways to get better results.
+Pure scaling is still powerful, but clever architecture
+can deliver ridiculous speedups at the edge.
+And agentic workflows are collapsing
+entire traditional pipelines into simple tool using loops.
+There is real measurable progress on all three fronts,
+which makes this an especially fun week to dig in.
+The top story comes from an independent researcher
+who built a brand new 25.6 million parameter language model
+trained entirely on rust code.
+What makes it interesting is not just the size,
+but how it was built from scratch
+to test a very specific idea.
+The author forked PyTorch and Triton
+to implement a hybrid attention mechanism.
+It combines local window detention
+with a GRU-like recurrent state mixed together
+by a learned gate.
+They also replaced standard attention
+with a linear quadratic linear pattern.
+The results on inference speed are dramatic.
+On an RTX 4060T, the model jumped from 5.6 tokens
+per second to 286 tokens per second.
+That is a 50 times speedup.
+It achieves this by keeping only a recent window
+in the KV cache while the recurrent state
+lives in tiny, fixed size registers.
+Expanding the training data from 31 megabytes
+to 173 megabytes of rust crates delivered
+much larger reductions in validation loss
+than the architectural tricks alone.
+Final perplexity landed at 2.15.
+The model generates plausible syntax,
+but still shows weak semantic consistency
+and some repetition.
+The clearest takeaway is that at these tiny scales,
+high-quality data usually beats clever architecture.
+Yet the hybrid mechanism itself
+is a compelling inference optimization
+worth testing on your own edge workloads.
+Now let's talk about Gemma 4.
+Google's latest model, especially the 31 billion parameter
+version, has climbed into the top three or better
+on nearly every major European language leaderboard
+according to Euro-Eval.
+It ranks third on Dutch, second on Danish,
+third on English, first on Finnish, second on French,
+fifth on German, second on Italian, and third on Swedish.
+These are huge gains for a model of its size,
+often beating much larger models.
+Community members are now wondering whether real-world usage
+matches the impressive benchmark numbers,
+especially for non-English coding, legal,
+or creative tasks.
+Early feedback suggests the multilingual improvements
+are noticeable even in the smaller variants.
+That makes Gemma 4 an attractive drop-in replacement
+for Claude or GPT-40 class models
+when token cost or latency matters to you.
+One developer is already prototyping a clever setup
+using Gemma 4 as a local preprocessor for Claude code.
+They built a bun-based proxy that sits
+in front of the Claude API.
+Gemma 4E2B running through lama.cpp translates
+Korean to English, prunes irrelevant context,
+and optionally performs initial reasoning
+before the expensive call.
+The proxy caches results in SQLite using WAL mode.
+Intel Mac users are particularly interested
+in real tokens per second numbers for lama.cpp
+on non-Apple Silicon hardware.
+The open question is whether pre-supplying
+that reasoning actually reduces the paid model's token usage
+or whether Claude simply re-does the work internally.
+On the agent side, there is growing excitement
+around using coding agents as general purpose agents.
+One Reddit user shared how they took a pie coding agent SDK
+with red, right, and bash tools
+and used it to handle document knowledge bases.
+They performed structured extraction
+from over 100 PDFs and ran database benchmarking
+all without any vector database.
+Traditional pipelines collapse into agent loops.
+Retrieval augmented generation becomes red index,
+choose files, open them.
+ETL becomes write script, run it, inspect output,
+retry if needed.
+The pattern has already scaled to roughly 600 documents.
+The main uncertainties are what breaks first
+at larger scale, cost, latency, reliability,
+or context management.
+The author open sourced the code
+so others can inspect and build on it.
+Another fascinating project is VisionClaw.
+It turns Metareban smart glasses
+into an always on egocentric agent.
+The system continuously perceives the world
+and lets users initiate speech-driven tasks.
+You can add objects to an Amazon cart,
+generate notes from documents, create calendar events
+from posters or control IoT devices.
+A controlled lab study with 12 participants
+in a longitudinal deployment with five users
+showed faster task completion
+and reduced interaction overhead.
+The comparison was against both non-agentic
+and non-always on baselines.
+Interaction patterns shifted toward opportunistic initiation
+and delegation rather than manual control.
+We are also seeing more specialized agent work,
+a hackathon project created VUHA,
+an AI site reliability engineering agent built on GLM 5.1.
+It functions as a triple cloud recovery orchestrator
+covering AWS, Azure, and GCP.
+The agent uses a fast API control plane
+and an evolutionary SU light memory
+that learns from every human approved failover.
+It gathers context, proposes fixes in JSON format,
+and only acts after human approval.
+A reflection phase writes incident learnings
+back into memory so future diagnoses improve.
+There is even a live demo where you can hard kill nodes
+and watch the system react in real time.
+On the practical and community side,
+there is new guidance about using minimal container images
+to fortify AI agent security.
+Drastically shrinking container images
+reduces the attack surface for deployed agents.
+You get fewer dependencies, smaller software bill of materials
+and faster cold starts.
+These are practical wins for both security
+and operational efficiency when running autonomous agents
+at scale.
+On a more serious note, security researchers
+identified critical remote code execution vulnerabilities
+in publicly deployed flow eyes instances.
+The issue carries a CVSS score of 10.0
+and is under active exploitation in the wild.
+More than 12,000 instances are currently exposed.
+Teams running flow eyes or similar low code agent builders
+should immediately isolate internet facing instances,
+apply available patches and follow responsible disclosure
+practices.
+This incident underscores the operational security
+debt that comes with rapidly shipping agent tooling.
+OK, let's pop the hood on this hybrid attention approach
+because it is more subtle than most people realize.
+Everyone talks about hybrid attention
+as if it is a simple performance dial you turn on.
+In practice, it is a carefully engineered compromise
+between local syntax, long range state, and memory bandwidth.
+The core insight is to split attention into three stages,
+a linear projection, a narrow quadratic window
+that still captures short-range dependencies
+and another linear stage.
+At the same time, they inject a GRU-style recurrent state
+that compresses history.
+A learned gate then blends the local and recurrent path
+so the model can decide token by token
+whether syntax or distant context matters more.
+By keeping only the recent window in the KV cache
+while the recurrent state lives in tiny fixed size registers,
+they get the 50 times speed up.
+The quadratic middle layer never sees the full context.
+The quality cost trade-off is revealing.
+Perplexity barely moves yet semantic coherence still lags
+because the recurrent compression is lossy.
+Above roughly 30 million parameters,
+the architectural gains shrinks rapidly
+and data scale reasserts dominance.
+The gacha that bites most teams is assuming
+the hybrid mechanism will magically fix repetition.
+It reduces latency dramatically
+but does not replace the need for high quality,
+diverse training data, and proper temperature scheduling.
+So when should you actually reach for this
+versus the alternative?
+Use hybrid attention when you are latency bound
+on edge hardware and your context is mostly local
+such as code, chat, or control loops.
+For deep reasoning or long document synthesis,
+classic transformer with efficient attention
+like flash attention to or MLA remains the safer default.
+If you have not tried the open sourced coding agent SDK
+from the local LLAMA post, this week is a great time.
+Replace one manual ETL or retrieval augmented generation pipeline
+with a red-right bash agent loop
+and see how far you get before context or cost becomes
+the bottleneck.
+Download Gemma 4, either the 9 billion or 31 billion version
+via hugging face.
+Run it on the European languages you actually use
+in Compare Korean or French token efficiency
+versus Claude 3.5 or 4 to quantify potential API savings.
+Test the hybrid attention 25.6 million parameter rust model
+or replicate the linear quadratic linear pattern
+in your own small decoder on a local 406 OTI or laptop GPU.
+Measure real-world tokens per second
+versus a standard transformer of similar size.
+Deploy a vision-cloth style egocentric prompting setup
+on your own Rayban glasses or any always on camera feed.
+Try opportunistic commands like add this to cart
+or summarize this poster and notice
+how delegation changes your interaction habits.
+And if you run flow-ice or any low-code agent builder,
+audit your internet-exposed instances today
+and consider moving to minimal container images
+or air-gapped setups.
+Security debt compounds fast once agents can call tools.
+On the horizon, keep an eye on continued community exploration
+of memory topologies in lifelong LLM multi-agent systems.
+More agentic federated learning papers and prototypes
+are likely following the agentic FL paradigm shift.
+A 2A agentization benchmarks and tooling
+should see rapid iteration now that the formal framework
+is public and watch for production deployments
+of cognitive fabric nodes middleware,
+which are already showing more than 10% gains
+on hotpot QA and Musikui.
+Before we go, tomorrow we will likely have more details
+on the growing momentum behind agentic memory systems
+and how they are starting to move from research
+into early production experiments.
+That's models and agents for today.
+If you found this useful, share it with someone
+who's trying to keep up with all these changes
+and subscribe so you don't miss tomorrow's update.
+The AI world moves fast will help you keep up.
+See you tomorrow.
+This podcast is curated by Patrick,
+but generated using AI voice synthesis of my voice
+using 11 labs.
+The primary reason to do this is I unfortunately don't have
+the time to be consistent with generating all the content
+and wanted to focus on creating consistent
+and regular episodes for all the themes that I enjoy
+and I hope others do as well.
