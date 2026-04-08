@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -927,6 +1029,55 @@
             <!-- Sources -->
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Privyet! That means hello in Russian! Welcome to Privyet Ruskiy, episode one, for March fourteen, twenty twenty-six. I'm Olya, and today we're going to learn some really fun Russian words about winter sports. Whether you're five or fifty five, by the end of this episode, you'll know ten new Russian words. Ready? Poyekhali! That means, let's go!
+
+Okay, everyone. Let's start with our word of the day. This is a perfect one for winter sports, because without it, there would be no skiing or snowy adventures. The Russian word is sneg. Let me say it slowly: sneg. Now, repeat after me. Sneg. Pause for a moment, and say it with me. Good! Sneg means snow in English. It sounds a bit like sneak, but it's the white stuff that sneaks up on you in winter! That's a fun memory hook to remember it. Now, let's use it in a simple sentence. Sneg padayet na gory. That means, snow is falling on the mountains. Listen again: sneg padayet na gory. Can you say that? Sneg padayet na gory. Great job! If you got that, you're already imagining a snowy Russian landscape.
+
+Now, let's build our vocabulary. We'll learn more words connected to winter sports. I'll group them together, starting with simple ones, and we'll build up. Remember, we'll say each word slowly, with a repeat after me moment. First, since we have snow, let's learn about something you use on it. The word is lyzhi. Slowly: lyzhi. Repeat after me: lyzhi. Now at normal speed: lyzhi. That means skis. It sounds like lazy, but skiing is anything but lazy, it's active fun! Try this sentence: Ya katayus na lyzhakh. That means, I am skiing. Repeat: ya katayus na lyzhakh.
+
+Next, let's talk about winning in sports. The word is pobeda. Say it slowly: pobeda. Repeat after me: pobeda. Good! Pobeda means victory. It sounds like po' beda, but no beda, which means trouble, just winning! Here's a fun sentence: Eto bolshaya pobeda! That means, this is a big victory!
+
+Now that you know victory, let's learn about the prize. Zoloto. Slowly: zoloto. Repeat after me: zoloto. Zoloto means gold, like a gold medal. It sounds like zloty, the Polish currency, but in sports, it's the shiny prize! Sentence: Ona vyigrala zoloto. That means, she won gold.
+
+Connected to that is medal'. Slowly: medal'. Repeat after me: medal'. Medal' means medal. It's almost like medal in English, just add a soft sound at the end! Example: Medal' visit na sheye. That means, the medal hangs on the neck.
+
+Let's add some people words. Sportsmen. Slowly: sportsmen. Repeat after me: sportsmen. Sportsmen means athlete, for a male. Like sportsman in English, straightforward for sports fans! Sentence: Sportsmen bezhit bystro. That means, the athlete runs fast.
+
+And for a female athlete? Sportsmenka. Slowly: sportsmenka. Repeat after me: sportsmenka. Sportsmenka means female athlete. Just add ka to sportsmen, like adding a kick of energy! Example: Sportsmenka vyigrala medal'. That means, the female athlete won a medal.
+
+Now, a big event: paralimpiada. Slowly: paralimpiada. Repeat after me: paralimpiada. Paralimpiada means Paralympics. Similar to Paralympics in English, with ada like a fun adventure! Sentence: Paralimpiada prokhodit zimoy. That means, the Paralympics take place in winter.
+
+One more fun word for winter dangers: lavina. Slowly: lavina. Repeat after me: lavina. Lavina means avalanche. Sounds like lava, but cold and snowy, not hot! Example: Lavina opasna v gorakh. That means, an avalanche is dangerous in the mountains.
+
+Finally, the season itself: zima. Slowly: zima. Repeat after me: zima. Zima means winter. Like Zima, an old drink, but it's the season for snowy adventures! Sentence: Zima kholodnaya v Rossii. That means, winter is cold in Russia.
+
+Wow, you just learned so many words! Let's move to our grammar bite. Today, we'll talk about something simple: Russian nouns have genders, like masculine, feminine, or neuter. It's like how some animals are boys or girls, and it helps words around them match, just like team uniforms. In English, snow is just snow, no gender. But in Russian, it makes sentences agree nicely.
+
+For example, sneg, which means snow, is masculine. It often ends in a consonant. So we say belyy sneg, meaning white snow. The word belyy changes to match.
+
+Medal', meaning medal, is feminine. It ends in a soft sound. So, zolotaya medal', meaning golden medal. See how zolotaya adjusts?
+
+And zoloto, meaning gold, is neuter. It ends in o. So, nastoyashchee zoloto, meaning real gold. Now you can say useful phrases like belaya zima, white winter, because zima is feminine. Isn't that cool? It helps your Russian sound natural.
+
+Time for culture corner. In Russia, winter sports like skiing and biathlon are hugely popular, especially during events like the Winter Paralympics. Athletes like Voronchikhina inspire national pride with their victories. Russians often celebrate with family gatherings and toasts. This reflects a culture that values perseverance in harsh winters. It ties into the saying Russkaya zima, which means Russian winter, symbolizing strength and resilience. Next time you see snow, think of that!
+
+Now, practice time! Let's do a quick review. Do you remember what sneg means? That's right, snow! What about pobeda? Victory, yes! For kids, play a snowy adventure game. Draw a picture of a winter sports scene and label it with today's words, like lyzhi on skis or lavina on a mountain. Say them out loud while drawing! For adults, imagine you're at the Paralympics. Practice congratulating an athlete by saying Pobeda! Zoloto! That means, victory! Gold! Say it to a friend or family member, then explain it in English. Try using one phrase three times today!
+
+Molodets! That means, well done! You just learned ten new Russian words today. Remember, every expert started as a beginner. Practice saying today's words out loud, even just once, and you'll be amazed how fast you learn. See you next time! Poka! That's Russian for, bye!
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -934,6 +1085,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/privet_russian/ep001.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Привет, Русский! in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Привет, Русский!">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -948,6 +1115,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1014,6 +1183,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1045,9 +1215,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>

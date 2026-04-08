@@ -9,7 +9,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 30 Mar 2026 05:53:21 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 Apr 2026 05:44:36 +0000</lastBuildDate>
     <itunes:author>Nerra Network</itunes:author>
     <itunes:category text="Education" />
     <itunes:image href="https://nerranetwork.com/assets/covers/privet-russian.jpg" />
@@ -446,7 +446,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Привет, Русский! - Episode 8 - March 30, 2026</title>
-      <link>https://audio.nerranetwork.com/privet_russian/PR_Ep008_20260330.mp3</link>
       <description>**Привет, Русский! — Episode Plan**  
 **Date:** March 30, 2026  
 **Theme:** Art (Искусство)
@@ -483,6 +482,46 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>8</itunes:episode>
       <itunes:title>Привет, Русский! - Episode 8 - March 30, 2026</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/privet_russian/chapters_ep008.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/privet_russian/PR_Ep008_20260330_transcript.json" type="application/json" /></item>
+    </item>
+    <item>
+      <title>Привет, Русский! - Episode 9 - April 08, 2026</title>
+      <link>https://audio.nerranetwork.com/privet_russian/PR_Ep009_20260408.mp3</link>
+      <description>**Привет, Русский! — Episode Plan**  
+**Date:** April 08, 2026  
+**Theme:** Space (Космос)
+
+**Vocabulary List (10 words/phrases):**
+
+- **Russian (Cyrillic):** космос  
+  **Transliteration:** KOS-mos  
+  **English:** space (the universe)  
+  **Example sentence:** Я люблю смотреть на космос.  
+  **Example translation:** I love looking at space. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">pr-ep009-20260408-054436</guid>
+      <enclosure url="https://audio.nerranetwork.com/privet_russian/PR_Ep009_20260408.mp3" length="15066636" type="audio/mpeg" />
+      <pubDate>Wed, 08 Apr 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/privet-russian.jpg" />
+      <itunes:duration>10:27</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**Привет, Русский! — Episode Plan**  
+**Date:** April 08, 2026  
+**Theme:** Space (Космос)
+
+**Vocabulary List (10 words/phrases):**
+
+- **Russian (Cyrillic):** космос  
+  **Transliteration:** KOS-mos  
+  **English:** space (the universe)  
+  **Example sentence:** Я люблю смотреть на космос.  
+  **Example translation:** I love looking at space. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>9</itunes:episode>
+      <itunes:title>Привет, Русский! - Episode 9 - April 08, 2026</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/privet_russian/chapters_ep009.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/privet_russian/PR_Ep009_20260408_transcript.json" type="application/json" /></item>
   <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked></channel>
 </rss>

@@ -33,6 +33,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
+    <!-- Analytics (uncomment when ready) -->
+    
+
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
 
@@ -431,6 +434,101 @@
             flex-shrink: 0;
         }
 
+        /* Related posts */
+        .blog-related {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-related h2 {
+            border-left: none;
+            padding-left: 0;
+            font-size: 1.2rem;
+            margin-bottom: var(--sp-4);
+        }
+        .blog-related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .blog-related-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+            padding: var(--sp-5);
+            padding-left: calc(var(--sp-5) + 4px);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-left: 4px solid var(--card-show-color, var(--nn-purple));
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all var(--duration) var(--ease);
+        }
+        .blog-related-card:hover {
+            border-color: var(--card-show-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
+        }
+        .blog-related-show {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .blog-related-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .blog-related-card p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Transcript */
+        .blog-transcript {
+            margin-top: var(--sp-8);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+        }
+        .blog-transcript details summary {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            padding: var(--sp-3) 0;
+            list-style: none;
+        }
+        .blog-transcript details summary::-webkit-details-marker { display: none; }
+        .blog-transcript details summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--nn-text-muted);
+        }
+        .blog-transcript details[open] summary::after { content: '\2212'; }
+        .blog-transcript .transcript-content {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--nn-text-muted);
+            padding: var(--sp-4) 0;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
         /* Episode navigation */
         .blog-ep-nav {
             display: flex;
@@ -525,7 +623,7 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav class="nn-nav">
+    <nav class="nn-nav" aria-label="Main navigation">
         <div class="nn-nav-inner">
             <a href="../../index.html" class="nn-nav-logo">
                 <img src="../../assets/nerra-logo-icon.svg" alt="Nerra Network" width="36" height="36">
@@ -655,6 +753,8 @@
                     </div>
                 </li>
                 
+                <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
             </ul>
@@ -666,6 +766,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="nn-mobile-menu">
         
+        <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
         <div class="nn-mobile-shows">
@@ -951,6 +1053,153 @@
             <!-- Sources -->
             
 
+            <!-- Transcript -->
+            
+            <section class="blog-transcript">
+                <details>
+                    <summary>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                        Full Episode Transcript
+                    </summary>
+                    <div class="transcript-content">Olya: Privyet! That means hello in Russian! Welcome back to Привет, Русский!, episode three. Today is March twentieth, twenty twenty-six. I’m your host Olya, and I’m so happy you’re here with me.
+
+Whether you’re a curious kid who loves rockets or an adult who has always dreamed of understanding a little Russian, this episode is going to feel like a fun adventure.
+
+Today we are blasting off into space! In Russian we say космос.
+
+Listen carefully. Космос. Kos-mos. That means space, the universe, everything out there beyond our planet.
+
+It sounds almost exactly like the English word “cosmos.” What a perfect memory hook! When you hear “cosmos,” just think of the giant, beautiful universe.
+
+Repeat after me slowly: Космос… Kos-mos.
+
+Now say it at normal speed: Космос.
+
+Great job! You just said your very first space word in Russian. Feel proud — you’re already on your way!
+
+Now let’s learn more words about space. We’ll start with the most exciting one — ракета.
+
+Ракета. Ra-kye-ta. That means rocket. You know, those powerful machines that shoot up into the sky with fire and smoke.
+
+Repeat after me slowly: Ракета… Ra-kye-ta.
+
+Now at normal speed: Ракета.
+
+Wonderful! Next, we have Луна.
+
+Луна. Loo-nah. That means the Moon — our beautiful silvery neighbor in the night sky.
+
+Repeat after me: Луна… Loo-nah.
+
+Again: Луна.
+
+Now let’s add звезда.
+
+Звезда. Zvez-dah. That means star. Those tiny sparkling lights you see on a clear night.
+
+Repeat after me: Звезда… Zvez-dah.
+
+Good! Звезда.
+
+You already know космос, ракета, Луна and звезда. Let’s add one more very important word — Земля.
+
+Земля. Zem-lya. That means Earth, our own blue planet where we all live.
+
+Repeat after me: Земля… Zem-lya.
+
+Excellent. Земля.
+
+The next word is спутник.
+
+Спутник. Spoot-neek. That means satellite. These are the machines we send up to orbit the Earth and help us with communication, weather, and science.
+
+Repeat after me: Спутник… Spoot-neek.
+
+Спутник.
+
+Did you know the very first satellite in the whole world was Russian? It was called Sputnik. Because of that, the whole planet learned this Russian word! That’s why even in English we still say “Sputnik.”
+
+Now let’s meet the people who make all of this happen. The word is учёный.
+
+Учёный. U-chyo-niy. That means scientist. The smart, curious people who study space and build rockets.
+
+Repeat after me: Учёный… U-chyo-niy.
+
+Учёный.
+
+And finally, one of the most exciting moments — запуск.
+
+Запуск. Za-poosk. That means launch — when the rocket blasts off from the ground into space.
+
+Repeat after me: Запуск… Za-poosk.
+
+Запуск.
+
+You just learned eight new space words! Космос, ракета, Луна, звезда, Земля, спутник, учёный, and запуск. That’s amazing. You’re doing so well!
+
+Now let’s look at a little bit of grammar — but don’t worry, we’ll keep it super simple and friendly. In Russian every noun has a gender. There are three genders: masculine, feminine, and neuter.
+
+Most nouns that end with a consonant are masculine. So космос, запуск and спутник are masculine.
+
+Most nouns that end with а or я are feminine. Ракета, Луна, and Земля are feminine.
+
+Neuter nouns often end with о or е. For example, the word поле (field) is neuter.
+
+In English we don’t change words for gender, but in Russian we do. That’s why we say большая ракета (big rocket — feminine) but большой спутник (big satellite — masculine).
+
+Listen carefully:
+
+Большая ракета. Bol-shaya ra-kye-ta. Big rocket.
+
+Большой спутник. Bol-shoy spoot-neek. Big satellite.
+
+You don’t need to memorize all the rules today. Just start noticing the pattern. Every time you hear “-aya” or “-oy” at the beginning of an adjective, it’s agreeing with the gender of the noun. You’re already learning like a pro!
+
+Now it’s time for our Cultural Corner. Russians are very proud of their space history, and for good reason.
+
+The first human being in space was the Russian cosmonaut Yuri Gagarin. On April twelfth, nineteen sixty-one, he climbed into a small capsule on top of a rocket. When the engines roared and the rocket took off, he famously said the word we love so much — Поехали! That means “Let’s go!” or “Here we go!”
+
+Even today, many Russian children still dream of becoming космонавты, which means cosmonauts. They read books about space, watch videos of launches, and imagine floating in zero gravity. Space is a big part of Russian culture and identity.
+
+Let’s do some practice together. Do you remember what ракета means? Yes — rocket! Say it with me: Ракета.
+
+What about Луна? It means the Moon. Луна.
+
+Now try to say this full sentence slowly with me:
+
+Учёные запускают ракету в космос.
+
+That means “Scientists are launching a rocket into space.”
+
+Let’s say it together: Учёные запускают ракету в космос.
+
+One more time, a little faster: Учёные запускают ракету в космос.
+
+Wonderful! You just said a real Russian sentence about space. If you understood that, you’re already reading and speaking Russian!
+
+For the kids listening: grab some paper and crayons. Draw a big, colorful picture of a rocket flying toward the Moon. In the sky add some stars and our planet Earth far below. Then label everything with the Russian words we learned today: ракета, Луна, Земля, звезда, космос. Point to each picture and say the word out loud. Your parents will be so impressed!
+
+Now here’s something really cool about one of today’s words. Want to know a secret about космос?
+
+The Russian word космос and the English word “cosmos” are actually the same word! They both come from an ancient Greek word that meant “order,” “beauty,” and “the universe.” The Greeks believed the universe was perfectly organized and beautiful.
+
+This word traveled through Latin into many languages. It came into Russian in the eighteenth and nineteenth centuries. The famous Russian scientist Mikhail Lomonosov helped bring many scientific words from Greek and Latin into Russian.
+
+But here’s the funniest part: the English word “cosmetic” comes from exactly the same Greek root! The idea was that putting on makeup creates order and beauty on your face — just like the orderly, beautiful universe.
+
+So next time you hear the words “cosmos” or even “cosmetic,” remember they are cousins with the Russian word космос. That connection is your secret shortcut to remembering it forever.
+
+Molodets! That means “Well done!” or “You’re awesome!”
+
+Remember, every expert started as a beginner. Even Yuri Gagarin had to learn everything step by step. So practice saying today’s words out loud — even just once a day — and you’ll be amazed how fast you learn.
+
+Thank you for joining me today. I’m so proud of you! See you next time. Poka! That’s Russian for bye!
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.</div>
+                </details>
+            </section>
+            
+
             <!-- Share Buttons -->
             <div class="share-buttons">
                 <span>Share:</span>
@@ -958,6 +1207,22 @@
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://nerranetwork.com/blog/privet_russian/ep003.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in LinkedIn</a>
                 <button onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='\u2713 Copied'}.bind(this))" aria-label="Copy link">&#128279; Copy link</button>
             </div>
+
+            <!-- Subscribe CTA -->
+            
+            <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
+                <h3>Enjoy this episode? Get Привет, Русский! in your inbox</h3>
+                <p>New episode alerts — no spam, unsubscribe anytime.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow">
+                    <input type="hidden" name="tag" value="Привет, Русский!">
+                    <input type="hidden" value="1" name="embed">
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            
 
             <!-- Episode Navigation -->
             
@@ -975,6 +1240,8 @@
                 </a>
                 
             </nav>
+            
+            <!-- Cross-show Recommendations -->
             
         </article>
     </div>
@@ -1041,6 +1308,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
                     
@@ -1072,9 +1340,44 @@
                     <a href="https://x.com/planetterrian" target="_blank" rel="noopener">@planetterrian</a>
                 </div>
             </div>
+            <div class="nn-footer-col">
+                <h4>Legal</h4>
+                <a href="../../privacy-policy.html">Privacy Policy</a>
+                <a href="../../terms-of-service.html">Terms of Service</a>
+                <a href="../../ai-disclosure.html">AI Disclosure</a>
+            </div>
+            <!-- Newsletter Subscribe -->
+            <div class="nn-footer-subscribe">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/nerranetwork" method="post" target="popupwindow" class="nn-subscribe-form">
+                    <h4>Get Show Updates</h4>
+                    <p>Pick the shows you want in your inbox:</p>
+                    <div class="nn-subscribe-tags">
+                        <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                        <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                        <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                        <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                        <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                        <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                        <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    </div>
+                    <div class="nn-subscribe-row">
+                        <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
             <div class="nn-footer-bottom">
                 <span>&copy; 2026 Nerra Network. All shows independently produced.</span>
                 <a href="../../index.html">nerranetwork.com</a>
+            </div>
+            <div class="nn-footer-legal">
+                <p class="ai-notice">Nerra Network uses AI tools in content production. <a href="../../ai-disclosure.html">Learn more</a></p>
+                <div>
+                    <a href="../../privacy-policy.html">Privacy</a> &middot;
+                    <a href="../../terms-of-service.html">Terms</a> &middot;
+                    <a href="../../ai-disclosure.html">AI Disclosure</a>
+                </div>
             </div>
         </div>
     </footer>
