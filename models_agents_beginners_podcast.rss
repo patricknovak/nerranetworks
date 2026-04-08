@@ -9,7 +9,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 06 Apr 2026 08:45:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 Apr 2026 08:39:07 +0000</lastBuildDate>
     <itunes:author>Patrick</itunes:author>
     <itunes:category text="Technology" />
     <itunes:image href="https://nerranetwork.com/assets/covers/models-agents-beginners.jpg" />
@@ -536,7 +536,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Ep 16: AI can now get its own email, phone number, and even a wallet — the agent stack is here.</title>
-      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep016_20260406.mp3</link>
       <description>**# Models &amp; Agents for Beginners**  
 **Date:** April 06, 2026
 
@@ -563,6 +562,36 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>16</itunes:episode>
       <itunes:title>Ep 16: AI can now get its own email, phone number, and even a wallet — the agent stack is here.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep016.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/models_agents_beginners/MAB_Ep016_20260406_transcript.json" type="application/json" /></item>
+    </item>
+    <item>
+      <title>Ep 17: Google just dropped an AI that can dictate your essays perfectly — even with no internet. Your phone just got smarter offline.</title>
+      <link>https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep017_20260408.mp3</link>
+      <description>**# Models &amp; Agents for Beginners**  
+**Date:** April 08, 2026
+
+**HOOK:** Google just dropped an AI that can dictate your essays perfectly — even with no internet. Your phone just got smarter offline.
+
+**What's Cool Today:** Google quietly released a brand-new offline dictation app that runs on its Gemma AI models, meaning it can turn your spoken words into text without needing Wi-Fi or cell service. This is huge for students, creators, or anyone who wants privacy and speed. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">mab-ep017-20260408-083907</guid>
+      <enclosure url="https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep017_20260408.mp3" length="11964543" type="audio/mpeg" />
+      <pubDate>Wed, 08 Apr 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents-beginners.jpg" />
+      <itunes:duration>08:18</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**# Models &amp; Agents for Beginners**  
+**Date:** April 08, 2026
+
+**HOOK:** Google just dropped an AI that can dictate your essays perfectly — even with no internet. Your phone just got smarter offline.
+
+**What's Cool Today:** Google quietly released a brand-new offline dictation app that runs on its Gemma AI models, meaning it can turn your spoken words into text without needing Wi-Fi or cell service. This is huge for students, creators, or anyone who wants privacy and speed. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>17</itunes:episode>
+      <itunes:title>Ep 17: Google just dropped an AI that can dictate your essays perfectly — even with no internet. Your phone just got smarter offline.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep017.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/models_agents_beginners/MAB_Ep017_20260408_transcript.json" type="application/json" /></item>
   <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked></channel>
 </rss>
