@@ -1,0 +1,36 @@
+{
+  "show_slug": "tesla",
+  "episode_num": 431,
+  "total_duration_s": 161.19,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 52.32,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 55.22,
+      "success": true
+    },
+    {
+      "name": "generate_digest_slow_news",
+      "duration_s": 53.65,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 52,
+    "cross_episode_repeats": 10,
+    "slow_news_mode": true,
+    "slow_news_trigger": "stale_repeats",
+    "section_tts_fallback": false,
+    "section_tts_section_count": 3,
+    "tts_duration_s": 42.15,
+    "audio_mix_duration_s": 49.12,
+    "rss_update_duration_s": 0.03,
+    "x_post_duration_s": 0.22,
+    "digest_chars": 17266,
+    "audio_duration_s": 982.857143
+  }
+}
