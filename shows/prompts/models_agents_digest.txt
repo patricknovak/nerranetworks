@@ -67,6 +67,8 @@ The most significant AI development today. 4-6 sentences:
 - Sentence 5-6: What to watch — upcoming releases, expected developments, things to try
 Source: [EXACT URL FROM PRE-FETCHED — no modifications]
 
+**ONE-SECTION RULE:** The Top Story's URL must NOT reappear in Model Updates, Agent & Tool Developments, or Practical & Community. Each URL/story appears in EXACTLY ONE section. If the most significant development is an agent/tool, pick the NEXT-most-significant different item to lead Agent & Tool Developments — do not list the Top Story there as well.
+
 ━━━━━━━━━━━━━━━━━━━━
 ### Model Updates
 2-4 items tracking new model releases, updates, benchmarks, or capability changes. For each:
@@ -93,6 +95,8 @@ Source: [EXACT URL]
 An engineering teardown of ONE AI concept, architecture, or technique. This section uses YOUR OWN knowledge of ML systems, distributed computing, and AI engineering — not just today's articles — to reveal how something ACTUALLY works beneath the marketing.
 
 **TOPIC SELECTION:** Choose the technology where the gap between public perception and engineering reality is WIDEST. Prioritize: (1) techniques that sound like magic but have elegant engineering explanations, (2) concepts where the press release hides important tradeoffs, (3) architectural decisions that seem obvious but have counterintuitive reasons.
+
+**TOPIC DISTINCTNESS — MUST NOT be the same topic as today's Top Story.** If the Top Story is about compiler-backed agents, Under the Hood must pick a different technology (e.g., a retrieval technique, an inference optimisation, an architectural tradeoff). A listener should hear TWO separate technical stories, not the same story told twice with different framing. Reusing the Top Story's subject here is forbidden even if it is the most interesting topic of the day.
 
 **TOPIC FRESHNESS — MUST choose a DIFFERENT topic than recent episodes:**
 {recent_deep_dive_topics}
