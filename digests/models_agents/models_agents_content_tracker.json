@@ -1,6 +1,6 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-04-07",
+  "last_updated": "2026-04-09",
   "episodes": [
     {
       "date": "2026-03-27",
@@ -428,6 +428,72 @@
         "deep_dive": "### Under the Hood: Hybrid Attention for Tiny Models\nEveryone talks about “hybrid attention” as if it’s a simple performance dial you turn on. In practice it is a carefully engineered compromise between local syntax, long-range state, and memory bandwidth. The core insight is to split attention into three stages—linear projection, a narrow quadratic window that still captures short-range dependencies, and another linear stage—while injecting a GRU-style recurrent state that compresses history. A"
       },
       "deep_dive_topic": "Hybrid Attention for Tiny Models"
+    },
+    {
+      "date": "2026-04-09",
+      "headlines": [
+        "Compiler as a service for AI agents.",
+        "Sigmoid vs ReLU Activation Functions: The Inference Cost of Losing Geometric Context",
+        "A Coding Guide to Build Advanced Document Intelligence Pipelines with Google LangExtract, OpenAI Models, Structured Extraction, and Interactive Visualization",
+        "Alchemy launches AI-powered payment tools to enable autonomous agent transactions - CXO Digitalpulse",
+        "Why robust AI governance is key to building trust in agentic AI systems in FY2027 - IT Brief Australia",
+        "International treaty for pausing the development of more powerful AI models",
+        "[P] turboquant-pro autotune: One command finds the optimal compression for your vector database [R]",
+        "Visa AI Agent Platform Revolutionizes Autonomous Shopping with Intelligent Commerce Connect - Bitcoin World",
+        "Your Guide for Building Safe OpenClaw Agents: Deploying Secure, Tool-Driven Autonomous Software Operators - Intelligent Living",
+        "Meta unveils new AI model: Muse Spark - NBC Bay Area",
+        "AI Claims Researchers Are Building What Already Exists (Because They're Measuring The Wrong Layer)",
+        "Alternative to NotebookLM with no data limits",
+        "Logical Robots: Declarative Multi-Agent Programming in Logica",
+        "Event-Triggered Adaptive Consensus for Multi-Robot Task Allocation",
+        "Generating Local Shields for Decentralised Partially Observable Markov Decision Processes",
+        "AgentCity: Constitutional Governance for Autonomous Agent Economies via Separation of Power",
+        "Strategic Persuasion with Trait-Conditioned Multi-Agent Systems for Iterative Legal Argumentation",
+        "Designing for Accountable Agents: a Viewpoint",
+        "Intertemporal Demand Allocation for Inventory Control in Online Marketplaces",
+        "CODE-GEN: A Human-in-the-Loop RAG-Based Agentic AI System for Multiple-Choice Question Generation",
+        "MedRoute: RL-Based Dynamic Specialist Routing in Multi-Agent Medical Diagnosis",
+        "Emergent decentralized regulation in a purely synthetic society",
+        "The Art of Building Verifiers for Computer Use Agents",
+        "AgentOpt v0.1 Technical Report: Client-Side Optimization for LLM-Based Agent",
+        "Qualixar OS: A Universal Operating System for AI Agent Orchestration"
+      ],
+      "urls": [
+        "https://www.reddit.com/r/artificial/comments/1sgjb8n/compiler_as_a_service_for_ai_agents/",
+        "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPSmd5bHI5Mlg4REFENXBRV19QVXhyWHJHRmNoWV8zTDhHUE41dzVHc1F5enZJM1U4aXhJeGgzWEk3OVNRXzBQRVB3cVdmbjBncUM3dTc2ak9aZUlnQXQ1UTJBWW04Uk42ekc5TzdhODB6ckI4ZnBvWm80ZnUxMFR1bkVzdzlQZ1JBUWFJ0gGTAUFVX3lxTE9pei0xQ0RnZmhTWVJoeWhqMGkwQlpScmNiLTZDMGszTU1lak9SeTBablFyMk9hMFBsNWJsc3NQOTBkS2hCSHJ5dUVkUHJQSUUzd0pfemxySTRmeEtscDI1eTNxOW5CenBueXJLN195eXdEdE5NTHMtWDBQQnpBSlc0NjJuSDFBY1NxYVQ3em9uNW9BWQ?oc=5",
+        "https://www.marktechpost.com/2026/04/09/sigmoid-vs-relu-activation-functions-the-inference-cost-of-losing-geometric-context/",
+        "https://www.reddit.com/r/artificial/comments/1sgjb8n/compiler_as_a_service_for_ai_agents/",
+        "https://arxiv.org/abs/2604.06240",
+        "https://arxiv.org/abs/2604.06296",
+        "https://www.reddit.com/r/MachineLearning/comments/1sgh53u/p_turboquantpro_autotune_one_command_finds_the/",
+        "https://www.marktechpost.com/2026/04/08/a-coding-guide-to-build-advanced-document-intelligence-pipelines-with-google-langextract-openai-models-structured-extraction-and-interactive-visualization/",
+        "https://www.reddit.com/r/artificial/comments/1sgf2f1/alternative_to_notebooklm_with_no_data_limits/",
+        "https://news.google.com/rss/articles/CBMitAFBVV95cUxNanRucUlZQ2dQMEZqa19BNHRfY3Y0WUJDRVRNS0tYSGtkX3FKQWpLQXBpMl9pTllUYmFPQ0RUamFWaXdUdmYzUHRjY2NKZ0dndTdsTTN2V0J4LTNIRU0zemVTYzA5ZmpmNkNmM2pocDQwR3AwNnk5QjJzcjE4MU1wTmtHS1VNTmZ4dzB3ZmdJQzNreFZxejdXc05MTjM5Q0lyVnBaS1RlOEpkQXVLbm5NZnNfVHk?oc=5",
+        "https://news.google.com/rss/articles/CBMirwFBVV95cUxPZTdsT1dVUXJ3MlItaGVtWV9oTW5Zd0Z3ZzZ0UDZ6YU03YURsTkxTYlowcjJ0V0VBdnRrSGRSbUR5YXZfaEYwZWxSVVAzejQ5bTVfSUt4TUpyVFdVeS1tcGt0TW95clJ4OFQyMThEaTVyVGluSHlHTHhRUDh2Z1ZfTnpMOFpzVDdPeU1kLVpPTURjR3Q5YklVQmF5dktpMU1vY1BjNHNvZmFkdGJacnRB?oc=5",
+        "https://www.reddit.com/r/artificial/comments/1sghabu/international_treaty_for_pausing_the_development/",
+        "https://news.google.com/rss/articles/CBMibkFVX3lxTE13ckthWHlBVWhEcGY2MzdQaEJoa2pCTHg1VlBTMlFOdUZNU2pVempTbVBua0kyRHhVUjBnNlpuaHBoSW9XSnN4T2R5Y283Z0JEZDdEWEZlZDlOcnpQb0R5Z3Y1RVI1dG1ER0p4LUZR?oc=5",
+        "https://news.google.com/rss/articles/CBMieEFVX3lxTE15M3FSbGdIajl2Rm1aTklZbzJsaG5md0tGLXFtTEY4c1lza1Q2Rnk5b2V3bnZOSlZDUTVJd0U3Rjk2RVlKdUtFOTdLZmxkajN1bmhrYnJrdndVVEY1dEpSUkh1cFJ2YjRKZ0F3VUtjYl8ySnRTNUhpUw?oc=5",
+        "https://www.reddit.com/r/artificial/comments/1sgf7z8/ai_claims_researchers_are_building_what_already/",
+        "https://arxiv.org/abs/2604.06629",
+        "https://arxiv.org/abs/2604.06813",
+        "https://arxiv.org/abs/2604.06873",
+        "https://arxiv.org/abs/2604.07007",
+        "https://arxiv.org/abs/2604.07028",
+        "https://arxiv.org/abs/2604.07204",
+        "https://arxiv.org/abs/2604.07312",
+        "https://arxiv.org/abs/2604.03926",
+        "https://arxiv.org/abs/2604.06180",
+        "https://arxiv.org/abs/2604.06199",
+        "https://arxiv.org/abs/2604.06392"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**Meta unveils new AI model: Muse Spark — NBC Bay Area**  \nMeta released Muse Spark, its latest foundation model. While full technical details are still emerging, the announcement positions it as a significant addition to the current wave of multimodal and agent-capable models. Early coverage suggests it targets creative and generative tasks that could integrate well with agent workflows.  \nSource: https://news.google.com/rss/articles/CBMiiwFBVV95cUxPSmd5bHI5Mlg4REFENXBRV19QVXh",
+        "agent_developments": "### Agent & Tool Developments\n**Compiler as a service for AI agents — r/artificial**  \nDevelopers are increasingly wiring Roslyn-style compilers directly into agent loops, giving them semantic understanding of large codebases instead of brittle grep-style search. Real-world gains include accurate dependency graphs, live value tracing, and dead-code elimination that pure LLM reasoning misses. If you maintain large codebases or build coding agents, this pattern is worth testing immediately.  \nSour",
+        "practical_community": "### Practical & Community\n**turboquant-pro autotune: One command finds the optimal compression for your vector database — r/MachineLearning**  \nThe turboquant-pro team shipped a 10-second CLI that samples embeddings from PostgreSQL/pgvector, sweeps 12 PCA + TurboQuant configurations, and recommends the Pareto-optimal compression meeting your recall target. On a 194k BGE-M3 production corpus it delivered 20.9× compression at 0.991 cosine and 96% recall@10, shrinking 758 MB to 36 MB. Install with ",
+        "deep_dive": "### Under the Hood: Compiler as a Service for Agents\nEveryone talks about “giving agents code understanding” as if it’s just better prompting or more context. In practice, wiring a real compiler service (Roslyn-style) into the agent loop is a fundamental architectural shift that replaces fuzzy text similarity with precise semantic queries and symbolic execution.\n\nThe core insight is that grep and embedding retrieval operate on surface tokens, while a compiler builds and maintains an accurate gra"
+      },
+      "deep_dive_topic": "Compiler as a Service for Agents"
     }
   ]
 }
