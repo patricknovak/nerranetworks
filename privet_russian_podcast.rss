@@ -9,7 +9,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 08 Apr 2026 05:44:36 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 10 Apr 2026 06:11:15 +0000</lastBuildDate>
     <itunes:author>Nerra Network</itunes:author>
     <itunes:category text="Education" />
     <itunes:image href="https://nerranetwork.com/assets/covers/privet-russian.jpg" />
@@ -485,7 +485,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Привет, Русский! - Episode 9 - April 08, 2026</title>
-      <link>https://audio.nerranetwork.com/privet_russian/PR_Ep009_20260408.mp3</link>
       <description>**Привет, Русский! — Episode Plan**  
 **Date:** April 08, 2026  
 **Theme:** Space (Космос)
@@ -522,6 +521,46 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>9</itunes:episode>
       <itunes:title>Привет, Русский! - Episode 9 - April 08, 2026</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/privet_russian/chapters_ep009.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/privet_russian/PR_Ep009_20260408_transcript.json" type="application/json" /></item>
+    </item>
+    <item>
+      <title>Привет, Русский! - Episode 10 - April 10, 2026</title>
+      <link>https://audio.nerranetwork.com/privet_russian/PR_Ep010_20260410.mp3</link>
+      <description>**Привет, Русский! — Episode Plan**  
+**Date:** April 10, 2026  
+**Theme:** Spring &amp; Nature (Весна и природа)
+
+**Vocabulary List (10 words/phrases):**
+
+- **Russian (Cyrillic):** весна  
+  **Transliteration:** ves-ná  
+  **English:** spring  
+  **Example sentence:** Весна — моё любимое время года.  
+  **Example translation:** Spring is my favorite time of year. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">pr-ep010-20260410-061115</guid>
+      <enclosure url="https://audio.nerranetwork.com/privet_russian/PR_Ep010_20260410.mp3" length="14280455" type="audio/mpeg" />
+      <pubDate>Fri, 10 Apr 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/privet-russian.jpg" />
+      <itunes:duration>09:54</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**Привет, Русский! — Episode Plan**  
+**Date:** April 10, 2026  
+**Theme:** Spring &amp; Nature (Весна и природа)
+
+**Vocabulary List (10 words/phrases):**
+
+- **Russian (Cyrillic):** весна  
+  **Transliteration:** ves-ná  
+  **English:** spring  
+  **Example sentence:** Весна — моё любимое время года.  
+  **Example translation:** Spring is my favorite time of year. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>10</itunes:episode>
+      <itunes:title>Привет, Русский! - Episode 10 - April 10, 2026</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/privet_russian/chapters_ep010.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/privet_russian/PR_Ep010_20260410_transcript.json" type="application/json" /></item>
   <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked></channel>
 </rss>
