@@ -1,6 +1,6 @@
 {
   "show": "models_agents_beginners",
-  "last_updated": "2026-04-08",
+  "last_updated": "2026-04-10",
   "episodes": [
     {
       "date": "2026-03-27",
@@ -307,6 +307,61 @@
         "cool_stuff": "### Cool Stuff & Try This\n**Talk to Claude About Itself — Mind-Blowing Honesty Mode** — r/artificial  \nAnthropic let someone interview its own AI, Claude Opus 4.6, and asked it to be completely honest — no company spin, no sucking up, just straight talk about its own controversies and limitations. The result is one of the most interesting “AI talking about AI” conversations you’ll read.\n\nThis is cool because it shows how far these systems have come. Instead of the usual polite answers, Claude an",
         "quick_bits": "### Quick Bits\n**Anthropic’s New Project Glasswing**  \nAnthropic launched Project Glasswing with partners like Google, Microsoft, Apple and NVIDIA. They’re using a powerful new model called Claude Mythos Preview to hunt for security holes in software before bad actors can use AI to attack them. The model has already reportedly found vulnerabilities in every major operating system and web browser. It’s a cool example of using AI to defend against AI threats.\n\nSource: https://www.engadget.com/ai/a",
         "deep_dive": "### Explain Like I'm 14\n**Why AI sometimes says “that sounds like satire” when you tell it crazy real news**\n\nYou know how when you’re texting your friends and your phone suggests the next word? That’s basically what a large language model (an AI that predicts what words should come next) is doing — but on a massive scale. It has read billions of books, articles, and conversations during training, so it learns patterns of what usually happens in the world.\n\nNow imagine your phone’s autocomplete "
+      }
+    },
+    {
+      "date": "2026-04-10",
+      "headlines": [
+        "Why We Switched from Annual SaaS Plans to More Flexible Month-to-Month Billing (Including Vismore)",
+        "Completely free allowances to use on GPT-5.2 and GPT-Image-1 generation every month and you get unlimited chat with GPT-5 Nano just for creating an account",
+        "New framework for reading AI internal states — implications for alignment monitoring (open-access paper)",
+        "An End-to-End Coding Guide to NVIDIA KVPress for Long-Context LLM Inference, KV Cache Compression, and Memory-Efficient Generation",
+        "CropGPT?: Farmers now have their own AI chatbot - KWQC",
+        "Meta Superintelligence Lab Releases Muse Spark: A Multimodal Reasoning Model With Thought Compression and Parallel Agents",
+        "Can strangers in a discord server produce SOTA AI research? Let's find out. \\",
+        "Meta AI app climbs to No. 5 on the App Store after Muse Spark launch",
+        "Claude Cowork expands to all paid plans on macOS and Windows with new org controls",
+        "The 70-Person AI Image Startup Taking on Silicon Valley's Giants",
+        "Tesla may be working on a smaller and cheaper electric SUV",
+        "Visa rolls out AI agent shopping infrastructure",
+        "First man convicted under Take It Down Act kept making AI nudes after arrest",
+        "US firm's humanoid robot tracks emotions with AI, recalls past conversations",
+        "Google introduces AI-generated avatars to YouTube Shorts",
+        "OpenAI reportedly following Anthropic's lead in restricting access to powerful cybersecurity AI",
+        "New Stanford study reveals when teaming up AI agents is worth the compute",
+        "OpenAI 'pauses' its Stargate UK data center plan",
+        "Google makes it easy to deepfake yourself",
+        "Anthropic launches managed infrastructure for autonomous AI agents"
+      ],
+      "urls": [
+        "https://www.marktechpost.com/2026/04/09/meta-superintelligence-lab-releases-muse-spark-a-multimodal-reasoning-model-with-thought-compression-and-parallel-agents/",
+        "https://www.marktechpost.com/2026/04/09/meta-superintelligence-lab-releases-muse-spark-a-multimodal-reasoning-model-with-thought-compression-and-parallel-agents/",
+        "https://www.reddit.com/r/ChatGPT/comments/1shcpra/completely_free_allowances_to_use_on_gpt52_and/",
+        "https://www.engadget.com/social-media/google-introduces-ai-generated-avatars-to-youtube-shorts-140222368.html?src=rss",
+        "https://www.reddit.com/r/artificial/comments/1shfwvr/why_we_switched_from_annual_saas_plans_to_more/",
+        "https://news.google.com/rss/articles/CBMijwFBVV95cUxQZElMbDlFRG5oZWZNeGd3Tm5xSHJscXpubXV6TF9ScTc4T3BlbGxNVElob29RZVZnWWQzcDZac2d0bm5rdGhDREVySXRnUUZyYnpmUWhGTzF2bHEyVzM3R2dSRmExYnJTSms4RE5JTUJPSFYwdG1kY0JaaXhuOXhpR2FWNVkwSEtCZk5vQTBlWdIBowFBVV95cUxOSmtoaEZfa2plTnd6YWxZcml6N2h1aXZOUG12bDRRWHZ4UUFZU0VDSnFTbFNQNEFsN3puU2pmS1c0ZTQ3U1lsZ2gwWU9oNE5sUzBZRnM1RXVXVUtFQ3RZYkJGdmU2TEJ2T0Zoc0JrUjZTeVZEbVUtalVuSHN1bVhscENIZUNsbzlFZDR0N3RpZGRUUW1YYUpIdVJqczF3Z3BidWVz?oc=5",
+        "https://www.reddit.com/r/artificial/comments/1sha6in/new_framework_for_reading_ai_internal_states/",
+        "https://www.marktechpost.com/2026/04/09/an-end-to-end-coding-guide-to-nvidia-kvpress-for-long-context-llm-inference-kv-cache-compression-and-memory-efficient-generation/",
+        "https://www.reddit.com/r/artificial/comments/1sh1etn/can_strangers_in_a_discord_server_produce_sota_ai/",
+        "https://techcrunch.com/2026/04/09/meta-ai-app-climbs-to-no-5-on-the-app-store-after-muse-spark-launch/",
+        "https://the-decoder.com/claude-cowork-expands-to-all-paid-plans-on-macos-and-windows-with-new-org-controls/",
+        "https://www.wired.com/story/black-forest-labs-ai-image-generation/",
+        "https://www.engadget.com/transportation/evs/tesla-may-be-working-on-a-smaller-and-cheaper-electric-suv-175230630.html?src=rss",
+        "https://www.reddit.com/r/artificial/comments/1sgv6f4/visa_rolls_out_ai_agent_shopping_infrastructure/",
+        "https://arstechnica.com/tech-policy/2026/04/first-man-convicted-under-take-it-down-act-kept-making-ai-nudes-after-arrest/",
+        "https://www.reddit.com/r/artificial/comments/1sgs8ef/us_firms_humanoid_robot_tracks_emotions_with_ai/",
+        "https://the-decoder.com/openai-reportedly-following-anthropics-lead-in-restricting-access-to-powerful-cybersecurity-ai/",
+        "https://the-decoder.com/new-stanford-study-reveals-when-teaming-up-ai-agents-is-worth-the-compute/",
+        "https://www.engadget.com/ai/openai-pauses-its-stargate-uk-data-center-plan-115626978.html?src=rss",
+        "https://www.theverge.com/ai-artificial-intelligence/909104/youtube-shorts-make-ai-avatar",
+        "https://the-decoder.com/anthropic-launches-managed-infrastructure-for-autonomous-ai-agents/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "explain_like_14": "### Explain Like I'm 14\n**How “Multimodal” AI Actually Works**\n\nYou know how when you’re texting, your phone’s autocomplete guesses the next word based on what you’ve already typed? That’s a super simple version of how language models work — they predict what comes next.\n\nNow imagine instead of only seeing text, the AI gets trained on millions of pictures paired with their descriptions, videos with captions, and spoken words turned into text. It learns patterns that connect all these different “",
+        "cool_stuff": "### Cool Stuff & Try This\n**Free Monthly AI Messages Without Paying a Cent: asksary.com**  \nA developer built a platform that gives every new account roughly 70 messages per month on a strong model (called GPT-5.2 in the post), unlimited chats on a faster lighter model (GPT-5 Nano), and 25 free image generations every month using their image model. Everything resets automatically each month with no credit card or subscription required. They even added free text-to-speech that has no limits.\n\nThi",
+        "quick_bits": "### Quick Bits\n**Smart Monthly Billing for Fast-Changing AI Tools**  \nA Reddit user explained why they now avoid most annual SaaS plans and prefer true month-to-month billing with easy upgrades or downgrades. They highlight Vismore (an AI visibility tool) as one that gets it right with no-card trials and instant plan switching. The key question they now ask every company: “If I want to downgrade next month, what happens?”\n\nThis matters because AI tools improve or change direction so quickly that",
+        "deep_dive": "### Explain Like I'm 14\n**How “Multimodal” AI Actually Works**\n\nYou know how when you’re texting, your phone’s autocomplete guesses the next word based on what you’ve already typed? That’s a super simple version of how language models work — they predict what comes next.\n\nNow imagine instead of only seeing text, the AI gets trained on millions of pictures paired with their descriptions, videos with captions, and spoken words turned into text. It learns patterns that connect all these different “"
       }
     }
   ]
