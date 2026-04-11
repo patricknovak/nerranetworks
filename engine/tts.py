@@ -35,6 +35,77 @@ def _ffmpeg_escape(path: Path) -> str:
     return str(path.absolute()).replace("'", "'\\''")
 
 
+# ---------------------------------------------------------------------------
+# Pronunciation map + TTS text preparation
+# ---------------------------------------------------------------------------
+
+_PRONUNCIATION_MAP_PATH = Path(__file__).resolve().parent.parent / "shows" / "pronunciation_map.yaml"
+_PRONUNCIATION_CACHE: dict = {}
+
+
+def _load_pronunciation_map() -> dict:
+    """Load the pronunciation overrides from shows/pronunciation_map.yaml.
+
+    Cached after first load. Returns an empty dict if the file is missing
+    or malformed — an empty map is the expected default.
+    """
+    if _PRONUNCIATION_CACHE:
+        return _PRONUNCIATION_CACHE
+    try:
+        import yaml
+        if _PRONUNCIATION_MAP_PATH.exists():
+            data = yaml.safe_load(_PRONUNCIATION_MAP_PATH.read_text(encoding="utf-8")) or {}
+            corrections = data.get("corrections") or {}
+            if isinstance(corrections, dict):
+                _PRONUNCIATION_CACHE.update(corrections)
+    except Exception as exc:
+        logger.warning("Could not load pronunciation map: %s", exc)
+    return _PRONUNCIATION_CACHE
+
+
+def prepare_text_for_tts(text: str) -> str:
+    """Normalize text for optimal TTS pronunciation.
+
+    Applied ONLY to the text sent to the TTS engine — the digest, blog,
+    transcript, and social posts continue to use the standard written form.
+
+    Current steps:
+      1. Strip any residual production metadata that slipped past the
+         generator sanitizer (double safety net with P0-1 in generator.py).
+      2. Apply whole-word case-insensitive substitutions from
+         shows/pronunciation_map.yaml.  The map is empty by default and
+         only populated when a mispronunciation is confirmed on the
+         production voice and model.
+    """
+    if not text:
+        return text
+
+    # Safety net: strip any residual production-notes blocks or word-count
+    # metadata lines. This mirrors _strip_metadata_from_script in generator.py
+    # but operates on the TTS input copy, so even late-stage leaks never
+    # reach ElevenLabs.
+    text = re.sub(
+        r"\[PRODUCTION NOTES[^\]]*\][\s\S]*?\[END PRODUCTION NOTES\]",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    )
+    text = re.sub(
+        r"(?im)^\s*\(?\s*(word\s*count|total\s*words|character\s*count)\s*[:：].*$",
+        "",
+        text,
+    )
+
+    corrections = _load_pronunciation_map()
+    for written, spoken in corrections.items():
+        if not written or not spoken:
+            continue
+        pattern = r"\b" + re.escape(str(written)) + r"\b"
+        text = re.sub(pattern, str(spoken), text, flags=re.IGNORECASE)
+
+    return text.strip()
+
+
 def validate_elevenlabs_auth(api_key: str) -> None:
     """Fail fast with a clear message when the ElevenLabs key is rejected."""
     resp = requests.get(
@@ -362,6 +433,7 @@ def speak(
         timeout=timeout,
     )
 
+    text = prepare_text_for_tts(text)
     chunks = chunk_text(text, max_chars=max_chars)
 
     try:

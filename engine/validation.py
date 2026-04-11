@@ -16,10 +16,96 @@ Usage:
 
 import logging
 import re
+from collections import Counter
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from engine.utils import calculate_similarity
+
+
+# Common English phrases that naturally repeat in podcast scripts and
+# should never be flagged as repetition loops.
+_REPETITION_ALLOWLIST = {
+    # Articles / prepositions
+    "in the", "of the", "and the", "for the", "on the", "at the",
+    "to the", "is the", "is a", "this is", "it is", "that is",
+    "one of the", "some of the", "a lot of",
+    "going to", "want to", "have to", "need to",
+    "according to", "out of", "over the", "from the",
+    "in this", "with the", "by the", "that the", "as the",
+    # Host attribution (Patrick/host script lines)
+    "patrick the", "patrick this", "patrick it", "patrick a",
+    "patrick so", "patrick now", "patrick and", "patrick but",
+    # Podcast-common phrases
+    "this week", "last week", "this year", "last year",
+    "this morning", "right now", "let's talk",
+}
+
+
+def detect_phrase_repetition(
+    text: str,
+    *,
+    min_phrase_words: int = 3,
+    max_phrase_words: int = 6,
+    max_allowed_repeats: int = 3,
+) -> List[Dict[str, Any]]:
+    """Detect phrases repeated excessively in generated text.
+
+    Uses a sliding n-gram window (``min_phrase_words``..``max_phrase_words``)
+    and flags any n-gram whose occurrence count exceeds ``max_allowed_repeats``.
+    Common English phrases from ``_REPETITION_ALLOWLIST`` are filtered out so
+    they never trigger.
+
+    Returns a list of ``{phrase, count, severity}`` dicts sorted by count
+    descending.  Severity is ``"critical"`` for 6+ occurrences, ``"warning"``
+    for 4-5.  Returns an empty list when nothing exceeds the threshold.
+    """
+    if not text or not text.strip():
+        return []
+
+    # Tokenize: lowercase, strip punctuation, drop empties.
+    tokens = [
+        re.sub(r"[^\w']+", "", w).lower()
+        for w in text.split()
+    ]
+    tokens = [t for t in tokens if t]
+    if len(tokens) < min_phrase_words:
+        return []
+
+    # Aggregate n-gram counts across the requested window sizes.
+    ngram_counts: Counter = Counter()
+    for n in range(min_phrase_words, max_phrase_words + 1):
+        if len(tokens) < n:
+            break
+        for i in range(len(tokens) - n + 1):
+            phrase = " ".join(tokens[i : i + n])
+            ngram_counts[phrase] += 1
+
+    violations: List[Dict[str, Any]] = []
+    seen_phrases: set = set()
+    for phrase, count in ngram_counts.most_common():
+        if count <= max_allowed_repeats:
+            break  # ordered descending — nothing more to find
+        if phrase in _REPETITION_ALLOWLIST:
+            continue
+        # Skip phrases where all tokens are stopword-length (<=3 chars)
+        if all(len(t) <= 3 for t in phrase.split()):
+            continue
+        # Skip phrases contained within an already-reported longer phrase.
+        # This prevents a repeated 6-gram from also surfacing as its shorter
+        # substrings (same underlying repetition, reported once).
+        if any(phrase in longer for longer in seen_phrases):
+            continue
+        seen_phrases.add(phrase)
+        severity = "critical" if count >= 6 else "warning"
+        violations.append({
+            "phrase": phrase,
+            "count": count,
+            "severity": severity,
+        })
+
+    violations.sort(key=lambda v: v["count"], reverse=True)
+    return violations
 
 logger = logging.getLogger(__name__)
 

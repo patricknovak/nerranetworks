@@ -36,7 +36,7 @@ import subprocess
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 logging.basicConfig(
     level=logging.INFO,
@@ -921,6 +921,58 @@ def check_story_duplication(ep: EpisodeReview) -> None:
 # AI-powered review (optional, uses Grok)
 # ---------------------------------------------------------------------------
 
+# Known TTS phonetic artifacts — LLM-generated respellings intended as
+# pronunciation hints.  These are cosmetic issues in the transcript copy,
+# NOT factual errors in the audio (ElevenLabs pronounces the correct
+# spelling correctly even when the transcript uses a phonetic form).
+KNOWN_TTS_ARTIFACTS = {
+    "nassa": "NASA",
+    "nay-toe": "NATO",
+    "nay toe": "NATO",
+    "star-mer": "Starmer",
+    "star mer": "Starmer",
+    "chwen": "Qwen",
+    "chwen three": "Qwen 3",
+    "en-vidia": "Nvidia",
+    "open-ay-eye": "OpenAI",
+}
+
+
+def flag_tts_artifacts(transcript_text: str) -> List[Dict]:
+    """Identify likely TTS pronunciation artifacts in transcript text.
+
+    Returns a list of ``{type, found, correct_spelling, severity}`` dicts.
+    Reported at ``info`` severity so they surface in the review log without
+    inflating the factual-error / warning counts.
+    """
+    found: List[Dict] = []
+    if not transcript_text:
+        return found
+    lowered = transcript_text.lower()
+    for artifact, correct in KNOWN_TTS_ARTIFACTS.items():
+        if artifact in lowered:
+            found.append({
+                "type": "tts_artifact",
+                "found": artifact,
+                "correct_spelling": correct,
+                "severity": "info",
+            })
+    return found
+
+
+def check_tts_artifacts(ep: EpisodeReview) -> None:
+    """Report TTS phonetic artifacts as info-level issues on the episode."""
+    text = ep.tts_text or ep.digest_text or ""
+    artifacts = flag_tts_artifacts(text)
+    for art in artifacts:
+        ep.issues.append(Issue(
+            ep.show_slug, ep.episode_num, "info",
+            "TTS phonetic artifact",
+            f"transcript contains '{art['found']}' (likely phonetic spelling of '{art['correct_spelling']}') — "
+            f"cosmetic issue only, audio pronunciation is unaffected",
+        ))
+
+
 def ai_review_episode(ep: EpisodeReview) -> None:
     """Use Grok to review episode quality. Requires GROK_API_KEY."""
     api_key = (os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY") or "").strip()
@@ -952,6 +1004,17 @@ def ai_review_episode(ep: EpisodeReview) -> None:
         f"IMPORTANT CONTEXT: Today's date is {ep.date}. This is a valid, real date. "
         f"Do NOT flag the date itself as a factual error. These episodes are AI-generated "
         f"daily podcasts — the date and year are correct by definition.\n\n"
+        f"CURRENT-REALITY GROUNDING (as of 2026): use these as your reference point "
+        f"when judging factual accuracy. Do NOT flag any of the following as errors:\n"
+        f"- US President: Donald Trump (inaugurated January 2025 for his second term)\n"
+        f"- US Vice President: JD Vance\n"
+        f"- UK Prime Minister: Keir Starmer (Labour)\n"
+        f"- Canadian Prime Minister: check the episode content — leadership changed in 2025\n"
+        f"Focus factual checks on VERIFIABLE content claims: numerical figures, scientific "
+        f"facts, company/product details, dates of events, corporate announcements. Political "
+        f"figures in their actual current roles are not errors. If a claim simply contradicts "
+        f"your pre-2024 training data but is consistent with current 2026 reality, do NOT "
+        f"flag it.\n\n"
         f"{'NOTE: The text below is a REVIEW EXCERPT that ends with [END OF REVIEW EXCERPT]. The full episode is LONGER than what you see here. Do NOT flag the episode as incomplete or abruptly ending. ONLY flag INCOMPLETE if the content itself contains obvious signs of being cut off mid-sentence within the body of the text.' if _was_truncated else ''}\n\n"
         f"TEXT:\n{text}\n\n"
         f"Check for these specific problems and rate each YES or NO:\n"
@@ -1350,6 +1413,7 @@ def run_review(
         check_intro_outro(ep)
         check_pipeline_metrics(ep)
         check_story_duplication(ep)
+        check_tts_artifacts(ep)
 
     # Cross-episode checks
     check_cross_episode_duplicates(episodes)

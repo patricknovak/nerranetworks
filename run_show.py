@@ -694,6 +694,23 @@ def run(args: argparse.Namespace) -> None:
             section_patterns=section_patterns,
             recent_headlines=_recent,
         )
+        # Block publishing on near-verbatim within-episode duplicates (>= 80%).
+        # 60% duplicates are kept as warnings; only near-verbatim pairs are
+        # treated as critical failures that warrant aborting the episode.
+        _critical_dup_issues = []
+        for _issue in _val_issues:
+            if "Duplicate within" not in _issue:
+                continue
+            _m = re.search(r"similarity\s+(\d+)%", _issue)
+            if _m and int(_m.group(1)) >= 80:
+                _critical_dup_issues.append(_issue)
+        if _critical_dup_issues:
+            logger.error(
+                "Digest has %d near-verbatim (>=80%%) intra-episode duplicate(s) — "
+                "aborting episode to prevent recycled content from reaching audio: %s",
+                len(_critical_dup_issues), "; ".join(_critical_dup_issues),
+            )
+            sys.exit(2)
         if not _val_passed:
             # Check for critical missing sections (non-optional)
             _missing = [

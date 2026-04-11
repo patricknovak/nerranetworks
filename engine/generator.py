@@ -610,6 +610,38 @@ def _sentence_similar(a: str, b: str) -> bool:
     return len(overlap) / smaller >= 0.80
 
 
+def _strip_metadata_from_script(script: str) -> str:
+    """Remove production metadata that leaked into the podcast script.
+
+    This is a blunt regex pass that runs BEFORE the line-by-line sanitizer
+    below.  It catches metadata patterns regardless of line structure.
+    """
+    import re
+
+    patterns_to_remove = [
+        # Bracketed production-notes blocks that the LLM copied from the prompt
+        r"\[PRODUCTION NOTES[^\]]*\][\s\S]*?\[END PRODUCTION NOTES\]",
+        # Standalone word/sentence count references
+        r"\b\d{3,4}\s*(?:words?|word count)\b",
+        r"\b\d{1,3}\s*(?:sentences?|sentence count)\b",
+        r"\bword count[:\s]*\d+\b",
+        r"\bscript length[:\s]*\d+\b",
+        r"\btarget(?:ing)?\s*\d+\s*words?\b",
+        r"\bapproximately\s*\d{3,4}\s*words?\b",
+        # Orphan DO NOT READ ALOUD markers
+        r"\[?DO NOT READ ALOUD[^\]]*\]?",
+        # Segment labels on their own line (e.g. "[Segment 3: Hook]", "Segment 3:")
+        r"^\s*\[?Segment\s*\d*\s*[:-]?\s*[^\]\n]*\]?\s*$",
+    ]
+
+    for pattern in patterns_to_remove:
+        script = re.sub(pattern, "", script, flags=re.IGNORECASE | re.MULTILINE)
+
+    # Collapse any resulting run of blank lines
+    script = re.sub(r"\n{3,}", "\n\n", script)
+    return script.strip()
+
+
 def _sanitize_podcast_script(text: str) -> str:
     """Strip known LLM artifacts that break TTS quality.
 
@@ -618,6 +650,9 @@ def _sanitize_podcast_script(text: str) -> str:
     from reaching TTS.
     """
     import re
+
+    # First, blunt metadata strip (handles multiline PRODUCTION NOTES blocks etc.)
+    text = _strip_metadata_from_script(text)
 
     lines = text.split("\n")
     cleaned = []
@@ -1013,7 +1048,61 @@ def generate_digest(
                 config.name, exc,
             )
 
+    # Strip near-verbatim duplicate story blocks so the podcast script
+    # generator doesn't inherit them.
+    text = _strip_duplicate_stories(text, show_name=config.name)
+
     return text
+
+
+def _strip_duplicate_stories(
+    digest_text: str,
+    *,
+    threshold: float = 0.60,
+    show_name: str = "unknown",
+) -> str:
+    """Remove near-duplicate paragraph blocks from a generated digest.
+
+    Splits the digest into paragraph blocks, compares each pair of
+    non-adjacent blocks via ``calculate_similarity``, and drops the LATER
+    occurrence when similarity meets or exceeds ``threshold``.  Only blocks
+    long enough to represent a story (>= 40 characters) are considered,
+    so headers, separators, and short labels are never removed.
+    """
+    from engine.utils import calculate_similarity
+
+    if not digest_text or not digest_text.strip():
+        return digest_text
+
+    blocks = digest_text.split("\n\n")
+    drop_indices: set = set()
+
+    for i, block_a in enumerate(blocks):
+        if i in drop_indices:
+            continue
+        a_stripped = block_a.strip()
+        if len(a_stripped) < 40:
+            continue
+        for j in range(i + 2, len(blocks)):  # skip adjacent blocks
+            if j in drop_indices:
+                continue
+            block_b = blocks[j].strip()
+            if len(block_b) < 40:
+                continue
+            sim = calculate_similarity(a_stripped, block_b)
+            if sim >= threshold:
+                drop_indices.add(j)
+                logger.warning(
+                    "Stripped duplicate story block from '%s' digest "
+                    "(similarity %.0f%%): '%s...'",
+                    show_name, sim * 100, block_b[:80].replace("\n", " "),
+                )
+
+    if not drop_indices:
+        return digest_text
+
+    kept = [b for i, b in enumerate(blocks) if i not in drop_indices]
+    return "\n\n".join(kept)
 
 
 def _generate_podcast_outline(
@@ -1352,6 +1441,69 @@ def generate_podcast_script(
                 "Repetition retry failed for '%s' (%s) — keeping original",
                 config.name, exc,
             )
+
+    # Phrase-level repetition loop detection (e.g. "the kind of" x6).
+    # One retry with anti-repetition instructions if any "critical" violation.
+    try:
+        from engine.validation import detect_phrase_repetition
+        reps = detect_phrase_repetition(text)
+        critical_reps = [r for r in reps if r["severity"] == "critical"]
+        if critical_reps:
+            phrases_str = ", ".join(
+                f'"{r["phrase"]}" ({r["count"]}x)' for r in critical_reps[:5]
+            )
+            logger.warning(
+                "Repetition loop detected in '%s' podcast script: %s — regenerating once",
+                config.name, phrases_str,
+            )
+            anti_rep_prompt = (
+                f"{prompt}\n\n"
+                f"IMPORTANT: Avoid repeating the same phrases. The following "
+                f"phrases appeared too many times in a previous draft and must "
+                f"not be reused: {phrases_str}. Use varied language and different "
+                f"transitions throughout the script."
+            )
+            try:
+                text_rr, meta_rr = _call_grok(
+                    anti_rep_prompt,
+                    model=config.llm.model,
+                    system_prompt=system_prompt,
+                    temperature=config.llm.podcast_temperature,
+                    max_tokens=podcast_tokens,
+                )
+                if tracker and "usage" in meta_rr:
+                    try:
+                        from engine.tracking import record_llm_usage
+                        record_llm_usage(
+                            tracker, "podcast_script_anti_repetition_retry",
+                            meta_rr["usage"].get("prompt_tokens", 0),
+                            meta_rr["usage"].get("completion_tokens", 0),
+                            model=config.llm.model,
+                        )
+                    except Exception:
+                        pass
+                reps_rr = detect_phrase_repetition(text_rr)
+                critical_rr = [r for r in reps_rr if r["severity"] == "critical"]
+                # Guard: don't swap if retry is drastically shorter (likely garbage)
+                if not critical_rr and len(text_rr) >= len(text) * 0.5:
+                    logger.info(
+                        "Anti-repetition retry cleared critical loops for '%s'",
+                        config.name,
+                    )
+                    text = text_rr
+                else:
+                    logger.warning(
+                        "Anti-repetition retry did not clear critical loops for "
+                        "'%s' — keeping original (daily review will flag it)",
+                        config.name,
+                    )
+            except Exception as exc:
+                logger.warning(
+                    "Anti-repetition retry failed for '%s' (%s) — keeping original",
+                    config.name, exc,
+                )
+    except Exception as exc:
+        logger.warning("Repetition detection failed for '%s': %s", config.name, exc)
 
     text = _sanitize_podcast_script(text)
     return text

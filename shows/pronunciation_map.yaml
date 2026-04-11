@@ -1,0 +1,20 @@
+# Pronunciation map for ElevenLabs TTS.
+#
+# Purpose: override the TTS input text for a small set of proper nouns or
+# acronyms where ElevenLabs consistently mispronounces the standard spelling.
+# This map is applied ONLY to the TTS copy of the text — the digest, blog,
+# transcript, and social posts still use the standard written form.
+#
+# Rules for adding entries:
+# 1. Only add an entry after confirming that ElevenLabs mispronounces the
+#    standard written form on the current voice and model.  Most common
+#    acronyms (NASA, NATO, FBI, AI, EV, FSD, etc.) are handled correctly.
+# 2. Match is case-insensitive, whole-word.
+# 3. Replacement is the respelling sent to the TTS engine only.
+# 4. Keep the list minimal — every entry is a maintenance burden.
+#
+# Format:
+#   corrections:
+#     "Written Form": "tts respelling"
+
+corrections: {}
