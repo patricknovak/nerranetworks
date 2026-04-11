@@ -86,15 +86,27 @@ logger = logging.getLogger("run_show")
 # CLI
 # ---------------------------------------------------------------------------
 
+_NON_SHOW_YAMLS = {"pronunciation_map"}
+
+
 def _discover_shows() -> list[str]:
-    """Find all show slugs by scanning shows/*.yaml."""
+    """Find all show slugs by scanning shows/*.yaml.
+
+    Skips template files, leading-underscore config files
+    (e.g. ``_defaults``, ``_blocked_sources``), and named resource files
+    in ``_NON_SHOW_YAMLS``.
+    """
     shows_dir = PROJECT_ROOT / "shows"
     slugs = []
     for p in sorted(shows_dir.glob("*.yaml")):
-        # Skip template files
-        if p.stem.endswith("_template"):
+        stem = p.stem
+        if stem.endswith("_template"):
             continue
-        slugs.append(p.stem)
+        if stem.startswith("_"):
+            continue
+        if stem in _NON_SHOW_YAMLS:
+            continue
+        slugs.append(stem)
     return slugs
 
 
