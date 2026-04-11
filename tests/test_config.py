@@ -387,7 +387,7 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "tesla.yaml")
         assert cfg.name == "Tesla Shorts Time"
         assert cfg.slug == "tesla"
-        assert len(cfg.sources) == 21
+        assert len(cfg.sources) == 18
         assert cfg.sources[0].label == "Teslarati"
         assert "tsla" in cfg.keywords
         assert len(cfg.web_search_queries) == 4
@@ -405,7 +405,7 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "fascinating_frontiers.yaml")
         assert cfg.name == "Fascinating Frontiers"
         assert cfg.slug == "fascinating_frontiers"
-        assert len(cfg.sources) == 34
+        assert len(cfg.sources) == 25
         assert cfg.sources[0].label == "NASA Breaking"
         assert "space" in cfg.keywords
         assert cfg.llm.model == "grok-4.20-non-reasoning"
@@ -421,7 +421,7 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "planetterrian.yaml")
         assert cfg.name == "Planetterrian Daily"
         assert cfg.slug == "planetterrian"
-        assert len(cfg.sources) == 24
+        assert len(cfg.sources) == 26
         assert cfg.sources[0].label == "Nature"
         assert "longevity" in cfg.keywords
         assert cfg.audio.music_file == "assets/music/oilers-pride.mp3"
@@ -434,7 +434,7 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "omni_view.yaml")
         assert cfg.name == "Omni View"
         assert cfg.slug == "omni_view"
-        assert len(cfg.sources) == 29
+        assert len(cfg.sources) == 28
         assert cfg.sources[0].label == "NPR"
         assert "election" in cfg.keywords
         assert cfg.llm.model == "grok-4.20-non-reasoning"
@@ -453,7 +453,7 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "env_intel.yaml")
         assert cfg.name == "Environmental Intelligence"
         assert cfg.slug == "env_intel"
-        assert len(cfg.sources) == 27
+        assert len(cfg.sources) == 25
         assert cfg.sources[0].label == "BC Ministry of Environment"
         assert "contaminated sites" in cfg.keywords
         assert "CCME" in cfg.keywords
