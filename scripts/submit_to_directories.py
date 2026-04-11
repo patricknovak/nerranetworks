@@ -22,7 +22,9 @@ BASE_URL = "https://nerranetwork.com"
 
 # All shows with their RSS files and human-readable names
 SHOWS = [
-    ("tesla", "Tesla Shorts Time", "tesla_shorts_time_podcast.rss"),
+    # Tesla uses the legacy flat filename "podcast.rss" — do NOT rename this,
+    # subscribers' apps are anchored to the historic feed URL.
+    ("tesla", "Tesla Shorts Time", "podcast.rss"),
     ("omni_view", "Omni View", "omni_view_podcast.rss"),
     ("fascinating_frontiers", "Fascinating Frontiers", "fascinating_frontiers_podcast.rss"),
     ("planetterrian", "Planetterrian Daily", "planetterrian_podcast.rss"),

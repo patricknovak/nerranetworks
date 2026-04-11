@@ -1382,6 +1382,7 @@ def generate_network_page(*, dry_run=False):
         "all_shows": _build_all_shows_list(),
         "latest_blog_posts": latest_blog_posts,
         "latest_episodes": latest_episodes,
+        "emit_bilingual_hreflang": True,
     }
 
     html = template.render(**context)

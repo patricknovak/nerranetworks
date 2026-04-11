@@ -26,6 +26,13 @@
     {% if rss_url %}
     <link rel="alternate" type="application/rss+xml" title="{{ show_name | default('Nerra Network') }} RSS" href="{{ rss_url }}">
     {% endif %}
+    {# Bilingual hreflang — English root ↔ Russian root. Only emitted on the
+       top-level Nerra landing pages, not per-show pages. #}
+    {% if emit_bilingual_hreflang %}
+    <link rel="alternate" hreflang="en" href="https://nerranetwork.com/index.html">
+    <link rel="alternate" hreflang="ru" href="https://nerranetwork.com/ru/index.html">
+    <link rel="alternate" hreflang="x-default" href="https://nerranetwork.com/index.html">
+    {% endif %}
 
     <!-- Google Fonts: DM Sans + Source Serif 4 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

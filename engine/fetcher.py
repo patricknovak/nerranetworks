@@ -571,7 +571,17 @@ def fetch_x_posts(
             logger.warning("Failed to fetch X posts from @%s: %s", handle, exc)
             continue
 
-    logger.info("Total X posts fetched: %d from %d account(s)", len(all_posts), len(x_accounts))
+    # Escalate to ERROR when we tried N accounts and got zero successes — this
+    # usually means Grok is down or the API key is rejected, and the pipeline
+    # would otherwise proceed silently without any X supplementary content.
+    if x_accounts and not all_posts:
+        logger.error(
+            "X fetch produced 0 posts from %d account(s) — Grok x_search may "
+            "be down or credentials rejected",
+            len(x_accounts),
+        )
+    else:
+        logger.info("Total X posts fetched: %d from %d account(s)", len(all_posts), len(x_accounts))
     return all_posts
 
 
@@ -755,5 +765,14 @@ def fetch_web_search_articles(
             get_text_func=lambda x: f"{x.get('title', '')} {x.get('description', '')}",
         )
 
-    logger.info("Web search summary: %d queries, %d articles returned", len(queries), len(all_articles))
+    # Escalate to ERROR when we tried N queries and got zero results — a
+    # clean zero on a non-empty query list is almost always a Grok/API issue.
+    if queries and not all_articles:
+        logger.error(
+            "Web search produced 0 articles from %d quer(y|ies) — Grok "
+            "web_search may be down or credentials rejected",
+            len(queries),
+        )
+    else:
+        logger.info("Web search summary: %d queries, %d articles returned", len(queries), len(all_articles))
     return all_articles

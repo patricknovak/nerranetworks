@@ -251,7 +251,6 @@ jobs:
           FINANSY_PROSTO_NEWSLETTER_API_KEY=${{ secrets.FINANSY_PROSTO_NEWSLETTER_API_KEY }}
           MODERN_INVESTING_NEWSLETTER_API_KEY=${{ secrets.MODERN_INVESTING_NEWSLETTER_API_KEY }}
           PRIVET_RUSSIAN_NEWSLETTER_API_KEY=${{ secrets.PRIVET_RUSSIAN_NEWSLETTER_API_KEY }}
-          FISH_AUDIO_API_KEY=${{ secrets.FISH_AUDIO_API_KEY }}
           ENVEOF
           # Strip leading whitespace from heredoc lines (YAML indentation artifact)
           sed -i 's/^[[:space:]]*//' .env

@@ -68,11 +68,20 @@ jobs:
           fi
 
           set +e
-          python review_episodes.py $ARGS
-          EXIT_CODE=$?
+          python review_episodes.py $ARGS 2>&1 | tee /tmp/review_output.txt
+          EXIT_CODE=${PIPESTATUS[0]}
           set -e
 
           echo "exit_code=$EXIT_CODE" >> "$GITHUB_OUTPUT"
+
+          # Capture a short summary (last 40 lines) for the webhook payload
+          SUMMARY=$(tail -n 40 /tmp/review_output.txt | head -c 3500)
+          # shellcheck disable=SC2129
+          {
+            echo "summary<<SUMMARY_EOF"
+            echo "$SUMMARY"
+            echo "SUMMARY_EOF"
+          } >> "$GITHUB_OUTPUT"
 
           if [ $EXIT_CODE -eq 1 ]; then
             echo "::error::CRITICAL issues found — check GitHub issues for details"
@@ -81,3 +90,47 @@ jobs:
             echo "::warning::Warnings found — check GitHub issues for details"
             exit 0
           fi
+
+      # Webhook notification on any non-zero exit so problems surface to a
+      # human channel instead of just sitting in GitHub issues. Skip silently
+      # if the secret isn't configured so existing deployments keep working.
+      - name: Notify on findings
+        if: always() && steps.review.outputs.exit_code != '0' && env.DAILY_REVIEW_WEBHOOK_URL != ''
+        env:
+          DAILY_REVIEW_WEBHOOK_URL: ${{ secrets.DAILY_REVIEW_WEBHOOK_URL }}
+          EXIT_CODE: ${{ steps.review.outputs.exit_code }}
+          SUMMARY: ${{ steps.review.outputs.summary }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ "$EXIT_CODE" = "1" ]; then
+            SEVERITY="CRITICAL"
+          else
+            SEVERITY="WARNING"
+          fi
+          python3 - <<'PY'
+          import json, os, urllib.request
+
+          payload = {
+              "severity": os.environ["EXIT_CODE"] == "1" and "critical" or "warning",
+              "headline": f"Nerra daily review: {os.environ.get('EXIT_CODE')} — {('CRITICAL' if os.environ['EXIT_CODE']=='1' else 'warning')}",
+              "summary": os.environ.get("SUMMARY", "")[:3500],
+              "run_url": os.environ.get("RUN_URL", ""),
+              # Slack-compatible fallback block
+              "text": (
+                  f"*Nerra daily review finished with exit {os.environ['EXIT_CODE']}*\n"
+                  f"<{os.environ.get('RUN_URL','')}|Workflow run>\n"
+                  f"```{os.environ.get('SUMMARY','')[:2500]}```"
+              ),
+          }
+          req = urllib.request.Request(
+              os.environ["DAILY_REVIEW_WEBHOOK_URL"],
+              data=json.dumps(payload).encode(),
+              headers={"Content-Type": "application/json"},
+              method="POST",
+          )
+          try:
+              with urllib.request.urlopen(req, timeout=15) as resp:
+                  print(f"webhook POST → HTTP {resp.status}")
+          except Exception as exc:
+              print(f"webhook POST failed: {exc}")
+          PY
