@@ -1,0 +1,91 @@
+name: Management Dashboard
+
+# Regenerates api/dashboard.json from on-disk data (shows/*.yaml,
+# digests/<show>/metrics_ep*.json, digests/<show>/credit_usage_*.json,
+# *.rss). Commits the JSON back to main so management.html can render
+# the latest state without a backend.
+#
+# Runs daily (30 minutes after health-check.yml) and on every
+# successful run-show.yml completion so the dashboard always reflects
+# the most recent episode publish.
+
+on:
+  schedule:
+    - cron: '30 18 * * *'  # 30 minutes after health-check.yml
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Run Podcast Show"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: management-dashboard
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Skip workflow_run firings where the upstream Run Podcast Show failed.
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - uses: actions/cache@v5
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-dashboard-${{ hashFiles('requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-dashboard-
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate api/dashboard.json
+        id: gen
+        run: |
+          set +e
+          python scripts/generate_dashboard.py --out api/dashboard.json
+          EXIT_CODE=$?
+          echo "exit_code=$EXIT_CODE" >> "$GITHUB_OUTPUT"
+          # Exit 0 even on FAIL — we still want to commit the diagnostic JSON
+          # so the operator can see the current red state.
+          exit 0
+
+      - name: Pull latest before committing
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin main || true
+
+      - name: Commit and push dashboard
+        run: |
+          git add api/dashboard.json
+          if git diff --cached --quiet; then
+            echo "No dashboard changes to commit"
+            exit 0
+          fi
+          git commit -m "Update management dashboard $(date -u +%Y-%m-%dT%H:%MZ)"
+          # Small retry in case two dashboard runs raced.
+          for i in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            git pull --rebase --autostash origin main || true
+            sleep 2
+          done
+          git push
+
+      - name: Fail the job on landmine FAIL
+        if: steps.gen.outputs.exit_code != '0'
+        run: |
+          echo "::error::Management dashboard detected FAIL-level landmine(s). See api/dashboard.json → landmines[]."
+          exit 1

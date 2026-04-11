@@ -202,6 +202,12 @@ Phase 3 (current):
 
 ## Known Landmines
 
+**Operator's first stop:** the live state of every landmine below is rendered
+by [`management.html`](management.html), fed by
+[`scripts/generate_dashboard.py`](scripts/generate_dashboard.py) → `api/dashboard.json`.
+Items 7 and 10 are intentionally excluded from the dashboard (per an explicit
+decision); everything else has a live status card.
+
 ### Active Issues
 
 1. **2.2 GB of MP3s in git** — repo will hit GitHub's 10 GB limit within ~6
@@ -232,9 +238,18 @@ Phase 3 (current):
    (TST, FF, PT, OV) support env-overridable `TEST_MODE`, `ENABLE_X_POSTING`,
    `ENABLE_PODCAST`, and `ENABLE_GITHUB_SUMMARIES`. `run_show.py` uses
    CLI flags (`--test`, `--skip-x`, `--skip-podcast`) instead.
-9. **OV ElevenLabs tuning defaults aligned** — OV legacy script defaults
-   updated from 0.35/0.75/0.2 to 0.65/0.9/0.85, matching all YAML configs
-   and other legacy scripts. Env var overrides still supported.
+9. **ElevenLabs tuning baseline lives in `shows/_defaults.yaml`** — the
+   canonical network baseline is now whatever
+   [`shows/_defaults.yaml`](shows/_defaults.yaml) declares (today:
+   `stability=0.5`, `similarity_boost=0.75`, `style=0.0`, English voice
+   `dTrBzPvD2GpAqkk1MUzA`, Russian voice `gedzfqL7OGdPbwm0ynTP`). Per-show
+   overrides are allowed; drift is tracked live in the management
+   dashboard's *Voice settings consistency* table. Any show row flagged
+   with a drift is either intentional (record the reason in the show's
+   YAML as a comment) or a regression to investigate. Historical note:
+   an earlier baseline had stability `0.65`, similarity boost `0.9`, and
+   style `0.85`; that combination is no longer blessed and should not be
+   reintroduced without updating `_defaults.yaml`.
 10. **Early episodes deleted** — first 20 Tesla, 10 FF, 10 PT, 10 OV episodes
     removed (quality issues). RSS entries removed where applicable.
 11. **All shows use ElevenLabs TTS** — Chatterbox, Kokoro, and Fish Audio

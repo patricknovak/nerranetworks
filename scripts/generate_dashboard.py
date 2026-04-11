@@ -1,0 +1,1013 @@
+#!/usr/bin/env python3
+"""Generate api/dashboard.json for the Nerra Network management dashboard.
+
+Read-only aggregator. Walks existing on-disk data (shows/*.yaml,
+digests/<show>/metrics_ep*.json, digests/<show>/credit_usage_*.json,
+*.rss, data/feed_audit_*.json) and writes a single JSON file consumed
+by management.html via fetch().
+
+Landmines covered (per CLAUDE.md "Known Landmines"):
+  1  - repo / R2 size, tracked-MP3 count
+  2  - RSS integrity, LFS absence, R2 host consistency
+  3  - legacy top-level flat files under digests/
+  4  - per-show output_dir / audio_subdir begin with digests/<slug>/
+  5  - nested digests/digests/ does not exist
+  6  - *_formatted.md duplicate files absent
+  8  - publishing.x_enabled is a boolean on every show
+  9  - TTS voice settings consistency vs shows/_defaults.yaml
+  11 - every show resolves tts.provider == elevenlabs
+  12 - every summaries JSON lives under digests/<slug>/
+
+Items 7 (NEWSAPI dead secret) and 10 (early-episode deletion) are deliberately
+excluded per user instruction.
+
+Models & Agents (models_agents) and Models & Agents for Beginners
+(models_agents_beginners) are ALWAYS reported as separate entries. They
+share no rows, no aggregation keys, and no landmine checks.
+
+Usage::
+
+    python scripts/generate_dashboard.py               # write api/dashboard.json
+    python scripts/generate_dashboard.py --offline     # skip HEAD reachability checks
+    python scripts/generate_dashboard.py --dry-run     # print JSON to stdout only
+    python scripts/generate_dashboard.py --out /tmp/d.json
+"""
+
+from __future__ import annotations
+
+import argparse
+import datetime as _dt
+import json
+import os
+import re
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import asdict, dataclass, field
+from pathlib import Path
+from typing import Any, Dict, Iterable, List, Optional
+
+# Make `engine` importable when this script is run from anywhere.
+_SCRIPT_DIR = Path(__file__).resolve().parent
+_ROOT = _SCRIPT_DIR.parent
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
+try:
+    import requests  # only used for --online HEAD checks
+except Exception:  # pragma: no cover - requests is in requirements.txt
+    requests = None  # type: ignore
+
+try:
+    import yaml
+except Exception as exc:  # pragma: no cover
+    print(f"dashboard: pyyaml required ({exc})", file=sys.stderr)
+    raise
+
+
+HEADERS = {
+    "User-Agent": "NerraDashboardBot/1.0 (+https://nerranetwork.com/management.html)"
+}
+HEAD_TIMEOUT = 5
+
+# Skip these YAML files when discovering shows — they are not shows.
+_NON_SHOW_YAMLS = {"_defaults", "_blocked_sources", "pronunciation_map"}
+
+# Canonical Russian voice id (pulled from CLAUDE.md; shows/_defaults.yaml ships
+# the English default). Shows may override with either the EN or RU voice id.
+_VOICE_ID_RU = "gedzfqL7OGdPbwm0ynTP"
+
+# Stale CLAUDE.md triple we use to detect documentation drift (item 9).
+_CLAUDE_MD_OLD_VOICE_TRIPLE = "0.65/0.9/0.85"
+
+
+# ---------------------------------------------------------------------------
+# Data containers
+# ---------------------------------------------------------------------------
+
+
+@dataclass
+class LandmineResult:
+    id: str
+    title: str
+    status: str  # "ok" | "warn" | "fail"
+    details: str
+    evidence: Dict[str, Any] = field(default_factory=dict)
+
+
+# ---------------------------------------------------------------------------
+# Show discovery
+# ---------------------------------------------------------------------------
+
+
+def _list_show_yaml_paths(shows_dir: Path) -> List[Path]:
+    return sorted(
+        p for p in shows_dir.glob("*.yaml")
+        if p.stem not in _NON_SHOW_YAMLS
+        and not p.stem.endswith("_template")
+        and not p.stem.startswith("_")
+    )
+
+
+def load_shows_from_yaml(shows_dir: Path, root: Path) -> List[Dict[str, Any]]:
+    """Discover every show YAML and load its merged configuration.
+
+    Returns a list of dicts (one per show). The ``models_agents`` and
+    ``models_agents_beginners`` configs are loaded as two distinct entries;
+    no downstream code should collapse them.
+    """
+    from engine.config import load_config  # local import — script boot
+
+    results: List[Dict[str, Any]] = []
+    for path in _list_show_yaml_paths(shows_dir):
+        slug = path.stem
+        try:
+            cfg = load_config(str(path))
+        except Exception as exc:
+            results.append({
+                "slug": slug,
+                "name": slug,
+                "load_error": str(exc)[:200],
+                "raw_yaml": {},
+                "cfg": None,
+            })
+            continue
+
+        raw_yaml: Dict[str, Any] = {}
+        try:
+            raw_yaml = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        except Exception:
+            raw_yaml = {}
+
+        results.append({
+            "slug": cfg.slug or slug,
+            "name": cfg.name or slug,
+            "yaml_path": str(path.relative_to(root)),
+            "cfg": cfg,
+            "raw_yaml": raw_yaml,
+        })
+    return results
+
+
+# ---------------------------------------------------------------------------
+# Landmine checks — CLAUDE.md "Known Landmines"
+# ---------------------------------------------------------------------------
+
+
+def _mk(id_: str, title: str, status: str, details: str, evidence=None) -> Dict[str, Any]:
+    return asdict(LandmineResult(
+        id=id_, title=title, status=status, details=details,
+        evidence=evidence or {},
+    ))
+
+
+def _git_tracked_mp3_count(root: Path) -> Optional[int]:
+    """Return the number of MP3 files currently tracked in git, or None."""
+    try:
+        out = subprocess.check_output(
+            ["git", "-C", str(root), "ls-files", "*.mp3"],
+            stderr=subprocess.DEVNULL,
+            timeout=20,
+        )
+    except Exception:
+        return None
+    return sum(1 for line in out.decode("utf-8", "replace").splitlines() if line.strip())
+
+
+def _dir_bytes(path: Path) -> int:
+    total = 0
+    for p in path.rglob("*"):
+        if p.is_file():
+            try:
+                total += p.stat().st_size
+            except OSError:
+                pass
+    return total
+
+
+def item_1_repo_size(root: Path) -> Dict[str, Any]:
+    """Repo / R2 size + tracked MP3 count."""
+    tracked_mp3s = _git_tracked_mp3_count(root)
+    digests_bytes = _dir_bytes(root / "digests")
+    digests_mb = digests_bytes / (1024 * 1024)
+
+    if tracked_mp3s is None:
+        status = "warn"
+        details = (
+            f"Could not run `git ls-files *.mp3` (not a git checkout?). "
+            f"digests/ is {digests_mb:,.0f} MB."
+        )
+    elif tracked_mp3s > 1000 or digests_mb > 1024:
+        status = "fail"
+        details = (
+            f"{tracked_mp3s} MP3s tracked in git, digests/ is "
+            f"{digests_mb:,.0f} MB. R2 migration is urgent."
+        )
+    elif tracked_mp3s > 100 or digests_mb > 500:
+        status = "warn"
+        details = (
+            f"{tracked_mp3s} MP3s tracked in git, digests/ is "
+            f"{digests_mb:,.0f} MB. Above comfort threshold — keep an eye on it."
+        )
+    else:
+        status = "ok"
+        details = (
+            f"{tracked_mp3s} MP3s tracked in git, digests/ is "
+            f"{digests_mb:,.0f} MB."
+        )
+
+    return _mk(
+        "item_1_repo_size",
+        "Repo & R2 size",
+        status,
+        details,
+        {"tracked_mp3_count": tracked_mp3s, "digests_mb": round(digests_mb, 1)},
+    )
+
+
+def item_3_legacy_flatfiles(root: Path, previous: Optional[int] = None) -> Dict[str, Any]:
+    """Legacy top-level flat files directly under digests/."""
+    digests = root / "digests"
+    if not digests.exists():
+        return _mk("item_3_legacy_flatfiles", "Legacy flat files in digests/",
+                   "ok", "digests/ does not exist.")
+
+    by_ext: Dict[str, int] = {}
+    total = 0
+    for p in digests.iterdir():
+        if not p.is_file():
+            continue
+        total += 1
+        ext = p.suffix.lower() or "<none>"
+        by_ext[ext] = by_ext.get(ext, 0) + 1
+
+    if total == 0:
+        status = "ok"
+        details = "No legacy flat files at digests/ top level."
+    elif previous is not None and total > previous:
+        status = "fail"
+        details = (
+            f"{total} legacy flat files — GREW from {previous}. The pipeline "
+            f"should only write into per-show subdirectories now."
+        )
+    else:
+        status = "warn"
+        details = (
+            f"{total} legacy flat files pinned at digests/ top level. They "
+            f"cannot be moved (existing RSS URLs anchor to them), but no new "
+            f"files should land here."
+        )
+
+    return _mk(
+        "item_3_legacy_flatfiles",
+        "Legacy flat files in digests/",
+        status,
+        details,
+        {"total": total, "by_extension": by_ext, "previous_total": previous},
+    )
+
+
+def item_4_output_dirs(shows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Each show's output_dir + audio_subdir starts with digests/<slug>/."""
+    violations = []
+    for s in shows:
+        cfg = s.get("cfg")
+        if not cfg:
+            continue
+        slug = s["slug"]
+        expected_prefix = f"digests/{slug}"
+        # Tesla is grandfathered: its historic output_dir is
+        # "digests/tesla_shorts_time". Accept any path under digests/.
+        out = cfg.episode.output_dir or ""
+        sub = cfg.publishing.audio_subdir or ""
+        if not out.startswith("digests/"):
+            violations.append({"slug": slug, "field": "episode.output_dir", "value": out})
+        if not sub.startswith("digests/"):
+            violations.append({"slug": slug, "field": "publishing.audio_subdir", "value": sub})
+
+    if not violations:
+        return _mk(
+            "item_4_output_dirs",
+            "Per-show output paths under digests/",
+            "ok",
+            f"All {len(shows)} shows write into digests/…",
+        )
+    return _mk(
+        "item_4_output_dirs",
+        "Per-show output paths under digests/",
+        "fail",
+        f"{len(violations)} path(s) outside digests/",
+        {"violations": violations},
+    )
+
+
+def item_5_nested_digests(root: Path) -> Dict[str, Any]:
+    nested = root / "digests" / "digests"
+    if nested.exists():
+        return _mk(
+            "item_5_nested_digests",
+            "Nested digests/digests/ directory",
+            "fail",
+            "digests/digests/ exists — legacy path bug has resurfaced.",
+            {"path": str(nested.relative_to(root))},
+        )
+    return _mk(
+        "item_5_nested_digests",
+        "Nested digests/digests/ directory",
+        "ok",
+        "No nested digests/digests/ directory.",
+    )
+
+
+def item_6_formatted_md(root: Path) -> Dict[str, Any]:
+    hits = list((root / "digests").rglob("*_formatted.md"))
+    if hits:
+        return _mk(
+            "item_6_formatted_md",
+            "Duplicate *_formatted.md files",
+            "fail",
+            f"{len(hits)} *_formatted.md file(s) found — should have been deleted.",
+            {"paths": [str(p.relative_to(root)) for p in hits[:10]], "total": len(hits)},
+        )
+    return _mk(
+        "item_6_formatted_md",
+        "Duplicate *_formatted.md files",
+        "ok",
+        "No *_formatted.md duplicates.",
+    )
+
+
+def item_8_feature_flags(shows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Each show YAML exposes publishing.x_enabled as a boolean."""
+    per_show = []
+    missing = []
+    for s in shows:
+        raw = s.get("raw_yaml") or {}
+        pub = raw.get("publishing") or {}
+        if "x_enabled" not in pub:
+            missing.append(s["slug"])
+            per_show.append({"slug": s["slug"], "x_enabled": None, "explicit": False})
+            continue
+        val = pub.get("x_enabled")
+        if not isinstance(val, bool):
+            missing.append(s["slug"])
+        per_show.append({
+            "slug": s["slug"],
+            "x_enabled": val,
+            "explicit": True,
+        })
+
+    if missing:
+        return _mk(
+            "item_8_feature_flags",
+            "Feature flags (x_enabled) explicit",
+            "warn",
+            f"{len(missing)} show(s) rely on the publishing.x_enabled default "
+            f"(not explicit in YAML): {', '.join(missing)}",
+            {"per_show": per_show, "missing": missing},
+        )
+    return _mk(
+        "item_8_feature_flags",
+        "Feature flags (x_enabled) explicit",
+        "ok",
+        f"All {len(shows)} shows declare publishing.x_enabled explicitly.",
+        {"per_show": per_show},
+    )
+
+
+def item_11_tts_provider(shows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    wrong = []
+    for s in shows:
+        cfg = s.get("cfg")
+        if not cfg:
+            continue
+        prov = (cfg.tts.provider or "").lower()
+        if prov != "elevenlabs":
+            wrong.append({"slug": s["slug"], "provider": prov or "<unset>"})
+    if wrong:
+        return _mk(
+            "item_11_tts_provider",
+            "All shows use ElevenLabs TTS",
+            "fail",
+            f"{len(wrong)} show(s) do not resolve to elevenlabs",
+            {"wrong": wrong},
+        )
+    return _mk(
+        "item_11_tts_provider",
+        "All shows use ElevenLabs TTS",
+        "ok",
+        f"All {len(shows)} shows resolve tts.provider == elevenlabs.",
+    )
+
+
+def item_12_summaries_location(shows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Every summaries_json path lives under digests/<slug>/ and no legacy
+    summaries_*.json files sit at digests/ top level."""
+    violations = []
+    for s in shows:
+        cfg = s.get("cfg")
+        if not cfg:
+            continue
+        slug = s["slug"]
+        sj = cfg.publishing.summaries_json or ""
+        if not sj.startswith("digests/"):
+            violations.append({"slug": slug, "path": sj})
+
+    digests = _ROOT / "digests"
+    legacy: List[str] = []
+    if digests.exists():
+        for p in digests.iterdir():
+            if p.is_file() and p.name.startswith("summaries_") and p.suffix == ".json":
+                legacy.append(p.name)
+
+    if violations or legacy:
+        return _mk(
+            "item_12_summaries_location",
+            "summaries_*.json live under digests/<slug>/",
+            "fail",
+            f"{len(violations)} config(s) not under digests/ and "
+            f"{len(legacy)} legacy summaries file(s) at digests/ top level.",
+            {"violations": violations, "legacy_top_level": legacy},
+        )
+    return _mk(
+        "item_12_summaries_location",
+        "summaries_*.json live under digests/<slug>/",
+        "ok",
+        "All summaries JSONs live under their per-show subdirectory.",
+    )
+
+
+# ---------------------------------------------------------------------------
+# Item 2 — RSS integrity + R2 / LFS audit
+# ---------------------------------------------------------------------------
+
+
+def _parse_rfc822(text: str) -> Optional[_dt.datetime]:
+    try:
+        from email.utils import parsedate_to_datetime
+        return parsedate_to_datetime(text)
+    except Exception:
+        return None
+
+
+def _head_reachable(url: str, timeout: int = HEAD_TIMEOUT) -> Optional[int]:
+    if requests is None:
+        return None
+    try:
+        resp = requests.head(url, headers=HEADERS, timeout=timeout, allow_redirects=True)
+        return resp.status_code
+    except Exception:
+        return None
+
+
+def audit_rss_enclosures(
+    root: Path,
+    *,
+    offline: bool = False,
+    head_sample: int = 3,
+) -> Dict[str, Any]:
+    """Walk every top-level *.rss file and report enclosure health.
+
+    Used by both item 1 (R2 adoption) and item 2 (LFS absence, feed integrity).
+    """
+    feeds = sorted(
+        p for p in root.glob("*.rss")
+        if p.name != "network.rss" and not p.name.startswith("blog_")
+    )
+    per_feed: List[Dict[str, Any]] = []
+    raw_github_hits: List[str] = []
+    non_r2_hosts: List[str] = []
+
+    for feed_path in feeds:
+        entry_info: Dict[str, Any] = {
+            "file": feed_path.name,
+            "entry_count": 0,
+            "latest_pub_date": None,
+            "latest_enclosures": [],
+            "malformed": False,
+            "error": None,
+        }
+        try:
+            tree = ET.parse(feed_path)
+        except Exception as exc:
+            entry_info["malformed"] = True
+            entry_info["error"] = str(exc)[:200]
+            per_feed.append(entry_info)
+            continue
+
+        items = tree.getroot().findall(".//item")
+        entry_info["entry_count"] = len(items)
+
+        # Newest first
+        dated = []
+        for item in items:
+            pub = item.findtext("pubDate") or ""
+            when = _parse_rfc822(pub) if pub else None
+            enc_el = item.find("enclosure")
+            enc_url = enc_el.get("url", "") if enc_el is not None else ""
+            dated.append((when, enc_url, pub))
+
+        dated_sorted = sorted(
+            dated,
+            key=lambda t: t[0] or _dt.datetime.min.replace(tzinfo=_dt.timezone.utc),
+            reverse=True,
+        )
+        if dated_sorted and dated_sorted[0][0]:
+            entry_info["latest_pub_date"] = dated_sorted[0][0].isoformat()
+
+        for when, enc_url, pub in dated_sorted[:head_sample]:
+            if not enc_url:
+                continue
+            host = re.sub(r"^https?://([^/]+).*$", r"\1", enc_url)
+            if "raw.githubusercontent.com" in enc_url:
+                raw_github_hits.append(enc_url)
+            if host and host != "audio.nerranetwork.com":
+                non_r2_hosts.append(host)
+            status = None if offline else _head_reachable(enc_url)
+            entry_info["latest_enclosures"].append({
+                "url": enc_url,
+                "host": host,
+                "pub_date": when.isoformat() if when else pub,
+                "http_status": status,
+                "reachable": bool(status and 200 <= status < 400),
+            })
+
+        per_feed.append(entry_info)
+
+    return {
+        "feeds": per_feed,
+        "raw_github_hits": raw_github_hits,
+        "non_r2_hosts": sorted(set(non_r2_hosts)),
+        "offline": offline,
+    }
+
+
+def item_2_rss_integrity(audit: Dict[str, Any]) -> Dict[str, Any]:
+    malformed = [f["file"] for f in audit["feeds"] if f["malformed"]]
+    raw_hits = audit.get("raw_github_hits") or []
+    non_r2 = audit.get("non_r2_hosts") or []
+    unreachable: List[str] = []
+    if not audit.get("offline"):
+        for f in audit["feeds"]:
+            for enc in f.get("latest_enclosures", []):
+                if enc.get("http_status") is None or not enc.get("reachable"):
+                    unreachable.append(f"{f['file']}: {enc['url']}")
+
+    if malformed or raw_hits:
+        status = "fail"
+        reason = []
+        if malformed:
+            reason.append(f"{len(malformed)} malformed feed(s)")
+        if raw_hits:
+            reason.append(f"{len(raw_hits)} enclosure(s) still pointing at raw.githubusercontent.com")
+        details = "; ".join(reason)
+    elif non_r2 or unreachable:
+        status = "warn"
+        reason = []
+        if non_r2:
+            reason.append(f"non-R2 hosts: {', '.join(non_r2)}")
+        if unreachable:
+            reason.append(f"{len(unreachable)} recent enclosure(s) unreachable")
+        details = "; ".join(reason)
+    else:
+        status = "ok"
+        details = f"All {len(audit['feeds'])} feeds valid, R2-hosted, recent enclosures reachable."
+
+    return _mk(
+        "item_2_rss_integrity",
+        "RSS integrity, LFS absence, R2 host consistency",
+        status,
+        details,
+        {
+            "feeds": len(audit["feeds"]),
+            "malformed": malformed,
+            "raw_github_hits": raw_hits[:10],
+            "non_r2_hosts": non_r2,
+            "unreachable": unreachable[:10],
+            "offline": audit.get("offline"),
+        },
+    )
+
+
+# ---------------------------------------------------------------------------
+# Item 9 — voice settings consistency
+# ---------------------------------------------------------------------------
+
+
+def audit_voice_config(shows: List[Dict[str, Any]], root: Path) -> Dict[str, Any]:
+    defaults_path = root / "shows" / "_defaults.yaml"
+    baseline: Dict[str, Any] = {
+        "stability": 0.5,
+        "similarity_boost": 0.75,
+        "style": 0.0,
+        "voice_id_en": "dTrBzPvD2GpAqkk1MUzA",
+        "voice_id_ru": _VOICE_ID_RU,
+    }
+    if defaults_path.exists():
+        try:
+            d = yaml.safe_load(defaults_path.read_text(encoding="utf-8")) or {}
+            dtts = (d.get("tts") or {})
+            for key in ("stability", "similarity_boost", "style"):
+                if key in dtts:
+                    baseline[key] = dtts[key]
+            if "voice_id" in dtts:
+                baseline["voice_id_en"] = dtts["voice_id"]
+        except Exception:
+            pass
+
+    show_rows = []
+    for s in shows:
+        cfg = s.get("cfg")
+        if not cfg:
+            continue
+        row = {
+            "slug": s["slug"],
+            "voice_id": cfg.tts.voice_id,
+            "model": cfg.tts.model,
+            "stability": cfg.tts.stability,
+            "similarity_boost": cfg.tts.similarity_boost,
+            "style": cfg.tts.style,
+            "drift": [],
+        }
+        for key in ("stability", "similarity_boost", "style"):
+            expected = baseline[key]
+            actual = row[key]
+            if actual != expected:
+                row["drift"].append({
+                    "field": key, "expected": expected, "actual": actual,
+                })
+        # Voice id must be one of the two blessed voices.
+        if row["voice_id"] not in (baseline["voice_id_en"], baseline["voice_id_ru"]):
+            row["drift"].append({
+                "field": "voice_id",
+                "expected": f"{baseline['voice_id_en']} or {baseline['voice_id_ru']}",
+                "actual": row["voice_id"],
+            })
+        show_rows.append(row)
+
+    claude_md_drift = False
+    claude_md_path = root / "CLAUDE.md"
+    if claude_md_path.exists():
+        text = claude_md_path.read_text(encoding="utf-8", errors="replace")
+        if _CLAUDE_MD_OLD_VOICE_TRIPLE in text:
+            current_triple = (
+                f"{baseline['stability']}/{baseline['similarity_boost']}/{baseline['style']}"
+            )
+            if current_triple != _CLAUDE_MD_OLD_VOICE_TRIPLE:
+                claude_md_drift = True
+
+    return {
+        "baseline": baseline,
+        "shows": show_rows,
+        "claude_md_drift_detected": claude_md_drift,
+    }
+
+
+def item_9_voice_settings(voice: Dict[str, Any]) -> Dict[str, Any]:
+    drifting = [r["slug"] for r in voice["shows"] if r["drift"]]
+    status = "ok"
+    details_parts = []
+    if drifting:
+        status = "warn"
+        details_parts.append(f"{len(drifting)} show(s) drift from _defaults.yaml: {', '.join(drifting)}")
+    if voice.get("claude_md_drift_detected"):
+        status = "warn" if status != "fail" else status
+        details_parts.append(
+            f"CLAUDE.md still references {_CLAUDE_MD_OLD_VOICE_TRIPLE}, "
+            f"but _defaults.yaml is "
+            f"{voice['baseline']['stability']}/"
+            f"{voice['baseline']['similarity_boost']}/"
+            f"{voice['baseline']['style']}."
+        )
+    if not details_parts:
+        details_parts.append("All shows match the _defaults.yaml voice baseline.")
+
+    return _mk(
+        "item_9_voice_settings",
+        "TTS voice settings consistency",
+        status,
+        " ".join(details_parts),
+        {
+            "baseline": voice["baseline"],
+            "drifting_shows": drifting,
+            "claude_md_drift_detected": voice.get("claude_md_drift_detected"),
+        },
+    )
+
+
+# ---------------------------------------------------------------------------
+# Metrics + cost aggregation
+# ---------------------------------------------------------------------------
+
+
+# Map show slug → on-disk subdirectory name (Tesla uses a historic subdir).
+_SHOW_DIR_OVERRIDES = {
+    "tesla": "tesla_shorts_time",
+}
+
+
+def _digests_dir_for(slug: str, root: Path) -> Path:
+    sub = _SHOW_DIR_OVERRIDES.get(slug, slug)
+    return root / "digests" / sub
+
+
+def _pct(samples: List[float], pct: float) -> float:
+    if not samples:
+        return 0.0
+    ordered = sorted(samples)
+    k = max(0, min(len(ordered) - 1, int(round(pct * (len(ordered) - 1)))))
+    return round(ordered[k], 2)
+
+
+def aggregate_metrics(root: Path, shows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    per_show: Dict[str, Dict[str, Any]] = {}
+    for s in shows:
+        slug = s["slug"]
+        ddir = _digests_dir_for(slug, root)
+        files = sorted(ddir.glob("metrics_ep*.json")) if ddir.exists() else []
+        last30 = files[-30:]
+        totals: List[float] = []
+        successes = 0
+        stage_times: Dict[str, List[float]] = {}
+        recent_samples = []
+        for f in last30:
+            try:
+                data = json.loads(f.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            total = float(data.get("total_duration_s") or 0.0)
+            totals.append(total)
+            stages = data.get("stages") or []
+            ep_success = all(bool(st.get("success", True)) for st in stages)
+            if ep_success:
+                successes += 1
+            for st in stages:
+                name = st.get("name") or "unknown"
+                stage_times.setdefault(name, []).append(float(st.get("duration_s") or 0.0))
+            recent_samples.append({
+                "episode_num": data.get("episode_num"),
+                "total_duration_s": total,
+                "success": ep_success,
+            })
+        stage_means = {
+            name: round(sum(vals) / len(vals), 2) if vals else 0.0
+            for name, vals in stage_times.items()
+        }
+        per_show[slug] = {
+            "sample_size": len(totals),
+            "p50_duration_s": _pct(totals, 0.50),
+            "p95_duration_s": _pct(totals, 0.95),
+            "success_rate": round(successes / len(totals), 3) if totals else 0.0,
+            "stage_mean_s": stage_means,
+            "recent": recent_samples[-10:],
+        }
+    return per_show
+
+
+def aggregate_costs(root: Path, shows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    today = _dt.date.today()
+    d7 = today - _dt.timedelta(days=7)
+    d30 = today - _dt.timedelta(days=30)
+
+    per_show: Dict[str, Dict[str, Any]] = {}
+    network_7 = {"grok": 0.0, "tts": 0.0, "total": 0.0, "episodes": 0}
+    network_30 = {"grok": 0.0, "tts": 0.0, "total": 0.0, "episodes": 0}
+
+    for s in shows:
+        slug = s["slug"]
+        ddir = _digests_dir_for(slug, root)
+        files = sorted(ddir.glob("credit_usage_*.json")) if ddir.exists() else []
+        show_7 = {"grok": 0.0, "tts": 0.0, "total": 0.0, "episodes": 0}
+        show_30 = {"grok": 0.0, "tts": 0.0, "total": 0.0, "episodes": 0}
+        daily_series: Dict[str, float] = {}
+
+        for f in files:
+            try:
+                data = json.loads(f.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            date_str = data.get("date") or ""
+            try:
+                when = _dt.date.fromisoformat(date_str)
+            except Exception:
+                continue
+            grok = float(
+                ((data.get("services") or {}).get("grok_api") or {}).get("total_cost_usd") or 0.0
+            )
+            tts = float(
+                ((data.get("services") or {}).get("tts_api") or {}).get("estimated_cost_usd") or 0.0
+            )
+            total = float(data.get("total_estimated_cost_usd") or (grok + tts))
+            daily_series[date_str] = round(daily_series.get(date_str, 0.0) + total, 4)
+
+            if when >= d30:
+                show_30["grok"] += grok
+                show_30["tts"] += tts
+                show_30["total"] += total
+                show_30["episodes"] += 1
+                network_30["grok"] += grok
+                network_30["tts"] += tts
+                network_30["total"] += total
+                network_30["episodes"] += 1
+            if when >= d7:
+                show_7["grok"] += grok
+                show_7["tts"] += tts
+                show_7["total"] += total
+                show_7["episodes"] += 1
+                network_7["grok"] += grok
+                network_7["tts"] += tts
+                network_7["total"] += total
+                network_7["episodes"] += 1
+
+        for bucket in (show_7, show_30):
+            for k in ("grok", "tts", "total"):
+                bucket[k] = round(bucket[k], 4)
+        # Last 30 daily series, oldest → newest, for sparkline rendering.
+        daily_sorted = sorted(daily_series.items())[-30:]
+        per_show[slug] = {
+            "last_7_days": show_7,
+            "last_30_days": show_30,
+            "daily_series": daily_sorted,
+        }
+
+    for bucket in (network_7, network_30):
+        for k in ("grok", "tts", "total"):
+            bucket[k] = round(bucket[k], 4)
+
+    return {
+        "per_show": per_show,
+        "network_last_7_days": network_7,
+        "network_last_30_days": network_30,
+    }
+
+
+def build_network_rollup(
+    shows: List[Dict[str, Any]],
+    landmines: List[Dict[str, Any]],
+    metrics: Dict[str, Any],
+    costs: Dict[str, Any],
+    rss: Dict[str, Any],
+) -> Dict[str, Any]:
+    counts = {"ok": 0, "warn": 0, "fail": 0}
+    for lm in landmines:
+        counts[lm["status"]] = counts.get(lm["status"], 0) + 1
+
+    # Per-show latest episode from RSS audit
+    latest_by_feed = {f["file"]: f.get("latest_pub_date") for f in rss.get("feeds", [])}
+
+    per_show_summary = []
+    for s in shows:
+        slug = s["slug"]
+        cfg = s.get("cfg")
+        if not cfg:
+            per_show_summary.append({"slug": slug, "load_error": s.get("load_error")})
+            continue
+        rss_file = cfg.publishing.rss_file or ""
+        latest_pub = latest_by_feed.get(rss_file)
+        pub_status = "ok"
+        if latest_pub:
+            try:
+                when = _dt.datetime.fromisoformat(latest_pub)
+                age_hours = (
+                    _dt.datetime.now(_dt.timezone.utc) - when
+                ).total_seconds() / 3600
+                if age_hours > 72:
+                    pub_status = "stale"
+                elif age_hours > 48:
+                    pub_status = "warn"
+            except Exception:
+                pub_status = "unknown"
+        cost_7 = costs["per_show"].get(slug, {}).get("last_7_days", {})
+        m = metrics.get(slug, {})
+        per_show_summary.append({
+            "slug": slug,
+            "name": cfg.name,
+            "rss_file": rss_file,
+            "rss_title": cfg.publishing.rss_title,
+            "rss_image": cfg.publishing.rss_image,
+            "show_page": f"{slug}.html",
+            "blog_page": f"blog/{slug}/index.html",
+            "newsletter_enabled": cfg.newsletter.enabled,
+            "x_enabled": cfg.publishing.x_enabled,
+            "latest_pub_date": latest_pub,
+            "pub_status": pub_status,
+            "cost_last_7_days_usd": cost_7.get("total", 0.0),
+            "episodes_last_7_days": cost_7.get("episodes", 0),
+            "p50_pipeline_s": m.get("p50_duration_s", 0.0),
+            "success_rate": m.get("success_rate", 0.0),
+        })
+
+    stale = sum(1 for s in per_show_summary if s.get("pub_status") == "stale")
+    return {
+        "landmines_counts": counts,
+        "shows_count": len(shows),
+        "stale_shows": stale,
+        "total_cost_last_7_days_usd": costs.get("network_last_7_days", {}).get("total", 0.0),
+        "total_cost_last_30_days_usd": costs.get("network_last_30_days", {}).get("total", 0.0),
+        "shows": per_show_summary,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Public entry point — called by tests AND by __main__
+# ---------------------------------------------------------------------------
+
+
+def build_dashboard(root: Path, *, offline: bool = False, previous_flat: Optional[int] = None) -> Dict[str, Any]:
+    shows = load_shows_from_yaml(root / "shows", root)
+    rss = audit_rss_enclosures(root, offline=offline)
+    voice = audit_voice_config(shows, root)
+
+    landmines: List[Dict[str, Any]] = [
+        item_1_repo_size(root),
+        item_2_rss_integrity(rss),
+        item_3_legacy_flatfiles(root, previous=previous_flat),
+        item_4_output_dirs(shows),
+        item_5_nested_digests(root),
+        item_6_formatted_md(root),
+        item_8_feature_flags(shows),
+        item_9_voice_settings(voice),
+        item_11_tts_provider(shows),
+        item_12_summaries_location(shows),
+    ]
+
+    metrics = aggregate_metrics(root, shows)
+    costs = aggregate_costs(root, shows)
+    network = build_network_rollup(shows, landmines, metrics, costs, rss)
+
+    # Strip the ShowConfig object out of per-show entries before serialising.
+    serializable_shows: List[Dict[str, Any]] = []
+    for s in shows:
+        cfg = s.get("cfg")
+        serializable_shows.append({
+            "slug": s["slug"],
+            "name": s["name"],
+            "yaml_path": s.get("yaml_path"),
+            "load_error": s.get("load_error"),
+            "rss_file": (cfg.publishing.rss_file if cfg else None),
+            "rss_image": (cfg.publishing.rss_image if cfg else None),
+            "newsletter_enabled": (cfg.newsletter.enabled if cfg else False),
+            "x_enabled": (cfg.publishing.x_enabled if cfg else None),
+        })
+
+    return {
+        "generated_at": _dt.datetime.now(_dt.timezone.utc).isoformat(),
+        "network": network,
+        "shows": serializable_shows,
+        "landmines": landmines,
+        "voice_config": voice,
+        "cost_rollup": costs,
+        "pipeline_health": metrics,
+        "rss_audit": rss,
+    }
+
+
+def _read_previous_flat_total(out_path: Path) -> Optional[int]:
+    if not out_path.exists():
+        return None
+    try:
+        data = json.loads(out_path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    for lm in data.get("landmines") or []:
+        if lm.get("id") == "item_3_legacy_flatfiles":
+            return (lm.get("evidence") or {}).get("total")
+    return None
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    parser = argparse.ArgumentParser(description="Generate api/dashboard.json")
+    parser.add_argument("--out", default="api/dashboard.json")
+    parser.add_argument("--offline", action="store_true",
+                        help="Skip HEAD reachability checks on enclosure URLs")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Print JSON to stdout, do not write file")
+    args = parser.parse_args(argv)
+
+    out_path = (_ROOT / args.out).resolve()
+    previous = _read_previous_flat_total(out_path)
+    data = build_dashboard(_ROOT, offline=args.offline, previous_flat=previous)
+
+    blob = json.dumps(data, indent=2, ensure_ascii=False, default=str)
+    if args.dry_run:
+        print(blob)
+        return 0
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(blob + "\n", encoding="utf-8")
+
+    # Emit a short human-readable summary so CI logs tell the story at a glance.
+    counts = data["network"]["landmines_counts"]
+    print(
+        f"dashboard: wrote {out_path.relative_to(_ROOT)} — "
+        f"{counts.get('ok', 0)} ok, {counts.get('warn', 0)} warn, "
+        f"{counts.get('fail', 0)} fail; "
+        f"{data['network']['shows_count']} shows; "
+        f"${data['network']['total_cost_last_7_days_usd']:.2f} 7d spend",
+        file=sys.stderr,
+    )
+    return 1 if counts.get("fail", 0) else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
