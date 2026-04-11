@@ -7,30 +7,20 @@ sources:
     label: Teslarati
   - url: https://www.theverge.com/rss/tesla/index.xml
     label: The Verge
-  - url: https://www.findmyelectric.com/feed/
-    label: Find My Electric
   - url: https://cleantechnica.com/tag/tesla/feed/
     label: CleanTechnica
-  - url: https://www.thedrive.com/category/tesla-news/feed
-    label: The Drive
   - url: https://whatsuptesla.com/feed
     label: WhatsUpTesla
-  - url: https://www.tesmanian.com/blogs/tesmanian-blog.atom
-    label: Tesmanian
   - url: https://driveteslacanada.ca/feed/
     label: Drive Tesla Canada
   - url: https://carbuzz.com/feed
     label: CarBuzz
   - url: https://insideevs.com/rss/articles/all/
     label: InsideEVs
-  - url: https://www.torquenews.com/rss.xml
-    label: Torque News
   - url: https://electrek.co/guides/tesla/feed/
     label: Electrek
   - url: https://www.cnbc.com/id/10001147/device/rss/rss.html
     label: CNBC
-  - url: https://www.reuters.com/technology/rss
-    label: Reuters
   # Google News — supplementary broad coverage
   - url: "https://news.google.com/rss/search?q=tesla+electric+vehicle&hl=en-US&gl=US&ceid=US:en"
     label: Google News Tesla
@@ -47,6 +37,11 @@ sources:
     label: r/electricvehicles
   - url: "https://www.reddit.com/r/teslainvestorsclub/.rss"
     label: r/teslainvestorsclub
+  # --- Round 4 additions (April 2026) ---
+  - url: https://www.notateslaapp.com/rss
+    label: Not A Tesla App
+  - url: https://evannex.com/blogs/news.atom
+    label: Evannex
 
 x_accounts:
   - handle: sawyermerrit

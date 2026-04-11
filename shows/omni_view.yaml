@@ -5,24 +5,12 @@ description: Daily balanced news summaries presenting multiple perspectives on t
 sources:
   - url: https://feeds.npr.org/1001/rss.xml
     label: NPR
-  - url: https://rss.cnn.com/rss/edition.rss
-    label: CNN
   - url: https://feeds.bbci.co.uk/news/rss.xml
     label: BBC
-  - url: https://www.nytimes.com/rss
-    label: NYT
-  - url: https://www.washingtonpost.com/rss/
-    label: Washington Post
-  - url: https://www.reutersagency.com/feed/
-    label: Reuters
-  - url: https://feeds.a.dj.com/rss/RSSWorldNews.xml
-    label: Wall Street Journal
   - url: https://feeds.foxnews.com/foxnews/politics
     label: Fox News
   - url: https://www.newsmax.com/rss/Newsfront/16/
     label: Newsmax
-  - url: https://www.breitbart.com/rss.xml
-    label: Breitbart
   - url: https://www.dailymail.co.uk/articles.rss
     label: Daily Mail
   - url: https://www.aljazeera.com/xml/rss/all.xml
@@ -31,8 +19,6 @@ sources:
     label: The Guardian
   - url: https://www.france24.com/en/rss
     label: France24
-  - url: https://www.dw.com/en/rss.xml
-    label: DW
   - url: https://theintercept.com/feed/?lang=en
     label: The Intercept
   - url: https://www.motherjones.com/rss
@@ -47,8 +33,6 @@ sources:
     label: CNBC
   - url: https://www.wired.com/feed/rss
     label: Wired
-  - url: https://arstechnica.com/rss.xml
-    label: Ars Technica
   # Google News — supplementary broad coverage
   - url: "https://news.google.com/rss/search?q=US+politics+policy+news&hl=en-US&gl=US&ceid=US:en"
     label: Google News US Politics
@@ -63,6 +47,21 @@ sources:
     label: r/news
   - url: "https://www.reddit.com/r/geopolitics/.rss"
     label: r/geopolitics
+  # --- Round 4 additions (April 2026) ---
+  - url: http://feeds.bbci.co.uk/news/world/rss.xml
+    label: BBC World News
+  - url: http://feeds.bbci.co.uk/news/rss.xml
+    label: BBC Top Stories
+  - url: https://feeds.npr.org/1004/rss.xml
+    label: NPR World
+  - url: https://rss.dw.com/xml/rss-en-top
+    label: Deutsche Welle
+  - url: https://arstechnica.com/feed/
+    label: Ars Technica
+  - url: https://www.economist.com/the-world-this-week/rss.xml
+    label: The Economist
+  - url: https://rss.csmonitor.com/feeds/top
+    label: Christian Science Monitor
 
 web_search_queries:
   - "breaking news today"

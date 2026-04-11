@@ -8,22 +8,14 @@ sources:
     label: OpenAI Blog
   - url: https://blog.google/technology/ai/rss/
     label: Google AI Blog
-  - url: https://ai.meta.com/blog/rss/
-    label: Meta AI Blog
-  - url: https://www.anthropic.com/rss.xml
-    label: Anthropic Blog
   - url: https://huggingface.co/blog/feed.xml
     label: Hugging Face Blog
-  - url: https://mistral.ai/feed.xml
-    label: Mistral AI Blog
 
   # AI News & Analysis
   - url: https://www.technologyreview.com/feed/
     label: MIT Tech Review
   - url: https://techcrunch.com/category/artificial-intelligence/feed/
     label: TechCrunch AI
-  - url: https://venturebeat.com/category/ai/feed/
-    label: VentureBeat AI
   - url: https://www.theverge.com/rss/ai-artificial-intelligence/index.xml
     label: The Verge AI
   - url: https://arstechnica.com/ai/feed/
@@ -38,12 +30,8 @@ sources:
     label: AI News
 
   # Research & Papers
-  - url: https://arxiv.org/rss/cs.AI
-    label: arXiv AI
   - url: https://arxiv.org/rss/cs.CL
     label: arXiv NLP
-  - url: https://arxiv.org/rss/cs.MA
-    label: arXiv Multi-Agent Systems
 
   # Developer & Agent Ecosystem
   - url: https://github.blog/feed/
@@ -56,16 +44,8 @@ sources:
     label: Latent Space
 
   # MLOps & Production AI
-  - url: https://neptune.ai/blog/feed
-    label: Neptune AI Blog
-  - url: https://www.deeplearning.ai/the-batch/feed/
-    label: The Batch (DeepLearning.AI)
   - url: https://simonwillison.net/atom/everything/
     label: Simon Willison
-  - url: https://lilianweng.github.io/index.xml
-    label: Lilian Weng (OpenAI)
-  - url: https://www.bentoml.com/blog/rss.xml
-    label: BentoML Blog
   - url: https://towardsdatascience.com/feed
     label: Towards Data Science
   # Google News — supplementary broad coverage
@@ -82,6 +62,15 @@ sources:
     label: r/LocalLLaMA
   - url: "https://www.reddit.com/r/artificial/.rss"
     label: r/artificial
+  # --- Round 4 additions (April 2026) ---
+  - url: https://research.google/blog/rss/
+    label: Google Research Blog
+  - url: http://export.arxiv.org/rss/cs.CL
+    label: arXiv cs.CL
+  - url: https://venturebeat.com/feed/
+    label: VentureBeat
+  - url: https://arstechnica.com/feed/
+    label: Ars Technica
 
 web_search_queries:
   - "AI artificial intelligence news today"

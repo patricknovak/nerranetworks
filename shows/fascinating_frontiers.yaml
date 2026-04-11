@@ -5,16 +5,8 @@ description: Daily space and astronomy news digest. Bringing the wonders of spac
 sources:
   - url: https://www.nasa.gov/rss/dyn/breaking_news.rss
     label: NASA Breaking
-  - url: https://www.nasa.gov/rss/dyn/educationnews.rss
-    label: NASA Education
   - url: https://www.nasa.gov/rss/dyn/image_of_the_day.rss
     label: NASA Image
-  - url: https://www.nasa.gov/rss/dyn/centers/kennedy/news/releases/current.rss
-    label: NASA Kennedy
-  - url: https://www.nasa.gov/rss/dyn/centers/jpl/news/releases/current.rss
-    label: NASA JPL
-  - url: https://www.nasa.gov/rss/dyn/centers/goddard/news/releases/current.rss
-    label: NASA Goddard
   - url: https://www.space.com/feeds/all
     label: Space.com
   - url: https://www.space.com/rss
@@ -23,42 +15,20 @@ sources:
     label: Spaceflight Now
   - url: https://spacenews.com/feed/
     label: SpaceNews
-  - url: https://www.space.com/news/feed
-    label: Space.com News
   - url: https://www.astronomy.com/feed/
     label: Astronomy
   - url: https://www.skyandtelescope.com/feed/
     label: Sky & Telescope
   - url: https://www.universetoday.com/feed/
     label: Universe Today
-  - url: https://www.space.com/science-astronomy/feed
-    label: Space.com Science
-  - url: https://www.space.com/spaceflight/feed
-    label: Space.com Spaceflight
   - url: https://www.esa.int/rssfeed/ESA
     label: ESA
   - url: https://www.esa.int/rssfeed/Our_Activities
     label: ESA Activities
-  - url: https://www.esa.int/rssfeed/Space_Science
-    label: ESA Space Science
-  - url: https://www.roscosmos.ru/feed/
-    label: Roscosmos
-  - url: https://global.jaxa.jp/rss/
-    label: JAXA
-  - url: https://www.spacex.com/news.xml
-    label: SpaceX
-  - url: https://www.blueorigin.com/news/rss
-    label: Blue Origin
-  - url: https://www.nasa.gov/rss/dyn/commercial_crew_program_updates.rss
-    label: NASA Commercial Crew
   - url: https://www.nature.com/nature/astronomy.rss
     label: Nature Astronomy
   - url: https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science
     label: Science Magazine
-  - url: https://www.space.com/technology/feed
-    label: Space.com Tech
-  - url: https://www.space.com/launches/feed
-    label: Space.com Launches
   # Google News — supplementary broad coverage
   - url: "https://news.google.com/rss/search?q=space+exploration+news&hl=en-US&gl=US&ceid=US:en"
     label: Google News Space
@@ -73,6 +43,19 @@ sources:
     label: r/spacex
   - url: "https://www.reddit.com/r/astronomy/.rss"
     label: r/astronomy
+  # --- Round 4 additions (April 2026) ---
+  - url: https://science.nasa.gov/feed/
+    label: NASA Science
+  - url: https://www.nasa.gov/feeds/iotd-feed/
+    label: NASA Image of the Day
+  - url: https://www.esa.int/rssfeed/Our_Activities/Space_News
+    label: ESA Space News
+  - url: https://phys.org/rss-feed/space-news/
+    label: Phys.org Space
+  - url: https://www.teslarati.com/category/spacex/feed/
+    label: Teslarati SpaceX
+  - url: https://www.quantamagazine.org/feed/
+    label: Quanta Magazine
 
 web_search_queries:
   - "space exploration news today"

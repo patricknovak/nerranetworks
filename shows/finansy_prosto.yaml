@@ -12,8 +12,6 @@ sources:
     label: RateHub Canada
   - url: https://canadianmortgagetrends.com/feed/
     label: Canadian Mortgage Trends
-  - url: https://canadiancouchpotato.com/feed/
-    label: Canadian Couch Potato (investing education)
   - url: https://www.getsmarteraboutmoney.ca/feed/
     label: GetSmarterAboutMoney (Ontario Securities Commission)
   - url: https://feeds.feedburner.com/BoomerEcho
@@ -58,6 +56,17 @@ sources:
     label: r/PersonalFinanceCanada
   - url: "https://www.reddit.com/r/CanadianInvestor/.rss"
     label: r/CanadianInvestor
+  # --- Round 4 additions (April 2026) ---
+  - url: https://milliondollarjourney.com/feed
+    label: Million Dollar Journey
+  - url: https://www.savvynewcanadians.com/feed/
+    label: Savvy New Canadians
+  - url: https://moneysense.ca/feed/
+    label: MoneySense
+  - url: https://www.canadianbudgetbinder.com/feed/
+    label: Canadian Budget Binder
+  - url: https://www.cbc.ca/cmlink/rss-business
+    label: CBC Business
 
 web_search_queries:
   - "Canada personal finance TFSA RRSP news"

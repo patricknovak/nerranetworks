@@ -7,10 +7,6 @@ sources:
     label: Nature
   - url: https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science
     label: Science Magazine
-  - url: https://www.biorxiv.org/rss/current.xml
-    label: bioRxiv Preprints
-  - url: https://www.medrxiv.org/rss/current.xml
-    label: medRxiv Preprints
   - url: https://www.nature.com/nbt.rss
     label: Nature Biotech
   - url: https://www.nature.com/nm.rss
@@ -34,8 +30,6 @@ sources:
   # longevity.technology/feed/ returns empty — removed
   - url: https://www.lifespan.io/feed/
     label: Lifespan.io
-  - url: https://longevity.stanford.edu/feed/
-    label: Stanford Longevity
   - url: https://news.harvard.edu/gazette/feed/
     label: Harvard Gazette
   - url: https://news.mit.edu/rss/topic/health
@@ -54,6 +48,17 @@ sources:
     label: r/science
   - url: "https://www.reddit.com/r/biotech/.rss"
     label: r/biotech
+  # --- Round 4 additions (April 2026) ---
+  - url: "https://connect.biorxiv.org/biorxiv_xml.php?subject=biochemistry"
+    label: bioRxiv Biochemistry
+  - url: "https://connect.biorxiv.org/biorxiv_xml.php?subject=genetics"
+    label: bioRxiv Genetics
+  - url: https://www.sciencedaily.com/rss/health_medicine/medical_topics.xml
+    label: ScienceDaily Medical
+  - url: https://www.fiercebiotech.com/rss/xml
+    label: Fierce Biotech
+  - url: https://endpts.com/feed/
+    label: Endpoints News
 
 web_search_queries:
   - "longevity anti-aging research news"

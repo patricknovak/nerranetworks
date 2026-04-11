@@ -26,8 +26,6 @@ sources:
     label: Canada Gazette Part II
 
   # US EPA (cross-border relevance)
-  - url: https://www.epa.gov/newsreleases/search/rss
-    label: US EPA
 
   # Science Journals
   - url: https://www.nature.com/nclimate.rss
@@ -47,8 +45,6 @@ sources:
   - url: https://www.desmog.com/feed/
     label: DeSmog
   # General Environmental / Climate
-  - url: https://www.nationalobserver.com/feed
-    label: National Observer
   - url: https://www.carbonbrief.org/feed/
     label: Carbon Brief
   - url: https://yaleclimateconnections.org/feed/

@@ -52,6 +52,9 @@ sources:
     label: r/ChatGPT
   - url: "https://www.reddit.com/r/artificial/.rss"
     label: r/artificial
+  # --- Round 4 additions (April 2026) ---
+  - url: https://simonwillison.net/atom/everything/
+    label: Simon Willison
 
 web_search_queries:
   - "AI news for beginners today"

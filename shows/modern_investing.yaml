@@ -64,6 +64,11 @@ sources:
     label: r/investing
   - url: "https://www.reddit.com/r/stocks/.rss"
     label: r/stocks
+  # --- Round 4 additions (April 2026) ---
+  - url: https://seekingalpha.com/market_currents.xml
+    label: Seeking Alpha
+  - url: https://www.cbc.ca/cmlink/rss-business
+    label: CBC Business
 
 web_search_queries:
   - "stock market investing news today"
