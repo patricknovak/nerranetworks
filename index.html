@@ -595,6 +595,52 @@
         </div>
     </section>
 
+    <!-- Find Your Show — interactive picker -->
+    <section id="find-your-show" class="nn-section" style="background:var(--nn-bg-alt);">
+        <div class="container">
+            <div class="nn-section-header">
+                <div class="section-label">Find Your Show</div>
+                <h2>Tell us what you're into — we'll show you where to start</h2>
+                <p>Pick any filters and matching shows stay highlighted. Clear all to see everything.</p>
+            </div>
+            <div class="picker">
+                <div class="picker-row">
+                    <span class="picker-label">Topic</span>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="tesla">🔋 Tesla / EV</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="world-news">📰 World news</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="space">🚀 Space &amp; astronomy</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="science">🧬 Science</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="longevity">⚕️ Longevity / biotech</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="environment">🌍 Environment / climate</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="ai">🤖 AI / ML</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="investing">📈 Investing</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="personal-finance">💰 Personal finance</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="language-learning">🗣️ Language learning</button>
+                </div>
+                <div class="picker-row">
+                    <span class="picker-label">You are</span>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="investors">An investor</button>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="professionals">A pro in the field</button>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="builders">A builder / engineer</button>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="students">A student</button>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="beginners">A curious beginner</button>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="newcomers">A newcomer to Canada</button>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="enthusiasts">An enthusiast</button>
+                </div>
+                <div class="picker-row">
+                    <span class="picker-label">Language</span>
+                    <button type="button" class="picker-chip" data-filter-group="language" data-filter-value="english">English</button>
+                    <button type="button" class="picker-chip" data-filter-group="language" data-filter-value="russian">Русский</button>
+                    <button type="button" class="picker-chip" data-filter-group="language" data-filter-value="bilingual">Bilingual (RU + EN)</button>
+                </div>
+                <div class="picker-row picker-row-actions">
+                    <button type="button" class="picker-clear nn-btn">Clear filters</button>
+                    <span class="picker-count" aria-live="polite">Showing all <strong id="picker-count-total">10</strong> shows</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Show Showcase -->
     <section id="shows" class="nn-section">
         <div class="container">
@@ -603,9 +649,14 @@
                 <h2>Daily intelligence on the topics that matter</h2>
                 <p>Every show is ad-free, independently produced, and published daily. Pick one or subscribe to all.</p>
             </div>
-            <div class="show-showcase">
+            <div class="show-showcase" id="show-showcase-grid">
                 
-                <div class="show-card-wrap" style="--show-color:#8B5CF6;">
+                <div class="show-card-wrap"
+                     data-slug="models_agents"
+                     data-topics="ai tech research"
+                     data-audience="builders professionals"
+                     data-language="english"
+                     style="--show-color:#8B5CF6;">
                     <a href="models-agents.html" class="show-card glass-card">
                         <img src="assets/covers/models-agents.jpg" alt="Models & Agents" class="show-card-image" loading="lazy">
                         <div class="show-card-name">Models & Agents</div>
@@ -614,6 +665,12 @@
                             <span class="show-card-badge">~15 min</span>
                         </div>
                         <div class="show-card-tagline">Daily AI briefing covering new model releases, agent frameworks, and practical developments. From GPT and Claude to open-source projects — stay on top of the most exciting tech developments of our generation.</div>
+                        
+                        
+                        <div class="show-card-audience"><strong>For:</strong>
+                            developers building with AI, professionals adopting AI tools, and anyone who wants to stay ahead of the most transformative technology of our generation.
+                        </div>
+                        
                         
                         <div class="show-card-sources">Sources: OpenAI, Anthropic, Hugging Face, arXiv</div>
                         
@@ -628,7 +685,12 @@
                     </a>
                 </div>
                 
-                <div class="show-card-wrap" style="--show-color:#018DB1;">
+                <div class="show-card-wrap"
+                     data-slug="planetterrian"
+                     data-topics="longevity biotech health science"
+                     data-audience="professionals enthusiasts"
+                     data-language="english"
+                     style="--show-color:#018DB1;">
                     <a href="planetterrian.html" class="show-card glass-card">
                         <img src="assets/covers/planetterrian-daily.jpg" alt="Planetterrian Daily" class="show-card-image" loading="lazy">
                         <div class="show-card-name">Planetterrian Daily</div>
@@ -637,6 +699,12 @@
                             <span class="show-card-badge">~15 min</span>
                         </div>
                         <div class="show-card-tagline">Daily discoveries in longevity science, genetics, biotech, CRISPR, neuroscience, and health research. If it could extend your healthspan or change medicine, we cover it.</div>
+                        
+                        
+                        <div class="show-card-audience"><strong>For:</strong>
+                            the health-curious, longevity enthusiasts, biohackers, and anyone who wants tomorrow's medicine explained today.
+                        </div>
+                        
                         
                         <div class="show-card-sources">Sources: Nature, Science, Cell, New Scientist</div>
                         
@@ -651,7 +719,12 @@
                     </a>
                 </div>
                 
-                <div class="show-card-wrap" style="--show-color:#0B6FD6;">
+                <div class="show-card-wrap"
+                     data-slug="omni_view"
+                     data-topics="world-news politics balanced"
+                     data-audience="professionals citizens"
+                     data-language="english"
+                     style="--show-color:#0B6FD6;">
                     <a href="omni-view.html" class="show-card glass-card">
                         <img src="assets/covers/omni-view.jpg" alt="Omni View" class="show-card-image" loading="lazy">
                         <div class="show-card-name">Omni View</div>
@@ -660,6 +733,12 @@
                             <span class="show-card-badge">~20 min</span>
                         </div>
                         <div class="show-card-tagline">A neutral, media-literacy-first daily briefing designed for everyone from children to seniors. Covers top world, business, technology, and media stories with perspectives from across the political spectrum — so you can decide for yourself.</div>
+                        
+                        
+                        <div class="show-card-audience"><strong>For:</strong>
+                            thoughtful news consumers who want every side of the story — not just the one their algorithm picks.
+                        </div>
+                        
                         
                         <div class="show-card-sources">Sources: NPR, BBC, Reuters, WSJ, Al Jazeera, The Guardian</div>
                         
@@ -674,7 +753,12 @@
                     </a>
                 </div>
                 
-                <div class="show-card-wrap" style="--show-color:#F59E0B;">
+                <div class="show-card-wrap"
+                     data-slug="models_agents_beginners"
+                     data-topics="ai tech"
+                     data-audience="students beginners"
+                     data-language="english"
+                     style="--show-color:#F59E0B;">
                     <a href="models-agents-beginners.html" class="show-card glass-card">
                         <img src="assets/covers/models-agents-beginners.jpg" alt="Models & Agents for Beginners" class="show-card-image" loading="lazy">
                         <div class="show-card-name">Models & Agents for Beginners</div>
@@ -683,6 +767,12 @@
                             <span class="show-card-badge">~10 min</span>
                         </div>
                         <div class="show-card-tagline">A daily AI podcast for beginners and teens — learn about models, agents, and the AI revolution in plain language. We explain the jargon, encourage experimentation, and help you understand the most exciting technology of our generation.</div>
+                        
+                        
+                        <div class="show-card-audience"><strong>For:</strong>
+                            students, teens, curious parents, career changers, and anyone new to AI who wants to understand what's happening without the jargon.
+                        </div>
+                        
                         
                         <div class="show-card-sources">Sources: OpenAI, Google AI, Hugging Face, TechCrunch AI</div>
                         
@@ -697,7 +787,12 @@
                     </a>
                 </div>
                 
-                <div class="show-card-wrap" style="--show-color:#7C5CFF;">
+                <div class="show-card-wrap"
+                     data-slug="fascinating_frontiers"
+                     data-topics="space astronomy science"
+                     data-audience="enthusiasts students"
+                     data-language="english"
+                     style="--show-color:#7C5CFF;">
                     <a href="fascinating_frontiers.html" class="show-card glass-card">
                         <img src="assets/covers/fascinating-frontiers.jpg" alt="Fascinating Frontiers" class="show-card-image" loading="lazy">
                         <div class="show-card-name">Fascinating Frontiers</div>
@@ -706,6 +801,12 @@
                             <span class="show-card-badge">~15 min</span>
                         </div>
                         <div class="show-card-tagline">Daily space and astronomy news covering mission updates, cosmic discoveries, exoplanet breakthroughs, and rocket launches. From NASA and ESA to SpaceX and beyond — the universe is more exciting than you think.</div>
+                        
+                        
+                        <div class="show-card-audience"><strong>For:</strong>
+                            space enthusiasts, amateur astronomers, students, and anyone who looks up and wonders what's out there.
+                        </div>
+                        
                         
                         <div class="show-card-sources">Sources: NASA, ESA, Space.com, SpaceNews</div>
                         
@@ -720,7 +821,12 @@
                     </a>
                 </div>
                 
-                <div class="show-card-wrap" style="--show-color:#059669;">
+                <div class="show-card-wrap"
+                     data-slug="modern_investing"
+                     data-topics="investing stocks personal-finance"
+                     data-audience="investors professionals"
+                     data-language="english"
+                     style="--show-color:#059669;">
                     <a href="modern-investing.html" class="show-card glass-card">
                         <img src="assets/covers/modern-investing.jpg" alt="Modern Investing Techniques" class="show-card-image" loading="lazy">
                         <div class="show-card-name">Modern Investing Techniques</div>
@@ -729,6 +835,12 @@
                             <span class="show-card-badge">~12 min</span>
                         </div>
                         <div class="show-card-tagline">Daily investing podcast using AI-driven analysis and modern tools to identify market opportunities, track simulated trades, and teach strategies that aim to outperform index funds. Covering Canadian and US markets with actionable picks, performance tracking, and lessons learned.</div>
+                        
+                        
+                        <div class="show-card-audience"><strong>For:</strong>
+                            active investors who want to go beyond buy-and-hold — using AI, modern platforms, and data-driven strategies.
+                        </div>
+                        
                         
                         <div class="show-card-sources">Sources: Financial Post, BNN Bloomberg, Globe and Mail, Seeking Alpha</div>
                         
@@ -743,7 +855,12 @@
                     </a>
                 </div>
                 
-                <div class="show-card-wrap" style="--show-color:#E31937;">
+                <div class="show-card-wrap"
+                     data-slug="tesla"
+                     data-topics="tesla ev tech stocks energy"
+                     data-audience="investors enthusiasts"
+                     data-language="english"
+                     style="--show-color:#E31937;">
                     <a href="tesla.html" class="show-card glass-card">
                         <img src="assets/covers/tesla-shorts-time.jpg" alt="Tesla Shorts Time" class="show-card-image" loading="lazy">
                         <div class="show-card-name">Tesla Shorts Time</div>
@@ -752,6 +869,12 @@
                             <span class="show-card-badge">~15 min</span>
                         </div>
                         <div class="show-card-tagline">Daily podcast covering how Tesla is advancing its mission to accelerate the transition to sustainable energy. Covers FSD safety milestones, Cybertruck production, energy storage breakthroughs, TSLA stock movements, and why the shorts keep getting it wrong.</div>
+                        
+                        
+                        <div class="show-card-audience"><strong>For:</strong>
+                            Tesla owners, TSLA investors, EV enthusiasts, and anyone following the transition to sustainable energy.
+                        </div>
+                        
                         
                         <div class="show-card-sources">Sources: Teslarati, CleanTechnica, InsideEVs, The Verge</div>
                         
@@ -766,7 +889,12 @@
                     </a>
                 </div>
                 
-                <div class="show-card-wrap" style="--show-color:#1B5E20;">
+                <div class="show-card-wrap"
+                     data-slug="env_intel"
+                     data-topics="environment climate regulatory"
+                     data-audience="professionals"
+                     data-language="english"
+                     style="--show-color:#1B5E20;">
                     <a href="env-intel.html" class="show-card glass-card">
                         <img src="assets/covers/environmental-intelligence.jpg" alt="Environmental Intelligence" class="show-card-image" loading="lazy">
                         <div class="show-card-name">Environmental Intelligence</div>
@@ -775,6 +903,12 @@
                             <span class="show-card-badge">~10 min</span>
                         </div>
                         <div class="show-card-tagline">Environmental regulatory, science, and compliance briefing for BC professionals. Covers contaminated sites, CEPA, emissions, carbon policy, PFAS, and remediation developments across Canada.</div>
+                        
+                        
+                        <div class="show-card-audience"><strong>For:</strong>
+                            Canadian environmental professionals — contaminated sites consultants, regulators, lawyers, and lab scientists.
+                        </div>
+                        
                         
                         <div class="show-card-sources">Sources: Canada Gazette, ECCC, BC Ministry of Environment, The Narwhal</div>
                         
@@ -789,7 +923,12 @@
                     </a>
                 </div>
                 
-                <div class="show-card-wrap" style="--show-color:#EC4899;">
+                <div class="show-card-wrap"
+                     data-slug="finansy_prosto"
+                     data-topics="personal-finance investing"
+                     data-audience="newcomers families"
+                     data-language="russian"
+                     style="--show-color:#EC4899;">
                     <a href="ru/finansy-prosto.html" class="show-card glass-card">
                         <img src="assets/covers/finansy-prosto.jpg" alt="Финансы Просто" class="show-card-image" loading="lazy">
                         <div class="show-card-name">Финансы Просто</div>
@@ -798,6 +937,12 @@
                             <span class="show-card-badge">~12 min</span>
                         </div>
                         <div class="show-card-tagline">Ежедневный подкаст о финансах на русском языке для женщин в Канаде — инвестиции, сбережения, бюджет и финансовая грамотность просто и понятно.</div>
+                        
+                        
+                        <div class="show-card-audience"><strong>For:</strong>
+                            Для русскоговорящих женщин в Канаде, которые хотят разобраться в финансах — от TFSA до ипотеки.
+                        </div>
+                        
                         
                         <div class="show-card-sources">Sources: MoneySense, Financial Post, FinTolk, Tinkoff Journal</div>
                         
@@ -812,7 +957,12 @@
                     </a>
                 </div>
                 
-                <div class="show-card-wrap" style="--show-color:#6366F1;">
+                <div class="show-card-wrap"
+                     data-slug="privet_russian"
+                     data-topics="language-learning"
+                     data-audience="students heritage-learners"
+                     data-language="bilingual"
+                     style="--show-color:#6366F1;">
                     <a href="ru/privet-russian.html" class="show-card glass-card">
                         <img src="assets/covers/privet-russian.jpg" alt="Привет, Русский!" class="show-card-image" loading="lazy">
                         <div class="show-card-name">Привет, Русский!</div>
@@ -821,6 +971,12 @@
                             <span class="show-card-badge">~10 min</span>
                         </div>
                         <div class="show-card-tagline">A bilingual Russian language learning podcast for English speakers — kids and adult beginners. Vocabulary, phrases, grammar, and culture in fun themed episodes.</div>
+                        
+                        
+                        <div class="show-card-audience"><strong>For:</strong>
+                            students, teens, curious parents, career changers, and anyone who wants to learn Russian — no experience needed.
+                        </div>
+                        
                         
                         <div class="show-card-sources">Sources: BBC News, NPR, National Geographic, Moscow Times</div>
                         
@@ -1123,82 +1279,297 @@
             <div class="nn-section-header">
                 <div class="section-label">Listen Anywhere</div>
                 <h2>Subscribe Everywhere</h2>
-                <p>All shows are available via RSS. Pick your favorite podcast app and never miss an episode.</p>
+                <p>Every show has its own RSS feed. Paste it into any podcast app — Apple Podcasts, Spotify, Pocket Casts, Overcast — and new episodes arrive automatically.</p>
             </div>
             <div class="subscribe-badges">
-                <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" class="subscribe-badge" target="_blank" rel="noopener">
-                    Apple Podcasts (Tesla Shorts Time)
-                </a>
                 <a href="network.rss" class="subscribe-badge">
                     Network RSS (All Shows)
                 </a>
+                <a href="blog.rss" class="subscribe-badge">
+                    Network Blog RSS
+                </a>
             </div>
-            <div class="subscribe-rss-grid">
+            <div class="subscribe-show-list">
                 
-                <a href="models_agents_podcast.rss" class="subscribe-rss-item">
-                    <img src="assets/covers/models-agents.jpg" alt="Models & Agents podcast cover art" loading="lazy">
-                    <span>Models & Agents</span>
-                    <span class="subscribe-rss-label">RSS</span>
-                </a>
+                <div class="subscribe-show-row">
+                    <img src="assets/covers/models-agents.jpg" alt="Models & Agents cover art" loading="lazy">
+                    <div class="subscribe-show-meta">
+                        <div class="subscribe-show-name">Models & Agents</div>
+                        <div class="subscribe-show-tagline">Daily AI models, agents, and practical developments.</div>
+                    </div>
+                    <div class="subscribe-show-links">
+                        
+                        
+                        <a href="models_agents_podcast.rss" class="subscribe-link-btn subscribe-link-rss" aria-label="Subscribe to Models & Agents via RSS">RSS</a>
+                    </div>
+                </div>
                 
-                <a href="planetterrian_podcast.rss" class="subscribe-rss-item">
-                    <img src="assets/covers/planetterrian-daily.jpg" alt="Planetterrian Daily podcast cover art" loading="lazy">
-                    <span>Planetterrian Daily</span>
-                    <span class="subscribe-rss-label">RSS</span>
-                </a>
+                <div class="subscribe-show-row">
+                    <img src="assets/covers/planetterrian-daily.jpg" alt="Planetterrian Daily cover art" loading="lazy">
+                    <div class="subscribe-show-meta">
+                        <div class="subscribe-show-name">Planetterrian Daily</div>
+                        <div class="subscribe-show-tagline">Science, longevity, and the frontier of human health.</div>
+                    </div>
+                    <div class="subscribe-show-links">
+                        
+                        
+                        <a href="planetterrian_podcast.rss" class="subscribe-link-btn subscribe-link-rss" aria-label="Subscribe to Planetterrian Daily via RSS">RSS</a>
+                    </div>
+                </div>
                 
-                <a href="omni_view_podcast.rss" class="subscribe-rss-item">
-                    <img src="assets/covers/omni-view.jpg" alt="Omni View podcast cover art" loading="lazy">
-                    <span>Omni View</span>
-                    <span class="subscribe-rss-label">RSS</span>
-                </a>
+                <div class="subscribe-show-row">
+                    <img src="assets/covers/omni-view.jpg" alt="Omni View cover art" loading="lazy">
+                    <div class="subscribe-show-meta">
+                        <div class="subscribe-show-name">Omni View</div>
+                        <div class="subscribe-show-tagline">See every side. Decide for yourself.</div>
+                    </div>
+                    <div class="subscribe-show-links">
+                        
+                        
+                        <a href="omni_view_podcast.rss" class="subscribe-link-btn subscribe-link-rss" aria-label="Subscribe to Omni View via RSS">RSS</a>
+                    </div>
+                </div>
                 
-                <a href="models_agents_beginners_podcast.rss" class="subscribe-rss-item">
-                    <img src="assets/covers/models-agents-beginners.jpg" alt="Models & Agents for Beginners podcast cover art" loading="lazy">
-                    <span>Models & Agents for Beginners</span>
-                    <span class="subscribe-rss-label">RSS</span>
-                </a>
+                <div class="subscribe-show-row">
+                    <img src="assets/covers/models-agents-beginners.jpg" alt="Models & Agents for Beginners cover art" loading="lazy">
+                    <div class="subscribe-show-meta">
+                        <div class="subscribe-show-name">Models & Agents for Beginners</div>
+                        <div class="subscribe-show-tagline">AI explained simply — for beginners and teens.</div>
+                    </div>
+                    <div class="subscribe-show-links">
+                        
+                        
+                        <a href="models_agents_beginners_podcast.rss" class="subscribe-link-btn subscribe-link-rss" aria-label="Subscribe to Models & Agents for Beginners via RSS">RSS</a>
+                    </div>
+                </div>
                 
-                <a href="fascinating_frontiers_podcast.rss" class="subscribe-rss-item">
-                    <img src="assets/covers/fascinating-frontiers.jpg" alt="Fascinating Frontiers podcast cover art" loading="lazy">
-                    <span>Fascinating Frontiers</span>
-                    <span class="subscribe-rss-label">RSS</span>
-                </a>
+                <div class="subscribe-show-row">
+                    <img src="assets/covers/fascinating-frontiers.jpg" alt="Fascinating Frontiers cover art" loading="lazy">
+                    <div class="subscribe-show-meta">
+                        <div class="subscribe-show-name">Fascinating Frontiers</div>
+                        <div class="subscribe-show-tagline">Journey to the stars with today's discoveries.</div>
+                    </div>
+                    <div class="subscribe-show-links">
+                        
+                        
+                        <a href="fascinating_frontiers_podcast.rss" class="subscribe-link-btn subscribe-link-rss" aria-label="Subscribe to Fascinating Frontiers via RSS">RSS</a>
+                    </div>
+                </div>
                 
-                <a href="modern_investing_podcast.rss" class="subscribe-rss-item">
-                    <img src="assets/covers/modern-investing.jpg" alt="Modern Investing Techniques podcast cover art" loading="lazy">
-                    <span>Modern Investing Techniques</span>
-                    <span class="subscribe-rss-label">RSS</span>
-                </a>
+                <div class="subscribe-show-row">
+                    <img src="assets/covers/modern-investing.jpg" alt="Modern Investing Techniques cover art" loading="lazy">
+                    <div class="subscribe-show-meta">
+                        <div class="subscribe-show-name">Modern Investing Techniques</div>
+                        <div class="subscribe-show-tagline">AI-Powered Market Intelligence</div>
+                    </div>
+                    <div class="subscribe-show-links">
+                        
+                        
+                        <a href="modern_investing_podcast.rss" class="subscribe-link-btn subscribe-link-rss" aria-label="Subscribe to Modern Investing Techniques via RSS">RSS</a>
+                    </div>
+                </div>
                 
-                <a href="podcast.rss" class="subscribe-rss-item">
-                    <img src="assets/covers/tesla-shorts-time.jpg" alt="Tesla Shorts Time podcast cover art" loading="lazy">
-                    <span>Tesla Shorts Time</span>
-                    <span class="subscribe-rss-label">RSS</span>
-                </a>
+                <div class="subscribe-show-row">
+                    <img src="assets/covers/tesla-shorts-time.jpg" alt="Tesla Shorts Time cover art" loading="lazy">
+                    <div class="subscribe-show-meta">
+                        <div class="subscribe-show-name">Tesla Shorts Time</div>
+                        <div class="subscribe-show-tagline">Shorting Tesla? Time's Up.</div>
+                    </div>
+                    <div class="subscribe-show-links">
+                        
+                        <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener" class="subscribe-link-btn" aria-label="Subscribe to Tesla Shorts Time on Apple Podcasts">Apple</a>
+                        
+                        
+                        <a href="podcast.rss" class="subscribe-link-btn subscribe-link-rss" aria-label="Subscribe to Tesla Shorts Time via RSS">RSS</a>
+                    </div>
+                </div>
                 
-                <a href="env_intel_podcast.rss" class="subscribe-rss-item">
-                    <img src="assets/covers/environmental-intelligence.jpg" alt="Environmental Intelligence podcast cover art" loading="lazy">
-                    <span>Environmental Intelligence</span>
-                    <span class="subscribe-rss-label">RSS</span>
-                </a>
+                <div class="subscribe-show-row">
+                    <img src="assets/covers/environmental-intelligence.jpg" alt="Environmental Intelligence cover art" loading="lazy">
+                    <div class="subscribe-show-meta">
+                        <div class="subscribe-show-name">Environmental Intelligence</div>
+                        <div class="subscribe-show-tagline">Environmental regulatory and compliance briefing.</div>
+                    </div>
+                    <div class="subscribe-show-links">
+                        
+                        
+                        <a href="env_intel_podcast.rss" class="subscribe-link-btn subscribe-link-rss" aria-label="Subscribe to Environmental Intelligence via RSS">RSS</a>
+                    </div>
+                </div>
                 
-                <a href="finansy_prosto_podcast.rss" class="subscribe-rss-item">
-                    <img src="assets/covers/finansy-prosto.jpg" alt="Финансы Просто podcast cover art" loading="lazy">
-                    <span>Финансы Просто</span>
-                    <span class="subscribe-rss-label">RSS</span>
-                </a>
+                <div class="subscribe-show-row">
+                    <img src="assets/covers/finansy-prosto.jpg" alt="Финансы Просто cover art" loading="lazy">
+                    <div class="subscribe-show-meta">
+                        <div class="subscribe-show-name">Финансы Просто</div>
+                        <div class="subscribe-show-tagline">Finances Made Simple.</div>
+                    </div>
+                    <div class="subscribe-show-links">
+                        
+                        
+                        <a href="finansy_prosto_podcast.rss" class="subscribe-link-btn subscribe-link-rss" aria-label="Subscribe to Финансы Просто via RSS">RSS</a>
+                    </div>
+                </div>
                 
-                <a href="privet_russian_podcast.rss" class="subscribe-rss-item">
-                    <img src="assets/covers/privet-russian.jpg" alt="Привет, Русский! podcast cover art" loading="lazy">
-                    <span>Привет, Русский!</span>
-                    <span class="subscribe-rss-label">RSS</span>
-                </a>
+                <div class="subscribe-show-row">
+                    <img src="assets/covers/privet-russian.jpg" alt="Привет, Русский! cover art" loading="lazy">
+                    <div class="subscribe-show-meta">
+                        <div class="subscribe-show-name">Привет, Русский!</div>
+                        <div class="subscribe-show-tagline">Learn Russian — Привет means hello!</div>
+                    </div>
+                    <div class="subscribe-show-links">
+                        
+                        
+                        <a href="privet_russian_podcast.rss" class="subscribe-link-btn subscribe-link-rss" aria-label="Subscribe to Привет, Русский! via RSS">RSS</a>
+                    </div>
+                </div>
                 
             </div>
-            <p style="text-align:center;color:var(--nn-text-muted);font-family:var(--font-ui);font-size:0.88rem;margin-top:var(--sp-6);">Copy any RSS link into your podcast app of choice — Apple Podcasts, Spotify, Pocket Casts, Overcast, or any RSS reader.</p>
+            <p style="text-align:center;color:var(--nn-text-muted);font-family:var(--font-ui);font-size:0.88rem;margin-top:var(--sp-6);">Apple Podcasts and Spotify submission is ongoing — every show is fully subscribable via RSS today.</p>
         </div>
     </section>
+
+    
+    <style>
+      .picker { max-width: 960px; margin: 0 auto; }
+      .picker-row {
+        display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+        padding: 10px 0;
+      }
+      .picker-label {
+        flex: 0 0 auto; min-width: 88px;
+        font-family: var(--font-ui); font-size: 0.85rem;
+        color: var(--nn-text-muted); text-transform: uppercase; letter-spacing: 0.05em;
+      }
+      .picker-chip {
+        background: transparent; border: 1px solid var(--nn-border);
+        color: var(--nn-text); border-radius: 999px;
+        padding: 8px 14px; font-size: 0.85rem; font-family: var(--font-ui);
+        cursor: pointer; transition: background 120ms, border-color 120ms, color 120ms;
+      }
+      .picker-chip:hover { border-color: #7C5CFF; }
+      .picker-chip.is-active {
+        background: rgba(124, 92, 255, 0.18);
+        border-color: #7C5CFF;
+        color: #fff;
+      }
+      .picker-row-actions { justify-content: space-between; padding-top: 18px; }
+      .picker-clear { font-size: 0.85rem; padding: 8px 16px; }
+      .picker-count { color: var(--nn-text-muted); font-size: 0.85rem; font-family: var(--font-ui); }
+      .picker-count strong { color: var(--nn-text); }
+
+      /* Cards that don't match the active filters fade out but stay in DOM
+         order so the grid layout doesn't jump around. */
+      .show-card-wrap.is-dimmed { opacity: 0.32; filter: grayscale(0.5); }
+      .show-card-wrap.is-dimmed .show-card { pointer-events: none; }
+      .show-card-wrap.is-match {
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--show-color, #7C5CFF) 70%, transparent);
+        border-radius: 16px;
+      }
+      .show-card-audience {
+        font-size: 0.82rem; color: var(--nn-text-muted);
+        margin-top: 4px; line-height: 1.4;
+      }
+      .show-card-audience strong { color: var(--nn-text); font-weight: 600; }
+
+      .subscribe-show-list {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 12px; margin: 24px auto 0; max-width: 1100px;
+      }
+      .subscribe-show-row {
+        display: flex; align-items: center; gap: 12px;
+        background: var(--nn-surface, #161a24); border: 1px solid var(--nn-border);
+        border-radius: 12px; padding: 12px 14px;
+      }
+      .subscribe-show-row img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+      .subscribe-show-meta { flex: 1; min-width: 0; }
+      .subscribe-show-name { font-weight: 600; font-size: 0.95rem; color: var(--nn-text); }
+      .subscribe-show-tagline { font-size: 0.78rem; color: var(--nn-text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .subscribe-show-links { display: flex; gap: 6px; flex-shrink: 0; }
+      .subscribe-link-btn {
+        font-size: 0.75rem; padding: 6px 10px; border-radius: 6px;
+        border: 1px solid var(--nn-border); background: rgba(124,92,255,0.08);
+        color: var(--nn-text); text-decoration: none; font-family: var(--font-ui);
+      }
+      .subscribe-link-btn:hover { background: rgba(124,92,255,0.22); }
+      .subscribe-link-rss { background: rgba(255,140,0,0.12); }
+    </style>
+
+    <script>
+    (function () {
+      const grid = document.getElementById("show-showcase-grid");
+      if (!grid) return;
+      const cards = Array.from(grid.querySelectorAll(".show-card-wrap"));
+      const chips = Array.from(document.querySelectorAll(".picker-chip"));
+      const clearBtn = document.querySelector(".picker-clear");
+      const countEl = document.getElementById("picker-count-total");
+      const total = cards.length;
+
+      const active = { topics: new Set(), audience: new Set(), language: new Set() };
+
+      function tokensOf(card, group) {
+        const raw = card.getAttribute("data-" + group) || "";
+        return raw.split(/\s+/).filter(Boolean);
+      }
+
+      function cardMatches(card) {
+        for (const group of ["topics", "audience", "language"]) {
+          const wanted = active[group];
+          if (wanted.size === 0) continue;
+          const has = new Set(tokensOf(card, group));
+          let ok = false;
+          for (const w of wanted) {
+            if (has.has(w)) { ok = true; break; }
+          }
+          if (!ok) return false;
+        }
+        return true;
+      }
+
+      function applyFilters() {
+        const anyActive =
+          active.topics.size + active.audience.size + active.language.size > 0;
+        let matched = 0;
+        cards.forEach((card) => {
+          const m = cardMatches(card);
+          card.classList.toggle("is-dimmed", anyActive && !m);
+          card.classList.toggle("is-match", anyActive && m);
+          if (m) matched++;
+        });
+        if (!countEl) return;
+        if (!anyActive) {
+          countEl.textContent = total;
+          countEl.parentElement.firstChild.textContent = "Showing all ";
+        } else {
+          countEl.textContent = matched;
+          countEl.parentElement.firstChild.textContent = "Showing ";
+        }
+      }
+
+      chips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          const group = chip.getAttribute("data-filter-group");
+          const value = chip.getAttribute("data-filter-value");
+          if (!group || !value || !active[group]) return;
+          if (active[group].has(value)) {
+            active[group].delete(value);
+            chip.classList.remove("is-active");
+          } else {
+            active[group].add(value);
+            chip.classList.add("is-active");
+          }
+          applyFilters();
+        });
+      });
+
+      if (clearBtn) {
+        clearBtn.addEventListener("click", () => {
+          for (const k in active) active[k].clear();
+          chips.forEach((c) => c.classList.remove("is-active"));
+          applyFilters();
+        });
+      }
+    })();
+    </script>
 
     </main>
 
