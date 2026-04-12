@@ -159,9 +159,11 @@ def send_newsletter(
         "subject": subject,
         "body": body,
         "status": status,
+        "filters": {
+            "filters": [{"field": "tag", "operator": "includes", "value": t} for t in tags] if tags else [],
+            "groups": [],
+        },
     }
-    if tags:
-        data["filters"] = {"tag": tags}
 
     resp = requests.post(
         f"{BUTTONDOWN_API_BASE}/emails",
