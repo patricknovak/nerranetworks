@@ -141,6 +141,60 @@ def validate_rss(rss_path: Path, expected_episode_num: Optional[int] = None) -> 
     return True
 
 
+def validate_enclosure_reachability(
+    rss_path: Path,
+    *,
+    sample_count: int = 3,
+    timeout: int = 8,
+) -> bool:
+    """HEAD-check the newest *sample_count* enclosure URLs in an RSS feed.
+
+    Returns True if all checked URLs respond 2xx/3xx, False if any are
+    unreachable.  Skips silently if ``requests`` is not installed or if
+    the RSS has no enclosures.
+    """
+    try:
+        import requests as _req
+    except ImportError:
+        logger.debug("requests not installed — skipping enclosure reachability check")
+        return True
+
+    try:
+        tree = ET.parse(str(rss_path))
+    except Exception:
+        return True  # malformed RSS is caught by validate_rss; don't double-report
+
+    items = tree.getroot().findall(".//item")
+    urls = []
+    for item in items:
+        enc = item.find("enclosure")
+        if enc is not None:
+            url = enc.get("url", "")
+            if url:
+                urls.append(url)
+    if not urls:
+        return True
+
+    headers = {"User-Agent": "NerraPipelineValidator/1.0"}
+    all_ok = True
+    for url in urls[:sample_count]:
+        try:
+            resp = _req.head(url, headers=headers, timeout=timeout, allow_redirects=True)
+            if 200 <= resp.status_code < 400:
+                logger.info("Enclosure reachable (%d): %s", resp.status_code, url)
+            else:
+                logger.error(
+                    "Enclosure UNREACHABLE (%d): %s — listeners will get a broken link",
+                    resp.status_code, url,
+                )
+                all_ok = False
+        except Exception as exc:
+            logger.error("Enclosure UNREACHABLE (error): %s — %s", url, exc)
+            all_ok = False
+
+    return all_ok
+
+
 def validate_digest(digest_text: str, show_name: str, min_chars: int = 200) -> bool:
     """Validate that the digest text is non-empty and has sufficient content.
 
@@ -191,6 +245,8 @@ def run_post_validation(
 
     if rss_path is not None:
         if not validate_rss(rss_path, expected_episode_num=episode_num):
+            all_passed = False
+        elif not validate_enclosure_reachability(rss_path):
             all_passed = False
 
     if all_passed:

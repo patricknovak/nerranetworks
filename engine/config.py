@@ -189,6 +189,7 @@ class ShowConfig:
     min_articles: int = 3  # Minimum articles before expanding search
     min_articles_skip: int = 3  # Hard cutoff — skip episode if fewer articles
     min_audio_duration: int = 0  # Minimum audio seconds — skip if shorter (0 = disabled)
+    max_weekly_cost_usd: float = 0.0  # 0 = no limit; >0 skips episode if 7-day spend exceeds
     llm: LLMConfig = field(default_factory=LLMConfig)
     tts: TTSConfig = field(default_factory=TTSConfig)
     audio: AudioConfig = field(default_factory=AudioConfig)
@@ -326,6 +327,7 @@ def load_config(yaml_path: str | Path) -> ShowConfig:
         min_articles=data.get("min_articles", 3),
         min_articles_skip=data.get("min_articles_skip", 3),
         min_audio_duration=data.get("min_audio_duration", 0),
+        max_weekly_cost_usd=float(data.get("max_weekly_cost_usd", 0.0)),
         llm=_build_nested(LLMConfig, data.get("llm")),
         tts=_build_nested(TTSConfig, data.get("tts")),
         audio=_build_nested(AudioConfig, data.get("audio")),

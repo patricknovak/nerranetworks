@@ -1,0 +1,46 @@
+name: Monthly Data Retention
+
+on:
+  schedule:
+    - cron: '0 20 1 * *'  # 1st of each month at 20:00 UTC
+  workflow_dispatch:
+    inputs:
+      keep_days:
+        description: 'Files older than this many days get archived (default 180)'
+        required: false
+        type: number
+        default: 180
+
+permissions:
+  contents: write
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Archive old data files
+        run: |
+          KEEP_DAYS="${{ inputs.keep_days || '180' }}"
+          python scripts/archive_old_data.py --keep-days "$KEEP_DAYS"
+
+      - name: Commit archives + pruned files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A data/archives/ digests/
+          if git diff --cached --quiet; then
+            echo "No files to archive this month"
+            exit 0
+          fi
+          git commit -m "Monthly data retention: archive files older than ${{ inputs.keep_days || '180' }}d"
+          git push

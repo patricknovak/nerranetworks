@@ -248,6 +248,26 @@ def _preflight_checks(config, *, dry_run: bool = False) -> None:
             if env_name and not os.environ.get(env_name):
                 logger.warning("R2 env var %s (%s) is empty — upload may fail", env_name, env_attr)
 
+    # Cost circuit breaker: skip episode if 7-day spend exceeds the show's
+    # max_weekly_cost_usd (reads the previously committed dashboard JSON).
+    max_cost = getattr(config, "max_weekly_cost_usd", 0.0) or 0.0
+    if max_cost > 0:
+        dashboard_path = PROJECT_ROOT / "api" / "dashboard.json"
+        if dashboard_path.exists():
+            try:
+                import json as _json
+                dash = _json.loads(dashboard_path.read_text(encoding="utf-8"))
+                cost_rollup = (dash.get("cost_rollup") or {}).get("per_show") or {}
+                show_cost = (cost_rollup.get(config.slug) or {}).get("last_7_days") or {}
+                spent = float(show_cost.get("total", 0.0))
+                if spent >= max_cost:
+                    issues.append(
+                        f"Cost circuit breaker: {config.slug} spent ${spent:.2f} "
+                        f"in the last 7 days (limit ${max_cost:.2f})"
+                    )
+            except Exception as exc:
+                logger.warning("Cost circuit breaker read failed: %s", exc)
+
     if issues:
         for issue in issues:
             logger.error("Pre-flight check FAILED: %s", issue)
@@ -549,7 +569,19 @@ def run(args: argparse.Namespace) -> None:
         metrics.record("slow_news_mode", True)
         metrics.record("slow_news_trigger", "thin_content")
 
-    # 5c. Cap article count to prevent prompt bloat and quality degradation
+    # 5c. Pre-dedup cap: high-volume shows (OV with 28 general-news feeds)
+    # can fetch 200-300 raw articles.  Pairwise dedup is O(n²), so 288
+    # articles → ~41K comparisons → 80s.  Capping at 150 keeps the dedup
+    # stage under 30s while still seeing enough variety for quality selection.
+    MAX_RAW_BEFORE_DEDUP = 150
+    if len(articles) > MAX_RAW_BEFORE_DEDUP:
+        logger.info(
+            "Pre-dedup cap: %d → %d articles (keeping most recent / highest relevance)",
+            len(articles), MAX_RAW_BEFORE_DEDUP,
+        )
+        articles = articles[:MAX_RAW_BEFORE_DEDUP]
+
+    # 5d. Cap article count to prevent prompt bloat and quality degradation
     MAX_ARTICLES_FOR_LLM = 25
     if len(articles) > MAX_ARTICLES_FOR_LLM:
         logger.info(
@@ -1483,6 +1515,14 @@ def run(args: argparse.Namespace) -> None:
         r2_audio_url = upload_episode(final_mp3, config)
         if r2_audio_url:
             logger.info("R2 audio URL: %s", r2_audio_url)
+        elif config.storage.provider == "r2":
+            logger.error(
+                "R2 upload FAILED for '%s' Ep%d — storage.provider is 'r2' "
+                "but upload_episode() returned None. Aborting to prevent "
+                "publishing an RSS feed that points at a ghost MP3 URL.",
+                config.name, episode_num,
+            )
+            sys.exit(3)
 
     # 10c. Apply OP3 analytics prefix (if enabled)
     rss_audio_url = r2_audio_url

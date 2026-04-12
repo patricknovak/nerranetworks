@@ -6,10 +6,6 @@ sources:
   # Major AI Labs & Research
   - url: https://openai.com/blog/rss.xml
     label: OpenAI Blog
-  - url: https://blog.google/technology/ai/rss/
-    label: Google AI Blog
-  - url: https://huggingface.co/blog/feed.xml
-    label: Hugging Face Blog
   # Removed: ai.meta.com/blog/rss/ (404), anthropic.com/rss.xml (404),
   # mistral.ai/feed.xml (404) — lab blogs removed or moved
 
@@ -24,8 +20,6 @@ sources:
     label: Ars Technica AI
   - url: https://www.wired.com/feed/tag/ai/latest/rss
     label: Wired AI
-  - url: https://www.marktechpost.com/feed/
-    label: MarkTechPost
   - url: https://the-decoder.com/feed/
     label: The Decoder
   # Removed: artificialintelligence-news.com (captcha wall),
@@ -40,8 +34,6 @@ sources:
     label: Live Science
   - url: https://theconversation.com/us/articles.atom
     label: The Conversation
-  - url: https://github.blog/feed/
-    label: GitHub Blog
   # Google News — supplementary beginner-friendly AI coverage
   - url: "https://news.google.com/rss/search?q=ChatGPT+AI+chatbot+news&hl=en-US&gl=US&ceid=US:en"
     label: Google News ChatGPT
@@ -53,8 +45,6 @@ sources:
   - url: "https://www.reddit.com/r/artificial/.rss"
     label: r/artificial
   # --- Round 4 additions (April 2026) ---
-  - url: https://simonwillison.net/atom/everything/
-    label: Simon Willison
 
 web_search_queries:
   - "AI news for beginners today"

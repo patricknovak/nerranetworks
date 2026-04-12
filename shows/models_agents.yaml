@@ -12,20 +12,10 @@ sources:
     label: Hugging Face Blog
 
   # AI News & Analysis
-  - url: https://www.technologyreview.com/feed/
-    label: MIT Tech Review
-  - url: https://techcrunch.com/category/artificial-intelligence/feed/
-    label: TechCrunch AI
-  - url: https://www.theverge.com/rss/ai-artificial-intelligence/index.xml
-    label: The Verge AI
   - url: https://arstechnica.com/ai/feed/
     label: Ars Technica AI
-  - url: https://www.wired.com/feed/tag/ai/latest/rss
-    label: Wired AI
   - url: https://www.marktechpost.com/feed/
     label: MarkTechPost
-  - url: https://the-decoder.com/feed/
-    label: The Decoder
   - url: https://www.artificialintelligence-news.com/feed/
     label: AI News
 
@@ -60,8 +50,6 @@ sources:
     label: r/MachineLearning
   - url: "https://www.reddit.com/r/LocalLLaMA/.rss"
     label: r/LocalLLaMA
-  - url: "https://www.reddit.com/r/artificial/.rss"
-    label: r/artificial
   # --- Round 4 additions (April 2026) ---
   - url: https://research.google/blog/rss/
     label: Google Research Blog

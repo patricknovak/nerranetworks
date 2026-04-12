@@ -9,14 +9,14 @@ Automated daily podcast generation system running 10 shows via a unified
 
 | Show | Legacy Script | YAML Config | Schedule | X Account | TTS |
 |------|--------------|-------------|----------|-----------|-----|
-| Tesla Shorts Time | `digests/tesla_shorts_time.py` (deprecated) | `shows/tesla.yaml` | Daily | `@teslashortstime` | ElevenLabs |
-| Omni View | `digests/omni_view.py` (deprecated) | `shows/omni_view.yaml` | Daily | `@omniviewnews` | ElevenLabs |
-| Fascinating Frontiers | `digests/fascinating_frontiers.py` (deprecated) | `shows/fascinating_frontiers.yaml` | Daily | `@planetterrian` | ElevenLabs |
-| Planetterrian Daily | `digests/planetterrian.py` (deprecated) | `shows/planetterrian.yaml` | Daily | `@planetterrian` | ElevenLabs |
-| Env Intel | — | `shows/env_intel.yaml` | Weekdays | `@teslashortstime` | ElevenLabs |
-| Models & Agents | — | `shows/models_agents.yaml` | Daily | — (X disabled) | ElevenLabs |
-| Models & Agents for Beginners | — | `shows/models_agents_beginners.yaml` | Daily | — (X disabled) | ElevenLabs |
-| Финансы Просто | — | `shows/finansy_prosto.yaml` | Daily | — (X disabled) | ElevenLabs |
+| Tesla Shorts Time | — (deleted) | `shows/tesla.yaml` | Daily | `@teslashortstime` | ElevenLabs |
+| Omni View | — (deleted) | `shows/omni_view.yaml` | Odd days | `@omniviewnews` | ElevenLabs |
+| Fascinating Frontiers | — (deleted) | `shows/fascinating_frontiers.yaml` | Even days | `@planetterrian` | ElevenLabs |
+| Planetterrian Daily | — (deleted) | `shows/planetterrian.yaml` | Odd days | `@planetterrian` | ElevenLabs |
+| Env Intel | — | `shows/env_intel.yaml` | Odd weekdays | `@teslashortstime` | ElevenLabs |
+| Models & Agents | — | `shows/models_agents.yaml` | Odd days | — (X disabled) | ElevenLabs |
+| Models & Agents for Beginners | — | `shows/models_agents_beginners.yaml` | Even days | — (X disabled) | ElevenLabs |
+| Финансы Просто | — | `shows/finansy_prosto.yaml` | Even days | — (X disabled) | ElevenLabs |
 | Modern Investing Techniques | — | `shows/modern_investing.yaml` | Weekdays | — (X disabled) | ElevenLabs |
 | Привет, Русский! | — | `shows/privet_russian.yaml` | Even days | — (X disabled) | ElevenLabs |
 

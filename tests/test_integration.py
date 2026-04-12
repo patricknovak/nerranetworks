@@ -980,6 +980,78 @@ class TestWorkflowIntegration:
                 f"Workflow should not reference legacy script {script}"
             )
 
+    def test_cron_schedule_matches_claude_md(self):
+        """The cron schedule in run-show.yml's CRON_MAP must agree with
+        the Schedule column in CLAUDE.md's show table.
+
+        This prevents silent schedule drift — the workflow is the source
+        of truth for what actually runs, but CLAUDE.md is the human-facing
+        reference that operators and contributors read.
+        """
+        import re
+
+        claude_md = (PROJECT_ROOT / "CLAUDE.md").read_text(encoding="utf-8")
+        workflow = (PROJECT_ROOT / ".github" / "workflows" / "run-show.yml").read_text()
+
+        # Parse CLAUDE.md table: "| Show Name | ... | schedule_column | ..."
+        # The schedule column is the 4th pipe-delimited field (index 3).
+        claude_schedule = {}
+        for line in claude_md.splitlines():
+            if line.startswith("|") and ".yaml" in line and "shows/" in line:
+                parts = [p.strip() for p in line.split("|")]
+                if len(parts) >= 5:
+                    show_name = parts[1].strip()
+                    sched = parts[4].strip().lower()
+                    # Map show name → slug using the YAML config filename
+                    m = re.search(r"shows/(\w+)\.yaml", line)
+                    if m:
+                        claude_schedule[m.group(1)] = sched
+
+        # Parse CRON_MAP from run-show.yml (embedded Python dict literal)
+        cron_block = re.search(
+            r'CRON_MAP\s*=\s*\{(.*?)\}',
+            workflow,
+            re.DOTALL,
+        )
+        assert cron_block, "CRON_MAP not found in run-show.yml"
+        cron_schedule = {}
+        for m in re.finditer(
+            r'"[^"]+"\s*:\s*\(\s*"(\w+)"\s*,\s*(?:"(\w+)"|None)\s*\)',
+            cron_block.group(1),
+        ):
+            slug = m.group(1)
+            day_filter = m.group(2)  # None for daily
+            if day_filter is None:
+                cron_schedule[slug] = "daily"
+            elif day_filter == "even":
+                cron_schedule[slug] = "even days"
+            elif day_filter == "odd":
+                cron_schedule[slug] = "odd days"
+            elif day_filter == "weekday":
+                cron_schedule[slug] = "weekdays"
+            elif day_filter == "odd_weekday":
+                cron_schedule[slug] = "odd weekdays"
+            else:
+                cron_schedule[slug] = day_filter
+
+        # Every show in the CRON_MAP must appear in CLAUDE.md with a
+        # matching schedule string.
+        mismatches = []
+        for slug, cron_sched in sorted(cron_schedule.items()):
+            claude_sched = claude_schedule.get(slug)
+            if claude_sched is None:
+                mismatches.append(f"{slug}: in CRON_MAP but missing from CLAUDE.md")
+            elif claude_sched != cron_sched:
+                mismatches.append(
+                    f"{slug}: CLAUDE.md says '{claude_sched}' but "
+                    f"CRON_MAP says '{cron_sched}'"
+                )
+
+        assert not mismatches, (
+            "Schedule drift between CLAUDE.md and run-show.yml CRON_MAP:\n  "
+            + "\n  ".join(mismatches)
+        )
+
     def test_newsletter_env_vars_in_workflow(self):
         """CI workflow should inject newsletter API keys for shows that need them."""
         workflow = PROJECT_ROOT / ".github" / "workflows" / "run-show.yml"
