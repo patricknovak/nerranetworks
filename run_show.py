@@ -273,6 +273,27 @@ def _preflight_checks(config, *, dry_run: bool = False) -> None:
             logger.error("Pre-flight check FAILED: %s", issue)
         raise SystemExit(f"Pre-flight validation failed with {len(issues)} issue(s)")
 
+    # Validate newsletter API key if newsletter is enabled — gives a clear
+    # early warning instead of failing silently at the end of the pipeline.
+    if config.newsletter.enabled:
+        nl_key = os.environ.get(config.newsletter.api_key_env, "").strip()
+        if not nl_key:
+            logger.warning(
+                "Newsletter enabled for '%s' but %s not set — emails will be skipped",
+                config.name, config.newsletter.api_key_env,
+            )
+        else:
+            try:
+                from engine.newsletter import validate_api_key
+                if not validate_api_key(nl_key):
+                    logger.error(
+                        "Newsletter API key validation FAILED for '%s' — "
+                        "emails will not be sent this run",
+                        config.name,
+                    )
+            except Exception as exc:
+                logger.warning("Newsletter API key validation error: %s", exc)
+
     logger.info("Pre-flight checks passed")
 
 

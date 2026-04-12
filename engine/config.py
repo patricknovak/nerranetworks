@@ -141,6 +141,7 @@ class NewsletterConfig:
     platform: str = "buttondown"
     api_key_env: str = "BUTTONDOWN_API_KEY"
     status: str = "about_to_send"  # "about_to_send", "draft", or "scheduled"
+    tag: str = ""  # Buttondown tag for per-show subscriber filtering
 
 
 @dataclass

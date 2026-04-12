@@ -98,11 +98,15 @@ def main():
             week_end_str = week_ending.strftime("%b %d, %Y")
             subject = f"{cfg.publishing.rss_title} — Weekly Digest ({week_start}\u2013{week_end_str})"
 
+            tag = getattr(newsletter_cfg, "tag", "") or ""
+            tags_list = [tag] if tag else None
+
             email_id = send_newsletter(
                 subject=subject,
                 body=newsletter_md,
                 api_key=api_key,
                 status=getattr(newsletter_cfg, "status", "draft"),
+                tags=tags_list,
             )
             results[show_slug] = f"sent ({email_id})" if email_id else "send failed"
         except Exception as e:

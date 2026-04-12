@@ -51,13 +51,18 @@ jobs:
       - name: Run weekly newsletters
         env:
           GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
         run: |
           ARGS=""
           if [ "${{ github.event.inputs.show }}" != "" ] && [ "${{ github.event.inputs.show }}" != "all" ]; then
             ARGS="--show ${{ github.event.inputs.show }}"
           fi
-          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+          # Scheduled runs (cron) actually send; manual dispatch respects the dry_run input.
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "Scheduled run — sending for real"
+          elif [ "${{ github.event.inputs.dry_run }}" != "false" ]; then
             ARGS="$ARGS --dry-run"
+            echo "Manual dispatch — dry run mode"
           fi
           python scripts/run_weekly_newsletters.py $ARGS
 

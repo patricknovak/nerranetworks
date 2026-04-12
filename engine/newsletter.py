@@ -1,7 +1,8 @@
 """Newsletter publishing via Buttondown API.
 
 Converts markdown digests to email-friendly HTML and sends via the
-Buttondown API (``POST /v1/emails``).
+Buttondown API (``POST /v1/emails``).  Supports per-show tag filtering
+so subscribers only receive emails for shows they opted into.
 """
 
 from __future__ import annotations
@@ -9,7 +10,7 @@ from __future__ import annotations
 import logging
 import os
 import re
-from typing import Optional
+from typing import List, Optional
 
 import requests
 
@@ -92,12 +93,45 @@ def _md_inline(text: str) -> str:
     return text
 
 
+# ---------------------------------------------------------------------------
+# API key validation
+# ---------------------------------------------------------------------------
+
+
+def validate_api_key(api_key: str) -> bool:
+    """Test if the Buttondown API key is valid by calling GET /v1/emails."""
+    try:
+        resp = requests.get(
+            f"{BUTTONDOWN_API_BASE}/emails",
+            headers={"Authorization": f"Token {api_key}"},
+            timeout=10,
+            params={"limit": 1},
+        )
+        if resp.status_code == 401:
+            logger.error("Buttondown API key is INVALID or EXPIRED (401 Unauthorized)")
+            return False
+        if resp.status_code == 200:
+            logger.info("Buttondown API key validated successfully")
+            return True
+        logger.warning("Buttondown API key check returned status %d", resp.status_code)
+        return True
+    except Exception as e:
+        logger.error("Buttondown API key validation failed: %s", e)
+        return False
+
+
+# ---------------------------------------------------------------------------
+# Send
+# ---------------------------------------------------------------------------
+
+
 def send_newsletter(
     subject: str,
     body: str,
     *,
     api_key: str,
     status: str = "about_to_send",
+    tags: Optional[List[str]] = None,
 ) -> Optional[str]:
     """Send a newsletter issue via Buttondown API.
 
@@ -111,30 +145,38 @@ def send_newsletter(
         Buttondown API key.
     status:
         One of ``"about_to_send"``, ``"draft"``, or ``"scheduled"``.
+    tags:
+        Optional list of Buttondown tag names.  When provided, the email
+        is sent **only** to subscribers who have any of the listed tags.
+        This enables per-show targeting from a single Buttondown account.
 
     Returns
     -------
     str or None
         The email ID on success, ``None`` on failure.
     """
+    data = {
+        "subject": subject,
+        "body": body,
+        "status": status,
+    }
+    if tags:
+        data["filters"] = {"tag": tags}
+
     resp = requests.post(
         f"{BUTTONDOWN_API_BASE}/emails",
         headers={
             "Authorization": f"Token {api_key}",
             "Content-Type": "application/json",
         },
-        json={
-            "subject": subject,
-            "body": body,
-            "status": status,
-        },
+        json=data,
         timeout=30,
     )
 
     if resp.status_code in (200, 201):
-        data = resp.json()
-        email_id = data.get("id", "unknown")
-        logger.info("Newsletter sent: %s (status=%s)", email_id, status)
+        result = resp.json()
+        email_id = result.get("id", "unknown")
+        logger.info("Newsletter sent: %s (status=%s, tags=%s)", email_id, status, tags)
         return email_id
     else:
         logger.error("Newsletter send failed: %s %s", resp.status_code, resp.text[:200])
@@ -150,7 +192,9 @@ def send_show_newsletter(
     """Send newsletter for a show if newsletter is configured.
 
     Reads the API key from the environment variable specified in
-    ``config.newsletter.api_key_env``.
+    ``config.newsletter.api_key_env``.  Applies tag filtering if the
+    show's ``newsletter.tag`` is set (so only subscribers tagged for this
+    show receive the email).
 
     Returns the email ID on success, ``None`` if not configured or failed.
     """
@@ -165,8 +209,13 @@ def send_show_newsletter(
 
     subject = f"{config.name} — {today_str} (Episode {episode_num})"
 
+    tag = getattr(newsletter, "tag", "") or ""
+    tags_list = [tag] if tag else None
+
     return send_newsletter(
         subject=subject,
         body=digest_text,
         api_key=api_key,
+        status=getattr(newsletter, "status", "about_to_send"),
+        tags=tags_list,
     )

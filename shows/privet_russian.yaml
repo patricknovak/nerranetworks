@@ -175,8 +175,9 @@ chapters:
 newsletter:
   enabled: true
   platform: buttondown
-  api_key_env: PRIVET_RUSSIAN_NEWSLETTER_API_KEY
+  api_key_env: BUTTONDOWN_API_KEY
   status: about_to_send
+  tag: "Привет, Русский!"
 
 slow_news:
   enabled: true
