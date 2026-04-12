@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-12T01:53:58.407864+00:00",
+  "generated_at": "2026-04-12T08:33:30.798484+00:00",
   "network": {
     "landmines_counts": {
       "ok": 9,
@@ -7,9 +7,9 @@
       "fail": 0
     },
     "shows_count": 10,
-    "stale_shows": 0,
-    "total_cost_last_7_days_usd": 77.3421,
-    "total_cost_last_30_days_usd": 471.8152,
+    "stale_shows": 1,
+    "total_cost_last_7_days_usd": 75.7347,
+    "total_cost_last_30_days_usd": 456.7867,
     "shows": [
       {
         "slug": "env_intel",
@@ -22,7 +22,7 @@
         "newsletter_enabled": true,
         "x_enabled": false,
         "latest_pub_date": "2026-04-09T08:00:00+00:00",
-        "pub_status": "warn",
+        "pub_status": "stale",
         "cost_last_7_days_usd": 3.2176,
         "episodes_last_7_days": 2,
         "p50_pipeline_s": 22.83,
@@ -39,7 +39,7 @@
         "newsletter_enabled": true,
         "x_enabled": true,
         "latest_pub_date": "2026-04-10T08:00:00+00:00",
-        "pub_status": "ok",
+        "pub_status": "warn",
         "cost_last_7_days_usd": 5.8396,
         "episodes_last_7_days": 3,
         "p50_pipeline_s": 44.38,
@@ -56,7 +56,7 @@
         "newsletter_enabled": true,
         "x_enabled": false,
         "latest_pub_date": "2026-04-10T08:00:00+00:00",
-        "pub_status": "ok",
+        "pub_status": "warn",
         "cost_last_7_days_usd": 4.0059,
         "episodes_last_7_days": 3,
         "p50_pipeline_s": 19.72,
@@ -70,7 +70,7 @@
         "rss_image": "https://nerranetwork.com/assets/covers/models-agents.jpg",
         "show_page": "models_agents.html",
         "blog_page": "blog/models_agents/index.html",
-        "newsletter_enabled": true,
+        "newsletter_enabled": false,
         "x_enabled": false,
         "latest_pub_date": "2026-04-11T08:00:00+00:00",
         "pub_status": "ok",
@@ -87,12 +87,12 @@
         "rss_image": "https://nerranetwork.com/assets/covers/models-agents-beginners.jpg",
         "show_page": "models_agents_beginners.html",
         "blog_page": "blog/models_agents_beginners/index.html",
-        "newsletter_enabled": false,
+        "newsletter_enabled": true,
         "x_enabled": false,
-        "latest_pub_date": "2026-04-10T08:00:00+00:00",
+        "latest_pub_date": "2026-04-12T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 5.121,
-        "episodes_last_7_days": 4,
+        "cost_last_7_days_usd": 6.3464,
+        "episodes_last_7_days": 5,
         "p50_pipeline_s": 19.36,
         "success_rate": 1.0
       },
@@ -107,7 +107,7 @@
         "newsletter_enabled": true,
         "x_enabled": false,
         "latest_pub_date": "2026-04-10T08:00:00+00:00",
-        "pub_status": "ok",
+        "pub_status": "warn",
         "cost_last_7_days_usd": 12.0762,
         "episodes_last_7_days": 6,
         "p50_pipeline_s": 59.61,
@@ -121,7 +121,7 @@
         "rss_image": "https://nerranetwork.com/assets/covers/omni-view.jpg",
         "show_page": "omni_view.html",
         "blog_page": "blog/omni_view/index.html",
-        "newsletter_enabled": true,
+        "newsletter_enabled": false,
         "x_enabled": true,
         "latest_pub_date": "2026-04-11T08:00:00+00:00",
         "pub_status": "ok",
@@ -138,7 +138,7 @@
         "rss_image": "https://nerranetwork.com/assets/covers/planetterrian-daily.jpg",
         "show_page": "planetterrian.html",
         "blog_page": "blog/planetterrian/index.html",
-        "newsletter_enabled": true,
+        "newsletter_enabled": false,
         "x_enabled": true,
         "latest_pub_date": "2026-04-11T08:00:00+00:00",
         "pub_status": "ok",
@@ -158,7 +158,7 @@
         "newsletter_enabled": true,
         "x_enabled": false,
         "latest_pub_date": "2026-04-10T08:00:00+00:00",
-        "pub_status": "ok",
+        "pub_status": "warn",
         "cost_last_7_days_usd": 2.1533,
         "episodes_last_7_days": 2,
         "p50_pipeline_s": 26.96,
@@ -176,8 +176,8 @@
         "x_enabled": true,
         "latest_pub_date": "2026-04-11T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 19.7262,
-        "episodes_last_7_days": 9,
+        "cost_last_7_days_usd": 16.8934,
+        "episodes_last_7_days": 8,
         "p50_pipeline_s": 66.94,
         "success_rate": 1.0
       }
@@ -221,7 +221,7 @@
       "load_error": null,
       "rss_file": "models_agents_podcast.rss",
       "rss_image": "https://nerranetwork.com/assets/covers/models-agents.jpg",
-      "newsletter_enabled": true,
+      "newsletter_enabled": false,
       "x_enabled": false
     },
     {
@@ -231,7 +231,7 @@
       "load_error": null,
       "rss_file": "models_agents_beginners_podcast.rss",
       "rss_image": "https://nerranetwork.com/assets/covers/models-agents-beginners.jpg",
-      "newsletter_enabled": false,
+      "newsletter_enabled": true,
       "x_enabled": false
     },
     {
@@ -251,7 +251,7 @@
       "load_error": null,
       "rss_file": "omni_view_podcast.rss",
       "rss_image": "https://nerranetwork.com/assets/covers/omni-view.jpg",
-      "newsletter_enabled": true,
+      "newsletter_enabled": false,
       "x_enabled": true
     },
     {
@@ -261,7 +261,7 @@
       "load_error": null,
       "rss_file": "planetterrian_podcast.rss",
       "rss_image": "https://nerranetwork.com/assets/covers/planetterrian-daily.jpg",
-      "newsletter_enabled": true,
+      "newsletter_enabled": false,
       "x_enabled": true
     },
     {
@@ -293,7 +293,7 @@
       "details": "5 MP3s tracked in git, digests/ is 46 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 46.1
+        "digests_mb": 46.3
       }
     },
     {
@@ -307,21 +307,20 @@
         "raw_github_hits": [],
         "non_r2_hosts": [],
         "unreachable": [],
-        "offline": true
+        "offline": false
       }
     },
     {
       "id": "item_3_legacy_flatfiles",
       "title": "Legacy flat files in digests/",
       "status": "warn",
-      "details": "96 legacy flat files pinned at digests/ top level. They cannot be moved (existing RSS URLs anchor to them), but no new files should land here.",
+      "details": "95 legacy flat files pinned at digests/ top level. They cannot be moved (existing RSS URLs anchor to them), but no new files should land here.",
       "evidence": {
-        "total": 96,
+        "total": 95,
         "by_extension": {
           ".json": 47,
-          ".txt": 45,
-          "<none>": 1,
-          ".py": 3
+          ".py": 3,
+          ".txt": 45
         },
         "previous_total": 96
       }
@@ -553,8 +552,8 @@
         "last_30_days": {
           "grok": 0.4315,
           "tts": 33.6936,
-          "total": 39.8272,
-          "episodes": 13
+          "total": 36.7945,
+          "episodes": 12
         },
         "daily_series": [
           [
@@ -653,8 +652,8 @@
         "last_30_days": {
           "grok": 0.722,
           "tts": 41.7131,
-          "total": 48.807,
-          "episodes": 14
+          "total": 45.2937,
+          "episodes": 13
         },
         "daily_series": [
           [
@@ -801,8 +800,8 @@
         "last_30_days": {
           "grok": 0.7879,
           "tts": 38.2827,
-          "total": 53.3431,
-          "episodes": 18
+          "total": 49.6126,
+          "episodes": 17
         },
         "daily_series": [
           [
@@ -921,16 +920,16 @@
       },
       "models_agents_beginners": {
         "last_7_days": {
-          "grok": 0.2025,
-          "tts": 4.9185,
-          "total": 5.121,
-          "episodes": 4
+          "grok": 0.245,
+          "tts": 6.1014,
+          "total": 6.3464,
+          "episodes": 5
         },
         "last_30_days": {
-          "grok": 0.5656,
-          "tts": 19.128,
-          "total": 22.3534,
-          "episodes": 12
+          "grok": 0.6081,
+          "tts": 20.3109,
+          "total": 23.5788,
+          "episodes": 13
         },
         "daily_series": [
           [
@@ -976,6 +975,10 @@
           [
             "2026-04-10",
             1.3974
+          ],
+          [
+            "2026-04-12",
+            1.2254
           ]
         ]
       },
@@ -1073,8 +1076,8 @@
         "last_30_days": {
           "grok": 1.2292,
           "tts": 47.6609,
-          "total": 60.1263,
-          "episodes": 19
+          "total": 57.3897,
+          "episodes": 18
         },
         "daily_series": [
           [
@@ -1333,16 +1336,16 @@
       },
       "tesla": {
         "last_7_days": {
-          "grok": 0.9009,
-          "tts": 18.8253,
-          "total": 19.7262,
-          "episodes": 9
+          "grok": 0.7943,
+          "tts": 16.099,
+          "total": 16.8934,
+          "episodes": 8
         },
         "last_30_days": {
           "grok": 1.7325,
           "tts": 73.0841,
-          "total": 86.8738,
-          "episodes": 29
+          "total": 83.6329,
+          "episodes": 28
         },
         "daily_series": [
           [
@@ -1469,16 +1472,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 2.9773,
-      "tts": 74.3648,
-      "total": 77.3421,
+      "grok": 2.9133,
+      "tts": 72.8214,
+      "total": 75.7347,
       "episodes": 41
     },
     "network_last_30_days": {
-      "grok": 8.1082,
-      "tts": 400.5348,
-      "total": 471.8152,
-      "episodes": 162
+      "grok": 8.1508,
+      "tts": 401.7177,
+      "total": 456.7867,
+      "episodes": 158
     }
   },
   "pipeline_health": {
@@ -1735,20 +1738,15 @@
       ]
     },
     "models_agents_beginners": {
-      "sample_size": 11,
+      "sample_size": 12,
       "p50_duration_s": 19.36,
-      "p95_duration_s": 31.29,
+      "p95_duration_s": 23.96,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 3.36,
-        "generate_digest": 16.59
+        "fetch_and_dedup": 3.24,
+        "generate_digest": 16.45
       },
       "recent": [
-        {
-          "episode_num": 9,
-          "total_duration_s": 15.36,
-          "success": true
-        },
         {
           "episode_num": 10,
           "total_duration_s": 23.41,
@@ -1792,6 +1790,11 @@
         {
           "episode_num": 18,
           "total_duration_s": 18.14,
+          "success": true
+        },
+        {
+          "episode_num": 19,
+          "total_duration_s": 16.81,
           "success": true
         }
       ]
@@ -2127,22 +2130,22 @@
             "url": "https://audio.nerranetwork.com/env_intel/Env_Intel_Ep022_20260409.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-09T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/env_intel/Env_Intel_Ep021_20260407.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-07T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/env_intel/Env_Intel_Ep020_20260403.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-03T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           }
         ],
         "malformed": false,
@@ -2157,22 +2160,22 @@
             "url": "https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep051_20260410.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-10T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep050_20260408.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-08T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep049_20260406.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-06T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           }
         ],
         "malformed": false,
@@ -2187,22 +2190,22 @@
             "url": "https://audio.nerranetwork.com/finansy_prosto/FP_Ep020_20260410.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-10T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/finansy_prosto/FP_Ep019_20260408.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-08T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/finansy_prosto/FP_Ep018_20260406.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-06T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           }
         ],
         "malformed": false,
@@ -2210,29 +2213,29 @@
       },
       {
         "file": "models_agents_beginners_podcast.rss",
-        "entry_count": 18,
-        "latest_pub_date": "2026-04-10T08:00:00+00:00",
+        "entry_count": 19,
+        "latest_pub_date": "2026-04-12T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep019_20260412.mp3",
+            "host": "audio.nerranetwork.com",
+            "pub_date": "2026-04-12T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep018_20260410.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-10T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep017_20260408.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-08T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
-          },
-          {
-            "url": "https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep016_20260406.mp3",
-            "host": "audio.nerranetwork.com",
-            "pub_date": "2026-04-06T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           }
         ],
         "malformed": false,
@@ -2247,22 +2250,22 @@
             "url": "https://audio.nerranetwork.com/models_agents/Models_Agents_Ep029_20260411.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-11T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/models_agents/Models_Agents_Ep028_20260409.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-09T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/models_agents/Models_Agents_Ep027_20260407.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-07T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           }
         ],
         "malformed": false,
@@ -2277,22 +2280,22 @@
             "url": "https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep017_20260410.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-10T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep016_20260409.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-09T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep015_20260408.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-08T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           }
         ],
         "malformed": false,
@@ -2307,22 +2310,22 @@
             "url": "https://audio.nerranetwork.com/omni_view/Omni_View_Ep031_20260411.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-11T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/omni_view/Omni_View_Ep030_20260409.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-09T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/omni_view/Omni_View_Ep029_20260407.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-07T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           }
         ],
         "malformed": false,
@@ -2337,22 +2340,22 @@
             "url": "https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep044_20260411.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-11T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep043_20260409.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-09T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep042_20260407.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-07T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           }
         ],
         "malformed": false,
@@ -2367,22 +2370,22 @@
             "url": "https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep433_20260411.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-11T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep432_20260410.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-10T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep431_20260409.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-09T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           }
         ],
         "malformed": false,
@@ -2397,22 +2400,22 @@
             "url": "https://audio.nerranetwork.com/privet_russian/PR_Ep010_20260410.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-10T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/privet_russian/PR_Ep009_20260408.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-08T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/privet_russian/PR_Ep008_20260330.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-03-30T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           }
         ],
         "malformed": false,
@@ -2421,6 +2424,6 @@
     ],
     "raw_github_hits": [],
     "non_r2_hosts": [],
-    "offline": true
+    "offline": false
   }
 }
