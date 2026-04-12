@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-12T08:33:30.798484+00:00",
+  "generated_at": "2026-04-12T08:58:06.157872+00:00",
   "network": {
     "landmines_counts": {
       "ok": 9,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 1,
-    "total_cost_last_7_days_usd": 75.7347,
-    "total_cost_last_30_days_usd": 456.7867,
+    "total_cost_last_7_days_usd": 77.271,
+    "total_cost_last_30_days_usd": 458.3229,
     "shows": [
       {
         "slug": "env_intel",
@@ -55,10 +55,10 @@
         "blog_page": "blog/finansy_prosto/index.html",
         "newsletter_enabled": true,
         "x_enabled": false,
-        "latest_pub_date": "2026-04-10T08:00:00+00:00",
-        "pub_status": "warn",
-        "cost_last_7_days_usd": 4.0059,
-        "episodes_last_7_days": 3,
+        "latest_pub_date": "2026-04-12T08:00:00+00:00",
+        "pub_status": "ok",
+        "cost_last_7_days_usd": 5.5421,
+        "episodes_last_7_days": 4,
         "p50_pipeline_s": 19.72,
         "success_rate": 1.0
       },
@@ -290,10 +290,10 @@
       "id": "item_1_repo_size",
       "title": "Repo & R2 size",
       "status": "ok",
-      "details": "5 MP3s tracked in git, digests/ is 46 MB.",
+      "details": "5 MP3s tracked in git, digests/ is 47 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 46.3
+        "digests_mb": 46.6
       }
     },
     {
@@ -322,7 +322,7 @@
           ".py": 3,
           ".txt": 45
         },
-        "previous_total": 96
+        "previous_total": 95
       }
     },
     {
@@ -732,16 +732,16 @@
       },
       "finansy_prosto": {
         "last_7_days": {
-          "grok": 0.2305,
-          "tts": 3.7753,
-          "total": 4.0059,
-          "episodes": 3
+          "grok": 0.2858,
+          "tts": 5.2563,
+          "total": 5.5421,
+          "episodes": 4
         },
         "last_30_days": {
-          "grok": 0.5933,
-          "tts": 28.5093,
-          "total": 31.9583,
-          "episodes": 14
+          "grok": 0.6486,
+          "tts": 29.9902,
+          "total": 33.4946,
+          "episodes": 15
         },
         "daily_series": [
           [
@@ -787,6 +787,10 @@
           [
             "2026-04-10",
             1.5305
+          ],
+          [
+            "2026-04-12",
+            1.5362
           ]
         ]
       },
@@ -1472,16 +1476,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 2.9133,
-      "tts": 72.8214,
-      "total": 75.7347,
-      "episodes": 41
+      "grok": 2.9686,
+      "tts": 74.3023,
+      "total": 77.271,
+      "episodes": 42
     },
     "network_last_30_days": {
-      "grok": 8.1508,
-      "tts": 401.7177,
-      "total": 456.7867,
-      "episodes": 158
+      "grok": 8.206,
+      "tts": 403.1986,
+      "total": 458.3229,
+      "episodes": 159
     }
   },
   "pipeline_health": {
@@ -1612,22 +1616,17 @@
       ]
     },
     "finansy_prosto": {
-      "sample_size": 13,
+      "sample_size": 14,
       "p50_duration_s": 19.72,
-      "p95_duration_s": 38.62,
+      "p95_duration_s": 48.52,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 7.86,
-        "generate_digest": 14.86,
+        "fetch_and_dedup": 10.3,
+        "generate_digest": 14.7,
         "generate_digest_retry": 1.99,
         "generate_digest_slow_news": 11.54
       },
       "recent": [
-        {
-          "episode_num": 11,
-          "total_duration_s": 16.25,
-          "success": true
-        },
         {
           "episode_num": 12,
           "total_duration_s": 26.87,
@@ -1671,6 +1670,11 @@
         {
           "episode_num": 20,
           "total_duration_s": 38.62,
+          "success": true
+        },
+        {
+          "episode_num": 21,
+          "total_duration_s": 54.75,
           "success": true
         }
       ]
@@ -2183,9 +2187,16 @@
       },
       {
         "file": "finansy_prosto_podcast.rss",
-        "entry_count": 20,
-        "latest_pub_date": "2026-04-10T08:00:00+00:00",
+        "entry_count": 21,
+        "latest_pub_date": "2026-04-12T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://audio.nerranetwork.com/finansy_prosto/FP_Ep021_20260412.mp3",
+            "host": "audio.nerranetwork.com",
+            "pub_date": "2026-04-12T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://audio.nerranetwork.com/finansy_prosto/FP_Ep020_20260410.mp3",
             "host": "audio.nerranetwork.com",
@@ -2197,13 +2208,6 @@
             "url": "https://audio.nerranetwork.com/finansy_prosto/FP_Ep019_20260408.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-08T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://audio.nerranetwork.com/finansy_prosto/FP_Ep018_20260406.mp3",
-            "host": "audio.nerranetwork.com",
-            "pub_date": "2026-04-06T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
