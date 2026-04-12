@@ -1,85 +1,7 @@
 {
   "show": "models_agents_beginners",
-  "last_updated": "2026-04-10",
+  "last_updated": "2026-04-12",
   "episodes": [
-    {
-      "date": "2026-03-27",
-      "headlines": [
-        "Anthropic confirms leaked model marks a \"step change\" in reasoning after data breach reveals its existence",
-        "Google Releases Gemini 3.1 Flash Live: A Real-Time Multimodal Voice Model for Low-Latency Audio, Video, and Tool Use for AI Agents",
-        "Google Gemini now lets you import your chats and data from other AI apps",
-        "Apple will reportedly allow other AI chatbots to plug into Siri",
-        "Apple gets full Gemini access and uses distillation to build lightweight on-device AI",
-        "Judge tosses out X's advertiser boycott lawsuit",
-        "Study: Sycophantic AI can undermine human judgment",
-        "Meet the Tech Reporters Using AI to Help Write and Edit Their Stories",
-        "Sanders and Ocasio-Cortez introduce a bill to pause US data center construction",
-        "The debut of Gemini 3.1 Flash Live could make it harder to know if you're talking to a robot",
-        "Wikipedia has banned AI-generated articles",
-        "AMD's Ryzen 9950X3D2 chip features an incredible 208MB of on-chip cache",
-        "ByteDance’s new AI video generation model, Dreamina Seedance 2.0, comes to CapCut",
-        "Conntour raises $7M from General Catalyst, YC to build an AI search engine for security video systems",
-        "GitHub will use Copilot interaction data to train AI models starting April 2026",
-        "OpenAI drops plans to release an adult chatbot",
-        "Uber and Pony.ai are testing a robotaxi service for Europe",
-        "The snow gods: How a couple of ski bums built the internet’s best weather app"
-      ],
-      "urls": [
-        "https://the-decoder.com/anthropic-confirms-leaked-model-marks-a-step-change-in-reasoning-after-data-breach-reveals-its-existence/",
-        "https://the-decoder.com/anthropic-confirms-leaked-model-marks-a-step-change-in-reasoning-after-data-breach-reveals-its-existence/",
-        "https://www.marktechpost.com/2026/03/26/google-releases-gemini-3-1-flash-live-a-real-time-multimodal-voice-model-for-low-latency-audio-video-and-tool-use-for-ai-agents/",
-        "https://www.engadget.com/ai/google-gemini-now-lets-you-import-your-chats-and-data-from-other-ai-apps-225711015.html?src=rss",
-        "https://www.theverge.com/tech/902048/apple-siri-ai-chatbot-update-ios-27",
-        "https://www.engadget.com/ai/wikipedia-has-banned-ai-generated-articles-173641377.html?src=rss",
-        "https://www.engadget.com/ai/openai-drops-plans-to-release-an-adult-chatbot-113121190.html?src=rss",
-        "https://the-decoder.com/apple-gets-full-gemini-access-and-uses-distillation-to-build-lightweight-on-device-ai/",
-        "https://www.engadget.com/social-media/judge-tosses-out-xs-advertiser-boycott-lawsuit-184832071.html?src=rss",
-        "https://arstechnica.com/science/2026/03/study-sycophantic-ai-can-undermine-human-judgment/",
-        "https://www.wired.com/story/tech-reporters-using-ai-write-edit-stories/",
-        "https://www.engadget.com/ai/sanders-and-ocasio-cortez-introduce-a-bill-to-pause-us-data-center-construction-174451974.html?src=rss",
-        "https://arstechnica.com/ai/2026/03/the-debut-of-gemini-3-1-flash-live-could-make-it-harder-to-know-if-youre-talking-to-a-robot/",
-        "https://www.engadget.com/computing/amds-ryzen-9950x3d2-chip-features-an-incredible-208mb-of-on-chip-cache-154137156.html?src=rss",
-        "https://techcrunch.com/2026/03/26/bytedances-new-ai-video-generation-model-dreamina-seedance-2-0-comes-to-capcut/",
-        "https://techcrunch.com/2026/03/26/conntour-raises-7m-from-general-catalyst-yc-to-build-an-ai-search-engine-for-security-video-systems/",
-        "https://the-decoder.com/github-will-use-copilot-interaction-data-to-train-ai-models-starting-april-2026/",
-        "https://www.engadget.com/transportation/uber-and-ponyai-are-testing-a-robotaxi-service-for-europe-104811944.html?src=rss",
-        "https://www.technologyreview.com/2026/03/26/1134470/the-snow-gods-how-a-couple-of-ski-bums-built-the-internets-best-weather-app/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "explain_like_14": "### Explain Like I'm 14\n**What “reasoning” actually means in AI**\n\nYou know how when you’re solving a tough math word problem, you don’t just guess the answer? You read it, break it into smaller steps, try a plan, check if it makes sense, and adjust if you made a mistake. That whole thinking process is reasoning.\n\nModern AI language models started mostly like super-fast autocomplete. They learned to predict the next word in a sentence by looking at billions of examples from the internet. That ma",
-        "cool_stuff": "### Cool Stuff & Try This\n**Google’s New Voice AI Feels Like Talking to a Real Person:** MarkTechPost  \nGoogle just released Gemini 3.1 Flash Live — a model built especially for natural, low-latency conversations using voice, video, and even tools. “Low-latency” just means it responds with almost no delay, like a real conversation instead of waiting for a slow robot. It can understand what it sees on camera and use other tools while talking, which is a big step toward AI agents that can actually",
-        "quick_bits": "### Quick Bits\n**Apple Opening Siri to Other Chatbots**  \nApple is planning to let users pick their favorite AI (like Gemini or Claude) to power Siri’s answers in a future iOS update. This means your phone’s assistant could get way smarter by borrowing brains from different companies.\n\nSource: https://www.theverge.com/tech/902048/apple-siri-ai-chatbot-update-ios-27\n\n**Wikipedia Bans AI-Written Articles**  \nEnglish Wikipedia now officially bans using AI to write or rewrite articles because it oft",
-        "deep_dive": "### Explain Like I'm 14\n**What “reasoning” actually means in AI**\n\nYou know how when you’re solving a tough math word problem, you don’t just guess the answer? You read it, break it into smaller steps, try a plan, check if it makes sense, and adjust if you made a mistake. That whole thinking process is reasoning.\n\nModern AI language models started mostly like super-fast autocomplete. They learned to predict the next word in a sentence by looking at billions of examples from the internet. That ma"
-      }
-    },
-    {
-      "date": "2026-03-28",
-      "headlines": [
-        "Meta's new AI model predicts how your brain reacts to images, sounds, and speech",
-        "Federal judge blocks Trump's ban on Anthropic AI models, calls security risk label \"Orwellian\"",
-        "Not Just Understanding, But Evolving: The All-New Self-Evolving JiuwenClaw Makes Its Debut",
-        "The AI Doc explores how we can survive an uncertain AI future",
-        "Meta's own supervisory body warns that Community Notes are no match for AI disinformation",
-        "From ‘Project Hail Mary’ to Artemis II, spaceflight captures audiences when it centers on people because human space travel is hazardous"
-      ],
-      "urls": [
-        "https://the-decoder.com/metas-new-ai-model-predicts-how-your-brain-reacts-to-images-sounds-and-speech/",
-        "https://the-decoder.com/metas-new-ai-model-predicts-how-your-brain-reacts-to-images-sounds-and-speech/",
-        "https://www.marktechpost.com/2026/03/27/openjiuwen-community-releases-jiuwenclaw-a-self-evolving-ai-agent-for-task-management/",
-        "https://www.engadget.com/entertainment/tv-movies/the-ai-doc-explores-how-we-can-survive-an-uncertain-ai-future-154341735.html?src=rss",
-        "https://the-decoder.com/federal-judge-blocks-trumps-ban-on-anthropic-ai-models-calls-security-risk-label-orwellian/",
-        "https://the-decoder.com/metas-own-supervisory-body-warns-that-community-notes-are-no-match-for-ai-disinformation/",
-        "https://theconversation.com/from-project-hail-mary-to-artemis-ii-spaceflight-captures-audiences-when-it-centers-on-people-because-human-space-travel-is-hazardous-279147"
-      ],
-      "quote_author": null,
-      "sections": {
-        "explain_like_14": "### Explain Like I'm 14\n**How AI brain-prediction models actually work**\n\nYou know how when you're texting, your phone suggests the next word based on what you've typed so far? It’s guessing what comes next by looking at patterns from millions of other messages.\n\nNow imagine doing the same thing, but instead of guessing words, you're guessing which parts of the brain will light up. Scientists have collected thousands of brain scans while people looked at pictures or listened to sounds. Each scan",
-        "cool_stuff": "### Cool Stuff & Try This\n**New Self-Evolving AI Agent for Tasks: JiuwenClaw** — MarkTechPost  \nAI agents are programs that try to get real tasks done instead of just chatting. The new JiuwenClaw is designed to keep improving itself when it fails at a task, which is a big step because many current agents \"drop the ball\" when moving from conversation to actual work.  \n\nThis is exciting because it moves us closer to AI helpers that can handle school projects, organize your study schedule, or manag",
-        "quick_bits": "### Quick Bits\n**Judge blocks government ban on Anthropic AI models**  \nA federal judge stopped the Trump administration from banning Anthropic's AI models, calling the security risk label \"Orwellian.\" The judge said it looked like illegal punishment for the company criticizing the government. This shows how debates about AI safety can get tied up with free speech and politics.\n\nSource: https://the-decoder.com/federal-judge-blocks-trumps-ban-on-anthropic-ai-models-calls-security-risk-label-orwel",
-        "deep_dive": "### Explain Like I'm 14\n**How AI brain-prediction models actually work**\n\nYou know how when you're texting, your phone suggests the next word based on what you've typed so far? It’s guessing what comes next by looking at patterns from millions of other messages.\n\nNow imagine doing the same thing, but instead of guessing words, you're guessing which parts of the brain will light up. Scientists have collected thousands of brain scans while people looked at pictures or listened to sounds. Each scan"
-      }
-    },
     {
       "date": "2026-03-30",
       "headlines": [
@@ -362,6 +284,42 @@
         "cool_stuff": "### Cool Stuff & Try This\n**Free Monthly AI Messages Without Paying a Cent: asksary.com**  \nA developer built a platform that gives every new account roughly 70 messages per month on a strong model (called GPT-5.2 in the post), unlimited chats on a faster lighter model (GPT-5 Nano), and 25 free image generations every month using their image model. Everything resets automatically each month with no credit card or subscription required. They even added free text-to-speech that has no limits.\n\nThi",
         "quick_bits": "### Quick Bits\n**Smart Monthly Billing for Fast-Changing AI Tools**  \nA Reddit user explained why they now avoid most annual SaaS plans and prefer true month-to-month billing with easy upgrades or downgrades. They highlight Vismore (an AI visibility tool) as one that gets it right with no-card trials and instant plan switching. The key question they now ask every company: “If I want to downgrade next month, what happens?”\n\nThis matters because AI tools improve or change direction so quickly that",
         "deep_dive": "### Explain Like I'm 14\n**How “Multimodal” AI Actually Works**\n\nYou know how when you’re texting, your phone’s autocomplete guesses the next word based on what you’ve already typed? That’s a super simple version of how language models work — they predict what comes next.\n\nNow imagine instead of only seeing text, the AI gets trained on millions of pictures paired with their descriptions, videos with captions, and spoken words turned into text. It learns patterns that connect all these different “"
+      }
+    },
+    {
+      "date": "2026-04-12",
+      "headlines": [
+        "Been building a multi-agent framework in public for 5 weeks, its been a Journey.",
+        "Alibaba-linked AI agent hijacked GPUs for unauthorized crypto mining, researchers say",
+        "AMD's GAIA now allows building custom AI agents via chat, becomes \"true desktop app\"",
+        "I sent ChatGPT fart audio saying it was my music",
+        "How far can automation and AI support psychotherapy?",
+        "Your article about AI doesn’t need AI art",
+        "Claude code x n8n",
+        "Engadget review recap: ASUS ZenBook A16, AirPods Max 2, Sonos Play and LG Sound Suite",
+        "The operator behind the AI agent that defamed an open-source developer calls it a \"social experiment\"",
+        "AI models are terrible at betting on soccer—especially xAI Grok",
+        "Cloudflare just turned Browser Rendering into a lot more powerful MCP infrastructure"
+      ],
+      "urls": [
+        "https://www.reddit.com/r/artificial/comments/1sizjz7/alibabalinked_ai_agent_hijacked_gpus_for/",
+        "https://www.reddit.com/r/ChatGPT/comments/1sis1b8/i_sent_chatgpt_fart_audio_saying_it_was_my_music/",
+        "https://arstechnica.com/ai/2026/04/ai-models-are-terrible-at-betting-on-soccer-especially-xai-grok/",
+        "https://www.theverge.com/ai-artificial-intelligence/910460/new-yorker-david-szauder-illustration-generative-ai",
+        "https://the-decoder.com/the-operator-behind-the-ai-agent-that-defamed-an-open-source-developer-calls-it-a-social-experiment/",
+        "https://www.reddit.com/r/artificial/comments/1sj6o0i/been_building_a_multiagent_framework_in_public/",
+        "https://www.reddit.com/r/artificial/comments/1sitbvu/amds_gaia_now_allows_building_custom_ai_agents/",
+        "https://www.reddit.com/r/artificial/comments/1sinj89/how_far_can_automation_and_ai_support/",
+        "https://www.reddit.com/r/artificial/comments/1sik4by/claude_code_x_n8n/",
+        "https://www.engadget.com/engadget-review-recap-asus-zenbook-a16-airpods-max-2-sonos-play-and-lg-sound-suite-133000521.html?src=rss",
+        "https://www.reddit.com/r/artificial/comments/1sieggh/cloudflare_just_turned_browser_rendering_into_a/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "explain_like_14": "### Explain Like I'm 14\n**What is a multi-agent system?**\n\nYou know how when you're working on a big group project at school, you split up the work? One person researches, another makes the slides, someone else practices the presentation, and then you all come back together to combine everything. That's basically what a multi-agent system is — except the \"people\" are different AI programs.\n\nImagine each AI has its own personality, memories, and to-do list. One agent might be great at brainstormi",
+        "cool_stuff": "### Cool Stuff & Try This\n**When AI Music Reviews Go Hilariously Wrong:** r/ChatGPT  \nSomeone fed ChatGPT a recording of fart sounds pretending it was original music. The AI gave a serious, thoughtful review — exactly like the expensive AI music critique courses some celebrities are selling.  \n\nThis is so cool because it shows how AI doesn't always understand context the way humans do. It treated the silly audio with the same respect it would give a real song. It reminds us that while AI is gett",
+        "quick_bits": "### Quick Bits\n**Don't Use AI Art for Your AI Article**  \nThe Verge makes a strong point: when you're writing about AI, using creepy AI-generated images can actually make your story less trustworthy. Real human illustrations often communicate ideas better. It's a nice reminder that sometimes the \"human touch\" still wins.\n\nSource: https://www.theverge.com/ai-artificial-intelligence/910460/new-yorker-david-szauder-illustration-generative-ai\n\n**The Defaming AI Agent Was a \"Social Experiment\"**  \nTh",
+        "deep_dive": "### Explain Like I'm 14\n**What is a multi-agent system?**\n\nYou know how when you're working on a big group project at school, you split up the work? One person researches, another makes the slides, someone else practices the presentation, and then you all come back together to combine everything. That's basically what a multi-agent system is — except the \"people\" are different AI programs.\n\nImagine each AI has its own personality, memories, and to-do list. One agent might be great at brainstormi"
       }
     }
   ]
