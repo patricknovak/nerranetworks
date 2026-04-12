@@ -177,7 +177,10 @@ def validate_enclosure_reachability(
 
     headers = {"User-Agent": "NerraPipelineValidator/1.0"}
     all_ok = True
-    for url in urls[:sample_count]:
+    # Sample from the END of the list — RSS items may be oldest-first in the
+    # XML, so urls[:N] would check legacy episodes instead of the newest ones.
+    sample = urls[-sample_count:] if len(urls) > sample_count else urls
+    for url in sample:
         try:
             resp = _req.head(url, headers=headers, timeout=timeout, allow_redirects=True)
             if 200 <= resp.status_code < 400:

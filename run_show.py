@@ -612,9 +612,19 @@ def run(args: argparse.Namespace) -> None:
         articles = articles[:MAX_ARTICLES_FOR_LLM]
 
     # 6. Build template vars for digest prompt
+    # Regex to strip dateline suffixes that RSS sources (e.g. Teslarati)
+    # embed in article titles — e.g. "Tesla Model 2 Rises April 12, 2026,
+    # 1:54 AM PST".  The published_date field already carries this info.
+    _DATELINE_TAIL = re.compile(
+        r"\s*(?:January|February|March|April|May|June|July|August|September|"
+        r"October|November|December)\s+\d{1,2},?\s+\d{4},?\s+\d{1,2}:\d{2}\s*(?:AM|PM)\s*(?:PST|PDT|EST|EDT|CST|CDT|UTC|GMT)?\s*$",
+        re.IGNORECASE,
+    )
+
     news_lines = []
     for i, art in enumerate(articles, 1):
         title = art.get("title", "Untitled")
+        title = _DATELINE_TAIL.sub("", title).rstrip(" :—–-")
         desc = art.get("description", "")
         url = art.get("url", "")
         source = art.get("source_name", "Unknown")
