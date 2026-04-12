@@ -170,6 +170,40 @@ def test_item_9_voice_drift_detected(tmp_path):
 # ---------------------------------------------------------------------------
 
 
+def test_item_3_escalates_to_fail_on_growth(tmp_path):
+    """Item 3 must FAIL (not warn) when the top-level flat-file count
+    has grown since the previously recorded baseline.
+
+    This is the CI guard for CLAUDE.md landmine #3 — grandfathered flat
+    files are tolerated but may never grow, because any new file at
+    digests/<top level> means the pipeline leaked a write out of its
+    per-show subdirectory.
+    """
+    digests = tmp_path / "digests"
+    digests.mkdir()
+    # Seed 3 grandfathered files.
+    (digests / "legacy1.mp3").write_bytes(b"\x00")
+    (digests / "legacy2.md").write_text("x", encoding="utf-8")
+    (digests / "legacy3.txt").write_text("x", encoding="utf-8")
+
+    # Baseline run — no previous count, count = 3, should warn.
+    warn = gd.item_3_legacy_flatfiles(tmp_path, previous=None)
+    assert warn["status"] == "warn"
+    assert warn["evidence"]["total"] == 3
+
+    # Same count as previous — stays warn.
+    still = gd.item_3_legacy_flatfiles(tmp_path, previous=3)
+    assert still["status"] == "warn"
+
+    # One new file appears — growth detected, MUST fail.
+    (digests / "leaked.mp3").write_bytes(b"\x00")
+    grew = gd.item_3_legacy_flatfiles(tmp_path, previous=3)
+    assert grew["status"] == "fail", \
+        "growth from 3 → 4 must escalate to FAIL to trip the CI guard"
+    assert "GREW" in grew["details"]
+    assert grew["evidence"]["total"] == 4
+
+
 def test_claude_md_drift_banner_fires_when_stale_triple_present():
     """While CLAUDE.md still mentions the old 0.65/0.9/0.85 triple AND
     shows/_defaults.yaml no longer matches, the dashboard's voice_config

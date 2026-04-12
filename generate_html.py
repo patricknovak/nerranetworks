@@ -1011,6 +1011,66 @@ NETWORK_SHOWS = {
 }
 
 
+# Per-show interest tags used by the "Find Your Show" picker on the
+# network landing page. Intentionally small and curated — every tag is a
+# button on the picker UI, and every show must claim at least one tag
+# from each category the picker groups by.
+#
+# Format: {slug: {topics: [...], audience: [...], language: [...]}}
+_SHOW_PICKER_TAGS = {
+    "tesla": {
+        "topics": ["tesla", "ev", "tech", "stocks", "energy"],
+        "audience": ["investors", "enthusiasts"],
+        "language": ["english"],
+    },
+    "omni_view": {
+        "topics": ["world-news", "politics", "balanced"],
+        "audience": ["professionals", "citizens"],
+        "language": ["english"],
+    },
+    "fascinating_frontiers": {
+        "topics": ["space", "astronomy", "science"],
+        "audience": ["enthusiasts", "students"],
+        "language": ["english"],
+    },
+    "planetterrian": {
+        "topics": ["longevity", "biotech", "health", "science"],
+        "audience": ["professionals", "enthusiasts"],
+        "language": ["english"],
+    },
+    "env_intel": {
+        "topics": ["environment", "climate", "regulatory"],
+        "audience": ["professionals"],
+        "language": ["english"],
+    },
+    "models_agents": {
+        "topics": ["ai", "tech", "research"],
+        "audience": ["builders", "professionals"],
+        "language": ["english"],
+    },
+    "models_agents_beginners": {
+        "topics": ["ai", "tech"],
+        "audience": ["students", "beginners"],
+        "language": ["english"],
+    },
+    "modern_investing": {
+        "topics": ["investing", "stocks", "personal-finance"],
+        "audience": ["investors", "professionals"],
+        "language": ["english"],
+    },
+    "finansy_prosto": {
+        "topics": ["personal-finance", "investing"],
+        "audience": ["newcomers", "families"],
+        "language": ["russian"],
+    },
+    "privet_russian": {
+        "topics": ["language-learning"],
+        "audience": ["students", "heritage-learners"],
+        "language": ["bilingual"],
+    },
+}
+
+
 def _build_all_shows_list():
     """Build a list of all shows with metadata needed by templates."""
     shows = [
@@ -1027,6 +1087,10 @@ def _build_all_shows_list():
             "episode_length": cfg.get("episode_length", ""),
             "description_long": cfg.get("description_long", cfg["description"]),
             "source_highlights": cfg.get("source_highlights", []),
+            "audience": cfg.get("audience", ""),
+            "apple_podcasts_url": cfg.get("apple_podcasts_url"),
+            "spotify_url": cfg.get("spotify_url"),
+            "picker_tags": _SHOW_PICKER_TAGS.get(cfg["slug"], {}),
             "blog_page": f"blog/{cfg['slug']}/index.html",
             "_order": cfg.get("display_order", 99),
         }

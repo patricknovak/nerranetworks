@@ -155,6 +155,52 @@
         </div>
     </section>
 
+    <!-- Find Your Show — interactive picker -->
+    <section id="find-your-show" class="nn-section" style="background:var(--nn-bg-alt);">
+        <div class="container">
+            <div class="nn-section-header">
+                <div class="section-label">Find Your Show</div>
+                <h2>Tell us what you're into — we'll show you where to start</h2>
+                <p>Pick any filters and matching shows stay highlighted. Clear all to see everything.</p>
+            </div>
+            <div class="picker">
+                <div class="picker-row">
+                    <span class="picker-label">Topic</span>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="tesla">🔋 Tesla / EV</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="world-news">📰 World news</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="space">🚀 Space &amp; astronomy</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="science">🧬 Science</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="longevity">⚕️ Longevity / biotech</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="environment">🌍 Environment / climate</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="ai">🤖 AI / ML</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="investing">📈 Investing</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="personal-finance">💰 Personal finance</button>
+                    <button type="button" class="picker-chip" data-filter-group="topics" data-filter-value="language-learning">🗣️ Language learning</button>
+                </div>
+                <div class="picker-row">
+                    <span class="picker-label">You are</span>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="investors">An investor</button>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="professionals">A pro in the field</button>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="builders">A builder / engineer</button>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="students">A student</button>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="beginners">A curious beginner</button>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="newcomers">A newcomer to Canada</button>
+                    <button type="button" class="picker-chip" data-filter-group="audience" data-filter-value="enthusiasts">An enthusiast</button>
+                </div>
+                <div class="picker-row">
+                    <span class="picker-label">Language</span>
+                    <button type="button" class="picker-chip" data-filter-group="language" data-filter-value="english">English</button>
+                    <button type="button" class="picker-chip" data-filter-group="language" data-filter-value="russian">Русский</button>
+                    <button type="button" class="picker-chip" data-filter-group="language" data-filter-value="bilingual">Bilingual (RU + EN)</button>
+                </div>
+                <div class="picker-row picker-row-actions">
+                    <button type="button" class="picker-clear nn-btn">Clear filters</button>
+                    <span class="picker-count" aria-live="polite">Showing all <strong id="picker-count-total">{{ all_shows | length }}</strong> shows</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Show Showcase -->
     <section id="shows" class="nn-section">
         <div class="container">
@@ -163,9 +209,14 @@
                 <h2>Daily intelligence on the topics that matter</h2>
                 <p>Every show is ad-free, independently produced, and published daily. Pick one or subscribe to all.</p>
             </div>
-            <div class="show-showcase">
+            <div class="show-showcase" id="show-showcase-grid">
                 {% for s in all_shows %}
-                <div class="show-card-wrap" style="--show-color:{{ s.brand_color }};">
+                <div class="show-card-wrap"
+                     data-slug="{{ s.slug }}"
+                     data-topics="{{ s.picker_tags.topics | default([]) | join(' ') }}"
+                     data-audience="{{ s.picker_tags.audience | default([]) | join(' ') }}"
+                     data-language="{{ s.picker_tags.language | default([]) | join(' ') }}"
+                     style="--show-color:{{ s.brand_color }};">
                     <a href="{{ s.show_page }}" class="show-card glass-card">
                         <img src="{{ s.podcast_image }}" alt="{{ s.name }}" class="show-card-image" loading="lazy">
                         <div class="show-card-name">{{ s.name }}</div>
@@ -174,6 +225,12 @@
                             {% if s.episode_length %}<span class="show-card-badge">{{ s.episode_length }}</span>{% endif %}
                         </div>
                         <div class="show-card-tagline">{{ s.description_long | default(s.tagline) }}</div>
+                        {% if s.audience %}
+                        {# Strip the leading "For " some audience strings use so we don't double it. #}
+                        <div class="show-card-audience"><strong>For:</strong>
+                            {{ s.audience | replace('For ', '', 1) if s.audience.startswith('For ') else s.audience }}
+                        </div>
+                        {% endif %}
                         {% if s.source_highlights %}
                         <div class="show-card-sources">Sources: {{ s.source_highlights | join(', ') }}</div>
                         {% endif %}
@@ -319,26 +376,180 @@
             <div class="nn-section-header">
                 <div class="section-label">Listen Anywhere</div>
                 <h2>Subscribe Everywhere</h2>
-                <p>All shows are available via RSS. Pick your favorite podcast app and never miss an episode.</p>
+                <p>Every show has its own RSS feed. Paste it into any podcast app — Apple Podcasts, Spotify, Pocket Casts, Overcast — and new episodes arrive automatically.</p>
             </div>
             <div class="subscribe-badges">
-                <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" class="subscribe-badge" target="_blank" rel="noopener">
-                    Apple Podcasts (Tesla Shorts Time)
-                </a>
                 <a href="network.rss" class="subscribe-badge">
                     Network RSS (All Shows)
                 </a>
-            </div>
-            <div class="subscribe-rss-grid">
-                {% for s in all_shows %}
-                <a href="{{ s.rss_file }}" class="subscribe-rss-item">
-                    <img src="{{ s.podcast_image }}" alt="{{ s.name }} podcast cover art" loading="lazy">
-                    <span>{{ s.name }}</span>
-                    <span class="subscribe-rss-label">RSS</span>
+                <a href="blog.rss" class="subscribe-badge">
+                    Network Blog RSS
                 </a>
+            </div>
+            <div class="subscribe-show-list">
+                {% for s in all_shows %}
+                <div class="subscribe-show-row">
+                    <img src="{{ s.podcast_image }}" alt="{{ s.name }} cover art" loading="lazy">
+                    <div class="subscribe-show-meta">
+                        <div class="subscribe-show-name">{{ s.name }}</div>
+                        <div class="subscribe-show-tagline">{{ s.tagline }}</div>
+                    </div>
+                    <div class="subscribe-show-links">
+                        {% if s.apple_podcasts_url %}
+                        <a href="{{ s.apple_podcasts_url }}" target="_blank" rel="noopener" class="subscribe-link-btn" aria-label="Subscribe to {{ s.name }} on Apple Podcasts">Apple</a>
+                        {% endif %}
+                        {% if s.spotify_url %}
+                        <a href="{{ s.spotify_url }}" target="_blank" rel="noopener" class="subscribe-link-btn" aria-label="Subscribe to {{ s.name }} on Spotify">Spotify</a>
+                        {% endif %}
+                        <a href="{{ s.rss_file }}" class="subscribe-link-btn subscribe-link-rss" aria-label="Subscribe to {{ s.name }} via RSS">RSS</a>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
-            <p style="text-align:center;color:var(--nn-text-muted);font-family:var(--font-ui);font-size:0.88rem;margin-top:var(--sp-6);">Copy any RSS link into your podcast app of choice — Apple Podcasts, Spotify, Pocket Casts, Overcast, or any RSS reader.</p>
+            <p style="text-align:center;color:var(--nn-text-muted);font-family:var(--font-ui);font-size:0.88rem;margin-top:var(--sp-6);">Apple Podcasts and Spotify submission is ongoing — every show is fully subscribable via RSS today.</p>
         </div>
     </section>
+
+    {# --- "Find Your Show" picker behaviour + styles --- #}
+    <style>
+      .picker { max-width: 960px; margin: 0 auto; }
+      .picker-row {
+        display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+        padding: 10px 0;
+      }
+      .picker-label {
+        flex: 0 0 auto; min-width: 88px;
+        font-family: var(--font-ui); font-size: 0.85rem;
+        color: var(--nn-text-muted); text-transform: uppercase; letter-spacing: 0.05em;
+      }
+      .picker-chip {
+        background: transparent; border: 1px solid var(--nn-border);
+        color: var(--nn-text); border-radius: 999px;
+        padding: 8px 14px; font-size: 0.85rem; font-family: var(--font-ui);
+        cursor: pointer; transition: background 120ms, border-color 120ms, color 120ms;
+      }
+      .picker-chip:hover { border-color: #7C5CFF; }
+      .picker-chip.is-active {
+        background: rgba(124, 92, 255, 0.18);
+        border-color: #7C5CFF;
+        color: #fff;
+      }
+      .picker-row-actions { justify-content: space-between; padding-top: 18px; }
+      .picker-clear { font-size: 0.85rem; padding: 8px 16px; }
+      .picker-count { color: var(--nn-text-muted); font-size: 0.85rem; font-family: var(--font-ui); }
+      .picker-count strong { color: var(--nn-text); }
+
+      /* Cards that don't match the active filters fade out but stay in DOM
+         order so the grid layout doesn't jump around. */
+      .show-card-wrap.is-dimmed { opacity: 0.32; filter: grayscale(0.5); }
+      .show-card-wrap.is-dimmed .show-card { pointer-events: none; }
+      .show-card-wrap.is-match {
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--show-color, #7C5CFF) 70%, transparent);
+        border-radius: 16px;
+      }
+      .show-card-audience {
+        font-size: 0.82rem; color: var(--nn-text-muted);
+        margin-top: 4px; line-height: 1.4;
+      }
+      .show-card-audience strong { color: var(--nn-text); font-weight: 600; }
+
+      .subscribe-show-list {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 12px; margin: 24px auto 0; max-width: 1100px;
+      }
+      .subscribe-show-row {
+        display: flex; align-items: center; gap: 12px;
+        background: var(--nn-surface, #161a24); border: 1px solid var(--nn-border);
+        border-radius: 12px; padding: 12px 14px;
+      }
+      .subscribe-show-row img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+      .subscribe-show-meta { flex: 1; min-width: 0; }
+      .subscribe-show-name { font-weight: 600; font-size: 0.95rem; color: var(--nn-text); }
+      .subscribe-show-tagline { font-size: 0.78rem; color: var(--nn-text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .subscribe-show-links { display: flex; gap: 6px; flex-shrink: 0; }
+      .subscribe-link-btn {
+        font-size: 0.75rem; padding: 6px 10px; border-radius: 6px;
+        border: 1px solid var(--nn-border); background: rgba(124,92,255,0.08);
+        color: var(--nn-text); text-decoration: none; font-family: var(--font-ui);
+      }
+      .subscribe-link-btn:hover { background: rgba(124,92,255,0.22); }
+      .subscribe-link-rss { background: rgba(255,140,0,0.12); }
+    </style>
+
+    <script>
+    (function () {
+      const grid = document.getElementById("show-showcase-grid");
+      if (!grid) return;
+      const cards = Array.from(grid.querySelectorAll(".show-card-wrap"));
+      const chips = Array.from(document.querySelectorAll(".picker-chip"));
+      const clearBtn = document.querySelector(".picker-clear");
+      const countEl = document.getElementById("picker-count-total");
+      const total = cards.length;
+
+      const active = { topics: new Set(), audience: new Set(), language: new Set() };
+
+      function tokensOf(card, group) {
+        const raw = card.getAttribute("data-" + group) || "";
+        return raw.split(/\s+/).filter(Boolean);
+      }
+
+      function cardMatches(card) {
+        for (const group of ["topics", "audience", "language"]) {
+          const wanted = active[group];
+          if (wanted.size === 0) continue;
+          const has = new Set(tokensOf(card, group));
+          let ok = false;
+          for (const w of wanted) {
+            if (has.has(w)) { ok = true; break; }
+          }
+          if (!ok) return false;
+        }
+        return true;
+      }
+
+      function applyFilters() {
+        const anyActive =
+          active.topics.size + active.audience.size + active.language.size > 0;
+        let matched = 0;
+        cards.forEach((card) => {
+          const m = cardMatches(card);
+          card.classList.toggle("is-dimmed", anyActive && !m);
+          card.classList.toggle("is-match", anyActive && m);
+          if (m) matched++;
+        });
+        if (!countEl) return;
+        if (!anyActive) {
+          countEl.textContent = total;
+          countEl.parentElement.firstChild.textContent = "Showing all ";
+        } else {
+          countEl.textContent = matched;
+          countEl.parentElement.firstChild.textContent = "Showing ";
+        }
+      }
+
+      chips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          const group = chip.getAttribute("data-filter-group");
+          const value = chip.getAttribute("data-filter-value");
+          if (!group || !value || !active[group]) return;
+          if (active[group].has(value)) {
+            active[group].delete(value);
+            chip.classList.remove("is-active");
+          } else {
+            active[group].add(value);
+            chip.classList.add("is-active");
+          }
+          applyFilters();
+        });
+      });
+
+      if (clearBtn) {
+        clearBtn.addEventListener("click", () => {
+          for (const k in active) active[k].clear();
+          chips.forEach((c) => c.classList.remove("is-active"));
+          applyFilters();
+        });
+      }
+    })();
+    </script>
 {% endblock %}
