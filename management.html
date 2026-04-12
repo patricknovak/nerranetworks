@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nerra Network — Management Dashboard</title>
+<meta name="description" content="Operator status page for the Nerra Network: landmine guards, per-show health, cost rollup, voice settings drift.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://nerranetwork.com/management.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/></svg>">
+<link rel="stylesheet" href="styles/main.css">
+<style>
+  :root {
+    --status-ok: #16a34a;
+    --status-warn: #f59e0b;
+    --status-fail: #dc2626;
+  }
+  .mgmt-wrap { max-width: 1200px; margin: 0 auto; padding: 32px 24px 64px; }
+  .mgmt-header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .mgmt-header h1 { margin: 0; font-size: 28px; }
+  .mgmt-header .subtitle { color: var(--nn-muted, #94a3b8); font-size: 14px; }
+  .status-summary {
+    display: inline-flex; gap: 12px; align-items: center;
+    background: var(--nn-surface, #161a24); padding: 12px 20px; border-radius: 12px;
+    border: 1px solid var(--nn-border, #232938);
+  }
+  .status-pill {
+    display: inline-flex; gap: 6px; align-items: center;
+    padding: 4px 10px; border-radius: 999px; font-size: 13px; font-weight: 600;
+  }
+  .status-pill.ok { background: rgba(22,163,74,0.15); color: #22c55e; }
+  .status-pill.warn { background: rgba(245,158,11,0.15); color: #fbbf24; }
+  .status-pill.fail { background: rgba(220,38,38,0.15); color: #f87171; }
+
+  .mgmt-section { margin-top: 40px; }
+  .mgmt-section h2 {
+    margin: 0 0 16px; font-size: 18px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--nn-muted, #94a3b8);
+  }
+  .banner {
+    padding: 14px 18px; border-radius: 10px; margin-bottom: 16px;
+    background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.45);
+    color: #fbbf24;
+  }
+  .banner strong { color: #fde68a; }
+
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--nn-surface, #161a24); border: 1px solid var(--nn-border, #232938);
+    border-radius: 14px; padding: 18px;
+  }
+  .card.status-ok { border-left: 4px solid var(--status-ok); }
+  .card.status-warn { border-left: 4px solid var(--status-warn); }
+  .card.status-fail { border-left: 4px solid var(--status-fail); }
+  .card h3 { margin: 0 0 6px; font-size: 15px; }
+  .card .card-id {
+    font-size: 11px; color: var(--nn-muted, #94a3b8); font-family: ui-monospace, monospace;
+  }
+  .card .card-details { margin: 10px 0 0; font-size: 14px; line-height: 1.5; color: var(--nn-body, #cbd5e1); }
+  .card details {
+    margin-top: 10px; font-size: 12px; color: var(--nn-muted, #94a3b8);
+  }
+  .card details pre {
+    background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; overflow-x: auto;
+    font-size: 11px; margin: 8px 0 0;
+  }
+
+  .show-card {
+    background: var(--nn-surface, #161a24); border: 1px solid var(--nn-border, #232938);
+    border-radius: 14px; padding: 16px;
+  }
+  .show-card .show-head { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+  .show-card img.cover { width: 56px; height: 56px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+  .show-card h3 { margin: 0; font-size: 16px; }
+  .show-card .slug { font-size: 11px; color: var(--nn-muted, #94a3b8); font-family: ui-monospace, monospace; }
+  .show-card .stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0 4px;
+    font-size: 12px;
+  }
+  .show-card .stats div { background: rgba(124,92,255,0.08); padding: 8px 10px; border-radius: 8px; }
+  .show-card .stats strong { display: block; font-size: 14px; color: #fff; }
+  .show-card .links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; }
+  .show-card .links a { color: #818cf8; text-decoration: none; }
+  .show-card .links a:hover { text-decoration: underline; }
+
+  table.voice-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.voice-table th, table.voice-table td {
+    padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--nn-border, #232938);
+  }
+  table.voice-table th { color: var(--nn-muted, #94a3b8); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+  table.voice-table td.drift { color: #fbbf24; font-weight: 600; }
+
+  .sparkline-row {
+    display: flex; align-items: center; gap: 12px; padding: 10px 0;
+    border-bottom: 1px solid var(--nn-border, #232938);
+  }
+  .sparkline-row .label { width: 200px; font-size: 13px; }
+  .sparkline-row svg { flex: 1; height: 32px; }
+  .sparkline-row .value { width: 120px; text-align: right; font-size: 13px; color: var(--nn-muted, #94a3b8); }
+
+  #error { display: none; padding: 16px; background: rgba(220,38,38,0.15); border: 1px solid rgba(220,38,38,0.4); color: #fca5a5; border-radius: 10px; }
+  #loading { padding: 40px; text-align: center; color: var(--nn-muted, #94a3b8); }
+</style>
+</head>
+<body>
+<div class="mgmt-wrap">
+
+<div class="mgmt-header">
+  <div>
+    <h1>Nerra Network — Management</h1>
+    <div class="subtitle" id="generated-at">Loading dashboard data…</div>
+  </div>
+  <div class="status-summary" id="status-summary" hidden>
+    <span class="status-pill ok"><span id="count-ok">0</span>&nbsp;OK</span>
+    <span class="status-pill warn"><span id="count-warn">0</span>&nbsp;warn</span>
+    <span class="status-pill fail"><span id="count-fail">0</span>&nbsp;fail</span>
+    <span id="spend-7d" style="font-size:13px;color:#94a3b8"></span>
+  </div>
+</div>
+
+<div id="error">
+  Could not load <code>api/dashboard.json</code>. Run
+  <code>python scripts/generate_dashboard.py</code> to produce it.
+</div>
+
+<div id="loading">Loading…</div>
+
+<main id="content" hidden>
+
+  <section class="mgmt-section">
+    <h2>Landmine guards</h2>
+    <div id="claude-md-banner" hidden></div>
+    <div class="grid" id="landmines-grid"></div>
+  </section>
+
+  <section class="mgmt-section">
+    <h2>Shows (10 cards — Models &amp; Agents and Models &amp; Agents for Beginners stay separate)</h2>
+    <div class="grid" id="shows-grid"></div>
+  </section>
+
+  <section class="mgmt-section">
+    <h2>Voice settings consistency</h2>
+    <table class="voice-table" id="voice-table">
+      <thead>
+        <tr>
+          <th>Show</th><th>Voice ID</th><th>Stability</th>
+          <th>Similarity</th><th>Style</th><th>Drift</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="mgmt-section">
+    <h2>30-day cost per show</h2>
+    <div id="cost-sparklines"></div>
+  </section>
+
+  <section class="mgmt-section">
+    <h2>Pipeline p50 duration per show</h2>
+    <div id="pipeline-sparklines"></div>
+  </section>
+
+  <section class="mgmt-section">
+    <h2>Feed audit (latest)</h2>
+    <div id="feed-audit"></div>
+  </section>
+
+</main>
+
+<p style="margin-top:48px;font-size:12px;color:#64748b;text-align:center">
+  Generated by <code>scripts/generate_dashboard.py</code>. Regenerates daily via
+  <code>.github/workflows/dashboard.yml</code> and after every show publish.
+  Models &amp; Agents and Models &amp; Agents for Beginners are always tracked as
+  two separate shows.
+</p>
+</div>
+
+<script>
+(async function () {
+  const $ = (s) => document.querySelector(s);
+  const h = (tag, attrs = {}, children = []) => {
+    const el = document.createElement(tag);
+    for (const k in attrs) {
+      if (k === "class") el.className = attrs[k];
+      else if (k === "html") el.innerHTML = attrs[k];
+      else if (k === "text") el.textContent = attrs[k];
+      else el.setAttribute(k, attrs[k]);
+    }
+    (Array.isArray(children) ? children : [children]).forEach((c) => {
+      if (c == null) return;
+      el.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+    });
+    return el;
+  };
+
+  const money = (n) => "$" + Number(n || 0).toFixed(2);
+  const ageText = (iso) => {
+    if (!iso) return "never";
+    const d = new Date(iso);
+    const hours = (Date.now() - d.getTime()) / 3600000;
+    if (hours < 1) return Math.round(hours * 60) + "m ago";
+    if (hours < 48) return Math.round(hours) + "h ago";
+    return Math.round(hours / 24) + "d ago";
+  };
+
+  let data;
+  try {
+    const r = await fetch("api/dashboard.json", { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    data = await r.json();
+  } catch (e) {
+    $("#loading").hidden = true;
+    $("#error").style.display = "block";
+    return;
+  }
+
+  $("#loading").hidden = true;
+  $("#content").hidden = false;
+  $("#status-summary").hidden = false;
+  $("#generated-at").textContent =
+    "Generated " + new Date(data.generated_at).toLocaleString() + ".";
+
+  const counts = data.network.landmines_counts || {};
+  $("#count-ok").textContent = counts.ok || 0;
+  $("#count-warn").textContent = counts.warn || 0;
+  $("#count-fail").textContent = counts.fail || 0;
+  $("#spend-7d").textContent =
+    "· 7d spend " + money(data.network.total_cost_last_7_days_usd) +
+    " · 30d spend " + money(data.network.total_cost_last_30_days_usd);
+
+  // -------- CLAUDE.md drift banner --------
+  if (data.voice_config && data.voice_config.claude_md_drift_detected) {
+    const b = $("#claude-md-banner");
+    const baseline = data.voice_config.baseline || {};
+    b.hidden = false;
+    b.className = "banner";
+    b.innerHTML =
+      "<strong>Documentation drift:</strong> CLAUDE.md still references the " +
+      "old ElevenLabs tuning triple <code>0.65/0.9/0.85</code>, but " +
+      "<code>shows/_defaults.yaml</code> is now <code>" +
+      baseline.stability + "/" + baseline.similarity_boost + "/" + baseline.style +
+      "</code>. Update CLAUDE.md item 9 to match.";
+  }
+
+  // -------- Landmines grid --------
+  const lmGrid = $("#landmines-grid");
+  (data.landmines || []).forEach((lm) => {
+    const card = h("div", { class: "card status-" + lm.status });
+    card.appendChild(h("div", { class: "card-id", text: lm.id }));
+    card.appendChild(h("h3", { text: lm.title }));
+    card.appendChild(h("p", { class: "card-details", text: lm.details }));
+    if (lm.evidence && Object.keys(lm.evidence).length) {
+      const d = h("details");
+      d.appendChild(h("summary", { text: "evidence" }));
+      d.appendChild(h("pre", { text: JSON.stringify(lm.evidence, null, 2) }));
+      card.appendChild(d);
+    }
+    lmGrid.appendChild(card);
+  });
+
+  // -------- Shows grid --------
+  const showGrid = $("#shows-grid");
+  const shows = (data.network && data.network.shows) || [];
+  const coverFor = (slug) => {
+    // Map slug → cover image filename (matches assets/covers/*.jpg)
+    const map = {
+      "tesla": "tesla-shorts-time.jpg",
+      "models_agents": "models-agents.jpg",
+      "models_agents_beginners": "models-agents-beginners.jpg",
+      "omni_view": "omni-view.jpg",
+      "fascinating_frontiers": "fascinating-frontiers.jpg",
+      "planetterrian": "planetterrian-daily.jpg",
+      "env_intel": "environmental-intelligence.jpg",
+      "modern_investing": "modern-investing.jpg",
+      "finansy_prosto": "finansy-prosto.jpg",
+      "privet_russian": "privet-russian.jpg",
+    };
+    return "assets/covers/" + (map[slug] || (slug + ".jpg"));
+  };
+
+  shows.forEach((s) => {
+    const card = h("div", { class: "show-card" });
+    const head = h("div", { class: "show-head" });
+    head.appendChild(h("img", { class: "cover", src: coverFor(s.slug), alt: s.name + " cover art", loading: "lazy" }));
+    const headText = h("div");
+    headText.appendChild(h("h3", { text: s.name || s.slug }));
+    headText.appendChild(h("div", { class: "slug", text: s.slug }));
+    head.appendChild(headText);
+    card.appendChild(head);
+
+    const stats = h("div", { class: "stats" });
+    stats.appendChild(h("div", { html:
+      "<strong>" + (s.episodes_last_7_days || 0) + "</strong>ep · 7d" }));
+    stats.appendChild(h("div", { html:
+      "<strong>" + money(s.cost_last_7_days_usd) + "</strong>cost · 7d" }));
+    stats.appendChild(h("div", { html:
+      "<strong>" + (s.p50_pipeline_s || 0).toFixed(0) + "s</strong>p50 run" }));
+    card.appendChild(stats);
+
+    const pubStatus = s.pub_status || "unknown";
+    const pubColor = pubStatus === "ok" ? "#22c55e" :
+                     pubStatus === "warn" ? "#fbbf24" :
+                     pubStatus === "stale" ? "#f87171" : "#94a3b8";
+    card.appendChild(h("div", {
+      html: "Latest episode: " +
+        "<span style='color:" + pubColor + "'>" +
+        ageText(s.latest_pub_date) + "</span> · " +
+        "X posting: <strong>" + (s.x_enabled ? "ON" : "off") + "</strong> · " +
+        "Newsletter: <strong>" + (s.newsletter_enabled ? "ON" : "off") + "</strong>"
+    }));
+
+    const links = h("div", { class: "links" });
+    if (s.show_page) links.appendChild(h("a", { href: s.show_page, text: "Show page" }));
+    if (s.blog_page) links.appendChild(h("a", { href: s.blog_page, text: "Blog" }));
+    if (s.rss_file) links.appendChild(h("a", { href: s.rss_file, text: "RSS" }));
+    card.appendChild(links);
+    showGrid.appendChild(card);
+  });
+
+  // -------- Voice settings table --------
+  const tbody = $("#voice-table tbody");
+  (data.voice_config.shows || []).forEach((row) => {
+    const tr = h("tr");
+    tr.appendChild(h("td", { text: row.slug }));
+    tr.appendChild(h("td", { text: row.voice_id, style: "font-family:ui-monospace,monospace;font-size:11px" }));
+    tr.appendChild(h("td", { text: row.stability }));
+    tr.appendChild(h("td", { text: row.similarity_boost }));
+    tr.appendChild(h("td", { text: row.style }));
+    const drift = row.drift || [];
+    const td = h("td", {
+      class: drift.length ? "drift" : "",
+      text: drift.length ? drift.map((d) => d.field + ": " + d.actual).join(", ") : "ok",
+    });
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  });
+
+  // -------- Inline SVG sparklines --------
+  const drawSparkline = (values, w = 240, h = 28) => {
+    if (!values || !values.length) {
+      return '<svg width="' + w + '" height="' + h + '"></svg>';
+    }
+    const max = Math.max.apply(null, values) || 1;
+    const min = Math.min.apply(null, values);
+    const range = max - min || 1;
+    const step = w / Math.max(values.length - 1, 1);
+    const pts = values
+      .map((v, i) => (i * step).toFixed(1) + "," + (h - ((v - min) / range) * h).toFixed(1))
+      .join(" ");
+    return (
+      '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + " " + h + '">' +
+      '<polyline fill="none" stroke="#7C5CFF" stroke-width="2" points="' + pts + '" />' +
+      "</svg>"
+    );
+  };
+
+  const costSparks = $("#cost-sparklines");
+  const costPerShow = (data.cost_rollup && data.cost_rollup.per_show) || {};
+  shows.forEach((s) => {
+    const series = ((costPerShow[s.slug] || {}).daily_series || []).map((p) => p[1]);
+    const row = h("div", { class: "sparkline-row" });
+    row.appendChild(h("div", { class: "label", text: s.name || s.slug }));
+    const svg = document.createElement("div");
+    svg.innerHTML = drawSparkline(series);
+    svg.style.flex = "1";
+    row.appendChild(svg.firstChild || h("div"));
+    row.appendChild(h("div", { class: "value",
+      text: money((costPerShow[s.slug] || {}).last_30_days && (costPerShow[s.slug] || {}).last_30_days.total) + " · 30d" }));
+    costSparks.appendChild(row);
+  });
+
+  const pipeSparks = $("#pipeline-sparklines");
+  const health = data.pipeline_health || {};
+  shows.forEach((s) => {
+    const recent = ((health[s.slug] || {}).recent || []).map((r) => r.total_duration_s);
+    const row = h("div", { class: "sparkline-row" });
+    row.appendChild(h("div", { class: "label", text: s.name || s.slug }));
+    const svg = document.createElement("div");
+    svg.innerHTML = drawSparkline(recent);
+    svg.style.flex = "1";
+    row.appendChild(svg.firstChild || h("div"));
+    row.appendChild(h("div", { class: "value",
+      text: (health[s.slug] || {}).p50_duration_s + "s p50 · " +
+            (((health[s.slug] || {}).success_rate || 0) * 100).toFixed(0) + "% ok" }));
+    pipeSparks.appendChild(row);
+  });
+
+  // -------- Feed audit summary --------
+  const rss = data.rss_audit || { feeds: [] };
+  const audit = $("#feed-audit");
+  const summary = h("p", {
+    text: rss.feeds.length + " feed(s) audited · " +
+          (rss.raw_github_hits || []).length + " raw.githubusercontent.com hit(s) · " +
+          (rss.non_r2_hosts || []).length + " non-R2 host(s)",
+  });
+  audit.appendChild(summary);
+  const list = h("ul", { style: "margin:8px 0 0;padding-left:18px;font-size:13px" });
+  (rss.feeds || []).forEach((f) => {
+    const li = h("li");
+    li.textContent = f.file + " · " + f.entry_count + " items · " +
+      (f.latest_pub_date ? ageText(f.latest_pub_date) : "no pubDate") +
+      (f.malformed ? " · MALFORMED" : "");
+    list.appendChild(li);
+  });
+  audit.appendChild(list);
+})();
+</script>
+</body>
+</html>
