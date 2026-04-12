@@ -224,8 +224,8 @@ slow_news:
   cooldown_days: 30
 
 newsletter:
-  enabled: true
+  enabled: false  # TODO: Create "Models Agents" tag in Buttondown, then enable + add tag field
   platform: buttondown
-  api_key_env: MODELS_AGENTS_NEWSLETTER_API_KEY
+  api_key_env: BUTTONDOWN_API_KEY
   status: about_to_send
 

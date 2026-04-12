@@ -480,8 +480,8 @@ class TestShowConfigs:
         assert config.slug == "models_agents"
         assert config.name == "Models & Agents"
         assert config.publishing.x_enabled is False
-        assert config.newsletter.enabled is True
-        assert config.newsletter.api_key_env == "MODELS_AGENTS_NEWSLETTER_API_KEY"
+        assert config.newsletter.enabled is False  # TODO: create Models & Agents tag in Buttondown
+        assert config.newsletter.api_key_env == "BUTTONDOWN_API_KEY"
         assert len(config.sources) > 10  # Has many RSS feeds
         assert config.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
 
@@ -1053,12 +1053,16 @@ class TestWorkflowIntegration:
         )
 
     def test_newsletter_env_vars_in_workflow(self):
-        """CI workflow should inject newsletter API keys for shows that need them."""
+        """CI workflow should inject the shared Buttondown API key."""
         workflow = PROJECT_ROOT / ".github" / "workflows" / "run-show.yml"
         content = workflow.read_text()
-        for var in ["OMNI_VIEW_NEWSLETTER_API_KEY",
-                     "ENVIRONMENTAL_INTELLIGENCE_NEWSLETTER_API_KEY",
-                     "MODELS_AGENTS_NEWSLETTER_API_KEY"]:
-            assert var in content, (
-                f"Workflow .env should include {var} for newsletter delivery"
+        assert "BUTTONDOWN_API_KEY" in content, (
+            "Workflow .env must include BUTTONDOWN_API_KEY for newsletter delivery"
+        )
+        # Per-show keys were consolidated — none should remain.
+        for old_var in ["OMNI_VIEW_NEWSLETTER_API_KEY",
+                        "TESLA_NEWSLETTER_API_KEY",
+                        "MODERN_INVESTING_NEWSLETTER_API_KEY"]:
+            assert old_var not in content, (
+                f"Legacy per-show key {old_var} should be replaced with BUTTONDOWN_API_KEY"
             )

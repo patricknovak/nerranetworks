@@ -116,6 +116,31 @@ def synthesize_weekly_newsletter(
 
     episodes_text = "\n\n---\n\n".join(episode_summaries)
 
+    # Cross-show highlights: top stories from OTHER shows this week that
+    # subscribers of THIS show might find interesting. This is a key
+    # cross-promotion mechanism for the network.
+    cross_show_section = ""
+    try:
+        all_shows_eps = query_all_shows_range(start_date, end_date)
+        other_shows = [
+            ep for ep in all_shows_eps
+            if ep.get("show_slug") != show_slug and ep.get("hook")
+        ]
+        if other_shows:
+            highlights = other_shows[:5]
+            cross_lines = []
+            for ep in highlights:
+                show_label = ep.get("show_name") or ep.get("show_slug", "")
+                hook = (ep.get("hook") or "")[:120]
+                cross_lines.append(f"- **{show_label}**: {hook}")
+            cross_show_section = (
+                "\n\n## From the Nerra Network This Week\n"
+                "Other shows in the network covered these notable stories:\n"
+                + "\n".join(cross_lines)
+            )
+    except Exception as exc:
+        logger.debug("Cross-show highlights failed: %s", exc)
+
     # Load show-specific or default prompt
     if prompt_file and prompt_file.exists():
         prompt_template = prompt_file.read_text(encoding="utf-8")
@@ -128,7 +153,7 @@ def synthesize_weekly_newsletter(
         episode_count=len(episodes),
         start_date=start_date,
         end_date=end_date,
-        episodes_text=episodes_text,
+        episodes_text=episodes_text + cross_show_section,
         entities=", ".join(sorted(all_entities)[:30]),
     )
 

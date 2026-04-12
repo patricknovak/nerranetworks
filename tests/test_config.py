@@ -446,8 +446,8 @@ class TestLoadConfigRealFiles:
         assert cfg.publishing.rss_category == "News"
         assert cfg.publishing.guid_prefix == "omni-view"
         assert cfg.episode.prefix == "Omni_View"
-        assert cfg.newsletter.enabled is True
-        assert cfg.newsletter.api_key_env == "OMNI_VIEW_NEWSLETTER_API_KEY"
+        assert cfg.newsletter.enabled is False  # TODO: create Omni View tag in Buttondown
+        assert cfg.newsletter.api_key_env == "BUTTONDOWN_API_KEY"
 
     def test_env_intel_show(self):
         cfg = load_config(SHOWS_DIR / "env_intel.yaml")
@@ -468,7 +468,8 @@ class TestLoadConfigRealFiles:
         assert cfg.episode.prefix == "Env_Intel"
         assert cfg.episode.output_dir == "digests/env_intel"
         assert cfg.newsletter.enabled is True
-        assert cfg.newsletter.api_key_env == "ENVIRONMENTAL_INTELLIGENCE_NEWSLETTER_API_KEY"
+        assert cfg.newsletter.api_key_env == "BUTTONDOWN_API_KEY"
+        assert cfg.newsletter.tag == "Environmental Intelligence"
 
 
 # =========================================================================

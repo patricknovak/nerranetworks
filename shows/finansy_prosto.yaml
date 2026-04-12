@@ -221,8 +221,9 @@ chapters:
 newsletter:
   enabled: true
   platform: buttondown
-  api_key_env: FINANSY_PROSTO_NEWSLETTER_API_KEY
+  api_key_env: BUTTONDOWN_API_KEY
   status: about_to_send
+  tag: "Финансы Просто"
 
 slow_news:
   enabled: true
