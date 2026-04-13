@@ -1,40 +1,7 @@
 {
   "show": "models_agents",
-  "last_updated": "2026-04-11",
+  "last_updated": "2026-04-13",
   "episodes": [
-    {
-      "date": "2026-03-29",
-      "headlines": [
-        "Naver's \"Seoul World Model\" uses actual Street View data to stop AI from hallucinating entire cities",
-        "Google-Agent vs Googlebot: Google Defines the Technical Boundary Between User Triggered AI Access and Search Crawling Systems Today",
-        "A Coding Guide to Exploring nanobot’s Full Agent Pipeline, from Wiring Up Tools and Memory to Skills, Subagents, and Cron Scheduling",
-        "Mistral AI Releases Voxtral TTS: A 4B Open-Weight Streaming Speech Model for Low-Latency Multilingual Voice Generation",
-        "Using OpenClaw as a Force Multiplier: What One Person Can Ship with Autonomous Agents",
-        "Google's new Gemini API Agent Skill patches the knowledge gap AI models have with their own SDKs",
-        "Quoting Matt Webb",
-        "Meta's hyperagents improve at tasks and improve at improving",
-        "Anthropic's new data shows AI skill builds over time, and that could widen the inequality gap"
-      ],
-      "urls": [
-        "https://the-decoder.com/navers-seoul-world-model-uses-actual-street-view-data-to-stop-ai-from-hallucinating-entire-cities/",
-        "https://www.marktechpost.com/2026/03/28/mistral-ai-releases-voxtral-tts-a-4b-open-weight-streaming-speech-model-for-low-latency-multilingual-voice-generation/",
-        "https://the-decoder.com/metas-hyperagents-improve-at-tasks-and-improve-at-improving/",
-        "https://the-decoder.com/googles-new-gemini-api-agent-skill-patches-the-knowledge-gap-ai-models-have-with-their-own-sdks/",
-        "https://www.marktechpost.com/2026/03/28/a-coding-guide-to-exploring-nanobots-full-agent-pipeline-from-wiring-up-tools-and-memory-to-skills-subagents-and-cron-scheduling/",
-        "https://towardsdatascience.com/using-openclaw-as-a-force-multiplier-what-one-person-can-ship-with-autonomous-agents/",
-        "https://www.marktechpost.com/2026/03/28/google-agent-vs-googlebot-google-defines-the-technical-boundary-between-user-triggered-ai-access-and-search-crawling-systems-today/",
-        "https://simonwillison.net/2026/Mar/28/matt-webb/#atom-everything",
-        "https://the-decoder.com/anthropics-new-data-shows-ai-skill-builds-over-time-and-that-could-widen-the-inequality-gap/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "model_updates": "### Model Updates\n**Mistral AI Releases Voxtral TTS: A 4B Open-Weight Streaming Speech Model for Low-Latency Multilingual Voice Generation — MarkTechPost**\nMistral AI launched Voxtral TTS, a 4B parameter open-weight text-to-speech model that supports streaming generation and multiple languages, completing their audio stack after previous transcription and language models. The model is positioned as a direct open alternative to proprietary voice APIs, emphasizing low latency suitable for real-tim",
-        "agent_developments": "### Agent & Tool Developments\n**A Coding Guide to Exploring nanobot’s Full Agent Pipeline, from Wiring Up Tools and Memory to Skills, Subagents, and Cron Scheduling — MarkTechPost**\nHKUDS released nanobot, an ultra-lightweight personal AI agent framework implemented in roughly 4,000 lines of Python that includes tools, memory, skills, subagents, and cron scheduling. A detailed coding guide walks through manually recreating each subsystem to deeply understand the architecture. \n\nThis is one of th",
-        "practical_community": "### Practical & Community\n**Google-Agent vs Googlebot: Google Defines the Technical Boundary Between User Triggered AI Access and Search Crawling Systems Today — MarkTechPost**\nGoogle has introduced a new user-agent entity called Google-Agent that distinguishes between user-triggered AI requests and traditional autonomous Googlebot crawling. This technical boundary has immediate implications for developers implementing robots.txt rules, rate limiting, and access control for AI-powered features. ",
-        "deep_dive": "### Under the Hood: World Model Grounding\nEveryone talks about \"world models\" as if the main challenge is simply scaling video generation. In practice, the hardest engineering problem is keeping the generated world geometrically and semantically consistent with reality over long sequences.\n\nThe core insight behind Naver's Seoul World Model is to inject real measured geometry from Street View directly into the training process rather than hoping the model learns correct city layouts from internet"
-      },
-      "deep_dive_topic": "World Model Grounding"
-    },
     {
       "date": "2026-03-31",
       "headlines": [
@@ -493,6 +460,71 @@
         "deep_dive": "### Under the Hood: Knowledge Distillation Engineering Tradeoffs\nEveryone talks about knowledge distillation as if you simply pour the teacher’s logits into a smaller student and magic happens. In practice it is a series of careful engineering tradeoffs around temperature, loss weighting, and what exactly you distill.\n\nStart with the core insight: an ensemble’s strength is its averaged softened probability distribution, which encodes dark knowledge about relative confidence between classes. The "
       },
       "deep_dive_topic": "Knowledge Distillation Engineering Tradeoffs"
+    },
+    {
+      "date": "2026-04-13",
+      "headlines": [
+        "Aaron Levie Says Enterprise AI Is Shifting From Chatbots To Agents, Warns 'We're Moving From Chat Era...' - Benzinga",
+        "Gemma 4 has a systemic attention failure. Here's the proof.",
+        "ZeroID: Open-source identity platform for autonomous AI agents - Help Net Security",
+        "MiniMax Releases MMX-CLI: A Command-Line Interface That Gives AI Agents Native Access to Image, Video, Speech, Music, Vision, and Search",
+        "Aethir Claw Enables AI Agents to Execute Creative Workflows - Cryptonews.net",
+        "Llamacpp on chromebook 4 gb ram",
+        "Aethir Claw Enables AI Agents To Execute Creative Workflows - BlockchainReporter",
+        "Drift and selection in LLM text ecosystems",
+        "SynDocDis: A Metadata-Driven Framework for Generating Synthetic Physician Discussions Using Large Language Models",
+        "EMA Is Not All You Need: Mapping the Boundary Between Structure and Content in Recurrent Context",
+        "Re-Mask and Redirect: Exploiting Denoising Irreversibility in Diffusion Language Models",
+        "WAND: Windowed Attention and Knowledge Distillation for Efficient Autoregressive Text-to-Speech Models",
+        "Medical Reasoning with Large Language Models: A Survey and MR-Bench",
+        "Uncertainty Estimation for the Open-Set Text Classification systems",
+        "A Representation-Level Assessment of Bias Mitigation in Foundation Models",
+        "Neural networks for Text-to-Speech evaluation",
+        "Temperature-Dependent Performance of Prompting Strategies in Extended Reasoning Large Language Models",
+        "Attention-Based Sampler for Diffusion Language Models",
+        "Dynamic sparsity in tree-structured feed-forward layers at scale",
+        "Sentiment Classification of Gaza War Headlines: A Comparative Analysis of Large Language Models and Arabic Fine-Tuned BERT Models",
+        "Multi-User Large Language Model Agents",
+        "Can We Still Hear the Accent? Investigating the Resilience of Native Language Signals in the LLM Era",
+        "Adaptive Rigor in AI System Evaluation using Temperature-Controlled Verdict Aggregation via Generalized Power Mean",
+        "EXAONE 4.5 Technical Report",
+        "Decomposing the Delta: What Do Models Actually Learn from Preference Pairs?"
+      ],
+      "urls": [
+        "https://news.google.com/rss/articles/CBMi5gFBVV95cUxQY1BkNzlMbEdkN21sUzZzTEJoX2JlMkR5aU5ZLXMxdDdxalIwQ0RLSkxYY09wMjFXcy1lRlZ6RXlOS0R0NDl5YkJ1MW1aZ0xoTkQ3aXhUcENSbGF5ZXJWZzJ5V1U5aFJPNHplVlU4QzU1R2hEemV0dE11c2wyT0VWbm1Vc0ZBT3N2VVMtN0dobDJkMmNzTEZHMnJXZF9HLUdRWlQtWUg4ZnU2RXJSZFlmQ2dQSVVPNHpfY1lGdnNjNkI2XzREclJjcUlDZFFlN01JcEZkNkhkTWFvemo5dFFhbDkxbVA5UQ?oc=5",
+        "https://arxiv.org/abs/2604.08644",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1sk2s46/gemma_4_has_a_systemic_attention_failure_heres/",
+        "https://arxiv.org/abs/2604.08559",
+        "https://news.google.com/rss/articles/CBMiowFBVV95cUxNQ0tqVkFiZV9IbjR1R1ZMVVZVdHpMZjcta0VTV3hxSllhNkpmaUFWYzdSZmFZQjd3SlZ5UzNlU083Ql9pa0E1ajF4alBYRktpdEVFYnFlTVprNHBQTXNwWWFFNVFhVVdlVmRKdkNHVjdCTFFFSnIwSmgzdDdMOTJKTThjbURYOU9LOUFTcGotQ1NqVmhraFA2OGswMGhxQWlfamZv?oc=5",
+        "https://www.marktechpost.com/2026/04/12/minimax-releases-mmx-cli-a-command-line-interface-that-gives-ai-agents-native-access-to-image-video-speech-music-vision-and-search/",
+        "https://news.google.com/rss/articles/CBMiXEFVX3lxTE54cDh5SzA3cXU4NXBrQzFtWkRseUxNT1hXbTU0aklTUkZaaE5xckg5Xzg3eHVBbk96OHFNYUFMWXNrcml0LVd1ZjV6NmRUM09LUnpIbGZ1NW54TzB0?oc=5",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1sk0fdn/llamacpp_on_chromebook_4_gb_ram/",
+        "https://arxiv.org/abs/2604.08723",
+        "https://news.google.com/rss/articles/CBMilgFBVV95cUxNWjUtOF81dUhRUVhwbG5DZ0Rla2trRlNTeWVsMzlWMFU4OVIyMFpwdVQyVkk5d1RqaTVST1BiTVBvVDVOTno1WDhudzZEejNwbUhmVlFrNHVLcnZnYzQ5Z3lHNDc0OHh1TG1kQ29SdlBMbmw0SXRIMFZqZGRnVWRoLS1iMHZnTGQwbnR1Z3lwdzNGekFTTnc?oc=5",
+        "https://arxiv.org/abs/2604.08554",
+        "https://arxiv.org/abs/2604.08555",
+        "https://arxiv.org/abs/2604.08556",
+        "https://arxiv.org/abs/2604.08557",
+        "https://arxiv.org/abs/2604.08558",
+        "https://arxiv.org/abs/2604.08560",
+        "https://arxiv.org/abs/2604.08561",
+        "https://arxiv.org/abs/2604.08562",
+        "https://arxiv.org/abs/2604.08563",
+        "https://arxiv.org/abs/2604.08564",
+        "https://arxiv.org/abs/2604.08565",
+        "https://arxiv.org/abs/2604.08566",
+        "https://arxiv.org/abs/2604.08567",
+        "https://arxiv.org/abs/2604.08568",
+        "https://arxiv.org/abs/2604.08595"
+      ],
+      "quote_author": null,
+      "sections": {
+        "model_updates": "### Model Updates\n**EXAONE 4.5 Technical Report**\nLG AI Research released EXAONE 4.5, its first open-weight vision-language model built by adding a dedicated visual encoder to the EXAONE 4.0 text backbone. The model was trained with heavy emphasis on curated document-centric corpora, delivering strong gains in document understanding and Korean contextual reasoning while extending context to 256K tokens. It competes well on general benchmarks and outperforms same-scale models on document tasks. E",
+        "agent_developments": "### Agent & Tool Developments\n**ZeroID: Open-source identity platform for autonomous AI agents - Help Net Security**\nZeroID is a new open-source identity and authentication platform built specifically for autonomous AI agents operating across untrusted environments. It addresses core needs around verifiable identity, authorization, and auditability that generic auth systems ignore when the principal is software rather than a human. Developers building multi-agent systems or agents that cross org",
+        "practical_community": "### Practical & Community\n**Llamacpp on chromebook 4 gb ram**\nA developer successfully compiled and ran llama.cpp on a 4 GB RAM Chromebook, achieving 3–4 tokens/sec with Qwen 3.5 0.8B 4-bit. The post proves that extremely low-resource devices can still run capable small models locally. If you’re looking for on-device prototyping or want to validate edge deployment targets, this is an encouraging data point and recipe worth replicating.\nSource: https://www.reddit.com/r/LocalLLaMA/comments/1sk0fdn",
+        "deep_dive": "### Under the Hood: Diffusion Language Model Safety\nEveryone talks about diffusion LLMs (dLLMs) as though safety is baked into the denoising schedule the same way alignment is baked into RLHF. In practice, their safety alignment rests on one extremely fragile architectural assumption: that the denoising process is strictly monotonic and that once a token is committed it is never revisited.\n\nThe core mechanism works like this. A dLLM starts with a fully masked sequence and iteratively unmasks or "
+      },
+      "deep_dive_topic": "Diffusion Language Model Safety"
     }
   ]
 }
