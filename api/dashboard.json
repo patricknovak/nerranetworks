@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-12T18:47:04.663949+00:00",
+  "generated_at": "2026-04-13T06:32:41.958016+00:00",
   "network": {
     "landmines_counts": {
       "ok": 9,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 1,
-    "total_cost_last_7_days_usd": 79.881,
-    "total_cost_last_30_days_usd": 460.9329,
+    "total_cost_last_7_days_usd": 72.1869,
+    "total_cost_last_30_days_usd": 447.8816,
     "shows": [
       {
         "slug": "env_intel",
@@ -74,8 +74,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-11T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 7.1504,
-        "episodes_last_7_days": 4,
+        "cost_last_7_days_usd": 5.3475,
+        "episodes_last_7_days": 3,
         "p50_pipeline_s": 45.28,
         "success_rate": 1.0
       },
@@ -91,8 +91,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-12T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 6.3464,
-        "episodes_last_7_days": 5,
+        "cost_last_7_days_usd": 5.1457,
+        "episodes_last_7_days": 4,
         "p50_pipeline_s": 19.36,
         "success_rate": 1.0
       },
@@ -123,12 +123,12 @@
         "blog_page": "blog/omni_view/index.html",
         "newsletter_enabled": false,
         "x_enabled": true,
-        "latest_pub_date": "2026-04-11T08:00:00+00:00",
+        "latest_pub_date": "2026-04-13T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 7.8421,
+        "cost_last_7_days_usd": 8.216,
         "episodes_last_7_days": 4,
-        "p50_pipeline_s": 115.37,
-        "success_rate": 0.933
+        "p50_pipeline_s": 122.57,
+        "success_rate": 0.938
       },
       {
         "slug": "planetterrian",
@@ -142,8 +142,8 @@
         "x_enabled": true,
         "latest_pub_date": "2026-04-11T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 10.2097,
-        "episodes_last_7_days": 4,
+        "cost_last_7_days_usd": 7.8944,
+        "episodes_last_7_days": 3,
         "p50_pipeline_s": 37.25,
         "success_rate": 1.0
       },
@@ -176,8 +176,8 @@
         "x_enabled": true,
         "latest_pub_date": "2026-04-12T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 19.5034,
-        "episodes_last_7_days": 9,
+        "cost_last_7_days_usd": 16.7545,
+        "episodes_last_7_days": 8,
         "p50_pipeline_s": 71.84,
         "success_rate": 1.0
       }
@@ -293,7 +293,7 @@
       "details": "5 MP3s tracked in git, digests/ is 47 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 47.0
+        "digests_mb": 47.4
       }
     },
     {
@@ -552,8 +552,8 @@
         "last_30_days": {
           "grok": 0.4315,
           "tts": 33.6936,
-          "total": 36.7945,
-          "episodes": 12
+          "total": 34.1251,
+          "episodes": 11
         },
         "daily_series": [
           [
@@ -796,16 +796,16 @@
       },
       "models_agents": {
         "last_7_days": {
-          "grok": 0.2363,
-          "tts": 6.9141,
-          "total": 7.1504,
-          "episodes": 4
+          "grok": 0.1775,
+          "tts": 5.17,
+          "total": 5.3475,
+          "episodes": 3
         },
         "last_30_days": {
           "grok": 0.7879,
           "tts": 38.2827,
-          "total": 49.6126,
-          "episodes": 17
+          "total": 45.8179,
+          "episodes": 16
         },
         "daily_series": [
           [
@@ -924,10 +924,10 @@
       },
       "models_agents_beginners": {
         "last_7_days": {
-          "grok": 0.245,
-          "tts": 6.1014,
-          "total": 6.3464,
-          "episodes": 5
+          "grok": 0.1937,
+          "tts": 4.952,
+          "total": 5.1457,
+          "episodes": 4
         },
         "last_30_days": {
           "grok": 0.6081,
@@ -1072,15 +1072,15 @@
       },
       "omni_view": {
         "last_7_days": {
-          "grok": 0.4279,
-          "tts": 7.4142,
-          "total": 7.8421,
+          "grok": 0.4631,
+          "tts": 7.7529,
+          "total": 8.216,
           "episodes": 4
         },
         "last_30_days": {
-          "grok": 1.2292,
-          "tts": 47.6609,
-          "total": 57.3897,
+          "grok": 1.3428,
+          "tts": 49.7696,
+          "total": 56.888,
           "episodes": 18
         },
         "daily_series": [
@@ -1191,21 +1191,25 @@
           [
             "2026-04-11",
             2.3452
+          ],
+          [
+            "2026-04-13",
+            2.2223
           ]
         ]
       },
       "planetterrian": {
         "last_7_days": {
-          "grok": 0.2547,
-          "tts": 9.955,
-          "total": 10.2097,
-          "episodes": 4
+          "grok": 0.1919,
+          "tts": 7.7025,
+          "total": 7.8944,
+          "episodes": 3
         },
         "last_30_days": {
           "grok": 0.7271,
           "tts": 44.3952,
-          "total": 51.2543,
-          "episodes": 15
+          "total": 48.3287,
+          "episodes": 14
         },
         "daily_series": [
           [
@@ -1340,16 +1344,16 @@
       },
       "tesla": {
         "last_7_days": {
-          "grok": 0.9199,
-          "tts": 18.5835,
-          "total": 19.5034,
-          "episodes": 9
+          "grok": 0.8416,
+          "tts": 15.9129,
+          "total": 16.7545,
+          "episodes": 8
         },
         "last_30_days": {
           "grok": 1.8581,
           "tts": 75.5685,
-          "total": 86.243,
-          "episodes": 29
+          "total": 83.0831,
+          "episodes": 28
         },
         "daily_series": [
           [
@@ -1476,16 +1480,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 3.0942,
-      "tts": 76.7868,
-      "total": 79.881,
-      "episodes": 43
+      "grok": 2.878,
+      "tts": 69.3088,
+      "total": 72.1869,
+      "episodes": 39
     },
     "network_last_30_days": {
-      "grok": 8.3316,
-      "tts": 405.6831,
-      "total": 460.9329,
-      "episodes": 160
+      "grok": 8.4452,
+      "tts": 407.7918,
+      "total": 447.8816,
+      "episodes": 156
     }
   },
   "pipeline_health": {
@@ -1867,21 +1871,16 @@
       ]
     },
     "omni_view": {
-      "sample_size": 15,
-      "p50_duration_s": 115.37,
+      "sample_size": 16,
+      "p50_duration_s": 122.57,
       "p95_duration_s": 212.22,
-      "success_rate": 0.933,
+      "success_rate": 0.938,
       "stage_mean_s": {
-        "fetch_and_dedup": 50.13,
-        "generate_digest": 53.28,
-        "generate_digest_retry": 28.92
+        "fetch_and_dedup": 49.16,
+        "generate_digest": 54.94,
+        "generate_digest_retry": 32.84
       },
       "recent": [
-        {
-          "episode_num": 22,
-          "total_duration_s": 83.78,
-          "success": false
-        },
         {
           "episode_num": 23,
           "total_duration_s": 143.21,
@@ -1925,6 +1924,11 @@
         {
           "episode_num": 31,
           "total_duration_s": 179.5,
+          "success": true
+        },
+        {
+          "episode_num": 32,
+          "total_duration_s": 202.3,
           "success": true
         }
       ]
@@ -2307,9 +2311,16 @@
       },
       {
         "file": "omni_view_podcast.rss",
-        "entry_count": 31,
-        "latest_pub_date": "2026-04-11T08:00:00+00:00",
+        "entry_count": 32,
+        "latest_pub_date": "2026-04-13T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://audio.nerranetwork.com/omni_view/Omni_View_Ep032_20260413.mp3",
+            "host": "audio.nerranetwork.com",
+            "pub_date": "2026-04-13T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://audio.nerranetwork.com/omni_view/Omni_View_Ep031_20260411.mp3",
             "host": "audio.nerranetwork.com",
@@ -2321,13 +2332,6 @@
             "url": "https://audio.nerranetwork.com/omni_view/Omni_View_Ep030_20260409.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-09T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://audio.nerranetwork.com/omni_view/Omni_View_Ep029_20260407.mp3",
-            "host": "audio.nerranetwork.com",
-            "pub_date": "2026-04-07T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
