@@ -238,6 +238,22 @@ def _should_run_on(schedule: str, target_date: datetime.date) -> bool:
     return True  # unknown schedule → assume should run
 
 
+def _read_skip_marker(output_dir: str, target_date: datetime.date) -> Optional[dict]:
+    """Read a skip marker file if one exists for the given date.
+
+    Skip markers are written by ``run_show.py`` when the pipeline exits early
+    (exit code 2) due to insufficient articles, duplicate content, etc.
+    """
+    marker_path = PROJECT_ROOT / output_dir / f".skip_{target_date.strftime('%Y%m%d')}.json"
+    if not marker_path.exists():
+        return None
+    try:
+        return json.loads(marker_path.read_text())
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.warning("Failed to read skip marker %s: %s", marker_path, exc)
+        return None
+
+
 def check_missed_episodes(
     target_date: datetime.date,
     found_episodes: List[EpisodeReview],
@@ -245,7 +261,10 @@ def check_missed_episodes(
 ) -> List[Issue]:
     """Detect shows that were scheduled to produce an episode but didn't.
 
-    Returns a list of Issue objects for missing episodes.
+    Returns a list of Issue objects for missing episodes.  If the pipeline
+    intentionally skipped an episode (and left a skip marker file), the issue
+    is reported as a *warning* instead of *critical* so the daily review can
+    distinguish genuine failures from expected skips.
     """
     found_slugs = {ep.show_slug for ep in found_episodes}
     missed: List[Issue] = []
@@ -258,19 +277,38 @@ def check_missed_episodes(
             continue
         if slug in found_slugs:
             continue
-        missed.append(Issue(
-            show=slug,
-            episode=0,
-            severity="critical",
-            title=f"Missed episode: {info['name']}",
-            detail=(
-                f"{info['name']} was scheduled to produce an episode on "
-                f"{target_date.isoformat()} (schedule: {schedule}) but no output "
-                f"files were found in {info['output_dir']}/. The pipeline may have "
-                f"failed, been skipped due to insufficient articles, or the workflow "
-                f"did not trigger."
-            ),
-        ))
+
+        # Check for a skip marker — pipeline ran but intentionally skipped
+        marker = _read_skip_marker(info["output_dir"], target_date)
+        if marker:
+            reason = marker.get("reason", "unknown")
+            detail = marker.get("detail", "No detail provided.")
+            missed.append(Issue(
+                show=slug,
+                episode=0,
+                severity="warning",
+                title=f"Skipped episode: {info['name']} ({reason})",
+                detail=(
+                    f"{info['name']} was scheduled on "
+                    f"{target_date.isoformat()} (schedule: {schedule}) but the "
+                    f"pipeline intentionally skipped this episode. "
+                    f"Reason: {detail}"
+                ),
+            ))
+        else:
+            missed.append(Issue(
+                show=slug,
+                episode=0,
+                severity="critical",
+                title=f"Missed episode: {info['name']}",
+                detail=(
+                    f"{info['name']} was scheduled to produce an episode on "
+                    f"{target_date.isoformat()} (schedule: {schedule}) but no output "
+                    f"files were found in {info['output_dir']}/ and no skip marker "
+                    f"was present. The pipeline may have failed or the workflow did "
+                    f"not trigger."
+                ),
+            ))
 
     return missed
 
@@ -1137,9 +1175,10 @@ def create_github_issue(
     else:
         title = f"Daily Review {target_date}: {len(warnings)} warning(s) across {n_shows} show(s)"
 
-    # Separate missed-episode issues from per-episode issues
+    # Separate missed/skipped episode issues from per-episode issues
     _missed = [i for i in all_issues if i.episode == 0 and "Missed episode" in i.title]
-    _missed_shows = {i.show for i in _missed}
+    _skipped = [i for i in all_issues if i.episode == 0 and "Skipped episode" in i.title]
+    _missed_shows = {i.show for i in _missed} | {i.show for i in _skipped}
 
     # Build issue body
     body_lines = [
@@ -1148,6 +1187,8 @@ def create_github_issue(
     ]
     if _missed:
         body_lines.append(f"**Missed episodes:** {len(_missed)} show(s) failed to produce output")
+    if _skipped:
+        body_lines.append(f"**Skipped episodes:** {len(_skipped)} show(s) intentionally skipped")
     body_lines.append(
         f"**Issues found:** {len(critical)} critical, {len(warnings)} warning(s), {len(infos)} info\n"
     )
@@ -1159,6 +1200,17 @@ def create_github_issue(
             "These shows were scheduled to produce an episode today but no output was found:\n"
         )
         for issue in _missed:
+            show_name = SHOW_REGISTRY.get(issue.show, {}).get("name", issue.show)
+            body_lines.append(f"- **{show_name}** (`{issue.show}`): {issue.detail}")
+        body_lines.append("")
+
+    # Skipped episodes section
+    if _skipped:
+        body_lines.append("### Skipped Episodes\n")
+        body_lines.append(
+            "These shows ran but intentionally skipped episode production:\n"
+        )
+        for issue in _skipped:
             show_name = SHOW_REGISTRY.get(issue.show, {}).get("name", issue.show)
             body_lines.append(f"- **{show_name}** (`{issue.show}`): {issue.detail}")
         body_lines.append("")
@@ -1285,18 +1337,21 @@ def format_for_claude(
 
     critical = [(ep, i) for ep, i in all_issues if i.severity == "critical"]
     warnings = [(ep, i) for ep, i in all_issues if i.severity == "warning"]
+    _missed_critical = [i for i in missed_issues if i.severity == "critical"]
+    _missed_warnings = [i for i in missed_issues if i.severity == "warning"]
 
     lines = [
         f"Fix the following issues found by the daily episode review for {target_date}.",
-        f"There are {len(critical) + len(missed_issues)} critical and {len(warnings)} warning-level issues.",
+        f"There are {len(critical) + len(_missed_critical)} critical and "
+        f"{len(warnings) + len(_missed_warnings)} warning-level issues.",
         "",
     ]
 
-    # Missed episodes section
-    if missed_issues:
+    # Missed episodes section (genuine failures — no skip marker)
+    if _missed_critical:
         lines.append("## Missed Episodes")
         lines.append("")
-        for issue in missed_issues:
+        for issue in _missed_critical:
             show_name = SHOW_REGISTRY.get(issue.show, {}).get("name", issue.show)
             lines.append(f"- **[CRITICAL] {show_name}** — {issue.detail}")
         lines.append("")
@@ -1305,6 +1360,15 @@ def format_for_claude(
             "why they failed. Check GitHub Actions run history, RSS feed health, "
             "and news source availability."
         )
+        lines.append("")
+
+    # Skipped episodes section (intentional skips — skip marker present)
+    if _missed_warnings:
+        lines.append("## Skipped Episodes")
+        lines.append("")
+        for issue in _missed_warnings:
+            show_name = SHOW_REGISTRY.get(issue.show, {}).get("name", issue.show)
+            lines.append(f"- **[WARNING] {show_name}** — {issue.detail}")
         lines.append("")
 
     # Group by issue type for efficient fixing
@@ -1388,7 +1452,10 @@ def run_review(
     missed_issues = check_missed_episodes(target_date, episodes, show_filter)
     if missed_issues:
         for issue in missed_issues:
-            logger.error("[CRITICAL] %s: %s", issue.title, issue.detail)
+            if issue.severity == "critical":
+                logger.error("[CRITICAL] %s: %s", issue.title, issue.detail)
+            else:
+                logger.warning("[%s] %s: %s", issue.severity.upper(), issue.title, issue.detail)
 
     if not episodes and not missed_issues:
         logger.info("No episodes found for %s (and none expected)", target_date.isoformat())
@@ -1426,8 +1493,8 @@ def run_review(
         logger.info("Skipping AI review (no GROK_API_KEY)")
 
     # Report
-    total_critical = len(missed_issues)  # missed episodes are critical
-    total_warnings = 0
+    total_critical = sum(1 for i in missed_issues if i.severity == "critical")
+    total_warnings = sum(1 for i in missed_issues if i.severity == "warning")
     for ep in episodes:
         n_crit = sum(1 for i in ep.issues if i.severity == "critical")
         n_warn = sum(1 for i in ep.issues if i.severity == "warning")
@@ -1469,10 +1536,15 @@ def run_review(
             logger.info("No actionable issues — skipping GitHub issue creation")
 
     # Summary
-    logger.info(
-        "=== Review complete: %d episode(s), %d missed, %d critical, %d warning(s) ===",
-        len(episodes), len(missed_issues), total_critical, total_warnings,
-    )
+    n_missed = sum(1 for i in missed_issues if i.severity == "critical")
+    n_skipped = sum(1 for i in missed_issues if i.severity == "warning")
+    parts = [f"{len(episodes)} episode(s)"]
+    if n_missed:
+        parts.append(f"{n_missed} missed")
+    if n_skipped:
+        parts.append(f"{n_skipped} skipped")
+    parts.extend([f"{total_critical} critical", f"{total_warnings} warning(s)"])
+    logger.info("=== Review complete: %s ===", ", ".join(parts))
 
     if total_critical > 0:
         return 1
