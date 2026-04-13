@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-13T10:20:09.287945+00:00",
+  "generated_at": "2026-04-13T15:05:02.316553+00:00",
   "network": {
     "landmines_counts": {
       "ok": 9,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 2,
-    "total_cost_last_7_days_usd": 80.5845,
-    "total_cost_last_30_days_usd": 456.2792,
+    "total_cost_last_7_days_usd": 83.1916,
+    "total_cost_last_30_days_usd": 458.8864,
     "shows": [
       {
         "slug": "env_intel",
@@ -174,10 +174,10 @@
         "blog_page": "blog/tesla/index.html",
         "newsletter_enabled": true,
         "x_enabled": true,
-        "latest_pub_date": "2026-04-12T08:00:00+00:00",
+        "latest_pub_date": "2026-04-13T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 16.7545,
-        "episodes_last_7_days": 8,
+        "cost_last_7_days_usd": 19.3616,
+        "episodes_last_7_days": 9,
         "p50_pipeline_s": 71.84,
         "success_rate": 1.0
       }
@@ -293,7 +293,7 @@
       "details": "5 MP3s tracked in git, digests/ is 49 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 48.7
+        "digests_mb": 49.2
       }
     },
     {
@@ -1360,22 +1360,18 @@
       },
       "tesla": {
         "last_7_days": {
-          "grok": 0.8416,
-          "tts": 15.9129,
-          "total": 16.7545,
-          "episodes": 8
+          "grok": 0.9563,
+          "tts": 18.4053,
+          "total": 19.3616,
+          "episodes": 9
         },
         "last_30_days": {
-          "grok": 1.8581,
-          "tts": 75.5685,
-          "total": 83.0831,
-          "episodes": 28
+          "grok": 1.9728,
+          "tts": 78.0609,
+          "total": 85.6902,
+          "episodes": 29
         },
         "daily_series": [
-          [
-            "2026-03-06",
-            2.757
-          ],
           [
             "2026-03-08",
             3.4164
@@ -1491,21 +1487,25 @@
           [
             "2026-04-12",
             2.61
+          ],
+          [
+            "2026-04-13",
+            2.6071
           ]
         ]
       }
     },
     "network_last_7_days": {
-      "grok": 3.1033,
-      "tts": 77.4811,
-      "total": 80.5845,
-      "episodes": 43
+      "grok": 3.218,
+      "tts": 79.9735,
+      "total": 83.1916,
+      "episodes": 44
     },
     "network_last_30_days": {
-      "grok": 8.6705,
-      "tts": 415.9641,
-      "total": 456.2792,
-      "episodes": 160
+      "grok": 8.7853,
+      "tts": 418.4565,
+      "total": 458.8864,
+      "episodes": 161
     }
   },
   "pipeline_health": {
@@ -2070,23 +2070,18 @@
       ]
     },
     "tesla": {
-      "sample_size": 24,
+      "sample_size": 25,
       "p50_duration_s": 71.84,
-      "p95_duration_s": 190.2,
+      "p95_duration_s": 206.11,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 27.59,
-        "generate_digest": 26.02,
+        "fetch_and_dedup": 28.04,
+        "generate_digest": 28.41,
         "generate_digest_retry": 26.83,
-        "generate_digest_slow_news": 37.34,
+        "generate_digest_slow_news": 41.44,
         "generate_digest_llm_fallback": 33.12
       },
       "recent": [
-        {
-          "episode_num": 425,
-          "total_duration_s": 85.0,
-          "success": true
-        },
         {
           "episode_num": 426,
           "total_duration_s": 110.17,
@@ -2130,6 +2125,11 @@
         {
           "episode_num": 434,
           "total_duration_s": 190.2,
+          "success": true
+        },
+        {
+          "episode_num": 435,
+          "total_duration_s": 210.71,
           "success": true
         }
       ]
@@ -2387,9 +2387,16 @@
       },
       {
         "file": "podcast.rss",
-        "entry_count": 87,
-        "latest_pub_date": "2026-04-12T08:00:00+00:00",
+        "entry_count": 88,
+        "latest_pub_date": "2026-04-13T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep435_20260413.mp3",
+            "host": "audio.nerranetwork.com",
+            "pub_date": "2026-04-13T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep434_20260412.mp3",
             "host": "audio.nerranetwork.com",
@@ -2401,13 +2408,6 @@
             "url": "https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep433_20260411.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-11T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep432_20260410.mp3",
-            "host": "audio.nerranetwork.com",
-            "pub_date": "2026-04-10T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
