@@ -327,6 +327,30 @@ def run(args: argparse.Namespace) -> None:
     today_str = today.strftime("%B %d, %Y")
     digests_dir = PROJECT_ROOT / config.episode.output_dir
 
+    def _skip_episode(reason: str, detail: str) -> None:
+        """Write a skip marker file and exit with code 2.
+
+        The marker lets the daily review script distinguish intentional skips
+        (insufficient articles, duplicate content, etc.) from genuine pipeline
+        failures or missed workflow triggers.
+        """
+        marker_path = digests_dir / f".skip_{today.strftime('%Y%m%d')}.json"
+        marker_path.parent.mkdir(parents=True, exist_ok=True)
+        marker_data = {
+            "date": today.isoformat(),
+            "show": config.slug,
+            "show_name": config.name,
+            "reason": reason,
+            "detail": detail,
+            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        }
+        try:
+            marker_path.write_text(json.dumps(marker_data, indent=2))
+            logger.info("Skip marker written: %s (%s)", marker_path.name, reason)
+        except OSError as exc:
+            logger.warning("Failed to write skip marker: %s", exc)
+        sys.exit(2)
+
     # Initialize pipeline metrics
     from engine.metrics import PipelineMetrics
     metrics = PipelineMetrics(show_slug=config.slug, episode_num=0)  # Updated after ep num known
@@ -506,7 +530,7 @@ def run(args: argparse.Namespace) -> None:
 
     if not articles:
         logger.warning("No articles found even after expanded search. Skipping episode.")
-        sys.exit(2)
+        _skip_episode("no_articles", "No articles found even after expanded search.")
 
     # Skip episode if digest would be too thin — or activate slow news mode
     skip_threshold = getattr(config, "min_articles_skip", 3) or 3
@@ -557,7 +581,10 @@ def run(args: argparse.Namespace) -> None:
                 "Only %d article(s) found — below minimum threshold (%d) for a quality episode. Skipping.",
                 len(articles), skip_threshold,
             )
-            sys.exit(2)
+            _skip_episode(
+                "insufficient_articles",
+                f"Only {len(articles)} article(s) found — below minimum threshold ({skip_threshold}).",
+            )
 
     # 5b2. Thin content detection — article count is above skip threshold but
     #      below the quality threshold (min_articles).  Activate slow news mode
@@ -785,7 +812,10 @@ def run(args: argparse.Namespace) -> None:
                 "aborting episode to prevent recycled content from reaching audio: %s",
                 len(_critical_dup_issues), "; ".join(_critical_dup_issues),
             )
-            sys.exit(2)
+            _skip_episode(
+                "duplicate_content",
+                f"Digest has {len(_critical_dup_issues)} near-verbatim (>=80%) intra-episode duplicate(s).",
+            )
         if not _val_passed:
             # Check for critical missing sections (non-optional)
             _missing = [
@@ -882,7 +912,11 @@ def run(args: argparse.Namespace) -> None:
                             len(_item_count_issues), _digest_char_count,
                             "; ".join(_item_count_issues),
                         )
-                        sys.exit(2)
+                        _skip_episode(
+                            "thin_episode",
+                            f"Digest has {len(_item_count_issues)} item-count shortfall(s) "
+                            f"and is short ({_digest_char_count} chars).",
+                        )
                     else:
                         # Long enough to be real content — likely a formatting
                         # mismatch rather than missing content.
@@ -950,7 +984,10 @@ def run(args: argparse.Namespace) -> None:
                                 )
                         except LLMRefusalError as e:
                             logger.error("Slow news fallback digest refused: %s", e)
-                            sys.exit(2)
+                            _skip_episode(
+                                "llm_refusal",
+                                f"Slow news fallback digest refused by LLM: {e}",
+                            )
                         except Exception as e:
                             logger.error("Slow news fallback digest failed: %s", e)
                             sys.exit(1)
@@ -977,7 +1014,11 @@ def run(args: argparse.Namespace) -> None:
                             "stories to publish.",
                             len(_repeat_issues),
                         )
-                        sys.exit(2)
+                        _skip_episode(
+                            "cross_episode_repeats",
+                            f"Digest has {len(_repeat_issues)} cross-episode repeat(s) — "
+                            "too many recycled stories.",
+                        )
 
                 logger.warning(
                     "Digest validation found %d issue(s) — continuing (non-blocking)",
@@ -1514,7 +1555,10 @@ def run(args: argparse.Namespace) -> None:
                     audio_duration, _min_audio,
                 )
                 final_mp3.unlink(missing_ok=True)
-                sys.exit(2)
+                _skip_episode(
+                    "audio_too_short",
+                    f"Audio too short ({audio_duration:.0f}s < {_min_audio}s minimum).",
+                )
 
             # 10a. Generate chapter data (timestamps + JSON)
             if episode_chapters and audio_duration > 0:
