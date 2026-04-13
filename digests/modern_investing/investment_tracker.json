@@ -6,7 +6,7 @@
     "position_size": 1000,
     "currency": "USD",
     "created": "2026-03-16",
-    "last_updated": "2026-04-10"
+    "last_updated": "2026-04-13"
   },
   "summary": {
     "total_trades": 6,
@@ -140,6 +140,22 @@
       "pnl_dollars": null,
       "lesson": "",
       "current_price": 33.13
+    },
+    {
+      "episode_num": 18,
+      "date": "2026-04-13",
+      "symbol": "WRLG",
+      "market": "TSX",
+      "strategy": "High-grade drill-result catalyst play in the Red Lake gold district, betting on continued resource expansion momentum.",
+      "confidence": "Medium",
+      "target_range": "+6% to +12% by Friday close.",
+      "trade_type": "weekly",
+      "status": "open",
+      "entry_price": null,
+      "exit_price": null,
+      "pnl_pct": null,
+      "pnl_dollars": null,
+      "lesson": ""
     }
   ]
 }
