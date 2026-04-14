@@ -1,0 +1,28 @@
+{
+  "show_slug": "finansy_prosto",
+  "episode_num": 22,
+  "total_duration_s": 66.07,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 30.21,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 35.86,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 178,
+    "cross_episode_repeats": 0,
+    "section_tts_fallback": false,
+    "section_tts_section_count": 5,
+    "tts_duration_s": 20.55,
+    "audio_mix_duration_s": 31.05,
+    "rss_update_duration_s": 0.03,
+    "digest_chars": 8061,
+    "audio_duration_s": 632.084898
+  }
+}
