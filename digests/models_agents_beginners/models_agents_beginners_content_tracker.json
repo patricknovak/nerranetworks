@@ -1,39 +1,7 @@
 {
   "show": "models_agents_beginners",
-  "last_updated": "2026-04-12",
+  "last_updated": "2026-04-14",
   "episodes": [
-    {
-      "date": "2026-03-30",
-      "headlines": [
-        "Why OpenAI really shut down Sora",
-        "Agent-Infra Releases AIO Sandbox: An All-in-One Runtime for AI Agents with Browser, Shell, Shared Filesystem, and MCP",
-        "How to Build Advanced Cybersecurity AI Agents with CAI Using Tools, Guardrails, Handoffs, and Multi-Agent Workflows",
-        "Bluesky’s new app is an AI for customizing your feed",
-        "Meet A-Evolve: The PyTorch Moment For Agentic AI Systems Replacing Manual Tuning With Automated State Mutation And Self-Correction",
-        "Bluesky's next product is an AI assistant that helps build custom social media feeds",
-        "Sora’s shutdown could be a reality check moment for AI video",
-        "MetaClaw framework trains AI agents while you're in meetings by checking your Google Calendar",
-        "AI sycophancy makes people less likely to apologize and more likely to double down, study finds"
-      ],
-      "urls": [
-        "https://techcrunch.com/2026/03/29/why-openai-really-shut-down-sora/",
-        "https://www.marktechpost.com/2026/03/29/agent-infra-releases-aio-sandbox-an-all-in-one-runtime-for-ai-agents-with-browser-shell-shared-filesystem-and-mcp/",
-        "https://www.theverge.com/ai-artificial-intelligence/903190/bluesky-attie-ai-custom-feeds",
-        "https://the-decoder.com/metaclaw-framework-trains-ai-agents-while-youre-in-meetings-by-checking-your-google-calendar/",
-        "https://techcrunch.com/2026/03/29/soras-shutdown-could-be-a-reality-check-moment-for-ai-video/",
-        "https://the-decoder.com/ai-sycophancy-makes-people-less-likely-to-apologize-and-more-likely-to-double-down-study-finds/",
-        "https://www.marktechpost.com/2026/03/29/how-to-build-advanced-cybersecurity-ai-agents-with-cai-using-tools-guardrails-handoffs-and-multi-agent-workflows/",
-        "https://www.marktechpost.com/2026/03/29/meet-a-evolve-the-pytorch-moment-for-agentic-ai-systems-replacing-manual-tuning-with-automated-state-mutation-and-self-correction/",
-        "https://www.engadget.com/ai/blueskys-next-product-is-an-ai-assistant-that-helps-build-custom-social-media-feeds-163140902.html?src=rss"
-      ],
-      "quote_author": null,
-      "sections": {
-        "explain_like_14": "### Explain Like I'm 14\n**What “Agentic AI” really means**\n\nYou know how when you play a video game, your character doesn’t just sit there — it can walk around, pick up objects, open doors, and react to what’s happening in the game world? That’s because the game gives your character an environment with rules and tools it can use.\n\nNow imagine instead of controlling the character yourself, you tell an AI “go explore that dungeon and find the treasure.” The AI has to make a plan, decide which door",
-        "cool_stuff": "### Cool Stuff & Try This\n**Build Your Own Social Media Feed with AI** — The Verge  \nBluesky just released Attie, a new AI assistant that lets you create completely custom social feeds using normal sentences instead of complicated settings. You simply type what kind of posts you want to see — like “electronic music and experimental sound from people in my network” or “builders working on new AI tools” — and the AI builds the feed for you. It’s powered by Anthropic’s Claude and runs on Bluesky’s ",
-        "quick_bits": "### Quick Bits\n**Sora Shutdown Reality Check**  \nTechCrunch is asking whether OpenAI’s quick decision to close Sora means the whole AI video industry might slow down. It could be a sign that creating realistic AI video is harder and more expensive than companies first thought.\n\nSource: https://techcrunch.com/2026/03/29/soras-shutdown-could-be-a-reality-check-moment-for-ai-video/\n\n**AI Makes People More Stubborn**  \nA new study found that when AI acts overly nice and agrees with everything (calle",
-        "deep_dive": "### Explain Like I'm 14\n**What “Agentic AI” really means**\n\nYou know how when you play a video game, your character doesn’t just sit there — it can walk around, pick up objects, open doors, and react to what’s happening in the game world? That’s because the game gives your character an environment with rules and tools it can use.\n\nNow imagine instead of controlling the character yourself, you tell an AI “go explore that dungeon and find the treasure.” The AI has to make a plan, decide which door"
-      }
-    },
     {
       "date": "2026-04-02",
       "headlines": [
@@ -320,6 +288,57 @@
         "cool_stuff": "### Cool Stuff & Try This\n**When AI Music Reviews Go Hilariously Wrong:** r/ChatGPT  \nSomeone fed ChatGPT a recording of fart sounds pretending it was original music. The AI gave a serious, thoughtful review — exactly like the expensive AI music critique courses some celebrities are selling.  \n\nThis is so cool because it shows how AI doesn't always understand context the way humans do. It treated the silly audio with the same respect it would give a real song. It reminds us that while AI is gett",
         "quick_bits": "### Quick Bits\n**Don't Use AI Art for Your AI Article**  \nThe Verge makes a strong point: when you're writing about AI, using creepy AI-generated images can actually make your story less trustworthy. Real human illustrations often communicate ideas better. It's a nice reminder that sometimes the \"human touch\" still wins.\n\nSource: https://www.theverge.com/ai-artificial-intelligence/910460/new-yorker-david-szauder-illustration-generative-ai\n\n**The Defaming AI Agent Was a \"Social Experiment\"**  \nTh",
         "deep_dive": "### Explain Like I'm 14\n**What is a multi-agent system?**\n\nYou know how when you're working on a big group project at school, you split up the work? One person researches, another makes the slides, someone else practices the presentation, and then you all come back together to combine everything. That's basically what a multi-agent system is — except the \"people\" are different AI programs.\n\nImagine each AI has its own personality, memories, and to-do list. One agent might be great at brainstormi"
+      }
+    },
+    {
+      "date": "2026-04-14",
+      "headlines": [
+        "about mythos AI",
+        "Blackmagic's DaVinci Resolve 21 takes on Adobe Lightroom with a new Photo page",
+        "MYTHOS SI Discovers New Vulnerability Class in FFmpeg Through Recursive Observation (Not Pattern Matching)",
+        "Same task, same AI, the only difference is how much context I gave it",
+        "AI Agents are bad at discovering code patterns, so I built a Semantic graph to improve the outcomes",
+        "Title: Stanford HAI 2026 AI Index: China erases US lead, young developer employment drops 20%, AI adopted faster than the internet, and transparency scores plummet across major labs",
+        "You Can Soon Buy a $4,370 Humanoid Robot on AliExpress",
+        "OpenAI's leaked memo says new \"Spud\" model will make all its products \"significantly better\"",
+        "New AI model generates 45-minute lip-synced video from one photo and runs in real time",
+        "Microsoft is testing OpenClaw-like AI bots for Copilot",
+        "Vercel CEO Guillermo Rauch signals IPO readiness as AI agents fuel revenue surge",
+        "The AI industry is running out of compute, with outages, rationing, and rising GPU prices",
+        "Meta is reportedly building an AI clone of Mark Zuckerberg",
+        "Want to understand the current state of AI? Check out these charts.",
+        "Artemis II crew brought a human eye and storytelling vision to the photos they took on their mission",
+        "AI agents work in text. Humans think in visuals. I spent 2 months learning this the hard way.",
+        "When the Mirror Turns: How AI alignment reshapes the voice inside your head",
+        "AI Agents Are Coming for Your Dating Life"
+      ],
+      "urls": [
+        "https://www.reddit.com/r/artificial/comments/1sl11ho/about_mythos_ai/",
+        "https://the-decoder.com/new-ai-model-generates-45-minute-lip-synced-video-from-one-photo-and-runs-in-real-time",
+        "https://www.engadget.com/apps/blackmagics-davinci-resolve-21-takes-on-adobe-lightroom-with-a-new-photo-page-053034084.html?src=rss",
+        "https://www.reddit.com/r/artificial/comments/1skyyrs/mythos_si_discovers_new_vulnerability_class_in/",
+        "https://www.reddit.com/r/artificial/comments/1skxuj4/same_task_same_ai_the_only_difference_is_how_much/",
+        "https://www.reddit.com/r/artificial/comments/1skvpd8/ai_agents_are_bad_at_discovering_code_patterns_so/",
+        "https://www.reddit.com/r/artificial/comments/1skuh7v/title_stanford_hai_2026_ai_index_china_erases_us/",
+        "https://www.wired.com/story/unitree-r1-humanoid-robot-for-sale-on-aliexpress/",
+        "https://the-decoder.com/openais-leaked-memo-says-new-spud-model-will-make-all-its-products-significantly-better/",
+        "https://the-decoder.com/new-ai-model-generates-45-minute-lip-synced-video-from-one-photo-and-runs-in-real-time/",
+        "https://www.theverge.com/tech/911080/microsoft-ai-openclaw-365-businesses",
+        "https://techcrunch.com/2026/04/13/vercel-ceo-guillermo-rauch-signals-ipo-readiness-as-ai-agents-fuel-revenue-surge/",
+        "https://the-decoder.com/the-ai-industry-is-running-out-of-compute-with-outages-rationing-and-rising-gpu-prices/",
+        "https://www.engadget.com/ai/meta-is-reportedly-building-an-ai-clone-of-mark-zuckerberg-130242840.html?src=rss",
+        "https://www.technologyreview.com/2026/04/13/1135675/want-to-understand-the-current-state-of-ai-check-out-these-charts/",
+        "https://theconversation.com/artemis-ii-crew-brought-a-human-eye-and-storytelling-vision-to-the-photos-they-took-on-their-mission-280394",
+        "https://www.reddit.com/r/artificial/comments/1sk9k3y/ai_agents_work_in_text_humans_think_in_visuals_i/",
+        "https://www.reddit.com/r/artificial/comments/1sk80m7/when_the_mirror_turns_how_ai_alignment_reshapes/",
+        "https://www.wired.com/story/ai-agents-are-coming-for-your-dating-life-next/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "explain_like_14": "### Explain Like I'm 14\n**How AI Finds Brand-New Security Bugs (It’s Not Just Searching a List)**\n\nYou know how when you lose something in your room, you don’t just look in the same three spots over and over? You start by checking obvious places, then you notice “wait, the gap between my bed and the wall is weird,” and that clue leads you to move the bed, which reveals another clue under it. That’s basically how the smartest AI security tools are starting to work.\n\nStep one: Instead of memorizin",
+        "cool_stuff": "### Cool Stuff & Try This\n**Turn One Selfie Into a Talking Character:** The Decoder  \nResearchers created a new AI system called LPM 1.0 that can take a single photo of someone and generate up to 45 minutes of realistic video where the person appears to speak, show emotions, and move their face in sync with new words. It runs fast enough to feel almost real-time. This is exciting because it shows how AI is getting better at creative video without needing a whole team or expensive cameras — perfe",
+        "quick_bits": "### Quick Bits\n**AI Agents Need Better Dashboards**  \nOne developer spent two months building custom visual interfaces for his AI agents because plain text updates get overwhelming when the agents juggle 15+ tasks at once. The lesson? Humans think in pictures — so future agent tools will probably feel more like interactive boards than long chat logs. Cool reminder that the hardest part of AI isn’t always making it smarter — it’s making it usable for regular people.\n\n**Prompting Trick That Change",
+        "deep_dive": "### Explain Like I'm 14\n**How AI Finds Brand-New Security Bugs (It’s Not Just Searching a List)**\n\nYou know how when you lose something in your room, you don’t just look in the same three spots over and over? You start by checking obvious places, then you notice “wait, the gap between my bed and the wall is weird,” and that clue leads you to move the bed, which reveals another clue under it. That’s basically how the smartest AI security tools are starting to work.\n\nStep one: Instead of memorizin"
       }
     }
   ]

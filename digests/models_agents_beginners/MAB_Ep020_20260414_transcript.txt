@@ -1,0 +1,86 @@
+What's up? Welcome to models and agents for beginners episode 20 for April 14th, 2026.
+Let's break down today's coolest AI news so anyone can understand it. Let's go.
+So imagine you had a superpatient detective who could look through millions of lines of computer
+code and find hidden problems that even expert humans missed for years. That is basically what happened
+with Anthropics new model called Mythos. Instead of just chatting or writing essays like many AI tools,
+Mythos acted like an autonomous security researcher. It scanned complex programs spotted hidden
+weaknesses and even wrote working attacks to prove the problems were real. Think of Mythos like
+the world's most patient bug detective. Normal human testers might spend weeks looking through millions
+of lines of code with special tools. Mythos does something smarter. It tries thousands of different
+approaches learns from what fails and chains tiny clues together until it cracks open a brand new
+discovery. For example, it found a flaw in open BSD, which is a super secure operating system
+trusted for decades by noticing two small math errors that no one had connected before.
+It also uncovered a 16-year-old bug in FFMPEG, the free software that handles video and audio on
+millions of devices even though experts had tested it endlessly. This is a big deal for everyday life
+because almost everything we do online like watching TikTok sending messages or playing games
+runs on software that could have hidden weaknesses. If bad actors find those first,
+they can steal information or break things. Mythos shows A, I can help find those problems early,
+potentially saving companies and users from expensive hacks. The report even shares real costs.
+Discovering some serious issues cost only $10,000 to $20,000 total compared to millions a company
+might lose from one big breach. For use specifically, this news is exciting and a little bit challenging.
+It means the cybersecurity world is changing fast. Jobs that only follow checklists or run basic
+scans might shrink, but roles that combine deep human judgment with AI skills will grow. The report
+is honest about limits too. Mythos still needs humans to judge which findings matter and to handle
+tricky real-world contexts like laws or business risks. So the humans who learn to work alongside AI
+will be the most valuable. You can explore this yourself right now without any special equipment.
+Go read the actual report. It is public. Start with the summary sections, then look at the examples
+of bugs it found. Ask yourself which of these feels most surprising. That simple habit of reading
+primary sources is exactly what the researchers recommend for staying ahead.
+Okay, now for my favorite part of the show, The Deep Dive. Today we are going to explain exactly how
+AI finds brand new security bugs. It is not just searching a list and I promise we will build this
+from something you already know. You know how when you lose something in your room you do not just
+look in the same three spots over and over. You start by checking obvious places then you notice wait.
+The gap between my bed and the wall is weird and that clue leads you to move the bed which reveals
+another clue under it. That is basically how the smartest AI security tools are starting to work.
+Step one. Instead of memorizing a checklist of known bad patterns like a robot only looking for red
+socks, the AI loads up a piece of real software and just watches how every tiny part talks to every
+other part at the same time. It is observing the living structure not hunting for keywords.
+Step two. It spots mismatches places where the code says this is safe in one spot but then does something
+risky a few lines later. These mismatches are like tiny cracks between what the program promises and
+what it actually does. Step three. The AI does not stop there. It looks at its own discoveries and
+asks do all these cracks have something in common. In the mythos case it noticed every bug involved a
+gap in time between checking something and using it. That pattern became a brand new category called
+temporal trust gaps which basically means the software trusted its own earlier check even though the
+world changed in between. And that is basically what advanced AI bug hunting is doing now. It is not
+just matching patterns from a textbook. It is watching noticing contradictions then noticing patterns
+across the contradictions. So next time someone says AI found a brand new vulnerability class,
+you can tell them it is basically like a super curious detective who keeps asking but why are all
+these clues shaped the same way? Not so mysterious after all, right? Let us move on to some cool stuff
+you can actually try right now. First up, researchers created a new AI system called LPM 1.0 that can
+take a single photo of someone and generate up to 45 minutes of realistic video. In the video the
+person appears to speak show emotions and move their face in sync with new words. It runs fast enough
+to feel almost real time. This is exciting because it shows how AI is getting better at creative video
+without needing a whole team or expensive cameras. It is perfect for making silly animations, school projects
+or fun social media content. You cannot download it yet since it is still a research project but you can
+get a similar taste immediately. Go to free online tools like viggle.ai or pika.art. Both have free daily
+trials. Upload a clear photo of yourself or a friend with permission, then type in some funny
+dialogue and watch the lips and expressions move. Challenge, make a 10 second clip where your photo reacts
+to a trending sound. It is a great way to see how far these face animation models have come.
+Next, Blackmagic Design released DaVinci Resolve 21, a free program that now has a whole new photo
+page. It lets you import real camera, R-A-W photos which are the highest quality files from
+cameras like Canon, Nikon or Sony. Then you can fix colors, crop, remove blemishes and even use AI
+to select people or objects with one click. All of this uses the same powerful tools filmmakers
+already love. The node-based editing is really cool. Think of nodes like Lego blocks you stack to build
+an effect. It makes it easier to apply the same cool look to an entire album of pictures at once.
+Why it is cool? It is completely free for most features and feels more powerful than many phone
+apps while still being learnable. You may need a parent as help to download if you are under 13 but the
+free version works on regular laptops. Try this right now. Go to the Blackmagic Design website,
+download the free DaVinci Resolve 21 beta, open the new photo page, import some pictures from your
+phone and experiment with the AI Magic Mask to instantly select a person and change only their
+background color. It is like having a mini Photoshop that also understands video, super useful for art
+projects or Instagram edits. Now for a couple of quick bits to round out the episode, one developer
+spent two months building custom visual interfaces for his AI agents because plain text updates get
+overwhelming when the agents juggle 15 or more tasks at once. The lesson here is that humans think
+in pictures so future agent tools will probably feel more like interactive boards than long chat logs.
+It is a cool reminder that the hardest part of AI is not always making it smarter. It is making it
+usable for regular people. And here is a prompting trick that changes everything. A simple reddit post
+showed two versions of the same request to an AI. One was a short vague one and the other was a long
+detailed one that included an example of the writer is own style. The difference in output quality was
+huge. Adding here is how I normally write at the end is a free trick anyone can use today to get way
+better results from chat GPT Claude or Gemini. That is it for today. Remember every AI expert started
+exactly where you are right now. If something we talked about today made you curious go try it. That is
+literally how learning works. Stay curious keep experimenting and we will see you tomorrow.
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using 11 labs.
+The primary reason to do this is I unfortunately don't have the time to be consistent with generating
+all the content and wanted to focus on creating consistent and regular episodes for all the themes
+that I enjoy and I hope others do as well.
