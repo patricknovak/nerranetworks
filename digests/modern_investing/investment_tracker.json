@@ -6,7 +6,7 @@
     "position_size": 1000,
     "currency": "USD",
     "created": "2026-03-16",
-    "last_updated": "2026-04-13"
+    "last_updated": "2026-04-14"
   },
   "summary": {
     "total_trades": 6,
@@ -139,7 +139,7 @@
       "pnl_pct": null,
       "pnl_dollars": null,
       "lesson": "",
-      "current_price": 33.13
+      "current_price": 32.06
     },
     {
       "episode_num": 18,
@@ -149,6 +149,22 @@
       "strategy": "High-grade drill-result catalyst play in the Red Lake gold district, betting on continued resource expansion momentum.",
       "confidence": "Medium",
       "target_range": "+6% to +12% by Friday close.",
+      "trade_type": "weekly",
+      "status": "open",
+      "entry_price": null,
+      "exit_price": null,
+      "pnl_pct": null,
+      "pnl_dollars": null,
+      "lesson": ""
+    },
+    {
+      "episode_num": 19,
+      "date": "2026-04-14",
+      "symbol": "TMUS",
+      "market": "NASDAQ",
+      "strategy": "Relative value rotation into US telecom after analyst reassessment highlights superior risk/reward versus European peer.",
+      "confidence": "Medium",
+      "target_range": "+3% to +6% by Friday close.",
       "trade_type": "weekly",
       "status": "open",
       "entry_price": null,
