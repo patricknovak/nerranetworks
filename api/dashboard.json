@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-15T08:16:49.473662+00:00",
+  "generated_at": "2026-04-15T09:45:50.028662+00:00",
   "network": {
     "landmines_counts": {
       "ok": 9,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 1,
-    "total_cost_last_7_days_usd": 81.3777,
-    "total_cost_last_30_days_usd": 446.0091,
+    "total_cost_last_7_days_usd": 83.9298,
+    "total_cost_last_30_days_usd": 448.5612,
     "shows": [
       {
         "slug": "env_intel",
@@ -106,11 +106,11 @@
         "blog_page": "blog/modern_investing/index.html",
         "newsletter_enabled": true,
         "x_enabled": false,
-        "latest_pub_date": "2026-04-14T08:00:00+00:00",
+        "latest_pub_date": "2026-04-15T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 12.7743,
-        "episodes_last_7_days": 6,
-        "p50_pipeline_s": 62.28,
+        "cost_last_7_days_usd": 15.3263,
+        "episodes_last_7_days": 7,
+        "p50_pipeline_s": 69.63,
         "success_rate": 1.0
       },
       {
@@ -290,10 +290,10 @@
       "id": "item_1_repo_size",
       "title": "Repo & R2 size",
       "status": "ok",
-      "details": "5 MP3s tracked in git, digests/ is 52 MB.",
+      "details": "5 MP3s tracked in git, digests/ is 53 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 52.2
+        "digests_mb": 52.6
       }
     },
     {
@@ -1016,16 +1016,16 @@
       },
       "modern_investing": {
         "last_7_days": {
-          "grok": 0.33,
-          "tts": 12.4443,
-          "total": 12.7743,
-          "episodes": 6
+          "grok": 0.3856,
+          "tts": 14.9407,
+          "total": 15.3263,
+          "episodes": 7
         },
         "last_30_days": {
-          "grok": 1.1024,
-          "tts": 64.6919,
-          "total": 65.7943,
-          "episodes": 20
+          "grok": 1.158,
+          "tts": 67.1883,
+          "total": 68.3463,
+          "episodes": 21
         },
         "daily_series": [
           [
@@ -1103,6 +1103,10 @@
           [
             "2026-04-14",
             2.8819
+          ],
+          [
+            "2026-04-15",
+            2.5521
           ]
         ]
       },
@@ -1528,16 +1532,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 3.0809,
-      "tts": 78.2968,
-      "total": 81.3777,
-      "episodes": 42
+      "grok": 3.1365,
+      "tts": 80.7933,
+      "total": 83.9298,
+      "episodes": 43
     },
     "network_last_30_days": {
-      "grok": 9.443,
-      "tts": 436.5661,
-      "total": 446.0091,
-      "episodes": 159
+      "grok": 9.4986,
+      "tts": 439.0626,
+      "total": 448.5612,
+      "episodes": 160
     }
   },
   "pipeline_health": {
@@ -1856,21 +1860,16 @@
       ]
     },
     "modern_investing": {
-      "sample_size": 19,
-      "p50_duration_s": 62.28,
-      "p95_duration_s": 130.33,
+      "sample_size": 20,
+      "p50_duration_s": 69.63,
+      "p95_duration_s": 130.74,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 63.84,
-        "generate_digest": 14.75,
+        "fetch_and_dedup": 67.23,
+        "generate_digest": 15.03,
         "generate_digest_retry": 13.08
       },
       "recent": [
-        {
-          "episode_num": 10,
-          "total_duration_s": 69.63,
-          "success": true
-        },
         {
           "episode_num": 11,
           "total_duration_s": 55.65,
@@ -1914,6 +1913,11 @@
         {
           "episode_num": 19,
           "total_duration_s": 130.74,
+          "success": true
+        },
+        {
+          "episode_num": 20,
+          "total_duration_s": 151.94,
           "success": true
         }
       ]
@@ -2329,9 +2333,16 @@
       },
       {
         "file": "modern_investing_podcast.rss",
-        "entry_count": 19,
-        "latest_pub_date": "2026-04-14T08:00:00+00:00",
+        "entry_count": 20,
+        "latest_pub_date": "2026-04-15T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep020_20260415.mp3",
+            "host": "audio.nerranetwork.com",
+            "pub_date": "2026-04-15T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep019_20260414.mp3",
             "host": "audio.nerranetwork.com",
@@ -2343,13 +2354,6 @@
             "url": "https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep018_20260413.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-13T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep017_20260410.mp3",
-            "host": "audio.nerranetwork.com",
-            "pub_date": "2026-04-10T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
