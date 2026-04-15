@@ -1,0 +1,36 @@
+{
+  "show_slug": "planetterrian",
+  "episode_num": 46,
+  "total_duration_s": 55.89,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 6.25,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 23.98,
+      "success": true
+    },
+    {
+      "name": "generate_digest_slow_news",
+      "duration_s": 25.66,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 98,
+    "cross_episode_repeats": 14,
+    "slow_news_mode": true,
+    "slow_news_trigger": "stale_repeats",
+    "section_tts_fallback": false,
+    "section_tts_section_count": 3,
+    "tts_duration_s": 36.29,
+    "audio_mix_duration_s": 44.66,
+    "rss_update_duration_s": 0.03,
+    "x_post_duration_s": 0.25,
+    "digest_chars": 7811,
+    "audio_duration_s": 893.178776
+  }
+}
