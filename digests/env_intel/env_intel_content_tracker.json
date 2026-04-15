@@ -1,58 +1,7 @@
 {
   "show": "env_intel",
-  "last_updated": "2026-04-13",
+  "last_updated": "2026-04-15",
   "episodes": [
-    {
-      "date": "2026-03-30",
-      "headlines": [
-        "Alberta Bill 23 removes deadlines for government response to citizen petitions.",
-        "New bill would remove deadlines for Alberta government to act on citizen petitions",
-        "Robert Land Academy, now-shut private school in Ontario, under police investigation for alleged child abuse",
-        "‘Near failing grade’: conservation groups react to Manitoba budget",
-        "With new environmental law, China expands its ‘war on pollution’",
-        "‘Creative math’ or conservation loophole? B.C. rethinks 30-by-30 after industry push",
-        "The big flaw in climate policy: We’re trying to solve the wrong problem",
-        "Scientists shocked to find lab gloves may be skewing microplastics data"
-      ],
-      "urls": [
-        "https://www.cbc.ca/news/canada/edmonton/bill-23-alberta-justice-statutes-9.7147592?cmp=rss",
-        "https://thenarwhal.ca/mining-lobbying-bc-conservation-targets/",
-        "https://thenarwhal.ca/manitoba-budget-2026-conservation/",
-        "https://www.sciencedaily.com/releases/2026/03/260329222938.htm",
-        "https://yaleclimateconnections.org/2026/03/the-big-flaw-in-climate-policy-were-trying-to-solve-the-wrong-problem/",
-        "https://www.cbc.ca/news/canada/hamilton/robert-land-investigation-9.7147243?cmp=rss",
-        "https://www.science.org/content/article/new-environmental-law-china-expands-its-war-pollution"
-      ],
-      "quote_author": null,
-      "sections": {
-        "regulatory_watch": "### Regulatory & Policy Watch\n**B.C. 30-by-30 conservation target review**  \nFollowing lobbying by the mining industry, the B.C. government is re-examining how it defines “conservation” under its 30-by-30 commitment. The review could allow more flexible accounting of lands subject to mining tenure, directly affecting future protected area designations and associated restrictions on mineral exploration and contaminated sites remediation near new conservation boundaries. Consultants supporting min",
-        "science_technical": "### Science & Technical\n**Lab gloves skewing microplastics data**  \nA University of Michigan study found that common nitrile and latex laboratory gloves release stearates that closely resemble microplastics, leading to inflated contamination estimates in some samples. The particles can contaminate samples during testing and force researchers to revise previously reported microplastics concentrations. Laboratories supporting Canadian contaminated sites work under ISO 17025 should evaluate their g",
-        "deep_dive": "### Practitioner Deep Dive: Laboratory Contamination Controls in Emerging Contaminant Analysis\nYou arrive at the lab with split samples from a former firefighting training area expecting low PFAS results, yet the lab blank and the field duplicate both show elevated detections that make no sense given the site history. The issue is often not the groundwater but procedural contamination introduced during sample handling or analysis. Under CCME guidance and provincial QA/QC expectations, laboratori"
-      },
-      "deep_dive_topic": "Laboratory Contamination Controls in Emerging Contaminant Analysis"
-    },
-    {
-      "date": "2026-03-31",
-      "headlines": [
-        "Vegetation recovery following retrogressive thaw slumps across northern tundra regions",
-        "Earth’s Energy Imbalance",
-        "This new carbon material could make carbon capture far more affordable",
-        "Summit Sold Its Midwest Pipeline as a Carbon Solution. Now, It’ll Be Used for Fossil Fuels.",
-        "The 4-Billion-Year Perspective to Understanding Earth’s Current Climate Crisis"
-      ],
-      "urls": [
-        "https://www.nature.com/articles/s41558-026-02603-2",
-        "https://insideclimatenews.org/news/29032026/icn-sunday-morning-earth-energy-imbalance/",
-        "https://www.sciencedaily.com/releases/2026/03/260328043549.htm",
-        "https://insideclimatenews.org/news/28032026/summit-midwest-co2-pipeline/",
-        "https://insideclimatenews.org/news/28032026/how-carbon-dioxide-shaped-the-earth/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "deep_dive": "### Practitioner Deep Dive: Interpreting Non-Uniform Contaminant Distribution in Heterogeneous Glacial Soils\nYou arrive at a former bulk fuel facility in northern Alberta or Saskatchewan where the Phase II ESA shows BTEX exceedances in one monitoring well but clean results 5 m away, despite clear evidence of a former tank nest between them. The boreholes were advanced with hollow-stem augers through a sequence of silt till over sand lenses over clay till. What you are seeing is classic preferent"
-      },
-      "deep_dive_topic": "Interpreting Non-Uniform Contaminant Distribution in Heterogeneous Glacial Soils"
-    },
     {
       "date": "2026-04-01",
       "headlines": [
@@ -326,6 +275,70 @@
         "science_technical": "### Science & Technical\n**Cancer Rates Higher Near Large Livestock Feeding Operations: Inside Climate News**  \nA study published in Environmental Research found elevated cancer incidence in populations living near large livestock feeding operations in California, Iowa, and Texas. The analysis leveraged cancer registry data and facility locations to identify statistically significant associations. For Canadian practitioners conducting human health risk assessments near intensive agricultural oper",
         "industry_practice": "### Industry & Practice\n**France Launches €240m Electrification Plan: r/climate**  \nFrance is deploying €240 million for EV charging stations and heat pump grants, framing electrification as a matter of national interest. Canadian consultants supporting industrial electrification or building decarbonization projects should note the policy precedent when advising clients on technology incentives under provincial programs or federal tax credits; the scale signals accelerating demand for electrical",
         "deep_dive": "### Practitioner Deep Dive: Interpreting Non-Uniform Contaminant Distribution in Heterogeneous Glacial Soils\nYou arrive at a former industrial site in the Oak Ridges Moraine or Waterloo moraine complex. Phase II ESA data show TCE exceeding the Ontario O. Reg. 153/04 Table 2 standard in one overburden well but absent in an adjacent well 8 m away, despite clear evidence of a upgradient source. What you are seeing is not sampling error but the reality of discontinuous silt lenses, sand stringers an"
+      },
+      "deep_dive_topic": "Interpreting Non-Uniform Contaminant Distribution in Heterogeneous Glacial Soils"
+    },
+    {
+      "date": "2026-04-15",
+      "headlines": [
+        "BC Backs Off on DRIPA Amendments. For Now",
+        "After 1,200 years, Japanese cherry blossom record to live on despite scientist’s death | Prof Yasuyuki Aono’s meticulous work charted shifting bloom dates as a marker of climate change",
+        "Trump Officials Pledge Swift Completion of Controversial Gas Pipeline | The $1 billion project will run for about 23 miles under Raritan Bay in New Jersey and New York Harbor. Environmental groups oppose it.",
+        "‘160% data center carbon footprint increase,’ research finds: Microsoft, Big Oil forge $7B partnership as several AI infrastructure projects push hyperscaler off ‘credible path’ toward decarbonization",
+        "Hungary election promises renewable energy investment and foreign factory crackdowns. Orbán, who once described EU climate ambitions as a 'utopian fantasy', has been replaced by Péter Magyar.",
+        "US Treasury Secretary Bessent Questions the Cause of Climate Change and Its Economic Toll | Leading scientists have rejected claims like Mr. Bessent’s, and noted that natural factors like the sun, volcanic eruptions and orbital cycles would be cooling the earth if not for human activity.",
+        "Ukraine’s Renewable Energy Rebuild: How a Nation is Building a Cleaner, Stronger Power Future",
+        "In a first, renewables beat natural gas on US grid last month",
+        "Satellites reveal city methane emissions are rising faster than official estimates",
+        "For the first time in the U.S., renewables generate more power than natural gas. The new high watermark for renewables is a reflection both of the rapid buildout of wind and solar and the seasonal drop in power demand.",
+        "Why Big Tech companies got quiet on climate change",
+        "Climate change is hitting Californians hard. The state should make Big Oil pick up the tab",
+        "Scientists just debunked a 50-year myth about Hawaii’s birds",
+        "Climate Change Concern Near Its High Point in U.S. | More now say seriousness of global warming is underestimated; fewer say it's exaggerated",
+        "EPA’s Plastic Waste Recycling Proposal Said to Ease Permitting",
+        "The problem with cars in six books",
+        "Climate Change Is Warming US Unevenly - New research shows that areas across the U.S. are warming at different rates. Some parts of the country are showing extreme warming, while other areas are barely warming at all.",
+        "Africa’s forests have flipped from carbon sink to carbon source",
+        "Japan Greenhouse Gas Emissions Hit Record Low in FY 2024",
+        "Clean energy groups call for East-West grid connections, investments in renewables - The Lethbridge Herald",
+        "Clean energy groups call for East-West grid connections, investments in renewables - NanaimoNewsNOW",
+        "Gray whales are entering San Francisco Bay and many aren’t surviving",
+        "Air quality sensors reveal pollution hot spots",
+        "The 2026 men’s World Cup could be the dirtiest ever"
+      ],
+      "urls": [
+        "https://thetyee.ca/News/2026/04/14/BC-Backs-Off-DRIPA-Amendments/",
+        "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOZm02NG5ZLU4xMlhXZ0Q2VnBTT0ZNWHRuMVQ2ckp4LS10RWFQankyZ25vc2c3ankxdzZVOGg3bHRwRTZmUWJGMmljZklnS2lKREtwU2hkS0gzSms2RFZscThyQ3IwSDlxeC16dHNHNW1jQ0x0ZWVwWFBTdFNwVUs3M2Z6M0thQ0R5cVpwQ1ZPcFhPakZQOGVTSGxqRUd2bDdKRGEzaDdZb29YM1B5NFQ4NGEtTzQyYlZta3pqVTRfU3NxY2dIZHpYamdjWFllM1hZNUNlS1c3eEM?oc=5",
+        "https://www.reddit.com/r/environment/comments/1sl7iib/epas_plastic_waste_recycling_proposal_said_to/",
+        "https://www.reddit.com/r/climate/comments/1sla9iu/satellites_reveal_city_methane_emissions_are/",
+        "https://www.sciencedaily.com/releases/2026/04/260414075644.htm",
+        "https://www.sciencedaily.com/releases/2026/04/260413043127.htm",
+        "https://www.reddit.com/r/climate/comments/1slszh8/trump_officials_pledge_swift_completion_of/",
+        "https://www.reddit.com/r/climate/comments/1slm8no/160_data_center_carbon_footprint_increase/",
+        "https://www.reddit.com/r/environment/comments/1sl1x6p/japan_greenhouse_gas_emissions_hit_record_low_in/",
+        "https://www.reddit.com/r/climate/comments/1slwm29/after_1200_years_japanese_cherry_blossom_record/",
+        "https://www.reddit.com/r/climate/comments/1sljx6v/hungary_election_promises_renewable_energy/",
+        "https://www.reddit.com/r/climate/comments/1sleqpc/us_treasury_secretary_bessent_questions_the_cause/",
+        "https://www.reddit.com/r/environment/comments/1sldh3h/ukraines_renewable_energy_rebuild_how_a_nation_is/",
+        "https://www.reddit.com/r/environment/comments/1sldcyx/in_a_first_renewables_beat_natural_gas_on_us_grid/",
+        "https://www.reddit.com/r/climate/comments/1sla1u8/for_the_first_time_in_the_us_renewables_generate/",
+        "https://www.reddit.com/r/climate/comments/1sl9tll/why_big_tech_companies_got_quiet_on_climate_change/",
+        "https://www.reddit.com/r/climate/comments/1sl8wro/climate_change_is_hitting_californians_hard_the/",
+        "https://www.reddit.com/r/climate/comments/1sl8cua/climate_change_concern_near_its_high_point_in_us/",
+        "https://yaleclimateconnections.org/2026/04/the-problem-with-cars-in-six-books/",
+        "https://www.reddit.com/r/climate/comments/1sl55e8/climate_change_is_warming_us_unevenly_new/",
+        "https://www.reddit.com/r/environment/comments/1sl4xkz/africas_forests_have_flipped_from_carbon_sink_to/",
+        "https://news.google.com/rss/articles/CBMivAFBVV95cUxQUzBVVW02OHJaUjQ5TU9rUjBramkzeUhxVC00Y215SExKOEtZSW90cDM2SjFKWmtoVUJwSkFiNFlGbVdrS1NkOWl1R1d3bldNdEhQMjc3ZU8tMHQwZVZOQ2RKNWZvUEgwYl9ib0lrRnRpRWdmYko2LW5OUGY3R18zZzJ6bVd4emx4a0RCalpUOUctclVtS3FRMEIzTU5yYjlwdzN0VUpsWVl6ODFKN0NWX1h5WnFfR1hTelFFVQ?oc=5",
+        "https://www.sciencedaily.com/releases/2026/04/260413043135.htm",
+        "https://yaleclimateconnections.org/2026/04/air-quality-sensors-reveal-pollution-hot-spots/",
+        "https://yaleclimateconnections.org/2026/04/the-2026-mens-world-cup-could-be-the-dirtiest-ever/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "regulatory_watch": "### Regulatory & Policy Watch\n**Clean energy groups call for East-West grid connections, investments in renewables**\nClean energy organisations are urging federal and provincial governments to develop East-West electricity transmission interconnections and accelerate renewable generation investments. This push targets improved interprovincial power sharing to support decarbonization targets under provincial climate plans and federal clean electricity regulations. For consultants and engineers wo",
+        "science_technical": "### Science & Technical\n**Satellites reveal city methane emissions are rising faster than official estimates**\nSatellite monitoring data indicates urban methane emissions are increasing at rates exceeding those reported in government inventories. The discrepancy has direct implications for greenhouse gas quantification in municipal, industrial, and contaminated site contexts where landfill gas or fugitive emissions contribute to total facility reporting under provincial and federal regimes. Prac",
+        "industry_practice": "### Industry & Practice\n**Trump Officials Pledge Swift Completion of Controversial Gas Pipeline**\nUS officials have committed to fast-tracking a $1 billion pipeline project running approximately 23 miles under Raritan Bay and New York Harbor. Environmental groups continue to oppose the project on ecological grounds. Canadian pipeline and cross-border energy consultants should monitor regulatory streamlining approaches south of the border, as similar techniques frequently inform federal Impact As",
+        "deep_dive": "### Practitioner Deep Dive: Interpreting Non-Uniform Contaminant Distribution in Heterogeneous Glacial Soils\nYou arrive at a former urban gas station or dry-cleaning site in the GTA or Lower Mainland. The Phase II ESA shows PCE or benzene exceeding CSR or O. Reg. 153/04 standards in one monitoring well but not in an adjacent well 8 metres away, despite clear evidence of a point source. What you are seeing is classic heterogeneous transport in glacial till and outwash deposits common across much "
       },
       "deep_dive_topic": "Interpreting Non-Uniform Contaminant Distribution in Heterogeneous Glacial Soils"
     }
