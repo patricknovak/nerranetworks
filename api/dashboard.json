@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-15T07:43:08.791128+00:00",
+  "generated_at": "2026-04-15T08:16:49.473662+00:00",
   "network": {
     "landmines_counts": {
       "ok": 9,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 1,
-    "total_cost_last_7_days_usd": 79.584,
-    "total_cost_last_30_days_usd": 444.2154,
+    "total_cost_last_7_days_usd": 81.3777,
+    "total_cost_last_30_days_usd": 446.0091,
     "shows": [
       {
         "slug": "env_intel",
@@ -72,11 +72,11 @@
         "blog_page": "blog/models_agents/index.html",
         "newsletter_enabled": false,
         "x_enabled": false,
-        "latest_pub_date": "2026-04-13T08:00:00+00:00",
+        "latest_pub_date": "2026-04-15T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 5.234,
-        "episodes_last_7_days": 3,
-        "p50_pipeline_s": 41.65,
+        "cost_last_7_days_usd": 7.0278,
+        "episodes_last_7_days": 4,
+        "p50_pipeline_s": 45.28,
         "success_rate": 1.0
       },
       {
@@ -293,7 +293,7 @@
       "details": "5 MP3s tracked in git, digests/ is 52 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 51.9
+        "digests_mb": 52.2
       }
     },
     {
@@ -812,16 +812,16 @@
       },
       "models_agents": {
         "last_7_days": {
-          "grok": 0.1745,
-          "tts": 5.0595,
-          "total": 5.234,
-          "episodes": 3
+          "grok": 0.2361,
+          "tts": 6.7917,
+          "total": 7.0278,
+          "episodes": 4
         },
         "last_30_days": {
-          "grok": 0.8435,
-          "tts": 39.8325,
-          "total": 40.676,
-          "episodes": 15
+          "grok": 0.9051,
+          "tts": 41.5647,
+          "total": 42.4698,
+          "episodes": 16
         },
         "daily_series": [
           [
@@ -939,6 +939,10 @@
           [
             "2026-04-13",
             1.6055
+          ],
+          [
+            "2026-04-15",
+            1.7938
           ]
         ]
       },
@@ -1524,16 +1528,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 3.0193,
-      "tts": 76.5646,
-      "total": 79.584,
-      "episodes": 41
+      "grok": 3.0809,
+      "tts": 78.2968,
+      "total": 81.3777,
+      "episodes": 42
     },
     "network_last_30_days": {
-      "grok": 9.3814,
-      "tts": 434.8339,
-      "total": 444.2154,
-      "episodes": 158
+      "grok": 9.443,
+      "tts": 436.5661,
+      "total": 446.0091,
+      "episodes": 159
     }
   },
   "pipeline_health": {
@@ -1728,20 +1732,15 @@
       ]
     },
     "models_agents": {
-      "sample_size": 14,
-      "p50_duration_s": 41.65,
+      "sample_size": 15,
+      "p50_duration_s": 45.28,
       "p95_duration_s": 84.4,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 30.19,
-        "generate_digest": 20.71
+        "fetch_and_dedup": 30.38,
+        "generate_digest": 20.81
       },
       "recent": [
-        {
-          "episode_num": 21,
-          "total_duration_s": 54.02,
-          "success": true
-        },
         {
           "episode_num": 22,
           "total_duration_s": 25.47,
@@ -1785,6 +1784,11 @@
         {
           "episode_num": 30,
           "total_duration_s": 37.04,
+          "success": true
+        },
+        {
+          "episode_num": 31,
+          "total_duration_s": 55.21,
           "success": true
         }
       ]
@@ -2295,9 +2299,16 @@
       },
       {
         "file": "models_agents_podcast.rss",
-        "entry_count": 30,
-        "latest_pub_date": "2026-04-13T08:00:00+00:00",
+        "entry_count": 31,
+        "latest_pub_date": "2026-04-15T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://audio.nerranetwork.com/models_agents/Models_Agents_Ep031_20260415.mp3",
+            "host": "audio.nerranetwork.com",
+            "pub_date": "2026-04-15T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://audio.nerranetwork.com/models_agents/Models_Agents_Ep030_20260413.mp3",
             "host": "audio.nerranetwork.com",
@@ -2309,13 +2320,6 @@
             "url": "https://audio.nerranetwork.com/models_agents/Models_Agents_Ep029_20260411.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-11T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://audio.nerranetwork.com/models_agents/Models_Agents_Ep028_20260409.mp3",
-            "host": "audio.nerranetwork.com",
-            "pub_date": "2026-04-09T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
