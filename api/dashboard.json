@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-15T06:25:14.341328+00:00",
+  "generated_at": "2026-04-15T06:45:13.586510+00:00",
   "network": {
     "landmines_counts": {
       "ok": 9,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 1,
-    "total_cost_last_7_days_usd": 74.8146,
-    "total_cost_last_30_days_usd": 439.446,
+    "total_cost_last_7_days_usd": 77.1733,
+    "total_cost_last_30_days_usd": 441.8047,
     "shows": [
       {
         "slug": "env_intel",
@@ -140,11 +140,11 @@
         "blog_page": "blog/planetterrian/index.html",
         "newsletter_enabled": false,
         "x_enabled": true,
-        "latest_pub_date": "2026-04-13T08:00:00+00:00",
+        "latest_pub_date": "2026-04-15T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 7.6622,
-        "episodes_last_7_days": 3,
-        "p50_pipeline_s": 37.25,
+        "cost_last_7_days_usd": 10.0209,
+        "episodes_last_7_days": 4,
+        "p50_pipeline_s": 37.26,
         "success_rate": 1.0
       },
       {
@@ -290,10 +290,10 @@
       "id": "item_1_repo_size",
       "title": "Repo & R2 size",
       "status": "ok",
-      "details": "5 MP3s tracked in git, digests/ is 51 MB.",
+      "details": "5 MP3s tracked in git, digests/ is 52 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 51.2
+        "digests_mb": 51.6
       }
     },
     {
@@ -1232,16 +1232,16 @@
       },
       "planetterrian": {
         "last_7_days": {
-          "grok": 0.191,
-          "tts": 7.4712,
-          "total": 7.6622,
-          "episodes": 3
+          "grok": 0.2562,
+          "tts": 9.7647,
+          "total": 10.0209,
+          "episodes": 4
         },
         "last_30_days": {
-          "grok": 0.7911,
-          "tts": 46.6198,
-          "total": 47.4109,
-          "episodes": 14
+          "grok": 0.8563,
+          "tts": 48.9133,
+          "total": 49.7696,
+          "episodes": 15
         },
         "daily_series": [
           [
@@ -1327,6 +1327,10 @@
           [
             "2026-04-13",
             2.2886
+          ],
+          [
+            "2026-04-15",
+            2.3587
           ]
         ]
       },
@@ -1516,16 +1520,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 2.91,
-      "tts": 71.9046,
-      "total": 74.8146,
-      "episodes": 39
+      "grok": 2.9752,
+      "tts": 74.1981,
+      "total": 77.1733,
+      "episodes": 40
     },
     "network_last_30_days": {
-      "grok": 9.2721,
-      "tts": 430.1739,
-      "total": 439.446,
-      "episodes": 156
+      "grok": 9.3373,
+      "tts": 432.4674,
+      "total": 441.8047,
+      "episodes": 157
     }
   },
   "pipeline_health": {
@@ -1970,21 +1974,16 @@
       ]
     },
     "planetterrian": {
-      "sample_size": 14,
-      "p50_duration_s": 37.25,
-      "p95_duration_s": 44.27,
+      "sample_size": 15,
+      "p50_duration_s": 37.26,
+      "p95_duration_s": 55.89,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 3.5,
-        "generate_digest": 16.54,
-        "generate_digest_slow_news": 17.62
+        "fetch_and_dedup": 3.69,
+        "generate_digest": 17.03,
+        "generate_digest_slow_news": 18.29
       },
       "recent": [
-        {
-          "episode_num": 36,
-          "total_duration_s": 38.82,
-          "success": true
-        },
         {
           "episode_num": 37,
           "total_duration_s": 39.14,
@@ -2028,6 +2027,11 @@
         {
           "episode_num": 45,
           "total_duration_s": 57.31,
+          "success": true
+        },
+        {
+          "episode_num": 46,
+          "total_duration_s": 55.89,
           "success": true
         }
       ]
@@ -2377,9 +2381,16 @@
       },
       {
         "file": "planetterrian_podcast.rss",
-        "entry_count": 33,
-        "latest_pub_date": "2026-04-13T08:00:00+00:00",
+        "entry_count": 34,
+        "latest_pub_date": "2026-04-15T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep046_20260415.mp3",
+            "host": "audio.nerranetwork.com",
+            "pub_date": "2026-04-15T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep045_20260413.mp3",
             "host": "audio.nerranetwork.com",
@@ -2391,13 +2402,6 @@
             "url": "https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep044_20260411.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-11T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep043_20260409.mp3",
-            "host": "audio.nerranetwork.com",
-            "pub_date": "2026-04-09T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
