@@ -2041,6 +2041,19 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
             continue
         if re.match(r"(?i)^\(?\s*(approximately\s+)?\d[\d,]*\s+words?\s*\)?$", line):
             continue
+        # Skip leaked timing/length targets that the LLM echoes from prompt
+        # e.g. "This is a twelve minute podcast", "Target: ninety seconds of audio",
+        # "two thousand eight hundred words", "sixty to ninety seconds"
+        if re.search(
+            r"(?i)\b(word count|script length|target[:\s]+\d|"
+            r"\d+\s*[-–]\s*\d+\s*(minute|second|word)|"
+            r"producing a \d+|"
+            r"at least \d[\d,]*\s*words|"
+            r"(thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)\s+"
+            r"(words?|sentences?)\b)",
+            line,
+        ):
+            continue
         if re.match(r"(?i)^content\s*:\s*$", line):
             break
         # Skip title/episode header lines the LLM occasionally generates

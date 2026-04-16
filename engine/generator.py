@@ -626,10 +626,16 @@ def _strip_metadata_from_script(script: str) -> str:
         r"\bscript length[:\s]*\d+\b",
         r"\btarget(?:ing)?\s*\d+\s*words?\b",
         r"\bapproximately\s*\d{3,4}\s*words?\b",
+        # Timing targets that leak from prompt structural markers
+        r"\btarget:\s*\d+\s*[-–]\s*\d+\s*(?:seconds?|minutes?)\s+of\s+audio\b",
+        r"\bproducing\s+(?:a|an)\s+\d+\s*[-–]\s*\d+\s*minute\s+episode\b",
+        r"\bthis\s+(?:is\s+)?(?:a|an)\s+\d+\s*[-–]?\s*\d*\s*minute\s+(?:podcast|episode|script)\b",
         # Orphan DO NOT READ ALOUD markers
         r"\[?DO NOT READ ALOUD[^\]]*\]?",
         # Segment labels on their own line (e.g. "[Segment 3: Hook]", "Segment 3:")
         r"^\s*\[?Segment\s*\d*\s*[:-]?\s*[^\]\n]*\]?\s*$",
+        # Bracketed section timing markers (e.g. "[Intro — 15 seconds]")
+        r"^\s*\[.{3,50}\s*[-–—]\s*\d+\s*[-–]?\s*\d*\s*(?:seconds?|minutes?)\s*\]\s*$",
     ]
 
     for pattern in patterns_to_remove:
