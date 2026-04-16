@@ -1,0 +1,34 @@
+{
+  "show_slug": "fascinating_frontiers",
+  "episode_num": 53,
+  "total_duration_s": 87.33,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 10.59,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 32.81,
+      "success": true
+    },
+    {
+      "name": "generate_digest_slow_news",
+      "duration_s": 43.93,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 136,
+    "cross_episode_repeats": 12,
+    "slow_news_mode": true,
+    "slow_news_trigger": "stale_repeats",
+    "tts_duration_s": 36.54,
+    "audio_mix_duration_s": 50.79,
+    "rss_update_duration_s": 0.03,
+    "x_post_duration_s": 0.27,
+    "digest_chars": 10359,
+    "audio_duration_s": 1029.929796
+  }
+}
