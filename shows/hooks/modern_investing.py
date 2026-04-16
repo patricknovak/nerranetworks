@@ -19,6 +19,97 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 TRACKER_FILENAME = "investment_tracker.json"
+TAUGHT_LESSONS_FILENAME = "taught_lessons.json"
+LESSONS_LEARNED_FILENAME = "lessons_learned.json"
+MONTHLY_EPISODES_FILENAME = "monthly_episodes.json"
+NASDAQ_SYMBOL = "^IXIC"
+
+# Sector vocabulary — canonical tags used across tracker, taught_lessons,
+# lessons_learned, and the dashboard. Keep this list in sync with
+# ``_SECTOR_BY_SYMBOL`` below and the digest prompt's required
+# ``**Sector:**`` field.
+SECTOR_TAGS = (
+    "precious_metals",
+    "energy",
+    "tech",
+    "financials",
+    "healthcare",
+    "consumer",
+    "crypto",
+    "industrials",
+    "utilities",
+    "other",
+)
+
+# Direct symbol -> sector lookup for tickers that have appeared (or are
+# likely to appear) in the Practice Investment segment. Fallback is
+# keyword-matched against the strategy text in ``_classify_sector``.
+_SECTOR_BY_SYMBOL = {
+    # Precious metals / mining
+    "LGD": "precious_metals", "FSM": "precious_metals", "SSRM": "precious_metals",
+    "WRLG": "precious_metals", "AEM": "precious_metals", "ABX": "precious_metals",
+    "GOLD": "precious_metals", "NEM": "precious_metals", "FNV": "precious_metals",
+    "WPM": "precious_metals", "K": "precious_metals",
+    # Energy
+    "XOM": "energy", "CVX": "energy", "CNQ": "energy", "SU": "energy",
+    "ENB": "energy", "TRP": "energy", "IMO": "energy", "CVE": "energy",
+    # Tech / semis / cloud
+    "WDC": "tech", "SSNLF": "tech", "TMUS": "tech", "AAPL": "tech",
+    "MSFT": "tech", "GOOGL": "tech", "META": "tech", "NVDA": "tech",
+    "AMD": "tech", "TSM": "tech", "AVGO": "tech", "ORCL": "tech",
+    "CRM": "tech", "INTC": "tech", "MU": "tech", "SHOP": "tech",
+    # Financials
+    "SOFI": "financials", "JPM": "financials", "BAC": "financials",
+    "RY": "financials", "TD": "financials", "BMO": "financials",
+    "BNS": "financials", "CM": "financials", "MFC": "financials",
+    "SLF": "financials",
+    # Consumer
+    "TSLA": "consumer", "LCID": "consumer", "LUCID": "consumer",
+    "SWGAY": "consumer", "AMZN": "consumer", "COST": "consumer",
+    "WMT": "consumer", "L": "consumer",
+    # Crypto
+    "BTC-USD": "crypto", "ETH-USD": "crypto", "COIN": "crypto",
+    "MARA": "crypto", "HUT": "crypto",
+    # Healthcare
+    "JNJ": "healthcare", "PFE": "healthcare", "LLY": "healthcare",
+    "MRK": "healthcare", "ABBV": "healthcare",
+    # Industrials / utilities
+    "CAT": "industrials", "CNR": "industrials", "CP": "industrials",
+    "FTS": "utilities", "EMA": "utilities", "H": "utilities",
+}
+
+# Lesson-tag vocabulary — paired with the digest prompt's required
+# ``**Lesson Tags:**`` field. When the digest is parsed post-generation,
+# ``_extract_lesson_tags`` pulls any of these strings and ``taught_lessons.json``
+# is updated. Adding a new tag requires updating this list AND the prompt.
+LESSON_VOCABULARY = (
+    "bid_ask_spread",
+    "order_flow_slippage",
+    "sector_rotation",
+    "sector_concentration",
+    "risk_management",
+    "position_sizing",
+    "tax_loss_harvesting",
+    "tfsa_rrsp_mechanics",
+    "momentum_entry",
+    "mean_reversion",
+    "catalyst_confirmation",
+    "catalyst_fade",
+    "earnings_surprise",
+    "technical_breakout",
+    "technical_support",
+    "valuation_discipline",
+    "macro_rotation",
+    "geopolitical_premium",
+    "insider_buying",
+    "analyst_upgrade",
+    "activist_defense",
+    "dividend_compounding",
+    "dollar_cost_averaging",
+    "covered_call",
+    "fx_hedging",
+    "portfolio_rebalancing",
+)
 
 
 def pre_fetch(config, *, episode_num: int | None = None, today_str: str | None = None) -> dict:
@@ -46,6 +137,16 @@ def pre_fetch(config, *, episode_num: int | None = None, today_str: str | None =
 
     # Fetch market indices
     context["market_indices"] = _fetch_market_indices()
+
+    # Refresh NASDAQ benchmark state (inception/YTD/current close + alpha)
+    # and expose a prompt-ready block. Save immediately so the dashboard
+    # aggregator and the website always read a fresh ``benchmark`` block.
+    try:
+        _compute_benchmark_state(tracker)
+        _save_tracker(tracker, tracker_path)
+    except Exception as exc:
+        logger.warning("Benchmark state refresh failed: %s", exc)
+    context["benchmark_state"] = _build_benchmark_block(tracker)
 
     # Recent strategies for freshness enforcement
     closed_trades = [t for t in tracker["trades"] if t.get("status") == "closed"]
@@ -177,12 +278,28 @@ def post_generate(config, *, digest_text: str = "", episode_num: int | None = No
 # ---------------------------------------------------------------------------
 
 def _load_tracker(tracker_path: Path) -> dict:
-    """Load the investment tracker JSON, or return a fresh one."""
+    """Load the investment tracker JSON, or return a fresh one.
+
+    Older trackers that predate the NASDAQ-benchmark / sector / alpha
+    schema are upgraded in-place with safe defaults the first time they
+    are read, so existing files keep working without a manual migration.
+    """
     if tracker_path.exists():
         try:
-            return json.loads(tracker_path.read_text(encoding="utf-8"))
+            tracker = json.loads(tracker_path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError) as exc:
             logger.warning("Failed to load tracker: %s — starting fresh", exc)
+            tracker = _fresh_tracker()
+        else:
+            _ensure_schema(tracker)
+            return tracker
+    else:
+        tracker = _fresh_tracker()
+    return tracker
+
+
+def _fresh_tracker() -> dict:
+    today_iso = datetime.date.today().isoformat()
     return {
         "metadata": {
             "show": "Modern Investing Techniques",
@@ -190,8 +307,13 @@ def _load_tracker(tracker_path: Path) -> dict:
             "disclaimer": "All trades are simulated for educational purposes only.",
             "position_size": 1000,
             "currency": "USD",
-            "created": datetime.date.today().isoformat(),
-            "last_updated": datetime.date.today().isoformat(),
+            "created": today_iso,
+            "last_updated": today_iso,
+            "inception_date": today_iso,
+            "benchmark_symbol": NASDAQ_SYMBOL,
+            "nasdaq_inception_close": None,
+            "nasdaq_ytd_start_close": None,
+            "nasdaq_ytd_year": datetime.date.today().year,
         },
         "summary": {
             "total_trades": 0, "wins": 0, "losses": 0, "breakeven": 0,
@@ -200,8 +322,46 @@ def _load_tracker(tracker_path: Path) -> dict:
             "average_return_pct": 0.0,
             "current_streak": 0, "longest_win_streak": 0, "longest_loss_streak": 0,
         },
+        "benchmark": {
+            "current_close": None,
+            "inception_to_date_pct": 0.0,
+            "ytd_pct": 0.0,
+            "last_updated": today_iso,
+        },
+        "alpha": {
+            "inception_to_date_pct": 0.0,
+            "ytd_pct": 0.0,
+            "monthly": {},
+        },
+        "sectors": {},
+        "monthly_snapshots": [],
         "trades": [],
     }
+
+
+def _ensure_schema(tracker: dict) -> None:
+    """Upgrade an older tracker dict in-place to the current schema."""
+    today_iso = datetime.date.today().isoformat()
+    meta = tracker.setdefault("metadata", {})
+    meta.setdefault("inception_date", meta.get("created", today_iso))
+    meta.setdefault("benchmark_symbol", NASDAQ_SYMBOL)
+    meta.setdefault("nasdaq_inception_close", None)
+    meta.setdefault("nasdaq_ytd_start_close", None)
+    meta.setdefault("nasdaq_ytd_year", datetime.date.today().year)
+    tracker.setdefault("benchmark", {
+        "current_close": None,
+        "inception_to_date_pct": 0.0,
+        "ytd_pct": 0.0,
+        "last_updated": today_iso,
+    })
+    tracker.setdefault("alpha", {
+        "inception_to_date_pct": 0.0,
+        "ytd_pct": 0.0,
+        "monthly": {},
+    })
+    tracker.setdefault("sectors", {})
+    tracker.setdefault("monthly_snapshots", [])
+    tracker.setdefault("trades", [])
 
 
 def _save_tracker(tracker: dict, tracker_path: Path) -> None:
@@ -284,9 +444,21 @@ def _close_trade(trade: dict, tracker: dict) -> None:
         trade["pnl_pct"] = round(pnl_pct, 2)
         trade["pnl_dollars"] = round(pnl_dollars, 2)
 
+        # Annotate with NASDAQ benchmark alpha — best-effort, tolerant of yfinance failures.
+        try:
+            _annotate_trade_with_nasdaq(trade)
+        except Exception as exc:
+            logger.warning("NASDAQ annotation failed for %s: %s", symbol, exc)
+
+        # Backfill sector if post_generate never set it (e.g. old trades).
+        if not trade.get("sector"):
+            trade["sector"] = _classify_sector(
+                symbol, trade.get("strategy", ""), trade.get("market", ""),
+            )
+
         logger.info(
-            "Evaluated %s (%s): entry=$%.2f exit=$%.2f pnl=%.2f%%",
-            symbol, trade_type, entry_price, exit_price, pnl_pct,
+            "Evaluated %s (%s): entry=$%.2f exit=$%.2f pnl=%.2f%% alpha=%s",
+            symbol, trade_type, entry_price, exit_price, pnl_pct, trade.get("alpha_pct"),
         )
 
 
@@ -468,6 +640,221 @@ def _fetch_market_indices() -> str:
 
 
 # ---------------------------------------------------------------------------
+# NASDAQ benchmark — fetch, alpha math, per-trade annotation
+# ---------------------------------------------------------------------------
+
+def _fetch_nasdaq_close(for_date: datetime.date | None = None) -> float | None:
+    """Return the ^IXIC close for the given date (or most recent if None).
+
+    Uses the same 3-retry pattern as ``_fetch_trade_prices``. Returns
+    ``None`` on total failure — callers must tolerate missing data.
+    """
+    import time as _time
+    for attempt in range(3):
+        try:
+            import yfinance as yf
+            ticker = yf.Ticker(NASDAQ_SYMBOL)
+            if for_date is None:
+                hist = ticker.history(period="5d", interval="1d")
+                if not hist.empty:
+                    return float(hist["Close"].iloc[-1])
+            else:
+                start = for_date - datetime.timedelta(days=5)
+                end = for_date + datetime.timedelta(days=1)
+                hist = ticker.history(start=start.isoformat(), end=end.isoformat(), interval="1d")
+                if not hist.empty:
+                    # Pick the most recent close on or before ``for_date``.
+                    mask = hist.index.date <= for_date
+                    if mask.any():
+                        return float(hist[mask]["Close"].iloc[-1])
+                    return float(hist["Close"].iloc[-1])
+        except Exception as exc:
+            logger.warning("NASDAQ fetch attempt %d (%s): %s", attempt + 1, for_date, exc)
+        if attempt < 2:
+            _time.sleep(2 ** (attempt + 1))
+    return None
+
+
+def _portfolio_return_pct(tracker: dict) -> float:
+    """Cumulative portfolio return as a percentage of total capital deployed.
+
+    Treats every trade as ``position_size`` dollars of capital; divides
+    summed P&L by (trades * position_size). Matches how listeners already
+    hear the ``Running Total`` framed.
+    """
+    closed = [t for t in tracker.get("trades", []) if t.get("status") == "closed"]
+    if not closed:
+        return 0.0
+    position = tracker.get("metadata", {}).get("position_size", 1000) or 1000
+    total_pnl = sum((t.get("pnl_dollars") or 0) for t in closed)
+    capital = len(closed) * position
+    return round((total_pnl / capital) * 100, 2) if capital else 0.0
+
+
+def _portfolio_return_ytd_pct(tracker: dict) -> float:
+    """Same as ``_portfolio_return_pct`` but filtered to trades closed this year."""
+    this_year = datetime.date.today().year
+    closed = [
+        t for t in tracker.get("trades", [])
+        if t.get("status") == "closed"
+        and isinstance(t.get("date"), str)
+        and t["date"][:4] == str(this_year)
+    ]
+    if not closed:
+        return 0.0
+    position = tracker.get("metadata", {}).get("position_size", 1000) or 1000
+    total_pnl = sum((t.get("pnl_dollars") or 0) for t in closed)
+    capital = len(closed) * position
+    return round((total_pnl / capital) * 100, 2) if capital else 0.0
+
+
+def _compute_benchmark_state(tracker: dict) -> None:
+    """Populate ``tracker['benchmark']`` and ``tracker['alpha']`` blocks.
+
+    Mutates *tracker* in place. Refreshes the YTD baseline if the calendar
+    year rolled over since the last run. Safe to call on every episode.
+    """
+    today = datetime.date.today()
+    today_iso = today.isoformat()
+    meta = tracker["metadata"]
+
+    # Seed inception close if missing — this runs on day one or after an
+    # operator-forced reset.
+    if meta.get("nasdaq_inception_close") is None:
+        inception = meta.get("inception_date") or meta.get("created") or today_iso
+        try:
+            inception_date = datetime.date.fromisoformat(inception)
+        except ValueError:
+            inception_date = today
+        seeded = _fetch_nasdaq_close(inception_date)
+        if seeded is not None:
+            meta["nasdaq_inception_close"] = round(seeded, 2)
+
+    # Refresh YTD baseline on Jan 2 rollover (or if missing).
+    if meta.get("nasdaq_ytd_year") != today.year or meta.get("nasdaq_ytd_start_close") is None:
+        ytd_anchor = datetime.date(today.year, 1, 2)
+        ytd_close = _fetch_nasdaq_close(ytd_anchor)
+        if ytd_close is not None:
+            meta["nasdaq_ytd_start_close"] = round(ytd_close, 2)
+            meta["nasdaq_ytd_year"] = today.year
+
+    current_close = _fetch_nasdaq_close()
+
+    benchmark = tracker.setdefault("benchmark", {})
+    benchmark["current_close"] = round(current_close, 2) if current_close is not None else benchmark.get("current_close")
+    benchmark["last_updated"] = today_iso
+
+    inception_close = meta.get("nasdaq_inception_close")
+    ytd_start = meta.get("nasdaq_ytd_start_close")
+    ref_close = benchmark["current_close"]
+
+    if ref_close is not None and inception_close:
+        benchmark["inception_to_date_pct"] = round(((ref_close - inception_close) / inception_close) * 100, 2)
+    if ref_close is not None and ytd_start:
+        benchmark["ytd_pct"] = round(((ref_close - ytd_start) / ytd_start) * 100, 2)
+
+    alpha = tracker.setdefault("alpha", {"monthly": {}})
+    alpha["inception_to_date_pct"] = round(_portfolio_return_pct(tracker) - benchmark.get("inception_to_date_pct", 0.0), 2)
+    alpha["ytd_pct"] = round(_portfolio_return_ytd_pct(tracker) - benchmark.get("ytd_pct", 0.0), 2)
+
+
+def _annotate_trade_with_nasdaq(trade: dict, entry_date: datetime.date | None = None, exit_date: datetime.date | None = None) -> None:
+    """Fill in NASDAQ entry/exit closes and alpha on a just-closed trade.
+
+    Safe no-op if yfinance data is unavailable — ``nasdaq_*`` fields stay
+    ``None`` and ``alpha_pct`` defaults to ``None``.
+    """
+    trade_date_str = trade.get("date")
+    if entry_date is None and trade_date_str:
+        try:
+            entry_date = datetime.date.fromisoformat(trade_date_str)
+        except ValueError:
+            entry_date = None
+    if entry_date is None:
+        entry_date = datetime.date.today()
+    if exit_date is None:
+        # Weekly holds close on the Friday of the entry's week; flash
+        # trades close the same day. Good enough for benchmark alpha.
+        if trade.get("trade_type") == "flash":
+            exit_date = entry_date
+        else:
+            exit_date = entry_date + datetime.timedelta(days=(4 - entry_date.weekday()) % 7)
+
+    entry_close = _fetch_nasdaq_close(entry_date)
+    exit_close = _fetch_nasdaq_close(exit_date)
+    trade["nasdaq_entry"] = round(entry_close, 2) if entry_close else None
+    trade["nasdaq_exit"] = round(exit_close, 2) if exit_close else None
+    if entry_close and exit_close:
+        nasdaq_return = ((exit_close - entry_close) / entry_close) * 100
+        trade["nasdaq_return_pct"] = round(nasdaq_return, 2)
+        pnl = trade.get("pnl_pct")
+        if pnl is not None:
+            trade["alpha_pct"] = round(pnl - nasdaq_return, 2)
+        else:
+            trade["alpha_pct"] = None
+    else:
+        trade["nasdaq_return_pct"] = None
+        trade["alpha_pct"] = None
+
+
+# ---------------------------------------------------------------------------
+# Sector classification + lesson-tag extraction
+# ---------------------------------------------------------------------------
+
+_SECTOR_KEYWORDS = (
+    ("precious_metals", ("gold", "silver", "mining", "miner", "platinum", "palladium", "bullion", "ore")),
+    ("energy", ("oil", "gas", "petroleum", "lng", "energy", "pipeline", "refiner", "wti", "brent")),
+    ("tech", ("semiconductor", "chip", "cloud", "software", "saas", "ai infrastructure", "data center", "fintech platform", "memory")),
+    ("financials", ("bank", "insurer", "insurance", "mortgage", "broker", "credit union", "digital banking")),
+    ("healthcare", ("pharma", "biotech", "therap", "vaccine", "hospital", "medical device", "clinical trial")),
+    ("consumer", ("retail", "consumer", "ev ", "electric vehicle", "apparel", "beverage", "restaurant", "grocer")),
+    ("crypto", ("crypto", "bitcoin", "ethereum", "stablecoin", "defi", "miner pool")),
+    ("industrials", ("industrial", "rail", "transport", "logistics", "machinery", "construction")),
+    ("utilities", ("utility", "utilities", "power generation", "grid")),
+)
+
+
+def _classify_sector(symbol: str, strategy: str = "", market: str = "") -> str:
+    """Return a canonical sector tag for a Practice Investment pick.
+
+    Direct symbol lookup wins; falls back to keyword matching on the
+    strategy text. Always returns a tag from ``SECTOR_TAGS`` — defaults
+    to ``"other"`` when uncertain so the dashboard aggregator never NPEs.
+    """
+    if symbol:
+        sym = symbol.upper().strip()
+        if sym in _SECTOR_BY_SYMBOL:
+            return _SECTOR_BY_SYMBOL[sym]
+    haystack = f"{strategy} {market}".lower()
+    for sector, keywords in _SECTOR_KEYWORDS:
+        for kw in keywords:
+            if kw in haystack:
+                return sector
+    return "other"
+
+
+def _extract_lesson_tags(text: str) -> list[str]:
+    """Pull any tags from ``LESSON_VOCABULARY`` that appear in *text*.
+
+    The digest prompt emits ``**Lesson Tags:** foo, bar`` after each
+    Trade Review and Practice Investment; this function also matches
+    loose mentions inside the Investor Education section so older
+    episodes aren't silently missed.
+    """
+    if not text:
+        return []
+    # Normalise so "bid-ask spread", "bid ask spread", "bid_ask_spread"
+    # all collapse to a single matching token stream.
+    lowered = re.sub(r"[\-_\s]+", " ", text.lower())
+    found: list[str] = []
+    for tag in LESSON_VOCABULARY:
+        needle = tag.replace("_", " ")
+        if needle in lowered and tag not in found:
+            found.append(tag)
+    return found
+
+
+# ---------------------------------------------------------------------------
 # Trade review text builders
 # ---------------------------------------------------------------------------
 
@@ -532,6 +919,42 @@ def _build_trade_review(tracker: dict, episode_num: int | None = None) -> str:
         f"{summary.get('total_trades', 0)} total trades "
         f"({summary.get('win_rate_pct', 0):.0f}%)\n"
         f"**Current Streak:** {_format_streak(summary.get('current_streak', 0))}\n"
+    )
+
+
+def _build_benchmark_block(tracker: dict) -> str:
+    """One-line benchmark block fed to the digest/podcast prompt.
+
+    Names NASDAQ Composite level, YTD benchmark move, portfolio return,
+    and alpha in both YTD and inception-to-date windows — the show is
+    required by its system prompt to state all four in every episode.
+    """
+    benchmark = tracker.get("benchmark", {}) or {}
+    alpha = tracker.get("alpha", {}) or {}
+    portfolio_itd = _portfolio_return_pct(tracker)
+    portfolio_ytd = _portfolio_return_ytd_pct(tracker)
+    close = benchmark.get("current_close")
+    bench_ytd = benchmark.get("ytd_pct")
+    bench_itd = benchmark.get("inception_to_date_pct")
+    alpha_ytd = alpha.get("ytd_pct")
+    alpha_itd = alpha.get("inception_to_date_pct")
+
+    if close is None:
+        return (
+            "NASDAQ Composite: data temporarily unavailable — acknowledge the gap "
+            "on air rather than inventing numbers."
+        )
+
+    def _sign(v):
+        if v is None:
+            return "n/a"
+        return f"{v:+.2f}%"
+
+    return (
+        f"NASDAQ Composite ^IXIC: {close:,.0f} "
+        f"(YTD {_sign(bench_ytd)}, since inception {_sign(bench_itd)}). "
+        f"Portfolio: YTD {_sign(portfolio_ytd)}, since inception {_sign(portfolio_itd)}. "
+        f"Alpha vs NASDAQ: YTD {_sign(alpha_ytd)}, since inception {_sign(alpha_itd)}."
     )
 
 
