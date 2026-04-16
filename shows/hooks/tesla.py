@@ -34,8 +34,8 @@ def pre_fetch(config, *, episode_num: int | None = None, today_str: str | None =
     # X posts section (disabled — placeholder)
     context["x_posts_section"] = ""
 
-    # Used content summary (recent stories tracking — placeholder)
-    context["used_content_summary"] = ""
+    # NOTE: used_content_summary is populated by run_show.py from the
+    # content tracker — do NOT override it here with an empty string.
 
     # Market movers (Monday only)
     if datetime.date.today().weekday() == 0:  # Monday

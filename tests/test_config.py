@@ -387,13 +387,13 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "tesla.yaml")
         assert cfg.name == "Tesla Shorts Time"
         assert cfg.slug == "tesla"
-        assert len(cfg.sources) == 18
+        assert len(cfg.sources) >= 17  # electrek.co removed (blocked source)
         assert cfg.sources[0].label == "Teslarati"
         assert "tsla" in cfg.keywords
         assert len(cfg.web_search_queries) == 4
         assert cfg.llm.model == "grok-4.20-non-reasoning"
         assert cfg.llm.digest_temperature == 0.5
-        assert cfg.llm.podcast_temperature == 0.9
+        assert cfg.llm.podcast_temperature == 0.7
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"
         assert cfg.audio.music_file == "assets/music/tesla_shorts_time.mp3"
         assert cfg.publishing.rss_title == "Tesla Shorts Time Daily"

@@ -17,8 +17,7 @@ sources:
     label: CarBuzz
   - url: https://insideevs.com/rss/articles/all/
     label: InsideEVs
-  - url: https://electrek.co/guides/tesla/feed/
-    label: Electrek
+  # electrek.co removed — listed in _blocked_sources.yaml
   - url: https://www.cnbc.com/id/10001147/device/rss/rss.html
     label: CNBC
   # Google News — supplementary broad coverage
@@ -102,8 +101,8 @@ llm:
   digest_prompt_file: shows/prompts/tesla_digest.txt
   podcast_prompt_file: shows/prompts/tesla_podcast.txt
   digest_temperature: 0.5
-  podcast_temperature: 0.9
-  max_tokens: 3500
+  podcast_temperature: 0.7
+  max_tokens: 5000
   podcast_max_tokens: 8000
   min_podcast_words: 2200
   podcast_chain: true
