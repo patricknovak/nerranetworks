@@ -6,7 +6,7 @@
     "position_size": 1000,
     "currency": "USD",
     "created": "2026-03-16",
-    "last_updated": "2026-04-14"
+    "last_updated": "2026-04-16"
   },
   "summary": {
     "total_trades": 6,
@@ -139,7 +139,7 @@
       "pnl_pct": null,
       "pnl_dollars": null,
       "lesson": "",
-      "current_price": 32.84
+      "current_price": 31.16
     },
     {
       "episode_num": 18,
@@ -172,7 +172,23 @@
       "pnl_pct": null,
       "pnl_dollars": null,
       "lesson": "",
-      "current_price": 190.0
+      "current_price": 190.19
+    },
+    {
+      "episode_num": 21,
+      "date": "2026-04-16",
+      "symbol": "LUCID",
+      "market": "NASDAQ",
+      "strategy": "Fundamental catalyst play on robotaxi partnership potential combined with bill-of-materials cost reductions.",
+      "confidence": "Medium",
+      "target_range": "+4% to +9% by Friday close.",
+      "trade_type": "weekly",
+      "status": "open",
+      "entry_price": null,
+      "exit_price": null,
+      "pnl_pct": null,
+      "pnl_dollars": null,
+      "lesson": ""
     }
   ]
 }
