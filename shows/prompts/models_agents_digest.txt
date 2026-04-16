@@ -104,6 +104,10 @@ An engineering teardown of ONE AI concept, architecture, or technique. This sect
 
 **TOPIC DISTINCTNESS — MUST NOT be the same topic as today's Top Story.** If the Top Story is about compiler-backed agents, Under the Hood must pick a different technology (e.g., a retrieval technique, an inference optimisation, an architectural tradeoff). A listener should hear TWO separate technical stories, not the same story told twice with different framing. Reusing the Top Story's subject here is forbidden even if it is the most interesting topic of the day.
 
+### RECENTLY COVERED STORIES — DO NOT REPEAT (do not include in output):
+The following stories were covered in recent episodes. Prioritize NEW model releases, agent frameworks, and developments. Do not lead with or re-cover the same story unless there is a genuinely new angle.
+{recent_content_summary}
+
 **TOPIC FRESHNESS — MUST choose a DIFFERENT topic than recent episodes:**
 {recent_deep_dive_topics}
 

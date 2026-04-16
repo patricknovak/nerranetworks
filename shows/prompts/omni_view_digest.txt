@@ -31,8 +31,12 @@ Write a single website-friendly markdown briefing with this exact structure and 
 
 Rules:
 - Do NOT repeat the same story across sections.
+- Do NOT cover stories that were already featured in recent episodes (see list below).
 - Use ONLY the stories and URLs provided in the JSON. Do NOT invent any sources, links, or facts.
 - If the provided sources conflict, describe the disagreement neutrally.
+
+### RECENTLY COVERED STORIES — DO NOT REPEAT (do not include in output):
+{recent_content_summary}
 
 Under each section, for each story:
 ### <N>) <short neutral headline>

@@ -16,8 +16,7 @@ sources:
     label: Motley Fool Canada
 
   # US Markets & Finance
-  - url: https://finance.yahoo.com/news/rssindex
-    label: Yahoo Finance
+  # yahoo finance removed — in _blocked_sources.yaml (low-quality aggregated headlines)
   - url: https://www.fool.com/feeds/index.aspx
     label: Motley Fool
   - url: https://www.cnbc.com/id/100003114/device/rss/rss.html
@@ -46,8 +45,7 @@ sources:
     label: CoinTelegraph
 
   # Research & Analysis
-  - url: https://seekingalpha.com/feed.xml
-    label: Seeking Alpha
+  # seekingalpha.com removed — in _blocked_sources.yaml (paywalled, speculative)
   - url: https://www.investing.com/rss/news.rss
     label: Investing.com
   # Google News — supplementary market coverage
@@ -65,8 +63,7 @@ sources:
   - url: "https://www.reddit.com/r/stocks/.rss"
     label: r/stocks
   # --- Round 4 additions (April 2026) ---
-  - url: https://seekingalpha.com/market_currents.xml
-    label: Seeking Alpha
+  # seekingalpha.com/market_currents removed — blocked source
   - url: https://www.cbc.ca/cmlink/rss-business
     label: CBC Business
 
@@ -114,7 +111,7 @@ llm:
   digest_prompt_file: shows/prompts/modern_investing_digest.txt
   podcast_prompt_file: shows/prompts/modern_investing_podcast.txt
   digest_temperature: 0.5
-  podcast_temperature: 0.85
+  podcast_temperature: 0.7
   max_tokens: 4000
   podcast_max_tokens: 8000
   min_podcast_words: 2000
