@@ -18,17 +18,21 @@ jobs:
           from email.utils import parsedate_to_datetime
           from datetime import datetime, timezone, timedelta
 
+          # Staleness thresholds account for each show's schedule:
+          # - Daily shows: 48h (miss one day = alert)
+          # - Odd/even day shows: 96h (two-day gap + buffer for skip days)
+          # - Weekday-only shows: 120h (Friday → Monday = 72h + buffer)
           FEEDS = {
               "podcast.rss": ("Tesla Shorts Time", 48),
-              "omni_view_podcast.rss": ("Omni View", 48),
+              "omni_view_podcast.rss": ("Omni View", 96),
               "fascinating_frontiers_podcast.rss": ("Fascinating Frontiers", 96),
               "planetterrian_podcast.rss": ("Planetterrian Daily", 96),
-              "env_intel_podcast.rss": ("Environmental Intelligence", 72),
-              "models_agents_podcast.rss": ("Models & Agents", 48),
-              "models_agents_beginners_podcast.rss": ("Models & Agents for Beginners", 72),
-              "finansy_prosto_podcast.rss": ("Finansy Prosto", 72),
-              "privet_russian_podcast.rss": ("Privet Russian", 72),
-              "modern_investing_podcast.rss": ("Modern Investing", 72),
+              "env_intel_podcast.rss": ("Environmental Intelligence", 120),
+              "models_agents_podcast.rss": ("Models & Agents", 96),
+              "models_agents_beginners_podcast.rss": ("Models & Agents for Beginners", 96),
+              "finansy_prosto_podcast.rss": ("Finansy Prosto", 96),
+              "privet_russian_podcast.rss": ("Privet Russian", 96),
+              "modern_investing_podcast.rss": ("Modern Investing", 120),
           }
 
           now = datetime.now(timezone.utc)

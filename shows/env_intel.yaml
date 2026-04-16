@@ -36,8 +36,8 @@ sources:
     label: Science AAAS
 
   # Canadian Environmental News
-  - url: https://thenarwhal.ca/feed/
-    label: The Narwhal
+  # NOTE: thenarwhal.ca/feed/ removed 2026-04-16 — returning HTTP 415 since at
+  # least 2026-04-05 (3 consecutive feed audits). Re-add if they fix their RSS.
   - url: https://thetyee.ca/rss2.xml
     label: The Tyee
   - url: https://www.cbc.ca/webfeed/rss/rss-canada

@@ -22,6 +22,10 @@ blocked:
     reason: Sensationalized headlines, inconsistent editorial standards
     date_blocked: "2026-03-16"
 
+  - url: thenarwhal.ca
+    reason: "RSS feed broken (HTTP 415 Unsupported Media Type since 2026-04-05). Re-evaluate if fixed."
+    date_blocked: "2026-04-16"
+
   # -------------------------------------------------------------------
   # Russia-based sources — sensitivity policy
   # -------------------------------------------------------------------
