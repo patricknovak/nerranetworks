@@ -453,7 +453,7 @@ class TestLoadConfigRealFiles:
         cfg = load_config(SHOWS_DIR / "env_intel.yaml")
         assert cfg.name == "Environmental Intelligence"
         assert cfg.slug == "env_intel"
-        assert len(cfg.sources) == 25
+        assert len(cfg.sources) >= 24  # thenarwhal.ca removed 2026-04-16 (HTTP 415)
         assert cfg.sources[0].label == "BC Ministry of Environment"
         assert "contaminated sites" in cfg.keywords
         assert "CCME" in cfg.keywords
