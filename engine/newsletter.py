@@ -74,6 +74,24 @@ def convert_digest_to_email_html(markdown_text: str) -> str:
         else:
             html_parts.append(f'<p style="margin: 4px 0;">{_md_inline(stripped)}</p>')
 
+    # Engagement footer — encourage sharing and listening
+    html_parts.append(
+        '<hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0 16px;">'
+        '<p style="margin: 8px 0; font-size: 0.9em; color: #718096;">'
+        'Enjoyed this? Forward it to a friend who would too.'
+        '</p>'
+        '<p style="margin: 8px 0; font-size: 0.9em; color: #718096;">'
+        '<a href="https://nerranetwork.com" style="color: #7C5CFF;">Listen on nerranetwork.com</a>'
+        ' &middot; '
+        '<a href="https://nerranetwork.com/player.html" style="color: #7C5CFF;">Open Player</a>'
+        ' &middot; '
+        '<a href="https://nerranetwork.com#subscribe" style="color: #7C5CFF;">Subscribe to more shows</a>'
+        '</p>'
+        '<p style="margin: 8px 0; font-size: 0.8em; color: #a0aec0;">'
+        'Nerra Network &mdash; 10 daily podcasts, ad-free, from Vancouver, Canada.'
+        '</p>'
+    )
+
     html_parts.append("</body></html>")
     return "\n".join(html_parts)
 
@@ -193,6 +211,8 @@ def send_show_newsletter(
     config,
     episode_num: int,
     today_str: str,
+    *,
+    hook: str = "",
 ) -> Optional[str]:
     """Send newsletter for a show if newsletter is configured.
 
@@ -200,6 +220,10 @@ def send_show_newsletter(
     ``config.newsletter.api_key_env``.  Applies tag filtering if the
     show's ``newsletter.tag`` is set (so only subscribers tagged for this
     show receive the email).
+
+    When *hook* is provided, it is used in the subject line to give
+    subscribers a reason to open the email.  Otherwise falls back to a
+    generic "Episode N" subject.
 
     Returns the email ID on success, ``None`` if not configured or failed.
     """
@@ -212,7 +236,13 @@ def send_show_newsletter(
         logger.info("Newsletter API key not set (%s). Skipping.", newsletter.api_key_env)
         return None
 
-    subject = f"{config.name} — {today_str} (Episode {episode_num})"
+    # Use the hook for a compelling subject line (truncate to 80 chars
+    # to stay within email client subject line limits).
+    if hook and len(hook) > 10:
+        hook_short = hook[:80].rstrip(". ") if len(hook) > 80 else hook.rstrip(".")
+        subject = f"{config.name}: {hook_short}"
+    else:
+        subject = f"{config.name} — {today_str} (Episode {episode_num})"
 
     tag = getattr(newsletter, "tag", "") or ""
     tags_list = [tag] if tag else None

@@ -71,8 +71,12 @@ this week's developments.
 
 Write in an engaging, informed tone. This is for subscribers who want the \
 week's highlights without listening to every episode. Keep the total length \
-under 1500 words. Do not include any promotional content or calls to \
-action — just quality content."""
+under 1500 words.
+
+End with a brief sign-off that encourages the reader to share the newsletter \
+with someone who would enjoy it, and remind them they can listen to full \
+episodes at nerranetwork.com. Keep it natural and brief — one sentence, \
+not a hard sell."""
 
 
 def synthesize_weekly_newsletter(

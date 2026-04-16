@@ -446,7 +446,7 @@ class TestLoadConfigRealFiles:
         assert cfg.publishing.rss_category == "News"
         assert cfg.publishing.guid_prefix == "omni-view"
         assert cfg.episode.prefix == "Omni_View"
-        assert cfg.newsletter.enabled is False  # TODO: create Omni View tag in Buttondown
+        assert cfg.newsletter.enabled is True
         assert cfg.newsletter.api_key_env == "BUTTONDOWN_API_KEY"
 
     def test_env_intel_show(self):

@@ -480,7 +480,7 @@ class TestShowConfigs:
         assert config.slug == "models_agents"
         assert config.name == "Models & Agents"
         assert config.publishing.x_enabled is False
-        assert config.newsletter.enabled is False  # TODO: create Models & Agents tag in Buttondown
+        assert config.newsletter.enabled is True
         assert config.newsletter.api_key_env == "BUTTONDOWN_API_KEY"
         assert len(config.sources) > 10  # Has many RSS feeds
         assert config.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"

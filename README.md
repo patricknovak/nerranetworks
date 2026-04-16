@@ -25,9 +25,21 @@ All shows are produced independently in Vancouver, Canada.
 | **Modern Investing Techniques** | Weekdays | [Player](https://nerranetwork.com/modern-investing.html) | [RSS](https://nerranetwork.com/modern_investing_podcast.rss) |
 | **Привет, Русский!** | Even days | [Player](https://nerranetwork.com/ru/privet-russian.html) | [RSS](https://nerranetwork.com/privet_russian_podcast.rss) |
 
-## Apple Podcasts
+## Listen
 
-- [Tesla Shorts Time](https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939)
+All shows are available on **Apple Podcasts**, **Spotify**, and via **RSS**.
+
+| Show | Apple Podcasts | Spotify |
+|------|:---:|:---:|
+| Tesla Shorts Time | [Apple](https://podcasts.apple.com/us/podcast/tesla-shorts-time-daily/id1855142939) | [Spotify](https://open.spotify.com/show/7I1DIaUaSlVsYliigOe6sS) |
+| Omni View | [Apple](https://podcasts.apple.com/us/podcast/omni-view-balanced-news-perspectives/id1885661594) | [Spotify](https://open.spotify.com/show/4KuOgvZMm4Mweorshrm2qR) |
+| Fascinating Frontiers | [Apple](https://podcasts.apple.com/us/podcast/fascinating-frontiers/id1864803923) | [Spotify](https://open.spotify.com/show/61S2fHlitcYUZZ0PmCkJYE) |
+| Planetterrian Daily | [Apple](https://podcasts.apple.com/us/podcast/planetterrian-daily/id1857782085) | [Spotify](https://open.spotify.com/show/0GgrsEDFLaZfTOQkQm5DI2) |
+| Models & Agents | [Apple](https://podcasts.apple.com/us/podcast/models-agents/id1885231539) | [Spotify](https://open.spotify.com/show/28dfMGTVsgQxPuUs7YoJYD) |
+| M&A for Beginners | [Apple](https://podcasts.apple.com/us/podcast/models-agents-for-beginners/id1885231582) | [Spotify](https://open.spotify.com/show/7vRUrQAJWzOB729A9aVDd5) |
+| Modern Investing | [Apple](https://podcasts.apple.com/us/podcast/modern-investing-techniques/id1886870483) | [Spotify](https://open.spotify.com/show/2Txa9atsocnmm91r65Ahy9) |
+| Финансы Просто | [Apple](https://podcasts.apple.com/us/podcast/%D1%84%D0%B8%D0%BD%D0%B0%D0%BD%D1%81%D1%8B-%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE/id1885235226) | [Spotify](https://open.spotify.com/show/35jCJTVe3ITGah3ryeKzzM) |
+| Привет, Русский! | [Apple](https://podcasts.apple.com/us/podcast/%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9/id1885236720) | [Spotify](https://open.spotify.com/show/7rB9mPNBp5S6RCpHPKIZbL) |
 
 ## Architecture
 
