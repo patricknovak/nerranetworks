@@ -1,6 +1,6 @@
 {
   "show": "models_agents_beginners",
-  "last_updated": "2026-04-14",
+  "last_updated": "2026-04-16",
   "episodes": [
     {
       "date": "2026-04-02",
@@ -339,6 +339,70 @@
         "cool_stuff": "### Cool Stuff & Try This\n**Turn One Selfie Into a Talking Character:** The Decoder  \nResearchers created a new AI system called LPM 1.0 that can take a single photo of someone and generate up to 45 minutes of realistic video where the person appears to speak, show emotions, and move their face in sync with new words. It runs fast enough to feel almost real-time. This is exciting because it shows how AI is getting better at creative video without needing a whole team or expensive cameras — perfe",
         "quick_bits": "### Quick Bits\n**AI Agents Need Better Dashboards**  \nOne developer spent two months building custom visual interfaces for his AI agents because plain text updates get overwhelming when the agents juggle 15+ tasks at once. The lesson? Humans think in pictures — so future agent tools will probably feel more like interactive boards than long chat logs. Cool reminder that the hardest part of AI isn’t always making it smarter — it’s making it usable for regular people.\n\n**Prompting Trick That Change",
         "deep_dive": "### Explain Like I'm 14\n**How AI Finds Brand-New Security Bugs (It’s Not Just Searching a List)**\n\nYou know how when you lose something in your room, you don’t just look in the same three spots over and over? You start by checking obvious places, then you notice “wait, the gap between my bed and the wall is weird,” and that clue leads you to move the bed, which reveals another clue under it. That’s basically how the smartest AI security tools are starting to work.\n\nStep one: Instead of memorizin"
+      }
+    },
+    {
+      "date": "2026-04-16",
+      "headlines": [
+        "Opera adds Browser Connector for integrating AI chatbots",
+        "Apple and Google are reportedly pointing users to 'nudify' apps",
+        "What if you could pause a podcast and ask it questions?",
+        "I think a lot of us are accidentally leaking work data into AI tools",
+        "Ran ChatGPT Plus and Claude Pro side by side for 30 days, here's what I found as a daily ChatGPT user",
+        "Boston Dynamics’ robot dog now reads gauges and thermometers with Google's AI",
+        "Hightouch reaches $100M ARR fueled by marketing tools powered by AI",
+        "Adobe turns its creative suite into a chatbot with the new Firefly AI Assistant",
+        "There's yet another study about how bad AI is for our brains",
+        "Google launches a Gemini AI app on Mac",
+        "OpenAI updates Agents SDK with new sandbox support for safer AI agents",
+        "Week 6 AIPass update - answering the top questions from last post (file conflicts, remote models, scale)",
+        "What if attention didn’t need matrix multiplication?",
+        "India’s vibe-coding startup Emergent enters OpenClaw-like AI agent space",
+        "Google unleashes a native Gemini app for the Mac",
+        "Value Realignment is here.",
+        "This humanoid robot does all your housework for you ‪—‬ and its makers say it's ready for your home",
+        "Snap is laying off 16 percent of its workforce, blames AI",
+        "How I made €2,700 building a legal AI research assistant for a compliance company in Germany",
+        "For the first time in history, Ukraine captured a Russian position and prisoners, using only robots and drones",
+        "Adobe’s new Firefly AI assistant can use Creative Cloud apps to complete tasks",
+        "Adobe's Firefly AI Assistant works across Photoshop, Premiere and other apps",
+        "Adobe embraces conversational AI editing, marking a ‘fundamental shift’ in creative work",
+        "Amazon's budget-friendly answer to the Frame TV will start shipping on April 22",
+        "Who Owns ChatGPT and OpenAI? AI Model Ownership Explained - tech.co"
+      ],
+      "urls": [
+        "https://www.engadget.com/ai/opera-adds-browser-connector-for-integrating-ai-chatbots-080000153.html?src=rss",
+        "https://www.reddit.com/r/artificial/comments/1smkrph/what_if_you_could_pause_a_podcast_and_ask_it/",
+        "https://www.theverge.com/tech/912638/google-gemini-mac-app",
+        "https://arstechnica.com/ai/2026/04/robot-dogs-now-read-gauges-and-thermometers-using-google-gemini/",
+        "https://www.engadget.com/apps/apple-and-google-are-reportedly-pointing-users-to-nudify-apps-065144277.html?src=rss",
+        "https://www.reddit.com/r/ChatGPT/comments/1smjhms/i_think_a_lot_of_us_are_accidentally_leaking_work/",
+        "https://www.reddit.com/r/ChatGPT/comments/1smgpy6/ran_chatgpt_plus_and_claude_pro_side_by_side_for/",
+        "https://techcrunch.com/2026/04/15/hightouch-reaches-100m-arr-fueled-by-marketing-tools-powered-by-ai/",
+        "https://the-decoder.com/adobe-turns-its-creative-suite-into-a-chatbot-with-the-new-firefly-ai-assistant/",
+        "https://www.engadget.com/ai/theres-yet-another-study-about-how-bad-ai-is-for-our-brains-183418494.html?src=rss",
+        "https://the-decoder.com/openai-updates-agents-sdk-with-new-sandbox-support-for-safer-ai-agents/",
+        "https://www.reddit.com/r/artificial/comments/1smdg23/week_6_aipass_update_answering_the_top_questions/",
+        "https://www.reddit.com/r/artificial/comments/1smd2fl/what_if_attention_didnt_need_matrix_multiplication/",
+        "https://techcrunch.com/2026/04/15/indias-vibe-coding-startup-emergent-enters-openclaw-like-ai-agent-space/",
+        "https://www.engadget.com/ai/google-unleashes-a-native-gemini-app-for-the-mac-170500185.html?src=rss",
+        "https://www.reddit.com/r/artificial/comments/1smbvyo/value_realignment_is_here/",
+        "https://www.livescience.com/technology/robotics/this-humanoid-robot-does-all-your-housework-for-you-and-its-makers-say-its-ready-for-your-home",
+        "https://www.engadget.com/big-tech/snap-is-laying-off-16-percent-of-its-workforce-blames-ai-162456069.html?src=rss",
+        "https://www.reddit.com/r/artificial/comments/1sm8f7c/how_i_made_2700_building_a_legal_ai_research/",
+        "https://www.reddit.com/r/artificial/comments/1sm6y5q/for_the_first_time_in_history_ukraine_captured_a/",
+        "https://techcrunch.com/2026/04/15/adobes-new-firefly-ai-assistant-can-use-creative-cloud-apps-to-complete-tasks/",
+        "https://www.engadget.com/apps/adobes-firefly-ai-assistant-works-across-photoshop-premiere-and-other-apps-130055883.html?src=rss",
+        "https://www.theverge.com/tech/912287/adobe-firefly-ai-assistant-announcement-editing",
+        "https://www.engadget.com/home/home-theater/amazons-budget-friendly-answer-to-the-frame-tv-will-start-shipping-on-april-22-130000337.html?src=rss",
+        "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5SaW84WTFEaFBUUXMyV1hjcVdheXcxYzI4Y1ROTHRsdmU4LWpvc2ZlVGdETHROSEVXZ2dMZlN4Rk1iVWRDTkJYWTl0bkJmUUVIeUZtQmc1SnYxblBr?oc=5"
+      ],
+      "quote_author": null,
+      "sections": {
+        "explain_like_14": "### Explain Like I'm 14\n**How AI chatbots actually understand what they're looking at on a webpage**\n\nYou know how when you're texting your friend and your phone suggests the next word you might want to type? That's basically autocomplete on steroids. Now imagine that same idea but for an entire conversation and everything on your screen.\n\nHere's how it works step by step. First, when you open a webpage, the AI doesn't just see pretty pictures and text like we do. It turns everything on the page",
+        "cool_stuff": "### Cool Stuff & Try This\n**Pause Any Podcast and Ask It Questions:** r/artificial  \nImagine listening to your favorite podcast about games, music, or space, and when the hosts say something confusing, you just pause and ask \"Wait, what does that actually mean?\" An AI would then explain it, chat with you, or even debate the topic before the original podcast picks up right where it left off. This isn't an AI-generated show with robot voices — it's real human hosts with an interactive AI layer add",
+        "quick_bits": "### Quick Bits\n**AI Brain Study Shows We Need to Stay Sharp**  \nResearchers found that using AI too much for thinking-heavy tasks like writing or problem-solving can make people less persistent when the AI is taken away. It's like the \"boiling frog\" where small changes add up. The good news? Using AI for hints instead of full answers seems less harmful. A reminder to keep practicing your own brain muscles!\n\n**Boston Dynamics Robot Dog Gets New Vision Skills**  \nBoston Dynamics' famous robot dog ",
+        "deep_dive": "### Explain Like I'm 14\n**How AI chatbots actually understand what they're looking at on a webpage**\n\nYou know how when you're texting your friend and your phone suggests the next word you might want to type? That's basically autocomplete on steroids. Now imagine that same idea but for an entire conversation and everything on your screen.\n\nHere's how it works step by step. First, when you open a webpage, the AI doesn't just see pretty pictures and text like we do. It turns everything on the page"
       }
     }
   ]
