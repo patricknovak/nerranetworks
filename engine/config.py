@@ -47,6 +47,22 @@ class LLMConfig:
     podcast_max_tokens: int = 0  # 0 = use max_tokens for both
     min_podcast_words: int = 1500  # Minimum word count to trigger retry
     podcast_chain: bool = False  # Two-stage generation: outline then expand
+    # Model used when the primary refuses after educational retry. A
+    # different model (or different variant of the same family) often
+    # has different refusal thresholds and can succeed where the primary
+    # won't. Keeping this in the same pricing tier as the primary avoids
+    # cost spikes on refusal.
+    fallback_model: str = "grok-4.20-reasoning"
+    # Synthesizer (weekly newsletter, monthly report, cross-show briefing)
+    # defaults. Empty synth_model means "use model".
+    synth_model: str = "grok-4.20-reasoning"
+    synth_max_tokens: int = 8000
+    synth_temperature: float = 0.4
+    # Episode quality reviewer defaults. Fast/cheap variant is appropriate
+    # here — reviewer reads a truncated transcript and emits a short score.
+    reviewer_model: str = "grok-4-1-fast-non-reasoning"
+    reviewer_max_tokens: int = 1500
+    reviewer_temperature: float = 0.3
 
 
 @dataclass

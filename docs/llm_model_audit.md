@@ -3,6 +3,12 @@
 > Generated 2026-04-16 on branch `claude/audit-llm-models-9dpgL`.
 > Scope: every LLM model referenced by the production pipeline, plus
 > reliability, effectiveness, suitability, and cost-effectiveness review.
+>
+> **Status:** Recommendations 1, 2, 3, 4, 5, 6, 7, 9 in §7 were implemented
+> in the same branch (commits after the initial audit). The "Not
+> recommended" items remain deliberately unimplemented. The inventory
+> below describes the state *before* those changes; current state is
+> captured in `shows/_defaults.yaml` and the show YAMLs.
 
 ---
 

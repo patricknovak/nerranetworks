@@ -391,7 +391,9 @@ class TestLoadConfigRealFiles:
         assert cfg.sources[0].label == "Teslarati"
         assert "tsla" in cfg.keywords
         assert len(cfg.web_search_queries) == 4
-        assert cfg.llm.model == "grok-4.20-non-reasoning"
+        # Tesla uses the reasoning variant for factual grounding on live
+        # market data — same price as the non-reasoning default.
+        assert cfg.llm.model == "grok-4.20-reasoning"
         assert cfg.llm.digest_temperature == 0.5
         assert cfg.llm.podcast_temperature == 0.7
         assert cfg.tts.voice_id == "dTrBzPvD2GpAqkk1MUzA"

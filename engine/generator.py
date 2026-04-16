@@ -39,7 +39,14 @@ class LLMRefusalError(RuntimeError):
 # Fallback model used when the primary model refuses to generate content
 # after educational prompt retry.  A different model often has different
 # refusal thresholds and can succeed where the primary model won't.
-_LLM_FALLBACK_MODEL = "grok-4"
+# Kept for back-compat and for call sites that don't have a config loaded;
+# prefer ``config.llm.fallback_model`` where possible.
+_LLM_FALLBACK_MODEL = "grok-4.20-reasoning"
+
+
+def _resolve_fallback_model(config) -> str:
+    """Return the configured refusal-fallback model, falling back to the module default."""
+    return getattr(getattr(config, "llm", None), "fallback_model", "") or _LLM_FALLBACK_MODEL
 
 
 # ---------------------------------------------------------------------------
@@ -970,21 +977,28 @@ def generate_digest(
             try:
                 _rep_count = _validate_llm_output(text, stage="digest", show_name=config.name)
             except LLMRefusalError:
-                if config.llm.model == _LLM_FALLBACK_MODEL:
+                fallback_model = _resolve_fallback_model(config)
+                if config.llm.model == fallback_model:
                     raise  # Already using fallback model — nothing left to try
                 # --- Retry 3: fallback model with educational prompt ---
                 logger.warning(
                     "LLM refused even educational fallback for '%s' — "
                     "trying fallback model '%s' ...",
-                    config.name, _LLM_FALLBACK_MODEL,
+                    config.name, fallback_model,
                 )
                 text, meta4 = _call_grok(
                     edu_prompt,
-                    model=_LLM_FALLBACK_MODEL,
+                    model=fallback_model,
                     system_prompt=system_prompt,
                     temperature=config.llm.podcast_temperature,
                     max_tokens=config.llm.max_tokens,
                 )
+                if tracker:
+                    try:
+                        from engine.tracking import record_refusal_fallback
+                        record_refusal_fallback(tracker, "digest", fallback_model)
+                    except Exception:
+                        pass
                 if tracker and "usage" in meta4:
                     try:
                         from engine.tracking import record_llm_usage
@@ -993,7 +1007,7 @@ def generate_digest(
                             "x_thread_generation_retry_fallback_model",
                             meta4["usage"].get("prompt_tokens", 0),
                             meta4["usage"].get("completion_tokens", 0),
-                            model=_LLM_FALLBACK_MODEL,
+                            model=fallback_model,
                         )
                     except Exception as e:
                         logger.warning("Failed to record fallback model LLM usage: %s", e)
@@ -1312,20 +1326,27 @@ def generate_podcast_script(
                                               min_podcast_words=min_words)
         except LLMRefusalError:
             # --- Retry 2: fallback model ---
-            if config.llm.model == _LLM_FALLBACK_MODEL:
+            fallback_model = _resolve_fallback_model(config)
+            if config.llm.model == fallback_model:
                 raise
             logger.warning(
                 "LLM refused podcast script again for '%s' — "
                 "trying fallback model '%s' ...",
-                config.name, _LLM_FALLBACK_MODEL,
+                config.name, fallback_model,
             )
             text, meta_r2 = _call_grok(
                 simple_prompt,
-                model=_LLM_FALLBACK_MODEL,
+                model=fallback_model,
                 system_prompt=system_prompt,
                 temperature=lower_temp,
                 max_tokens=podcast_tokens_for_retry,
             )
+            if tracker:
+                try:
+                    from engine.tracking import record_refusal_fallback
+                    record_refusal_fallback(tracker, "podcast_script", fallback_model)
+                except Exception:
+                    pass
             if tracker and "usage" in meta_r2:
                 try:
                     from engine.tracking import record_llm_usage
@@ -1333,7 +1354,7 @@ def generate_podcast_script(
                         tracker, "podcast_script_refusal_fallback_model",
                         meta_r2["usage"].get("prompt_tokens", 0),
                         meta_r2["usage"].get("completion_tokens", 0),
-                        model=_LLM_FALLBACK_MODEL,
+                        model=fallback_model,
                     )
                 except Exception:
                     pass

@@ -1080,6 +1080,29 @@ def check_tts_artifacts(ep: EpisodeReview) -> None:
         ))
 
 
+def _load_reviewer_settings(show_slug: str) -> tuple[str, int, float]:
+    """Return (model, max_tokens, temperature) for reviewing this show.
+
+    Reads the show's YAML so the reviewer inherits ``llm.reviewer_*`` from
+    ``shows/_defaults.yaml`` (or any per-show override). Falls back to
+    the historical hardcoded values if the config can't be loaded.
+    """
+    default_model = "grok-4-1-fast-non-reasoning"
+    default_tokens = 1500
+    default_temp = 0.3
+    try:
+        from engine.config import load_config
+        cfg = load_config(PROJECT_ROOT / "shows" / f"{show_slug}.yaml")
+        llm = cfg.llm
+        return (
+            getattr(llm, "reviewer_model", "") or default_model,
+            int(getattr(llm, "reviewer_max_tokens", 0) or default_tokens),
+            float(getattr(llm, "reviewer_temperature", 0.0) or default_temp),
+        )
+    except Exception:
+        return default_model, default_tokens, default_temp
+
+
 def ai_review_episode(ep: EpisodeReview) -> None:
     """Use Grok to review episode quality. Requires GROK_API_KEY."""
     api_key = (os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY") or "").strip()
@@ -1144,14 +1167,15 @@ def ai_review_episode(ep: EpisodeReview) -> None:
         f"SUMMARY: [1-2 sentence overall assessment]\n"
     )
 
+    reviewer_model, reviewer_max_tokens, reviewer_temperature = _load_reviewer_settings(ep.show_slug)
     try:
         from openai import OpenAI
         client = OpenAI(api_key=api_key, base_url="https://api.x.ai/v1", timeout=120)
         resp = client.chat.completions.create(
-            model="grok-4-1-fast-non-reasoning",
+            model=reviewer_model,
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.3,
-            max_tokens=500,
+            temperature=reviewer_temperature,
+            max_tokens=reviewer_max_tokens,
         )
         review_text = resp.choices[0].message.content.strip()
     except Exception as exc:

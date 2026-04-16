@@ -17,6 +17,18 @@ llm:
   podcast_max_tokens: 8000
   min_podcast_words: 1500
   podcast_chain: false
+  # Refusal fallback — same price as the primary, different refusal
+  # thresholds. Replaces the previous grok-4 fallback (2.5x output cost).
+  fallback_model: grok-4.20-reasoning
+  # Synthesizer (weekly newsletter, monthly report, cross-show briefing).
+  # Reasoning variant is same-price, benefits longer-form synthesis.
+  synth_model: grok-4.20-reasoning
+  synth_max_tokens: 8000
+  synth_temperature: 0.4
+  # Episode quality reviewer — fast/cheap variant, headroom for critique.
+  reviewer_model: grok-4-1-fast-non-reasoning
+  reviewer_max_tokens: 1500
+  reviewer_temperature: 0.3
 
 tts:
   provider: elevenlabs

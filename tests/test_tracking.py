@@ -140,9 +140,9 @@ class TestRecordLlmUsage:
     def test_auto_cost_with_model(self):
         """When model is provided and cost is 0, cost is auto-estimated."""
         tracker = create_tracker("Test", 1)
-        record_llm_usage(tracker, "x_thread_generation", 1_000_000, 500_000, model="grok-3")
+        record_llm_usage(tracker, "x_thread_generation", 1_000_000, 500_000, model="grok-4.20-non-reasoning")
         step = tracker["services"]["grok_api"]["x_thread_generation"]
-        pricing = GROK_PRICING["grok-3"]
+        pricing = GROK_PRICING["grok-4.20-non-reasoning"]
         expected = (1_000_000 / 1e6) * pricing["input_per_1m"] + (500_000 / 1e6) * pricing["output_per_1m"]
         assert step["estimated_cost_usd"] == pytest.approx(expected)
 
@@ -313,13 +313,25 @@ class TestSaveUsage:
 
 class TestGrokPricing:
 
-    def test_grok3_pricing_exists(self):
-        assert "grok-3" in GROK_PRICING
-        assert "input_per_1m" in GROK_PRICING["grok-3"]
-        assert "output_per_1m" in GROK_PRICING["grok-3"]
-
     def test_grok4_pricing_exists(self):
+        """grok-4 is retained for historical credit_usage JSON re-scoring."""
         assert "grok-4" in GROK_PRICING
+        assert "input_per_1m" in GROK_PRICING["grok-4"]
+        assert "output_per_1m" in GROK_PRICING["grok-4"]
 
     def test_grok420_pricing_exists(self):
         assert "grok-4.20-non-reasoning" in GROK_PRICING
+        assert "grok-4.20-reasoning" in GROK_PRICING
+
+    def test_reviewer_model_priced(self):
+        """Reviewer model must have pricing so its cost is attributed."""
+        assert "grok-4-1-fast-non-reasoning" in GROK_PRICING
+
+    def test_pruned_models_removed(self):
+        """Legacy ids that no live call site targets should be pruned."""
+        for pruned in ("grok-2", "grok-3", "grok-3-mini",
+                       "grok-4.20-0309-non-reasoning"):
+            assert pruned not in GROK_PRICING, (
+                f"{pruned} was pruned in the April 2026 audit — re-adding it "
+                "invites accidental cost attribution drift"
+            )
