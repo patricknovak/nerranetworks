@@ -7,7 +7,11 @@
       "title": "ETF Portfolio Strategies: Core-Satellite Approach",
       "prompt_template": "Write a deep-dive segment about the core-satellite ETF portfolio strategy. Cover how to build a low-cost index core (XEQT, VTI, VXUS) with tactical satellite positions (sector ETFs, thematic ETFs), rebalancing frequency, tax efficiency in registered vs non-registered accounts, and how to evaluate when a satellite position has run its course.",
       "estimated_words": 600,
-      "tags": ["ETF", "strategy", "portfolio"]
+      "tags": [
+        "ETF",
+        "strategy",
+        "portfolio"
+      ]
     },
     {
       "id": "mit_technical_analysis",
@@ -15,7 +19,11 @@
       "title": "Technical Analysis Fundamentals for Modern Investors",
       "prompt_template": "Write a deep-dive segment about technical analysis fundamentals. Cover support and resistance, moving averages (50-day, 200-day), RSI (relative strength index), MACD, volume analysis, and chart patterns that have statistical backing. Be honest about the limitations and show where technical analysis works best (timing entries/exits) vs where it fails (predicting direction).",
       "estimated_words": 600,
-      "tags": ["technical analysis", "charts", "indicators"]
+      "tags": [
+        "technical analysis",
+        "charts",
+        "indicators"
+      ]
     },
     {
       "id": "mit_options_basics",
@@ -23,7 +31,11 @@
       "title": "Options 101: Calls, Puts, and Covered Strategies",
       "prompt_template": "Write a deep-dive segment about options basics for intermediate investors. Cover calls and puts conceptually, intrinsic vs time value, common strategies (covered calls for income, protective puts for downside protection, cash-secured puts), Greeks at a high level (delta, theta), and why naked options are dangerous. Use concrete examples with realistic stock prices.",
       "estimated_words": 600,
-      "tags": ["options", "derivatives", "strategy"]
+      "tags": [
+        "options",
+        "derivatives",
+        "strategy"
+      ]
     },
     {
       "id": "mit_sector_rotation",
@@ -31,7 +43,11 @@
       "title": "Sector Rotation: Reading the Business Cycle",
       "prompt_template": "Write a deep-dive segment about sector rotation strategy. Cover the business cycle phases (expansion, peak, contraction, trough), which sectors historically outperform in each phase, how to use leading economic indicators (yield curve, PMI, consumer confidence) to position, sector ETFs for implementation, and the limitations of this approach in a post-COVID economy.",
       "estimated_words": 600,
-      "tags": ["sectors", "business cycle", "macro"]
+      "tags": [
+        "sectors",
+        "business cycle",
+        "macro"
+      ]
     },
     {
       "id": "mit_dividend_investing",
@@ -39,7 +55,11 @@
       "title": "Dividend Investing: Building Passive Income",
       "prompt_template": "Write a deep-dive segment about dividend investing. Cover dividend yield vs dividend growth, Canadian dividend aristocrats, the dividend tax credit advantage in non-registered accounts, DRIP programs, REITs as income vehicles, dangers of yield traps, and how to evaluate payout ratio sustainability. Compare dividend strategies for TFSA vs RRSP vs taxable accounts.",
       "estimated_words": 600,
-      "tags": ["dividends", "income", "strategy"]
+      "tags": [
+        "dividends",
+        "income",
+        "strategy"
+      ]
     },
     {
       "id": "mit_profile_buffett",
@@ -47,7 +67,11 @@
       "title": "Profile: Warren Buffett's Investment Philosophy",
       "prompt_template": "Write a profile segment about Warren Buffett's investment philosophy. Cover his evolution from Graham-style cigar butts to quality compounders (Munger's influence), key principles (circle of competence, economic moats, margin of safety), notable investments and mistakes, his view on index funds for most investors, and what lessons modern DIY investors can apply.",
       "estimated_words": 500,
-      "tags": ["people", "value investing", "philosophy"]
+      "tags": [
+        "people",
+        "value investing",
+        "philosophy"
+      ]
     },
     {
       "id": "mit_profile_cathie_wood",
@@ -55,7 +79,11 @@
       "title": "Profile: Cathie Wood and the Case for Disruptive Innovation",
       "prompt_template": "Write a balanced profile about Cathie Wood and ARK Invest. Cover her investment thesis around disruptive innovation, ARK's spectacular 2020 returns and subsequent drawdown, the challenges of thematic investing, her views on AI, genomics, and autonomous vehicles, and what investors can learn from both ARK's successes and failures.",
       "estimated_words": 500,
-      "tags": ["people", "innovation", "thematic"]
+      "tags": [
+        "people",
+        "innovation",
+        "thematic"
+      ]
     },
     {
       "id": "mit_risk_management",
@@ -63,7 +91,11 @@
       "title": "Risk Management: Position Sizing and Stop Losses",
       "prompt_template": "Write a deep-dive segment about risk management for active investors. Cover position sizing (never more than X% in one name), stop-loss strategies (fixed, trailing, mental), the Kelly Criterion simplified, correlation and diversification math, how to think about portfolio drawdowns, and the psychological aspects of cutting losers. Use concrete examples.",
       "estimated_words": 600,
-      "tags": ["risk", "management", "psychology"]
+      "tags": [
+        "risk",
+        "management",
+        "psychology"
+      ]
     },
     {
       "id": "mit_history_market_crashes",
@@ -71,7 +103,11 @@
       "title": "Market Crashes Through History: Lessons for Today",
       "prompt_template": "Write a historical segment about major market crashes. Cover the 1929 crash, 1987 Black Monday, the dot-com bubble, 2008 financial crisis, and COVID crash. For each, explain the cause, the depth and duration of the decline, the recovery timeline, and the key lesson for modern investors. Emphasize that staying invested through crashes has historically been rewarded.",
       "estimated_words": 600,
-      "tags": ["history", "crashes", "lessons"]
+      "tags": [
+        "history",
+        "crashes",
+        "lessons"
+      ]
     },
     {
       "id": "mit_contrarian_passive_vs_active",
@@ -79,7 +115,11 @@
       "title": "Debate: Passive Indexing vs Active Management",
       "prompt_template": "Write a balanced debate segment about passive vs active investing. Arguments for passive: lower fees, tax efficiency, most active managers underperform, Buffett's bet. Arguments for active: opportunity in small caps, factor tilts, risk management, tax-loss harvesting opportunities. Reference SPIVA data. Help listeners understand when each approach makes sense rather than declaring a winner.",
       "estimated_words": 600,
-      "tags": ["passive", "active", "debate"]
+      "tags": [
+        "passive",
+        "active",
+        "debate"
+      ]
     },
     {
       "id": "mit_tfsa_investing",
@@ -87,7 +127,11 @@
       "title": "Maximizing Your TFSA as an Investment Vehicle",
       "prompt_template": "Write a practical utility segment about optimizing a TFSA for investing (not just savings). Cover why high-growth assets belong in TFSA, US dividend withholding tax implications, contribution room tracking, over-contribution penalties, day trading restrictions (CRA scrutiny), and a model portfolio approach for different risk tolerances. Canadian-specific advice.",
       "estimated_words": 500,
-      "tags": ["TFSA", "utility", "Canadian"]
+      "tags": [
+        "TFSA",
+        "utility",
+        "Canadian"
+      ]
     },
     {
       "id": "mit_ai_investing_tools",
@@ -95,7 +139,11 @@
       "title": "AI Tools for the Modern Investor",
       "prompt_template": "Write a deep-dive segment about AI-powered investing tools available to retail investors. Cover AI-driven screeners, sentiment analysis from news and social media, ChatGPT and Claude for investment research, robo-advisors (Wealthsimple, Questwealth), algorithmic trading platforms accessible to retail, and the limitations of AI in predicting markets.",
       "estimated_words": 600,
-      "tags": ["AI", "tools", "technology"]
+      "tags": [
+        "AI",
+        "tools",
+        "technology"
+      ]
     },
     {
       "id": "mit_earnings_analysis",
@@ -103,7 +151,11 @@
       "title": "How to Read an Earnings Report",
       "prompt_template": "Write a practical utility segment teaching listeners how to read corporate earnings reports. Cover revenue vs earnings, EPS and P/E ratio, forward guidance, management commentary, balance sheet red flags (rising debt, declining cash), free cash flow, and how to quickly assess whether earnings beat or missed expectations. Use a recent real-world example format.",
       "estimated_words": 500,
-      "tags": ["utility", "fundamentals", "analysis"]
+      "tags": [
+        "utility",
+        "fundamentals",
+        "analysis"
+      ]
     },
     {
       "id": "mit_crypto_portfolio",
@@ -111,7 +163,203 @@
       "title": "Crypto as a Portfolio Allocation: A Risk-Managed Approach",
       "prompt_template": "Write a deep-dive segment about incorporating cryptocurrency into a traditional portfolio. Cover the case for a small allocation (1-5%), Bitcoin vs altcoin risk profiles, Canadian crypto ETFs (BTCX, ETHX), self-custody vs exchange risk, the regulatory landscape in Canada, tax implications of crypto gains, and position sizing for volatile assets.",
       "estimated_words": 600,
-      "tags": ["crypto", "allocation", "risk"]
+      "tags": [
+        "crypto",
+        "allocation",
+        "risk"
+      ]
+    },
+    {
+      "id": "mit_asset_allocation",
+      "type": "deep_dive",
+      "title": "Asset Allocation: The Only Free Lunch in Investing",
+      "prompt_template": "Write a deep-dive about asset allocation principles. Cover Modern Portfolio Theory basics (diversification reduces risk without reducing expected return), the efficient frontier, strategic vs tactical asset allocation, how to determine your risk tolerance, the role of bonds in a portfolio (and whether they still work post-2022), age-based allocation rules and why they're oversimplified, and rebalancing strategies (calendar vs threshold). Use specific Canadian examples (XEQT, VGRO, XBAL).",
+      "estimated_words": 600,
+      "tags": [
+        "allocation",
+        "portfolio",
+        "strategy"
+      ]
+    },
+    {
+      "id": "mit_dividend_investing_v2",
+      "type": "deep_dive",
+      "title": "Dividend Investing in Canada: The Tax-Advantaged Approach",
+      "prompt_template": "Write a deep-dive about dividend investing in the Canadian context. Cover the dividend tax credit advantage (eligible Canadian dividends are tax-efficient), the Canadian Dividend Aristocrats, how to evaluate dividend sustainability (payout ratio, free cash flow coverage), dividend growth investing vs high yield, DRIP programs, the bank/pipeline/telecom oligopoly advantage, and why stuffing a TFSA with Canadian dividend stocks is a popular strategy. Include specific yields and names.",
+      "estimated_words": 600,
+      "tags": [
+        "dividends",
+        "tax",
+        "income"
+      ]
+    },
+    {
+      "id": "mit_options_intro",
+      "type": "deep_dive",
+      "title": "Options Basics: Calls, Puts, and Covered Calls",
+      "prompt_template": "Write a deep-dive introducing options to active investors. Cover calls and puts with simple analogies, why covered calls are the gateway strategy for income investors, the Greeks (delta, theta — explained simply), how to read an options chain, the risk/reward profile of common strategies (covered call, cash-secured put, protective put), and the critical mistake beginners make (selling naked options). Use a specific Canadian stock example to walk through a covered call trade.",
+      "estimated_words": 600,
+      "tags": [
+        "options",
+        "derivatives",
+        "strategy"
+      ]
+    },
+    {
+      "id": "mit_technical_analysis_v2",
+      "type": "deep_dive",
+      "title": "Technical Analysis: What the Charts Actually Tell You",
+      "prompt_template": "Write a deep-dive about technical analysis for active investors. Cover support/resistance levels, moving averages (50-day, 200-day, golden/death cross), volume analysis, RSI and MACD as momentum indicators, chart patterns that have statistical backing vs ones that don't, and the honest limitations of TA (it works until it doesn't, it's better for timing than for selection). Separate evidence-based TA from astrology-grade pattern reading.",
+      "estimated_words": 600,
+      "tags": [
+        "technical",
+        "charts",
+        "analysis"
+      ]
+    },
+    {
+      "id": "mit_tax_loss_harvesting",
+      "type": "deep_dive",
+      "title": "Tax-Loss Harvesting in Canada: The Strategy Guide",
+      "prompt_template": "Write a deep-dive about tax-loss harvesting for Canadian investors. Cover the superficial loss rule (30-day rule), how to execute a proper tax-loss harvest (sell, buy a similar-but-not-identical ETF, wait 30 days), the capital gains inclusion rate changes, how losses carry forward, optimal timing (December vs throughout the year), and the specific Canadian wrinkle of the T5008 slip. Walk through a concrete example with real ETF names.",
+      "estimated_words": 600,
+      "tags": [
+        "tax",
+        "strategy",
+        "optimization"
+      ]
+    },
+    {
+      "id": "mit_real_estate_investing",
+      "type": "deep_dive",
+      "title": "Real Estate Investing in Canada Beyond Your Home",
+      "prompt_template": "Write a deep-dive about real estate investing options beyond home ownership. Cover REITs (publicly traded — RioCan, Canadian Apartment REIT, Granite), mortgage investment corporations (MICs), syndicated mortgages, rental property economics in Canadian markets, BRRRR strategy adaptation for Canada, and the tax implications of each approach (passive income, capital gains, REIT distributions). Compare the returns, effort, and risk of each approach honestly.",
+      "estimated_words": 600,
+      "tags": [
+        "real_estate",
+        "REIT",
+        "alternatives"
+      ]
+    },
+    {
+      "id": "mit_crypto_portfolio_v2",
+      "type": "deep_dive",
+      "title": "Crypto in a Traditional Portfolio: How Much and Why",
+      "prompt_template": "Write a deep-dive about incorporating cryptocurrency into a traditional investment portfolio. Cover Bitcoin's role as a portfolio diversifier (low correlation argument and when it breaks down), the efficient frontier with 1-5% crypto allocation, Canadian crypto ETFs (BTCX, ETHX — the advantage of buying crypto in a TFSA), custodial vs self-custody, and the honest risk assessment: volatility, regulatory risk, and why more than 5% allocation is speculation, not investing.",
+      "estimated_words": 600,
+      "tags": [
+        "crypto",
+        "portfolio",
+        "allocation"
+      ]
+    },
+    {
+      "id": "mit_profile_buffett_v2",
+      "type": "profile",
+      "title": "Profile: Warren Buffett's Investment Philosophy",
+      "prompt_template": "Write a profile of Warren Buffett's investment approach for active investors. Cover the evolution from Graham's cigar-butt deep value to Munger-influenced quality investing, the concept of economic moats, his famous rules (never lose money, be fearful when others are greedy), the Berkshire Hathaway structure, why his approach is harder to replicate than it looks (insurance float, size advantages), and what modern investors can actually learn from him vs what's become cliché.",
+      "estimated_words": 500,
+      "tags": [
+        "people",
+        "value",
+        "philosophy"
+      ]
+    },
+    {
+      "id": "mit_profile_cathie_wood_v2",
+      "type": "profile",
+      "title": "Profile: Cathie Wood and the Innovation Investing Debate",
+      "prompt_template": "Write a balanced profile of Cathie Wood and ARK Invest. Cover her thesis-driven approach (convergence of AI, robotics, genomics, energy storage, blockchain), the spectacular 2020 returns and subsequent drawdown, the difference between thematic investing and diversified investing, what ARKK's trajectory teaches about momentum and mean reversion, and the broader question: can you invest in 'the future' without overpaying for it? Present both her fans' and critics' perspectives fairly.",
+      "estimated_words": 500,
+      "tags": [
+        "people",
+        "innovation",
+        "debate"
+      ]
+    },
+    {
+      "id": "mit_history_dotcom",
+      "type": "historical",
+      "title": "The Dot-Com Bubble: Lessons for AI Investors",
+      "prompt_template": "Write a historical segment about the dot-com bubble with explicit parallels to today's AI investment boom. Cover the 1999-2000 mania, the 'clicks not profits' valuation framework, which companies survived (Amazon, eBay) vs which didn't (Pets.com, Webvan), the key differences between dot-com and AI (AI companies have real revenue), and the specific lessons for investors evaluating AI stocks today: how to tell if you're buying Amazon or Pets.com.",
+      "estimated_words": 600,
+      "tags": [
+        "history",
+        "bubble",
+        "lessons"
+      ]
+    },
+    {
+      "id": "mit_history_index_fund",
+      "type": "historical",
+      "title": "How Index Funds Changed Investing Forever",
+      "prompt_template": "Write a historical segment about the index fund revolution. Cover Jack Bogle's radical idea at Vanguard (1976), why Wall Street hated it ('Bogle's folly'), the mathematics of why most active managers underperform (after fees), the growth from $0 to $10+ trillion in index assets, the 'index fund bubble' critique, and what this means for Canadian investors choosing between active mutual funds (2%+ MER) and index ETFs (0.05-0.25% MER).",
+      "estimated_words": 600,
+      "tags": [
+        "history",
+        "indexing",
+        "Bogle"
+      ]
+    },
+    {
+      "id": "mit_contrarian_passive",
+      "type": "contrarian",
+      "title": "Contrarian: Is Passive Investing Creating a Bubble?",
+      "prompt_template": "Write a balanced contrarian segment about the passive investing critique. The concern: index funds buy stocks based on market cap, not fundamentals, creating a self-reinforcing loop where big stocks get bigger regardless of valuation. The defense: passive inflows are still small relative to total trading volume, price discovery still functions, and active managers still set prices at the margin. Discuss what would actually break and what warning signs to watch for.",
+      "estimated_words": 600,
+      "tags": [
+        "passive",
+        "debate",
+        "market_structure"
+      ]
+    },
+    {
+      "id": "mit_contrarian_home_bias",
+      "type": "contrarian",
+      "title": "Contrarian: The Canadian Home Bias Problem",
+      "prompt_template": "Write a balanced contrarian segment about Canadian investors' home bias. Canada is 3% of global market cap but many Canadian investors hold 30-50% in Canadian stocks. The case for home bias: dividend tax credit, currency hedging, familiarity. The case against: massive sector concentration (financials + energy = 50% of TSX), missing global tech and healthcare, the argument that your job and home already give you 'Canada exposure'. Help investors think about their actual geographic allocation.",
+      "estimated_words": 600,
+      "tags": [
+        "home_bias",
+        "debate",
+        "allocation"
+      ]
+    },
+    {
+      "id": "mit_utility_brokerage",
+      "type": "utility",
+      "title": "Canadian Discount Brokerages Compared",
+      "prompt_template": "Write a practical comparison of Canadian discount brokerages for active investors. Cover Wealthsimple Trade (free trades, limited features), Questrade (free ETF buys, low commissions), Interactive Brokers (lowest margin rates, complex), and bank brokerages (TD Direct, RBC Direct — higher fees, integrated). Compare: commission structures, available markets (US, international), margin rates, data feeds, mobile app quality, TFSA/RRSP/RESP support, and who each one is best for.",
+      "estimated_words": 600,
+      "tags": [
+        "education",
+        "brokerages",
+        "practical"
+      ]
+    },
+    {
+      "id": "mit_utility_portfolio_review",
+      "type": "utility",
+      "title": "How to Do a Quarterly Portfolio Review",
+      "prompt_template": "Write a practical utility segment teaching investors how to conduct a quarterly portfolio review. Cover: checking actual vs target asset allocation, reviewing individual position sizes, calculating portfolio return (time-weighted vs money-weighted), evaluating realized vs unrealized gains for tax planning, checking dividend income trend, reviewing fees paid, and making a decision checklist (rebalance? harvest losses? add new positions?). Include a specific template investors can follow.",
+      "estimated_words": 600,
+      "tags": [
+        "education",
+        "review",
+        "practical"
+      ]
+    },
+    {
+      "id": "mit_guide_first_10k",
+      "type": "listener_guide",
+      "title": "Listener Guide: Investing Your First $10,000",
+      "prompt_template": "Write a practical guide for investing a first $10,000 in Canada. Cover the decision tree: emergency fund first (is it funded?), which account (TFSA first for most people), one-ETF vs three-ETF portfolio, the exact steps to open an account and make a first purchase, automatic contributions, the psychological barrier of pressing 'buy', and realistic expectations (historical 7-8% average return, but individual years vary wildly). Concrete, actionable, no jargon.",
+      "estimated_words": 600,
+      "tags": [
+        "guide",
+        "beginner",
+        "practical"
+      ]
     }
   ]
 }

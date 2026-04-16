@@ -7,7 +7,11 @@
       "title": "CRISPR: From Discovery to Clinic",
       "prompt_template": "Write a deep-dive segment about the evolution of CRISPR gene editing. Cover the original bacterial immune system discovery, Doudna and Charpentier's breakthrough, CRISPR-Cas9 vs base editing vs prime editing, clinical trials for sickle cell disease and cancer, and the ethical debates around germline editing.",
       "estimated_words": 600,
-      "tags": ["genetics", "CRISPR", "medicine"]
+      "tags": [
+        "genetics",
+        "CRISPR",
+        "medicine"
+      ]
     },
     {
       "id": "pt_longevity_science",
@@ -15,7 +19,11 @@
       "title": "The Science of Longevity: What Actually Works",
       "prompt_template": "Write a deep-dive segment about the science of longevity. Cover the hallmarks of aging (genomic instability, telomere attrition, epigenetic alterations), interventions with evidence (caloric restriction, rapamycin, metformin, NAD+ precursors), the difference between lifespan and healthspan, and the current state of clinical trials in anti-aging research.",
       "estimated_words": 600,
-      "tags": ["longevity", "aging", "interventions"]
+      "tags": [
+        "longevity",
+        "aging",
+        "interventions"
+      ]
     },
     {
       "id": "pt_microbiome",
@@ -23,7 +31,11 @@
       "title": "The Gut Microbiome: Your Body's Hidden Ecosystem",
       "prompt_template": "Write a deep-dive segment about the human gut microbiome. Cover its composition, the gut-brain axis, links to immunity and mental health, how diet shapes the microbiome, the promise and limitations of probiotics, fecal microbiota transplantation for C. difficile, and active areas of research.",
       "estimated_words": 600,
-      "tags": ["microbiome", "gut", "health"]
+      "tags": [
+        "microbiome",
+        "gut",
+        "health"
+      ]
     },
     {
       "id": "pt_mrna_technology",
@@ -31,7 +43,11 @@
       "title": "mRNA Technology Beyond COVID Vaccines",
       "prompt_template": "Write a deep-dive segment about the future of mRNA technology. Cover how mRNA vaccines work, Karikó and Weissman's Nobel Prize-winning research, clinical trials for cancer vaccines (melanoma, pancreatic), personalized neoantigen vaccines, mRNA therapies for rare genetic diseases, and the manufacturing advantages of the platform.",
       "estimated_words": 600,
-      "tags": ["mRNA", "vaccines", "cancer"]
+      "tags": [
+        "mRNA",
+        "vaccines",
+        "cancer"
+      ]
     },
     {
       "id": "pt_profile_karikó",
@@ -39,7 +55,11 @@
       "title": "Profile: Katalin Karikó — The mRNA Pioneer",
       "prompt_template": "Write a profile segment about Katalin Karikó. Cover her early career struggles with mRNA research, decades of rejection and demotion, the pivotal pseudouridine discovery with Drew Weissman, how her work enabled COVID vaccines, her Nobel Prize, and what her story teaches about scientific perseverance.",
       "estimated_words": 500,
-      "tags": ["people", "mRNA", "science"]
+      "tags": [
+        "people",
+        "mRNA",
+        "science"
+      ]
     },
     {
       "id": "pt_profile_sinclair",
@@ -47,7 +67,11 @@
       "title": "Profile: David Sinclair and the Longevity Debate",
       "prompt_template": "Write a profile segment about David Sinclair and his role in the longevity field. Cover his sirtuin and NAD+ research at Harvard, the controversy around resveratrol, his information theory of aging, epigenetic reprogramming experiments, and both the support and criticism his work has received from the scientific community. Present a balanced view.",
       "estimated_words": 500,
-      "tags": ["people", "longevity", "debate"]
+      "tags": [
+        "people",
+        "longevity",
+        "debate"
+      ]
     },
     {
       "id": "pt_neuroscience_sleep",
@@ -55,7 +79,11 @@
       "title": "The Neuroscience of Sleep",
       "prompt_template": "Write a deep-dive segment about the neuroscience of sleep. Cover the sleep stages (NREM, REM), the glymphatic system's waste clearance function, sleep's role in memory consolidation, the circadian clock mechanism, links between sleep deprivation and neurodegenerative disease, and evidence-based sleep optimization strategies.",
       "estimated_words": 600,
-      "tags": ["neuroscience", "sleep", "brain"]
+      "tags": [
+        "neuroscience",
+        "sleep",
+        "brain"
+      ]
     },
     {
       "id": "pt_stem_cells",
@@ -63,7 +91,11 @@
       "title": "Stem Cell Therapies: Promise vs Reality",
       "prompt_template": "Write a deep-dive segment about stem cell therapies. Cover the difference between embryonic stem cells, adult stem cells, and iPSCs (Yamanaka's breakthrough), legitimate clinical applications (bone marrow transplant, corneal repair), promising trials (Parkinson's, spinal cord injury), and the problem of unregulated stem cell clinics selling unproven treatments.",
       "estimated_words": 600,
-      "tags": ["stem cells", "therapy", "regeneration"]
+      "tags": [
+        "stem cells",
+        "therapy",
+        "regeneration"
+      ]
     },
     {
       "id": "pt_history_antibiotics",
@@ -71,7 +103,11 @@
       "title": "The Antibiotic Era: From Penicillin to Superbugs",
       "prompt_template": "Write a historical segment about the antibiotic era. Cover Fleming's accidental discovery, the golden age of antibiotic discovery (1940s-1960s), the innovation gap since the 1980s, the rise of antimicrobial resistance, MRSA and CRE superbugs, and current approaches to the AMR crisis (phage therapy, novel antibiotic discovery, stewardship programs).",
       "estimated_words": 600,
-      "tags": ["history", "antibiotics", "AMR"]
+      "tags": [
+        "history",
+        "antibiotics",
+        "AMR"
+      ]
     },
     {
       "id": "pt_contrarian_supplements",
@@ -79,7 +115,11 @@
       "title": "Debate: The Supplement Industry — Help or Hype?",
       "prompt_template": "Write a balanced debate segment about the supplement industry. Present arguments for supplementation (vitamin D deficiency prevalence, omega-3 evidence, creatine research) alongside arguments against (lack of regulation, contamination risks, most nutrients obtainable from diet, publication bias in supplement studies). Reference specific meta-analyses and systematic reviews.",
       "estimated_words": 600,
-      "tags": ["supplements", "debate", "evidence"]
+      "tags": [
+        "supplements",
+        "debate",
+        "evidence"
+      ]
     },
     {
       "id": "pt_immunotherapy",
@@ -87,7 +127,11 @@
       "title": "Cancer Immunotherapy: Teaching the Body to Fight Back",
       "prompt_template": "Write a deep-dive segment about cancer immunotherapy. Cover checkpoint inhibitors (PD-1, CTLA-4), CAR-T cell therapy, cancer vaccines, the role of Jim Allison and Tasuku Honjo's Nobel Prize work, response rates and limitations, the tumor microenvironment challenge, and promising combination approaches.",
       "estimated_words": 600,
-      "tags": ["cancer", "immunotherapy", "treatment"]
+      "tags": [
+        "cancer",
+        "immunotherapy",
+        "treatment"
+      ]
     },
     {
       "id": "pt_epigenetics",
@@ -95,7 +139,11 @@
       "title": "Epigenetics: How Environment Changes Your Genes",
       "prompt_template": "Write a deep-dive segment about epigenetics. Cover DNA methylation, histone modification, how environmental factors (diet, stress, pollution) alter gene expression without changing DNA sequence, transgenerational epigenetic inheritance evidence, epigenetic clocks for measuring biological age, and therapeutic applications in cancer and aging.",
       "estimated_words": 600,
-      "tags": ["epigenetics", "aging", "genetics"]
+      "tags": [
+        "epigenetics",
+        "aging",
+        "genetics"
+      ]
     },
     {
       "id": "pt_utility_longevity",
@@ -103,7 +151,11 @@
       "title": "Evidence-Based Longevity: What You Can Do Today",
       "prompt_template": "Write a practical utility segment about evidence-based longevity interventions accessible today. Cover exercise (zone 2 cardio, resistance training), nutrition (Mediterranean diet, time-restricted eating), sleep optimization, stress management, social connection, and which blood biomarkers to track. Focus on interventions with strong clinical evidence, not hype.",
       "estimated_words": 500,
-      "tags": ["utility", "longevity", "practical"]
+      "tags": [
+        "utility",
+        "longevity",
+        "practical"
+      ]
     },
     {
       "id": "pt_brain_computer_interfaces",
@@ -111,7 +163,203 @@
       "title": "Brain-Computer Interfaces: Connecting Mind and Machine",
       "prompt_template": "Write a deep-dive segment about brain-computer interfaces. Cover Neuralink's progress and clinical trials, BrainGate's pioneering work with paralyzed patients, non-invasive alternatives (EEG-based BCIs), the challenge of biocompatibility, applications for motor disabilities and communication disorders, and the ethical considerations around cognitive enhancement.",
       "estimated_words": 600,
-      "tags": ["neuroscience", "BCI", "technology"]
+      "tags": [
+        "neuroscience",
+        "BCI",
+        "technology"
+      ]
+    },
+    {
+      "id": "pt_gut_brain_axis",
+      "type": "deep_dive",
+      "title": "The Gut-Brain Axis",
+      "prompt_template": "Write a deep-dive about the gut-brain axis connection. Cover the vagus nerve pathway, how gut bacteria produce neurotransmitters (serotonin, dopamine), the link between microbiome diversity and mental health, fecal transplant research for depression, and practical dietary implications. Make listeners rethink the relationship between what they eat and how they feel.",
+      "estimated_words": 600,
+      "tags": [
+        "microbiome",
+        "neuroscience",
+        "nutrition"
+      ]
+    },
+    {
+      "id": "pt_gene_therapy",
+      "type": "deep_dive",
+      "title": "Gene Therapy: Fixing the Code of Life",
+      "prompt_template": "Write a deep-dive about gene therapy advances. Cover the difference between gene replacement, gene editing (CRISPR), and gene silencing (RNAi), landmark approvals like Luxturna and Zolgensma, the cost challenge (million-dollar therapies), current clinical trials for sickle cell and hemophilia, and what in-vivo vs ex-vivo delivery means for the future of medicine.",
+      "estimated_words": 600,
+      "tags": [
+        "genetics",
+        "therapy",
+        "CRISPR"
+      ]
+    },
+    {
+      "id": "pt_sleep_science",
+      "type": "deep_dive",
+      "title": "Sleep Science: What Happens When You Sleep",
+      "prompt_template": "Write a deep-dive about the neuroscience of sleep. Cover the sleep stages (NREM 1-3 and REM), the glymphatic system clearing brain waste during deep sleep, the role of sleep in memory consolidation, circadian rhythm biology, why chronic sleep deprivation increases Alzheimer's risk, and evidence-based strategies for better sleep quality. Use specific research findings.",
+      "estimated_words": 600,
+      "tags": [
+        "neuroscience",
+        "sleep",
+        "health"
+      ]
+    },
+    {
+      "id": "pt_cancer_immunotherapy",
+      "type": "deep_dive",
+      "title": "Cancer Immunotherapy Revolution",
+      "prompt_template": "Write a deep-dive about the immunotherapy revolution in cancer treatment. Cover checkpoint inhibitors (PD-1/PD-L1), CAR-T cell therapy, cancer vaccines (mRNA-based approaches), the role of the tumor microenvironment, response rates and limitations, and why immunotherapy works brilliantly for some cancers but not others. Include specific survival data that shows the impact.",
+      "estimated_words": 600,
+      "tags": [
+        "cancer",
+        "immunotherapy",
+        "treatment"
+      ]
+    },
+    {
+      "id": "pt_aging_biology",
+      "type": "deep_dive",
+      "title": "The Biology of Aging: Hallmarks and Interventions",
+      "prompt_template": "Write a deep-dive about the biology of aging. Cover the 12 hallmarks of aging (genomic instability, telomere attrition, epigenetic alterations, etc.), the most promising interventions being studied (rapamycin, metformin, NAD+ precursors, senolytics), caloric restriction and fasting research, and the difference between lifespan and healthspan. Be evidence-based, not hype-driven.",
+      "estimated_words": 600,
+      "tags": [
+        "aging",
+        "longevity",
+        "biology"
+      ]
+    },
+    {
+      "id": "pt_wearable_health",
+      "type": "deep_dive",
+      "title": "Wearable Health Tech: Beyond Step Counting",
+      "prompt_template": "Write a deep-dive about the science behind wearable health technology. Cover continuous glucose monitors and metabolic insights, optical heart rate and HRV measurement accuracy, sleep staging algorithms, blood oxygen monitoring, the emerging capability of detecting atrial fibrillation, and the gap between consumer wearable data and clinical-grade diagnostics. What can you actually trust from your watch?",
+      "estimated_words": 600,
+      "tags": [
+        "technology",
+        "wearables",
+        "diagnostics"
+      ]
+    },
+    {
+      "id": "pt_psychedelics_medicine",
+      "type": "deep_dive",
+      "title": "Psychedelics in Medicine: The Research Renaissance",
+      "prompt_template": "Write a deep-dive about the psychedelic medicine research renaissance. Cover psilocybin for treatment-resistant depression (COMPASS Pathways trials), MDMA for PTSD (MAPS studies), ketamine clinics, the neuroscience of how psychedelics promote neuroplasticity, regulatory status across jurisdictions, and the difference between clinical use and recreational claims. Be scientifically rigorous.",
+      "estimated_words": 600,
+      "tags": [
+        "psychiatry",
+        "psychedelics",
+        "research"
+      ]
+    },
+    {
+      "id": "pt_profile_jennifer_doudna",
+      "type": "profile",
+      "title": "Profile: Jennifer Doudna and CRISPR",
+      "prompt_template": "Write a profile of Jennifer Doudna, co-inventor of CRISPR-Cas9 gene editing. Cover her Berkeley lab's foundational discovery, the collaboration with Emmanuelle Charpentier, the Nobel Prize, the patent dispute with the Broad Institute, the ethical debates she's championed about germline editing, and the Innovative Genomics Institute's mission. A story of discovery, responsibility, and scientific courage.",
+      "estimated_words": 500,
+      "tags": [
+        "people",
+        "CRISPR",
+        "genetics"
+      ]
+    },
+    {
+      "id": "pt_profile_demis_hassabis",
+      "type": "profile",
+      "title": "Profile: Demis Hassabis and AlphaFold",
+      "prompt_template": "Write a profile of Demis Hassabis and DeepMind's AlphaFold breakthrough. Cover how AlphaFold solved the 50-year protein folding problem, the release of 200+ million predicted structures, the impact on drug discovery and biological research, the Nobel Prize in Chemistry, and what this tells us about AI's potential to accelerate scientific discovery in health and medicine.",
+      "estimated_words": 500,
+      "tags": [
+        "people",
+        "AI",
+        "proteins"
+      ]
+    },
+    {
+      "id": "pt_history_penicillin",
+      "type": "historical",
+      "title": "The Penicillin Story: From Mold to Medicine",
+      "prompt_template": "Write a historical segment about the discovery and development of penicillin. Cover Fleming's serendipitous observation, the decade-long gap before Florey and Chain's clinical development, wartime mass production challenges, how penicillin saved millions of lives in WWII, and the irony that Fleming himself warned about antibiotic resistance in his 1945 Nobel lecture — a warning we're still failing to heed.",
+      "estimated_words": 600,
+      "tags": [
+        "history",
+        "antibiotics",
+        "discovery"
+      ]
+    },
+    {
+      "id": "pt_history_human_genome",
+      "type": "historical",
+      "title": "The Human Genome Project: Decoding Life",
+      "prompt_template": "Write a historical segment about the Human Genome Project. Cover the ambitious 1990 launch, the race between the public consortium and Craig Venter's Celera, the 2003 completion announcement, how the $3 billion project led to $1000 genomes today, what we expected to find vs what we actually learned (far fewer genes than predicted), and how genomics has transformed medicine.",
+      "estimated_words": 600,
+      "tags": [
+        "history",
+        "genetics",
+        "genomics"
+      ]
+    },
+    {
+      "id": "pt_contrarian_supplements_v2",
+      "type": "contrarian",
+      "title": "Contrarian: Do Supplements Actually Work?",
+      "prompt_template": "Write a balanced contrarian segment examining the supplement industry. Cover supplements with strong evidence (vitamin D in deficiency, folate in pregnancy, omega-3 for cardiovascular health), supplements with weak or no evidence (most multivitamins, collagen, many nootropics), the regulatory gap (supplements aren't FDA-approved), the bioavailability problem, and what the evidence actually says about getting nutrients from food vs pills.",
+      "estimated_words": 600,
+      "tags": [
+        "supplements",
+        "debate",
+        "evidence"
+      ]
+    },
+    {
+      "id": "pt_contrarian_screen_time",
+      "type": "contrarian",
+      "title": "Contrarian: Is Screen Time Really Harmful?",
+      "prompt_template": "Write a balanced contrarian segment about screen time and health. Cover the moral panic narrative (screens are destroying our brains), the nuanced research (correlation vs causation problems, Jonathan Haidt vs Andrew Przybylski debate), what the actual meta-analyses show about cognitive effects, the difference between passive scrolling and active use, and practical evidence-based recommendations rather than blanket fear.",
+      "estimated_words": 600,
+      "tags": [
+        "neuroscience",
+        "debate",
+        "technology"
+      ]
+    },
+    {
+      "id": "pt_utility_read_study",
+      "type": "utility",
+      "title": "How to Read a Medical Study",
+      "prompt_template": "Write a practical utility segment teaching listeners how to evaluate medical research. Cover the hierarchy of evidence (case reports to meta-analyses), how to spot a good vs bad study (sample size, control groups, blinding, p-values), the difference between relative and absolute risk reduction, why 'correlation does not imply causation' matters, and red flags in health reporting (cherry-picked data, press release science).",
+      "estimated_words": 600,
+      "tags": [
+        "education",
+        "research",
+        "literacy"
+      ]
+    },
+    {
+      "id": "pt_guide_preventive",
+      "type": "listener_guide",
+      "title": "Listener Guide: Evidence-Based Preventive Health",
+      "prompt_template": "Write a practical listener guide covering evidence-based preventive health measures. Cover the screenings that actually save lives (and which are over-hyped), vaccination schedules for adults, the exercise dose-response curve (how much is enough?), evidence-based dietary patterns (Mediterranean, DASH), sleep hygiene fundamentals, and stress management techniques with actual clinical evidence. No wellness industry hype — just what the research supports.",
+      "estimated_words": 600,
+      "tags": [
+        "guide",
+        "prevention",
+        "health"
+      ]
+    },
+    {
+      "id": "pt_guide_genetic_testing",
+      "type": "listener_guide",
+      "title": "Listener Guide: Consumer Genetic Testing",
+      "prompt_template": "Write a practical listener guide about consumer genetic testing. Cover what 23andMe/AncestryDNA actually test (SNP arrays vs whole genome sequencing), how to interpret health risk reports (what a '1.3x increased risk' actually means), pharmacogenomics (how your genes affect drug response), the privacy implications of sharing genetic data, and when to see a genetic counselor vs relying on consumer results.",
+      "estimated_words": 600,
+      "tags": [
+        "guide",
+        "genetics",
+        "practical"
+      ]
     }
   ]
 }

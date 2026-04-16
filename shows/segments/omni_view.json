@@ -112,6 +112,134 @@
       "prompt_template": "Write a deep-dive segment about digital rights and online privacy. Cover GDPR, data broker industry, surveillance capitalism, end-to-end encryption debates, government surveillance programs, and the balance between security and privacy. Reference current legislative efforts and give practical privacy tips.",
       "estimated_words": 600,
       "tags": ["technology", "privacy", "rights"]
+    },
+    {
+      "id": "ov_global_trade",
+      "type": "deep_dive",
+      "title": "How Global Trade Really Works",
+      "prompt_template": "Write a deep-dive segment explaining how global trade works in practice. Cover the WTO and its dispute resolution mechanism, bilateral and multilateral trade agreements, tariffs vs non-tariff barriers, supply chain dependencies, the role of shipping chokepoints (Suez Canal, Strait of Malacca, Panama Canal), and how trade wars affect everyday consumers. Use recent examples of trade disputes and their real-world consequences.",
+      "estimated_words": 600,
+      "tags": ["trade", "economics", "globalization"]
+    },
+    {
+      "id": "ov_history_civil_rights_movements",
+      "type": "historical",
+      "title": "Civil Rights Movements That Changed the World",
+      "prompt_template": "Write a historical segment about transformative civil rights movements across different countries and eras. Cover the US civil rights movement, the anti-apartheid struggle in South Africa, India's independence movement, the Solidarity movement in Poland, and the Velvet Revolution in Czechoslovakia. Draw out common patterns: nonviolent resistance, legal strategies, media coverage, coalition building. Explain how these movements influenced each other across borders and generations.",
+      "estimated_words": 600,
+      "tags": ["history", "civil rights", "social movements"]
+    },
+    {
+      "id": "ov_profile_world_bank_imf",
+      "type": "profile",
+      "title": "Profile: The World Bank and the IMF",
+      "prompt_template": "Write a profile segment about the World Bank and the International Monetary Fund. Cover their founding at Bretton Woods in 1944, how they differ from each other (development lending vs monetary stability), their governance structure and voting power imbalances, controversial structural adjustment programs, and the ongoing debate about whether these institutions help or hinder developing economies. Use concrete case studies from both their successes and failures.",
+      "estimated_words": 500,
+      "tags": ["institutions", "finance", "development"]
+    },
+    {
+      "id": "ov_electoral_integrity",
+      "type": "deep_dive",
+      "title": "Election Security: How Democracies Protect the Vote",
+      "prompt_template": "Write a deep-dive segment about election security and integrity worldwide. Cover voter ID systems and their trade-offs, paper ballots vs electronic voting, independent election commissions, international election observers, gerrymandering and redistricting, voter roll maintenance, and how different countries prevent fraud while maximizing legitimate access. Present multiple viewpoints on contested issues with concrete data from countries like Estonia (digital voting), India (biometric ID), Germany (paper-only), and the United States.",
+      "estimated_words": 600,
+      "tags": ["elections", "democracy", "security"]
+    },
+    {
+      "id": "ov_contrarian_social_media_regulation",
+      "type": "contrarian",
+      "title": "Debate: Should Governments Regulate Social Media?",
+      "prompt_template": "Write a balanced debate segment about government regulation of social media platforms. Present arguments for regulation (algorithmic amplification of extremism, youth mental health harms, election interference, monopoly power) alongside arguments against (free speech concerns, government overreach, innovation stifling, definitional problems of harmful content, regulatory capture). Reference the EU Digital Services Act, Australia's News Media Bargaining Code, US Section 230, and the global TikTok debate. Let listeners weigh the evidence themselves.",
+      "estimated_words": 600,
+      "tags": ["social media", "regulation", "debate"]
+    },
+    {
+      "id": "ov_food_systems",
+      "type": "deep_dive",
+      "title": "Global Food Systems: From Farm to Fork",
+      "prompt_template": "Write a deep-dive segment explaining how global food systems work. Cover industrial agriculture and its environmental footprint, the role of commodity trading firms (Cargill, ADM, Bunge), food price volatility and its political consequences (the Arab Spring link), food sovereignty movements, the geography of hunger vs food waste, and how climate change threatens crop yields. Present the data clearly and neutrally, acknowledging the tension between feeding 8 billion people efficiently and doing so sustainably.",
+      "estimated_words": 600,
+      "tags": ["food", "agriculture", "systems"]
+    },
+    {
+      "id": "ov_profile_interpol",
+      "type": "profile",
+      "title": "Profile: Interpol — The World's Police Network",
+      "prompt_template": "Write a profile segment about Interpol. Cover how it actually works (coordination, not jurisdiction), its Red Notice system, the ICPO structure spanning 195 member countries, its databases for stolen passports and fingerprints, controversies around authoritarian regimes misusing Red Notices for political persecution, and how Interpol coordinates responses to cybercrime, human trafficking, and terrorism. Dispel common misconceptions from movies and TV.",
+      "estimated_words": 500,
+      "tags": ["institutions", "law enforcement", "international"]
+    },
+    {
+      "id": "ov_water_crisis",
+      "type": "deep_dive",
+      "title": "The Global Water Crisis Explained",
+      "prompt_template": "Write a deep-dive segment about the global water crisis. Cover which regions face acute water stress (Middle East, North Africa, Central Asia, parts of India), the difference between physical and economic water scarcity, aquifer depletion and groundwater overdraft, transboundary water disputes (Nile, Indus, Colorado River), desalination technology and its energy cost, water privatization debates, and what successful water management looks like (Singapore, Israel). Present the data alongside human stories.",
+      "estimated_words": 600,
+      "tags": ["water", "resources", "crisis"]
+    },
+    {
+      "id": "ov_history_pandemics",
+      "type": "historical",
+      "title": "A History of Pandemics and How They Changed Society",
+      "prompt_template": "Write a historical segment about major pandemics and their societal impacts. Cover the Black Death and its role in ending feudalism, the 1918 flu and its lessons about public health communication, smallpox eradication as humanity's greatest public health triumph, HIV/AIDS and the activist movement that transformed drug approval processes, and COVID-19's reshaping of work and public trust. Focus on how each pandemic changed institutions, economics, and social norms in ways that outlasted the disease itself.",
+      "estimated_words": 600,
+      "tags": ["history", "pandemics", "public health"]
+    },
+    {
+      "id": "ov_ai_governance",
+      "type": "deep_dive",
+      "title": "AI Governance: Who Makes the Rules?",
+      "prompt_template": "Write a deep-dive segment about the emerging landscape of AI governance. Cover the EU AI Act and its risk-based framework, the US executive orders and voluntary industry commitments, China's algorithm and deepfake regulations, the UK's sector-based approach, and the G7 Hiroshima AI Process. Explain where these approaches converge and diverge, the challenge of regulating technology that evolves faster than legislation, and why international coordination is proving so difficult. Keep the tone analytical and balanced.",
+      "estimated_words": 600,
+      "tags": ["AI", "governance", "regulation"]
+    },
+    {
+      "id": "ov_utility_news_diet",
+      "type": "utility",
+      "title": "Building a Healthy News Diet",
+      "prompt_template": "Write a practical utility segment about building a healthy news diet. Cover how to balance breadth and depth in news consumption, the case for reading one quality daily newspaper thoroughly vs scrolling many feeds, international sources worth following (BBC World, DW, Al Jazeera English, NHK World), the value of long-form journalism and newsletters, how to use RSS readers and news aggregators effectively, setting boundaries to avoid doomscrolling, and how to stay informed without burning out. Provide a concrete weekly news routine listeners can adopt.",
+      "estimated_words": 500,
+      "tags": ["utility", "news", "media literacy"]
+    },
+    {
+      "id": "ov_energy_transition",
+      "type": "deep_dive",
+      "title": "The Global Energy Transition: Facts and Trade-offs",
+      "prompt_template": "Write a deep-dive segment about the global energy transition. Cover the growth of solar and wind (capacity additions, cost curves, the learning rate), the grid integration challenge (intermittency, storage, transmission), the nuclear debate (SMRs, existing fleet life extensions), natural gas as a bridge fuel, the geopolitics of critical minerals (lithium, cobalt, rare earths), and how different countries are approaching the transition at different speeds. Present the engineering and economic trade-offs honestly without advocating for a specific solution.",
+      "estimated_words": 600,
+      "tags": ["energy", "transition", "climate"]
+    },
+    {
+      "id": "ov_profile_ngos",
+      "type": "profile",
+      "title": "Profile: The World's Largest Humanitarian NGOs",
+      "prompt_template": "Write a profile segment about the world's largest humanitarian NGOs. Cover Doctors Without Borders (MSF), the International Committee of the Red Cross, Oxfam, Save the Children, and CARE International. Explain how each organization is structured and funded, what makes their approaches different, the principle of humanitarian neutrality, the accountability challenges NGOs face, and how aid effectiveness is measured. Reference specific operations where these organizations made a documented difference.",
+      "estimated_words": 500,
+      "tags": ["NGOs", "humanitarian", "institutions"]
+    },
+    {
+      "id": "ov_contrarian_universal_basic_income",
+      "type": "contrarian",
+      "title": "Debate: Universal Basic Income — Freedom or Folly?",
+      "prompt_template": "Write a balanced debate segment about universal basic income. Present arguments in favor (automation displacement, poverty reduction, administrative simplicity, freedom to pursue education and caregiving) alongside arguments against (fiscal cost, inflation risk, labor supply reduction, moral hazard, political feasibility). Reference actual UBI experiments: Finland's pilot, Stockton SEED, GiveDirectly in Kenya, and Alaska's Permanent Fund Dividend. Present the data from these trials honestly, including where results were ambiguous or contested.",
+      "estimated_words": 600,
+      "tags": ["UBI", "economics", "debate"]
+    },
+    {
+      "id": "ov_history_international_courts",
+      "type": "historical",
+      "title": "From Nuremberg to The Hague: A History of International Justice",
+      "prompt_template": "Write a historical segment about the evolution of international justice. Cover the Nuremberg and Tokyo tribunals after WWII, the concept of crimes against humanity entering law, the ad hoc tribunals for Yugoslavia and Rwanda, the establishment of the International Criminal Court in 2002, its mandate and limitations, notable cases and convictions, the US and other non-member positions, and the fundamental tension between sovereignty and accountability. Explain why international justice is slow, imperfect, and still considered essential by many.",
+      "estimated_words": 600,
+      "tags": ["history", "law", "international justice"]
+    },
+    {
+      "id": "ov_supply_chains",
+      "type": "deep_dive",
+      "title": "Inside Global Supply Chains: Why Everything Is Connected",
+      "prompt_template": "Write a deep-dive segment about modern global supply chains. Cover the container shipping revolution, just-in-time vs just-in-case manufacturing, semiconductor supply chain concentration (TSMC and Taiwan), pharmaceutical ingredient sourcing from India and China, the lessons from COVID disruptions and the Suez Canal blockage, reshoring and friendshoring trends, and how a single component shortage can halt production across industries. Explain why supply chain resilience is now a national security concern for multiple governments.",
+      "estimated_words": 600,
+      "tags": ["supply chains", "trade", "manufacturing"]
     }
   ]
 }
