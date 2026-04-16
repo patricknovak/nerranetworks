@@ -1276,8 +1276,10 @@ def run(args: argparse.Namespace) -> None:
 
         # 8b. Minimum podcast script length gate — catch LLM garbage before
         #     spending TTS credits on a worthless episode.  Short-but-coherent
-        #     scripts are fine; only abort on clear garbage (<1000 words).
-        _MIN_SCRIPT_WORDS = 1000
+        #     scripts are fine; only abort on clear garbage.  Per-show config
+        #     (min_podcast_words) takes precedence over the 1000-word default
+        #     to accommodate shorter shows like language-learning podcasts.
+        _MIN_SCRIPT_WORDS = getattr(config.llm, "min_podcast_words", 1000) or 1000
         _script_word_count = len(podcast_script.split())
         if _script_word_count < _MIN_SCRIPT_WORDS:
             logger.error(

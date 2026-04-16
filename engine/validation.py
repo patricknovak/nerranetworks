@@ -39,6 +39,13 @@ _REPETITION_ALLOWLIST = {
     # Podcast-common phrases
     "this week", "last week", "this year", "last year",
     "this morning", "right now", "let's talk",
+    # Language-learning pedagogical phrases (Privet Russian, etc.)
+    # These SHOULD repeat in educational content — they're teaching tools.
+    "repeat after me", "it sounds like", "that means i",
+    "sounds like the", "in russian we", "in russian the",
+    "the russian word", "say it with", "try saying it",
+    "let's practice", "one more time", "memory hook sounds",
+    "hook sounds like", "now let's try",
 }
 
 
