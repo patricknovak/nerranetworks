@@ -502,6 +502,16 @@ def check_leaked_artifacts(ep: EpisodeReview) -> None:
         (r"(?i)as an AI language model", "AI self-reference leaked"),
         (r"(?i)I('m| am) (an AI|a language model|ChatGPT|Claude)", "AI identity leaked"),
         (r"Source:\s*https?://", "Source URL in podcast script"),
+        # Word count and timing targets that leak from prompt into spoken script
+        (r"(?i)\b\d{3,4}\s+words?\b", "Word count target leaked into script"),
+        (r"(?i)\b\d+\s*[-–]\s*\d+\s*(minute|second)s?\s+(of\s+audio|episode|podcast)\b",
+         "Timing target leaked into script"),
+        (r"(?i)producing\s+a\s+\d+", "Episode length target leaked into script"),
+        (r"(?i)at\s+least\s+\d[\d,]*\s+words", "Minimum word count leaked into script"),
+        (r"(?i)target:\s*\d+", "Target directive leaked into script"),
+        # Bracketed section labels that should have been stripped
+        (r"\[(?:Intro|Hook|Closing|Segment|Market Pulse|Strategy)\s*[-–—]",
+         "Bracketed section label in script"),
     ]
 
     # Only check TTS text for spoken artifacts
@@ -953,6 +963,65 @@ def check_story_duplication(ep: EpisodeReview) -> None:
             f"high proper-noun overlap. The same story may be covered twice.",
             file_path=str(ep.tts_path or ep.digest_path or ""),
         ))
+
+
+def check_content_freshness(episodes: List[EpisodeReview], target_date: datetime.date) -> None:
+    """Check for signs of content repetition and stale content using metrics.
+
+    Flags episodes where:
+    - cross_episode_repeats is high (content tracker found many recent duplicates)
+    - slow_news_mode triggered for 3+ consecutive days (chronic staleness)
+    - The same hook/lead story appeared in consecutive episodes
+    """
+    for ep in episodes:
+        counters = ep.metrics.get("counters", {}) if ep.metrics else {}
+
+        # High cross-episode repeats means the LLM is recycling stories
+        repeats = counters.get("cross_episode_repeats", 0)
+        if repeats >= 5:
+            ep.issues.append(Issue(
+                ep.show_slug, ep.episode_num, "warning",
+                f"High cross-episode repetition ({repeats} stories)",
+                f"The content tracker found {repeats} stories in this episode that were "
+                f"already covered in recent episodes. This indicates the show may be "
+                f"repeating content across days. Check that {{recent_content_summary}} is "
+                f"wired into the digest prompt (shows/prompts/{{slug}}_digest.txt) and "
+                f"that the content tracker JSON is being updated correctly.\n"
+                f"  Config: shows/{ep.show_slug}.yaml\n"
+                f"  Prompt: shows/prompts/{ep.show_slug}_digest.txt\n"
+                f"  Tracker: digests/{ep.show_slug}/{ep.show_slug}_content_tracker.json",
+            ))
+
+        # Check for chronic slow news mode by looking at recent metrics
+        if counters.get("slow_news_mode"):
+            output_dir = SHOW_REGISTRY.get(ep.show_slug, {}).get("output_dir", "")
+            if output_dir:
+                metrics_dir = PROJECT_ROOT / output_dir
+                recent_slow = 0
+                for d in range(1, 6):
+                    prev_date = target_date - datetime.timedelta(days=d)
+                    # Find any metrics file for that date
+                    for mf in metrics_dir.glob(f"metrics_ep*.json"):
+                        try:
+                            m = json.loads(mf.read_text())
+                            if m.get("counters", {}).get("slow_news_mode"):
+                                recent_slow += 1
+                                break
+                        except Exception:
+                            pass
+                if recent_slow >= 3:
+                    ep.issues.append(Issue(
+                        ep.show_slug, ep.episode_num, "warning",
+                        f"Chronic slow news mode ({recent_slow + 1} recent episodes)",
+                        f"This show has been in slow news mode for {recent_slow + 1} of "
+                        f"the last {recent_slow + 1} episodes. This may indicate stale RSS "
+                        f"sources, an overly aggressive content tracker, or insufficient "
+                        f"source diversity. Consider:\n"
+                        f"  - Running a feed audit: python scripts/audit_feeds.py\n"
+                        f"  - Adding more RSS sources to shows/{ep.show_slug}.yaml\n"
+                        f"  - Expanding slow news segments: shows/segments/{ep.show_slug}.json\n"
+                        f"  - Checking content tracker cooldown settings",
+                    ))
 
 
 # ---------------------------------------------------------------------------
@@ -1425,10 +1494,34 @@ def format_for_claude(
         lines.append(f"- {ep.show_name} Ep{ep.episode_num:03d} ({ep.date}{dur_str}): {status}")
 
     lines.append("")
-    lines.append("For each issue above, investigate the file, determine if the episode "
-                 "content is salvageable or needs regeneration, and fix what you can. "
-                 "For critical issues, consider whether the episode should be removed "
-                 "from the RSS feed entirely.")
+    lines.append("## Fix Instructions")
+    lines.append("")
+    lines.append("For each issue above:")
+    lines.append("1. Read the file listed for that issue")
+    lines.append("2. Determine if the content is salvageable or needs regeneration")
+    lines.append("3. For **LLM artifacts** (word counts, timing targets, section labels): "
+                 "Edit the TTS script to remove the leaked text, then check if the same "
+                 "pattern exists in the show's podcast prompt (shows/prompts/{slug}_podcast.txt) "
+                 "and add it to the PRODUCTION NOTES 'do not include' list if missing")
+    lines.append("4. For **cross-episode repetition**: Verify that {recent_content_summary} "
+                 "is present in the show's digest prompt (shows/prompts/{slug}_digest.txt). "
+                 "If missing, add it near the freshness instructions section")
+    lines.append("5. For **broken RSS sources**: Remove the dead URL from the show's YAML "
+                 "config (shows/{slug}.yaml) and add it to shows/_blocked_sources.yaml")
+    lines.append("6. For **missed episodes**: Check GitHub Actions workflow logs for the "
+                 "show's cron trigger. Common causes: pipeline timeout, LLM refusal, "
+                 "repetition detector false positive, broken RSS sources")
+    lines.append("7. For **critical quality issues** (score <=3, incoherent, extremely short): "
+                 "Consider removing the episode from the RSS feed using edit-rss-episode.py")
+    lines.append("")
+    lines.append("Key files:")
+    lines.append("- Show configs: shows/*.yaml")
+    lines.append("- Digest prompts: shows/prompts/*_digest.txt")
+    lines.append("- Podcast prompts: shows/prompts/*_podcast.txt")
+    lines.append("- Content tracker: digests/{slug}/{slug}_content_tracker.json")
+    lines.append("- Slow news segments: shows/segments/{slug}.json")
+    lines.append("- Blocked sources: shows/_blocked_sources.yaml")
+    lines.append("- Pipeline code: run_show.py, engine/generator.py, engine/validation.py")
 
     return "\n".join(lines)
 
@@ -1484,6 +1577,7 @@ def run_review(
 
     # Cross-episode checks
     check_cross_episode_duplicates(episodes)
+    check_content_freshness(episodes, target_date)
 
     # Optional AI review
     if os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY"):
