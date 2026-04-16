@@ -1,6 +1,6 @@
 name: Planetterrian Daily
 slug: planetterrian
-description: "Longevity, biotech, genetics, and medicine — breakthroughs that extend healthy human lifespan. Daily briefings on Nature/Science papers, clinical trials, gene therapy, CRISPR, and the biotech startups shaping the next decade of health."
+description: "Science, longevity, and health discoveries — neuroscience, microbiome, cellular aging biology, sleep and circadian science, nutrition research, genetics, and regenerative biology. Daily briefings on Nature/Science papers and primary research that extend our understanding of healthy human lifespan. Pharma dealmaking and incremental drug-trial readouts are deliberately minimized in favour of broader scientific advances."
 
 sources:
   - url: https://www.nature.com/nature.rss
@@ -61,10 +61,10 @@ sources:
     label: Endpoints News
 
 web_search_queries:
-  - "longevity anti-aging research news"
-  - "biotechnology breakthrough news today"
-  - "medical science discovery"
-  - "CRISPR gene therapy news"
+  - "longevity aging biology research"
+  - "neuroscience discovery news"
+  - "microbiome sleep circadian research"
+  - "genetics epigenetics stem cell research breakthrough"
 
 min_articles_skip: 2
 
@@ -106,6 +106,56 @@ keywords:
   - fitness
   - metabolism
   - mitochondria
+  # Non-drug advancement areas — counterweight to pharma-trade source bias.
+  - microbiome
+  - gut bacteria
+  - sleep
+  - circadian
+  - epigenetics
+  - stem cell
+  - regenerative
+  - senescence
+  - telomere
+  - autophagy
+  - protein folding
+  - cell biology
+  - molecular biology
+  - physiology
+  - bioengineering
+  - biomaterials
+  - bioprinting
+  - organoid
+  - imaging
+  - diagnostic
+  - biomarker
+  - circadian rhythm
+  - REM sleep
+  - cognition
+  - memory
+  - plasticity
+  - blood-brain barrier
+  - synapse
+  - neural
+  - EEG
+  - fMRI
+  - public health
+  - epidemiology
+  - environmental health
+  - nutrition science
+  - exercise physiology
+  - VO2 max
+  - insulin sensitivity
+  - glucose
+  - heart rate variability
+  - cardiovascular health
+  - gut-brain
+  - evolution
+  - animal model
+  - zebrafish
+  - fruit fly
+  - C. elegans
+  - yeast aging
+  - mouse lifespan
 
 llm:
   provider: xai
@@ -144,8 +194,8 @@ audio:
 publishing:
   rss_file: planetterrian_podcast.rss
   rss_title: Planetterrian Daily
-  rss_description: "Daily science, longevity, and health discoveries. A tribe of forward-thinking innovators passionate about the planet, intertwining technology and compassion."
-  rss_summary: "Daily science, longevity, and health discoveries. Technology as a force for good, sustainability, and environmental consciousness."
+  rss_description: "Daily science, longevity, and health discoveries across neuroscience, microbiome, cellular aging biology, sleep research, nutrition science, genetics, and regenerative biology. We deliberately minimize drug-industry dealmaking in favour of the broader research shaping how we understand the body."
+  rss_summary: "Daily science, longevity, and health discoveries — neuroscience, microbiome, sleep, nutrition, genetics, and cellular aging biology. Research-first, not pharma-trade."
   rss_link: https://nerranetwork.com/planetterrian.html
   rss_author: Patrick
   rss_email: patrick@planetterrian.com
