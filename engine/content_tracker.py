@@ -357,15 +357,18 @@ def _extract_bold_headlines(text: str, max_items: int = 20) -> List[str]:
 
 
 def _normalize_url_for_dedup(url: str) -> str:
-    """Strip query params and trailing slashes for URL-based dedup.
+    """Strip query params, fragments, trailing slashes, and protocol for URL-based dedup.
 
     Different sources may syndicate the same story under different UTM
-    parameters.  We compare the path only, lowercased.
+    parameters, http vs https, or with/without trailing slashes.
+    We compare netloc + path only, lowercased and normalized.
     """
     from urllib.parse import urlparse
 
     p = urlparse(url.strip().lower())
-    return (p.netloc + p.path).rstrip("/")
+    # Strip 'www.' prefix so www.example.com and example.com match
+    netloc = p.netloc.removeprefix("www.")
+    return (netloc + p.path).rstrip("/")
 
 
 def _extract_deep_dive_topic(text: str) -> Optional[str]:

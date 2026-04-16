@@ -47,7 +47,11 @@ jobs:
             echo "No new report to commit"
           else
             git commit -m "Feed audit report $(date +%Y-%m-%d)"
-            git push
+            for attempt in 1 2 3 4; do
+              git pull --rebase origin main && git push origin main && break
+              echo "Push failed (attempt $attempt), retrying in $((attempt * 2))s..."
+              sleep $((attempt * 2))
+            done
           fi
 
       - name: Warn if unhealthy feeds

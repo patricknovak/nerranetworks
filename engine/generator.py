@@ -616,8 +616,6 @@ def _strip_metadata_from_script(script: str) -> str:
     This is a blunt regex pass that runs BEFORE the line-by-line sanitizer
     below.  It catches metadata patterns regardless of line structure.
     """
-    import re
-
     patterns_to_remove = [
         # Bracketed production-notes blocks that the LLM copied from the prompt
         r"\[PRODUCTION NOTES[^\]]*\][\s\S]*?\[END PRODUCTION NOTES\]",

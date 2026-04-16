@@ -30,6 +30,7 @@ tts:
   apply_text_normalization: "on"
 
 audio:
+  min_audio_duration: 180
   transition_sting: assets/music/transition_sting.mp3
   voice_intro_delay: 5.0
   intro_duration: 5.0

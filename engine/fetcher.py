@@ -6,6 +6,7 @@ Provides:
 
 import datetime
 import logging
+import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from threading import Lock
@@ -38,7 +39,6 @@ def _strip_html(text: str) -> str:
     Google News RSS feeds (and some Reddit feeds) return HTML in the
     description field. This cleans it to plain text.
     """
-    import re
     if not text or "<" not in text:
         return text
     clean = re.sub(r"<[^>]+>", " ", text)

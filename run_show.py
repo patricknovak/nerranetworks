@@ -1544,7 +1544,7 @@ def run(args: argparse.Namespace) -> None:
             _mix_duration = time.monotonic() - t0
             logger.info("Audio mixing took %.1fs", _mix_duration)
             metrics.record("audio_mix_duration_s", round(_mix_duration, 2))
-            audio_duration = get_audio_duration(final_mp3)
+            audio_duration = get_audio_duration(final_mp3) or 0.0
             logger.info("Final audio: %s (%.0fs)", final_mp3.name, audio_duration)
 
             # 10-gate. Skip episode if audio is too short to be a quality episode.

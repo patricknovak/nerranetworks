@@ -273,7 +273,21 @@ def update_rss_feed(
                 if num not in episodes_by_number:
                     episodes_by_number[num] = ep_data
                 else:
-                    # Keep the one with the more recent GUID timestamp
+                    # Keep the one with the more recent pubDate (falls back
+                    # to GUID suffix if pubDate is missing or unparseable).
+                    old_pub = episodes_by_number[num].get("pubDate", "")
+                    new_pub = ep_data.get("pubDate", "")
+                    if old_pub and new_pub:
+                        try:
+                            from email.utils import parsedate_to_datetime
+                            old_dt = parsedate_to_datetime(old_pub)
+                            new_dt = parsedate_to_datetime(new_pub)
+                            if new_dt > old_dt:
+                                episodes_by_number[num] = ep_data
+                            continue
+                        except Exception:
+                            pass
+                    # Fallback: compare GUID timestamps
                     old_guid = episodes_by_number[num].get("guid", "")
                     new_guid = ep_data.get("guid", "")
                     old_ts = old_guid.split("-")[-1] if "-" in old_guid else "000000"
@@ -325,7 +339,7 @@ def update_rss_feed(
         logger.info("Migrated %d episode URL(s) from GitHub raw to R2 CDN", migrated_count)
 
     # --- Build new episode metadata ----------------------------------------
-    current_time_str = datetime.datetime.now().strftime("%H%M%S")
+    current_time_str = datetime.datetime.now().strftime("%H%M%S%f")
     new_guid = f"{guid_prefix}-ep{episode_num:03d}-{episode_date:%Y%m%d}-{current_time_str}"
 
     # --- Collect all episodes, then add in descending order ----------------
@@ -1039,7 +1053,7 @@ def scan_existing_episodes_from_files(
                 episode_date = _dt.datetime.strptime(date_str, "%Y%m%d").date()
 
                 file_size = mp3_file.stat().st_size if mp3_file.exists() else 0
-                duration = get_audio_duration_func(mp3_file)
+                duration = get_audio_duration_func(mp3_file) or 0.0
 
                 episodes.append({
                     "episode_num": ep_num,
