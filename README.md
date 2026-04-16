@@ -25,9 +25,13 @@ All shows are produced independently in Vancouver, Canada.
 | **Modern Investing Techniques** | Weekdays | [Player](https://nerranetwork.com/modern-investing.html) | [RSS](https://nerranetwork.com/modern_investing_podcast.rss) |
 | **Привет, Русский!** | Even days | [Player](https://nerranetwork.com/ru/privet-russian.html) | [RSS](https://nerranetwork.com/privet_russian_podcast.rss) |
 
-## Apple Podcasts
+## Listen
 
-- [Tesla Shorts Time](https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939)
+All 10 shows are available on **Apple Podcasts**, **Spotify**, and via **RSS**.
+
+**Spotify:** [Tesla Shorts Time](https://open.spotify.com/show/7I1DIaUaSlVsYliigOe6sS) | [Fascinating Frontiers](https://open.spotify.com/show/61S2fHlitcYUZZ0PmCkJYE) | [Models & Agents](https://open.spotify.com/show/28dfMGTVsgQxPuUs7YoJYD) | [M&A Beginners](https://open.spotify.com/show/7vRUrQAJWzOB729A9aVDd5) | [Planetterrian](https://open.spotify.com/show/0GgrsEDFLaZfTOQkQm5DI2)
+
+**Apple Podcasts:** [Tesla Shorts Time](https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939)
 
 ## Architecture
 
