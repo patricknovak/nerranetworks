@@ -32,6 +32,8 @@ RSS_FEEDS = {
     "models_agents": PROJECT_ROOT / "models_agents_podcast.rss",
 }
 
+# Minimum episode counts — tests use >= so new episodes don't break CI.
+# Update these only when episodes are removed.
 EXPECTED_EPISODE_COUNTS = {
     "tesla": 49,
     "omni": 4,

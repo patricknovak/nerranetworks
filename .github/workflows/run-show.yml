@@ -286,7 +286,7 @@ jobs:
           R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          PIPELINE_TIMEOUT_SECONDS: '900'
+          PIPELINE_TIMEOUT_SECONDS: '2400'
 
       - name: Validate output
         if: steps.pipeline.outputs.skipped != 'true'

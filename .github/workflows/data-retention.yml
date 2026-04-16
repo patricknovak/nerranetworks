@@ -43,4 +43,10 @@ jobs:
             exit 0
           fi
           git commit -m "Monthly data retention: archive files older than ${{ inputs.keep_days || '180' }}d"
-          git push
+          for attempt in 1 2 3 4; do
+            git pull --rebase origin main && git push origin main && exit 0
+            echo "Push failed (attempt $attempt), retrying in $((attempt * 2))s..."
+            sleep $((attempt * 2))
+          done
+          echo "All push attempts failed"
+          exit 1

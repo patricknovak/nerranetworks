@@ -313,10 +313,10 @@ def speak_chunk(
     # Defense-in-depth: sanitize text before sending to ElevenLabs
     text = _sanitize_for_elevenlabs(text)
     if not text:
-        logger.warning("speak_chunk: text is empty after sanitization, skipping")
-        # Write a silent MP3 so downstream concat doesn't break
-        Path(out_path).write_bytes(b"")
-        return
+        raise ValueError(
+            "speak_chunk: text is empty after sanitization — refusing to "
+            "produce a silent chunk that would degrade audio quality"
+        )
 
     url = "/".join([ELEVENLABS_API_BASE, "text-to-speech", voice_id, "stream"])
 
@@ -471,7 +471,10 @@ def _speak_with_model(
         len(chunks),
     )
     chunk_files: List[Path] = []
-    tmp_dir = Path(filename).parent
+    # Use a unique temp directory per synthesis run to avoid chunk filename
+    # collisions when multiple shows run in parallel on the same machine.
+    import tempfile as _tmpmod
+    tmp_dir = Path(_tmpmod.mkdtemp(prefix="tts_", dir=str(Path(filename).parent)))
 
     # Context window for previous_text / next_text conditioning.
     # ElevenLabs recommends ~1000 chars of context for prosody continuity.
@@ -575,6 +578,13 @@ def _speak_with_model(
                 tmp_file.unlink()
             except Exception:
                 pass
+        # Remove the per-run temp directory (created above to isolate
+        # parallel synthesis runs from each other).
+        try:
+            if tmp_dir.exists() and tmp_dir != Path(filename).parent:
+                tmp_dir.rmdir()  # only removes if empty
+        except Exception:
+            pass
 
 
 def synthesize(

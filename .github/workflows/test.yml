@@ -29,6 +29,10 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
+          pip install ruff
+
+      - name: Lint with ruff
+        run: ruff check engine/ run_show.py --select=E9,F63,F7,F82 --no-fix
 
       - name: Run tests
         run: python -m pytest tests/ -x -q --tb=short

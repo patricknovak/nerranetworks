@@ -10,7 +10,6 @@ Pronunciation tests for the shared module live in test_pronunciation.py.
 """
 
 import re
-from difflib import SequenceMatcher
 from pathlib import Path
 
 import pytest

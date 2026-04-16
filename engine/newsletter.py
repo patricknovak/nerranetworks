@@ -155,6 +155,9 @@ def send_newsletter(
     str or None
         The email ID on success, ``None`` on failure.
     """
+    # Strip newlines from subject to prevent email header injection
+    subject = subject.replace("\r", "").replace("\n", " ").strip()
+
     data = {
         "subject": subject,
         "body": body,

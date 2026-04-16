@@ -47,11 +47,13 @@ _ENCODE_ARGS = ["-ar", "44100", "-c:a", "libmp3lame", "-b:a", "192k", "-preset",
 # Duration helpers
 # ---------------------------------------------------------------------------
 
-def get_audio_duration(path: Path) -> float:
-    """Return duration in seconds for an audio file.
+def get_audio_duration(path: Path) -> float | None:
+    """Return duration in seconds for an audio file, or *None* on failure.
 
     Results are cached to avoid redundant ``ffprobe`` calls within the
-    same process.
+    same process.  Returns ``None`` (not ``0.0``) when the file is missing
+    or unreadable so callers can distinguish errors from genuine 0-length
+    audio.
     """
     if path in _audio_duration_cache:
         return _audio_duration_cache[path]
@@ -74,7 +76,7 @@ def get_audio_duration(path: Path) -> float:
         return duration
     except Exception as exc:
         logger.warning("Unable to determine duration for %s: %s", path, exc)
-        return 0.0
+        return None
 
 
 def format_duration(seconds: float) -> str:
@@ -142,7 +144,7 @@ def normalize_voice(input_path: Path, output_path: Path) -> Path:
 
     Returns *output_path* on success.
     """
-    file_duration = get_audio_duration(input_path)
+    file_duration = get_audio_duration(input_path) or 0.0
     timeout_seconds = max(int(file_duration * 3) + 120, 600)
 
     try:
@@ -509,7 +511,7 @@ def mix_with_music(
         logger.warning("Music file %s not found — returning voice-only.", music_path)
         return normalize_voice(voice_path, output_path)
 
-    voice_duration = get_audio_duration(voice_path)
+    voice_duration = get_audio_duration(voice_path) or 0.0
     timeout_seconds = max(int(voice_duration * 3) + 120, 600)
 
     # Resolve the outro music source (primary or background)
