@@ -18,24 +18,24 @@ logger = logging.getLogger(__name__)
 # TTS pricing per 1000 characters
 ELEVENLABS_COST_PER_1K_CHARS = 0.15  # Flash v2.5: 0.5 credits/char = $0.15/1K chars
 
-# xAI Grok pricing per 1M tokens (input/output)
+# xAI Grok pricing per 1M tokens (input/output).
+# Only models actually reachable by the current code are listed — historical
+# ids (grok-2, grok-3, grok-3-mini, grok-4.20-0309-*) were pruned April 2026
+# once the audit confirmed no live call site resolves to them.
 GROK_PRICING = {
-    "grok-3": {"input_per_1m": 3.00, "output_per_1m": 15.00},
-    "grok-3-mini": {"input_per_1m": 0.30, "output_per_1m": 0.50},
+    # Grok 4 (previous refusal fallback — retained because historical
+    # credit_usage JSONs still report it, and _estimate_grok_cost may be
+    # re-run against them).
     "grok-4": {"input_per_1m": 3.00, "output_per_1m": 15.00},
-    # Grok 4.20 — alias and dated variants
+    # Grok 4.20 — current production family
     "grok-4.20-non-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
     "grok-4.20-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
     "grok-4.20-multi-agent": {"input_per_1m": 2.00, "output_per_1m": 6.00},
-    # Legacy dated variants — kept for historical cost reporting
-    "grok-4.20-0309-non-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
-    "grok-4.20-0309-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
-    "grok-4.20-multi-agent-0309": {"input_per_1m": 2.00, "output_per_1m": 6.00},
-    # Grok 4.1 Fast
+    # Dated beta snapshot — still referenced in ~40 historical usage JSONs
+    "grok-4.20-beta-0309-non-reasoning": {"input_per_1m": 2.00, "output_per_1m": 6.00},
+    # Grok 4.1 Fast — reviewer
     "grok-4-1-fast-non-reasoning": {"input_per_1m": 0.20, "output_per_1m": 0.50},
     "grok-4-1-fast-reasoning": {"input_per_1m": 0.20, "output_per_1m": 0.50},
-    # Legacy
-    "grok-2": {"input_per_1m": 2.00, "output_per_1m": 10.00},
 }
 
 
@@ -74,8 +74,27 @@ def create_tracker(show_name: str, episode_num: int) -> dict:
                 "total_calls": 0,
             },
         },
+        "refusal_fallbacks": {
+            "count": 0,
+            "events": [],  # list of {"stage": ..., "model": ...}
+        },
         "total_estimated_cost_usd": 0.0,
     }
+
+
+def record_refusal_fallback(tracker: dict, stage: str, model: str) -> None:
+    """Record that the refusal-fallback model fired for a given stage.
+
+    Spikes in this counter are a cost signal (fallback model may be priced
+    differently) and a prompt-regression signal (primary is refusing more
+    often). Keeping a structured event log is cheaper than parsing tracker
+    step names after the fact.
+    """
+    rf = tracker.setdefault(
+        "refusal_fallbacks", {"count": 0, "events": []}
+    )
+    rf["count"] = int(rf.get("count", 0)) + 1
+    rf.setdefault("events", []).append({"stage": stage, "model": model})
 
 
 def _estimate_grok_cost(
@@ -211,6 +230,13 @@ def save_usage(tracker: dict, output_dir: Path) -> Path | None:
             x_api["search_calls"],
             x_api["post_calls"],
         )
+        rf = tracker.get("refusal_fallbacks") or {}
+        if rf.get("count"):
+            logger.warning(
+                "Refusal fallback fired %d time(s): %s",
+                rf["count"],
+                ", ".join(f"{e['stage']}->{e['model']}" for e in rf.get("events", [])),
+            )
         logger.info("TOTAL ESTIMATED COST: $%.4f", tracker["total_estimated_cost_usd"])
         logger.info("=" * 60)
         logger.info("Credit usage saved to %s", filepath)

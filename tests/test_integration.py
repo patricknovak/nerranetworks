@@ -820,15 +820,25 @@ class TestSystemPrompts:
         assert sp_path.exists(), f"System prompt file not found: {sp_path}"
 
     def test_all_shows_use_grok420(self, show_slug):
-        """All shows should use grok-4.20-non-reasoning (auto-updating alias)."""
+        """All shows should use a current grok-4.20 variant.
+
+        Both ``grok-4.20-non-reasoning`` (default across the network) and
+        ``grok-4.20-reasoning`` (same price, used for fact-heavy shows like
+        Tesla and Modern Investing) are acceptable. The assertion exists to
+        block drift to older/unapproved models.
+        """
         from engine.config import load_config
 
         config_path = PROJECT_ROOT / "shows" / f"{show_slug}.yaml"
         if not config_path.exists():
             pytest.skip(f"Config not found: {config_path}")
 
+        allowed = {"grok-4.20-non-reasoning", "grok-4.20-reasoning"}
         config = load_config(config_path)
-        assert config.llm.model == "grok-4.20-non-reasoning", f"{show_slug} should use grok-4.20-non-reasoning, got {config.llm.model}"
+        assert config.llm.model in allowed, (
+            f"{show_slug} should use one of {sorted(allowed)}, "
+            f"got {config.llm.model}"
+        )
 
     def test_digest_temp_for_news_shows(self, show_slug):
         """News/factual shows should use temperature <= 0.5."""

@@ -32,6 +32,40 @@ def _load_config_safe(show_slug: str, config_path: Optional[Path] = None):
         return None
 
 
+def _network_synth_defaults() -> tuple[str, int, float]:
+    """Return (model, max_tokens, temperature) for network-level synthesis.
+
+    Reads ``shows/_defaults.yaml`` directly — this path is network-wide
+    (cross-show briefing), not tied to any single show.
+    """
+    import yaml
+
+    model = "grok-4.20-reasoning"
+    max_tokens = 8000
+    temperature = 0.4
+    defaults_path = Path("shows/_defaults.yaml")
+    if defaults_path.exists():
+        try:
+            with open(defaults_path, "r", encoding="utf-8") as f:
+                data = yaml.safe_load(f) or {}
+            llm = data.get("llm") or {}
+            model = llm.get("synth_model") or llm.get("model") or model
+            max_tokens = int(llm.get("synth_max_tokens") or max_tokens)
+            temperature = float(llm.get("synth_temperature") or temperature)
+        except Exception as exc:
+            logger.warning("Failed to read synth defaults: %s", exc)
+    return model, max_tokens, temperature
+
+
+def _cfg_synth_params(cfg, default_max_tokens: int, default_temperature: float) -> tuple[str, int, float]:
+    """Return the per-show synthesiser params, falling back to show's model."""
+    llm = getattr(cfg, "llm", None)
+    model = getattr(llm, "synth_model", "") or getattr(llm, "model", "") or "grok-4.20-reasoning"
+    max_tokens = getattr(llm, "synth_max_tokens", 0) or default_max_tokens
+    temperature = getattr(llm, "synth_temperature", 0.0) or default_temperature
+    return model, max_tokens, temperature
+
+
 # ---------------------------------------------------------------------------
 # Weekly newsletter
 # ---------------------------------------------------------------------------
@@ -166,17 +200,20 @@ def synthesize_weekly_newsletter(
         f"part of the Nerra Network podcast network."
     )
 
+    synth_model, synth_max_tokens, synth_temperature = _cfg_synth_params(
+        cfg, default_max_tokens=cfg.llm.max_tokens, default_temperature=0.5,
+    )
     try:
         text, meta = _call_grok(
             prompt=prompt,
-            model=cfg.llm.model,
-            temperature=0.5,
-            max_tokens=cfg.llm.max_tokens,
+            model=synth_model,
+            temperature=synth_temperature,
+            max_tokens=synth_max_tokens,
             system_prompt=system_prompt,
         )
         logger.info(
-            "[Synthesizer] Weekly newsletter for %s: %d chars",
-            show_slug, len(text),
+            "[Synthesizer] Weekly newsletter for %s: %d chars (model=%s)",
+            show_slug, len(text), synth_model,
         )
         return text
     except Exception as e:
@@ -296,17 +333,20 @@ Keep the tone authoritative and analytical. Target 2500-3500 words."""
         f"Write comprehensive, data-driven analysis."
     )
 
+    synth_model, synth_max_tokens, synth_temperature = _cfg_synth_params(
+        cfg, default_max_tokens=8000, default_temperature=0.4,
+    )
     try:
         text, meta = _call_grok(
             prompt=prompt,
-            model=cfg.llm.model,
-            temperature=0.4,
-            max_tokens=8000,
+            model=synth_model,
+            temperature=synth_temperature,
+            max_tokens=synth_max_tokens,
             system_prompt=system_prompt,
         )
         logger.info(
-            "[Synthesizer] Monthly report for %s %d-%02d: %d chars",
-            show_slug, year, month, len(text),
+            "[Synthesizer] Monthly report for %s %d-%02d: %d chars (model=%s)",
+            show_slug, year, month, len(text), synth_model,
         )
         return text
     except Exception as e:
@@ -405,12 +445,13 @@ What to watch across all domains next week.
 Keep it under 1200 words. The tone should be sharp, insightful, and focused \
 on connections that no single-domain publication would catch."""
 
+    synth_model, synth_max_tokens, synth_temperature = _network_synth_defaults()
     try:
         text, meta = _call_grok(
             prompt=prompt,
-            model="grok-4.20-non-reasoning",
-            temperature=0.5,
-            max_tokens=4000,
+            model=synth_model,
+            temperature=synth_temperature,
+            max_tokens=synth_max_tokens,
             system_prompt=(
                 "You are the editor-in-chief of the Nerra Network, an "
                 "independent podcast network. You specialize in finding "
@@ -418,7 +459,8 @@ on connections that no single-domain publication would catch."""
             ),
         )
         logger.info(
-            "[Synthesizer] Cross-show briefing: %d chars", len(text),
+            "[Synthesizer] Cross-show briefing: %d chars (model=%s)",
+            len(text), synth_model,
         )
         return text
     except Exception as e:

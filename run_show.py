@@ -273,6 +273,27 @@ def _preflight_checks(config, *, dry_run: bool = False) -> None:
             logger.error("Pre-flight check FAILED: %s", issue)
         raise SystemExit(f"Pre-flight validation failed with {len(issues)} issue(s)")
 
+    # Pre-flight LLM ping — 10-token completion against the configured model.
+    # Catches model-id deprecations (xAI has rotated dated variants before)
+    # before the expensive fetch + generation stages run. Failures here are
+    # treated as warnings, not fatal — network blips shouldn't kill the run,
+    # but a persistent deprecation will be obvious in the logs.
+    try:
+        from engine.generator import _call_grok
+        _call_grok(
+            "ping",
+            model=config.llm.model,
+            temperature=0.0,
+            max_tokens=10,
+            timeout=30.0,
+        )
+        logger.info("Pre-flight LLM ping OK (model=%s)", config.llm.model)
+    except Exception as exc:
+        logger.warning(
+            "Pre-flight LLM ping failed for model=%s: %s (continuing anyway)",
+            config.llm.model, exc,
+        )
+
     # Validate newsletter API key if newsletter is enabled — gives a clear
     # early warning instead of failing silently at the end of the pipeline.
     if config.newsletter.enabled:
