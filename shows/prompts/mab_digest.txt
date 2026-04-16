@@ -73,6 +73,12 @@ Each article/source may appear in ONLY ONE section. If you have fewer than 5 qua
 - **Quick Bits**: OPTIONAL — skip if no remaining articles rather than repeating content
 Every section must cover DIFFERENT stories from DIFFERENT sources. Never repeat the same article in multiple places.
 
+### RECENTLY COVERED STORIES — DO NOT REPEAT (do not include in output):
+The following stories were covered in recent episodes. Choose NEW and DIFFERENT stories that beginners haven't heard yet.
+{recent_content_summary}
+
+{slow_news_context}
+
 ### FORMATTING (EXACT — USE MARKDOWN AS SHOWN)
 
 Aim for 800-1200 words TOTAL. This show is 8-10 minutes long, so the briefing needs enough depth and material for the podcast script to build rich, well-explained segments. Go deeper on each story — explain the "how" and "why" thoroughly, not just the "what." But do NOT pad with filler. Every sentence should teach something.

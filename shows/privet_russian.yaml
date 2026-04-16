@@ -24,8 +24,7 @@ sources:
     label: Meduza English
 
   # Language learning & education
-  - url: https://russianwithmax.com/feed/
-    label: Russian with Max
+  # russianwithmax.com/feed/ removed 2026-04-16 — returns 403 Forbidden
   # Removed: transparent.com/russian (dead since 2022), russianpod101 (503),
   # fluentu.com/russian (stale since 2024)
 

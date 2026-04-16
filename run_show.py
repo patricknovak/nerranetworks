@@ -1276,8 +1276,10 @@ def run(args: argparse.Namespace) -> None:
 
         # 8b. Minimum podcast script length gate — catch LLM garbage before
         #     spending TTS credits on a worthless episode.  Short-but-coherent
-        #     scripts are fine; only abort on clear garbage (<1000 words).
-        _MIN_SCRIPT_WORDS = 1000
+        #     scripts are fine; only abort on clear garbage.  Per-show config
+        #     (min_podcast_words) takes precedence over the 1000-word default
+        #     to accommodate shorter shows like language-learning podcasts.
+        _MIN_SCRIPT_WORDS = getattr(config.llm, "min_podcast_words", 1000) or 1000
         _script_word_count = len(podcast_script.split())
         if _script_word_count < _MIN_SCRIPT_WORDS:
             logger.error(
@@ -2040,6 +2042,19 @@ def _clean_podcast_script(script: str, host_name: str = "Patrick") -> str:
         if re.match(r"(?i)^\(?\s*(word\s*count|total\s*words|character\s*count)\b", line):
             continue
         if re.match(r"(?i)^\(?\s*(approximately\s+)?\d[\d,]*\s+words?\s*\)?$", line):
+            continue
+        # Skip leaked timing/length targets that the LLM echoes from prompt
+        # e.g. "This is a twelve minute podcast", "Target: ninety seconds of audio",
+        # "two thousand eight hundred words", "sixty to ninety seconds"
+        if re.search(
+            r"(?i)\b(word count|script length|target[:\s]+\d|"
+            r"\d+\s*[-–]\s*\d+\s*(minute|second|word)|"
+            r"producing a \d+|"
+            r"at least \d[\d,]*\s*words|"
+            r"(thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)\s+"
+            r"(words?|sentences?)\b)",
+            line,
+        ):
             continue
         if re.match(r"(?i)^content\s*:\s*$", line):
             break

@@ -7,7 +7,11 @@
       "title": "The Transformer Architecture Explained",
       "prompt_template": "Write a deep-dive segment explaining the transformer architecture. Cover self-attention mechanisms, positional encoding, the encoder-decoder structure, and why transformers revolutionized NLP and vision. Use clear analogies to make the concepts accessible to a technical but non-ML audience.",
       "estimated_words": 600,
-      "tags": ["architecture", "fundamentals", "AI"]
+      "tags": [
+        "architecture",
+        "fundamentals",
+        "AI"
+      ]
     },
     {
       "id": "ma_rlhf_dpo",
@@ -15,7 +19,11 @@
       "title": "RLHF and DPO: Training Models to Follow Instructions",
       "prompt_template": "Write a deep-dive segment about reinforcement learning from human feedback (RLHF) and direct preference optimization (DPO). Explain the reward model, the PPO training loop, why DPO emerged as a simpler alternative, and the practical tradeoffs between the two approaches.",
       "estimated_words": 600,
-      "tags": ["training", "alignment", "AI"]
+      "tags": [
+        "training",
+        "alignment",
+        "AI"
+      ]
     },
     {
       "id": "ma_rag_pipelines",
@@ -23,7 +31,11 @@
       "title": "RAG Pipelines: Giving LLMs Real-Time Knowledge",
       "prompt_template": "Write a deep-dive segment about retrieval-augmented generation (RAG). Cover the basic architecture (retrieve-then-generate), embedding models, vector databases, chunking strategies, and common failure modes. Include practical advice for building production RAG systems.",
       "estimated_words": 600,
-      "tags": ["RAG", "engineering", "applications"]
+      "tags": [
+        "RAG",
+        "engineering",
+        "applications"
+      ]
     },
     {
       "id": "ma_tokenization",
@@ -31,7 +43,11 @@
       "title": "Tokenization: The Hidden Foundation of LLMs",
       "prompt_template": "Write a deep-dive segment about tokenization in large language models. Cover BPE, SentencePiece, the impact of vocabulary size on multilingual performance, why tokenization affects math ability, and how different model families handle tokenization differently.",
       "estimated_words": 600,
-      "tags": ["fundamentals", "NLP", "AI"]
+      "tags": [
+        "fundamentals",
+        "NLP",
+        "AI"
+      ]
     },
     {
       "id": "ma_agent_frameworks",
@@ -39,7 +55,11 @@
       "title": "AI Agent Frameworks Compared",
       "prompt_template": "Write a deep-dive segment comparing major AI agent frameworks: LangChain/LangGraph, CrewAI, AutoGen, and the Claude Agent SDK. Cover their architectures, strengths, weaknesses, and which use cases each is best suited for. Include practical recommendations.",
       "estimated_words": 600,
-      "tags": ["agents", "engineering", "tools"]
+      "tags": [
+        "agents",
+        "engineering",
+        "tools"
+      ]
     },
     {
       "id": "ma_profile_sutskever",
@@ -47,7 +67,11 @@
       "title": "Profile: Ilya Sutskever",
       "prompt_template": "Write a profile segment about Ilya Sutskever — his journey from studying under Geoffrey Hinton, co-founding OpenAI, his pivotal role in scaling neural networks, the dramatic board events of November 2023, and his founding of Safe Superintelligence Inc. Explore what his focus on safety tells us about the field's direction.",
       "estimated_words": 500,
-      "tags": ["people", "history", "safety"]
+      "tags": [
+        "people",
+        "history",
+        "safety"
+      ]
     },
     {
       "id": "ma_profile_amodei",
@@ -55,7 +79,11 @@
       "title": "Profile: Dario Amodei and Anthropic",
       "prompt_template": "Write a profile segment about Dario Amodei and the founding of Anthropic. Cover his background at OpenAI, why he left to start Anthropic, the constitutional AI approach, Claude's evolution, and how Anthropic's safety-first philosophy compares to competitors.",
       "estimated_words": 500,
-      "tags": ["people", "safety", "companies"]
+      "tags": [
+        "people",
+        "safety",
+        "companies"
+      ]
     },
     {
       "id": "ma_history_gpt_evolution",
@@ -63,7 +91,11 @@
       "title": "GPT-1 to GPT-4: The Scaling Story",
       "prompt_template": "Write a historical perspective segment tracing the evolution from GPT-1 (117M parameters) through GPT-2, GPT-3, and GPT-4. Cover how each generation surprised researchers, the scaling laws that predicted performance gains, and the key architectural and training innovations at each step.",
       "estimated_words": 600,
-      "tags": ["history", "scaling", "OpenAI"]
+      "tags": [
+        "history",
+        "scaling",
+        "OpenAI"
+      ]
     },
     {
       "id": "ma_history_alexnet",
@@ -71,7 +103,11 @@
       "title": "The AlexNet Moment: When Deep Learning Changed Everything",
       "prompt_template": "Write a historical perspective segment about the AlexNet moment in 2012 when deep learning won the ImageNet competition by a dramatic margin. Cover the key ingredients (GPUs, data, architecture), how it shifted the entire field from hand-crafted features to learned representations, and the direct line from AlexNet to today's foundation models.",
       "estimated_words": 600,
-      "tags": ["history", "vision", "milestones"]
+      "tags": [
+        "history",
+        "vision",
+        "milestones"
+      ]
     },
     {
       "id": "ma_contrarian_open_vs_closed",
@@ -79,7 +115,11 @@
       "title": "Open vs Closed Models: The Great Debate",
       "prompt_template": "Write a balanced contrarian segment debating open-weight vs closed-source AI models. Cover the arguments for openness (transparency, innovation, safety research) and the arguments for closed models (safety controls, preventing misuse, commercial viability). Include perspectives from Meta, OpenAI, and Anthropic.",
       "estimated_words": 600,
-      "tags": ["debate", "policy", "open-source"]
+      "tags": [
+        "debate",
+        "policy",
+        "open-source"
+      ]
     },
     {
       "id": "ma_contrarian_agi_timelines",
@@ -87,7 +127,11 @@
       "title": "AGI Timelines: Hype vs Reality",
       "prompt_template": "Write a contrarian segment examining AGI timeline predictions. Present the accelerationist view (AGI within 2-5 years) and the skeptical view (fundamental capabilities are still missing). Cover what benchmarks actually tell us, where current models still fail, and why prediction track records in AI are notoriously poor.",
       "estimated_words": 600,
-      "tags": ["debate", "AGI", "predictions"]
+      "tags": [
+        "debate",
+        "AGI",
+        "predictions"
+      ]
     },
     {
       "id": "ma_utility_benchmarks",
@@ -95,7 +139,11 @@
       "title": "How to Evaluate LLM Benchmarks",
       "prompt_template": "Write a practical utility segment teaching listeners how to critically evaluate LLM benchmark results. Cover common benchmarks (MMLU, HumanEval, GSM8K, GPQA), their limitations, benchmark contamination risks, why leaderboard rankings can be misleading, and what to look for when comparing models for real-world tasks.",
       "estimated_words": 600,
-      "tags": ["education", "evaluation", "benchmarks"]
+      "tags": [
+        "education",
+        "evaluation",
+        "benchmarks"
+      ]
     },
     {
       "id": "ma_utility_prompt_engineering",
@@ -103,7 +151,11 @@
       "title": "Prompt Engineering Patterns That Actually Work",
       "prompt_template": "Write a practical utility segment covering proven prompt engineering patterns. Include chain-of-thought, few-shot examples, system prompts, structured output formatting, and the importance of iteration. Focus on patterns that work reliably across different models rather than model-specific tricks.",
       "estimated_words": 600,
-      "tags": ["education", "prompting", "practical"]
+      "tags": [
+        "education",
+        "prompting",
+        "practical"
+      ]
     },
     {
       "id": "ma_context_windows",
@@ -111,7 +163,203 @@
       "title": "Context Windows: Why Size Matters (and Why It Doesn't)",
       "prompt_template": "Write a deep-dive segment about context windows in LLMs. Cover the evolution from 2K to 1M+ tokens, the architectural challenges of long context (attention complexity, lost-in-the-middle effect), practical implications for RAG vs long-context approaches, and what the research says about effective context usage.",
       "estimated_words": 600,
-      "tags": ["architecture", "engineering", "practical"]
+      "tags": [
+        "architecture",
+        "engineering",
+        "practical"
+      ]
+    },
+    {
+      "id": "ma_rag_architecture",
+      "type": "deep_dive",
+      "title": "RAG Architecture: Patterns That Actually Work",
+      "prompt_template": "Write a deep-dive about Retrieval-Augmented Generation architecture. Cover naive RAG vs advanced RAG patterns (query rewriting, hypothetical document embeddings, reranking), chunking strategies and their tradeoffs, vector database selection criteria, hybrid search (dense + sparse retrieval), evaluation metrics (faithfulness, relevance, recall), and the emerging pattern of agentic RAG where the retriever is itself an agent. Include specific latency and quality tradeoffs.",
+      "estimated_words": 600,
+      "tags": [
+        "RAG",
+        "architecture",
+        "retrieval"
+      ]
+    },
+    {
+      "id": "ma_inference_optimization",
+      "type": "deep_dive",
+      "title": "LLM Inference Optimization: Speed vs Cost vs Quality",
+      "prompt_template": "Write a deep-dive about LLM inference optimization techniques. Cover quantization (GPTQ, AWQ, GGUF formats), speculative decoding, KV-cache optimization, continuous batching, PagedAttention (vLLM), model distillation, structured output generation (constrained decoding), and the cost curves of running models at different scales. Include specific latency/throughput numbers that help engineers make deployment decisions.",
+      "estimated_words": 600,
+      "tags": [
+        "inference",
+        "optimization",
+        "deployment"
+      ]
+    },
+    {
+      "id": "ma_agent_frameworks_v2",
+      "type": "deep_dive",
+      "title": "Agent Frameworks Compared: LangChain vs CrewAI vs AutoGen",
+      "prompt_template": "Write a deep-dive comparing the major agent frameworks. Cover LangChain/LangGraph (graph-based orchestration), CrewAI (role-based multi-agent), AutoGen (conversational agents), Semantic Kernel (enterprise integration), and emerging alternatives. For each: architecture philosophy, strengths, weaknesses, ideal use cases, and production readiness. Help developers choose the right framework for their specific needs.",
+      "estimated_words": 600,
+      "tags": [
+        "agents",
+        "frameworks",
+        "comparison"
+      ]
+    },
+    {
+      "id": "ma_fine_tuning",
+      "type": "deep_dive",
+      "title": "Fine-Tuning vs Prompting: When Each Approach Wins",
+      "prompt_template": "Write a deep-dive about when to fine-tune vs when to prompt engineer. Cover the decision framework (data availability, task specificity, latency requirements, cost), fine-tuning techniques (full fine-tuning, LoRA, QLoRA, DPO, RLHF), synthetic data generation for training, evaluation methodology, the 'prompt engineering ceiling' concept, and real-world case studies where fine-tuning was worth it vs where it wasn't.",
+      "estimated_words": 600,
+      "tags": [
+        "fine-tuning",
+        "prompting",
+        "decision"
+      ]
+    },
+    {
+      "id": "ma_multimodal",
+      "type": "deep_dive",
+      "title": "Multimodal AI: Beyond Text",
+      "prompt_template": "Write a deep-dive about multimodal AI capabilities. Cover vision-language models (GPT-4V, Claude's vision, Gemini), audio understanding and generation, video understanding models, the architecture of multimodal transformers (cross-attention, early vs late fusion), practical applications (document understanding, visual QA, accessibility), and where multimodal capabilities are genuinely useful vs still gimmicky.",
+      "estimated_words": 600,
+      "tags": [
+        "multimodal",
+        "vision",
+        "audio"
+      ]
+    },
+    {
+      "id": "ma_eval_benchmarks",
+      "type": "deep_dive",
+      "title": "AI Evaluation: Benchmarks, Vibes, and What Actually Matters",
+      "prompt_template": "Write a deep-dive about AI model evaluation. Cover the benchmark landscape (MMLU, HumanEval, ARC, HellaSwag, MATH), benchmark contamination and gaming, the 'vibes-based evaluation' phenomenon, arena-style evaluation (Chatbot Arena, LMSYS), domain-specific eval suites, how to build evaluation pipelines for production applications, and why 'good enough for my use case' is the only metric that ultimately matters.",
+      "estimated_words": 600,
+      "tags": [
+        "evaluation",
+        "benchmarks",
+        "quality"
+      ]
+    },
+    {
+      "id": "ma_coding_agents",
+      "type": "deep_dive",
+      "title": "AI Coding Assistants: Architecture and Impact",
+      "prompt_template": "Write a deep-dive about AI coding assistants. Cover the architecture of tools like Copilot, Cursor, and Claude Code (context window management, codebase indexing, tool use), measured productivity gains from academic studies, the shift from autocomplete to autonomous coding agents, limitations (hallucinated APIs, security vulnerabilities), and how the developer workflow is genuinely changing. Be specific about what works and what doesn't.",
+      "estimated_words": 600,
+      "tags": [
+        "coding",
+        "tools",
+        "productivity"
+      ]
+    },
+    {
+      "id": "ma_profile_lecun",
+      "type": "profile",
+      "title": "Profile: Yann LeCun and the Debate Over AI Architecture",
+      "prompt_template": "Write a profile of Yann LeCun, Meta's Chief AI Scientist. Cover his foundational work on convolutional neural networks, the 'AI winter' years when neural nets were unfashionable, his Turing Award, his vocal disagreement with the autoregressive LLM paradigm, his advocacy for 'world models' and JEPA architecture, and his ongoing Twitter/X debates with other AI researchers. A story of conviction, contrarianism, and the question of whether transformers are the final answer.",
+      "estimated_words": 500,
+      "tags": [
+        "people",
+        "architecture",
+        "debate"
+      ]
+    },
+    {
+      "id": "ma_profile_ilya",
+      "type": "profile",
+      "title": "Profile: Ilya Sutskever and Safe Superintelligence",
+      "prompt_template": "Write a profile of Ilya Sutskever. Cover his foundational contributions to deep learning (AlexNet, sequence-to-sequence), his role as co-founder and Chief Scientist at OpenAI, the dramatic board events of November 2023, his departure, the founding of Safe Superintelligence Inc., and what his career trajectory reveals about the tension between capability advancement and safety research in AI.",
+      "estimated_words": 500,
+      "tags": [
+        "people",
+        "safety",
+        "history"
+      ]
+    },
+    {
+      "id": "ma_history_transformer",
+      "type": "historical",
+      "title": "The Transformer Paper: Eight Authors Who Changed Everything",
+      "prompt_template": "Write a historical segment about the 2017 'Attention Is All You Need' paper. Cover the eight Google Brain/Research authors, why attention mechanisms were revolutionary vs previous RNN/LSTM approaches, how the paper was initially received (modestly), the scaling discoveries that followed (GPT, BERT, T5), and how a 15-page paper became the foundation of a multi-trillion-dollar industry. Trace the direct line from that paper to today's AI landscape.",
+      "estimated_words": 600,
+      "tags": [
+        "history",
+        "transformer",
+        "architecture"
+      ]
+    },
+    {
+      "id": "ma_history_gpt_scaling",
+      "type": "historical",
+      "title": "The Scaling Laws Discovery: From GPT-2 to GPT-4",
+      "prompt_template": "Write a historical segment tracing the scaling laws discovery. Cover GPT-2's 'too dangerous to release' moment, the Kaplan scaling laws paper, GPT-3's in-context learning surprise, the Chinchilla paper's compute-optimal findings, GPT-4's leap to multimodal capability, and the ongoing debate about whether scaling will continue to yield gains or hit diminishing returns. The story of how 'just make it bigger' turned out to be profound.",
+      "estimated_words": 600,
+      "tags": [
+        "history",
+        "scaling",
+        "GPT"
+      ]
+    },
+    {
+      "id": "ma_contrarian_agi",
+      "type": "contrarian",
+      "title": "Contrarian: Are We Actually Close to AGI?",
+      "prompt_template": "Write a balanced contrarian segment on AGI timelines. The optimist case: rapid capability gains, emergent behaviors, o-series reasoning models, multimodal understanding approaching human-level. The skeptic case: benchmark saturation without real understanding, brittleness on novel tasks, the 'last 10%' problem, Moravec's paradox (easy things are hard), and the argument that we may be confusing pattern matching at scale with genuine intelligence. Present both sides with specific examples.",
+      "estimated_words": 600,
+      "tags": [
+        "AGI",
+        "debate",
+        "philosophy"
+      ]
+    },
+    {
+      "id": "ma_contrarian_open_source",
+      "type": "contrarian",
+      "title": "Contrarian: Open Source AI — Liberation or Risk?",
+      "prompt_template": "Write a balanced contrarian segment about open-source AI models. The pro case: democratization, competition preventing monopoly, community innovation, reproducibility, sovereignty. The contra case: dual-use risks, safety research bypassed via fine-tuning, the cost of training making 'open source' a misnomer (open weights, not open training), and whether Llama-style releases are genuine open source. Discuss the Mistral/Meta/Stability AI approaches vs closed frontier labs.",
+      "estimated_words": 600,
+      "tags": [
+        "open_source",
+        "debate",
+        "policy"
+      ]
+    },
+    {
+      "id": "ma_utility_prompt_eng",
+      "type": "utility",
+      "title": "Prompt Engineering That Actually Works",
+      "prompt_template": "Write a practical utility segment on evidence-based prompt engineering. Cover techniques with strong empirical backing (chain-of-thought, few-shot examples, role assignment, structured output formats), techniques that are overrated (temperature tuning for most tasks, excessive detail in system prompts), the importance of evaluation over intuition, prompt versioning and testing methodology, and the meta-skill of knowing when to stop engineering prompts and switch to fine-tuning or RAG.",
+      "estimated_words": 600,
+      "tags": [
+        "education",
+        "prompting",
+        "practical"
+      ]
+    },
+    {
+      "id": "ma_utility_local_llm",
+      "type": "utility",
+      "title": "Running LLMs Locally: A Practical Guide",
+      "prompt_template": "Write a practical utility segment about running LLMs on local hardware. Cover hardware requirements (GPU VRAM as the key constraint), quantization formats (GGUF, GPTQ, AWQ) and their quality tradeoffs, inference servers (llama.cpp, Ollama, vLLM, text-generation-inference), model selection for different hardware tiers (8GB, 16GB, 24GB VRAM), and realistic expectations about what local models can and can't do vs API-based frontier models.",
+      "estimated_words": 600,
+      "tags": [
+        "education",
+        "local",
+        "practical"
+      ]
+    },
+    {
+      "id": "ma_guide_build_agent",
+      "type": "listener_guide",
+      "title": "Listener Guide: Building Your First AI Agent",
+      "prompt_template": "Write a practical listener guide for building a first AI agent. Cover the simplest possible architecture (LLM + tools + loop), choosing the right starting tools (web search, calculator, code execution), error handling patterns, the ReAct pattern explained simply, when to add memory and planning, common failure modes (infinite loops, hallucinated tool calls), and a recommended learning path from 'hello world agent' to production deployment.",
+      "estimated_words": 600,
+      "tags": [
+        "guide",
+        "agents",
+        "practical"
+      ]
     }
   ]
 }

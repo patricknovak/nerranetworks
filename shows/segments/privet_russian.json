@@ -7,7 +7,11 @@
       "title": "Animal Kingdom Vocabulary",
       "prompt_template": "Create a vocabulary lesson about animals in Russian. Teach 10 animal words (кошка, собака, медведь, волк, лиса, заяц, птица, рыба, лошадь, бабочка) with pronunciation guides, plural forms, and fun facts about these animals in Russian culture (e.g., медведь as Russia's symbol). Include a mini-story using several animal words.",
       "estimated_words": 600,
-      "tags": ["vocabulary", "animals", "culture"]
+      "tags": [
+        "vocabulary",
+        "animals",
+        "culture"
+      ]
     },
     {
       "id": "pr_food_vocab",
@@ -15,7 +19,11 @@
       "title": "Russian Food and Kitchen Vocabulary",
       "prompt_template": "Create a vocabulary lesson about Russian food. Teach 10 food-related words (хлеб, молоко, суп, каша, пирог, чай, мёд, яблоко, сыр, мороженое) with pronunciation guides. Include a cultural segment about traditional Russian meals (завтрак, обед, ужин), the role of чай in Russian culture, and a simple recipe dialog using the vocabulary.",
       "estimated_words": 600,
-      "tags": ["vocabulary", "food", "culture"]
+      "tags": [
+        "vocabulary",
+        "food",
+        "culture"
+      ]
     },
     {
       "id": "pr_family_vocab",
@@ -23,7 +31,11 @@
       "title": "Family Words and Introductions",
       "prompt_template": "Create a vocabulary lesson about family in Russian. Teach family words (мама, папа, бабушка, дедушка, сестра, брат, тётя, дядя, семья) with pronunciation guides. Cover how to introduce your family ('Это моя мама'), possessive pronouns (мой, моя, моё, мои), and cultural notes about the importance of family in Russian culture. Include a sample family introduction dialog.",
       "estimated_words": 600,
-      "tags": ["vocabulary", "family", "grammar"]
+      "tags": [
+        "vocabulary",
+        "family",
+        "grammar"
+      ]
     },
     {
       "id": "pr_colors_numbers",
@@ -31,7 +43,11 @@
       "title": "Colors and Numbers: The Building Blocks",
       "prompt_template": "Create a vocabulary lesson about colors (красный, синий, зелёный, жёлтый, белый, чёрный, оранжевый, розовый) and numbers 1-20 in Russian. Cover pronunciation, gender agreement for colors (красный/красная/красное), and fun exercises like describing objects by color. Include a counting game and a treasure hunt description using colors.",
       "estimated_words": 600,
-      "tags": ["vocabulary", "colors", "numbers"]
+      "tags": [
+        "vocabulary",
+        "colors",
+        "numbers"
+      ]
     },
     {
       "id": "pr_weather_seasons",
@@ -39,7 +55,11 @@
       "title": "Weather and Seasons in Russian",
       "prompt_template": "Create a vocabulary lesson about weather and seasons. Teach weather words (солнце, дождь, снег, ветер, облако, жарко, холодно) and seasons (весна, лето, осень, зима) with pronunciation guides. Cover how Russians talk about weather, the cultural significance of Russian winter, and Maslenitsa (welcoming spring). Include a weather report dialog.",
       "estimated_words": 600,
-      "tags": ["vocabulary", "weather", "seasons"]
+      "tags": [
+        "vocabulary",
+        "weather",
+        "seasons"
+      ]
     },
     {
       "id": "pr_profile_pushkin",
@@ -47,7 +67,11 @@
       "title": "Profile: Alexander Pushkin — Father of Russian Literature",
       "prompt_template": "Create an educational profile about Alexander Pushkin accessible for language learners. Cover why he's called the father of Russian literature, his most famous works (Eugene Onegin, fairy tales), key Russian words from his writing, and how Pushkin shaped the modern Russian language. Teach 5 simple phrases from Pushkin that are still used today. Bilingual format.",
       "estimated_words": 500,
-      "tags": ["culture", "literature", "people"]
+      "tags": [
+        "culture",
+        "literature",
+        "people"
+      ]
     },
     {
       "id": "pr_greetings_politeness",
@@ -55,7 +79,11 @@
       "title": "Russian Greetings and Polite Phrases",
       "prompt_template": "Create a practical lesson about Russian greetings and politeness. Cover formal vs informal greetings (Здравствуйте vs Привет), saying goodbye (До свидания, Пока), please and thank you (Пожалуйста, Спасибо), sorry (Извините, Простите), and the ты vs Вы distinction. Include when to use each form and common social situations. Practice dialogs for a store, a classroom, and meeting someone new.",
       "estimated_words": 500,
-      "tags": ["phrases", "politeness", "practical"]
+      "tags": [
+        "phrases",
+        "politeness",
+        "practical"
+      ]
     },
     {
       "id": "pr_transport_city",
@@ -63,7 +91,11 @@
       "title": "Getting Around: Transport and City Vocabulary",
       "prompt_template": "Create a vocabulary lesson about transportation and the city. Teach words for vehicles (машина, автобус, поезд, метро, самолёт, велосипед), city places (магазин, школа, парк, библиотека, больница, аптека), and directional phrases (налево, направо, прямо). Include a dialog asking for directions and a cultural note about the famous Moscow Metro.",
       "estimated_words": 600,
-      "tags": ["vocabulary", "transport", "city"]
+      "tags": [
+        "vocabulary",
+        "transport",
+        "city"
+      ]
     },
     {
       "id": "pr_history_alphabet",
@@ -71,7 +103,11 @@
       "title": "The Story of the Russian Alphabet",
       "prompt_template": "Create an educational segment about the Cyrillic alphabet's history. Cover Saints Cyril and Methodius, how Cyrillic evolved from Greek, the alphabet reform by Peter the Great, letters that look like English but sound different (false friends: Р=R, Н=N, С=S), and fun tips for remembering tricky letters (Ж looks like a bug, Ш looks like a comb). Interactive letter recognition exercises.",
       "estimated_words": 600,
-      "tags": ["alphabet", "history", "Cyrillic"]
+      "tags": [
+        "alphabet",
+        "history",
+        "Cyrillic"
+      ]
     },
     {
       "id": "pr_verbs_action",
@@ -79,7 +115,11 @@
       "title": "Action Words: Essential Russian Verbs",
       "prompt_template": "Create a lesson about essential Russian verbs. Teach 10 common verbs (идти, есть, пить, читать, писать, говорить, слушать, смотреть, играть, учить) with present tense conjugation for я and мы. Keep grammar light — focus on patterns rather than rules. Include action songs or rhymes, and a 'day in the life' story using all 10 verbs.",
       "estimated_words": 600,
-      "tags": ["grammar", "verbs", "basics"]
+      "tags": [
+        "grammar",
+        "verbs",
+        "basics"
+      ]
     },
     {
       "id": "pr_holidays_traditions",
@@ -87,7 +127,11 @@
       "title": "Russian Holidays and Traditions",
       "prompt_template": "Create a cultural vocabulary lesson about Russian holidays. Cover Новый год (New Year — the biggest holiday), Масленица (Maslenitsa/Pancake Week), День Победы (Victory Day, May 9), and Пасха (Easter). Teach holiday-related vocabulary, traditions (ёлка, Дед Мороз, Снегурочка, блины), and how celebrations differ from Western equivalents. Include holiday greeting phrases.",
       "estimated_words": 600,
-      "tags": ["culture", "holidays", "vocabulary"]
+      "tags": [
+        "culture",
+        "holidays",
+        "vocabulary"
+      ]
     },
     {
       "id": "pr_contrarian_learning",
@@ -95,7 +139,11 @@
       "title": "Debate: Is Russian Really That Hard to Learn?",
       "prompt_template": "Create a balanced, encouraging segment addressing the 'Russian is too hard' myth. Acknowledge real challenges (cases, aspects, Cyrillic) but counter with advantages (phonetic spelling, no articles, flexible word order, predictable stress patterns in common words). Compare difficulty to other languages. Share success stories and motivational tips. End with encouragement for young learners.",
       "estimated_words": 600,
-      "tags": ["motivation", "learning", "debate"]
+      "tags": [
+        "motivation",
+        "learning",
+        "debate"
+      ]
     },
     {
       "id": "pr_school_classroom",
@@ -103,7 +151,11 @@
       "title": "School and Classroom Vocabulary",
       "prompt_template": "Create a vocabulary lesson about school. Teach classroom words (учитель, ученик, класс, книга, тетрадь, ручка, карандаш, доска, урок, перемена) with pronunciation guides. Cover how to say 'I don't understand' (Я не понимаю) and other classroom survival phrases. Include a cultural note about Russian schools (uniforms, grading 1-5, September 1st traditions).",
       "estimated_words": 600,
-      "tags": ["vocabulary", "school", "classroom"]
+      "tags": [
+        "vocabulary",
+        "school",
+        "classroom"
+      ]
     },
     {
       "id": "pr_fairy_tales",
@@ -111,7 +163,215 @@
       "title": "Russian Fairy Tales: Learning Through Stories",
       "prompt_template": "Create a lesson built around a simplified Russian fairy tale (Колобок or Репка). Tell the story in very simple Russian with English translations, teach key vocabulary from the story, explain repetitive story structures that help language learning, and introduce fairy tale characters (Баба Яга, Кощей Бессмертный, Жар-Птица). Include a retelling exercise.",
       "estimated_words": 600,
-      "tags": ["stories", "fairy tales", "culture"]
+      "tags": [
+        "stories",
+        "fairy tales",
+        "culture"
+      ]
+    },
+    {
+      "id": "pr_sports",
+      "type": "deep_dive",
+      "title": "Sports Vocabulary",
+      "prompt_template": "Write a themed vocabulary episode about sports in Russian. Cover 10 words related to sports: football (футбол), to run (бегать), ball (мяч), team (команда), to win (выиграть), game (игра), strong (сильный), fast (быстрый), to play (играть), champion (чемпион). For each word: pronunciation, example sentence in Russian with English translation, and a fun fact about Russian sports culture. Include a practice dialogue between two friends watching a football match.",
+      "estimated_words": 500,
+      "tags": [
+        "sports",
+        "vocabulary",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "pr_shopping",
+      "type": "deep_dive",
+      "title": "Shopping Vocabulary",
+      "prompt_template": "Write a themed vocabulary episode about shopping in Russian. Cover 10 words: shop/store (магазин), price (цена), cheap (дешёвый), expensive (дорогой), money (деньги), to buy (купить), sale (скидка), cash register (касса), bag (пакет), change (сдача). For each: pronunciation, example sentence, cultural note. Include a practice dialogue of buying items at a Russian market. Mention how Russian markets and shopping culture differ from North American stores.",
+      "estimated_words": 500,
+      "tags": [
+        "shopping",
+        "vocabulary",
+        "culture"
+      ]
+    },
+    {
+      "id": "pr_emotions",
+      "type": "deep_dive",
+      "title": "Feelings and Emotions",
+      "prompt_template": "Write a themed vocabulary episode about feelings in Russian. Cover 10 emotion words: happy (счастливый), sad (грустный), angry (злой), scared (страшно), surprised (удивлённый), tired (усталый), excited (взволнованный), bored (скучно), proud (гордый), calm (спокойный). For each: pronunciation, example sentence, and the interesting grammar point that some Russian emotions use impersonal constructions (мне страшно = to me it is scary). Practice dialogue expressing different feelings during a day.",
+      "estimated_words": 500,
+      "tags": [
+        "emotions",
+        "vocabulary",
+        "grammar"
+      ]
+    },
+    {
+      "id": "pr_school",
+      "type": "deep_dive",
+      "title": "School and Learning",
+      "prompt_template": "Write a themed vocabulary episode about school in Russian. Cover 10 words: school (школа), teacher (учитель/учительница), student (ученик), lesson (урок), book (книга), pen (ручка), homework (домашнее задание), to study (учиться), grade/mark (оценка), to read (читать). For each: pronunciation, example sentence, cultural note about Russian schools. Include how Russian grading works (1-5 scale) and differences between Russian and Canadian schools.",
+      "estimated_words": 500,
+      "tags": [
+        "school",
+        "vocabulary",
+        "culture"
+      ]
+    },
+    {
+      "id": "pr_city",
+      "type": "deep_dive",
+      "title": "Around the City",
+      "prompt_template": "Write a themed vocabulary episode about city vocabulary in Russian. Cover 10 words: street (улица), building (здание), park (парк), museum (музей), library (библиотека), bridge (мост), square (площадь), metro (метро), map (карта), to walk (гулять). For each: pronunciation, example sentence, and connection to famous Russian places (Red Square, Nevsky Prospect, Moscow Metro). Practice dialogue asking for directions in a Russian city.",
+      "estimated_words": 500,
+      "tags": [
+        "city",
+        "vocabulary",
+        "travel"
+      ]
+    },
+    {
+      "id": "pr_music",
+      "type": "deep_dive",
+      "title": "Music and Dance",
+      "prompt_template": "Write a themed vocabulary episode about music in Russian. Cover 10 words: song (песня), to sing (петь), music (музыка), guitar (гитара), piano (пианино), to dance (танцевать), concert (концерт), voice (голос), melody (мелодия), loud (громкий). For each: pronunciation, example sentence, cultural connection. Introduce famous Russian composers (Tchaikovsky, Rachmaninoff) and popular modern Russian music. Include a fun section about Russian folk instruments (balalaika, bayan).",
+      "estimated_words": 500,
+      "tags": [
+        "music",
+        "vocabulary",
+        "culture"
+      ]
+    },
+    {
+      "id": "pr_body",
+      "type": "deep_dive",
+      "title": "Body Parts and Health",
+      "prompt_template": "Write a themed vocabulary episode about body parts in Russian. Cover 10 words: head (голова), hand (рука — also means arm!), foot/leg (нога — also means leg!), eye (глаз), nose (нос), mouth (рот), ear (ухо), heart (сердце), back (спина), stomach (живот). For each: pronunciation, example sentence, and the interesting Russian feature where рука means both hand AND arm. Practice dialogue at a doctor's office saying 'my X hurts' (у меня болит...).",
+      "estimated_words": 500,
+      "tags": [
+        "body",
+        "vocabulary",
+        "health"
+      ]
+    },
+    {
+      "id": "pr_profile_chekhov",
+      "type": "profile",
+      "title": "Profile: Anton Chekhov — Master of Short Stories",
+      "prompt_template": "Write a profile of Anton Chekhov for language learners. Cover 5 simple Russian words from his works, his life story (from poverty to literary fame), why his short stories are great for Russian learners (simple language, human themes), introduce 2-3 famous quotes in Russian with translation, and recommend one beginner-accessible Chekhov story. Make Russian literature feel approachable and fun, not intimidating.",
+      "estimated_words": 500,
+      "tags": [
+        "people",
+        "literature",
+        "culture"
+      ]
+    },
+    {
+      "id": "pr_profile_gagarin",
+      "type": "profile",
+      "title": "Profile: Yuri Gagarin — First Human in Space",
+      "prompt_template": "Write a profile of Yuri Gagarin for language learners. Cover 5 space-related Russian words (космос, ракета, полёт, герой, земля), his famous 'Поехали!' (Let's go!) before launch, the story of April 12, 1961 (now Cosmonautics Day in Russia), Russian space vocabulary, and why Gagarin is still a national hero. Connect to the earlier Space theme episode if relevant. Make space exploration exciting through language.",
+      "estimated_words": 500,
+      "tags": [
+        "people",
+        "space",
+        "history"
+      ]
+    },
+    {
+      "id": "pr_history_alphabet_origins",
+      "type": "historical",
+      "title": "How Russian Got Its Alphabet: Cyril and Methodius",
+      "prompt_template": "Write a historical language episode about the creation of the Cyrillic alphabet. Cover Saints Cyril and Methodius (9th century), why they created a new alphabet for Slavic languages, the evolution from Glagolitic to Cyrillic, how letters were borrowed from Greek, which letters are uniquely Russian, Peter the Great's alphabet reform, and fun comparisons between Cyrillic and Latin letters that look the same but sound different (Р=R, Н=N, В=V). Make alphabet history an adventure story.",
+      "estimated_words": 500,
+      "tags": [
+        "history",
+        "alphabet",
+        "linguistics"
+      ]
+    },
+    {
+      "id": "pr_history_russian_names",
+      "type": "historical",
+      "title": "Russian Names: Why Everyone Has Three Names",
+      "prompt_template": "Write a cultural language episode about Russian naming conventions. Cover the three-name system (имя + отчество + фамилия), how patronymics work (Иванович/Ивановна = son/daughter of Ivan), common Russian names and their diminutives (Александр→Саша, Екатерина→Катя, Дмитрий→Дима), when to use full name vs diminutive (formal vs casual), and the cultural importance of отчество (respect). Practice introducing yourself and addressing someone formally in Russian.",
+      "estimated_words": 500,
+      "tags": [
+        "history",
+        "names",
+        "culture"
+      ]
+    },
+    {
+      "id": "pr_contrarian_difficulty",
+      "type": "contrarian",
+      "title": "Is Russian Really That Hard? (Honest Answer)",
+      "prompt_template": "Write a balanced, encouraging segment about Russian language difficulty. Cover what's genuinely hard (cases, verbs of motion, handwriting), what's surprisingly easy (pronunciation is regular — unlike English!, no articles, flexible word order), compare to other languages English speakers learn, bust the myth that Russian is 'impossible', and give specific encouragement with data (FSI rates Russian as Category III — hard but not the hardest). End with motivational statistics about how far listeners have already come.",
+      "estimated_words": 500,
+      "tags": [
+        "motivation",
+        "difficulty",
+        "encouragement"
+      ]
+    },
+    {
+      "id": "pr_contrarian_apps",
+      "type": "contrarian",
+      "title": "Can Apps Really Teach You Russian? (Honest Review)",
+      "prompt_template": "Write a balanced review of language learning apps for Russian. Cover Duolingo (gamification pros, depth cons), Anki (powerful but intimidating), Babbel, and Pimsleur audio method. Be honest about what apps can teach (vocabulary, basic grammar, reading) vs what they can't (conversation, cultural nuance, thinking in Russian). Recommend a realistic combination approach: apps for vocabulary, podcasts (like this one!) for listening, and finding a conversation partner for speaking.",
+      "estimated_words": 500,
+      "tags": [
+        "apps",
+        "tools",
+        "debate"
+      ]
+    },
+    {
+      "id": "pr_utility_pronunciation",
+      "type": "utility",
+      "title": "Russian Pronunciation: The Rules That Make It Easy",
+      "prompt_template": "Write a practical pronunciation guide for Russian learners. Cover the key rules: vowel reduction (unstressed О sounds like А), soft consonants (the ь sign), the voiced/voiceless consonant pairs, stress patterns (and why they matter so much in Russian), the letters that trip English speakers (Ы, Щ, Ж), and 5 practice sentences that cover all the tricky sounds. Give specific mouth position tips like 'smile while saying Ы' and 'Ж is like the 's' in pleasure.'",
+      "estimated_words": 500,
+      "tags": [
+        "pronunciation",
+        "guide",
+        "practical"
+      ]
+    },
+    {
+      "id": "pr_utility_keyboard",
+      "type": "utility",
+      "title": "Typing in Russian: Keyboard Setup Guide",
+      "prompt_template": "Write a practical guide for setting up and using a Russian keyboard on phone and computer. Cover how to add Russian keyboard on iPhone and Android (step by step), the phonetic keyboard layout for computers (where Russian letters map to similar English letters), common typing shortcuts, how to switch between languages quickly, and practice: type 5 common Russian phrases. Include the advice that typing Russian builds reading skills. Make it feel like unlocking a superpower.",
+      "estimated_words": 500,
+      "tags": [
+        "typing",
+        "tech",
+        "practical"
+      ]
+    },
+    {
+      "id": "pr_guide_movies",
+      "type": "listener_guide",
+      "title": "Listener Guide: Russian Movies and Shows for Learners",
+      "prompt_template": "Write a guide recommending Russian movies and TV shows for different learning levels. Beginner: Маша и Медведь (Masha and the Bear — available on YouTube, simple language), Чебурашка (2023 movie). Intermediate: Кухня (Kitchen — sitcom, everyday language), Ёлки (comedy). Advanced: Мастер и Маргарита, Обитаемый Остров. For each: where to watch, difficulty level, vocabulary themes, and whether to use Russian or English subtitles at each level. Encourage watching with subtitles as a learning tool.",
+      "estimated_words": 500,
+      "tags": [
+        "guide",
+        "media",
+        "entertainment"
+      ]
+    },
+    {
+      "id": "pr_guide_music_learn",
+      "type": "listener_guide",
+      "title": "Listener Guide: Learn Russian Through Songs",
+      "prompt_template": "Write a guide about learning Russian through music. Cover why songs are excellent for language learning (melody aids memory, repetition builds vocabulary), recommend 5 beginner-friendly Russian songs with simple lyrics (include 2-3 lines of lyrics with translation for each), explain how to use song lyrics as study material (look up words, sing along, notice grammar patterns), and suggest a Spotify/YouTube playlist approach. Include both classic songs and modern pop that teens would enjoy.",
+      "estimated_words": 500,
+      "tags": [
+        "guide",
+        "music",
+        "learning"
+      ]
     }
   ]
 }

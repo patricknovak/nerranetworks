@@ -7,7 +7,11 @@
       "title": "James Webb Space Telescope: What It's Revealing",
       "prompt_template": "Write a deep-dive segment about the James Webb Space Telescope's discoveries. Cover its infrared capabilities, early universe observations, exoplanet atmosphere characterization, and how JWST has already challenged existing models of galaxy formation. Reference specific published findings.",
       "estimated_words": 600,
-      "tags": ["telescope", "JWST", "discoveries"]
+      "tags": [
+        "telescope",
+        "JWST",
+        "discoveries"
+      ]
     },
     {
       "id": "ff_mars_exploration",
@@ -15,7 +19,11 @@
       "title": "Mars Exploration: Past, Present, and Future",
       "prompt_template": "Write a deep-dive segment on Mars exploration. Cover the arc from Viking through Spirit/Opportunity to Curiosity and Perseverance, the Ingenuity helicopter achievement, Mars Sample Return plans, and upcoming missions from NASA, ESA, China, and SpaceX's Starship ambitions for Mars.",
       "estimated_words": 600,
-      "tags": ["Mars", "missions", "exploration"]
+      "tags": [
+        "Mars",
+        "missions",
+        "exploration"
+      ]
     },
     {
       "id": "ff_exoplanet_hunting",
@@ -23,7 +31,11 @@
       "title": "Exoplanet Hunting: How We Find Other Worlds",
       "prompt_template": "Write a deep-dive segment explaining exoplanet detection methods. Cover the transit method (Kepler/TESS), radial velocity, direct imaging, gravitational microlensing, and astrometry. Explain what each method reveals about a planet and the significance of the habitable zone concept. Reference notable discoveries like TRAPPIST-1 and Proxima Centauri b.",
       "estimated_words": 600,
-      "tags": ["exoplanets", "detection", "habitable"]
+      "tags": [
+        "exoplanets",
+        "detection",
+        "habitable"
+      ]
     },
     {
       "id": "ff_profile_nasa",
@@ -31,7 +43,11 @@
       "title": "Profile: NASA's Jet Propulsion Laboratory",
       "prompt_template": "Write a profile segment about NASA's Jet Propulsion Laboratory. Cover its founding by Caltech's rocketry pioneers, its role as the center for robotic planetary exploration, legendary missions it has managed, its engineering culture, and current projects. Explain why JPL is unique within NASA.",
       "estimated_words": 500,
-      "tags": ["institutions", "NASA", "JPL"]
+      "tags": [
+        "institutions",
+        "NASA",
+        "JPL"
+      ]
     },
     {
       "id": "ff_profile_spacex",
@@ -39,7 +55,11 @@
       "title": "Profile: SpaceX and the Reusable Rocket Revolution",
       "prompt_template": "Write a profile segment about SpaceX's impact on spaceflight. Cover the Falcon 9 reusability milestone, Starship development, Starlink constellation, crew missions, and how SpaceX changed launch economics. Include the engineering challenges that were solved and what remains ahead.",
       "estimated_words": 500,
-      "tags": ["SpaceX", "launch", "commercial"]
+      "tags": [
+        "SpaceX",
+        "launch",
+        "commercial"
+      ]
     },
     {
       "id": "ff_artemis_program",
@@ -47,7 +67,11 @@
       "title": "Artemis: Return to the Moon",
       "prompt_template": "Write a deep-dive segment about NASA's Artemis program. Cover the SLS rocket, Orion capsule, Gateway station, the Starship HLS lunar lander selection, international partner contributions, the timeline for crewed lunar landing, and how Artemis differs from Apollo in goals and technology.",
       "estimated_words": 600,
-      "tags": ["Moon", "Artemis", "missions"]
+      "tags": [
+        "Moon",
+        "Artemis",
+        "missions"
+      ]
     },
     {
       "id": "ff_black_holes",
@@ -55,7 +79,11 @@
       "title": "Black Holes: What We Know and Don't Know",
       "prompt_template": "Write a deep-dive segment about black holes. Cover stellar-mass vs supermassive black holes, the Event Horizon Telescope's imaging breakthroughs, gravitational wave detection by LIGO/Virgo, Hawking radiation theory, and the information paradox. Make the physics accessible while respecting the science.",
       "estimated_words": 600,
-      "tags": ["physics", "black holes", "cosmology"]
+      "tags": [
+        "physics",
+        "black holes",
+        "cosmology"
+      ]
     },
     {
       "id": "ff_history_space_race",
@@ -63,7 +91,11 @@
       "title": "The Original Space Race: Sputnik to Apollo 11",
       "prompt_template": "Write a historical segment about the original space race. Cover Sputnik's shock, Gagarin's flight, the Mercury and Gemini programs, Kennedy's moonshot speech, and Apollo 11. Explain the geopolitical context that drove the competition and the scientific legacy that outlasted the Cold War rivalry.",
       "estimated_words": 600,
-      "tags": ["history", "Apollo", "Cold War"]
+      "tags": [
+        "history",
+        "Apollo",
+        "Cold War"
+      ]
     },
     {
       "id": "ff_asteroid_defense",
@@ -71,7 +103,11 @@
       "title": "Planetary Defense: Protecting Earth from Asteroids",
       "prompt_template": "Write a deep-dive segment about planetary defense. Cover the DART mission's success, Near-Earth Object detection programs, the Torino scale, how we catalog potentially hazardous asteroids, proposed deflection techniques (kinetic impactor, gravity tractor, nuclear), and the role of ESA's Hera follow-up mission.",
       "estimated_words": 600,
-      "tags": ["asteroids", "defense", "DART"]
+      "tags": [
+        "asteroids",
+        "defense",
+        "DART"
+      ]
     },
     {
       "id": "ff_space_telescopes",
@@ -79,7 +115,11 @@
       "title": "The Golden Age of Space Telescopes",
       "prompt_template": "Write a deep-dive segment about the current fleet of space telescopes. Cover JWST, Hubble (still operational), Chandra (X-ray), upcoming missions like Nancy Grace Roman Space Telescope, ESA's Euclid, and how multi-wavelength observations combine to reveal the universe. Explain why space-based observing surpasses ground-based telescopes for certain science.",
       "estimated_words": 600,
-      "tags": ["telescopes", "observatories", "surveys"]
+      "tags": [
+        "telescopes",
+        "observatories",
+        "surveys"
+      ]
     },
     {
       "id": "ff_contrarian_space_commercialization",
@@ -87,7 +127,11 @@
       "title": "Debate: Should Space Be Commercialized?",
       "prompt_template": "Write a balanced debate segment on space commercialization. Present arguments for commercial space (innovation speed, cost reduction, economic growth) alongside concerns (space debris, resource exploitation ethics, equitable access, Kessler syndrome). Reference SpaceX, Blue Origin, Rocket Lab, and international treaties like the Outer Space Treaty.",
       "estimated_words": 600,
-      "tags": ["commercial", "debate", "policy"]
+      "tags": [
+        "commercial",
+        "debate",
+        "policy"
+      ]
     },
     {
       "id": "ff_life_in_solar_system",
@@ -95,7 +139,11 @@
       "title": "The Search for Life in Our Solar System",
       "prompt_template": "Write a deep-dive segment about the search for life beyond Earth within our own solar system. Cover Mars subsurface water and methane, Europa's ocean, Enceladus's hydrothermal vents, Titan's methane lakes, and Venus's phosphine controversy. Explain what biosignatures scientists look for and upcoming missions designed to detect them.",
       "estimated_words": 600,
-      "tags": ["astrobiology", "life", "solar system"]
+      "tags": [
+        "astrobiology",
+        "life",
+        "solar system"
+      ]
     },
     {
       "id": "ff_satellite_constellations",
@@ -103,7 +151,11 @@
       "title": "Mega-Constellations: Connecting the World from Orbit",
       "prompt_template": "Write a deep-dive segment about satellite mega-constellations. Cover Starlink, OneWeb, Amazon's Project Kuiper, and China's Guowang. Explain the technology (LEO vs GEO), real-world connectivity benefits for underserved areas, and the growing concerns about light pollution for astronomers and space debris management.",
       "estimated_words": 600,
-      "tags": ["satellites", "internet", "LEO"]
+      "tags": [
+        "satellites",
+        "internet",
+        "LEO"
+      ]
     },
     {
       "id": "ff_profile_esa",
@@ -111,7 +163,203 @@
       "title": "Profile: The European Space Agency",
       "prompt_template": "Write a profile segment about ESA. Cover its multinational structure, key missions (Rosetta, ExoMars, JUICE, Ariane rockets), how ESA collaborates with and differs from NASA, its Earth observation programs (Copernicus), and ESA's strategy for independent crew access to space.",
       "estimated_words": 500,
-      "tags": ["ESA", "institutions", "international"]
+      "tags": [
+        "ESA",
+        "institutions",
+        "international"
+      ]
+    },
+    {
+      "id": "ff_dark_matter",
+      "type": "deep_dive",
+      "title": "Dark Matter and Dark Energy",
+      "prompt_template": "Write a deep-dive about dark matter and dark energy. Cover the observational evidence (galaxy rotation curves, gravitational lensing, cosmic microwave background), leading theoretical candidates (WIMPs, axions, modified gravity), current detection experiments (LUX-ZEPLIN, XENONnT), and why 95% of the universe remains invisible to us. Make the mystery compelling.",
+      "estimated_words": 600,
+      "tags": [
+        "cosmology",
+        "physics",
+        "mystery"
+      ]
+    },
+    {
+      "id": "ff_neutron_stars",
+      "type": "deep_dive",
+      "title": "Neutron Stars: The Densest Objects",
+      "prompt_template": "Write a deep-dive about neutron stars. Cover how they form from supernova remnants, their extreme density (a teaspoon weighing a billion tonnes), pulsars and magnetars, the NICER mission measurements, neutron star mergers as gold factories, and what they tell us about the equation of state of matter. Include mind-bending scale comparisons.",
+      "estimated_words": 600,
+      "tags": [
+        "stars",
+        "physics",
+        "extreme"
+      ]
+    },
+    {
+      "id": "ff_gravitational_waves",
+      "type": "deep_dive",
+      "title": "Gravitational Waves: Listening to the Universe",
+      "prompt_template": "Write a deep-dive about gravitational wave astronomy. Cover the LIGO/Virgo detections, the 2017 neutron star merger breakthrough, pulsar timing arrays detecting the gravitational wave background, planned space detectors like LISA, and how gravitational waves open an entirely new sense for observing the universe beyond light.",
+      "estimated_words": 600,
+      "tags": [
+        "physics",
+        "LIGO",
+        "discovery"
+      ]
+    },
+    {
+      "id": "ff_solar_system_moons",
+      "type": "deep_dive",
+      "title": "Ocean Worlds: Europa, Enceladus, and Titan",
+      "prompt_template": "Write a deep-dive about the ocean worlds of our solar system. Cover Europa's subsurface ocean and the Europa Clipper mission, Enceladus and its geysers spraying organic molecules into space, Titan's methane lakes and Dragonfly mission, and why these moons may be our best bet for finding extraterrestrial life within the solar system.",
+      "estimated_words": 600,
+      "tags": [
+        "moons",
+        "astrobiology",
+        "missions"
+      ]
+    },
+    {
+      "id": "ff_space_debris",
+      "type": "deep_dive",
+      "title": "Space Debris: The Growing Threat",
+      "prompt_template": "Write a deep-dive about the space debris problem. Cover the current count of tracked objects, the Kessler syndrome cascade risk, notable close calls and collisions (the 2009 Iridium-Cosmos crash), active debris removal technologies being developed, and how mega-constellations like Starlink are changing the equation. Discuss what regulations exist and what's needed.",
+      "estimated_words": 600,
+      "tags": [
+        "debris",
+        "sustainability",
+        "policy"
+      ]
+    },
+    {
+      "id": "ff_rocket_propulsion",
+      "type": "deep_dive",
+      "title": "Rocket Propulsion: From Chemical to Nuclear",
+      "prompt_template": "Write a deep-dive about rocket propulsion technologies. Cover chemical rockets (liquid vs solid), ion/electric propulsion for deep space, nuclear thermal propulsion (NASA's DRACO program), solar sails, and speculative technologies like fusion drives. Explain the tyranny of the rocket equation and why propulsion is the fundamental bottleneck of space exploration.",
+      "estimated_words": 600,
+      "tags": [
+        "propulsion",
+        "technology",
+        "engineering"
+      ]
+    },
+    {
+      "id": "ff_profile_hubble",
+      "type": "profile",
+      "title": "Profile: The Hubble Space Telescope Legacy",
+      "prompt_template": "Write a profile of the Hubble Space Telescope's 35+ year legacy. Cover the initial mirror flaw and heroic repair mission, the Deep Field images that changed our understanding of the universe, key discoveries (dark energy acceleration, exoplanet atmospheres, galaxy evolution), and how Hubble continues to complement JWST. This is a story of perseverance and discovery.",
+      "estimated_words": 500,
+      "tags": [
+        "telescope",
+        "history",
+        "discovery"
+      ]
+    },
+    {
+      "id": "ff_profile_jpl",
+      "type": "profile",
+      "title": "Profile: NASA's Jet Propulsion Laboratory",
+      "prompt_template": "Write a profile of JPL and its outsized role in space exploration. Cover its origins in rocketry with Jack Parsons and Theodore von Kármán, the Ranger and Voyager programs, the Mars rover dynasty, the 'seven minutes of terror' landing challenges, and the unique engineering culture that makes JPL the world's premier planetary exploration center.",
+      "estimated_words": 500,
+      "tags": [
+        "NASA",
+        "JPL",
+        "engineering"
+      ]
+    },
+    {
+      "id": "ff_history_voyager",
+      "type": "historical",
+      "title": "The Voyager Missions: Humanity's Farthest Reach",
+      "prompt_template": "Write a historical segment about the Voyager 1 and 2 missions. Cover the golden opportunity of the planetary alignment, the grand tour of Jupiter/Saturn/Uranus/Neptune, the Golden Record, Voyager 1 entering interstellar space in 2012, the Pale Blue Dot photo, and the fact that these 1977 spacecraft are still communicating from 15+ billion miles away. The ultimate triumph of engineering.",
+      "estimated_words": 600,
+      "tags": [
+        "Voyager",
+        "history",
+        "exploration"
+      ]
+    },
+    {
+      "id": "ff_history_apollo",
+      "type": "historical",
+      "title": "Apollo: The Moon Landing Story",
+      "prompt_template": "Write a historical segment about the Apollo program. Cover Kennedy's challenge, the Apollo 1 tragedy, the engineering of the Saturn V, Apollo 8's Christmas Eve lunar orbit, Apollo 11's landing, Apollo 13's survival, the later science-focused missions, and why no human has returned to the Moon in 50+ years. Focus on the engineering and human stories, not just the politics.",
+      "estimated_words": 600,
+      "tags": [
+        "Apollo",
+        "Moon",
+        "history"
+      ]
+    },
+    {
+      "id": "ff_contrarian_mars_colony",
+      "type": "contrarian",
+      "title": "Contrarian: Should We Really Colonize Mars?",
+      "prompt_template": "Write a balanced contrarian segment debating Mars colonization. The pro case: backup for humanity, inspiring exploration, pushing technology forward. The contra case: radiation exposure, psychological isolation, the ethical question of terraforming, the argument that fixing Earth is more urgent, and whether robotic exploration achieves 90% of the science at 1% of the cost. Present both sides fairly.",
+      "estimated_words": 600,
+      "tags": [
+        "Mars",
+        "debate",
+        "ethics"
+      ]
+    },
+    {
+      "id": "ff_contrarian_aliens",
+      "type": "contrarian",
+      "title": "Contrarian: Where Is Everybody? The Fermi Paradox",
+      "prompt_template": "Write a contrarian segment exploring the Fermi Paradox. Cover the strongest proposed solutions: the Great Filter (are we past it or approaching it?), the Zoo Hypothesis, the Dark Forest theory, the argument that space is simply too vast, and the possibility that we're looking for the wrong signals. Present each solution's strengths and weaknesses. End with what recent exoplanet data suggests.",
+      "estimated_words": 600,
+      "tags": [
+        "SETI",
+        "paradox",
+        "debate"
+      ]
+    },
+    {
+      "id": "ff_utility_stargazing",
+      "type": "listener_guide",
+      "title": "Listener Guide: Getting Started with Stargazing",
+      "prompt_template": "Write a practical listener guide for beginning stargazers. Cover what's visible with the naked eye (planets, the Milky Way, meteor showers), choosing binoculars vs a first telescope, the best stargazing apps, how to find dark sky sites, seasonal highlights (what to look for each season), and how to photograph the night sky with a smartphone. Make it accessible and exciting for complete beginners.",
+      "estimated_words": 600,
+      "tags": [
+        "guide",
+        "stargazing",
+        "practical"
+      ]
+    },
+    {
+      "id": "ff_utility_follow_missions",
+      "type": "listener_guide",
+      "title": "Listener Guide: How to Follow Space Missions",
+      "prompt_template": "Write a practical guide for following space missions in real time. Cover NASA TV and SpaceX webcasts, mission tracking websites, the best space news sources, social media accounts to follow, how to understand a mission timeline (launch windows, orbital mechanics, science phases), and how to watch rocket launches in person if you're near a launch site. Help listeners become informed space enthusiasts.",
+      "estimated_words": 600,
+      "tags": [
+        "guide",
+        "missions",
+        "practical"
+      ]
+    },
+    {
+      "id": "ff_sun_weather",
+      "type": "deep_dive",
+      "title": "Space Weather: How the Sun Affects Earth",
+      "prompt_template": "Write a deep-dive about space weather. Cover the solar cycle, coronal mass ejections, the Carrington Event of 1859 and what a repeat would mean for modern infrastructure, aurora formation, how space weather affects satellites and astronauts, and current monitoring through missions like the Parker Solar Probe and Solar Orbiter. Make the Sun feel like the dynamic, dangerous star it is.",
+      "estimated_words": 600,
+      "tags": [
+        "Sun",
+        "weather",
+        "hazards"
+      ]
+    },
+    {
+      "id": "ff_telescopes_future",
+      "type": "deep_dive",
+      "title": "Next-Generation Telescopes: What's Coming",
+      "prompt_template": "Write a deep-dive about upcoming telescopes that will transform astronomy. Cover the Extremely Large Telescope (ELT) in Chile, the Giant Magellan Telescope, the Vera Rubin Observatory's sky survey, the Nancy Grace Roman Space Telescope, and planned concepts like the Habitable Worlds Observatory. Explain what each will uniquely reveal that current instruments cannot see.",
+      "estimated_words": 600,
+      "tags": [
+        "telescopes",
+        "future",
+        "technology"
+      ]
     }
   ]
 }

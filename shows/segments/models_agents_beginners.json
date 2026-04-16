@@ -7,7 +7,11 @@
       "title": "What Is a Large Language Model, Really?",
       "prompt_template": "Write a beginner-friendly deep-dive explaining what large language models are. Cover neural networks in simple terms, how training on text works, what 'tokens' are, why models seem to 'understand' language, and what they actually can't do. Use analogies a teenager would understand. Avoid jargon or explain every technical term.",
       "estimated_words": 600,
-      "tags": ["AI basics", "LLMs", "education"]
+      "tags": [
+        "AI basics",
+        "LLMs",
+        "education"
+      ]
     },
     {
       "id": "mab_prompt_engineering",
@@ -15,7 +19,11 @@
       "title": "Prompt Engineering for Beginners",
       "prompt_template": "Write a practical utility segment teaching beginners how to write better prompts for AI chatbots. Cover the basics: being specific, giving context, using examples (few-shot), chain-of-thought prompting, and common mistakes. Provide before/after prompt examples showing dramatic improvement. Make it fun and actionable for teens.",
       "estimated_words": 500,
-      "tags": ["utility", "prompts", "practical"]
+      "tags": [
+        "utility",
+        "prompts",
+        "practical"
+      ]
     },
     {
       "id": "mab_ai_image_generation",
@@ -23,7 +31,11 @@
       "title": "How AI Image Generation Works",
       "prompt_template": "Write a beginner-friendly deep-dive about AI image generation. Cover how diffusion models work (adding and removing noise), the difference between DALL-E, Midjourney, and Stable Diffusion, text-to-image vs image-to-image, what 'training data' means for art AI, and the ongoing debate about AI art and artists. Use simple analogies.",
       "estimated_words": 600,
-      "tags": ["image generation", "diffusion", "art"]
+      "tags": [
+        "image generation",
+        "diffusion",
+        "art"
+      ]
     },
     {
       "id": "mab_ai_agents_explained",
@@ -31,7 +43,11 @@
       "title": "AI Agents: What They Are and Why They Matter",
       "prompt_template": "Write a beginner-friendly deep-dive explaining AI agents. Cover what makes an agent different from a chatbot (goal-oriented, can use tools, takes actions), examples like coding agents and research agents, the concept of 'tool use,' and where agents are heading. Use relatable examples like a helpful robot assistant that can browse the web, write code, and book appointments.",
       "estimated_words": 600,
-      "tags": ["agents", "tools", "autonomy"]
+      "tags": [
+        "agents",
+        "tools",
+        "autonomy"
+      ]
     },
     {
       "id": "mab_profile_openai",
@@ -39,7 +55,11 @@
       "title": "Profile: OpenAI — From Research Lab to Tech Giant",
       "prompt_template": "Write a beginner-friendly profile about OpenAI. Cover its founding as a nonprofit, key people (Sam Altman, Ilya Sutskever's departure), the launch of ChatGPT and its explosive growth, the shift to a capped-profit model, the partnership with Microsoft, and the GPT model evolution from GPT-2 to GPT-4 and beyond. Keep it accessible for teens.",
       "estimated_words": 500,
-      "tags": ["OpenAI", "companies", "history"]
+      "tags": [
+        "OpenAI",
+        "companies",
+        "history"
+      ]
     },
     {
       "id": "mab_profile_anthropic",
@@ -47,7 +67,11 @@
       "title": "Profile: Anthropic and Claude",
       "prompt_template": "Write a beginner-friendly profile about Anthropic. Cover its founding by former OpenAI researchers (Dario and Daniela Amodei), its focus on AI safety, what Constitutional AI means in simple terms, the Claude model family, and how Anthropic's approach differs from OpenAI and Google. Explain why AI safety research matters.",
       "estimated_words": 500,
-      "tags": ["Anthropic", "safety", "companies"]
+      "tags": [
+        "Anthropic",
+        "safety",
+        "companies"
+      ]
     },
     {
       "id": "mab_history_ai",
@@ -55,7 +79,11 @@
       "title": "A Brief History of AI: From Turing to ChatGPT",
       "prompt_template": "Write a historical segment tracing AI's journey from Alan Turing's 1950 question 'Can machines think?' through AI winters, expert systems, Deep Blue beating Kasparov, AlphaGo's triumph, the transformer revolution, and the ChatGPT moment. Make it a fun story with heroes, setbacks, and breakthroughs. Accessible for teens.",
       "estimated_words": 600,
-      "tags": ["history", "AI", "milestones"]
+      "tags": [
+        "history",
+        "AI",
+        "milestones"
+      ]
     },
     {
       "id": "mab_ai_ethics",
@@ -63,7 +91,11 @@
       "title": "AI Ethics: The Big Questions",
       "prompt_template": "Write a beginner-friendly deep-dive about AI ethics. Cover bias in training data (with real examples), deepfakes and misinformation, job displacement concerns, privacy issues, the alignment problem in simple terms, and what 'responsible AI' means in practice. Present multiple perspectives fairly. Encourage critical thinking rather than fear.",
       "estimated_words": 600,
-      "tags": ["ethics", "bias", "safety"]
+      "tags": [
+        "ethics",
+        "bias",
+        "safety"
+      ]
     },
     {
       "id": "mab_contrarian_ai_school",
@@ -71,7 +103,11 @@
       "title": "Debate: Should AI Be Allowed in Schools?",
       "prompt_template": "Write a balanced debate segment on AI in education. Present arguments for (personalized learning, accessibility, preparing students for AI-native jobs) and against (academic integrity, over-reliance, critical thinking erosion, privacy concerns). Reference real school policies. Let listeners form their own opinion. Make it relatable for students.",
       "estimated_words": 600,
-      "tags": ["education", "debate", "schools"]
+      "tags": [
+        "education",
+        "debate",
+        "schools"
+      ]
     },
     {
       "id": "mab_how_chatbots_remember",
@@ -79,7 +115,11 @@
       "title": "How Do AI Chatbots Remember (and Forget)?",
       "prompt_template": "Write a beginner-friendly deep-dive about AI memory. Cover context windows (why chatbots 'forget'), how tokens limit conversation length, the difference between in-context learning and fine-tuning, RAG (retrieval-augmented generation) in simple terms, and why your ChatGPT conversation doesn't change the model itself. Use analogies like a notebook vs a textbook.",
       "estimated_words": 600,
-      "tags": ["memory", "context", "technical"]
+      "tags": [
+        "memory",
+        "context",
+        "technical"
+      ]
     },
     {
       "id": "mab_ai_coding",
@@ -87,7 +127,11 @@
       "title": "Getting Started with AI-Assisted Coding",
       "prompt_template": "Write a practical utility segment about using AI for coding as a beginner. Cover GitHub Copilot, ChatGPT for code, Claude for debugging, how to describe what you want to build, iterating on AI-generated code, and why understanding code still matters even when AI writes it. Include a simple project idea a teen could try this weekend.",
       "estimated_words": 500,
-      "tags": ["utility", "coding", "practical"]
+      "tags": [
+        "utility",
+        "coding",
+        "practical"
+      ]
     },
     {
       "id": "mab_open_vs_closed",
@@ -95,7 +139,11 @@
       "title": "Open Source vs Closed AI Models",
       "prompt_template": "Write a beginner-friendly deep-dive comparing open-source and closed-source AI models. Cover what 'open source' means for AI (model weights, training data, code), examples like Llama, Mistral, and Stable Diffusion vs GPT-4 and Claude, the trade-offs (innovation vs safety, accessibility vs misuse), and why this debate matters for the future of AI. Keep it simple.",
       "estimated_words": 600,
-      "tags": ["open source", "models", "debate"]
+      "tags": [
+        "open source",
+        "models",
+        "debate"
+      ]
     },
     {
       "id": "mab_ai_music_video",
@@ -103,7 +151,11 @@
       "title": "AI for Music and Video: Creative AI Tools",
       "prompt_template": "Write a beginner-friendly deep-dive about AI creative tools. Cover AI music generation (Suno, Udio), AI video (Sora, Runway), voice cloning, and how these tools work at a high level. Discuss the creative possibilities for young creators alongside the copyright and originality questions. Include tools a teen could try for free.",
       "estimated_words": 600,
-      "tags": ["creative", "music", "video"]
+      "tags": [
+        "creative",
+        "music",
+        "video"
+      ]
     },
     {
       "id": "mab_what_is_training",
@@ -111,7 +163,203 @@
       "title": "How AI Models Are Trained",
       "prompt_template": "Write a beginner-friendly deep-dive about how AI models are trained. Cover the concept of training data, supervised learning vs unsupervised learning, reinforcement learning from human feedback (RLHF), what GPUs do and why they matter, how much training costs, and what 'fine-tuning' means. Use the analogy of studying for an exam but at massive scale.",
       "estimated_words": 600,
-      "tags": ["training", "technical", "education"]
+      "tags": [
+        "training",
+        "technical",
+        "education"
+      ]
+    },
+    {
+      "id": "mab_how_chatbots_work",
+      "type": "deep_dive",
+      "title": "How Chatbots Actually Work",
+      "prompt_template": "Write a beginner-friendly deep-dive explaining how AI chatbots like ChatGPT actually work. Start with the analogy of autocomplete on steroids, explain tokens (words chopped into pieces), the training process (reading the internet), and why chatbots sometimes make things up (they're predicting likely words, not looking up facts). Use everyday analogies a 14-year-old would understand.",
+      "estimated_words": 600,
+      "tags": [
+        "chatbots",
+        "basics",
+        "explanation"
+      ]
+    },
+    {
+      "id": "mab_ai_art",
+      "type": "deep_dive",
+      "title": "How AI Creates Images",
+      "prompt_template": "Write a beginner-friendly deep-dive about AI image generation. Explain diffusion models using the analogy of starting with TV static and slowly finding a picture in the noise. Cover DALL-E, Midjourney, and Stable Diffusion, what 'prompting' means for images, why AI sometimes draws hands wrong (it doesn't understand anatomy), and the debate about AI art and human artists.",
+      "estimated_words": 600,
+      "tags": [
+        "images",
+        "creativity",
+        "explanation"
+      ]
+    },
+    {
+      "id": "mab_ai_games",
+      "type": "deep_dive",
+      "title": "AI That Plays Games Better Than Humans",
+      "prompt_template": "Write a beginner-friendly deep-dive about AI game-playing. Cover Deep Blue vs Kasparov in chess, AlphaGo's victory in Go (a game with more positions than atoms in the universe), OpenAI Five in Dota 2, and AlphaStar in StarCraft. Explain reinforcement learning using the analogy of training a puppy with treats. Why does beating humans at games matter for real-world AI?",
+      "estimated_words": 600,
+      "tags": [
+        "games",
+        "reinforcement_learning",
+        "history"
+      ]
+    },
+    {
+      "id": "mab_ai_voice",
+      "type": "deep_dive",
+      "title": "How AI Understands and Creates Speech",
+      "prompt_template": "Write a beginner-friendly deep-dive about speech AI. Cover speech recognition (how Siri/Alexa understand you — it's like the AI reading lips but with sound waves), text-to-speech (how AI voices are created), voice cloning (how it works and the ethical concerns), and real-time translation. Use the analogy of learning a language by listening to millions of conversations.",
+      "estimated_words": 600,
+      "tags": [
+        "speech",
+        "voice",
+        "explanation"
+      ]
+    },
+    {
+      "id": "mab_ai_school",
+      "type": "deep_dive",
+      "title": "AI in Your School: What's Changing",
+      "prompt_template": "Write a beginner-friendly deep-dive about how AI is changing education. Cover AI tutoring systems that adapt to your learning speed, how teachers are using AI to create lesson plans, the homework debate (is using ChatGPT cheating?), AI-powered language learning apps, and how to use AI as a study tool without letting it think for you. Include practical tips for students.",
+      "estimated_words": 600,
+      "tags": [
+        "education",
+        "school",
+        "practical"
+      ]
+    },
+    {
+      "id": "mab_robots",
+      "type": "deep_dive",
+      "title": "Robots and AI: From Factory Arms to Humanoids",
+      "prompt_template": "Write a beginner-friendly deep-dive about AI-powered robots. Cover the difference between industrial robots (arms that weld cars) and AI robots (that can see and decide), Boston Dynamics' Atlas, Tesla's Optimus, warehouse robots, surgical robots, and delivery robots. Explain why making a robot walk is actually harder than making AI write an essay. What will robots do in 10 years?",
+      "estimated_words": 600,
+      "tags": [
+        "robots",
+        "hardware",
+        "future"
+      ]
+    },
+    {
+      "id": "mab_ai_safety",
+      "type": "deep_dive",
+      "title": "Why People Worry About AI Safety",
+      "prompt_template": "Write a beginner-friendly deep-dive about AI safety concerns. Cover alignment (making sure AI does what we actually want, not just what we literally say — like a genie that grants wishes too literally), deepfakes and misinformation, job displacement concerns, bias in AI systems, and the difference between realistic near-term risks and science-fiction scenarios. Be balanced — don't dismiss concerns or create panic.",
+      "estimated_words": 600,
+      "tags": [
+        "safety",
+        "ethics",
+        "society"
+      ]
+    },
+    {
+      "id": "mab_profile_hinton",
+      "type": "profile",
+      "title": "Profile: Geoffrey Hinton, the Godfather of AI",
+      "prompt_template": "Write a beginner-friendly profile of Geoffrey Hinton. Cover his decades of work on neural networks when almost nobody believed in them, his breakthrough with deep learning, winning the Nobel Prize, his famous decision to leave Google to speak freely about AI risks, and why he went from AI's biggest champion to one of its most worried critics. A story about sticking with your ideas even when everyone thinks you're wrong.",
+      "estimated_words": 500,
+      "tags": [
+        "people",
+        "history",
+        "safety"
+      ]
+    },
+    {
+      "id": "mab_profile_fei_fei_li",
+      "type": "profile",
+      "title": "Profile: Fei-Fei Li and ImageNet",
+      "prompt_template": "Write a beginner-friendly profile of Fei-Fei Li. Cover her immigrant story (from China to Princeton), creating ImageNet (the dataset that kickstarted the deep learning revolution — she had 50,000 people label 14 million images), founding Stanford's Human-Centered AI Institute, her philosophy that AI should be built to help humans not replace them, and why diversity in AI research matters.",
+      "estimated_words": 500,
+      "tags": [
+        "people",
+        "datasets",
+        "diversity"
+      ]
+    },
+    {
+      "id": "mab_history_siri",
+      "type": "historical",
+      "title": "From Siri to ChatGPT: A Brief History of AI Assistants",
+      "prompt_template": "Write a beginner-friendly history of AI assistants. Cover Siri's 2011 launch (the first time most people talked to AI), Google Assistant, Alexa, the frustrating years when they could barely understand you, and then the ChatGPT moment in November 2022 that changed everything. What made ChatGPT feel so different from Siri? Explain the technology leap in simple terms.",
+      "estimated_words": 600,
+      "tags": [
+        "history",
+        "assistants",
+        "chatbots"
+      ]
+    },
+    {
+      "id": "mab_history_ai_winters",
+      "type": "historical",
+      "title": "The AI Winters: When Everyone Gave Up on AI",
+      "prompt_template": "Write a beginner-friendly history about the AI winters — periods when everyone thought AI was a dead end. Cover the 1960s optimism (scientists thought AI would be solved in a summer), the first winter in the 1970s, the expert systems hype and crash in the 1980s-90s, and the 2010s deep learning breakthrough that finally made AI work. The lesson: sometimes the best ideas just need better computers and more data.",
+      "estimated_words": 600,
+      "tags": [
+        "history",
+        "persistence",
+        "breakthrough"
+      ]
+    },
+    {
+      "id": "mab_contrarian_replace_jobs",
+      "type": "contrarian",
+      "title": "Will AI Replace Your Job? (Honest Answer)",
+      "prompt_template": "Write a balanced, beginner-friendly contrarian segment about AI and jobs. Cover which jobs are most affected (data entry, basic coding, customer service), which are safe for now (plumbers, nurses, teachers), the historical pattern (ATMs didn't eliminate bank tellers — they changed what tellers do), new jobs AI is creating, and practical advice for teens choosing careers. Be honest without being scary.",
+      "estimated_words": 600,
+      "tags": [
+        "jobs",
+        "debate",
+        "future"
+      ]
+    },
+    {
+      "id": "mab_contrarian_trust_ai",
+      "type": "contrarian",
+      "title": "Should You Trust What AI Tells You?",
+      "prompt_template": "Write a balanced, beginner-friendly segment about trusting AI outputs. Cover why AI confidently says wrong things (hallucination explained simply), the difference between AI being helpful vs being right, how to fact-check AI (cross-reference, check sources, use your common sense), when AI is reliable (translation, summarizing) vs unreliable (medical advice, legal advice, recent events), and why 'trust but verify' is the right approach.",
+      "estimated_words": 600,
+      "tags": [
+        "trust",
+        "literacy",
+        "practical"
+      ]
+    },
+    {
+      "id": "mab_utility_try_ai",
+      "type": "utility",
+      "title": "Cool AI Tools You Can Try Right Now (For Free)",
+      "prompt_template": "Write a practical segment listing AI tools that beginners and teens can try for free right now. Cover chatbots (ChatGPT free tier, Claude), image generation (Bing Image Creator), music creation (Suno free tier), coding help (GitHub Copilot for students), writing assistance, AI-powered study tools, and creative tools. For each: what it does, how to access it, one cool thing to try first. Keep it practical and exciting.",
+      "estimated_words": 600,
+      "tags": [
+        "tools",
+        "practical",
+        "guide"
+      ]
+    },
+    {
+      "id": "mab_utility_ai_homework",
+      "type": "utility",
+      "title": "How to Use AI for Homework (Without Cheating)",
+      "prompt_template": "Write a practical guide for students on using AI ethically for schoolwork. Cover the difference between having AI do your homework (cheating) and using AI as a study tool (smart), specific techniques (ask AI to explain a concept differently, quiz you, check your work, suggest research directions), what teachers can detect, school policies to be aware of, and why learning to work WITH AI is actually the most valuable skill.",
+      "estimated_words": 600,
+      "tags": [
+        "education",
+        "ethics",
+        "practical"
+      ]
+    },
+    {
+      "id": "mab_guide_ai_project",
+      "type": "listener_guide",
+      "title": "Listener Guide: Build Your First AI Project",
+      "prompt_template": "Write a beginner-friendly guide for building a first AI project. Cover simple starter projects (a chatbot for your hobby, an AI study buddy, a creative writing partner), free tools needed (Python basics, API keys), step-by-step instructions for making a simple chatbot using an API, what to do when it doesn't work, and how to show off your project. Make it feel achievable for a motivated teenager with zero coding experience.",
+      "estimated_words": 600,
+      "tags": [
+        "guide",
+        "project",
+        "coding"
+      ]
     }
   ]
 }

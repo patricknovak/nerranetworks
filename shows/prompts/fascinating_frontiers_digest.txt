@@ -47,6 +47,10 @@ A mind-expanding deep dive into one space or astronomy concept. This section use
 
 **TOPIC SELECTION:** From today's stories, choose the concept that would make a curious person stop scrolling and say "I had no idea that's how it works." Prioritize: (1) concepts with a mind-blowing scale or number, (2) mechanisms that sound like science fiction but are real, (3) things we can observe but still can't fully explain.
 
+### RECENTLY COVERED STORIES — DO NOT REPEAT (do not include in output):
+The following stories were covered in recent episodes. Prioritize NEW stories and genuinely new developments. If a story appeared recently, cover ONLY what is new (not a reframe of the same information).
+{recent_content_summary}
+
 **TOPIC FRESHNESS — MUST choose a DIFFERENT topic than recent episodes:**
 {recent_deep_dive_topics}
 
