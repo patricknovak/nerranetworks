@@ -470,6 +470,6 @@ class TestShippedSegmentLibraries:
         assert len(ids) == len(set(ids)), f"Duplicate segment IDs in {lib_file}"
 
         # All types should be from the allowed set
-        allowed_types = {"deep_dive", "profile", "historical", "contrarian", "utility"}
+        allowed_types = {"deep_dive", "profile", "historical", "contrarian", "utility", "listener_guide"}
         for seg in segments:
             assert seg["type"] in allowed_types, f"Unknown type '{seg['type']}' in {lib_file}"

@@ -42,6 +42,70 @@
       "tags": ["energy", "storage", "business"]
     },
     {
+      "id": "tesla_supercharger_economics",
+      "type": "deep_dive",
+      "title": "Supercharger Network Economics",
+      "prompt_template": "Write a deep-dive segment about the economics of Tesla's Supercharger network. Cover the total station count and growth rate, the revenue model (per-kWh pricing vs subscription), the impact of opening the network to non-Tesla EVs via NACS adoption, utilization rates, and whether the network can become a standalone profit center. Discuss how the Supercharger network functions as a competitive moat even as it opens to competitors.",
+      "estimated_words": 600,
+      "tags": ["infrastructure", "business", "charging"]
+    },
+    {
+      "id": "tesla_manufacturing_innovation",
+      "type": "deep_dive",
+      "title": "Tesla's Manufacturing Revolution",
+      "prompt_template": "Write a deep-dive segment about Tesla's manufacturing innovations. Cover the Gigacasting/unibody approach (the giant 9,000-ton presses that cast the Model Y rear underbody in one piece), the 'unboxed' assembly process for next-gen vehicles, paint shop innovations, and how Tesla's manufacturing approach differs fundamentally from traditional automakers. Explain why manufacturing is Tesla's most underappreciated competitive advantage.",
+      "estimated_words": 600,
+      "tags": ["manufacturing", "technology", "business"]
+    },
+    {
+      "id": "tesla_gigafactory_strategy",
+      "type": "deep_dive",
+      "title": "Gigafactory Strategy: Why Location Matters",
+      "prompt_template": "Write a deep-dive segment about Tesla's Gigafactory location strategy. Compare the four major factories — Fremont (legacy), Shanghai (speed), Berlin (Europe), and Austin (flagship) — in terms of production capacity, ramp efficiency, local supply chains, and regulatory environment. Explain why Tesla chose each location, what each factory specializes in, and how the distributed manufacturing model reduces geopolitical risk.",
+      "estimated_words": 600,
+      "tags": ["manufacturing", "strategy", "global"]
+    },
+    {
+      "id": "tesla_software_ecosystem",
+      "type": "deep_dive",
+      "title": "Tesla's Software Advantage",
+      "prompt_template": "Write a deep-dive segment about Tesla's software ecosystem as a competitive moat. Cover over-the-air updates (how many have been pushed, what they've added post-purchase), the in-car app ecosystem, fleet data collection for FSD training, the Tesla app as a connected vehicle platform, and how software-defined vehicles create recurring revenue opportunities. Compare Tesla's software cadence to legacy automakers.",
+      "estimated_words": 600,
+      "tags": ["technology", "software", "business"]
+    },
+    {
+      "id": "tesla_china_strategy",
+      "type": "deep_dive",
+      "title": "Tesla in China: Partner or Competitor?",
+      "prompt_template": "Write a deep-dive segment about Tesla's complex position in China. Cover Shanghai Gigafactory's role as Tesla's highest-volume plant, the competitive threat from BYD/NIO/XPeng/Li Auto, Tesla's pricing strategy in China, the regulatory environment, data localization requirements, and whether Tesla can maintain market share against increasingly capable Chinese EVs. Be balanced — China is both Tesla's biggest opportunity and biggest competitive threat.",
+      "estimated_words": 600,
+      "tags": ["strategy", "China", "competition"]
+    },
+    {
+      "id": "tesla_insurance_data",
+      "type": "deep_dive",
+      "title": "Tesla Insurance: Betting on Its Own Safety Data",
+      "prompt_template": "Write a deep-dive segment about Tesla Insurance. Cover how Tesla uses real-time driving behavior data to price policies, the Safety Score system, states where Tesla Insurance is available, how Tesla's loss ratios compare to traditional insurers, and the long-term strategic play — if FSD makes Tesla vehicles genuinely safer, Tesla captures that value through lower premiums rather than sharing it with third-party insurers. Discuss the regulatory hurdles and whether this can scale nationally.",
+      "estimated_words": 600,
+      "tags": ["business", "insurance", "data"]
+    },
+    {
+      "id": "tesla_supply_chain",
+      "type": "deep_dive",
+      "title": "Tesla's Vertical Integration Playbook",
+      "prompt_template": "Write a deep-dive segment about Tesla's vertical integration strategy. Cover how Tesla makes its own battery cells, builds its own chargers, writes its own software, designs its own chips (HW3/4/5, Dojo D1), and is increasingly manufacturing its own components that other automakers outsource. Compare this to the traditional automotive supplier model (Tier 1/2/3) and explain the trade-offs: higher capital expenditure but greater control, faster iteration, and better margins long-term.",
+      "estimated_words": 600,
+      "tags": ["manufacturing", "strategy", "supply_chain"]
+    },
+    {
+      "id": "tesla_robotaxi_economics",
+      "type": "deep_dive",
+      "title": "Robotaxi Economics: The Math Behind the Dream",
+      "prompt_template": "Write a deep-dive segment breaking down the economics of Tesla's robotaxi vision. Cover the cost per mile of autonomous ride-hailing vs human-driven Uber/Lyft, the revenue potential per vehicle per year, the utilization rate assumptions, insurance and liability costs, fleet maintenance, and the regulatory timeline. Use actual numbers and comparisons. Be honest about what's proven vs projected — this is the most debated part of Tesla's bull case.",
+      "estimated_words": 600,
+      "tags": ["autonomy", "business", "investing"]
+    },
+    {
       "id": "tesla_profile_straubel",
       "type": "profile",
       "title": "Profile: JB Straubel",
@@ -56,6 +120,22 @@
       "prompt_template": "Write a profile segment about Franz von Holzhausen, Tesla's chief designer. Cover his background at Mazda and GM, his design philosophy for Tesla, the controversial Cybertruck design decisions, and how Tesla's design language has evolved across generations.",
       "estimated_words": 500,
       "tags": ["people", "design"]
+    },
+    {
+      "id": "tesla_profile_drew_baglino",
+      "type": "profile",
+      "title": "Profile: Drew Baglino and the Battery Team",
+      "prompt_template": "Write a profile segment about Drew Baglino, Tesla's former SVP of Powertrain and Energy Engineering. Cover his role in developing the 4680 cell, his contributions to Battery Day, the dry electrode manufacturing push, his departure in 2024, and what his tenure reveals about the intensity of Tesla's engineering culture. Also cover the broader battery team he built and their ongoing work.",
+      "estimated_words": 500,
+      "tags": ["people", "batteries", "engineering"]
+    },
+    {
+      "id": "tesla_profile_karpathy",
+      "type": "profile",
+      "title": "Profile: Andrej Karpathy and Tesla AI",
+      "prompt_template": "Write a profile segment about Andrej Karpathy, Tesla's former Director of AI. Cover his Stanford background, his role building Tesla's Autopilot neural networks, the vision-only approach he championed, his YouTube educational content, his departure and return to OpenAI, and his lasting impact on Tesla's AI architecture. Explain why his hiring in 2017 was a turning point for Tesla's autonomy ambitions.",
+      "estimated_words": 500,
+      "tags": ["people", "AI", "autonomy"]
     },
     {
       "id": "tesla_history_production_hell",
@@ -74,6 +154,30 @@
       "tags": ["history", "strategy"]
     },
     {
+      "id": "tesla_history_shanghai_miracle",
+      "type": "historical",
+      "title": "The Shanghai Gigafactory: Built in 11 Months",
+      "prompt_template": "Write a historical perspective segment about the construction and ramp of Gigafactory Shanghai. Cover the unprecedented 11-month build time from empty field to first deliveries in 2019, the Chinese government partnership, how the factory became Tesla's highest-volume plant, and what it taught Tesla about rapid factory deployment. Contrast the Shanghai timeline with Berlin's multi-year regulatory delays.",
+      "estimated_words": 600,
+      "tags": ["history", "manufacturing", "China"]
+    },
+    {
+      "id": "tesla_history_supercharger_network",
+      "type": "historical",
+      "title": "How Tesla Built the World's Best Charging Network",
+      "prompt_template": "Write a historical perspective segment about the evolution of the Supercharger network. Start from the first 6 stations in 2012, through the coast-to-coast build-out, the shift from free unlimited charging to paid, the V3 and V4 hardware upgrades, and the masterstroke of getting the entire US auto industry to adopt Tesla's NACS connector as the standard. Explain how a proprietary charging network became an industry standard.",
+      "estimated_words": 600,
+      "tags": ["history", "infrastructure", "strategy"]
+    },
+    {
+      "id": "tesla_history_autopilot_evolution",
+      "type": "historical",
+      "title": "The Autopilot Journey: From Lane Keeping to FSD",
+      "prompt_template": "Write a historical perspective segment tracing the evolution of Tesla Autopilot. Cover the Mobileye partnership and split (HW1 to HW2 transition), the controversial decision to go vision-only, the regulatory battles, the FSD Beta rollout, and the major version milestones. Be honest about the timeline promises vs reality while acknowledging the genuine technical progress.",
+      "estimated_words": 600,
+      "tags": ["history", "autonomy", "technology"]
+    },
+    {
       "id": "tesla_contrarian_valuation",
       "type": "contrarian",
       "title": "The Tesla Valuation Debate",
@@ -88,6 +192,22 @@
       "prompt_template": "Write a contrarian segment examining whether Tesla is losing its competitive advantages. Cover BYD's rise in China, legacy automakers catching up on EVs, the Supercharger network opening to competitors, and whether software/AI remains a durable moat. Challenge common assumptions on both sides.",
       "estimated_words": 600,
       "tags": ["competition", "debate", "strategy"]
+    },
+    {
+      "id": "tesla_contrarian_elon_risk",
+      "type": "contrarian",
+      "title": "The Elon Factor: Asset or Liability?",
+      "prompt_template": "Write a balanced contrarian segment about Elon Musk's role as both Tesla's greatest asset and its biggest risk factor. Cover how his engineering vision and risk tolerance built Tesla, but also how his political activities, social media controversies, and attention split across SpaceX/xAI/X creates uncertainty. Discuss whether Tesla could thrive without Musk, using examples of other founder-led companies that successfully transitioned. Be fair to both sides.",
+      "estimated_words": 600,
+      "tags": ["leadership", "debate", "investing"]
+    },
+    {
+      "id": "tesla_contrarian_used_market",
+      "type": "contrarian",
+      "title": "The Used Tesla Market: Warning Sign or Growing Pain?",
+      "prompt_template": "Write a contrarian segment analyzing the used Tesla market. Cover the significant depreciation of Model 3/Y compared to initial expectations, how Tesla's own price cuts have crushed used values, what residual value trends mean for leasing economics, and whether this is a temporary growing pain of a maturing market or a structural concern about Tesla demand. Include actual price data points and comparison to legacy luxury brands.",
+      "estimated_words": 600,
+      "tags": ["market", "debate", "ownership"]
     },
     {
       "id": "tesla_utility_10k",
@@ -106,12 +226,44 @@
       "tags": ["investing", "education", "fundamentals"]
     },
     {
-      "id": "tesla_4680_manufacturing",
-      "type": "deep_dive",
-      "title": "4680 Cell Manufacturing Challenges",
-      "prompt_template": "Write a deep-dive segment about the manufacturing challenges of Tesla's 4680 battery cell. Cover dry electrode coating, the tabless design, yield rate improvements, how the cell fits into the structural battery pack, and the timeline for achieving cost parity with suppliers like Panasonic and CATL.",
+      "id": "tesla_utility_earnings_calls",
+      "type": "utility",
+      "title": "How to Listen to a Tesla Earnings Call",
+      "prompt_template": "Write a practical utility segment teaching listeners how to get the most out of Tesla's quarterly earnings calls. Cover where to listen live, what the prepared remarks vs Q&A sections reveal, key financial metrics to watch (automotive gross margin, energy revenue, CapEx guidance, free cash flow), how to read between the lines of management commentary, and the most reliable analyst questions to pay attention to. Include tips for separating signal from noise in the post-earnings stock reaction.",
       "estimated_words": 600,
-      "tags": ["technology", "batteries", "manufacturing"]
+      "tags": ["investing", "education", "earnings"]
+    },
+    {
+      "id": "tesla_utility_total_cost_ownership",
+      "type": "utility",
+      "title": "The Real Cost of Owning a Tesla",
+      "prompt_template": "Write a practical utility segment breaking down the true total cost of Tesla ownership vs a comparable gas vehicle over 5 years and 100,000 km. Cover purchase price, fuel/electricity costs (use real utility rates), insurance (including Tesla Insurance where available), maintenance (no oil changes, brake pad longevity from regen braking, tire costs), depreciation, and tax incentives. Use specific dollar amounts and real-world data. Be honest about where Tesla saves money and where it doesn't.",
+      "estimated_words": 600,
+      "tags": ["ownership", "education", "practical"]
+    },
+    {
+      "id": "tesla_guide_buying",
+      "type": "listener_guide",
+      "title": "Listener Guide: Which Tesla Should You Buy?",
+      "prompt_template": "Write a practical listener guide comparing the current Tesla lineup for different buyer profiles. Cover Model 3 (commuter/value), Model Y (family), Model S (luxury/performance), Model X (family hauler), and Cybertruck (truck buyers). For each, explain who it's for, the key trade-offs, which trim to pick, and the most common buyer regrets. Include practical advice on ordering (inventory vs custom order, delivery timing, referral programs). Be honest about which Tesla ISN'T right for certain buyers.",
+      "estimated_words": 600,
+      "tags": ["ownership", "guide", "practical"]
+    },
+    {
+      "id": "tesla_guide_charging",
+      "type": "listener_guide",
+      "title": "Listener Guide: Tesla Charging Explained",
+      "prompt_template": "Write a practical listener guide demystifying Tesla charging for new and prospective owners. Cover home charging (Level 1 vs Level 2, Wall Connector installation, costs), Supercharger network basics (how to find stations, pricing, etiquette), third-party charging via NACS adapters, road trip planning with the in-car route planner, and cold weather charging tips. Bust common myths like 'you need to charge to 100% every night' and explain the 20-80% sweet spot for battery longevity.",
+      "estimated_words": 600,
+      "tags": ["ownership", "guide", "charging"]
+    },
+    {
+      "id": "tesla_guide_winter_driving",
+      "type": "listener_guide",
+      "title": "Listener Guide: Tesla in Cold Weather",
+      "prompt_template": "Write a practical listener guide for Tesla owners in cold climates. Cover range loss in winter (how much and why — battery chemistry physics), preconditioning strategies, scheduled departure, winter tire recommendations, how regenerative braking changes in cold weather, Supercharger preconditioning for road trips, and real-world winter range expectations for Model 3/Y. Include specific tips from Canadian and northern US owners. This is especially relevant for our Vancouver-based show since many listeners drive through BC winters.",
+      "estimated_words": 600,
+      "tags": ["ownership", "guide", "seasonal"]
     }
   ]
 }
