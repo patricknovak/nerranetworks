@@ -19,11 +19,23 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-SHOWS = [
-    "tesla", "omni_view", "fascinating_frontiers", "planetterrian",
-    "env_intel", "models_agents", "models_agents_beginners",
-    "finansy_prosto", "modern_investing", "privet_russian",
-]
+def _discover_shows() -> list:
+    """Discover show slugs from YAML configs instead of hardcoding."""
+    shows_dir = Path(__file__).resolve().parent.parent / "shows"
+    slugs = []
+    for f in sorted(shows_dir.glob("*.yaml")):
+        if f.name.startswith("_") or f.name == "pronunciation_map.yaml":
+            continue
+        if f.parent.name != "shows":
+            continue
+        # templates directory
+        if "template" in f.name:
+            continue
+        slugs.append(f.stem)
+    return slugs
+
+
+SHOWS = _discover_shows()
 
 
 def main():

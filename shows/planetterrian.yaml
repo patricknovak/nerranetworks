@@ -180,10 +180,11 @@ chapters:
       title: "Closing"
 
 newsletter:
-  enabled: false  # TODO: Create "Planetterrian" tag in Buttondown, then enable + add tag field
+  enabled: true
   platform: buttondown
   api_key_env: BUTTONDOWN_API_KEY
   status: about_to_send
+  tag: "Planetterrian Daily"
 
 slow_news:
   enabled: true

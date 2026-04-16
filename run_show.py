@@ -1747,7 +1747,7 @@ def run(args: argparse.Namespace) -> None:
     if config.newsletter.enabled and not args.skip_newsletter:
         from engine.newsletter import send_show_newsletter
 
-        email_id = send_show_newsletter(x_thread, config, episode_num, today_str)
+        email_id = send_show_newsletter(x_thread, config, episode_num, today_str, hook=hook)
         if email_id:
             logger.info("Newsletter sent: %s", email_id)
         else:
