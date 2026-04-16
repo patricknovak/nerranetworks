@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-04-16T07:18:48.838234+00:00",
+  "generated_at": "2026-04-16T07:34:51.967696+00:00",
   "network": {
     "landmines_counts": {
-      "ok": 8,
-      "warn": 2,
+      "ok": 9,
+      "warn": 1,
       "fail": 0
     },
     "shows_count": 10,
@@ -299,16 +299,14 @@
     {
       "id": "item_2_rss_integrity",
       "title": "RSS integrity, LFS absence, R2 host consistency",
-      "status": "warn",
-      "details": "1 recent enclosure(s) unreachable",
+      "status": "ok",
+      "details": "All 11 feeds valid, R2-hosted, recent enclosures reachable.",
       "evidence": {
         "feeds": 11,
         "malformed": [],
         "raw_github_hits": [],
         "non_r2_hosts": [],
-        "unreachable": [
-          "privet_russian_podcast.rss: https://audio.nerranetwork.com/privet_russian/PR_Ep008_20260330.mp3"
-        ],
+        "unreachable": [],
         "offline": false
       }
     },
@@ -2480,8 +2478,8 @@
             "url": "https://audio.nerranetwork.com/privet_russian/PR_Ep008_20260330.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-03-30T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           }
         ],
         "malformed": false,
