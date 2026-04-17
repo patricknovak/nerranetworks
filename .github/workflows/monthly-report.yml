@@ -2,8 +2,12 @@ name: Monthly Reports
 
 on:
   schedule:
-    # 1st of month at 4 PM UTC
+    # 1st of month at 4 PM UTC — base markdown "State of…" reports for all shows.
     - cron: '0 16 1 * *'
+    # Every weekday at 22:00 UTC — MIT monthly recap episode runs ONLY
+    # when ``is_last_trading_day_of_month`` returns true (the script
+    # gates internally via --require-last-trading-day).
+    - cron: '0 22 * * 1-5'
 
   workflow_dispatch:
     inputs:
@@ -31,6 +35,16 @@ on:
         description: 'Year (default: current year)'
         required: false
         type: string
+      mit_monthly:
+        description: 'Also publish the MIT monthly recap episode'
+        required: false
+        type: boolean
+        default: false
+      mit_monthly_force:
+        description: 'Bypass the last-trading-day gate when running MIT monthly'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -38,6 +52,9 @@ permissions:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    # Only run the broad report job on the 1st-of-month cron or on manual
+    # dispatch; the weekday-22 UTC cron is reserved for the MIT monthly job.
+    if: ${{ github.event_name != 'schedule' || github.event.schedule == '0 16 1 * *' }}
 
     steps:
       - uses: actions/checkout@v5
@@ -78,6 +95,64 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add outputs/monthly_reports/ outputs/briefings/
           git diff --cached --quiet || git commit -m "Add monthly reports for $(date +%Y-%m)"
+          for attempt in 1 2 3 4; do
+            git pull --rebase origin main && git push origin main && exit 0
+            echo "Push failed (attempt $attempt), retrying in $((attempt * 2))s..."
+            sleep $((attempt * 2))
+          done
+          echo "All push attempts failed"
+          exit 1
+
+  publish-mit-monthly:
+    # Fires every weekday at 22:00 UTC but the script's
+    # --require-last-trading-day flag short-circuits unless today is
+    # the last trading day of the calendar month. Manual dispatch can
+    # force a run via the mit_monthly input.
+    runs-on: ubuntu-latest
+    if: >-
+      ${{
+        (github.event_name == 'schedule' && github.event.schedule == '0 22 * * 1-5')
+        || (github.event_name == 'workflow_dispatch' && github.event.inputs.mit_monthly == 'true')
+      }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        # Full requirements.txt — this job needs yfinance, feedgen,
+        # boto3 (R2 upload), ffmpeg-python, and the engine deps.
+        run: pip install -r requirements.txt
+
+      - name: Run MIT monthly episode
+        env:
+          GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: |
+          ARGS=""
+          if [ "${{ github.event.inputs.mit_monthly_force }}" != "true" ]; then
+            ARGS="--require-last-trading-day"
+          fi
+          python scripts/run_monthly_mit_episode.py $ARGS
+
+      - name: Commit MIT monthly artefacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add digests/modern_investing/ modern_investing_podcast.rss
+          if git diff --cached --quiet; then
+            echo "Nothing to commit (most likely skipped by the last-trading-day gate)."
+            exit 0
+          fi
+          git commit -m "MIT monthly recap — $(date -u +%Y-%m)"
           for attempt in 1 2 3 4; do
             git pull --rebase origin main && git push origin main && exit 0
             echo "Push failed (attempt $attempt), retrying in $((attempt * 2))s..."
