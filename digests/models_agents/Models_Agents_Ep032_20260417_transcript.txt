@@ -1,0 +1,253 @@
+Welcome back to Models and Agents episode 32.
+It's April 17th, 2026.
+The AI world never sleeps.
+Here's what you need to know today.
+Quinn 3.6 to 35ba3b brings Sparse MoE Vision language
+capabilities with only 3 billion active parameters
+and strong, agentic coding performance.
+The Twin Team just opens source to model
+that changes the math on what you can run locally
+for multimodal agent work.
+This is the top story today because it delivers serious coding
+and vision performance while keeping inference costs
+remarkably low.
+The model has 35 billion total parameters
+but activates just 3 billion per forward pass
+thanks to a sparse mixture of experts' architecture.
+That design gives it better coding performance
+than dense models in the 27 to 31 billion parameter range
+while using memory and compute much closer to smaller models.
+Early community testing shows it shines
+at Python data analysis, building web apps
+and image recognition tasks.
+It does have a noticeable gap in non-English performance
+compared to its English and Chinese results
+so keep that in mind for multilingual work.
+For developers, this means you can now run capable
+vision language agents on modest GPUs
+that previously demanded much larger dense models.
+If you have been building coding assistance,
+document understanding tools or multimodal agents,
+this release is worth testing immediately.
+The open source nature plus expected quantized versions
+should make integration into popular inference engines
+straight forward in the coming days.
+This release really strengthens the open source
+ecosystems ability to compete with closed
+multimodal models on practical agent tasks.
+Now on the model update side,
+the community is buzzing about ternary bonsai
+from PrismML.
+They released a family of models at 8 billion,
+4 billion, and 1.7 billion parameters
+using ternary weights of negative 1, 0, and positive 1.
+These models achieve roughly nine times
+smaller memory footprint than FP16 equivalents
+while outperforming peers in their size class
+on standard benchmarks.
+The models come in FP16 safety sores
+for immediate hugging face compatibility,
+and MLX two-bit packed formats are already supported.
+People are especially excited about the roadmap
+toward 20 to 40 billion parameter ternary models
+that could challenge today's leading dense and MOE releases.
+For anyone doing edge or memory constrained deployments,
+this feels like a practical step forward
+where every bit truly matters.
+Another notable release is Sage Sealer 2.6
+introduced in 5 billion, 10 billion, and 27 billion sizes.
+The team added architectural modifications
+inverse reasoning training to reduce cascading errors
+and a native end-to-end vision encoder.
+These models emphasize strong mathematics, coding,
+and general intelligence alongside dedicated optimization
+for South Asian languages using a custom Devoniguri tokenizer.
+What stands out is how they balance
+English reasoning capability with competitive performance
+in Nepali and Hindi without the usual multilingual degradation.
+The native multimodal design avoids the common adaptor pitfalls
+that plague many other vision language efforts.
+Researchers also published a systematic comparison
+of linguistic adaptation across comparable sized
+large language models.
+They tested Lama 3.1 to 8B,
+Mestral 7B dash V0.1,
+and Quinn 3 to 8B on Romanized Nepali
+using a 10,000 sample data set under both 0 shot
+and Qlora fine-tuned conditions.
+After fine-tuning with RS-lora at rank 32,
+all models improved dramatically
+with Quinn 3 to 8B leading most structural metrics.
+Lama 3.1 to 8B showed the largest gains
+from its relatively weak 0 shot baseline.
+This work gives the first rigorous baseline
+for this under-resourced informal digital language
+and confirms there is still substantial headroom
+for low resource adaptation pipelines.
+Shifting to agent and tool developments
+of practitioner on the machine learning subreddit
+is looking for collaborators on a chaos monkey framework
+for multi-agent systems.
+After hitting production issues with multi-agent setups,
+they built a basic stress testing tool
+and want to mature it into a proper benchmarking
+and reliability suite.
+If you have shipped multi-agent systems at scale,
+this is a direct opportunity to contribute domain expertise
+and help establish better evaluation practices
+for production agent reliability.
+On the research side,
+the H-technique rag paper introduces a two-stage
+hierarchical retrieval system for cyber threat intelligence.
+It first identifies miter attack tactics
+than narrows to specific techniques,
+cutting the candidate search space by 77.5%.
+The approach adds tactic aware, re-ranking
+and hierarchy constrained context organization.
+The result is a 3.8% F1 improvement over prior technique rag
+while reducing inference latency by 62.4%
+and LLMAPI calls by 60%.
+Security teams working on automated cyber threat
+intelligence mapping should evaluate this
+for both accuracy gains and significant cost savings.
+In the practical and community space,
+one local Yama contributor posted a detailed head-to-head
+of Quinn 3.6 versus Gemma 4 models.
+The comparison covers text review, grammar checking
+and social sciences, light Python data analysis
+and JavaScript typescript web work.
+Chwen leads on coding, stem reasoning
+and image recognition while Gemma offers better
+non-English flexibility and more fuzzy creative thinking
+suited to humanity's tasks.
+Both models still show some political and cultural biases
+though improved from earlier versions
+and the author even finds the occasional hallucination
+useful for staying mentally engaged.
+The post serves as a practical field guide
+for choosing between the two families
+based on your specific use case.
+Elsewhere, a machine learning engineer asked the community
+whether to buy an M5 series Mac with MLX
+or build a custom RTX 5,090 machine.
+Their workload breaks down to 70% fine-tuning
+large pre-trained models and 30% training from scratch,
+mostly image and video with occasional large language models.
+The discussion delivers useful real world insights
+on VRAM needs versus Apple's improving
+MLX ecosystem for on-device and fine-tuning work.
+It is a timely look at the budget, memory
+and framework maturity trade-offs
+many practitioners face right now.
+Researchers also released Memground,
+a long-term memory evaluation kit
+for large language models and gamified scenarios.
+It uses a three-tier hierarchical benchmark
+covering surface state, temporal associative
+and reasoning based memory inside rich interactive environments
+instead of static retrieval tests.
+The suite adds multi-dimensional metrics
+like memory fragments unlocked
+and exploration trajectory diagrams.
+Current state-of-the-art models and memory agents
+still struggle with dynamic tracking
+and long-term evidence reasoning according to these tests.
+Teams building long-context agents
+or memory-augmented systems now have a much more realistic
+evaluation suite to measure real progress.
+Okay, let's pop the hood on these post-transformer adapters
+for logic correction that the community has been discussing.
+Everyone talks about uncensoring or fixing aligned models
+as if you simply need better prompts or bigger models.
+In practice, the suppression of factual log probabilities
+on sensitive topics often lives in the final layers
+even when the knowledge is clearly present in hidden states.
+The elegant engineering fix is a tiny post-transformer adapter
+of roughly 786,000 parameters,
+which is only 0.02% of a 4 billion to 14 billion parameter
+base model.
+It reads frozen hidden states
+and learns a corrective mapping
+before the final language model head.
+This restores proper probability rankings
+without retraining the entire model.
+Both gated Swig-LU and simple linear bottleneck versions
+perform comparably so the exact architecture seems
+less critical than the intervention point itself.
+Applying the adapter at every token position
+during generation destroys coherence.
+Restricting it to the current prediction position
+meaning less token only yields fluent and less censored text.
+A logic space adapter after token projection fails
+entirely confirming that hidden state intervention
+is the correct level of abstraction.
+Training uses anchored examples
+to prevent regression on general knowledge.
+The adapter delivers perfect memorization of training facts
+in 11 to 39% generalization to held out items
+across different scales.
+The quality gain is most pronounced on smaller models.
+Above roughly 70 billion parameters,
+the hidden state misalignment appears to shrink
+and the adapter's relative value drops.
+So when should you actually reach for this
+versus the alternative?
+Use post transformer adapters
+when you need surgical behavior correction
+on a frozen base model
+and can afford a few hundred thousand extra parameters.
+They are dramatically cheaper than full fine tuning
+or preference optimization for targeted logit repair.
+The gotcha that still bites teams
+is applying the adapter at the wrong position
+in the generation loop.
+Always validate last position only behavior first.
+If you have not tried Q3.6 to 35ba3b on a coding
+or multimodal agent task yet,
+this week is the perfect time.
+It's three billion active parameters
+and agentic training make it surprisingly capable
+on modest hardware.
+Load one of the ternary bonsai models,
+especially the 8 billion version in MLX
+or hugging face to test how 1.58 bit weights feel
+for your specific workload.
+Experiment with the H technique
+R-A-G code for mapping cyber threat intelligence reports
+to MIT, R-E-A-T-T and C-K.
+The latency and API cost reductions
+are immediately measurable in practice.
+Run the Memground Benchmark scenarios
+against your current long context
+or memory augmented agent
+to see where dynamic tracking actually breaks.
+Compare Q3 to 8b versus Lama 3.1 to 8b
+on Romanized Nepali or another low resource script
+after a quick QL-O-R-A pass.
+The adaptation headroom differences
+are striking and instructive.
+On the horizon keep an eye on expected follow-up releases
+of larger ternary models
+in the 20 to 40 billion scale from PrismML.
+They could reshape local LLM viability in a big way.
+Before we go, tomorrow keep an eye
+on further community momentum
+around chaos monkey frameworks
+for multi agent reliability testing.
+That's models and agents for today.
+If you found this useful,
+share it with someone who's trying to keep up
+with all these changes and subscribe
+so you don't miss tomorrow's update.
+The AI world moves fast.
+We'll help you keep up.
+See you tomorrow.
+This podcast is curated by Patrick,
+but generated using AI voice synthesis
+of my voice using 11 labs.
+The primary reason to do this
+is I unfortunately don't have the time
+to be consistent with generating all the content
+and wanted to focus on creating consistent
+and regular episodes for all the themes that I enjoy
+and I hope others do as well.
