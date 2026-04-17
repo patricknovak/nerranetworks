@@ -168,6 +168,11 @@
   </section>
 
   <section class="mgmt-section">
+    <h2>Modern Investing — Performance <span id="mit-status-pill" style="font-size:12px;font-weight:normal;color:#94a3b8;margin-left:8px;"></span></h2>
+    <div id="mit-performance"></div>
+  </section>
+
+  <section class="mgmt-section">
     <h2>Feed audit (latest)</h2>
     <div id="feed-audit"></div>
   </section>
@@ -391,6 +396,147 @@
             (((health[s.slug] || {}).success_rate || 0) * 100).toFixed(0) + "% ok" }));
     pipeSparks.appendChild(row);
   });
+
+  // -------- Modern Investing performance --------
+  const mitRoot = $("#mit-performance");
+  const mit = data.mit_performance || {};
+  const mitPill = $("#mit-status-pill");
+  if (!mit.available) {
+    mitPill.textContent = "(no tracker data yet)";
+  } else {
+    const summary = mit.summary || {};
+    const benchmark = mit.benchmark || {};
+    const alpha = mit.alpha || {};
+    const pct = (v) => (v == null ? "—" : (Number(v) >= 0 ? "+" : "") + Number(v).toFixed(2) + "%");
+    const alphaYtd = alpha.ytd_pct;
+    const alphaIcon = alphaYtd == null ? "" : (alphaYtd >= 0 ? " ✓" : " ✗");
+    mitPill.textContent =
+      "· " + (summary.total_trades || 0) + " trades · " +
+      (summary.win_rate_pct || 0).toFixed(0) + "% win rate · " +
+      "alpha YTD " + pct(alphaYtd) + alphaIcon +
+      (mit.last_updated ? " · updated " + ageText(mit.last_updated) : "");
+
+    // (1) Summary strip
+    const strip = h("div", { style: "display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px;" });
+    const card = (label, value, sub) => {
+      const c = h("div", { class: "card" });
+      c.appendChild(h("div", { style: "font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.04em;", text: label }));
+      c.appendChild(h("div", { style: "font-size:20px;font-weight:600;margin-top:4px;", text: value }));
+      if (sub) c.appendChild(h("div", { style: "font-size:12px;color:#94a3b8;margin-top:4px;", text: sub }));
+      return c;
+    };
+    strip.appendChild(card("NASDAQ ^IXIC", benchmark.current_close == null ? "—" : Number(benchmark.current_close).toLocaleString(), "YTD " + pct(benchmark.ytd_pct)));
+    strip.appendChild(card("Portfolio YTD", pct((alpha.ytd_pct ?? 0) + (benchmark.ytd_pct ?? 0)), "ITD " + pct((alpha.inception_to_date_pct ?? 0) + (benchmark.inception_to_date_pct ?? 0))));
+    strip.appendChild(card("Alpha YTD", pct(alpha.ytd_pct), "ITD " + pct(alpha.inception_to_date_pct)));
+    strip.appendChild(card("Win rate", (summary.win_rate_pct || 0).toFixed(0) + "%", summary.wins + "W / " + summary.losses + "L / " + summary.breakeven + "BE"));
+    strip.appendChild(card("Cumulative P&L", money(summary.cumulative_pnl), "avg " + pct(summary.average_return_pct) + " / trade"));
+    mitRoot.appendChild(strip);
+
+    if (mit.sector_concentration_warning) {
+      const warn = h("div", { class: "pill fail", style: "margin-bottom:16px;display:inline-block;padding:8px 12px;" });
+      warn.textContent = "⚠ Sector concentration: " + mit.sector_concentration_warning;
+      mitRoot.appendChild(warn);
+    }
+
+    // (2) Trades table
+    const tradesBox = h("div", { class: "card", style: "margin-bottom:16px;padding:0;overflow-x:auto;" });
+    tradesBox.appendChild(h("div", { style: "padding:12px 16px;border-bottom:1px solid var(--nn-border,#232938);font-weight:600;", text: "Mock trades (newest first, last " + mit.trades.length + ")" }));
+    const tt = h("table", { class: "voice-table", style: "margin:0;" });
+    tt.innerHTML =
+      "<thead><tr><th>Date</th><th>Ep</th><th>Ticker</th><th>Sector</th>" +
+      "<th>Type</th><th>Entry</th><th>Exit</th><th>P&amp;L %</th>" +
+      "<th>NASDAQ %</th><th>Alpha %</th><th>Status</th><th>Tags</th></tr></thead>";
+    const ttbody = h("tbody");
+    mit.trades.forEach((t) => {
+      const tr = document.createElement("tr");
+      const cells = [
+        t.date || "",
+        t.episode_num != null ? String(t.episode_num) : "",
+        t.symbol || "",
+        t.sector || "",
+        t.trade_type || "",
+        t.entry_price == null ? "" : Number(t.entry_price).toFixed(2),
+        t.exit_price == null ? "" : Number(t.exit_price).toFixed(2),
+        pct(t.pnl_pct),
+        pct(t.nasdaq_return_pct),
+        pct(t.alpha_pct),
+        t.status || "",
+        (t.lesson_tags || []).join(", "),
+      ];
+      cells.forEach((v, i) => {
+        const td = document.createElement("td");
+        td.textContent = v;
+        // Colour alpha column for quick visual scan
+        if (i === 9 && t.alpha_pct != null) {
+          td.style.color = Number(t.alpha_pct) >= 0 ? "#4ade80" : "#fca5a5";
+          td.style.fontWeight = "600";
+        }
+        tr.appendChild(td);
+      });
+      ttbody.appendChild(tr);
+    });
+    tt.appendChild(ttbody);
+    tradesBox.appendChild(tt);
+    mitRoot.appendChild(tradesBox);
+
+    // (3) Monthly snapshots
+    if ((mit.monthly_snapshots || []).length) {
+      const msBox = h("div", { class: "card", style: "margin-bottom:16px;padding:0;overflow-x:auto;" });
+      msBox.appendChild(h("div", { style: "padding:12px 16px;border-bottom:1px solid var(--nn-border,#232938);font-weight:600;", text: "Monthly snapshots" }));
+      const mt = h("table", { class: "voice-table", style: "margin:0;" });
+      mt.innerHTML =
+        "<thead><tr><th>Month</th><th>Trades</th><th>Win %</th>" +
+        "<th>Portfolio %</th><th>NASDAQ %</th><th>Alpha %</th><th>P&amp;L $</th></tr></thead>";
+      const mtbody = h("tbody");
+      mit.monthly_snapshots.forEach((m) => {
+        const tr = document.createElement("tr");
+        [m.month, m.trades, (m.win_rate || 0).toFixed(0) + "%",
+         pct(m.portfolio_pct), pct(m.nasdaq_pct), pct(m.alpha_pct),
+         money(m.portfolio_pnl)].forEach((v) => {
+          const td = document.createElement("td");
+          td.textContent = String(v);
+          tr.appendChild(td);
+        });
+        mtbody.appendChild(tr);
+      });
+      mt.appendChild(mtbody);
+      msBox.appendChild(mt);
+      mitRoot.appendChild(msBox);
+    }
+
+    // (4) Active recursive-improvement rules
+    const llBox = h("div", { class: "card", style: "margin-bottom:16px;padding:0;" });
+    llBox.appendChild(h("div", { style: "padding:12px 16px;border-bottom:1px solid var(--nn-border,#232938);font-weight:600;", text: "Active recursive-improvement rules (" + (mit.lessons_learned || []).length + ")" }));
+    const llList = h("ul", { style: "margin:0;padding:12px 24px;font-size:13px;line-height:1.6;" });
+    (mit.lessons_learned || []).forEach((e) => {
+      const li = h("li");
+      li.innerHTML =
+        "<strong>" + (e.id || "LL-???") + "</strong> " +
+        "<span style='color:#94a3b8;'>[" + (e.category || "content") + ", Ep" + (e.episode_num || "?") + ", " + (e.date || "") + "]</span> " +
+        "<em>" + (e.observation || "").replace(/</g, "&lt;") + "</em> &nbsp;→&nbsp; " +
+        "<strong>Rule:</strong> " + (e.adjustment || "").replace(/</g, "&lt;");
+      llList.appendChild(li);
+    });
+    if (!(mit.lessons_learned || []).length) {
+      llList.appendChild(h("li", { text: "No active rules yet — the daily show will append one each episode when a trade teaches a generalisable lesson.", style: "color:#94a3b8;" }));
+    }
+    llBox.appendChild(llList);
+    mitRoot.appendChild(llBox);
+
+    // (5) Hot taught-lessons (operator-only — what's on cooldown right now)
+    if ((mit.taught_lessons_hot || []).length) {
+      const hotBox = h("div", { class: "card", style: "padding:0;" });
+      hotBox.appendChild(h("div", { style: "padding:12px 16px;border-bottom:1px solid var(--nn-border,#232938);font-weight:600;", text: "Lessons under cooldown — operator view" }));
+      const hotList = h("ul", { style: "margin:0;padding:12px 24px;font-size:13px;line-height:1.6;" });
+      mit.taught_lessons_hot.forEach((t) => {
+        hotList.appendChild(h("li", {
+          text: t.tag + " · count " + t.count + " · last Ep" + t.last_episode + " (" + t.days_since + "d ago) · cools in " + t.cools_in_days + "d",
+        }));
+      });
+      hotBox.appendChild(hotList);
+      mitRoot.appendChild(hotBox);
+    }
+  }
 
   // -------- Feed audit summary --------
   const rss = data.rss_audit || { feeds: [] };

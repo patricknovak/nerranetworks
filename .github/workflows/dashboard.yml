@@ -60,6 +60,15 @@ jobs:
           # so the operator can see the current red state.
           exit 0
 
+      - name: Regenerate modern-investing.html (performance table)
+        # Rebuilds modern-investing.html so the public mock-trade /
+        # NASDAQ-alpha table refreshes within ~1 min of every data commit.
+        # Non-fatal — we still want to ship the dashboard JSON even if
+        # the HTML render fails.
+        continue-on-error: true
+        run: |
+          python generate_html.py --show modern_investing
+
       - name: Pull latest before committing
         run: |
           git config user.name "github-actions[bot]"
@@ -68,7 +77,7 @@ jobs:
 
       - name: Commit and push dashboard
         run: |
-          git add api/dashboard.json
+          git add api/dashboard.json modern-investing.html
           if git diff --cached --quiet; then
             echo "No dashboard changes to commit"
             exit 0

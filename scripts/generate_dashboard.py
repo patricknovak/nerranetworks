@@ -910,6 +910,168 @@ def build_network_rollup(
 
 
 # ---------------------------------------------------------------------------
+# Modern Investing performance aggregator — powers the website tables
+# ---------------------------------------------------------------------------
+
+
+def aggregate_mit_performance(root: Path) -> Dict[str, Any]:
+    """Read the Modern Investing trackers and return a dashboard-ready dict.
+
+    Consumed by ``build_dashboard`` under the ``mit_performance`` key.
+    Rendered by ``management.html`` (operator) and the public
+    ``modern-investing.html`` page via the ``templates/show_page.html.j2``
+    template. Returns an empty-but-well-formed dict when the MIT files
+    are missing so the caller can render "no data yet" gracefully.
+    """
+    mit_dir = root / "digests" / "modern_investing"
+    tracker_path = mit_dir / "investment_tracker.json"
+    taught_path = mit_dir / "taught_lessons.json"
+    lessons_path = mit_dir / "lessons_learned.json"
+
+    empty_payload: Dict[str, Any] = {
+        "available": False,
+        "summary": {},
+        "benchmark": {},
+        "alpha": {},
+        "sectors": {},
+        "monthly_snapshots": [],
+        "trades": [],
+        "lessons_learned": [],
+        "taught_lessons_hot": [],
+        "sector_concentration_warning": "",
+        "last_updated": None,
+    }
+
+    if not tracker_path.exists():
+        return empty_payload
+
+    try:
+        tracker = json.loads(tracker_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return empty_payload
+
+    # Normalise trades — newest first, capped at 100 so a long-running
+    # show doesn't bloat the dashboard JSON.
+    trades_raw = tracker.get("trades") or []
+    trades_normalised: List[Dict[str, Any]] = []
+    for t in trades_raw:
+        trades_normalised.append({
+            "episode_num": t.get("episode_num"),
+            "date": t.get("date"),
+            "symbol": t.get("symbol"),
+            "market": t.get("market"),
+            "sector": t.get("sector") or "other",
+            "strategy": t.get("strategy"),
+            "trade_type": t.get("trade_type"),
+            "status": t.get("status"),
+            "entry_price": t.get("entry_price"),
+            "exit_price": t.get("exit_price"),
+            "pnl_pct": t.get("pnl_pct"),
+            "pnl_dollars": t.get("pnl_dollars"),
+            "nasdaq_entry": t.get("nasdaq_entry"),
+            "nasdaq_exit": t.get("nasdaq_exit"),
+            "nasdaq_return_pct": t.get("nasdaq_return_pct"),
+            "alpha_pct": t.get("alpha_pct"),
+            "lesson_tags": t.get("lesson_tags") or [],
+            "lesson": t.get("lesson"),
+            "confidence": t.get("confidence"),
+        })
+    trades_normalised.sort(
+        key=lambda t: (t.get("date") or "", t.get("episode_num") or 0),
+        reverse=True,
+    )
+    trades_normalised = trades_normalised[:100]
+
+    # Sector concentration warning — mirrors the hook's 30% / 10-trade rule.
+    sectors = tracker.get("sectors") or {}
+    concentration_warning = ""
+    threshold_pct = 30.0
+    for sector, data in sectors.items():
+        if not isinstance(data, dict):
+            continue
+        pct = float(data.get("exposure_pct") or 0.0)
+        if pct >= threshold_pct:
+            concentration_warning = (
+                f"{sector}: {pct:.0f}% of recent trades "
+                f"(cumulative P&L ${float(data.get('cumulative_pnl') or 0):+.2f})"
+            )
+            break
+
+    # Lessons learned — active-only, newest-first, cap at 10.
+    lessons_active: List[Dict[str, Any]] = []
+    if lessons_path.exists():
+        try:
+            ll = json.loads(lessons_path.read_text(encoding="utf-8"))
+            entries = [e for e in (ll.get("entries") or []) if e.get("status") == "active"]
+            entries.sort(key=lambda e: e.get("date") or "", reverse=True)
+            lessons_active = entries[:10]
+        except (json.JSONDecodeError, OSError):
+            lessons_active = []
+
+    # Taught-lessons hot list — surfaces which mechanics are currently
+    # under cooldown so the operator can spot a repetition trend.
+    taught_hot: List[Dict[str, Any]] = []
+    if taught_path.exists():
+        try:
+            taught = json.loads(taught_path.read_text(encoding="utf-8"))
+            default_cooldown = int(taught.get("cooldown_days_default") or 21)
+            today = _dt.date.today()
+            for tag, meta in (taught.get("lessons") or {}).items():
+                last = meta.get("last_date")
+                if not last:
+                    continue
+                try:
+                    last_d = _dt.date.fromisoformat(last)
+                except ValueError:
+                    continue
+                cooldown = int(meta.get("cooldown_days") or default_cooldown)
+                days_since = (today - last_d).days
+                if days_since < cooldown:
+                    taught_hot.append({
+                        "tag": tag,
+                        "count": int(meta.get("count") or 0),
+                        "last_episode": meta.get("last_episode"),
+                        "last_date": last,
+                        "days_since": days_since,
+                        "cools_in_days": max(cooldown - days_since, 0),
+                    })
+            taught_hot.sort(key=lambda x: x["days_since"])
+        except (json.JSONDecodeError, OSError):
+            taught_hot = []
+
+    # Normalise benchmark/alpha sub-keys so the template can use
+    # ``performance_data.benchmark.ytd_pct`` without tripping on
+    # Jinja's Undefined sentinel on older tracker files.
+    raw_bench = tracker.get("benchmark") or {}
+    benchmark = {
+        "current_close": raw_bench.get("current_close"),
+        "inception_to_date_pct": raw_bench.get("inception_to_date_pct"),
+        "ytd_pct": raw_bench.get("ytd_pct"),
+        "last_updated": raw_bench.get("last_updated"),
+    }
+    raw_alpha = tracker.get("alpha") or {}
+    alpha = {
+        "inception_to_date_pct": raw_alpha.get("inception_to_date_pct"),
+        "ytd_pct": raw_alpha.get("ytd_pct"),
+        "monthly": raw_alpha.get("monthly") or {},
+    }
+
+    return {
+        "available": True,
+        "summary": tracker.get("summary") or {},
+        "benchmark": benchmark,
+        "alpha": alpha,
+        "sectors": sectors,
+        "monthly_snapshots": tracker.get("monthly_snapshots") or [],
+        "trades": trades_normalised,
+        "lessons_learned": lessons_active,
+        "taught_lessons_hot": taught_hot,
+        "sector_concentration_warning": concentration_warning,
+        "last_updated": (tracker.get("metadata") or {}).get("last_updated"),
+    }
+
+
+# ---------------------------------------------------------------------------
 # Public entry point — called by tests AND by __main__
 # ---------------------------------------------------------------------------
 
@@ -960,6 +1122,7 @@ def build_dashboard(root: Path, *, offline: bool = False, previous_flat: Optiona
         "cost_rollup": costs,
         "pipeline_health": metrics,
         "rss_audit": rss,
+        "mit_performance": aggregate_mit_performance(root),
     }
 
 
