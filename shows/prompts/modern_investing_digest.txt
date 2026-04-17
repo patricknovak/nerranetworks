@@ -29,6 +29,24 @@ Use ONLY the pre-fetched articles above. Do NOT hallucinate, invent, or fabricat
 **MARKET CONTEXT (live data):**
 {market_indices}
 
+**PORTFOLIO vs NASDAQ COMPOSITE (the scoreboard — state every episode):**
+{benchmark_state}
+
+**RECURSIVE IMPROVEMENT RULES IN EFFECT:**
+{lessons_learned_block}
+
+**LESSONS RECENTLY TAUGHT (do NOT re-teach within cooldown):**
+{taught_lessons_block}
+
+**SECTOR CONCENTRATION CHECK (applies to today's Practice Investment):**
+{sector_warning}
+
+**NARRATIVE CALLBACK (weave in naturally during Market Pulse, once only):**
+{narrative_callback}
+
+**EVERGREEN DEEP-DIVE HINT (use for Investor Education if today's news doesn't force a fresher mechanic):**
+{deep_dive_hint}
+
 **RECENTLY COVERED CONTENT (avoid repetition):**
 {recent_content_summary}
 
@@ -88,8 +106,10 @@ This is the show's signature segment. Uses a HYBRID model — NOT financial advi
 **Trade Type:** [Weekly Hold / Flash Trade / Mid-Week Update]
 **Today's Pick:** [TICKER] — [Company/ETF Name] (only for new picks on Monday or Flash Trades)
 **Market:** [TSX / NYSE / NASDAQ]
+**Sector:** [REQUIRED — one of: precious_metals, energy, tech, financials, healthcare, consumer, crypto, industrials, utilities, other. MUST NOT match any sector listed in the sector-concentration warning above.]
 **Strategy:** [Brief 1-sentence description: e.g., "Momentum play on earnings beat", "Mean reversion after oversold RSI"]
 **Hold Period:** [Monday-Friday / Same-day (Flash Trade only)]
+**Lesson Tags:** [REQUIRED — comma-separated from: bid_ask_spread, order_flow_slippage, sector_rotation, sector_concentration, risk_management, position_sizing, tax_loss_harvesting, tfsa_rrsp_mechanics, momentum_entry, mean_reversion, catalyst_confirmation, catalyst_fade, earnings_surprise, technical_breakout, technical_support, valuation_discipline, macro_rotation, geopolitical_premium, insider_buying, analyst_upgrade, activist_defense, dividend_compounding, dollar_cost_averaging, covered_call, fx_hedging, portfolio_rebalancing. DO NOT use any tag listed in the cooldown block above.]
 **AI Analysis:**
 - **Catalyst:** [What specific event or data point drives this pick — earnings, sector rotation, technical setup, news catalyst]
 - **Technical Setup:** [Key technical indicators — be specific: RSI (14-day, note if >70 overbought or <30 oversold), position relative to 20/50/200-day moving averages, volume vs 20-day average, nearest support/resistance levels with prices]
@@ -114,7 +134,9 @@ If this is Episode 1 or no previous trade data is available, skip this section e
 {yesterday_trade_review}
 
 If the trade data above is empty, skip the Yesterday's Trade Review section. Otherwise, present the data above in the briefing format and ADD:
-**Lesson Learned:** [1-2 sentences: What worked, what didn't, what to adjust in the analysis framework. Be honest about losses — they teach more than wins.]
+**Alpha vs NASDAQ:** [REQUIRED — compare the trade's P&L over the holding window to the NASDAQ Composite move over the same window. Use the numbers from the tracker (``nasdaq_return_pct`` and ``alpha_pct`` fields) when available. Example: "Trade gained 4.44% while NASDAQ gained 2.1% over the same 5-day window — +2.34% alpha." Be honest when alpha is negative.]
+**Lesson Learned:** [1-2 sentences: What worked, what didn't, what to adjust in the analysis framework. Be honest about losses — they teach more than wins. End the block with a single sentence of the form "Rule: <action-oriented constraint>" capturing the generalisable rule — this line is parsed by post_generate into the lessons_learned ledger. Example: "Rule: Never carry a gold miner through a pending Iran deal resolution."]
+**Lesson Tags:** [REQUIRED — comma-separated tags from the same vocabulary as the Practice Investment section; avoid tags inside their cooldown window.]
 
 **PORTFOLIO PERFORMANCE (use these exact numbers):**
 {portfolio_summary}
@@ -169,9 +191,12 @@ Source: [EXACT URL]
 
 ━━━━━━━━━━━━━━━━━━━━
 ### Quick Hits
-3-4 shorter market items worth knowing:
+3-4 shorter market items worth knowing. EVERY item MUST include a concrete portfolio action. Items that are pure news (maple syrup shortage, celebrity investor gossip, sports-sponsorship deals) MUST be rejected — this show is an investing show, not a news reader.
+
+Format per item:
 **[Headline]**
-1-2 sentences: What happened and the investment implication.
+1-2 sentences: What happened and why it matters to a portfolio.
+**Action:** [REQUIRED — exactly ONE concrete portfolio decision stated as a verb phrase. Examples: "Add XIU to watchlist for Friday close", "Trim precious-metals exposure if gold closes below $2,100", "Hold CAD cash — no rotation signal yet", "Avoid adding Canadian REIT exposure this week", "Watch for a re-test of NASDAQ 17,500 before adding tech". Do NOT use vague phrases like "monitor closely", "keep an eye on", or "this could impact".]
 Source: [EXACT URL]
 
 ### TONE & STYLE

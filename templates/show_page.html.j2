@@ -110,6 +110,171 @@
         </div>
     </section>
 
+    {% if performance_data and performance_data.available %}
+    <!-- Modern Investing — Mock Trade Performance vs NASDAQ -->
+    <section class="nn-section" id="performance" style="padding-top: var(--sp-8);">
+        <div class="container">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>Performance vs NASDAQ Composite</h2>
+                <p style="color:var(--nn-text-muted);font-size:0.92rem;margin-top:var(--sp-2);">
+                    Every Practice Investment from the show is tracked here. Simulated trades only — no real money.
+                    Benchmark: NASDAQ Composite (^IXIC). Updated daily after each episode.
+                </p>
+            </div>
+
+            <!-- Summary cards -->
+            <div class="performance-summary-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--sp-4);margin-bottom:var(--sp-6);">
+                <div class="glass-card" style="padding:var(--sp-4);">
+                    <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--nn-text-muted);">NASDAQ ^IXIC</div>
+                    <div style="font-size:1.5rem;font-weight:700;margin-top:var(--sp-1);">
+                        {% if performance_data.benchmark.current_close %}{{ "{:,.0f}".format(performance_data.benchmark.current_close) }}{% else %}—{% endif %}
+                    </div>
+                    <div style="font-size:0.85rem;color:var(--nn-text-muted);margin-top:var(--sp-1);">
+                        YTD
+                        {% if performance_data.benchmark.ytd_pct is not none %}{{ "{:+.2f}".format(performance_data.benchmark.ytd_pct) }}%{% else %}—{% endif %}
+                    </div>
+                </div>
+                <div class="glass-card" style="padding:var(--sp-4);">
+                    <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--nn-text-muted);">Portfolio YTD</div>
+                    <div style="font-size:1.5rem;font-weight:700;margin-top:var(--sp-1);">
+                        {% set p_ytd = (performance_data.alpha.ytd_pct or 0) + (performance_data.benchmark.ytd_pct or 0) %}
+                        {{ "{:+.2f}".format(p_ytd) }}%
+                    </div>
+                    <div style="font-size:0.85rem;color:var(--nn-text-muted);margin-top:var(--sp-1);">
+                        Since inception
+                        {% set p_itd = (performance_data.alpha.inception_to_date_pct or 0) + (performance_data.benchmark.inception_to_date_pct or 0) %}
+                        {{ "{:+.2f}".format(p_itd) }}%
+                    </div>
+                </div>
+                <div class="glass-card" style="padding:var(--sp-4);">
+                    <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--nn-text-muted);">Alpha vs NASDAQ</div>
+                    {% set alpha_ytd = performance_data.alpha.ytd_pct or 0 %}
+                    <div style="font-size:1.5rem;font-weight:700;margin-top:var(--sp-1);color:{% if alpha_ytd >= 0 %}#10b981{% else %}#ef4444{% endif %};">
+                        {{ "{:+.2f}".format(alpha_ytd) }}% YTD
+                    </div>
+                    <div style="font-size:0.85rem;color:var(--nn-text-muted);margin-top:var(--sp-1);">
+                        Since inception {{ "{:+.2f}".format(performance_data.alpha.inception_to_date_pct or 0) }}%
+                    </div>
+                </div>
+                <div class="glass-card" style="padding:var(--sp-4);">
+                    <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--nn-text-muted);">Win rate</div>
+                    <div style="font-size:1.5rem;font-weight:700;margin-top:var(--sp-1);">
+                        {{ "{:.0f}".format(performance_data.summary.win_rate_pct or 0) }}%
+                    </div>
+                    <div style="font-size:0.85rem;color:var(--nn-text-muted);margin-top:var(--sp-1);">
+                        {{ performance_data.summary.wins or 0 }}W / {{ performance_data.summary.losses or 0 }}L /
+                        {{ performance_data.summary.breakeven or 0 }}BE
+                    </div>
+                </div>
+            </div>
+
+            <!-- All trades table -->
+            <div class="glass-card" style="padding:0;overflow-x:auto;margin-bottom:var(--sp-6);">
+                <div style="padding:var(--sp-4);border-bottom:1px solid var(--nn-border);font-weight:600;">
+                    All mock trades ({{ performance_data.trades|length }})
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
+                    <thead style="background:rgba(255,255,255,0.03);">
+                        <tr style="text-align:left;">
+                            <th style="padding:8px 12px;">Date</th>
+                            <th style="padding:8px 12px;">Ep</th>
+                            <th style="padding:8px 12px;">Ticker</th>
+                            <th style="padding:8px 12px;">Sector</th>
+                            <th style="padding:8px 12px;">Strategy</th>
+                            <th style="padding:8px 12px;text-align:right;">Entry</th>
+                            <th style="padding:8px 12px;text-align:right;">Exit</th>
+                            <th style="padding:8px 12px;text-align:right;">P&amp;L %</th>
+                            <th style="padding:8px 12px;text-align:right;">NASDAQ %</th>
+                            <th style="padding:8px 12px;text-align:right;">Alpha %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for t in performance_data.trades %}
+                        <tr style="border-top:1px solid var(--nn-border);">
+                            <td style="padding:6px 12px;">{{ t.date or "" }}</td>
+                            <td style="padding:6px 12px;">{{ t.episode_num or "" }}</td>
+                            <td style="padding:6px 12px;font-weight:600;">{{ t.symbol or "" }}</td>
+                            <td style="padding:6px 12px;color:var(--nn-text-muted);font-size:0.82rem;">{{ t.sector or "" }}</td>
+                            <td style="padding:6px 12px;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{ t.strategy or '' }}">{{ t.strategy or "" }}</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;">{% if t.entry_price %}${{ "{:.2f}".format(t.entry_price) }}{% else %}—{% endif %}</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;">{% if t.exit_price %}${{ "{:.2f}".format(t.exit_price) }}{% else %}—{% endif %}</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;color:{% if (t.pnl_pct or 0) >= 0 %}#10b981{% else %}#ef4444{% endif %};">{% if t.pnl_pct is not none %}{{ "{:+.2f}".format(t.pnl_pct) }}%{% else %}—{% endif %}</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--nn-text-muted);">{% if t.nasdaq_return_pct is not none %}{{ "{:+.2f}".format(t.nasdaq_return_pct) }}%{% else %}—{% endif %}</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:{% if (t.alpha_pct or 0) >= 0 %}#10b981{% else %}#ef4444{% endif %};">{% if t.alpha_pct is not none %}{{ "{:+.2f}".format(t.alpha_pct) }}%{% else %}—{% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                        {% if not performance_data.trades %}
+                        <tr><td colspan="10" style="padding:20px;text-align:center;color:var(--nn-text-muted);">No trades recorded yet.</td></tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if performance_data.monthly_snapshots %}
+            <!-- Monthly snapshots -->
+            <div class="glass-card" style="padding:0;overflow-x:auto;margin-bottom:var(--sp-6);">
+                <div style="padding:var(--sp-4);border-bottom:1px solid var(--nn-border);font-weight:600;">
+                    Monthly performance snapshots
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
+                    <thead style="background:rgba(255,255,255,0.03);">
+                        <tr style="text-align:left;">
+                            <th style="padding:8px 12px;">Month</th>
+                            <th style="padding:8px 12px;text-align:right;">Trades</th>
+                            <th style="padding:8px 12px;text-align:right;">Win %</th>
+                            <th style="padding:8px 12px;text-align:right;">Portfolio %</th>
+                            <th style="padding:8px 12px;text-align:right;">NASDAQ %</th>
+                            <th style="padding:8px 12px;text-align:right;">Alpha %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for m in performance_data.monthly_snapshots %}
+                        <tr style="border-top:1px solid var(--nn-border);">
+                            <td style="padding:6px 12px;font-weight:600;">{{ m.month }}</td>
+                            <td style="padding:6px 12px;text-align:right;">{{ m.trades or 0 }}</td>
+                            <td style="padding:6px 12px;text-align:right;">{{ "{:.0f}".format(m.win_rate or 0) }}%</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;">{% if m.portfolio_pct is not none %}{{ "{:+.2f}".format(m.portfolio_pct) }}%{% else %}—{% endif %}</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--nn-text-muted);">{% if m.nasdaq_pct is not none %}{{ "{:+.2f}".format(m.nasdaq_pct) }}%{% else %}—{% endif %}</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:{% if (m.alpha_pct or 0) >= 0 %}#10b981{% else %}#ef4444{% endif %};">{% if m.alpha_pct is not none %}{{ "{:+.2f}".format(m.alpha_pct) }}%{% else %}—{% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+
+            <!-- Recursive improvement rules -->
+            <div class="glass-card" style="padding:var(--sp-4);">
+                <div style="font-weight:600;margin-bottom:var(--sp-3);">
+                    How this show improves itself
+                    <span style="font-weight:normal;font-size:0.82rem;color:var(--nn-text-muted);margin-left:var(--sp-2);">
+                        ({{ performance_data.lessons_learned|length }} active rules — each one was written by a past episode and is obeyed by future episodes)
+                    </span>
+                </div>
+                {% if performance_data.lessons_learned %}
+                <ul style="margin:0;padding-left:var(--sp-5);font-size:0.92rem;line-height:1.7;">
+                    {% for e in performance_data.lessons_learned %}
+                    <li style="margin-bottom:var(--sp-2);">
+                        <span style="font-family:monospace;color:var(--nn-text-muted);font-size:0.82rem;">{{ e.id }}</span>
+                        <em style="color:var(--nn-text-muted);">[{{ e.category }}, Ep{{ e.episode_num }}, {{ e.date }}]</em>
+                        — {{ e.observation }}
+                        <br>
+                        <strong>Rule:</strong> {{ e.adjustment }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p style="color:var(--nn-text-muted);font-size:0.92rem;">No active rules yet — the daily show will append one each episode when a trade teaches a generalisable lesson.</p>
+                {% endif %}
+            </div>
+
+            <p style="color:var(--nn-text-muted);font-size:0.78rem;margin-top:var(--sp-4);">
+                SIMULATED trades for educational purposes only. No real money is involved. This is NOT financial advice.
+            </p>
+        </div>
+    </section>
+    {% endif %}
+
     <!-- Episode Archive -->
     <section id="episodes" class="nn-section" style="padding-top: 0;">
         <div class="container">
