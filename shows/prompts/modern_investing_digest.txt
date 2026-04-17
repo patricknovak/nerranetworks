@@ -44,6 +44,9 @@ Use ONLY the pre-fetched articles above. Do NOT hallucinate, invent, or fabricat
 **NARRATIVE CALLBACK (weave in naturally during Market Pulse, once only):**
 {narrative_callback}
 
+**EVERGREEN DEEP-DIVE HINT (use for Investor Education if today's news doesn't force a fresher mechanic):**
+{deep_dive_hint}
+
 **RECENTLY COVERED CONTENT (avoid repetition):**
 {recent_content_summary}
 

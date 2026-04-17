@@ -443,6 +443,59 @@ class TestSectorWarning:
         assert "No sector concentration" in block
 
 
+class TestSegmentRotation:
+    def _write_library(self, tmp_path: Path, ids: list[str]) -> Path:
+        """Write a tiny segment library with the given ids."""
+        p = tmp_path / "segments.json"
+        p.write_text(json.dumps({
+            "show": "MIT",
+            "segments": [
+                {"id": sid, "title": f"Title for {sid}", "prompt_template": f"Teach {sid}."}
+                for sid in ids
+            ],
+        }), encoding="utf-8")
+        return p
+
+    def test_picks_first_unused(self, tmp_path: Path):
+        library = self._write_library(tmp_path, ["a", "b", "c"])
+        tracker = m._fresh_tracker()
+        sid, hint = m._pick_deep_dive_segment(tracker, library)
+        assert sid == "a"
+        assert "Title for a" in hint[0]
+
+    def test_skips_recent(self, tmp_path: Path):
+        library = self._write_library(tmp_path, ["a", "b", "c"])
+        tracker = m._fresh_tracker()
+        tracker["used_segment_ids"] = ["a", "b"]
+        sid, _ = m._pick_deep_dive_segment(tracker, library)
+        assert sid == "c"
+
+    def test_all_recent_falls_back_to_oldest(self, tmp_path: Path):
+        library = self._write_library(tmp_path, ["a", "b"])
+        tracker = m._fresh_tracker()
+        # Oldest-first list: "b" was used first (index 0), "a" most recent.
+        tracker["used_segment_ids"] = ["b", "a"]
+        sid, _ = m._pick_deep_dive_segment(tracker, library)
+        assert sid == "b"  # least-recently-used = oldest in the list
+
+    def test_missing_library_returns_none(self):
+        tracker = m._fresh_tracker()
+        sid, hint = m._pick_deep_dive_segment(tracker, Path("/nope/library.json"))
+        assert sid is None
+        assert hint is None
+
+    def test_record_caps_at_60(self):
+        tracker = {"used_segment_ids": [f"s{i}" for i in range(60)]}
+        m._record_segment_used(tracker, "new")
+        assert len(tracker["used_segment_ids"]) == 60
+        assert tracker["used_segment_ids"][-1] == "new"
+        assert "s0" not in tracker["used_segment_ids"]
+
+    def test_hint_block_fallback_when_no_hint(self):
+        assert "No evergreen" in m._build_deep_dive_hint_block(None)
+        assert "No evergreen" in m._build_deep_dive_hint_block(("", ""))
+
+
 class TestNarrativeCallback:
     def test_picks_trade_in_window(self):
         tracker = m._fresh_tracker()

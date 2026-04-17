@@ -160,6 +160,16 @@ def pre_fetch(config, *, episode_num: int | None = None, today_str: str | None =
     context["lessons_learned_block"] = _build_lessons_learned_block(lessons)
     context["narrative_callback"] = _build_narrative_callback(tracker)
 
+    # Evergreen deep-dive rotation — surfaces the previously-unused
+    # segment library (shows/segments/modern_investing.json) so the show
+    # rotates through 30 pre-written deep dives even when news is thin.
+    library_path = _resolve_segment_library(config)
+    segment_id, segment_hint = _pick_deep_dive_segment(tracker, library_path)
+    context["deep_dive_hint"] = _build_deep_dive_hint_block(segment_hint)
+    if segment_id:
+        _record_segment_used(tracker, segment_id)
+        _save_tracker(tracker, tracker_path)
+
     # Recent strategies for freshness enforcement
     closed_trades = [t for t in tracker["trades"] if t.get("status") == "closed"]
     recent = closed_trades[-5:] if closed_trades else []
@@ -1247,6 +1257,70 @@ def _build_sector_warning_block(tracker: dict) -> str:
         )
     lines.append("Pick a DIFFERENT sector. Diversification is an explicit rule of this show.")
     return "\n".join(lines)
+
+
+def _resolve_segment_library(config) -> Path | None:
+    """Return the segment-library path for MIT, checking config + default."""
+    default = Path("shows/segments/modern_investing.json")
+    if default.exists():
+        return default
+    sn = getattr(config, "slow_news", None)
+    if sn and getattr(sn, "library_file", ""):
+        p = Path(sn.library_file)
+        if p.exists():
+            return p
+    return None
+
+
+def _pick_deep_dive_segment(tracker: dict, library_path: Path | None) -> tuple[str | None, tuple[str, str] | None]:
+    """Return ``(segment_id, (title, prompt_template))`` for a deep-dive
+    segment the show hasn't used in its last ~30 picks, or ``(None, None)``
+    when the library is empty / unavailable. Powered by
+    ``shows/segments/modern_investing.json`` (30 evergreen segments that
+    were previously dead code — surfacing them here gives the show a
+    built-in rotation of pre-written deep dives).
+    """
+    if not library_path or not library_path.exists():
+        return None, None
+    try:
+        data = json.loads(library_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.warning("Failed to load segment library %s: %s", library_path, exc)
+        return None, None
+    segments = data.get("segments") or []
+    if not segments:
+        return None, None
+    recent = tracker.get("used_segment_ids") or []
+    cooldown_len = 30
+    recent_set = set(recent[-cooldown_len:])
+    available = [s for s in segments if s.get("id") not in recent_set]
+    if not available:
+        order = {sid: idx for idx, sid in enumerate(recent)}
+        available = sorted(segments, key=lambda s: order.get(s.get("id"), -1))
+    pick = available[0]
+    return pick.get("id"), (pick.get("title", ""), pick.get("prompt_template", ""))
+
+
+def _build_deep_dive_hint_block(hint: tuple[str, str] | None) -> str:
+    """Prompt-ready block describing today's evergreen deep-dive suggestion."""
+    if not hint or not hint[0]:
+        return "No evergreen deep-dive suggestion today — pick an Investor Education topic from the day's news as usual."
+    title, prompt = hint
+    return (
+        f"EVERGREEN DEEP-DIVE SUGGESTION: '{title}'. "
+        f"Use this as the Investor Education topic UNLESS today's news demands a fresher mechanic. "
+        f"Segment brief: {prompt}"
+    )
+
+
+def _record_segment_used(tracker: dict, segment_id: str) -> None:
+    """Append segment_id to the tracker's used list, capped at 60 entries."""
+    if not segment_id:
+        return
+    used = tracker.setdefault("used_segment_ids", [])
+    used.append(segment_id)
+    if len(used) > 60:
+        del used[:-60]
 
 
 def _build_narrative_callback(tracker: dict) -> str:
