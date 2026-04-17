@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-16T18:53:08.418274+00:00",
+  "generated_at": "2026-04-17T06:27:07.607203+00:00",
   "network": {
     "landmines_counts": {
       "ok": 9,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 1,
-    "total_cost_last_7_days_usd": 87.0543,
-    "total_cost_last_30_days_usd": 462.2656,
+    "total_cost_last_7_days_usd": 77.0796,
+    "total_cost_last_30_days_usd": 457.9397,
     "shows": [
       {
         "slug": "env_intel",
@@ -23,8 +23,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-15T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 6.0171,
-        "episodes_last_7_days": 3,
+        "cost_last_7_days_usd": 4.4742,
+        "episodes_last_7_days": 2,
         "p50_pipeline_s": 25.0,
         "success_rate": 1.0
       },
@@ -74,8 +74,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-15T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 7.0278,
-        "episodes_last_7_days": 4,
+        "cost_last_7_days_usd": 5.2757,
+        "episodes_last_7_days": 3,
         "p50_pipeline_s": 45.28,
         "success_rate": 1.0
       },
@@ -108,8 +108,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-16T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 15.8797,
-        "episodes_last_7_days": 7,
+        "cost_last_7_days_usd": 13.2505,
+        "episodes_last_7_days": 6,
         "p50_pipeline_s": 69.63,
         "success_rate": 1.0
       },
@@ -123,12 +123,12 @@
         "blog_page": "blog/omni_view/index.html",
         "newsletter_enabled": true,
         "x_enabled": true,
-        "latest_pub_date": "2026-04-15T08:00:00+00:00",
+        "latest_pub_date": "2026-04-17T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 7.6862,
+        "cost_last_7_days_usd": 8.8175,
         "episodes_last_7_days": 4,
         "p50_pipeline_s": 122.57,
-        "success_rate": 0.941
+        "success_rate": 0.944
       },
       {
         "slug": "planetterrian",
@@ -142,8 +142,8 @@
         "x_enabled": true,
         "latest_pub_date": "2026-04-15T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 10.0209,
-        "episodes_last_7_days": 4,
+        "cost_last_7_days_usd": 7.4968,
+        "episodes_last_7_days": 3,
         "p50_pipeline_s": 37.26,
         "success_rate": 1.0
       },
@@ -176,8 +176,8 @@
         "x_enabled": true,
         "latest_pub_date": "2026-04-16T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 21.0976,
-        "episodes_last_7_days": 9,
+        "cost_last_7_days_usd": 18.4399,
+        "episodes_last_7_days": 8,
         "p50_pipeline_s": 82.37,
         "success_rate": 1.0
       }
@@ -293,7 +293,7 @@
       "details": "5 MP3s tracked in git, digests/ is 55 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 54.9
+        "digests_mb": 55.3
       }
     },
     {
@@ -544,10 +544,10 @@
     "per_show": {
       "env_intel": {
         "last_7_days": {
-          "grok": 0.1326,
-          "tts": 5.8845,
-          "total": 6.0171,
-          "episodes": 3
+          "grok": 0.0884,
+          "tts": 4.3858,
+          "total": 4.4742,
+          "episodes": 2
         },
         "last_30_days": {
           "grok": 0.5198,
@@ -820,16 +820,16 @@
       },
       "models_agents": {
         "last_7_days": {
-          "grok": 0.2361,
-          "tts": 6.7917,
-          "total": 7.0278,
-          "episodes": 4
+          "grok": 0.1792,
+          "tts": 5.0965,
+          "total": 5.2757,
+          "episodes": 3
         },
         "last_30_days": {
-          "grok": 0.9051,
-          "tts": 41.5647,
-          "total": 42.4698,
-          "episodes": 16
+          "grok": 0.8032,
+          "tts": 37.8114,
+          "total": 38.6146,
+          "episodes": 15
         },
         "daily_series": [
           [
@@ -1028,10 +1028,10 @@
       },
       "modern_investing": {
         "last_7_days": {
-          "grok": 0.3837,
-          "tts": 15.496,
-          "total": 15.8797,
-          "episodes": 7
+          "grok": 0.3237,
+          "tts": 12.9268,
+          "total": 13.2505,
+          "episodes": 6
         },
         "last_30_days": {
           "grok": 1.2185,
@@ -1128,15 +1128,15 @@
       },
       "omni_view": {
         "last_7_days": {
-          "grok": 0.4805,
-          "tts": 7.2057,
-          "total": 7.6862,
+          "grok": 0.4844,
+          "tts": 8.3331,
+          "total": 8.8175,
           "episodes": 4
         },
         "last_30_days": {
-          "grok": 1.473,
-          "tts": 51.2964,
-          "total": 52.7694,
+          "grok": 1.479,
+          "tts": 50.8197,
+          "total": 52.2987,
           "episodes": 17
         },
         "daily_series": [
@@ -1255,15 +1255,19 @@
           [
             "2026-04-15",
             1.6571
+          ],
+          [
+            "2026-04-17",
+            2.5929
           ]
         ]
       },
       "planetterrian": {
         "last_7_days": {
-          "grok": 0.2562,
-          "tts": 9.7647,
-          "total": 10.0209,
-          "episodes": 4
+          "grok": 0.1954,
+          "tts": 7.3014,
+          "total": 7.4968,
+          "episodes": 3
         },
         "last_30_days": {
           "grok": 0.8563,
@@ -1412,10 +1416,10 @@
       },
       "tesla": {
         "last_7_days": {
-          "grok": 1.0105,
-          "tts": 20.0871,
-          "total": 21.0976,
-          "episodes": 9
+          "grok": 0.8848,
+          "tts": 17.5551,
+          "total": 18.4399,
+          "episodes": 8
         },
         "last_30_days": {
           "grok": 2.322,
@@ -1548,16 +1552,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 3.2373,
-      "tts": 83.817,
-      "total": 87.0543,
-      "episodes": 43
+      "grok": 2.8935,
+      "tts": 74.1861,
+      "total": 77.0796,
+      "episodes": 38
     },
     "network_last_30_days": {
-      "grok": 9.9859,
-      "tts": 452.2797,
-      "total": 462.2656,
-      "episodes": 166
+      "grok": 9.89,
+      "tts": 448.0497,
+      "total": 457.9397,
+      "episodes": 165
     }
   },
   "pipeline_health": {
@@ -1939,21 +1943,16 @@
       ]
     },
     "omni_view": {
-      "sample_size": 17,
+      "sample_size": 18,
       "p50_duration_s": 122.57,
       "p95_duration_s": 247.15,
-      "success_rate": 0.941,
+      "success_rate": 0.944,
       "stage_mean_s": {
-        "fetch_and_dedup": 48.98,
-        "generate_digest": 57.9,
-        "generate_digest_retry": 37.04
+        "fetch_and_dedup": 48.27,
+        "generate_digest": 58.22,
+        "generate_digest_retry": 38.87
       },
       "recent": [
-        {
-          "episode_num": 24,
-          "total_duration_s": 169.49,
-          "success": true
-        },
         {
           "episode_num": 25,
           "total_duration_s": 84.75,
@@ -1997,6 +1996,11 @@
         {
           "episode_num": 33,
           "total_duration_s": 251.18,
+          "success": true
+        },
+        {
+          "episode_num": 34,
+          "total_duration_s": 168.09,
           "success": true
         }
       ]
@@ -2379,9 +2383,16 @@
       },
       {
         "file": "omni_view_podcast.rss",
-        "entry_count": 33,
-        "latest_pub_date": "2026-04-15T08:00:00+00:00",
+        "entry_count": 34,
+        "latest_pub_date": "2026-04-17T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://audio.nerranetwork.com/omni_view/Omni_View_Ep034_20260417.mp3",
+            "host": "audio.nerranetwork.com",
+            "pub_date": "2026-04-17T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://audio.nerranetwork.com/omni_view/Omni_View_Ep033_20260415.mp3",
             "host": "audio.nerranetwork.com",
@@ -2393,13 +2404,6 @@
             "url": "https://audio.nerranetwork.com/omni_view/Omni_View_Ep032_20260413.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-13T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://audio.nerranetwork.com/omni_view/Omni_View_Ep031_20260411.mp3",
-            "host": "audio.nerranetwork.com",
-            "pub_date": "2026-04-11T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
@@ -2501,5 +2505,341 @@
     "raw_github_hits": [],
     "non_r2_hosts": [],
     "offline": false
+  },
+  "mit_performance": {
+    "available": true,
+    "summary": {
+      "total_trades": 6,
+      "wins": 2,
+      "losses": 2,
+      "breakeven": 2,
+      "win_rate_pct": 33.3,
+      "cumulative_pnl": 33.85,
+      "best_trade_pct": 7.88,
+      "worst_trade_pct": -7.49,
+      "average_return_pct": 0.57,
+      "current_streak": 0,
+      "longest_win_streak": 1,
+      "longest_loss_streak": 1
+    },
+    "benchmark": {
+      "current_close": null,
+      "inception_to_date_pct": null,
+      "ytd_pct": null,
+      "last_updated": null
+    },
+    "alpha": {
+      "inception_to_date_pct": null,
+      "ytd_pct": null,
+      "monthly": {}
+    },
+    "sectors": {},
+    "monthly_snapshots": [],
+    "trades": [
+      {
+        "episode_num": 21,
+        "date": "2026-04-16",
+        "symbol": "LUCID",
+        "market": "NASDAQ",
+        "sector": "other",
+        "strategy": "Fundamental catalyst play on robotaxi partnership potential combined with bill-of-materials cost reductions.",
+        "trade_type": "weekly",
+        "status": "open",
+        "entry_price": null,
+        "exit_price": null,
+        "pnl_pct": null,
+        "pnl_dollars": null,
+        "nasdaq_entry": null,
+        "nasdaq_exit": null,
+        "nasdaq_return_pct": null,
+        "alpha_pct": null,
+        "lesson_tags": [],
+        "lesson": "",
+        "confidence": "Medium"
+      },
+      {
+        "episode_num": 19,
+        "date": "2026-04-14",
+        "symbol": "TMUS",
+        "market": "NASDAQ",
+        "sector": "other",
+        "strategy": "Relative value rotation into US telecom after analyst reassessment highlights superior risk/reward versus European peer.",
+        "trade_type": "weekly",
+        "status": "open",
+        "entry_price": null,
+        "exit_price": null,
+        "pnl_pct": null,
+        "pnl_dollars": null,
+        "nasdaq_entry": null,
+        "nasdaq_exit": null,
+        "nasdaq_return_pct": null,
+        "alpha_pct": null,
+        "lesson_tags": [],
+        "lesson": "",
+        "confidence": "Medium"
+      },
+      {
+        "episode_num": 18,
+        "date": "2026-04-13",
+        "symbol": "WRLG",
+        "market": "TSX",
+        "sector": "other",
+        "strategy": "High-grade drill-result catalyst play in the Red Lake gold district, betting on continued resource expansion momentum.",
+        "trade_type": "weekly",
+        "status": "open",
+        "entry_price": null,
+        "exit_price": null,
+        "pnl_pct": null,
+        "pnl_dollars": null,
+        "nasdaq_entry": null,
+        "nasdaq_exit": null,
+        "nasdaq_return_pct": null,
+        "alpha_pct": null,
+        "lesson_tags": [],
+        "lesson": "",
+        "confidence": "Medium"
+      },
+      {
+        "episode_num": 17,
+        "date": "2026-04-10",
+        "symbol": "SSRM",
+        "market": "TSX",
+        "sector": "other",
+        "strategy": "Balance-sheet-recapitalization play on $1.5 billion cash infusion combined with recent insider buying.",
+        "trade_type": "weekly",
+        "status": "open",
+        "entry_price": null,
+        "exit_price": null,
+        "pnl_pct": null,
+        "pnl_dollars": null,
+        "nasdaq_entry": null,
+        "nasdaq_exit": null,
+        "nasdaq_return_pct": null,
+        "alpha_pct": null,
+        "lesson_tags": [],
+        "lesson": "",
+        "confidence": "Medium"
+      },
+      {
+        "episode_num": 14,
+        "date": "2026-04-07",
+        "symbol": "SSNLF",
+        "market": "NASDAQ",
+        "sector": "other",
+        "strategy": "Earnings-surprise momentum play on AI memory chip demand",
+        "trade_type": "weekly",
+        "status": "closed",
+        "entry_price": 65.21,
+        "exit_price": 65.21,
+        "pnl_pct": 0.0,
+        "pnl_dollars": 0.0,
+        "nasdaq_entry": null,
+        "nasdaq_exit": null,
+        "nasdaq_return_pct": null,
+        "alpha_pct": null,
+        "lesson_tags": [],
+        "lesson": "",
+        "confidence": "Medium"
+      },
+      {
+        "episode_num": 13,
+        "date": "2026-04-06",
+        "symbol": "C",
+        "market": "NYSE",
+        "sector": "other",
+        "strategy": "Valuation-driven core banking play ahead of Investor Day with attractive multiples relative to sector.",
+        "trade_type": "weekly",
+        "status": "closed",
+        "entry_price": 115.8,
+        "exit_price": 124.92,
+        "pnl_pct": 7.88,
+        "pnl_dollars": 78.76,
+        "nasdaq_entry": null,
+        "nasdaq_exit": null,
+        "nasdaq_return_pct": null,
+        "alpha_pct": null,
+        "lesson_tags": [],
+        "lesson": "",
+        "confidence": "Medium"
+      },
+      {
+        "episode_num": 10,
+        "date": "2026-04-01",
+        "symbol": "TSLA",
+        "market": "NASDAQ",
+        "sector": "other",
+        "strategy": "Contrarian fade of negative analyst sentiment following recent price weakness, betting on eventual relief-driven rebound.",
+        "trade_type": "weekly",
+        "status": "closed",
+        "entry_price": 365.86,
+        "exit_price": 360.59,
+        "pnl_pct": -1.44,
+        "pnl_dollars": -14.4,
+        "nasdaq_entry": null,
+        "nasdaq_exit": null,
+        "nasdaq_return_pct": null,
+        "alpha_pct": null,
+        "lesson_tags": [],
+        "lesson": "",
+        "confidence": "Medium"
+      },
+      {
+        "episode_num": 7,
+        "date": "2026-03-27",
+        "symbol": "WDC",
+        "market": "NASDAQ",
+        "sector": "other",
+        "strategy": "Fundamental growth play on cloud-driven revenue and margin expansion amid memory-sector volatility.",
+        "trade_type": "weekly",
+        "status": "closed",
+        "entry_price": 282.43,
+        "exit_price": 294.97,
+        "pnl_pct": 4.44,
+        "pnl_dollars": 44.4,
+        "nasdaq_entry": null,
+        "nasdaq_exit": null,
+        "nasdaq_return_pct": null,
+        "alpha_pct": null,
+        "lesson_tags": [],
+        "lesson": "",
+        "confidence": "Medium"
+      },
+      {
+        "episode_num": 5,
+        "date": "2026-03-26",
+        "symbol": "SOFI",
+        "market": "NASDAQ",
+        "sector": "other",
+        "strategy": "Contrarian mean-reversion play on elevated short interest against a fundamentally improving digital banking franchise.",
+        "trade_type": "weekly",
+        "status": "closed",
+        "entry_price": 17.16,
+        "exit_price": 15.87,
+        "pnl_pct": -7.49,
+        "pnl_dollars": -74.91,
+        "nasdaq_entry": null,
+        "nasdaq_exit": null,
+        "nasdaq_return_pct": null,
+        "alpha_pct": null,
+        "lesson_tags": [],
+        "lesson": "",
+        "confidence": "Medium"
+      },
+      {
+        "episode_num": 2,
+        "date": "2026-03-23",
+        "symbol": "LGD",
+        "market": "TSX",
+        "sector": "other",
+        "strategy": "Asset monetization play following non-core project sale to fund flagship development.",
+        "trade_type": "weekly",
+        "status": "closed",
+        "entry_price": null,
+        "exit_price": null,
+        "pnl_pct": 0.0,
+        "pnl_dollars": 0.0,
+        "nasdaq_entry": null,
+        "nasdaq_exit": null,
+        "nasdaq_return_pct": null,
+        "alpha_pct": null,
+        "lesson_tags": [],
+        "lesson": "Market data was unavailable for evaluation.",
+        "confidence": "Medium"
+      }
+    ],
+    "lessons_learned": [
+      {
+        "id": "LL-001",
+        "date": "2026-04-17",
+        "episode_num": 21,
+        "source": "audit",
+        "category": "content",
+        "observation": "The bid-ask-spread / order-flow-slippage lesson was taught in 6 of 8 recent episodes with nearly identical framing. Listeners tuned out after the third repeat.",
+        "adjustment": "Never re-teach bid_ask_spread or order_flow_slippage within their 45-day cooldown. If the only interesting mechanic today is a stale one, pick a different mechanic — freshness beats any single lesson.",
+        "status": "active",
+        "metric_target": {
+          "field": "taught_lessons.lessons.bid_ask_spread.count_within_45d",
+          "ceiling": 1
+        }
+      },
+      {
+        "id": "LL-002",
+        "date": "2026-04-17",
+        "episode_num": 21,
+        "source": "audit",
+        "category": "risk",
+        "observation": "The last 10 picks skewed 35% toward precious metals (Fortuna, SSR, West Red Lake) with zero flag raised on air. A real portfolio would have rebalanced.",
+        "adjustment": "Cap any single sector at 30% of the trailing 10-trade window. When the sector-concentration warning fires, the Practice Investment MUST pick a different sector that episode.",
+        "status": "active",
+        "metric_target": {
+          "field": "sectors.<any>.exposure_pct",
+          "ceiling": 30.0
+        }
+      },
+      {
+        "id": "LL-003",
+        "date": "2026-04-17",
+        "episode_num": 21,
+        "source": "audit",
+        "category": "benchmark",
+        "observation": "No episode has ever named the portfolio's alpha versus the NASDAQ Composite. Listeners have no way to judge whether the show is beating the market.",
+        "adjustment": "Every episode must state NASDAQ Composite level, portfolio YTD return, and YTD alpha in the Market Pulse segment. Fridays add the weekly alpha. Monthly episodes add month-to-date alpha.",
+        "status": "active",
+        "metric_target": {
+          "field": "alpha.ytd_pct",
+          "direction": "maximise"
+        }
+      },
+      {
+        "id": "LL-004",
+        "date": "2026-04-17",
+        "episode_num": 21,
+        "source": "audit",
+        "category": "content",
+        "observation": "Quick Hits consistently slipped into pure news reading (maple syrup shortage, Ackman's Universal Music bid, craft-brewer cost absorption) with no investing angle.",
+        "adjustment": "Every Quick Hit ends with an **Action:** line containing exactly one concrete portfolio decision stated as a verb phrase. Items without a concrete action are rejected at the digest stage.",
+        "status": "active",
+        "metric_target": {
+          "field": "digest.quick_hits[].has_action_line",
+          "floor_pct": 100.0
+        }
+      }
+    ],
+    "taught_lessons_hot": [
+      {
+        "tag": "bid_ask_spread",
+        "count": 6,
+        "last_episode": 21,
+        "last_date": "2026-04-16",
+        "days_since": 1,
+        "cools_in_days": 44
+      },
+      {
+        "tag": "order_flow_slippage",
+        "count": 5,
+        "last_episode": 21,
+        "last_date": "2026-04-16",
+        "days_since": 1,
+        "cools_in_days": 44
+      },
+      {
+        "tag": "geopolitical_premium",
+        "count": 4,
+        "last_episode": 19,
+        "last_date": "2026-04-14",
+        "days_since": 3,
+        "cools_in_days": 27
+      },
+      {
+        "tag": "tax_loss_harvesting",
+        "count": 2,
+        "last_episode": 18,
+        "last_date": "2026-04-13",
+        "days_since": 4,
+        "cools_in_days": 17
+      }
+    ],
+    "sector_concentration_warning": "",
+    "last_updated": "2026-04-16"
   }
 }
