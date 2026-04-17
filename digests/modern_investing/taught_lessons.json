@@ -1,0 +1,34 @@
+{
+  "metadata": {
+    "schema_version": 1,
+    "last_updated": "2026-04-17",
+    "seeded_from": "Ep14-Ep21 content audit — lessons already over-taught in the recent episode pool"
+  },
+  "cooldown_days_default": 21,
+  "lessons": {
+    "bid_ask_spread": {
+      "count": 6,
+      "last_episode": 21,
+      "last_date": "2026-04-16",
+      "cooldown_days": 45
+    },
+    "order_flow_slippage": {
+      "count": 5,
+      "last_episode": 21,
+      "last_date": "2026-04-16",
+      "cooldown_days": 45
+    },
+    "geopolitical_premium": {
+      "count": 4,
+      "last_episode": 19,
+      "last_date": "2026-04-14",
+      "cooldown_days": 30
+    },
+    "tax_loss_harvesting": {
+      "count": 2,
+      "last_episode": 18,
+      "last_date": "2026-04-13",
+      "cooldown_days": 21
+    }
+  }
+}

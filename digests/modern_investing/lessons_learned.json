@@ -1,0 +1,65 @@
+{
+  "metadata": {
+    "schema_version": 1,
+    "last_updated": "2026-04-17",
+    "seeded_from": "Ep14-Ep21 audit + MIT improvement plan (claude/audit-llm-models-9dpgL)"
+  },
+  "entries": [
+    {
+      "id": "LL-001",
+      "date": "2026-04-17",
+      "episode_num": 21,
+      "source": "audit",
+      "category": "content",
+      "observation": "The bid-ask-spread / order-flow-slippage lesson was taught in 6 of 8 recent episodes with nearly identical framing. Listeners tuned out after the third repeat.",
+      "adjustment": "Never re-teach bid_ask_spread or order_flow_slippage within their 45-day cooldown. If the only interesting mechanic today is a stale one, pick a different mechanic — freshness beats any single lesson.",
+      "status": "active",
+      "metric_target": {
+        "field": "taught_lessons.lessons.bid_ask_spread.count_within_45d",
+        "ceiling": 1
+      }
+    },
+    {
+      "id": "LL-002",
+      "date": "2026-04-17",
+      "episode_num": 21,
+      "source": "audit",
+      "category": "risk",
+      "observation": "The last 10 picks skewed 35% toward precious metals (Fortuna, SSR, West Red Lake) with zero flag raised on air. A real portfolio would have rebalanced.",
+      "adjustment": "Cap any single sector at 30% of the trailing 10-trade window. When the sector-concentration warning fires, the Practice Investment MUST pick a different sector that episode.",
+      "status": "active",
+      "metric_target": {
+        "field": "sectors.<any>.exposure_pct",
+        "ceiling": 30.0
+      }
+    },
+    {
+      "id": "LL-003",
+      "date": "2026-04-17",
+      "episode_num": 21,
+      "source": "audit",
+      "category": "benchmark",
+      "observation": "No episode has ever named the portfolio's alpha versus the NASDAQ Composite. Listeners have no way to judge whether the show is beating the market.",
+      "adjustment": "Every episode must state NASDAQ Composite level, portfolio YTD return, and YTD alpha in the Market Pulse segment. Fridays add the weekly alpha. Monthly episodes add month-to-date alpha.",
+      "status": "active",
+      "metric_target": {
+        "field": "alpha.ytd_pct",
+        "direction": "maximise"
+      }
+    },
+    {
+      "id": "LL-004",
+      "date": "2026-04-17",
+      "episode_num": 21,
+      "source": "audit",
+      "category": "content",
+      "observation": "Quick Hits consistently slipped into pure news reading (maple syrup shortage, Ackman's Universal Music bid, craft-brewer cost absorption) with no investing angle.",
+      "adjustment": "Every Quick Hit ends with an **Action:** line containing exactly one concrete portfolio decision stated as a verb phrase. Items without a concrete action are rejected at the digest stage.",
+      "status": "active",
+      "metric_target": {
+        "field": "digest.quick_hits[].has_action_line",
+        "floor_pct": 100.0
+      }
+    }
+  ]
+}

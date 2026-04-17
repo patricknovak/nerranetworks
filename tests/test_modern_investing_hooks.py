@@ -301,3 +301,166 @@ class TestBuildBenchmarkBlock:
         tracker["benchmark"]["current_close"] = None
         block = m._build_benchmark_block(tracker)
         assert "unavailable" in block.lower()
+
+
+# ---------------------------------------------------------------------------
+# Taught-lessons + stale-tag detection
+# ---------------------------------------------------------------------------
+
+class TestTaughtLessons:
+    def test_empty_file_returns_fresh_struct(self, tmp_path: Path):
+        data = m._load_taught_lessons(tmp_path / "nope.json")
+        assert data["lessons"] == {}
+        assert data["cooldown_days_default"] == 21
+
+    def test_record_bumps_count_and_date(self, tmp_path: Path):
+        data = m._load_taught_lessons(tmp_path / "nope.json")
+        m._record_taught_lessons(data, ["bid_ask_spread"], episode_num=22)
+        m._record_taught_lessons(data, ["bid_ask_spread"], episode_num=23)
+        entry = data["lessons"]["bid_ask_spread"]
+        assert entry["count"] == 2
+        assert entry["last_episode"] == 23
+
+    def test_save_roundtrip(self, tmp_path: Path):
+        path = tmp_path / "taught.json"
+        data = m._load_taught_lessons(path)
+        m._record_taught_lessons(data, ["momentum_entry"], episode_num=1)
+        m._save_taught_lessons(data, path)
+        assert path.exists()
+        reloaded = m._load_taught_lessons(path)
+        assert reloaded["lessons"]["momentum_entry"]["count"] == 1
+
+    def test_stale_tags_inside_cooldown(self, tmp_path: Path):
+        data = m._load_taught_lessons(tmp_path / "nope.json")
+        m._record_taught_lessons(data, ["bid_ask_spread"], episode_num=22)
+        stale = m._stale_lesson_tags(data)
+        tags = [t for t, _ in stale]
+        assert "bid_ask_spread" in tags
+
+    def test_stale_tags_drops_expired(self):
+        # Hand-craft an entry whose last_date is well outside the cooldown.
+        old_date = (datetime.date.today() - datetime.timedelta(days=100)).isoformat()
+        data = {
+            "metadata": {"last_updated": "2026-01-01"},
+            "cooldown_days_default": 21,
+            "lessons": {"bid_ask_spread": {
+                "count": 6, "last_episode": 1, "last_date": old_date, "cooldown_days": 45,
+            }},
+        }
+        assert m._stale_lesson_tags(data) == []
+
+    def test_build_block_mentions_stale_tags(self, tmp_path: Path):
+        data = m._load_taught_lessons(tmp_path / "nope.json")
+        m._record_taught_lessons(data, ["bid_ask_spread"], episode_num=22)
+        block = m._build_taught_lessons_block(data)
+        assert "bid_ask_spread" in block
+        assert "Do NOT" in block or "do not" in block.lower()
+
+    def test_build_block_empty_when_no_cooldown(self, tmp_path: Path):
+        data = m._load_taught_lessons(tmp_path / "nope.json")
+        block = m._build_taught_lessons_block(data)
+        assert "full latitude" in block
+
+
+# ---------------------------------------------------------------------------
+# Lessons-learned ledger
+# ---------------------------------------------------------------------------
+
+class TestLessonsLearned:
+    def test_append_assigns_sequential_id(self, tmp_path: Path):
+        data = m._load_lessons_learned(tmp_path / "nope.json")
+        e1 = m._append_lesson_learned(data, observation="obs1", adjustment="do x", episode_num=1)
+        e2 = m._append_lesson_learned(data, observation="obs2", adjustment="do y", episode_num=2)
+        assert e1["id"] == "LL-001"
+        assert e2["id"] == "LL-002"
+        assert len(data["entries"]) == 2
+
+    def test_build_block_lists_active_only(self, tmp_path: Path):
+        data = m._load_lessons_learned(tmp_path / "nope.json")
+        m._append_lesson_learned(data, observation="obs1", adjustment="adj1", episode_num=1)
+        retired = m._append_lesson_learned(data, observation="obs2", adjustment="adj2", episode_num=2)
+        retired["status"] = "retired"
+        block = m._build_lessons_learned_block(data)
+        assert "adj1" in block
+        assert "adj2" not in block
+
+    def test_extract_rule_block_with_valid_rule(self):
+        digest = (
+            "Earlier content.\n"
+            "**Lesson Learned:** The trade was trimmed on the upside miss. "
+            "Rule: Take profits at target even when momentum looks intact.\n"
+            "**Lesson Tags:** risk_management\n"
+        )
+        result = m._extract_lesson_learned_from_digest(digest)
+        assert result is not None
+        obs, adj = result
+        assert "trimmed on the upside" in obs
+        assert adj.startswith("Take profits at target")
+
+    def test_extract_returns_none_without_rule(self):
+        digest = "**Lesson Learned:** Lost money. Don't do that.\n"
+        assert m._extract_lesson_learned_from_digest(digest) is None
+
+    def test_extract_returns_none_on_empty(self):
+        assert m._extract_lesson_learned_from_digest("") is None
+
+
+# ---------------------------------------------------------------------------
+# Sector warning + narrative callback
+# ---------------------------------------------------------------------------
+
+class TestSectorWarning:
+    def test_concentration_threshold_fires(self):
+        tracker = m._fresh_tracker()
+        for i in range(4):
+            tracker["trades"].append({
+                "status": "closed", "date": f"2026-04-{10 + i:02d}",
+                "symbol": "FSM", "sector": "precious_metals", "pnl_dollars": 0,
+            })
+        for i in range(2):
+            tracker["trades"].append({
+                "status": "closed", "date": f"2026-04-{14 + i:02d}",
+                "symbol": "WDC", "sector": "tech", "pnl_dollars": 0,
+            })
+        tracker["sectors"] = m._compute_sector_exposure(tracker)
+        block = m._build_sector_warning_block(tracker)
+        assert "precious_metals" in block
+        assert "MUST AVOID" in block
+
+    def test_balanced_portfolio_no_warning(self):
+        tracker = m._fresh_tracker()
+        for i, sector in enumerate(["tech", "financials", "energy", "consumer"]):
+            tracker["trades"].append({
+                "status": "closed", "date": f"2026-04-{10 + i:02d}",
+                "symbol": "X", "sector": sector, "pnl_dollars": 0,
+            })
+        tracker["sectors"] = m._compute_sector_exposure(tracker)
+        block = m._build_sector_warning_block(tracker)
+        assert "MUST AVOID" not in block
+
+    def test_empty_portfolio_says_so(self):
+        block = m._build_sector_warning_block(m._fresh_tracker())
+        assert "No sector concentration" in block
+
+
+class TestNarrativeCallback:
+    def test_picks_trade_in_window(self):
+        tracker = m._fresh_tracker()
+        three_weeks_ago = (datetime.date.today() - datetime.timedelta(days=21)).isoformat()
+        tracker["trades"].append({
+            "status": "closed", "date": three_weeks_ago,
+            "symbol": "WDC", "sector": "tech", "strategy": "cloud-driven growth",
+            "pnl_pct": 4.44, "episode_num": 7,
+        })
+        callback = m._build_narrative_callback(tracker)
+        assert "WDC" in callback
+        assert "21 days ago" in callback
+
+    def test_no_candidates_yields_skip_message(self):
+        tracker = m._fresh_tracker()
+        tracker["trades"].append({
+            "status": "closed", "date": datetime.date.today().isoformat(),
+            "symbol": "X", "sector": "tech", "pnl_pct": 1.0, "episode_num": 1,
+        })
+        callback = m._build_narrative_callback(tracker)
+        assert "skip" in callback.lower()

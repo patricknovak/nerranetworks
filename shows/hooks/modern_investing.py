@@ -143,10 +143,22 @@ def pre_fetch(config, *, episode_num: int | None = None, today_str: str | None =
     # aggregator and the website always read a fresh ``benchmark`` block.
     try:
         _compute_benchmark_state(tracker)
+        tracker["sectors"] = _compute_sector_exposure(tracker)
         _save_tracker(tracker, tracker_path)
     except Exception as exc:
         logger.warning("Benchmark state refresh failed: %s", exc)
     context["benchmark_state"] = _build_benchmark_block(tracker)
+
+    # Taught-lessons repetition guard, sector warning, lessons-learned
+    # ledger, narrative callback — all new prompt template vars.
+    taught_path = output_dir / TAUGHT_LESSONS_FILENAME
+    lessons_path = output_dir / LESSONS_LEARNED_FILENAME
+    taught = _load_taught_lessons(taught_path)
+    lessons = _load_lessons_learned(lessons_path)
+    context["taught_lessons_block"] = _build_taught_lessons_block(taught)
+    context["sector_warning"] = _build_sector_warning_block(tracker)
+    context["lessons_learned_block"] = _build_lessons_learned_block(lessons)
+    context["narrative_callback"] = _build_narrative_callback(tracker)
 
     # Recent strategies for freshness enforcement
     closed_trades = [t for t in tracker["trades"] if t.get("status") == "closed"]
@@ -262,15 +274,49 @@ def post_generate(config, *, digest_text: str = "", episode_num: int | None = No
 
     trade = _extract_trade_from_digest(digest_text, episode_num)
     if trade:
+        # Always stamp sector from the symbol/strategy even if the prompt
+        # didn't produce a **Sector:** line yet. Keeps the dashboard clean.
+        if not trade.get("sector"):
+            trade["sector"] = _classify_sector(
+                trade.get("symbol", ""), trade.get("strategy", ""), trade.get("market", ""),
+            )
         tracker["trades"].append(trade)
         tracker["metadata"]["last_updated"] = datetime.date.today().isoformat()
+        tracker["sectors"] = _compute_sector_exposure(tracker)
         _save_tracker(tracker, tracker_path)
         logger.info(
-            "Recorded trade pick: %s (%s) — confidence: %s",
-            trade["symbol"], trade["strategy"], trade["confidence"],
+            "Recorded trade pick: %s (%s, sector=%s) — confidence: %s",
+            trade["symbol"], trade["strategy"], trade.get("sector"), trade["confidence"],
         )
     else:
         logger.warning("Could not extract Practice Investment pick from digest")
+
+    # Repetition guard: record whichever lesson tags the digest taught.
+    taught_path = output_dir / TAUGHT_LESSONS_FILENAME
+    taught = _load_taught_lessons(taught_path)
+    tags = _extract_lesson_tags(digest_text)
+    if tags:
+        _record_taught_lessons(taught, tags, episode_num)
+        _save_taught_lessons(taught, taught_path)
+        logger.info("Recorded taught lesson tags: %s", ", ".join(tags))
+
+    # Recursive improvement ledger: append a new entry ONLY if the digest
+    # emitted a structured "Lesson Learned ... Rule: ..." block.
+    lessons_path = output_dir / LESSONS_LEARNED_FILENAME
+    extracted = _extract_lesson_learned_from_digest(digest_text)
+    if extracted:
+        observation, adjustment = extracted
+        lessons = _load_lessons_learned(lessons_path)
+        entry = _append_lesson_learned(
+            lessons,
+            observation=observation,
+            adjustment=adjustment,
+            episode_num=episode_num,
+            source="post_generate",
+            category="content",
+        )
+        _save_lessons_learned(lessons, lessons_path)
+        logger.info("Appended lesson_learned %s: %s", entry["id"], entry["observation"][:80])
 
 
 # ---------------------------------------------------------------------------
@@ -955,6 +1001,290 @@ def _build_benchmark_block(tracker: dict) -> str:
         f"(YTD {_sign(bench_ytd)}, since inception {_sign(bench_itd)}). "
         f"Portfolio: YTD {_sign(portfolio_ytd)}, since inception {_sign(portfolio_itd)}. "
         f"Alpha vs NASDAQ: YTD {_sign(alpha_ytd)}, since inception {_sign(alpha_itd)}."
+    )
+
+
+# ---------------------------------------------------------------------------
+# Taught-lessons repetition guard + lessons_learned recursive ledger
+# ---------------------------------------------------------------------------
+
+def _load_taught_lessons(path: Path) -> dict:
+    """Load the taught-lessons JSON, or return a fresh structure."""
+    if path.exists():
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            data.setdefault("metadata", {}).setdefault("last_updated", datetime.date.today().isoformat())
+            data.setdefault("lessons", {})
+            data.setdefault("cooldown_days_default", 21)
+            return data
+        except (json.JSONDecodeError, OSError) as exc:
+            logger.warning("Failed to load taught_lessons: %s — starting fresh", exc)
+    return {
+        "metadata": {"last_updated": datetime.date.today().isoformat()},
+        "lessons": {},
+        "cooldown_days_default": 21,
+    }
+
+
+def _save_taught_lessons(data: dict, path: Path) -> None:
+    data["metadata"]["last_updated"] = datetime.date.today().isoformat()
+    path.write_text(
+        json.dumps(data, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
+
+def _record_taught_lessons(data: dict, tags: list[str], episode_num: int | None) -> None:
+    """Bump counts + last-seen for each taught lesson tag."""
+    if not tags:
+        return
+    today_iso = datetime.date.today().isoformat()
+    default_cooldown = int(data.get("cooldown_days_default", 21))
+    lessons = data.setdefault("lessons", {})
+    for tag in tags:
+        entry = lessons.setdefault(tag, {
+            "count": 0,
+            "last_episode": None,
+            "last_date": None,
+            "cooldown_days": default_cooldown,
+        })
+        entry["count"] = int(entry.get("count", 0)) + 1
+        entry["last_episode"] = episode_num if episode_num is not None else entry.get("last_episode")
+        entry["last_date"] = today_iso
+
+
+def _stale_lesson_tags(data: dict) -> list[tuple[str, int]]:
+    """Return [(tag, days_since)] for lessons still inside their cooldown window.
+
+    Tags the digest prompt should AVOID re-teaching today. Sorted by
+    most-recently-taught first so the prompt lists the hottest blocks
+    at the top.
+    """
+    today = datetime.date.today()
+    stale: list[tuple[str, int]] = []
+    for tag, entry in (data.get("lessons") or {}).items():
+        last_date = entry.get("last_date")
+        if not last_date:
+            continue
+        try:
+            last = datetime.date.fromisoformat(last_date)
+        except ValueError:
+            continue
+        cooldown = int(entry.get("cooldown_days", data.get("cooldown_days_default", 21)))
+        days_since = (today - last).days
+        if days_since < cooldown:
+            stale.append((tag, days_since))
+    stale.sort(key=lambda x: x[1])
+    return stale
+
+
+def _build_taught_lessons_block(data: dict) -> str:
+    """Human-readable block injected into the digest prompt."""
+    stale = _stale_lesson_tags(data)
+    if not stale:
+        return "No lessons are in their cooldown window today — you have full latitude on what to teach."
+    lines = ["Do NOT re-teach any of the following today (inside cooldown):"]
+    lessons = data.get("lessons") or {}
+    for tag, days_since in stale[:12]:
+        entry = lessons.get(tag, {})
+        cooldown = entry.get("cooldown_days", data.get("cooldown_days_default", 21))
+        lines.append(
+            f"- {tag} (count={entry.get('count', '?')}, "
+            f"last Ep{entry.get('last_episode', '?')}, "
+            f"{days_since}d ago; cools in {max(cooldown - days_since, 0)}d)"
+        )
+    return "\n".join(lines)
+
+
+def _load_lessons_learned(path: Path) -> dict:
+    """Load the lessons_learned ledger, or return a fresh structure."""
+    if path.exists():
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            data.setdefault("metadata", {}).setdefault("schema_version", 1)
+            data["metadata"].setdefault("last_updated", datetime.date.today().isoformat())
+            data.setdefault("entries", [])
+            return data
+        except (json.JSONDecodeError, OSError) as exc:
+            logger.warning("Failed to load lessons_learned: %s — starting fresh", exc)
+    return {
+        "metadata": {
+            "schema_version": 1,
+            "last_updated": datetime.date.today().isoformat(),
+        },
+        "entries": [],
+    }
+
+
+def _save_lessons_learned(data: dict, path: Path) -> None:
+    data["metadata"]["last_updated"] = datetime.date.today().isoformat()
+    path.write_text(
+        json.dumps(data, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
+
+def _append_lesson_learned(
+    data: dict,
+    *,
+    observation: str,
+    adjustment: str,
+    episode_num: int | None,
+    source: str = "post_generate",
+    category: str = "content",
+    metric_target: dict | None = None,
+) -> dict:
+    """Append a new recursive-improvement rule; returns the new entry."""
+    entries = data.setdefault("entries", [])
+    next_id = f"LL-{len(entries) + 1:03d}"
+    entry = {
+        "id": next_id,
+        "date": datetime.date.today().isoformat(),
+        "episode_num": episode_num,
+        "source": source,
+        "category": category,
+        "observation": observation.strip(),
+        "adjustment": adjustment.strip(),
+        "status": "active",
+        "metric_target": metric_target or {},
+    }
+    entries.append(entry)
+    return entry
+
+
+def _build_lessons_learned_block(data: dict, *, max_active: int = 5) -> str:
+    """Block fed to the digest prompt as 'RECURSIVE IMPROVEMENT RULES IN EFFECT'."""
+    entries = [e for e in (data.get("entries") or []) if e.get("status") == "active"]
+    if not entries:
+        return "No active recursive-improvement rules yet — write one if today's trade teaches a generalisable lesson."
+    lines = ["The following rules are in effect today. Obey them in every section of the digest:"]
+    # Most-recent-first, capped.
+    for entry in list(reversed(entries))[:max_active]:
+        lines.append(
+            f"- [{entry['id']}] {entry.get('observation', '').rstrip('.')}. "
+            f"Rule: {entry.get('adjustment', '').rstrip('.')}."
+        )
+    return "\n".join(lines)
+
+
+def _extract_lesson_learned_from_digest(digest_text: str) -> tuple[str, str] | None:
+    """If the digest wrote a **Lesson Learned:** block with a Rule: suffix,
+    return (observation, adjustment). Otherwise return None.
+    """
+    if not digest_text:
+        return None
+    match = re.search(
+        r"\*\*Lesson Learned:\*\*\s*(.+?)(?:\n\s*\*\*|\Z)",
+        digest_text,
+        re.DOTALL,
+    )
+    if not match:
+        return None
+    body = match.group(1).strip()
+    # Split on a literal "Rule:" sentence so only deliberate rules are captured.
+    rule_match = re.search(r"Rule:\s*(.+?)(?:\.\s|$)", body, re.DOTALL)
+    if not rule_match:
+        return None
+    observation = body[: rule_match.start()].strip(" .\n")
+    adjustment = rule_match.group(1).strip(" .\n")
+    if not observation or not adjustment:
+        return None
+    return observation, adjustment
+
+
+# ---------------------------------------------------------------------------
+# Sector concentration warning + narrative callback
+# ---------------------------------------------------------------------------
+
+_CONCENTRATION_THRESHOLD_PCT = 30.0
+_CONCENTRATION_WINDOW = 10
+
+
+def _compute_sector_exposure(tracker: dict) -> dict:
+    """Return {sector: {trade_count, exposure_pct, cumulative_pnl}} over the
+    last ``_CONCENTRATION_WINDOW`` trades (open + closed combined).
+    """
+    trades = tracker.get("trades", [])[-_CONCENTRATION_WINDOW:]
+    if not trades:
+        return {}
+    counts: dict[str, int] = {}
+    pnl: dict[str, float] = {}
+    for t in trades:
+        sector = t.get("sector") or _classify_sector(
+            t.get("symbol", ""), t.get("strategy", ""), t.get("market", ""),
+        )
+        counts[sector] = counts.get(sector, 0) + 1
+        pnl[sector] = pnl.get(sector, 0.0) + float(t.get("pnl_dollars") or 0)
+    total = sum(counts.values())
+    return {
+        sector: {
+            "trade_count": n,
+            "exposure_pct": round((n / total) * 100, 1),
+            "cumulative_pnl": round(pnl.get(sector, 0.0), 2),
+        }
+        for sector, n in counts.items()
+    }
+
+
+def _build_sector_warning_block(tracker: dict) -> str:
+    """If any sector exceeds the concentration threshold over the recent
+    window, emit an AVOID instruction for today's pick.
+    """
+    sectors = tracker.get("sectors") or _compute_sector_exposure(tracker)
+    if not sectors:
+        return "No sector concentration detected — pick based on today's best setup."
+    over = [(s, d) for s, d in sectors.items() if d.get("exposure_pct", 0) >= _CONCENTRATION_THRESHOLD_PCT]
+    if not over:
+        return "Sector exposure is balanced — no concentration warning today."
+    # Sort biggest-first so the most-overweight sector leads the warning.
+    over.sort(key=lambda x: x[1]["exposure_pct"], reverse=True)
+    lines = ["SECTOR CONCENTRATION WARNING — today's Practice Investment MUST AVOID the following sectors:"]
+    for sector, data in over:
+        lines.append(
+            f"- {sector}: {data['exposure_pct']:.0f}% of the last "
+            f"{_CONCENTRATION_WINDOW} trades ({data['trade_count']} trades, "
+            f"cumulative P&L ${data['cumulative_pnl']:+.2f})"
+        )
+    lines.append("Pick a DIFFERENT sector. Diversification is an explicit rule of this show.")
+    return "\n".join(lines)
+
+
+def _build_narrative_callback(tracker: dict) -> str:
+    """Pick one closed trade from 14-30 days ago, formatted as a recall line.
+    The daily podcast weaves this in naturally on Fridays and monthlies.
+    """
+    today = datetime.date.today()
+    candidates = []
+    for t in tracker.get("trades", []):
+        if t.get("status") != "closed":
+            continue
+        d = t.get("date")
+        if not isinstance(d, str):
+            continue
+        try:
+            tdate = datetime.date.fromisoformat(d)
+        except ValueError:
+            continue
+        days = (today - tdate).days
+        if 14 <= days <= 35:
+            candidates.append((days, t))
+    if not candidates:
+        return "No callback-worthy trade from 2-5 weeks ago yet — skip the narrative callback today."
+    # Prefer the freshest that's still clearly in the callback window.
+    candidates.sort(key=lambda x: x[0])
+    days, trade = candidates[0]
+    symbol = trade.get("symbol", "???")
+    pnl = trade.get("pnl_pct")
+    sector = trade.get("sector", "?")
+    strategy = (trade.get("strategy") or "").rstrip(".")
+    result = (
+        f"closed {pnl:+.2f}%"
+        if isinstance(pnl, (int, float))
+        else "was closed with unavailable data"
+    )
+    return (
+        f"About {days} days ago (Ep{trade.get('episode_num', '?')}) we picked {symbol} "
+        f"({sector}) — {strategy}. It {result}. Reference it once and draw a one-sentence lesson."
     )
 
 
