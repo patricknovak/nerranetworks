@@ -60,6 +60,17 @@
         "field": "digest.quick_hits[].has_action_line",
         "floor_pct": 100.0
       }
+    },
+    {
+      "id": "LL-005",
+      "date": "2026-04-17",
+      "episode_num": 22,
+      "source": "post_generate",
+      "category": "content",
+      "observation": "Even a fundamental catalyst around robotaxi partnerships and bill-of-materials cost reductions cannot be properly scored when price data is missing, limiting our ability to judge whether the thesis was pricing in. This exposes a process vulnerability in data reliance that must be fixed to accurately track whether simulated picks are beating the NASDAQ",
+      "adjustment": "Verify data availability from multiple providers before declaring a weekly hold closed",
+      "status": "active",
+      "metric_target": {}
     }
   ]
 }

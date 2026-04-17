@@ -6,18 +6,23 @@
     "position_size": 1000,
     "currency": "USD",
     "created": "2026-03-16",
-    "last_updated": "2026-04-16"
+    "last_updated": "2026-04-16",
+    "inception_date": "2026-03-16",
+    "benchmark_symbol": "^IXIC",
+    "nasdaq_inception_close": 22374.18,
+    "nasdaq_ytd_start_close": 23235.63,
+    "nasdaq_ytd_year": 2026
   },
   "summary": {
-    "total_trades": 6,
-    "wins": 2,
-    "losses": 2,
-    "breakeven": 2,
-    "win_rate_pct": 33.3,
-    "cumulative_pnl": 33.85,
+    "total_trades": 10,
+    "wins": 3,
+    "losses": 3,
+    "breakeven": 4,
+    "win_rate_pct": 30.0,
+    "cumulative_pnl": -2.16,
     "best_trade_pct": 7.88,
     "worst_trade_pct": -7.49,
-    "average_return_pct": 0.57,
+    "average_return_pct": -0.02,
     "current_streak": 0,
     "longest_win_streak": 1,
     "longest_loss_streak": 1
@@ -133,13 +138,18 @@
       "confidence": "Medium",
       "target_range": "+4% to +9% by Friday close.",
       "trade_type": "weekly",
-      "status": "open",
-      "entry_price": null,
-      "exit_price": null,
-      "pnl_pct": null,
-      "pnl_dollars": null,
+      "status": "closed",
+      "entry_price": 32.52,
+      "exit_price": 31.15,
+      "pnl_pct": -4.21,
+      "pnl_dollars": -42.13,
       "lesson": "",
-      "current_price": 31.16
+      "current_price": 31.16,
+      "nasdaq_entry": 22902.89,
+      "nasdaq_exit": 22902.89,
+      "nasdaq_return_pct": 0.0,
+      "alpha_pct": -4.21,
+      "sector": "precious_metals"
     },
     {
       "episode_num": 18,
@@ -150,12 +160,12 @@
       "confidence": "Medium",
       "target_range": "+6% to +12% by Friday close.",
       "trade_type": "weekly",
-      "status": "open",
+      "status": "closed",
       "entry_price": null,
       "exit_price": null,
-      "pnl_pct": null,
-      "pnl_dollars": null,
-      "lesson": ""
+      "pnl_pct": 0.0,
+      "pnl_dollars": 0.0,
+      "lesson": "Market data was unavailable for evaluation."
     },
     {
       "episode_num": 19,
@@ -166,13 +176,18 @@
       "confidence": "Medium",
       "target_range": "+3% to +6% by Friday close.",
       "trade_type": "weekly",
-      "status": "open",
-      "entry_price": null,
-      "exit_price": null,
-      "pnl_pct": null,
-      "pnl_dollars": null,
+      "status": "closed",
+      "entry_price": 195.92,
+      "exit_price": 197.12,
+      "pnl_pct": 0.61,
+      "pnl_dollars": 6.12,
       "lesson": "",
-      "current_price": 190.19
+      "current_price": 190.19,
+      "nasdaq_entry": 23639.08,
+      "nasdaq_exit": 24102.7,
+      "nasdaq_return_pct": 1.96,
+      "alpha_pct": -1.35,
+      "sector": "tech"
     },
     {
       "episode_num": 21,
@@ -183,12 +198,49 @@
       "confidence": "Medium",
       "target_range": "+4% to +9% by Friday close.",
       "trade_type": "weekly",
-      "status": "open",
+      "status": "closed",
       "entry_price": null,
       "exit_price": null,
-      "pnl_pct": null,
-      "pnl_dollars": null,
-      "lesson": ""
+      "pnl_pct": 0.0,
+      "pnl_dollars": 0.0,
+      "lesson": "Market data was unavailable for evaluation."
     }
+  ],
+  "benchmark": {
+    "current_close": 24102.7,
+    "inception_to_date_pct": 7.73,
+    "ytd_pct": 3.73,
+    "last_updated": "2026-04-17"
+  },
+  "alpha": {
+    "inception_to_date_pct": -7.75,
+    "ytd_pct": -3.75,
+    "monthly": {}
+  },
+  "sectors": {
+    "precious_metals": {
+      "trade_count": 4,
+      "exposure_pct": 40.0,
+      "cumulative_pnl": 36.63
+    },
+    "financials": {
+      "trade_count": 1,
+      "exposure_pct": 10.0,
+      "cumulative_pnl": -74.91
+    },
+    "tech": {
+      "trade_count": 3,
+      "exposure_pct": 30.0,
+      "cumulative_pnl": 50.52
+    },
+    "consumer": {
+      "trade_count": 2,
+      "exposure_pct": 20.0,
+      "cumulative_pnl": -14.4
+    }
+  },
+  "monthly_snapshots": [],
+  "used_segment_ids": [
+    "mit_etf_strategies"
   ]
 }
