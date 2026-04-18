@@ -28,19 +28,22 @@ GITHUB_RAW = "https://nerranetwork.com"
 # ---------------------------------------------------------------------------
 # Marketing / Analytics configuration
 # ---------------------------------------------------------------------------
-# All tracking is disabled by default — set the corresponding environment
-# variables (typically via GitHub Actions secrets or .env locally) to enable.
+# GA4 Measurement ID is committed to the repo (it's public — visible in
+# page source of any GA4-tracked site). Ads ID and conversion labels are
+# secrets set via GitHub Actions.
 #
-# - GA4_MEASUREMENT_ID: Google Analytics 4 property ID (e.g. "G-XXXXXXX")
+# - GA4_MEASUREMENT_ID: Google Analytics 4 (default: Nerra Network property)
 # - GOOGLE_ADS_ID: Google Ads conversion ID (e.g. "AW-1234567890")
-# - GOOGLE_ADS_SIGNUP_LABEL: Conversion label for newsletter signup (e.g. "abc123")
+# - GOOGLE_ADS_SIGNUP_LABEL: Conversion label for newsletter signup
 # - PLAUSIBLE_DOMAIN: Plausible analytics domain (privacy-focused alternative)
 #
 # When any GA4/Ads ID is set, gtag.js loads and Google Consent Mode v2 defaults
 # to "denied" until the user accepts the cookie banner.
 
+_GA4_DEFAULT = "G-6PWJCVQQ7B"  # Nerra Network GA4 property (533581233)
+
 MARKETING_CONFIG = {
-    "ga4_measurement_id": os.environ.get("GA4_MEASUREMENT_ID", "").strip(),
+    "ga4_measurement_id": os.environ.get("GA4_MEASUREMENT_ID", _GA4_DEFAULT).strip(),
     "google_ads_id": os.environ.get("GOOGLE_ADS_ID", "").strip(),
     "google_ads_signup_label": os.environ.get("GOOGLE_ADS_SIGNUP_LABEL", "").strip(),
     "plausible_domain": os.environ.get("PLAUSIBLE_DOMAIN", "").strip(),
