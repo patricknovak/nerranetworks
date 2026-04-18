@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-18T17:06:07.409479+00:00",
+  "generated_at": "2026-04-18T18:47:08.304097+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -300,7 +300,7 @@
       "id": "item_2_rss_integrity",
       "title": "RSS integrity, LFS absence, R2 host consistency",
       "status": "warn",
-      "details": "non-R2 hosts: op3.dev; 1 recent enclosure(s) unreachable",
+      "details": "non-R2 hosts: op3.dev",
       "evidence": {
         "feeds": 11,
         "malformed": [],
@@ -308,9 +308,7 @@
         "non_r2_hosts": [
           "op3.dev"
         ],
-        "unreachable": [
-          "modern_investing_podcast.rss: https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep022_20260417.mp3"
-        ],
+        "unreachable": [],
         "offline": false
       }
     },
@@ -2376,8 +2374,8 @@
             "url": "https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep022_20260417.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-17T08:00:00+00:00",
-            "http_status": null,
-            "reachable": false
+            "http_status": 200,
+            "reachable": true
           },
           {
             "url": "https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep021_20260416.mp3",
