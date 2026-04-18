@@ -14,6 +14,7 @@ Usage:
 """
 
 import argparse
+import os
 import sys
 from pathlib import Path
 from urllib.parse import quote
@@ -23,6 +24,30 @@ from jinja2 import Environment, FileSystemLoader
 ROOT = Path(__file__).resolve().parent
 TEMPLATES_DIR = ROOT / "templates"
 GITHUB_RAW = "https://nerranetwork.com"
+
+# ---------------------------------------------------------------------------
+# Marketing / Analytics configuration
+# ---------------------------------------------------------------------------
+# GA4 Measurement ID is committed to the repo (it's public — visible in
+# page source of any GA4-tracked site). Ads ID and conversion labels are
+# secrets set via GitHub Actions.
+#
+# - GA4_MEASUREMENT_ID: Google Analytics 4 (default: Nerra Network property)
+# - GOOGLE_ADS_ID: Google Ads conversion ID (e.g. "AW-1234567890")
+# - GOOGLE_ADS_SIGNUP_LABEL: Conversion label for newsletter signup
+# - PLAUSIBLE_DOMAIN: Plausible analytics domain (privacy-focused alternative)
+#
+# When any GA4/Ads ID is set, gtag.js loads and Google Consent Mode v2 defaults
+# to "denied" until the user accepts the cookie banner.
+
+_GA4_DEFAULT = "G-6PWJCVQQ7B"  # Nerra Network GA4 property (533581233)
+
+MARKETING_CONFIG = {
+    "ga4_measurement_id": os.environ.get("GA4_MEASUREMENT_ID", _GA4_DEFAULT).strip(),
+    "google_ads_id": os.environ.get("GOOGLE_ADS_ID", "").strip(),
+    "google_ads_signup_label": os.environ.get("GOOGLE_ADS_SIGNUP_LABEL", "").strip(),
+    "plausible_domain": os.environ.get("PLAUSIBLE_DOMAIN", "").strip(),
+}
 
 # ---------------------------------------------------------------------------
 # Per-show configuration
@@ -1156,13 +1181,37 @@ def _load_mit_performance_data():
         return None
 
 
+def _with_utm(url, source="nerranetwork", medium="web", campaign=""):
+    """Jinja filter: append UTM tracking parameters to an outbound URL.
+
+    Skips empty URLs. Preserves existing query parameters. Used for
+    Apple Podcasts / Spotify links so we can attribute subscriber
+    acquisition by source.
+    """
+    if not url:
+        return url
+    # Don't double-tag URLs that already have utm parameters
+    if "utm_source=" in url:
+        return url
+    sep = "&" if "?" in url else "?"
+    parts = ["utm_source=" + quote(source), "utm_medium=" + quote(medium)]
+    if campaign:
+        parts.append("utm_campaign=" + quote(campaign))
+    return url + sep + "&".join(parts)
+
+
 def _get_jinja_env():
-    """Create a shared Jinja2 environment."""
-    return Environment(
+    """Create a shared Jinja2 environment with marketing globals + filters."""
+    env = Environment(
         loader=FileSystemLoader(str(TEMPLATES_DIR)),
         autoescape=False,
         keep_trailing_newline=True,
     )
+    # Make marketing config available in every template without
+    # threading it through every render() call.
+    env.globals["marketing"] = MARKETING_CONFIG
+    env.filters["with_utm"] = _with_utm
+    return env
 
 
 # ---------------------------------------------------------------------------

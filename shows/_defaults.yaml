@@ -70,7 +70,12 @@ publishing:
   host_name: Patrick
 
 analytics:
-  enabled: false
+  # OP3 (https://op3.dev) is a free, open podcast analytics service.
+  # Wrapping enclosure URLs proxies downloads through OP3 so we get
+  # listener stats from podcast apps (Apple, Spotify, Pocket Casts, etc.)
+  # that don't expose this data otherwise. Existing episode URLs in
+  # RSS feeds are preserved; only NEW episodes get the OP3 prefix.
+  enabled: true
   prefix_url: "https://op3.dev/e/"
 
 newsletter:

@@ -200,4 +200,13 @@ slow_news:
   library_file: shows/segments/fascinating_frontiers.json
   max_segments: 2
   cooldown_days: 30
+  # Loosened from 3 — space/astronomy news cycles often surface the same
+  # story across multiple outlets (NASA + SpaceX + Space.com) within 24h.
+  repeat_trigger_threshold: 5
+
+content_freshness:
+  # Less aggressive pre-filter so space stories with overlapping keywords
+  # (e.g. multiple Artemis II updates) aren't all collapsed into "similar".
+  lookback_days: 2
+  similarity_threshold: 0.72
 

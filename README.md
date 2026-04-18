@@ -155,6 +155,27 @@ See `docs/env_var_inventory.md` for the complete list. Key variables:
 - `R2_*` — Cloudflare R2 storage
 - `BUTTONDOWN_API_KEY` — Buttondown newsletter
 
+### Analytics & Marketing (optional)
+
+These activate Google Analytics 4, Google Ads conversion tracking, or Plausible
+when set. All default to disabled — leaving them unset keeps the website
+analytics-free.
+
+- `GA4_MEASUREMENT_ID` — Google Analytics 4 property ID (e.g. `G-XXXXXXX`)
+- `GOOGLE_ADS_ID` — Google Ads conversion ID (e.g. `AW-1234567890`)
+- `GOOGLE_ADS_SIGNUP_LABEL` — Conversion label fired on newsletter signup
+- `PLAUSIBLE_DOMAIN` — Plausible Analytics domain (e.g. `nerranetwork.com`)
+
+When any GA4/Ads ID is set:
+- gtag.js loads and Google Consent Mode v2 defaults all storage to `denied`
+- A cookie consent banner asks visitors before any tracking cookies are set
+- Newsletter form submits and Apple/Spotify clicks fire conversion events
+- All outbound subscription links carry UTM parameters for source attribution
+
+Podcast download analytics (OP3) are enabled by default for all shows in
+`shows/_defaults.yaml` — listener stats appear at https://op3.dev once
+deployed.
+
 ## Documentation
 
 - `CLAUDE.md` — Detailed architecture reference and known issues
