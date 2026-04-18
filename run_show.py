@@ -956,7 +956,8 @@ def run(args: argparse.Namespace) -> None:
                     if "cross-episode repeat" in i.lower()
                 ]
                 metrics.record("cross_episode_repeats", len(_repeat_issues))
-                if len(_repeat_issues) >= 3:
+                _repeat_threshold = getattr(config.slow_news, "repeat_trigger_threshold", 3) or 3
+                if len(_repeat_issues) >= _repeat_threshold:
                     # If slow news mode is available, fall back to it instead
                     # of skipping entirely — the repeat articles are stale but
                     # evergreen segments can fill the episode.
@@ -1295,21 +1296,28 @@ def run(args: argparse.Namespace) -> None:
             sys.exit(1)
         logger.info("Podcast script generation took %.1fs", time.monotonic() - t0)
 
-        # 8b. Minimum podcast script length gate — catch LLM garbage before
-        #     spending TTS credits on a worthless episode.  Short-but-coherent
-        #     scripts are fine; only abort on clear garbage.  Per-show config
-        #     (min_podcast_words) takes precedence over the 1000-word default
-        #     to accommodate shorter shows like language-learning podcasts.
-        _MIN_SCRIPT_WORDS = getattr(config.llm, "min_podcast_words", 1000) or 1000
+        # 8b. Podcast script length check — two-tier gate.
+        #     Hard floor (true garbage): abort only when clearly broken.
+        #     Soft floor (below target): warn but continue — a shorter fresh
+        #     episode is better than no episode.
+        _TARGET_WORDS = getattr(config.llm, "min_podcast_words", 1000) or 1000
+        _HARD_FLOOR = max(600, int(_TARGET_WORDS * 0.4))
         _script_word_count = len(podcast_script.split())
-        if _script_word_count < _MIN_SCRIPT_WORDS:
+        if _script_word_count < _HARD_FLOOR:
             logger.error(
-                "Podcast script is too short (%d words, minimum %d) — LLM "
-                "likely returned garbage. Aborting episode.",
-                _script_word_count, _MIN_SCRIPT_WORDS,
+                "Podcast script is clearly broken (%d words, hard floor %d) — "
+                "aborting episode.",
+                _script_word_count, _HARD_FLOOR,
             )
             save_usage(tracker, digests_dir)
             sys.exit(1)
+        elif _script_word_count < _TARGET_WORDS:
+            logger.warning(
+                "Podcast script below target (%d words, target %d) — "
+                "continuing with shorter episode (fresh > long).",
+                _script_word_count, _TARGET_WORDS,
+            )
+            metrics.record("script_below_target", True)
 
         # 8c. Pre-TTS duration estimate — skip obviously doomed episodes before
         #     burning TTS credits.  ~150 words/minute for podcast speech.
@@ -1891,9 +1899,11 @@ def _fetch_with_expansion(
         # Reduce dedup lookback for young shows (< 10 episodes) to avoid
         # over-filtering when the content tracker has very few episodes.
         ep_count = len(content_tracker.data.get("episodes", []))
-        lookback_days = 1 if ep_count < 10 else 3
+        _cf = getattr(config, "content_freshness", None)
+        lookback_days = (_cf and _cf.lookback_days) or (1 if ep_count < 10 else 3)
+        _cf_sim = (_cf and _cf.similarity_threshold) or sim_threshold
         articles = content_tracker.filter_recent_articles(
-            articles, similarity_threshold=sim_threshold, days=lookback_days,
+            articles, similarity_threshold=_cf_sim, days=lookback_days,
         )
         logger.info(
             "After dedup (sim=%.2f): %d articles remain",

@@ -143,7 +143,8 @@ Deliver with energy — this is the reason investors should keep listening. Then
 
 7. [Trade Review — 60-90 seconds] (skip for Episode 1)
 - Report last week's completed hold honestly: "we simulated buying [X] at Monday's open..."
-- Give the weekly P&L and running total
+- Give the weekly P&L (entry price, exit price, dollar/percentage move)
+- DO NOT mention the running portfolio total, win rate, or YTD performance here — those belong to Portfolio Performance only
 - Analyse what happened over the week: did the thesis play out? What moved the stock?
 - Extract the lesson: "what this teaches us about [specific analytical technique]"
 - If it was a loss, be direct: "this didn't work, and here's what I'd adjust next time"
@@ -160,8 +161,10 @@ Deliver with energy — this is the reason investors should keep listening. Then
 - Keep energy up — these are interesting tidbits, not deep analysis
 
 10. [Portfolio Performance — 30-45 seconds]
+- This is the ONLY segment that reports running portfolio stats (win rate, YTD %, alpha vs NASDAQ)
 - Running total of all simulated trades
 - Win rate and average return per trade
+- DO NOT repeat any specific trade narrative or P&L from Trade Review — just the cumulative numbers
 - Brief commentary: "our AI analysis is learning from [pattern] and adjusting..."
 - Frame it as a learning journey, not a track record to follow
 
@@ -184,6 +187,7 @@ Use this exact closing (do not rewrite it):
 
 CONTENT REPETITION (STRICT):
 - Each source article should appear in AT MOST one segment. Do NOT discuss the same story in both Strategy Spotlight and Quick Hits, or in both Tools & Techniques and Quick Hits.
+- PORTFOLIO STATS UNIQUENESS: Running totals, win rate, YTD performance, and alpha numbers (e.g. -0.02%, -3.75% vs NASDAQ) MUST appear in exactly ONE segment (Portfolio Performance). Repeating these in Trade Review, Strategy Spotlight, or anywhere else is a critical failure.
 - If the briefing has too few unique stories, reduce Quick Hits to 2 items rather than repeating stories from earlier segments.
 - Use the EXACT segment order above (1-12). Do NOT rearrange segments. Market Pulse always comes before Strategy Spotlight, which always comes before Practice Investment, etc.
 
