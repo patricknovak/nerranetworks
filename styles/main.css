@@ -1828,3 +1828,59 @@ body.menu-open {
     padding: var(--sp-16) 0 var(--sp-12);
   }
 }
+
+/* ===================================================================
+   Cookie Consent Banner (Google Consent Mode v2)
+   =================================================================== */
+#nn-consent-banner {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  background: rgba(15, 17, 26, 0.96);
+  color: #e2e8f0;
+  border: 1px solid rgba(124, 92, 255, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+#nn-consent-banner .nn-consent-text { flex: 1 1 320px; min-width: 0; }
+#nn-consent-banner .nn-consent-text a { color: #a78bfa; text-decoration: underline; }
+#nn-consent-banner .nn-consent-actions { display: flex; gap: 8px; flex-shrink: 0; }
+#nn-consent-banner .nn-consent-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.05s;
+}
+#nn-consent-banner .nn-consent-btn:active { transform: translateY(1px); }
+#nn-consent-banner .nn-consent-reject {
+  background: transparent;
+  color: #cbd5e0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+#nn-consent-banner .nn-consent-reject:hover { background: rgba(255, 255, 255, 0.05); }
+#nn-consent-banner .nn-consent-accept {
+  background: #7C5CFF;
+  color: #fff;
+}
+#nn-consent-banner .nn-consent-accept:hover { background: #6841ff; }
+@media (max-width: 480px) {
+  #nn-consent-banner { flex-direction: column; align-items: stretch; }
+  #nn-consent-banner .nn-consent-actions { justify-content: stretch; }
+  #nn-consent-banner .nn-consent-btn { flex: 1; }
+}

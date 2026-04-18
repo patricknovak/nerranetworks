@@ -56,13 +56,13 @@
     <!-- Subscribe Buttons -->
     <div class="nn-subscribe-bar">
         {% if apple_podcasts_url %}
-        <a href="{{ apple_podcasts_url }}" target="_blank" rel="noopener" class="nn-subscribe-btn nn-subscribe-apple" aria-label="Subscribe on Apple Podcasts">
+        <a href="{{ apple_podcasts_url | with_utm(campaign=show_slug) }}" target="_blank" rel="noopener" class="nn-subscribe-btn nn-subscribe-apple" aria-label="Subscribe on Apple Podcasts" data-show="{{ show_slug }}">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l7 4.5-7 4.5z"/></svg>
             Apple Podcasts
         </a>
         {% endif %}
         {% if spotify_url %}
-        <a href="{{ spotify_url }}" target="_blank" rel="noopener" class="nn-subscribe-btn nn-subscribe-spotify" aria-label="Subscribe on Spotify">
+        <a href="{{ spotify_url | with_utm(campaign=show_slug) }}" target="_blank" rel="noopener" class="nn-subscribe-btn nn-subscribe-spotify" aria-label="Subscribe on Spotify" data-show="{{ show_slug }}">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l7 4.5-7 4.5z"/></svg>
             Spotify
         </a>

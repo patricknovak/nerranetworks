@@ -79,9 +79,12 @@
                     <a href="{{ path_prefix }}{{ blog_page }}" class="nn-btn">Read Blog</a>
                     <a href="{{ path_prefix }}{{ summaries_page }}" class="nn-btn">View Summaries</a>
                     {% if apple_podcasts_url %}
-                    <a href="{{ apple_podcasts_url }}" class="nn-btn" target="_blank" rel="noopener">Apple Podcasts</a>
+                    <a href="{{ apple_podcasts_url | with_utm(campaign=show_slug) }}" class="nn-btn" target="_blank" rel="noopener" data-show="{{ show_slug }}">Apple Podcasts</a>
                     {% endif %}
-                    <a href="{{ path_prefix }}{{ rss_file }}" class="nn-btn">RSS Feed</a>
+                    {% if spotify_url %}
+                    <a href="{{ spotify_url | with_utm(campaign=show_slug) }}" class="nn-btn" target="_blank" rel="noopener" data-show="{{ show_slug }}">Spotify</a>
+                    {% endif %}
+                    <a href="{{ path_prefix }}{{ rss_file }}" class="nn-btn" data-show="{{ show_slug }}">RSS Feed</a>
                     {% if x_account %}
                     <a href="https://x.com/{{ x_account }}" class="nn-btn" target="_blank" rel="noopener">@{{ x_account }}</a>
                     {% endif %}

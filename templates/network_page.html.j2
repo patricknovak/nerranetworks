@@ -396,12 +396,12 @@
                     </div>
                     <div class="subscribe-show-links">
                         {% if s.apple_podcasts_url %}
-                        <a href="{{ s.apple_podcasts_url }}" target="_blank" rel="noopener" class="subscribe-link-btn" aria-label="Subscribe to {{ s.name }} on Apple Podcasts">Apple</a>
+                        <a href="{{ s.apple_podcasts_url | with_utm(campaign=s.slug) }}" target="_blank" rel="noopener" class="subscribe-link-btn" aria-label="Subscribe to {{ s.name }} on Apple Podcasts" data-show="{{ s.slug }}">Apple</a>
                         {% endif %}
                         {% if s.spotify_url %}
-                        <a href="{{ s.spotify_url }}" target="_blank" rel="noopener" class="subscribe-link-btn" aria-label="Subscribe to {{ s.name }} on Spotify">Spotify</a>
+                        <a href="{{ s.spotify_url | with_utm(campaign=s.slug) }}" target="_blank" rel="noopener" class="subscribe-link-btn" aria-label="Subscribe to {{ s.name }} on Spotify" data-show="{{ s.slug }}">Spotify</a>
                         {% endif %}
-                        <a href="{{ s.rss_file }}" class="subscribe-link-btn subscribe-link-rss" aria-label="Subscribe to {{ s.name }} via RSS">RSS</a>
+                        <a href="{{ s.rss_file }}" class="subscribe-link-btn subscribe-link-rss" aria-label="Subscribe to {{ s.name }} via RSS" data-show="{{ s.slug }}">RSS</a>
                     </div>
                 </div>
                 {% endfor %}

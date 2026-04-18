@@ -362,6 +362,11 @@ jobs:
 
       - name: Regenerate show HTML pages
         if: steps.pipeline.outputs.skipped != 'true'
+        env:
+          GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
+          GOOGLE_ADS_ID: ${{ secrets.GOOGLE_ADS_ID }}
+          GOOGLE_ADS_SIGNUP_LABEL: ${{ secrets.GOOGLE_ADS_SIGNUP_LABEL }}
+          PLAUSIBLE_DOMAIN: ${{ secrets.PLAUSIBLE_DOMAIN }}
         run: |
           # Regenerate show page (static episodes) + blog posts for this show
           python generate_html.py --show ${{ matrix.show }} --blogs
@@ -505,6 +510,11 @@ jobs:
         run: git pull origin main
 
       - name: Regenerate shared pages
+        env:
+          GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
+          GOOGLE_ADS_ID: ${{ secrets.GOOGLE_ADS_ID }}
+          GOOGLE_ADS_SIGNUP_LABEL: ${{ secrets.GOOGLE_ADS_SIGNUP_LABEL }}
+          PLAUSIBLE_DOMAIN: ${{ secrets.PLAUSIBLE_DOMAIN }}
         run: |
           # Network homepage (latest episodes + blog posts from all shows)
           # Network-wide blog index (aggregates all shows' posts)

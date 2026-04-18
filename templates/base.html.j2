@@ -42,10 +42,37 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
-    <!-- Analytics (uncomment when ready) -->
-    {% if analytics_domain %}
-    <script defer data-domain="{{ analytics_domain }}" src="https://plausible.io/js/script.js"></script>
+    {# ---------------------------------------------------------------
+       Marketing & Analytics
+       Globals: marketing.ga4_measurement_id, marketing.google_ads_id,
+                marketing.google_ads_signup_label, marketing.plausible_domain
+       Set via env vars in generate_html.py — all empty by default.
+       --------------------------------------------------------------- #}
+    {% if marketing.ga4_measurement_id or marketing.google_ads_id %}
+    <!-- Cookie consent (Google Consent Mode v2) — loads BEFORE gtag.js -->
+    <script src="{{ path_prefix }}assets/js/consent.js"></script>
+    <!-- gtag.js — covers both GA4 and Google Ads -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ marketing.ga4_measurement_id or marketing.google_ads_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      {% if marketing.ga4_measurement_id %}
+      gtag('config', '{{ marketing.ga4_measurement_id }}', { 'anonymize_ip': true });
+      {% endif %}
+      {% if marketing.google_ads_id %}
+      gtag('config', '{{ marketing.google_ads_id }}');
+      {% if marketing.google_ads_signup_label %}
+      window._GOOGLE_ADS_SIGNUP_TARGET = '{{ marketing.google_ads_id }}/{{ marketing.google_ads_signup_label }}';
+      {% endif %}
+      {% endif %}
+    </script>
     {% endif %}
+    {% if marketing.plausible_domain %}
+    <script defer data-domain="{{ marketing.plausible_domain }}" src="https://plausible.io/js/script.js"></script>
+    {% endif %}
+    {# Tracking event helper — safe no-op when no analytics configured #}
+    <script defer src="{{ path_prefix }}assets/js/tracking.js"></script>
 
     <!-- Shared CSS -->
     <link rel="stylesheet" href="{{ path_prefix }}styles/main.css">
