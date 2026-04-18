@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-17T18:48:05.161533+00:00",
+  "generated_at": "2026-04-18T05:44:17.023216+00:00",
   "network": {
     "landmines_counts": {
       "ok": 9,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 1,
-    "total_cost_last_7_days_usd": 85.5546,
-    "total_cost_last_30_days_usd": 466.4147,
+    "total_cost_last_7_days_usd": 74.5041,
+    "total_cost_last_30_days_usd": 463.945,
     "shows": [
       {
         "slug": "env_intel",
@@ -40,8 +40,8 @@
         "x_enabled": true,
         "latest_pub_date": "2026-04-16T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 7.4152,
-        "episodes_last_7_days": 3,
+        "cost_last_7_days_usd": 5.2194,
+        "episodes_last_7_days": 2,
         "p50_pipeline_s": 44.38,
         "success_rate": 1.0
       },
@@ -57,8 +57,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-16T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 5.6744,
-        "episodes_last_7_days": 4,
+        "cost_last_7_days_usd": 4.1439,
+        "episodes_last_7_days": 3,
         "p50_pipeline_s": 28.28,
         "success_rate": 1.0
       },
@@ -91,8 +91,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-16T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 5.1946,
-        "episodes_last_7_days": 4,
+        "cost_last_7_days_usd": 3.7971,
+        "episodes_last_7_days": 3,
         "p50_pipeline_s": 18.3,
         "success_rate": 1.0
       },
@@ -108,8 +108,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-17T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 15.2968,
-        "episodes_last_7_days": 7,
+        "cost_last_7_days_usd": 12.6732,
+        "episodes_last_7_days": 6,
         "p50_pipeline_s": 69.63,
         "success_rate": 1.0
       },
@@ -159,8 +159,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-10T08:00:00+00:00",
         "pub_status": "stale",
-        "cost_last_7_days_usd": 1.0408,
-        "episodes_last_7_days": 1,
+        "cost_last_7_days_usd": 0.0,
+        "episodes_last_7_days": 0,
         "p50_pipeline_s": 26.96,
         "success_rate": 1.0
       },
@@ -176,8 +176,8 @@
         "x_enabled": true,
         "latest_pub_date": "2026-04-17T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 21.0787,
-        "episodes_last_7_days": 9,
+        "cost_last_7_days_usd": 18.8163,
+        "episodes_last_7_days": 8,
         "p50_pipeline_s": 82.37,
         "success_rate": 1.0
       }
@@ -656,10 +656,10 @@
       },
       "fascinating_frontiers": {
         "last_7_days": {
-          "grok": 0.2418,
-          "tts": 7.1734,
-          "total": 7.4152,
-          "episodes": 3
+          "grok": 0.155,
+          "tts": 5.0644,
+          "total": 5.2194,
+          "episodes": 2
         },
         "last_30_days": {
           "grok": 0.877,
@@ -752,10 +752,10 @@
       },
       "finansy_prosto": {
         "last_7_days": {
-          "grok": 0.2498,
-          "tts": 5.4246,
-          "total": 5.6744,
-          "episodes": 4
+          "grok": 0.1593,
+          "tts": 3.9846,
+          "total": 4.1439,
+          "episodes": 3
         },
         "last_30_days": {
           "grok": 0.7527,
@@ -960,10 +960,10 @@
       },
       "models_agents_beginners": {
         "last_7_days": {
-          "grok": 0.2072,
-          "tts": 4.9874,
-          "total": 5.1946,
-          "episodes": 4
+          "grok": 0.1559,
+          "tts": 3.6413,
+          "total": 3.7971,
+          "episodes": 3
         },
         "last_30_days": {
           "grok": 0.7215,
@@ -1032,10 +1032,10 @@
       },
       "modern_investing": {
         "last_7_days": {
-          "grok": 0.3902,
-          "tts": 14.9065,
-          "total": 15.2968,
-          "episodes": 7
+          "grok": 0.3327,
+          "tts": 12.3405,
+          "total": 12.6732,
+          "episodes": 6
         },
         "last_30_days": {
           "grok": 1.2851,
@@ -1376,10 +1376,10 @@
       },
       "privet_russian": {
         "last_7_days": {
-          "grok": 0.0389,
-          "tts": 1.0018,
-          "total": 1.0408,
-          "episodes": 1
+          "grok": 0.0,
+          "tts": 0.0,
+          "total": 0.0,
+          "episodes": 0
         },
         "last_30_days": {
           "grok": 0.3401,
@@ -1424,16 +1424,16 @@
       },
       "tesla": {
         "last_7_days": {
-          "grok": 1.0065,
-          "tts": 20.0723,
-          "total": 21.0787,
-          "episodes": 9
+          "grok": 0.8989,
+          "tts": 17.9173,
+          "total": 18.8163,
+          "episodes": 8
         },
         "last_30_days": {
-          "grok": 2.4437,
-          "tts": 88.4734,
-          "total": 90.9171,
-          "episodes": 31
+          "grok": 2.3998,
+          "tts": 86.0477,
+          "total": 88.4475,
+          "episodes": 30
         },
         "daily_series": [
           [
@@ -1560,16 +1560,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 3.186,
-      "tts": 82.3686,
-      "total": 85.5546,
-      "episodes": 42
+      "grok": 2.7534,
+      "tts": 71.7507,
+      "total": 74.5041,
+      "episodes": 36
     },
     "network_last_30_days": {
-      "grok": 10.1825,
-      "tts": 456.2322,
-      "total": 466.4147,
-      "episodes": 169
+      "grok": 10.1386,
+      "tts": 453.8064,
+      "total": 463.945,
+      "episodes": 168
     }
   },
   "pipeline_health": {
@@ -2851,48 +2851,48 @@
         "count": 1,
         "last_episode": 22,
         "last_date": "2026-04-17",
-        "days_since": 0,
-        "cools_in_days": 21
+        "days_since": 1,
+        "cools_in_days": 20
       },
       {
         "tag": "catalyst_confirmation",
         "count": 1,
         "last_episode": 22,
         "last_date": "2026-04-17",
-        "days_since": 0,
-        "cools_in_days": 21
+        "days_since": 1,
+        "cools_in_days": 20
       },
       {
         "tag": "bid_ask_spread",
         "count": 6,
         "last_episode": 21,
         "last_date": "2026-04-16",
-        "days_since": 1,
-        "cools_in_days": 44
+        "days_since": 2,
+        "cools_in_days": 43
       },
       {
         "tag": "order_flow_slippage",
         "count": 5,
         "last_episode": 21,
         "last_date": "2026-04-16",
-        "days_since": 1,
-        "cools_in_days": 44
+        "days_since": 2,
+        "cools_in_days": 43
       },
       {
         "tag": "geopolitical_premium",
         "count": 4,
         "last_episode": 19,
         "last_date": "2026-04-14",
-        "days_since": 3,
-        "cools_in_days": 27
+        "days_since": 4,
+        "cools_in_days": 26
       },
       {
         "tag": "tax_loss_harvesting",
         "count": 2,
         "last_episode": 18,
         "last_date": "2026-04-13",
-        "days_since": 4,
-        "cools_in_days": 17
+        "days_since": 5,
+        "cools_in_days": 16
       }
     ],
     "sector_concentration_warning": "precious_metals: 40% of recent trades (cumulative P&L $+36.63)",
