@@ -176,6 +176,14 @@ class SlowNewsConfig:
     max_segments: int = 2           # Max evergreen segments per slow-news episode
     cooldown_days: int = 30         # Don't reuse a segment within this window
     selection_mode: str = "round_robin"  # "round_robin" or "random"
+    repeat_trigger_threshold: int = 3  # Cross-episode repeats that trigger slow news
+
+
+@dataclass
+class ContentFreshnessConfig:
+    """Per-show article freshness filter overrides."""
+    lookback_days: int = 0          # 0 = use pipeline default (1 or 3 based on episode count)
+    similarity_threshold: float = 0.0  # 0.0 = use pipeline default
 
 
 @dataclass
@@ -202,6 +210,7 @@ class ShowConfig:
     chapters: ChaptersConfig = field(default_factory=ChaptersConfig)
     content_tracking: ContentTrackingConfig = field(default_factory=ContentTrackingConfig)
     slow_news: SlowNewsConfig = field(default_factory=SlowNewsConfig)
+    content_freshness: ContentFreshnessConfig = field(default_factory=ContentFreshnessConfig)
 
 
 # ---------------------------------------------------------------------------
@@ -340,6 +349,7 @@ def load_config(yaml_path: str | Path) -> ShowConfig:
         chapters=_build_chapters(data.get("chapters")),
         content_tracking=_build_nested(ContentTrackingConfig, data.get("content_tracking")),
         slow_news=_build_nested(SlowNewsConfig, data.get("slow_news")),
+        content_freshness=_build_nested(ContentFreshnessConfig, data.get("content_freshness")),
     )
     logger.info("Loaded config for '%s' from %s", config.name, path)
     return config

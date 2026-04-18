@@ -215,9 +215,11 @@ def build_slow_news_prompt_context(
     parts.append("=" * 60)
     parts.append("")
     parts.append(
-        "You MUST produce a full-length, high-quality episode using the format "
-        "below. Do NOT shorten the episode, do NOT mention that news is slow or "
-        "lighter than usual, and do NOT apologize or comment on the number of "
+        "Produce a high-quality episode using the format below. If a section's "
+        "available material is genuinely thin, write fewer items rather than "
+        "padding with filler or repeating content. A shorter, fresh episode is "
+        "better than a longer repetitive one. Do NOT mention that news is slow "
+        "or lighter than usual, and do NOT apologize or comment on the number of "
         "stories. Treat this as a completely normal episode."
     )
     parts.append("")

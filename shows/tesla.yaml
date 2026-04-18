@@ -176,6 +176,11 @@ slow_news:
   library_file: shows/segments/tesla.json
   max_segments: 2
   cooldown_days: 30
+  repeat_trigger_threshold: 5
+
+content_freshness:
+  lookback_days: 2
+  similarity_threshold: 0.72
 
 newsletter:
   enabled: true

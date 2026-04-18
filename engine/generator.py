@@ -1343,23 +1343,25 @@ def generate_podcast_script(
                                               show_name=config.name,
                                               min_podcast_words=min_words)
 
-    # Retry once if podcast script is too short for target duration
+    # Retry once if podcast script is catastrophically short (< 50% of
+    # target).  Above that, accept the shorter script — fresh content
+    # matters more than hitting a word count.
     word_count = len(text.split())
-    if word_count < min_words:
+    _retry_threshold = max(600, int(min_words * 0.5))
+    if word_count < _retry_threshold:
         logger.warning(
-            "Podcast script for '%s' is short (%d words, minimum %d). "
-            "Retrying with explicit expansion instructions ...",
-            config.name, word_count, min_words,
+            "Podcast script for '%s' is very short (%d words, retry threshold %d). "
+            "Retrying with expansion instructions ...",
+            config.name, word_count, _retry_threshold,
         )
         retry_prompt = (
             f"The script you just wrote is only {word_count} words. "
-            f"The target is {min_words}\u2013{int(min_words * 1.3)} words "
-            f"({min_words // 150}\u2013{int(min_words * 1.3) // 150} minutes of audio). "
-            f"Please rewrite it with significantly more depth:\n"
-            f"- Expand each story to 6\u20138 sentences (not 3\u20134)\n"
-            f"- Add more context, background, and your take on each story\n"
-            f"- Include natural transitions between stories\n"
-            f"- Do NOT add new stories \u2014 just deepen the existing ones\n\n"
+            f"Please rewrite it with more substance:\n"
+            f"- Add one missing element per story only if useful: a brief "
+            f"listener takeaway, a transition, or a one-sentence why-it-matters\n"
+            f"- Do NOT pad existing stories with filler or repeat content\n"
+            f"- Do NOT add new stories \u2014 just deepen the existing ones\n"
+            f"- Better to stay short than to repeat yourself\n\n"
             f"Here is your short script to expand:\n\n{text}"
         )
         text2, meta2 = _call_grok(
