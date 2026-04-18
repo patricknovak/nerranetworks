@@ -440,6 +440,7 @@ def run(args: argparse.Namespace) -> None:
         min_articles = getattr(config, "min_articles", None) or 3
         return _fetch_with_expansion(
             feed_dicts, config.keywords, content_tracker, min_articles,
+            config=config,
         )
 
     def _run_x_fetch():
@@ -1854,6 +1855,7 @@ def _fetch_with_expansion(
     keywords: list[str] | None,
     content_tracker,
     min_articles: int = 3,
+    config=None,
 ) -> list[dict]:
     """Fetch articles with progressive search expansion on slow news days.
 
