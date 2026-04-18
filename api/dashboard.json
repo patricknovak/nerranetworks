@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-18T07:01:02.487198+00:00",
+  "generated_at": "2026-04-18T08:28:14.288013+00:00",
   "network": {
     "landmines_counts": {
       "ok": 9,
@@ -7,7 +7,7 @@
       "fail": 0
     },
     "shows_count": 10,
-    "stale_shows": 1,
+    "stale_shows": 2,
     "total_cost_last_7_days_usd": 76.0447,
     "total_cost_last_30_days_usd": 465.4856,
     "shows": [
@@ -56,7 +56,7 @@
         "newsletter_enabled": true,
         "x_enabled": false,
         "latest_pub_date": "2026-04-16T08:00:00+00:00",
-        "pub_status": "ok",
+        "pub_status": "warn",
         "cost_last_7_days_usd": 4.1439,
         "episodes_last_7_days": 3,
         "p50_pipeline_s": 28.28,
@@ -90,7 +90,7 @@
         "newsletter_enabled": true,
         "x_enabled": false,
         "latest_pub_date": "2026-04-16T08:00:00+00:00",
-        "pub_status": "ok",
+        "pub_status": "warn",
         "cost_last_7_days_usd": 3.7971,
         "episodes_last_7_days": 3,
         "p50_pipeline_s": 18.3,
@@ -141,7 +141,7 @@
         "newsletter_enabled": true,
         "x_enabled": true,
         "latest_pub_date": "2026-04-15T08:00:00+00:00",
-        "pub_status": "warn",
+        "pub_status": "stale",
         "cost_last_7_days_usd": 7.4968,
         "episodes_last_7_days": 3,
         "p50_pipeline_s": 37.26,
