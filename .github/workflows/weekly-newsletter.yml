@@ -24,10 +24,10 @@ on:
           - modern_investing
           - privet_russian
       dry_run:
-        description: 'Generate but do not send'
+        description: 'Generate but do not send (default: false — will send!)'
         required: false
         type: boolean
-        default: true
+        default: false
 
 permissions:
   contents: write

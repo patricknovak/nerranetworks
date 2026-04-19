@@ -180,11 +180,13 @@ def send_newsletter(
         "subject": subject,
         "body": body,
         "status": status,
-        "filters": {
-            "filters": [{"field": "tag", "operator": "includes", "value": t} for t in tags] if tags else [],
-            "groups": [],
-        },
     }
+
+    if tags:
+        data["filters"] = {
+            "filters": [{"field": "tag", "operator": "is", "value": t} for t in tags],
+            "groups": [],
+        }
 
     resp = requests.post(
         f"{BUTTONDOWN_API_BASE}/emails",
@@ -199,10 +201,23 @@ def send_newsletter(
     if resp.status_code in (200, 201):
         result = resp.json()
         email_id = result.get("id", "unknown")
-        logger.info("Newsletter sent: %s (status=%s, tags=%s)", email_id, status, tags)
+        recipient_count = result.get("secondary_id", result.get("num_recipients", "?"))
+        logger.info(
+            "Newsletter created: id=%s status=%s tags=%s recipients=%s",
+            email_id, status, tags, recipient_count,
+        )
+        if result.get("num_recipients", 1) == 0:
+            logger.warning(
+                "Newsletter %s was created but has 0 recipients — "
+                "check that subscriber tags match: %s",
+                email_id, tags,
+            )
         return email_id
     else:
-        logger.error("Newsletter send failed: %s %s", resp.status_code, resp.text[:200])
+        logger.error(
+            "Newsletter send failed: %s %s",
+            resp.status_code, resp.text[:500],
+        )
         return None
 
 
