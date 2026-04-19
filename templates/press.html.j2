@@ -1,0 +1,246 @@
+{% extends "base.html.j2" %}
+
+{% block head_extra %}
+    <style>
+        .press-hero {
+            padding: calc(var(--nav-height) + var(--sp-16)) var(--sp-6) var(--sp-10);
+            text-align: center;
+        }
+        .press-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-3);
+        }
+        .press-hero p {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--nn-text-muted);
+            max-width: 620px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .press-section {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: var(--sp-8) var(--sp-6);
+        }
+        .press-section h2 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-3);
+        }
+        .press-section h3 {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: var(--sp-6) 0 var(--sp-2);
+        }
+        .press-section p {
+            font-family: var(--font-body);
+            color: var(--nn-text);
+            line-height: 1.7;
+            margin: 0 0 var(--sp-4);
+        }
+        .press-card {
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 14px;
+            padding: var(--sp-5);
+            margin-bottom: var(--sp-4);
+        }
+        .press-card pre {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: var(--sp-4);
+            overflow-x: auto;
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            font-size: 0.85rem;
+            color: var(--nn-text);
+            line-height: 1.55;
+            white-space: pre-wrap;
+            margin: 0;
+        }
+        .press-show-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--sp-3);
+            margin: var(--sp-4) 0;
+        }
+        .press-show-tile {
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 12px;
+            padding: var(--sp-3);
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+        }
+        .press-show-tile img {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .press-show-tile-info {
+            min-width: 0;
+        }
+        .press-show-tile-name {
+            font-family: var(--font-heading);
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin-bottom: 2px;
+        }
+        .press-show-tile-desc {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            color: var(--nn-text-muted);
+        }
+        .press-contact-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--sp-3);
+            margin: var(--sp-4) 0;
+        }
+        .press-contact-row a {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-2);
+            padding: var(--sp-3) var(--sp-5);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 100px;
+            color: var(--nn-text);
+            text-decoration: none;
+            font-family: var(--font-ui);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .press-contact-row a:hover {
+            border-color: var(--nn-purple);
+            color: var(--nn-white);
+        }
+        .copy-btn {
+            background: var(--nn-surface);
+            border: 1px solid var(--nn-border);
+            color: var(--nn-text-muted);
+            padding: var(--sp-1) var(--sp-3);
+            border-radius: 6px;
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-top: var(--sp-2);
+        }
+        .copy-btn:hover {
+            border-color: var(--nn-purple);
+            color: var(--nn-white);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <main id="main-content">
+        <section class="press-hero">
+            <h1>Press &amp; Media Kit</h1>
+            <p>Resources for journalists, podcast apps, and partners covering Nerra Network.
+            Everything below is free to use without permission — just link back to
+            <a href="https://nerranetwork.com">nerranetwork.com</a>.</p>
+        </section>
+
+        <section class="press-section">
+            <h2>At a glance</h2>
+            <div class="press-card">
+                <ul style="margin:0;padding-left:1.2rem;color:var(--nn-text);line-height:1.9;">
+                    <li><strong>Name:</strong> Nerra Network</li>
+                    <li><strong>Founded:</strong> 2024, Vancouver, Canada</li>
+                    <li><strong>Founder:</strong> Patrick Novak</li>
+                    <li><strong>Shows:</strong> {{ shows_count }} daily podcasts</li>
+                    <li><strong>Episodes:</strong> {{ total_episodes }}+ shipped</li>
+                    <li><strong>Languages:</strong> English, Russian</li>
+                    <li><strong>Funding:</strong> Independent, self-funded, ad-free</li>
+                    <li><strong>Website:</strong> <a href="https://nerranetwork.com" style="color:var(--nn-cyan);">nerranetwork.com</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="press-section">
+            <h2>Boilerplate</h2>
+            <p>Copy-paste for articles, press releases, and podcast directories.</p>
+
+            <h3>Short (25 words)</h3>
+            <div class="press-card">
+                <pre id="boilerplate-short">Nerra Network is an independent, ad-free podcast network producing {{ shows_count }} daily shows on AI, Tesla, investing, space, science, and environmental policy from Vancouver.</pre>
+                <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('boilerplate-short').textContent);this.textContent='Copied ✓';setTimeout(()=>this.textContent='Copy',1500)">Copy</button>
+            </div>
+
+            <h3>Medium (60 words)</h3>
+            <div class="press-card">
+                <pre id="boilerplate-medium">Nerra Network is an independent podcast network based in Vancouver, Canada, producing {{ shows_count }} ad-free daily shows covering AI, Tesla and EVs, investing, space and astronomy, environmental policy, and bilingual language learning. Founded in 2024 by Patrick Novak, the network focuses on short, calm, daily episodes designed to help curious people stay informed without algorithmic outrage or clickbait.</pre>
+                <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('boilerplate-medium').textContent);this.textContent='Copied ✓';setTimeout(()=>this.textContent='Copy',1500)">Copy</button>
+            </div>
+        </section>
+
+        <section class="press-section">
+            <h2>Shows</h2>
+            <p>All shows publish daily or on a predictable alternating-day cadence. Cover art and feeds available below.</p>
+            <div class="press-show-grid">
+                {% for s in all_shows %}
+                <div class="press-show-tile">
+                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="56" height="56" loading="lazy">
+                    <div class="press-show-tile-info">
+                        <div class="press-show-tile-name">{{ s.name }}</div>
+                        <div class="press-show-tile-desc">{{ s.tagline }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="press-section">
+            <h2>Logo &amp; brand assets</h2>
+            <p>Use the Nerra Network name and gradient mark in any coverage. Please don't
+            modify the gradient colors or re-combine the wordmark with other brands.</p>
+            <div class="press-card">
+                <ul style="margin:0;padding-left:1.2rem;color:var(--nn-text);line-height:1.9;">
+                    <li><strong>Wordmark:</strong> <em>Nerra Network</em> — set in DM Sans Bold</li>
+                    <li><strong>Primary gradient:</strong> <code style="color:var(--nn-cyan);">#7C5CFF</code> → <code style="color:var(--nn-cyan);">#00D4FF</code></li>
+                    <li><strong>Logo file:</strong> <a href="{{ path_prefix }}assets/nerra-logo-icon.svg" style="color:var(--nn-cyan);">nerra-logo-icon.svg</a> (vector)</li>
+                    <li><strong>Favicon:</strong> Inline SVG on the site root</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="press-section">
+            <h2>Founder</h2>
+            <p><strong>Patrick Novak</strong> — Founder and producer. Vancouver, Canada.
+            Available for interviews, panel discussions, and written Q&amp;A on
+            independent podcasting, AI-assisted content workflows, and the fresh-over-
+            long editorial philosophy that defines Nerra Network.</p>
+        </section>
+
+        <section class="press-section">
+            <h2>Contact</h2>
+            <p>For media requests, partnerships, or fact-checking, reach out:</p>
+            <div class="press-contact-row">
+                <a href="mailto:press@nerranetwork.com">📧 press@nerranetwork.com</a>
+                <a href="{{ path_prefix }}contact.html">General contact</a>
+                <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">X / Twitter</a>
+            </div>
+        </section>
+
+        <section class="press-section">
+            <h2>Related</h2>
+            <p>
+                <a href="{{ path_prefix }}about.html" style="color:var(--nn-cyan);">About Nerra Network</a> ·
+                <a href="{{ path_prefix }}ai-disclosure.html" style="color:var(--nn-cyan);">AI disclosure</a> ·
+                <a href="{{ path_prefix }}faq.html" style="color:var(--nn-cyan);">FAQ</a>
+            </p>
+        </section>
+    </main>
+{% endblock %}

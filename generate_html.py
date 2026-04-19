@@ -47,6 +47,9 @@ MARKETING_CONFIG = {
     "google_ads_id": os.environ.get("GOOGLE_ADS_ID", "").strip(),
     "google_ads_signup_label": os.environ.get("GOOGLE_ADS_SIGNUP_LABEL", "").strip(),
     "plausible_domain": os.environ.get("PLAUSIBLE_DOMAIN", "").strip(),
+    # Google Search Console verification token (set via GSC_VERIFICATION env var).
+    # Obtain from Search Console → Settings → Ownership verification → HTML tag.
+    "gsc_verification": os.environ.get("GSC_VERIFICATION", "").strip(),
 }
 
 # ---------------------------------------------------------------------------
@@ -280,7 +283,7 @@ NETWORK_SHOWS = {
         "slug": "fascinating_frontiers",
         "display_order": 5,
         "description": "Daily space and astronomy news digest.",
-        "show_page": "fascinating_frontiers.html",
+        "show_page": "fascinating-frontiers.html",
         "summaries_page": "fascinating-frontiers-summaries.html",
         "json_path": "digests/fascinating_frontiers/summaries_space.json",
         "json_format": "wrapped",
@@ -1248,6 +1251,7 @@ def generate_summaries_page(slug, *, dry_run=False):
         "hero_subtitle": f"Complete archive of {cfg['name']} episode summaries.",
         "blog_page": f"blog/{cfg['slug']}/index.html",
         "all_shows": _build_all_shows_list(),
+        "page_lang": "ru" if slug in ("finansy_prosto", "privet_russian") else "en",
     }
 
     html = template.render(**context)
@@ -1368,6 +1372,8 @@ def generate_show_page(slug, *, dry_run=False):
     if slug == "modern_investing":
         performance_data = _load_mit_performance_data()
 
+    is_russian = slug in ("finansy_prosto", "privet_russian")
+
     context = {
         **cfg,
         "path_prefix": prefix,
@@ -1388,6 +1394,8 @@ def generate_show_page(slug, *, dry_run=False):
         "newsletter_tag": cfg["name"],
         "all_shows": _build_all_shows_list(),
         "performance_data": performance_data,
+        "page_lang": "ru" if is_russian else "en",
+        "hreflang_self": f"ru-{cfg['slug']}" if is_russian else "en",
     }
 
     html = template.render(**context)
@@ -1543,6 +1551,7 @@ def generate_network_page(*, dry_run=False):
         "latest_blog_posts": latest_blog_posts,
         "latest_episodes": latest_episodes,
         "emit_bilingual_hreflang": True,
+        "total_episodes": _count_total_episodes(),
     }
 
     html = template.render(**context)
@@ -1855,7 +1864,9 @@ def generate_sitemap(*, dry_run=False):
             urls.append((f"{base}/{legal}", "0.4", _file_lastmod(ROOT / legal)))
 
     # Special pages
-    for extra in ["modern-investing-resources.html", "start-here.html", "404.html"]:
+    for extra in ["modern-investing-resources.html", "start-here.html",
+                  "about.html", "how-to-listen.html", "faq.html",
+                  "press.html", "contact.html", "404.html"]:
         if (ROOT / extra).exists():
             urls.append((f"{base}/{extra}", "0.5", _file_lastmod(ROOT / extra)))
 
@@ -1948,6 +1959,194 @@ def generate_start_here_page(*, dry_run=False):
 
     html = template.render(**context)
     out_path = ROOT / "start-here.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
+def _count_total_episodes() -> int:
+    """Sum episode counts across all podcast RSS feeds (best-effort, cached)."""
+    total = 0
+    for cfg in NETWORK_SHOWS.values():
+        rss = ROOT / cfg.get("rss_file", "")
+        if not rss.exists():
+            continue
+        try:
+            text = rss.read_text(encoding="utf-8", errors="ignore")
+            total += text.count("<item>")
+        except Exception:
+            pass
+    return total
+
+
+def _count_languages() -> int:
+    """Count distinct languages across shows (en / ru currently)."""
+    langs = set()
+    for cfg in NETWORK_SHOWS.values():
+        if cfg.get("slug") in ("finansy_prosto", "privet_russian"):
+            langs.add("ru")
+        else:
+            langs.add("en")
+    return len(langs)
+
+
+def generate_about_page(*, dry_run=False):
+    """Generate the About page with founder, mission, and network stats."""
+    env = _get_jinja_env()
+    template = env.get_template("about.html.j2")
+
+    context = {
+        "path_prefix": "",
+        "page_title": "About — Nerra Network",
+        "page_description": "Meet the independent podcast network producing 10 ad-free daily shows on AI, Tesla, investing, space, science, and environmental policy. Based in Vancouver, Canada.",
+        "meta_description": "About Nerra Network — an independent, ad-free podcast network producing 10 daily shows in Vancouver, Canada. Founded by Patrick Novak.",
+        "meta_keywords": "about Nerra Network, Patrick Novak, independent podcast network, Vancouver podcasts, ad-free podcasts",
+        "theme_color": "#7C5CFF",
+        "og_image": "",
+        "canonical_url": "https://nerranetwork.com/about.html",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+        # Stats
+        "shows_count": len(NETWORK_SHOWS),
+        "total_episodes": _count_total_episodes(),
+        "languages_count": _count_languages(),
+        "founding_date": "2024-07-01",
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "about.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
+def generate_press_page(*, dry_run=False):
+    """Generate the press kit / media-resources page."""
+    env = _get_jinja_env()
+    template = env.get_template("press.html.j2")
+
+    context = {
+        "path_prefix": "",
+        "page_title": "Press & Media Kit — Nerra Network",
+        "page_description": "Media resources for journalists and partners covering Nerra Network. Boilerplate, logo, founder contact, and a complete show directory.",
+        "meta_description": "Nerra Network press kit — boilerplate, logo assets, founder contact, and a complete directory of our 10 daily podcast shows.",
+        "meta_keywords": "Nerra Network press kit, media resources, podcast press, Patrick Novak, Vancouver podcast",
+        "theme_color": "#7C5CFF",
+        "og_image": "",
+        "canonical_url": "https://nerranetwork.com/press.html",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+        "shows_count": len(NETWORK_SHOWS),
+        "total_episodes": _count_total_episodes(),
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "press.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
+def generate_contact_page(*, dry_run=False):
+    """Generate the contact page."""
+    env = _get_jinja_env()
+    template = env.get_template("contact.html.j2")
+
+    context = {
+        "path_prefix": "",
+        "page_title": "Contact — Nerra Network",
+        "page_description": "Get in touch with Nerra Network. Separate channels for press, partnerships, technical issues, privacy, and general inquiries.",
+        "meta_description": "Contact Nerra Network — separate email channels for press, partnerships, technical issues, privacy, and general feedback.",
+        "meta_keywords": "contact Nerra Network, press contact, podcast partnership, technical support",
+        "theme_color": "#7C5CFF",
+        "og_image": "",
+        "canonical_url": "https://nerranetwork.com/contact.html",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "contact.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
+def generate_faq_page(*, dry_run=False):
+    """Generate the FAQ page with FAQPage JSON-LD schema."""
+    env = _get_jinja_env()
+    template = env.get_template("faq.html.j2")
+
+    context = {
+        "path_prefix": "",
+        "page_title": "FAQ — Nerra Network",
+        "page_description": "Common questions about Nerra Network, our shows, our AI-assisted editorial process, and how to support the network.",
+        "meta_description": "Nerra Network FAQ — how we use AI, who hosts, when episodes release, how to subscribe and support, and our editorial stance.",
+        "meta_keywords": "Nerra Network FAQ, podcast questions, AI podcast disclosure, podcast support",
+        "theme_color": "#7C5CFF",
+        "og_image": "",
+        "canonical_url": "https://nerranetwork.com/faq.html",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "faq.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
+def generate_how_to_listen_page(*, dry_run=False):
+    """Generate the How-to-Listen guide page."""
+    env = _get_jinja_env()
+    template = env.get_template("how_to_listen.html.j2")
+
+    context = {
+        "path_prefix": "",
+        "page_title": "How to Listen — Nerra Network",
+        "page_description": "Subscribe to Nerra Network shows on Apple Podcasts, Spotify, or any RSS-compatible podcast app. Step-by-step guide for every show.",
+        "meta_description": "How to subscribe to Nerra Network podcasts on Apple Podcasts, Spotify, and any RSS-compatible app. Complete show directory included.",
+        "meta_keywords": "how to listen, subscribe podcast, Apple Podcasts, Spotify, RSS, Nerra Network",
+        "theme_color": "#7C5CFF",
+        "og_image": "",
+        "canonical_url": "https://nerranetwork.com/how-to-listen.html",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "how-to-listen.html"
 
     if dry_run:
         print(f"[dry-run] Would write {out_path}")
@@ -2078,10 +2277,16 @@ def main():
         generate_all_summaries(dry_run=args.dry_run)
         generate_network_page(dry_run=args.dry_run)
         generate_all_blogs(dry_run=args.dry_run)
-        generate_sitemap(dry_run=args.dry_run)
         generate_404_page(dry_run=args.dry_run)
         generate_player_page(dry_run=args.dry_run)
         generate_start_here_page(dry_run=args.dry_run)
+        generate_about_page(dry_run=args.dry_run)
+        generate_how_to_listen_page(dry_run=args.dry_run)
+        generate_press_page(dry_run=args.dry_run)
+        generate_contact_page(dry_run=args.dry_run)
+        generate_faq_page(dry_run=args.dry_run)
+        # Sitemap last so it picks up every page generated above
+        generate_sitemap(dry_run=args.dry_run)
         # Regenerate JSON API for mobile app
         try:
             import subprocess

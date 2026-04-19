@@ -90,7 +90,7 @@
             <div class="hero-show-orbit">
                 {% for s in all_shows %}
                 <a href="{{ path_prefix }}{{ s.show_page }}" class="orbit-card" style="--i: {{ loop.index0 }};">
-                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }}" loading="eager" />
+                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="1400" height="1400" loading="eager" fetchpriority="high" />
                 </a>
                 {% endfor %}
             </div>
@@ -99,6 +99,26 @@
                 <a href="{{ path_prefix }}player.html" class="nn-btn nn-btn-lg">Open Player</a>
                 <a href="#subscribe" class="nn-btn nn-btn-lg">Subscribe Free</a>
                 <a href="{{ path_prefix }}blog/index.html" class="nn-btn nn-btn-lg">Read Blog</a>
+            </div>
+
+            <!-- Network proof stats -->
+            <div class="hero-proof-stats" aria-label="Network stats">
+                <div class="proof-stat">
+                    <strong>{{ all_shows | length }}</strong>
+                    <span>daily shows</span>
+                </div>
+                <div class="proof-stat">
+                    <strong>{{ total_episodes }}+</strong>
+                    <span>episodes shipped</span>
+                </div>
+                <div class="proof-stat">
+                    <strong>100%</strong>
+                    <span>ad-free</span>
+                </div>
+                <div class="proof-stat">
+                    <strong>2</strong>
+                    <span>languages</span>
+                </div>
             </div>
         </div>
     </section>
@@ -218,7 +238,7 @@
                      data-language="{{ s.picker_tags.language | default([]) | join(' ') }}"
                      style="--show-color:{{ s.brand_color }};">
                     <a href="{{ s.show_page }}" class="show-card glass-card">
-                        <img src="{{ s.podcast_image }}" alt="{{ s.name }}" class="show-card-image" loading="lazy">
+                        <img src="{{ s.podcast_image }}" alt="{{ s.name }} cover art" class="show-card-image" width="1400" height="1400" loading="lazy">
                         <div class="show-card-name">{{ s.name }}</div>
                         <div class="show-card-badges">
                             {% if s.schedule %}<span class="show-card-badge">{{ s.schedule }}</span>{% endif %}
@@ -389,7 +409,7 @@
             <div class="subscribe-show-list">
                 {% for s in all_shows %}
                 <div class="subscribe-show-row">
-                    <img src="{{ s.podcast_image }}" alt="{{ s.name }} cover art" loading="lazy">
+                    <img src="{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="1400" height="1400" loading="lazy">
                     <div class="subscribe-show-meta">
                         <div class="subscribe-show-name">{{ s.name }}</div>
                         <div class="subscribe-show-tagline">{{ s.tagline }}</div>
@@ -410,6 +430,36 @@
         </div>
     </section>
 
+    <!-- Newsletter -->
+    <section id="newsletter" class="nn-section" style="border-top:1px solid var(--nn-border);background:radial-gradient(ellipse at 50% 0%, rgba(124,92,255,0.12), transparent 70%);">
+        <div class="container" style="max-width:680px;">
+            <div class="nn-section-header">
+                <div class="section-label">Weekly digest</div>
+                <h2>Get the best of the network in your inbox</h2>
+                <p>One email per week. Top episodes from every show you follow. Unsubscribe anytime.</p>
+            </div>
+            <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow"
+                  class="nn-subscribe-form" style="max-width:none;"
+                  onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';},500);">
+                <p style="font-family:var(--font-ui);font-size:0.85rem;color:var(--nn-text-muted);margin-bottom:var(--sp-3);">Pick the shows you want in your weekly digest:</p>
+                <div class="nn-subscribe-tags" style="margin-bottom:var(--sp-4);">
+                    {% for s in all_shows %}
+                    <label><input type="checkbox" name="tag" value="{{ s.name }}"> {{ s.name }}</label>
+                    {% endfor %}
+                </div>
+                <div class="nn-subscribe-row">
+                    <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                    <input type="hidden" value="1" name="embed">
+                    <button type="submit">Subscribe</button>
+                </div>
+                <p style="font-family:var(--font-ui);font-size:0.75rem;color:var(--nn-text-muted);margin-top:var(--sp-2);">
+                    No spam. We never share your email. Read our
+                    <a href="privacy-policy.html" style="color:var(--nn-text-muted);">privacy policy</a>.
+                </p>
+            </form>
+        </div>
+    </section>
+
     {# --- "Find Your Show" picker behaviour + styles --- #}
     <style>
       .picker { max-width: 960px; margin: 0 auto; }
@@ -425,7 +475,9 @@
       .picker-chip {
         background: transparent; border: 1px solid var(--nn-border);
         color: var(--nn-text); border-radius: 999px;
-        padding: 8px 14px; font-size: 0.85rem; font-family: var(--font-ui);
+        min-height: 44px;
+        display: inline-flex; align-items: center;
+        padding: 8px 16px; font-size: 0.9rem; font-family: var(--font-ui);
         cursor: pointer; transition: background 120ms, border-color 120ms, color 120ms;
       }
       .picker-chip:hover { border-color: #7C5CFF; }

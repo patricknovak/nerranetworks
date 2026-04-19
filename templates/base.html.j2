@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ page_lang | default('en') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{{ meta_description }}">
+    {% if marketing.gsc_verification %}<meta name="google-site-verification" content="{{ marketing.gsc_verification }}">{% endif %}
     {% if meta_keywords %}<meta name="keywords" content="{{ meta_keywords }}">{% endif %}
     <title>{{ page_title }}</title>
     {% if theme_color %}<meta name="theme-color" content="{{ theme_color }}">{% endif %}
@@ -124,7 +125,7 @@
                     <div class="nn-nav-dropdown-menu" role="menu">
                         {% for s in all_shows %}
                         <a href="{{ path_prefix }}{{ s.show_page }}" role="menuitem">
-                            <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="" loading="lazy">
+                            <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="" width="1400" height="1400" loading="lazy">
                             {{ s.name }}
                         </a>
                         {% endfor %}
@@ -141,7 +142,7 @@
                         </a>
                         {% for s in all_shows %}
                         <a href="{{ path_prefix }}{{ s.blog_page }}">
-                            <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="" loading="lazy">
+                            <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="" width="1400" height="1400" loading="lazy">
                             {{ s.name }} Blog
                         </a>
                         {% endfor %}
@@ -149,6 +150,8 @@
                 </li>
                 {% block nav_links %}
                 <li><a href="{{ path_prefix }}start-here.html">Start Here</a></li>
+                <li><a href="{{ path_prefix }}how-to-listen.html">Listen</a></li>
+                <li><a href="{{ path_prefix }}about.html">About</a></li>
                 <li><a href="{{ path_prefix }}player.html">Player</a></li>
                 <li><a href="{{ path_prefix }}index.html">Home</a></li>
                 {% endblock %}
@@ -162,6 +165,8 @@
     <div id="mobileMenu" class="nn-mobile-menu">
         {% block mobile_nav_links %}
         <a href="{{ path_prefix }}start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="{{ path_prefix }}how-to-listen.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">How to Listen</a>
+        <a href="{{ path_prefix }}about.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">About</a>
         <a href="{{ path_prefix }}player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="{{ path_prefix }}index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         {% endblock %}
@@ -169,7 +174,7 @@
             <div class="nn-mobile-shows-title">All Shows</div>
             {% for s in all_shows %}
             <a href="{{ path_prefix }}{{ s.show_page }}" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
-                <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="" loading="lazy">
+                <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="" width="1400" height="1400" loading="lazy">
                 {{ s.name }}
             </a>
             {% endfor %}
@@ -181,7 +186,7 @@
             </a>
             {% for s in all_shows %}
             <a href="{{ path_prefix }}{{ s.blog_page }}" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
-                <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="" loading="lazy">
+                <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="" width="1400" height="1400" loading="lazy">
                 {{ s.name }} Blog
             </a>
             {% endfor %}
@@ -216,8 +221,9 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="{{ path_prefix }}how-to-listen.html" style="font-weight:600">How to Listen</a>
                     <a href="{{ path_prefix }}player.html" style="font-weight:600">Network Player</a>
-                    <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
+                    <a href="{{ 'https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939' | with_utm(campaign='tesla', medium='footer') }}" target="_blank" rel="noopener" data-show="tesla">Apple Podcasts</a>
                     <a href="{{ path_prefix }}network.rss">Network RSS</a>
                     {% for s in all_shows %}
                     <a href="{{ path_prefix }}{{ s.rss_file }}">{{ s.name }} RSS</a>
@@ -231,7 +237,13 @@
                 </div>
             </div>
             <div class="nn-footer-col">
-                <h4>Legal</h4>
+                <h4>About</h4>
+                <a href="{{ path_prefix }}about.html">About Nerra Network</a>
+                <a href="{{ path_prefix }}start-here.html">Start Here</a>
+                <a href="{{ path_prefix }}how-to-listen.html">How to Listen</a>
+                <a href="{{ path_prefix }}faq.html">FAQ</a>
+                <a href="{{ path_prefix }}contact.html">Contact</a>
+                <a href="{{ path_prefix }}press.html">Press Kit</a>
                 <a href="{{ path_prefix }}privacy-policy.html">Privacy Policy</a>
                 <a href="{{ path_prefix }}terms-of-service.html">Terms of Service</a>
                 <a href="{{ path_prefix }}ai-disclosure.html">AI Disclosure</a>
@@ -239,7 +251,8 @@
             </div>
             <!-- Newsletter Subscribe -->
             <div class="nn-footer-subscribe">
-                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form"
+                      onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';btn.disabled=false;},500);">
                     <h4>Get Show Updates</h4>
                     <p>Pick the shows you want in your inbox:</p>
                     <div class="nn-subscribe-tags">

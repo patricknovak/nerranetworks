@@ -1,0 +1,140 @@
+{% extends "base.html.j2" %}
+
+{% block head_extra %}
+    <style>
+        .contact-hero {
+            padding: calc(var(--nav-height) + var(--sp-16)) var(--sp-6) var(--sp-8);
+            text-align: center;
+        }
+        .contact-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-3);
+        }
+        .contact-hero p {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            color: var(--nn-text-muted);
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .contact-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--sp-4) var(--sp-6) var(--sp-16);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: var(--sp-4);
+        }
+        .contact-card {
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 16px;
+            padding: var(--sp-6);
+        }
+        .contact-card h2 {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-2);
+        }
+        .contact-card p {
+            font-family: var(--font-body);
+            color: var(--nn-text-muted);
+            line-height: 1.6;
+            margin: 0 0 var(--sp-4);
+            font-size: 0.93rem;
+        }
+        .contact-card a {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-2);
+            padding: var(--sp-3) var(--sp-5);
+            background: var(--nn-surface);
+            border: 1px solid var(--nn-border);
+            border-radius: 100px;
+            color: var(--nn-white);
+            text-decoration: none;
+            font-family: var(--font-ui);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: border-color var(--duration) var(--ease);
+        }
+        .contact-card a:hover {
+            border-color: var(--nn-purple);
+        }
+        .contact-note {
+            max-width: 640px;
+            margin: var(--sp-8) auto 0;
+            padding: 0 var(--sp-6);
+            text-align: center;
+            font-family: var(--font-body);
+            color: var(--nn-text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <main id="main-content">
+        <section class="contact-hero">
+            <h1>Get in touch</h1>
+            <p>Pick the channel that fits your request. We read everything — and reply
+            within 2 business days when a reply is needed.</p>
+        </section>
+
+        <div class="contact-grid">
+            <div class="contact-card">
+                <h2>📧 General inquiries</h2>
+                <p>Feedback on a show, typo reports, factual corrections, or anything
+                that doesn't fit the boxes below.</p>
+                <a href="mailto:hello@nerranetwork.com">hello@nerranetwork.com</a>
+            </div>
+
+            <div class="contact-card">
+                <h2>📰 Press &amp; media</h2>
+                <p>Interview requests, press passes, expert quotes, or network coverage.
+                See also the <a href="{{ path_prefix }}press.html" style="color:var(--nn-cyan);background:none;border:none;padding:0;">press kit</a>.</p>
+                <a href="mailto:press@nerranetwork.com">press@nerranetwork.com</a>
+            </div>
+
+            <div class="contact-card">
+                <h2>🤝 Partnerships</h2>
+                <p>Network co-marketing, guest appearances, cross-promotion, or
+                technology partnerships. We don't take sponsorships.</p>
+                <a href="mailto:partners@nerranetwork.com">partners@nerranetwork.com</a>
+            </div>
+
+            <div class="contact-card">
+                <h2>🐛 Technical issues</h2>
+                <p>Audio not playing? RSS feed broken? Site bug?</p>
+                <a href="mailto:tech@nerranetwork.com">tech@nerranetwork.com</a>
+            </div>
+
+            <div class="contact-card">
+                <h2>🔐 Privacy &amp; data</h2>
+                <p>Questions about our <a href="{{ path_prefix }}privacy-policy.html" style="color:var(--nn-cyan);background:none;border:none;padding:0;">privacy policy</a>, analytics,
+                or data deletion requests.</p>
+                <a href="mailto:privacy@nerranetwork.com">privacy@nerranetwork.com</a>
+            </div>
+
+            <div class="contact-card">
+                <h2>📣 Social</h2>
+                <p>Quicker responses for public questions, episode reactions, and news:</p>
+                <a href="https://x.com/teslashortstime" target="_blank" rel="noopener">@teslashortstime</a>
+            </div>
+        </div>
+
+        <p class="contact-note">
+            Based in Vancouver, Canada (Pacific Time). We do not sell your data, we do
+            not share your email with third parties, and we don't use contact addresses
+            for marketing unless you've explicitly opted in via the
+            <a href="{{ path_prefix }}index.html#newsletter" style="color:var(--nn-cyan);">newsletter</a>.
+        </p>
+    </main>
+{% endblock %}
