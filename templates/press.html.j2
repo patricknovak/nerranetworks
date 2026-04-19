@@ -192,7 +192,10 @@
             <div class="press-show-grid">
                 {% for s in all_shows %}
                 <div class="press-show-tile">
-                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="56" height="56" loading="lazy">
+                    <picture>
+                        <source type="image/webp" srcset="{{ path_prefix }}{{ s.podcast_image[:-4] if s.podcast_image.endswith('.jpg') else s.podcast_image }}-400.webp">
+                        <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="56" height="56" loading="lazy">
+                    </picture>
                     <div class="press-show-tile-info">
                         <div class="press-show-tile-name">{{ s.name }}</div>
                         <div class="press-show-tile-desc">{{ s.tagline }}</div>

@@ -244,7 +244,10 @@
                         <tr>
                             <td>
                                 <a href="{{ path_prefix }}{{ s.show_page }}" class="htl-show-name">
-                                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="32" height="32" loading="lazy">
+                                    <picture>
+                                        <source type="image/webp" srcset="{{ path_prefix }}{{ s.podcast_image[:-4] if s.podcast_image.endswith('.jpg') else s.podcast_image }}-400.webp">
+                                        <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="32" height="32" loading="lazy">
+                                    </picture>
                                     <span>{{ s.name }}</span>
                                 </a>
                             </td>

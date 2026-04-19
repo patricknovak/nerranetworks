@@ -1,0 +1,35 @@
+{#- =======================================================================
+    Nerra Network — shared template macros
+    ----------------------------------------------------------------------- -#}
+
+{#- cover_img: render a cover-art <picture> with WebP source + JPG fallback.
+
+    Arguments:
+      src            : JPG path (e.g. "assets/covers/tesla-shorts-time.jpg")
+      alt            : accessible alt text
+      width, height  : intrinsic dimensions (default 1400×1400)
+      loading        : 'lazy' (default) or 'eager'
+      fetchpriority  : '' (default) or 'high' for LCP images
+      classes        : extra class names on the <img>
+      sizes          : CSS sizes attribute; enables 400/800/1400 srcset when set
+      img_style      : inline style on the <img>
+      onerror        : inline JS onerror handler
+-#}
+{%- macro cover_img(src, alt, width=1400, height=1400, loading='lazy',
+                    fetchpriority='', classes='', sizes='',
+                    img_style='', onerror='') -%}
+{%- set base = src[:-4] if src.endswith('.jpg') else src -%}
+<picture>
+{%- if sizes -%}
+<source type="image/webp" srcset="{{ base }}-400.webp 400w, {{ base }}-800.webp 800w, {{ base }}.webp 1400w" sizes="{{ sizes }}">
+{%- else -%}
+<source type="image/webp" srcset="{{ base }}.webp">
+{%- endif %}
+<img src="{{ src }}" alt="{{ alt }}" width="{{ width }}" height="{{ height }}"
+{%- if classes %} class="{{ classes }}"{% endif -%}
+{%- if loading %} loading="{{ loading }}"{% endif -%}
+{%- if fetchpriority %} fetchpriority="{{ fetchpriority }}"{% endif -%}
+{%- if img_style %} style="{{ img_style }}"{% endif -%}
+{%- if onerror %} onerror="{{ onerror }}"{% endif -%}>
+</picture>
+{%- endmacro -%}

@@ -43,9 +43,13 @@
         <div class="summaries-hero-bg"></div>
         <div class="summaries-hero-inner container">
             {% if podcast_logo_url %}
-            <img src="{{ podcast_logo_url }}" alt="{{ show_name }} cover art" width="80" height="80"
-                 style="width:80px;height:80px;border-radius:14px;object-fit:cover;margin:0 auto var(--sp-4);box-shadow:0 8px 30px rgba(0,0,0,0.3);"
-                 onerror="this.style.display='none'">
+            {% set _hbase = podcast_logo_url[:-4] if podcast_logo_url.endswith('.jpg') else podcast_logo_url %}
+            <picture style="display:inline-block;">
+                <source type="image/webp" srcset="{{ _hbase }}-400.webp">
+                <img src="{{ podcast_logo_url }}" alt="{{ show_name }} cover art" width="80" height="80"
+                     style="width:80px;height:80px;border-radius:14px;object-fit:cover;margin:0 auto var(--sp-4);box-shadow:0 8px 30px rgba(0,0,0,0.3);"
+                     onerror="this.style.display='none'">
+            </picture>
             {% endif %}
             <h1>{{ hero_title | default(show_name) }}</h1>
             <p>{{ hero_subtitle }}</p>
@@ -116,7 +120,11 @@
                 {% for s in all_shows %}
                 {% if s.slug != slug %}
                 <a href="{{ path_prefix }}{{ s.summaries_page }}" class="cross-network-card">
-                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="1400" height="1400" loading="lazy">
+                    {% set _cnbase = s.podcast_image[:-4] if s.podcast_image.endswith('.jpg') else s.podcast_image %}
+                    <picture>
+                        <source type="image/webp" srcset="{{ path_prefix }}{{ _cnbase }}-400.webp">
+                        <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="1400" height="1400" loading="lazy">
+                    </picture>
                     <div class="cross-network-card-info">
                         <div class="cross-network-card-name">{{ s.name }}</div>
                         <div class="cross-network-card-tagline">{{ s.tagline }}</div>

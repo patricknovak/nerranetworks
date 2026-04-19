@@ -222,6 +222,7 @@ class TestChannelMetadata:
 
 BASE_URL = "https://raw.githubusercontent.com/patricknovak/nerranetworks/main"
 R2_BASE_URL = "https://audio.nerranetwork.com"
+OP3_PREFIX = "https://op3.dev/e/"
 
 ENCLOSURE_URL_PATTERNS = {
     "tesla": (f"{BASE_URL}/digests/", f"{R2_BASE_URL}/tesla/", f"{R2_BASE_URL}/digests/tesla_shorts_time/", f"{R2_BASE_URL}/digests/"),
@@ -269,7 +270,11 @@ class TestItemStructure:
             assert enc is not None, f"{show} item {i}: missing <enclosure>"
             url = enc.get("url")
             assert url, f"{show} item {i}: empty enclosure url"
-            assert any(url.startswith(p) for p in expected_prefixes), (
+            # Strip OP3 analytics prefix before matching
+            check_url = url
+            if check_url.startswith(OP3_PREFIX):
+                check_url = "https://" + check_url[len(OP3_PREFIX):]
+            assert any(check_url.startswith(p) for p in expected_prefixes), (
                 f"{show} item {i}: enclosure URL doesn't match expected pattern.\n"
                 f"  expected prefixes: {expected_prefixes}\n"
                 f"  actual URL: {url}"
