@@ -250,12 +250,12 @@
                             </td>
                             <td>
                                 {% if s.apple_podcasts_url %}
-                                <a href="{{ s.apple_podcasts_url }}" class="plat-link" rel="noopener" target="_blank">Open</a>
+                                <a href="{{ s.apple_podcasts_url | with_utm(campaign=s.slug, medium='how-to-listen') }}" class="plat-link" rel="noopener" target="_blank" data-show="{{ s.slug }}">Open</a>
                                 {% else %}<span class="na">—</span>{% endif %}
                             </td>
                             <td>
                                 {% if s.spotify_url %}
-                                <a href="{{ s.spotify_url }}" class="plat-link" rel="noopener" target="_blank">Open</a>
+                                <a href="{{ s.spotify_url | with_utm(campaign=s.slug, medium='how-to-listen') }}" class="plat-link" rel="noopener" target="_blank" data-show="{{ s.slug }}">Open</a>
                                 {% else %}<span class="na">—</span>{% endif %}
                             </td>
                             <td>

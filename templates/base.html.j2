@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ page_lang | default('en') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -223,7 +223,7 @@
                     <h4>Listen</h4>
                     <a href="{{ path_prefix }}how-to-listen.html" style="font-weight:600">How to Listen</a>
                     <a href="{{ path_prefix }}player.html" style="font-weight:600">Network Player</a>
-                    <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
+                    <a href="{{ 'https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939' | with_utm(campaign='tesla', medium='footer') }}" target="_blank" rel="noopener" data-show="tesla">Apple Podcasts</a>
                     <a href="{{ path_prefix }}network.rss">Network RSS</a>
                     {% for s in all_shows %}
                     <a href="{{ path_prefix }}{{ s.rss_file }}">{{ s.name }} RSS</a>

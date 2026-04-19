@@ -612,6 +612,7 @@ def generate_blog_post_html(
         "transcript": transcript_text,
         "related_posts": related_posts or [],
         "newsletter_tag": show_config["name"],
+        "page_lang": "ru" if show_slug in ("finansy_prosto", "privet_russian") else "en",
     }
 
     return template.render(**context)

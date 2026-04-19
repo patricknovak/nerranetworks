@@ -800,14 +800,16 @@ button { font-family: var(--font-ui); cursor: pointer; }
 .nn-search::placeholder { color: var(--nn-text-muted); }
 .nn-search:focus { outline: none; border-color: var(--show-color, var(--nn-purple)); }
 .nn-filter-btn {
+  min-height: 44px;
   padding: var(--sp-2) var(--sp-4);
   border-radius: 8px;
   border: 1px solid var(--nn-border);
   background: var(--nn-card);
   color: var(--nn-text-muted);
   font-family: var(--font-ui);
-  font-size: 0.82rem; font-weight: 600;
+  font-size: 0.85rem; font-weight: 600;
   transition: all var(--duration) var(--ease);
+  cursor: pointer;
 }
 .nn-filter-btn:hover,
 .nn-filter-btn.active {
@@ -846,14 +848,19 @@ button { font-family: var(--font-ui); cursor: pointer; }
 }
 .nn-summary-audio { width: min(520px, 100%); height: 38px; }
 .nn-summary-link {
+  min-height: 44px;
   padding: var(--sp-2) var(--sp-3);
   border-radius: 8px;
   border: 1px solid var(--nn-border);
   background: var(--nn-surface);
   font-family: var(--font-ui);
-  font-size: 0.82rem; font-weight: 600;
+  font-size: 0.85rem; font-weight: 600;
   color: var(--nn-text-muted);
   transition: all var(--duration) var(--ease);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
 }
 .nn-summary-link:hover {
   border-color: var(--show-color, var(--nn-purple));
@@ -915,14 +922,17 @@ button { font-family: var(--font-ui); cursor: pointer; }
 .nn-sticky-audio { width: min(520px, 100%); height: 38px; }
 .nn-speed-control { display: flex; align-items: center; gap: var(--sp-1); }
 .nn-speed-btn {
+  min-width: 44px;
+  min-height: 44px;
   padding: var(--sp-1) var(--sp-2);
   border-radius: 6px;
   border: 1px solid var(--nn-border);
   background: var(--nn-surface);
   color: var(--nn-text-muted);
   font-family: var(--font-ui);
-  font-size: 0.75rem; font-weight: 600;
+  font-size: 0.8rem; font-weight: 600;
   transition: all var(--duration) var(--ease);
+  cursor: pointer;
 }
 .nn-speed-btn:hover,
 .nn-speed-btn.active {
@@ -930,7 +940,7 @@ button { font-family: var(--font-ui); cursor: pointer; }
   color: var(--show-color, var(--nn-purple));
 }
 .nn-sticky-close {
-  width: 36px; height: 36px;
+  width: 44px; height: 44px;
   border-radius: 8px;
   border: 1px solid var(--nn-border);
   background: var(--nn-surface);

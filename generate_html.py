@@ -1251,6 +1251,7 @@ def generate_summaries_page(slug, *, dry_run=False):
         "hero_subtitle": f"Complete archive of {cfg['name']} episode summaries.",
         "blog_page": f"blog/{cfg['slug']}/index.html",
         "all_shows": _build_all_shows_list(),
+        "page_lang": "ru" if slug in ("finansy_prosto", "privet_russian") else "en",
     }
 
     html = template.render(**context)
@@ -1371,6 +1372,8 @@ def generate_show_page(slug, *, dry_run=False):
     if slug == "modern_investing":
         performance_data = _load_mit_performance_data()
 
+    is_russian = slug in ("finansy_prosto", "privet_russian")
+
     context = {
         **cfg,
         "path_prefix": prefix,
@@ -1391,6 +1394,8 @@ def generate_show_page(slug, *, dry_run=False):
         "newsletter_tag": cfg["name"],
         "all_shows": _build_all_shows_list(),
         "performance_data": performance_data,
+        "page_lang": "ru" if is_russian else "en",
+        "hreflang_self": f"ru-{cfg['slug']}" if is_russian else "en",
     }
 
     html = template.render(**context)
