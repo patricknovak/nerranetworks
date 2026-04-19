@@ -127,7 +127,7 @@
                             Models & Agents for Beginners
                         </a>
                         
-                        <a href="fascinating_frontiers.html" role="menuitem">
+                        <a href="fascinating-frontiers.html" role="menuitem">
                             <img src="assets/covers/fascinating-frontiers.jpg" alt="" width="1400" height="1400" loading="lazy">
                             Fascinating Frontiers
                         </a>
@@ -268,7 +268,7 @@
                 Models & Agents for Beginners
             </a>
             
-            <a href="fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
+            <a href="fascinating-frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/fascinating-frontiers.jpg" alt="" width="1400" height="1400" loading="lazy">
                 Fascinating Frontiers
             </a>
@@ -556,7 +556,7 @@
                     
                     <a href="models-agents-beginners.html">Models & Agents for Beginners</a>
                     
-                    <a href="fascinating_frontiers.html">Fascinating Frontiers</a>
+                    <a href="fascinating-frontiers.html">Fascinating Frontiers</a>
                     
                     <a href="modern-investing.html">Modern Investing Techniques</a>
                     
@@ -597,6 +597,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="how-to-listen.html" style="font-weight:600">How to Listen</a>
                     <a href="player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="network.rss">Network RSS</a>
@@ -630,7 +631,10 @@
                 </div>
             </div>
             <div class="nn-footer-col">
-                <h4>Legal</h4>
+                <h4>About</h4>
+                <a href="about.html">About Nerra Network</a>
+                <a href="start-here.html">Start Here</a>
+                <a href="how-to-listen.html">How to Listen</a>
                 <a href="privacy-policy.html">Privacy Policy</a>
                 <a href="terms-of-service.html">Terms of Service</a>
                 <a href="ai-disclosure.html">AI Disclosure</a>
@@ -638,7 +642,8 @@
             </div>
             <!-- Newsletter Subscribe -->
             <div class="nn-footer-subscribe">
-                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form"
+                      onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';btn.disabled=false;},500);">
                     <h4>Get Show Updates</h4>
                     <p>Pick the shows you want in your inbox:</p>
                     <div class="nn-subscribe-tags">
@@ -795,10 +800,16 @@
                     const title = s.episode_title || '';
                     const date = s.date || '';
 
+                    const epNum = s.episode_num;
+                    const transcriptHtml = epNum ? `
+                        <a class="nn-summary-link" href="blog/env_intel/ep${String(epNum).padStart(3, '0')}.html" aria-label="Read full transcript and article for episode ${epNum}">Read transcript</a>
+                    ` : '';
+
                     const audioHtml = audioUrl ? `
                         <div class="nn-summary-actions">
                             <audio class="nn-summary-audio" controls preload="none" src="${escapeAttr(audioUrl)}" aria-label="${escapeAttr(title || 'Episode')} audio"></audio>
                             <a class="nn-summary-link" href="${escapeAttr(audioUrl)}" target="_blank" rel="noopener">Download</a>
+                            ${transcriptHtml}
                             <button class="nn-summary-link" data-share-url="${escapeAttr(audioUrl)}" title="Copy link">Share</button>
                         </div>
                     ` : '';

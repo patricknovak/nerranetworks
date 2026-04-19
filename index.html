@@ -119,7 +119,7 @@
       "description": "Daily space and astronomy news covering mission updates, cosmic discoveries, exoplanet breakthroughs, and rocket launches. From NASA and ESA to SpaceX and beyond — the universe is more exciting than y",
       "webFeed": "https://nerranetwork.com/fascinating_frontiers_podcast.rss",
       "image": "https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg",
-      "url": "https://nerranetwork.com/fascinating_frontiers.html"
+      "url": "https://nerranetwork.com/fascinating-frontiers.html"
     },
     
     {
@@ -269,7 +269,7 @@
                             Models & Agents for Beginners
                         </a>
                         
-                        <a href="fascinating_frontiers.html" role="menuitem">
+                        <a href="fascinating-frontiers.html" role="menuitem">
                             <img src="assets/covers/fascinating-frontiers.jpg" alt="" width="1400" height="1400" loading="lazy">
                             Fascinating Frontiers
                         </a>
@@ -402,7 +402,7 @@
                 Models & Agents for Beginners
             </a>
             
-            <a href="fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
+            <a href="fascinating-frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="assets/covers/fascinating-frontiers.jpg" alt="" width="1400" height="1400" loading="lazy">
                 Fascinating Frontiers
             </a>
@@ -527,7 +527,7 @@
                     <img src="assets/covers/models-agents-beginners.jpg" alt="Models & Agents for Beginners cover art" width="1400" height="1400" loading="eager" fetchpriority="high" />
                 </a>
                 
-                <a href="fascinating_frontiers.html" class="orbit-card" style="--i: 4;">
+                <a href="fascinating-frontiers.html" class="orbit-card" style="--i: 4;">
                     <img src="assets/covers/fascinating-frontiers.jpg" alt="Fascinating Frontiers cover art" width="1400" height="1400" loading="eager" fetchpriority="high" />
                 </a>
                 
@@ -557,6 +557,26 @@
                 <a href="player.html" class="nn-btn nn-btn-lg">Open Player</a>
                 <a href="#subscribe" class="nn-btn nn-btn-lg">Subscribe Free</a>
                 <a href="blog/index.html" class="nn-btn nn-btn-lg">Read Blog</a>
+            </div>
+
+            <!-- Network proof stats -->
+            <div class="hero-proof-stats" aria-label="Network stats">
+                <div class="proof-stat">
+                    <strong>10</strong>
+                    <span>daily shows</span>
+                </div>
+                <div class="proof-stat">
+                    <strong>335+</strong>
+                    <span>episodes shipped</span>
+                </div>
+                <div class="proof-stat">
+                    <strong>100%</strong>
+                    <span>ad-free</span>
+                </div>
+                <div class="proof-stat">
+                    <strong>2</strong>
+                    <span>languages</span>
+                </div>
             </div>
         </div>
     </section>
@@ -811,7 +831,7 @@
                      data-audience="enthusiasts students"
                      data-language="english"
                      style="--show-color:#7C5CFF;">
-                    <a href="fascinating_frontiers.html" class="show-card glass-card">
+                    <a href="fascinating-frontiers.html" class="show-card glass-card">
                         <img src="assets/covers/fascinating-frontiers.jpg" alt="Fascinating Frontiers cover art" class="show-card-image" width="1400" height="1400" loading="lazy">
                         <div class="show-card-name">Fascinating Frontiers</div>
                         <div class="show-card-badges">
@@ -1480,6 +1500,54 @@
         </div>
     </section>
 
+    <!-- Newsletter -->
+    <section id="newsletter" class="nn-section" style="border-top:1px solid var(--nn-border);background:radial-gradient(ellipse at 50% 0%, rgba(124,92,255,0.12), transparent 70%);">
+        <div class="container" style="max-width:680px;">
+            <div class="nn-section-header">
+                <div class="section-label">Weekly digest</div>
+                <h2>Get the best of the network in your inbox</h2>
+                <p>One email per week. Top episodes from every show you follow. Unsubscribe anytime.</p>
+            </div>
+            <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow"
+                  class="nn-subscribe-form" style="max-width:none;"
+                  onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';},500);">
+                <p style="font-family:var(--font-ui);font-size:0.85rem;color:var(--nn-text-muted);margin-bottom:var(--sp-3);">Pick the shows you want in your weekly digest:</p>
+                <div class="nn-subscribe-tags" style="margin-bottom:var(--sp-4);">
+                    
+                    <label><input type="checkbox" name="tag" value="Models & Agents"> Models & Agents</label>
+                    
+                    <label><input type="checkbox" name="tag" value="Planetterrian Daily"> Planetterrian Daily</label>
+                    
+                    <label><input type="checkbox" name="tag" value="Omni View"> Omni View</label>
+                    
+                    <label><input type="checkbox" name="tag" value="Models & Agents for Beginners"> Models & Agents for Beginners</label>
+                    
+                    <label><input type="checkbox" name="tag" value="Fascinating Frontiers"> Fascinating Frontiers</label>
+                    
+                    <label><input type="checkbox" name="tag" value="Modern Investing Techniques"> Modern Investing Techniques</label>
+                    
+                    <label><input type="checkbox" name="tag" value="Tesla Shorts Time"> Tesla Shorts Time</label>
+                    
+                    <label><input type="checkbox" name="tag" value="Environmental Intelligence"> Environmental Intelligence</label>
+                    
+                    <label><input type="checkbox" name="tag" value="Финансы Просто"> Финансы Просто</label>
+                    
+                    <label><input type="checkbox" name="tag" value="Привет, Русский!"> Привет, Русский!</label>
+                    
+                </div>
+                <div class="nn-subscribe-row">
+                    <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+                    <input type="hidden" value="1" name="embed">
+                    <button type="submit">Subscribe</button>
+                </div>
+                <p style="font-family:var(--font-ui);font-size:0.75rem;color:var(--nn-text-muted);margin-top:var(--sp-2);">
+                    No spam. We never share your email. Read our
+                    <a href="privacy-policy.html" style="color:var(--nn-text-muted);">privacy policy</a>.
+                </p>
+            </form>
+        </div>
+    </section>
+
     
     <style>
       .picker { max-width: 960px; margin: 0 auto; }
@@ -1644,7 +1712,7 @@
                     
                     <a href="models-agents-beginners.html">Models & Agents for Beginners</a>
                     
-                    <a href="fascinating_frontiers.html">Fascinating Frontiers</a>
+                    <a href="fascinating-frontiers.html">Fascinating Frontiers</a>
                     
                     <a href="modern-investing.html">Modern Investing Techniques</a>
                     
@@ -1685,6 +1753,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="how-to-listen.html" style="font-weight:600">How to Listen</a>
                     <a href="player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="network.rss">Network RSS</a>
@@ -1718,7 +1787,10 @@
                 </div>
             </div>
             <div class="nn-footer-col">
-                <h4>Legal</h4>
+                <h4>About</h4>
+                <a href="about.html">About Nerra Network</a>
+                <a href="start-here.html">Start Here</a>
+                <a href="how-to-listen.html">How to Listen</a>
                 <a href="privacy-policy.html">Privacy Policy</a>
                 <a href="terms-of-service.html">Terms of Service</a>
                 <a href="ai-disclosure.html">AI Disclosure</a>
@@ -1726,7 +1798,8 @@
             </div>
             <!-- Newsletter Subscribe -->
             <div class="nn-footer-subscribe">
-                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form"
+                      onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';btn.disabled=false;},500);">
                     <h4>Get Show Updates</h4>
                     <p>Pick the shows you want in your inbox:</p>
                     <div class="nn-subscribe-tags">

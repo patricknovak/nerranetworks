@@ -283,7 +283,7 @@ NETWORK_SHOWS = {
         "slug": "fascinating_frontiers",
         "display_order": 5,
         "description": "Daily space and astronomy news digest.",
-        "show_page": "fascinating_frontiers.html",
+        "show_page": "fascinating-frontiers.html",
         "summaries_page": "fascinating-frontiers-summaries.html",
         "json_path": "digests/fascinating_frontiers/summaries_space.json",
         "json_format": "wrapped",
@@ -1546,6 +1546,7 @@ def generate_network_page(*, dry_run=False):
         "latest_blog_posts": latest_blog_posts,
         "latest_episodes": latest_episodes,
         "emit_bilingual_hreflang": True,
+        "total_episodes": _count_total_episodes(),
     }
 
     html = template.render(**context)
@@ -1961,6 +1962,99 @@ def generate_start_here_page(*, dry_run=False):
     return out_path
 
 
+def _count_total_episodes() -> int:
+    """Sum episode counts across all podcast RSS feeds (best-effort, cached)."""
+    total = 0
+    for cfg in NETWORK_SHOWS.values():
+        rss = ROOT / cfg.get("rss_file", "")
+        if not rss.exists():
+            continue
+        try:
+            text = rss.read_text(encoding="utf-8", errors="ignore")
+            total += text.count("<item>")
+        except Exception:
+            pass
+    return total
+
+
+def _count_languages() -> int:
+    """Count distinct languages across shows (en / ru currently)."""
+    langs = set()
+    for cfg in NETWORK_SHOWS.values():
+        if cfg.get("slug") in ("finansy_prosto", "privet_russian"):
+            langs.add("ru")
+        else:
+            langs.add("en")
+    return len(langs)
+
+
+def generate_about_page(*, dry_run=False):
+    """Generate the About page with founder, mission, and network stats."""
+    env = _get_jinja_env()
+    template = env.get_template("about.html.j2")
+
+    context = {
+        "path_prefix": "",
+        "page_title": "About — Nerra Network",
+        "page_description": "Meet the independent podcast network producing 10 ad-free daily shows on AI, Tesla, investing, space, science, and environmental policy. Based in Vancouver, Canada.",
+        "meta_description": "About Nerra Network — an independent, ad-free podcast network producing 10 daily shows in Vancouver, Canada. Founded by Patrick Novak.",
+        "meta_keywords": "about Nerra Network, Patrick Novak, independent podcast network, Vancouver podcasts, ad-free podcasts",
+        "theme_color": "#7C5CFF",
+        "og_image": "",
+        "canonical_url": "https://nerranetwork.com/about.html",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+        # Stats
+        "shows_count": len(NETWORK_SHOWS),
+        "total_episodes": _count_total_episodes(),
+        "languages_count": _count_languages(),
+        "founding_date": "2024-07-01",
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "about.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
+def generate_how_to_listen_page(*, dry_run=False):
+    """Generate the How-to-Listen guide page."""
+    env = _get_jinja_env()
+    template = env.get_template("how_to_listen.html.j2")
+
+    context = {
+        "path_prefix": "",
+        "page_title": "How to Listen — Nerra Network",
+        "page_description": "Subscribe to Nerra Network shows on Apple Podcasts, Spotify, or any RSS-compatible podcast app. Step-by-step guide for every show.",
+        "meta_description": "How to subscribe to Nerra Network podcasts on Apple Podcasts, Spotify, and any RSS-compatible app. Complete show directory included.",
+        "meta_keywords": "how to listen, subscribe podcast, Apple Podcasts, Spotify, RSS, Nerra Network",
+        "theme_color": "#7C5CFF",
+        "og_image": "",
+        "canonical_url": "https://nerranetwork.com/how-to-listen.html",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "how-to-listen.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
 def generate_player_page(*, dry_run=False):
     """Generate the cross-show podcast player page."""
     env = _get_jinja_env()
@@ -2085,6 +2179,8 @@ def main():
         generate_404_page(dry_run=args.dry_run)
         generate_player_page(dry_run=args.dry_run)
         generate_start_here_page(dry_run=args.dry_run)
+        generate_about_page(dry_run=args.dry_run)
+        generate_how_to_listen_page(dry_run=args.dry_run)
         # Regenerate JSON API for mobile app
         try:
             import subprocess

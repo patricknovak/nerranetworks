@@ -1,0 +1,307 @@
+{% extends "base.html.j2" %}
+
+{% block head_extra %}
+    <style>
+        .htl-hero {
+            padding: calc(var(--nav-height) + var(--sp-16)) var(--sp-6) var(--sp-8);
+            text-align: center;
+        }
+        .htl-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-3);
+        }
+        .htl-hero p {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            color: var(--nn-text-muted);
+            max-width: 580px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .htl-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 var(--sp-6) var(--sp-16);
+        }
+        .htl-platforms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: var(--sp-4);
+            margin: var(--sp-8) 0 var(--sp-12);
+        }
+        .htl-platform {
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 16px;
+            padding: var(--sp-6);
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-3);
+        }
+        .htl-platform-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: white;
+        }
+        .htl-platform h3 {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0;
+        }
+        .htl-platform ol {
+            margin: 0;
+            padding-left: var(--sp-5);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--nn-text);
+            line-height: 1.6;
+        }
+        .htl-platform ol li {
+            margin-bottom: var(--sp-2);
+        }
+        .htl-shows-section {
+            margin-top: var(--sp-10);
+        }
+        .htl-shows-section h2 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-2);
+        }
+        .htl-shows-section > p {
+            font-family: var(--font-body);
+            color: var(--nn-text-muted);
+            margin: 0 0 var(--sp-6);
+        }
+        .htl-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .htl-table th, .htl-table td {
+            padding: var(--sp-3) var(--sp-4);
+            text-align: left;
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--nn-border);
+        }
+        .htl-table tr:last-child td {
+            border-bottom: none;
+        }
+        .htl-table th {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--nn-text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+        }
+        .htl-table td {
+            color: var(--nn-text);
+        }
+        .htl-show-name {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+            text-decoration: none;
+            color: var(--nn-white);
+        }
+        .htl-show-name:hover {
+            color: #00D4FF;
+        }
+        .htl-show-name img {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .htl-table a.plat-link {
+            color: #00D4FF;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .htl-table a.plat-link:hover {
+            text-decoration: underline;
+        }
+        .htl-table td.na {
+            color: var(--nn-text-muted);
+            font-style: italic;
+        }
+        @media (max-width: 700px) {
+            .htl-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        .htl-faq {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--nn-border);
+        }
+        .htl-faq h2 {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-4);
+        }
+        .htl-faq details {
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 12px;
+            padding: var(--sp-4);
+            margin-bottom: var(--sp-3);
+        }
+        .htl-faq summary {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--nn-white);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .htl-faq details[open] summary {
+            margin-bottom: var(--sp-3);
+        }
+        .htl-faq details p {
+            font-family: var(--font-body);
+            color: var(--nn-text);
+            line-height: 1.6;
+            margin: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <main id="main-content">
+        <section class="htl-hero">
+            <h1>How to listen</h1>
+            <p>Every Nerra Network show is available on Apple Podcasts, Spotify, and as a
+            standard RSS feed. Pick your app and subscribe — new episodes show up
+            automatically.</p>
+        </section>
+
+        <div class="htl-container">
+            <div class="htl-platforms">
+                <div class="htl-platform">
+                    <div class="htl-platform-icon" style="background:linear-gradient(135deg,#A855F7,#EC4899);">🎧</div>
+                    <h3>Apple Podcasts</h3>
+                    <ol>
+                        <li>Open the <strong>Podcasts</strong> app (iOS / Mac).</li>
+                        <li>Tap Search, type a show name (e.g. "Tesla Shorts Time").</li>
+                        <li>Tap <strong>Follow</strong> — or use the direct link below.</li>
+                    </ol>
+                </div>
+
+                <div class="htl-platform">
+                    <div class="htl-platform-icon" style="background:linear-gradient(135deg,#1DB954,#0A8F38);">🟢</div>
+                    <h3>Spotify</h3>
+                    <ol>
+                        <li>Open Spotify (mobile, desktop, or web).</li>
+                        <li>Search for the show name.</li>
+                        <li>Tap <strong>Follow</strong>.</li>
+                    </ol>
+                </div>
+
+                <div class="htl-platform">
+                    <div class="htl-platform-icon" style="background:linear-gradient(135deg,#F97316,#EAB308);">📡</div>
+                    <h3>RSS (any app)</h3>
+                    <ol>
+                        <li>Copy the show's RSS URL from the table below.</li>
+                        <li>In your podcast app, choose <strong>Add by URL</strong> / <strong>Subscribe by URL</strong>.</li>
+                        <li>Paste the URL and save.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <section class="htl-shows-section">
+                <h2>All 10 shows</h2>
+                <p>Tap a platform link to open the show in the corresponding app.</p>
+                <table class="htl-table">
+                    <thead>
+                        <tr>
+                            <th>Show</th>
+                            <th>Apple</th>
+                            <th>Spotify</th>
+                            <th>RSS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in all_shows %}
+                        <tr>
+                            <td>
+                                <a href="{{ path_prefix }}{{ s.show_page }}" class="htl-show-name">
+                                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="32" height="32" loading="lazy">
+                                    <span>{{ s.name }}</span>
+                                </a>
+                            </td>
+                            <td>
+                                {% if s.apple_podcasts_url %}
+                                <a href="{{ s.apple_podcasts_url }}" class="plat-link" rel="noopener" target="_blank">Open</a>
+                                {% else %}<span class="na">—</span>{% endif %}
+                            </td>
+                            <td>
+                                {% if s.spotify_url %}
+                                <a href="{{ s.spotify_url }}" class="plat-link" rel="noopener" target="_blank">Open</a>
+                                {% else %}<span class="na">—</span>{% endif %}
+                            </td>
+                            <td>
+                                {% if s.rss_file %}
+                                <a href="{{ path_prefix }}{{ s.rss_file }}" class="plat-link">Feed</a>
+                                {% else %}<span class="na">—</span>{% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="htl-faq">
+                <h2>Common questions</h2>
+                <details>
+                    <summary>Do I need an account to listen?</summary>
+                    <p>No. All Nerra Network shows are free and public — no sign-up, no
+                    paywall. An Apple or Spotify account helps you save shows to your
+                    library and sync across devices, but every episode is also available
+                    via RSS.</p>
+                </details>
+                <details>
+                    <summary>Can I download episodes for offline listening?</summary>
+                    <p>Yes. Apple Podcasts, Spotify, Overcast, Pocket Casts — every major
+                    podcast app supports offline download. Look for a download icon next
+                    to each episode.</p>
+                </details>
+                <details>
+                    <summary>How often are new episodes released?</summary>
+                    <p>Most shows publish daily; a few alternate even/odd days. Each show
+                    page lists its exact schedule.</p>
+                </details>
+                <details>
+                    <summary>Are there ads?</summary>
+                    <p>No host-read ads, no programmatic mid-rolls. Nerra Network is
+                    independent and ad-free.</p>
+                </details>
+                <details>
+                    <summary>How do I support the shows?</summary>
+                    <p>Subscribe on Apple or Spotify, leave a review (those really help
+                    discoverability), share an episode you liked with a friend, and join
+                    the <a href="{{ path_prefix }}index.html#newsletter">newsletter</a> for
+                    weekly highlights.</p>
+                </details>
+            </section>
+        </div>
+    </main>
+{% endblock %}

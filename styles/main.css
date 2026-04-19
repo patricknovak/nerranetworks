@@ -1062,6 +1062,44 @@ button { font-family: var(--font-ui); cursor: pointer; }
   border-radius: 12px;
 }
 
+/* ── Social proof stats row (network hero) ── */
+.hero-proof-stats {
+  display: flex;
+  justify-content: center;
+  gap: clamp(20px, 5vw, 56px);
+  flex-wrap: wrap;
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--nn-border);
+}
+.hero-proof-stats .proof-stat {
+  text-align: center;
+  min-width: 84px;
+}
+.hero-proof-stats .proof-stat strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #7C5CFF 0%, #00D4FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  margin-bottom: 2px;
+}
+.hero-proof-stats .proof-stat span {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--nn-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+@media (max-width: 560px) {
+  .hero-proof-stats { gap: 18px; }
+  .hero-proof-stats .proof-stat { min-width: 68px; }
+}
+
 /* ── Hero Show Orbit (inline centered cards) ── */
 .hero-show-orbit {
   display: flex;

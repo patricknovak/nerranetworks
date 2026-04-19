@@ -223,10 +223,16 @@
                     const title = s.episode_title || '';
                     const date = s.date || '';
 
+                    const epNum = s.episode_num;
+                    const transcriptHtml = epNum ? `
+                        <a class="nn-summary-link" href="{{ path_prefix }}blog/{{ show_slug }}/ep${String(epNum).padStart(3, '0')}.html" aria-label="Read full transcript and article for episode ${epNum}">Read transcript</a>
+                    ` : '';
+
                     const audioHtml = audioUrl ? `
                         <div class="nn-summary-actions">
                             <audio class="nn-summary-audio" controls preload="none" src="${escapeAttr(audioUrl)}" aria-label="${escapeAttr(title || 'Episode')} audio"></audio>
                             <a class="nn-summary-link" href="${escapeAttr(audioUrl)}" target="_blank" rel="noopener">Download</a>
+                            ${transcriptHtml}
                             <button class="nn-summary-link" data-share-url="${escapeAttr(audioUrl)}" title="Copy link">Share</button>
                         </div>
                     ` : '';

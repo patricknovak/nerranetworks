@@ -696,7 +696,7 @@
                             Models & Agents for Beginners
                         </a>
                         
-                        <a href="../../fascinating_frontiers.html" role="menuitem">
+                        <a href="../../fascinating-frontiers.html" role="menuitem">
                             <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" width="1400" height="1400" loading="lazy">
                             Fascinating Frontiers
                         </a>
@@ -792,6 +792,8 @@
                 </li>
                 
                 <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../how-to-listen.html">Listen</a></li>
+                <li><a href="../../about.html">About</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -805,6 +807,8 @@
     <div id="mobileMenu" class="nn-mobile-menu">
         
         <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../how-to-listen.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">How to Listen</a>
+        <a href="../../about.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">About</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -831,7 +835,7 @@
                 Models & Agents for Beginners
             </a>
             
-            <a href="../../fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
+            <a href="../../fascinating-frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" width="1400" height="1400" loading="lazy">
                 Fascinating Frontiers
             </a>
@@ -1266,7 +1270,8 @@ That's your Tesla news for today. T S L A closed at four hundred seven dollars a
             <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
                 <h3>Enjoy this episode? Get Tesla Shorts Time in your inbox</h3>
                 <p>New episode alerts — no spam, unsubscribe anytime.</p>
-                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow"
+                      onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';btn.disabled=false;},500);">
                     <input type="hidden" name="tag" value="Tesla Shorts Time">
                     <input type="hidden" value="1" name="embed">
                     <div class="nn-subscribe-row">
@@ -1300,22 +1305,22 @@ That's your Tesla news for today. T S L A closed at four hundred seven dollars a
                 <h2>You Might Also Like</h2>
                 <div class="blog-related-grid">
                     
-                    <a href="../../blog/env_intel/ep025.html" class="blog-related-card" style="--card-show-color: #1B5E20">
-                        <span class="blog-related-show" style="color: #1B5E20">Environmental Intelligence</span>
-                        <h3>BC launches free foam dock recycling events on the Sunshine Coast to curb marine...</h3>
-                        <p>BC launches free foam dock recycling events on the Sunshine Coast to curb marine debris under provincial waste diversion&hellip;</p>
+                    <a href="../../blog/models_agents/ep032.html" class="blog-related-card" style="--card-show-color: #8B5CF6">
+                        <span class="blog-related-show" style="color: #8B5CF6">Models & Agents</span>
+                        <h3>Qwen3.6-35B-A3B brings sparse MoE vision-language capabilities with only 3B acti...</h3>
+                        <p>Qwen3.6-35B-A3B brings sparse MoE vision-language capabilities with only 3B active parameters and strong agentic coding &hellip;</p>
+                    </a>
+                    
+                    <a href="../../blog/finansy_prosto/ep023.html" class="blog-related-card" style="--card-show-color: #EC4899">
+                        <span class="blog-related-show" style="color: #EC4899">Финансы Просто</span>
+                        <h3>Что сегодня важного:</h3>
+                        <p>CREA снизила прогноз продаж жилья на 2026 год — что это значит для Ванкувера</p>
                     </a>
                     
                     <a href="../../blog/omni_view/ep034.html" class="blog-related-card" style="--card-show-color: #0B6FD6">
                         <span class="blog-related-show" style="color: #0B6FD6">Omni View</span>
                         <h3>Israel and Lebanon ceasefire takes effect as Trump hails 'historic' peace effort...</h3>
                         <p>Israel and Lebanon ceasefire takes effect as Trump hails 'historic' peace effort amid ongoing Iran war tensions.</p>
-                    </a>
-                    
-                    <a href="../../blog/fascinating_frontiers/ep053.html" class="blog-related-card" style="--card-show-color: #7C5CFF">
-                        <span class="blog-related-show" style="color: #7C5CFF">Fascinating Frontiers</span>
-                        <h3>NASA's SPHEREx has mapped vast "interstellar glaciers" of ice stretching more th...</h3>
-                        <p>NASA's SPHEREx has mapped vast "interstellar glaciers" of ice stretching more than 600 light-years across the Milky Way.</p>
                     </a>
                     
                 </div>
@@ -1345,7 +1350,7 @@ That's your Tesla news for today. T S L A closed at four hundred seven dollars a
                     
                     <a href="../../models-agents-beginners.html">Models & Agents for Beginners</a>
                     
-                    <a href="../../fascinating_frontiers.html">Fascinating Frontiers</a>
+                    <a href="../../fascinating-frontiers.html">Fascinating Frontiers</a>
                     
                     <a href="../../modern-investing.html">Modern Investing Techniques</a>
                     
@@ -1386,6 +1391,7 @@ That's your Tesla news for today. T S L A closed at four hundred seven dollars a
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../how-to-listen.html" style="font-weight:600">How to Listen</a>
                     <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
@@ -1419,7 +1425,10 @@ That's your Tesla news for today. T S L A closed at four hundred seven dollars a
                 </div>
             </div>
             <div class="nn-footer-col">
-                <h4>Legal</h4>
+                <h4>About</h4>
+                <a href="../../about.html">About Nerra Network</a>
+                <a href="../../start-here.html">Start Here</a>
+                <a href="../../how-to-listen.html">How to Listen</a>
                 <a href="../../privacy-policy.html">Privacy Policy</a>
                 <a href="../../terms-of-service.html">Terms of Service</a>
                 <a href="../../ai-disclosure.html">AI Disclosure</a>
@@ -1427,7 +1436,8 @@ That's your Tesla news for today. T S L A closed at four hundred seven dollars a
             </div>
             <!-- Newsletter Subscribe -->
             <div class="nn-footer-subscribe">
-                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form"
+                      onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';btn.disabled=false;},500);">
                     <h4>Get Show Updates</h4>
                     <p>Pick the shows you want in your inbox:</p>
                     <div class="nn-subscribe-tags">

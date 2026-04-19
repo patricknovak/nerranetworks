@@ -103,7 +103,7 @@
     "partOfSeries": {
       "@type": "PodcastSeries",
       "name": "Fascinating Frontiers",
-      "url": "https://nerranetwork.com/fascinating_frontiers.html"
+      "url": "https://nerranetwork.com/fascinating-frontiers.html"
     },
     "image": "https://nerranetwork.com/assets/covers/fascinating-frontiers.jpg"
   }
@@ -115,7 +115,7 @@
   "@type": "BreadcrumbList",
   "itemListElement": [
     {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nerranetwork.com/"},
-    {"@type": "ListItem", "position": 2, "name": "Fascinating Frontiers", "item": "https://nerranetwork.com/fascinating_frontiers.html"},
+    {"@type": "ListItem", "position": 2, "name": "Fascinating Frontiers", "item": "https://nerranetwork.com/fascinating-frontiers.html"},
     {"@type": "ListItem", "position": 3, "name": "Blog", "item": "https://nerranetwork.com/blog/fascinating_frontiers/index.html"},
     {"@type": "ListItem", "position": 4, "name": "Episode 43"}
   ]
@@ -696,7 +696,7 @@
                             Models & Agents for Beginners
                         </a>
                         
-                        <a href="../../fascinating_frontiers.html" role="menuitem">
+                        <a href="../../fascinating-frontiers.html" role="menuitem">
                             <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" width="1400" height="1400" loading="lazy">
                             Fascinating Frontiers
                         </a>
@@ -792,6 +792,8 @@
                 </li>
                 
                 <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../how-to-listen.html">Listen</a></li>
+                <li><a href="../../about.html">About</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -805,6 +807,8 @@
     <div id="mobileMenu" class="nn-mobile-menu">
         
         <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../how-to-listen.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">How to Listen</a>
+        <a href="../../about.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">About</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -831,7 +835,7 @@
                 Models & Agents for Beginners
             </a>
             
-            <a href="../../fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
+            <a href="../../fascinating-frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" width="1400" height="1400" loading="lazy">
                 Fascinating Frontiers
             </a>
@@ -927,7 +931,7 @@
     <nav aria-label="Breadcrumb" style="max-width:900px;margin:calc(72px + var(--sp-4)) auto 0;padding:0 var(--sp-6);font-family:var(--font-ui);font-size:0.82rem;">
         <ol style="list-style:none;display:flex;flex-wrap:wrap;gap:var(--sp-1);padding:0;margin:0;color:var(--nn-text-muted);">
             <li><a href="../../index.html" style="color:var(--nn-text-muted);text-decoration:none;">Home</a> <span aria-hidden="true">/</span></li>
-            <li><a href="../../fascinating_frontiers.html" style="color:var(--nn-text-muted);text-decoration:none;">Fascinating Frontiers</a> <span aria-hidden="true">/</span></li>
+            <li><a href="../../fascinating-frontiers.html" style="color:var(--nn-text-muted);text-decoration:none;">Fascinating Frontiers</a> <span aria-hidden="true">/</span></li>
             <li><a href="../../blog/fascinating_frontiers/index.html" style="color:var(--nn-text-muted);text-decoration:none;">Blog</a> <span aria-hidden="true">/</span></li>
             <li aria-current="page" style="color:var(--show-color);">Episode 43</li>
         </ol>
@@ -956,7 +960,7 @@
                     4 min read
                 </span>
                 
-                <a href="../../fascinating_frontiers.html" class="blog-listen-cta">
+                <a href="../../fascinating-frontiers.html" class="blog-listen-cta">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                     Listen to podcast
                 </a>
@@ -1173,7 +1177,8 @@ This podcast is curated by Patrick but generated using AI voice synthesis of my 
             <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
                 <h3>Enjoy this episode? Get Fascinating Frontiers in your inbox</h3>
                 <p>New episode alerts — no spam, unsubscribe anytime.</p>
-                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow"
+                      onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';btn.disabled=false;},500);">
                     <input type="hidden" name="tag" value="Fascinating Frontiers">
                     <input type="hidden" value="1" name="embed">
                     <div class="nn-subscribe-row">
@@ -1207,22 +1212,22 @@ This podcast is curated by Patrick but generated using AI voice synthesis of my 
                 <h2>You Might Also Like</h2>
                 <div class="blog-related-grid">
                     
-                    <a href="../../blog/tesla/ep440.html" class="blog-related-card" style="--card-show-color: #E31937">
-                        <span class="blog-related-show" style="color: #E31937">Tesla Shorts Time</span>
-                        <h3>Hey, it's me catching you up on Tesla today.</h3>
-                        <p>Hey, it's me catching you up on Tesla today.</p>
+                    <a href="../../blog/privet_russian/ep006.html" class="blog-related-card" style="--card-show-color: #6366F1">
+                        <span class="blog-related-show" style="color: #6366F1">Привет, Русский!</span>
+                        <h3>Привет, Русский!</h3>
+                        <p>Travel (Путешествие)</p>
                     </a>
                     
-                    <a href="../../blog/tesla/ep438.html" class="blog-related-card" style="--card-show-color: #E31937">
+                    <a href="../../blog/tesla/ep439.html" class="blog-related-card" style="--card-show-color: #E31937">
                         <span class="blog-related-show" style="color: #E31937">Tesla Shorts Time</span>
-                        <h3>Tesla Shorts Time</h3>
-                        <p>A Tesla owner's camera caught the moment a Mercedes EV owner escaped just before their vehicle caught fire.</p>
+                        <h3>SECTION 1: NEWS</h3>
+                        <p>Hey, it's been an interesting 24 hours in the Tesla world. Let's walk through what's actually moving the needle today.</p>
                     </a>
                     
-                    <a href="../../blog/models_agents/ep032.html" class="blog-related-card" style="--card-show-color: #8B5CF6">
-                        <span class="blog-related-show" style="color: #8B5CF6">Models & Agents</span>
-                        <h3>Qwen3.6-35B-A3B brings sparse MoE vision-language capabilities with only 3B acti...</h3>
-                        <p>Qwen3.6-35B-A3B brings sparse MoE vision-language capabilities with only 3B active parameters and strong agentic coding &hellip;</p>
+                    <a href="../../blog/privet_russian/ep005.html" class="blog-related-card" style="--card-show-color: #6366F1">
+                        <span class="blog-related-show" style="color: #6366F1">Привет, Русский!</span>
+                        <h3>Привет, Русский!</h3>
+                        <p>Technology (Технологии)</p>
                     </a>
                     
                 </div>
@@ -1252,7 +1257,7 @@ This podcast is curated by Patrick but generated using AI voice synthesis of my 
                     
                     <a href="../../models-agents-beginners.html">Models & Agents for Beginners</a>
                     
-                    <a href="../../fascinating_frontiers.html">Fascinating Frontiers</a>
+                    <a href="../../fascinating-frontiers.html">Fascinating Frontiers</a>
                     
                     <a href="../../modern-investing.html">Modern Investing Techniques</a>
                     
@@ -1293,6 +1298,7 @@ This podcast is curated by Patrick but generated using AI voice synthesis of my 
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../how-to-listen.html" style="font-weight:600">How to Listen</a>
                     <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
@@ -1326,7 +1332,10 @@ This podcast is curated by Patrick but generated using AI voice synthesis of my 
                 </div>
             </div>
             <div class="nn-footer-col">
-                <h4>Legal</h4>
+                <h4>About</h4>
+                <a href="../../about.html">About Nerra Network</a>
+                <a href="../../start-here.html">Start Here</a>
+                <a href="../../how-to-listen.html">How to Listen</a>
                 <a href="../../privacy-policy.html">Privacy Policy</a>
                 <a href="../../terms-of-service.html">Terms of Service</a>
                 <a href="../../ai-disclosure.html">AI Disclosure</a>
@@ -1334,7 +1343,8 @@ This podcast is curated by Patrick but generated using AI voice synthesis of my 
             </div>
             <!-- Newsletter Subscribe -->
             <div class="nn-footer-subscribe">
-                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form"
+                      onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';btn.disabled=false;},500);">
                     <h4>Get Show Updates</h4>
                     <p>Pick the shows you want in your inbox:</p>
                     <div class="nn-subscribe-tags">

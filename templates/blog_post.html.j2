@@ -645,7 +645,8 @@
             <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
                 <h3>Enjoy this episode? Get {{ show_name }} in your inbox</h3>
                 <p>New episode alerts — no spam, unsubscribe anytime.</p>
-                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow"
+                      onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';btn.disabled=false;},500);">
                     <input type="hidden" name="tag" value="{{ newsletter_tag }}">
                     <input type="hidden" value="1" name="embed">
                     <div class="nn-subscribe-row">

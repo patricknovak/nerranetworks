@@ -150,6 +150,8 @@
                 </li>
                 {% block nav_links %}
                 <li><a href="{{ path_prefix }}start-here.html">Start Here</a></li>
+                <li><a href="{{ path_prefix }}how-to-listen.html">Listen</a></li>
+                <li><a href="{{ path_prefix }}about.html">About</a></li>
                 <li><a href="{{ path_prefix }}player.html">Player</a></li>
                 <li><a href="{{ path_prefix }}index.html">Home</a></li>
                 {% endblock %}
@@ -163,6 +165,8 @@
     <div id="mobileMenu" class="nn-mobile-menu">
         {% block mobile_nav_links %}
         <a href="{{ path_prefix }}start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="{{ path_prefix }}how-to-listen.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">How to Listen</a>
+        <a href="{{ path_prefix }}about.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">About</a>
         <a href="{{ path_prefix }}player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="{{ path_prefix }}index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         {% endblock %}
@@ -217,6 +221,7 @@
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="{{ path_prefix }}how-to-listen.html" style="font-weight:600">How to Listen</a>
                     <a href="{{ path_prefix }}player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="{{ path_prefix }}network.rss">Network RSS</a>
@@ -232,7 +237,10 @@
                 </div>
             </div>
             <div class="nn-footer-col">
-                <h4>Legal</h4>
+                <h4>About</h4>
+                <a href="{{ path_prefix }}about.html">About Nerra Network</a>
+                <a href="{{ path_prefix }}start-here.html">Start Here</a>
+                <a href="{{ path_prefix }}how-to-listen.html">How to Listen</a>
                 <a href="{{ path_prefix }}privacy-policy.html">Privacy Policy</a>
                 <a href="{{ path_prefix }}terms-of-service.html">Terms of Service</a>
                 <a href="{{ path_prefix }}ai-disclosure.html">AI Disclosure</a>
@@ -240,7 +248,8 @@
             </div>
             <!-- Newsletter Subscribe -->
             <div class="nn-footer-subscribe">
-                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form"
+                      onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';btn.disabled=false;},500);">
                     <h4>Get Show Updates</h4>
                     <p>Pick the shows you want in your inbox:</p>
                     <div class="nn-subscribe-tags">

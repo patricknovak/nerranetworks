@@ -696,7 +696,7 @@
                             Models & Agents for Beginners
                         </a>
                         
-                        <a href="../../fascinating_frontiers.html" role="menuitem">
+                        <a href="../../fascinating-frontiers.html" role="menuitem">
                             <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" width="1400" height="1400" loading="lazy">
                             Fascinating Frontiers
                         </a>
@@ -792,6 +792,8 @@
                 </li>
                 
                 <li><a href="../../start-here.html">Start Here</a></li>
+                <li><a href="../../how-to-listen.html">Listen</a></li>
+                <li><a href="../../about.html">About</a></li>
                 <li><a href="../../player.html">Player</a></li>
                 <li><a href="../../index.html">Home</a></li>
                 
@@ -805,6 +807,8 @@
     <div id="mobileMenu" class="nn-mobile-menu">
         
         <a href="../../start-here.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Start Here</a>
+        <a href="../../how-to-listen.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">How to Listen</a>
+        <a href="../../about.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">About</a>
         <a href="../../player.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Player</a>
         <a href="../../index.html" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">Home</a>
         
@@ -831,7 +835,7 @@
                 Models & Agents for Beginners
             </a>
             
-            <a href="../../fascinating_frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
+            <a href="../../fascinating-frontiers.html" class="nn-mobile-show-link" onclick="document.getElementById('mobileMenu').classList.remove('open');document.body.classList.remove('menu-open')">
                 <img src="../../assets/covers/fascinating-frontiers.jpg" alt="" width="1400" height="1400" loading="lazy">
                 Fascinating Frontiers
             </a>
@@ -1135,7 +1139,8 @@ That's Planet-terry-an Daily for today. If you enjoyed this episode, a rating or
             <div class="show-subscribe-inline" style="margin-top:var(--sp-6);margin-bottom:var(--sp-6);">
                 <h3>Enjoy this episode? Get Planetterrian Daily in your inbox</h3>
                 <p>New episode alerts — no spam, unsubscribe anytime.</p>
-                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow"
+                      onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';btn.disabled=false;},500);">
                     <input type="hidden" name="tag" value="Planetterrian Daily">
                     <input type="hidden" value="1" name="embed">
                     <div class="nn-subscribe-row">
@@ -1175,16 +1180,16 @@ That's Planet-terry-an Daily for today. If you enjoyed this episode, a rating or
                         <p>Art (Искусство)</p>
                     </a>
                     
-                    <a href="../../blog/modern_investing/ep022.html" class="blog-related-card" style="--card-show-color: #059669">
-                        <span class="blog-related-show" style="color: #059669">Modern Investing Techniques</span>
-                        <h3>Modern Investing Techniques</h3>
-                        <p>Hopes of an Israel-Lebanon ceasefire are supporting stocks near record highs while oil stays below $100, but insider mov&hellip;</p>
+                    <a href="../../blog/privet_russian/ep005.html" class="blog-related-card" style="--card-show-color: #6366F1">
+                        <span class="blog-related-show" style="color: #6366F1">Привет, Русский!</span>
+                        <h3>Привет, Русский!</h3>
+                        <p>Technology (Технологии)</p>
                     </a>
                     
-                    <a href="../../blog/tesla/ep439.html" class="blog-related-card" style="--card-show-color: #E31937">
-                        <span class="blog-related-show" style="color: #E31937">Tesla Shorts Time</span>
-                        <h3>SECTION 1: NEWS</h3>
-                        <p>Hey, it's been an interesting 24 hours in the Tesla world. Let's walk through what's actually moving the needle today.</p>
+                    <a href="../../blog/privet_russian/ep007.html" class="blog-related-card" style="--card-show-color: #6366F1">
+                        <span class="blog-related-show" style="color: #6366F1">Привет, Русский!</span>
+                        <h3>Привет, Русский!</h3>
+                        <p>Weather (Погода)</p>
                     </a>
                     
                 </div>
@@ -1214,7 +1219,7 @@ That's Planet-terry-an Daily for today. If you enjoyed this episode, a rating or
                     
                     <a href="../../models-agents-beginners.html">Models & Agents for Beginners</a>
                     
-                    <a href="../../fascinating_frontiers.html">Fascinating Frontiers</a>
+                    <a href="../../fascinating-frontiers.html">Fascinating Frontiers</a>
                     
                     <a href="../../modern-investing.html">Modern Investing Techniques</a>
                     
@@ -1255,6 +1260,7 @@ That's Planet-terry-an Daily for today. If you enjoyed this episode, a rating or
                 </div>
                 <div class="nn-footer-col">
                     <h4>Listen</h4>
+                    <a href="../../how-to-listen.html" style="font-weight:600">How to Listen</a>
                     <a href="../../player.html" style="font-weight:600">Network Player</a>
                     <a href="https://podcasts.apple.com/us/podcast/tesla-shorts-time/id1855142939" target="_blank" rel="noopener">Apple Podcasts</a>
                     <a href="../../network.rss">Network RSS</a>
@@ -1288,7 +1294,10 @@ That's Planet-terry-an Daily for today. If you enjoyed this episode, a rating or
                 </div>
             </div>
             <div class="nn-footer-col">
-                <h4>Legal</h4>
+                <h4>About</h4>
+                <a href="../../about.html">About Nerra Network</a>
+                <a href="../../start-here.html">Start Here</a>
+                <a href="../../how-to-listen.html">How to Listen</a>
                 <a href="../../privacy-policy.html">Privacy Policy</a>
                 <a href="../../terms-of-service.html">Terms of Service</a>
                 <a href="../../ai-disclosure.html">AI Disclosure</a>
@@ -1296,7 +1305,8 @@ That's Planet-terry-an Daily for today. If you enjoyed this episode, a rating or
             </div>
             <!-- Newsletter Subscribe -->
             <div class="nn-footer-subscribe">
-                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form">
+                <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow" class="nn-subscribe-form"
+                      onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';btn.disabled=false;},500);">
                     <h4>Get Show Updates</h4>
                     <p>Pick the shows you want in your inbox:</p>
                     <div class="nn-subscribe-tags">

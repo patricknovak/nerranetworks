@@ -1,0 +1,318 @@
+{% extends "base.html.j2" %}
+
+{% block head_extra %}
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About Nerra Network",
+  "url": "https://nerranetwork.com/about.html",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "Nerra Network",
+    "url": "https://nerranetwork.com",
+    "foundingDate": "{{ founding_date }}",
+    "founder": {
+      "@type": "Person",
+      "name": "Patrick Novak"
+    },
+    "description": "Independent podcast network producing {{ shows_count }} ad-free daily shows on AI, Tesla, investing, space, science, and environmental policy.",
+    "sameAs": [
+      "https://x.com/teslashortstime",
+      "https://x.com/omniviewnews",
+      "https://x.com/planetterrian"
+    ]
+  }
+}
+    </script>
+    <style>
+        .about-hero {
+            padding: calc(var(--nav-height) + var(--sp-16)) var(--sp-6) var(--sp-12);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(124, 92, 255, 0.18), transparent 70%);
+            pointer-events: none;
+        }
+        .about-hero-inner {
+            position: relative;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        .about-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-4);
+            line-height: 1.15;
+        }
+        .about-hero p.lede {
+            font-family: var(--font-body);
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            color: var(--nn-text);
+            line-height: 1.6;
+            margin: 0 auto var(--sp-6);
+            max-width: 640px;
+        }
+        .about-section {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: var(--sp-8) var(--sp-6);
+        }
+        .about-section h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-4);
+        }
+        .about-section p {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--nn-text);
+            line-height: 1.7;
+            margin: 0 0 var(--sp-4);
+        }
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: var(--sp-4);
+            margin: var(--sp-8) 0;
+        }
+        .about-stat {
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 16px;
+            padding: var(--sp-6) var(--sp-4);
+            text-align: center;
+        }
+        .about-stat-value {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #7C5CFF 0%, #00D4FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 var(--sp-2);
+            line-height: 1;
+        }
+        .about-stat-label {
+            font-family: var(--font-ui);
+            font-size: 0.82rem;
+            color: var(--nn-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .founder-card {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: var(--sp-6);
+            align-items: center;
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 20px;
+            padding: var(--sp-6);
+            margin: var(--sp-6) 0;
+        }
+        @media (max-width: 600px) {
+            .founder-card { grid-template-columns: 1fr; text-align: center; }
+        }
+        .founder-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7C5CFF 0%, #00D4FF 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: var(--font-heading);
+            font-size: 2.4rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin: 0 auto;
+        }
+        .founder-name {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-2);
+        }
+        .founder-title {
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin: 0 0 var(--sp-3);
+        }
+        .founder-bio {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--nn-text);
+            line-height: 1.6;
+            margin: 0;
+        }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: var(--sp-4);
+            margin: var(--sp-6) 0;
+        }
+        .value-card {
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 16px;
+            padding: var(--sp-5);
+        }
+        .value-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-2);
+        }
+        .value-card p {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--nn-text-muted);
+            line-height: 1.55;
+            margin: 0;
+        }
+        .about-cta {
+            text-align: center;
+            padding: var(--sp-10) var(--sp-6);
+        }
+        .about-cta-row {
+            display: flex;
+            gap: var(--sp-3);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: var(--sp-6);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <main id="main-content">
+        <section class="about-hero">
+            <div class="about-hero-inner">
+                <h1>About Nerra Network</h1>
+                <p class="lede">
+                    Ten ad-free daily podcasts. One mission — help curious people stay informed
+                    without drowning in noise, anxiety, or algorithmic outrage.
+                </p>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <h2>Our mission</h2>
+            <p>
+                The modern news cycle is optimised for engagement, not understanding.
+                Infinite scroll, breaking-news chyrons, and opinion-as-news leave people
+                more anxious and less informed. We built Nerra Network as the antidote:
+                calm, focused, ~15-minute daily episodes that tell you what actually
+                happened and why it matters.
+            </p>
+            <p>
+                Every show is produced in Vancouver, Canada, published at a predictable
+                cadence, and released ad-free. No sponsors interrupting your morning
+                commute. No clickbait. Just the signal.
+            </p>
+
+            <div class="about-stats">
+                <div class="about-stat">
+                    <div class="about-stat-value">{{ shows_count }}</div>
+                    <div class="about-stat-label">Daily shows</div>
+                </div>
+                <div class="about-stat">
+                    <div class="about-stat-value">{{ total_episodes }}+</div>
+                    <div class="about-stat-label">Episodes shipped</div>
+                </div>
+                <div class="about-stat">
+                    <div class="about-stat-value">{{ languages_count }}</div>
+                    <div class="about-stat-label">Languages</div>
+                </div>
+                <div class="about-stat">
+                    <div class="about-stat-value">100%</div>
+                    <div class="about-stat-label">Ad-free</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <h2>Meet the founder</h2>
+            <div class="founder-card">
+                <div class="founder-avatar" aria-hidden="true">PN</div>
+                <div>
+                    <div class="founder-name">Patrick Novak</div>
+                    <div class="founder-title">Founder &amp; Producer</div>
+                    <p class="founder-bio">
+                        Patrick founded Nerra Network in Vancouver to build the kind of news
+                        diet he wished existed: short, focused, daily — and free from the
+                        outrage economy. He runs the pipeline, writes the music briefs, and
+                        maintains the independence that keeps the shows ad-free.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <h2>What we believe</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <h3>Fresh over long</h3>
+                    <p>A shorter, varied episode beats a longer repetitive one. We'd rather
+                    ship 12 minutes of real news than 20 minutes of filler.</p>
+                </div>
+                <div class="value-card">
+                    <h3>Ad-free, always</h3>
+                    <p>No host-read ads. No programmatic mid-rolls. The show belongs to
+                    listeners, not to whoever paid most this week.</p>
+                </div>
+                <div class="value-card">
+                    <h3>Transparent sourcing</h3>
+                    <p>Every episode links to its source articles. No anonymous claims,
+                    no laundered narratives.</p>
+                </div>
+                <div class="value-card">
+                    <h3>AI-assisted, human-governed</h3>
+                    <p>We use AI for research, drafting, and narration — but humans decide
+                    what ships and own the editorial standards. See our
+                    <a href="{{ path_prefix }}ai-disclosure.html">AI disclosure</a>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <h2>How we're funded</h2>
+            <p>
+                Nerra Network is independent and self-funded. We don't take sponsorships,
+                we don't sell data, and we don't optimise for watch-time. Listener support
+                — newsletter signups, word-of-mouth recommendations, and reviews on Apple
+                Podcasts and Spotify — is what keeps the network growing.
+            </p>
+        </section>
+
+        <section class="about-cta">
+            <h2>Ready to listen?</h2>
+            <p style="color:var(--nn-text-muted);max-width:520px;margin:0 auto;">
+                Start with our recommendation quiz, or jump straight into the show that
+                matches your interests.
+            </p>
+            <div class="about-cta-row">
+                <a href="{{ path_prefix }}start-here.html" class="nn-btn nn-btn-primary nn-btn-lg" style="--show-color:#7C5CFF;">Find my show</a>
+                <a href="{{ path_prefix }}how-to-listen.html" class="nn-btn nn-btn-lg">How to listen</a>
+                <a href="{{ path_prefix }}index.html#newsletter" class="nn-btn nn-btn-lg">Get the newsletter</a>
+            </div>
+        </section>
+    </main>
+{% endblock %}
