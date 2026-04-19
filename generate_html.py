@@ -47,6 +47,9 @@ MARKETING_CONFIG = {
     "google_ads_id": os.environ.get("GOOGLE_ADS_ID", "").strip(),
     "google_ads_signup_label": os.environ.get("GOOGLE_ADS_SIGNUP_LABEL", "").strip(),
     "plausible_domain": os.environ.get("PLAUSIBLE_DOMAIN", "").strip(),
+    # Google Search Console verification token (set via GSC_VERIFICATION env var).
+    # Obtain from Search Console → Settings → Ownership verification → HTML tag.
+    "gsc_verification": os.environ.get("GSC_VERIFICATION", "").strip(),
 }
 
 # ---------------------------------------------------------------------------

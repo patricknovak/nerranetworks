@@ -90,7 +90,7 @@
             <div class="hero-show-orbit">
                 {% for s in all_shows %}
                 <a href="{{ path_prefix }}{{ s.show_page }}" class="orbit-card" style="--i: {{ loop.index0 }};">
-                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }}" loading="eager" />
+                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="1400" height="1400" loading="eager" fetchpriority="high" />
                 </a>
                 {% endfor %}
             </div>
@@ -218,7 +218,7 @@
                      data-language="{{ s.picker_tags.language | default([]) | join(' ') }}"
                      style="--show-color:{{ s.brand_color }};">
                     <a href="{{ s.show_page }}" class="show-card glass-card">
-                        <img src="{{ s.podcast_image }}" alt="{{ s.name }}" class="show-card-image" loading="lazy">
+                        <img src="{{ s.podcast_image }}" alt="{{ s.name }} cover art" class="show-card-image" width="1400" height="1400" loading="lazy">
                         <div class="show-card-name">{{ s.name }}</div>
                         <div class="show-card-badges">
                             {% if s.schedule %}<span class="show-card-badge">{{ s.schedule }}</span>{% endif %}
@@ -389,7 +389,7 @@
             <div class="subscribe-show-list">
                 {% for s in all_shows %}
                 <div class="subscribe-show-row">
-                    <img src="{{ s.podcast_image }}" alt="{{ s.name }} cover art" loading="lazy">
+                    <img src="{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="1400" height="1400" loading="lazy">
                     <div class="subscribe-show-meta">
                         <div class="subscribe-show-name">{{ s.name }}</div>
                         <div class="subscribe-show-tagline">{{ s.tagline }}</div>

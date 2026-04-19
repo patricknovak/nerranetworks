@@ -35,8 +35,25 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='6' fill='%237C5CFF'/><circle cx='20' cy='30' r='4' fill='%2300D4FF'/><circle cx='80' cy='30' r='4' fill='%2300D4FF'/><circle cx='25' cy='75' r='4' fill='%2300D4FF'/><circle cx='75' cy='75' r='4' fill='%2300D4FF'/><line x1='50' y1='50' x2='20' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='80' y2='30' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='25' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/><line x1='50' y1='50' x2='75' y2='75' stroke='%237C5CFF' stroke-width='1.5' opacity='0.6'/></svg>">
 
-    <!-- Analytics (uncomment when ready) -->
     
+    
+    <!-- Cookie consent (Google Consent Mode v2) — loads BEFORE gtag.js -->
+    <script src="../../assets/js/consent.js"></script>
+    <!-- gtag.js — covers both GA4 and Google Ads -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6PWJCVQQ7B"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-6PWJCVQQ7B', { 'anonymize_ip': true });
+      
+      
+    </script>
+    
+    
+    
+    <script defer src="../../assets/js/tracking.js"></script>
 
     <!-- Shared CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
@@ -1165,6 +1182,31 @@ This podcast is curated by Patrick but generated using AI voice synthesis of my 
             </nav>
             
             <!-- Cross-show Recommendations -->
+            
+            <section class="blog-related">
+                <h2>You Might Also Like</h2>
+                <div class="blog-related-grid">
+                    
+                    <a href="../../blog/privet_russian/ep006.html" class="blog-related-card" style="--card-show-color: #6366F1">
+                        <span class="blog-related-show" style="color: #6366F1">Привет, Русский!</span>
+                        <h3>Привет, Русский!</h3>
+                        <p>Travel (Путешествие)</p>
+                    </a>
+                    
+                    <a href="../../blog/fascinating_frontiers/ep054.html" class="blog-related-card" style="--card-show-color: #7C5CFF">
+                        <span class="blog-related-show" style="color: #7C5CFF">Fascinating Frontiers</span>
+                        <h3>Fascinating Frontiers</h3>
+                        <p>NASA picks Falcon Heavy for ESA’s Rosalind Franklin Mars rover despite its own proposed budget cut.</p>
+                    </a>
+                    
+                    <a href="../../blog/tesla/ep438.html" class="blog-related-card" style="--card-show-color: #E31937">
+                        <span class="blog-related-show" style="color: #E31937">Tesla Shorts Time</span>
+                        <h3>Tesla Shorts Time</h3>
+                        <p>A Tesla owner's camera caught the moment a Mercedes EV owner escaped just before their vehicle caught fire.</p>
+                    </a>
+                    
+                </div>
+            </section>
             
         </article>
     </div>

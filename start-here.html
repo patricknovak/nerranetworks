@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="The page you're looking for doesn't exist.">
-    
-    <title>Page Not Found | Nerra Network</title>
+    <meta name="description" content="Find your perfect Nerra Network show. 10 ad-free daily podcasts covering AI, Tesla, world news, science, investing, and more.">
+    <meta name="keywords" content="podcast recommendations, best podcasts, AI podcasts, Tesla podcasts, science podcasts">
+    <title>Start Here | Nerra Network</title>
     <meta name="theme-color" content="#7C5CFF">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Page Not Found | Nerra Network">
-    <meta property="og:description" content="The page you're looking for doesn't exist.">
+    <meta property="og:title" content="Start Here | Nerra Network">
+    <meta property="og:description" content="Not sure where to start? Find the perfect show for your interests across AI, news, science, investing, and more.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="assets/og-preview.png">
-    
+    <meta property="og:url" content="https://nerranetwork.com/start-here.html">
     <meta property="og:site_name" content="Nerra Network">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Page Not Found | Nerra Network">
-    <meta name="twitter:description" content="The page you're looking for doesn't exist.">
+    <meta name="twitter:title" content="Start Here | Nerra Network">
+    <meta name="twitter:description" content="Not sure where to start? Find the perfect show for your interests across AI, news, science, investing, and more.">
     <meta name="twitter:image" content="assets/og-preview.png">
 
-    
+    <link rel="canonical" href="https://nerranetwork.com/start-here.html">
     
     
     
@@ -60,74 +60,115 @@
 
     
     <style>
-        .error-page {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 60vh;
+        .start-hero {
+            padding: calc(var(--nav-height) + var(--sp-16)) var(--sp-6) var(--sp-12);
             text-align: center;
-            padding: var(--sp-12) var(--sp-6);
         }
-        .error-code {
+        .start-hero h1 {
             font-family: var(--font-heading);
-            font-size: clamp(4rem, 10vw, 8rem);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
             font-weight: 700;
-            background: linear-gradient(135deg, var(--nn-purple), var(--nn-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-3);
+        }
+        .start-hero p {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--nn-text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .start-categories {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 var(--sp-6) var(--sp-16);
+        }
+        .start-cat {
+            margin-bottom: var(--sp-12);
+        }
+        .start-cat-header {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
             margin-bottom: var(--sp-4);
         }
-        .error-page h1 {
-            font-family: var(--font-heading);
-            font-size: clamp(1.2rem, 3vw, 1.6rem);
-            font-weight: 600;
-            color: var(--nn-white);
-            margin: 0 0 var(--sp-4);
-        }
-        .error-page p {
-            font-family: var(--font-body);
-            font-size: 1rem;
-            color: var(--nn-text-muted);
-            line-height: 1.6;
-            max-width: 420px;
-            margin: 0 0 var(--sp-8);
-        }
-        .error-links {
+        .start-cat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
-            flex-wrap: wrap;
-            gap: var(--sp-3);
-            justify-content: center;
-        }
-        .error-links a {
-            display: inline-flex;
             align-items: center;
-            gap: var(--sp-2);
-            padding: var(--sp-3) var(--sp-6);
-            border-radius: 100px;
-            font-family: var(--font-ui);
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        .start-cat-header h2 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0;
+        }
+        .start-cat-header p {
+            font-family: var(--font-body);
             font-size: 0.9rem;
-            font-weight: 500;
+            color: var(--nn-text-muted);
+            margin: 2px 0 0;
+        }
+        .start-shows-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--sp-4);
+        }
+        .start-show-card {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--sp-4);
+            padding: var(--sp-5);
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 14px;
             text-decoration: none;
             transition: all var(--duration) var(--ease);
         }
-        .error-links .primary {
-            background: linear-gradient(135deg, var(--nn-purple), var(--nn-cyan));
-            color: #fff;
+        .start-show-card:hover {
+            border-color: var(--card-color, var(--nn-purple));
+            background: var(--nn-card-hover);
+            transform: translateY(-2px);
         }
-        .error-links .primary:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
+        .start-show-card img {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            flex-shrink: 0;
         }
-        .error-links .secondary {
-            border: 1px solid var(--nn-border);
+        .start-show-card .start-card-info h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--nn-white);
+            margin: 0 0 4px;
+        }
+        .start-show-card .start-card-info p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--nn-text-muted);
+            margin: 0;
+            line-height: 1.4;
+        }
+        .start-show-card .start-card-meta {
+            display: flex;
+            gap: var(--sp-2);
+            margin-top: var(--sp-2);
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
             color: var(--nn-text-muted);
         }
-        .error-links .secondary:hover {
-            border-color: var(--nn-purple);
-            color: var(--nn-white);
+        .start-show-card .start-card-meta span {
+            background: var(--nn-surface);
+            padding: 1px 8px;
+            border-radius: 4px;
         }
     </style>
 
@@ -421,15 +462,210 @@
 
     <main id="main-content">
     
-    <main class="error-page">
-        <div class="error-code">404</div>
-        <h1>Page not found</h1>
-        <p>The page you're looking for doesn't exist or has been moved. Try one of these instead:</p>
-        <div class="error-links">
-            <a href="index.html" class="primary">Go Home</a>
-            <a href="blog/index.html" class="secondary">Browse Blog</a>
+    <header class="start-hero">
+        <h1>Not sure where to <span class="gradient-text">start</span>?</h1>
+        <p>We have 10 shows covering different topics. Pick what interests you most, or explore them all — every show is ad-free and produced daily.</p>
+    </header>
+
+    <div class="start-categories">
+        <div class="start-cat">
+            <div class="start-cat-header">
+                <div class="start-cat-icon" style="background: color-mix(in srgb, #00D4FF 15%, transparent);">&#x1F4BB;</div>
+                <div>
+                    <h2>Technology & AI</h2>
+                    <p>Stay ahead of the curve on artificial intelligence, Tesla, and emerging tech.</p>
+                </div>
+            </div>
+            <div class="start-shows-row">
+                
+                <a href="models-agents.html" class="start-show-card" style="--card-color: #8B5CF6">
+                    <img src="assets/covers/models-agents.jpg" alt="Models & Agents cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>Models & Agents</h3>
+                        <p>Daily AI models, agents, and practical developments.</p>
+                        <div class="start-card-meta">
+                            <span>Daily</span>
+                            <span>~15 min</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="models-agents-beginners.html" class="start-show-card" style="--card-color: #F59E0B">
+                    <img src="assets/covers/models-agents-beginners.jpg" alt="Models & Agents for Beginners cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>Models & Agents for Beginners</h3>
+                        <p>AI explained simply — for beginners and teens.</p>
+                        <div class="start-card-meta">
+                            <span>Daily</span>
+                            <span>~10 min</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="tesla.html" class="start-show-card" style="--card-color: #E31937">
+                    <img src="assets/covers/tesla-shorts-time.jpg" alt="Tesla Shorts Time cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>Tesla Shorts Time</h3>
+                        <p>Shorting Tesla? Time's Up.</p>
+                        <div class="start-card-meta">
+                            <span>Daily</span>
+                            <span>~15 min</span>
+                        </div>
+                    </div>
+                </a>
+                
+            </div>
         </div>
-    </main>
+
+        <div class="start-cat">
+            <div class="start-cat-header">
+                <div class="start-cat-icon" style="background: color-mix(in srgb, #7C5CFF 15%, transparent);">&#x1F30D;</div>
+                <div>
+                    <h2>News & World Events</h2>
+                    <p>Balanced, multi-perspective news coverage from diverse sources.</p>
+                </div>
+            </div>
+            <div class="start-shows-row">
+                
+                <a href="omni-view.html" class="start-show-card" style="--card-color: #0B6FD6">
+                    <img src="assets/covers/omni-view.jpg" alt="Omni View cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>Omni View</h3>
+                        <p>See every side. Decide for yourself.</p>
+                        <div class="start-card-meta">
+                            <span>Daily</span>
+                            <span>~20 min</span>
+                        </div>
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+
+        <div class="start-cat">
+            <div class="start-cat-header">
+                <div class="start-cat-icon" style="background: color-mix(in srgb, #22C55E 15%, transparent);">&#x1F4B0;</div>
+                <div>
+                    <h2>Investing & Finance</h2>
+                    <p>Practical investing strategies for Canadian and US markets.</p>
+                </div>
+            </div>
+            <div class="start-shows-row">
+                
+                <a href="modern-investing.html" class="start-show-card" style="--card-color: #059669">
+                    <img src="assets/covers/modern-investing.jpg" alt="Modern Investing Techniques cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>Modern Investing Techniques</h3>
+                        <p>AI-Powered Market Intelligence</p>
+                        <div class="start-card-meta">
+                            <span>Weekdays</span>
+                            <span>~12 min</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="ru/finansy-prosto.html" class="start-show-card" style="--card-color: #EC4899">
+                    <img src="assets/covers/finansy-prosto.jpg" alt="Финансы Просто cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>Финансы Просто</h3>
+                        <p>Finances Made Simple.</p>
+                        <div class="start-card-meta">
+                            <span>Daily</span>
+                            <span>~12 min</span>
+                        </div>
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+
+        <div class="start-cat">
+            <div class="start-cat-header">
+                <div class="start-cat-icon" style="background: color-mix(in srgb, #F59E0B 15%, transparent);">&#x1F52D;</div>
+                <div>
+                    <h2>Science & Space</h2>
+                    <p>Discover the latest breakthroughs in space, physics, biology, and more.</p>
+                </div>
+            </div>
+            <div class="start-shows-row">
+                
+                <a href="planetterrian.html" class="start-show-card" style="--card-color: #018DB1">
+                    <img src="assets/covers/planetterrian-daily.jpg" alt="Planetterrian Daily cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>Planetterrian Daily</h3>
+                        <p>Science, longevity, and the frontier of human health.</p>
+                        <div class="start-card-meta">
+                            <span>Daily</span>
+                            <span>~15 min</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="fascinating_frontiers.html" class="start-show-card" style="--card-color: #7C5CFF">
+                    <img src="assets/covers/fascinating-frontiers.jpg" alt="Fascinating Frontiers cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>Fascinating Frontiers</h3>
+                        <p>Journey to the stars with today's discoveries.</p>
+                        <div class="start-card-meta">
+                            <span>Daily</span>
+                            <span>~15 min</span>
+                        </div>
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+
+        <div class="start-cat">
+            <div class="start-cat-header">
+                <div class="start-cat-icon" style="background: color-mix(in srgb, #10B981 15%, transparent);">&#x1F33F;</div>
+                <div>
+                    <h2>Environment & Policy</h2>
+                    <p>Environmental regulations, sustainability science, and policy analysis.</p>
+                </div>
+            </div>
+            <div class="start-shows-row">
+                
+                <a href="env-intel.html" class="start-show-card" style="--card-color: #1B5E20">
+                    <img src="assets/covers/environmental-intelligence.jpg" alt="Environmental Intelligence cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>Environmental Intelligence</h3>
+                        <p>Environmental regulatory and compliance briefing.</p>
+                        <div class="start-card-meta">
+                            <span>Weekdays</span>
+                            <span>~10 min</span>
+                        </div>
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+
+        <div class="start-cat">
+            <div class="start-cat-header">
+                <div class="start-cat-icon" style="background: color-mix(in srgb, #EF4444 15%, transparent);">&#x1F1F7;&#x1F1FA;</div>
+                <div>
+                    <h2>Russian Language</h2>
+                    <p>Learn Russian or enjoy Russian-language content from a Canadian perspective.</p>
+                </div>
+            </div>
+            <div class="start-shows-row">
+                
+                <a href="ru/privet-russian.html" class="start-show-card" style="--card-color: #6366F1">
+                    <img src="assets/covers/privet-russian.jpg" alt="Привет, Русский! cover art" loading="lazy">
+                    <div class="start-card-info">
+                        <h3>Привет, Русский!</h3>
+                        <p>Learn Russian — Привет means hello!</p>
+                        <div class="start-card-meta">
+                            <span>Daily</span>
+                            <span>~10 min</span>
+                        </div>
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+    </div>
 
     </main>
 

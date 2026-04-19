@@ -61,7 +61,8 @@
     <section class="show-hero">
         <div class="show-hero-bg"></div>
         <div class="show-hero-inner">
-            <img src="{{ path_prefix }}{{ podcast_image_url }}" alt="{{ show_name }}" class="show-hero-art"
+            <img src="{{ path_prefix }}{{ podcast_image_url }}" alt="{{ show_name }} cover art" class="show-hero-art"
+                 width="1400" height="1400" fetchpriority="high"
                  onerror="this.style.display='none'">
             <div class="show-hero-info">
                 <h1>{{ show_name }}</h1>
@@ -475,7 +476,7 @@
             <div class="glass-card" style="padding:var(--sp-6);border-color:color-mix(in srgb, var(--show-color) 30%, var(--nn-border));">
                 <div style="font-family:var(--font-ui);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--show-color);margin-bottom:var(--sp-3);">Recommended for you</div>
                 <a href="{{ path_prefix }}{{ related_show.show_page }}" style="display:flex;align-items:center;gap:var(--sp-4);text-decoration:none;">
-                    <img src="{{ path_prefix }}{{ related_show.podcast_image }}" alt="{{ related_show.name }}" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;" loading="lazy">
+                    <img src="{{ path_prefix }}{{ related_show.podcast_image }}" alt="{{ related_show.name }}" width="72" height="72" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;" loading="lazy">
                     <div>
                         <div style="font-family:var(--font-heading);font-weight:600;color:var(--nn-white);font-size:1.05rem;margin-bottom:var(--sp-1);">{{ related_show.name }}</div>
                         <div style="font-family:var(--font-ui);font-size:0.88rem;color:var(--nn-text-muted);line-height:1.5;">{{ related_show.reason }}</div>
@@ -549,7 +550,7 @@
                 {% if s.slug != show_slug %}
                 <div class="cross-network-card" style="display:flex;flex-direction:column;">
                     <a href="{{ path_prefix }}{{ s.show_page }}" style="display:flex;align-items:center;gap:var(--sp-3);text-decoration:none;flex:1;">
-                        <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }}" loading="lazy">
+                        <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="1400" height="1400" loading="lazy">
                         <div class="cross-network-card-info">
                             <div class="cross-network-card-name">{{ s.name }}</div>
                             <div class="cross-network-card-tagline">{{ s.tagline }}</div>

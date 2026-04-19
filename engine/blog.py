@@ -447,8 +447,15 @@ def convert_md_to_blog_html(md_text: str) -> tuple[str, list[dict]]:
 
 def _build_jsonld(metadata: dict, show_name: str, blog_url: str,
                    show_config: dict | None = None) -> str:
-    """Build Schema.org BlogPosting JSON-LD."""
-    data = {
+    """Build Schema.org JSON-LD: BlogPosting + PodcastEpisode (as array).
+
+    PodcastEpisode enables Google's podcast features in Search results, links
+    each episode to its PodcastSeries, and surfaces episode number / duration
+    in rich results.
+    """
+    in_language = "ru" if show_config and show_config.get("slug") in ("finansy_prosto", "privet_russian") else "en"
+
+    blog_posting = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": metadata.get("title", ""),
@@ -456,7 +463,7 @@ def _build_jsonld(metadata: dict, show_name: str, blog_url: str,
         "datePublished": metadata.get("date_iso", ""),
         "wordCount": metadata.get("word_count", 0),
         "articleSection": show_name,
-        "inLanguage": "ru" if show_config and show_config.get("slug") in ("finansy_prosto", "privet_russian") else "en",
+        "inLanguage": in_language,
         "author": {
             "@type": "Organization",
             "name": show_name,
@@ -471,10 +478,30 @@ def _build_jsonld(metadata: dict, show_name: str, blog_url: str,
         "mainEntityOfPage": blog_url,
     }
     if show_config and show_config.get("podcast_image"):
-        data["image"] = f"https://nerranetwork.com/{show_config['podcast_image']}"
+        blog_posting["image"] = f"https://nerranetwork.com/{show_config['podcast_image']}"
     if show_config and show_config.get("meta_keywords"):
-        data["keywords"] = show_config["meta_keywords"]
-    return json.dumps(data, indent=2)
+        blog_posting["keywords"] = show_config["meta_keywords"]
+
+    podcast_episode = {
+        "@context": "https://schema.org",
+        "@type": "PodcastEpisode",
+        "name": metadata.get("title", ""),
+        "description": metadata.get("hook", ""),
+        "datePublished": metadata.get("date_iso", ""),
+        "url": blog_url,
+        "inLanguage": in_language,
+        "episodeNumber": metadata.get("episode_num", 0),
+    }
+    if show_config:
+        podcast_episode["partOfSeries"] = {
+            "@type": "PodcastSeries",
+            "name": show_config.get("name", show_name),
+            "url": f"https://nerranetwork.com/{show_config.get('show_page', '')}",
+        }
+        if show_config.get("podcast_image"):
+            podcast_episode["image"] = f"https://nerranetwork.com/{show_config['podcast_image']}"
+
+    return json.dumps([blog_posting, podcast_episode], indent=2)
 
 
 # ---------------------------------------------------------------------------

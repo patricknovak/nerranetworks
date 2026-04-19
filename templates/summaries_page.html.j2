@@ -43,7 +43,7 @@
         <div class="summaries-hero-bg"></div>
         <div class="summaries-hero-inner container">
             {% if podcast_logo_url %}
-            <img src="{{ podcast_logo_url }}" alt="{{ show_name }}"
+            <img src="{{ podcast_logo_url }}" alt="{{ show_name }} cover art" width="80" height="80"
                  style="width:80px;height:80px;border-radius:14px;object-fit:cover;margin:0 auto var(--sp-4);box-shadow:0 8px 30px rgba(0,0,0,0.3);"
                  onerror="this.style.display='none'">
             {% endif %}
@@ -110,7 +110,7 @@
                 {% for s in all_shows %}
                 {% if s.slug != slug %}
                 <a href="{{ path_prefix }}{{ s.summaries_page }}" class="cross-network-card">
-                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }}" loading="lazy">
+                    <img src="{{ path_prefix }}{{ s.podcast_image }}" alt="{{ s.name }} cover art" width="1400" height="1400" loading="lazy">
                     <div class="cross-network-card-info">
                         <div class="cross-network-card-name">{{ s.name }}</div>
                         <div class="cross-network-card-tagline">{{ s.tagline }}</div>
