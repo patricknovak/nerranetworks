@@ -419,6 +419,12 @@
         <button class="nn-filter-btn active" data-filter="all">All</button>
         <button class="nn-filter-btn" data-filter="week">This Week</button>
         <button class="nn-filter-btn" data-filter="month">This Month</button>
+        <label class="nn-year-select-wrap" style="display:inline-flex;align-items:center;gap:var(--sp-2);">
+            <span class="visually-hidden" id="yearFilterLabel">Filter by year</span>
+            <select id="yearFilter" class="nn-filter-btn" aria-labelledby="yearFilterLabel" style="min-width:120px;background-image:none;appearance:none;-webkit-appearance:none;padding-right:var(--sp-4);">
+                <option value="">All years</option>
+            </select>
+        </label>
         <span class="nn-episode-count" id="episodeCount"></span>
     </div>
 
@@ -635,6 +641,9 @@
                 <a href="about.html">About Nerra Network</a>
                 <a href="start-here.html">Start Here</a>
                 <a href="how-to-listen.html">How to Listen</a>
+                <a href="faq.html">FAQ</a>
+                <a href="contact.html">Contact</a>
+                <a href="press.html">Press Kit</a>
                 <a href="privacy-policy.html">Privacy Policy</a>
                 <a href="terms-of-service.html">Terms of Service</a>
                 <a href="ai-disclosure.html">AI Disclosure</a>
@@ -720,10 +729,12 @@
 
             // Search & filter
             const searchBox = document.getElementById('searchBox');
-            const filterBtns = document.querySelectorAll('.nn-filter-btn');
+            const yearFilter = document.getElementById('yearFilter');
+            const filterBtns = document.querySelectorAll('.nn-filter-btn[data-filter]');
             let currentFilter = 'all';
 
             searchBox.addEventListener('input', applyFilters);
+            if (yearFilter) yearFilter.addEventListener('change', applyFilters);
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     filterBtns.forEach(b => b.classList.remove('active'));
@@ -735,6 +746,7 @@
 
             function applyFilters() {
                 const query = (searchBox.value || '').toLowerCase();
+                const yearValue = yearFilter ? yearFilter.value : '';
                 const items = document.querySelectorAll('.nn-summary-item');
                 const now = new Date();
                 let visible = 0;
@@ -752,7 +764,9 @@
                         dateMatch = (now - d) <= 31 * 86400000;
                     }
 
-                    const show = text.includes(query) && dateMatch;
+                    const yearMatch = !yearValue || dateStr.startsWith(yearValue);
+
+                    const show = text.includes(query) && dateMatch && yearMatch;
                     item.style.display = show ? '' : 'none';
                     if (show) visible++;
                 });
@@ -787,6 +801,7 @@
                     if (clearBtn) {
                         clearBtn.addEventListener('click', () => {
                             searchBox.value = '';
+                            if (yearFilter) yearFilter.value = '';
                             currentFilter = 'all';
                             filterBtns.forEach(b => b.classList.toggle('active', b.dataset.filter === 'all'));
                             applyFilters();
@@ -891,6 +906,22 @@
                 }
 
                 renderPage();
+
+                // Populate year filter from available summary dates (newest first)
+                if (yearFilter) {
+                    const years = Array.from(new Set(
+                        summaries.map(s => (s.date || '').slice(0, 4)).filter(Boolean)
+                    )).sort().reverse();
+                    // Keep the "All years" option, remove any prior dynamic entries
+                    yearFilter.querySelectorAll('option[data-dynamic]').forEach(o => o.remove());
+                    for (const y of years) {
+                        const opt = document.createElement('option');
+                        opt.value = y;
+                        opt.textContent = y;
+                        opt.dataset.dynamic = '1';
+                        yearFilter.appendChild(opt);
+                    }
+                }
 
                 // Update episode counts
                 const countEl = document.getElementById('episodeCount');

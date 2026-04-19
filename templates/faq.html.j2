@@ -1,0 +1,291 @@
+{% extends "base.html.j2" %}
+
+{% block head_extra %}
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are Nerra Network episodes AI-generated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, we use AI tools for research, draft generation, and narration. Humans govern the editorial process: what topics ship, how accuracy is verified, and what standards apply. See our AI Disclosure for details."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who hosts the shows?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nerra Network shows are produced by founder Patrick Novak in Vancouver, Canada. Individual show pages describe each show's editorial focus."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often are new episodes released?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most shows publish daily. A few — Fascinating Frontiers, Planetterrian Daily, Omni View, Models & Agents — alternate even/odd days. Each show page lists its exact schedule."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are there ads?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Nerra Network is independent, self-funded, and 100% ad-free. No host-read ads, no programmatic mid-rolls, no sponsored segments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I support the shows?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Subscribe on Apple Podcasts or Spotify, leave a review (reviews significantly help discoverability), share an episode you liked with a friend, and join the newsletter."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I download episodes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Every podcast app supports offline download. You can also download directly from each episode page on nerranetwork.com."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you have transcripts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Every episode has a written article counterpart on the blog with full transcripts, sources, and linked references."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's your editorial stance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We prioritize fresh content over length, transparent sourcing over anonymous claims, and calm daily delivery over breaking-news panic. Each show has its own focus, but the network-wide goal is signal over noise."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I report a factual error?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Email hello@nerranetwork.com with the episode number and the specific claim. We correct errors in the blog article and issue audio corrections in the following episode when significant."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I reuse Nerra Network content?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Short quotes with attribution are welcome. Full-episode republishing requires written permission. See our Terms of Service."
+      }
+    }
+  ]
+}
+    </script>
+    <style>
+        .faq-hero {
+            padding: calc(var(--nav-height) + var(--sp-16)) var(--sp-6) var(--sp-8);
+            text-align: center;
+        }
+        .faq-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 700;
+            color: var(--nn-white);
+            margin: 0 0 var(--sp-3);
+        }
+        .faq-hero p {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            color: var(--nn-text-muted);
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .faq-container {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: var(--sp-4) var(--sp-6) var(--sp-16);
+        }
+        .faq-item {
+            background: var(--nn-card);
+            border: 1px solid var(--nn-border);
+            border-radius: 14px;
+            padding: 0;
+            margin-bottom: var(--sp-3);
+            overflow: hidden;
+            transition: border-color var(--duration) var(--ease);
+        }
+        .faq-item:hover { border-color: var(--nn-border-hover); }
+        .faq-item summary {
+            padding: var(--sp-5) var(--sp-6);
+            cursor: pointer;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--nn-white);
+            font-size: 1.02rem;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--sp-3);
+        }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after {
+            content: '+';
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            color: var(--nn-text-muted);
+            flex-shrink: 0;
+            transition: transform var(--duration) var(--ease);
+        }
+        .faq-item[open] summary::after {
+            content: '−';
+        }
+        .faq-answer {
+            padding: 0 var(--sp-6) var(--sp-5);
+            font-family: var(--font-body);
+            color: var(--nn-text);
+            line-height: 1.7;
+            font-size: 0.98rem;
+        }
+        .faq-answer a { color: var(--nn-cyan); }
+        .faq-footer {
+            margin-top: var(--sp-10);
+            padding-top: var(--sp-6);
+            border-top: 1px solid var(--nn-border);
+            text-align: center;
+            font-family: var(--font-body);
+            color: var(--nn-text-muted);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <main id="main-content">
+        <section class="faq-hero">
+            <h1>Frequently asked questions</h1>
+            <p>Short answers to common questions about Nerra Network, our shows, and
+            how we operate. Don't see your question?
+            <a href="{{ path_prefix }}contact.html" style="color:var(--nn-cyan);">Get in touch</a>.</p>
+        </section>
+
+        <div class="faq-container">
+            <details class="faq-item">
+                <summary>Are Nerra Network episodes AI-generated?</summary>
+                <div class="faq-answer">
+                    Yes. We use AI tools for research, draft generation, and narration.
+                    Humans govern the editorial process — deciding topics, verifying
+                    accuracy, and enforcing standards. Read the full
+                    <a href="{{ path_prefix }}ai-disclosure.html">AI Disclosure</a>.
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Who hosts the shows?</summary>
+                <div class="faq-answer">
+                    Nerra Network shows are produced by founder Patrick Novak in
+                    Vancouver, Canada. Individual show pages describe each show's
+                    editorial focus. See the <a href="{{ path_prefix }}about.html">About page</a>.
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>How often are new episodes released?</summary>
+                <div class="faq-answer">
+                    Most shows publish daily. A few — Fascinating Frontiers, Planetterrian
+                    Daily, Omni View, Models &amp; Agents — alternate even/odd days.
+                    Each show page lists its exact schedule.
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Are there ads?</summary>
+                <div class="faq-answer">
+                    No. Nerra Network is independent, self-funded, and 100% ad-free.
+                    No host-read ads, no programmatic mid-rolls, no sponsored segments.
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>How can I support the shows?</summary>
+                <div class="faq-answer">
+                    Subscribe on <a href="{{ path_prefix }}how-to-listen.html">Apple Podcasts
+                    or Spotify</a>, leave a review (reviews significantly help
+                    discoverability), share an episode you liked with a friend, and
+                    join the <a href="{{ path_prefix }}index.html#newsletter">weekly newsletter</a>.
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Can I download episodes for offline listening?</summary>
+                <div class="faq-answer">
+                    Yes. Every major podcast app supports offline downloads. You can
+                    also download MP3s directly from each episode page on
+                    nerranetwork.com.
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Do you have transcripts?</summary>
+                <div class="faq-answer">
+                    Yes. Every episode has a written article counterpart on the blog,
+                    with full transcripts, source links, and cited references. Look
+                    for the <em>Read transcript</em> link on any summaries page.
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>What's your editorial stance?</summary>
+                <div class="faq-answer">
+                    We prioritize <strong>fresh content over length</strong>, transparent
+                    sourcing over anonymous claims, and calm daily delivery over
+                    breaking-news panic. Each show has its own editorial focus, but the
+                    network-wide goal is signal over noise.
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>How do I report a factual error?</summary>
+                <div class="faq-answer">
+                    Email <a href="mailto:hello@nerranetwork.com">hello@nerranetwork.com</a>
+                    with the episode number and the specific claim. We correct errors in
+                    the blog article and issue audio corrections in the following episode
+                    when the error is significant.
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Can I reuse Nerra Network content?</summary>
+                <div class="faq-answer">
+                    Short quotes with clear attribution to Nerra Network are welcome
+                    and encouraged. Full-episode republishing requires written
+                    permission. Details in the
+                    <a href="{{ path_prefix }}terms-of-service.html">Terms of Service</a>.
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Does Nerra Network track me?</summary>
+                <div class="faq-answer">
+                    We use Google Analytics 4 with IP anonymisation for aggregate
+                    metrics, and consent banners for any advertising pixels. You can
+                    decline both. Read the
+                    <a href="{{ path_prefix }}privacy-policy.html">privacy policy</a>.
+                </div>
+            </details>
+
+            <div class="faq-footer">
+                Still have questions?
+                <a href="{{ path_prefix }}contact.html" style="color:var(--nn-cyan);">Contact us</a>.
+            </div>
+        </div>
+    </main>
+{% endblock %}

@@ -1864,7 +1864,9 @@ def generate_sitemap(*, dry_run=False):
             urls.append((f"{base}/{legal}", "0.4", _file_lastmod(ROOT / legal)))
 
     # Special pages
-    for extra in ["modern-investing-resources.html", "start-here.html", "404.html"]:
+    for extra in ["modern-investing-resources.html", "start-here.html",
+                  "about.html", "how-to-listen.html", "faq.html",
+                  "press.html", "contact.html", "404.html"]:
         if (ROOT / extra).exists():
             urls.append((f"{base}/{extra}", "0.5", _file_lastmod(ROOT / extra)))
 
@@ -2029,6 +2031,101 @@ def generate_about_page(*, dry_run=False):
     return out_path
 
 
+def generate_press_page(*, dry_run=False):
+    """Generate the press kit / media-resources page."""
+    env = _get_jinja_env()
+    template = env.get_template("press.html.j2")
+
+    context = {
+        "path_prefix": "",
+        "page_title": "Press & Media Kit — Nerra Network",
+        "page_description": "Media resources for journalists and partners covering Nerra Network. Boilerplate, logo, founder contact, and a complete show directory.",
+        "meta_description": "Nerra Network press kit — boilerplate, logo assets, founder contact, and a complete directory of our 10 daily podcast shows.",
+        "meta_keywords": "Nerra Network press kit, media resources, podcast press, Patrick Novak, Vancouver podcast",
+        "theme_color": "#7C5CFF",
+        "og_image": "",
+        "canonical_url": "https://nerranetwork.com/press.html",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+        "shows_count": len(NETWORK_SHOWS),
+        "total_episodes": _count_total_episodes(),
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "press.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
+def generate_contact_page(*, dry_run=False):
+    """Generate the contact page."""
+    env = _get_jinja_env()
+    template = env.get_template("contact.html.j2")
+
+    context = {
+        "path_prefix": "",
+        "page_title": "Contact — Nerra Network",
+        "page_description": "Get in touch with Nerra Network. Separate channels for press, partnerships, technical issues, privacy, and general inquiries.",
+        "meta_description": "Contact Nerra Network — separate email channels for press, partnerships, technical issues, privacy, and general feedback.",
+        "meta_keywords": "contact Nerra Network, press contact, podcast partnership, technical support",
+        "theme_color": "#7C5CFF",
+        "og_image": "",
+        "canonical_url": "https://nerranetwork.com/contact.html",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "contact.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
+def generate_faq_page(*, dry_run=False):
+    """Generate the FAQ page with FAQPage JSON-LD schema."""
+    env = _get_jinja_env()
+    template = env.get_template("faq.html.j2")
+
+    context = {
+        "path_prefix": "",
+        "page_title": "FAQ — Nerra Network",
+        "page_description": "Common questions about Nerra Network, our shows, our AI-assisted editorial process, and how to support the network.",
+        "meta_description": "Nerra Network FAQ — how we use AI, who hosts, when episodes release, how to subscribe and support, and our editorial stance.",
+        "meta_keywords": "Nerra Network FAQ, podcast questions, AI podcast disclosure, podcast support",
+        "theme_color": "#7C5CFF",
+        "og_image": "",
+        "canonical_url": "https://nerranetwork.com/faq.html",
+        "show_color": "",
+        "show_color_dark": "",
+        "all_shows": _build_all_shows_list(),
+    }
+
+    html = template.render(**context)
+    out_path = ROOT / "faq.html"
+
+    if dry_run:
+        print(f"[dry-run] Would write {out_path}")
+        return None
+
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Wrote {out_path}")
+    return out_path
+
+
 def generate_how_to_listen_page(*, dry_run=False):
     """Generate the How-to-Listen guide page."""
     env = _get_jinja_env()
@@ -2180,12 +2277,16 @@ def main():
         generate_all_summaries(dry_run=args.dry_run)
         generate_network_page(dry_run=args.dry_run)
         generate_all_blogs(dry_run=args.dry_run)
-        generate_sitemap(dry_run=args.dry_run)
         generate_404_page(dry_run=args.dry_run)
         generate_player_page(dry_run=args.dry_run)
         generate_start_here_page(dry_run=args.dry_run)
         generate_about_page(dry_run=args.dry_run)
         generate_how_to_listen_page(dry_run=args.dry_run)
+        generate_press_page(dry_run=args.dry_run)
+        generate_contact_page(dry_run=args.dry_run)
+        generate_faq_page(dry_run=args.dry_run)
+        # Sitemap last so it picks up every page generated above
+        generate_sitemap(dry_run=args.dry_run)
         # Regenerate JSON API for mobile app
         try:
             import subprocess
