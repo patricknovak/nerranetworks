@@ -206,12 +206,16 @@ def send_newsletter(
             "Newsletter created: id=%s status=%s tags=%s recipients=%s",
             email_id, status, tags, recipient_count,
         )
-        if result.get("num_recipients", 1) == 0:
-            logger.warning(
+        # Zero recipients when tag filters are set is a misconfiguration —
+        # the email was accepted but nobody received it. Surface this as a
+        # failure so the caller can alert/retry rather than logging "sent".
+        if tags and result.get("num_recipients", 1) == 0:
+            logger.error(
                 "Newsletter %s was created but has 0 recipients — "
-                "check that subscriber tags match: %s",
+                "tag filter %s matched no subscribers. Treating as failure.",
                 email_id, tags,
             )
+            return None
         return email_id
     else:
         logger.error(

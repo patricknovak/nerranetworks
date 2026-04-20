@@ -256,6 +256,19 @@ def update_rss_feed(
                     if ep_data.get("guid"):
                         existing_episodes.append(ep_data)
         except Exception as exc:
+            # If the file looks like a real RSS with episodes but won't parse,
+            # refuse to proceed — silently writing a fresh feed would drop all
+            # historical episodes from subscribers' players.
+            try:
+                raw = rss_path.read_bytes()
+            except OSError:
+                raw = b""
+            if b"<item" in raw or b"itunes:episode" in raw or b"<enclosure" in raw:
+                raise RuntimeError(
+                    f"Refusing to overwrite unparseable RSS with episode "
+                    f"content ({rss_path}): {exc}. Manual review required "
+                    f"to avoid wiping subscriber history."
+                ) from exc
             logger.warning("Could not parse existing RSS feed: %s", exc)
 
     # --- Deduplicate by episode number ------------------------------------
@@ -267,6 +280,11 @@ def update_rss_feed(
             match = re.search(r"ep(\d+)", guid)
             if match:
                 ep_num_str = match.group(1)
+                # Persist the derived number so _add_existing_entry_to_feed
+                # re-emits <itunes:episode> on rewrite. Without this, a feed
+                # imported without the tag would silently lose it on every
+                # write, causing get_next_episode_number to reuse numbers.
+                ep_data["itunes_episode"] = ep_num_str
         if ep_num_str:
             try:
                 num = int(ep_num_str)
@@ -406,8 +424,76 @@ def update_rss_feed(
             pass
         raise
 
+    # Post-write validation: confirm Podcasting 2.0 tags we just injected
+    # survived round-trip. Silent drops here degrade chapter/transcript
+    # support on Apple/Overcast/Pocket Casts with no external signal.
+    _validate_injected_tags(
+        rss_path,
+        new_guid,
+        chapters_url=chapters_url,
+        transcript_url=transcript_url,
+        expect_locked=True,
+    )
+
     logger.info("RSS feed updated: %s", rss_path)
     return rss_path
+
+
+def _validate_injected_tags(
+    rss_path: Path,
+    new_guid: str,
+    *,
+    chapters_url: str,
+    transcript_url: str,
+    expect_locked: bool,
+) -> None:
+    """Parse the final RSS and log ERROR if expected Podcasting 2.0 tags are missing."""
+    PODCAST_NS = "https://podcastindex.org/namespace/1.0"
+    try:
+        tree = ET.parse(str(rss_path))
+        root = tree.getroot()
+        channel = root.find("channel")
+        if channel is None:
+            logger.error("RSS validation: <channel> missing in %s", rss_path)
+            return
+
+        if expect_locked and channel.find(f"{{{PODCAST_NS}}}locked") is None:
+            logger.error(
+                "RSS validation: <podcast:locked> missing after injection "
+                "(%s). Feed imports are not protected.", rss_path,
+            )
+
+        if chapters_url or transcript_url:
+            target_item = None
+            for item in channel.findall("item"):
+                guid_el = item.find("guid")
+                if (
+                    guid_el is not None
+                    and guid_el.text
+                    and guid_el.text.strip() == new_guid
+                ):
+                    target_item = item
+                    break
+            if target_item is None:
+                logger.error(
+                    "RSS validation: new episode <item guid=%s> not found in %s",
+                    new_guid, rss_path,
+                )
+                return
+            if chapters_url and target_item.find(f"{{{PODCAST_NS}}}chapters") is None:
+                logger.error(
+                    "RSS validation: <podcast:chapters> missing for %s after "
+                    "injection — chapter markers will not appear in players.",
+                    new_guid,
+                )
+            if transcript_url and target_item.find(f"{{{PODCAST_NS}}}transcript") is None:
+                logger.error(
+                    "RSS validation: <podcast:transcript> missing for %s after "
+                    "injection — transcript links will not appear in players.",
+                    new_guid,
+                )
+    except Exception as exc:
+        logger.error("RSS validation pass failed for %s: %s", rss_path, exc)
 
 
 def _inject_podcast_locked_tag(rss_path: Path, owner_email: str) -> None:
@@ -449,7 +535,7 @@ def _inject_podcast_locked_tag(rss_path: Path, owner_email: str) -> None:
         logger.info("Injected <podcast:locked> tag")
 
     except Exception as exc:
-        logger.warning("Failed to inject <podcast:locked> tag: %s", exc)
+        logger.error("Failed to inject <podcast:locked> tag: %s", exc)
 
 
 def _inject_chapters_tag(rss_path: Path, guid: str, chapters_url: str) -> None:
@@ -495,7 +581,7 @@ def _inject_chapters_tag(rss_path: Path, guid: str, chapters_url: str) -> None:
         logger.info("Injected <podcast:chapters> for %s", guid)
 
     except Exception as exc:
-        logger.warning("Failed to inject <podcast:chapters> tag: %s", exc)
+        logger.error("Failed to inject <podcast:chapters> tag: %s", exc)
 
 
 def _inject_transcript_tag(rss_path: Path, guid: str, transcript_url: str) -> None:
@@ -535,7 +621,7 @@ def _inject_transcript_tag(rss_path: Path, guid: str, transcript_url: str) -> No
         logger.info("Injected <podcast:transcript> for %s", guid)
 
     except Exception as exc:
-        logger.warning("Failed to inject <podcast:transcript> tag: %s", exc)
+        logger.error("Failed to inject <podcast:transcript> tag: %s", exc)
 
 
 # ---------------------------------------------------------------------------
@@ -567,9 +653,35 @@ def get_next_episode_number(
                     if ep_el is not None and ep_el.text:
                         try:
                             max_episode = max(max_episode, int(ep_el.text))
+                            continue
                         except ValueError:
                             pass
+                    # Fallback: derive from GUID (e.g. "tesla-ep042-20260419-...").
+                    # Without this, a feed entry missing <itunes:episode> is
+                    # invisible to numbering and will be silently overwritten
+                    # by the next run.
+                    guid_el = item.find("guid")
+                    if guid_el is not None and guid_el.text:
+                        match = re.search(r"ep(\d+)", guid_el.text)
+                        if match:
+                            try:
+                                max_episode = max(max_episode, int(match.group(1)))
+                            except ValueError:
+                                pass
         except Exception as exc:
+            # Refuse to restart numbering when an RSS with real episode
+            # content won't parse — doing so would overwrite Ep 1's audio
+            # in R2 and dupe GUIDs for every subscriber.
+            try:
+                raw = rss_path.read_bytes()
+            except OSError:
+                raw = b""
+            if b"<item" in raw or b"itunes:episode" in raw:
+                raise RuntimeError(
+                    f"Refusing to compute next episode number from "
+                    f"unparseable RSS with episode content ({rss_path}): "
+                    f"{exc}. Manual review required."
+                ) from exc
             logger.warning("Could not parse RSS feed for episode number: %s", exc)
 
     # Scan MP3 filenames

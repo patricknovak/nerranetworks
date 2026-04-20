@@ -161,6 +161,33 @@ class TestGetNextEpisodeNumber:
         result = get_next_episode_number(rss_path, tmp_path)
         assert result == 1
 
+    def test_unparseable_rss_with_episodes_raises(self, tmp_path):
+        """Truncated/corrupt RSS with episode content must refuse to restart
+        numbering — silently returning 1 would overwrite Ep 1's MP3 in R2."""
+        rss_path = tmp_path / "podcast.rss"
+        rss_path.write_text(
+            "<?xml version='1.0'?><rss><channel>"
+            "<item><itunes:episode>42</itunes:episode>"
+            # truncated — no closing tags
+        )
+        with pytest.raises(RuntimeError, match="Refusing"):
+            get_next_episode_number(rss_path, tmp_path)
+
+    def test_episode_number_falls_back_to_guid(self, tmp_path):
+        """When <itunes:episode> is missing, derive from GUID suffix so
+        numbering never silently restarts."""
+        rss_path = tmp_path / "podcast.rss"
+        rss_path.write_text("""<?xml version='1.0' encoding='UTF-8'?>
+        <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+          <channel>
+            <item>
+              <guid>tesla-ep050-20260419-120000000000</guid>
+            </item>
+          </channel>
+        </rss>""")
+        result = get_next_episode_number(rss_path, tmp_path)
+        assert result == 51
+
     def test_episode_numbers_from_filename_regex(self, tmp_path):
         rss_path = tmp_path / "podcast.rss"
         (tmp_path / "Show_Ep100_20260101.mp3").touch()
@@ -387,6 +414,57 @@ class TestUpdateRssFeed:
         item = tree.getroot().find("channel").findall("item")[0]
         ns = "{http://www.itunes.com/dtds/podcast-1.0.dtd}"
         assert item.find(f"{ns}duration").text == "01:01:01"
+
+    def test_refuses_to_overwrite_unparseable_rss_with_episodes(self, tmp_path):
+        """Corrupt RSS with real episode content must not be silently
+        overwritten — doing so drops every historical episode from
+        subscribers' feeds."""
+        rss_path = tmp_path / "podcast.rss"
+        rss_path.write_text(
+            "<?xml version='1.0'?><rss><channel>"
+            "<item><enclosure url='https://audio.nerranetwork.com/ep001.mp3'/>"
+            # truncated
+        )
+        mp3 = _make_mp3(tmp_path)
+        with pytest.raises(RuntimeError, match="Refusing"):
+            update_rss_feed(
+                rss_path, 2, "Ep 2", "Desc",
+                datetime.date(2026, 1, 2), "ep002.mp3", 300.0, mp3,
+                channel_title="Test", format_duration_func=_fmt_dur,
+            )
+
+    def test_preserves_itunes_episode_derived_from_guid(self, tmp_path):
+        """An existing entry missing <itunes:episode> must have it re-emitted
+        (derived from GUID) on rewrite, so next-number lookup stays stable."""
+        rss_path = tmp_path / "podcast.rss"
+        rss_path.write_text("""<?xml version='1.0' encoding='UTF-8'?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcast="https://podcastindex.org/namespace/1.0" version="2.0">
+  <channel>
+    <title>Test</title>
+    <description>d</description>
+    <link>http://x</link>
+    <item>
+      <title>Old Ep</title>
+      <guid>tesla-ep007-20260101-120000</guid>
+      <enclosure url="http://x/old.mp3" type="audio/mpeg" length="1"/>
+    </item>
+  </channel>
+</rss>""")
+        mp3 = _make_mp3(tmp_path)
+        update_rss_feed(
+            rss_path, 8, "New Ep", "Desc",
+            datetime.date(2026, 1, 2), "ep008.mp3", 300.0, mp3,
+            channel_title="Test", format_duration_func=_fmt_dur,
+        )
+        ns = "{http://www.itunes.com/dtds/podcast-1.0.dtd}"
+        items = ET.parse(str(rss_path)).getroot().find("channel").findall("item")
+        nums = sorted(
+            int(it.find(f"{ns}episode").text)
+            for it in items
+            if it.find(f"{ns}episode") is not None and it.find(f"{ns}episode").text
+        )
+        # Both the re-emitted old episode (derived as 7) and the new 8 must appear.
+        assert nums == [7, 8]
 
 
 # ===================================================================
