@@ -252,6 +252,32 @@ class TestSendNewsletter(unittest.TestCase):
         self.assertEqual(result, "unknown")
 
     @patch("engine.newsletter.requests.post")
+    def test_zero_recipients_with_tags_returns_none(self, mock_post):
+        """Buttondown can accept the email and send to 0 subscribers when
+        tag filters match nobody. That's a misconfiguration, not success."""
+        mock_resp = MagicMock()
+        mock_resp.status_code = 201
+        mock_resp.json.return_value = {"id": "eid", "num_recipients": 0}
+        mock_post.return_value = mock_resp
+
+        result = send_newsletter(
+            "Subj", "Body", api_key="key", tags=["ghost-tag"],
+        )
+        self.assertIsNone(result)
+
+    @patch("engine.newsletter.requests.post")
+    def test_zero_recipients_without_tags_still_succeeds(self, mock_post):
+        """No tag filter means the zero count likely reflects API response
+        shape, not a misconfiguration — don't fail the call."""
+        mock_resp = MagicMock()
+        mock_resp.status_code = 201
+        mock_resp.json.return_value = {"id": "eid", "num_recipients": 0}
+        mock_post.return_value = mock_resp
+
+        result = send_newsletter("Subj", "Body", api_key="key")
+        self.assertEqual(result, "eid")
+
+    @patch("engine.newsletter.requests.post")
     def test_default_status_is_about_to_send(self, mock_post):
         mock_resp = MagicMock()
         mock_resp.status_code = 201

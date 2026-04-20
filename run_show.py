@@ -451,6 +451,7 @@ def run(args: argparse.Namespace) -> None:
 
     articles = []
     x_posts = []
+    rss_fetch_failed = False
     with metrics.stage("fetch_and_dedup"):
         with ThreadPoolExecutor(max_workers=3) as executor:
             hook_future = executor.submit(_run_hook)
@@ -471,12 +472,24 @@ def run(args: argparse.Namespace) -> None:
             except Exception as exc:
                 logger.error("RSS fetch failed: %s", exc)
                 articles = []
+                # Distinguish a structural fetch failure from a genuine
+                # slow-news day. Without this flag, slow_news mode would
+                # happily ship an evergreen-only episode when feeds are
+                # actually broken, masking the outage from operators.
+                rss_fetch_failed = True
 
             try:
                 x_posts = x_fetch_future.result(timeout=120)
             except Exception as exc:
                 logger.warning("X account fetch failed: %s — continuing with RSS only", exc)
                 x_posts = []
+
+    if rss_fetch_failed and not articles and not x_posts:
+        _skip_episode(
+            "rss_fetch_failed",
+            "RSS fetch raised and no fallback content available. "
+            "Refusing to ship evergreen filler on a fetch outage.",
+        )
 
     # Merge X posts into articles, deduplicating against existing RSS articles
     if x_posts:
