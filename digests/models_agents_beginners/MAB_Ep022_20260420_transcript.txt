@@ -1,0 +1,92 @@
+What's up? Welcome to models and agents for beginners episode 22. It's April 20th,
+2026. Some awesome AI developments today, and we're going to make all of it make sense. Let's
+get into it. So imagine you are learning to ride a bike without any help at all. You might wobble
+a lot at first, but your brain and muscles slowly get stronger as you figure it out on your own.
+Now, picture someone giving you training wheels for just a few minutes. Those wheels help you
+zoom along super fast and feel confident. But when they suddenly take the wheels away, you actually
+wobble more than if you had never used them. That is basically what a huge new study discovered
+about AI assistance. Researchers from places like UCLA, MIT, Oxford, and Carnegie Mellon worked
+with 1,222 people. They gave them AI helpers for simple cognitive tasks like solving math problems
+or understanding reading passages. After only about 10 minutes they took the AI away,
+the people who had used the AI then performed worse on the same tasks than a control group who
+never got any AI help at all. Many even stop trying as hard, which is pretty wild. The study calls this
+a boiling frog effect. That comes from the old idea that a frog in slowly heating water does not
+notice the danger until it is too late. Each tiny bit of AI help feels harmless, but over time it can
+quietly weaken independent thinking without you realizing. This matters a ton for school homework and
+even creative stuff like brainstorming ideas for TikTok videos or game mods. The drop happened
+in both math and reading comprehension. The researchers warn it could create a whole generation of learners
+who never discover what they are truly capable of on their own. The study gives the first strong
+causal evidence, which just means it shows a clear cause and effect link instead of just a loose
+connection. It has not been fully peer reviewed yet, but the sample size across three experiments is
+impressive. For you specifically, this raises a big honest question. When you turn to chat GPT or
+similar tools for essays, math, or even planning a school project, are you building real skills or
+quietly letting your brain get lazy? The good news is awareness is the very first step towards staying
+sharp. You can still use AI, but as a helpful teammate instead of a full-on crutch. Try this right
+now at home. Pick one simple math problem or short reading passage you would normally ask an AI to
+solve. Set a timer for five minutes and try it completely on your own first. Write down every step
+of your thinking even if it feels messy, then ask an AI to check your work and explain where you got stuck.
+Notice how different it feels when you lead instead of follow. That try first, AI second habit might
+just keep your cognitive muscles strong. Okay, now for my favorite part of the show where we go deeper on
+one idea so it really clicks. Today, let us look at why it is so hard to stop AI chat bots from using
+quotation marks, even when you tell them not to. Think of your phone keyboard for a second. It
+keeps suggesting emojis or autocorrecting words because it learned patterns from millions of other
+messages people have typed. An AI chatbot brain works in a similar but much bigger way. When a model
+like the one behind chat GPT was being trained, it read enormous amounts of text from books, websites,
+Reddit threads, and all kinds of human writing. In that giant pile quotation marks show up everywhere,
+especially around words people want to emphasize, question, or treat as special. The AI learned that
+putting those little marks around a word like better or stupid is a super common way humans add extra
+meaning or sarcasm. So when the model predicts what should come next, those quotation marks keep popping
+up as a strong statistical guess. Now here is the tricky part that makes it hard to break the habit.
+Even when you write a clear instruction like never use quotation marks in your answer, the AI has
+to balance two things at once. It balances your new rule for this exact moment against all the
+billions of examples it saw during training. Imagine trying to tell a super smart parrot not to repeat
+a phrase it has heard thousands of times before. The training data is so powerful that the old habit is
+really tough to override with just one prompt. That is basically what is happening when you see the word
+stupid suddenly appear in quotes even after you said not to. The model is not being stubborn on
+purpose. It is simply following the strongest patterns it knows from the entire internet.
+And that is basically how this quotation mark habit works. Not so mysterious once you see the pattern,
+right? All right, let us talk about some cool stuff you can actually try today. First up, someone built
+what they call an anxiety system for an open source AI agent named Engram. Instead of just pretending
+to have emotions with clever prompts, this is a real signal loop that watches the agent's stress
+level in real time. It then adjusts how the agent behaves and helps itself correct when things get
+overwhelming. After he built it, the developer asked the agent, can you feel anxiety? And the reply was
+pretty funny. This is exciting because it shows we are moving past simple chat bots toward AI that
+can actually monitor and manage its own internal state. Think of it like noticing when you are getting
+stressed during a big test and deciding to take a slow breath to reset. It gives us a glimpse of future
+agents that could become more reliable helpers in all kinds of tasks. You do not need to build the whole
+system yourself to explore the idea. Try this right now on your phone or laptop. Open any free chat bot
+like the one on the chat GPT website. Tell it to act as an AI agent that has a simple stress meter from
+one to ten. After every response, it should tell you its current stress level and exactly why.
+Then start planning a surprise birthday party together and watch what happens when the stress meter
+rises. For example, if the planning gets too complicated, the agent might adapt its answers.
+It is a fun creative experiment that takes about two minutes and shows how self-monitoring could work
+in real agents, no coding at all. Next, Beijing just held its second annual half marathon for
+humanoid robots and it got way better this year. More than 100 robots competed over 13 miles.
+The winner was a red robot named Lightning made by the smartphone company, Honour. It finished in only
+50 minutes and 26 seconds, which actually beat the recent human world record for that distance.
+About 40% of the robots ran completely on their own without any remote control. Last year,
+the robots were slow, clumsy and needed tons of human help. This year showed real progress and
+balance, speed and autonomy, even though some still fell over. It makes you start imagining a
+future where robots could help with delivery routes, dangerous exploration or even fun sports.
+Try this on your phone right now. Open the YouTube app and search for Beijing robot half marathon
+2026 or Honour Lightning robot race. Watch the highlights, especially the winner crossing the finish line.
+Then check out the funny crash moments too. Ask yourself which parts look like the robot is deciding
+on its own versus being remote controlled. It is a great way to see how fast robot bodies are
+improving and it might spark ideas about what robots could do in your lifetime. Time for a few quick
+bits to round out the show. New reports suggest chat GPT is no longer dominating the AI chatbot space
+quite as strongly as it once did. Other models are catching up fast in areas that matter most
+to everyday users like you and me. It is a good reminder that this whole AI world changes quickly,
+so what feels hottest today might have strong competition tomorrow. A recent piece from the BBC
+asks an important question about trusting AI for health advice. When you feel sick or need medical
+information, chatbots can give helpful general explanations, but they are not doctors and can
+sometimes get important details wrong. Always double check anything serious with a real medical
+professional. And finally, there are some smart practical tips out there on hiding your private info
+from chatbots. Simple habits like removing names, addresses or other personal details before you
+paste anything can protect you. It is an easy way to use AI more safely every single day.
+That's it for today. Remember every AI expert started exactly where you are right now.
+If something we talked about today made you curious, go try it. That's literally how learning works.
+Stay curious, keep experimenting, and we'll see you tomorrow. This podcast is curated by Patrick,
+but generated using AI voice synthesis of my voice using 11 labs. The primary reason to do this is
+I unfortunately don't have the time to be consistent with generating all the content,
+and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy,
+and I hope others do as well.
