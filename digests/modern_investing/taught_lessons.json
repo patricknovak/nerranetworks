@@ -1,7 +1,7 @@
 {
   "metadata": {
     "schema_version": 1,
-    "last_updated": "2026-04-17",
+    "last_updated": "2026-04-20",
     "seeded_from": "Ep14-Ep21 content audit — lessons already over-taught in the recent episode pool"
   },
   "cooldown_days_default": 21,
@@ -40,6 +40,48 @@
       "count": 1,
       "last_episode": 22,
       "last_date": "2026-04-17",
+      "cooldown_days": 21
+    },
+    "sector_rotation": {
+      "count": 1,
+      "last_episode": 23,
+      "last_date": "2026-04-20",
+      "cooldown_days": 21
+    },
+    "position_sizing": {
+      "count": 1,
+      "last_episode": 23,
+      "last_date": "2026-04-20",
+      "cooldown_days": 21
+    },
+    "momentum_entry": {
+      "count": 1,
+      "last_episode": 23,
+      "last_date": "2026-04-20",
+      "cooldown_days": 21
+    },
+    "mean_reversion": {
+      "count": 1,
+      "last_episode": 23,
+      "last_date": "2026-04-20",
+      "cooldown_days": 21
+    },
+    "valuation_discipline": {
+      "count": 1,
+      "last_episode": 23,
+      "last_date": "2026-04-20",
+      "cooldown_days": 21
+    },
+    "analyst_upgrade": {
+      "count": 1,
+      "last_episode": 23,
+      "last_date": "2026-04-20",
+      "cooldown_days": 21
+    },
+    "portfolio_rebalancing": {
+      "count": 1,
+      "last_episode": 23,
+      "last_date": "2026-04-20",
       "cooldown_days": 21
     }
   }

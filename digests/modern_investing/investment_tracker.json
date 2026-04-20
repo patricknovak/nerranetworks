@@ -6,7 +6,7 @@
     "position_size": 1000,
     "currency": "USD",
     "created": "2026-03-16",
-    "last_updated": "2026-04-16",
+    "last_updated": "2026-04-20",
     "inception_date": "2026-03-16",
     "benchmark_symbol": "^IXIC",
     "nasdaq_inception_close": 22374.18,
@@ -204,25 +204,37 @@
       "pnl_pct": 0.0,
       "pnl_dollars": 0.0,
       "lesson": "Market data was unavailable for evaluation."
+    },
+    {
+      "episode_num": 23,
+      "date": "2026-04-20",
+      "symbol": "CLDX",
+      "market": "NASDAQ",
+      "strategy": "Analyst upgrade play on successful Phase 3 results and accelerated enrollment",
+      "confidence": "Medium",
+      "target_range": "Positive price reaction reflecting the new $45 target conviction.",
+      "trade_type": "flash",
+      "status": "open",
+      "entry_price": null,
+      "exit_price": null,
+      "pnl_pct": null,
+      "pnl_dollars": null,
+      "lesson": "",
+      "sector": "other"
     }
   ],
   "benchmark": {
-    "current_close": 24102.7,
-    "inception_to_date_pct": 7.73,
-    "ytd_pct": 3.73,
-    "last_updated": "2026-04-17"
+    "current_close": 24468.48,
+    "inception_to_date_pct": 9.36,
+    "ytd_pct": 5.31,
+    "last_updated": "2026-04-20"
   },
   "alpha": {
-    "inception_to_date_pct": -7.75,
-    "ytd_pct": -3.75,
+    "inception_to_date_pct": -9.38,
+    "ytd_pct": -5.33,
     "monthly": {}
   },
   "sectors": {
-    "precious_metals": {
-      "trade_count": 4,
-      "exposure_pct": 40.0,
-      "cumulative_pnl": 36.63
-    },
     "financials": {
       "trade_count": 1,
       "exposure_pct": 10.0,
@@ -237,10 +249,21 @@
       "trade_count": 2,
       "exposure_pct": 20.0,
       "cumulative_pnl": -14.4
+    },
+    "precious_metals": {
+      "trade_count": 3,
+      "exposure_pct": 30.0,
+      "cumulative_pnl": 36.63
+    },
+    "other": {
+      "trade_count": 1,
+      "exposure_pct": 10.0,
+      "cumulative_pnl": 0.0
     }
   },
   "monthly_snapshots": [],
   "used_segment_ids": [
-    "mit_etf_strategies"
+    "mit_etf_strategies",
+    "mit_technical_analysis"
   ]
 }
