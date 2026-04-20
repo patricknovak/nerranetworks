@@ -40,6 +40,20 @@
 
     
     
+    <!-- Cookie consent (Google Consent Mode v2) — loads BEFORE gtag.js -->
+    <script src="assets/js/consent.js"></script>
+    <!-- gtag.js — covers both GA4 and Google Ads -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6PWJCVQQ7B"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-6PWJCVQQ7B', { 'anonymize_ip': true });
+      
+      
+    </script>
+    
     
     
     <script defer src="assets/js/tracking.js"></script>
@@ -452,11 +466,11 @@
                 <div class="glass-card" style="padding:var(--sp-4);">
                     <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--nn-text-muted);">NASDAQ ^IXIC</div>
                     <div style="font-size:1.5rem;font-weight:700;margin-top:var(--sp-1);">
-                        24,103
+                        24,468
                     </div>
                     <div style="font-size:0.85rem;color:var(--nn-text-muted);margin-top:var(--sp-1);">
                         YTD
-                        +3.73%
+                        +5.31%
                     </div>
                 </div>
                 <div class="glass-card" style="padding:var(--sp-4);">
@@ -475,10 +489,10 @@
                     <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--nn-text-muted);">Alpha vs NASDAQ</div>
                     
                     <div style="font-size:1.5rem;font-weight:700;margin-top:var(--sp-1);color:#ef4444;">
-                        -3.75% YTD
+                        -5.33% YTD
                     </div>
                     <div style="font-size:0.85rem;color:var(--nn-text-muted);margin-top:var(--sp-1);">
-                        Since inception -7.75%
+                        Since inception -9.38%
                     </div>
                 </div>
                 <div class="glass-card" style="padding:var(--sp-4);">
@@ -496,7 +510,7 @@
             <!-- All trades table -->
             <div class="glass-card" style="padding:0;overflow-x:auto;margin-bottom:var(--sp-6);">
                 <div style="padding:var(--sp-4);border-bottom:1px solid var(--nn-border);font-weight:600;">
-                    All mock trades (10)
+                    All mock trades (11)
                 </div>
                 <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
                     <thead style="background:rgba(255,255,255,0.03);">
@@ -514,6 +528,19 @@
                         </tr>
                     </thead>
                     <tbody>
+                        
+                        <tr style="border-top:1px solid var(--nn-border);">
+                            <td style="padding:6px 12px;">2026-04-20</td>
+                            <td style="padding:6px 12px;">23</td>
+                            <td style="padding:6px 12px;font-weight:600;">CLDX</td>
+                            <td style="padding:6px 12px;color:var(--nn-text-muted);font-size:0.82rem;">other</td>
+                            <td style="padding:6px 12px;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="Analyst upgrade play on successful Phase 3 results and accelerated enrollment">Analyst upgrade play on successful Phase 3 results and accelerated enrollment</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;">—</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;">—</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;color:#10b981;">—</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--nn-text-muted);">—</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:#10b981;">—</td>
+                        </tr>
                         
                         <tr style="border-top:1px solid var(--nn-border);">
                             <td style="padding:6px 12px;">2026-04-16</td>
@@ -657,11 +684,19 @@
                 <div style="font-weight:600;margin-bottom:var(--sp-3);">
                     How this show improves itself
                     <span style="font-weight:normal;font-size:0.82rem;color:var(--nn-text-muted);margin-left:var(--sp-2);">
-                        (5 active rules — each one was written by a past episode and is obeyed by future episodes)
+                        (6 active rules — each one was written by a past episode and is obeyed by future episodes)
                     </span>
                 </div>
                 
                 <ul style="margin:0;padding-left:var(--sp-5);font-size:0.92rem;line-height:1.7;">
+                    
+                    <li style="margin-bottom:var(--sp-2);">
+                        <span style="font-family:monospace;color:var(--nn-text-muted);font-size:0.82rem;">LL-006</span>
+                        <em style="color:var(--nn-text-muted);">[content, Ep23, 2026-04-20]</em>
+                        — The absence of reliable pricing data for LUCID blocked accurate tracking of whether the robotaxi thesis outperformed the NASDAQ, exposing a gap in execution
+                        <br>
+                        <strong>Rule:</strong> Verify data availability from multiple providers before declaring a weekly hold closed
+                    </li>
                     
                     <li style="margin-bottom:var(--sp-2);">
                         <span style="font-family:monospace;color:var(--nn-text-muted);font-size:0.82rem;">LL-001</span>

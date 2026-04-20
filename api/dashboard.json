@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-20T09:24:31.260653+00:00",
+  "generated_at": "2026-04-20T09:47:36.558701+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -7,9 +7,9 @@
       "fail": 0
     },
     "shows_count": 10,
-    "stale_shows": 4,
-    "total_cost_last_7_days_usd": 69.7864,
-    "total_cost_last_30_days_usd": 402.2246,
+    "stale_shows": 3,
+    "total_cost_last_7_days_usd": 71.5786,
+    "total_cost_last_30_days_usd": 404.0168,
     "shows": [
       {
         "slug": "env_intel",
@@ -106,11 +106,11 @@
         "blog_page": "blog/modern_investing/index.html",
         "newsletter_enabled": true,
         "x_enabled": false,
-        "latest_pub_date": "2026-04-17T08:00:00+00:00",
-        "pub_status": "stale",
-        "cost_last_7_days_usd": 12.6465,
-        "episodes_last_7_days": 5,
-        "p50_pipeline_s": 69.63,
+        "latest_pub_date": "2026-04-20T08:00:00+00:00",
+        "pub_status": "ok",
+        "cost_last_7_days_usd": 14.4387,
+        "episodes_last_7_days": 6,
+        "p50_pipeline_s": 88.62,
         "success_rate": 1.0
       },
       {
@@ -290,10 +290,10 @@
       "id": "item_1_repo_size",
       "title": "Repo & R2 size",
       "status": "ok",
-      "details": "5 MP3s tracked in git, digests/ is 58 MB.",
+      "details": "5 MP3s tracked in git, digests/ is 59 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 58.4
+        "digests_mb": 58.7
       }
     },
     {
@@ -1050,16 +1050,16 @@
       },
       "modern_investing": {
         "last_7_days": {
-          "grok": 0.306,
-          "tts": 12.3405,
-          "total": 12.6465,
-          "episodes": 5
+          "grok": 0.3721,
+          "tts": 14.0665,
+          "total": 14.4387,
+          "episodes": 6
         },
         "last_30_days": {
-          "grok": 1.2422,
-          "tts": 66.8583,
-          "total": 68.1005,
-          "episodes": 22
+          "grok": 1.3083,
+          "tts": 68.5844,
+          "total": 69.8927,
+          "episodes": 23
         },
         "daily_series": [
           [
@@ -1149,6 +1149,10 @@
           [
             "2026-04-17",
             2.0463
+          ],
+          [
+            "2026-04-20",
+            1.7922
           ]
         ]
       },
@@ -1586,16 +1590,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 2.6568,
-      "tts": 67.1296,
-      "total": 69.7864,
-      "episodes": 35
+      "grok": 2.7229,
+      "tts": 68.8557,
+      "total": 71.5786,
+      "episodes": 36
     },
     "network_last_30_days": {
-      "grok": 9.792,
-      "tts": 392.4325,
-      "total": 402.2246,
-      "episodes": 154
+      "grok": 9.8582,
+      "tts": 394.1586,
+      "total": 404.0168,
+      "episodes": 155
     }
   },
   "pipeline_health": {
@@ -1914,21 +1918,16 @@
       ]
     },
     "modern_investing": {
-      "sample_size": 22,
-      "p50_duration_s": 69.63,
-      "p95_duration_s": 151.94,
+      "sample_size": 23,
+      "p50_duration_s": 88.62,
+      "p95_duration_s": 152.39,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 69.88,
-        "generate_digest": 18.87,
+        "fetch_and_dedup": 70.71,
+        "generate_digest": 20.81,
         "generate_digest_retry": 13.08
       },
       "recent": [
-        {
-          "episode_num": 13,
-          "total_duration_s": 103.6,
-          "success": true
-        },
         {
           "episode_num": 14,
           "total_duration_s": 101.84,
@@ -1972,6 +1971,11 @@
         {
           "episode_num": 22,
           "total_duration_s": 196.47,
+          "success": true
+        },
+        {
+          "episode_num": 23,
+          "total_duration_s": 152.39,
           "success": true
         }
       ]
@@ -2392,9 +2396,16 @@
       },
       {
         "file": "modern_investing_podcast.rss",
-        "entry_count": 22,
-        "latest_pub_date": "2026-04-17T08:00:00+00:00",
+        "entry_count": 23,
+        "latest_pub_date": "2026-04-20T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep023_20260420.mp3",
+            "host": "op3.dev",
+            "pub_date": "2026-04-20T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep022_20260417.mp3",
             "host": "audio.nerranetwork.com",
@@ -2406,13 +2417,6 @@
             "url": "https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep021_20260416.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-16T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://audio.nerranetwork.com/modern_investing/Modern_Investing_Ep020_20260415.mp3",
-            "host": "audio.nerranetwork.com",
-            "pub_date": "2026-04-15T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
@@ -2564,22 +2568,17 @@
       "longest_loss_streak": 1
     },
     "benchmark": {
-      "current_close": 24102.7,
-      "inception_to_date_pct": 7.73,
-      "ytd_pct": 3.73,
-      "last_updated": "2026-04-17"
+      "current_close": 24468.48,
+      "inception_to_date_pct": 9.36,
+      "ytd_pct": 5.31,
+      "last_updated": "2026-04-20"
     },
     "alpha": {
-      "inception_to_date_pct": -7.75,
-      "ytd_pct": -3.75,
+      "inception_to_date_pct": -9.38,
+      "ytd_pct": -5.33,
       "monthly": {}
     },
     "sectors": {
-      "precious_metals": {
-        "trade_count": 4,
-        "exposure_pct": 40.0,
-        "cumulative_pnl": 36.63
-      },
       "financials": {
         "trade_count": 1,
         "exposure_pct": 10.0,
@@ -2594,10 +2593,41 @@
         "trade_count": 2,
         "exposure_pct": 20.0,
         "cumulative_pnl": -14.4
+      },
+      "precious_metals": {
+        "trade_count": 3,
+        "exposure_pct": 30.0,
+        "cumulative_pnl": 36.63
+      },
+      "other": {
+        "trade_count": 1,
+        "exposure_pct": 10.0,
+        "cumulative_pnl": 0.0
       }
     },
     "monthly_snapshots": [],
     "trades": [
+      {
+        "episode_num": 23,
+        "date": "2026-04-20",
+        "symbol": "CLDX",
+        "market": "NASDAQ",
+        "sector": "other",
+        "strategy": "Analyst upgrade play on successful Phase 3 results and accelerated enrollment",
+        "trade_type": "flash",
+        "status": "open",
+        "entry_price": null,
+        "exit_price": null,
+        "pnl_pct": null,
+        "pnl_dollars": null,
+        "nasdaq_entry": null,
+        "nasdaq_exit": null,
+        "nasdaq_return_pct": null,
+        "alpha_pct": null,
+        "lesson_tags": [],
+        "lesson": "",
+        "confidence": "Medium"
+      },
       {
         "episode_num": 21,
         "date": "2026-04-16",
@@ -2811,6 +2841,17 @@
     ],
     "lessons_learned": [
       {
+        "id": "LL-006",
+        "date": "2026-04-20",
+        "episode_num": 23,
+        "source": "post_generate",
+        "category": "content",
+        "observation": "The absence of reliable pricing data for LUCID blocked accurate tracking of whether the robotaxi thesis outperformed the NASDAQ, exposing a gap in execution",
+        "adjustment": "Verify data availability from multiple providers before declaring a weekly hold closed",
+        "status": "active",
+        "metric_target": {}
+      },
+      {
         "id": "LL-001",
         "date": "2026-04-17",
         "episode_num": 21,
@@ -2880,6 +2921,62 @@
     ],
     "taught_lessons_hot": [
       {
+        "tag": "sector_rotation",
+        "count": 1,
+        "last_episode": 23,
+        "last_date": "2026-04-20",
+        "days_since": 0,
+        "cools_in_days": 21
+      },
+      {
+        "tag": "position_sizing",
+        "count": 1,
+        "last_episode": 23,
+        "last_date": "2026-04-20",
+        "days_since": 0,
+        "cools_in_days": 21
+      },
+      {
+        "tag": "momentum_entry",
+        "count": 1,
+        "last_episode": 23,
+        "last_date": "2026-04-20",
+        "days_since": 0,
+        "cools_in_days": 21
+      },
+      {
+        "tag": "mean_reversion",
+        "count": 1,
+        "last_episode": 23,
+        "last_date": "2026-04-20",
+        "days_since": 0,
+        "cools_in_days": 21
+      },
+      {
+        "tag": "valuation_discipline",
+        "count": 1,
+        "last_episode": 23,
+        "last_date": "2026-04-20",
+        "days_since": 0,
+        "cools_in_days": 21
+      },
+      {
+        "tag": "analyst_upgrade",
+        "count": 1,
+        "last_episode": 23,
+        "last_date": "2026-04-20",
+        "days_since": 0,
+        "cools_in_days": 21
+      },
+      {
+        "tag": "portfolio_rebalancing",
+        "count": 1,
+        "last_episode": 23,
+        "last_date": "2026-04-20",
+        "days_since": 0,
+        "cools_in_days": 21
+      },
+      {
         "tag": "risk_management",
         "count": 1,
         "last_episode": 22,
@@ -2928,7 +3025,7 @@
         "cools_in_days": 14
       }
     ],
-    "sector_concentration_warning": "precious_metals: 40% of recent trades (cumulative P&L $+36.63)",
-    "last_updated": "2026-04-16"
+    "sector_concentration_warning": "tech: 30% of recent trades (cumulative P&L $+50.52)",
+    "last_updated": "2026-04-20"
   }
 }
