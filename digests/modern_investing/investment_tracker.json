@@ -14,16 +14,16 @@
     "nasdaq_ytd_year": 2026
   },
   "summary": {
-    "total_trades": 10,
+    "total_trades": 11,
     "wins": 3,
-    "losses": 3,
+    "losses": 4,
     "breakeven": 4,
-    "win_rate_pct": 30.0,
-    "cumulative_pnl": -2.16,
+    "win_rate_pct": 27.3,
+    "cumulative_pnl": -41.56,
     "best_trade_pct": 7.88,
     "worst_trade_pct": -7.49,
-    "average_return_pct": -0.02,
-    "current_streak": 0,
+    "average_return_pct": -0.38,
+    "current_streak": -1,
     "longest_win_streak": 1,
     "longest_loss_streak": 1
   },
@@ -214,24 +214,28 @@
       "confidence": "Medium",
       "target_range": "Positive price reaction reflecting the new $45 target conviction.",
       "trade_type": "flash",
-      "status": "open",
-      "entry_price": null,
-      "exit_price": null,
-      "pnl_pct": null,
-      "pnl_dollars": null,
+      "status": "closed",
+      "entry_price": 35.79,
+      "exit_price": 34.38,
+      "pnl_pct": -3.94,
+      "pnl_dollars": -39.4,
       "lesson": "",
-      "sector": "other"
+      "sector": "other",
+      "nasdaq_entry": 24404.39,
+      "nasdaq_exit": 24404.39,
+      "nasdaq_return_pct": 0.0,
+      "alpha_pct": -3.94
     }
   ],
   "benchmark": {
-    "current_close": 24468.48,
-    "inception_to_date_pct": 9.36,
-    "ytd_pct": 5.31,
-    "last_updated": "2026-04-20"
+    "current_close": 24404.39,
+    "inception_to_date_pct": 9.07,
+    "ytd_pct": 5.03,
+    "last_updated": "2026-04-21"
   },
   "alpha": {
-    "inception_to_date_pct": -9.38,
-    "ytd_pct": -5.33,
+    "inception_to_date_pct": -9.45,
+    "ytd_pct": -5.41,
     "monthly": {}
   },
   "sectors": {
@@ -258,12 +262,13 @@
     "other": {
       "trade_count": 1,
       "exposure_pct": 10.0,
-      "cumulative_pnl": 0.0
+      "cumulative_pnl": -39.4
     }
   },
   "monthly_snapshots": [],
   "used_segment_ids": [
     "mit_etf_strategies",
-    "mit_technical_analysis"
+    "mit_technical_analysis",
+    "mit_options_basics"
   ]
 }
