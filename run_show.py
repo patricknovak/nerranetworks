@@ -421,7 +421,12 @@ def run(args: argparse.Namespace) -> None:
         if config.content_tracking.section_patterns
         else SHOW_SECTION_PATTERNS.get(config.slug, {})
     )
-    content_tracker = ContentTracker(config.slug, digests_dir)
+    ct_cfg = config.content_tracking
+    content_tracker = ContentTracker(
+        config.slug,
+        digests_dir,
+        quote_author_cooldown_days=getattr(ct_cfg, "quote_author_cooldown_days", 30),
+    )
     content_tracker.load()
 
     feed_dicts = [{"url": s.url, "label": s.label} for s in config.sources]
@@ -664,7 +669,15 @@ def run(args: argparse.Namespace) -> None:
         )
         articles = articles[:MAX_RAW_BEFORE_DEDUP]
 
-    # 5d. Cap article count to prevent prompt bloat and quality degradation
+    # 5d. Sort by relevance_score desc, then published_date desc so the
+    # highest-signal articles (X posts at 0.7, boosted RSS) appear first in
+    # the prompt and survive any cap below.
+    articles.sort(
+        key=lambda a: (a.get("relevance_score", 0.0), a.get("published_date", "")),
+        reverse=True,
+    )
+
+    # 5e. Cap article count to prevent prompt bloat and quality degradation
     MAX_ARTICLES_FOR_LLM = 25
     if len(articles) > MAX_ARTICLES_FOR_LLM:
         logger.info(

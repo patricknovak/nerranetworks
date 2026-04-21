@@ -31,7 +31,7 @@ class XAccountConfig:
     """An X/Twitter account to pull recent posts from via xAI search."""
     handle: str  # e.g. "sawyermerrit" (no @ prefix)
     label: str = ""  # Human-readable name for attribution
-    max_posts: int = 5  # Max posts to fetch per run
+    max_posts: int = 10  # Max posts to fetch per run
 
 
 @dataclass
@@ -182,6 +182,7 @@ class ContentTrackingConfig:
     enabled: bool = True
     max_days: int = 14
     section_patterns: dict = field(default_factory=dict)
+    quote_author_cooldown_days: int = 30
 
 
 @dataclass

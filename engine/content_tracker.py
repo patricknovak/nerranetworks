@@ -431,10 +431,12 @@ class ContentTracker:
         show_slug: str,
         output_dir: Path,
         max_days: int = 14,
+        quote_author_cooldown_days: int = 30,
     ):
         self.show_slug = show_slug
         self.output_dir = Path(output_dir)
         self.max_days = max_days
+        self.quote_author_cooldown_days = quote_author_cooldown_days
         self.tracker_file = self.output_dir / f"{show_slug}_content_tracker.json"
         self.data: Dict = {
             "show": show_slug,
@@ -626,7 +628,7 @@ class ContentTracker:
             )
 
         # Recent quote authors
-        recent_authors = self.get_recent_quote_authors(window_days=30)
+        recent_authors = self.get_recent_quote_authors(window_days=self.quote_author_cooldown_days)
         if recent_authors:
             auth_text = ", ".join(set(recent_authors))
             parts.append(
