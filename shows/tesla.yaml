@@ -189,6 +189,9 @@ content_freshness:
   lookback_days: 2
   similarity_threshold: 0.72
 
+content_tracking:
+  quote_author_cooldown_days: 7
+
 newsletter:
   enabled: true
   platform: buttondown

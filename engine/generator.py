@@ -1076,7 +1076,7 @@ def generate_digest(
 def _strip_duplicate_stories(
     digest_text: str,
     *,
-    threshold: float = 0.60,
+    threshold: float = 0.75,
     show_name: str = "unknown",
 ) -> str:
     """Remove near-duplicate paragraph blocks from a generated digest.
@@ -1110,7 +1110,7 @@ def _strip_duplicate_stories(
             sim = calculate_similarity(a_stripped, block_b)
             if sim >= threshold:
                 drop_indices.add(j)
-                logger.warning(
+                logger.info(
                     "Stripped duplicate story block from '%s' digest "
                     "(similarity %.0f%%): '%s...'",
                     show_name, sim * 100, block_b[:80].replace("\n", " "),

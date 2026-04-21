@@ -506,10 +506,15 @@ def fetch_x_posts(
 
         # Build a search query for the account's recent posts
         query = f"from:@{handle} recent posts last 24 hours"
+        # Seed accounts are curated — authorship is the signal, not keywords.
+        # Adding show keywords to the query narrows results and misses posts
+        # that don't contain literal keyword matches (e.g. Musk tweeting about
+        # "Cybertruck production" without the word "Tesla").
         if keywords:
-            # Add top keywords to help focus the search
-            top_kw = keywords[:5]
-            query += f" about {', '.join(top_kw)}"
+            logger.info(
+                "Skipping keyword injection for seed account @%s — authorship is the signal",
+                handle,
+            )
 
         logger.info("Fetching X posts from @%s via Grok x_search ...", handle)
 
@@ -535,7 +540,7 @@ def fetch_x_posts(
             text, meta = grok_generate_text(
                 prompt=extraction_prompt,
                 enable_x_search=True,
-                max_turns=3,
+                max_turns=5,
             )
 
             if not text or "NO_RECENT_POSTS" in text:
@@ -545,22 +550,6 @@ def fetch_x_posts(
             # Parse the structured response into article dicts
             now_iso = _dt.datetime.now(_dt.timezone.utc).isoformat()
             posts = _parse_x_posts(text, handle, label, now_iso)
-
-            if keywords:
-                before_filter = len(posts)
-                kw_lower = [k.lower() for k in keywords]
-                posts = [
-                    p for p in posts
-                    if any(
-                        kw in (p.get("title", "") + " " + p.get("description", "")).lower()
-                        for kw in kw_lower
-                    )
-                ]
-                if before_filter != len(posts):
-                    logger.info(
-                        "Keyword filter: %d → %d posts from @%s",
-                        before_filter, len(posts), handle,
-                    )
 
             # Cap to max_posts
             posts = posts[:max_posts]
@@ -609,7 +598,14 @@ def _parse_x_posts(
 
         title = title_m.group(1).strip() if title_m else ""
         desc = text_m.group(1).strip() if text_m else ""
-        url = url_m.group(1).strip() if url_m else f"https://x.com/{handle}"
+
+        if not url_m:
+            logger.debug(
+                "Dropping X post with no real URL from @%s: %s",
+                handle, (title or desc)[:60],
+            )
+            continue
+        url = url_m.group(1).strip()
 
         if not title and not desc:
             continue
@@ -620,7 +616,7 @@ def _parse_x_posts(
             "url": url,
             "source_name": f"{label} (X)",
             "published_date": now_iso,
-            "relevance_score": 0.0,
+            "relevance_score": 0.7,
             "author": f"@{handle}",
         })
 
@@ -695,7 +691,7 @@ def fetch_web_search_articles(
             text, _meta = grok_generate_text(
                 prompt=extraction_prompt,
                 enable_web_search=True,
-                max_turns=3,
+                max_turns=5,
             )
 
             if not text or "NO_RECENT_ARTICLES" in text:
