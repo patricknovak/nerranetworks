@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-22T10:11:32.600465+00:00",
+  "generated_at": "2026-04-22T18:52:06.830251+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -300,7 +300,7 @@
       "id": "item_2_rss_integrity",
       "title": "RSS integrity, LFS absence, R2 host consistency",
       "status": "warn",
-      "details": "non-R2 hosts: op3.dev",
+      "details": "non-R2 hosts: op3.dev; 5 recent enclosure(s) unreachable",
       "evidence": {
         "feeds": 11,
         "malformed": [],
@@ -308,7 +308,13 @@
         "non_r2_hosts": [
           "op3.dev"
         ],
-        "unreachable": [],
+        "unreachable": [
+          "models_agents_beginners_podcast.rss: https://op3.dev/e/audio.nerranetwork.com/models_agents_beginners/MAB_Ep022_20260420.mp3",
+          "models_agents_podcast.rss: https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep033_20260421.mp3",
+          "modern_investing_podcast.rss: https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep025_20260422.mp3",
+          "omni_view_podcast.rss: https://audio.nerranetwork.com/omni_view/Omni_View_Ep034_20260417.mp3",
+          "privet_russian_podcast.rss: https://op3.dev/e/audio.nerranetwork.com/privet_russian/PR_Ep011_20260420.mp3"
+        ],
         "offline": false
       }
     },
@@ -2371,8 +2377,8 @@
             "url": "https://op3.dev/e/audio.nerranetwork.com/models_agents_beginners/MAB_Ep022_20260420.mp3",
             "host": "op3.dev",
             "pub_date": "2026-04-20T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
+            "http_status": null,
+            "reachable": false
           },
           {
             "url": "https://audio.nerranetwork.com/models_agents_beginners/MAB_Ep021_20260416.mp3",
@@ -2401,8 +2407,8 @@
             "url": "https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep033_20260421.mp3",
             "host": "op3.dev",
             "pub_date": "2026-04-21T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
+            "http_status": null,
+            "reachable": false
           },
           {
             "url": "https://audio.nerranetwork.com/models_agents/Models_Agents_Ep032_20260417.mp3",
@@ -2431,8 +2437,8 @@
             "url": "https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep025_20260422.mp3",
             "host": "op3.dev",
             "pub_date": "2026-04-22T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
+            "http_status": null,
+            "reachable": false
           },
           {
             "url": "https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep024_20260421.mp3",
@@ -2468,8 +2474,8 @@
             "url": "https://audio.nerranetwork.com/omni_view/Omni_View_Ep034_20260417.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-17T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
+            "http_status": null,
+            "reachable": false
           },
           {
             "url": "https://audio.nerranetwork.com/omni_view/Omni_View_Ep033_20260415.mp3",
@@ -2558,8 +2564,8 @@
             "url": "https://op3.dev/e/audio.nerranetwork.com/privet_russian/PR_Ep011_20260420.mp3",
             "host": "op3.dev",
             "pub_date": "2026-04-20T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
+            "http_status": null,
+            "reachable": false
           },
           {
             "url": "https://audio.nerranetwork.com/privet_russian/PR_Ep010_20260410.mp3",
