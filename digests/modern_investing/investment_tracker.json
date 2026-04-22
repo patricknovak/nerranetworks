@@ -228,14 +228,14 @@
     }
   ],
   "benchmark": {
-    "current_close": 24404.39,
-    "inception_to_date_pct": 9.07,
-    "ytd_pct": 5.03,
-    "last_updated": "2026-04-21"
+    "current_close": 24259.96,
+    "inception_to_date_pct": 8.43,
+    "ytd_pct": 4.41,
+    "last_updated": "2026-04-22"
   },
   "alpha": {
-    "inception_to_date_pct": -9.45,
-    "ytd_pct": -5.41,
+    "inception_to_date_pct": -8.81,
+    "ytd_pct": -4.79,
     "monthly": {}
   },
   "sectors": {
@@ -269,6 +269,7 @@
   "used_segment_ids": [
     "mit_etf_strategies",
     "mit_technical_analysis",
-    "mit_options_basics"
+    "mit_options_basics",
+    "mit_sector_rotation"
   ]
 }

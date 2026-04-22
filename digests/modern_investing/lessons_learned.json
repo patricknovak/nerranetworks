@@ -1,7 +1,7 @@
 {
   "metadata": {
     "schema_version": 1,
-    "last_updated": "2026-04-20",
+    "last_updated": "2026-04-22",
     "seeded_from": "Ep14-Ep21 audit + MIT improvement plan (claude/audit-llm-models-9dpgL)"
   },
   "entries": [
@@ -79,6 +79,17 @@
       "source": "post_generate",
       "category": "content",
       "observation": "The absence of reliable pricing data for LUCID blocked accurate tracking of whether the robotaxi thesis outperformed the NASDAQ, exposing a gap in execution",
+      "adjustment": "Verify data availability from multiple providers before declaring a weekly hold closed",
+      "status": "active",
+      "metric_target": {}
+    },
+    {
+      "id": "LL-007",
+      "date": "2026-04-22",
+      "episode_num": 25,
+      "source": "post_generate",
+      "category": "content",
+      "observation": "Even when a binary catalyst such as accelerated enrollment is publicly confirmed, the market can still price in expectations ahead of the announcement and rotate out on the news, especially when broader sector momentum is absent. This reinforces the need to verify real-time order flow and liquidity before declaring any catalyst-driven trade closed",
       "adjustment": "Verify data availability from multiple providers before declaring a weekly hold closed",
       "status": "active",
       "metric_target": {}
