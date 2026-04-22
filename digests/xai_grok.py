@@ -50,10 +50,17 @@ def grok_generate_text(
             from xai_sdk import Client as XAIClient
             from xai_sdk.chat import user as xai_user
             from xai_sdk.tools import web_search, x_search
-        except Exception as exc:
-            logging.warning(
-                "xai-sdk not available; falling back to non-tool Grok generation. (%s)",
+        except ImportError as exc:
+            logging.error(
+                "xai-sdk import failed — X search and web search tools will NOT work. "
+                "Install with: pip install 'xai-sdk>=1.5.0'. Error: %s",
                 exc,
+            )
+            want_tools = False
+        except Exception as exc:
+            logging.error(
+                "xai-sdk failed to load (non-import error): %s — %s",
+                type(exc).__name__, exc,
             )
             want_tools = False
         else:
@@ -70,6 +77,12 @@ def grok_generate_text(
             if max_turns is not None:
                 kwargs["max_turns"] = max_turns
 
+            logging.info(
+                "xai-sdk: calling %s with tools=%s max_turns=%s",
+                tools_model,
+                [t.__class__.__name__ for t in tools],
+                kwargs.get("max_turns"),
+            )
             chat = xai_client.chat.create(
                 model=tools_model,
                 tools=tools,
@@ -79,6 +92,10 @@ def grok_generate_text(
             resp = chat.sample()
 
             text = (getattr(resp, "content", "") or "").strip()
+            logging.info(
+                "xai-sdk: got %d chars response from %s",
+                len(text), tools_model,
+            )
             meta: Dict[str, Any] = {
                 "provider": "xai_sdk",
                 "model": tools_model,

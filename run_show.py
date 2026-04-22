@@ -669,9 +669,10 @@ def run(args: argparse.Namespace) -> None:
         )
         articles = articles[:MAX_RAW_BEFORE_DEDUP]
 
-    # 5d. Sort by relevance_score desc, then published_date desc so the
-    # highest-signal articles (X posts at 0.7, boosted RSS) appear first in
-    # the prompt and survive any cap below.
+    # 5d. Sort by relevance_score desc to select the best articles for the
+    # cap, then restore chronological order for the LLM prompt.  Prompt order
+    # influences the model's output format — reordering articles can cause the
+    # LLM to break the structured digest template (headings, numbered items).
     articles.sort(
         key=lambda a: (a.get("relevance_score", 0.0), a.get("published_date", "")),
         reverse=True,
@@ -685,6 +686,11 @@ def run(args: argparse.Namespace) -> None:
             len(articles), MAX_ARTICLES_FOR_LLM,
         )
         articles = articles[:MAX_ARTICLES_FOR_LLM]
+
+    # 5f. Restore chronological order for the prompt — LLMs follow the digest
+    # format template more reliably when articles appear newest-first by feed,
+    # not reordered by an internal score the model doesn't see.
+    articles.sort(key=lambda a: a.get("published_date", ""), reverse=True)
 
     # 6. Build template vars for digest prompt
     # Regex to strip dateline suffixes that RSS sources (e.g. Teslarati)

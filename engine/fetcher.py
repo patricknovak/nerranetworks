@@ -557,7 +557,10 @@ def fetch_x_posts(
             all_posts.extend(posts)
 
         except Exception as exc:
-            logger.warning("Failed to fetch X posts from @%s: %s", handle, exc)
+            logger.error(
+                "Failed to fetch X posts from @%s: %s — %s",
+                handle, type(exc).__name__, exc,
+            )
             continue
 
     # Escalate to ERROR when we tried N accounts and got zero successes — this
