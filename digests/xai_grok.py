@@ -72,16 +72,15 @@ def grok_generate_text(
             want_search = False
 
     if want_search:
+        from datetime import datetime, timedelta, timezone
+
         xai_client = XAIClient(api_key=api_key, timeout=timeout_seconds)
 
-        # Build structured search sources
         sources = []
         if enable_x_search:
             x_kwargs = {}
             if x_handles:
-                x_kwargs["included_x_handles"] = [
-                    h.lstrip("@") for h in x_handles
-                ]
+                x_kwargs["included_x_handles"] = [h.lstrip("@") for h in x_handles]
             sources.append(chat_pb2.Source(x=chat_pb2.XSource(**x_kwargs)))
         if enable_web_search:
             sources.append(chat_pb2.Source(web=chat_pb2.WebSource()))
@@ -89,7 +88,8 @@ def grok_generate_text(
         search_params = SearchParameters(
             sources=sources if sources else None,
             mode="on",
-            max_search_results=15,
+            from_date=datetime.now(timezone.utc) - timedelta(hours=24),
+            max_search_results=20,
             return_citations=True,
         )
 
@@ -99,27 +99,67 @@ def grok_generate_text(
             kwargs["max_turns"] = max_turns
 
         logging.info(
-            "xai-sdk: calling %s with SearchParameters(mode=on, sources=%d, x_handles=%s)",
-            search_model,
-            len(sources),
-            x_handles or "all",
+            "xai-sdk: calling %s (SearchParameters mode=on, sources=%d, x_handles=%s, from_date=24h ago)",
+            search_model, len(sources), x_handles or "all",
         )
+        try:
+            chat = xai_client.chat.create(model=search_model, **kwargs)
+            chat.append(xai_user(prompt))
+            resp = chat.sample()
 
-        chat = xai_client.chat.create(model=search_model, **kwargs)
-        chat.append(xai_user(prompt))
-        resp = chat.sample()
+            text = (getattr(resp, "content", "") or "").strip()
+            logging.info("xai-sdk: got %d chars from %s", len(text), search_model)
 
-        text = (getattr(resp, "content", "") or "").strip()
-        logging.info("xai-sdk: got %d chars from %s", len(text), search_model)
+            meta: Dict[str, Any] = {"provider": "xai_sdk", "model": search_model}
+            usage = getattr(resp, "usage", None)
+            if usage is not None:
+                meta["usage"] = usage
+            citations = getattr(resp, "citations", None)
+            if citations is not None:
+                meta["citations"] = citations
+            return text, meta
 
-        meta: Dict[str, Any] = {"provider": "xai_sdk", "model": search_model}
-        usage = getattr(resp, "usage", None)
-        if usage is not None:
-            meta["usage"] = usage
-        citations = getattr(resp, "citations", None)
-        if citations is not None:
-            meta["citations"] = citations
-        return text, meta
+        except Exception as sdk_exc:
+            logging.warning(
+                "xai-sdk gRPC call failed (%s: %s) — trying REST Responses API fallback",
+                type(sdk_exc).__name__, str(sdk_exc)[:200],
+            )
+
+        # --- REST fallback: Responses API via OpenAI SDK ---
+        try:
+            from openai import OpenAI
+            rest_client = OpenAI(api_key=api_key, base_url="https://api.x.ai/v1", timeout=timeout_seconds)
+
+            tools = []
+            if enable_x_search:
+                x_tool: Dict[str, Any] = {"type": "x_search"}
+                if x_handles:
+                    x_tool["filters"] = {"allowed_x_handles": [h.lstrip("@") for h in x_handles]}
+                tools.append(x_tool)
+            if enable_web_search:
+                tools.append({"type": "web_search"})
+
+            logging.info(
+                "REST fallback: calling responses.create with %d tools, x_handles=%s",
+                len(tools), x_handles or "all",
+            )
+            resp = rest_client.responses.create(
+                model=search_model,
+                input=[{"role": "user", "content": prompt}],
+                tools=tools,
+            )
+            text = getattr(resp, "output_text", "") or ""
+            text = text.strip()
+            logging.info("REST fallback: got %d chars from %s", len(text), search_model)
+            return text, {"provider": "openai_responses", "model": search_model}
+
+        except Exception as rest_exc:
+            logging.error(
+                "REST Responses API also failed: %s — %s. "
+                "Falling back to plain generation (no search).",
+                type(rest_exc).__name__, str(rest_exc)[:200],
+            )
+            # Fall through to plain generation below
 
     # Plain generation: OpenAI-compatible endpoint.
     from openai import OpenAI
