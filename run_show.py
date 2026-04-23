@@ -852,9 +852,10 @@ def run(args: argparse.Namespace) -> None:
             section_patterns=section_patterns,
             recent_headlines=_recent,
         )
-        # Block publishing on near-verbatim within-episode duplicates (>= 80%).
-        # 60% duplicates are kept as warnings; only near-verbatim pairs are
-        # treated as critical failures that warrant aborting the episode.
+        # Near-verbatim within-episode duplicates (>= 80%): strip the later
+        # occurrence from the digest and continue rather than aborting the
+        # entire episode.  A single repeated story is not worth killing an
+        # otherwise good episode — especially when X posts added fresh content.
         _critical_dup_issues = []
         for _issue in _val_issues:
             if "Duplicate within" not in _issue:
@@ -863,14 +864,14 @@ def run(args: argparse.Namespace) -> None:
             if _m and int(_m.group(1)) >= 80:
                 _critical_dup_issues.append(_issue)
         if _critical_dup_issues:
-            logger.error(
+            logger.warning(
                 "Digest has %d near-verbatim (>=80%%) intra-episode duplicate(s) — "
-                "aborting episode to prevent recycled content from reaching audio: %s",
+                "stripping duplicates and continuing: %s",
                 len(_critical_dup_issues), "; ".join(_critical_dup_issues),
             )
-            _skip_episode(
-                "duplicate_content",
-                f"Digest has {len(_critical_dup_issues)} near-verbatim (>=80%) intra-episode duplicate(s).",
+            from engine.generator import _strip_duplicate_stories
+            x_thread = _strip_duplicate_stories(
+                x_thread, threshold=0.75, show_name=config.name,
             )
         if not _val_passed:
             # Check for critical missing sections (non-optional)
