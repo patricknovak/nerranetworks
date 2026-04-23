@@ -40,6 +40,20 @@
 
     
     
+    <!-- Cookie consent (Google Consent Mode v2) — loads BEFORE gtag.js -->
+    <script src="assets/js/consent.js"></script>
+    <!-- gtag.js — covers both GA4 and Google Ads -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6PWJCVQQ7B"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-6PWJCVQQ7B', { 'anonymize_ip': true });
+      
+      
+    </script>
+    
     
     
     <script defer src="assets/js/tracking.js"></script>
@@ -452,11 +466,11 @@
                 <div class="glass-card" style="padding:var(--sp-4);">
                     <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--nn-text-muted);">NASDAQ ^IXIC</div>
                     <div style="font-size:1.5rem;font-weight:700;margin-top:var(--sp-1);">
-                        24,260
+                        24,658
                     </div>
                     <div style="font-size:0.85rem;color:var(--nn-text-muted);margin-top:var(--sp-1);">
                         YTD
-                        +4.41%
+                        +6.12%
                     </div>
                 </div>
                 <div class="glass-card" style="padding:var(--sp-4);">
@@ -475,10 +489,10 @@
                     <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--nn-text-muted);">Alpha vs NASDAQ</div>
                     
                     <div style="font-size:1.5rem;font-weight:700;margin-top:var(--sp-1);color:#ef4444;">
-                        -4.79% YTD
+                        -6.50% YTD
                     </div>
                     <div style="font-size:0.85rem;color:var(--nn-text-muted);margin-top:var(--sp-1);">
-                        Since inception -8.81%
+                        Since inception -10.59%
                     </div>
                 </div>
                 <div class="glass-card" style="padding:var(--sp-4);">
@@ -670,11 +684,19 @@
                 <div style="font-weight:600;margin-bottom:var(--sp-3);">
                     How this show improves itself
                     <span style="font-weight:normal;font-size:0.82rem;color:var(--nn-text-muted);margin-left:var(--sp-2);">
-                        (7 active rules — each one was written by a past episode and is obeyed by future episodes)
+                        (8 active rules — each one was written by a past episode and is obeyed by future episodes)
                     </span>
                 </div>
                 
                 <ul style="margin:0;padding-left:var(--sp-5);font-size:0.92rem;line-height:1.7;">
+                    
+                    <li style="margin-bottom:var(--sp-2);">
+                        <span style="font-family:monospace;color:var(--nn-text-muted);font-size:0.82rem;">LL-008</span>
+                        <em style="color:var(--nn-text-muted);">[content, Ep26, 2026-04-23]</em>
+                        — Despite the positive clinical catalyst the position moved against us, underscoring that binary events can still produce losses when expectations are already elevated. This reinforces the need to verify pricing and liquidity data from multiple providers to accurately judge whether any simulated trade is generating alpha versus the NASDAQ Composite
+                        <br>
+                        <strong>Rule:</strong> Always verify data availability from multiple providers before declaring a weekly hold closed
+                    </li>
                     
                     <li style="margin-bottom:var(--sp-2);">
                         <span style="font-family:monospace;color:var(--nn-text-muted);font-size:0.82rem;">LL-007</span>
