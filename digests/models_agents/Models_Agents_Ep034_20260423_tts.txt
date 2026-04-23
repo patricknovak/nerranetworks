@@ -1,0 +1,197 @@
+Hey, welcome to Models and Agents, episode thirty-four, for April twenty-third, twenty twenty-six. Your daily A I briefing. Let's see what happened in the A I world today. And trust me, it's been busy.
+
+The standout story today is the dramatic inference acceleration developers are seeing with the new Qwenthree point six to twenty-sevenB model when using ngram-based speculative decoding in Lah-mah.cpp.
+
+Community members report generation speeds climbing from thirteen tokens per second to over one hundred thirty six tokens per second within the same session on dual G P U consumer rigs.
+
+At the same time the model shows strong coding judgment, bug fixing from screenshots, and aesthetic code output that rivals much larger models.
+
+Several arXiv papers also dropped exploring hallucination neurons, stereotype localization, memory architectures for agents, and KV cache optimizations.
+
+Pay attention to the rapid maturation of local inference tooling. This week’s practical gains feel more impactful than many benchmark headlines.
+
+What you need to know is that local models just got a whole lot more usable for real coding work, and agent memory research is finally moving beyond stateless resets.
+
+The top story today comes from Google Cloud A I Research and UIUC. They introduced ReasoningBank, a memory framework that lets L L M agents distill generalizable reasoning strategies from both their successes and failures.
+
+The system combines experience distillation with test time scaling.
+
+This allows agents to incrementally improve their reasoning policies rather than treating each interaction as stateless.
+
+Unlike traditional replay buffers that simply store trajectories, ReasoningBank extracts reusable strategies.
+
+It creates a form of procedural memory that transfers across tasks.
+
+Early results suggest agents genuinely get better over time instead of plateauing, which has been a persistent weakness in production agent deployments.
+
+Developers building autonomous workflows should watch this closely. Persistent reasoning improvement is one of the missing pieces for agents handling core business operations.
+
+The work directly addresses the trust question many enterprises are asking before they let agents touch real processes.
+
+Expect follow up releases and open source implementations as the team refines the approach.
+
+Now on the model side, Qwenthree point six to twenty-sevenB is turning heads in the local L L M community.
+
+Developers switching from Open A I A P I's to Qwenthree point six to twenty-sevenB in OpenCode for Svelte five development report near perfect results on first try.
+
+Even when the paid A P I's were failing, this twenty seven billion parameter model delivered production grade code quality.
+
+Many users say it exceeds expectations for its size, particularly in frontend frameworks.
+
+This continues Alibaba’s strong momentum in open coding models.
+
+It suggests the next twelve months of local coding agents will be highly competitive.
+
+The real fireworks though came when one developer paired Qwenthree point six to twenty-sevenB with speculative decoding in Lah-mah.cpp.
+
+Using the same Qwenthree point six to twenty-sevenB-Q8_0 model, token generation climbed from thirteen point six tokens per second to one hundred thirty six point seven five tokens per second.
+
+All it took was adding the ngram-mod speculative decoding flag with appropriate settings in Lah-mah server.
+
+The model successfully debugged browser console errors from screenshots.
+
+It produced high quality, aesthetic code throughout the entire session.
+
+With forty gigabytes of VRAM and one hundred twenty eight gigabytes of RAM, this setup makes twenty seven billion parameter class models feel remarkably responsive for iterative coding workflows.
+
+That is the kind of leap that changes how you actually use these models day to day.
+
+On the research front, a new arXiv paper asks whether hallucination neurons generalize.
+
+The study looked across six domains and five open weight models ranging from three to eight billion parameters.
+
+It found that hallucination neurons identified in one domain transfer poorly to others.
+
+The area under the receiver operating characteristic curve drops from zero point seven eight three within domain to zero point five six three cross domain.
+
+This indicates hallucination mechanisms are largely domain specific rather than a universal sparse signature.
+
+The finding has immediate implications for anyone building neuron level detectors. They must be calibrated per domain rather than trained once and applied broadly.
+
+Another paper explores whether we can locate and prevent stereotypes in large language models.
+
+Researchers mapped stereotype related activations in both G P T two Small and Lah-mah three point two.
+
+They identified individual contrastive neurons and attention heads responsible for biased outputs.
+
+The work provides initial bias fingerprints that could enable targeted mitigation.
+
+While still early stage, it moves the field from behavioral observation toward mechanistic understanding of where stereotypes actually live inside transformer weights.
+
+Shifting to agent and tool developments, Lyzr released Cognis, an open source context aware memory architecture for conversational A I agents.
+
+It uses dual store retrieval combining BM twenty five with Matryoshka embeddings fused by reciprocal rank fusion.
+
+The system adds context aware ingestion that checks existing memories before writing new ones, plus temporal boosting and a BGE two reranker.
+
+Cognis achieves state of the art results on the LoCoMo and LongMemEval benchmarks.
+
+It is already deployed in production, which gives developers a practical path to persistent, personalized conversational agents without starting from scratch.
+
+Another interesting framework is OThink-SRR1, which tackles noisy retrieval and high latency in multi hop retrieval augmented generation.
+
+It introduces an iterative search, refine, and reason loop trained with GRPO-IR reinforcement learning.
+
+The refine stage distills documents into concise facts before reasoning begins.
+
+A reward model penalizes excessive retrievals to keep things efficient.
+
+The approach outperforms strong baselines on four multi hop question answering benchmarks while using fewer steps and tokens.
+
+It looks like a promising base for information seeking agents.
+
+In the practical and community space, a team benchmarked eighteen different large language models on optical character recognition and document extraction.
+
+They ran seven thousand five hundred sixty identical calls across forty two standard documents.
+
+The surprising result is that smaller, older, cheaper models frequently match or beat flagship models on accuracy while costing far less.
+
+The team open sourced the full dataset, framework, leaderboard, and a free tool for testing your own documents.
+
+If your workflows default to the newest model for OCR tasks, this benchmark is worth auditing against.
+
+There is also a new Kaggle competition called two B or not two B.
+
+It tasks participants with deciding when to run a small two billion parameter model versus skipping inference entirely on M M L U style questions.
+
+The goal is optimizing a cost based metric that penalizes both unnecessary compute and missed correct answers.
+
+The setup is deliberately simple to encourage creative classifiers or routing rules.
+
+It is a practical first step toward intelligent routing systems that could dramatically cut token costs in production.
+
+OK, let us pop the hood on this temporal tiered KV cache design that has been generating discussion.
+
+Everyone talks about the KV cache as if it is just a big lookup table you grow linearly with context.
+
+In practice, this new approach shows it can be re-architected like a human memory system with fast recent memory and slower archival layers.
+
+The core insight is that not all tokens are equally important.
+
+Recent tokens need low latency, high precision access.
+
+Older ones can tolerate lower precision and higher access cost.
+
+The temporal tiered KV cache therefore partitions the cache into temporal tiers.
+
+Recent blocks stay in fast high bandwidth memory at full precision.
+
+Older blocks migrate to dynamic random access memory at reduced precision.
+
+This mirrors how we keep immediate context crystal clear and distant context fuzzier.
+
+Block wise streaming attention overlaps communication and computation when pulling from slow tiers.
+
+That hides much of the latency penalty.
+
+The paper reports a five point nine four times reduction in cross tier traffic on one hundred twenty eight thousand context tasks.
+
+That translates to up to seventy six percent lower latency and two times higher throughput versus strong baselines.
+
+The quality gain comes with real engineering tradeoffs.
+
+You need careful tier sizing, precision scheduling logic, and migration policies that do not thrash.
+
+Get the layout wrong and you lose the latency wins.
+
+So when should you actually reach for this versus uniform KV cache.
+
+If you are regularly running thirty two thousand plus context workloads on hardware with heterogeneous memory, whether high bandwidth memory plus dynamic random access memory or even CPU offload, this tiering approach is becoming essential.
+
+The gotcha that bites most teams is assuming uniform importance across the entire context window.
+
+Temporal locality is stronger than most attention visualizations suggest.
+
+If you have not tried Qwenthree point six to twenty-sevenB-Q8_0 dot GGUF with the ngram speculative decoding flags in Lah-mah dot cpp, this week is the perfect time.
+
+Watch the speed climb dramatically as the draft model warms up during your next coding session.
+
+Test the ArbitrHq OCR mini bench on your own document set before defaulting to the latest flagship model.
+
+You may cut costs by five to ten times with zero accuracy loss.
+
+Experiment with Cognis memory components if you are building conversational agents.
+
+Swap in the dual store retriever and context aware ingestion to get persistent personalization without heavy infrastructure.
+
+Enter the two B or not two B Kaggle competition even if you only submit a simple classifier.
+
+The routing mindset it forces is directly transferable to production cost optimization.
+
+Read the ReasoningBank paper and consider how you might log agent successes and failures in your own workflows.
+
+This distillation approach could be the next big unlock for reliable agents.
+
+On the horizon, more domain specific fine tunes of Qwen3.6 are expected in the coming weeks as the community digests its coding and multimodal strengths.
+
+Follow up releases on ReasoningBank are likely as Google Cloud A I Research turns the memory framework into a reusable library.
+
+Continued progress on neuron level interpretability should bring papers that move from locating stereotypes and hallucinations toward actual editing techniques.
+
+Keep an eye on consumer inference hardware announcements as the growing frustration around local performance could finally push vendors to ship dedicated edge chips this year.
+
+Before we go, tomorrow keep an eye on whether any early open source implementations of ReasoningBank appear.
+
+That is Models and Agents for today. If you found this useful, share it with someone who is trying to keep up with all these changes, and subscribe so you do not miss tomorrow's update. The A I world moves fast. We will help you keep up. See you tomorrow.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.

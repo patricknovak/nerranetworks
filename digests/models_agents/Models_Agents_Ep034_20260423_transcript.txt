@@ -1,0 +1,117 @@
+Hey, welcome to Models and Agents Episode 34 for April 23, 2026, your daily AI briefing.
+Let's see what happened in the AI world today. And trust me, it's been busy.
+The standout story today is the dramatic inference acceleration developers are seeing with the new
+Quinn 3.6 to 27B model when using N-gram-based speculative decoding in Lama.cpp.
+Community members report generation speeds climbing from 13 tokens per second to over 136 tokens per
+second within the same session on dual GPU consumer rigs. At the same time, the model shows strong coding
+judgment, bug fixing from screenshots, and aesthetic code output that rivals much larger models.
+Several RxEV papers also dropped exploring hallucination neurons, stereotype localization,
+memory architectures for agents and KV cache optimizations. Pay attention to the rapid
+maturation of local inference tooling. This week's practical gains feel more impactful than many
+benchmark headlines. What you need to know is that local models just got a whole lot more usable
+for real coding work and agent memory research is finally moving beyond stateless resets.
+The top story today comes from Google Cloud AI Research and UIUC. They introduced Reasoning Bank,
+a memory framework that lets LLM agents distill generalizable reasoning strategies from both their
+successes and failures. The system combines experience distillation with test time scaling.
+This allows agents to incrementally improve their reasoning policies rather than treating
+each interaction as stateless. Unlike traditional replay buffers that simply store trajectories,
+Reasoning Bank extracts reusable strategies. It creates a form of procedural memory that transfers
+across tasks. Early results suggest agents genuinely get better over time instead of plateauing,
+which has been a persistent weakness in production agent deployments. Developers building autonomous
+workflows should watch this closely. Persistent reasoning improvement is one of the missing
+pieces for agents handling core business operations. The work directly addresses the trust question.
+Many enterprises are asking before they let agents touch real processes. Expect follow-up releases
+and open source implementations as the team refines the approach. Now on the model side,
+Quin 3.6 to 27b is turning heads in the local LLM community. Developers switching from Open AI APIs
+to Quin 3.6 to 27b in Open Code for Svelte 5 development report near perfect results on first try.
+Even when the paid APIs were failing, this 27 billion parameter model delivered production grade code
+quality. Many users say it exceeds expectations for its size, particularly in frontend frameworks.
+This continues Alibaba's strong momentum in open coding models.
+It suggests the next 12 months of local coding agents will be highly competitive. The real fireworks
+though came when one developer paired Quin 3.6 to 27b with speculative decoding in la-maw.cpp.
+Using the same Quin 3.6 to 27b-q80 model, token generation climbed from 13.6 tokens per second to
+136.75 tokens per second. All it took was adding the in-gram mod speculative decoding flag with
+appropriate settings in la-maw server. The model successfully debugged browser console errors from
+screenshots. It produced high quality aesthetic code throughout the entire session. With 40 gigabytes
+of VRAM and 128 gigabytes of RAM, this setup makes 27 billion parameter class models feel remarkably
+responsive for iterative coding workflows. That is the kind of leap that changes how you actually use
+these models day-to-day. On the research front, a new RXC paper asks whether hallucination neurons
+generalize. The study looked across six domains and five open-weight models ranging from three to
+eight billion parameters. It found that hallucination neurons identified in one domain transfer poorly
+to others. The area under the receiver operating characteristic curve drops from 0.783 within
+domain to 0.563 cross domain. This indicates hallucination mechanisms are largely domain specific
+rather than a universal sparse signature. The finding has immediate implications for anyone building
+neuron level detectors. They must be calibrated per domain rather than trained once and applied broadly.
+Another paper explores whether we can locate and prevent stereotypes in large language models.
+Researchers mapped stereotype-related activations in both GPT-2 small and llama-3.2. They
+identified individual contrastive neurons and attention heads responsible for biased outputs.
+The work provides initial bias fingerprints that could enable targeted mitigation.
+While still early stage, it moves the field from behavioral observation toward
+mechanistic understanding of where stereotypes actually live inside transformer weights.
+Shifting to agent and tool developments, Liza released Cognis,
+an open-source context-aware memory architecture for conversational AI agents. It uses dual-store
+retrieval combining BM-25 with matrioshka embeddings fused by reciprocal rank fusion.
+The system adds context-aware ingestion that checks existing memories before writing new ones,
+plus temporal boosting and a BGE-2 re-ranker. Cognis achieved state-of-the-art results on the locomo
+and long mammal benchmarks. It has already deployed in production, which gives developers a practical
+path to persistent personalized conversational agents without starting from scratch.
+Another interesting framework is O-Think-S-R-R1, which tackles noisy retrieval and high latency
+in multi-hop retrieval augmented generation. It introduces an iterative search, refine,
+and reason loop trained with GRPO-Y-R reinforcement learning. The refined stage distills documents
+into concise facts before reasoning begins. A reward model penalizes excessive retrievals to keep
+things efficient. The approach outperforms strong baselines on four multi-hop question answering
+benchmarks while using fewer steps and tokens. It looks like a promising base for information-seeking
+agents. In the practical and community space, a team benchmarked 18 different large-language models
+on optical character recognition and document extraction. They ran 7,560 identical calls across 42
+standard documents. The surprising result is that smaller, older, cheaper models frequently match
+or beat flagship models on accuracy while costing far less. The team opened source the full data set
+framework leaderboard and a free tool for testing your own documents. If your workflows default to
+the newest model for OCR tasks, this benchmark is worth auditing against. There is also a new
+caggle competition called 2B or not 2B. It tasks participants with deciding when to run a small
+2 billion parameter model versus skipping inference entirely on MML-U-style questions.
+The goal is optimizing a cost-based metric that penalizes both unnecessary compute and
+missed correct answers. The setup is deliberately simple to encourage creative classifiers or routing
+rules. It is a practical first step toward intelligent routing systems that could dramatically
+cut token costs in production. Okay, let us pop the hood on this temporal tiered KV cache design that
+has been generating discussion. Everyone talks about the KV cache as if it is just a big lookup table
+you grow linearly with context. In practice, this new approach shows it can be re-architected like a
+human memory system with fast recent memory and slower archival layers. The core insight is that
+not all tokens are equally important. Recent tokens need low latency, high precision access,
+older ones can tolerate lower precision and higher access cost. The temporal tiered KV cache
+therefore partitions the cache into temporal tiers. Recent blocks stay in fast high bandwidth memory
+at full precision. Older blocks migrate to dynamic random access memory at reduced precision.
+This mirrors how we keep immediate context, crystal clear and distant context fuzzier.
+Blockwise streaming attention overlaps communication and computation when pulling from slow tiers
+that hides much of the latency penalty. The paper reports a 5.9 four times reduction in cross-tier
+traffic on 128,000 context tasks. That translates to up to 76% lower latency and two times higher throughput
+versus strong baselines. The quality gain comes with real engineering trade-offs. You need careful
+tier sizing, precision scheduling logic and migration policies that do not thrash.
+Get the layout wrong and you lose the latency wins. So when should you actually reach for this versus
+uniform KV cache? If you are regularly running 32,000 plus context workloads on hardware with
+heterogeneous memory, whether high bandwidth memory plus dynamic random access memory or even CPU
+offload, this tiering approach is becoming essential. The gotcha that bites most teams is assuming
+uniform importance across the entire context window. Temporal locality is stronger than most
+attention visualization suggests. If you have not tried Quinn 3.6 to 27bq80.gguf with the N gram
+speculative decoding flags in llama.cpp this week is the perfect time. Watch the speed climb
+dramatically as the draft model warms up during your next coding session. Test the arbitrary QOCR
+mini bench on your own document set before defaulting to the latest flagship model. You may cut cost by
+5 to 10 times with zero accuracy loss. Experiment with Cogniz memory components if you are building
+conversational agents. Swap in the dual store retriever and context aware ingestion to get persistent
+personalization without heavy infrastructure. Enter the 2b or not 2b cagle competition even if you
+only submit a simple classifier. The routing mindset it forces is directly transferable to
+production cost optimization. Read the reasoning bank paper and consider how you might log agent
+successes and failures in your own workflows. This distillation approach could be the next big unlock
+for reliable agents. On the horizon more domain specific fine tunes of Quinn 3.6 are expected in
+the coming weeks as the community digests its coding and multimodal strengths. Follow-up releases on
+reasoning bank are likely as Google Cloud AI research turns the memory framework into a reusable
+library. Continued progress on neuron level interpretability should bring papers that move from
+locating stereotypes and hallucinations toward actual editing techniques. Keep an eye on consumer
+inference hardware announcements as the growing frustration around local performance could finally
+push vendors to ship dedicated edge chips this year. Before we go, tomorrow keep an eye on whether any
+early open source implementations of reasoning bank appear. That is models and agents for today if
+you found this useful, share it with someone who is trying to keep up with all these changes and
+subscribe so you do not miss tomorrow's update. The AI world moves fast we will help you keep up.
+See you tomorrow. This podcast is curated by Patrick but generated using AI voice synthesis of my
+voice using 11 labs. The primary reason to do this is I unfortunately don't have the time to be
+consistent with generating all the content and wanted to focus on creating consistent and regular
+episodes for all the themes that I enjoy and I hope others do as well.
