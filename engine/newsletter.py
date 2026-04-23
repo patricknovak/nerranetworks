@@ -184,8 +184,8 @@ def send_newsletter(
 
     if tags:
         data["filters"] = {
-            "filters": [{"field": "tag", "operator": "is", "value": t} for t in tags],
-            "groups": [],
+            "operator": "or",
+            "predicates": [{"field": "tag", "operator": "is", "value": t} for t in tags],
         }
 
     resp = requests.post(
