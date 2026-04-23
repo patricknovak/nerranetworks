@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-23T07:43:11.949541+00:00",
+  "generated_at": "2026-04-23T08:19:34.221562+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -7,9 +7,9 @@
       "fail": 0
     },
     "shows_count": 10,
-    "stale_shows": 0,
-    "total_cost_last_7_days_usd": 56.5323,
-    "total_cost_last_30_days_usd": 382.8776,
+    "stale_shows": 1,
+    "total_cost_last_7_days_usd": 58.36,
+    "total_cost_last_30_days_usd": 384.7053,
     "shows": [
       {
         "slug": "env_intel",
@@ -72,11 +72,11 @@
         "blog_page": "blog/models_agents/index.html",
         "newsletter_enabled": true,
         "x_enabled": false,
-        "latest_pub_date": "2026-04-21T08:00:00+00:00",
+        "latest_pub_date": "2026-04-23T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 3.5612,
-        "episodes_last_7_days": 2,
-        "p50_pipeline_s": 53.76,
+        "cost_last_7_days_usd": 5.3889,
+        "episodes_last_7_days": 3,
+        "p50_pipeline_s": 49.72,
         "success_rate": 1.0
       },
       {
@@ -90,7 +90,7 @@
         "newsletter_enabled": true,
         "x_enabled": false,
         "latest_pub_date": "2026-04-20T08:00:00+00:00",
-        "pub_status": "warn",
+        "pub_status": "stale",
         "cost_last_7_days_usd": 2.6473,
         "episodes_last_7_days": 2,
         "p50_pipeline_s": 18.3,
@@ -293,7 +293,7 @@
       "details": "5 MP3s tracked in git, digests/ is 62 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 62.2
+        "digests_mb": 62.4
       }
     },
     {
@@ -854,22 +854,18 @@
       },
       "models_agents": {
         "last_7_days": {
-          "grok": 0.1233,
-          "tts": 3.4379,
-          "total": 3.5612,
-          "episodes": 2
+          "grok": 0.1805,
+          "tts": 5.2085,
+          "total": 5.3889,
+          "episodes": 3
         },
         "last_30_days": {
-          "grok": 0.7223,
-          "tts": 28.1666,
-          "total": 28.8888,
-          "episodes": 13
+          "grok": 0.7794,
+          "tts": 29.9372,
+          "total": 30.7165,
+          "episodes": 14
         },
         "daily_series": [
-          [
-            "2026-02-28",
-            3.855
-          ],
           [
             "2026-03-01",
             3.6201
@@ -985,6 +981,10 @@
           [
             "2026-04-21",
             1.8185
+          ],
+          [
+            "2026-04-23",
+            1.8277
           ]
         ]
       },
@@ -1626,16 +1626,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 2.6453,
-      "tts": 53.8871,
-      "total": 56.5323,
-      "episodes": 34
+      "grok": 2.7024,
+      "tts": 55.6577,
+      "total": 58.36,
+      "episodes": 35
     },
     "network_last_30_days": {
-      "grok": 10.5164,
-      "tts": 372.3612,
-      "total": 382.8776,
-      "episodes": 159
+      "grok": 10.5735,
+      "tts": 374.1318,
+      "total": 384.7053,
+      "episodes": 160
     }
   },
   "pipeline_health": {
@@ -1830,20 +1830,15 @@
       ]
     },
     "models_agents": {
-      "sample_size": 17,
-      "p50_duration_s": 53.76,
+      "sample_size": 18,
+      "p50_duration_s": 49.72,
       "p95_duration_s": 84.4,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 31.68,
-        "generate_digest": 22.0
+        "fetch_and_dedup": 31.82,
+        "generate_digest": 21.64
       },
       "recent": [
-        {
-          "episode_num": 24,
-          "total_duration_s": 41.65,
-          "success": true
-        },
         {
           "episode_num": 25,
           "total_duration_s": 56.92,
@@ -1887,6 +1882,11 @@
         {
           "episode_num": 33,
           "total_duration_s": 76.44,
+          "success": true
+        },
+        {
+          "episode_num": 34,
+          "total_duration_s": 49.72,
           "success": true
         }
       ]
@@ -2402,9 +2402,16 @@
       },
       {
         "file": "models_agents_podcast.rss",
-        "entry_count": 33,
-        "latest_pub_date": "2026-04-21T08:00:00+00:00",
+        "entry_count": 34,
+        "latest_pub_date": "2026-04-23T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep034_20260423.mp3",
+            "host": "op3.dev",
+            "pub_date": "2026-04-23T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep033_20260421.mp3",
             "host": "op3.dev",
@@ -2416,13 +2423,6 @@
             "url": "https://audio.nerranetwork.com/models_agents/Models_Agents_Ep032_20260417.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-17T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://audio.nerranetwork.com/models_agents/Models_Agents_Ep031_20260415.mp3",
-            "host": "audio.nerranetwork.com",
-            "pub_date": "2026-04-15T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
