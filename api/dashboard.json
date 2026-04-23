@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-23T06:45:04.835521+00:00",
+  "generated_at": "2026-04-23T07:43:11.949541+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 0,
-    "total_cost_last_7_days_usd": 54.9788,
-    "total_cost_last_30_days_usd": 381.3241,
+    "total_cost_last_7_days_usd": 56.5323,
+    "total_cost_last_30_days_usd": 382.8776,
     "shows": [
       {
         "slug": "env_intel",
@@ -21,11 +21,11 @@
         "blog_page": "blog/env_intel/index.html",
         "newsletter_enabled": true,
         "x_enabled": false,
-        "latest_pub_date": "2026-04-21T08:00:00+00:00",
+        "latest_pub_date": "2026-04-23T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 3.677,
-        "episodes_last_7_days": 2,
-        "p50_pipeline_s": 25.0,
+        "cost_last_7_days_usd": 5.2305,
+        "episodes_last_7_days": 3,
+        "p50_pipeline_s": 27.25,
         "success_rate": 1.0
       },
       {
@@ -293,7 +293,7 @@
       "details": "5 MP3s tracked in git, digests/ is 62 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 61.9
+        "digests_mb": 62.2
       }
     },
     {
@@ -546,16 +546,16 @@
     "per_show": {
       "env_intel": {
         "last_7_days": {
-          "grok": 0.0899,
-          "tts": 3.5871,
-          "total": 3.677,
-          "episodes": 2
+          "grok": 0.1349,
+          "tts": 5.0957,
+          "total": 5.2305,
+          "episodes": 3
         },
         "last_30_days": {
-          "grok": 0.5406,
-          "tts": 33.8263,
-          "total": 34.3669,
-          "episodes": 13
+          "grok": 0.5856,
+          "tts": 35.3349,
+          "total": 35.9205,
+          "episodes": 14
         },
         "daily_series": [
           [
@@ -657,6 +657,10 @@
           [
             "2026-04-21",
             1.6298
+          ],
+          [
+            "2026-04-23",
+            1.5535
           ]
         ]
       },
@@ -1622,35 +1626,30 @@
       }
     },
     "network_last_7_days": {
-      "grok": 2.6003,
-      "tts": 52.3785,
-      "total": 54.9788,
-      "episodes": 33
+      "grok": 2.6453,
+      "tts": 53.8871,
+      "total": 56.5323,
+      "episodes": 34
     },
     "network_last_30_days": {
-      "grok": 10.4714,
-      "tts": 370.8526,
-      "total": 381.3241,
-      "episodes": 158
+      "grok": 10.5164,
+      "tts": 372.3612,
+      "total": 382.8776,
+      "episodes": 159
     }
   },
   "pipeline_health": {
     "env_intel": {
-      "sample_size": 15,
-      "p50_duration_s": 25.0,
+      "sample_size": 16,
+      "p50_duration_s": 27.25,
       "p95_duration_s": 41.33,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 5.03,
-        "generate_digest": 19.26,
+        "fetch_and_dedup": 4.84,
+        "generate_digest": 20.26,
         "generate_digest_retry": 22.32
       },
       "recent": [
-        {
-          "episode_num": 17,
-          "total_duration_s": 14.95,
-          "success": true
-        },
         {
           "episode_num": 18,
           "total_duration_s": 41.33,
@@ -1694,6 +1693,11 @@
         {
           "episode_num": 26,
           "total_duration_s": 30.79,
+          "success": true
+        },
+        {
+          "episode_num": 27,
+          "total_duration_s": 37.32,
           "success": true
         }
       ]
@@ -2278,9 +2282,16 @@
       },
       {
         "file": "env_intel_podcast.rss",
-        "entry_count": 24,
-        "latest_pub_date": "2026-04-21T08:00:00+00:00",
+        "entry_count": 25,
+        "latest_pub_date": "2026-04-23T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://op3.dev/e/audio.nerranetwork.com/env_intel/Env_Intel_Ep027_20260423.mp3",
+            "host": "op3.dev",
+            "pub_date": "2026-04-23T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://op3.dev/e/audio.nerranetwork.com/env_intel/Env_Intel_Ep026_20260421.mp3",
             "host": "op3.dev",
@@ -2292,13 +2303,6 @@
             "url": "https://audio.nerranetwork.com/env_intel/Env_Intel_Ep025_20260417.mp3",
             "host": "audio.nerranetwork.com",
             "pub_date": "2026-04-17T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://audio.nerranetwork.com/env_intel/Env_Intel_Ep024_20260415.mp3",
-            "host": "audio.nerranetwork.com",
-            "pub_date": "2026-04-15T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
