@@ -540,6 +540,7 @@ def fetch_x_posts(
             text, meta = grok_generate_text(
                 prompt=extraction_prompt,
                 enable_x_search=True,
+                x_handles=[handle],
                 max_turns=5,
             )
 
