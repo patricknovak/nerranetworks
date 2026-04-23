@@ -465,16 +465,17 @@ def fetch_x_posts(
     x_accounts: list,
     keywords: Optional[List[str]] = None,
 ) -> List[Dict]:
-    """Fetch recent posts from X accounts via a single xAI search call.
+    """Fetch recent posts from X accounts via per-account parallel API calls.
 
-    Makes ONE SearchParameters call with all handles in
-    ``XSource.included_x_handles``, then splits results by author and
-    applies per-account caps.  Also deduplicates X posts against each
-    other (same story from two accounts).
+    Each account gets its own Responses API call with
+    ``x_search(allowed_x_handles=[handle])``.  Calls run in parallel via
+    ThreadPoolExecutor so total wall-clock time ≈ one call.  Results are
+    deduped across accounts (same story from two sources → keep first).
     """
     import datetime as _dt
     import os
     import re
+    from concurrent.futures import ThreadPoolExecutor, as_completed
 
     if not x_accounts:
         return []
@@ -484,68 +485,73 @@ def fetch_x_posts(
         logger.warning("No GROK_API_KEY — skipping X account fetch")
         return []
 
-    handles = [a.handle.lstrip("@") for a in x_accounts]
-    labels = {a.handle.lstrip("@"): (a.label or f"@{a.handle.lstrip('@')}") for a in x_accounts}
-    total_max = sum(getattr(a, "max_posts", 10) or 10 for a in x_accounts)
-
-    handle_list = ", ".join(f"@{h}" for h in handles)
-    logger.info("Fetching X posts from %d accounts (%s) ...", len(handles), handle_list)
+    handle_list = ", ".join(f"@{a.handle.lstrip('@')}" for a in x_accounts)
+    logger.info("Fetching X posts from %d accounts (%s) via parallel per-account calls ...", len(x_accounts), handle_list)
 
     from digests.xai_grok import grok_generate_text
 
-    extraction_prompt = (
-        f"Search X/Twitter for the most recent posts from these accounts "
-        f"in the last 24 hours: {handle_list}\n\n"
-        f"Return ONLY a structured list of their posts, formatted exactly like this "
-        f"(one block per post, separated by blank lines):\n\n"
-        f"POST_AUTHOR: [@handle]\n"
-        f"POST_TITLE: [A short headline summarizing the post content, max 100 chars]\n"
-        f"POST_TEXT: [The full text of the post]\n"
-        f"POST_URL: [The URL to the post, e.g. https://x.com/handle/status/...]\n\n"
-        f"Rules:\n"
-        f"- Include up to {total_max} posts total across all accounts\n"
-        f"- Only include posts from the last 24 hours\n"
-        f"- Skip retweets of other people's content — only original posts and quote tweets\n"
-        f"- If an account has no recent posts, skip it\n"
-        f"- If NONE of these accounts posted recently, return exactly: NO_RECENT_POSTS\n"
-        f"- Do NOT add any commentary or extra text — just the structured list\n"
-    )
+    def _fetch_one(account) -> List[Dict]:
+        handle = account.handle.lstrip("@")
+        label = account.label or f"@{handle}"
+        max_posts = getattr(account, "max_posts", 10) or 10
 
-    try:
-        text, meta = grok_generate_text(
-            prompt=extraction_prompt,
-            enable_x_search=True,
-            x_handles=handles,
-            max_turns=5,
-        )
-    except Exception as exc:
-        logger.error("X fetch failed: %s — %s", type(exc).__name__, exc)
-        return []
-
-    if not text or "NO_RECENT_POSTS" in text:
-        logger.info("No recent posts found from any of %d accounts", len(handles))
-        return []
-
-    now_iso = _dt.datetime.now(_dt.timezone.utc).isoformat()
-    all_posts = _parse_x_posts_multi(text, handles, labels, now_iso)
-
-    if not all_posts:
-        logger.warning(
-            "X response had %d chars but parser extracted 0 posts. "
-            "First 500 chars of response: %s",
-            len(text), text[:500].replace("\n", " | "),
+        prompt = (
+            f"Search X/Twitter for the most recent posts from @{handle} "
+            f"in the last 24 hours.\n\n"
+            f"Return ONLY a structured list of their posts, formatted exactly like this "
+            f"(one block per post, separated by blank lines):\n\n"
+            f"POST_TITLE: [A short headline summarizing the post, max 100 chars]\n"
+            f"POST_TEXT: [The full text of the post]\n"
+            f"POST_URL: [The URL, e.g. https://x.com/{handle}/status/...]\n\n"
+            f"Rules:\n"
+            f"- Up to {max_posts} posts maximum\n"
+            f"- Only posts from the last 24 hours\n"
+            f"- Skip retweets — only original posts and quote tweets\n"
+            f"- If no recent posts, return exactly: NO_RECENT_POSTS\n"
+            f"- No commentary — just the structured list\n"
         )
 
-    # Per-account cap
-    per_caps = {a.handle.lstrip("@"): getattr(a, "max_posts", 10) or 10 for a in x_accounts}
-    counts: Dict[str, int] = {}
-    capped: List[Dict] = []
-    for p in all_posts:
-        ah = p.get("author", "").lstrip("@")
-        counts[ah] = counts.get(ah, 0) + 1
-        if counts[ah] <= per_caps.get(ah, 10):
-            capped.append(p)
-    all_posts = capped
+        try:
+            text, meta = grok_generate_text(
+                prompt=prompt,
+                enable_x_search=True,
+                x_handles=[handle],
+                max_turns=5,
+            )
+        except Exception as exc:
+            logger.error("X fetch @%s failed: %s — %s", handle, type(exc).__name__, exc)
+            return []
+
+        if not text or "NO_RECENT_POSTS" in text:
+            logger.info("No recent posts from @%s", handle)
+            return []
+
+        now_iso = _dt.datetime.now(_dt.timezone.utc).isoformat()
+        labels_map = {handle.lower(): label}
+        posts = _parse_x_posts_multi(text, [handle], labels_map, now_iso)
+
+        if not posts:
+            logger.warning(
+                "X @%s returned %d chars but parser extracted 0 posts. First 300: %s",
+                handle, len(text), text[:300].replace("\n", " | "),
+            )
+            return []
+
+        posts = posts[:max_posts]
+        logger.info("X @%s: %d posts fetched", handle, len(posts))
+        return posts
+
+    # Run all account fetches in parallel
+    all_posts: List[Dict] = []
+    with ThreadPoolExecutor(max_workers=min(len(x_accounts), 5)) as pool:
+        futures = {pool.submit(_fetch_one, acc): acc for acc in x_accounts}
+        for future in as_completed(futures):
+            try:
+                posts = future.result(timeout=60)
+                all_posts.extend(posts)
+            except Exception as exc:
+                acc = futures[future]
+                logger.error("X fetch @%s timed out or crashed: %s", acc.handle, exc)
 
     # X-to-X dedup: if two accounts post about the same story, keep the first
     from engine.utils import calculate_similarity
@@ -567,7 +573,7 @@ def fetch_x_posts(
         for p in all_posts:
             by_author.setdefault(p.get("author", "?"), []).append(p)
         breakdown = ", ".join(f"{a}: {len(ps)}" for a, ps in sorted(by_author.items()))
-        logger.info("X fetch: %d posts (%s)", len(all_posts), breakdown)
+        logger.info("X fetch: %d posts total (%s)", len(all_posts), breakdown)
     else:
         logger.error("X fetch produced 0 posts from %d account(s)", len(x_accounts))
 
