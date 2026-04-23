@@ -1,7 +1,7 @@
 {
   "metadata": {
     "schema_version": 1,
-    "last_updated": "2026-04-22",
+    "last_updated": "2026-04-23",
     "seeded_from": "Ep14-Ep21 audit + MIT improvement plan (claude/audit-llm-models-9dpgL)"
   },
   "entries": [
@@ -91,6 +91,17 @@
       "category": "content",
       "observation": "Even when a binary catalyst such as accelerated enrollment is publicly confirmed, the market can still price in expectations ahead of the announcement and rotate out on the news, especially when broader sector momentum is absent. This reinforces the need to verify real-time order flow and liquidity before declaring any catalyst-driven trade closed",
       "adjustment": "Verify data availability from multiple providers before declaring a weekly hold closed",
+      "status": "active",
+      "metric_target": {}
+    },
+    {
+      "id": "LL-008",
+      "date": "2026-04-23",
+      "episode_num": 26,
+      "source": "post_generate",
+      "category": "content",
+      "observation": "Despite the positive clinical catalyst the position moved against us, underscoring that binary events can still produce losses when expectations are already elevated. This reinforces the need to verify pricing and liquidity data from multiple providers to accurately judge whether any simulated trade is generating alpha versus the NASDAQ Composite",
+      "adjustment": "Always verify data availability from multiple providers before declaring a weekly hold closed",
       "status": "active",
       "metric_target": {}
     }
