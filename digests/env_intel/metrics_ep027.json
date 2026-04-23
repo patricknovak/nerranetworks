@@ -1,0 +1,29 @@
+{
+  "show_slug": "env_intel",
+  "episode_num": 27,
+  "total_duration_s": 37.32,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 2.05,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 35.27,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 22,
+    "cross_episode_repeats": 0,
+    "script_below_target": true,
+    "section_tts_fallback": false,
+    "section_tts_section_count": 6,
+    "tts_duration_s": 21.38,
+    "audio_mix_duration_s": 30.49,
+    "rss_update_duration_s": 0.02,
+    "digest_chars": 10837,
+    "audio_duration_s": 607.973878
+  }
+}
