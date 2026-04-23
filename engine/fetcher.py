@@ -529,6 +529,13 @@ def fetch_x_posts(
     now_iso = _dt.datetime.now(_dt.timezone.utc).isoformat()
     all_posts = _parse_x_posts_multi(text, handles, labels, now_iso)
 
+    if not all_posts:
+        logger.warning(
+            "X response had %d chars but parser extracted 0 posts. "
+            "First 500 chars of response: %s",
+            len(text), text[:500].replace("\n", " | "),
+        )
+
     # Per-account cap
     per_caps = {a.handle.lstrip("@"): getattr(a, "max_posts", 10) or 10 for a in x_accounts}
     counts: Dict[str, int] = {}
@@ -573,6 +580,31 @@ def _parse_x_posts_multi(
     labels: Dict[str, str],
     now_iso: str,
 ) -> List[Dict]:
+    """Parse X posts from LLM response — handles multiple output formats.
+
+    Tries structured POST_AUTHOR/POST_TITLE/POST_URL blocks first, then
+    falls back to extracting any x.com/*/status/* URLs with surrounding text.
+    """
+    import re
+
+    # --- Attempt 1: structured POST_TITLE/POST_URL blocks ---
+    posts = _parse_structured_blocks(text, handles, labels, now_iso)
+    if posts:
+        return posts
+
+    # --- Attempt 2: extract any x.com status URLs with context ---
+    posts = _parse_url_extraction(text, handles, labels, now_iso)
+    if posts:
+        logger.info("Fallback URL parser extracted %d posts from response", len(posts))
+    return posts
+
+
+def _parse_structured_blocks(
+    text: str,
+    handles: List[str],
+    labels: Dict[str, str],
+    now_iso: str,
+) -> List[Dict]:
     """Parse POST_AUTHOR/POST_TITLE/POST_TEXT/POST_URL blocks."""
     import re
 
@@ -599,7 +631,6 @@ def _parse_x_posts_multi(
         desc = text_m.group(1).strip() if text_m else ""
 
         if not url_m:
-            logger.debug("Dropping X post with no URL from @%s: %s", current_author, (title or desc)[:60])
             continue
         url = url_m.group(1).strip()
 
@@ -615,6 +646,56 @@ def _parse_x_posts_multi(
             "published_date": now_iso,
             "relevance_score": 0.7,
             "author": f"@{current_author}",
+        })
+
+    return posts
+
+
+def _parse_url_extraction(
+    text: str,
+    handles: List[str],
+    labels: Dict[str, str],
+    now_iso: str,
+) -> List[Dict]:
+    """Fallback: extract x.com/*/status/* URLs and nearby text as posts."""
+    import re
+
+    posts: List[Dict] = []
+    seen_urls: set = set()
+    handle_set = {h.lower() for h in handles}
+
+    for m in re.finditer(r"https?://(?:x\.com|twitter\.com)/(\w+)/status(?:es)?/(\d+)\S*", text):
+        url = m.group(0).split(")")[0].rstrip(".,;")
+        if url in seen_urls:
+            continue
+        seen_urls.add(url)
+
+        author_handle = m.group(1).lower()
+
+        # Extract surrounding text as description (100 chars before, 200 after)
+        start = max(0, m.start() - 150)
+        end = min(len(text), m.end() + 300)
+        context = text[start:end]
+
+        # Try to extract a meaningful line near the URL
+        lines = context.split("\n")
+        desc_parts = []
+        for line in lines:
+            stripped = line.strip().strip("-*•#>").strip()
+            if stripped and "http" not in stripped and len(stripped) > 15:
+                desc_parts.append(stripped)
+        desc = " ".join(desc_parts[:3])[:300] if desc_parts else ""
+        title = desc[:100] if desc else f"Post by @{author_handle}"
+
+        label = labels.get(author_handle, f"@{author_handle}")
+        posts.append({
+            "title": title,
+            "description": desc,
+            "url": url,
+            "source_name": f"{label} (X)",
+            "published_date": now_iso,
+            "relevance_score": 0.7,
+            "author": f"@{author_handle}",
         })
 
     return posts

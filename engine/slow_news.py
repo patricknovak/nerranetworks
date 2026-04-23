@@ -211,26 +211,30 @@ def build_slow_news_prompt_context(
     parts: list[str] = []
 
     parts.append("=" * 60)
-    parts.append("EPISODE FORMAT — MIXED CONTENT")
+    parts.append("SLOW NEWS DAY — SUPPLEMENTAL CONTENT")
     parts.append("=" * 60)
     parts.append("")
     parts.append(
-        "Produce a high-quality episode using the format below. If a section's "
-        "available material is genuinely thin, write fewer items rather than "
-        "padding with filler or repeating content. A shorter, fresh episode is "
-        "better than a longer repetitive one. Do NOT mention that news is slow "
-        "or lighter than usual, and do NOT apologize or comment on the number of "
-        "stories. Treat this as a completely normal episode."
+        "Today has fewer fresh stories. Produce a high-quality episode using "
+        "the EXACT SAME formatting structure as your normal digest template "
+        "(markdown headings, numbered items with source URLs, bold titles). "
+        "Do NOT change the output format — keep # headings, ### section "
+        "headings, numbered lists, and Source: URLs exactly as specified in "
+        "the formatting template above. "
+        "If a section's available material is genuinely thin, write fewer "
+        "items rather than padding. A shorter, fresh episode is better than "
+        "a longer repetitive one. Do NOT mention that news is slow or lighter "
+        "than usual. Treat this as a completely normal episode."
     )
     parts.append("")
 
-    # --- News section ---
-    parts.append("--- SECTION 1: NEWS ---")
+    # --- News section guidance ---
+    parts.append("NEWS STORIES:")
     parts.append(
-        "Cover the available news stories with full depth and substance. "
-        "Treat them as normal headline stories — do NOT say anything like "
-        "'news is lighter today' or 'fewer stories than usual'. Just cover "
-        "the stories naturally as you would in any episode."
+        "Cover the available news stories using your normal Top 10 News "
+        "Items format (numbered items with bold titles, 2-4 sentence "
+        "descriptions, and Source: URLs). If fewer than 10 quality stories "
+        "are available, just include what you have — do NOT pad."
     )
     parts.append("")
     if articles:
@@ -246,7 +250,7 @@ def build_slow_news_prompt_context(
 
     # --- Evergreen segments ---
     for seg_idx, seg in enumerate(selected_segments, 1):
-        parts.append(f"--- SECTION {seg_idx + 1}: EVERGREEN SEGMENT — {seg['title'].upper()} ---")
+        parts.append(f"EVERGREEN SEGMENT — {seg['title'].upper()}:")
         parts.append(f"Segment type: {seg.get('type', 'deep_dive')}")
         parts.append(f"Target length: approximately {seg.get('estimated_words', 600)} words")
         parts.append("")

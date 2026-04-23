@@ -264,7 +264,7 @@ class TestBuildSlowNewsPromptContext:
             articles, segments, config, template_vars,
         )
 
-        assert "MIXED CONTENT" in result
+        assert "SUPPLEMENTAL CONTENT" in result
         assert "NEWS" in result
         assert "Breaking News A" in result
         assert "EVERGREEN SEGMENT" in result

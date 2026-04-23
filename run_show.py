@@ -485,6 +485,8 @@ def run(args: argparse.Namespace) -> None:
 
             try:
                 x_posts = x_fetch_future.result(timeout=120)
+                if x_posts:
+                    tracker["services"]["x_api"]["search_calls"] = len(x_posts)
             except Exception as exc:
                 logger.warning("X account fetch failed: %s — continuing with RSS only", exc)
                 x_posts = []
