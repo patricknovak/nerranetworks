@@ -119,14 +119,50 @@
     </section>
 
     {% if performance_data and performance_data.available %}
+    <!-- Modern Investing — How the Practice Investment Model Works -->
+    <section class="nn-section" id="methodology" style="padding-top:var(--sp-8);padding-bottom:0;">
+        <div class="container">
+            <div class="nn-section-header" style="text-align:left;">
+                <h2>How the Practice Investment Model Works</h2>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--sp-4);margin-bottom:var(--sp-6);">
+                <div class="glass-card" style="padding:var(--sp-5);">
+                    <div style="font-size:1.3rem;margin-bottom:var(--sp-2);">1</div>
+                    <div style="font-weight:600;color:var(--nn-white);margin-bottom:var(--sp-2);">Monday: Pick</div>
+                    <div style="font-size:0.88rem;color:var(--nn-text-muted);line-height:1.5;">AI analysis selects one investment for a simulated weekly hold. Buy at Monday's market open. $1,000 per trade.</div>
+                </div>
+                <div class="glass-card" style="padding:var(--sp-5);">
+                    <div style="font-size:1.3rem;margin-bottom:var(--sp-2);">2</div>
+                    <div style="font-weight:600;color:var(--nn-white);margin-bottom:var(--sp-2);">Tue-Thu: Track</div>
+                    <div style="font-size:0.88rem;color:var(--nn-text-muted);line-height:1.5;">Daily updates on position progress. If the thesis is working, why. If not, what we're watching. Rare Flash Trades for exceptional catalysts.</div>
+                </div>
+                <div class="glass-card" style="padding:var(--sp-5);">
+                    <div style="font-size:1.3rem;margin-bottom:var(--sp-2);">3</div>
+                    <div style="font-weight:600;color:var(--nn-white);margin-bottom:var(--sp-2);">Friday: Evaluate</div>
+                    <div style="font-size:0.88rem;color:var(--nn-text-muted);line-height:1.5;">Close at Friday's close. Report P&L vs NASDAQ. Extract the lesson. Wins and losses analyzed with equal rigour.</div>
+                </div>
+                <div class="glass-card" style="padding:var(--sp-5);">
+                    <div style="font-size:1.3rem;margin-bottom:var(--sp-2);">4</div>
+                    <div style="font-weight:600;color:var(--nn-white);margin-bottom:var(--sp-2);">Learn & Improve</div>
+                    <div style="font-size:0.88rem;color:var(--nn-text-muted);line-height:1.5;">Every trade outcome feeds back into the system. Lesson rules are auto-extracted and obeyed by future episodes. The show gets smarter over time.</div>
+                </div>
+            </div>
+            <p style="font-size:0.82rem;color:var(--nn-text-muted);text-align:center;margin-bottom:var(--sp-4);">
+                All trades are simulated — no real money. This is a learning exercise. Not financial advice.
+                <a href="{{ path_prefix }}modern-investing-resources.html" style="color:var(--show-color);margin-left:var(--sp-2);">View investing resources &rarr;</a>
+            </p>
+        </div>
+    </section>
+
     <!-- Modern Investing — Mock Trade Performance vs NASDAQ -->
-    <section class="nn-section" id="performance" style="padding-top: var(--sp-8);">
+    <section class="nn-section" id="performance" style="padding-top: var(--sp-6);">
         <div class="container">
             <div class="nn-section-header" style="text-align:left;">
                 <h2>Performance vs NASDAQ Composite</h2>
                 <p style="color:var(--nn-text-muted);font-size:0.92rem;margin-top:var(--sp-2);">
                     Every Practice Investment from the show is tracked here. Simulated trades only — no real money.
                     Benchmark: NASDAQ Composite (^IXIC). Updated daily after each episode.
+                    <a href="{{ path_prefix }}blog/modern_investing/index.html" style="color:var(--show-color);margin-left:var(--sp-2);">Read episode write-ups &rarr;</a>
                 </p>
             </div>
 
@@ -194,13 +230,14 @@
                             <th style="padding:8px 12px;text-align:right;">P&amp;L %</th>
                             <th style="padding:8px 12px;text-align:right;">NASDAQ %</th>
                             <th style="padding:8px 12px;text-align:right;">Alpha %</th>
+                            <th style="padding:8px 12px;">Lesson</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for t in performance_data.trades %}
                         <tr style="border-top:1px solid var(--nn-border);">
                             <td style="padding:6px 12px;">{{ t.date or "" }}</td>
-                            <td style="padding:6px 12px;">{{ t.episode_num or "" }}</td>
+                            <td style="padding:6px 12px;">{% if t.episode_num %}<a href="{{ path_prefix }}blog/modern_investing/ep{{ "%03d" % t.episode_num }}.html" style="color:var(--show-color);text-decoration:none;font-weight:600;" title="Read full trade setup and analysis">Ep{{ t.episode_num }}</a>{% else %}—{% endif %}</td>
                             <td style="padding:6px 12px;font-weight:600;">{{ t.symbol or "" }}</td>
                             <td style="padding:6px 12px;color:var(--nn-text-muted);font-size:0.82rem;">{{ t.sector or "" }}</td>
                             <td style="padding:6px 12px;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{ t.strategy or '' }}">{{ t.strategy or "" }}</td>
@@ -209,10 +246,11 @@
                             <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;color:{% if (t.pnl_pct or 0) >= 0 %}#10b981{% else %}#ef4444{% endif %};">{% if t.pnl_pct is not none %}{{ "{:+.2f}".format(t.pnl_pct) }}%{% else %}—{% endif %}</td>
                             <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--nn-text-muted);">{% if t.nasdaq_return_pct is not none %}{{ "{:+.2f}".format(t.nasdaq_return_pct) }}%{% else %}—{% endif %}</td>
                             <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:{% if (t.alpha_pct or 0) >= 0 %}#10b981{% else %}#ef4444{% endif %};">{% if t.alpha_pct is not none %}{{ "{:+.2f}".format(t.alpha_pct) }}%{% else %}—{% endif %}</td>
+                            <td style="padding:6px 12px;font-size:0.78rem;color:var(--nn-text-muted);max-width:200px;">{% if t.lesson %}{{ t.lesson[:80] }}{% if t.lesson|length > 80 %}…{% endif %}{% elif t.lesson_tags %}<span style="color:var(--show-color);">{{ t.lesson_tags|join(', ') }}</span>{% else %}—{% endif %}</td>
                         </tr>
                         {% endfor %}
                         {% if not performance_data.trades %}
-                        <tr><td colspan="10" style="padding:20px;text-align:center;color:var(--nn-text-muted);">No trades recorded yet.</td></tr>
+                        <tr><td colspan="11" style="padding:20px;text-align:center;color:var(--nn-text-muted);">No trades recorded yet.</td></tr>
                         {% endif %}
                     </tbody>
                 </table>
@@ -245,6 +283,42 @@
                             <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--nn-text-muted);">{% if m.nasdaq_pct is not none %}{{ "{:+.2f}".format(m.nasdaq_pct) }}%{% else %}—{% endif %}</td>
                             <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:{% if (m.alpha_pct or 0) >= 0 %}#10b981{% else %}#ef4444{% endif %};">{% if m.alpha_pct is not none %}{{ "{:+.2f}".format(m.alpha_pct) }}%{% else %}—{% endif %}</td>
                         </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+
+            {% if performance_data.sectors %}
+            <!-- Sector Performance Breakdown -->
+            <div class="glass-card" style="padding:0;overflow-x:auto;margin-bottom:var(--sp-6);">
+                <div style="padding:var(--sp-4);border-bottom:1px solid var(--nn-border);font-weight:600;">
+                    Performance by sector
+                    <span style="font-weight:normal;font-size:0.82rem;color:var(--nn-text-muted);margin-left:var(--sp-2);">
+                        — which approaches are generating alpha
+                    </span>
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
+                    <thead style="background:rgba(255,255,255,0.03);">
+                        <tr style="text-align:left;">
+                            <th style="padding:8px 12px;">Sector</th>
+                            <th style="padding:8px 12px;text-align:right;">Trades</th>
+                            <th style="padding:8px 12px;text-align:right;">Win %</th>
+                            <th style="padding:8px 12px;text-align:right;">Avg P&amp;L</th>
+                            <th style="padding:8px 12px;text-align:right;">Total P&amp;L</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sec_name, sec_data in performance_data.sectors.items() | sort(attribute='1.cumulative_pnl', reverse=true) %}
+                        {% if sec_data.trade_count > 0 %}
+                        <tr style="border-top:1px solid var(--nn-border);">
+                            <td style="padding:6px 12px;text-transform:capitalize;">{{ sec_name | replace('_', ' ') }}</td>
+                            <td style="padding:6px 12px;text-align:right;">{{ sec_data.trade_count }}</td>
+                            <td style="padding:6px 12px;text-align:right;">{% if sec_data.trade_count > 0 %}{{ "{:.0f}".format((sec_data.get('wins', 0) / sec_data.trade_count * 100) if sec_data.trade_count > 0 else 0) }}%{% endif %}</td>
+                            <td style="padding:6px 12px;text-align:right;color:{% if sec_data.cumulative_pnl >= 0 %}#10b981{% else %}#ef4444{% endif %};">{{ "{:+.2f}".format(sec_data.cumulative_pnl / sec_data.trade_count if sec_data.trade_count > 0 else 0) }}%</td>
+                            <td style="padding:6px 12px;text-align:right;font-weight:600;color:{% if sec_data.cumulative_pnl >= 0 %}#10b981{% else %}#ef4444{% endif %};">${{ "{:+.2f}".format(sec_data.cumulative_pnl) }}</td>
+                        </tr>
+                        {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>

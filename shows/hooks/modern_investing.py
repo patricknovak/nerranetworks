@@ -179,10 +179,85 @@ def pre_fetch(config, *, episode_num: int | None = None, today_str: str | None =
     else:
         context["recent_strategies"] = "No previous trades yet — this may be the first episode."
 
+    # Strategy-level performance analysis — tells the LLM which approaches
+    # are producing alpha and which are underperforming, so it can refine
+    # future trade selection.
+    context["strategy_performance"] = _build_strategy_performance(tracker)
+
     # Dynamic tone based on portfolio performance
     context["tone_hint"] = _tone_from_portfolio(tracker)
 
     return context
+
+
+def _build_strategy_performance(tracker: dict) -> str:
+    """Analyze win/loss patterns by strategy keyword and sector.
+
+    Produces a prompt block that shows the LLM which types of trades
+    are generating alpha and which are dragging performance, so it can
+    adjust future picks toward proven approaches.
+    """
+    closed = [t for t in tracker.get("trades", []) if t.get("status") == "closed" and t.get("pnl_pct") is not None]
+    if len(closed) < 3:
+        return "Not enough closed trades to analyze strategy patterns yet."
+
+    # Sector performance
+    sector_stats: dict = {}
+    for t in closed:
+        sec = t.get("sector", "other")
+        if sec not in sector_stats:
+            sector_stats[sec] = {"trades": 0, "wins": 0, "total_pnl": 0.0, "total_alpha": 0.0}
+        sector_stats[sec]["trades"] += 1
+        sector_stats[sec]["total_pnl"] += t.get("pnl_pct", 0.0)
+        sector_stats[sec]["total_alpha"] += t.get("alpha_pct", 0.0)
+        if t.get("pnl_pct", 0) > 0:
+            sector_stats[sec]["wins"] += 1
+
+    # Lesson tag effectiveness
+    tag_stats: dict = {}
+    for t in closed:
+        for tag in t.get("lesson_tags", []):
+            if tag not in tag_stats:
+                tag_stats[tag] = {"trades": 0, "wins": 0, "total_alpha": 0.0}
+            tag_stats[tag]["trades"] += 1
+            tag_stats[tag]["total_alpha"] += t.get("alpha_pct", 0.0)
+            if t.get("pnl_pct", 0) > 0:
+                tag_stats[tag]["wins"] += 1
+
+    # Best and worst
+    best = max(closed, key=lambda t: t.get("alpha_pct", 0))
+    worst = min(closed, key=lambda t: t.get("alpha_pct", 0))
+
+    lines = ["STRATEGY PERFORMANCE ANALYSIS (use this to improve trade selection):"]
+
+    # Sector breakdown
+    lines.append("\nSector results (closed trades):")
+    for sec, s in sorted(sector_stats.items(), key=lambda x: x[1]["total_alpha"], reverse=True):
+        wr = (s["wins"] / s["trades"] * 100) if s["trades"] > 0 else 0
+        avg_alpha = s["total_alpha"] / s["trades"] if s["trades"] > 0 else 0
+        flag = "✓" if avg_alpha > 0 else "✗"
+        lines.append(f"  {flag} {sec}: {s['trades']} trades, {wr:.0f}% win rate, avg alpha {avg_alpha:+.2f}%")
+
+    # Lesson tag patterns
+    if tag_stats:
+        lines.append("\nStrategy tag results:")
+        for tag, s in sorted(tag_stats.items(), key=lambda x: x[1]["total_alpha"], reverse=True)[:8]:
+            avg_alpha = s["total_alpha"] / s["trades"] if s["trades"] > 0 else 0
+            lines.append(f"  {tag}: {s['trades']} trades, avg alpha {avg_alpha:+.2f}%")
+
+    # Best and worst
+    lines.append(f"\nBest trade: {best.get('symbol')} ({best.get('sector')}) — alpha {best.get('alpha_pct', 0):+.2f}%")
+    lines.append(f"Worst trade: {worst.get('symbol')} ({worst.get('sector')}) — alpha {worst.get('alpha_pct', 0):+.2f}%")
+
+    # Actionable guidance
+    winning_sectors = [sec for sec, s in sector_stats.items() if s["total_alpha"] > 0 and s["trades"] >= 2]
+    losing_sectors = [sec for sec, s in sector_stats.items() if s["total_alpha"] < 0 and s["trades"] >= 2]
+    if winning_sectors:
+        lines.append(f"\nFAVOR these sectors (positive alpha track record): {', '.join(winning_sectors)}")
+    if losing_sectors:
+        lines.append(f"AVOID OR BE CAUTIOUS with these sectors (negative alpha): {', '.join(losing_sectors)}")
+
+    return "\n".join(lines)
 
 
 def _tone_from_portfolio(tracker: dict) -> str:

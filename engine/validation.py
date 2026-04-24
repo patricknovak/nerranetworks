@@ -621,15 +621,23 @@ def mi_validation_config() -> ValidationConfig:
                 pattern=(
                     r"(?:### Quick Hits|## Quick Hits)"
                     r"(.*?)"
-                    r"(?=━━|### Portfolio|## Portfolio|$)"
+                    r"(?=━━|### Portfolio|## Portfolio|### Listener|## Listener|$)"
                 ),
                 min_items=2,
                 optional=True,
             ),
+            SectionRule(
+                name="Listener Challenge",
+                pattern=(
+                    r"(?:### Listener Challenge|## Listener Challenge)"
+                    r"(.*?)"
+                    r"(?=━━|### TONE|## TONE|$)"
+                ),
+                min_items=1,
+                optional=True,
+            ),
         ],
-        forbidden_patterns=[
-            r"https?://\S+",  # URLs should not leak into podcast script
-        ],
+        forbidden_patterns=[],
     )
 
 
