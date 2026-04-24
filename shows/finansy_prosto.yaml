@@ -73,6 +73,23 @@ web_search_queries:
   - "Canadian newcomer finance tips"
   - "Bank of Canada interest rate news"
 
+x_accounts:
+  - handle: BankOfCanada
+    label: Bank of Canada
+    max_posts: 3
+  - handle: MoneySenseCA
+    label: MoneySense Canada
+    max_posts: 3
+  - handle: Wealthsimple
+    label: Wealthsimple
+    max_posts: 3
+  - handle: CanRevAgency
+    label: Canada Revenue Agency
+    max_posts: 3
+  - handle: CMaborsh
+    label: Canadian Mortgage Trends
+    max_posts: 3
+
 min_articles_skip: 4
 
 keywords:
