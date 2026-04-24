@@ -38,6 +38,20 @@
 
     
     
+    <!-- Cookie consent (Google Consent Mode v2) — loads BEFORE gtag.js -->
+    <script src="../../assets/js/consent.js"></script>
+    <!-- gtag.js — covers both GA4 and Google Ads -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6PWJCVQQ7B"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-6PWJCVQQ7B', { 'anonymize_ip': true });
+      
+      
+    </script>
+    
     
     
     <script defer src="../../assets/js/tracking.js"></script>
@@ -1263,6 +1277,31 @@ This podcast is curated by Patrick but generated using AI voice synthesis of my 
             </nav>
             
             <!-- Cross-show Recommendations -->
+            
+            <section class="blog-related">
+                <h2>You Might Also Like</h2>
+                <div class="blog-related-grid">
+                    
+                    <a href="../../blog/tesla/ep446.html" class="blog-related-card" style="--card-show-color: #E31937">
+                        <span class="blog-related-show" style="color: #E31937">Tesla Shorts Time</span>
+                        <h3>Tesla Shorts Time</h3>
+                        <p>Tesla has started production of the Cybercab at Giga Texas.</p>
+                    </a>
+                    
+                    <a href="../../blog/planetterrian/ep049.html" class="blog-related-card" style="--card-show-color: #018DB1">
+                        <span class="blog-related-show" style="color: #018DB1">Planetterrian Daily</span>
+                        <h3>Planetterrian Daily</h3>
+                        <p>Supplementing a specific polyunsaturated fatty acid restored visual function and reversed cellular aging signs in the re&hellip;</p>
+                    </a>
+                    
+                    <a href="../../blog/tesla/ep445.html" class="blog-related-card" style="--card-show-color: #E31937">
+                        <span class="blog-related-show" style="color: #E31937">Tesla Shorts Time</span>
+                        <h3>Hey, it's April 23, 2026.</h3>
+                        <p>Hey, it's April 23, 2026.</p>
+                    </a>
+                    
+                </div>
+            </section>
             
         </article>
     </div>

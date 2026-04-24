@@ -38,6 +38,20 @@
 
     
     
+    <!-- Cookie consent (Google Consent Mode v2) — loads BEFORE gtag.js -->
+    <script src="../../assets/js/consent.js"></script>
+    <!-- gtag.js — covers both GA4 and Google Ads -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6PWJCVQQ7B"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-6PWJCVQQ7B', { 'anonymize_ip': true });
+      
+      
+    </script>
+    
     
     
     <script defer src="../../assets/js/tracking.js"></script>
@@ -1121,6 +1135,31 @@
             </nav>
             
             <!-- Cross-show Recommendations -->
+            
+            <section class="blog-related">
+                <h2>You Might Also Like</h2>
+                <div class="blog-related-grid">
+                    
+                    <a href="../../blog/tesla/ep446.html" class="blog-related-card" style="--card-show-color: #E31937">
+                        <span class="blog-related-show" style="color: #E31937">Tesla Shorts Time</span>
+                        <h3>Tesla Shorts Time</h3>
+                        <p>Tesla has started production of the Cybercab at Giga Texas.</p>
+                    </a>
+                    
+                    <a href="../../blog/omni_view/ep036.html" class="blog-related-card" style="--card-show-color: #0B6FD6">
+                        <span class="blog-related-show" style="color: #0B6FD6">Omni View</span>
+                        <h3>UK Prime Minister Keir Starmer faces open revolt as a Labour MP calls for his re...</h3>
+                        <p>UK Prime Minister Keir Starmer faces open revolt as a Labour MP calls for his resignation amid a growing Cabinet rift.</p>
+                    </a>
+                    
+                    <a href="../../blog/fascinating_frontiers/ep056.html" class="blog-related-card" style="--card-show-color: #7C5CFF">
+                        <span class="blog-related-show" style="color: #7C5CFF">Fascinating Frontiers</span>
+                        <h3>NASA’s Nancy Grace Roman Space Telescope has completed final assembly and is on ...</h3>
+                        <p>NASA’s Nancy Grace Roman Space Telescope has completed final assembly and is on track for September launch.</p>
+                    </a>
+                    
+                </div>
+            </section>
             
         </article>
     </div>

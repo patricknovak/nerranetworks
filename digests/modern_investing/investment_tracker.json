@@ -14,11 +14,11 @@
     "nasdaq_ytd_year": 2026
   },
   "summary": {
-    "total_trades": 11,
+    "total_trades": 8,
     "wins": 3,
     "losses": 4,
-    "breakeven": 4,
-    "win_rate_pct": 27.3,
+    "breakeven": 1,
+    "win_rate_pct": 37.5,
     "cumulative_pnl": -41.56,
     "best_trade_pct": 7.88,
     "worst_trade_pct": -7.49,
@@ -28,22 +28,6 @@
     "longest_loss_streak": 1
   },
   "trades": [
-    {
-      "episode_num": 2,
-      "date": "2026-03-23",
-      "symbol": "LGD",
-      "market": "TSX",
-      "strategy": "Asset monetization play following non-core project sale to fund flagship development.",
-      "confidence": "Medium",
-      "target_range": "+4% to +9% by Friday close.",
-      "trade_type": "weekly",
-      "status": "closed",
-      "entry_price": null,
-      "exit_price": null,
-      "pnl_pct": 0.0,
-      "pnl_dollars": 0.0,
-      "lesson": "Market data was unavailable for evaluation."
-    },
     {
       "episode_num": 5,
       "date": "2026-03-26",
@@ -152,22 +136,6 @@
       "sector": "precious_metals"
     },
     {
-      "episode_num": 18,
-      "date": "2026-04-13",
-      "symbol": "WRLG",
-      "market": "TSX",
-      "strategy": "High-grade drill-result catalyst play in the Red Lake gold district, betting on continued resource expansion momentum.",
-      "confidence": "Medium",
-      "target_range": "+6% to +12% by Friday close.",
-      "trade_type": "weekly",
-      "status": "closed",
-      "entry_price": null,
-      "exit_price": null,
-      "pnl_pct": 0.0,
-      "pnl_dollars": 0.0,
-      "lesson": "Market data was unavailable for evaluation."
-    },
-    {
       "episode_num": 19,
       "date": "2026-04-14",
       "symbol": "TMUS",
@@ -188,22 +156,6 @@
       "nasdaq_return_pct": 1.96,
       "alpha_pct": -1.35,
       "sector": "tech"
-    },
-    {
-      "episode_num": 21,
-      "date": "2026-04-16",
-      "symbol": "LUCID",
-      "market": "NASDAQ",
-      "strategy": "Fundamental catalyst play on robotaxi partnership potential combined with bill-of-materials cost reductions.",
-      "confidence": "Medium",
-      "target_range": "+4% to +9% by Friday close.",
-      "trade_type": "weekly",
-      "status": "closed",
-      "entry_price": null,
-      "exit_price": null,
-      "pnl_pct": 0.0,
-      "pnl_dollars": 0.0,
-      "lesson": "Market data was unavailable for evaluation."
     },
     {
       "episode_num": 23,
@@ -239,30 +191,20 @@
     "monthly": {}
   },
   "sectors": {
-    "financials": {
-      "trade_count": 1,
-      "exposure_pct": 10.0,
-      "cumulative_pnl": -74.91
-    },
-    "tech": {
-      "trade_count": 3,
-      "exposure_pct": 30.0,
-      "cumulative_pnl": 50.52
-    },
-    "consumer": {
-      "trade_count": 2,
-      "exposure_pct": 20.0,
-      "cumulative_pnl": -14.4
+    "other": {
+      "trade_count": 6,
+      "cumulative_pnl": -5.55,
+      "exposure_pct": 75.0
     },
     "precious_metals": {
-      "trade_count": 3,
-      "exposure_pct": 30.0,
-      "cumulative_pnl": 36.63
-    },
-    "other": {
       "trade_count": 1,
-      "exposure_pct": 10.0,
-      "cumulative_pnl": -39.4
+      "cumulative_pnl": -42.13,
+      "exposure_pct": 12.5
+    },
+    "tech": {
+      "trade_count": 1,
+      "cumulative_pnl": 6.12,
+      "exposure_pct": 12.5
     }
   },
   "monthly_snapshots": [],

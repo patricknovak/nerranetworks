@@ -38,6 +38,20 @@
 
     
     
+    <!-- Cookie consent (Google Consent Mode v2) — loads BEFORE gtag.js -->
+    <script src="../../assets/js/consent.js"></script>
+    <!-- gtag.js — covers both GA4 and Google Ads -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6PWJCVQQ7B"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-6PWJCVQQ7B', { 'anonymize_ip': true });
+      
+      
+    </script>
+    
     
     
     <script defer src="../../assets/js/tracking.js"></script>
@@ -1264,6 +1278,31 @@ This podcast is curated by Patrick but generated using AI voice synthesis of my 
             </nav>
             
             <!-- Cross-show Recommendations -->
+            
+            <section class="blog-related">
+                <h2>You Might Also Like</h2>
+                <div class="blog-related-grid">
+                    
+                    <a href="../../blog/models_agents/ep034.html" class="blog-related-card" style="--card-show-color: #8B5CF6">
+                        <span class="blog-related-show" style="color: #8B5CF6">Models & Agents</span>
+                        <h3>Qwen3.6-27B paired with llama.cpp speculative decoding delivers 10x token speedu...</h3>
+                        <p>Qwen3.6-27B paired with llama.cpp speculative decoding delivers 10x token speedups in real coding sessions, hitting 136 &hellip;</p>
+                    </a>
+                    
+                    <a href="../../blog/privet_russian/ep013.html" class="blog-related-card" style="--card-show-color: #6366F1">
+                        <span class="blog-related-show" style="color: #6366F1">Привет, Русский!</span>
+                        <h3>Привет, Русский!</h3>
+                        <p>Weather</p>
+                    </a>
+                    
+                    <a href="../../blog/planetterrian/ep049.html" class="blog-related-card" style="--card-show-color: #018DB1">
+                        <span class="blog-related-show" style="color: #018DB1">Planetterrian Daily</span>
+                        <h3>Planetterrian Daily</h3>
+                        <p>Supplementing a specific polyunsaturated fatty acid restored visual function and reversed cellular aging signs in the re&hellip;</p>
+                    </a>
+                    
+                </div>
+            </section>
             
         </article>
     </div>
