@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-23T18:49:59.911136+00:00",
+  "generated_at": "2026-04-24T06:01:49.279067+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 1,
-    "total_cost_last_7_days_usd": 63.235,
-    "total_cost_last_30_days_usd": 389.5803,
+    "total_cost_last_7_days_usd": 52.896,
+    "total_cost_last_30_days_usd": 371.6353,
     "shows": [
       {
         "slug": "env_intel",
@@ -40,8 +40,8 @@
         "x_enabled": true,
         "latest_pub_date": "2026-04-22T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 6.9224,
-        "episodes_last_7_days": 4,
+        "cost_last_7_days_usd": 4.1461,
+        "episodes_last_7_days": 3,
         "p50_pipeline_s": 44.38,
         "success_rate": 1.0
       },
@@ -57,8 +57,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-22T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 3.7148,
-        "episodes_last_7_days": 3,
+        "cost_last_7_days_usd": 2.3007,
+        "episodes_last_7_days": 2,
         "p50_pipeline_s": 28.28,
         "success_rate": 1.0
       },
@@ -91,8 +91,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-20T08:00:00+00:00",
         "pub_status": "stale",
-        "cost_last_7_days_usd": 2.6473,
-        "episodes_last_7_days": 2,
+        "cost_last_7_days_usd": 1.437,
+        "episodes_last_7_days": 1,
         "p50_pipeline_s": 18.3,
         "success_rate": 1.0
       },
@@ -108,8 +108,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-23T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 11.3922,
-        "episodes_last_7_days": 6,
+        "cost_last_7_days_usd": 8.6659,
+        "episodes_last_7_days": 5,
         "p50_pipeline_s": 101.84,
         "success_rate": 1.0
       },
@@ -157,11 +157,11 @@
         "blog_page": "blog/privet_russian/index.html",
         "newsletter_enabled": true,
         "x_enabled": false,
-        "latest_pub_date": "2026-04-22T08:00:00+00:00",
+        "latest_pub_date": "2026-04-24T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 1.8734,
-        "episodes_last_7_days": 2,
-        "p50_pipeline_s": 26.96,
+        "cost_last_7_days_usd": 2.8373,
+        "episodes_last_7_days": 3,
+        "p50_pipeline_s": 26.99,
         "success_rate": 1.0
       },
       {
@@ -176,8 +176,8 @@
         "x_enabled": true,
         "latest_pub_date": "2026-04-23T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 15.8776,
-        "episodes_last_7_days": 9,
+        "cost_last_7_days_usd": 12.7018,
+        "episodes_last_7_days": 8,
         "p50_pipeline_s": 140.12,
         "success_rate": 1.0
       }
@@ -293,7 +293,7 @@
       "details": "5 MP3s tracked in git, digests/ is 63 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 63.2
+        "digests_mb": 63.4
       }
     },
     {
@@ -666,16 +666,16 @@
       },
       "fascinating_frontiers": {
         "last_7_days": {
-          "grok": 0.3013,
-          "tts": 6.6212,
-          "total": 6.9224,
-          "episodes": 4
+          "grok": 0.2149,
+          "tts": 3.9312,
+          "total": 4.1461,
+          "episodes": 3
         },
         "last_30_days": {
-          "grok": 0.9286,
-          "tts": 32.8542,
-          "total": 33.7828,
-          "episodes": 13
+          "grok": 0.8819,
+          "tts": 28.4943,
+          "total": 29.3762,
+          "episodes": 12
         },
         "daily_series": [
           [
@@ -774,16 +774,16 @@
       },
       "finansy_prosto": {
         "last_7_days": {
-          "grok": 0.1885,
-          "tts": 3.5263,
-          "total": 3.7148,
-          "episodes": 3
+          "grok": 0.138,
+          "tts": 2.1627,
+          "total": 2.3007,
+          "episodes": 2
         },
         "last_30_days": {
-          "grok": 0.7104,
-          "tts": 22.0722,
-          "total": 22.7826,
-          "episodes": 13
+          "grok": 0.6749,
+          "tts": 18.9642,
+          "total": 19.6391,
+          "episodes": 12
         },
         "daily_series": [
           [
@@ -990,10 +990,10 @@
       },
       "models_agents_beginners": {
         "last_7_days": {
-          "grok": 0.1103,
-          "tts": 2.537,
-          "total": 2.6473,
-          "episodes": 2
+          "grok": 0.052,
+          "tts": 1.385,
+          "total": 1.437,
+          "episodes": 1
         },
         "last_30_days": {
           "grok": 0.607,
@@ -1066,16 +1066,16 @@
       },
       "modern_investing": {
         "last_7_days": {
-          "grok": 0.3856,
-          "tts": 11.0065,
-          "total": 11.3922,
-          "episodes": 6
+          "grok": 0.3251,
+          "tts": 8.3407,
+          "total": 8.6659,
+          "episodes": 5
         },
         "last_30_days": {
-          "grok": 1.4476,
-          "tts": 68.5975,
-          "total": 70.0452,
-          "episodes": 25
+          "grok": 1.3966,
+          "tts": 64.0412,
+          "total": 65.4377,
+          "episodes": 24
         },
         "daily_series": [
           [
@@ -1438,15 +1438,15 @@
       },
       "privet_russian": {
         "last_7_days": {
-          "grok": 0.074,
-          "tts": 1.7994,
-          "total": 1.8734,
-          "episodes": 2
+          "grok": 0.1121,
+          "tts": 2.7252,
+          "total": 2.8373,
+          "episodes": 3
         },
         "last_30_days": {
-          "grok": 0.3415,
-          "tts": 12.7886,
-          "total": 13.1301,
+          "grok": 0.3421,
+          "tts": 11.5412,
+          "total": 11.8833,
           "episodes": 9
         },
         "daily_series": [
@@ -1489,21 +1489,25 @@
           [
             "2026-04-22",
             0.8812
+          ],
+          [
+            "2026-04-24",
+            0.9639
           ]
         ]
       },
       "tesla": {
         "last_7_days": {
-          "grok": 1.0386,
-          "tts": 14.8391,
-          "total": 15.8776,
-          "episodes": 9
+          "grok": 0.9196,
+          "tts": 11.7822,
+          "total": 12.7018,
+          "episodes": 8
         },
         "last_30_days": {
-          "grok": 3.0422,
-          "tts": 81.0861,
-          "total": 84.1283,
-          "episodes": 33
+          "grok": 2.9929,
+          "tts": 76.5948,
+          "total": 79.5877,
+          "episodes": 32
         },
         "daily_series": [
           [
@@ -1630,16 +1634,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 2.9794,
-      "tts": 60.2556,
-      "total": 63.235,
-      "episodes": 38
+      "grok": 2.6429,
+      "tts": 50.2531,
+      "total": 52.896,
+      "episodes": 34
     },
     "network_last_30_days": {
-      "grok": 10.8506,
-      "tts": 378.7297,
-      "total": 389.5803,
-      "episodes": 163
+      "grok": 10.6686,
+      "tts": 360.9667,
+      "total": 371.6353,
+      "episodes": 159
     }
   },
   "pipeline_health": {
@@ -2147,20 +2151,15 @@
       ]
     },
     "privet_russian": {
-      "sample_size": 11,
-      "p50_duration_s": 26.96,
-      "p95_duration_s": 38.79,
+      "sample_size": 12,
+      "p50_duration_s": 26.99,
+      "p95_duration_s": 30.29,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 12.98,
-        "generate_digest": 13.12
+        "fetch_and_dedup": 12.77,
+        "generate_digest": 13.66
       },
       "recent": [
-        {
-          "episode_num": 3,
-          "total_duration_s": 20.28,
-          "success": true
-        },
         {
           "episode_num": 4,
           "total_duration_s": 29.51,
@@ -2204,6 +2203,11 @@
         {
           "episode_num": 12,
           "total_duration_s": 16.51,
+          "success": true
+        },
+        {
+          "episode_num": 13,
+          "total_duration_s": 30.02,
           "success": true
         }
       ]
@@ -2556,9 +2560,16 @@
       },
       {
         "file": "privet_russian_podcast.rss",
-        "entry_count": 12,
-        "latest_pub_date": "2026-04-22T08:00:00+00:00",
+        "entry_count": 13,
+        "latest_pub_date": "2026-04-24T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://op3.dev/e/audio.nerranetwork.com/privet_russian/PR_Ep013_20260424.mp3",
+            "host": "op3.dev",
+            "pub_date": "2026-04-24T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://op3.dev/e/audio.nerranetwork.com/privet_russian/PR_Ep012_20260422.mp3",
             "host": "op3.dev",
@@ -2570,13 +2581,6 @@
             "url": "https://op3.dev/e/audio.nerranetwork.com/privet_russian/PR_Ep011_20260420.mp3",
             "host": "op3.dev",
             "pub_date": "2026-04-20T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://audio.nerranetwork.com/privet_russian/PR_Ep010_20260410.mp3",
-            "host": "audio.nerranetwork.com",
-            "pub_date": "2026-04-10T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
@@ -2987,152 +2991,152 @@
         "count": 2,
         "last_episode": 26,
         "last_date": "2026-04-23",
-        "days_since": 0,
-        "cools_in_days": 21
+        "days_since": 1,
+        "cools_in_days": 20
       },
       {
         "tag": "analyst_upgrade",
         "count": 4,
         "last_episode": 26,
         "last_date": "2026-04-23",
-        "days_since": 0,
-        "cools_in_days": 21
+        "days_since": 1,
+        "cools_in_days": 20
       },
       {
         "tag": "portfolio_rebalancing",
         "count": 2,
         "last_episode": 26,
         "last_date": "2026-04-23",
-        "days_since": 0,
-        "cools_in_days": 21
+        "days_since": 1,
+        "cools_in_days": 20
       },
       {
         "tag": "earnings_surprise",
         "count": 2,
         "last_episode": 26,
         "last_date": "2026-04-23",
-        "days_since": 0,
-        "cools_in_days": 21
+        "days_since": 1,
+        "cools_in_days": 20
       },
       {
         "tag": "sector_concentration",
         "count": 1,
         "last_episode": 26,
         "last_date": "2026-04-23",
-        "days_since": 0,
-        "cools_in_days": 21
+        "days_since": 1,
+        "cools_in_days": 20
       },
       {
         "tag": "risk_management",
         "count": 2,
         "last_episode": 25,
         "last_date": "2026-04-22",
-        "days_since": 1,
-        "cools_in_days": 20
+        "days_since": 2,
+        "cools_in_days": 19
       },
       {
         "tag": "catalyst_confirmation",
         "count": 2,
         "last_episode": 25,
         "last_date": "2026-04-22",
-        "days_since": 1,
-        "cools_in_days": 20
+        "days_since": 2,
+        "cools_in_days": 19
       },
       {
         "tag": "fx_hedging",
         "count": 1,
         "last_episode": 25,
         "last_date": "2026-04-22",
-        "days_since": 1,
-        "cools_in_days": 20
+        "days_since": 2,
+        "cools_in_days": 19
       },
       {
         "tag": "geopolitical_premium",
         "count": 5,
         "last_episode": 24,
         "last_date": "2026-04-21",
-        "days_since": 2,
-        "cools_in_days": 28
+        "days_since": 3,
+        "cools_in_days": 27
       },
       {
         "tag": "catalyst_fade",
         "count": 1,
         "last_episode": 24,
         "last_date": "2026-04-21",
-        "days_since": 2,
-        "cools_in_days": 19
+        "days_since": 3,
+        "cools_in_days": 18
       },
       {
         "tag": "technical_support",
         "count": 1,
         "last_episode": 24,
         "last_date": "2026-04-21",
-        "days_since": 2,
-        "cools_in_days": 19
+        "days_since": 3,
+        "cools_in_days": 18
       },
       {
         "tag": "covered_call",
         "count": 1,
         "last_episode": 24,
         "last_date": "2026-04-21",
-        "days_since": 2,
-        "cools_in_days": 19
+        "days_since": 3,
+        "cools_in_days": 18
       },
       {
         "tag": "sector_rotation",
         "count": 1,
         "last_episode": 23,
         "last_date": "2026-04-20",
-        "days_since": 3,
-        "cools_in_days": 18
+        "days_since": 4,
+        "cools_in_days": 17
       },
       {
         "tag": "position_sizing",
         "count": 1,
         "last_episode": 23,
         "last_date": "2026-04-20",
-        "days_since": 3,
-        "cools_in_days": 18
+        "days_since": 4,
+        "cools_in_days": 17
       },
       {
         "tag": "momentum_entry",
         "count": 1,
         "last_episode": 23,
         "last_date": "2026-04-20",
-        "days_since": 3,
-        "cools_in_days": 18
+        "days_since": 4,
+        "cools_in_days": 17
       },
       {
         "tag": "mean_reversion",
         "count": 1,
         "last_episode": 23,
         "last_date": "2026-04-20",
-        "days_since": 3,
-        "cools_in_days": 18
+        "days_since": 4,
+        "cools_in_days": 17
       },
       {
         "tag": "bid_ask_spread",
         "count": 6,
         "last_episode": 21,
         "last_date": "2026-04-16",
-        "days_since": 7,
-        "cools_in_days": 38
+        "days_since": 8,
+        "cools_in_days": 37
       },
       {
         "tag": "order_flow_slippage",
         "count": 5,
         "last_episode": 21,
         "last_date": "2026-04-16",
-        "days_since": 7,
-        "cools_in_days": 38
+        "days_since": 8,
+        "cools_in_days": 37
       },
       {
         "tag": "tax_loss_harvesting",
         "count": 2,
         "last_episode": 18,
         "last_date": "2026-04-13",
-        "days_since": 10,
-        "cools_in_days": 11
+        "days_since": 11,
+        "cools_in_days": 10
       }
     ],
     "sector_concentration_warning": "tech: 30% of recent trades (cumulative P&L $+50.52)",
