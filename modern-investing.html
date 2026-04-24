@@ -40,6 +40,20 @@
 
     
     
+    <!-- Cookie consent (Google Consent Mode v2) — loads BEFORE gtag.js -->
+    <script src="assets/js/consent.js"></script>
+    <!-- gtag.js — covers both GA4 and Google Ads -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6PWJCVQQ7B"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-6PWJCVQQ7B', { 'anonymize_ip': true });
+      
+      
+    </script>
+    
     
     
     <script defer src="assets/js/tracking.js"></script>
@@ -488,33 +502,33 @@
                 <div class="glass-card" style="padding:var(--sp-4);">
                     <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--nn-text-muted);">NASDAQ ^IXIC</div>
                     <div style="font-size:1.5rem;font-weight:700;margin-top:var(--sp-1);">
-                        24,658
+                        24,438
                     </div>
                     <div style="font-size:0.85rem;color:var(--nn-text-muted);margin-top:var(--sp-1);">
                         YTD
-                        +6.12%
+                        +5.18%
                     </div>
                 </div>
                 <div class="glass-card" style="padding:var(--sp-4);">
                     <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--nn-text-muted);">Portfolio YTD</div>
                     <div style="font-size:1.5rem;font-weight:700;margin-top:var(--sp-1);">
                         
-                        -0.38%
+                        -0.52%
                     </div>
                     <div style="font-size:0.85rem;color:var(--nn-text-muted);margin-top:var(--sp-1);">
                         Since inception
                         
-                        -0.38%
+                        -0.52%
                     </div>
                 </div>
                 <div class="glass-card" style="padding:var(--sp-4);">
                     <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--nn-text-muted);">Alpha vs NASDAQ</div>
                     
                     <div style="font-size:1.5rem;font-weight:700;margin-top:var(--sp-1);color:#ef4444;">
-                        -6.50% YTD
+                        -5.70% YTD
                     </div>
                     <div style="font-size:0.85rem;color:var(--nn-text-muted);margin-top:var(--sp-1);">
-                        Since inception -10.59%
+                        Since inception -9.75%
                     </div>
                 </div>
                 <div class="glass-card" style="padding:var(--sp-4);">
@@ -532,7 +546,7 @@
             <!-- All trades table -->
             <div class="glass-card" style="padding:0;overflow-x:auto;margin-bottom:var(--sp-6);">
                 <div style="padding:var(--sp-4);border-bottom:1px solid var(--nn-border);font-weight:600;">
-                    All mock trades (8)
+                    All mock trades (9)
                 </div>
                 <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
                     <thead style="background:rgba(255,255,255,0.03);">
@@ -551,6 +565,20 @@
                         </tr>
                     </thead>
                     <tbody>
+                        
+                        <tr style="border-top:1px solid var(--nn-border);">
+                            <td style="padding:6px 12px;">2026-04-24</td>
+                            <td style="padding:6px 12px;"><a href="blog/modern_investing/ep027.html" style="color:var(--show-color);text-decoration:none;font-weight:600;" title="Read full trade setup and analysis">Ep27</a></td>
+                            <td style="padding:6px 12px;font-weight:600;">TECK</td>
+                            <td style="padding:6px 12px;color:var(--nn-text-muted);font-size:0.82rem;">precious_metals</td>
+                            <td style="padding:6px 12px;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="Sector rotation into mining on positive earnings reaction amid commodity supply disruptions">Sector rotation into mining on positive earnings reaction amid commodity supply disruptions</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;">—</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;">—</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;color:#10b981;">—</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--nn-text-muted);">—</td>
+                            <td style="padding:6px 12px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:#10b981;">—</td>
+                            <td style="padding:6px 12px;font-size:0.78rem;color:var(--nn-text-muted);max-width:200px;">—</td>
+                        </tr>
                         
                         <tr style="border-top:1px solid var(--nn-border);">
                             <td style="padding:6px 12px;">2026-04-20</td>
@@ -695,30 +723,50 @@
                         
                         <tr style="border-top:1px solid var(--nn-border);">
                             <td style="padding:6px 12px;text-transform:capitalize;">tech</td>
-                            <td style="padding:6px 12px;text-align:right;">1</td>
+                            <td style="padding:6px 12px;text-align:right;">3</td>
                             <td style="padding:6px 12px;text-align:right;">0%</td>
-                            <td style="padding:6px 12px;text-align:right;color:#10b981;">+6.12%</td>
-                            <td style="padding:6px 12px;text-align:right;font-weight:600;color:#10b981;">$+6.12</td>
-                        </tr>
-                        
-                        
-                        
-                        <tr style="border-top:1px solid var(--nn-border);">
-                            <td style="padding:6px 12px;text-transform:capitalize;">other</td>
-                            <td style="padding:6px 12px;text-align:right;">6</td>
-                            <td style="padding:6px 12px;text-align:right;">0%</td>
-                            <td style="padding:6px 12px;text-align:right;color:#ef4444;">-0.92%</td>
-                            <td style="padding:6px 12px;text-align:right;font-weight:600;color:#ef4444;">$-5.55</td>
+                            <td style="padding:6px 12px;text-align:right;color:#10b981;">+16.84%</td>
+                            <td style="padding:6px 12px;text-align:right;font-weight:600;color:#10b981;">$+50.52</td>
                         </tr>
                         
                         
                         
                         <tr style="border-top:1px solid var(--nn-border);">
                             <td style="padding:6px 12px;text-transform:capitalize;">precious metals</td>
+                            <td style="padding:6px 12px;text-align:right;">3</td>
+                            <td style="padding:6px 12px;text-align:right;">0%</td>
+                            <td style="padding:6px 12px;text-align:right;color:#10b981;">+12.21%</td>
+                            <td style="padding:6px 12px;text-align:right;font-weight:600;color:#10b981;">$+36.63</td>
+                        </tr>
+                        
+                        
+                        
+                        <tr style="border-top:1px solid var(--nn-border);">
+                            <td style="padding:6px 12px;text-transform:capitalize;">consumer</td>
                             <td style="padding:6px 12px;text-align:right;">1</td>
                             <td style="padding:6px 12px;text-align:right;">0%</td>
-                            <td style="padding:6px 12px;text-align:right;color:#ef4444;">-42.13%</td>
-                            <td style="padding:6px 12px;text-align:right;font-weight:600;color:#ef4444;">$-42.13</td>
+                            <td style="padding:6px 12px;text-align:right;color:#ef4444;">-14.40%</td>
+                            <td style="padding:6px 12px;text-align:right;font-weight:600;color:#ef4444;">$-14.40</td>
+                        </tr>
+                        
+                        
+                        
+                        <tr style="border-top:1px solid var(--nn-border);">
+                            <td style="padding:6px 12px;text-transform:capitalize;">other</td>
+                            <td style="padding:6px 12px;text-align:right;">1</td>
+                            <td style="padding:6px 12px;text-align:right;">0%</td>
+                            <td style="padding:6px 12px;text-align:right;color:#ef4444;">-39.40%</td>
+                            <td style="padding:6px 12px;text-align:right;font-weight:600;color:#ef4444;">$-39.40</td>
+                        </tr>
+                        
+                        
+                        
+                        <tr style="border-top:1px solid var(--nn-border);">
+                            <td style="padding:6px 12px;text-transform:capitalize;">financials</td>
+                            <td style="padding:6px 12px;text-align:right;">1</td>
+                            <td style="padding:6px 12px;text-align:right;">0%</td>
+                            <td style="padding:6px 12px;text-align:right;color:#ef4444;">-74.91%</td>
+                            <td style="padding:6px 12px;text-align:right;font-weight:600;color:#ef4444;">$-74.91</td>
                         </tr>
                         
                         
@@ -732,11 +780,19 @@
                 <div style="font-weight:600;margin-bottom:var(--sp-3);">
                     How this show improves itself
                     <span style="font-weight:normal;font-size:0.82rem;color:var(--nn-text-muted);margin-left:var(--sp-2);">
-                        (8 active rules — each one was written by a past episode and is obeyed by future episodes)
+                        (9 active rules — each one was written by a past episode and is obeyed by future episodes)
                     </span>
                 </div>
                 
                 <ul style="margin:0;padding-left:var(--sp-5);font-size:0.92rem;line-height:1.7;">
+                    
+                    <li style="margin-bottom:var(--sp-2);">
+                        <span style="font-family:monospace;color:var(--nn-text-muted);font-size:0.82rem;">LL-009</span>
+                        <em style="color:var(--nn-text-muted);">[content, Ep27, 2026-04-24]</em>
+                        — Even with a publicly confirmed binary catalyst, the position moved against us, likely because expectations were already elevated and broader sector momentum was lacking. This reinforces the critical process gap in data verification
+                        <br>
+                        <strong>Rule:</strong> Always verify data availability from multiple providers before declaring a weekly hold closed
+                    </li>
                     
                     <li style="margin-bottom:var(--sp-2);">
                         <span style="font-family:monospace;color:var(--nn-text-muted);font-size:0.82rem;">LL-008</span>
