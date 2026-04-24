@@ -6,7 +6,7 @@
     "position_size": 1000,
     "currency": "USD",
     "created": "2026-03-16",
-    "last_updated": "2026-04-20",
+    "last_updated": "2026-04-24",
     "inception_date": "2026-03-16",
     "benchmark_symbol": "^IXIC",
     "nasdaq_inception_close": 22374.18,
@@ -177,34 +177,61 @@
       "nasdaq_exit": 24404.39,
       "nasdaq_return_pct": 0.0,
       "alpha_pct": -3.94
+    },
+    {
+      "episode_num": 27,
+      "date": "2026-04-24",
+      "symbol": "TECK",
+      "market": "TSX",
+      "strategy": "Sector rotation into mining on positive earnings reaction amid commodity supply disruptions",
+      "confidence": "Medium",
+      "target_range": "+2% to +6%",
+      "trade_type": "weekly",
+      "status": "open",
+      "entry_price": null,
+      "exit_price": null,
+      "pnl_pct": null,
+      "pnl_dollars": null,
+      "lesson": "",
+      "sector": "precious_metals"
     }
   ],
   "benchmark": {
-    "current_close": 24657.57,
-    "inception_to_date_pct": 10.21,
-    "ytd_pct": 6.12,
-    "last_updated": "2026-04-23"
+    "current_close": 24438.5,
+    "inception_to_date_pct": 9.23,
+    "ytd_pct": 5.18,
+    "last_updated": "2026-04-24"
   },
   "alpha": {
-    "inception_to_date_pct": -10.59,
-    "ytd_pct": -6.5,
+    "inception_to_date_pct": -9.75,
+    "ytd_pct": -5.7,
     "monthly": {}
   },
   "sectors": {
-    "other": {
-      "trade_count": 6,
-      "cumulative_pnl": -5.55,
-      "exposure_pct": 75.0
-    },
-    "precious_metals": {
+    "financials": {
       "trade_count": 1,
-      "cumulative_pnl": -42.13,
-      "exposure_pct": 12.5
+      "exposure_pct": 11.1,
+      "cumulative_pnl": -74.91
     },
     "tech": {
+      "trade_count": 3,
+      "exposure_pct": 33.3,
+      "cumulative_pnl": 50.52
+    },
+    "consumer": {
       "trade_count": 1,
-      "cumulative_pnl": 6.12,
-      "exposure_pct": 12.5
+      "exposure_pct": 11.1,
+      "cumulative_pnl": -14.4
+    },
+    "precious_metals": {
+      "trade_count": 3,
+      "exposure_pct": 33.3,
+      "cumulative_pnl": 36.63
+    },
+    "other": {
+      "trade_count": 1,
+      "exposure_pct": 11.1,
+      "cumulative_pnl": -39.4
     }
   },
   "monthly_snapshots": [],
@@ -213,6 +240,7 @@
     "mit_technical_analysis",
     "mit_options_basics",
     "mit_sector_rotation",
-    "mit_dividend_investing"
+    "mit_dividend_investing",
+    "mit_profile_buffett"
   ]
 }
