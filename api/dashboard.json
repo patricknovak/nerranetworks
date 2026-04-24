@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-24T06:01:49.279067+00:00",
+  "generated_at": "2026-04-24T07:25:59.488609+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 1,
-    "total_cost_last_7_days_usd": 52.896,
-    "total_cost_last_30_days_usd": 371.6353,
+    "total_cost_last_7_days_usd": 54.378,
+    "total_cost_last_30_days_usd": 373.1173,
     "shows": [
       {
         "slug": "env_intel",
@@ -38,10 +38,10 @@
         "blog_page": "blog/fascinating_frontiers/index.html",
         "newsletter_enabled": true,
         "x_enabled": true,
-        "latest_pub_date": "2026-04-22T08:00:00+00:00",
+        "latest_pub_date": "2026-04-24T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 4.1461,
-        "episodes_last_7_days": 3,
+        "cost_last_7_days_usd": 5.6281,
+        "episodes_last_7_days": 4,
         "p50_pipeline_s": 44.38,
         "success_rate": 1.0
       },
@@ -290,10 +290,10 @@
       "id": "item_1_repo_size",
       "title": "Repo & R2 size",
       "status": "ok",
-      "details": "5 MP3s tracked in git, digests/ is 63 MB.",
+      "details": "5 MP3s tracked in git, digests/ is 64 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 63.4
+        "digests_mb": 63.6
       }
     },
     {
@@ -666,16 +666,16 @@
       },
       "fascinating_frontiers": {
         "last_7_days": {
-          "grok": 0.2149,
-          "tts": 3.9312,
-          "total": 4.1461,
-          "episodes": 3
+          "grok": 0.3067,
+          "tts": 5.3214,
+          "total": 5.6281,
+          "episodes": 4
         },
         "last_30_days": {
-          "grok": 0.8819,
-          "tts": 28.4943,
-          "total": 29.3762,
-          "episodes": 12
+          "grok": 0.9737,
+          "tts": 29.8845,
+          "total": 30.8582,
+          "episodes": 13
         },
         "daily_series": [
           [
@@ -769,6 +769,10 @@
           [
             "2026-04-22",
             1.3058
+          ],
+          [
+            "2026-04-24",
+            1.4819
           ]
         ]
       },
@@ -1634,16 +1638,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 2.6429,
-      "tts": 50.2531,
-      "total": 52.896,
-      "episodes": 34
+      "grok": 2.7346,
+      "tts": 51.6434,
+      "total": 54.378,
+      "episodes": 35
     },
     "network_last_30_days": {
-      "grok": 10.6686,
-      "tts": 360.9667,
-      "total": 371.6353,
-      "episodes": 159
+      "grok": 10.7603,
+      "tts": 362.3569,
+      "total": 373.1173,
+      "episodes": 160
     }
   },
   "pipeline_health": {
@@ -1711,21 +1715,16 @@
       ]
     },
     "fascinating_frontiers": {
-      "sample_size": 17,
+      "sample_size": 18,
       "p50_duration_s": 44.38,
-      "p95_duration_s": 87.5,
+      "p95_duration_s": 100.18,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 9.85,
-        "generate_digest": 19.82,
-        "generate_digest_slow_news": 23.43
+        "fetch_and_dedup": 9.65,
+        "generate_digest": 24.77,
+        "generate_digest_slow_news": 32.97
       },
       "recent": [
-        {
-          "episode_num": 47,
-          "total_duration_s": 44.38,
-          "success": true
-        },
         {
           "episode_num": 48,
           "total_duration_s": 52.12,
@@ -1769,6 +1768,11 @@
         {
           "episode_num": 56,
           "total_duration_s": 73.41,
+          "success": true
+        },
+        {
+          "episode_num": 57,
+          "total_duration_s": 262.62,
           "success": true
         }
       ]
@@ -2320,9 +2324,16 @@
       },
       {
         "file": "fascinating_frontiers_podcast.rss",
-        "entry_count": 45,
-        "latest_pub_date": "2026-04-22T08:00:00+00:00",
+        "entry_count": 46,
+        "latest_pub_date": "2026-04-24T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://op3.dev/e/audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep057_20260424.mp3",
+            "host": "op3.dev",
+            "pub_date": "2026-04-24T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://op3.dev/e/audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep056_20260422.mp3",
             "host": "op3.dev",
@@ -2334,13 +2345,6 @@
             "url": "https://op3.dev/e/audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep055_20260420.mp3",
             "host": "op3.dev",
             "pub_date": "2026-04-20T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep054_20260418.mp3",
-            "host": "audio.nerranetwork.com",
-            "pub_date": "2026-04-18T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
@@ -2598,11 +2602,11 @@
   "mit_performance": {
     "available": true,
     "summary": {
-      "total_trades": 11,
+      "total_trades": 8,
       "wins": 3,
       "losses": 4,
-      "breakeven": 4,
-      "win_rate_pct": 27.3,
+      "breakeven": 1,
+      "win_rate_pct": 37.5,
       "cumulative_pnl": -41.56,
       "best_trade_pct": 7.88,
       "worst_trade_pct": -7.49,
@@ -2623,30 +2627,20 @@
       "monthly": {}
     },
     "sectors": {
-      "financials": {
-        "trade_count": 1,
-        "exposure_pct": 10.0,
-        "cumulative_pnl": -74.91
-      },
-      "tech": {
-        "trade_count": 3,
-        "exposure_pct": 30.0,
-        "cumulative_pnl": 50.52
-      },
-      "consumer": {
-        "trade_count": 2,
-        "exposure_pct": 20.0,
-        "cumulative_pnl": -14.4
+      "other": {
+        "trade_count": 6,
+        "cumulative_pnl": -5.55,
+        "exposure_pct": 75.0
       },
       "precious_metals": {
-        "trade_count": 3,
-        "exposure_pct": 30.0,
-        "cumulative_pnl": 36.63
-      },
-      "other": {
         "trade_count": 1,
-        "exposure_pct": 10.0,
-        "cumulative_pnl": -39.4
+        "cumulative_pnl": -42.13,
+        "exposure_pct": 12.5
+      },
+      "tech": {
+        "trade_count": 1,
+        "cumulative_pnl": 6.12,
+        "exposure_pct": 12.5
       }
     },
     "monthly_snapshots": [],
@@ -2673,27 +2667,6 @@
         "confidence": "Medium"
       },
       {
-        "episode_num": 21,
-        "date": "2026-04-16",
-        "symbol": "LUCID",
-        "market": "NASDAQ",
-        "sector": "other",
-        "strategy": "Fundamental catalyst play on robotaxi partnership potential combined with bill-of-materials cost reductions.",
-        "trade_type": "weekly",
-        "status": "closed",
-        "entry_price": null,
-        "exit_price": null,
-        "pnl_pct": 0.0,
-        "pnl_dollars": 0.0,
-        "nasdaq_entry": null,
-        "nasdaq_exit": null,
-        "nasdaq_return_pct": null,
-        "alpha_pct": null,
-        "lesson_tags": [],
-        "lesson": "Market data was unavailable for evaluation.",
-        "confidence": "Medium"
-      },
-      {
         "episode_num": 19,
         "date": "2026-04-14",
         "symbol": "TMUS",
@@ -2712,27 +2685,6 @@
         "alpha_pct": -1.35,
         "lesson_tags": [],
         "lesson": "",
-        "confidence": "Medium"
-      },
-      {
-        "episode_num": 18,
-        "date": "2026-04-13",
-        "symbol": "WRLG",
-        "market": "TSX",
-        "sector": "other",
-        "strategy": "High-grade drill-result catalyst play in the Red Lake gold district, betting on continued resource expansion momentum.",
-        "trade_type": "weekly",
-        "status": "closed",
-        "entry_price": null,
-        "exit_price": null,
-        "pnl_pct": 0.0,
-        "pnl_dollars": 0.0,
-        "nasdaq_entry": null,
-        "nasdaq_exit": null,
-        "nasdaq_return_pct": null,
-        "alpha_pct": null,
-        "lesson_tags": [],
-        "lesson": "Market data was unavailable for evaluation.",
         "confidence": "Medium"
       },
       {
@@ -2859,27 +2811,6 @@
         "alpha_pct": null,
         "lesson_tags": [],
         "lesson": "",
-        "confidence": "Medium"
-      },
-      {
-        "episode_num": 2,
-        "date": "2026-03-23",
-        "symbol": "LGD",
-        "market": "TSX",
-        "sector": "other",
-        "strategy": "Asset monetization play following non-core project sale to fund flagship development.",
-        "trade_type": "weekly",
-        "status": "closed",
-        "entry_price": null,
-        "exit_price": null,
-        "pnl_pct": 0.0,
-        "pnl_dollars": 0.0,
-        "nasdaq_entry": null,
-        "nasdaq_exit": null,
-        "nasdaq_return_pct": null,
-        "alpha_pct": null,
-        "lesson_tags": [],
-        "lesson": "Market data was unavailable for evaluation.",
         "confidence": "Medium"
       }
     ],
@@ -3139,7 +3070,7 @@
         "cools_in_days": 10
       }
     ],
-    "sector_concentration_warning": "tech: 30% of recent trades (cumulative P&L $+50.52)",
+    "sector_concentration_warning": "other: 75% of recent trades (cumulative P&L $-5.55)",
     "last_updated": "2026-04-20"
   }
 }
