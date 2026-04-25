@@ -5,7 +5,7 @@
     <description>Ten podcasts in two languages keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, modern investing, financial literacy, and Russian language learning.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Sat, 25 Apr 2026 06:35:23 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 25 Apr 2026 08:01:49 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg</url>
       <title>Nerra Network</title>
@@ -81,6 +81,32 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episodeType>full</itunes:episodeType>
       <podcast:chapters url="https://nerranetwork.com/digests/planetterrian/chapters_ep050.json" type="application/json+chapters" />
       <podcast:transcript url="https://nerranetwork.com/digests/planetterrian/Planetterrian_Daily_Ep050_20260425_transcript.json" type="application/json" />
+    </item>
+    <item>
+      <title>Ep 35: Google DeepMind's Vision Banana shows image generation pretraining may be the true foundation model path for computer vision, beating SAM 3 on segmentation and Depth Anything V3 on metric depth.</title>
+      <link>https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep035_20260425.mp3</link>
+      <description>**HOOK:** Google DeepMind's Vision Banana shows image generation pretraining may be the true foundation model path for computer vision, beating SAM 3 on segmentation and Depth Anything V3 on metric depth.
+
+**What You Need to Know:** DeepMind argues convincingly that generative pretraining for images delivers the same leap for vision that GPT-style pretraining delivered for language, with strong benchmark results to back it. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">models-agents-ep035-20260425-080145805558</guid>
+      <enclosure url="https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep035_20260425.mp3" length="19459596" type="audio/mpeg" />
+      <pubDate>Sat, 25 Apr 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
+      <itunes:duration>13:30</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**HOOK:** Google DeepMind's Vision Banana shows image generation pretraining may be the true foundation model path for computer vision, beating SAM 3 on segmentation and Depth Anything V3 on metric depth.
+
+**What You Need to Know:** DeepMind argues convincingly that generative pretraining for images delivers the same leap for vision that GPT-style pretraining delivered for language, with strong benchmark results to back it. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>35</itunes:episode>
+      <itunes:title>Ep 35: Google DeepMind's Vision Banana shows image generation pretraining may be the true foundation model path for computer vision, beating SAM 3 on segmentation and Depth Anything V3 on metric depth.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+      <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep035.json" type="application/json+chapters" />
+      <podcast:transcript url="https://nerranetwork.com/digests/models_agents/Models_Agents_Ep035_20260425_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Ep 447: Tesla patented a Lane Language Model that predicts road geometry like a chatbot predicts the next word.</title>
@@ -470,7 +496,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Ep 34: Qwen3.6-27B paired with llama.cpp speculative decoding delivers 10x token speedups in real coding sessions, hitting 136 t/s on consumer hardware.</title>
-      <link>https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep034_20260423.mp3</link>
       <description>**HOOK:** Qwen3.6-27B paired with llama.cpp speculative decoding delivers 10x token speedups in real coding sessions, hitting 136 t/s on consumer hardware.
 
 **What You Need to Know:** The standout story today is the dramatic inference acceleration developers are seeing with the new Qwen3.6-27B model when using ngram-based speculative decoding in llama.cpp. ...
@@ -491,8 +516,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>34</itunes:episode>
       <itunes:title>Ep 34: Qwen3.6-27B paired with llama.cpp speculative decoding delivers 10x token speedups in real coding sessions, hitting 136 t/s on consumer hardware.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-      <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep034.json" type="application/json+chapters" />
-      <podcast:transcript url="https://nerranetwork.com/digests/models_agents/Models_Agents_Ep034_20260423_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Ep 26: Canada Growth Fund acquires 22% of Nouveau Monde Graphite, triggering investor interest in Canadian critical minerals.</title>
@@ -1559,29 +1582,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:season>1</itunes:season>
       <itunes:episode>46</itunes:episode>
       <itunes:title>Ep 46: Ideaya’s eye cancer drug met its phase 2/3 primary endpoint, clearing a path to accelerated FDA filing later this year.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 24: BC NDP pauses DRIPA amendments amid minority-government risk, directly affecting Indigenous consultation requirements on contaminated sites and remediation projects.</title>
-      <description>**HOOK:** BC NDP pauses DRIPA amendments amid minority-government risk, directly affecting Indigenous consultation requirements on contaminated sites and remediation projects.
-
-**Executive Summary:** British Columbia has temporarily withdrawn proposed changes to the Declaration on the Rights of Indigenous Peoples Act while facing potential government collapse, with Premier Eby signalling that core sections still require pause. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
-      <guid isPermaLink="false">env-intel-ep024-20260415-073855</guid>
-      <enclosure url="https://audio.nerranetwork.com/env_intel/Env_Intel_Ep024_20260415.mp3" length="22665134" type="audio/mpeg" />
-      <pubDate>Wed, 15 Apr 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/environmental-intelligence.jpg" />
-      <itunes:duration>15:44</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary>**HOOK:** BC NDP pauses DRIPA amendments amid minority-government risk, directly affecting Indigenous consultation requirements on contaminated sites and remediation projects.
-
-**Executive Summary:** British Columbia has temporarily withdrawn proposed changes to the Declaration on the Rights of Indigenous Peoples Act while facing potential government collapse, with Premier Eby signalling that core sections still require pause. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>24</itunes:episode>
-      <itunes:title>Ep 24: BC NDP pauses DRIPA amendments amid minority-government risk, directly affecting Indigenous consultation requirements on contaminated sites and remediation projects.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>

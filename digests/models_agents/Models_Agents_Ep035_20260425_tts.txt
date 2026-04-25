@@ -1,0 +1,223 @@
+Hey everyone, welcome to Models and Agents, episode thirty-five. It's April twenty-fifth, twenty twenty-six. Your daily briefing on the A I models and agents that are changing everything. And no, not THOSE kinds of models and agents. Let's get into it.
+
+Google DeepMind's Vision Banana shows image generation pretraining may be the true foundation model path for computer vision, beating SAM 3 on segmentation and Depth Anything V3 on metric depth.
+
+What you need to know today is that DeepMind argues convincingly that generative pretraining for images delivers the same leap for vision that G P T style pretraining delivered for language.
+
+The benchmark results back this up in impressive fashion.
+
+At the same time the local L L M community keeps getting more excited about sparse models that punch well above their weight on agentic coding.
+
+And we have fresh prompting guidance for G P T 5.5 that basically says forget everything you knew about previous versions and start fresh.
+
+This week pay attention to the accelerating quality of sparse and MoE local models alongside fresh guidance on how to actually extract performance from the latest frontier releases.
+
+The top story is Google DeepMind introducing Vision Banana.
+
+It is an instruction-tuned image generator whose pretraining approach they position as the vision equivalent of G P T style language pretraining.
+
+The model reportedly outperforms SAM 3 on segmentation tasks.
+
+It also beats Depth Anything V3 on metric depth estimation.
+
+What makes this significant is the suggestion that scaling generative objectives on images yields more transferable representations than traditional supervised vision pipelines.
+
+This reframes computer vision foundation models around generation rather than pure discriminative training.
+
+It potentially unifies image understanding and creation under one pretraining paradigm.
+
+For developers working on segmentation, depth estimation, or multimodal agents this is immediately relevant.
+
+You can now experiment with a single generative backbone that appears stronger on core geometric tasks than specialized models built for those exact purposes.
+
+Keep watching for follow-up releases that integrate this approach into agentic vision workflows.
+
+Open-weight variants would let the community stress-test the claims at real scale.
+
+Moving to model updates, the sparse Qwenthree point six to thirty-fiveB-A3B continues to impress.
+
+One community tester used it to port a non-trivial C++ audio synthesis library called OddVoices over to Rust.
+
+It took roughly five hours across two nights.
+
+The resulting code produced output that sounds virtually identical to the original despite some minor speed and edge-case bugs.
+
+The model showed strong self-correction, referencing the source implementation when asked and updating its own code accordingly.
+
+That level of behavior used to be associated mainly with much larger cloud models.
+
+Users report it outperforms Gemma 4 on agentic coding tasks while running several times faster thanks to its sparsity.
+
+This continues the encouraging trend of highly capable local models closing the gap with proprietary A P I's for software engineering workloads.
+
+Deep Seek also dropped both base and instruct versions of its newest models.
+
+We are talking about the V4 Pro at one point six trillion total parameters with forty-nine billion activated, plus the smaller Flash version.
+
+These are now runnable on Huawei Ascend hardware.
+
+While no longer the outright benchmark leader, the release shows Deep Seek’s continued commitment to open weights, base models, and detailed research papers.
+
+Many other labs have been pulling back from that level of openness.
+
+The models target practical inference on non-En-vidia silicon.
+
+That expands accessible high-parameter options for practitioners running on Ascend clusters or looking for alternatives to closed ecosystems.
+
+The instruct variants are worth evaluating for coding and reasoning tasks.
+
+Another interesting result from the local community involves KV cache quantization on Qwenthree point six to twenty-sevenB.
+
+Perplexity testing at two hundred thousand context showed remarkably small degradation.
+
+The Q4_0 quantization added only point zero one four eight perplexity versus the F16 baseline.
+
+Even the aggressive Turbo3 three-bit version added just point zero eight eight eight.
+
+That is still considered safe for many programming workloads.
+
+The model’s density above twenty billion parameters seems to make it unusually robust to aggressive KV cache compression.
+
+Some commenters caution that perplexity alone can understate impact on math-heavy benchmarks like AIME.
+
+Still, if you run dense twenty-seven billion class models on limited VRAM, these Q four or Turbo3 KV cache settings are now worth testing aggressively.
+
+On the G P T 5.5 front, Open A I released detailed prompting guidance alongside A P I availability.
+
+The core recommendation is to treat it as an entirely new model family.
+
+Start prompt tuning from the smallest viable prompt rather than porting legacy stacks from earlier versions.
+
+For long-running agentic tasks they suggest emitting a short user-visible progress message before tool calls.
+
+This improves perceived responsiveness.
+
+The guide also includes migration advice for codebases that use their Codex agent.
+
+Now let us talk about agent and tool developments that actually matter for builders.
+
+GitNexus has gained serious traction with over nineteen thousand GitHub stars.
+
+It is an open-source M C P native knowledge graph engine created by Abhigyan Patwari.
+
+The tool directly addresses a core failure mode of coding agents, which is editing code they do not truly understand.
+
+By building a live structural graph of the repository it supplies agents with explicit awareness of dependencies, call graphs, and architectural intent.
+
+Both Claude Code and Cursor users can integrate it today.
+
+This should meaningfully reduce hallucinated refactors and improve large-scale changes.
+
+There is also a new fully local implementation that combines Hermes Agent, the recently praised Qwenthree point six to thirty-fiveB-A3B in four-bit, and Cua-Driver.
+
+It delivers multi-cursor and background computer control that feels surprisingly close to frontier agentic capabilities.
+
+The project demonstrates that current open models plus lightweight drivers can already approximate what used to require cloud dependencies.
+
+Builders experimenting with local agents should examine this stack for self-hosted automation or coding workflows.
+
+On the practical and community side there is a really useful open-source nine-task benchmark for coding-agent retrieval augmentation.
+
+The paper-lantern-challenges repo contains fully reproducible prompts, agent code paths, and evaluation scripts.
+
+It covers practical software tasks including test generation, text-to-SQL, PDF and contract extraction, P R review, classification, routing, and summarization.
+
+When they added a retrieval tool over recent computer science literature the performance deltas ranged from point zero one zero to point three two zero.
+
+The largest gains came on extraction and test-generation tasks that benefited from twenty twenty-five and twenty twenty-six techniques unknown to the base models.
+
+Every prediction file and the approach documentation is public.
+
+This makes it an excellent test harness for anyone building rag-enhanced coding agents.
+
+Microsoft has published a Colab-ready tutorial on OpenMementos.
+
+It walks through streaming the dataset, parsing its block and memento token format, measuring compression ratios across domains, and preparing reasoning traces for fine-tuning.
+
+The memento representation offers substantial context compression while preserving structured reasoning summaries.
+
+Fine-tuning practitioners working on long-horizon agent memory or chain-of-thought distillation should run the notebook.
+
+It will help you understand the format before building your own datasets.
+
+Simon Willison also shipped version zero point three one of his popular L L M command-line tool.
+
+It adds direct support for the new G P T 5.5 model.
+
+You now get a verbosity option set to low, medium, or high for G P T 5 and later models.
+
+There are also image-detail controls ranging from low to high, auto, or original.
+
+Extra Open A I models defined in YAML are now registered for async use as well.
+
+If you already use L L M for local experimentation or rapid prototyping, upgrading gives immediate access to these finer controls.
+
+OK, let us pop the hood on how these sparse architectures actually work at scale because the gap between marketing claims and engineering reality is worth understanding.
+
+Everyone talks about router networks as if they magically pick the best expert every time once you have enough total parameters.
+
+In practice the router is a tiny neural network trained jointly with the rest of the model.
+
+It uses the main loss plus an auxiliary load-balancing loss that prevents the system from collapsing to just a few dominant experts.
+
+Without that auxiliary term routers tend to converge on a handful of favorites, leaving most capacity idle.
+
+The auxiliary loss penalizes uneven token-to-expert assignment across each batch, usually measured by the coefficient of variation of expert load.
+
+Modern setups add noise or stochastic routing during training, then switch to deterministic top-k selection at inference time.
+
+At the scale of a one point six trillion parameter model with only forty-nine billion activated, the real costs come from expert parallelism, all-to-all communication patterns, and careful placement of experts across accelerators.
+
+The heavily compressed attention techniques mentioned in recent releases are often a direct response to the memory wall created by storing full key-value states for million-token contexts across dozens of experts.
+
+These systems trade exact attention for approximate retrieval plus heavy quantization just to keep activation memory manageable.
+
+The tradeoffs are real.
+
+Stronger load-balancing can slightly hurt final loss because it forces the model to use suboptimal experts on some tokens.
+
+Aggressive compression of attention states can degrade needle-in-haystack retrieval once context grows beyond a few hundred thousand tokens.
+
+The quality advantage of these architectures tends to be largest in the thirty to two hundred billion active parameter regime.
+
+Beyond that the returns diminish and communication overhead can start to dominate.
+
+So when should you actually reach for one of these versus a dense model of similar activated size.
+
+Prefer the sparse route if your workload has high variance in token difficulty such as coding, math, or multilingual text and you have infrastructure that can handle the all-to-all traffic.
+
+The gotcha that bites most teams is treating the router as an afterthought during fine-tuning.
+
+Without re-tuning the auxiliary loss and possibly re-introducing noise, the specialization learned in pretraining collapses and you lose the speed and quality advantage you paid for.
+
+If you have not tried the Qwenthree point six to thirty-fiveB-A3B in Q four or Q5 quantization inside Cline plus VSCodium for local agentic coding, this week is a great time.
+
+The self-correction and codebase exploration quality is reportedly closer to recent cloud models than previous local attempts.
+
+Integrate GitNexus into your Claude Code or Cursor workflow if you routinely see agents edit files without understanding surrounding architecture.
+
+That nineteen thousand star knowledge graph gives immediate structural awareness.
+
+Run the paper-lantern-challenges benchmark suite against your own rag coding agent to quantify exactly how much retrieval over recent literature improves extraction, test generation, and review tasks.
+
+Upgrade to L L M zero point three one and test the new verbosity and image-detail controls with G P T 5.5.
+
+Following the guidance to start prompt tuning from a fresh minimal baseline is worth doing before you port old stacks.
+
+Experiment with Turbo3 or Q four KV cache on Qwenthree point six to twenty-sevenB at one hundred twenty-eight thousand to two hundred thousand context if you are VRAM constrained.
+
+The perplexity numbers suggest you may be able to run larger effective context than common wisdom allows.
+
+On the horizon, Nous Research is hosting an AMA on Wednesday, April twenty-ninth, focusing on Hermes Agent with deeper discussion on open-source agent orchestration and memory techniques.
+
+We should also see continued releases in the Deep Seek V4 family including potential smaller variants or further Ascend-specific optimizations.
+
+The ecosystem around M C P native tools is growing as more coding environments adopt structured knowledge graphs and context protocols.
+
+Expect further guidance and fine-tuning recipes for G P T 5.5 as developers migrate production agents and discover which prompting patterns no longer transfer from earlier versions.
+
+Before we go, tomorrow keep an eye on deeper community exploration of how these new sparse coding agents handle complex multi-file refactors in real projects.
+
+That wraps up today's A I briefing. Share this with a developer or builder who wants to stay current. Subscribe wherever you listen. See you tomorrow.
+
+This podcast is curated by Patrick but generated using AI voice synthesis of my voice using ElevenLabs. The primary reason to do this is I unfortunately don't have the time to be consistent with generating all the content and wanted to focus on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.
