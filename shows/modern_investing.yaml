@@ -231,3 +231,15 @@ slow_news:
   library_file: shows/segments/modern_investing.json
   max_segments: 2
   cooldown_days: 30
+
+youtube:
+  enabled: false                # Phase 2 — flip after quota raise
+  channel: en
+  category_id: 25               # News & Politics (markets/business)
+  default_language: en
+  tags:
+    - investing
+    - canadian investing
+    - us markets
+    - stocks
+    - investing podcast

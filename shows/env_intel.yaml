@@ -244,3 +244,15 @@ newsletter:
   status: about_to_send
   tag: "Environmental Intelligence"
 
+youtube:
+  enabled: false                # Phase 2 — flip after quota raise
+  channel: en
+  category_id: 28               # Science & Tech
+  default_language: en
+  tags:
+    - environment
+    - canada environment
+    - environmental compliance
+    - climate
+    - sustainability
+

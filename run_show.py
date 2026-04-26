@@ -128,6 +128,8 @@ def parse_args() -> argparse.Namespace:
                         help="Skip TTS, audio mixing, and RSS update")
     parser.add_argument("--skip-newsletter", action="store_true",
                         help="Skip newsletter sending")
+    parser.add_argument("--skip-youtube", action="store_true",
+                        help="Skip YouTube video build + upload")
     return parser.parse_args()
 
 
@@ -1818,6 +1820,35 @@ def run(args: argparse.Namespace) -> None:
         else:
             logger.info("Newsletter skipped or failed.")
 
+    # 12c. Build & upload YouTube videos (long-form + Shorts)
+    _t_yt = time.monotonic()
+    chapters_path_for_yt = digests_dir / f"chapters_ep{episode_num:03d}.json"
+    youtube_urls = _publish_youtube(
+        config,
+        episode_num=episode_num,
+        today=today,
+        today_str=today_str,
+        hook=hook or "",
+        digest_text=x_thread,
+        final_mp3=final_mp3,
+        audio_url=audio_url,
+        chapters_path=chapters_path_for_yt,
+        digests_dir=digests_dir,
+        args=args,
+    )
+    if youtube_urls.get("long_url"):
+        extra_context["youtube_url"] = youtube_urls["long_url"]
+    if youtube_urls.get("short_url"):
+        extra_context["youtube_short_url"] = youtube_urls["short_url"]
+    if youtube_urls:
+        try:
+            metrics.record(
+                "youtube_publish_duration_s",
+                round(time.monotonic() - _t_yt, 2),
+            )
+        except Exception:
+            pass
+
     # 13. Post to X
     _t_x = time.monotonic()
     if config.publishing.x_enabled and not args.skip_x:
@@ -2264,6 +2295,174 @@ def _break_long_paragraphs(text: str, max_chars: int = 400) -> str:
             out_paragraphs.append(" ".join(chunk))
 
     return "\n\n".join(out_paragraphs)
+
+
+def _publish_youtube(
+    config,
+    *,
+    episode_num: int,
+    today: "datetime.date",
+    today_str: str,
+    hook: str,
+    digest_text: str,
+    final_mp3: "Path",
+    audio_url: str,
+    chapters_path: "Path",
+    digests_dir: "Path",
+    args,
+) -> dict:
+    """Render long-form + Shorts video assets and upload them to YouTube.
+
+    Returns a ``{"long_url": ..., "short_url": ...}`` dict with whichever
+    URLs succeeded; missing keys mean that variant was disabled or
+    failed (failures are logged, not raised — this stage must never
+    crash a run).
+    """
+    result: dict = {}
+
+    if getattr(args, "skip_youtube", False):
+        logger.info("YouTube publishing skipped (--skip-youtube).")
+        return result
+    if not getattr(config, "youtube", None) or not config.youtube.enabled:
+        logger.info("YouTube publishing disabled in config.")
+        return result
+    if not final_mp3 or not final_mp3.exists():
+        logger.info("YouTube publishing skipped — no final mp3.")
+        return result
+
+    # Resolve cover image. We fall back to whatever the show used in the
+    # RSS <itunes:image> tag if a local file isn't obvious from the slug.
+    cover_path: Optional[Path] = None
+    cover_candidates = [
+        PROJECT_ROOT / "assets" / "covers" / f"{config.slug.replace('_', '-')}.jpg",
+        PROJECT_ROOT / "assets" / "covers" / f"{config.slug}.jpg",
+    ]
+    for candidate in cover_candidates:
+        if candidate.exists():
+            cover_path = candidate
+            break
+    if cover_path is None:
+        logger.warning(
+            "YouTube: no cover art under assets/covers/ for slug=%s — skipping.",
+            config.slug,
+        )
+        return result
+
+    from engine.publisher import generate_episode_thumbnail
+    from engine.video import build_long_form_video, build_short_video
+    from engine.video_metadata import (
+        build_long_form_metadata,
+        build_short_metadata,
+    )
+    from engine.youtube import (
+        get_channel_credentials_from_env,
+        upload_video,
+    )
+
+    credentials = get_channel_credentials_from_env(config.youtube.channel)
+    if credentials is None:
+        logger.warning(
+            "YouTube credentials missing for channel=%s — skipping upload.",
+            config.youtube.channel,
+        )
+        return result
+
+    work_dir = digests_dir / "youtube_tmp"
+    work_dir.mkdir(parents=True, exist_ok=True)
+    base_name = final_mp3.stem  # e.g. Tesla_Shorts_Time_Pod_Ep042_20260425
+    long_video_path = work_dir / f"{base_name}.mp4"
+    short_video_path = work_dir / f"{base_name}_short.mp4"
+    thumbnail_path = work_dir / f"{base_name}_thumb.jpg"
+
+    # Thumbnail is shared between long-form and Shorts.
+    try:
+        generate_episode_thumbnail(
+            cover_path,
+            episode_num=episode_num,
+            date_str=today_str,
+            output_path=thumbnail_path,
+            hook=hook,
+            show_name=config.publishing.rss_title or config.name,
+        )
+    except Exception as exc:  # pragma: no cover - thumbnail rendering best-effort
+        logger.warning("Thumbnail generation failed: %s", exc)
+        thumbnail_path = None  # type: ignore[assignment]
+
+    # ---- Long-form ----
+    long_url = ""
+    if config.youtube.publish_long_form:
+        try:
+            build_long_form_video(final_mp3, cover_path, long_video_path)
+            meta = build_long_form_metadata(
+                config,
+                episode_num=episode_num,
+                today_str=today_str,
+                hook=hook,
+                digest_text=digest_text,
+                audio_url=audio_url,
+                chapters_path=chapters_path if chapters_path.exists() else None,
+            )
+            long_url = upload_video(
+                long_video_path,
+                credentials=credentials,
+                title=meta["title"],
+                description=meta["description"],
+                tags=meta["tags"],
+                category_id=meta["category_id"],
+                default_language=meta["default_language"],
+                privacy_status=config.youtube.privacy_status,
+                thumbnail_path=thumbnail_path,
+            )
+            result["long_url"] = long_url
+        except Exception as exc:
+            logger.exception("YouTube long-form publish failed: %s", exc)
+
+    # ---- Shorts ----
+    if config.youtube.publish_shorts:
+        try:
+            short_offset = float(
+                getattr(config.audio, "intro_duration", 0.0) or 0.0
+            ) + float(
+                getattr(config.audio, "voice_intro_delay", 0.0) or 0.0
+            )
+            duration = float(config.youtube.short_duration_seconds or 55.0)
+            build_short_video(
+                final_mp3, cover_path, short_video_path,
+                start_offset=short_offset,
+                duration=duration,
+            )
+            meta = build_short_metadata(
+                config,
+                episode_num=episode_num,
+                today_str=today_str,
+                hook=hook,
+                long_form_url=long_url,
+            )
+            short_url = upload_video(
+                short_video_path,
+                credentials=credentials,
+                title=meta["title"],
+                description=meta["description"],
+                tags=meta["tags"],
+                category_id=meta["category_id"],
+                default_language=meta["default_language"],
+                privacy_status=config.youtube.privacy_status,
+                thumbnail_path=thumbnail_path,
+            )
+            result["short_url"] = short_url
+        except Exception as exc:
+            logger.exception("YouTube Shorts publish failed: %s", exc)
+
+    # Best-effort cleanup of the rendered MP4s (large files; YouTube has
+    # the canonical copy now). Thumbnail kept on disk for debugging.
+    for video_file in (long_video_path, short_video_path):
+        try:
+            if video_file.exists():
+                video_file.unlink()
+        except OSError:
+            pass
+
+    return result
 
 
 def _build_teaser(config, episode_num: int, today_str: str, extra_context: dict) -> str:

@@ -242,3 +242,15 @@ slow_news:
   max_segments: 2
   cooldown_days: 30
 
+youtube:
+  enabled: false                # Phase 2 — flip after quota raise
+  channel: en
+  category_id: 28               # Science & Tech
+  default_language: en
+  tags:
+    - science
+    - longevity
+    - health
+    - neuroscience
+    - science podcast
+

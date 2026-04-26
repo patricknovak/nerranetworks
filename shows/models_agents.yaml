@@ -230,3 +230,18 @@ newsletter:
   status: about_to_send
   tag: "Models & Agents"
 
+youtube:
+  enabled: true                 # Phase-1 rollout show
+  channel: en
+  category_id: 28               # Science & Tech
+  default_language: en
+  privacy_status: unlisted
+  tags:
+    - ai
+    - llm
+    - artificial intelligence
+    - ai agents
+    - openai
+    - anthropic
+    - ai podcast
+
