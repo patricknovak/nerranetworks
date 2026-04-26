@@ -9,7 +9,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 24 Apr 2026 05:57:26 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 26 Apr 2026 05:58:51 +0000</lastBuildDate>
     <itunes:author>Nerra Network</itunes:author>
     <itunes:category text="Education" />
     <itunes:image href="https://nerranetwork.com/assets/covers/privet-russian.jpg" />
@@ -637,7 +637,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Привет, Русский! - Episode 13 - April 24, 2026</title>
-      <link>https://op3.dev/e/audio.nerranetwork.com/privet_russian/PR_Ep013_20260424.mp3</link>
       <description>**Привет, Русский! — Episode Plan**  
 **Date:** April 24, 2026  
 **Theme:** Weather
@@ -682,6 +681,46 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>13</itunes:episode>
       <itunes:title>Привет, Русский! - Episode 13 - April 24, 2026</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/privet_russian/chapters_ep013.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/privet_russian/PR_Ep013_20260424_transcript.json" type="application/json" /></item>
+    </item>
+    <item>
+      <title>Привет, Русский! - Episode 14 - April 26, 2026</title>
+      <link>https://op3.dev/e/audio.nerranetwork.com/privet_russian/PR_Ep014_20260426.mp3</link>
+      <description>**Привет, Русский! — Episode Plan**  
+**Date:** April 26, 2026  
+**Theme:** Animals
+
+**Vocabulary List (10 words/phrases):**
+
+- Russian (Cyrillic): животное  
+  Transliteration: zhi-VOT-no-ye  
+  English: animal  
+  Example sentence: Я люблю животных.  
+  Example translation: I love animals. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">pr-ep014-20260426-055851073970</guid>
+      <enclosure url="https://op3.dev/e/audio.nerranetwork.com/privet_russian/PR_Ep014_20260426.mp3" length="13584553" type="audio/mpeg" />
+      <pubDate>Sun, 26 Apr 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/privet-russian.jpg" />
+      <itunes:duration>09:25</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**Привет, Русский! — Episode Plan**  
+**Date:** April 26, 2026  
+**Theme:** Animals
+
+**Vocabulary List (10 words/phrases):**
+
+- Russian (Cyrillic): животное  
+  Transliteration: zhi-VOT-no-ye  
+  English: animal  
+  Example sentence: Я люблю животных.  
+  Example translation: I love animals. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>14</itunes:episode>
+      <itunes:title>Привет, Русский! - Episode 14 - April 26, 2026</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/privet_russian/chapters_ep014.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/privet_russian/PR_Ep014_20260426_transcript.json" type="application/json" /></item>
   <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked></channel>
 </rss>
