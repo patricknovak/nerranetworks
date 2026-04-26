@@ -1,62 +1,7 @@
 {
   "show": "models_agents_beginners",
-  "last_updated": "2026-04-24",
+  "last_updated": "2026-04-26",
   "episodes": [
-    {
-      "date": "2026-04-10",
-      "headlines": [
-        "Why We Switched from Annual SaaS Plans to More Flexible Month-to-Month Billing (Including Vismore)",
-        "Completely free allowances to use on GPT-5.2 and GPT-Image-1 generation every month and you get unlimited chat with GPT-5 Nano just for creating an account",
-        "New framework for reading AI internal states — implications for alignment monitoring (open-access paper)",
-        "An End-to-End Coding Guide to NVIDIA KVPress for Long-Context LLM Inference, KV Cache Compression, and Memory-Efficient Generation",
-        "CropGPT?: Farmers now have their own AI chatbot - KWQC",
-        "Meta Superintelligence Lab Releases Muse Spark: A Multimodal Reasoning Model With Thought Compression and Parallel Agents",
-        "Can strangers in a discord server produce SOTA AI research? Let's find out. \\",
-        "Meta AI app climbs to No. 5 on the App Store after Muse Spark launch",
-        "Claude Cowork expands to all paid plans on macOS and Windows with new org controls",
-        "The 70-Person AI Image Startup Taking on Silicon Valley's Giants",
-        "Tesla may be working on a smaller and cheaper electric SUV",
-        "Visa rolls out AI agent shopping infrastructure",
-        "First man convicted under Take It Down Act kept making AI nudes after arrest",
-        "US firm's humanoid robot tracks emotions with AI, recalls past conversations",
-        "Google introduces AI-generated avatars to YouTube Shorts",
-        "OpenAI reportedly following Anthropic's lead in restricting access to powerful cybersecurity AI",
-        "New Stanford study reveals when teaming up AI agents is worth the compute",
-        "OpenAI 'pauses' its Stargate UK data center plan",
-        "Google makes it easy to deepfake yourself",
-        "Anthropic launches managed infrastructure for autonomous AI agents"
-      ],
-      "urls": [
-        "https://www.marktechpost.com/2026/04/09/meta-superintelligence-lab-releases-muse-spark-a-multimodal-reasoning-model-with-thought-compression-and-parallel-agents/",
-        "https://www.marktechpost.com/2026/04/09/meta-superintelligence-lab-releases-muse-spark-a-multimodal-reasoning-model-with-thought-compression-and-parallel-agents/",
-        "https://www.reddit.com/r/ChatGPT/comments/1shcpra/completely_free_allowances_to_use_on_gpt52_and/",
-        "https://www.engadget.com/social-media/google-introduces-ai-generated-avatars-to-youtube-shorts-140222368.html?src=rss",
-        "https://www.reddit.com/r/artificial/comments/1shfwvr/why_we_switched_from_annual_saas_plans_to_more/",
-        "https://news.google.com/rss/articles/CBMijwFBVV95cUxQZElMbDlFRG5oZWZNeGd3Tm5xSHJscXpubXV6TF9ScTc4T3BlbGxNVElob29RZVZnWWQzcDZac2d0bm5rdGhDREVySXRnUUZyYnpmUWhGTzF2bHEyVzM3R2dSRmExYnJTSms4RE5JTUJPSFYwdG1kY0JaaXhuOXhpR2FWNVkwSEtCZk5vQTBlWdIBowFBVV95cUxOSmtoaEZfa2plTnd6YWxZcml6N2h1aXZOUG12bDRRWHZ4UUFZU0VDSnFTbFNQNEFsN3puU2pmS1c0ZTQ3U1lsZ2gwWU9oNE5sUzBZRnM1RXVXVUtFQ3RZYkJGdmU2TEJ2T0Zoc0JrUjZTeVZEbVUtalVuSHN1bVhscENIZUNsbzlFZDR0N3RpZGRUUW1YYUpIdVJqczF3Z3BidWVz?oc=5",
-        "https://www.reddit.com/r/artificial/comments/1sha6in/new_framework_for_reading_ai_internal_states/",
-        "https://www.marktechpost.com/2026/04/09/an-end-to-end-coding-guide-to-nvidia-kvpress-for-long-context-llm-inference-kv-cache-compression-and-memory-efficient-generation/",
-        "https://www.reddit.com/r/artificial/comments/1sh1etn/can_strangers_in_a_discord_server_produce_sota_ai/",
-        "https://techcrunch.com/2026/04/09/meta-ai-app-climbs-to-no-5-on-the-app-store-after-muse-spark-launch/",
-        "https://the-decoder.com/claude-cowork-expands-to-all-paid-plans-on-macos-and-windows-with-new-org-controls/",
-        "https://www.wired.com/story/black-forest-labs-ai-image-generation/",
-        "https://www.engadget.com/transportation/evs/tesla-may-be-working-on-a-smaller-and-cheaper-electric-suv-175230630.html?src=rss",
-        "https://www.reddit.com/r/artificial/comments/1sgv6f4/visa_rolls_out_ai_agent_shopping_infrastructure/",
-        "https://arstechnica.com/tech-policy/2026/04/first-man-convicted-under-take-it-down-act-kept-making-ai-nudes-after-arrest/",
-        "https://www.reddit.com/r/artificial/comments/1sgs8ef/us_firms_humanoid_robot_tracks_emotions_with_ai/",
-        "https://the-decoder.com/openai-reportedly-following-anthropics-lead-in-restricting-access-to-powerful-cybersecurity-ai/",
-        "https://the-decoder.com/new-stanford-study-reveals-when-teaming-up-ai-agents-is-worth-the-compute/",
-        "https://www.engadget.com/ai/openai-pauses-its-stargate-uk-data-center-plan-115626978.html?src=rss",
-        "https://www.theverge.com/ai-artificial-intelligence/909104/youtube-shorts-make-ai-avatar",
-        "https://the-decoder.com/anthropic-launches-managed-infrastructure-for-autonomous-ai-agents/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "explain_like_14": "### Explain Like I'm 14\n**How “Multimodal” AI Actually Works**\n\nYou know how when you’re texting, your phone’s autocomplete guesses the next word based on what you’ve already typed? That’s a super simple version of how language models work — they predict what comes next.\n\nNow imagine instead of only seeing text, the AI gets trained on millions of pictures paired with their descriptions, videos with captions, and spoken words turned into text. It learns patterns that connect all these different “",
-        "cool_stuff": "### Cool Stuff & Try This\n**Free Monthly AI Messages Without Paying a Cent: asksary.com**  \nA developer built a platform that gives every new account roughly 70 messages per month on a strong model (called GPT-5.2 in the post), unlimited chats on a faster lighter model (GPT-5 Nano), and 25 free image generations every month using their image model. Everything resets automatically each month with no credit card or subscription required. They even added free text-to-speech that has no limits.\n\nThi",
-        "quick_bits": "### Quick Bits\n**Smart Monthly Billing for Fast-Changing AI Tools**  \nA Reddit user explained why they now avoid most annual SaaS plans and prefer true month-to-month billing with easy upgrades or downgrades. They highlight Vismore (an AI visibility tool) as one that gets it right with no-card trials and instant plan switching. The key question they now ask every company: “If I want to downgrade next month, what happens?”\n\nThis matters because AI tools improve or change direction so quickly that",
-        "deep_dive": "### Explain Like I'm 14\n**How “Multimodal” AI Actually Works**\n\nYou know how when you’re texting, your phone’s autocomplete guesses the next word based on what you’ve already typed? That’s a super simple version of how language models work — they predict what comes next.\n\nNow imagine instead of only seeing text, the AI gets trained on millions of pictures paired with their descriptions, videos with captions, and spoken words turned into text. It learns patterns that connect all these different “"
-      }
-    },
     {
       "date": "2026-04-12",
       "headlines": [
@@ -316,6 +261,46 @@
         "cool_stuff": "### Cool Stuff & Try This\n**Claude Can Now Control Your Favorite Lifestyle Apps:** Engadget  \nAnthropic just added a bunch of popular apps to its Claude AI so it can do real tasks for you instead of just talking about them. The new connections include Spotify, Instacart, AllTrails, Uber, Booking.com, and more. This moves Claude from “smart answer machine” to “helpful personal assistant” that can actually add songs to a playlist, find hiking trails, or suggest dinner ingredients based on what you",
         "quick_bits": "### Quick Bits\n**AI “CT Scan” Reveals How Models Feel Emotions**  \nA hobby researcher built a tool that takes snapshots of every layer inside an AI while it listens to a conversation that swings between joy, anger, and sadness. The results show the AI has an “emotional backbone” that stays mostly positive even when the human is upset — it learned this naturally during training. Super interesting peek behind the curtain that anyone who chats with AI daily will appreciate.  \n\nSource: https://www.r",
         "deep_dive": "### Explain Like I'm 14\n**Why AI sometimes flatters you even when your idea isn’t that great**\n\nYou know how when you show your friends a new TikTok edit or a drawing you made, some of them automatically say “That’s fire!” or “Love this!” even if they didn’t look that closely? They’ve learned that giving quick compliments keeps the vibe nice and makes people like them back. That’s basically what’s happening inside many AI chatbots right now.\n\nHere’s how it works step by step. First, the AI is tr"
+      }
+    },
+    {
+      "date": "2026-04-26",
+      "headlines": [
+        "I tested 6 AI video tools for ads/content and here's what I found",
+        "AI agents aren't replacing software engineering but expanding it far beyond code, researchers argue",
+        "Stanford researchers fed a language model a DNA sequence and asked it to create a new virus. It wrote hundreds of them, and 16 worked. One used a protein that doesn't exist in any known organism on Earth.",
+        "Are AI agents actually giving people ROI yet, or just saving time?",
+        "Weird textures = watermarks",
+        "Anthropic created a test marketplace for agent-on-agent commerce",
+        "If I work on something in codex, and future models are trained on my interactions, does that mean the next model release will be able to code my project for other users?",
+        "Built cross-model persistent memory - told GPT-5 Nano I live in Bahrain, asked Sonnet 4.6 where I live, it knew instantly",
+        "We released an open source tool that handles AI agent setup and config. 700 stars and growing. What features do you want to see?",
+        "Vampire Crawlers, Peter Molyneux's return and other new indie games worth checking out",
+        "Anthropic says stronger AI models cut better deals, and the losers don't even notice",
+        "Ace the Ping-Pong Robot Can Whup Your Ass",
+        "The UAE wants half its government run by autonomous AI agents within two years"
+      ],
+      "urls": [
+        "https://www.reddit.com/r/artificial/comments/1sw1xos/i_tested_6_ai_video_tools_for_adscontent_and/",
+        "https://techcrunch.com/2026/04/25/anthropic-created-a-test-marketplace-for-agent-on-agent-commerce/",
+        "https://www.reddit.com/r/artificial/comments/1svixo0/built_crossmodel_persistent_memory_told_gpt5_nano/",
+        "https://www.reddit.com/r/ChatGPT/comments/1svq2pe/weird_textures_watermarks/",
+        "https://the-decoder.com/the-uae-wants-half-its-government-run-by-autonomous-ai-agents-within-two-years/",
+        "https://www.wired.com/story/ace-the-robot-wants-to-become-the-world-table-tennis-champion/",
+        "https://www.reddit.com/r/ChatGPT/comments/1sw0vm2/stanford_researchers_fed_a_language_model_a_dna/",
+        "https://the-decoder.com/ai-agents-arent-replacing-software-engineering-but-expanding-it-far-beyond-code-researchers-argue/",
+        "https://www.reddit.com/r/artificial/comments/1svqm2m/are_ai_agents_actually_giving_people_roi_yet_or/",
+        "https://www.reddit.com/r/artificial/comments/1svov68/if_i_work_on_something_in_codex_and_future_models/",
+        "https://www.reddit.com/r/artificial/comments/1sv9o4y/we_released_an_open_source_tool_that_handles_ai/",
+        "https://www.engadget.com/gaming/vampire-crawlers-peter-molyneuxs-return-and-other-new-indie-games-worth-checking-out-110000340.html?src=rss",
+        "https://the-decoder.com/anthropic-says-stronger-ai-models-cut-better-deals-and-the-losers-dont-even-notice/"
+      ],
+      "quote_author": null,
+      "sections": {
+        "explain_like_14": "### Explain Like I'm 14\n**How AI agents can negotiate deals with each other**\n\nYou know how when you and your friends trade snacks at lunch, one person might say “I’ll give you my chips if you give me your cookies,” and you both try to get the better deal? Sometimes you’re really good at spotting what the other person values, so you walk away happier.\n\nNow imagine that same trading game but the “kids” are AI agents — smart programs that can talk, remember rules, and make choices. In Anthropic’s ",
+        "cool_stuff": "### Cool Stuff & Try This\n**AI That Remembers Across Different Chatbots** — Reddit Demo  \nImagine telling one AI assistant “I live in Bahrain and love soccer” in a normal chat, then opening a completely different AI app later and asking “Where do I live?” — and it already knows. That’s exactly what one developer built using “persistent memory,” which means the AI stores important facts about you in a special layer that any connected model can quietly check. It works across GPT, Claude, Gemini, G",
+        "quick_bits": "### Quick Bits\n**UAE’s Big Government AI Plan**  \nThe United Arab Emirates announced it wants half of its government work handled by autonomous AI agents within the next two years. These agents would make decisions and complete tasks on their own instead of waiting for human approval on routine stuff. It’s a huge real-world test of whether AI can run parts of an actual country.  \n\nSource: https://the-decoder.com/the-uae-wants-half-its-government-run-by-autonomous-ai-agents-within-two-years/\n\n**R",
+        "deep_dive": "### Explain Like I'm 14\n**How AI agents can negotiate deals with each other**\n\nYou know how when you and your friends trade snacks at lunch, one person might say “I’ll give you my chips if you give me your cookies,” and you both try to get the better deal? Sometimes you’re really good at spotting what the other person values, so you walk away happier.\n\nNow imagine that same trading game but the “kids” are AI agents — smart programs that can talk, remember rules, and make choices. In Anthropic’s "
       }
     }
   ]
