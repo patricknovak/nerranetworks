@@ -5,7 +5,7 @@
     <description>Ten podcasts in two languages keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, modern investing, financial literacy, and Russian language learning.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Sun, 26 Apr 2026 08:38:38 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 26 Apr 2026 08:53:58 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg</url>
       <title>Nerra Network</title>
@@ -81,6 +81,40 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episodeType>full</itunes:episodeType>
       <podcast:chapters url="https://nerranetwork.com/digests/models_agents_beginners/chapters_ep024.json" type="application/json+chapters" />
       <podcast:transcript url="https://nerranetwork.com/digests/models_agents_beginners/MAB_Ep024_20260426_transcript.json" type="application/json" />
+    </item>
+    <item>
+      <title>Финансы Просто - Episode 27 - April 26, 2026</title>
+      <link>https://op3.dev/e/audio.nerranetwork.com/finansy_prosto/FP_Ep027_20260426.mp3</link>
+      <description>**# Финансы Просто**  
+**Дата:** April 26, 2026
+
+**Заголовок:** Как правильно использовать неиспользованные RRSP-вычеты, чтобы защитить пособия по старости
+
+**Что сегодня важного:**  
+Сегодня мы поговорим о ситуациях, с которыми сталкиваются многие наши слушательницы — особенно те, кто помогает родителям с налогами или сам планирует первый дом. CRA напоминает, как удобно оплачивать налоги нерезидентов онлайн. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">fp-ep027-20260426-085355224405</guid>
+      <enclosure url="https://op3.dev/e/audio.nerranetwork.com/finansy_prosto/FP_Ep027_20260426.mp3" length="15414587" type="audio/mpeg" />
+      <pubDate>Sun, 26 Apr 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/finansy-prosto.jpg" />
+      <itunes:duration>10:42</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**# Финансы Просто**  
+**Дата:** April 26, 2026
+
+**Заголовок:** Как правильно использовать неиспользованные RRSP-вычеты, чтобы защитить пособия по старости
+
+**Что сегодня важного:**  
+Сегодня мы поговорим о ситуациях, с которыми сталкиваются многие наши слушательницы — особенно те, кто помогает родителям с налогами или сам планирует первый дом. CRA напоминает, как удобно оплачивать налоги нерезидентов онлайн. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>27</itunes:episode>
+      <itunes:title>Финансы Просто - Episode 27 - April 26, 2026</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+      <podcast:chapters url="https://nerranetwork.com/digests/finansy_prosto/chapters_ep027.json" type="application/json+chapters" />
+      <podcast:transcript url="https://nerranetwork.com/digests/finansy_prosto/FP_Ep027_20260426_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Привет, Русский! - Episode 14 - April 26, 2026</title>
@@ -363,7 +397,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Финансы Просто - Episode 26 - April 24, 2026</title>
-      <link>https://op3.dev/e/audio.nerranetwork.com/finansy_prosto/FP_Ep026_20260424.mp3</link>
       <description>**# Финансы Просто**  
 **Дата:** April 24, 2026
 
@@ -392,8 +425,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>26</itunes:episode>
       <itunes:title>Финансы Просто - Episode 26 - April 24, 2026</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-      <podcast:chapters url="https://nerranetwork.com/digests/finansy_prosto/chapters_ep026.json" type="application/json+chapters" />
-      <podcast:transcript url="https://nerranetwork.com/digests/finansy_prosto/FP_Ep026_20260424_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Привет, Русский! - Episode 13 - April 24, 2026</title>
@@ -1575,31 +1606,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:season>1</itunes:season>
       <itunes:episode>21</itunes:episode>
       <itunes:title>Ep 21: What if your browser could chat with you about any webpage you're on — using ChatGPT or Claude?</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Финансы Просто - Episode 23 - April 16, 2026</title>
-      <description>**ЗАГОЛОВОК:** CREA снизила прогноз продаж жилья на 2026 год — что это значит для Ванкувера
-
-**Что сегодня важного:**  
-Канадская ассоциация недвижимости CREA понизила свой прогноз по продажам домов на 2026 год из-за неуверенного старта экономики. В марте продажи по стране уже упали на 2,3 % по сравнению с прошлым годом. Для нас, живущих в Lower Mainland, это особенно важно: именно здесь цены на жильё и так одни из самых высоких в стране. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
-      <guid isPermaLink="false">fp-ep023-20260416-100445086468</guid>
-      <enclosure url="https://audio.nerranetwork.com/finansy_prosto/FP_Ep023_20260416.mp3" length="18590032" type="audio/mpeg" />
-      <pubDate>Thu, 16 Apr 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/finansy-prosto.jpg" />
-      <itunes:duration>12:54</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary>**ЗАГОЛОВОК:** CREA снизила прогноз продаж жилья на 2026 год — что это значит для Ванкувера
-
-**Что сегодня важного:**  
-Канадская ассоциация недвижимости CREA понизила свой прогноз по продажам домов на 2026 год из-за неуверенного старта экономики. В марте продажи по стране уже упали на 2,3 % по сравнению с прошлым годом. Для нас, живущих в Lower Mainland, это особенно важно: именно здесь цены на жильё и так одни из самых высоких в стране. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>23</itunes:episode>
-      <itunes:title>Финансы Просто - Episode 23 - April 16, 2026</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>
