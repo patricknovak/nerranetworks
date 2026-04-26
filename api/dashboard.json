@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-26T06:02:28.224164+00:00",
+  "generated_at": "2026-04-26T07:16:45.489693+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 0,
-    "total_cost_last_7_days_usd": 53.9289,
-    "total_cost_last_30_days_usd": 338.3138,
+    "total_cost_last_7_days_usd": 55.5429,
+    "total_cost_last_30_days_usd": 339.9278,
     "shows": [
       {
         "slug": "env_intel",
@@ -38,11 +38,11 @@
         "blog_page": "blog/fascinating_frontiers/index.html",
         "newsletter_enabled": true,
         "x_enabled": true,
-        "latest_pub_date": "2026-04-24T08:00:00+00:00",
+        "latest_pub_date": "2026-04-26T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 4.0874,
-        "episodes_last_7_days": 3,
-        "p50_pipeline_s": 44.38,
+        "cost_last_7_days_usd": 5.7014,
+        "episodes_last_7_days": 4,
+        "p50_pipeline_s": 48.73,
         "success_rate": 1.0
       },
       {
@@ -293,7 +293,7 @@
       "details": "5 MP3s tracked in git, digests/ is 66 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 65.8
+        "digests_mb": 66.1
       }
     },
     {
@@ -666,16 +666,16 @@
       },
       "fascinating_frontiers": {
         "last_7_days": {
-          "grok": 0.2503,
-          "tts": 3.8372,
-          "total": 4.0874,
-          "episodes": 3
+          "grok": 0.3305,
+          "tts": 5.3709,
+          "total": 5.7014,
+          "episodes": 4
         },
         "last_30_days": {
-          "grok": 0.9074,
-          "tts": 25.4607,
-          "total": 26.3681,
-          "episodes": 12
+          "grok": 0.9876,
+          "tts": 26.9945,
+          "total": 27.982,
+          "episodes": 13
         },
         "daily_series": [
           [
@@ -773,6 +773,10 @@
           [
             "2026-04-24",
             1.4819
+          ],
+          [
+            "2026-04-26",
+            1.614
           ]
         ]
       },
@@ -1658,16 +1662,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 2.8451,
-      "tts": 51.0839,
-      "total": 53.9289,
-      "episodes": 37
+      "grok": 2.9253,
+      "tts": 52.6176,
+      "total": 55.5429,
+      "episodes": 38
     },
     "network_last_30_days": {
-      "grok": 10.7384,
-      "tts": 327.5754,
-      "total": 338.3138,
-      "episodes": 156
+      "grok": 10.8186,
+      "tts": 329.1091,
+      "total": 339.9278,
+      "episodes": 157
     }
   },
   "pipeline_health": {
@@ -1735,21 +1739,16 @@
       ]
     },
     "fascinating_frontiers": {
-      "sample_size": 18,
-      "p50_duration_s": 44.38,
+      "sample_size": 19,
+      "p50_duration_s": 48.73,
       "p95_duration_s": 100.18,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 9.65,
-        "generate_digest": 24.77,
-        "generate_digest_slow_news": 32.97
+        "fetch_and_dedup": 9.36,
+        "generate_digest": 24.72,
+        "generate_digest_slow_news": 32.52
       },
       "recent": [
-        {
-          "episode_num": 48,
-          "total_duration_s": 52.12,
-          "success": true
-        },
         {
           "episode_num": 49,
           "total_duration_s": 87.5,
@@ -1793,6 +1792,11 @@
         {
           "episode_num": 57,
           "total_duration_s": 262.62,
+          "success": true
+        },
+        {
+          "episode_num": 58,
+          "total_duration_s": 54.77,
           "success": true
         }
       ]
@@ -2344,9 +2348,16 @@
       },
       {
         "file": "fascinating_frontiers_podcast.rss",
-        "entry_count": 46,
-        "latest_pub_date": "2026-04-24T08:00:00+00:00",
+        "entry_count": 47,
+        "latest_pub_date": "2026-04-26T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://op3.dev/e/audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep058_20260426.mp3",
+            "host": "op3.dev",
+            "pub_date": "2026-04-26T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://op3.dev/e/audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep057_20260424.mp3",
             "host": "op3.dev",
@@ -2358,13 +2369,6 @@
             "url": "https://op3.dev/e/audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep056_20260422.mp3",
             "host": "op3.dev",
             "pub_date": "2026-04-22T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://op3.dev/e/audio.nerranetwork.com/fascinating_frontiers/Fascinating_Frontiers_Ep055_20260420.mp3",
-            "host": "op3.dev",
-            "pub_date": "2026-04-20T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
