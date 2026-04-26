@@ -2332,7 +2332,7 @@ def _publish_youtube(
 
     # Resolve cover image. We fall back to whatever the show used in the
     # RSS <itunes:image> tag if a local file isn't obvious from the slug.
-    cover_path: Optional[Path] = None
+    cover_path = None
     cover_candidates = [
         PROJECT_ROOT / "assets" / "covers" / f"{config.slug.replace('_', '-')}.jpg",
         PROJECT_ROOT / "assets" / "covers" / f"{config.slug}.jpg",
