@@ -210,3 +210,17 @@ content_freshness:
   lookback_days: 2
   similarity_threshold: 0.72
 
+youtube:
+  enabled: true                 # Phase-1 rollout show
+  channel: en
+  category_id: 28               # Science & Tech
+  default_language: en
+  privacy_status: unlisted
+  tags:
+    - space
+    - astronomy
+    - nasa
+    - spacex
+    - science podcast
+    - space news
+

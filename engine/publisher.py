@@ -875,24 +875,150 @@ def notify_directories(rss_url: str, show_name: str = "Podcast") -> dict:
 # Episode thumbnail
 # ---------------------------------------------------------------------------
 
+_FONT_CANDIDATES = (
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+    "/usr/share/fonts/dejavu/DejaVuSans-Bold.ttf",
+    "/Library/Fonts/Arial Bold.ttf",
+    "/System/Library/Fonts/Helvetica.ttc",
+    "C:\\Windows\\Fonts\\arialbd.ttf",
+)
+
+
+def _load_font(size: int):
+    """Return a usable bold sans-serif font at the requested size.
+
+    Tries DejaVu Sans Bold (shipped on Ubuntu / GitHub Actions runners
+    by default) first, then falls back through common platform-specific
+    paths, then PIL's default bitmap font.
+    """
+    from PIL import ImageFont
+
+    for candidate in _FONT_CANDIDATES:
+        if Path(candidate).exists():
+            try:
+                return ImageFont.truetype(candidate, size)
+            except (IOError, OSError):
+                continue
+    return ImageFont.load_default()
+
+
+def _wrap_text(text: str, font, max_width: int) -> list:
+    """Greedy word-wrap that respects the rendered pixel width."""
+    if not text:
+        return []
+    words = text.split()
+    lines: list[str] = []
+    current = ""
+    for word in words:
+        candidate = f"{current} {word}".strip()
+        bbox = font.getbbox(candidate)
+        width = bbox[2] - bbox[0]
+        if width <= max_width or not current:
+            current = candidate
+        else:
+            lines.append(current)
+            current = word
+    if current:
+        lines.append(current)
+    return lines
+
+
 def generate_episode_thumbnail(
     base_image_path: Path,
     episode_num: int,
     date_str: str,
     output_path: Path,
+    *,
+    hook: str = "",
+    show_name: str = "",
+    size: tuple = (1280, 720),
 ) -> Path:
-    """Generate a simple episode thumbnail by overlaying text on a base image."""
-    from PIL import Image, ImageDraw, ImageFont
+    """Render an episode thumbnail by overlaying text on the show cover.
 
-    img = Image.open(base_image_path)
+    Output is a JPEG at YouTube's recommended 1280x720 thumbnail spec by
+    default. The cover is scaled-and-cropped to fill the frame, darkened
+    for legibility, then overlaid with the show name (top-left), the
+    headline ``hook`` (large, centred), and an "Ep N — date" footer.
+
+    Parameters
+    ----------
+    base_image_path:
+        Source cover image (e.g. ``assets/covers/<show>.jpg``).
+    episode_num:
+        Episode number for the footer line.
+    date_str:
+        Pre-formatted date string for the footer line.
+    output_path:
+        Output file path. Suffix ``.jpg``/``.jpeg`` writes JPEG (what
+        YouTube prefers); anything else writes PNG.
+    hook:
+        Optional one-line headline. Wrapped to fit and rendered as the
+        dominant text. When empty, only the show name + footer appear.
+    show_name:
+        Optional small label rendered top-left.
+    size:
+        Output ``(width, height)`` in pixels.
+    """
+    from PIL import Image, ImageDraw, ImageEnhance
+
+    width, height = size
+    img = Image.open(base_image_path).convert("RGB")
+
+    # Scale-and-crop the cover to fill the output frame (no letterboxing).
+    src_ratio = img.width / img.height
+    dst_ratio = width / height
+    if src_ratio > dst_ratio:
+        new_h = height
+        new_w = int(round(height * src_ratio))
+    else:
+        new_w = width
+        new_h = int(round(width / src_ratio))
+    img = img.resize((new_w, new_h), Image.LANCZOS)
+    left = (new_w - width) // 2
+    top = (new_h - height) // 2
+    img = img.crop((left, top, left + width, top + height))
+
+    # Darken so white text reads cleanly.
+    img = ImageEnhance.Brightness(img).enhance(0.55)
+
     draw = ImageDraw.Draw(img)
-    try:
-        font = ImageFont.truetype("arial.ttf", 48)
-    except IOError:
-        font = ImageFont.load_default()
-    draw.text((50, 50), f"Episode {episode_num}", font=font, fill=(255, 255, 255))
-    draw.text((50, 100), date_str, font=font, fill=(255, 255, 255))
-    img.save(output_path, "PNG")
+    margin = max(32, width // 32)
+
+    if show_name:
+        label_font = _load_font(max(28, width // 32))
+        draw.text((margin, margin), show_name, font=label_font,
+                  fill=(255, 255, 255))
+
+    if hook:
+        clean_hook = hook.strip()
+        if len(clean_hook) > 120:
+            clean_hook = clean_hook[:117].rstrip() + "..."
+        hook_font = _load_font(max(56, width // 14))
+        max_text_width = width - 2 * margin
+        lines = _wrap_text(clean_hook, hook_font, max_text_width)
+        ascent_descent = hook_font.getbbox("Ay")
+        line_h = (ascent_descent[3] - ascent_descent[1]) + 12
+        block_h = line_h * len(lines)
+        y = (height - block_h) // 2
+        for line in lines:
+            bbox = hook_font.getbbox(line)
+            line_w = bbox[2] - bbox[0]
+            x = (width - line_w) // 2
+            draw.text((x, y), line, font=hook_font, fill=(255, 255, 255))
+            y += line_h
+
+    footer_font = _load_font(max(28, width // 32))
+    footer = f"Ep {episode_num} — {date_str}" if date_str else f"Ep {episode_num}"
+    footer_bbox = footer_font.getbbox(footer)
+    footer_h = footer_bbox[3] - footer_bbox[1]
+    draw.text((margin, height - margin - footer_h), footer,
+              font=footer_font, fill=(255, 255, 255))
+
+    suffix = output_path.suffix.lower()
+    if suffix in (".jpg", ".jpeg"):
+        img.save(output_path, "JPEG", quality=88, optimize=True)
+    else:
+        img.save(output_path, "PNG")
     return output_path
 
 

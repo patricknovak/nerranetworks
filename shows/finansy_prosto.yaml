@@ -247,3 +247,15 @@ slow_news:
   library_file: shows/segments/finansy_prosto.json
   max_segments: 2
   cooldown_days: 30
+
+youtube:
+  enabled: false                # Phase 2 — flip after quota raise + RU channel set up
+  channel: ru
+  category_id: 25               # News & Politics
+  default_language: ru
+  tags:
+    - финансы
+    - инвестиции
+    - канада
+    - финансовая грамотность
+    - сбережения

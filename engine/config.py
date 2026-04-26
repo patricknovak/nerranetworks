@@ -204,6 +204,27 @@ class ContentFreshnessConfig:
 
 
 @dataclass
+class YouTubeConfig:
+    """Per-show YouTube publishing configuration.
+
+    Network-wide defaults live in ``shows/_defaults.yaml`` under
+    ``youtube:``; show YAMLs override individual fields. The synthesized
+    voice means every upload sets ``status.containsSyntheticMedia=True``
+    (the API field YouTube introduced in October 2024 for AI disclosure).
+    """
+    enabled: bool = False
+    channel: str = "en"                    # "en" or "ru" — picks refresh token
+    category_id: int = 28                  # 28 = Science & Tech (sane default)
+    default_language: str = "en"
+    privacy_status: str = "public"         # "public" | "unlisted" | "private"
+    publish_long_form: bool = True
+    publish_shorts: bool = True
+    short_duration_seconds: float = 55.0
+    tags: List[str] = field(default_factory=list)
+    synthetic_disclosure: str = ""
+
+
+@dataclass
 class ShowConfig:
     name: str = ""
     slug: str = ""
@@ -228,6 +249,7 @@ class ShowConfig:
     content_tracking: ContentTrackingConfig = field(default_factory=ContentTrackingConfig)
     slow_news: SlowNewsConfig = field(default_factory=SlowNewsConfig)
     content_freshness: ContentFreshnessConfig = field(default_factory=ContentFreshnessConfig)
+    youtube: YouTubeConfig = field(default_factory=YouTubeConfig)
 
 
 # ---------------------------------------------------------------------------
@@ -367,6 +389,7 @@ def load_config(yaml_path: str | Path) -> ShowConfig:
         content_tracking=_build_nested(ContentTrackingConfig, data.get("content_tracking")),
         slow_news=_build_nested(SlowNewsConfig, data.get("slow_news")),
         content_freshness=_build_nested(ContentFreshnessConfig, data.get("content_freshness")),
+        youtube=_build_nested(YouTubeConfig, data.get("youtube")),
     )
     logger.info("Loaded config for '%s' from %s", config.name, path)
     return config

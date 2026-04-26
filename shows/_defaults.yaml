@@ -89,3 +89,37 @@ chapters:
 content_tracking:
   enabled: true
   max_days: 14
+
+youtube:
+  # Off by default — flip per-show in the show YAML once an OAuth refresh
+  # token is provisioned for that channel.
+  enabled: false
+  # "en" = upload to the English Nerra Network channel using
+  # YOUTUBE_REFRESH_TOKEN_EN. "ru" = Russian channel
+  # using YOUTUBE_REFRESH_TOKEN_RU.
+  channel: en
+  # YouTube category ID (24=Entertainment, 25=News, 27=Education,
+  # 28=Science & Tech). Override per-show when a more specific bucket fits.
+  category_id: 28
+  default_language: en
+  # "public" once we've validated a few uploads via "unlisted".
+  privacy_status: public
+  # Per-episode rendering toggles.
+  publish_long_form: true
+  publish_shorts: true
+  # Shorts clip pulled from the voice track only (skips music intro);
+  # keep < 60s so YouTube treats it as a Short.
+  short_duration_seconds: 55
+  # Network-wide tags appended to per-show tags.
+  tags:
+    - nerra network
+    - podcast
+    - ai podcast
+  # Disclosure footer appended to every video description. The API also
+  # sets status.containsSyntheticMedia=True on every upload, which is the
+  # field YouTube uses to render the "Altered or synthetic content" label.
+  synthetic_disclosure: |
+    AI Disclosure: This podcast is curated by Patrick but uses AI-generated
+    voice synthesis (ElevenLabs) for the narration. Editorial selection,
+    summaries, and analysis are written from primary sources by
+    Nerra Network. Learn more: https://nerranetwork.com/about

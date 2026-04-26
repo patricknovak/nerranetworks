@@ -200,3 +200,15 @@ slow_news:
   library_file: shows/segments/models_agents_beginners.json
   max_segments: 2
   cooldown_days: 30
+
+youtube:
+  enabled: false                # Phase 2 — flip after quota raise
+  channel: en
+  category_id: 27               # Education (beginner / teen-focused)
+  default_language: en
+  tags:
+    - ai for beginners
+    - learn ai
+    - ai for teens
+    - ai explained
+    - ai education
