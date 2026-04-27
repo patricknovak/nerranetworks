@@ -2,6 +2,12 @@
 .env
 .env.local
 
+# OAuth client secrets (Google Cloud Console download)
+client_secret*.json
+client_secrets.json
+youtube_token*.json
+youtube_refresh_token*.txt
+
 # Python
 __pycache__/
 *.py[cod]
