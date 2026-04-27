@@ -327,7 +327,7 @@ def test_upload_video_invokes_api_and_returns_watch_url(monkeypatch, tmp_path):
                         fake_discovery)
     monkeypatch.setitem(sys.modules, "googleapiclient.http", fake_http)
 
-    url = youtube.upload_video(
+    result = youtube.upload_video(
         video_path,
         credentials=object(),  # not used by the fake
         title="Test",
@@ -337,12 +337,128 @@ def test_upload_video_invokes_api_and_returns_watch_url(monkeypatch, tmp_path):
         default_language="en",
         privacy_status="public",
     )
-    assert url == "https://www.youtube.com/watch?v=abc123"
+    assert isinstance(result, youtube.UploadResult)
+    assert result.video_id == "abc123"
+    assert result.watch_url == "https://www.youtube.com/watch?v=abc123"
 
     body = captured["insert_kwargs"]["body"]
     assert body["status"]["containsSyntheticMedia"] is True
     assert body["snippet"]["title"] == "Test"
     assert captured["insert_kwargs"]["part"] == "snippet,status"
+
+
+def test_upload_result_has_video_id_and_watch_url():
+    result = youtube.UploadResult(
+        video_id="abc123",
+        watch_url="https://www.youtube.com/watch?v=abc123",
+    )
+    assert result.video_id == "abc123"
+    assert result.watch_url == "https://www.youtube.com/watch?v=abc123"
+
+
+def _patch_googleapiclient(monkeypatch, fake_youtube, http_error_cls=None):
+    """Install a fake googleapiclient module tree for the duration of a test."""
+    import sys
+
+    fake_googleapiclient = type(sys)("googleapiclient")
+    fake_discovery = type(sys)("googleapiclient.discovery")
+    fake_http = type(sys)("googleapiclient.http")
+    fake_errors = type(sys)("googleapiclient.errors")
+    fake_discovery.build = lambda *a, **kw: fake_youtube
+    fake_http.MediaFileUpload = lambda *a, **kw: None
+
+    if http_error_cls is None:
+        class HttpError(Exception):
+            def __init__(self, status=400, message="error"):
+                super().__init__(message)
+                self.resp = SimpleNamespace(status=status)
+        http_error_cls = HttpError
+    fake_errors.HttpError = http_error_cls
+
+    fake_googleapiclient.discovery = fake_discovery
+    fake_googleapiclient.http = fake_http
+    fake_googleapiclient.errors = fake_errors
+    monkeypatch.setitem(sys.modules, "googleapiclient", fake_googleapiclient)
+    monkeypatch.setitem(sys.modules, "googleapiclient.discovery", fake_discovery)
+    monkeypatch.setitem(sys.modules, "googleapiclient.http", fake_http)
+    monkeypatch.setitem(sys.modules, "googleapiclient.errors", fake_errors)
+    return http_error_cls
+
+
+def test_add_video_to_playlist_calls_playlistitems_insert(monkeypatch):
+    captured = {}
+
+    class _FakeRequest:
+        def execute(self):
+            captured["executed"] = True
+            return {"id": "playlistitem123"}
+
+    class _FakePlaylistItems:
+        def insert(self, **kwargs):
+            captured["insert_kwargs"] = kwargs
+            return _FakeRequest()
+
+    class _FakeYouTube:
+        def playlistItems(self):
+            return _FakePlaylistItems()
+
+    _patch_googleapiclient(monkeypatch, _FakeYouTube())
+
+    ok = youtube.add_video_to_playlist(
+        credentials=object(),
+        video_id="abc123",
+        playlist_id="PLRHMnzNNXPYCRrcYpPwAzjaRXqzKRUl23",
+    )
+    assert ok is True
+    assert captured["executed"] is True
+    assert captured["insert_kwargs"]["part"] == "snippet"
+    body = captured["insert_kwargs"]["body"]
+    assert body["snippet"]["playlistId"] == (
+        "PLRHMnzNNXPYCRrcYpPwAzjaRXqzKRUl23"
+    )
+    assert body["snippet"]["resourceId"] == {
+        "kind": "youtube#video",
+        "videoId": "abc123",
+    }
+
+
+def test_add_video_to_playlist_returns_false_on_http_error(monkeypatch, caplog):
+    class HttpError(Exception):
+        def __init__(self, status=403, message="forbidden"):
+            super().__init__(message)
+            self.resp = SimpleNamespace(status=status)
+
+    http_error_cls = _patch_googleapiclient(
+        monkeypatch, fake_youtube=None, http_error_cls=HttpError,
+    )
+
+    class _FakeRequest:
+        def execute(self):
+            raise http_error_cls(status=403, message="forbidden")
+
+    class _FakePlaylistItems:
+        def insert(self, **kwargs):
+            return _FakeRequest()
+
+    class _FakeYouTube:
+        def playlistItems(self):
+            return _FakePlaylistItems()
+
+    # Re-patch build to return the youtube fake now that classes exist.
+    import sys
+    sys.modules["googleapiclient.discovery"].build = (
+        lambda *a, **kw: _FakeYouTube()
+    )
+
+    with caplog.at_level("WARNING", logger="engine.youtube"):
+        ok = youtube.add_video_to_playlist(
+            credentials=object(),
+            video_id="abc123",
+            playlist_id="PL_bad",
+        )
+    assert ok is False
+    assert any("403" in rec.message or "Failed" in rec.message
+               for rec in caplog.records)
 
 
 def test_upload_video_requires_existing_file(tmp_path):

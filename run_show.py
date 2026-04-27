@@ -2360,6 +2360,7 @@ def _publish_youtube(
     )
     from engine.visual_assets import fetch_scene_images
     from engine.youtube import (
+        add_video_to_playlist,
         get_channel_credentials_from_env,
         upload_video,
     )
@@ -2441,7 +2442,7 @@ def _publish_youtube(
                 chapters_path=chapters_path if chapters_path.exists() else None,
                 photo_attribution=pexels_attribution,
             )
-            long_url = upload_video(
+            upload = upload_video(
                 long_video_path,
                 credentials=credentials,
                 title=meta["title"],
@@ -2452,7 +2453,21 @@ def _publish_youtube(
                 privacy_status=config.youtube.privacy_status,
                 thumbnail_path=thumbnail_path,
             )
+            long_url = upload.watch_url
             result["long_url"] = long_url
+            playlist_id = (
+                getattr(config.youtube, "podcast_playlist_id", None) or ""
+            ).strip()
+            if not playlist_id:
+                logger.info(
+                    "Podcast playlist ID empty — skipping playlist add."
+                )
+            else:
+                add_video_to_playlist(
+                    credentials=credentials,
+                    video_id=upload.video_id,
+                    playlist_id=playlist_id,
+                )
         except Exception as exc:
             logger.exception("YouTube long-form publish failed: %s", exc)
 
@@ -2478,7 +2493,7 @@ def _publish_youtube(
                 hook=hook,
                 long_form_url=long_url,
             )
-            short_url = upload_video(
+            short_upload = upload_video(
                 short_video_path,
                 credentials=credentials,
                 title=meta["title"],
@@ -2489,7 +2504,20 @@ def _publish_youtube(
                 privacy_status=config.youtube.privacy_status,
                 thumbnail_path=thumbnail_path,
             )
-            result["short_url"] = short_url
+            result["short_url"] = short_upload.watch_url
+            playlist_id = (
+                getattr(config.youtube, "podcast_playlist_id", None) or ""
+            ).strip()
+            if not playlist_id:
+                logger.info(
+                    "Podcast playlist ID empty — skipping playlist add."
+                )
+            else:
+                add_video_to_playlist(
+                    credentials=credentials,
+                    video_id=short_upload.video_id,
+                    playlist_id=playlist_id,
+                )
         except Exception as exc:
             logger.exception("YouTube Shorts publish failed: %s", exc)
 

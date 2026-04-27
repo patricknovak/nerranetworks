@@ -222,6 +222,7 @@ class YouTubeConfig:
     short_duration_seconds: float = 55.0
     tags: List[str] = field(default_factory=list)
     synthetic_disclosure: str = ""
+    podcast_playlist_id: Optional[str] = None
 
 
 @dataclass

@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import logging
 import os
+from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
 
@@ -203,7 +204,7 @@ def upload_video(
     thumbnail_path: Optional[Path] = None,
     contains_synthetic_media: bool = True,
     made_for_kids: bool = False,
-) -> str:
+) -> "UploadResult":
     """Upload a single video and (optionally) its custom thumbnail.
 
     Parameters
@@ -230,8 +231,10 @@ def upload_video(
 
     Returns
     -------
-    str
-        The canonical watch URL (``https://www.youtube.com/watch?v=…``).
+    UploadResult
+        Bundle of ``video_id`` and the canonical ``watch_url``
+        (``https://www.youtube.com/watch?v=…``). Callers that only
+        want the URL should use ``result.watch_url``.
     """
     if not video_path.exists():
         raise FileNotFoundError(f"video not found: {video_path}")
@@ -295,4 +298,61 @@ def upload_video(
         except Exception as exc:  # pragma: no cover - thumbnail is best-effort
             logger.warning("Thumbnail upload failed (non-fatal): %s", exc)
 
-    return watch_url
+    return UploadResult(video_id=video_id, watch_url=watch_url)
+
+
+@dataclass
+class UploadResult:
+    """Return value of :func:`upload_video`.
+
+    Exposes both the bare ``video_id`` (needed for follow-up API calls
+    like ``playlistItems.insert``) and the canonical ``watch_url`` that
+    ends up in RSS feeds and X posts.
+    """
+    video_id: str
+    watch_url: str
+
+
+def add_video_to_playlist(
+    *,
+    credentials,
+    video_id: str,
+    playlist_id: str,
+) -> bool:
+    """Append a video to a playlist via the YouTube Data API.
+
+    Returns ``True`` on success, ``False`` on any 4xx (we don't own
+    the playlist, video is private and not viewable, etc.) or 5xx
+    (which we don't retry — playlist membership is best-effort, not
+    the upload itself).
+
+    Costs 50 quota units per call.
+    """
+    from googleapiclient.discovery import build
+    from googleapiclient.errors import HttpError
+
+    youtube = build(
+        "youtube", "v3", credentials=credentials, cache_discovery=False,
+    )
+    body = {
+        "snippet": {
+            "playlistId": playlist_id,
+            "resourceId": {
+                "kind": "youtube#video",
+                "videoId": video_id,
+            },
+        },
+    }
+    try:
+        youtube.playlistItems().insert(part="snippet", body=body).execute()
+    except HttpError as exc:
+        status = getattr(getattr(exc, "resp", None), "status", "?")
+        logger.warning(
+            "Failed to add video %s to playlist %s (HTTP %s): %s",
+            video_id, playlist_id, status, exc,
+        )
+        return False
+    logger.info(
+        "added video %s to playlist %s", video_id, playlist_id,
+    )
+    return True
