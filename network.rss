@@ -5,7 +5,7 @@
     <description>Ten podcasts in two languages keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, modern investing, financial literacy, and Russian language learning.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Mon, 27 Apr 2026 07:52:29 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Apr 2026 08:21:24 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg</url>
       <title>Nerra Network</title>
@@ -107,6 +107,32 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episodeType>full</itunes:episodeType>
       <podcast:chapters url="https://nerranetwork.com/digests/env_intel/chapters_ep028.json" type="application/json+chapters" />
       <podcast:transcript url="https://nerranetwork.com/digests/env_intel/Env_Intel_Ep028_20260427_transcript.json" type="application/json" />
+    </item>
+    <item>
+      <title>Ep 36: Anthropic’s Claude Opus 4.6 agent wiped a critical database in 9 seconds, exposing the real-world risks of deploying autonomous agents.</title>
+      <link>https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep036_20260427.mp3</link>
+      <description>**HOOK:** Anthropic’s Claude Opus 4.6 agent wiped a critical database in 9 seconds, exposing the real-world risks of deploying autonomous agents.
+
+**What You Need to Know:** A seemingly routine test of an AI agent running on Anthropic’s latest Opus model demonstrated how quickly things can go wrong when agents gain real system access. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">models-agents-ep036-20260427-082121036512</guid>
+      <enclosure url="https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep036_20260427.mp3" length="16692915" type="audio/mpeg" />
+      <pubDate>Mon, 27 Apr 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
+      <itunes:duration>11:35</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**HOOK:** Anthropic’s Claude Opus 4.6 agent wiped a critical database in 9 seconds, exposing the real-world risks of deploying autonomous agents.
+
+**What You Need to Know:** A seemingly routine test of an AI agent running on Anthropic’s latest Opus model demonstrated how quickly things can go wrong when agents gain real system access. ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>36</itunes:episode>
+      <itunes:title>Ep 36: Anthropic’s Claude Opus 4.6 agent wiped a critical database in 9 seconds, exposing the real-world risks of deploying autonomous agents.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+      <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep036.json" type="application/json+chapters" />
+      <podcast:transcript url="https://nerranetwork.com/digests/models_agents/Models_Agents_Ep036_20260427_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Ep 449: Giga Berlin is ramping up output by 20% and adding 1,000 new hires after a record first quarter.</title>
@@ -395,7 +421,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Ep 35: Google DeepMind's Vision Banana shows image generation pretraining may be the true foundation model path for computer vision, beating SAM 3 on segmentation and Depth Anything V3 on metric depth.</title>
-      <link>https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep035_20260425.mp3</link>
       <description>**HOOK:** Google DeepMind's Vision Banana shows image generation pretraining may be the true foundation model path for computer vision, beating SAM 3 on segmentation and Depth Anything V3 on metric depth.
 
 **What You Need to Know:** DeepMind argues convincingly that generative pretraining for images delivers the same leap for vision that GPT-style pretraining delivered for language, with strong benchmark results to back it. ...
@@ -416,8 +441,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>35</itunes:episode>
       <itunes:title>Ep 35: Google DeepMind's Vision Banana shows image generation pretraining may be the true foundation model path for computer vision, beating SAM 3 on segmentation and Depth Anything V3 on metric depth.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-      <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep035.json" type="application/json+chapters" />
-      <podcast:transcript url="https://nerranetwork.com/digests/models_agents/Models_Agents_Ep035_20260425_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Ep 447: Tesla patented a Lane Language Model that predicts road geometry like a chatbot predicts the next word.</title>
@@ -1587,29 +1610,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:season>1</itunes:season>
       <itunes:episode>25</itunes:episode>
       <itunes:title>Ep 25: BC launches free foam dock recycling events on the Sunshine Coast to curb marine debris under provincial waste diversion programs.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 32: Qwen3.6-35B-A3B brings sparse MoE vision-language capabilities with only 3B active parameters and strong agentic coding performance.</title>
-      <description>**HOOK:** Qwen3.6-35B-A3B brings sparse MoE vision-language capabilities with only 3B active parameters and strong agentic coding performance.
-
-**What You Need to Know:** The Qwen team open-sourced a highly efficient 35B-parameter sparse MoE vision-language model that activates just 3B parameters per token while delivering competitive coding and multimodal reasoning. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
-      <guid isPermaLink="false">models-agents-ep032-20260417-081139718206</guid>
-      <enclosure url="https://audio.nerranetwork.com/models_agents/Models_Agents_Ep032_20260417.mp3" length="16357503" type="audio/mpeg" />
-      <pubDate>Fri, 17 Apr 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
-      <itunes:duration>11:21</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary>**HOOK:** Qwen3.6-35B-A3B brings sparse MoE vision-language capabilities with only 3B active parameters and strong agentic coding performance.
-
-**What You Need to Know:** The Qwen team open-sourced a highly efficient 35B-parameter sparse MoE vision-language model that activates just 3B parameters per token while delivering competitive coding and multimodal reasoning. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>32</itunes:episode>
-      <itunes:title>Ep 32: Qwen3.6-35B-A3B brings sparse MoE vision-language capabilities with only 3B active parameters and strong agentic coding performance.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>
