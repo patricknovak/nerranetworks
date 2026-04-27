@@ -2430,6 +2430,7 @@ def _publish_youtube(
                 final_mp3, cover_path, short_video_path,
                 start_offset=short_offset,
                 duration=duration,
+                hook=hook or None,
             )
             meta = build_short_metadata(
                 config,
