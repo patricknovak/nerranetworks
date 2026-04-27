@@ -211,6 +211,7 @@ content_freshness:
   similarity_threshold: 0.72
 
 youtube:
+  podcast_playlist_id: PLRHMnzNNXPYDC7-f8Dary-bTZyvwxR-dR
   enabled: true                 # Phase-1 rollout show
   channel: en
   category_id: 28               # Science & Tech

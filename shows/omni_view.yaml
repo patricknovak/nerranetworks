@@ -207,6 +207,7 @@ slow_news:
   cooldown_days: 30
 
 youtube:
+  podcast_playlist_id: PLRHMnzNNXPYCv9Q34Hnv9h6C3PMUpkLXo
   enabled: false                # Phase 2 — flip after quota raise
   channel: en
   category_id: 25               # News & Politics

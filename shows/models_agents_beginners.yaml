@@ -202,6 +202,7 @@ slow_news:
   cooldown_days: 30
 
 youtube:
+  podcast_playlist_id: PLRHMnzNNXPYBFcirj6Ivq6PxZealY8fAp
   enabled: false                # Phase 2 — flip after quota raise
   channel: en
   category_id: 27               # Education (beginner / teen-focused)

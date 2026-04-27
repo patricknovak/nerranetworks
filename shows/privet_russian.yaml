@@ -185,6 +185,7 @@ slow_news:
   cooldown_days: 30
 
 youtube:
+  podcast_playlist_id: PLrkQSSjMOK2d9QSWFlehgK5dlv38lfqWI
   enabled: false                # Phase 2 — flip after quota raise + RU channel set up
   channel: ru
   category_id: 27               # Education (language learning)

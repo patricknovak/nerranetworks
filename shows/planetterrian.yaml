@@ -243,6 +243,7 @@ slow_news:
   cooldown_days: 30
 
 youtube:
+  podcast_playlist_id: PLRHMnzNNXPYD3F_DWI36sW4YCEeocVqz4
   enabled: false                # Phase 2 — flip after quota raise
   channel: en
   category_id: 28               # Science & Tech
