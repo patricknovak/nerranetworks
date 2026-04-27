@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-27T16:49:52.182632+00:00",
+  "generated_at": "2026-04-27T18:55:44.577770+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -320,9 +320,9 @@
       "evidence": {
         "total": 95,
         "by_extension": {
-          ".txt": 45,
           ".json": 47,
-          ".py": 3
+          ".py": 3,
+          ".txt": 45
         },
         "previous_total": 95
       }
