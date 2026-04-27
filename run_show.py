@@ -2456,6 +2456,28 @@ def _publish_youtube(
         except Exception as exc:
             logger.exception("YouTube long-form publish failed: %s", exc)
 
+    # ---- YouTube Podcasts: add long-form to the podcast playlist ----
+    # Surfaces the episode in YouTube Music's Podcasts section. Skips
+    # cleanly if the operator hasn't set up a playlist yet (empty ID).
+    playlist_id = (config.youtube.podcast_playlist_id or "").strip()
+    if long_url and playlist_id:
+        try:
+            from engine.youtube import (
+                add_to_podcast_playlist,
+                video_id_from_watch_url,
+            )
+            video_id = video_id_from_watch_url(long_url)
+            if video_id:
+                added = add_to_podcast_playlist(
+                    credentials=credentials,
+                    playlist_id=playlist_id,
+                    video_id=video_id,
+                )
+                if added:
+                    result["podcast_playlist_added"] = True
+        except Exception as exc:  # pragma: no cover — best-effort
+            logger.warning("Podcast playlist add failed: %s", exc)
+
     # ---- Shorts ----
     if config.youtube.publish_shorts:
         try:

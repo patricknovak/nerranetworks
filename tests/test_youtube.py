@@ -355,3 +355,126 @@ def test_upload_video_requires_existing_file(tmp_path):
             tags=[],
             category_id=28,
         )
+
+
+# ---------------------------------------------------------------------------
+# YouTube Podcasts integration
+# ---------------------------------------------------------------------------
+
+def test_video_id_from_watch_url_extracts_id():
+    from engine.youtube import video_id_from_watch_url
+    assert video_id_from_watch_url(
+        "https://www.youtube.com/watch?v=abc123"
+    ) == "abc123"
+    # Trailing query params and fragments are stripped.
+    assert video_id_from_watch_url(
+        "https://www.youtube.com/watch?v=abc123&t=30"
+    ) == "abc123"
+    assert video_id_from_watch_url(
+        "https://www.youtube.com/watch?v=abc123#fragment"
+    ) == "abc123"
+
+
+def test_video_id_from_watch_url_returns_empty_on_bad_input():
+    from engine.youtube import video_id_from_watch_url
+    assert video_id_from_watch_url("") == ""
+    assert video_id_from_watch_url("https://example.com/foo") == ""
+    assert video_id_from_watch_url(None) == ""  # type: ignore[arg-type]
+
+
+def test_add_to_podcast_playlist_skips_when_id_empty():
+    from engine.youtube import add_to_podcast_playlist
+    # Empty playlist_id → returns False without making an API call.
+    assert add_to_podcast_playlist(
+        credentials=object(),
+        playlist_id="",
+        video_id="abc",
+    ) is False
+    # Whitespace-only too.
+    assert add_to_podcast_playlist(
+        credentials=object(),
+        playlist_id="   ",
+        video_id="abc",
+    ) is False
+
+
+def test_add_to_podcast_playlist_skips_when_video_id_empty():
+    from engine.youtube import add_to_podcast_playlist
+    assert add_to_podcast_playlist(
+        credentials=object(),
+        playlist_id="PLabc",
+        video_id="",
+    ) is False
+
+
+def test_add_to_podcast_playlist_calls_api_with_correct_body(monkeypatch):
+    """Happy-path: builds a youtube client, calls
+    ``playlistItems.insert`` with the right snippet shape, returns
+    True. We mock the Google client so no network."""
+    from engine import youtube as yt_module
+
+    captured = {}
+
+    class _FakeRequest:
+        def execute(self):
+            captured["executed"] = True
+            return {}
+
+    class _FakePlaylistItems:
+        def insert(self, **kwargs):
+            captured["insert_kwargs"] = kwargs
+            return _FakeRequest()
+
+    class _FakeYouTube:
+        def playlistItems(self):
+            return _FakePlaylistItems()
+
+    import sys
+    fake_discovery = type(sys)("googleapiclient.discovery")
+    fake_discovery.build = lambda *a, **kw: _FakeYouTube()
+    monkeypatch.setitem(sys.modules, "googleapiclient", type(sys)("googleapiclient"))
+    monkeypatch.setitem(sys.modules, "googleapiclient.discovery", fake_discovery)
+
+    result = yt_module.add_to_podcast_playlist(
+        credentials=object(),
+        playlist_id="PLxyz",
+        video_id="vid42",
+    )
+    assert result is True
+    assert captured["executed"] is True
+    body = captured["insert_kwargs"]["body"]
+    assert body["snippet"]["playlistId"] == "PLxyz"
+    assert body["snippet"]["resourceId"]["videoId"] == "vid42"
+    assert body["snippet"]["resourceId"]["kind"] == "youtube#video"
+    assert captured["insert_kwargs"]["part"] == "snippet"
+
+
+def test_add_to_podcast_playlist_returns_false_on_api_error(monkeypatch):
+    """Failures must not raise — the playlist add is best-effort and
+    must never crash a pipeline run."""
+    from engine import youtube as yt_module
+
+    class _FakeRequest:
+        def execute(self):
+            raise RuntimeError("API exploded")
+
+    class _FakePlaylistItems:
+        def insert(self, **kwargs):
+            return _FakeRequest()
+
+    class _FakeYouTube:
+        def playlistItems(self):
+            return _FakePlaylistItems()
+
+    import sys
+    fake_discovery = type(sys)("googleapiclient.discovery")
+    fake_discovery.build = lambda *a, **kw: _FakeYouTube()
+    monkeypatch.setitem(sys.modules, "googleapiclient", type(sys)("googleapiclient"))
+    monkeypatch.setitem(sys.modules, "googleapiclient.discovery", fake_discovery)
+
+    result = yt_module.add_to_podcast_playlist(
+        credentials=object(),
+        playlist_id="PLxyz",
+        video_id="vid42",
+    )
+    assert result is False

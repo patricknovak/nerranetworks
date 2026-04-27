@@ -107,6 +107,12 @@ youtube:
   # Per-episode rendering toggles.
   publish_long_form: true
   publish_shorts: true
+  # YouTube Podcasts integration: paste the playlist's PL... ID per show
+  # to also surface long-form uploads in YouTube Music's Podcasts section.
+  # Operator creates the playlist once in Studio with "Set as podcast"
+  # toggled on. Empty string skips the playlist add cleanly. Set per-show
+  # in shows/<slug>.yaml since each show is its own podcast feed.
+  podcast_playlist_id: ""
   # Shorts clip pulled from the voice track only (skips music intro);
   # keep < 60s so YouTube treats it as a Short.
   short_duration_seconds: 55

@@ -222,6 +222,12 @@ class YouTubeConfig:
     short_duration_seconds: float = 55.0
     tags: List[str] = field(default_factory=list)
     synthetic_disclosure: str = ""
+    # YouTube podcast playlist ID (PL...). When set, every long-form
+    # upload is appended to this playlist via playlistItems.insert.
+    # Listeners then see the show in YouTube Music's Podcasts section.
+    # Operator creates the playlist once in Studio (Content → Playlists
+    # → New → toggle "Set as podcast"). Empty string skips cleanly.
+    podcast_playlist_id: str = ""
 
 
 @dataclass

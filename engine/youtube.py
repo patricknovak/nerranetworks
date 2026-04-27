@@ -296,3 +296,101 @@ def upload_video(
             logger.warning("Thumbnail upload failed (non-fatal): %s", exc)
 
     return watch_url
+
+
+# ---------------------------------------------------------------------------
+# YouTube Podcasts integration
+# ---------------------------------------------------------------------------
+
+def add_to_podcast_playlist(
+    *,
+    credentials,
+    playlist_id: str,
+    video_id: str,
+) -> bool:
+    """Append a video to a podcast playlist via ``playlistItems.insert``.
+
+    The playlist itself must already exist and have its "Set as podcast"
+    toggle enabled in YouTube Studio — the API surface for that toggle
+    isn't public, which is why the operator creates the playlist by
+    hand once. From there, every long-form episode added to the
+    playlist surfaces in YouTube Music's Podcasts section.
+
+    Costs **50 quota units** per add (negligible vs. ``videos.insert``
+    at 1,600).
+
+    Parameters
+    ----------
+    credentials:
+        Refreshable :class:`google.oauth2.credentials.Credentials`,
+        usually from :func:`get_channel_credentials_from_env`. The
+        ``youtube`` scope is required (``youtube.upload`` alone is
+        insufficient for playlist mutations) — the bootstrap script
+        already requests both, so existing refresh tokens work.
+    playlist_id:
+        The ``PL...`` playlist ID. Pulled from the show's YAML
+        ``youtube.podcast_playlist_id`` field.
+    video_id:
+        The bare YouTube video ID (the ``v=`` part of the watch URL),
+        not the full URL.
+
+    Returns
+    -------
+    bool
+        ``True`` if the API call succeeded; ``False`` if the playlist
+        ID is empty (skipped cleanly) or the API call failed (logged,
+        not raised — playlist add must never crash a run).
+    """
+    if not playlist_id or not playlist_id.strip():
+        logger.info("Podcast playlist ID empty — skipping playlist add")
+        return False
+    if not video_id:
+        logger.warning("No video ID — skipping playlist add")
+        return False
+
+    from googleapiclient.discovery import build
+
+    youtube = build("youtube", "v3", credentials=credentials,
+                    cache_discovery=False)
+
+    body = {
+        "snippet": {
+            "playlistId": playlist_id,
+            "resourceId": {
+                "kind": "youtube#video",
+                "videoId": video_id,
+            },
+        },
+    }
+
+    try:
+        youtube.playlistItems().insert(part="snippet", body=body).execute()
+    except Exception as exc:  # noqa: BLE001 — never crash the run
+        logger.warning(
+            "Failed to add video %s to playlist %s: %s",
+            video_id, playlist_id, exc,
+        )
+        return False
+
+    logger.info("Added %s to podcast playlist %s", video_id, playlist_id)
+    return True
+
+
+def video_id_from_watch_url(watch_url: str) -> str:
+    """Extract the bare video ID from a ``https://www.youtube.com/watch?v=…`` URL.
+
+    Returns an empty string if the URL doesn't match the expected shape
+    (e.g. an empty failure-case from :func:`upload_video`).
+    """
+    if not watch_url:
+        return ""
+    marker = "watch?v="
+    idx = watch_url.find(marker)
+    if idx < 0:
+        return ""
+    tail = watch_url[idx + len(marker):]
+    # Strip any query/fragment trailing the id.
+    for sep in ("&", "#", "?"):
+        if sep in tail:
+            tail = tail.split(sep, 1)[0]
+    return tail
