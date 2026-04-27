@@ -170,8 +170,16 @@ def build_long_form_metadata(
     digest_text: str,
     audio_url: str,
     chapters_path: Optional[Path] = None,
+    photo_attribution: Optional[List[str]] = None,
 ) -> Dict:
     """Assemble the YouTube metadata payload for a long-form upload.
+
+    Parameters
+    ----------
+    photo_attribution:
+        Optional list of one-line photographer credits (e.g. from the
+        Pexels slideshow). When non-empty, a "Photos:" block is
+        appended to the description above the AI disclosure footer.
 
     Returns
     -------
@@ -213,6 +221,10 @@ def build_long_form_metadata(
     pieces.append(f"Listen on the podcast feed: {utm_link}")
     if audio_url:
         pieces.append(f"Direct audio: {audio_url}")
+    if photo_attribution:
+        cleaned = [line.strip() for line in photo_attribution if line.strip()]
+        if cleaned:
+            pieces.append("Photos via Pexels:\n" + "\n".join(cleaned))
     disclosure = (config.youtube.synthetic_disclosure or "").strip()
     if disclosure:
         pieces.append(disclosure)
