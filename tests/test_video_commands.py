@@ -17,6 +17,7 @@ import pytest
 
 from engine.video import (
     _AUDIO_ENCODE,
+    _SUBTITLES_FORCE_STYLE,
     _VIDEO_ENCODE,
     _drawtext_escape,
     _long_form_cmd,
@@ -24,6 +25,9 @@ from engine.video import (
     _make_brand_pill,
     _short_form_cmd,
     _short_form_filter_graph,
+    _slideshow_cmd,
+    _slideshow_filter_graph,
+    _subtitles_path_escape,
     _wrap_caption,
     build_long_form_video,
     build_short_video,
@@ -330,3 +334,218 @@ def test_wrap_caption_short_text_unchanged():
 
 def test_wrap_caption_empty_returns_empty():
     assert _wrap_caption("") == ""
+
+
+# ---------------------------------------------------------------------------
+# Slideshow (stage 1) — multi-scene Ken Burns + concat
+# ---------------------------------------------------------------------------
+
+def test_slideshow_filter_graph_has_per_scene_chains():
+    graph = _slideshow_filter_graph(scene_count=4)
+    # One zoompan chain per scene, then a final concat.
+    assert graph.count("zoompan") == 4
+    assert graph.count("[s0]") >= 1
+    assert graph.count("[s3]") >= 1
+    assert "concat=n=4:v=1:a=0[v]" in graph
+    assert graph.endswith("[v]")
+
+
+def test_slideshow_filter_graph_zoom_per_scene():
+    """Slideshow zoom is faster than the single-image Ken Burns
+    (each scene is only ~12s)."""
+    graph = _slideshow_filter_graph(scene_count=2)
+    assert "min(zoom+0.0006,1.12)" in graph
+
+
+def test_slideshow_cmd_has_one_input_per_scene(tmp_path):
+    paths = [tmp_path / f"scene{i}.jpg" for i in range(3)]
+    out = tmp_path / "slides.mp4"
+    cmd = _slideshow_cmd(paths, out)
+
+    # Three -i flags (one per scene), three -loop flags.
+    assert cmd.count("-i") == 3
+    assert cmd.count("-loop") == 3
+    # No audio in slideshow output.
+    assert "-an" in cmd
+    # Encoding profile applies (keyframe args present).
+    for token in _VIDEO_ENCODE:
+        assert token in cmd
+    assert cmd[-1] == str(out)
+
+
+# ---------------------------------------------------------------------------
+# Long-form filter graph — slideshow (bg_is_video) variant
+# ---------------------------------------------------------------------------
+
+def test_long_form_filter_graph_video_bg_skips_zoompan():
+    """When the background is already a slideshow video, we skip
+    zoompan in stage 2 (the zoom is baked into the slideshow itself)."""
+    graph = _long_form_filter_graph(bg_is_video=True)
+    assert "zoompan" not in graph
+    # Showcqt + brand + disclosure still composite on top.
+    assert "showcqt" in graph
+    assert "[2:v]" in graph and "format=rgba" in graph
+    assert "drawtext" in graph
+    assert graph.endswith("[v]")
+
+
+def test_long_form_filter_graph_image_bg_uses_zoompan():
+    graph = _long_form_filter_graph(bg_is_video=False)
+    assert "zoompan" in graph
+
+
+# ---------------------------------------------------------------------------
+# Long-form filter graph — subtitles burn-in
+# ---------------------------------------------------------------------------
+
+def test_long_form_filter_graph_with_subtitles_appends_filter():
+    graph = _long_form_filter_graph(subtitles_path="/tmp/captions.srt")
+    assert "subtitles=" in graph
+    # ASS force-style is appended.
+    assert "force_style=" in graph
+    assert "Alignment=2" in graph
+    assert "MarginV=320" in graph
+    # Disclosure chain is followed by the subtitles stage.
+    assert "[disclosed]" in graph
+    assert graph.endswith("[v]")
+
+
+def test_long_form_filter_graph_no_subtitles_uses_null_passthrough():
+    graph = _long_form_filter_graph(subtitles_path=None)
+    assert "subtitles=" not in graph
+    # null filter renames [disclosed] → [v] without re-encoding the alpha.
+    assert "[disclosed]null[v]" in graph
+
+
+def test_subtitles_path_escape_handles_metacharacters():
+    # Colons are option separators inside the subtitles filter.
+    assert _subtitles_path_escape("/tmp/with:colon/file.srt") == \
+        r"/tmp/with\:colon/file.srt"
+    # Backslashes get normalised to forward slashes (Windows safety).
+    assert _subtitles_path_escape("C:\\Users\\caps.srt") == \
+        r"C\:/Users/caps.srt"
+
+
+def test_subtitles_force_style_has_required_fields():
+    """Sanity check on the ASS force-style string."""
+    assert "FontName=DejaVu Sans" in _SUBTITLES_FORCE_STYLE
+    assert "Alignment=2" in _SUBTITLES_FORCE_STYLE
+    # MarginV pushes the baseline above the spectrum band.
+    assert "MarginV=320" in _SUBTITLES_FORCE_STYLE
+    # BorderStyle=3 = opaque box behind text (better readability than outline).
+    assert "BorderStyle=3" in _SUBTITLES_FORCE_STYLE
+
+
+# ---------------------------------------------------------------------------
+# Long-form command — slideshow + subtitles wiring
+# ---------------------------------------------------------------------------
+
+def test_long_form_cmd_video_bg_uses_stream_loop():
+    """When bg is the pre-rendered slideshow MP4, we ``-stream_loop -1``
+    it so it loops to match audio length, and we drop ``-loop 1
+    -framerate``."""
+    cmd = _long_form_cmd(
+        "voice.mp3", "slides.mp4", "brand.png", "out.mp4",
+        bg_is_video=True,
+    )
+    assert "-stream_loop" in cmd
+    assert cmd[cmd.index("-stream_loop") + 1] == "-1"
+    # Cover-style -loop / -framerate only on the brand input now (1 each).
+    assert cmd.count("-loop") == 1
+    # Three -i still: bg, audio, brand.
+    assert cmd.count("-i") == 3
+
+
+def test_long_form_cmd_threads_subtitles_path():
+    cmd = _long_form_cmd(
+        "voice.mp3", "cover.jpg", "brand.png", "out.mp4",
+        subtitles_path="/work/captions.srt",
+    )
+    graph = cmd[cmd.index("-filter_complex") + 1]
+    assert "subtitles=" in graph
+    assert "captions.srt" in graph
+
+
+def test_build_long_form_video_falls_back_to_cover_with_one_scene(tmp_path,
+                                                                  monkeypatch):
+    """Single-scene list should NOT trigger the two-stage slideshow
+    pipeline (one photo isn't a slideshow)."""
+    audio = tmp_path / "voice.mp3"
+    audio.write_bytes(b"\x00")
+    cover = tmp_path / "cover.jpg"
+    cover.write_bytes(b"\xFF\xD8")
+    out = tmp_path / "out.mp4"
+
+    captured_cmds = []
+    monkeypatch.setattr(
+        "engine.video.subprocess.run",
+        lambda cmd, **kw: (captured_cmds.append(list(cmd)),
+                           type("R", (), {"returncode": 0})())[1],
+    )
+    build_long_form_video(audio, cover, out, scene_paths=[cover])
+    # Only one ffmpeg invocation (no slideshow stage).
+    assert len(captured_cmds) == 1
+    # The single command's filter graph contains zoompan (image bg).
+    graph = captured_cmds[0][captured_cmds[0].index("-filter_complex") + 1]
+    assert "zoompan" in graph
+
+
+def test_build_long_form_video_renders_slideshow_for_multi_scene(tmp_path,
+                                                                 monkeypatch):
+    """Multi-scene list triggers a stage-1 slideshow render before
+    the final composite."""
+    audio = tmp_path / "voice.mp3"
+    audio.write_bytes(b"\x00")
+    cover = tmp_path / "cover.jpg"
+    cover.write_bytes(b"\xFF\xD8")
+    scenes = []
+    for i in range(3):
+        s = tmp_path / f"scene{i}.jpg"
+        s.write_bytes(b"\xFF\xD8")
+        scenes.append(s)
+    out = tmp_path / "out.mp4"
+
+    captured_cmds = []
+
+    def fake_run(cmd, **kw):
+        captured_cmds.append(list(cmd))
+
+        # Stage 1 writes the slideshow MP4; touch it so stage 2 sees it.
+        for i, arg in enumerate(cmd):
+            if arg == "-an":
+                # Slideshow command — last arg is output path.
+                Path(cmd[-1]).write_bytes(b"\x00")
+                break
+        return type("R", (), {"returncode": 0})()
+
+    monkeypatch.setattr("engine.video.subprocess.run", fake_run)
+    build_long_form_video(audio, cover, out, scene_paths=scenes)
+
+    # Two ffmpeg invocations: stage-1 slideshow, stage-2 composite.
+    assert len(captured_cmds) == 2
+    # Stage 1 has 3 inputs (one per scene), no audio output.
+    assert "-an" in captured_cmds[0]
+    assert captured_cmds[0].count("-i") == 3
+    # Stage 2 uses -stream_loop on the slideshow MP4.
+    assert "-stream_loop" in captured_cmds[1]
+
+
+def test_build_long_form_video_threads_subtitles(tmp_path, monkeypatch):
+    audio = tmp_path / "voice.mp3"
+    audio.write_bytes(b"\x00")
+    cover = tmp_path / "cover.jpg"
+    cover.write_bytes(b"\xFF\xD8")
+    srt = tmp_path / "captions.srt"
+    srt.write_text("1\n00:00:00,000 --> 00:00:02,000\nHello\n", encoding="utf-8")
+    out = tmp_path / "out.mp4"
+
+    captured = {}
+    monkeypatch.setattr(
+        "engine.video.subprocess.run",
+        lambda cmd, **kw: (captured.update(cmd=list(cmd)),
+                           type("R", (), {"returncode": 0})())[1],
+    )
+    build_long_form_video(audio, cover, out, subtitles_path=srt)
+    graph = captured["cmd"][captured["cmd"].index("-filter_complex") + 1]
+    assert "subtitles=" in graph
+    assert "captions.srt" in graph

@@ -293,6 +293,10 @@ jobs:
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN_EN: ${{ secrets.YOUTUBE_REFRESH_TOKEN_EN }}
           YOUTUBE_REFRESH_TOKEN_RU: ${{ secrets.YOUTUBE_REFRESH_TOKEN_RU }}
+          # Pexels: backs the long-form video slideshow (royalty-free
+          # photos keyed off each show's keywords). Missing → falls back
+          # to single-cover Ken Burns. Free tier covers our usage.
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           PIPELINE_TIMEOUT_SECONDS: '2400'
 
       - name: Validate output

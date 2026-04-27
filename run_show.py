@@ -2348,12 +2348,17 @@ def _publish_youtube(
         )
         return result
 
+    from engine.captions import (
+        find_transcript_for_episode,
+        transcript_to_srt,
+    )
     from engine.publisher import generate_episode_thumbnail
     from engine.video import build_long_form_video, build_short_video
     from engine.video_metadata import (
         build_long_form_metadata,
         build_short_metadata,
     )
+    from engine.visual_assets import fetch_scene_images
     from engine.youtube import (
         get_channel_credentials_from_env,
         upload_video,
@@ -2388,11 +2393,44 @@ def _publish_youtube(
         logger.warning("Thumbnail generation failed: %s", exc)
         thumbnail_path = None  # type: ignore[assignment]
 
+    # ---- Build captions SRT (optional — falls back to no captions) ----
+    srt_path = None
+    transcript_path = find_transcript_for_episode(
+        digests_dir, config.episode.prefix, episode_num, f"{today:%Y%m%d}",
+    )
+    if transcript_path is not None:
+        try:
+            srt_candidate = work_dir / f"{base_name}.srt"
+            transcript_to_srt(transcript_path, srt_candidate)
+            srt_path = srt_candidate
+        except Exception as exc:  # pragma: no cover — best-effort
+            logger.warning("Caption generation failed: %s", exc)
+
+    # ---- Resolve scene slideshow (Pexels-backed; falls back to cover) ----
+    scene_paths = [cover_path]
+    pexels_attribution: list = []
+    try:
+        scene_set = fetch_scene_images(
+            work_dir=work_dir,
+            episode_num=episode_num,
+            keywords=list(getattr(config, "keywords", []) or []),
+            fallback_cover=cover_path,
+        )
+        if not scene_set.is_fallback and len(scene_set) >= 2:
+            scene_paths = scene_set.paths()
+            pexels_attribution = scene_set.attribution_lines()
+    except Exception as exc:  # pragma: no cover — best-effort
+        logger.warning("Scene fetch failed (using cover only): %s", exc)
+
     # ---- Long-form ----
     long_url = ""
     if config.youtube.publish_long_form:
         try:
-            build_long_form_video(final_mp3, cover_path, long_video_path)
+            build_long_form_video(
+                final_mp3, cover_path, long_video_path,
+                scene_paths=scene_paths if len(scene_paths) >= 2 else None,
+                subtitles_path=srt_path,
+            )
             meta = build_long_form_metadata(
                 config,
                 episode_num=episode_num,
@@ -2401,6 +2439,7 @@ def _publish_youtube(
                 digest_text=digest_text,
                 audio_url=audio_url,
                 chapters_path=chapters_path if chapters_path.exists() else None,
+                photo_attribution=pexels_attribution,
             )
             long_url = upload_video(
                 long_video_path,
