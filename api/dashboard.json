@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-27T07:56:24.196988+00:00",
+  "generated_at": "2026-04-27T08:25:22.067309+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -7,9 +7,9 @@
       "fail": 0
     },
     "shows_count": 10,
-    "stale_shows": 0,
-    "total_cost_last_7_days_usd": 61.1628,
-    "total_cost_last_30_days_usd": 322.4425,
+    "stale_shows": 1,
+    "total_cost_last_7_days_usd": 62.9253,
+    "total_cost_last_30_days_usd": 324.2051,
     "shows": [
       {
         "slug": "env_intel",
@@ -72,11 +72,11 @@
         "blog_page": "blog/models_agents/index.html",
         "newsletter_enabled": true,
         "x_enabled": false,
-        "latest_pub_date": "2026-04-25T08:00:00+00:00",
+        "latest_pub_date": "2026-04-27T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 5.7678,
-        "episodes_last_7_days": 3,
-        "p50_pipeline_s": 53.76,
+        "cost_last_7_days_usd": 7.5304,
+        "episodes_last_7_days": 4,
+        "p50_pipeline_s": 54.02,
         "success_rate": 1.0
       },
       {
@@ -107,7 +107,7 @@
         "newsletter_enabled": true,
         "x_enabled": false,
         "latest_pub_date": "2026-04-24T08:00:00+00:00",
-        "pub_status": "warn",
+        "pub_status": "stale",
         "cost_last_7_days_usd": 8.5907,
         "episodes_last_7_days": 5,
         "p50_pipeline_s": 103.6,
@@ -290,10 +290,10 @@
       "id": "item_1_repo_size",
       "title": "Repo & R2 size",
       "status": "ok",
-      "details": "5 MP3s tracked in git, digests/ is 67 MB.",
+      "details": "5 MP3s tracked in git, digests/ is 68 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 67.4
+        "digests_mb": 67.7
       }
     },
     {
@@ -874,22 +874,18 @@
       },
       "models_agents": {
         "last_7_days": {
-          "grok": 0.1937,
-          "tts": 5.5741,
-          "total": 5.7678,
-          "episodes": 3
+          "grok": 0.2615,
+          "tts": 7.2688,
+          "total": 7.5304,
+          "episodes": 4
         },
         "last_30_days": {
-          "grok": 0.8,
-          "tts": 27.9925,
-          "total": 28.7926,
-          "episodes": 14
+          "grok": 0.8679,
+          "tts": 29.6872,
+          "total": 30.5551,
+          "episodes": 15
         },
         "daily_series": [
-          [
-            "2026-03-02",
-            3.7116
-          ],
           [
             "2026-03-05",
             3.7698
@@ -1005,6 +1001,10 @@
           [
             "2026-04-25",
             2.1216
+          ],
+          [
+            "2026-04-27",
+            1.7625
           ]
         ]
       },
@@ -1678,16 +1678,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 3.181,
-      "tts": 57.9818,
-      "total": 61.1628,
-      "episodes": 42
+      "grok": 3.2488,
+      "tts": 59.6765,
+      "total": 62.9253,
+      "episodes": 43
     },
     "network_last_30_days": {
-      "grok": 10.8406,
-      "tts": 311.6019,
-      "total": 322.4425,
-      "episodes": 156
+      "grok": 10.9085,
+      "tts": 313.2966,
+      "total": 324.2051,
+      "episodes": 157
     }
   },
   "pipeline_health": {
@@ -1882,20 +1882,15 @@
       ]
     },
     "models_agents": {
-      "sample_size": 19,
-      "p50_duration_s": 53.76,
+      "sample_size": 20,
+      "p50_duration_s": 54.02,
       "p95_duration_s": 84.4,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 30.66,
-        "generate_digest": 23.64
+        "fetch_and_dedup": 31.6,
+        "generate_digest": 23.66
       },
       "recent": [
-        {
-          "episode_num": 26,
-          "total_duration_s": 33.83,
-          "success": true
-        },
         {
           "episode_num": 27,
           "total_duration_s": 84.4,
@@ -1939,6 +1934,11 @@
         {
           "episode_num": 35,
           "total_duration_s": 69.4,
+          "success": true
+        },
+        {
+          "episode_num": 36,
+          "total_duration_s": 73.51,
           "success": true
         }
       ]
@@ -2453,9 +2453,16 @@
       },
       {
         "file": "models_agents_podcast.rss",
-        "entry_count": 35,
-        "latest_pub_date": "2026-04-25T08:00:00+00:00",
+        "entry_count": 36,
+        "latest_pub_date": "2026-04-27T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep036_20260427.mp3",
+            "host": "op3.dev",
+            "pub_date": "2026-04-27T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep035_20260425.mp3",
             "host": "op3.dev",
@@ -2467,13 +2474,6 @@
             "url": "https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep034_20260423.mp3",
             "host": "op3.dev",
             "pub_date": "2026-04-23T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep033_20260421.mp3",
-            "host": "op3.dev",
-            "pub_date": "2026-04-21T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
