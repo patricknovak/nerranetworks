@@ -22,7 +22,7 @@
     "cumulative_pnl": -41.56,
     "best_trade_pct": 7.88,
     "worst_trade_pct": -7.49,
-    "average_return_pct": -0.38,
+    "average_return_pct": -0.52,
     "current_streak": -1,
     "longest_win_streak": 1,
     "longest_loss_streak": 1
@@ -193,18 +193,19 @@
       "pnl_pct": null,
       "pnl_dollars": null,
       "lesson": "",
-      "sector": "precious_metals"
+      "sector": "precious_metals",
+      "current_price": 60.17
     }
   ],
   "benchmark": {
-    "current_close": 24438.5,
-    "inception_to_date_pct": 9.23,
-    "ytd_pct": 5.18,
-    "last_updated": "2026-04-24"
+    "current_close": 24836.6,
+    "inception_to_date_pct": 11.01,
+    "ytd_pct": 6.89,
+    "last_updated": "2026-04-27"
   },
   "alpha": {
-    "inception_to_date_pct": -9.75,
-    "ytd_pct": -5.7,
+    "inception_to_date_pct": -11.53,
+    "ytd_pct": -7.41,
     "monthly": {}
   },
   "sectors": {
@@ -241,6 +242,7 @@
     "mit_options_basics",
     "mit_sector_rotation",
     "mit_dividend_investing",
-    "mit_profile_buffett"
+    "mit_profile_buffett",
+    "mit_profile_cathie_wood"
   ]
 }
