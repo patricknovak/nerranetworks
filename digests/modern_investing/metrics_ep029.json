@@ -1,0 +1,28 @@
+{
+  "show_slug": "modern_investing",
+  "episode_num": 29,
+  "total_duration_s": 227.96,
+  "stages": [
+    {
+      "name": "fetch_and_dedup",
+      "duration_s": 81.89,
+      "success": true
+    },
+    {
+      "name": "generate_digest",
+      "duration_s": 146.07,
+      "success": true
+    }
+  ],
+  "counters": {
+    "article_count": 322,
+    "cross_episode_repeats": 0,
+    "section_tts_fallback": false,
+    "section_tts_section_count": 8,
+    "tts_duration_s": 25.63,
+    "audio_mix_duration_s": 37.54,
+    "rss_update_duration_s": 0.01,
+    "digest_chars": 11764,
+    "audio_duration_s": 747.990204
+  }
+}

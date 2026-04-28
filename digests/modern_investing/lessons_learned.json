@@ -1,7 +1,7 @@
 {
   "metadata": {
     "schema_version": 1,
-    "last_updated": "2026-04-27",
+    "last_updated": "2026-04-28",
     "seeded_from": "Ep14-Ep21 audit + MIT improvement plan (claude/audit-llm-models-9dpgL)"
   },
   "entries": [
@@ -123,6 +123,17 @@
       "source": "post_generate",
       "category": "content",
       "observation": "Despite the publicly confirmed positive catalyst, CLDX moved against us because expectations had already been priced in and sector momentum was absent. This reinforces the process gap we keep encountering with binary events",
+      "adjustment": "Always verify data availability from multiple providers before declaring a weekly hold closed",
+      "status": "active",
+      "metric_target": {}
+    },
+    {
+      "id": "LL-011",
+      "date": "2026-04-28",
+      "episode_num": 29,
+      "source": "post_generate",
+      "category": "content",
+      "observation": "Even with a publicly confirmed positive catalyst, the position moved against us because expectations had already been priced in and sector momentum was absent. This reinforces the process gap we keep encountering with binary events and the critical need for multi-source verification to judge true alpha versus the NASDAQ",
       "adjustment": "Always verify data availability from multiple providers before declaring a weekly hold closed",
       "status": "active",
       "metric_target": {}

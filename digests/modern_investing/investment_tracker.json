@@ -194,18 +194,18 @@
       "pnl_dollars": null,
       "lesson": "",
       "sector": "precious_metals",
-      "current_price": 60.17
+      "current_price": 60.22
     }
   ],
   "benchmark": {
-    "current_close": 24836.6,
-    "inception_to_date_pct": 11.01,
-    "ytd_pct": 6.89,
-    "last_updated": "2026-04-27"
+    "current_close": 24887.1,
+    "inception_to_date_pct": 11.23,
+    "ytd_pct": 7.11,
+    "last_updated": "2026-04-28"
   },
   "alpha": {
-    "inception_to_date_pct": -11.53,
-    "ytd_pct": -7.41,
+    "inception_to_date_pct": -11.75,
+    "ytd_pct": -7.63,
     "monthly": {}
   },
   "sectors": {
@@ -243,6 +243,7 @@
     "mit_sector_rotation",
     "mit_dividend_investing",
     "mit_profile_buffett",
-    "mit_profile_cathie_wood"
+    "mit_profile_cathie_wood",
+    "mit_risk_management"
   ]
 }
