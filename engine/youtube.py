@@ -356,3 +356,98 @@ def add_video_to_playlist(
         "added video %s to playlist %s", video_id, playlist_id,
     )
     return True
+
+
+def upload_caption_track(
+    *,
+    credentials,
+    video_id: str,
+    srt_path: Path,
+    language: str = "en",
+    name: str = "English",
+    is_draft: bool = False,
+) -> bool:
+    """Upload a caption track (SRT) to a YouTube video via ``captions.insert``.
+
+    This is on top of the burned-in captions we render into the video
+    pixels — uploading a real caption track lets YouTube:
+
+      - Show the CC button so viewers can toggle captions
+      - Auto-translate to other languages
+      - Surface the captions in YouTube search
+      - Serve them to screen readers / accessibility tools
+
+    Costs **400 quota units** per call.
+
+    Parameters
+    ----------
+    credentials:
+        Refreshable :class:`Credentials` (same one used for upload).
+    video_id:
+        The video ID returned by :func:`upload_video`.
+    srt_path:
+        Path to the SRT subtitle file to upload (output of
+        :func:`engine.captions.transcript_to_srt`).
+    language:
+        BCP-47 language code (``"en"``, ``"ru"``, etc.). Must match
+        what the captions actually contain.
+    name:
+        Human-readable track name shown in YouTube's CC menu (e.g.
+        ``"English"``, ``"Русский"``).
+    is_draft:
+        ``True`` keeps the track as a draft (operator must publish in
+        Studio); ``False`` (default) publishes immediately.
+
+    Returns
+    -------
+    bool
+        ``True`` on success; ``False`` if the SRT is missing or the
+        API call fails (logged, never raised — caption upload is
+        best-effort and must not crash a run).
+    """
+    if not srt_path or not srt_path.exists():
+        logger.info("No SRT file at %s — skipping caption track upload",
+                    srt_path)
+        return False
+    if not video_id:
+        logger.warning("No video ID — skipping caption track upload")
+        return False
+
+    from googleapiclient.discovery import build
+    from googleapiclient.errors import HttpError
+    from googleapiclient.http import MediaFileUpload
+
+    youtube = build(
+        "youtube", "v3", credentials=credentials, cache_discovery=False,
+    )
+    body = {
+        "snippet": {
+            "videoId": video_id,
+            "language": language,
+            "name": name,
+            "isDraft": is_draft,
+        },
+    }
+    media = MediaFileUpload(
+        str(srt_path),
+        mimetype="application/octet-stream",
+        resumable=False,
+    )
+    try:
+        youtube.captions().insert(
+            part="snippet", body=body, media_body=media,
+        ).execute()
+    except HttpError as exc:
+        status = getattr(getattr(exc, "resp", None), "status", "?")
+        logger.warning(
+            "Failed to upload caption track for %s (HTTP %s): %s",
+            video_id, status, exc,
+        )
+        return False
+    except Exception as exc:  # noqa: BLE001 — never crash the run
+        logger.warning(
+            "Caption track upload errored for %s: %s", video_id, exc,
+        )
+        return False
+    logger.info("Uploaded %s caption track for %s", language, video_id)
+    return True

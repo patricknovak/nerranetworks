@@ -471,3 +471,181 @@ def test_upload_video_requires_existing_file(tmp_path):
             tags=[],
             category_id=28,
         )
+
+
+# ---------------------------------------------------------------------------
+# Description ordering — subscribe link must sit above the fold
+# ---------------------------------------------------------------------------
+
+def test_long_form_description_subscribe_link_appears_before_body():
+    """Subscribe link should be right after the hook, before the digest
+    body — so it's visible above YouTube's "Show more" fold."""
+    config = _make_config()
+    meta = vm.build_long_form_metadata(
+        config,
+        episode_num=42,
+        today_str="2026-04-26",
+        hook="Robotaxi expands to Vancouver",
+        digest_text="Tesla announced robotaxi expansion today, with...",
+        audio_url="https://audio.nerranetwork.com/tesla/ep042.mp3",
+    )
+    desc = meta["description"]
+    hook_idx = desc.find("Robotaxi expands to Vancouver")
+    subscribe_idx = desc.find("Subscribe to")
+    body_idx = desc.find("Tesla announced robotaxi expansion")
+    assert hook_idx >= 0 and subscribe_idx >= 0 and body_idx >= 0
+    assert hook_idx < subscribe_idx < body_idx, (
+        "Order must be: hook → subscribe → body"
+    )
+
+
+def test_long_form_description_subscribe_uses_show_name():
+    config = _make_config(rss_title="Tesla Shorts Time Daily")
+    meta = vm.build_long_form_metadata(
+        config,
+        episode_num=1,
+        today_str="2026-04-26",
+        hook="A hook",
+        digest_text="Body",
+        audio_url="",
+    )
+    assert "Subscribe to Tesla Shorts Time Daily" in meta["description"]
+    assert "🎧" in meta["description"]
+
+
+# ---------------------------------------------------------------------------
+# Caption track upload
+# ---------------------------------------------------------------------------
+
+def test_upload_caption_track_skips_when_srt_missing(tmp_path):
+    from engine.youtube import upload_caption_track
+    assert upload_caption_track(
+        credentials=object(),
+        video_id="abc",
+        srt_path=tmp_path / "missing.srt",
+        language="en",
+    ) is False
+
+
+def test_upload_caption_track_skips_when_video_id_empty(tmp_path):
+    from engine.youtube import upload_caption_track
+    srt = tmp_path / "captions.srt"
+    srt.write_text("1\n00:00:00,000 --> 00:00:02,000\nHi\n", encoding="utf-8")
+    assert upload_caption_track(
+        credentials=object(),
+        video_id="",
+        srt_path=srt,
+        language="en",
+    ) is False
+
+
+def test_upload_caption_track_calls_api_with_correct_body(monkeypatch, tmp_path):
+    """Happy-path: correct snippet shape (videoId, language, name,
+    isDraft) and a media body, returns True."""
+    from engine import youtube as yt_module
+
+    srt = tmp_path / "ep001.srt"
+    srt.write_text("1\n00:00:00,000 --> 00:00:02,000\nHello\n",
+                   encoding="utf-8")
+
+    captured = {}
+
+    class _FakeRequest:
+        def execute(self):
+            captured["executed"] = True
+            return {"id": "cap123"}
+
+    class _FakeCaptions:
+        def insert(self, **kwargs):
+            captured["insert_kwargs"] = kwargs
+            return _FakeRequest()
+
+    class _FakeYouTube:
+        def captions(self):
+            return _FakeCaptions()
+
+    class _FakeMediaFileUpload:
+        def __init__(self, *args, **kwargs):
+            captured["media_args"] = (args, kwargs)
+
+    import sys
+    fake_googleapiclient = type(sys)("googleapiclient")
+    fake_discovery = type(sys)("googleapiclient.discovery")
+    fake_http = type(sys)("googleapiclient.http")
+    fake_errors = type(sys)("googleapiclient.errors")
+    fake_errors.HttpError = type("HttpError", (Exception,), {})
+    fake_discovery.build = lambda *a, **kw: _FakeYouTube()
+    fake_http.MediaFileUpload = _FakeMediaFileUpload
+    fake_googleapiclient.discovery = fake_discovery
+    fake_googleapiclient.http = fake_http
+    fake_googleapiclient.errors = fake_errors
+    monkeypatch.setitem(sys.modules, "googleapiclient", fake_googleapiclient)
+    monkeypatch.setitem(sys.modules, "googleapiclient.discovery",
+                        fake_discovery)
+    monkeypatch.setitem(sys.modules, "googleapiclient.http", fake_http)
+    monkeypatch.setitem(sys.modules, "googleapiclient.errors", fake_errors)
+
+    result = yt_module.upload_caption_track(
+        credentials=object(),
+        video_id="vid42",
+        srt_path=srt,
+        language="en",
+        name="English",
+    )
+    assert result is True
+    body = captured["insert_kwargs"]["body"]
+    assert body["snippet"]["videoId"] == "vid42"
+    assert body["snippet"]["language"] == "en"
+    assert body["snippet"]["name"] == "English"
+    assert body["snippet"]["isDraft"] is False
+    assert captured["insert_kwargs"]["part"] == "snippet"
+
+
+def test_upload_caption_track_returns_false_on_api_error(monkeypatch, tmp_path):
+    """Failures must not raise — caption upload is best-effort."""
+    from engine import youtube as yt_module
+
+    srt = tmp_path / "ep001.srt"
+    srt.write_text("1\n00:00:00,000 --> 00:00:02,000\nHi\n", encoding="utf-8")
+
+    class _FakeHttpError(Exception):
+        pass
+
+    class _FakeRequest:
+        def execute(self):
+            err = _FakeHttpError("boom")
+            err.resp = type("R", (), {"status": 403})()
+            raise err
+
+    class _FakeCaptions:
+        def insert(self, **kwargs):
+            return _FakeRequest()
+
+    class _FakeYouTube:
+        def captions(self):
+            return _FakeCaptions()
+
+    import sys
+    fake_googleapiclient = type(sys)("googleapiclient")
+    fake_discovery = type(sys)("googleapiclient.discovery")
+    fake_http = type(sys)("googleapiclient.http")
+    fake_errors = type(sys)("googleapiclient.errors")
+    fake_errors.HttpError = _FakeHttpError
+    fake_discovery.build = lambda *a, **kw: _FakeYouTube()
+    fake_http.MediaFileUpload = lambda *a, **kw: None
+    fake_googleapiclient.discovery = fake_discovery
+    fake_googleapiclient.http = fake_http
+    fake_googleapiclient.errors = fake_errors
+    monkeypatch.setitem(sys.modules, "googleapiclient", fake_googleapiclient)
+    monkeypatch.setitem(sys.modules, "googleapiclient.discovery",
+                        fake_discovery)
+    monkeypatch.setitem(sys.modules, "googleapiclient.http", fake_http)
+    monkeypatch.setitem(sys.modules, "googleapiclient.errors", fake_errors)
+
+    result = yt_module.upload_caption_track(
+        credentials=object(),
+        video_id="vid42",
+        srt_path=srt,
+        language="en",
+    )
+    assert result is False

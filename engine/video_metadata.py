@@ -211,14 +211,23 @@ def build_long_form_metadata(
 
     chapters_block = _format_chapter_block(_read_chapters(chapters_path))
 
+    # Order matters: YouTube only shows the first ~150 chars above the
+    # "Show more" fold on mobile, so the subscribe link goes right
+    # after the hook so it's always visible. Body/chapters/credits
+    # follow.
+    show_label = rss_title or getattr(config, "name", "this show")
+    subscribe_line = (
+        f"🎧 Subscribe to {show_label} on the Nerra Network: {utm_link}"
+    )
+
     pieces: List[str] = []
     if hook:
         pieces.append(hook.strip())
+    pieces.append(subscribe_line)
     if body:
         pieces.append(body)
     if chapters_block:
         pieces.append("Chapters:\n" + chapters_block)
-    pieces.append(f"Listen on the podcast feed: {utm_link}")
     if audio_url:
         pieces.append(f"Direct audio: {audio_url}")
     if photo_attribution:
