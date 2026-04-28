@@ -217,7 +217,7 @@ youtube:
   channel: en
   category_id: 28               # Science & Tech (algorithm performs better than 2/Autos here)
   default_language: en
-  privacy_status: unlisted      # Flip to "public" after first successful upload
+  privacy_status: public        # Phase-1 validated; uploads are public
   tags:
     - tesla
     - tsla

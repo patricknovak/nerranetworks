@@ -203,10 +203,11 @@ slow_news:
 
 youtube:
   podcast_playlist_id: PLRHMnzNNXPYBFcirj6Ivq6PxZealY8fAp
-  enabled: false                # Phase 2 — flip after quota raise
+  enabled: true                 # Phase-1 rollout show (replaces models_agents)
   channel: en
   category_id: 27               # Education (beginner / teen-focused)
   default_language: en
+  privacy_status: public
   tags:
     - ai for beginners
     - learn ai

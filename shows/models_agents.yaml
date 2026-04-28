@@ -232,11 +232,11 @@ newsletter:
 
 youtube:
   podcast_playlist_id: PLRHMnzNNXPYAUq0HBfZahYXJaEaknuTGg
-  enabled: true                 # Phase-1 rollout show
+  enabled: false                # Phase 2 (swapped out for models_agents_beginners)
   channel: en
   category_id: 28               # Science & Tech
   default_language: en
-  privacy_status: unlisted
+  privacy_status: public
   tags:
     - ai
     - llm

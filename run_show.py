@@ -2468,6 +2468,23 @@ def _publish_youtube(
                     video_id=upload.video_id,
                     playlist_id=playlist_id,
                 )
+            # Upload the SRT as a real caption track. This is on top of
+            # the burned-in captions — gives YouTube the CC button +
+            # auto-translation + accessibility search. Best-effort:
+            # failures are logged and the run continues.
+            if srt_path and srt_path.exists():
+                from engine.youtube import upload_caption_track
+                lang_code = (config.youtube.default_language or "en").lower()
+                track_name = "English" if lang_code == "en" else (
+                    "Русский" if lang_code == "ru" else lang_code.upper()
+                )
+                upload_caption_track(
+                    credentials=credentials,
+                    video_id=upload.video_id,
+                    srt_path=srt_path,
+                    language=lang_code,
+                    name=track_name,
+                )
         except Exception as exc:
             logger.exception("YouTube long-form publish failed: %s", exc)
 
