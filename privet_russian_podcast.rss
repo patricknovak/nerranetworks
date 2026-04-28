@@ -9,7 +9,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 26 Apr 2026 05:58:51 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 28 Apr 2026 06:10:17 +0000</lastBuildDate>
     <itunes:author>Nerra Network</itunes:author>
     <itunes:category text="Education" />
     <itunes:image href="https://nerranetwork.com/assets/covers/privet-russian.jpg" />
@@ -684,7 +684,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Привет, Русский! - Episode 14 - April 26, 2026</title>
-      <link>https://op3.dev/e/audio.nerranetwork.com/privet_russian/PR_Ep014_20260426.mp3</link>
       <description>**Привет, Русский! — Episode Plan**  
 **Date:** April 26, 2026  
 **Theme:** Animals
@@ -721,6 +720,54 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>14</itunes:episode>
       <itunes:title>Привет, Русский! - Episode 14 - April 26, 2026</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-    <podcast:chapters url="https://nerranetwork.com/digests/privet_russian/chapters_ep014.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/privet_russian/PR_Ep014_20260426_transcript.json" type="application/json" /></item>
+    </item>
+    <item>
+      <title>Привет, Русский! - Episode 15 - April 28, 2026</title>
+      <link>https://op3.dev/e/audio.nerranetwork.com/privet_russian/PR_Ep015_20260428.mp3</link>
+      <description>**# Привет, Русский! — Episode Plan**  
+**Date:** April 28, 2026  
+**Theme:** Weather  
+
+**Vocabulary List (10 words/phrases):**  
+- Russian (Cyrillic): погода  
+  Transliteration: poh-GOH-dah  
+  English: weather  
+  Example sentence: Какая сегодня погода?  
+  Example translation: What is the weather like today?  
+  Memory hook: Sounds like “pogo” stick — imagine jumping up and down because the weather keeps changing!  
+
+- Russian (Cyrillic): солнце  
+  Transliteration: SOLN-tseh  
+  English: s...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">pr-ep015-20260428-061017915624</guid>
+      <enclosure url="https://op3.dev/e/audio.nerranetwork.com/privet_russian/PR_Ep015_20260428.mp3" length="11251714" type="audio/mpeg" />
+      <pubDate>Tue, 28 Apr 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/privet-russian.jpg" />
+      <itunes:duration>07:48</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>**# Привет, Русский! — Episode Plan**  
+**Date:** April 28, 2026  
+**Theme:** Weather  
+
+**Vocabulary List (10 words/phrases):**  
+- Russian (Cyrillic): погода  
+  Transliteration: poh-GOH-dah  
+  English: weather  
+  Example sentence: Какая сегодня погода?  
+  Example translation: What is the weather like today?  
+  Memory hook: Sounds like “pogo” stick — imagine jumping up and down because the weather keeps changing!  
+
+- Russian (Cyrillic): солнце  
+  Transliteration: SOLN-tseh  
+  English: s...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>15</itunes:episode>
+      <itunes:title>Привет, Русский! - Episode 15 - April 28, 2026</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+    <podcast:chapters url="https://nerranetwork.com/digests/privet_russian/chapters_ep015.json" type="application/json+chapters" /><podcast:transcript url="https://nerranetwork.com/digests/privet_russian/PR_Ep015_20260428_transcript.json" type="application/json" /></item>
   <podcast:locked owner="patrick@planetterrian.com">yes</podcast:locked></channel>
 </rss>
