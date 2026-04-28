@@ -40,6 +40,20 @@
 
     
     
+    <!-- Cookie consent (Google Consent Mode v2) — loads BEFORE gtag.js -->
+    <script src="assets/js/consent.js"></script>
+    <!-- gtag.js — covers both GA4 and Google Ads -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6PWJCVQQ7B"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-6PWJCVQQ7B', { 'anonymize_ip': true });
+      
+      
+    </script>
+    
     
     
     <script defer src="assets/js/tracking.js"></script>
@@ -488,11 +502,11 @@
                 <div class="glass-card" style="padding:var(--sp-4);">
                     <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--nn-text-muted);">NASDAQ ^IXIC</div>
                     <div style="font-size:1.5rem;font-weight:700;margin-top:var(--sp-1);">
-                        24,837
+                        24,887
                     </div>
                     <div style="font-size:0.85rem;color:var(--nn-text-muted);margin-top:var(--sp-1);">
                         YTD
-                        +6.89%
+                        +7.11%
                     </div>
                 </div>
                 <div class="glass-card" style="padding:var(--sp-4);">
@@ -511,10 +525,10 @@
                     <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--nn-text-muted);">Alpha vs NASDAQ</div>
                     
                     <div style="font-size:1.5rem;font-weight:700;margin-top:var(--sp-1);color:#ef4444;">
-                        -7.41% YTD
+                        -7.63% YTD
                     </div>
                     <div style="font-size:0.85rem;color:var(--nn-text-muted);margin-top:var(--sp-1);">
-                        Since inception -11.53%
+                        Since inception -11.75%
                     </div>
                 </div>
                 <div class="glass-card" style="padding:var(--sp-4);">
@@ -773,6 +787,14 @@
                 <ul style="margin:0;padding-left:var(--sp-5);font-size:0.92rem;line-height:1.7;">
                     
                     <li style="margin-bottom:var(--sp-2);">
+                        <span style="font-family:monospace;color:var(--nn-text-muted);font-size:0.82rem;">LL-011</span>
+                        <em style="color:var(--nn-text-muted);">[content, Ep29, 2026-04-28]</em>
+                        — Even with a publicly confirmed positive catalyst, the position moved against us because expectations had already been priced in and sector momentum was absent. This reinforces the process gap we keep encountering with binary events and the critical need for multi-source verification to judge true alpha versus the NASDAQ
+                        <br>
+                        <strong>Rule:</strong> Always verify data availability from multiple providers before declaring a weekly hold closed
+                    </li>
+                    
+                    <li style="margin-bottom:var(--sp-2);">
                         <span style="font-family:monospace;color:var(--nn-text-muted);font-size:0.82rem;">LL-010</span>
                         <em style="color:var(--nn-text-muted);">[content, Ep28, 2026-04-27]</em>
                         — Despite the publicly confirmed positive catalyst, CLDX moved against us because expectations had already been priced in and sector momentum was absent. This reinforces the process gap we keep encountering with binary events
@@ -842,14 +864,6 @@
                         — Quick Hits consistently slipped into pure news reading (maple syrup shortage, Ackman's Universal Music bid, craft-brewer cost absorption) with no investing angle.
                         <br>
                         <strong>Rule:</strong> Every Quick Hit ends with an **Action:** line containing exactly one concrete portfolio decision stated as a verb phrase. Items without a concrete action are rejected at the digest stage.
-                    </li>
-                    
-                    <li style="margin-bottom:var(--sp-2);">
-                        <span style="font-family:monospace;color:var(--nn-text-muted);font-size:0.82rem;">LL-005</span>
-                        <em style="color:var(--nn-text-muted);">[content, Ep22, 2026-04-17]</em>
-                        — Even a fundamental catalyst around robotaxi partnerships and bill-of-materials cost reductions cannot be properly scored when price data is missing, limiting our ability to judge whether the thesis was pricing in. This exposes a process vulnerability in data reliance that must be fixed to accurately track whether simulated picks are beating the NASDAQ
-                        <br>
-                        <strong>Rule:</strong> Verify data availability from multiple providers before declaring a weekly hold closed
                     </li>
                     
                 </ul>

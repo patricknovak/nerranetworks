@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-28T09:28:20.046379+00:00",
+  "generated_at": "2026-04-28T09:59:31.536793+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 0,
-    "total_cost_last_7_days_usd": 66.2306,
-    "total_cost_last_30_days_usd": 320.8898,
+    "total_cost_last_7_days_usd": 68.2013,
+    "total_cost_last_30_days_usd": 322.8606,
     "shows": [
       {
         "slug": "env_intel",
@@ -106,10 +106,10 @@
         "blog_page": "blog/modern_investing/index.html",
         "newsletter_enabled": true,
         "x_enabled": false,
-        "latest_pub_date": "2026-04-27T08:00:00+00:00",
+        "latest_pub_date": "2026-04-28T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 8.7121,
-        "episodes_last_7_days": 5,
+        "cost_last_7_days_usd": 10.6828,
+        "episodes_last_7_days": 6,
         "p50_pipeline_s": 110.88,
         "success_rate": 1.0
       },
@@ -290,10 +290,10 @@
       "id": "item_1_repo_size",
       "title": "Repo & R2 size",
       "status": "ok",
-      "details": "5 MP3s tracked in git, digests/ is 101 MB.",
+      "details": "5 MP3s tracked in git, digests/ is 102 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 101.5
+        "digests_mb": 101.8
       }
     },
     {
@@ -1106,16 +1106,16 @@
       },
       "modern_investing": {
         "last_7_days": {
-          "grok": 0.333,
-          "tts": 8.3791,
-          "total": 8.7121,
-          "episodes": 5
+          "grok": 0.4053,
+          "tts": 10.2775,
+          "total": 10.6828,
+          "episodes": 6
         },
         "last_30_days": {
-          "grok": 1.3231,
-          "tts": 50.9931,
-          "total": 52.3162,
-          "episodes": 22
+          "grok": 1.3954,
+          "tts": 52.8915,
+          "total": 54.2869,
+          "episodes": 23
         },
         "daily_series": [
           [
@@ -1229,6 +1229,10 @@
           [
             "2026-04-27",
             1.9136
+          ],
+          [
+            "2026-04-28",
+            1.9707
           ]
         ]
       },
@@ -1698,16 +1702,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 3.4334,
-      "tts": 62.7972,
-      "total": 66.2306,
-      "episodes": 45
+      "grok": 3.5057,
+      "tts": 64.6956,
+      "total": 68.2013,
+      "episodes": 46
     },
     "network_last_30_days": {
-      "grok": 11.276,
-      "tts": 309.6138,
-      "total": 320.8898,
-      "episodes": 160
+      "grok": 11.3484,
+      "tts": 311.5122,
+      "total": 322.8606,
+      "episodes": 161
     }
   },
   "pipeline_health": {
@@ -2026,21 +2030,16 @@
       ]
     },
     "modern_investing": {
-      "sample_size": 28,
+      "sample_size": 29,
       "p50_duration_s": 110.88,
       "p95_duration_s": 320.39,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 71.39,
-        "generate_digest": 51.21,
+        "fetch_and_dedup": 71.75,
+        "generate_digest": 54.48,
         "generate_digest_retry": 13.08
       },
       "recent": [
-        {
-          "episode_num": 19,
-          "total_duration_s": 130.74,
-          "success": true
-        },
         {
           "episode_num": 20,
           "total_duration_s": 151.94,
@@ -2084,6 +2083,11 @@
         {
           "episode_num": 28,
           "total_duration_s": 320.39,
+          "success": true
+        },
+        {
+          "episode_num": 29,
+          "total_duration_s": 227.96,
           "success": true
         }
       ]
@@ -2503,9 +2507,16 @@
       },
       {
         "file": "modern_investing_podcast.rss",
-        "entry_count": 28,
-        "latest_pub_date": "2026-04-27T08:00:00+00:00",
+        "entry_count": 29,
+        "latest_pub_date": "2026-04-28T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep029_20260428.mp3",
+            "host": "op3.dev",
+            "pub_date": "2026-04-28T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep028_20260427.mp3",
             "host": "op3.dev",
@@ -2517,13 +2528,6 @@
             "url": "https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep027_20260424.mp3",
             "host": "op3.dev",
             "pub_date": "2026-04-24T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep026_20260423.mp3",
-            "host": "op3.dev",
-            "pub_date": "2026-04-23T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
@@ -2675,14 +2679,14 @@
       "longest_loss_streak": 1
     },
     "benchmark": {
-      "current_close": 24836.6,
-      "inception_to_date_pct": 11.01,
-      "ytd_pct": 6.89,
-      "last_updated": "2026-04-27"
+      "current_close": 24887.1,
+      "inception_to_date_pct": 11.23,
+      "ytd_pct": 7.11,
+      "last_updated": "2026-04-28"
     },
     "alpha": {
-      "inception_to_date_pct": -11.53,
-      "ytd_pct": -7.41,
+      "inception_to_date_pct": -11.75,
+      "ytd_pct": -7.63,
       "monthly": {}
     },
     "sectors": {
@@ -2906,6 +2910,17 @@
     ],
     "lessons_learned": [
       {
+        "id": "LL-011",
+        "date": "2026-04-28",
+        "episode_num": 29,
+        "source": "post_generate",
+        "category": "content",
+        "observation": "Even with a publicly confirmed positive catalyst, the position moved against us because expectations had already been priced in and sector momentum was absent. This reinforces the process gap we keep encountering with binary events and the critical need for multi-source verification to judge true alpha versus the NASDAQ",
+        "adjustment": "Always verify data availability from multiple providers before declaring a weekly hold closed",
+        "status": "active",
+        "metric_target": {}
+      },
+      {
         "id": "LL-010",
         "date": "2026-04-27",
         "episode_num": 28,
@@ -3015,31 +3030,52 @@
           "field": "digest.quick_hits[].has_action_line",
           "floor_pct": 100.0
         }
-      },
-      {
-        "id": "LL-005",
-        "date": "2026-04-17",
-        "episode_num": 22,
-        "source": "post_generate",
-        "category": "content",
-        "observation": "Even a fundamental catalyst around robotaxi partnerships and bill-of-materials cost reductions cannot be properly scored when price data is missing, limiting our ability to judge whether the thesis was pricing in. This exposes a process vulnerability in data reliance that must be fixed to accurately track whether simulated picks are beating the NASDAQ",
-        "adjustment": "Verify data availability from multiple providers before declaring a weekly hold closed",
-        "status": "active",
-        "metric_target": {}
       }
     ],
     "taught_lessons_hot": [
       {
-        "tag": "mean_reversion",
-        "count": 2,
-        "last_episode": 28,
-        "last_date": "2026-04-27",
-        "days_since": 1,
-        "cools_in_days": 20
+        "tag": "geopolitical_premium",
+        "count": 6,
+        "last_episode": 29,
+        "last_date": "2026-04-28",
+        "days_since": 0,
+        "cools_in_days": 30
+      },
+      {
+        "tag": "risk_management",
+        "count": 3,
+        "last_episode": 29,
+        "last_date": "2026-04-28",
+        "days_since": 0,
+        "cools_in_days": 21
+      },
+      {
+        "tag": "catalyst_confirmation",
+        "count": 3,
+        "last_episode": 29,
+        "last_date": "2026-04-28",
+        "days_since": 0,
+        "cools_in_days": 21
+      },
+      {
+        "tag": "position_sizing",
+        "count": 3,
+        "last_episode": 29,
+        "last_date": "2026-04-28",
+        "days_since": 0,
+        "cools_in_days": 21
       },
       {
         "tag": "analyst_upgrade",
-        "count": 6,
+        "count": 7,
+        "last_episode": 29,
+        "last_date": "2026-04-28",
+        "days_since": 0,
+        "cools_in_days": 21
+      },
+      {
+        "tag": "mean_reversion",
+        "count": 2,
         "last_episode": 28,
         "last_date": "2026-04-27",
         "days_since": 1,
@@ -3079,14 +3115,6 @@
       },
       {
         "tag": "sector_rotation",
-        "count": 2,
-        "last_episode": 27,
-        "last_date": "2026-04-24",
-        "days_since": 4,
-        "cools_in_days": 17
-      },
-      {
-        "tag": "position_sizing",
         "count": 2,
         "last_episode": 27,
         "last_date": "2026-04-24",
@@ -3140,30 +3168,6 @@
         "last_date": "2026-04-23",
         "days_since": 5,
         "cools_in_days": 16
-      },
-      {
-        "tag": "risk_management",
-        "count": 2,
-        "last_episode": 25,
-        "last_date": "2026-04-22",
-        "days_since": 6,
-        "cools_in_days": 15
-      },
-      {
-        "tag": "catalyst_confirmation",
-        "count": 2,
-        "last_episode": 25,
-        "last_date": "2026-04-22",
-        "days_since": 6,
-        "cools_in_days": 15
-      },
-      {
-        "tag": "geopolitical_premium",
-        "count": 5,
-        "last_episode": 24,
-        "last_date": "2026-04-21",
-        "days_since": 7,
-        "cools_in_days": 23
       },
       {
         "tag": "catalyst_fade",
