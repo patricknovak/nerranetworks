@@ -549,3 +549,136 @@ def test_build_long_form_video_threads_subtitles(tmp_path, monkeypatch):
     graph = captured["cmd"][captured["cmd"].index("-filter_complex") + 1]
     assert "subtitles=" in graph
     assert "captions.srt" in graph
+
+
+# ---------------------------------------------------------------------------
+# Shorts slideshow — vertical version of the long-form slideshow
+# ---------------------------------------------------------------------------
+
+def test_slideshow_filter_graph_supports_vertical_dimensions():
+    """The slideshow generator should respect width/height kwargs so
+    the same code path produces both 1920x1080 and 1080x1920 output."""
+    graph = _slideshow_filter_graph(
+        scene_count=3, width=1080, height=1920,
+    )
+    assert "1080:1920" in graph or "s=1080x1920" in graph
+    # Per-scene zoompan still drives motion.
+    assert graph.count("zoompan") == 3
+    assert "concat=n=3:v=1:a=0[v]" in graph
+
+
+def test_slideshow_cmd_accepts_width_height(tmp_path):
+    paths = [tmp_path / f"scene{i}.jpg" for i in range(3)]
+    out = tmp_path / "vertical_slides.mp4"
+    cmd = _slideshow_cmd(paths, out, width=1080, height=1920,
+                         scene_duration=7.0)
+    assert cmd.count("-i") == 3
+    assert "-an" in cmd
+    graph = cmd[cmd.index("-filter_complex") + 1]
+    assert "s=1080x1920" in graph or "1080:1920" in graph
+    assert cmd[-1] == str(out)
+
+
+def test_short_form_filter_graph_with_video_bg_skips_loop_setup():
+    """When the Shorts background is the slideshow MP4, the bg chain
+    should still produce [bg] but the caller doesn't need a zoompan
+    (motion's already in the slideshow)."""
+    graph = _short_form_filter_graph(bg_is_video=True)
+    assert "showcqt" in graph
+    assert "scale=1080:1920" in graph
+    # Brand pill + tint + spectrum still composite.
+    assert "drawbox" in graph and "color=black@0.25" in graph
+    assert graph.endswith("[v]")
+
+
+def test_short_form_cmd_uses_stream_loop_for_video_bg():
+    """When bg is the pre-rendered vertical slideshow MP4, we use
+    -stream_loop -1 instead of -loop 1 -framerate."""
+    cmd = _short_form_cmd(
+        "voice.mp3", "vertical_slides.mp4", "brand.png", "short.mp4",
+        start_offset=10.0, duration=55.0, bg_is_video=True,
+    )
+    assert "-stream_loop" in cmd
+    assert cmd[cmd.index("-stream_loop") + 1] == "-1"
+    # -loop only on the brand input now (1 occurrence, not 2).
+    assert cmd.count("-loop") == 1
+    # Three -i still: bg, audio, brand.
+    assert cmd.count("-i") == 3
+
+
+def test_short_form_cmd_image_bg_unchanged():
+    """When bg is a still image (default path), the existing -loop 1
+    -framerate flags still apply."""
+    cmd = _short_form_cmd(
+        "voice.mp3", "cover.jpg", "brand.png", "short.mp4",
+        start_offset=10.0, duration=55.0,
+    )
+    assert "-stream_loop" not in cmd
+    # Two looped image inputs (cover + brand pill).
+    assert cmd.count("-loop") == 2
+
+
+def test_build_short_video_falls_back_to_cover_with_one_scene(tmp_path,
+                                                              monkeypatch):
+    """Single-scene list should NOT trigger the two-stage Shorts
+    pipeline (one photo isn't a slideshow)."""
+    audio = tmp_path / "voice.mp3"
+    audio.write_bytes(b"\x00")
+    cover = tmp_path / "cover.jpg"
+    cover.write_bytes(b"\xFF\xD8")
+    out = tmp_path / "short.mp4"
+
+    captured_cmds = []
+    monkeypatch.setattr(
+        "engine.video.subprocess.run",
+        lambda cmd, **kw: (captured_cmds.append(list(cmd)),
+                           type("R", (), {"returncode": 0})())[1],
+    )
+    build_short_video(audio, cover, out, duration=55.0,
+                      scene_paths=[cover])
+    # Only one ffmpeg invocation (no slideshow stage).
+    assert len(captured_cmds) == 1
+    # And no -stream_loop on the bg.
+    assert "-stream_loop" not in captured_cmds[0]
+
+
+def test_build_short_video_renders_vertical_slideshow_for_multi_scene(tmp_path,
+                                                                       monkeypatch):
+    """Multi-scene list triggers a stage-1 vertical slideshow render
+    before the final composite."""
+    audio = tmp_path / "voice.mp3"
+    audio.write_bytes(b"\x00")
+    cover = tmp_path / "cover.jpg"
+    cover.write_bytes(b"\xFF\xD8")
+    scenes = []
+    for i in range(3):
+        s = tmp_path / f"scene{i}.jpg"
+        s.write_bytes(b"\xFF\xD8")
+        scenes.append(s)
+    out = tmp_path / "short.mp4"
+
+    captured_cmds = []
+
+    def fake_run(cmd, **kw):
+        captured_cmds.append(list(cmd))
+        # Stage 1 writes the slideshow MP4; touch it so stage 2 sees it.
+        if "-an" in cmd:
+            from pathlib import Path as _P
+            _P(cmd[-1]).write_bytes(b"\x00")
+        return type("R", (), {"returncode": 0})()
+
+    monkeypatch.setattr("engine.video.subprocess.run", fake_run)
+    build_short_video(audio, cover, out, duration=55.0,
+                      scene_paths=scenes)
+
+    # Two ffmpeg invocations: stage-1 vertical slideshow, stage-2 composite.
+    assert len(captured_cmds) == 2
+    # Stage 1: 3 inputs, no audio output, vertical resolution in graph.
+    assert "-an" in captured_cmds[0]
+    assert captured_cmds[0].count("-i") == 3
+    stage1_graph = captured_cmds[0][
+        captured_cmds[0].index("-filter_complex") + 1
+    ]
+    assert "s=1080x1920" in stage1_graph or "1080:1920" in stage1_graph
+    # Stage 2 uses -stream_loop on the slideshow MP4.
+    assert "-stream_loop" in captured_cmds[1]

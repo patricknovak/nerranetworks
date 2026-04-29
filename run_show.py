@@ -2502,6 +2502,7 @@ def _publish_youtube(
                 start_offset=short_offset,
                 duration=duration,
                 hook=hook or None,
+                scene_paths=scene_paths if len(scene_paths) >= 2 else None,
             )
             meta = build_short_metadata(
                 config,
