@@ -1286,21 +1286,34 @@ def run(args: argparse.Namespace) -> None:
         # the detailed first-episode introduction based on {episode_num}.
         from engine.intros import build_intro_line, build_closing_block, get_show_host
         host = getattr(config.publishing, "host_name", None) or get_show_host(args.show)
+        # Pick the YouTube channel handle so the closing line can mention
+        # the right channel. Empty string means "don't mention YouTube"
+        # (e.g. shows where YouTube publishing isn't enabled yet).
+        _yt_handle = ""
+        if getattr(config, "youtube", None) and config.youtube.enabled:
+            _yt_handle = (
+                "@NerraRU" if config.youtube.channel == "ru" else "@NerraNetwork"
+            )
         if episode_num == 1:
             pod_vars.setdefault(
                 "intro_line",
                 f"{host}: Welcome to the very first episode of {config.name}! "
                 f"Today is {today_str}. {effective_hook}",
             )
-            pod_vars.setdefault(
-                "closing_block",
+            _ep1_close = (
                 f"{host}: That wraps up our very first episode of {config.name}! "
                 f"If you enjoyed this, please subscribe on Apple Podcasts, Spotify, "
                 f"or wherever you listen — and a rating or review really helps new "
                 f"listeners find us. "
                 f"I'm {host} in Vancouver. Thanks for joining me on this journey, "
-                f"and I'll see you tomorrow for episode two.",
+                f"and I'll see you tomorrow for episode two."
             )
+            if _yt_handle:
+                _ep1_close += (
+                    f" And if you'd rather watch than listen, find us on YouTube "
+                    f"at {_yt_handle} — link's in the show notes."
+                )
+            pod_vars.setdefault("closing_block", _ep1_close)
         else:
             pod_vars.setdefault(
                 "intro_line",
@@ -1320,6 +1333,7 @@ def run(args: argparse.Namespace) -> None:
                     today_str=today_str,
                     date=today,
                     extra_context=extra_context,
+                    youtube_channel_handle=_yt_handle,
                 ),
             )
         pod_vars.setdefault("tone_hint", "natural and conversational")
@@ -1675,6 +1689,39 @@ def run(args: argparse.Namespace) -> None:
         rss_audio_url = apply_op3_prefix(rss_audio_url, config.analytics.prefix_url)
         logger.info("OP3 prefixed URL: %s", rss_audio_url)
 
+    # 10d. Build & upload YouTube videos (long-form + Shorts) BEFORE the
+    # RSS / blog / X stages, so the YouTube URL can land in the
+    # episode description, blog post, and X teaser.
+    _t_yt = time.monotonic()
+    chapters_path_for_yt = digests_dir / f"chapters_ep{episode_num:03d}.json"
+    youtube_urls = _publish_youtube(
+        config,
+        episode_num=episode_num,
+        today=today,
+        today_str=today_str,
+        hook=hook or "",
+        digest_text=x_thread,
+        final_mp3=final_mp3,
+        audio_url=r2_audio_url or "",
+        chapters_path=chapters_path_for_yt,
+        digests_dir=digests_dir,
+        args=args,
+    )
+    youtube_long_url = youtube_urls.get("long_url", "")
+    youtube_short_url = youtube_urls.get("short_url", "")
+    if youtube_long_url:
+        extra_context["youtube_url"] = youtube_long_url
+    if youtube_short_url:
+        extra_context["youtube_short_url"] = youtube_short_url
+    if youtube_urls:
+        try:
+            metrics.record(
+                "youtube_publish_duration_s",
+                round(time.monotonic() - _t_yt, 2),
+            )
+        except Exception:
+            pass
+
     # 11. Update RSS feed
     _t_rss = time.monotonic()
     if final_mp3 and final_mp3.exists():
@@ -1694,6 +1741,11 @@ def run(args: argparse.Namespace) -> None:
         else:
             episode_desc = x_thread
         episode_desc = episode_desc.rstrip() + "\n\n" + _AI_DISCLOSURE_RSS
+        # If the episode landed on YouTube, surface the watch link in
+        # the RSS description so listeners on every podcast app can
+        # click through to the video version.
+        if youtube_long_url:
+            episode_desc += f"\n\n🎬 Watch on YouTube: {youtube_long_url}"
 
         # If no R2 URL but analytics is enabled, build URL and prefix it
         feed_audio_url = rss_audio_url
@@ -1791,7 +1843,11 @@ def run(args: argparse.Namespace) -> None:
             _blog_env = _get_jinja_env()
             _blog_meta = extract_blog_metadata(x_thread, config.slug, digest_md.name if digest_md else "", file_path=digest_md)
             _blog_meta["episode_num"] = episode_num
-            _blog_html = generate_blog_post_html(x_thread, _blog_meta, _NS[config.slug], _blog_env)
+            _blog_html = generate_blog_post_html(
+                x_thread, _blog_meta, _NS[config.slug], _blog_env,
+                youtube_url=youtube_long_url,
+                youtube_short_url=youtube_short_url,
+            )
             _blog_dir = PROJECT_ROOT / "blog" / config.slug
             _blog_dir.mkdir(parents=True, exist_ok=True)
             _blog_path = _blog_dir / f"ep{episode_num:03d}.html"
@@ -1819,35 +1875,6 @@ def run(args: argparse.Namespace) -> None:
             logger.info("Newsletter sent: %s", email_id)
         else:
             logger.info("Newsletter skipped or failed.")
-
-    # 12c. Build & upload YouTube videos (long-form + Shorts)
-    _t_yt = time.monotonic()
-    chapters_path_for_yt = digests_dir / f"chapters_ep{episode_num:03d}.json"
-    youtube_urls = _publish_youtube(
-        config,
-        episode_num=episode_num,
-        today=today,
-        today_str=today_str,
-        hook=hook or "",
-        digest_text=x_thread,
-        final_mp3=final_mp3,
-        audio_url=audio_url,
-        chapters_path=chapters_path_for_yt,
-        digests_dir=digests_dir,
-        args=args,
-    )
-    if youtube_urls.get("long_url"):
-        extra_context["youtube_url"] = youtube_urls["long_url"]
-    if youtube_urls.get("short_url"):
-        extra_context["youtube_short_url"] = youtube_urls["short_url"]
-    if youtube_urls:
-        try:
-            metrics.record(
-                "youtube_publish_duration_s",
-                round(time.monotonic() - _t_yt, 2),
-            )
-        except Exception:
-            pass
 
     # 13. Post to X
     _t_x = time.monotonic()
@@ -2550,12 +2577,31 @@ def _publish_youtube(
     return result
 
 
+def _append_youtube_line(teaser: str, extra_context: dict) -> str:
+    """Append a "Watch on YouTube" line to the teaser when a URL is available.
+
+    Idempotent — never duplicates the line if the teaser already
+    references the URL (e.g. when a YAML ``x_teaser_template`` already
+    embedded ``{youtube_url}``).
+    """
+    yt_url = (extra_context.get("youtube_url") or "").strip()
+    if not yt_url:
+        return teaser
+    if yt_url in teaser:
+        return teaser
+    return f"{teaser}\n🎬 Watch on YouTube: {yt_url}"
+
+
 def _build_teaser(config, episode_num: int, today_str: str, extra_context: dict) -> str:
     """Build a short X teaser post for the episode.
 
     If the YAML config has ``x_teaser_template``, it's used as a format string
     with ``{episode_num}``, ``{today_str}``, and any extra_context keys.  Otherwise,
     falls back to the per-show hardcoded templates below.
+
+    A "🎬 Watch on YouTube: <url>" line is appended when
+    ``extra_context["youtube_url"]`` is set (set by the pipeline after
+    a successful long-form upload).
     """
     # Use YAML template if configured
     template = getattr(config.publishing, "x_teaser_template", "")
@@ -2563,7 +2609,8 @@ def _build_teaser(config, episode_num: int, today_str: str, extra_context: dict)
         fmt_vars = {"episode_num": episode_num, "today_str": today_str, "show_name": config.name}
         fmt_vars.update(extra_context)
         try:
-            return template.format(**fmt_vars)
+            return _append_youtube_line(template.format(**fmt_vars),
+                                        extra_context)
         except (KeyError, IndexError):
             logger.warning("x_teaser_template format failed, falling back to hardcoded")
 
@@ -2572,30 +2619,32 @@ def _build_teaser(config, episode_num: int, today_str: str, extra_context: dict)
         price_str = ""
         if "price" in extra_context:
             price_str = f" | TSLA ${extra_context['price']}"
-        return (
+        teaser = (
             f"🚀⚡ Tesla Shorts Time Daily — {today_str}{price_str}\n\n"
             f"Episode {episode_num} is live!\n"
             f"🎧 Listen & read: https://nerranetwork.com/tesla-summaries.html"
         )
     elif slug == "omni_view":
-        return (
+        teaser = (
             f"📰⚖️ Omni View — {today_str}\n\n"
             f"Episode {episode_num}: Balanced news perspectives.\n"
             f"🎧 Read & listen: https://nerranetwork.com/omni-view-summaries.html"
         )
     elif slug == "fascinating_frontiers":
-        return (
+        teaser = (
             f"🚀🌌 Fascinating Frontiers — {today_str}\n\n"
             f"Episode {episode_num}: Space & astronomy news.\n"
             f"🎧 Read & listen: https://nerranetwork.com/fascinating-frontiers-summaries.html"
         )
     elif slug == "planetterrian":
-        return (
+        teaser = (
             f"🌍🧬 Planetterrian Daily — {today_str}\n\n"
             f"Episode {episode_num}: Science, longevity & health.\n"
             f"🎧 Read & listen: https://nerranetwork.com/planetterrian-summaries.html"
         )
-    return f"{config.name} Episode {episode_num} — {today_str}"
+    else:
+        teaser = f"{config.name} Episode {episode_num} — {today_str}"
+    return _append_youtube_line(teaser, extra_context)
 
 
 

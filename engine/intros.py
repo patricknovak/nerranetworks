@@ -634,6 +634,7 @@ def build_closing_block(
     today_str: str,
     date: datetime.date | None = None,
     extra_context: dict[str, Any] | None = None,
+    youtube_channel_handle: str = "",
 ) -> str:
     """Build a dynamic, day-varying closing block for the given show.
 
@@ -649,6 +650,11 @@ def build_closing_block(
         ``datetime.date`` for deterministic selection.
     extra_context:
         Optional dict with show-specific vars (e.g. Tesla stock price/change).
+    youtube_channel_handle:
+        Optional ``@handle`` of the show's YouTube channel (e.g.
+        ``"@NerraNetwork"``). When set, a brief callout sentence is
+        appended to the closing so the spoken script mentions where
+        listeners can watch the video version.
 
     Returns
     -------
@@ -661,18 +667,40 @@ def build_closing_block(
     personality = _SHOW_PERSONALITIES.get(show_slug)
     if not personality:
         logger.warning("No closing personality for show '%s' — using generic.", show_slug)
-        return (
+        base = (
             f"Patrick: That's the show for today. Thanks for listening, "
             f"and I'll see you tomorrow."
         )
+        return _maybe_append_youtube_cta(base, youtube_channel_handle)
 
     host = personality["host"]
     closing_pool = personality.get("closings", [])
     if not closing_pool:
-        return f"{host}: Thanks for listening. See you tomorrow."
+        return _maybe_append_youtube_cta(
+            f"{host}: Thanks for listening. See you tomorrow.",
+            youtube_channel_handle,
+        )
 
     closing = _pick(closing_pool, show_slug, date, salt="closing")
-    return f"{host}: {closing}"
+    return _maybe_append_youtube_cta(f"{host}: {closing}",
+                                     youtube_channel_handle)
+
+
+def _maybe_append_youtube_cta(closing: str, handle: str) -> str:
+    """Append a brief "watch on YouTube" callout when a handle is set.
+
+    Idempotent — won't duplicate the line if it's already present.
+    """
+    handle = (handle or "").strip()
+    if not handle:
+        return closing
+    if "youtube" in closing.lower() or handle.lower() in closing.lower():
+        return closing
+    cta = (
+        f" And if you'd rather watch than listen, find us on YouTube at "
+        f"{handle} — link's in the show notes."
+    )
+    return closing + cta
 
 
 def get_show_host(show_slug: str) -> str:
