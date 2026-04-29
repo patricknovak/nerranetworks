@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-28T19:03:29.956027+00:00",
+  "generated_at": "2026-04-29T06:37:05.290059+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 0,
-    "total_cost_last_7_days_usd": 69.5343,
-    "total_cost_last_30_days_usd": 324.1936,
+    "total_cost_last_7_days_usd": 62.5607,
+    "total_cost_last_30_days_usd": 309.2114,
     "shows": [
       {
         "slug": "env_intel",
@@ -23,8 +23,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-27T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 4.8561,
-        "episodes_last_7_days": 3,
+        "cost_last_7_days_usd": 3.2263,
+        "episodes_last_7_days": 2,
         "p50_pipeline_s": 27.25,
         "success_rate": 1.0
       },
@@ -74,8 +74,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-27T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 7.5304,
-        "episodes_last_7_days": 4,
+        "cost_last_7_days_usd": 5.7118,
+        "episodes_last_7_days": 3,
         "p50_pipeline_s": 54.02,
         "success_rate": 1.0
       },
@@ -108,8 +108,8 @@
         "x_enabled": false,
         "latest_pub_date": "2026-04-28T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 10.6828,
-        "episodes_last_7_days": 6,
+        "cost_last_7_days_usd": 8.9606,
+        "episodes_last_7_days": 5,
         "p50_pipeline_s": 110.88,
         "success_rate": 1.0
       },
@@ -123,12 +123,12 @@
         "blog_page": "blog/omni_view/index.html",
         "newsletter_enabled": true,
         "x_enabled": true,
-        "latest_pub_date": "2026-04-27T08:00:00+00:00",
+        "latest_pub_date": "2026-04-29T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 6.6163,
+        "cost_last_7_days_usd": 7.6409,
         "episodes_last_7_days": 4,
-        "p50_pipeline_s": 154.94,
-        "success_rate": 0.955
+        "p50_pipeline_s": 168.09,
+        "success_rate": 0.957
       },
       {
         "slug": "planetterrian",
@@ -142,8 +142,8 @@
         "x_enabled": true,
         "latest_pub_date": "2026-04-27T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 5.3016,
-        "episodes_last_7_days": 4,
+        "cost_last_7_days_usd": 3.8702,
+        "episodes_last_7_days": 3,
         "p50_pipeline_s": 38.82,
         "success_rate": 1.0
       },
@@ -176,8 +176,8 @@
         "x_enabled": true,
         "latest_pub_date": "2026-04-28T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 16.4068,
-        "episodes_last_7_days": 11,
+        "cost_last_7_days_usd": 15.0107,
+        "episodes_last_7_days": 10,
         "p50_pipeline_s": 210.71,
         "success_rate": 1.0
       }
@@ -290,10 +290,10 @@
       "id": "item_1_repo_size",
       "title": "Repo & R2 size",
       "status": "ok",
-      "details": "5 MP3s tracked in git, digests/ is 125 MB.",
+      "details": "5 MP3s tracked in git, digests/ is 126 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 125.4
+        "digests_mb": 125.8
       }
     },
     {
@@ -320,9 +320,9 @@
       "evidence": {
         "total": 95,
         "by_extension": {
-          ".txt": 45,
           ".json": 47,
-          ".py": 3
+          ".py": 3,
+          ".txt": 45
         },
         "previous_total": 95
       }
@@ -546,10 +546,10 @@
     "per_show": {
       "env_intel": {
         "last_7_days": {
-          "grok": 0.1344,
-          "tts": 4.7217,
-          "total": 4.8561,
-          "episodes": 3
+          "grok": 0.09,
+          "tts": 3.1364,
+          "total": 3.2263,
+          "episodes": 2
         },
         "last_30_days": {
           "grok": 0.5048,
@@ -882,16 +882,16 @@
       },
       "models_agents": {
         "last_7_days": {
-          "grok": 0.2615,
-          "tts": 7.2688,
-          "total": 7.5304,
-          "episodes": 4
+          "grok": 0.1969,
+          "tts": 5.5149,
+          "total": 5.7118,
+          "episodes": 3
         },
         "last_30_days": {
-          "grok": 0.8679,
-          "tts": 29.6872,
-          "total": 30.5551,
-          "episodes": 15
+          "grok": 0.8279,
+          "tts": 26.3429,
+          "total": 27.1708,
+          "episodes": 14
         },
         "daily_series": [
           [
@@ -1106,10 +1106,10 @@
       },
       "modern_investing": {
         "last_7_days": {
-          "grok": 0.4053,
-          "tts": 10.2775,
-          "total": 10.6828,
-          "episodes": 6
+          "grok": 0.3404,
+          "tts": 8.6202,
+          "total": 8.9606,
+          "episodes": 5
         },
         "last_30_days": {
           "grok": 1.3954,
@@ -1238,22 +1238,18 @@
       },
       "omni_view": {
         "last_7_days": {
-          "grok": 0.4851,
-          "tts": 6.1312,
-          "total": 6.6163,
+          "grok": 0.495,
+          "tts": 7.1458,
+          "total": 7.6409,
           "episodes": 4
         },
         "last_30_days": {
-          "grok": 1.4764,
-          "tts": 29.3851,
-          "total": 30.8615,
+          "grok": 1.5599,
+          "tts": 27.518,
+          "total": 29.0779,
           "episodes": 14
         },
         "daily_series": [
-          [
-            "2026-03-07",
-            2.688
-          ],
           [
             "2026-03-08",
             2.787
@@ -1369,21 +1365,25 @@
           [
             "2026-04-27",
             1.8635
+          ],
+          [
+            "2026-04-29",
+            2.3029
           ]
         ]
       },
       "planetterrian": {
         "last_7_days": {
-          "grok": 0.2642,
-          "tts": 5.0374,
-          "total": 5.3016,
-          "episodes": 4
+          "grok": 0.1979,
+          "tts": 3.6723,
+          "total": 3.8702,
+          "episodes": 3
         },
         "last_30_days": {
-          "grok": 0.9509,
-          "tts": 36.3383,
-          "total": 37.2891,
-          "episodes": 15
+          "grok": 0.8882,
+          "tts": 30.859,
+          "total": 31.7473,
+          "episodes": 14
         },
         "daily_series": [
           [
@@ -1566,16 +1566,16 @@
       },
       "tesla": {
         "last_7_days": {
-          "grok": 1.162,
-          "tts": 15.2448,
-          "total": 16.4068,
-          "episodes": 11
+          "grok": 1.0358,
+          "tts": 13.9749,
+          "total": 15.0107,
+          "episodes": 10
         },
         "last_30_days": {
-          "grok": 3.5076,
-          "tts": 72.6996,
-          "total": 76.2072,
-          "episodes": 36
+          "grok": 3.4461,
+          "tts": 68.4888,
+          "total": 71.9349,
+          "episodes": 35
         },
         "daily_series": [
           [
@@ -1702,16 +1702,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 3.6146,
-      "tts": 65.9198,
-      "total": 69.5343,
-      "episodes": 47
+      "grok": 3.258,
+      "tts": 59.3027,
+      "total": 62.5607,
+      "episodes": 42
     },
     "network_last_30_days": {
-      "grok": 11.4572,
-      "tts": 312.7363,
-      "total": 324.1936,
-      "episodes": 162
+      "grok": 11.3766,
+      "tts": 297.8347,
+      "total": 309.2114,
+      "episodes": 159
     }
   },
   "pipeline_health": {
@@ -2093,21 +2093,16 @@
       ]
     },
     "omni_view": {
-      "sample_size": 22,
-      "p50_duration_s": 154.94,
-      "p95_duration_s": 251.18,
-      "success_rate": 0.955,
+      "sample_size": 23,
+      "p50_duration_s": 168.09,
+      "p95_duration_s": 385.26,
+      "success_rate": 0.957,
       "stage_mean_s": {
-        "fetch_and_dedup": 46.26,
-        "generate_digest": 69.52,
-        "generate_digest_retry": 55.93
+        "fetch_and_dedup": 46.1,
+        "generate_digest": 73.67,
+        "generate_digest_retry": 61.46
       },
       "recent": [
-        {
-          "episode_num": 29,
-          "total_duration_s": 212.22,
-          "success": true
-        },
         {
           "episode_num": 30,
           "total_duration_s": 247.15,
@@ -2151,6 +2146,11 @@
         {
           "episode_num": 38,
           "total_duration_s": 212.68,
+          "success": true
+        },
+        {
+          "episode_num": 39,
+          "total_duration_s": 385.26,
           "success": true
         }
       ]
@@ -2537,9 +2537,16 @@
       },
       {
         "file": "omni_view_podcast.rss",
-        "entry_count": 38,
-        "latest_pub_date": "2026-04-27T08:00:00+00:00",
+        "entry_count": 39,
+        "latest_pub_date": "2026-04-29T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://op3.dev/e/audio.nerranetwork.com/omni_view/Omni_View_Ep039_20260429.mp3",
+            "host": "op3.dev",
+            "pub_date": "2026-04-29T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://op3.dev/e/audio.nerranetwork.com/omni_view/Omni_View_Ep038_20260427.mp3",
             "host": "op3.dev",
@@ -2551,13 +2558,6 @@
             "url": "https://op3.dev/e/audio.nerranetwork.com/omni_view/Omni_View_Ep037_20260425.mp3",
             "host": "op3.dev",
             "pub_date": "2026-04-25T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://op3.dev/e/audio.nerranetwork.com/omni_view/Omni_View_Ep036_20260423.mp3",
-            "host": "op3.dev",
-            "pub_date": "2026-04-23T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
@@ -3038,168 +3038,168 @@
         "count": 6,
         "last_episode": 29,
         "last_date": "2026-04-28",
-        "days_since": 0,
-        "cools_in_days": 30
+        "days_since": 1,
+        "cools_in_days": 29
       },
       {
         "tag": "risk_management",
         "count": 3,
         "last_episode": 29,
         "last_date": "2026-04-28",
-        "days_since": 0,
-        "cools_in_days": 21
+        "days_since": 1,
+        "cools_in_days": 20
       },
       {
         "tag": "catalyst_confirmation",
         "count": 3,
         "last_episode": 29,
         "last_date": "2026-04-28",
-        "days_since": 0,
-        "cools_in_days": 21
+        "days_since": 1,
+        "cools_in_days": 20
       },
       {
         "tag": "position_sizing",
         "count": 3,
         "last_episode": 29,
         "last_date": "2026-04-28",
-        "days_since": 0,
-        "cools_in_days": 21
+        "days_since": 1,
+        "cools_in_days": 20
       },
       {
         "tag": "analyst_upgrade",
         "count": 7,
         "last_episode": 29,
         "last_date": "2026-04-28",
-        "days_since": 0,
-        "cools_in_days": 21
+        "days_since": 1,
+        "cools_in_days": 20
       },
       {
         "tag": "mean_reversion",
         "count": 2,
         "last_episode": 28,
         "last_date": "2026-04-27",
-        "days_since": 1,
-        "cools_in_days": 20
+        "days_since": 2,
+        "cools_in_days": 19
       },
       {
         "tag": "technical_support",
         "count": 2,
         "last_episode": 28,
         "last_date": "2026-04-27",
-        "days_since": 1,
-        "cools_in_days": 20
+        "days_since": 2,
+        "cools_in_days": 19
       },
       {
         "tag": "covered_call",
         "count": 2,
         "last_episode": 28,
         "last_date": "2026-04-27",
-        "days_since": 1,
-        "cools_in_days": 20
+        "days_since": 2,
+        "cools_in_days": 19
       },
       {
         "tag": "fx_hedging",
         "count": 2,
         "last_episode": 28,
         "last_date": "2026-04-27",
-        "days_since": 1,
-        "cools_in_days": 20
+        "days_since": 2,
+        "cools_in_days": 19
       },
       {
         "tag": "order_flow_slippage",
         "count": 6,
         "last_episode": 27,
         "last_date": "2026-04-24",
-        "days_since": 4,
-        "cools_in_days": 41
+        "days_since": 5,
+        "cools_in_days": 40
       },
       {
         "tag": "sector_rotation",
         "count": 2,
         "last_episode": 27,
         "last_date": "2026-04-24",
-        "days_since": 4,
-        "cools_in_days": 17
+        "days_since": 5,
+        "cools_in_days": 16
       },
       {
         "tag": "macro_rotation",
         "count": 1,
         "last_episode": 27,
         "last_date": "2026-04-24",
-        "days_since": 4,
-        "cools_in_days": 17
+        "days_since": 5,
+        "cools_in_days": 16
       },
       {
         "tag": "insider_buying",
         "count": 1,
         "last_episode": 27,
         "last_date": "2026-04-24",
-        "days_since": 4,
-        "cools_in_days": 17
+        "days_since": 5,
+        "cools_in_days": 16
       },
       {
         "tag": "valuation_discipline",
         "count": 2,
         "last_episode": 26,
         "last_date": "2026-04-23",
-        "days_since": 5,
-        "cools_in_days": 16
+        "days_since": 6,
+        "cools_in_days": 15
       },
       {
         "tag": "portfolio_rebalancing",
         "count": 2,
         "last_episode": 26,
         "last_date": "2026-04-23",
-        "days_since": 5,
-        "cools_in_days": 16
+        "days_since": 6,
+        "cools_in_days": 15
       },
       {
         "tag": "earnings_surprise",
         "count": 2,
         "last_episode": 26,
         "last_date": "2026-04-23",
-        "days_since": 5,
-        "cools_in_days": 16
+        "days_since": 6,
+        "cools_in_days": 15
       },
       {
         "tag": "sector_concentration",
         "count": 1,
         "last_episode": 26,
         "last_date": "2026-04-23",
-        "days_since": 5,
-        "cools_in_days": 16
+        "days_since": 6,
+        "cools_in_days": 15
       },
       {
         "tag": "catalyst_fade",
         "count": 1,
         "last_episode": 24,
         "last_date": "2026-04-21",
-        "days_since": 7,
-        "cools_in_days": 14
+        "days_since": 8,
+        "cools_in_days": 13
       },
       {
         "tag": "momentum_entry",
         "count": 1,
         "last_episode": 23,
         "last_date": "2026-04-20",
-        "days_since": 8,
-        "cools_in_days": 13
+        "days_since": 9,
+        "cools_in_days": 12
       },
       {
         "tag": "bid_ask_spread",
         "count": 6,
         "last_episode": 21,
         "last_date": "2026-04-16",
-        "days_since": 12,
-        "cools_in_days": 33
+        "days_since": 13,
+        "cools_in_days": 32
       },
       {
         "tag": "tax_loss_harvesting",
         "count": 2,
         "last_episode": 18,
         "last_date": "2026-04-13",
-        "days_since": 15,
-        "cools_in_days": 6
+        "days_since": 16,
+        "cools_in_days": 5
       }
     ],
     "sector_concentration_warning": "tech: 33% of recent trades (cumulative P&L $+50.52)",
