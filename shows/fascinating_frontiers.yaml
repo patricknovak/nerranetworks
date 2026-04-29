@@ -63,6 +63,29 @@ web_search_queries:
   - "astronomy discovery news"
   - "rocket launch news today"
 
+x_accounts:
+  - handle: NASA
+    label: NASA
+    max_posts: 4
+  - handle: SpaceX
+    label: SpaceX
+    max_posts: 4
+  - handle: esa
+    label: European Space Agency
+    max_posts: 3
+  - handle: SciGuySpace
+    label: Eric Berger (Ars Technica space)
+    max_posts: 3
+  - handle: planet4589
+    label: Jonathan McDowell (orbital launch tracker)
+    max_posts: 3
+  - handle: Erdayastronaut
+    label: Tim Dodd (Everyday Astronaut)
+    max_posts: 3
+  - handle: NASAWebb
+    label: NASA Webb Telescope
+    max_posts: 3
+
 min_articles_skip: 4
 
 keywords:

@@ -69,6 +69,26 @@ web_search_queries:
   - "world news geopolitics today"
   - "economy markets news today"
 
+x_accounts:
+  - handle: Reuters
+    label: Reuters
+    max_posts: 4
+  - handle: AP
+    label: Associated Press
+    max_posts: 4
+  - handle: BBCBreaking
+    label: BBC Breaking News
+    max_posts: 3
+  - handle: TheEconomist
+    label: The Economist
+    max_posts: 3
+  - handle: AxiosNews
+    label: Axios
+    max_posts: 3
+  - handle: SemaforNews
+    label: Semafor
+    max_posts: 3
+
 min_articles_skip: 4
 
 keywords:

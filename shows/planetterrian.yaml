@@ -66,6 +66,29 @@ web_search_queries:
   - "microbiome sleep circadian research"
   - "genetics epigenetics stem cell research breakthrough"
 
+x_accounts:
+  - handle: EricTopol
+    label: Dr. Eric Topol (medicine + AI)
+    max_posts: 4
+  - handle: PeterAttiaMD
+    label: Dr. Peter Attia (longevity)
+    max_posts: 3
+  - handle: hubermanlab
+    label: Andrew Huberman (neuroscience)
+    max_posts: 3
+  - handle: davidasinclair
+    label: Dr. David Sinclair (aging biology)
+    max_posts: 3
+  - handle: foundmyfitness
+    label: Rhonda Patrick (nutrition science)
+    max_posts: 3
+  - handle: edyong209
+    label: Ed Yong (science journalist)
+    max_posts: 3
+  - handle: MartyMakary
+    label: Dr. Marty Makary (public health)
+    max_posts: 3
+
 min_articles_skip: 2
 
 keywords:

@@ -51,6 +51,26 @@ web_search_queries:
   - "ChatGPT update news"
   - "AI tools new features today"
 
+x_accounts:
+  - handle: emollick
+    label: Ethan Mollick (One Useful Thing)
+    max_posts: 4
+  - handle: OpenAI
+    label: OpenAI
+    max_posts: 3
+  - handle: AnthropicAI
+    label: Anthropic
+    max_posts: 3
+  - handle: LinusEkenstam
+    label: Linus Ekenstam (daily AI tools)
+    max_posts: 3
+  - handle: MKBHD
+    label: Marques Brownlee (consumer tech)
+    max_posts: 3
+  - handle: GoogleAI
+    label: Google AI
+    max_posts: 3
+
 keywords:
   # Core AI concepts (beginner-accessible)
   - ai model
