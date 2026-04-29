@@ -5,7 +5,7 @@
     <description>Ten podcasts in two languages keeping you informed about exciting changes in the world. Unbiased, multi-perspective coverage of Tesla, world news, space, science, AI, the environment, modern investing, financial literacy, and Russian language learning.</description>
     <link>https://nerranetwork.com/</link>
     <language>en</language>
-    <lastBuildDate>Wed, 29 Apr 2026 08:21:24 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 29 Apr 2026 09:49:51 +0000</lastBuildDate>
     <image>
       <url>https://nerranetwork.com/assets/covers/svg/Nerra-Network-Logo.svg</url>
       <title>Nerra Network</title>
@@ -133,6 +133,40 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episodeType>full</itunes:episodeType>
       <podcast:chapters url="https://nerranetwork.com/digests/models_agents/chapters_ep037.json" type="application/json+chapters" />
       <podcast:transcript url="https://nerranetwork.com/digests/models_agents/Models_Agents_Ep037_20260429_transcript.json" type="application/json" />
+    </item>
+    <item>
+      <title>Ep 30: Big Tech earnings and Powell’s final FOMC tomorrow loom as stagflation concerns weigh on private credit and energy supply chains.</title>
+      <link>https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep030_20260429.mp3</link>
+      <description># Modern Investing Techniques
+**Date:** April 29, 2026
+💰 **Modern Investing Techniques** — AI-Powered Daily Market Intelligence
+
+**HOOK:** Big Tech earnings and Powell’s final FOMC tomorrow loom as stagflation concerns weigh on private credit and energy supply chains.
+
+**Market Pulse:** Markets retreated modestly with the S&amp;P 500 closing at 7,139 (-0.5%), NASDAQ Composite at 24,664 (-0.9%), and TSX Composite at 33,584 (-0.7%). ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
+      <guid isPermaLink="false">modern-investing-ep030-20260429-094947999991</guid>
+      <enclosure url="https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep030_20260429.mp3" length="15874133" type="audio/mpeg" />
+      <pubDate>Wed, 29 Apr 2026 08:00:00 +0000</pubDate>
+      <itunes:image href="https://nerranetwork.com/assets/covers/modern-investing.jpg" />
+      <itunes:duration>11:01</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary># Modern Investing Techniques
+**Date:** April 29, 2026
+💰 **Modern Investing Techniques** — AI-Powered Daily Market Intelligence
+
+**HOOK:** Big Tech earnings and Powell’s final FOMC tomorrow loom as stagflation concerns weigh on private credit and energy supply chains.
+
+**Market Pulse:** Markets retreated modestly with the S&amp;P 500 closing at 7,139 (-0.5%), NASDAQ Composite at 24,664 (-0.9%), and TSX Composite at 33,584 (-0.7%). ...
+
+AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>30</itunes:episode>
+      <itunes:title>Ep 30: Big Tech earnings and Powell’s final FOMC tomorrow loom as stagflation concerns weigh on private credit and energy supply chains.</itunes:title>
+      <itunes:episodeType>full</itunes:episodeType>
+      <podcast:chapters url="https://nerranetwork.com/digests/modern_investing/chapters_ep030.json" type="application/json+chapters" />
+      <podcast:transcript url="https://nerranetwork.com/digests/modern_investing/Modern_Investing_Ep030_20260429_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Ep 453: Tesla is hiring engineers to build a wireless Battery Management System for Cybercab that removes heavy wiring harnesses across its vehicles.</title>
@@ -322,7 +356,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
     </item>
     <item>
       <title>Ep 29: Oil tops $110 on stalled Iran talks while clean power eyes records despite policy risks — two signals demanding disciplined positioning.</title>
-      <link>https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep029_20260428.mp3</link>
       <description># Modern Investing Techniques
 **Date:** April 28, 2026
 💰 **Modern Investing Techniques** — AI-Powered Daily Market Intelligence
@@ -351,8 +384,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:episode>29</itunes:episode>
       <itunes:title>Ep 29: Oil tops $110 on stalled Iran talks while clean power eyes records despite policy risks — two signals demanding disciplined positioning.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
-      <podcast:chapters url="https://nerranetwork.com/digests/modern_investing/chapters_ep029.json" type="application/json+chapters" />
-      <podcast:transcript url="https://nerranetwork.com/digests/modern_investing/Modern_Investing_Ep029_20260428_transcript.json" type="application/json" />
     </item>
     <item>
       <title>Ep 450: Tesla has begun production of its CyberCab robotaxi in Texas, with revenue targeted after 2027.</title>
@@ -1595,29 +1626,6 @@ AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice sy
       <itunes:season>1</itunes:season>
       <itunes:episode>26</itunes:episode>
       <itunes:title>Ep 26: Electric ferry deployment in British Columbia highlights emerging vessel-strike risks to humpback whales under the Fisheries Act and Species at Risk Act.</itunes:title>
-      <itunes:episodeType>full</itunes:episodeType>
-    </item>
-    <item>
-      <title>Ep 33: MetaComp just released the world's first dedicated AI agent governance framework built specifically for regulated financial services.</title>
-      <description>**HOOK:** MetaComp just released the world's first dedicated AI agent governance framework built specifically for regulated financial services.
-
-**What You Need to Know:** Today’s biggest practical leap comes from the intersection of agentic systems and compliance: MetaComp’s new governance framework gives banks and fintechs a structured way to deploy, monitor, and audit autonomous agents in production. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</description>
-      <guid isPermaLink="false">models-agents-ep033-20260421-081442934017</guid>
-      <enclosure url="https://op3.dev/e/audio.nerranetwork.com/models_agents/Models_Agents_Ep033_20260421.mp3" length="17595080" type="audio/mpeg" />
-      <pubDate>Tue, 21 Apr 2026 08:00:00 +0000</pubDate>
-      <itunes:image href="https://nerranetwork.com/assets/covers/models-agents.jpg" />
-      <itunes:duration>12:13</itunes:duration>
-      <itunes:explicit>no</itunes:explicit>
-      <itunes:summary>**HOOK:** MetaComp just released the world's first dedicated AI agent governance framework built specifically for regulated financial services.
-
-**What You Need to Know:** Today’s biggest practical leap comes from the intersection of agentic systems and compliance: MetaComp’s new governance framework gives banks and fintechs a structured way to deploy, monitor, and audit autonomous agents in production. ...
-
-AI Disclosure: This podcast is curated by Patrick but uses AI-generated voice synthesis (ElevenLabs) for audio production.</itunes:summary>
-      <itunes:season>1</itunes:season>
-      <itunes:episode>33</itunes:episode>
-      <itunes:title>Ep 33: MetaComp just released the world's first dedicated AI agent governance framework built specifically for regulated financial services.</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
     </item>
   </channel>

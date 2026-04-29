@@ -6,7 +6,7 @@
     "position_size": 1000,
     "currency": "USD",
     "created": "2026-03-16",
-    "last_updated": "2026-04-24",
+    "last_updated": "2026-04-29",
     "inception_date": "2026-03-16",
     "benchmark_symbol": "^IXIC",
     "nasdaq_inception_close": 22374.18,
@@ -194,44 +194,61 @@
       "pnl_dollars": null,
       "lesson": "",
       "sector": "precious_metals",
-      "current_price": 60.22
+      "current_price": 57.81
+    },
+    {
+      "episode_num": 30,
+      "date": "2026-04-29",
+      "symbol": "EXE",
+      "market": "NYSE",
+      "strategy": "Valuation discipline on lowest sector multiple combined with scale advantages from recent merger",
+      "confidence": "Medium",
+      "target_range": "+1% to +4% by tomorrow’s close.",
+      "trade_type": "flash",
+      "status": "open",
+      "entry_price": null,
+      "exit_price": null,
+      "pnl_pct": null,
+      "pnl_dollars": null,
+      "lesson": "",
+      "sector": "other"
     }
   ],
   "benchmark": {
-    "current_close": 24887.1,
-    "inception_to_date_pct": 11.23,
-    "ytd_pct": 7.11,
-    "last_updated": "2026-04-28"
+    "current_close": 24663.8,
+    "inception_to_date_pct": 10.23,
+    "ytd_pct": 6.15,
+    "last_updated": "2026-04-29"
   },
   "alpha": {
-    "inception_to_date_pct": -11.75,
-    "ytd_pct": -7.63,
+    "inception_to_date_pct": -10.75,
+    "ytd_pct": -6.67,
     "monthly": {}
   },
   "sectors": {
     "financials": {
       "trade_count": 1,
-      "exposure_pct": 11.1,
+      "exposure_pct": 10.0,
       "cumulative_pnl": -74.91
     },
     "tech": {
       "trade_count": 3,
-      "exposure_pct": 33.3,
+      "exposure_pct": 30.0,
       "cumulative_pnl": 50.52
     },
     "consumer": {
       "trade_count": 1,
-      "exposure_pct": 11.1,
+      "exposure_pct": 10.0,
       "cumulative_pnl": -14.4
     },
     "precious_metals": {
       "trade_count": 3,
-      "exposure_pct": 33.3,
+      "exposure_pct": 30.0,
       "cumulative_pnl": 36.63
     },
     "other": {
-      "trade_count": 1,
-      "exposure_pct": 11.1,
+      "trade_count": 2,
+      "exposure_pct": 20.0,
       "cumulative_pnl": -39.4
     }
   },
@@ -244,6 +261,7 @@
     "mit_dividend_investing",
     "mit_profile_buffett",
     "mit_profile_cathie_wood",
-    "mit_risk_management"
+    "mit_risk_management",
+    "mit_history_market_crashes"
   ]
 }
