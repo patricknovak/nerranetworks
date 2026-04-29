@@ -188,10 +188,13 @@ def _make_brand_pill(output_path: Path,
 # Slideshow renderer (stage 1)
 # ---------------------------------------------------------------------------
 
-# Each photo holds for ~12 s — long enough to read the spectrum + caption
-# but short enough that the long-form keeps moving. Slideshow loops in
-# stage 2 so we don't need to scale the photo count to audio length.
+# Each photo holds for ~12 s on long-form — long enough to read the
+# spectrum + caption but short enough that the video keeps moving.
+# Shorts use a faster pace (~7 s/scene) so a 55 s clip sees ~8 scene
+# changes; static photos for 12 s on a phone scroll feel like
+# nothing's happening.
 _SCENE_DURATION_SECONDS = 12.0
+_SHORT_SCENE_DURATION_SECONDS = 7.0
 
 
 def _slideshow_filter_graph(scene_count: int, *,
@@ -227,8 +230,13 @@ def _slideshow_filter_graph(scene_count: int, *,
 
 def _slideshow_cmd(scene_paths: Sequence[Path], output: Path,
                    *, scene_duration: float = _SCENE_DURATION_SECONDS,
+                   width: int = 1920, height: int = 1080,
                    fps: int = 30) -> List[str]:
-    """ffmpeg command for stage 1 (slideshow render)."""
+    """ffmpeg command for stage 1 (slideshow render).
+
+    *width* and *height* default to 1920x1080 for the long-form path;
+    pass 1080x1920 for the vertical Shorts variant.
+    """
     inputs: List[str] = []
     for path in scene_paths:
         inputs.extend([
@@ -242,7 +250,8 @@ def _slideshow_cmd(scene_paths: Sequence[Path], output: Path,
         *inputs,
         "-filter_complex",
         _slideshow_filter_graph(len(scene_paths),
-                                scene_duration=scene_duration, fps=fps),
+                                scene_duration=scene_duration,
+                                width=width, height=height, fps=fps),
         "-map", "[v]",
         "-r", str(fps),
         *_VIDEO_ENCODE,
@@ -253,13 +262,17 @@ def _slideshow_cmd(scene_paths: Sequence[Path], output: Path,
 
 
 def _render_slideshow(scene_paths: Sequence[Path], output: Path,
-                      *, fps: int = 30) -> Path:
+                      *, scene_duration: float = _SCENE_DURATION_SECONDS,
+                      width: int = 1920, height: int = 1080,
+                      fps: int = 30) -> Path:
     """Render the stage-1 slideshow MP4. Idempotent (skips if output exists)."""
     if output.exists():
         return output
-    cmd = _slideshow_cmd(scene_paths, output, fps=fps)
-    logger.info("Rendering slideshow (%d scenes) → %s",
-                len(scene_paths), output.name)
+    cmd = _slideshow_cmd(scene_paths, output,
+                         scene_duration=scene_duration,
+                         width=width, height=height, fps=fps)
+    logger.info("Rendering slideshow (%d scenes, %dx%d) → %s",
+                len(scene_paths), width, height, output.name)
     subprocess.run(cmd, check=True, capture_output=True)
     return output
 
@@ -358,16 +371,37 @@ def _long_form_filter_graph(*, width: int = 1920, height: int = 1080,
 
 def _short_form_filter_graph(width: int = 1080, height: int = 1920,
                              fps: int = 30,
-                             hook: Optional[str] = None) -> str:
-    """filter_complex for the 1080x1920 Shorts build."""
+                             hook: Optional[str] = None,
+                             bg_is_video: bool = False) -> str:
+    """filter_complex for the 1080x1920 Shorts build.
+
+    Inputs:
+      ``[0:v]`` — background. Either looped cover image (static) or
+      pre-rendered vertical slideshow MP4 (motion baked in; we just
+      scale to fill).
+      ``[1:a]`` — episode audio (clipped to ~55 s by input-side
+      ``-ss``/``-t`` upstream).
+      ``[2:v]`` — brand pill PNG, looped.
+    """
     viz_h = height // 4 + 40
     viz_y = (height // 2) - (viz_h // 2)
     font_path = _drawtext_escape(_find_font())
 
+    if bg_is_video:
+        bg_chain = (
+            f"[0:v]"
+            f"scale={width}:{height}:force_original_aspect_ratio=increase,"
+            f"crop={width}:{height},setsar=1,format=yuv420p[bg]"
+        )
+    else:
+        bg_chain = (
+            f"[0:v]"
+            f"scale={width}:{height}:force_original_aspect_ratio=increase,"
+            f"crop={width}:{height},setsar=1,format=yuv420p[bg]"
+        )
+
     base = (
-        f"[0:v]"
-        f"scale={width}:{height}:force_original_aspect_ratio=increase,"
-        f"crop={width}:{height},setsar=1,format=yuv420p[bg];"
+        f"{bg_chain};"
         f"[bg]drawbox=x=0:y={viz_y}:w={width}:h={viz_h}"
         f":color=black@0.25:t=fill[bg2];"
         f"[1:a]showcqt=s={width}x{viz_h}:fps={fps}"
@@ -435,22 +469,35 @@ def _long_form_cmd(audio_in: str, bg_in: str, brand_in: str,
     ]
 
 
-def _short_form_cmd(audio_in: str, cover_in: str, brand_in: str,
+def _short_form_cmd(audio_in: str, bg_in: str, brand_in: str,
                     output: str, *,
                     start_offset: float = 0.0,
                     duration: float = 55.0,
                     fps: int = 30,
-                    hook: Optional[str] = None) -> List[str]:
-    """ffmpeg command for the 1080x1920 Shorts build."""
+                    hook: Optional[str] = None,
+                    bg_is_video: bool = False) -> List[str]:
+    """ffmpeg command for the 1080x1920 Shorts build.
+
+    When *bg_is_video* is True, *bg_in* is a pre-rendered vertical
+    slideshow MP4; we ``-stream_loop -1`` it so it loops to match the
+    Shorts clip length, and we drop the ``-loop 1 -framerate``
+    image-input flags.
+    """
+    if bg_is_video:
+        bg_input = ["-stream_loop", "-1", "-i", bg_in]
+    else:
+        bg_input = ["-loop", "1", "-framerate", str(fps), "-i", bg_in]
+
     return [
         "ffmpeg", "-y", "-threads", "0",
-        "-loop", "1", "-framerate", str(fps), "-i", cover_in,
+        *bg_input,
         "-ss", f"{start_offset:.2f}",
         "-t", f"{duration:.2f}",
         "-i", audio_in,
         "-loop", "1", "-framerate", str(fps), "-i", brand_in,
         "-filter_complex",
-        _short_form_filter_graph(1080, 1920, fps, hook),
+        _short_form_filter_graph(1080, 1920, fps, hook,
+                                 bg_is_video=bg_is_video),
         "-map", "[v]", "-map", "1:a",
         *_VIDEO_ENCODE,
         "-r", str(fps),
@@ -543,8 +590,29 @@ def build_short_video(audio_path: Path, cover_path: Path,
                       start_offset: float = 0.0,
                       duration: float = 55.0,
                       fps: int = 30,
-                      hook: Optional[str] = None) -> Path:
-    """Render a 1080x1920 vertical YouTube Shorts video."""
+                      hook: Optional[str] = None,
+                      scene_paths: Optional[Sequence[Path]] = None) -> Path:
+    """Render a 1080x1920 vertical YouTube Shorts video.
+
+    Parameters
+    ----------
+    audio_path:
+        Source audio. Only the slice from *start_offset* to
+        *start_offset + duration* is included.
+    cover_path:
+        Show cover image — used as the static background when
+        ``scene_paths`` is empty/unset, or as the fallback if the
+        slideshow render fails.
+    output_path:
+        Where to write the MP4.
+    start_offset, duration, fps, hook:
+        See module docstring.
+    scene_paths:
+        Optional list of slideshow images. ``len ≥ 2`` triggers the
+        two-stage pipeline (vertical slideshow MP4 first, then
+        composite). A single-element list (or ``None``) keeps the
+        existing static-cover path.
+    """
     if duration >= 60:
         raise ValueError(
             f"Shorts duration must stay below 60s; got {duration}"
@@ -554,14 +622,34 @@ def build_short_video(audio_path: Path, cover_path: Path,
     if not cover_path.exists():
         raise FileNotFoundError(f"cover not found: {cover_path}")
 
-    brand_path = output_path.parent / "_brand_pill.png"
+    work_dir = output_path.parent
+    brand_path = work_dir / "_brand_pill.png"
     _make_brand_pill(brand_path)
 
+    bg_path: Path = cover_path
+    bg_is_video = False
+    if scene_paths and len(scene_paths) >= 2:
+        slideshow_path = work_dir / f"{output_path.stem}_short_slides.mp4"
+        try:
+            _render_slideshow(
+                scene_paths, slideshow_path,
+                scene_duration=_SHORT_SCENE_DURATION_SECONDS,
+                width=1080, height=1920, fps=fps,
+            )
+            bg_path = slideshow_path
+            bg_is_video = True
+        except subprocess.CalledProcessError as exc:
+            logger.warning(
+                "Shorts slideshow render failed (%s) — falling back to cover",
+                exc,
+            )
+
     cmd = _short_form_cmd(
-        str(audio_path), str(cover_path), str(brand_path),
+        str(audio_path), str(bg_path), str(brand_path),
         str(output_path),
         start_offset=start_offset,
         duration=duration, fps=fps, hook=hook,
+        bg_is_video=bg_is_video,
     )
     logger.info(
         "Building Shorts video (%.1fs from %.1fs) → %s",
