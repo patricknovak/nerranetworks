@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-29T06:37:05.290059+00:00",
+  "generated_at": "2026-04-29T07:01:04.973633+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 0,
-    "total_cost_last_7_days_usd": 62.5607,
-    "total_cost_last_30_days_usd": 309.2114,
+    "total_cost_last_7_days_usd": 63.8584,
+    "total_cost_last_30_days_usd": 310.5091,
     "shows": [
       {
         "slug": "env_intel",
@@ -140,10 +140,10 @@
         "blog_page": "blog/planetterrian/index.html",
         "newsletter_enabled": true,
         "x_enabled": true,
-        "latest_pub_date": "2026-04-27T08:00:00+00:00",
+        "latest_pub_date": "2026-04-29T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 3.8702,
-        "episodes_last_7_days": 3,
+        "cost_last_7_days_usd": 5.1679,
+        "episodes_last_7_days": 4,
         "p50_pipeline_s": 38.82,
         "success_rate": 1.0
       },
@@ -293,14 +293,14 @@
       "details": "5 MP3s tracked in git, digests/ is 126 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 125.8
+        "digests_mb": 126.0
       }
     },
     {
       "id": "item_2_rss_integrity",
       "title": "RSS integrity, LFS absence, R2 host consistency",
       "status": "warn",
-      "details": "non-R2 hosts: op3.dev",
+      "details": "non-R2 hosts: op3.dev; 1 recent enclosure(s) unreachable",
       "evidence": {
         "feeds": 11,
         "malformed": [],
@@ -308,7 +308,9 @@
         "non_r2_hosts": [
           "op3.dev"
         ],
-        "unreachable": [],
+        "unreachable": [
+          "modern_investing_podcast.rss: https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep029_20260428.mp3"
+        ],
         "offline": false
       }
     },
@@ -1374,16 +1376,16 @@
       },
       "planetterrian": {
         "last_7_days": {
-          "grok": 0.1979,
-          "tts": 3.6723,
-          "total": 3.8702,
-          "episodes": 3
+          "grok": 0.2618,
+          "tts": 4.906,
+          "total": 5.1679,
+          "episodes": 4
         },
         "last_30_days": {
-          "grok": 0.8882,
-          "tts": 30.859,
-          "total": 31.7473,
-          "episodes": 14
+          "grok": 0.9522,
+          "tts": 32.0928,
+          "total": 33.045,
+          "episodes": 15
         },
         "daily_series": [
           [
@@ -1493,6 +1495,10 @@
           [
             "2026-04-27",
             1.2721
+          ],
+          [
+            "2026-04-29",
+            1.2977
           ]
         ]
       },
@@ -1702,16 +1708,16 @@
       }
     },
     "network_last_7_days": {
-      "grok": 3.258,
-      "tts": 59.3027,
-      "total": 62.5607,
-      "episodes": 42
+      "grok": 3.322,
+      "tts": 60.5364,
+      "total": 63.8584,
+      "episodes": 43
     },
     "network_last_30_days": {
-      "grok": 11.3766,
-      "tts": 297.8347,
-      "total": 309.2114,
-      "episodes": 159
+      "grok": 11.4406,
+      "tts": 299.0685,
+      "total": 310.5091,
+      "episodes": 160
     }
   },
   "pipeline_health": {
@@ -2156,21 +2162,16 @@
       ]
     },
     "planetterrian": {
-      "sample_size": 20,
+      "sample_size": 21,
       "p50_duration_s": 38.82,
-      "p95_duration_s": 71.28,
+      "p95_duration_s": 96.41,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 3.96,
-        "generate_digest": 20.99,
-        "generate_digest_slow_news": 21.14
+        "fetch_and_dedup": 4.03,
+        "generate_digest": 22.01,
+        "generate_digest_slow_news": 22.65
       },
       "recent": [
-        {
-          "episode_num": 42,
-          "total_duration_s": 44.27,
-          "success": true
-        },
         {
           "episode_num": 43,
           "total_duration_s": 37.25,
@@ -2214,6 +2215,11 @@
         {
           "episode_num": 51,
           "total_duration_s": 71.28,
+          "success": true
+        },
+        {
+          "episode_num": 52,
+          "total_duration_s": 96.41,
           "success": true
         }
       ]
@@ -2514,8 +2520,8 @@
             "url": "https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep029_20260428.mp3",
             "host": "op3.dev",
             "pub_date": "2026-04-28T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
+            "http_status": null,
+            "reachable": false
           },
           {
             "url": "https://op3.dev/e/audio.nerranetwork.com/modern_investing/Modern_Investing_Ep028_20260427.mp3",
@@ -2567,9 +2573,16 @@
       },
       {
         "file": "planetterrian_podcast.rss",
-        "entry_count": 39,
-        "latest_pub_date": "2026-04-27T08:00:00+00:00",
+        "entry_count": 40,
+        "latest_pub_date": "2026-04-29T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://op3.dev/e/audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep052_20260429.mp3",
+            "host": "op3.dev",
+            "pub_date": "2026-04-29T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://op3.dev/e/audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep051_20260427.mp3",
             "host": "op3.dev",
@@ -2581,13 +2594,6 @@
             "url": "https://op3.dev/e/audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep050_20260425.mp3",
             "host": "op3.dev",
             "pub_date": "2026-04-25T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://op3.dev/e/audio.nerranetwork.com/planetterrian/Planetterrian_Daily_Ep049_20260423.mp3",
-            "host": "op3.dev",
-            "pub_date": "2026-04-23T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
