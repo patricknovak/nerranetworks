@@ -517,6 +517,8 @@ def generate_blog_post_html(
     prev_post: Optional[dict] = None,
     next_post: Optional[dict] = None,
     related_posts: Optional[list] = None,
+    youtube_url: str = "",
+    youtube_short_url: str = "",
 ) -> str:
     """Generate a complete blog post HTML page from digest markdown.
 
@@ -613,6 +615,10 @@ def generate_blog_post_html(
         "related_posts": related_posts or [],
         "newsletter_tag": show_config["name"],
         "page_lang": "ru" if show_slug in ("finansy_prosto", "privet_russian") else "en",
+        # YouTube cross-posting — when present, the template renders a
+        # "Watch on YouTube" button next to the existing podcast/summaries CTAs.
+        "youtube_url": youtube_url or metadata.get("youtube_url", ""),
+        "youtube_short_url": youtube_short_url or metadata.get("youtube_short_url", ""),
     }
 
     return template.render(**context)

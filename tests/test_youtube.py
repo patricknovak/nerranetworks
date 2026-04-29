@@ -649,3 +649,38 @@ def test_upload_caption_track_returns_false_on_api_error(monkeypatch, tmp_path):
         language="en",
     )
     assert result is False
+
+
+# ---------------------------------------------------------------------------
+# X teaser — "Watch on YouTube" line gets appended when URL is set
+# ---------------------------------------------------------------------------
+
+def test_append_youtube_line_adds_url_when_set():
+    """``_append_youtube_line`` should append a "Watch on YouTube" line
+    when ``extra_context["youtube_url"]`` is non-empty."""
+    from run_show import _append_youtube_line
+    base = "🚀 Tesla Shorts Time — April 30, 2026\n🎧 Listen here."
+    out = _append_youtube_line(base, {"youtube_url": "https://www.youtube.com/watch?v=abc123"})
+    assert "🎬 Watch on YouTube" in out
+    assert "https://www.youtube.com/watch?v=abc123" in out
+
+
+def test_append_youtube_line_noop_when_empty():
+    from run_show import _append_youtube_line
+    base = "Tesla Shorts Time — Episode 1"
+    out = _append_youtube_line(base, {})
+    assert out == base
+    out = _append_youtube_line(base, {"youtube_url": ""})
+    assert out == base
+
+
+def test_append_youtube_line_idempotent():
+    """If the URL already appears in the teaser (e.g. via a YAML
+    template), don't append a duplicate line."""
+    from run_show import _append_youtube_line
+    base = "Episode 1\nWatch: https://www.youtube.com/watch?v=abc"
+    out = _append_youtube_line(
+        base, {"youtube_url": "https://www.youtube.com/watch?v=abc"},
+    )
+    # No second occurrence appended.
+    assert out.count("https://www.youtube.com/watch?v=abc") == 1

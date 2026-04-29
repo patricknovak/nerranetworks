@@ -253,3 +253,49 @@ def test_all_shows_produce_closings(show_slug):
     )
     assert len(closing) > 20
     assert ":" in closing
+
+
+# ---------------------------------------------------------------------------
+# YouTube channel CTA in closing block
+# ---------------------------------------------------------------------------
+
+def test_closing_block_appends_youtube_cta_when_handle_set():
+    closing = build_closing_block(
+        "tesla",
+        episode_num=42,
+        today_str="April 30, 2026",
+        youtube_channel_handle="@NerraNetwork",
+    )
+    assert "@NerraNetwork" in closing
+    assert "YouTube" in closing
+    assert "show notes" in closing
+
+
+def test_closing_block_omits_youtube_cta_without_handle():
+    closing = build_closing_block(
+        "tesla",
+        episode_num=42,
+        today_str="April 30, 2026",
+    )
+    assert "@NerraNetwork" not in closing
+    assert "YouTube" not in closing
+
+
+def test_closing_block_youtube_cta_idempotent():
+    """If the closing already mentions YouTube (e.g. handcrafted in
+    show personality), the helper should not duplicate the line."""
+    from engine.intros import _maybe_append_youtube_cta
+    closing = "Patrick: That's it. Watch us on YouTube tomorrow."
+    out = _maybe_append_youtube_cta(closing, "@NerraNetwork")
+    # No duplicate "YouTube" sentence appended.
+    assert out == closing
+
+
+def test_closing_block_supports_russian_handle():
+    closing = build_closing_block(
+        "finansy_prosto",
+        episode_num=1,
+        today_str="30 апреля 2026",
+        youtube_channel_handle="@NerraRU",
+    )
+    assert "@NerraRU" in closing
