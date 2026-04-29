@@ -358,3 +358,76 @@ class TestSendShowNewsletter(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# ---------------------------------------------------------------------------
+# Hardened error semantics added during P0/P1 cleanup
+# ---------------------------------------------------------------------------
+
+def test_validate_api_key_returns_false_on_5xx(monkeypatch):
+    """5xx Buttondown response should NOT pass validation (was previously
+    a silent True, creating false confidence pre-flight)."""
+    from engine import newsletter
+
+    class _Resp:
+        status_code = 503
+        text = "service unavailable"
+
+    monkeypatch.setattr(newsletter.requests, "get",
+                        lambda *a, **kw: _Resp())
+    assert newsletter.validate_api_key("any-key") is False
+
+
+def test_validate_api_key_returns_false_on_429(monkeypatch):
+    """Rate-limit during pre-flight = unknown key health = treat as fail."""
+    from engine import newsletter
+
+    class _Resp:
+        status_code = 429
+        text = "rate limited"
+
+    monkeypatch.setattr(newsletter.requests, "get",
+                        lambda *a, **kw: _Resp())
+    assert newsletter.validate_api_key("any-key") is False
+
+
+def test_validate_api_key_returns_false_on_403(monkeypatch):
+    """403 = bad permissions = clearly invalid key."""
+    from engine import newsletter
+
+    class _Resp:
+        status_code = 403
+        text = "forbidden"
+
+    monkeypatch.setattr(newsletter.requests, "get",
+                        lambda *a, **kw: _Resp())
+    assert newsletter.validate_api_key("any-key") is False
+
+
+def test_validate_api_key_returns_true_on_200(monkeypatch):
+    from engine import newsletter
+
+    class _Resp:
+        status_code = 200
+        text = "[]"
+
+    monkeypatch.setattr(newsletter.requests, "get",
+                        lambda *a, **kw: _Resp())
+    assert newsletter.validate_api_key("any-key") is True
+
+
+def test_send_newsletter_rejects_invalid_status(monkeypatch):
+    """Catch typos in newsletter.status before hitting Buttondown's 400."""
+    from engine import newsletter
+
+    # Sentinel — should never be called because we reject the status first.
+    def _no_post(*a, **kw):
+        raise AssertionError("send_newsletter should not call requests.post"
+                             " for invalid status")
+
+    monkeypatch.setattr(newsletter.requests, "post", _no_post)
+    out = newsletter.send_newsletter(
+        subject="t", body="b", api_key="key",
+        status="publish",  # typo
+    )
+    assert out is None

@@ -3,8 +3,11 @@ name: Run Podcast Show
 on:
   schedule:
     # All shows scheduled to finish before 7 AM Eastern (~11 UTC EDT / 12 UTC EST).
-    # Pipeline takes up to 45 min, so all triggers fire by 9:30 UTC.
-    # Staggered by 30 min to spread GitHub Actions load.
+    # Pipeline takes up to 45 min, so triggers must be staggered by at
+    # least that much — Tesla previously sat at 9:30 UTC and could
+    # collide with Modern Investing's 9:00 UTC weekday slot. Tesla now
+    # fires at 10:00 UTC daily (60-min gap after MI), still well
+    # ahead of the 11/12 UTC Eastern cutoff.
     #
     # Привет, Русский!: Even days at 5:00 UTC
     - cron: '0 5 2-31/2 * *'
@@ -24,8 +27,9 @@ on:
     - cron: '30 8 2-31/2 * *'
     # Modern Investing Techniques: Weekdays at 9:00 UTC (before US market open)
     - cron: '0 9 * * 1-5'
-    # Tesla Shorts Time: Daily at 9:30 UTC — last to get freshest news
-    - cron: '30 9 * * *'
+    # Tesla Shorts Time: Daily at 10:00 UTC — last to get freshest news,
+    # 60-min gap after Modern Investing avoids Grok API contention.
+    - cron: '0 10 * * *'
 
   workflow_dispatch:
     inputs:
@@ -108,7 +112,7 @@ jobs:
                   "0 8 2-31/2 * *":   ("models_agents_beginners", "even"),
                   "30 8 2-31/2 * *":  ("finansy_prosto",          "even"),
                   "0 9 * * 1-5":      ("modern_investing",        "weekday"),
-                  "30 9 * * *":       ("tesla",                    None),
+                  "0 10 * * *":       ("tesla",                    None),
               }
 
               shows = []
