@@ -1,0 +1,128 @@
+Hey, welcome to Models and Agents Episode 37 for April 29th, 2026, your daily AI briefing.
+Let's see what happened in the AI world today and trust me, it's been busy.
+DeepSeq's first native multimodal model drops in the local Lama community, finally giving
+the open source whale vision capabilities. Today brings the long-awaited DeepSeq Vision multimodal
+release alongside a wave of new RXIV papers that push agent reliability, multi-lingual benchmarks,
+and reasoning generalization. Amazon and several startups are rolling out autonomous agent platforms
+aimed at hiring, supply chains, marketing, and travel personalization, signaling that 2026
+is the year agents move from experiments to production workflows. The research community is also
+delivering concrete fixes for tool-calling bugs, better elderly speech recognition, and smarter test
+time exploration methods you can actually run today. The top story is DeepSeq Vision multimodal
+finally surfacing in the open source community. This marks the first time the popular DeepSeq
+series includes native vision capabilities. The model arrived with a simple teaser post that just
+said, finally, with eyes. Practitioners have been combining earlier DeepSeq text models with
+separate vision encoders for months. A unified multimodal version removes all that integration friction
+in one stroke. Early community reaction suggests it maintains the strong reasoning DNA of the DeepSeq
+family while adding solid image understanding. That combination should immediately benefit multimodal
+retrieval augmented generation, document agents, and visual tool use pipelines. For developers,
+this means you can now experiment with a single high performing open model for tasks that previously
+required stitching together separate large language models and vision models. It potentially cuts
+latency and context overhead in the process. The release is still early, so expect GGUF quantized
+versions and integration guides to follow quickly in the local Yama ecosystem. Watch for benchmark
+numbers on visual reasoning and tool calling with images. If it matches the text side performance,
+it becomes an instant must try alternative to Lama 4 Maverick or 22.5 vision language.
+Moving to model updates, researchers have released a new approach called elderly contextual data
+augmentation via speech synthesis for elderly automatic speech recognition. They created in large
+language model powered paraphrasing plus elderly voice text to speech pipeline that generates synthetic
+elderly speech data. Then they merge it with real recordings to fine tune whisper. On English and
+Korean data sets from speakers 70 and older, the method delivered up to 58.2% relative word error rate
+reduction versus the baseline. It also beats standard augmentation techniques. The approach requires no
+architecture changes and includes careful analysis of optimal augmentation ratio and reference speaker
+mix. Teams building voice interfaces for senior users can now bootstrap far more effective models
+even with limited real data. Another interesting arc sieve paper introduces adaptive dictionary embeddings
+that scale multi anchor representations to large language models. Instead of representing words
+as single vectors, this framework uses dynamic combinations of multiple anchor vectors. It scales
+successfully to transformer scale models through vocabulary projection, grouped positional encoding
+and context aware reweighting. When integrated into a segment aware transformer, it beats DBRTA
+DV3 base on DBPD of 14 with 98.06% versus 97.80%. It does this while using 98.7% fewer trainable
+parameters and compressing the embedding layer over 40 times. The technique directly tackles
+polysemin limitations that have persisted since the word two vac days. It is worth testing if your
+classification or retrieval tasks suffer from ambiguous terminology. Fujitsu's team released GAIA V2
+LILT, a multilingual adaptation of the agent benchmark that goes well beyond simple translation.
+They used functional alignment, cultural adaptation and difficulty calibration across five non-English
+languages. The refined workflow lifts agent success rates by up to 32.7% over minimally translated
+versions. It narrows the gap to English performance to roughly 3%. The dataset is available in the maps
+collection on hugging face. If you evaluate agents in non-English markets, this is the new gold standard
+test suite. There is also a fascinating paper on large language models explore by latent distilling.
+Their exploratory sampling method trains a lightweight test time distiller on shallow to deep hidden
+states. It then uses prediction error as a novelty signal to bias decoding toward semantically
+under explored paths, implemented with less than 5% overhead and 1.2% in optimized builds,
+it improves pass at k efficiency on math, science and code benchmarks. It preserves coherence in creative
+writing too. The GitHub repo is already public so this is a practical drop-in decoding upgrade for
+any reasoning model where standard sampling produces only surface level diversity. On the agent and
+tool side, travel brands are pivoting hard to autonomous AI agents as guest expectations for
+personalization surge. Hospitality companies are moving away from rule-based chat bots to fully
+autonomous agents that handle end-to-end guest journeys. The shift is driven by rising consumer
+demand for truly tailored experiences that static systems simply cannot deliver. Early adopters
+are already deploying these agents for itinerary planning, real-time adjustments and proactive service.
+It is worth watching for rapid commoditization of travel specific agent frameworks in the next 12
+months. Amazon unveiled new AI hiring and supply chain tools as part of its broader push for autonomous
+agent systems. The tools emphasize reliable multi-step planning and tool use in high-stakes enterprise
+environments. They cover talent acquisition and end-to-end supply chain orchestration. Practitioners
+building internal agents should study Amazon's patterns because they often become de facto standards
+for production reliability at scale. Indonesia AI also launched a unified AI agent platform for
+marketing, content creation and digital growth. It orchestrates multiple specialized agents for end-to-end
+marketing, content pipelines, and growth campaigns. The unified design reduces hand-off friction that
+is common in multi-agent setups built with land graph or crew AI. Marketing teams can deploy it
+today for coordinated campaigns that previously required stitching separate tools together.
+In the practical and community space, a developer stumbled on a Gemma 4 chat template bug for
+tools and actually fixed it. The bug was silently dropping critical JSON schema information,
+including any of ref deaths and nullable types when rendering tool definitions. That broke
+function calling on multiple inference engines. The updated ginger template now correctly
+preserves complex schemas. A pull request is open on the official Gemma 431B instruction tuned repo
+and a pastebin version is available. If you run Gemma 4 as an agent or tool-calling model,
+apply this fix immediately because it restores performance to match twin 2.5 and GPT-derived models.
+The local LLAMA community also saw preliminary GGUF quants for mymov 2.5.
+Asadai released them along with elama.cpp pull request, including mixture of experts optimize variants.
+They use Q80 and Q6K on most layers with heavier quantization on feed-forward networks.
+The annoying Q4KM, not a number bug, on layer 47 has been fixed. Community quantizers are
+expected to follow quickly. This is currently the fastest way for local inference users to test the
+latest mymo release before official merges. And for pure delight, someone shared a tiny local
+language model that autonomously wrote and then played a simple grid-based game it created itself.
+It reached a perfect score of 10 on a dynamically changing board after a score 5 pivot.
+The demo serves as a vivid counter to stochastic parrot critiques. It shows genuine creative loops
+even in quantized models under 3 billion parameters. It is easy to replicate on consumer hardware
+and worth running yourself to see the emergent behavior. Okay, let's pop the hood on this test
+time distillation approach for semantic exploration because it is genuinely clever engineering.
+Everyone talks about exploratory decoding or test time scaling as if you just sample more tokens
+and magically get diversity. In practice, it is a carefully engineered dance between a frozen,
+large language model and a lightweight online distiller that watches the model's own hidden states.
+The core insight is simple. Neural networks are more confident, meaning lower error on patterns
+they have seen before. By training a tiny auxiliary network at inference time to predict deep layer
+representations from shallow ones, you get a live novelty detector. High prediction error flags
+that the current generation path is semantically new. You then upweight those token candidates in
+the next decoding step. The asynchronous train inference pipeline keeps overhead under 5% and
+down to 1.2% in optimized builds. It achieves this because the distiller is deliberately shallow and
+updates continuously on the current context only. Tradeoffs are real. You trade a small,
+constant compute cost for dramatically better, passive K efficiency on reasoning benchmarks.
+The quality gain is largest on models under roughly 70 billion parameters. Beyond that,
+the base models own representations are already so rich that the distiller adds diminishing returns.
+It also shines on creative writing where standard temperature sampling collapses into repetitive tropes.
+So when should you actually reach for this versus the alternative? Use it when you need maximum
+semantic coverage with a fixed inference budget like math competitions, scientific hypothesis
+generation, or long form creative tasks. Skip it for simple classification or chat where surface
+diversity is enough. The biggest gotcha is forgetting to warm up the distiller for the first 50 to 100 tokens.
+Start with a short exploration priming phase or you will bias toward the model's strongest
+priors instead of true novelty. If you have not tried the new deep seek vision model yet,
+this week is a great time to run it on document plus image agent tasks.
+The unified architecture often cuts round trips compared to separate vision and text models.
+Apply the fixed gemma for ginger template from the local LLAMA pull request to your tool calling setup.
+You will immediately regain performance on complex JSON schemas that broke for weeks.
+Test exploratory sampling from the test time large language model repo on your favorite
+reasoning model. The less than 2% overhead is low enough to run on every production query.
+Find tune whisper with the elderly speech augmentation pipeline on your own senior user recordings.
+The 58% word error rate drop makes voice products for aging populations suddenly viable.
+Finally, evaluate your current agent on the new GAV2LILT multilingual split instead of translated
+GAIA. You will get a far more honest picture of real world non-English performance.
+On the horizon, full GGUF ecosystem support and official deep seek vision benchmarks are expected
+within days. More enterprise agent platforms for hiring supply chain and marketing are moving from
+announcement to public beta in May. Follow up papers on fructive policy optimization and dynamic
+decision learning are likely to appear with open code soon. There is also increased focus on failure
+aware meta agents as production teams discover that error recovery is now the dominant engineering
+surface. Before we go, keep an eye on those full deep seek vision benchmarks dropping any day now.
+That's models and agents for today. If you found this useful, share it with someone who's trying
+to keep up with all these changes and subscribe so you don't miss tomorrow's update. The AI world
+moves fast. We'll help you keep up. See you tomorrow. This podcast is curated by Patrick,
+but generated using AI voice synthesis of my voice using 11 labs. The primary reason to do this is
+I unfortunately don't have the time to be consistent with generating all the content and wanted to focus
+on creating consistent and regular episodes for all the themes that I enjoy and I hope others do as well.
