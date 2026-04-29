@@ -66,6 +66,29 @@ web_search_queries:
   - "AI agent framework news"
   - "OpenAI Anthropic Google AI news"
 
+x_accounts:
+  - handle: sama
+    label: Sam Altman (OpenAI)
+    max_posts: 4
+  - handle: karpathy
+    label: Andrej Karpathy
+    max_posts: 4
+  - handle: AnthropicAI
+    label: Anthropic
+    max_posts: 4
+  - handle: OpenAI
+    label: OpenAI
+    max_posts: 4
+  - handle: DarioAmodei
+    label: Dario Amodei (Anthropic)
+    max_posts: 3
+  - handle: demishassabis
+    label: Demis Hassabis (DeepMind)
+    max_posts: 3
+  - handle: simonw
+    label: Simon Willison (AI builder)
+    max_posts: 3
+
 min_articles_skip: 4
 
 keywords:

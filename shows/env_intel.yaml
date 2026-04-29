@@ -78,6 +78,26 @@ web_search_queries:
   - "environmental science breakthrough"
   - "clean energy news Canada"
 
+x_accounts:
+  - handle: environmentca
+    label: Environment and Climate Change Canada
+    max_posts: 4
+  - handle: TheNarwhalCA
+    label: The Narwhal (Canadian env journalism)
+    max_posts: 4
+  - handle: TheTyee
+    label: The Tyee (BC investigative)
+    max_posts: 3
+  - handle: DavidSuzukiFDN
+    label: David Suzuki Foundation
+    max_posts: 3
+  - handle: PembinaInst
+    label: Pembina Institute (energy/climate)
+    max_posts: 3
+  - handle: BCGovNews
+    label: BC Government News
+    max_posts: 3
+
 keywords:
   - contaminated sites
   - remediation
