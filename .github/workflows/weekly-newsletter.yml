@@ -48,6 +48,17 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Backfill Content Lake from committed digests
+        # The Content Lake DB (data/content_lake.db) is in .gitignore,
+        # so every fresh checkout starts with zero episodes — including
+        # this scheduled runner. The daily run_show.py pipeline writes
+        # to the DB but that copy is discarded when the runner shuts
+        # down. Rebuilding from the committed digests/<slug>/*.md
+        # files is fast (~5 s) and gives the synthesizer the past
+        # week of episodes it needs. Without this step, every show
+        # reported "Only 0 episodes for <show> week of …, skipping".
+        run: python scripts/backfill_content_lake.py
+
       - name: Run weekly newsletters
         env:
           GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
