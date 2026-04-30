@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-30T09:55:37.934947+00:00",
+  "generated_at": "2026-04-30T10:40:43.459424+00:00",
   "network": {
     "landmines_counts": {
       "ok": 8,
@@ -8,8 +8,8 @@
     },
     "shows_count": 10,
     "stale_shows": 0,
-    "total_cost_last_7_days_usd": 70.5678,
-    "total_cost_last_30_days_usd": 305.7221,
+    "total_cost_last_7_days_usd": 72.0921,
+    "total_cost_last_30_days_usd": 307.2465,
     "shows": [
       {
         "slug": "env_intel",
@@ -174,11 +174,11 @@
         "blog_page": "blog/tesla/index.html",
         "newsletter_enabled": true,
         "x_enabled": true,
-        "latest_pub_date": "2026-04-29T08:00:00+00:00",
+        "latest_pub_date": "2026-04-30T08:00:00+00:00",
         "pub_status": "ok",
-        "cost_last_7_days_usd": 14.7211,
-        "episodes_last_7_days": 10,
-        "p50_pipeline_s": 234.73,
+        "cost_last_7_days_usd": 16.2455,
+        "episodes_last_7_days": 11,
+        "p50_pipeline_s": 237.1,
         "success_rate": 1.0
       }
     ]
@@ -290,10 +290,10 @@
       "id": "item_1_repo_size",
       "title": "Repo & R2 size",
       "status": "ok",
-      "details": "5 MP3s tracked in git, digests/ is 232 MB.",
+      "details": "5 MP3s tracked in git, digests/ is 276 MB.",
       "evidence": {
         "tracked_mp3_count": 5,
-        "digests_mb": 232.3
+        "digests_mb": 276.1
       }
     },
     {
@@ -1594,22 +1594,18 @@
       },
       "tesla": {
         "last_7_days": {
-          "grok": 1.0363,
-          "tts": 13.6848,
-          "total": 14.7211,
-          "episodes": 10
+          "grok": 1.1288,
+          "tts": 15.1167,
+          "total": 16.2455,
+          "episodes": 11
         },
         "last_30_days": {
-          "grok": 3.5492,
-          "tts": 69.5994,
-          "total": 73.1486,
-          "episodes": 36
+          "grok": 3.6417,
+          "tts": 71.0313,
+          "total": 74.673,
+          "episodes": 37
         },
         "daily_series": [
-          [
-            "2026-03-31",
-            6.717
-          ],
           [
             "2026-04-01",
             5.3732
@@ -1725,21 +1721,25 @@
           [
             "2026-04-29",
             1.2137
+          ],
+          [
+            "2026-04-30",
+            1.5244
           ]
         ]
       }
     },
     "network_last_7_days": {
-      "grok": 3.5347,
-      "tts": 67.0331,
-      "total": 70.5678,
-      "episodes": 47
+      "grok": 3.6272,
+      "tts": 68.465,
+      "total": 72.0921,
+      "episodes": 48
     },
     "network_last_30_days": {
-      "grok": 11.7487,
-      "tts": 293.9735,
-      "total": 305.7221,
-      "episodes": 163
+      "grok": 11.8411,
+      "tts": 295.4053,
+      "total": 307.2465,
+      "episodes": 164
     }
   },
   "pipeline_health": {
@@ -2310,21 +2310,16 @@
     },
     "tesla": {
       "sample_size": 30,
-      "p50_duration_s": 234.73,
+      "p50_duration_s": 237.1,
       "p95_duration_s": 598.51,
       "success_rate": 1.0,
       "stage_mean_s": {
-        "fetch_and_dedup": 34.0,
-        "generate_digest": 123.47,
-        "generate_digest_retry": 49.65,
-        "generate_digest_slow_news": 120.54
+        "fetch_and_dedup": 33.16,
+        "generate_digest": 130.96,
+        "generate_digest_slow_news": 123.58,
+        "generate_digest_retry": 52.14
       },
       "recent": [
-        {
-          "episode_num": 445,
-          "total_duration_s": 234.73,
-          "success": true
-        },
         {
           "episode_num": 446,
           "total_duration_s": 274.07,
@@ -2368,6 +2363,11 @@
         {
           "episode_num": 454,
           "total_duration_s": 491.88,
+          "success": true
+        },
+        {
+          "episode_num": 455,
+          "total_duration_s": 444.71,
           "success": true
         }
       ]
@@ -2625,9 +2625,16 @@
       },
       {
         "file": "podcast.rss",
-        "entry_count": 107,
-        "latest_pub_date": "2026-04-29T08:00:00+00:00",
+        "entry_count": 108,
+        "latest_pub_date": "2026-04-30T08:00:00+00:00",
         "latest_enclosures": [
+          {
+            "url": "https://op3.dev/e/audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep455_20260430.mp3",
+            "host": "op3.dev",
+            "pub_date": "2026-04-30T08:00:00+00:00",
+            "http_status": 200,
+            "reachable": true
+          },
           {
             "url": "https://op3.dev/e/audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep454_20260429.mp3",
             "host": "op3.dev",
@@ -2639,13 +2646,6 @@
             "url": "https://op3.dev/e/audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep453_20260428.mp3",
             "host": "op3.dev",
             "pub_date": "2026-04-28T08:00:00+00:00",
-            "http_status": 200,
-            "reachable": true
-          },
-          {
-            "url": "https://op3.dev/e/audio.nerranetwork.com/tesla/Tesla_Shorts_Time_Pod_Ep450_20260427.mp3",
-            "host": "op3.dev",
-            "pub_date": "2026-04-27T08:00:00+00:00",
             "http_status": 200,
             "reachable": true
           }
