@@ -164,3 +164,46 @@ class TestUploadEpisode:
             url = upload_episode(mp3, config)
 
         assert url == "https://audio.example.com/tesla/ep.mp3"
+
+
+# ---------------------------------------------------------------------------
+# Hardened error semantics added during P0/P1 cleanup
+# ---------------------------------------------------------------------------
+
+def test_upload_episode_returns_none_on_boto_exception(monkeypatch, tmp_path):
+    """upload_episode() should swallow boto3 / network exceptions and
+    return None, so run_show.py's "if r2_audio_url is None" branch
+    fires correctly instead of getting an uncaught exception."""
+    from types import SimpleNamespace
+
+    from engine import storage
+
+    f = tmp_path / "episode.mp3"
+    f.write_bytes(b"\x00" * 16)
+
+    # Provide a config whose env vars resolve to non-empty strings so
+    # we get past the credential-skip path.
+    monkeypatch.setenv("R2_ENDPOINT_URL", "https://r2.example.com")
+    monkeypatch.setenv("R2_ACCESS_KEY_ID", "ak")
+    monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "sk")
+
+    cfg = SimpleNamespace(
+        slug="testshow",
+        storage=SimpleNamespace(
+            provider="r2",
+            bucket="podcast-audio",
+            endpoint_env="R2_ENDPOINT_URL",
+            access_key_env="R2_ACCESS_KEY_ID",
+            secret_key_env="R2_SECRET_ACCESS_KEY",
+            public_base_url="https://audio.example.com",
+        ),
+    )
+
+    def _boom(*args, **kwargs):
+        # Mimic a botocore.exceptions.ClientError surface — any
+        # non-trivial exception class works.
+        raise RuntimeError("boto3: credentials are bad")
+
+    monkeypatch.setattr(storage, "upload_to_r2", _boom)
+    result = storage.upload_episode(f, cfg)
+    assert result is None

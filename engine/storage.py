@@ -94,7 +94,10 @@ def upload_episode(
 
     Reads R2 credentials from environment variables named in the config.
     Returns the public URL on success, or ``None`` if storage is not
-    configured or credentials are missing.
+    configured, credentials are missing, **or the upload failed for any
+    reason** (timeouts, bad credentials, network errors, etc.).
+    Failures are logged with the boto3 exception class so the operator
+    can tell a credential issue from a transient network blip.
 
     Parameters
     ----------
@@ -117,12 +120,25 @@ def upload_episode(
 
     remote_key = f"{config.slug}/{local_path.name}"
 
-    return upload_to_r2(
-        local_path,
-        remote_key,
-        bucket=storage.bucket,
-        endpoint_url=endpoint,
-        access_key=access_key,
-        secret_key=secret_key,
-        public_base_url=storage.public_base_url,
-    )
+    try:
+        return upload_to_r2(
+            local_path,
+            remote_key,
+            bucket=storage.bucket,
+            endpoint_url=endpoint,
+            access_key=access_key,
+            secret_key=secret_key,
+            public_base_url=storage.public_base_url,
+        )
+    except Exception as exc:  # noqa: BLE001 — we want every failure mode
+        # boto3 surfaces these via botocore.exceptions; importing them
+        # eagerly would force a hard dependency at module-import time
+        # even when storage isn't configured. Catching the broad class
+        # and logging the type name keeps the behavior contract simple
+        # ("returns None on any failure") while preserving diagnostic
+        # detail for the operator.
+        logger.error(
+            "R2 upload failed (%s): %s",
+            type(exc).__name__, exc,
+        )
+        return None

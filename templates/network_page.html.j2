@@ -452,11 +452,25 @@
             </div>
             <form action="https://buttondown.com/api/emails/embed-subscribe/patricknovak1" method="post" target="popupwindow"
                   class="nn-subscribe-form" style="max-width:none;"
-                  onsubmit="var btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Subscribing…';setTimeout(function(){btn.textContent='Check your email ✓';},500);">
-                <p style="font-family:var(--font-ui);font-size:0.85rem;color:var(--nn-text-muted);margin-bottom:var(--sp-3);">Pick the shows you want in your weekly digest:</p>
+                  onsubmit="
+                    var boxes = this.querySelectorAll('input[name=tag]:checked');
+                    if (boxes.length === 0) {
+                      alert('Please pick at least one show to subscribe to.');
+                      return false;
+                    }
+                    var btn=this.querySelector('button[type=submit]');
+                    btn.disabled=true;btn.textContent='Subscribing…';
+                    setTimeout(function(){btn.textContent='Check your email ✓';},500);
+                  ">
+                <p style="font-family:var(--font-ui);font-size:0.85rem;color:var(--nn-text-muted);margin-bottom:var(--sp-3);">
+                    Pick the shows you want — everything's selected by default. Uncheck any you'd rather skip.
+                    <a href="#" onclick="event.preventDefault();this.closest('form').querySelectorAll('input[name=tag]').forEach(function(b){b.checked=false;});return false;" style="color:var(--nn-text-muted);font-size:0.8rem;">Clear all</a>
+                    ·
+                    <a href="#" onclick="event.preventDefault();this.closest('form').querySelectorAll('input[name=tag]').forEach(function(b){b.checked=true;});return false;" style="color:var(--nn-text-muted);font-size:0.8rem;">Select all</a>
+                </p>
                 <div class="nn-subscribe-tags" style="margin-bottom:var(--sp-4);">
                     {% for s in all_shows %}
-                    <label><input type="checkbox" name="tag" value="{{ s.name }}"> {{ s.name }}</label>
+                    <label><input type="checkbox" name="tag" value="{{ s.name }}" checked> {{ s.name }}</label>
                     {% endfor %}
                 </div>
                 <div class="nn-subscribe-row">

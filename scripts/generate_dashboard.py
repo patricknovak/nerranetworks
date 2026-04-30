@@ -438,6 +438,53 @@ def item_12_summaries_location(shows: List[Dict[str, Any]]) -> Dict[str, Any]:
     )
 
 
+def item_13_youtube_health(shows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Every YouTube-enabled show has a non-empty podcast_playlist_id.
+
+    Without a playlist ID, episodes upload but never appear in YouTube
+    Music's Podcasts section for that show — silent reach loss.
+    """
+    enabled = []
+    missing = []
+    for s in shows:
+        cfg = s.get("cfg")
+        if not cfg:
+            continue
+        yt = getattr(cfg, "youtube", None)
+        if not yt or not getattr(yt, "enabled", False):
+            continue
+        slug = s["slug"]
+        enabled.append(slug)
+        playlist = (getattr(yt, "podcast_playlist_id", "") or "").strip()
+        if not playlist:
+            missing.append(slug)
+
+    if not enabled:
+        return _mk(
+            "item_13_youtube_health",
+            "YouTube-enabled shows have podcast playlists",
+            "ok",
+            "No shows have youtube.enabled — nothing to validate.",
+        )
+    if missing:
+        return _mk(
+            "item_13_youtube_health",
+            "YouTube-enabled shows have podcast playlists",
+            "fail",
+            f"{len(missing)} of {len(enabled)} YouTube-enabled "
+            f"show(s) missing podcast_playlist_id: "
+            f"{', '.join(missing)}.",
+            {"missing": missing, "enabled": enabled},
+        )
+    return _mk(
+        "item_13_youtube_health",
+        "YouTube-enabled shows have podcast playlists",
+        "ok",
+        f"All {len(enabled)} YouTube-enabled show(s) have a podcast "
+        f"playlist ID configured.",
+    )
+
+
 # ---------------------------------------------------------------------------
 # Item 2 — RSS integrity + R2 / LFS audit
 # ---------------------------------------------------------------------------
@@ -731,6 +778,15 @@ def aggregate_metrics(root: Path, shows: List[Dict[str, Any]]) -> Dict[str, Any]
         successes = 0
         stage_times: Dict[str, List[float]] = {}
         recent_samples = []
+        # YouTube publishing health: count how many of the last 30
+        # episodes successfully uploaded long-form / shorts. Episodes
+        # where the show was YouTube-disabled are excluded from the
+        # denominator so we don't dilute the success rate.
+        yt_long_attempts = 0
+        yt_long_uploaded = 0
+        yt_short_attempts = 0
+        yt_short_uploaded = 0
+        yt_enabled_recent = False
         for f in last30:
             try:
                 data = json.loads(f.read_text(encoding="utf-8"))
@@ -745,10 +801,21 @@ def aggregate_metrics(root: Path, shows: List[Dict[str, Any]]) -> Dict[str, Any]
             for st in stages:
                 name = st.get("name") or "unknown"
                 stage_times.setdefault(name, []).append(float(st.get("duration_s") or 0.0))
+            counters = data.get("counters") or {}
+            if counters.get("youtube_enabled"):
+                yt_enabled_recent = True
+                yt_long_attempts += 1
+                yt_short_attempts += 1
+                if counters.get("youtube_long_form_uploaded"):
+                    yt_long_uploaded += 1
+                if counters.get("youtube_short_uploaded"):
+                    yt_short_uploaded += 1
             recent_samples.append({
                 "episode_num": data.get("episode_num"),
                 "total_duration_s": total,
                 "success": ep_success,
+                "youtube_long_url": bool(counters.get("youtube_long_form_uploaded")),
+                "youtube_short_url": bool(counters.get("youtube_short_uploaded")),
             })
         stage_means = {
             name: round(sum(vals) / len(vals), 2) if vals else 0.0
@@ -761,6 +828,21 @@ def aggregate_metrics(root: Path, shows: List[Dict[str, Any]]) -> Dict[str, Any]
             "success_rate": round(successes / len(totals), 3) if totals else 0.0,
             "stage_mean_s": stage_means,
             "recent": recent_samples[-10:],
+            "youtube": {
+                "enabled_in_recent": yt_enabled_recent,
+                "long_form_attempts": yt_long_attempts,
+                "long_form_uploaded": yt_long_uploaded,
+                "long_form_success_rate": (
+                    round(yt_long_uploaded / yt_long_attempts, 3)
+                    if yt_long_attempts else 0.0
+                ),
+                "shorts_attempts": yt_short_attempts,
+                "shorts_uploaded": yt_short_uploaded,
+                "shorts_success_rate": (
+                    round(yt_short_uploaded / yt_short_attempts, 3)
+                    if yt_short_attempts else 0.0
+                ),
+            },
         }
     return per_show
 
@@ -1092,6 +1174,7 @@ def build_dashboard(root: Path, *, offline: bool = False, previous_flat: Optiona
         item_9_voice_settings(voice),
         item_11_tts_provider(shows),
         item_12_summaries_location(shows),
+        item_13_youtube_health(shows),
     ]
 
     metrics = aggregate_metrics(root, shows)

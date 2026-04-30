@@ -250,6 +250,39 @@ def _preflight_checks(config, *, dry_run: bool = False) -> None:
             if env_name and not os.environ.get(env_name):
                 logger.warning("R2 env var %s (%s) is empty — upload may fail", env_name, env_attr)
 
+    # YouTube preflight — when publishing is enabled, surface common
+    # misconfigurations as warnings (not fatal — YouTube is non-blocking
+    # for the rest of the pipeline).
+    yt_cfg = getattr(config, "youtube", None)
+    if yt_cfg and getattr(yt_cfg, "enabled", False):
+        playlist_id = (
+            getattr(yt_cfg, "podcast_playlist_id", "") or ""
+        ).strip()
+        if not playlist_id:
+            logger.warning(
+                "YouTube enabled for %s but youtube.podcast_playlist_id "
+                "is empty — episodes won't appear in the show's "
+                "Podcast playlist on YouTube Music. Set the PL... ID "
+                "in shows/%s.yaml after creating the playlist in Studio.",
+                config.slug, config.slug,
+            )
+        privacy = (getattr(yt_cfg, "privacy_status", "public") or "").strip()
+        if privacy not in ("public", "unlisted", "private"):
+            issues.append(
+                f"youtube.privacy_status={privacy!r} is invalid — "
+                "must be public, unlisted, or private."
+            )
+
+    # Newsletter preflight — when enabled, validate the status enum
+    # before we hit Buttondown with a guaranteed-400 request.
+    if config.newsletter.enabled:
+        nl_status = (getattr(config.newsletter, "status", "") or "").strip()
+        if nl_status and nl_status not in {"about_to_send", "draft", "scheduled"}:
+            issues.append(
+                f"newsletter.status={nl_status!r} is invalid — "
+                "must be about_to_send, draft, or scheduled."
+            )
+
     # Cost circuit breaker: skip episode if 7-day spend exceeds the show's
     # max_weekly_cost_usd (reads the previously committed dashboard JSON).
     max_cost = getattr(config, "max_weekly_cost_usd", 0.0) or 0.0
@@ -1713,14 +1746,22 @@ def run(args: argparse.Namespace) -> None:
         extra_context["youtube_url"] = youtube_long_url
     if youtube_short_url:
         extra_context["youtube_short_url"] = youtube_short_url
-    if youtube_urls:
-        try:
-            metrics.record(
-                "youtube_publish_duration_s",
-                round(time.monotonic() - _t_yt, 2),
-            )
-        except Exception:
-            pass
+    # Record YouTube publishing outcomes so the dashboard can graph
+    # upload success rate per show. We always record these (even on
+    # skip/fail) so the dashboard sees zeros instead of missing data.
+    try:
+        metrics.record(
+            "youtube_publish_duration_s",
+            round(time.monotonic() - _t_yt, 2),
+        )
+        metrics.record("youtube_long_form_uploaded", bool(youtube_long_url))
+        metrics.record("youtube_short_uploaded", bool(youtube_short_url))
+        metrics.record(
+            "youtube_enabled",
+            bool(getattr(config.youtube, "enabled", False)),
+        )
+    except Exception:
+        pass
 
     # 11. Update RSS feed
     _t_rss = time.monotonic()
@@ -1870,11 +1911,45 @@ def run(args: argparse.Namespace) -> None:
     if config.newsletter.enabled and not args.skip_newsletter:
         from engine.newsletter import send_show_newsletter
 
-        email_id = send_show_newsletter(x_thread, config, episode_num, today_str, hook=hook)
+        try:
+            email_id = send_show_newsletter(
+                x_thread, config, episode_num, today_str, hook=hook,
+            )
+        except Exception as exc:  # pragma: no cover — defensive
+            email_id = None
+            logger.exception("Newsletter send raised: %s", exc)
+
         if email_id:
             logger.info("Newsletter sent: %s", email_id)
         else:
-            logger.info("Newsletter skipped or failed.")
+            # send_show_newsletter returns None for several distinct
+            # reasons. Help the operator diagnose by surfacing which
+            # one applied on this run.
+            tag = (
+                getattr(config.newsletter, "tag", "") or ""
+            ).strip()
+            api_key_env = getattr(
+                config.newsletter, "api_key_env", "BUTTONDOWN_API_KEY",
+            )
+            if not os.getenv(api_key_env, "").strip():
+                logger.warning(
+                    "Newsletter not sent: %s env var is empty. "
+                    "Add the secret in GitHub Actions to enable "
+                    "newsletters.", api_key_env,
+                )
+            elif tag:
+                logger.warning(
+                    "Newsletter not sent: tag filter %r matched zero "
+                    "Buttondown subscribers, OR Buttondown rejected "
+                    "the send. Check Buttondown subscriber tags + "
+                    "the previous log lines from engine.newsletter.",
+                    tag,
+                )
+            else:
+                logger.warning(
+                    "Newsletter not sent: see preceding "
+                    "engine.newsletter log lines for the API response.",
+                )
 
     # 13. Post to X
     _t_x = time.monotonic()

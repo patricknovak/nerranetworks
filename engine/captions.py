@@ -139,7 +139,16 @@ def transcript_to_srt(transcript_path: Path, srt_path: Path,
         )
 
     # SRT files use \n line breaks but cues are separated by a blank line.
-    srt_path.write_text("\n".join(cues), encoding="utf-8")
+    try:
+        srt_path.write_text("\n".join(cues), encoding="utf-8")
+    except OSError as exc:
+        # Disk full / permission denied / read-only mount — caller
+        # should know and decide whether to skip burned-in captions.
+        logger.error(
+            "Failed to write SRT to %s (%s): %s",
+            srt_path, type(exc).__name__, exc,
+        )
+        raise
     logger.info("Wrote %d caption cues → %s", len(cues), srt_path.name)
     return srt_path
 

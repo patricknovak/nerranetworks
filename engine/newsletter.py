@@ -117,7 +117,15 @@ def _md_inline(text: str) -> str:
 
 
 def validate_api_key(api_key: str) -> bool:
-    """Test if the Buttondown API key is valid by calling GET /v1/emails."""
+    """Test if the Buttondown API key is valid by calling GET /v1/emails.
+
+    Returns ``True`` only on a clean ``200``. ``401``/``403`` mean the
+    key is bad. Other status codes (``429``, ``5xx``, network errors)
+    return ``False`` too — the caller can't safely proceed when
+    Buttondown's reachability is unknown, and the previous behavior
+    (returning ``True`` on any non-401) created false confidence
+    that pre-flight passed when the service was down.
+    """
     try:
         resp = requests.get(
             f"{BUTTONDOWN_API_BASE}/emails",
@@ -125,22 +133,37 @@ def validate_api_key(api_key: str) -> bool:
             timeout=10,
             params={"limit": 1},
         )
-        if resp.status_code == 401:
-            logger.error("Buttondown API key is INVALID or EXPIRED (401 Unauthorized)")
-            return False
-        if resp.status_code == 200:
-            logger.info("Buttondown API key validated successfully")
-            return True
-        logger.warning("Buttondown API key check returned status %d", resp.status_code)
-        return True
     except Exception as e:
         logger.error("Buttondown API key validation failed: %s", e)
         return False
+
+    if resp.status_code == 200:
+        logger.info("Buttondown API key validated successfully")
+        return True
+    if resp.status_code in (401, 403):
+        logger.error(
+            "Buttondown API key is INVALID or EXPIRED (HTTP %d)",
+            resp.status_code,
+        )
+        return False
+    # 429 / 5xx / anything else — we can't confirm the key is good and
+    # we shouldn't claim it is. Surface as a soft failure so the
+    # newsletter stage skips this run cleanly rather than queuing a
+    # send against a potentially-unhealthy Buttondown.
+    logger.warning(
+        "Buttondown API key check returned HTTP %d — treating as "
+        "transient unavailability (validation failed).",
+        resp.status_code,
+    )
+    return False
 
 
 # ---------------------------------------------------------------------------
 # Send
 # ---------------------------------------------------------------------------
+
+
+_VALID_STATUSES = {"about_to_send", "draft", "scheduled"}
 
 
 def send_newsletter(
@@ -175,6 +198,14 @@ def send_newsletter(
     """
     # Strip newlines from subject to prevent email header injection
     subject = subject.replace("\r", "").replace("\n", " ").strip()
+
+    if status not in _VALID_STATUSES:
+        logger.error(
+            "Newsletter status %r is invalid — must be one of %s. "
+            "Refusing to send to avoid wasting an API call on a 400.",
+            status, sorted(_VALID_STATUSES),
+        )
+        return None
 
     data = {
         "subject": subject,

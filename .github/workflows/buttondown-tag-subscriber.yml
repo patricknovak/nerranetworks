@@ -1,0 +1,94 @@
+name: Tag Buttondown Subscriber
+
+# Manual one-off workflow to add (or remove) a Nerra Network subscriber's
+# per-show tags in Buttondown. Necessary because the public website
+# signup form historically didn't tag subscribers per show — newsletters
+# filter by tag, so untagged subscribers receive nothing.
+#
+# Trigger from the Actions UI: pick the show(s), pass an email, run.
+# The actual subscriber CRUD lives in scripts/buttondown_tag_subscriber.py.
+
+on:
+  workflow_dispatch:
+    inputs:
+      email:
+        description: 'Subscriber email address'
+        required: true
+        type: string
+      mode:
+        description: 'What to do'
+        required: true
+        type: choice
+        options:
+          - 'add-all'        # tag for every Nerra Network show
+          - 'add-shows'      # tag for the comma-separated shows in `shows`
+          - 'remove-shows'   # untag for the comma-separated shows in `shows`
+          - 'list'           # print the subscriber's current tags
+        default: 'add-all'
+      shows:
+        description: 'Comma-separated show slugs (used by add-shows / remove-shows)'
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pyyaml
+
+      - name: Apply tag change
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+        run: |
+          set -e
+          MODE='${{ github.event.inputs.mode }}'
+          EMAIL='${{ github.event.inputs.email }}'
+          SHOWS='${{ github.event.inputs.shows }}'
+          ARGS=()
+          case "$MODE" in
+            add-all)
+              ARGS+=(--all)
+              ;;
+            add-shows)
+              if [ -z "$SHOWS" ]; then
+                echo "::error::add-shows requires the 'shows' input"
+                exit 2
+              fi
+              IFS=',' read -ra _slugs <<< "$SHOWS"
+              for s in "${_slugs[@]}"; do
+                ARGS+=(--show "$(echo "$s" | xargs)")
+              done
+              ;;
+            remove-shows)
+              if [ -z "$SHOWS" ]; then
+                echo "::error::remove-shows requires the 'shows' input"
+                exit 2
+              fi
+              IFS=',' read -ra _slugs <<< "$SHOWS"
+              for s in "${_slugs[@]}"; do
+                ARGS+=(--show "$(echo "$s" | xargs)")
+              done
+              ARGS+=(--remove)
+              ;;
+            list)
+              ARGS+=(--list)
+              ;;
+            *)
+              echo "::error::Unknown mode: $MODE"
+              exit 2
+              ;;
+          esac
+          python scripts/buttondown_tag_subscriber.py "$EMAIL" "${ARGS[@]}"
