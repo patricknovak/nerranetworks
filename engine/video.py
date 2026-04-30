@@ -8,8 +8,10 @@ of the same network without per-show artwork:
     (long-form) / ~7 s (Shorts). Slideshow uses
     :mod:`engine.visual_assets`; without ``PEXELS_API_KEY`` we
     silently fall back to the static cover.
-  - **Brand pill**: ``Nerra Network · AI-narrated`` PNG (rendered
-    once with Pillow). Top-left long-form, top-right Shorts.
+  - **Brand pill**: ``Nerra Network`` PNG (rendered once with
+    Pillow). Top-left long-form, top-right Shorts. AI-narration
+    disclosure stays in the description footer + the
+    ``containsSyntheticMedia`` API flag — no on-screen reminder.
   - **First-seconds burn-in**: long-form fades in/out a centered
     AI-disclosure line for the first 4 s. Shorts (with a hook) burn
     the headline for the first 3 s.
@@ -139,11 +141,11 @@ def _wrap_caption(text: str, max_chars_per_line: int = 22,
 # Brand pill PNG
 # ---------------------------------------------------------------------------
 
-_BRAND_PILL_TEXT = "Nerra Network · AI-narrated"
+_BRAND_PILL_TEXT = "Nerra Network"
 
 
 def _make_brand_pill(output_path: Path,
-                     *, width: int = 320, height: int = 60) -> Path:
+                     *, width: int = 220, height: int = 60) -> Path:
     """Render the network brand pill as an RGBA PNG. Idempotent."""
     if output_path.exists():
         return output_path
@@ -545,7 +547,11 @@ def build_long_form_video(
         raise FileNotFoundError(f"cover not found: {cover_path}")
 
     work_dir = output_path.parent
-    brand_path = work_dir / "_brand_pill.png"
+    # Bumped filename when the pill text changed (was
+    # "Nerra Network · AI-narrated", now "Nerra Network"). The new
+    # filename forces regeneration even on persistent work dirs that
+    # still hold an old cached pill.
+    brand_path = work_dir / "_brand_pill_v2.png"
     _make_brand_pill(brand_path)
 
     bg_path: Path = cover_path
@@ -613,7 +619,11 @@ def build_short_video(audio_path: Path, cover_path: Path,
         raise FileNotFoundError(f"cover not found: {cover_path}")
 
     work_dir = output_path.parent
-    brand_path = work_dir / "_brand_pill.png"
+    # Bumped filename when the pill text changed (was
+    # "Nerra Network · AI-narrated", now "Nerra Network"). The new
+    # filename forces regeneration even on persistent work dirs that
+    # still hold an old cached pill.
+    brand_path = work_dir / "_brand_pill_v2.png"
     _make_brand_pill(brand_path)
 
     bg_path: Path = cover_path

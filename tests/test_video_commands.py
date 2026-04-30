@@ -75,9 +75,9 @@ def test_long_form_filter_graph_drops_visual_distractions():
     """The earlier showcqt spectrum band, drawbox tint, and centered
     AI-disclosure burn-in were removed in favour of clean visuals.
     Compliance is now covered by the API ``containsSyntheticMedia``
-    flag + description disclosure + the small brand pill that
-    already says "AI-narrated". Pin the absence of the dropped
-    pieces so a future refactor doesn't quietly re-introduce them."""
+    flag + description disclosure footer (no on-screen AI-narration
+    reminder). Pin the absence of the dropped pieces so a future
+    refactor doesn't quietly re-introduce them."""
     graph = _long_form_filter_graph()
     assert "showcqt" not in graph
     assert "showwaves" not in graph
@@ -250,7 +250,7 @@ def test_short_form_accepts_under_60s(tmp_path, monkeypatch):
     assert captured["cmd"][0] == "ffmpeg"
     assert "55.00" in captured["cmd"]
     # Brand pill PNG should have been generated alongside the output.
-    brand_pill = out.parent / "_brand_pill.png"
+    brand_pill = out.parent / "_brand_pill_v2.png"
     assert brand_pill.exists()
 
 
@@ -312,7 +312,7 @@ def test_build_long_form_video_generates_brand_pill(tmp_path, monkeypatch):
     monkeypatch.setattr("engine.video.subprocess.run",
                         lambda cmd, **kwargs: type("R", (), {"returncode": 0})())
     build_long_form_video(audio, cover, out)
-    assert (out.parent / "_brand_pill.png").exists()
+    assert (out.parent / "_brand_pill_v2.png").exists()
 
 
 # ---------------------------------------------------------------------------
@@ -697,3 +697,17 @@ def test_build_short_video_renders_vertical_slideshow_for_multi_scene(tmp_path,
     assert "s=1080x1920" in stage1_graph or "1080:1920" in stage1_graph
     # Stage 2 uses -stream_loop on the slideshow MP4.
     assert "-stream_loop" in captured_cmds[1]
+
+
+# ---------------------------------------------------------------------------
+# Brand pill text — should NOT mention AI-narration on screen
+# ---------------------------------------------------------------------------
+
+def test_brand_pill_text_omits_ai_narrated_marker():
+    """The on-screen brand pill should be just "Nerra Network" — the
+    AI-narration disclosure lives in the description footer + the
+    YouTube containsSyntheticMedia API flag, not on the video."""
+    from engine.video import _BRAND_PILL_TEXT
+    assert "AI-narrated" not in _BRAND_PILL_TEXT
+    assert "AI narrated" not in _BRAND_PILL_TEXT
+    assert _BRAND_PILL_TEXT == "Nerra Network"
