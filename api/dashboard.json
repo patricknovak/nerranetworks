@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-30T10:40:43.459424+00:00",
+  "generated_at": "2026-04-30T18:56:46.311227+00:00",
   "network": {
     "landmines_counts": {
-      "ok": 8,
+      "ok": 9,
       "warn": 2,
       "fail": 0
     },
@@ -437,6 +437,13 @@
       "title": "summaries_*.json live under digests/<slug>/",
       "status": "ok",
       "details": "All summaries JSONs live under their per-show subdirectory.",
+      "evidence": {}
+    },
+    {
+      "id": "item_13_youtube_health",
+      "title": "YouTube-enabled shows have podcast playlists",
+      "status": "ok",
+      "details": "All 3 YouTube-enabled show(s) have a podcast playlist ID configured.",
       "evidence": {}
     }
   ],
@@ -1757,54 +1764,83 @@
         {
           "episode_num": 20,
           "total_duration_s": 21.92,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 21,
           "total_duration_s": 25.0,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 22,
           "total_duration_s": 27.25,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 23,
           "total_duration_s": 39.73,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 24,
           "total_duration_s": 37.3,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 25,
           "total_duration_s": 13.69,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 26,
           "total_duration_s": 30.79,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 27,
           "total_duration_s": 37.32,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 28,
           "total_duration_s": 57.59,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 29,
           "total_duration_s": 78.33,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         }
-      ]
+      ],
+      "youtube": {
+        "enabled_in_recent": false,
+        "long_form_attempts": 0,
+        "long_form_uploaded": 0,
+        "long_form_success_rate": 0.0,
+        "shorts_attempts": 0,
+        "shorts_uploaded": 0,
+        "shorts_success_rate": 0.0
+      }
     },
     "fascinating_frontiers": {
       "sample_size": 21,
@@ -1820,54 +1856,83 @@
         {
           "episode_num": 51,
           "total_duration_s": 100.18,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 52,
           "total_duration_s": 48.73,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 53,
           "total_duration_s": 87.33,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 54,
           "total_duration_s": 19.33,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 55,
           "total_duration_s": 38.0,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 56,
           "total_duration_s": 73.41,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 57,
           "total_duration_s": 262.62,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 58,
           "total_duration_s": 54.77,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 59,
           "total_duration_s": 141.47,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 60,
           "total_duration_s": 103.03,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         }
-      ]
+      ],
+      "youtube": {
+        "enabled_in_recent": false,
+        "long_form_attempts": 0,
+        "long_form_uploaded": 0,
+        "long_form_success_rate": 0.0,
+        "shorts_attempts": 0,
+        "shorts_uploaded": 0,
+        "shorts_success_rate": 0.0
+      }
     },
     "finansy_prosto": {
       "sample_size": 22,
@@ -1884,54 +1949,83 @@
         {
           "episode_num": 20,
           "total_duration_s": 38.62,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 21,
           "total_duration_s": 54.75,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 22,
           "total_duration_s": 66.07,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 23,
           "total_duration_s": 51.89,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 24,
           "total_duration_s": 54.29,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 25,
           "total_duration_s": 83.52,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 26,
           "total_duration_s": 43.55,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 27,
           "total_duration_s": 43.13,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 28,
           "total_duration_s": 97.68,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 29,
           "total_duration_s": 37.84,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         }
-      ]
+      ],
+      "youtube": {
+        "enabled_in_recent": false,
+        "long_form_attempts": 0,
+        "long_form_uploaded": 0,
+        "long_form_success_rate": 0.0,
+        "shorts_attempts": 0,
+        "shorts_uploaded": 0,
+        "shorts_success_rate": 0.0
+      }
     },
     "models_agents": {
       "sample_size": 21,
@@ -1946,54 +2040,83 @@
         {
           "episode_num": 28,
           "total_duration_s": 71.18,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 29,
           "total_duration_s": 37.84,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 30,
           "total_duration_s": 37.04,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 31,
           "total_duration_s": 55.21,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 32,
           "total_duration_s": 68.34,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 33,
           "total_duration_s": 76.44,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 34,
           "total_duration_s": 49.72,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 35,
           "total_duration_s": 69.4,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 36,
           "total_duration_s": 73.51,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 37,
           "total_duration_s": 64.72,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         }
-      ]
+      ],
+      "youtube": {
+        "enabled_in_recent": false,
+        "long_form_attempts": 0,
+        "long_form_uploaded": 0,
+        "long_form_success_rate": 0.0,
+        "shorts_attempts": 0,
+        "shorts_uploaded": 0,
+        "shorts_success_rate": 0.0
+      }
     },
     "models_agents_beginners": {
       "sample_size": 19,
@@ -2008,54 +2131,83 @@
         {
           "episode_num": 17,
           "total_duration_s": 31.29,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 18,
           "total_duration_s": 18.14,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 19,
           "total_duration_s": 16.81,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 20,
           "total_duration_s": 15.86,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 21,
           "total_duration_s": 36.27,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 22,
           "total_duration_s": 17.42,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 23,
           "total_duration_s": 54.29,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 24,
           "total_duration_s": 25.67,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 25,
           "total_duration_s": 60.46,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 26,
           "total_duration_s": 31.92,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         }
-      ]
+      ],
+      "youtube": {
+        "enabled_in_recent": false,
+        "long_form_attempts": 0,
+        "long_form_uploaded": 0,
+        "long_form_success_rate": 0.0,
+        "shorts_attempts": 0,
+        "shorts_uploaded": 0,
+        "shorts_success_rate": 0.0
+      }
     },
     "modern_investing": {
       "sample_size": 30,
@@ -2071,54 +2223,83 @@
         {
           "episode_num": 22,
           "total_duration_s": 196.47,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 23,
           "total_duration_s": 152.39,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 24,
           "total_duration_s": 204.57,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 25,
           "total_duration_s": 188.22,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 26,
           "total_duration_s": 204.78,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 27,
           "total_duration_s": 409.81,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 28,
           "total_duration_s": 320.39,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 29,
           "total_duration_s": 227.96,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 30,
           "total_duration_s": 157.02,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 31,
           "total_duration_s": 247.37,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         }
-      ]
+      ],
+      "youtube": {
+        "enabled_in_recent": false,
+        "long_form_attempts": 0,
+        "long_form_uploaded": 0,
+        "long_form_success_rate": 0.0,
+        "shorts_attempts": 0,
+        "shorts_uploaded": 0,
+        "shorts_success_rate": 0.0
+      }
     },
     "omni_view": {
       "sample_size": 23,
@@ -2134,54 +2315,83 @@
         {
           "episode_num": 30,
           "total_duration_s": 247.15,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 31,
           "total_duration_s": 179.5,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 32,
           "total_duration_s": 202.3,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 33,
           "total_duration_s": 251.18,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 34,
           "total_duration_s": 168.09,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 35,
           "total_duration_s": 222.22,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 36,
           "total_duration_s": 244.95,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 37,
           "total_duration_s": 464.12,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 38,
           "total_duration_s": 212.68,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 39,
           "total_duration_s": 385.26,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         }
-      ]
+      ],
+      "youtube": {
+        "enabled_in_recent": false,
+        "long_form_attempts": 0,
+        "long_form_uploaded": 0,
+        "long_form_success_rate": 0.0,
+        "shorts_attempts": 0,
+        "shorts_uploaded": 0,
+        "shorts_success_rate": 0.0
+      }
     },
     "planetterrian": {
       "sample_size": 21,
@@ -2197,54 +2407,83 @@
         {
           "episode_num": 43,
           "total_duration_s": 37.25,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 44,
           "total_duration_s": 38.18,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 45,
           "total_duration_s": 57.31,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 46,
           "total_duration_s": 55.89,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 47,
           "total_duration_s": 40.28,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 48,
           "total_duration_s": 55.91,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 49,
           "total_duration_s": 45.38,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 50,
           "total_duration_s": 115.22,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 51,
           "total_duration_s": 71.28,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 52,
           "total_duration_s": 96.41,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         }
-      ]
+      ],
+      "youtube": {
+        "enabled_in_recent": false,
+        "long_form_attempts": 0,
+        "long_form_uploaded": 0,
+        "long_form_success_rate": 0.0,
+        "shorts_attempts": 0,
+        "shorts_uploaded": 0,
+        "shorts_success_rate": 0.0
+      }
     },
     "privet_russian": {
       "sample_size": 15,
@@ -2259,54 +2498,83 @@
         {
           "episode_num": 7,
           "total_duration_s": 30.29,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 8,
           "total_duration_s": 22.64,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 9,
           "total_duration_s": 22.63,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 10,
           "total_duration_s": 26.99,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 11,
           "total_duration_s": 38.79,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 12,
           "total_duration_s": 16.51,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 13,
           "total_duration_s": 30.02,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 14,
           "total_duration_s": 42.46,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 15,
           "total_duration_s": 39.61,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 16,
           "total_duration_s": 28.85,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         }
-      ]
+      ],
+      "youtube": {
+        "enabled_in_recent": false,
+        "long_form_attempts": 0,
+        "long_form_uploaded": 0,
+        "long_form_success_rate": 0.0,
+        "shorts_attempts": 0,
+        "shorts_uploaded": 0,
+        "shorts_success_rate": 0.0
+      }
     },
     "tesla": {
       "sample_size": 30,
@@ -2323,54 +2591,83 @@
         {
           "episode_num": 446,
           "total_duration_s": 274.07,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 447,
           "total_duration_s": 598.51,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 448,
           "total_duration_s": 415.17,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 449,
           "total_duration_s": 318.83,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 450,
           "total_duration_s": 736.13,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 451,
           "total_duration_s": 457.53,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 452,
           "total_duration_s": 411.01,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 453,
           "total_duration_s": 514.42,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 454,
           "total_duration_s": 491.88,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         },
         {
           "episode_num": 455,
           "total_duration_s": 444.71,
-          "success": true
+          "success": true,
+          "youtube_long_url": false,
+          "youtube_short_url": false
         }
-      ]
+      ],
+      "youtube": {
+        "enabled_in_recent": false,
+        "long_form_attempts": 0,
+        "long_form_uploaded": 0,
+        "long_form_success_rate": 0.0,
+        "shorts_attempts": 0,
+        "shorts_uploaded": 0,
+        "shorts_success_rate": 0.0
+      }
     }
   },
   "rss_audit": {
