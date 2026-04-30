@@ -313,9 +313,25 @@ def send_show_newsletter(
     tag = getattr(newsletter, "tag", "") or ""
     tags_list = [tag] if tag else None
 
+    # Wrap the digest with the show's branded hero + footer so the
+    # email looks like a real network newsletter, not a plain text
+    # dump. Daily sends pass the show's name + today's date for the
+    # hero pill.
+    from engine.newsletter_template import wrap_with_branding
+    import datetime as _dt
+    try:
+        _today = _dt.datetime.strptime(today_str, "%Y-%m-%d").date()
+    except (TypeError, ValueError):
+        _today = _dt.date.today()
+    branded_body = wrap_with_branding(
+        getattr(config, "slug", ""), digest_text,
+        daily_label=f"Ep {episode_num}",
+        daily_date=_today,
+    )
+
     return send_newsletter(
         subject=subject,
-        body=digest_text,
+        body=branded_body,
         api_key=api_key,
         status=getattr(newsletter, "status", "about_to_send"),
         tags=tags_list,
