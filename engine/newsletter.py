@@ -216,16 +216,17 @@ def send_newsletter(
     if tags:
         # Buttondown's email-send filters use a tree structure with
         # ``filters`` (leaf conditions), ``groups`` (nested filter
-        # groups), and ``predicate`` ("any"/"all") for the join.
-        # The previous ``{operator, predicates}`` shape now returns
-        # HTTP 422 — they tightened the schema validator.
+        # groups), and ``predicate`` ("and"/"or") for the join.
+        # Older clients sent ``{operator, predicates}`` and got
+        # HTTP 422; the predicate enum is also strict — only "and"
+        # or "or" are accepted (not "any"/"all").
         data["filters"] = {
             "filters": [
                 {"field": "tag", "operator": "equals", "value": t}
                 for t in tags
             ],
             "groups": [],
-            "predicate": "any",  # OR semantics across the listed tags
+            "predicate": "or",  # OR semantics across the listed tags
         }
 
     resp = requests.post(

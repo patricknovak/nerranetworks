@@ -471,7 +471,8 @@ def test_send_newsletter_uses_v2_filter_tree_when_tags_set(monkeypatch):
     filters = captured["payload"]["filters"]
     # The required v2 keys.
     assert set(filters.keys()) == {"filters", "groups", "predicate"}
-    assert filters["predicate"] in {"any", "all"}
+    # Buttondown's predicate enum: "and" or "or" (not "any"/"all").
+    assert filters["predicate"] in {"and", "or"}
     assert filters["groups"] == []
     # Each tag becomes a leaf condition.
     leaf_tags = {f["value"] for f in filters["filters"]}
