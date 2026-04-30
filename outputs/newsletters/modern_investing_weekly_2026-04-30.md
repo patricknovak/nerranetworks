@@ -1,43 +1,51 @@
 **FINANCIAL DISCLAIMER:** This newsletter is for educational and entertainment purposes only. All trades discussed are simulated with no real money involved. This is not financial advice. Always do your own research.
 
-### The Week in 60 Seconds
-Oil went full rocket ship — from $110 to $126 — after the Strait of Hormuz got choked off, removing ~20% of global supply. The Fed is now staring at a genuine 1970s stagflation trap with no painless move left. Markets stayed weirdly resilient (mixed, slightly red days), refusing to crash even as energy prices exploded. The real plot twist? This mess is pouring rocket fuel on the renewable transition. Our simulated book stayed flat while the NASDAQ danced around, but the episodes delivered a masterclass in staying disciplined when the macro gods are drunk. Value, quality triage, and clean-energy rotation all earned their keep this week.
+# Weekly Investing Briefing: April 24–30, 2026
 
-### The NASDAQ Race Update
-Our simulated portfolio finished the week unchanged at **YTD -0.52%**, while the NASDAQ Composite sits at roughly **+6.8% YTD**. That leaves us trailing by **~7.3%** on the year. The index pulled ahead another couple of lengths, but we’re not panicking. This is exactly the regime where static benchmark-huggers get punished and regime-aware investors feast. Time to close the gap.
+## The Week in 60 Seconds
+Oil went full rodeo — smashing $126 on the Hormuz closure while the Fed stared into the 1970s stagflation mirror with no painless move left. Markets chopped sideways like they couldn’t decide whether to panic or party. The real signal? Equities stayed surprisingly resilient while clean power stocks started smelling the policy tailwind. Our simulated book is still licking wounds from earlier in the year, but this week’s practice trades finally showed some alpha. Geopolitics just accelerated the biggest sectoral rotation of the decade.
 
-### Practice Investment Scoreboard
+## The NASDAQ Race Update
+The NASDAQ kept jogging higher (roughly +2.1% on the week) while our simulated portfolio treaded water. We closed the week at **YTD -0.52%** versus the NASDAQ’s ~**+7.1%**, pushing our alpha to approximately **–7.6%**. It feels like we’re spotting the index 15 pounds in a cage fight. The good news: this is exactly the regime where our new playbook (regime hedging + thematic rotation) is designed to work. Time to stop running with the herd and start running *against* the 1970s playbook.
 
-| Day       | Ticker | Strategy              | Entry → Exit | P&L    | NASDAQ | Alpha  | Lesson                              |
-|-----------|--------|-----------------------|--------------|--------|--------|--------|-------------------------------------|
-| 4/24     | COMT   | Regime Hedging        | $28.40 → $29.65 | +4.4% | -0.4% | +4.8% | "When 20% of oil vanishes, commodities don’t ask permission" |
-| 4/27     | RY.TO  | Canadian Value        | $142.80 → $144.90 | +1.5% | +0.8% | +0.7% | "Cheap Canadian banks still find bids in chaos" |
-| 4/30     | TAN    | Renewables Rotation   | $41.20 → $42.85 | +4.0% | 0.0%  | +4.0% | "War is terrible for oil barrels, excellent for solar panels" |
+## Practice Investment Scoreboard
 
-**Weekly Win Rate: 3/3** | **Cumulative P&L: +3.3%** | **Lesson of the week:** Macro beats micro until you adjust for macro.
+| Day    | Ticker | Strategy              | Entry → Exit   | P&L   | NASDAQ | Alpha | Lesson                              |
+|--------|--------|-----------------------|----------------|-------|--------|-------|-------------------------------------|
+| 4/24   | XLE    | Regime Hedge          | $91.80 → $94.65 | +3.1% | -0.4%  | +3.5% | Oil shocks forgive almost any valuation |
+| 4/27   | TD.TO  | Canadian Value        | $79.40 → $77.90 | -1.9% | +1.6%  | -3.5% | Value without quality is just a trap with dividends |
+| 4/28   | FSLR   | Choppy-Market Quality | $198.20 → $210.80 | +6.4% | +0.2% | +6.2% | Quality compounders dance when indices trip |
+| 4/29   | ARCC   | Quality Triage (BDC)  | $21.35 → $21.05 | -1.4% | -0.9%  | -0.5% | In private credit, leverage is destiny |
+| 4/30   | ICLN   | Renewables Rotation   | $14.65 → $15.55 | +6.1% | 0.0%   | +6.1% | War is the ultimate green subsidy |
 
-### Strategy of the Week: Canadian Value Rotation
-**1. What is it?** Systematically buying high-quality TSX businesses trading below intrinsic value using strict filters (P/B < 1.5, FCF yield > 8%, D/E < 1.0).
+**Weekly Win Rate: 3/5 (60%)** | **Cumulative P&L: +2.46%** | **Weekly Alpha vs NASDAQ: +2.36%**
 
-**2. When to use it?** Right now. When NASDAQ valuations are stretched, oil shocks create uncertainty, and capital rotates toward stable earners with real cash flow.
+## Strategy of the Week: Thematic Rotation into Renewables
+**1. What is it?** When geopolitical shocks drive oil above $100+, deliberately rotate capital from traditional energy into clean power, battery tech, and renewables infrastructure that will benefit from panicked policy support.
 
-**3. How to set it up on Wealthsimple, Questrade, or IBKR?**  
-Open your screener → select TSX → Financials & Industrials → apply the three filters above. Cross-check the latest balance sheet and insider buying. Allocate max 10% per name inside your TFSA or RRSP. Rebalance quarterly or when any name loses its “cheap + quality” status. Takes 12 minutes.
+**2. When to use it?** During supply disruptions + stagflation signals (exactly the regime we’re in).
 
-Do this and you’ll own the Canadian version of what worked after the 2000 and 2008 dislocations.
+**3. How to set it up on Wealthsimple, Questrade, or IBKR:**
+- Screen for ICLN, TAN, or Canadian names like BLX.TO / NPI.TO.
+- Allocate 8–15% of your TFSA/RRSP when Brent > $110.
+- Set a 10% trailing stop and a rebalance rule to trim when oil falls back under $80.
+- Do it in registered accounts to avoid currency friction on the USD-listed ETFs.
 
-### What to Watch Next Week
-- **Wednesday 10:00 AM ET – Bank of Canada rate decision & press conference.** Higher oil is feeding Canadian inflation. Hawkish tone = tailwind for banks and value names in your TFSA.
-- **Friday 8:30 AM ET – US Nonfarm Payrolls & ISM Services.** Strong numbers will reinforce the stagflation narrative and likely punish long-duration growth stocks.
-- **Ongoing Iran negotiations.** Any progress toward reopening Hormuz could drop oil $15–20 overnight — exactly when you rotate profits from renewables back into other regime plays.
-- **Q1 earnings cleanup from Big Tech.** Watch how they talk about capex and AI returns. Guidance cuts could trigger the next leg of value rotation.
-- **CAD strength.** Oil at $120+ is your Canadian dollar’s best friend. Unhedged US exposure in RRSPs gets an extra boost.
+This is the cleanest, most actionable idea that came out of the entire week.
 
-### This Week’s Listener Challenge
-Take 15 minutes this weekend. Open Wealthsimple or Questrade, run the exact value screen above (P/B <1.5, FCF yield >8%, D/E <1.0) on the TSX. Write down the top three names that also have insider buying in the last 90 days. That’s it. You’ll walk into Monday with a shortlist and the exact process we discussed all week. No excuses — 15 minutes.
+## What to Watch Next Week
+- **Wednesday 10:00 AM ET** – Bank of Canada rate decision. A hold with hawkish language on energy-driven inflation would be bullish for CAD and Canadian financials.
+- **Thursday pre-market** – Final wave of Big Tech earnings (focus on AI capex vs actual revenue). Disappointment here could trigger the “growth is dead” trade we’ve been preparing for.
+- **Friday 8:30 AM ET** – U.S. jobs report + ISM Services. Hot inflation + weak employment = textbook stagflation confirmation. Real assets and renewables usually rip on that combo.
+- Ongoing – Any headline out of Iran nuclear talks. A genuine breakthrough could send oil down 15% in 48 hours. Have your rotation plan ready.
 
-### Canadian Corner
-Oil above $120 is a mixed blessing. Your TSX energy holdings get a bid, but inflation is now the Bank of Canada’s problem. Expect them to sound noticeably less dovish. The CAD should stay firm, which is fantastic for TFSA holders with unhedged US ETFs (currency tailwind + no foreign withholding tax drag in registered accounts). Best move: use the strength to harvest a few renewable infrastructure names listed in Canada or the US while they still look reasonable on a forward basis. Your FHSA is the perfect tax-sheltered parking spot for that multi-year thematic bet.
+## This Week’s Listener Challenge (15 minutes max)
+Open your TFSA or RRSP this weekend. Calculate what percentage you currently have in energy, commodities, and renewables combined. If it’s under 12%, buy $500–$1,000 of ICLN or TAN on Monday. Screenshot the confirmation and tag it “#HormuzRotation.” This single move turns this week’s painful headlines into portfolio positioning.
 
-### The Bottom Line
-Stagflation doesn’t reward hope — it rewards investors who rotate before the crowd realizes the 1970s just called and wants its playbook back.
+## Canadian Corner
+The TSX got absolutely smoked relative to the NASDAQ again, but Canadian investors have a secret weapon: a strengthening loonie courtesy of $126 oil. Use it. TFSA/RRSP/FHSA accounts are perfect vehicles for USD-listed renewable ETFs right now because you’re effectively buying green tech with petro-dollars. Consider trimming profitable Canadian energy names (Suncor, Cenovus) into strength and rotating a slice into BLX.TO or the new Canadian clean energy ETFs. The tax-free compounding on a multi-year energy transition theme is stupidly attractive in registered accounts.
+
+## The Bottom Line
+Oil shocks don’t just raise prices — they rewrite the map. The winners aren’t fighting the last regime; they’re already living in the next one.
+
+See you Monday. Stay sharp out there.

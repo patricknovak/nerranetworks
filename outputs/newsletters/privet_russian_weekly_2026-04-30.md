@@ -1,103 +1,84 @@
-**Привет, Русский! Weekly Review**  
-**April 24–30, 2026**  
-**Theme of the Week: Погода + Животные**
+**Привет, друзья!** 🎉
 
-Привет, друзья! What a fun week! We spent most of our time becoming weather experts (very useful in Russia!) while also taking a delightful detour into the forest to meet **собака**, **кошка**, and even a honey-loving **медведь**. 
+Welcome to your weekly review of *Привет, Русский!* (April 24–30, 2026). This week we jumped between **погода** (weather) and animals — two topics Russians love to talk about! You learned tons of practical vocabulary and even picked up natural phrases like “Идёт сильный дождь” and “У меня есть кошка.” 
 
-Whether you were learning to dodge **дождь** or imagining a **лошадь** galloping through the **лес**, you made huge progress this week. Molodets! You’re building real Russian superpowers.
-
----
+**Molodets!** You’re making fantastic progress. Let’s celebrate what you learned this week!
 
 ### 1. This Week’s Words
 
-| Russian     | Transliteration     | English              | Episode(s)    |
-|-------------|---------------------|----------------------|---------------|
-| **погода**      | po-GO-da / poh-GOH-dah | weather             | 13, 15, 16   |
-| **дождь**       | dozh-d’ / DOZH-d’      | rain                | 13, 15, 16   |
-| **снег**        | snyeg / SNYEK          | snow                | 13, 15       |
-| **солнце**      | SOLN-tse / SOLN-tseh   | sun                 | 13, 15, 16   |
-| **ветер**       | VYE-ter / VYEH-tyer    | wind                | 13, 15, 16   |
-| **облако**      | OB-la-ka / OB-luh-koh  | cloud               | 13, 15, 16   |
-| **гроза**       | gra-ZA                 | thunderstorm        | 13           |
-| **тепло**       | tyep-LOH               | warm / warmth       | 15, 16       |
-| **холодно**     | KHOL-ud-nuh            | cold (it is cold)   | 15, 16       |
-| **животное**    | zhi-VOT-no-ye          | animal              | 14           |
-| **собака**      | sa-BA-ka               | dog                 | 14           |
-| **кошка**       | KOSH-ka                | cat                 | 14           |
-| **птица**       | PTEE-tsa               | bird                | 14           |
-| **лошадь**      | LO-shad’               | horse               | 14           |
-| **медведь**     | med-VED’               | bear                | 14           |
-| **лес**         | les                    | forest              | 14           |
-| **летать**      | le-TAT’                | to fly              | 14           |
-
----
+| Russian     | Transliteration     | English              | Episode |
+|-------------|---------------------|----------------------|---------|
+| погода      | po-GO-da / poh-GOH-dah | weather             | 13, 15, 16 |
+| дождь       | dozh-d’ / DOZH-d’   | rain                 | 13, 15, 16 |
+| снег        | snyeg / SNYEK       | snow                 | 13, 15 |
+| солнце      | SOLN-tse / SOLN-tseh | sun                 | 13, 15, 16 |
+| ветер       | VYE-ter / VYEH-tyer | wind                 | 13, 15, 16 |
+| облако      | OB-la-ka / OB-luh-koh | cloud              | 13, 15, 16 |
+| гроза       | gra-ZA              | thunderstorm         | 13 |
+| тепло       | tyep-LOH            | warm / warmth        | 15, 16 |
+| холодно     | KHOL-ud-nuh         | cold (it is cold)    | 15, 16 |
+| животное    | zhi-VOT-no-ye       | animal               | 14 |
+| собака      | sa-BA-ka            | dog                  | 14 |
+| кошка       | KOSH-ka             | cat                  | 14 |
+| птица       | PTEE-tsa            | bird                 | 14 |
+| лошадь      | LO-shad’            | horse                | 14 |
+| медведь     | med-VED’            | bear                 | 14 |
+| лес         | les                 | forest               | 14 |
+| летать      | le-TAT’             | to fly               | 14 |
 
 ### 2. Grammar Patterns
 
-This week we focused on **simple descriptive sentences** — perfect for beginners!
+This week we focused on **simple weather expressions** and **basic descriptions**.
 
-- **Weather as a complete thought**: Russians often just say the condition:  
-  *Сегодня тепло.* (It’s warm today.)  
-  *Зимой холодно.* (It’s cold in winter.)
+- Weather in Russian often uses short adverbs: **тепло** = it’s warm, **холодно** = it’s cold.  
+  *Example:* На улице **тепло**. / Зимой очень **холодно**.
 
-- **“Идёт” for rain and snow**:  
-  *Идёт сильный дождь.* (Heavy rain is falling.)
+- “Идёт” + weather = “it is [raining/snowing]”  
+  *Example:* Идёт сильный **дождь**. (Heavy rain is falling.)
 
-- **Location phrases**: *В лесу* (in the forest), *на улице* (outside).  
+- Simple “I have…” structure with animals:  
+  *У меня есть кошка.* (I have a cat.)  
   *В лесу живёт медведь.* (A bear lives in the forest.)
 
-You’re already able to make real Russian sentences. That’s huge!
-
----
+These patterns let you start speaking in full sentences right away!
 
 ### 3. Culture Corner Recap
 
-We learned that Russians talk about **погода** constantly because it changes so dramatically — from freezing winters with lots of **снег** to bright summers with strong **солнце**. 
+We discovered that the **медведь** (bear) is much more than an animal in Russia — it’s a national symbol of strength and appears in countless fairy tales (*сказки*). We also learned that Russians talk about the weather *all the time* because the climate can swing from brutally cold winters (снег and холодно) to bright summers (солнце and тепло). Even small talk often starts with “Какая сегодня погода?”
 
-In the animal episode we met the **медведь**, the famous Russian bear. In folklore, bears are seen as strong but sometimes clumsy characters (think of all the Russian fairy tales!). The **лес** (forest) is a huge part of Russian identity — many people love hiking, picking mushrooms, and spotting wildlife.
+### 4. Practice Challenge
 
----
+**“Weather & Wildlife Reporter” Mission** 📰
 
-### 4. Practice Challenge (Weekend Activity)
+This weekend, look out the window (or go for a short walk) and say **three sentences** in Russian about the weather using this week’s words. Then name your favorite animal in Russian and say one thing about it.
 
-**“My Russian Weather & Animal Journal”**
+**Example:**  
+“Сегодня **солнце** светит. Небо в **облаках**. Мне нравится **собака** потому что она дружелюбная.”
 
-1. Every day this weekend, write two sentences:
-   - *Сегодня ________.* (use **погода**, **тепло**, **холодно**, **дождь**, etc.)
-   - Draw a quick picture and label at least 3 things in Russian (**солнце**, **облако**, **собака**, **птица**, **дерево** — you can add simple words!).
-
-2. Bonus: Watch a short nature video (even on YouTube) and pause to say “**Смотри! Медведь!**” or “**Птица летает!**”
-
-Do this for 5 minutes a day and you’ll feel your Russian brain getting stronger. You’ve got this!
-
----
+Record yourself on your phone or write it down. Bonus points if you teach a family member one word! You’ve got this!
 
 ### 5. Quick Quiz
 
-**1.** How do you say “cat” in Russian?  
-**2.** What does **ветер** mean?  
-**3.** Fill in the blank: *В _____ много животных.* (лес / солнце)  
-**4.** True or False: **Гроза** means “snow”.  
-**5.** How would you say “It is warm outside”?
+1. **Fill in the blank:** Какая сегодня ______? (weather)
+2. How do you say **“It is cold”** in Russian?
+3. What animal “knows where the honey is”? (**медведь / кошка / лошадь**)
+4. Match: **летать** → a) to run b) to fly c) to bark
+5. **How do you say “rain”** in Russian?
 
-**Answers** (don’t peek!):  
-1. кошка  
-2. wind  
-3. лес  
-4. False (it means thunderstorm)  
-5. На улице тепло. / Сегодня тепло.
+**Answers** (no peeking!):  
+1. погода 2. Холодно 3. медведь 4. b) to fly 5. дождь
 
----
+### 6. Next Week Preview
 
-### Next Week Preview
-
-Next week we’re jumping into **Еда (Food)** and **Магазин (Shopping)**! Get ready to learn how to order delicious Russian treats, say what you like and don’t like, and maybe even order **блины** or **борщ**. It’s going to be tasty!
+Next week we’re stepping into the kitchen! Get ready to learn delicious Russian food vocabulary, how to order at a café, and talk about what you like to eat. **Вкусно будет!** (It’s going to be tasty!)
 
 ---
 
-You’re doing amazingly well. Keep showing up — every new word you learn is a bridge to real Russian conversations. 
+You did an amazing job this week, learners! Keep practicing a little every day and those words will stick.
 
-Until next week: **Молодцы!** See you in the next episodes! 🌧️🐻☀️
+**До следующей недели!** Keep smiling, keep speaking, and remember — every small step is worth celebrating.
 
-— Your **Привет, Русский!** Newsletter Editor  
-*(Part of the Nerra Network)*
+**Molodets!** 🌟
+
+— Your *Привет, Русский!* Newsletter Editor  
+*Nerra Network*

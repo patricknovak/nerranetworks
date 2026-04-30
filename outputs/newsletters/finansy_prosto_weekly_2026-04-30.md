@@ -3,51 +3,53 @@
 
 ### This Week's Big Picture
 
-Tax season is in full swing, and this week’s episodes felt like a caring group chat with your smartest girlfriend who actually understands CRA forms. The dominant theme was **protection and optimization**: protecting yourself from sophisticated tax scams, protecting your GIS benefits through smart RRSP moves, and protecting your family’s future by understanding the bigger economic picture.
+Tax season reached its climax this week, and the show stayed true to its promise: warm, practical advice without the jargon. The dominant theme was **protection and optimization** — protecting yourself from CRA scams, protecting your parents’ GIS benefits through smart RRSP moves, and protecting your family’s breathing room while the Bank of Canada kept rates steady.
 
-At the same time, the Bank of Canada kept its key rate at 2¼% for the fourth consecutive decision, giving mortgage holders in Greater Vancouver a temporary breather. Against this backdrop, the federal government announced the creation of the *Canada Strong Fund*—a Canadian version of a sovereign wealth fund. 
+At the same time, two bigger-picture developments appeared. The federal government announced the creation of the **Canada Strong Fund**, Canada’s version of a sovereign wealth fund, and the Bank of Canada held its key rate at 2¼% for the fourth consecutive decision while warning of rising global uncertainty. 
 
-The narrative arc this week was clear: while you’re dealing with the immediate stress of filing taxes before the April 30 deadline, don’t lose sight of the long game. Small, smart moves with RRSPs, TFSAs, and tax refunds can meaningfully improve your family’s financial position in one of Canada’s most expensive cities.
+The narrative arc this week was clear: handle the urgent (file your taxes safely by April 30 and fix any unused RRSP room), stabilize the present (mortgage payments aren’t jumping), and start thinking further ahead (how national savings vehicles and robo-advisors might quietly shape your family’s financial future in one of Canada’s most expensive cities).
 
 ### Top Stories
 
-**1. CRA Warns: Real Tax Agency Never Sends You Links**  
-Scammers are working overtime in April. The real CRA will never email you a link asking for personal information, payment, or to “claim your refund.” The safest approach is to manually type canada.ca into your browser every single time. Wealthsimple Tax continues to be the simplest tool for last-minute filers.
+**1. CRA Scams Are Everywhere — Here’s How to Stay Safe**  
+CRA never sends you an email with a link asking for SIN, banking details, or immediate payment. Episode 26 laid out the simple rule: type canada.ca manually into your browser. With scammers targeting newcomers who aren’t sure “maybe this is real,” this episode may have saved listeners thousands. Practical takeaway: use Wealthsimple Tax, give yourself 30 quiet minutes, and never click.
 
-**2. Using Unused RRSP Contribution Room to Protect GIS**  
-Many listeners helping parents discovered unused RRSP room that can be used strategically. Contributing and claiming the deduction can reduce taxable investment income, which in turn protects Guaranteed Income Supplement (GIS) payments. For low-income seniors in Burnaby or Vancouver, every $50–$200 of monthly GIS matters when BC Hydro and rent consume most of the budget.
+**2. Unused RRSP Room Can Protect Your (or Your Parents’) GIS**  
+Many listeners helping aging parents discovered unused RRSP contribution room. Episode 27 explained how applying those deductions against investment income can meaningfully reduce taxable income and preserve Guaranteed Income Supplement payments. In a city where BC Hydro, ICBC, and rent already devour budgets, protecting even $150–200 of monthly GIS makes a real difference.
 
-**3. Bank of Canada Holds Rate at 2¼%**  
-No change for the fourth meeting in a row. Variable-rate mortgage holders and people renewing this year get more breathing room. However, the Bank highlighted rising global uncertainty and warned that inflation may run hotter than expected. For families in Richmond, Coquitlam, or Surrey, this stability means no sudden jump in payments—use the time to build your emergency fund or accelerate debt repayment.
+**3. Canada Is Launching Its Own Sovereign Wealth Fund**  
+The government announced the **Canada Strong Fund**. While details remain thin, Episode 28 framed it as a national “family rainy-day jar” that could eventually support pensions, family benefits, and cost-of-living programs. For families in Greater Vancouver facing extreme housing prices, any tool that might stabilize public finances long-term deserves attention.
 
-**4. Canada Launches “Canada Strong Fund” Sovereign Wealth Fund**  
-The government announced its own sovereign wealth fund, though details remain thin. Unlike Norway’s oil-funded model, Canada’s version is still being designed. For those of us living where housing costs are extreme, any mechanism that could improve long-term fiscal stability and potentially support future social programs deserves attention.
+**4. Bank of Canada Holds Rate at 2¼% — Good News for Mortgage Holders**  
+For the fourth time in a row, the Bank left rates unchanged. Episode 29 translated what this means in plain language: your variable mortgage or renewal probably won’t get more expensive in the next few months. In a market where even 0.25% can add $150–200 to monthly payments, stability is valuable breathing room.
 
-**5. Making Your Tax Refund Actually Work for You**  
-Instead of letting refunds sit in chequing accounts earning nothing, the episodes stressed moving that money into TFSA or RRSP room (if available) or high-interest savings. The show also reminded listeners how to safely check contribution room and avoid common mistakes when helping parents with their returns.
+**5. What to Actually Do With Your Tax Refund and Idle Cash**  
+Across multiple episodes the hosts kept returning to a simple question many listeners ask: “I finally have some money — how do I make it work?” The guidance was consistent: understand your TFSA and RRSP contribution room, consider robo-advisors if you don’t want to pick investments yourself, and avoid letting money sit idle while inflation and Vancouver living costs do their damage.
 
 ### Trend Watch
 
-- **Strategic RRSP usage among immigrant families and adult children helping parents** is becoming more sophisticated. People are moving beyond “just get the tax refund” to understanding multi-year impacts on GIS and OAS.
-- **“Set it and forget it” tools** (Wealthsimple Tax, robo-advisors) are gaining real traction among busy women who want good financial decisions without becoming experts.
-- **Cautious optimism on rates** combined with new government long-term vehicles suggests a slow shift toward building national and personal resilience after years of inflation pressure.
+- **Intergenerational tax help is becoming normal.** Adult daughters (the core audience) are increasingly doing their parents’ Canadian taxes and discovering missed opportunities around RRSP and GIS.
+- **“Simple but not stupid” investing tools are winning.** Repeated mentions of Wealthsimple Tax and robo-advisors show listeners want sophistication without complexity.
+- **Scam awareness has moved from “nice to know” to survival skill** for the immigrant community in Lower Mainland.
 
 ### Quick Hits
 
-- Never call phone numbers provided in “CRA” emails—always look up the official number yourself.
-- TFSA and RRSP contribution room resets and carries forward—many people still don’t realize how much room they actually have.
-- Robo-advisors were highlighted as a low-stress way to invest once tax season is over.
-- Filing your return by this Friday still unlocks several benefits and credits before they disappear.
-- NASA released new Artemis II imagery (from our sister show *Fascinating Frontiers*).
-- The Fed is facing difficult stagflation choices if Hormuz disruptions continue (noted in *Modern Investing Techniques*).
-- Tesla’s new “Lane Language Model” treats road geometry like predictive text—interesting crossover between AI and real-world safety.
+- Wealthsimple Tax continues to be the “last-minute hero” for people filing on April 29.
+- Manually typing canada.ca is now officially the safest habit you can have.
+- GIS is extremely sensitive — every extra $1 of taxable income can cost 50 cents in benefits.
+- Robo-advisors were recommended again as a low-stress way to put idle cash to work.
+- The Canada Strong Fund’s final design will matter more for your children than for you — start paying attention now.
+- From the Nerra Network: Modern Investing Techniques looked at the Fed’s stagflation risks as global oil supply faces serious disruption.
+- TFSA room is still one of the most under-used “free lunches” in Canadian personal finance.
+- If you haven’t filed yet, you still have a couple of days — but don’t rush and make mistakes.
 
 ### What to Watch Next Week
 
-Look for final CRA statistics on how many people filed at the last minute, more concrete details on the Canada Strong Fund’s structure, and any hints from the Bank of Canada about the next potential rate move. Also expect the usual wave of post-tax-season regret stories—better to learn from them than join them.
+Look for the final details and public reaction to the Canada Strong Fund, any shift in tone from the Bank of Canada as global uncertainty grows, and the usual wave of “I filed my taxes and now I regret…” stories that always surface in early May. Also expect more practical episodes on what to do with tax refunds before the summer spending season begins.
 
-Stay calm, stay skeptical of links, and keep making small decisions that compound.
+---
 
-Share this with a friend who’s still staring at their T4s in mild panic.  
+If this helped you connect the dots, forward it to a подруга who’s also figuring out life in Vancouver. Full episodes are waiting at [nerranetwork.com](https://nerranetwork.com). 
 
-Listen to full episodes at [nerranetwork.com](https://nerranetwork.com). See you next week.
+Talk soon,  
+Your Финансы Просто editor
