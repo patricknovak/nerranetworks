@@ -470,7 +470,7 @@
                 </p>
                 <div class="nn-subscribe-tags" style="margin-bottom:var(--sp-4);">
                     {% for s in all_shows %}
-                    <label><input type="checkbox" name="tag" value="{{ s.name }}" checked> {{ s.name }}</label>
+                    <label><input type="checkbox" name="tag" value="{{ s.newsletter_tag or s.name }}" checked> {{ s.name }}</label>
                     {% endfor %}
                 </div>
                 <div class="nn-subscribe-row">

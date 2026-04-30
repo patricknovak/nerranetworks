@@ -810,6 +810,9 @@ NETWORK_SHOWS = {
     "finansy_prosto": {
         "name": "Финансы Просто",
         "slug": "finansy_prosto",
+        # Buttondown rejects non-ASCII tags; keep the display name in
+        # Cyrillic but tag in ASCII to match shows/finansy_prosto.yaml.
+        "newsletter_tag": "Finansy Prosto",
         "display_order": 9,
         "description": "Ежедневный подкаст о финансах на русском языке для женщин в Канаде.",
         "show_page": "ru/finansy-prosto.html",
@@ -903,6 +906,9 @@ NETWORK_SHOWS = {
     "privet_russian": {
         "name": "Привет, Русский!",
         "slug": "privet_russian",
+        # Buttondown rejects non-ASCII tags; keep the display name in
+        # Cyrillic but tag in ASCII to match shows/privet_russian.yaml.
+        "newsletter_tag": "Privet Russian",
         "display_order": 10,
         "description": "Bilingual Russian language learning podcast for English speakers.",
         "show_page": "ru/privet-russian.html",
@@ -1158,6 +1164,30 @@ _SHOW_PICKER_TAGS = {
 }
 
 
+def _newsletter_tag_for_slug(slug: str, fallback_name: str) -> str:
+    """Return the Buttondown tag for a show.
+
+    Reads ``newsletter.tag`` from the show's YAML when available so
+    the network signup form posts the same tag string the per-show
+    forms use. Falls back to the show's display name. Buttondown
+    requires tags to contain at least one ASCII letter or digit, so
+    Russian shows now ship ASCII tags ("Privet Russian", "Finansy
+    Prosto") rather than their Cyrillic display names.
+    """
+    import yaml as _yaml
+
+    yaml_path = SHOWS_DIR / f"{slug}.yaml"
+    if yaml_path.exists():
+        try:
+            data = _yaml.safe_load(yaml_path.read_text(encoding="utf-8")) or {}
+            tag = ((data.get("newsletter") or {}).get("tag") or "").strip()
+            if tag:
+                return tag
+        except _yaml.YAMLError:
+            pass
+    return fallback_name
+
+
 def _build_all_shows_list():
     """Build a list of all shows with metadata needed by templates."""
     shows = [
@@ -1179,6 +1209,7 @@ def _build_all_shows_list():
             "spotify_url": cfg.get("spotify_url"),
             "picker_tags": _SHOW_PICKER_TAGS.get(cfg["slug"], {}),
             "blog_page": f"blog/{cfg['slug']}/index.html",
+            "newsletter_tag": _newsletter_tag_for_slug(cfg["slug"], cfg["name"]),
             "_order": cfg.get("display_order", 99),
         }
         for cfg in NETWORK_SHOWS.values()
@@ -1441,7 +1472,7 @@ def generate_show_page(slug, *, dry_run=False):
         "blog_page": f"blog/{cfg['slug']}/index.html",
         "latest_blog_posts": latest_blog_posts,
         "static_episodes": static_episodes,
-        "newsletter_tag": cfg["name"],
+        "newsletter_tag": _newsletter_tag_for_slug(cfg["slug"], cfg["name"]),
         "all_shows": _build_all_shows_list(),
         "performance_data": performance_data,
         "page_lang": "ru" if is_russian else "en",

@@ -190,7 +190,9 @@ newsletter:
   platform: buttondown
   api_key_env: BUTTONDOWN_API_KEY
   status: about_to_send
-  tag: "Привет, Русский!"
+  # Buttondown rejects tags with no ASCII letter/number, so we use the
+  # transliterated form rather than the Cyrillic show display name.
+  tag: "Privet Russian"
 
 slow_news:
   enabled: true
