@@ -105,6 +105,7 @@ def main():
                 continue
 
             from engine.newsletter import send_newsletter
+            from engine.newsletter_template import wrap_with_branding
 
             week_start = (week_ending - timedelta(days=6)).strftime("%b %d")
             week_end_str = week_ending.strftime("%b %d, %Y")
@@ -113,9 +114,18 @@ def main():
             tag = getattr(newsletter_cfg, "tag", "") or ""
             tags_list = [tag] if tag else None
 
+            # Wrap the synthesized markdown with a per-show branded
+            # hero (cover image + brand colour + week pill) and a
+            # footer (Listen / Watch on YouTube / Read the blog CTAs
+            # + Nerra Network credit). Buttondown passes inline HTML
+            # through its markdown renderer untouched.
+            branded_body = wrap_with_branding(
+                show_slug, newsletter_md, week_ending=week_ending,
+            )
+
             email_id = send_newsletter(
                 subject=subject,
-                body=newsletter_md,
+                body=branded_body,
                 api_key=api_key,
                 status=getattr(newsletter_cfg, "status", "draft"),
                 tags=tags_list,
