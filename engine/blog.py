@@ -613,7 +613,12 @@ def generate_blog_post_html(
         "tagline": show_config.get("tagline", ""),
         "transcript": transcript_text,
         "related_posts": related_posts or [],
-        "newsletter_tag": show_config["name"],
+        # Use the show's Buttondown newsletter tag when set in
+        # NETWORK_SHOWS — falls back to the display name. Russian
+        # shows override this with an ASCII transliteration because
+        # Buttondown rejects tags with no ASCII letter/number.
+        "newsletter_tag": show_config.get("newsletter_tag")
+            or show_config["name"],
         "page_lang": "ru" if show_slug in ("finansy_prosto", "privet_russian") else "en",
         # YouTube cross-posting — when present, the template renders a
         # "Watch on YouTube" button next to the existing podcast/summaries CTAs.
