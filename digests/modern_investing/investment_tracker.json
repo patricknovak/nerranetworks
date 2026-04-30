@@ -6,7 +6,7 @@
     "position_size": 1000,
     "currency": "USD",
     "created": "2026-03-16",
-    "last_updated": "2026-04-29",
+    "last_updated": "2026-04-30",
     "inception_date": "2026-03-16",
     "benchmark_symbol": "^IXIC",
     "nasdaq_inception_close": 22374.18,
@@ -14,16 +14,16 @@
     "nasdaq_ytd_year": 2026
   },
   "summary": {
-    "total_trades": 8,
-    "wins": 3,
+    "total_trades": 9,
+    "wins": 4,
     "losses": 4,
     "breakeven": 1,
-    "win_rate_pct": 37.5,
-    "cumulative_pnl": -41.56,
+    "win_rate_pct": 44.4,
+    "cumulative_pnl": -22.8,
     "best_trade_pct": 7.88,
     "worst_trade_pct": -7.49,
-    "average_return_pct": -0.52,
-    "current_streak": -1,
+    "average_return_pct": -0.25,
+    "current_streak": 1,
     "longest_win_streak": 1,
     "longest_loss_streak": 1
   },
@@ -194,7 +194,7 @@
       "pnl_dollars": null,
       "lesson": "",
       "sector": "precious_metals",
-      "current_price": 57.81
+      "current_price": 56.24
     },
     {
       "episode_num": 30,
@@ -204,6 +204,27 @@
       "strategy": "Valuation discipline on lowest sector multiple combined with scale advantages from recent merger",
       "confidence": "Medium",
       "target_range": "+1% to +4% by tomorrow’s close.",
+      "trade_type": "flash",
+      "status": "closed",
+      "entry_price": 99.13,
+      "exit_price": 100.99,
+      "pnl_pct": 1.88,
+      "pnl_dollars": 18.76,
+      "lesson": "",
+      "sector": "other",
+      "nasdaq_entry": 24673.24,
+      "nasdaq_exit": 24673.24,
+      "nasdaq_return_pct": 0.0,
+      "alpha_pct": 1.88
+    },
+    {
+      "episode_num": 31,
+      "date": "2026-04-30",
+      "symbol": "BTC",
+      "market": "UNKNOWN",
+      "strategy": "Macro rotation play on cross-asset signals",
+      "confidence": "Medium",
+      "target_range": "+2% to +5% if momentum carries toward the $75K zone referenced in reports.",
       "trade_type": "flash",
       "status": "open",
       "entry_price": null,
@@ -215,22 +236,17 @@
     }
   ],
   "benchmark": {
-    "current_close": 24663.8,
-    "inception_to_date_pct": 10.23,
-    "ytd_pct": 6.15,
-    "last_updated": "2026-04-29"
+    "current_close": 24673.24,
+    "inception_to_date_pct": 10.28,
+    "ytd_pct": 6.19,
+    "last_updated": "2026-04-30"
   },
   "alpha": {
-    "inception_to_date_pct": -10.75,
-    "ytd_pct": -6.67,
+    "inception_to_date_pct": -10.53,
+    "ytd_pct": -6.44,
     "monthly": {}
   },
   "sectors": {
-    "financials": {
-      "trade_count": 1,
-      "exposure_pct": 10.0,
-      "cumulative_pnl": -74.91
-    },
     "tech": {
       "trade_count": 3,
       "exposure_pct": 30.0,
@@ -247,9 +263,9 @@
       "cumulative_pnl": 36.63
     },
     "other": {
-      "trade_count": 2,
-      "exposure_pct": 20.0,
-      "cumulative_pnl": -39.4
+      "trade_count": 3,
+      "exposure_pct": 30.0,
+      "cumulative_pnl": -20.64
     }
   },
   "monthly_snapshots": [],
@@ -262,6 +278,7 @@
     "mit_profile_buffett",
     "mit_profile_cathie_wood",
     "mit_risk_management",
-    "mit_history_market_crashes"
+    "mit_history_market_crashes",
+    "mit_contrarian_passive_vs_active"
   ]
 }
