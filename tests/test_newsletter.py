@@ -431,3 +431,81 @@ def test_send_newsletter_rejects_invalid_status(monkeypatch):
         status="publish",  # typo
     )
     assert out is None
+
+
+# ---------------------------------------------------------------------------
+# Buttondown filter shape — the v2 tree schema introduced after a
+# ``{operator, predicates}`` payload started returning HTTP 422
+# ---------------------------------------------------------------------------
+
+def test_send_newsletter_uses_v2_filter_tree_when_tags_set(monkeypatch):
+    """When tags are passed, the request body's ``filters`` must
+    match Buttondown's current ``{filters, groups, predicate}``
+    schema — old ``{operator, predicates}`` was rejected with
+    HTTP 422 missing-field errors on filters/groups/predicate."""
+    import json as _json
+    from engine import newsletter
+
+    captured = {}
+
+    class _Resp:
+        status_code = 200
+
+        def json(self):
+            return {"id": "em_test", "num_recipients": 1}
+
+    def _fake_post(url, headers, json, timeout):
+        captured["payload"] = _json.loads(_json.dumps(json))
+        return _Resp()
+
+    monkeypatch.setattr(newsletter.requests, "post", _fake_post)
+
+    out = newsletter.send_newsletter(
+        subject="Subject",
+        body="Body",
+        api_key="key",
+        tags=["Tesla Shorts Time", "Privet Russian"],
+    )
+    assert out == "em_test"
+
+    filters = captured["payload"]["filters"]
+    # The required v2 keys.
+    assert set(filters.keys()) == {"filters", "groups", "predicate"}
+    assert filters["predicate"] in {"any", "all"}
+    assert filters["groups"] == []
+    # Each tag becomes a leaf condition.
+    leaf_tags = {f["value"] for f in filters["filters"]}
+    assert leaf_tags == {"Tesla Shorts Time", "Privet Russian"}
+    # No leftover keys from the old schema.
+    for leaf in filters["filters"]:
+        assert leaf["field"] == "tag"
+        assert leaf["operator"] == "equals"
+    # Old keys must NOT appear.
+    assert "predicates" not in filters
+    assert "operator" not in filters
+
+
+def test_send_newsletter_omits_filters_when_no_tags(monkeypatch):
+    """No tags = no ``filters`` key in the payload — sends to all
+    subscribers. (Empty filters would also work, but omitting is
+    cleaner and matches the existing behaviour.)"""
+    from engine import newsletter
+
+    captured = {}
+
+    class _Resp:
+        status_code = 200
+
+        def json(self):
+            return {"id": "em_test", "num_recipients": 5}
+
+    def _fake_post(url, headers, json, timeout):
+        captured["payload"] = json
+        return _Resp()
+
+    monkeypatch.setattr(newsletter.requests, "post", _fake_post)
+
+    newsletter.send_newsletter(
+        subject="Subject", body="Body", api_key="key", tags=None,
+    )
+    assert "filters" not in captured["payload"]
