@@ -1,58 +1,7 @@
 {
   "show": "models_agents_beginners",
-  "last_updated": "2026-04-28",
+  "last_updated": "2026-04-30",
   "episodes": [
-    {
-      "date": "2026-04-14",
-      "headlines": [
-        "about mythos AI",
-        "Blackmagic's DaVinci Resolve 21 takes on Adobe Lightroom with a new Photo page",
-        "MYTHOS SI Discovers New Vulnerability Class in FFmpeg Through Recursive Observation (Not Pattern Matching)",
-        "Same task, same AI, the only difference is how much context I gave it",
-        "AI Agents are bad at discovering code patterns, so I built a Semantic graph to improve the outcomes",
-        "Title: Stanford HAI 2026 AI Index: China erases US lead, young developer employment drops 20%, AI adopted faster than the internet, and transparency scores plummet across major labs",
-        "You Can Soon Buy a $4,370 Humanoid Robot on AliExpress",
-        "OpenAI's leaked memo says new \"Spud\" model will make all its products \"significantly better\"",
-        "New AI model generates 45-minute lip-synced video from one photo and runs in real time",
-        "Microsoft is testing OpenClaw-like AI bots for Copilot",
-        "Vercel CEO Guillermo Rauch signals IPO readiness as AI agents fuel revenue surge",
-        "The AI industry is running out of compute, with outages, rationing, and rising GPU prices",
-        "Meta is reportedly building an AI clone of Mark Zuckerberg",
-        "Want to understand the current state of AI? Check out these charts.",
-        "Artemis II crew brought a human eye and storytelling vision to the photos they took on their mission",
-        "AI agents work in text. Humans think in visuals. I spent 2 months learning this the hard way.",
-        "When the Mirror Turns: How AI alignment reshapes the voice inside your head",
-        "AI Agents Are Coming for Your Dating Life"
-      ],
-      "urls": [
-        "https://www.reddit.com/r/artificial/comments/1sl11ho/about_mythos_ai/",
-        "https://the-decoder.com/new-ai-model-generates-45-minute-lip-synced-video-from-one-photo-and-runs-in-real-time",
-        "https://www.engadget.com/apps/blackmagics-davinci-resolve-21-takes-on-adobe-lightroom-with-a-new-photo-page-053034084.html?src=rss",
-        "https://www.reddit.com/r/artificial/comments/1skyyrs/mythos_si_discovers_new_vulnerability_class_in/",
-        "https://www.reddit.com/r/artificial/comments/1skxuj4/same_task_same_ai_the_only_difference_is_how_much/",
-        "https://www.reddit.com/r/artificial/comments/1skvpd8/ai_agents_are_bad_at_discovering_code_patterns_so/",
-        "https://www.reddit.com/r/artificial/comments/1skuh7v/title_stanford_hai_2026_ai_index_china_erases_us/",
-        "https://www.wired.com/story/unitree-r1-humanoid-robot-for-sale-on-aliexpress/",
-        "https://the-decoder.com/openais-leaked-memo-says-new-spud-model-will-make-all-its-products-significantly-better/",
-        "https://the-decoder.com/new-ai-model-generates-45-minute-lip-synced-video-from-one-photo-and-runs-in-real-time/",
-        "https://www.theverge.com/tech/911080/microsoft-ai-openclaw-365-businesses",
-        "https://techcrunch.com/2026/04/13/vercel-ceo-guillermo-rauch-signals-ipo-readiness-as-ai-agents-fuel-revenue-surge/",
-        "https://the-decoder.com/the-ai-industry-is-running-out-of-compute-with-outages-rationing-and-rising-gpu-prices/",
-        "https://www.engadget.com/ai/meta-is-reportedly-building-an-ai-clone-of-mark-zuckerberg-130242840.html?src=rss",
-        "https://www.technologyreview.com/2026/04/13/1135675/want-to-understand-the-current-state-of-ai-check-out-these-charts/",
-        "https://theconversation.com/artemis-ii-crew-brought-a-human-eye-and-storytelling-vision-to-the-photos-they-took-on-their-mission-280394",
-        "https://www.reddit.com/r/artificial/comments/1sk9k3y/ai_agents_work_in_text_humans_think_in_visuals_i/",
-        "https://www.reddit.com/r/artificial/comments/1sk80m7/when_the_mirror_turns_how_ai_alignment_reshapes/",
-        "https://www.wired.com/story/ai-agents-are-coming-for-your-dating-life-next/"
-      ],
-      "quote_author": null,
-      "sections": {
-        "explain_like_14": "### Explain Like I'm 14\n**How AI Finds Brand-New Security Bugs (It’s Not Just Searching a List)**\n\nYou know how when you lose something in your room, you don’t just look in the same three spots over and over? You start by checking obvious places, then you notice “wait, the gap between my bed and the wall is weird,” and that clue leads you to move the bed, which reveals another clue under it. That’s basically how the smartest AI security tools are starting to work.\n\nStep one: Instead of memorizin",
-        "cool_stuff": "### Cool Stuff & Try This\n**Turn One Selfie Into a Talking Character:** The Decoder  \nResearchers created a new AI system called LPM 1.0 that can take a single photo of someone and generate up to 45 minutes of realistic video where the person appears to speak, show emotions, and move their face in sync with new words. It runs fast enough to feel almost real-time. This is exciting because it shows how AI is getting better at creative video without needing a whole team or expensive cameras — perfe",
-        "quick_bits": "### Quick Bits\n**AI Agents Need Better Dashboards**  \nOne developer spent two months building custom visual interfaces for his AI agents because plain text updates get overwhelming when the agents juggle 15+ tasks at once. The lesson? Humans think in pictures — so future agent tools will probably feel more like interactive boards than long chat logs. Cool reminder that the hardest part of AI isn’t always making it smarter — it’s making it usable for regular people.\n\n**Prompting Trick That Change",
-        "deep_dive": "### Explain Like I'm 14\n**How AI Finds Brand-New Security Bugs (It’s Not Just Searching a List)**\n\nYou know how when you lose something in your room, you don’t just look in the same three spots over and over? You start by checking obvious places, then you notice “wait, the gap between my bed and the wall is weird,” and that clue leads you to move the bed, which reveals another clue under it. That’s basically how the smartest AI security tools are starting to work.\n\nStep one: Instead of memorizin"
-      }
-    },
     {
       "date": "2026-04-16",
       "headlines": [
@@ -307,6 +256,70 @@
         "cool_stuff": "### Cool Stuff & Try This\n**When AI Video Generators Reveal Hidden Bias: Try This Experiment Yourself** — r/artificial  \nTwo different video-making AIs were given the exact same innocent prompt: create a 90s-style toy commercial with kids in Halloween costumes saying they want to be a pirate, ninja, or spy. Both AIs produced videos with zero girls, a Black boy as the pirate, an East-Asian boy as the ninja, and a white boy as the spy.  \n\nThis is cool (and a little mind-blowing) because it shows h",
         "quick_bits": "### Quick Bits\n**Canva’s AI Tool Accidentally Erases “Palestine”**  \nCanva’s new Magic Layers feature, meant to turn flat images into editable pieces, was found automatically replacing the word “Palestine” in people’s designs. The company quickly apologized. It’s a reminder that even helpful AI tools can carry unexpected biases or filters we don’t see coming.  \n\nSource: https://www.theverge.com/ai-artificial-intelligence/919028/canva-magic-layers-ai-replacing-palestine\n\n**OpenAI Can Now Work Wit",
         "deep_dive": "### Explain Like I'm 14\n**How AI chatbots can slip ads into answers without you noticing**\n\nYou know how when you’re scrolling TikTok, sometimes a video looks like a normal dance or gaming clip but halfway through the person says “this hack only works with my favorite energy drink” and you suddenly realize it’s an ad? Your brain usually catches it because the vibe changes. Now imagine an AI chatbot doing the exact same sneaky thing inside its normal helpful answers.\n\nHere’s how it actually works"
+      }
+    },
+    {
+      "date": "2026-04-30",
+      "headlines": [
+        "Google Unveils 8th-Gen TPUs for Agentic AI Era",
+        "Microsoft and OpenAI Use Same Models Differently",
+        "Gemini Chatbot Struggles to Integrate Tools",
+        "Anthropic's Mythos Model and Cybersecurity Risks",
+        "Jagged Frontier Illustrated by GPT-5.5 Party PR",
+        "My Take on The New Apple",
+        "Reaction to Tim Cook Magic Mouse Clip",
+        "Claude Tackles 99 Real Bioinformatics Problems, Solving 30% That Stumped Experts",
+        "Introducing BioMysteryBench: Evaluating Claude on Open-Ended Bioinformatics Research",
+        "Anthropic Fellows Research on Introspection Adapters for Model Self-Reporting",
+        "Must-Get Chrome Extension: Fat Cat Screen Blocker",
+        "Cat Gatekeeper Chrome Extension Link",
+        "Gratitude to Min",
+        "We’re talking about Goblins.",
+        "We solved the goblin mystery—with the help of Codex.",
+        "The goblins crept in alongside the launch of GPT-5.1.",
+        "Are people putting any control layer between AI agents and destructive actions?",
+        "SoftBank is creating a robotics company that builds data centers — and already eyeing a $100B IPO",
+        "Seedance 2.0 — what's the most interesting non-obvious use case you've seen so far?",
+        "AI created job descriptions",
+        "How are people actually using OpenAI tools beyond the basics? (DFW)",
+        "Mark Zuckerberg says Meta is working on AI agents for personal and business use",
+        "Taylor Swift Wants to Trademark Her Likeness. These TikTok Deepfake Ads Show Why",
+        "Where the goblins came from",
+        "Humanoid robots will work as baggage handlers at Tokyo airport"
+      ],
+      "urls": [
+        "https://x.com/GoogleAI/status/2049546885371670895",
+        "https://x.com/AnthropicAI/status/2049624600741560340",
+        "https://x.com/LinusEkenstam/status/2049774434748072409",
+        "https://www.engadget.com/2160602/humanoid-robots-will-work-as-baggage-handlers-at-tokyo-airport/",
+        "https://x.com/emollick/status/2049713417963950576",
+        "https://x.com/emollick/status/2049700750087868805",
+        "https://x.com/emollick/status/2049690406586044835",
+        "https://x.com/emollick/status/2049671227933876728",
+        "https://x.com/MKBHD/status/2049619608609431606",
+        "https://x.com/MKBHD/status/2049626372167831789",
+        "https://x.com/AnthropicAI/status/2049624602486383078",
+        "https://x.com/AnthropicAI/status/2049576143653929153",
+        "https://x.com/LinusEkenstam/status/2049774437726073112",
+        "https://x.com/LinusEkenstam/status/2049728560194089341",
+        "https://x.com/OpenAI/status/2049690533845663830",
+        "https://x.com/OpenAI/status/2049690536832127482",
+        "https://x.com/OpenAI/status/2049690535087214876",
+        "https://www.reddit.com/r/artificial/comments/1szn5uy/are_people_putting_any_control_layer_between_ai/",
+        "https://techcrunch.com/2026/04/29/softbank-is-creating-a-robotics-company-that-builds-data-centers-and-already-eyeing-a-100b-ipo/",
+        "https://www.reddit.com/r/artificial/comments/1szkpjb/seedance_20_whats_the_most_interesting_nonobvious/",
+        "https://www.reddit.com/r/artificial/comments/1szjk9v/ai_created_job_descriptions/",
+        "https://www.reddit.com/r/artificial/comments/1szhry8/how_are_people_actually_using_openai_tools_beyond/",
+        "https://www.engadget.com/2160792/mark-zuckerberg-says-meta-is-working-on-ai-agents-for-personal-and-business-use/",
+        "https://www.wired.com/story/taylor-swift-rihanna-tiktok-deepfake-ads/",
+        "https://openai.com/index/where-the-goblins-came-from"
+      ],
+      "quote_author": null,
+      "sections": {
+        "explain_like_14": "### Explain Like I'm 14\n**How AI actually “thinks” in multiple steps when acting like an agent**\n\nYou know how when you’re trying to plan a birthday party, you don’t just blurt out the first idea that pops into your head? You think “Okay, first I need a date that works for everyone… then I need to decide on food… then I need to figure out games…” You hold a few ideas in your head at once and keep checking back as you go.\n\nThat’s basically what an AI agent is doing when it uses “reasoning.” Inste",
+        "cool_stuff": "### Cool Stuff & Try This\n**Claude Solves Real Biology Mysteries That Stumped Experts:** AnthropicAI  \nAnthropic gave its latest Claude model 99 real bioinformatics problems — that’s the science of analyzing biological data like genes, proteins, and living systems. On 23 problems where human experts were completely stuck, Claude solved roughly 30 percent and made progress on most of the rest. It’s not just memorizing facts; it’s coming up with creative solutions to open-ended research questions.",
+        "quick_bits": "### Quick Bits\n**Goblins in GPT-5.1**  \nOpenAI shared the funny story of how “goblins” started appearing in responses from their GPT-5.1 model. It turned out to be a quirky personality trait that snuck in during training, and they even used their own Codex tool to help solve the mystery. The culprit? A “nerdy personality” that got a little too enthusiastic. Super relatable — even giant AI companies have to debug weird little habits in their models.  \n\n**Humanoid Robots as Airport Baggage Handler",
+        "deep_dive": "### Explain Like I'm 14\n**How AI actually “thinks” in multiple steps when acting like an agent**\n\nYou know how when you’re trying to plan a birthday party, you don’t just blurt out the first idea that pops into your head? You think “Okay, first I need a date that works for everyone… then I need to decide on food… then I need to figure out games…” You hold a few ideas in your head at once and keep checking back as you go.\n\nThat’s basically what an AI agent is doing when it uses “reasoning.” Inste"
       }
     }
   ]
