@@ -58,31 +58,38 @@ def test_video_encode_profile_includes_keyframe_args():
 
 
 # ---------------------------------------------------------------------------
-# Long-form filter graph — zoompan + showcqt + brand + disclosure
+# Long-form filter graph — zoompan + brand + disclosure (no spectrum)
 # ---------------------------------------------------------------------------
 
-def test_long_form_filter_graph_uses_zoompan_and_showcqt():
+def test_long_form_filter_graph_uses_zoompan_and_brand_overlay():
     graph = _long_form_filter_graph()
-    # Ken Burns zoom on the cover.
+    # Ken Burns zoom on the cover (single-image path).
     assert "zoompan" in graph
-    # Audio-reactive visualization (replaces the static-image
-    # showwaves of the original implementation).
-    assert "showcqt" in graph
     # Brand pill is overlaid (third input).
     assert "[2:v]" in graph and "format=rgba" in graph
-    # 25%-black tint band sits underneath the visualization.
-    assert "drawbox" in graph and "color=black@0.25" in graph
-    # First-4s AI-disclosure burn-in.
-    assert "drawtext" in graph
-    assert r"enable='between(t,0,4)'" in graph
-    assert "AI-narrated content" in graph
     # Final output label is [v].
     assert graph.endswith("[v]")
 
 
+def test_long_form_filter_graph_drops_visual_distractions():
+    """The earlier showcqt spectrum band, drawbox tint, and centered
+    AI-disclosure burn-in were removed in favour of clean visuals.
+    Compliance is now covered by the API ``containsSyntheticMedia``
+    flag + description disclosure footer (no on-screen AI-narration
+    reminder). Pin the absence of the dropped pieces so a future
+    refactor doesn't quietly re-introduce them."""
+    graph = _long_form_filter_graph()
+    assert "showcqt" not in graph
+    assert "showwaves" not in graph
+    assert "drawbox" not in graph
+    # Centered first-4s disclosure burn-in is gone.
+    assert "AI-narrated content" not in graph
+    assert "between(t,0,4)" not in graph
+
+
 def test_long_form_filter_graph_respects_fps():
     graph = _long_form_filter_graph(fps=24)
-    # Both the visualization and zoompan honour the requested fps.
+    # zoompan honours the requested fps even without the spectrum.
     assert "fps=24" in graph
 
 
@@ -90,13 +97,19 @@ def test_long_form_filter_graph_respects_fps():
 # Short-form filter graph
 # ---------------------------------------------------------------------------
 
-def test_short_form_filter_graph_uses_showcqt_and_vertical_dims():
+def test_short_form_filter_graph_uses_vertical_dims_and_brand():
     graph = _short_form_filter_graph()
-    assert "showcqt" in graph
     assert "scale=1080:1920" in graph
     # Brand pill is anchored top-right (W-w-24).
     assert "x=W-w-24:y=24" in graph
     assert graph.endswith("[v]")
+
+
+def test_short_form_filter_graph_drops_spectrum_band():
+    graph = _short_form_filter_graph()
+    assert "showcqt" not in graph
+    assert "showwaves" not in graph
+    assert "drawbox" not in graph
 
 
 def test_short_form_filter_graph_with_hook_burns_caption():
@@ -134,8 +147,7 @@ def test_long_form_cmd_structure():
     fc_idx = cmd.index("-filter_complex")
     graph = cmd[fc_idx + 1]
     assert "zoompan" in graph
-    assert "showcqt" in graph
-    assert "[bgviz][brand]overlay" in graph
+    assert "[bg][brand]overlay" in graph
     # Map composited video and audio.
     map_indices = [i for i, x in enumerate(cmd) if x == "-map"]
     map_values = [cmd[i + 1] for i in map_indices]
@@ -187,7 +199,8 @@ def test_short_form_cmd_clips_audio():
     # Filter graph references vertical Shorts geometry.
     graph = cmd[cmd.index("-filter_complex") + 1]
     assert "scale=1080:1920" in graph
-    assert "showcqt" in graph
+    # Brand pill is overlaid; spectrum band was removed.
+    assert "[bg][brand]overlay" in graph
     assert cmd[-1] == "short.mp4"
 
 
@@ -237,7 +250,7 @@ def test_short_form_accepts_under_60s(tmp_path, monkeypatch):
     assert captured["cmd"][0] == "ffmpeg"
     assert "55.00" in captured["cmd"]
     # Brand pill PNG should have been generated alongside the output.
-    brand_pill = out.parent / "_brand_pill.png"
+    brand_pill = out.parent / "_brand_pill_v2.png"
     assert brand_pill.exists()
 
 
@@ -299,7 +312,7 @@ def test_build_long_form_video_generates_brand_pill(tmp_path, monkeypatch):
     monkeypatch.setattr("engine.video.subprocess.run",
                         lambda cmd, **kwargs: type("R", (), {"returncode": 0})())
     build_long_form_video(audio, cover, out)
-    assert (out.parent / "_brand_pill.png").exists()
+    assert (out.parent / "_brand_pill_v2.png").exists()
 
 
 # ---------------------------------------------------------------------------
@@ -382,10 +395,9 @@ def test_long_form_filter_graph_video_bg_skips_zoompan():
     zoompan in stage 2 (the zoom is baked into the slideshow itself)."""
     graph = _long_form_filter_graph(bg_is_video=True)
     assert "zoompan" not in graph
-    # Showcqt + brand + disclosure still composite on top.
-    assert "showcqt" in graph
+    # Brand pill still overlays on top of the slideshow video.
     assert "[2:v]" in graph and "format=rgba" in graph
-    assert "drawtext" in graph
+    assert "[bg][brand]overlay" in graph
     assert graph.endswith("[v]")
 
 
@@ -404,17 +416,20 @@ def test_long_form_filter_graph_with_subtitles_appends_filter():
     # ASS force-style is appended.
     assert "force_style=" in graph
     assert "Alignment=2" in graph
-    assert "MarginV=320" in graph
-    # Disclosure chain is followed by the subtitles stage.
-    assert "[disclosed]" in graph
+    # Subtitles sit at standard bottom margin now (no spectrum band
+    # to lift them above).
+    assert "MarginV=80" in graph
+    # Subtitles attach to the [branded] stage (was [disclosed] before
+    # the centered burn-in was removed).
+    assert "[branded]subtitles=" in graph
     assert graph.endswith("[v]")
 
 
 def test_long_form_filter_graph_no_subtitles_uses_null_passthrough():
     graph = _long_form_filter_graph(subtitles_path=None)
     assert "subtitles=" not in graph
-    # null filter renames [disclosed] → [v] without re-encoding the alpha.
-    assert "[disclosed]null[v]" in graph
+    # null filter renames [branded] → [v] without re-encoding the alpha.
+    assert "[branded]null[v]" in graph
 
 
 def test_subtitles_path_escape_handles_metacharacters():
@@ -430,8 +445,9 @@ def test_subtitles_force_style_has_required_fields():
     """Sanity check on the ASS force-style string."""
     assert "FontName=DejaVu Sans" in _SUBTITLES_FORCE_STYLE
     assert "Alignment=2" in _SUBTITLES_FORCE_STYLE
-    # MarginV pushes the baseline above the spectrum band.
-    assert "MarginV=320" in _SUBTITLES_FORCE_STYLE
+    # Standard bottom-edge subtitle position now that the spectrum
+    # band is gone.
+    assert "MarginV=80" in _SUBTITLES_FORCE_STYLE
     # BorderStyle=3 = opaque box behind text (better readability than outline).
     assert "BorderStyle=3" in _SUBTITLES_FORCE_STYLE
 
@@ -584,10 +600,9 @@ def test_short_form_filter_graph_with_video_bg_skips_loop_setup():
     should still produce [bg] but the caller doesn't need a zoompan
     (motion's already in the slideshow)."""
     graph = _short_form_filter_graph(bg_is_video=True)
-    assert "showcqt" in graph
     assert "scale=1080:1920" in graph
-    # Brand pill + tint + spectrum still composite.
-    assert "drawbox" in graph and "color=black@0.25" in graph
+    # Brand pill still overlays on top of the slideshow video.
+    assert "[bg][brand]overlay" in graph
     assert graph.endswith("[v]")
 
 
@@ -682,3 +697,17 @@ def test_build_short_video_renders_vertical_slideshow_for_multi_scene(tmp_path,
     assert "s=1080x1920" in stage1_graph or "1080:1920" in stage1_graph
     # Stage 2 uses -stream_loop on the slideshow MP4.
     assert "-stream_loop" in captured_cmds[1]
+
+
+# ---------------------------------------------------------------------------
+# Brand pill text — should NOT mention AI-narration on screen
+# ---------------------------------------------------------------------------
+
+def test_brand_pill_text_omits_ai_narrated_marker():
+    """The on-screen brand pill should be just "Nerra Network" — the
+    AI-narration disclosure lives in the description footer + the
+    YouTube containsSyntheticMedia API flag, not on the video."""
+    from engine.video import _BRAND_PILL_TEXT
+    assert "AI-narrated" not in _BRAND_PILL_TEXT
+    assert "AI narrated" not in _BRAND_PILL_TEXT
+    assert _BRAND_PILL_TEXT == "Nerra Network"

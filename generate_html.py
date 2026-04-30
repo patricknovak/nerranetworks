@@ -23,7 +23,56 @@ from jinja2 import Environment, FileSystemLoader
 
 ROOT = Path(__file__).resolve().parent
 TEMPLATES_DIR = ROOT / "templates"
+SHOWS_DIR = ROOT / "shows"
 GITHUB_RAW = "https://nerranetwork.com"
+
+# Channel handles for the YouTube CTA on show pages. The handle is
+# determined per-show by youtube.channel in the YAML (en → @NerraNetwork,
+# ru → @NerraRU).
+_YT_CHANNEL_HANDLES = {
+    "en": "@NerraNetwork",
+    "ru": "@NerraRU",
+}
+
+
+def _read_show_youtube(slug: str) -> dict:
+    """Pull the YouTube fields a show page needs from the show YAML.
+
+    Returns a dict with ``youtube_enabled`` (bool),
+    ``youtube_playlist_url`` (or empty string), and
+    ``youtube_channel_url`` (or empty string). Cheap on disk — one
+    YAML read per show per page render.
+    """
+    import yaml as _yaml
+
+    yaml_path = SHOWS_DIR / f"{slug}.yaml"
+    if not yaml_path.exists():
+        return {
+            "youtube_enabled": False,
+            "youtube_playlist_url": "",
+            "youtube_channel_url": "",
+        }
+    try:
+        data = _yaml.safe_load(yaml_path.read_text(encoding="utf-8")) or {}
+    except _yaml.YAMLError:
+        return {
+            "youtube_enabled": False,
+            "youtube_playlist_url": "",
+            "youtube_channel_url": "",
+        }
+    yt = data.get("youtube") or {}
+    enabled = bool(yt.get("enabled"))
+    playlist_id = (yt.get("podcast_playlist_id") or "").strip()
+    channel_key = (yt.get("channel") or "en").strip().lower()
+    handle = _YT_CHANNEL_HANDLES.get(channel_key, _YT_CHANNEL_HANDLES["en"])
+    return {
+        "youtube_enabled": enabled,
+        "youtube_playlist_url": (
+            f"https://www.youtube.com/playlist?list={playlist_id}"
+            if playlist_id else ""
+        ),
+        "youtube_channel_url": f"https://www.youtube.com/{handle}",
+    }
 
 # ---------------------------------------------------------------------------
 # Marketing / Analytics configuration
@@ -1252,6 +1301,7 @@ def generate_summaries_page(slug, *, dry_run=False):
         "blog_page": f"blog/{cfg['slug']}/index.html",
         "all_shows": _build_all_shows_list(),
         "page_lang": "ru" if slug in ("finansy_prosto", "privet_russian") else "en",
+        **_read_show_youtube(slug),
     }
 
     html = template.render(**context)
@@ -1396,6 +1446,7 @@ def generate_show_page(slug, *, dry_run=False):
         "performance_data": performance_data,
         "page_lang": "ru" if is_russian else "en",
         "hreflang_self": f"ru-{cfg['slug']}" if is_russian else "en",
+        **_read_show_youtube(slug),
     }
 
     html = template.render(**context)

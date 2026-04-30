@@ -4,21 +4,25 @@ Two builders share one visual recipe so every show looks like part
 of the same network without per-show artwork:
 
   - **Background**: either the show cover (single Ken Burns image) or
-    a pre-rendered slideshow MP4 of Pexels photos cycling every ~12 s.
-    Slideshow uses :mod:`engine.visual_assets`; without
-    ``PEXELS_API_KEY`` we silently fall back to the static cover.
-  - **Tint band**: 25% black overlay underneath the visualization so
-    it reads against any cover.
-  - **Visualization**: ``showcqt`` (constant-Q transform) — the
-    colorful music-bar look. Audio-reactive, frame-by-frame motion.
-  - **Brand pill**: ``Nerra Network · AI-narrated`` PNG (rendered
-    once with Pillow). Top-left long-form, top-right Shorts.
+    a pre-rendered slideshow MP4 of Pexels photos cycling every ~12 s
+    (long-form) / ~7 s (Shorts). Slideshow uses
+    :mod:`engine.visual_assets`; without ``PEXELS_API_KEY`` we
+    silently fall back to the static cover.
+  - **Brand pill**: ``Nerra Network`` PNG (rendered once with
+    Pillow). Top-left long-form, top-right Shorts. AI-narration
+    disclosure stays in the description footer + the
+    ``containsSyntheticMedia`` API flag — no on-screen reminder.
   - **First-seconds burn-in**: long-form fades in/out a centered
     AI-disclosure line for the first 4 s. Shorts (with a hook) burn
     the headline for the first 3 s.
   - **Captions** (long-form only): when a transcript SRT is supplied,
-    ffmpeg's ``subtitles`` filter burns synchronized captions in a
-    semi-transparent band sitting just above the spectrum.
+    ffmpeg's ``subtitles`` filter burns synchronized captions near
+    the bottom edge with a semi-transparent backdrop for legibility.
+
+Earlier revisions overlaid a ``showcqt`` audio spectrum band on both
+formats. For speech-heavy podcasts the spectrum read as multicolour
+static and dominated the visual; it was removed in favour of letting
+the slideshow + Ken Burns + captions carry the visual interest.
 
 The encoder profile uses ``-g 60 -keyint_min 60 -sc_threshold 0
 -force_key_frames`` to force a keyframe every 2 s; without this,
@@ -137,11 +141,11 @@ def _wrap_caption(text: str, max_chars_per_line: int = 22,
 # Brand pill PNG
 # ---------------------------------------------------------------------------
 
-_BRAND_PILL_TEXT = "Nerra Network · AI-narrated"
+_BRAND_PILL_TEXT = "Nerra Network"
 
 
 def _make_brand_pill(output_path: Path,
-                     *, width: int = 320, height: int = 60) -> Path:
+                     *, width: int = 220, height: int = 60) -> Path:
     """Render the network brand pill as an RGBA PNG. Idempotent."""
     if output_path.exists():
         return output_path
@@ -283,8 +287,10 @@ def _render_slideshow(scene_paths: Sequence[Path], output: Path,
 
 # Force-style for the burn-in subtitles. ASS color format is &HAABBGGRR
 # (alpha is "100 minus opacity" — 0 is opaque, 255 is transparent).
-# BorderStyle=3 = opaque box behind the text. MarginV=350 lifts the
-# subtitle baseline above the spectrum band.
+# BorderStyle=3 = opaque box behind the text. MarginV=80 sits the
+# subtitle baseline near the bottom edge — without the spectrum band
+# we used to lift captions above, this is the standard subtitle
+# position.
 _SUBTITLES_FORCE_STYLE = (
     "FontName=DejaVu Sans,"
     "FontSize=22,"
@@ -295,7 +301,7 @@ _SUBTITLES_FORCE_STYLE = (
     "Outline=4,"
     "Shadow=0,"
     "Alignment=2,"
-    "MarginV=320"
+    "MarginV=80"
 )
 
 
@@ -309,12 +315,18 @@ def _long_form_filter_graph(*, width: int = 1920, height: int = 1080,
       ``[0:v]`` — background. Either looped cover image (Ken Burns
       applied here) or pre-rendered slideshow MP4 (zoom already
       baked in; we just scale to fill).
-      ``[1:a]`` — episode audio.
+      ``[1:a]`` — episode audio (passed through via ``-map 1:a``;
+      doesn't participate in the filter graph).
       ``[2:v]`` — brand pill PNG, looped.
-    """
-    viz_h = height // 4
-    viz_y = height - viz_h
 
+    Earlier revisions overlaid a ``showcqt`` audio-spectrum band along
+    the bottom 25% of the frame. For speech-heavy podcasts the
+    spectrum read as multicolour static and dominated the visual,
+    obscuring the slideshow photos behind it. Removed in favour of
+    just slideshow + brand pill + disclosure + (optional) burned-in
+    captions. Captions already provide the audio-sync feedback the
+    spectrum used to.
+    """
     if bg_is_video:
         # Slideshow MP4 already has motion + zoom; just normalize to
         # the target frame and fps.
@@ -334,38 +346,26 @@ def _long_form_filter_graph(*, width: int = 1920, height: int = 1080,
             f"[bg]"
         )
 
-    disclosure = _drawtext_escape(
-        "AI-narrated content · Editorial by Nerra Network"
-    )
-    font_path = _drawtext_escape(_find_font())
-
+    # No centered disclosure burn-in: compliance is covered by
+    # status.containsSyntheticMedia=True on the API upload (renders
+    # YouTube's own "Altered or synthetic content" label) plus the
+    # synthetic_disclosure footer in the description. The brand pill
+    # in the top-left already carries "AI-narrated" text as a subtle
+    # corner marker.
     graph = (
         f"{bg_chain};"
-        f"[bg]drawbox=x=0:y={viz_y}:w={width}:h={viz_h}"
-        f":color=black@0.25:t=fill[bg2];"
-        f"[1:a]showcqt=s={width}x{viz_h}:fps={fps}"
-        f":basefreq=30:endfreq=18000:axis=0[viz];"
-        f"[bg2][viz]overlay=x=0:y={viz_y}:format=auto[bgviz];"
         f"[2:v]format=rgba[brand];"
-        f"[bgviz][brand]overlay=x=24:y=24[branded];"
-        f"[branded]drawtext=fontfile='{font_path}':"
-        f"text='{disclosure}':"
-        f"fontsize=44:fontcolor=white:"
-        f"x=(w-text_w)/2:y=(h-text_h)/2:"
-        f"box=1:boxcolor=black@0.55:boxborderw=18:"
-        f"enable='between(t,0,4)':"
-        f"alpha='if(lt(t,3),1,if(lt(t,4),1-(t-3),0))'"
-        f"[disclosed]"
+        f"[bg][brand]overlay=x=24:y=24[branded]"
     )
 
     if subtitles_path:
         escaped = _subtitles_path_escape(subtitles_path)
         graph += (
-            f";[disclosed]subtitles='{escaped}'"
+            f";[branded]subtitles='{escaped}'"
             f":force_style='{_SUBTITLES_FORCE_STYLE}'[v]"
         )
     else:
-        graph += ";[disclosed]null[v]"
+        graph += ";[branded]null[v]"
     return graph
 
 
@@ -380,35 +380,27 @@ def _short_form_filter_graph(width: int = 1080, height: int = 1920,
       pre-rendered vertical slideshow MP4 (motion baked in; we just
       scale to fill).
       ``[1:a]`` — episode audio (clipped to ~55 s by input-side
-      ``-ss``/``-t`` upstream).
+      ``-ss``/``-t`` upstream; passed through via ``-map 1:a``).
       ``[2:v]`` — brand pill PNG, looped.
+
+    Earlier revisions overlaid a ``showcqt`` audio-spectrum band in
+    the vertical mid-band of the frame. For speech-heavy podcasts
+    the spectrum read as multicolour static and dominated the
+    visual. Removed in favour of just slideshow + brand pill +
+    (optional) hook caption.
     """
-    viz_h = height // 4 + 40
-    viz_y = (height // 2) - (viz_h // 2)
     font_path = _drawtext_escape(_find_font())
 
-    if bg_is_video:
-        bg_chain = (
-            f"[0:v]"
-            f"scale={width}:{height}:force_original_aspect_ratio=increase,"
-            f"crop={width}:{height},setsar=1,format=yuv420p[bg]"
-        )
-    else:
-        bg_chain = (
-            f"[0:v]"
-            f"scale={width}:{height}:force_original_aspect_ratio=increase,"
-            f"crop={width}:{height},setsar=1,format=yuv420p[bg]"
-        )
+    bg_chain = (
+        f"[0:v]"
+        f"scale={width}:{height}:force_original_aspect_ratio=increase,"
+        f"crop={width}:{height},setsar=1,format=yuv420p[bg]"
+    )
 
     base = (
         f"{bg_chain};"
-        f"[bg]drawbox=x=0:y={viz_y}:w={width}:h={viz_h}"
-        f":color=black@0.25:t=fill[bg2];"
-        f"[1:a]showcqt=s={width}x{viz_h}:fps={fps}"
-        f":basefreq=30:endfreq=18000:axis=0[viz];"
-        f"[bg2][viz]overlay=x=0:y={viz_y}:format=auto[bgviz];"
         f"[2:v]format=rgba[brand];"
-        f"[bgviz][brand]overlay=x=W-w-24:y=24[branded]"
+        f"[bg][brand]overlay=x=W-w-24:y=24[branded]"
     )
 
     if hook:
@@ -555,7 +547,11 @@ def build_long_form_video(
         raise FileNotFoundError(f"cover not found: {cover_path}")
 
     work_dir = output_path.parent
-    brand_path = work_dir / "_brand_pill.png"
+    # Bumped filename when the pill text changed (was
+    # "Nerra Network · AI-narrated", now "Nerra Network"). The new
+    # filename forces regeneration even on persistent work dirs that
+    # still hold an old cached pill.
+    brand_path = work_dir / "_brand_pill_v2.png"
     _make_brand_pill(brand_path)
 
     bg_path: Path = cover_path
@@ -623,7 +619,11 @@ def build_short_video(audio_path: Path, cover_path: Path,
         raise FileNotFoundError(f"cover not found: {cover_path}")
 
     work_dir = output_path.parent
-    brand_path = work_dir / "_brand_pill.png"
+    # Bumped filename when the pill text changed (was
+    # "Nerra Network · AI-narrated", now "Nerra Network"). The new
+    # filename forces regeneration even on persistent work dirs that
+    # still hold an old cached pill.
+    brand_path = work_dir / "_brand_pill_v2.png"
     _make_brand_pill(brand_path)
 
     bg_path: Path = cover_path

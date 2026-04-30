@@ -90,6 +90,9 @@
                     <a href="{{ spotify_url | with_utm(campaign=show_slug) }}" class="nn-btn" target="_blank" rel="noopener" data-show="{{ show_slug }}">Spotify</a>
                     {% endif %}
                     <a href="{{ path_prefix }}{{ rss_file }}" class="nn-btn" data-show="{{ show_slug }}">RSS Feed</a>
+                    {% if youtube_playlist_url %}
+                    <a href="{{ youtube_playlist_url }}" class="nn-btn" target="_blank" rel="noopener" data-show="{{ show_slug }}">Watch on YouTube</a>
+                    {% endif %}
                     {% if x_account %}
                     <a href="https://x.com/{{ x_account }}" class="nn-btn" target="_blank" rel="noopener">@{{ x_account }}</a>
                     {% endif %}
