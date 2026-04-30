@@ -65,6 +65,16 @@ def _load_show_tags() -> Dict[str, str]:
     return tags
 
 
+def _is_valid_buttondown_tag(tag: str) -> bool:
+    """Buttondown rejects tags that contain no ASCII letter or digit
+    (HTTP 400 ``tag_invalid``). Mirror that rule client-side so we
+    can drop stale invalid tags from a subscriber's record without
+    triggering the same error in our PATCH payload."""
+    if not tag:
+        return False
+    return any(c.isascii() and c.isalnum() for c in tag)
+
+
 def _get_subscriber(email: str, api_key: str) -> Optional[dict]:
     """Look up a subscriber by email. Returns the JSON record or None."""
     resp = requests.get(
@@ -192,14 +202,26 @@ def main(argv: Optional[List[str]] = None) -> int:
               f"with tags: {new_tags}")
         return 0
 
-    existing = set(sub.get("tags") or [])
+    raw_existing = set(sub.get("tags") or [])
+    # Filter out tags Buttondown would reject in a PATCH body — these
+    # are stale entries from before the YAML migration to ASCII tags
+    # (e.g. "Привет, Русский!" / "Финансы Просто"). Including them in
+    # the PATCH request triggers HTTP 400 tag_invalid and aborts the
+    # whole update, even when the new tag is valid. Logging the
+    # dropped names so the operator sees what got cleaned up.
+    existing = {t for t in raw_existing if _is_valid_buttondown_tag(t)}
+    dropped = raw_existing - existing
+    if dropped:
+        print(f"Dropping {len(dropped)} stale invalid tag(s) from "
+              f"{args.email} that Buttondown would now reject: "
+              f"{sorted(dropped)}")
     if args.remove:
         new = existing - target_tags
         action = "Removed"
     else:
         new = existing | target_tags
         action = "Added"
-    if new == existing:
+    if new == existing and not dropped:
         print(f"No-op: {args.email} already has the requested tags "
               f"({sorted(existing)}).")
         return 0
