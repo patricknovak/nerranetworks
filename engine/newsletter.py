@@ -234,6 +234,12 @@ def send_newsletter(
         headers={
             "Authorization": f"Token {api_key}",
             "Content-Type": "application/json",
+            # Buttondown's safety gate against accidental mass-sends.
+            # The first email POST with status "about_to_send" for a
+            # given API key returns HTTP 400 sending_requires_confirmation
+            # unless this header is set. We always set it because we
+            # mean to send.
+            "X-Buttondown-Live-Dangerously": "true",
         },
         json=data,
         timeout=30,

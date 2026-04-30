@@ -510,3 +510,30 @@ def test_send_newsletter_omits_filters_when_no_tags(monkeypatch):
         subject="Subject", body="Body", api_key="key", tags=None,
     )
     assert "filters" not in captured["payload"]
+
+
+def test_send_newsletter_sets_live_dangerously_header(monkeypatch):
+    """Buttondown requires X-Buttondown-Live-Dangerously: true on the
+    first email POST with status="about_to_send" for an API key.
+    Without it: HTTP 400 sending_requires_confirmation. We send it
+    on every request because we always mean to send."""
+    from engine import newsletter
+
+    captured = {}
+
+    class _Resp:
+        status_code = 200
+
+        def json(self):
+            return {"id": "em_test", "num_recipients": 1}
+
+    def _fake_post(url, headers, json, timeout):
+        captured["headers"] = headers
+        return _Resp()
+
+    monkeypatch.setattr(newsletter.requests, "post", _fake_post)
+
+    newsletter.send_newsletter(
+        subject="s", body="b", api_key="key", tags=None,
+    )
+    assert captured["headers"].get("X-Buttondown-Live-Dangerously") == "true"
